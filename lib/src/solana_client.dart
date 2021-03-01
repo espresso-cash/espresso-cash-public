@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:solana_dart/solana_dart.dart';
@@ -12,6 +13,7 @@ import 'package:solana_dart/src/types/message_header.dart';
 import 'package:solana_dart/src/types/serializable_address.dart';
 import 'package:solana_dart/src/types/serializable_signature.dart';
 import 'package:solana_dart/src/types/signature_status.dart';
+import 'package:solana_dart/src/types/signature_statuses.dart';
 import 'package:solana_dart/src/types/transaction.dart';
 import 'package:solana_dart/src/types/transfer_result.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
@@ -120,8 +122,7 @@ class SolanaClient {
     ]);
   }
 
-  Future<List<SignatureStatus>> getSignatureStatuses(
-      List<TxSignature> signatures,
+  Future<SignatureStatuses> getSignatureStatuses(List<TxSignature> signatures,
       [searchTransactionHistory = false]) {
     return _client.call(
       'getSignatureStatuses',
@@ -132,5 +133,41 @@ class SolanaClient {
         }
       ],
     );
+  }
+
+  Future<SignatureStatus> waitForSignatureStatus(
+      TxSignature signature, TxStatus desiredStatus,
+      [timeout = const Duration(seconds: 30)]) async {
+    Completer completer = Completer<SignatureStatus>();
+    Stopwatch clock = Stopwatch();
+    void check() async {
+      if (clock.elapsed > timeout) {
+        completer.completeError(
+          'timed out waiting for the requested status $desiredStatus',
+        );
+        return;
+      }
+      final SignatureStatuses statuses =
+          await getSignatureStatuses([signature]);
+      final SignatureStatus status = statuses[0];
+      if (status != null) {
+        if (status.err != null) {
+          completer.completeError(status.err);
+        } else if (status.confirmationStatus == desiredStatus) {
+          completer.complete(status);
+        } else {
+          await Future.delayed(Duration(seconds: 1), () => {});
+          check();
+        }
+      } else {
+        await Future.delayed(Duration(seconds: 1), () => {});
+        check();
+      }
+    }
+
+    clock.start();
+    check();
+
+    return completer.future;
   }
 }

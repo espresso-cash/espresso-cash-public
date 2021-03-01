@@ -3,13 +3,12 @@ import 'package:solana_dart/solana_dart.dart';
 import 'package:solana_dart/src/solana_wallet.dart';
 import 'package:solana_dart/src/types/account_info.dart';
 import 'package:solana_dart/src/types/blockhash.dart';
+import 'package:solana_dart/src/types/signature_status.dart';
 import 'package:solana_dart/src/types/transfer_result.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
 import 'package:test/test.dart';
 
 const String _devnetRpcUrl = 'http://127.0.0.1:8899';
-/*const String _mnemonic =
-    'immune music course agent inquiry spatial hospital bind harvest spider torch column';*/
 
 void main() {
   group('SolanaClient testsuite', () {
@@ -24,14 +23,16 @@ void main() {
 
     test('Can call `requestAirdrop\' and mint a wallet', () async {
       final addedBalance = BigInt.from(100) * LAMPORTS_PER_SOL;
-      final result = await client.requestAirdrop(
+      final TxSignature signature = await client.requestAirdrop(
         sourceWallet.address,
         addedBalance,
         'finalized',
       );
-      print(await client.getSignatureStatuses([result]));
-      await Future.delayed(Duration(seconds: 15), () => {});
-      // FIXME: wait for the transaction to be confirmed instead
+      expect(signature, isNot(null));
+      await client.waitForSignatureStatus(
+        signature,
+        TxStatus.finalized,
+      );
       final BigInt balance =
           await client.getBalance(sourceWallet.address, 'finalized');
       // Update the global balance
@@ -74,14 +75,16 @@ void main() {
 
     test('Can send a transfer transaction and transfer SOL', () async {
       final BigInt transferredAmount = BigInt.from(7500);
-      final TxSignature transferResult = await client.transfer(
+      final TxSignature signature = await client.transfer(
         sourceWallet,
         targetWallet.address,
         transferredAmount,
       );
-      expect(transferResult, isNot(null));
-      // FIXME: wait for the transaction to be confirmed instead
-      await Future.delayed(Duration(seconds: 15), () => {});
+      expect(signature, isNot(null));
+      await client.waitForSignatureStatus(
+        signature,
+        TxStatus.finalized,
+      );
       final balance =
           await client.getBalance(targetWallet.address, 'finalized');
       expect(balance, greaterThan(BigInt.zero));

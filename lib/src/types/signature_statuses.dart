@@ -3,9 +3,18 @@ import 'package:solana_dart/src/types/signature_status.dart';
 
 class SignatureStatuses {
   SignatureStatuses._(dynamic value)
-      : _list = [for (var item in value) SignatureStatus.fromDynamic(item)];
+      : _list = [
+          for (var item in value)
+            item == null ? null : SignatureStatus.fromDynamic(item)
+        ];
   SignatureStatuses.fromJsonRpcResponseString(String jsonString)
       : this._(JsonRpcResponseObject.getValue(jsonString));
+
+  operator [](int index) => _list == null ? null : _list[index];
+
+  String toString() {
+    return '$_list';
+  }
 
   final List<SignatureStatus> _list;
 }
