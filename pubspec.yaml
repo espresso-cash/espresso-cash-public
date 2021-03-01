@@ -1,0 +1,14 @@
+name: solana_dart
+version: 0.0.1
+description: >-
+  Simple library to interact with the Solana blockchain
+environment:
+  sdk: '>=2.10.0 <3.0.0'
+dependencies:
+  test: 1.15.7
+  http: 0.12.2
+  bip39: 1.0.4
+  cryptography: 1.4.1
+  convert: 2.1.1
+  meta: 1.2.4
+
