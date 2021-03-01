@@ -10,11 +10,10 @@ class SignatureStatuses {
   SignatureStatuses.fromJsonRpcResponseString(String jsonString)
       : this._(JsonRpcResponseObject.getValue(jsonString));
 
-  operator [](int index) => _list == null ? null : _list[index];
+  SignatureStatus operator [](int index) => _list == null ? null : _list[index];
+  int get length => _list.length;
 
-  String toString() {
-    return '$_list';
-  }
+  String toString() => '$_list';
 
   final List<SignatureStatus> _list;
 }

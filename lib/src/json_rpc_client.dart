@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:solana_dart/src/types/account_info.dart';
 import 'package:solana_dart/src/types/blockhash.dart';
+import 'package:solana_dart/src/types/confirmed_signatures.dart';
+import 'package:solana_dart/src/types/transaction_details.dart';
 import 'package:solana_dart/src/types/http_error.dart';
 import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 import 'package:solana_dart/src/types/signature_statuses.dart';
@@ -23,13 +25,16 @@ class JsonRpcClient {
         AccountInfo.fromJsonRpcResponseString(jsonString),
     SimulateTxResult: (String jsonString) =>
         SimulateTxResult.fromJsonRpcResponseString(jsonString),
-    TxSignature: (String jsonString) =>
-        TxSignature.fromJsonRpcResponseString(jsonString),
     SignatureStatuses: (String jsonString) =>
         SignatureStatuses.fromJsonRpcResponseString(jsonString),
+    ConfirmedSignatures: (String jsonString) =>
+        ConfirmedSignatures.fromJsonRpcResponseString(jsonString),
+    TxSignature: (String jsonString) =>
+        TxSignature.fromJsonRpcResponseString(jsonString),
+    TransactionDetails: (String jsonString) =>
+        TransactionDetails.fromJsonRpcResponseString(jsonString),
     String: JsonRpcResponseObject.getValue,
     int: JsonRpcResponseObject.getValue,
-    BigInt: JsonRpcResponseObject.getValueAsBigInt,
   };
 
   T _handleResponse<T>(String jsonRpc2ResponseString) {

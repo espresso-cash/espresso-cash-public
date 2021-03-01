@@ -13,3 +13,9 @@ Initial version with very basic functionality
 ## [0.0.2]
 - Added a method to wait for a specific signature status or a time out
 - Fixed return value of a couple of methods
+
+# [0.0.3]
+- Added the ability to list recent transactions
+- General cleanup
+- Generated documentation
+

@@ -3,6 +3,7 @@ import 'package:solana_dart/solana_dart.dart';
 import 'package:solana_dart/src/solana_wallet.dart';
 import 'package:solana_dart/src/types/account_info.dart';
 import 'package:solana_dart/src/types/blockhash.dart';
+import 'package:solana_dart/src/types/common_tx.dart';
 import 'package:solana_dart/src/types/signature_status.dart';
 import 'package:solana_dart/src/types/transfer_result.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
@@ -15,26 +16,25 @@ void main() {
     final SolanaWallet targetWallet = SolanaWallet.fromMnemonic(
       generateMnemonic(),
     );
-    final SolanaClient client = SolanaClient(_devnetRpcUrl);
+    final SolanaClient solanaClient = SolanaClient(_devnetRpcUrl);
     final SolanaWallet sourceWallet = SolanaWallet.fromMnemonic(
       generateMnemonic(),
     );
-    BigInt currentBalance = BigInt.zero;
+    int currentBalance = 0;
 
-    test('Can call `requestAirdrop\' and mint a wallet', () async {
-      final addedBalance = BigInt.from(100) * LAMPORTS_PER_SOL;
-      final TxSignature signature = await client.requestAirdrop(
+    test('Can call `requestAirdrop\' and add SOL to an account', () async {
+      final int addedBalance = 100 * LAMPORTS_PER_SOL;
+      final TxSignature signature = await solanaClient.requestAirdrop(
         sourceWallet.address,
         addedBalance,
         'finalized',
       );
       expect(signature, isNot(null));
-      await client.waitForSignatureStatus(
+      await solanaClient.waitForSignatureStatus(
         signature,
         TxStatus.finalized,
       );
-      final BigInt balance =
-          await client.getBalance(sourceWallet.address, 'finalized');
+      final int balance = await solanaClient.getBalance(sourceWallet.address);
       // Update the global balance
       currentBalance += addedBalance;
       // Check that it matches
@@ -42,7 +42,7 @@ void main() {
     });
 
     test('Can read the recent blockhash', () async {
-      final Blockhash blockHash = await client.getRecentBlockhash();
+      final Blockhash blockHash = await solanaClient.getRecentBlockhash();
       expect(blockHash, isNot(null));
       expect(blockHash.blockhash, isNot(null));
       expect(blockHash.blockhash, isNot(''));
@@ -51,21 +51,22 @@ void main() {
     });
 
     test('Can read the balance of an account', () async {
-      final BigInt balance = await client.getBalance(sourceWallet.address);
+      final int balance = await solanaClient.getBalance(sourceWallet.address);
       expect(balance, currentBalance);
     });
 
     test('Can get all the account information of an account', () async {
       final AccountInfo accountInfo =
-          await client.getAccountInfo(sourceWallet.address);
+          await solanaClient.getAccountInfo(sourceWallet.address);
       expect(accountInfo.lamports, currentBalance);
       expect(accountInfo.owner, SOLANA_SYSTEM_PROGRAM_ID);
       expect(accountInfo.executable, false);
     });
 
-    test('Can simulate a transfer transaction', () async {
-      final BigInt transferredAmount = BigInt.from(7500);
-      final SimulateTxResult transferResult = await client.simulateTransfer(
+    test('Can simulate a transfer', () async {
+      final int transferredAmount = 7500;
+      final SimulateTxResult transferResult =
+          await solanaClient.simulateTransfer(
         sourceWallet,
         targetWallet.address,
         transferredAmount,
@@ -73,21 +74,27 @@ void main() {
       expect(transferResult.err, null);
     });
 
-    test('Can send a transfer transaction and transfer SOL', () async {
-      final BigInt transferredAmount = BigInt.from(7500);
-      final TxSignature signature = await client.transfer(
+    test('Can transfer tokens', () async {
+      final int transferredAmount = 7500;
+      final TxSignature signature = await solanaClient.transfer(
         sourceWallet,
         targetWallet.address,
         transferredAmount,
       );
       expect(signature, isNot(null));
-      await client.waitForSignatureStatus(
+      await solanaClient.waitForSignatureStatus(
         signature,
         TxStatus.finalized,
       );
-      final balance =
-          await client.getBalance(targetWallet.address, 'finalized');
-      expect(balance, greaterThan(BigInt.zero));
+      final int balance = await solanaClient.getBalance(targetWallet.address);
+      expect(balance, greaterThan(0));
+    });
+
+    test('Can list recent transactions', () async {
+      final List<CommonTx> txs =
+          await solanaClient.getTransactionsList(sourceWallet.address);
+      expect(txs, isNot(null));
+      expect(txs.length, greaterThan(0));
     });
   });
 }

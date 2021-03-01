@@ -4,7 +4,7 @@ import 'package:solana_dart/src/types/compact_array.dart';
 import 'package:solana_dart/src/types/instruction.dart';
 import 'package:solana_dart/src/types/message_header.dart';
 import 'package:solana_dart/src/types/serializable.dart';
-import 'package:solana_dart/src/types/serializable_address.dart';
+import 'package:solana_dart/src/types/address.dart';
 
 class Message extends Serializable {
   Message({
@@ -14,7 +14,7 @@ class Message extends Serializable {
     @required this.instructions,
   });
   MessageHeader header;
-  CompactArray<SerializableAddress> accounts;
+  CompactArray<Address> accounts;
   String recentBlockhash;
   CompactArray<Instruction> instructions;
 
