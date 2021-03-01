@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:crypto_please_solana_lib/crypto_please_solana_lib.dart';
 import 'package:crypto_please_solana_lib/src/json_rpc_client.dart';
 import 'package:crypto_please_solana_lib/src/solana_wallet.dart';
-import 'package:crypto_please_solana_lib/src/types/accountInfo.dart';
+import 'package:crypto_please_solana_lib/src/types/account_info.dart';
 import 'package:crypto_please_solana_lib/src/types/blockhash.dart';
 import 'package:crypto_please_solana_lib/src/types/compact_array.dart';
 import 'package:crypto_please_solana_lib/src/types/instruction.dart';

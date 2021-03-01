@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:crypto_please_solana_lib/src/types/accountInfo.dart';
+import 'package:crypto_please_solana_lib/src/types/account_info.dart';
 import 'package:crypto_please_solana_lib/src/types/blockhash.dart';
 import 'package:crypto_please_solana_lib/src/types/http_error.dart';
 import 'package:crypto_please_solana_lib/src/types/json_rpc_response_object.dart';

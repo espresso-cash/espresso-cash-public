@@ -1,7 +1,7 @@
 import 'package:bip39/bip39.dart';
 import 'package:crypto_please_solana_lib/crypto_please_solana_lib.dart';
 import 'package:crypto_please_solana_lib/src/solana_wallet.dart';
-import 'package:crypto_please_solana_lib/src/types/accountInfo.dart';
+import 'package:crypto_please_solana_lib/src/types/account_info.dart';
 import 'package:crypto_please_solana_lib/src/types/blockhash.dart';
 import 'package:crypto_please_solana_lib/src/types/transfer_result.dart';
 import 'package:crypto_please_solana_lib/src/types/tx_signature.dart';
