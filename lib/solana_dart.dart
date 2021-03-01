@@ -1,4 +1,5 @@
 export 'src/solana_client.dart';
+export 'src/solana_wallet.dart';
 
-final BigInt LAMPORTS_PER_SOL = BigInt.from(1000000000);
+final int LAMPORTS_PER_SOL = 1000000000;
 const String SOLANA_SYSTEM_PROGRAM_ID = '11111111111111111111111111111111';

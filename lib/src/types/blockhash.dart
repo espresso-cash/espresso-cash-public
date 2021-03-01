@@ -8,7 +8,6 @@ class Blockhash {
     if (blockhash == null) throw ('`blockhash\' must never be `null\'');
   }
 
-  @override
   Blockhash.fromJsonRpcResponseString(String jsonRpcResponseString)
       : this._(JsonRpcResponseObject.getValue(jsonRpcResponseString));
 
