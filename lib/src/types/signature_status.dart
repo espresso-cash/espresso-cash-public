@@ -1,28 +1,25 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'signature_status.g.dart';
+
 enum TxStatus { processed, confirmed, finalized }
 
+@JsonSerializable(createToJson: false)
 class SignatureStatus {
-  SignatureStatus.fromDynamic(dynamic value)
-      : slot = value['slot'],
-        confirmations = value['confirmations'],
-        err = value['err'],
-        confirmationStatus = getTxStatusFromString(value['confirmationStatus']);
+  SignatureStatus({
+    this.slot,
+    this.confirmations,
+    this.err,
+    this.confirmationStatus,
+  });
+
+  factory SignatureStatus.fromJson(Map<String, dynamic> json) =>
+      _$SignatureStatusFromJson(json);
+
   final int slot;
   final int confirmations;
   final dynamic err;
   final TxStatus confirmationStatus;
 
   String toString() => confirmationStatus.toString();
-
-  static TxStatus getTxStatusFromString(String status) {
-    switch (status) {
-      case 'confirmed':
-        return TxStatus.confirmed;
-      case 'processed':
-        return TxStatus.processed;
-      case 'finalized':
-        return TxStatus.finalized;
-      default:
-        throw ('unknown status $status');
-    }
-  }
 }

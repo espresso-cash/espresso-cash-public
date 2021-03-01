@@ -5,7 +5,7 @@ class SignatureStatuses {
   SignatureStatuses._(dynamic value)
       : _list = [
           for (var item in value)
-            item == null ? null : SignatureStatus.fromDynamic(item)
+            item == null ? null : SignatureStatus.fromJson(item)
         ];
   SignatureStatuses.fromJsonRpcResponseString(String jsonString)
       : this._(JsonRpcResponseObject.getValue(jsonString));
