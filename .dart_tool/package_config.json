@@ -338,13 +338,13 @@
       "languageVersion": "2.4"
     },
     {
-      "name": "crypto_please_solana_lib",
+      "name": "solana_dart",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.10"
     }
   ],
-  "generated": "2021-03-01T05:28:55.492673Z",
+  "generated": "2021-03-01T15:18:44.461758Z",
   "generator": "pub",
   "generatorVersion": "2.10.5"
 }

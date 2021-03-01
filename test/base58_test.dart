@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:convert/convert.dart';
-import 'package:crypto_please_solana_lib/src/base58/base58.dart' as base58;
+import 'package:solana_dart/src/base58/base58.dart' as base58;
 import 'package:test/test.dart';
 
 final List<List<String>> _testVector = [

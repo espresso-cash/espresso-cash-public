@@ -1,5 +1,5 @@
-import 'package:crypto_please_solana_lib/src/types/serializable.dart';
 import 'package:cryptography/cryptography.dart';
+import 'package:solana_dart/src/types/serializable.dart';
 
 class SerializableSignature extends Serializable {
   SerializableSignature.from(Signature signature) : _bytes = signature.bytes;

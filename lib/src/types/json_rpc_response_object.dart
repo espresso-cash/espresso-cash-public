@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:crypto_please_solana_lib/src/types/json_rpc_error.dart';
+import 'package:solana_dart/src/types/json_rpc_error.dart';
 
 abstract class JsonRpcResponseObject {
   static BigInt getValueAsBigInt(String jsonRpc2String) {

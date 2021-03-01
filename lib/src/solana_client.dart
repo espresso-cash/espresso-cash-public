@@ -1,21 +1,21 @@
 import 'dart:convert';
 
-import 'package:crypto_please_solana_lib/crypto_please_solana_lib.dart';
-import 'package:crypto_please_solana_lib/src/json_rpc_client.dart';
-import 'package:crypto_please_solana_lib/src/solana_wallet.dart';
-import 'package:crypto_please_solana_lib/src/types/account_info.dart';
-import 'package:crypto_please_solana_lib/src/types/blockhash.dart';
-import 'package:crypto_please_solana_lib/src/types/compact_array.dart';
-import 'package:crypto_please_solana_lib/src/types/instruction.dart';
-import 'package:crypto_please_solana_lib/src/types/message.dart';
-import 'package:crypto_please_solana_lib/src/types/message_header.dart';
-import 'package:crypto_please_solana_lib/src/types/serializable_address.dart';
-import 'package:crypto_please_solana_lib/src/types/serializable_signature.dart';
-import 'package:crypto_please_solana_lib/src/types/signature_status.dart';
-import 'package:crypto_please_solana_lib/src/types/transaction.dart';
-import 'package:crypto_please_solana_lib/src/types/transfer_result.dart';
-import 'package:crypto_please_solana_lib/src/types/tx_signature.dart';
-import 'package:crypto_please_solana_lib/src/util/encode_int.dart';
+import 'package:solana_dart/solana_dart.dart';
+import 'package:solana_dart/src/json_rpc_client.dart';
+import 'package:solana_dart/src/solana_wallet.dart';
+import 'package:solana_dart/src/types/account_info.dart';
+import 'package:solana_dart/src/types/blockhash.dart';
+import 'package:solana_dart/src/types/compact_array.dart';
+import 'package:solana_dart/src/types/instruction.dart';
+import 'package:solana_dart/src/types/message.dart';
+import 'package:solana_dart/src/types/message_header.dart';
+import 'package:solana_dart/src/types/serializable_address.dart';
+import 'package:solana_dart/src/types/serializable_signature.dart';
+import 'package:solana_dart/src/types/signature_status.dart';
+import 'package:solana_dart/src/types/transaction.dart';
+import 'package:solana_dart/src/types/transfer_result.dart';
+import 'package:solana_dart/src/types/tx_signature.dart';
+import 'package:solana_dart/src/util/encode_int.dart';
 
 class SolanaClient {
   SolanaClient(String rpcUrl) {

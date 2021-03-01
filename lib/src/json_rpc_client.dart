@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:crypto_please_solana_lib/src/types/account_info.dart';
-import 'package:crypto_please_solana_lib/src/types/blockhash.dart';
-import 'package:crypto_please_solana_lib/src/types/http_error.dart';
-import 'package:crypto_please_solana_lib/src/types/json_rpc_response_object.dart';
-import 'package:crypto_please_solana_lib/src/types/signature_statuses.dart';
-import 'package:crypto_please_solana_lib/src/types/transfer_result.dart';
-import 'package:crypto_please_solana_lib/src/types/tx_signature.dart';
 import 'package:http/http.dart' as http;
+import 'package:solana_dart/src/types/account_info.dart';
+import 'package:solana_dart/src/types/blockhash.dart';
+import 'package:solana_dart/src/types/http_error.dart';
+import 'package:solana_dart/src/types/json_rpc_response_object.dart';
+import 'package:solana_dart/src/types/signature_statuses.dart';
+import 'package:solana_dart/src/types/transfer_result.dart';
+import 'package:solana_dart/src/types/tx_signature.dart';
 
 class JsonRpcClient {
   JsonRpcClient(this._url);

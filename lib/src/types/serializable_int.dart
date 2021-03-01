@@ -1,5 +1,5 @@
 import 'package:convert/convert.dart';
-import 'package:crypto_please_solana_lib/src/types/serializable.dart';
+import 'package:solana_dart/src/types/serializable.dart';
 
 class SerializableInt extends Serializable {
   SerializableInt.from(this._value);

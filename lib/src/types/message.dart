@@ -1,10 +1,10 @@
-import 'package:crypto_please_solana_lib/src/base58/base58.dart' as base58;
-import 'package:crypto_please_solana_lib/src/types/compact_array.dart';
-import 'package:crypto_please_solana_lib/src/types/instruction.dart';
-import 'package:crypto_please_solana_lib/src/types/message_header.dart';
-import 'package:crypto_please_solana_lib/src/types/serializable.dart';
-import 'package:crypto_please_solana_lib/src/types/serializable_address.dart';
 import 'package:meta/meta.dart';
+import 'package:solana_dart/src/base58/base58.dart' as base58;
+import 'package:solana_dart/src/types/compact_array.dart';
+import 'package:solana_dart/src/types/instruction.dart';
+import 'package:solana_dart/src/types/message_header.dart';
+import 'package:solana_dart/src/types/serializable.dart';
+import 'package:solana_dart/src/types/serializable_address.dart';
 
 class Message extends Serializable {
   Message({

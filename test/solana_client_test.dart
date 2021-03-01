@@ -1,10 +1,10 @@
 import 'package:bip39/bip39.dart';
-import 'package:crypto_please_solana_lib/crypto_please_solana_lib.dart';
-import 'package:crypto_please_solana_lib/src/solana_wallet.dart';
-import 'package:crypto_please_solana_lib/src/types/account_info.dart';
-import 'package:crypto_please_solana_lib/src/types/blockhash.dart';
-import 'package:crypto_please_solana_lib/src/types/transfer_result.dart';
-import 'package:crypto_please_solana_lib/src/types/tx_signature.dart';
+import 'package:solana_dart/solana_dart.dart';
+import 'package:solana_dart/src/solana_wallet.dart';
+import 'package:solana_dart/src/types/account_info.dart';
+import 'package:solana_dart/src/types/blockhash.dart';
+import 'package:solana_dart/src/types/transfer_result.dart';
+import 'package:solana_dart/src/types/tx_signature.dart';
 import 'package:test/test.dart';
 
 const String _devnetRpcUrl = 'http://127.0.0.1:8899';

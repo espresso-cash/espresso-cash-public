@@ -1,5 +1,5 @@
-import 'package:crypto_please_solana_lib/src/types/fee_calculator.dart';
-import 'package:crypto_please_solana_lib/src/types/json_rpc_response_object.dart';
+import 'package:solana_dart/src/types/fee_calculator.dart';
+import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 
 class Blockhash {
   Blockhash._(dynamic value)

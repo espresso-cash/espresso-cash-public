@@ -1,6 +1,6 @@
-import 'package:crypto_please_solana_lib/src/types/compact_u16.dart';
-import 'package:crypto_please_solana_lib/src/types/serializable.dart';
-import 'package:crypto_please_solana_lib/src/util/encode_int.dart';
+import 'package:solana_dart/src/types/compact_u16.dart';
+import 'package:solana_dart/src/types/serializable.dart';
+import 'package:solana_dart/src/util/encode_int.dart';
 
 class CompactArray<T> extends Serializable {
   CompactArray.fromList(this._items);

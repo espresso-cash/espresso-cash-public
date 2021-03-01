@@ -1,4 +1,4 @@
-import 'package:crypto_please_solana_lib/src/types/json_rpc_response_object.dart';
+import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 
 class AccountInfo {
   AccountInfo._(dynamic value)

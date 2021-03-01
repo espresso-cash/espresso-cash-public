@@ -1,6 +1,6 @@
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:crypto_please_solana_lib/src/base58/base58.dart' as base58;
 import 'package:cryptography/cryptography.dart';
+import 'package:solana_dart/src/base58/base58.dart' as base58;
 
 class SolanaWallet {
   SolanaWallet._fromKeyPair(KeyPair keyPair)
