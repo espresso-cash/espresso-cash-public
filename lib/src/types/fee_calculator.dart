@@ -1,11 +1,13 @@
-class FeeCalculator {
-  FeeCalculator._(this.lamportsPerSignature) {
-    if (lamportsPerSignature == null)
-      throw ('`lamportsPerSignature\' must never be `null\'');
-  }
+import 'package:json_annotation/json_annotation.dart';
 
-  FeeCalculator.fromDynamic(dynamic source)
-      : this._(source['lamportsPerSignature']);
+part 'fee_calculator.g.dart';
+
+@JsonSerializable(createToJson: false)
+class FeeCalculator {
+  FeeCalculator({this.lamportsPerSignature});
 
   final int lamportsPerSignature;
+
+  factory FeeCalculator.fromJson(Map<String, dynamic> json) =>
+      _$FeeCalculatorFromJson(json);
 }

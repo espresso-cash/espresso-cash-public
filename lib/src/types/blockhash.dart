@@ -1,16 +1,22 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:solana_dart/src/types/fee_calculator.dart';
 import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 
-class Blockhash {
-  Blockhash._(dynamic value)
-      : blockhash = value['blockhash'],
-        feeCalculator = FeeCalculator.fromDynamic(value['feeCalculator']) {
-    if (blockhash == null) throw ('`blockhash\' must never be `null\'');
-  }
+part 'blockhash.g.dart';
 
-  Blockhash.fromJsonRpcResponseString(String jsonRpcResponseString)
-      : this._(JsonRpcResponseObject.getValue(jsonRpcResponseString));
+@JsonSerializable(createToJson: false)
+class Blockhash {
+  Blockhash({
+    this.feeCalculator,
+    this.blockhash,
+  });
 
   final FeeCalculator feeCalculator;
   final String blockhash;
+
+  factory Blockhash.fromJsonRpcResponseString(String jsonRpcResponseString) =>
+      Blockhash.fromJson(JsonRpcResponseObject.getValue(jsonRpcResponseString));
+
+  factory Blockhash.fromJson(Map<String, dynamic> json) =>
+      _$BlockhashFromJson(json);
 }
