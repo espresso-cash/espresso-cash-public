@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
-import 'package:solana_dart/src/types/compact_array.dart';
-import 'package:solana_dart/src/types/serializable.dart';
-import 'package:solana_dart/src/types/signature.dart';
+import 'package:solana_dart/src/solana_serializable/compact_array.dart';
+import 'package:solana_dart/src/solana_serializable/serializable.dart';
+import 'package:solana_dart/src/solana_serializable/signature.dart';
 
 import 'message.dart';
 

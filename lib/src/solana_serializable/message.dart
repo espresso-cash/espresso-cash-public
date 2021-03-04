@@ -1,10 +1,10 @@
 import 'package:meta/meta.dart';
 import 'package:solana_dart/src/base58/base58.dart' as base58;
-import 'package:solana_dart/src/types/compact_array.dart';
-import 'package:solana_dart/src/types/instruction.dart';
-import 'package:solana_dart/src/types/message_header.dart';
-import 'package:solana_dart/src/types/serializable.dart';
-import 'package:solana_dart/src/types/address.dart';
+import 'package:solana_dart/src/solana_serializable/address.dart';
+import 'package:solana_dart/src/solana_serializable/compact_array.dart';
+import 'package:solana_dart/src/solana_serializable/instruction.dart';
+import 'package:solana_dart/src/solana_serializable/message_header.dart';
+import 'package:solana_dart/src/solana_serializable/serializable.dart';
 
 class Message extends Serializable {
   Message({

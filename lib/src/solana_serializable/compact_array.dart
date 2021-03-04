@@ -1,5 +1,5 @@
-import 'package:solana_dart/src/types/compact_u16.dart';
-import 'package:solana_dart/src/types/serializable.dart';
+import 'package:solana_dart/src/solana_serializable/compact_u16.dart';
+import 'package:solana_dart/src/solana_serializable/serializable.dart';
 import 'package:solana_dart/src/util/encode_int.dart';
 
 class CompactArray<T> extends Serializable {

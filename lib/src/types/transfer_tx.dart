@@ -1,12 +1,20 @@
-import 'package:meta/meta.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:solana_dart/solana_dart.dart';
-import 'package:solana_dart/src/types/common_tx.dart';
+import 'package:solana_dart/src/types/base_tx.dart';
 
-class TransferTx extends CommonTx {
-  TransferTx(dynamic info, {@required this.timestamp})
-      : source = info['source'],
-        destination = info['destination'],
-        lamports = info['lamports'];
+part 'transfer_tx.g.dart';
+
+@JsonSerializable(createToJson: false)
+class TransferTx implements BaseTx {
+  TransferTx({
+    this.source,
+    this.destination,
+    this.lamports,
+    this.timestamp,
+  });
+
+  factory TransferTx.fromJson(Map<String, dynamic> json) =>
+      _$TransferTxFromJson(json);
 
   final String source;
   final String destination;
