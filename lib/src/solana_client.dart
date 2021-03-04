@@ -3,23 +3,23 @@ import 'dart:convert';
 
 import 'package:solana_dart/solana_dart.dart';
 import 'package:solana_dart/src/json_rpc_client.dart';
+import 'package:solana_dart/src/solana_serializable/address.dart';
+import 'package:solana_dart/src/solana_serializable/compact_array.dart';
+import 'package:solana_dart/src/solana_serializable/instruction.dart';
+import 'package:solana_dart/src/solana_serializable/message.dart';
+import 'package:solana_dart/src/solana_serializable/message_header.dart';
+import 'package:solana_dart/src/solana_serializable/signature.dart';
+import 'package:solana_dart/src/solana_serializable/transaction.dart';
 import 'package:solana_dart/src/solana_wallet.dart';
 import 'package:solana_dart/src/types/account_info.dart';
-import 'package:solana_dart/src/types/address.dart';
+import 'package:solana_dart/src/types/base_tx.dart';
 import 'package:solana_dart/src/types/blockhash.dart';
-import 'package:solana_dart/src/types/common_tx.dart';
-import 'package:solana_dart/src/types/compact_array.dart';
 import 'package:solana_dart/src/types/confirmed_signature.dart';
-import 'package:solana_dart/src/types/confirmed_signatures.dart';
-import 'package:solana_dart/src/types/instruction.dart';
-import 'package:solana_dart/src/types/message.dart';
-import 'package:solana_dart/src/types/message_header.dart';
-import 'package:solana_dart/src/types/signature.dart';
+import 'package:solana_dart/src/types/confirmed_signature_list.dart';
 import 'package:solana_dart/src/types/signature_status.dart';
 import 'package:solana_dart/src/types/signature_statuses.dart';
-import 'package:solana_dart/src/types/transaction.dart';
+import 'package:solana_dart/src/types/simulate_tx_result.dart';
 import 'package:solana_dart/src/types/transaction_details.dart';
-import 'package:solana_dart/src/types/transfer_result.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
 import 'package:solana_dart/src/util/encode_int.dart';
 
@@ -201,7 +201,7 @@ class SolanaClient {
   ///
   /// Providing [before] and [until] also moves the cursor to a more specific
   /// subset
-  Future<ConfirmedSignatures> getConfirmedSignaturesForAddress2(
+  Future<ConfirmedSignatureList> getConfirmedSignaturesForAddress2(
     String address, {
     int limit = 10,
     String before,
@@ -243,23 +243,23 @@ class SolanaClient {
   }
 
   /// Get the [limit] most recent transactions for the [address] account
-  Future<List<CommonTx>> getTransactionsList(
+  Future<List<BaseTx>> getTransactionsList(
     String address, {
     int limit = 10,
   }) async {
-    final ConfirmedSignatures signatures =
+    final ConfirmedSignatureList signatures =
         await getConfirmedSignaturesForAddress2(
       address,
       limit: limit,
     );
-    List<CommonTx> list = List<CommonTx>();
+    List<BaseTx> list = [];
     for (int index = 0; index < signatures.length; index++) {
       final ConfirmedSignature confirmedSignature = signatures[index];
       final TransactionDetails confirmedTx = await getConfirmedTransaction(
         confirmedSignature.signature,
         "jsonParsed",
       );
-      list.addAll(confirmedTx.transactions);
+      list.add(confirmedTx.transaction);
     }
     return list;
   }

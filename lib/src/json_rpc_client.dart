@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:solana_dart/src/types/account_info.dart';
 import 'package:solana_dart/src/types/blockhash.dart';
-import 'package:solana_dart/src/types/confirmed_signatures.dart';
-import 'package:solana_dart/src/types/transaction_details.dart';
+import 'package:solana_dart/src/types/confirmed_signature_list.dart';
 import 'package:solana_dart/src/types/http_error.dart';
 import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 import 'package:solana_dart/src/types/signature_statuses.dart';
-import 'package:solana_dart/src/types/transfer_result.dart';
+import 'package:solana_dart/src/types/simulate_tx_result.dart';
+import 'package:solana_dart/src/types/transaction_details.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
 
 class JsonRpcClient {
@@ -27,8 +27,8 @@ class JsonRpcClient {
         SimulateTxResult.fromJsonRpcResponseString(jsonString),
     SignatureStatuses: (String jsonString) =>
         SignatureStatuses.fromJsonRpcResponseString(jsonString),
-    ConfirmedSignatures: (String jsonString) =>
-        ConfirmedSignatures.fromJsonRpcResponseString(jsonString),
+    ConfirmedSignatureList: (String jsonString) =>
+        ConfirmedSignatureList.fromJsonRpcResponseString(jsonString),
     TxSignature: (String jsonString) =>
         TxSignature.fromJsonRpcResponseString(jsonString),
     TransactionDetails: (String jsonString) =>

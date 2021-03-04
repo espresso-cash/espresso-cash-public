@@ -2,10 +2,10 @@ import 'package:bip39/bip39.dart';
 import 'package:solana_dart/solana_dart.dart';
 import 'package:solana_dart/src/solana_wallet.dart';
 import 'package:solana_dart/src/types/account_info.dart';
+import 'package:solana_dart/src/types/base_tx.dart';
 import 'package:solana_dart/src/types/blockhash.dart';
-import 'package:solana_dart/src/types/common_tx.dart';
 import 'package:solana_dart/src/types/signature_status.dart';
-import 'package:solana_dart/src/types/transfer_result.dart';
+import 'package:solana_dart/src/types/simulate_tx_result.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
 import 'package:test/test.dart';
 
@@ -91,9 +91,10 @@ void main() {
     });
 
     test('Can list recent transactions', () async {
-      final List<CommonTx> txs =
+      final List<BaseTx> txs =
           await solanaClient.getTransactionsList(sourceWallet.address);
       expect(txs, isNot(null));
+      txs.forEach((BaseTx tx) => expect(tx, isNot(null)));
       expect(txs.length, greaterThan(0));
     });
   });

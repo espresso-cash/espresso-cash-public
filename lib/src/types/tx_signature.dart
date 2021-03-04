@@ -1,10 +1,13 @@
-import 'package:solana_dart/src/types/common_tx.dart';
 import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 
-class TxSignature extends CommonTx {
-  TxSignature._(dynamic value) : _signature = value;
-  TxSignature.fromJsonRpcResponseString(jsonRpcResponseString)
-      : this._(JsonRpcResponseObject.getResult(jsonRpcResponseString));
+class TxSignature {
+  TxSignature(this._signature);
+
+  factory TxSignature.fromJson(dynamic value) => TxSignature(value);
+
+  factory TxSignature.fromJsonRpcResponseString(jsonRpcResponseString) =>
+      TxSignature.fromJson(
+          JsonRpcResponseObject.getResult(jsonRpcResponseString));
 
   final String _signature;
 
