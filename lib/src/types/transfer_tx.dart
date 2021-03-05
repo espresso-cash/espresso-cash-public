@@ -23,7 +23,7 @@ class TransferTx implements BaseTx {
 
   String toString() {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(1000 * timestamp);
-    String amount = (lamports / LAMPORTS_PER_SOL).toStringAsFixed(9);
+    String amount = (lamports / lamportsPerSol).toStringAsFixed(9);
     return 'transfer from $source to $destination a total of $amount SOL @ $date';
   }
 }

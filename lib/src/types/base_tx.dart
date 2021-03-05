@@ -1,9 +1,5 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:solana_dart/src/types/transfer_tx.dart';
 
-part 'base_tx.g.dart';
-
-@JsonSerializable(createToJson: false)
 class BaseTx {
   BaseTx();
 
