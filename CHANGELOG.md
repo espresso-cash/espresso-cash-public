@@ -19,3 +19,6 @@ Initial version with very basic functionality
 - General cleanup
 - Generated documentation
 
+# [0.0.4]
+- Use a better technique for json deserialization
+
