@@ -23,7 +23,7 @@ void main() {
     int currentBalance = 0;
 
     test('Can call `requestAirdrop\' and add SOL to an account', () async {
-      final int addedBalance = 100 * LAMPORTS_PER_SOL;
+      final int addedBalance = 100 * lamportsPerSol;
       final TxSignature signature = await solanaClient.requestAirdrop(
         sourceWallet.address,
         addedBalance,
@@ -59,7 +59,7 @@ void main() {
       final AccountInfo accountInfo =
           await solanaClient.getAccountInfo(sourceWallet.address);
       expect(accountInfo.lamports, currentBalance);
-      expect(accountInfo.owner, SOLANA_SYSTEM_PROGRAM_ID);
+      expect(accountInfo.owner, solanaSystemProgramID);
       expect(accountInfo.executable, false);
     });
 

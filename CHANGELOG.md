@@ -22,3 +22,6 @@ Initial version with very basic functionality
 # [0.0.4]
 - Use a better technique for json deserialization
 
+# [0.0.5]
+- Export some needed types for library users
+- Fix casing of global constants

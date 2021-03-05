@@ -79,7 +79,7 @@ class SolanaClient {
       accounts: CompactArray.fromList([
         Address.from(senderWallet.address),
         Address.from(recipientAddress),
-        Address.from(SOLANA_SYSTEM_PROGRAM_ID),
+        Address.from(solanaSystemProgramID),
       ]),
       recentBlockhash: recentBlockhash.blockhash,
       instructions: CompactArray.fromList([instruction]),
