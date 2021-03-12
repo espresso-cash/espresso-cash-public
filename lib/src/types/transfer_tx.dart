@@ -1,10 +1,6 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:solana_dart/solana_dart.dart';
 import 'package:solana_dart/src/types/base_tx.dart';
 
-part 'transfer_tx.g.dart';
-
-@JsonSerializable(createToJson: false)
 class TransferTx implements BaseTx {
   TransferTx({
     this.source,
@@ -13,8 +9,14 @@ class TransferTx implements BaseTx {
     this.timestamp,
   });
 
-  factory TransferTx.fromJson(Map<String, dynamic> json) =>
-      _$TransferTxFromJson(json);
+  factory TransferTx.fromJson(Map<String, dynamic> json) {
+    return TransferTx(
+      source: json['source'],
+      destination: json['destination'],
+      lamports: json['lamports'],
+      timestamp: json['timestamp'],
+    );
+  }
 
   final String source;
   final String destination;

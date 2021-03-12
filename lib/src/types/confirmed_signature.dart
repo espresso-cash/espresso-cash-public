@@ -1,8 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'confirmed_signature.g.dart';
-
-@JsonSerializable(createToJson: false)
 class ConfirmedSignature {
   ConfirmedSignature({
     this.signature,
@@ -12,8 +7,15 @@ class ConfirmedSignature {
     this.blockTime,
   });
 
-  factory ConfirmedSignature.fromJson(Map<String, dynamic> json) =>
-      _$ConfirmedSignatureFromJson(json);
+  factory ConfirmedSignature.fromJson(Map<String, dynamic> json) {
+    return ConfirmedSignature(
+      signature: json['signature'],
+      slot: json['slot'],
+      err: json['err'],
+      memo: json['memo'],
+      blockTime: json['blockTime'],
+    );
+  }
 
   final String signature;
   final int slot;

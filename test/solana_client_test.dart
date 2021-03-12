@@ -9,21 +9,21 @@ import 'package:solana_dart/src/types/simulate_tx_result.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
 import 'package:test/test.dart';
 
-const String _devnetRpcUrl = 'http://127.0.0.1:8899';
+const String _localRpcUrl = 'http://127.0.0.1:8899';
 
 void main() {
   group('SolanaClient testsuite', () {
     final SolanaWallet targetWallet = SolanaWallet.fromMnemonic(
       generateMnemonic(),
     );
-    final SolanaClient solanaClient = SolanaClient(_devnetRpcUrl);
+    final SolanaClient solanaClient = SolanaClient(_localRpcUrl);
     final SolanaWallet sourceWallet = SolanaWallet.fromMnemonic(
       generateMnemonic(),
     );
     int currentBalance = 0;
 
     test('Can call `requestAirdrop\' and add SOL to an account', () async {
-      final int addedBalance = 100 * lamportsPerSol;
+      final int addedBalance = (0.5 * lamportsPerSol).ceil();
       final TxSignature signature = await solanaClient.requestAirdrop(
         sourceWallet.address,
         addedBalance,

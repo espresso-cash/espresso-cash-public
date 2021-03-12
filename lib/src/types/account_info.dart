@@ -1,9 +1,5 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 
-part 'account_info.g.dart';
-
-@JsonSerializable(createToJson: false)
 class AccountInfo {
   AccountInfo({
     this.owner,
@@ -15,8 +11,15 @@ class AccountInfo {
     if (owner == null) throw ('`owner\' must never be `null\'');
   }
 
-  factory AccountInfo.fromJson(Map<String, dynamic> json) =>
-      _$AccountInfoFromJson(json);
+  factory AccountInfo.fromJson(Map<String, dynamic> json) {
+    return AccountInfo(
+      owner: json['owner'],
+      lamports: json['lamports'],
+      executable: json['executable'],
+      rentEpoch: json['rentEpoch'],
+      data: json['data'],
+    );
+  }
 
   factory AccountInfo.fromJsonRpcResponseString(String value) =>
       AccountInfo.fromJson(JsonRpcResponseObject.getValue(value));

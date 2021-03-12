@@ -1,10 +1,5 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'signature_status.g.dart';
-
 enum TxStatus { processed, confirmed, finalized }
 
-@JsonSerializable(createToJson: false)
 class SignatureStatus {
   SignatureStatus({
     this.slot,
@@ -13,8 +8,26 @@ class SignatureStatus {
     this.confirmationStatus,
   });
 
-  factory SignatureStatus.fromJson(Map<String, dynamic> json) =>
-      _$SignatureStatusFromJson(json);
+  factory SignatureStatus.fromJson(Map<String, dynamic> json) {
+    TxStatus confirmationStatus;
+    switch (json['confirmationStatus']) {
+      case 'processed':
+        confirmationStatus = TxStatus.processed;
+        break;
+      case 'confirmed':
+        confirmationStatus = TxStatus.confirmed;
+        break;
+      case 'finalized':
+        confirmationStatus = TxStatus.finalized;
+        break;
+    }
+    return SignatureStatus(
+      slot: json['slot'],
+      confirmations: json['confirmations'],
+      err: json['err'],
+      confirmationStatus: confirmationStatus,
+    );
+  }
 
   final int slot;
   final int confirmations;

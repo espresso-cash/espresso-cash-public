@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:convert/convert.dart';
 import 'package:solana_dart/src/base58/base58.dart' as base58;
 import 'package:test/test.dart';
@@ -33,7 +31,7 @@ final List<List<String>> _testVector = [
 void main() {
   test("base58 implementation correctly encodes", () {
     for (var item in _testVector) {
-      Uint8List source = hex.decode(item[0]);
+      List<int> source = hex.decode(item[0]);
       String target = item[1];
 
       expect(base58.encode(source), target);

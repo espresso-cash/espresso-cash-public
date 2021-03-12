@@ -20,8 +20,38 @@ Initial version with very basic functionality
 - Generated documentation
 
 # [0.0.4]
+- Please do not use this because it is broken
 - Use a better technique for json deserialization
 
 # [0.0.5]
+- Please do not use this because it is broken
+
+# [0.0.6]
+- Please do not use this because it is broken
+
+# [0.0.7]
+- Please do not use this because it is broken
+
+# [0.0.8]
+- Please do not use this because it is broken
+
+# [0.0.9]
+- Please do not use this because it is broken
+
+# [0.1.0]
+- Please do not use this because it is broken
+
+# [0.1.1]
+- Please do not use this because it is broken
 - Export some needed types for library users
 - Fix casing of global constants
+
+# [0.1.2]
+- Please do not use this because it is broken
+- Add build.yaml so that the generated files are generated
+
+# [0.1.3]
+- Please do not use this because it is broken
+
+# [0.1.4]
+- Generating code is problematic so it was removed and instead json is now simply coded directly in each relevant class
