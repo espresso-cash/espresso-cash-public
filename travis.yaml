@@ -1,0 +1,5 @@
+language: dart
+dart:
+        - 2.10.0
+dart_task:
+        - test: --platform vm
