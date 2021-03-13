@@ -1,3 +1,9 @@
+## 0.1.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **REFACTOR**: Update models.
+
 # Changelog
 
 Initial version with very basic functionality
