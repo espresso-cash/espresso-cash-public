@@ -2,10 +2,10 @@ import 'package:bip39/bip39.dart';
 import 'package:solana_dart/solana_dart.dart';
 import 'package:solana_dart/src/solana_wallet.dart';
 import 'package:solana_dart/src/types/account_info.dart';
-import 'package:solana_dart/src/types/base_tx.dart';
 import 'package:solana_dart/src/types/blockhash.dart';
 import 'package:solana_dart/src/types/signature_status.dart';
 import 'package:solana_dart/src/types/simulate_tx_result.dart';
+import 'package:solana_dart/src/types/transaction.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
 import 'package:test/test.dart';
 
@@ -22,12 +22,12 @@ void main() {
     );
     int currentBalance = 0;
 
-    test('Can call `requestAirdrop\' and add SOL to an account', () async {
+    test('Can call requestAirdrop and add SOL to an account', () async {
       final int addedBalance = 100 * lamportsPerSol;
       final TxSignature signature = await solanaClient.requestAirdrop(
         sourceWallet.address,
         addedBalance,
-        'finalized',
+        commitment: 'finalized',
       );
       expect(signature, isNot(null));
       await solanaClient.waitForSignatureStatus(
@@ -64,7 +64,7 @@ void main() {
     });
 
     test('Can simulate a transfer', () async {
-      final int transferredAmount = 7500;
+      const int transferredAmount = 7500;
       final SimulateTxResult transferResult =
           await solanaClient.simulateTransfer(
         sourceWallet,
@@ -75,7 +75,7 @@ void main() {
     });
 
     test('Can transfer tokens', () async {
-      final int transferredAmount = 7500;
+      const int transferredAmount = 7500;
       final TxSignature signature = await solanaClient.transfer(
         sourceWallet,
         targetWallet.address,
@@ -91,10 +91,9 @@ void main() {
     });
 
     test('Can list recent transactions', () async {
-      final List<BaseTx> txs =
-          await solanaClient.getTransactionsList(sourceWallet.address);
+      final txs = await solanaClient.getTransactionsList(sourceWallet.address);
       expect(txs, isNot(null));
-      txs.forEach((BaseTx tx) => expect(tx, isNot(null)));
+      txs.forEach((TransactionResponse tx) => expect(tx, isNot(null)));
       expect(txs.length, greaterThan(0));
     });
   });

@@ -1,0 +1,20 @@
+name: dart-solana-lib
+
+packages:
+  - '**'
+
+scripts:
+  check_master:
+    run: |
+      melos run get \
+      && melos run build \
+      && melos run format \
+      && melos run analyze
+
+  get: pub get
+
+  build: pub run build_runner build
+
+  format: dart format --set-exit-if-changed -o none .
+
+  analyze: dart analyze .

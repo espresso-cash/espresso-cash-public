@@ -11,12 +11,17 @@ class Blockhash {
     this.blockhash,
   });
 
-  final FeeCalculator feeCalculator;
-  final String blockhash;
-
-  factory Blockhash.fromJsonRpcResponseString(String jsonRpcResponseString) =>
-      Blockhash.fromJson(JsonRpcResponseObject.getValue(jsonRpcResponseString));
-
   factory Blockhash.fromJson(Map<String, dynamic> json) =>
       _$BlockhashFromJson(json);
+
+  final FeeCalculator feeCalculator;
+  final String blockhash;
+}
+
+@JsonSerializable(createToJson: false)
+class BlockhashResponse extends JsonRpcResponse<ValueResponse<Blockhash>> {
+  BlockhashResponse(ValueResponse<Blockhash> result) : super(result: result);
+
+  factory BlockhashResponse.fromJson(Map<String, dynamic> json) =>
+      _$BlockhashResponseFromJson(json);
 }

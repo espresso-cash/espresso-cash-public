@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 
 part 'confirmed_signature.g.dart';
 
@@ -21,5 +22,16 @@ class ConfirmedSignature {
   final String memo;
   final int blockTime;
 
+  @override
   String toString() => signature;
+}
+
+@JsonSerializable(createToJson: false)
+class ConfirmedSignaturesResponse
+    extends JsonRpcResponse<Iterable<ConfirmedSignature>> {
+  ConfirmedSignaturesResponse(Iterable<ConfirmedSignature> result)
+      : super(result: result);
+
+  factory ConfirmedSignaturesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ConfirmedSignaturesResponseFromJson(json);
 }

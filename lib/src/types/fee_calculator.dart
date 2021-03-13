@@ -6,8 +6,8 @@ part 'fee_calculator.g.dart';
 class FeeCalculator {
   FeeCalculator({this.lamportsPerSignature});
 
-  final int lamportsPerSignature;
-
   factory FeeCalculator.fromJson(Map<String, dynamic> json) =>
       _$FeeCalculatorFromJson(json);
+
+  final int lamportsPerSignature;
 }

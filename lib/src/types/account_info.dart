@@ -11,19 +11,23 @@ class AccountInfo {
     this.executable,
     this.rentEpoch,
     this.data,
-  }) {
-    if (owner == null) throw ('`owner\' must never be `null\'');
-  }
+  });
 
   factory AccountInfo.fromJson(Map<String, dynamic> json) =>
       _$AccountInfoFromJson(json);
-
-  factory AccountInfo.fromJsonRpcResponseString(String value) =>
-      AccountInfo.fromJson(JsonRpcResponseObject.getValue(value));
 
   final String owner;
   final int lamports;
   final bool executable;
   final dynamic data;
   final int rentEpoch;
+}
+
+@JsonSerializable(createToJson: false)
+class AccountInfoResponse extends JsonRpcResponse<ValueResponse<AccountInfo>> {
+  AccountInfoResponse(ValueResponse<AccountInfo> result)
+      : super(result: result);
+
+  factory AccountInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$AccountInfoResponseFromJson(json);
 }

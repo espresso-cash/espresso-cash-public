@@ -12,14 +12,12 @@ import 'package:solana_dart/src/solana_serializable/signature.dart';
 import 'package:solana_dart/src/solana_serializable/transaction.dart';
 import 'package:solana_dart/src/solana_wallet.dart';
 import 'package:solana_dart/src/types/account_info.dart';
-import 'package:solana_dart/src/types/base_tx.dart';
+import 'package:solana_dart/src/types/balance.dart';
 import 'package:solana_dart/src/types/blockhash.dart';
 import 'package:solana_dart/src/types/confirmed_signature.dart';
-import 'package:solana_dart/src/types/confirmed_signature_list.dart';
 import 'package:solana_dart/src/types/signature_status.dart';
-import 'package:solana_dart/src/types/signature_statuses.dart';
 import 'package:solana_dart/src/types/simulate_tx_result.dart';
-import 'package:solana_dart/src/types/transaction_details.dart';
+import 'package:solana_dart/src/types/transaction.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
 import 'package:solana_dart/src/util/encode_int.dart';
 
@@ -28,39 +26,44 @@ import 'package:solana_dart/src/util/encode_int.dart';
 class SolanaClient {
   /// Constructs a SolanaClient that is capable of sending various RPCs to
   /// [rpcUrl]
-  SolanaClient(String rpcUrl) {
-    _client = JsonRpcClient(rpcUrl);
-  }
+  SolanaClient(String rpcUrl) : _client = JsonRpcClient(rpcUrl);
 
-  JsonRpcClient _client;
+  final JsonRpcClient _client;
 
   /// Returns the recent blockhash from the ledger, and a fee schedule that
   /// can be used to compute the cost of submitting transaction with
   /// the returned [Blockhash]
-  Future<Blockhash> getRecentBlockhash() {
-    return _client.call('getRecentBlockhash');
+  Future<Blockhash> getRecentBlockhash() async {
+    final data = await _client.request('getRecentBlockhash');
+    return BlockhashResponse.fromJson(data).result.value;
   }
 
   /// Returns a Future that resolves the the balance of [address]
-  Future<int> getBalance(String address) {
-    return _client.call('getBalance', params: [address]);
+  Future<int> getBalance(String address) async {
+    final data =
+        await _client.request('getBalance', params: <dynamic>[address]);
+    return BalanceResponse.fromJson(data).result.value;
   }
 
   /// Returns a Future that resolves to the account related information
   /// for [address]
-  Future<AccountInfo> getAccountInfo(String address) {
-    return _client.call(
+  Future<AccountInfo> getAccountInfo(String address) async {
+    final data = await _client.request(
       'getAccountInfo',
-      params: [
+      params: <dynamic>[
         address,
         <String, String>{'encoding': 'jsonParsed'}
       ],
     );
+    return AccountInfoResponse.fromJson(data).result.value;
   }
 
-  Future<T> _transferHelper<T>(
-      SolanaWallet senderWallet, String recipientAddress, int amountInLamports,
-      [simulate = false]) async {
+  Future<Map<String, dynamic>> _transferHelper(
+    SolanaWallet senderWallet,
+    String recipientAddress,
+    int amountInLamports, {
+    bool simulate = false,
+  }) async {
     final Blockhash recentBlockhash = await getRecentBlockhash();
 
     final Instruction instruction = Instruction(
@@ -84,22 +87,20 @@ class SolanaClient {
       recentBlockhash: recentBlockhash.blockhash,
       instructions: CompactArray.fromList([instruction]),
     );
-    List<int> serializedMessage = message.serialize();
+    final serializedMessage = message.serialize();
 
-    Signature signature = Signature.from(
-      await senderWallet.sign(
-        serializedMessage,
-      ),
+    final signature = Signature.from(
+      await senderWallet.sign(serializedMessage),
     );
 
-    Transaction transaction = Transaction(
+    final transaction = Transaction(
       signatures: CompactArray.fromList([signature]),
       message: message,
     );
 
-    return _client.call(
+    return _client.request(
       simulate ? 'simulateTransaction' : 'sendTransaction',
-      params: [
+      params: <dynamic>[
         base64.encode(transaction.serialize()),
         <String, String>{
           'encoding': 'base64',
@@ -109,46 +110,69 @@ class SolanaClient {
   }
 
   /// Transfers [amountInLamports] from [senderWallet] to [recipientAddress]
-  Future<TxSignature> transfer(SolanaWallet senderWallet,
-      String recipientAddress, int amountInLamports) async {
-    return _transferHelper(
-        senderWallet, recipientAddress, amountInLamports, false);
+  Future<TxSignature> transfer(
+    SolanaWallet senderWallet,
+    String recipientAddress,
+    int amountInLamports,
+  ) async {
+    final data = await _transferHelper(
+      senderWallet,
+      recipientAddress,
+      amountInLamports,
+      simulate: false,
+    );
+    return TxSignature(TxSignatureResponse.fromJson(data).result);
   }
 
   /// Simulates a transfer of [amountInLamports] from [senderWallet]
   /// to [recipientAddress]
-  Future<SimulateTxResult> simulateTransfer(SolanaWallet senderWallet,
-      String recipientAddress, int amountInLamports) async {
-    return _transferHelper(
-        senderWallet, recipientAddress, amountInLamports, true);
+  Future<SimulateTxResult> simulateTransfer(
+    SolanaWallet senderWallet,
+    String recipientAddress,
+    int amountInLamports,
+  ) async {
+    final data = await _transferHelper(
+      senderWallet,
+      recipientAddress,
+      amountInLamports,
+      simulate: true,
+    );
+    return SimulateTxResultResponse.fromJson(data).result.value;
   }
 
   /// Requests an airdrop of [lamports] lamports to [address]
-  Future<TxSignature> requestAirdrop(String address, int lamports,
-      [commitment = 'processed']) {
-    return _client.call('requestAirdrop', params: [
+  Future<TxSignature> requestAirdrop(
+    String address,
+    int lamports, {
+    String commitment = 'processed',
+  }) async {
+    final data = await _client.request('requestAirdrop', params: <dynamic>[
       address,
       lamports.toInt(),
       <String, String>{
         'commitment': commitment,
       },
     ]);
+    return TxSignature(TxSignatureResponse.fromJson(data).result);
   }
 
   /// Returns Future that resolves to the statuses of a list of [signatures].
   /// Unless the [searchTransactionHistory] configuration parameter is included,
   /// this method only searches the recent status cache of signatures.
-  Future<SignatureStatuses> getSignatureStatuses(List<TxSignature> signatures,
-      [searchTransactionHistory = false]) {
-    return _client.call(
+  Future<Iterable<SignatureStatus>> getSignatureStatuses(
+    List<TxSignature> signatures, {
+    bool searchTransactionHistory = false,
+  }) async {
+    final data = await _client.request(
       'getSignatureStatuses',
-      params: [
+      params: <dynamic>[
         [for (TxSignature signature in signatures) signature.toString()],
         <String, bool>{
-          "searchTransactionHistory": searchTransactionHistory,
+          'searchTransactionHistory': searchTransactionHistory,
         }
       ],
     );
+    return SignatureStatusesResponse.fromJson(data).result.value;
   }
 
   /// This is just a helper function that allows the caller
@@ -161,36 +185,38 @@ class SolanaClient {
   ///
   /// Note: the default [timeout] is 30 seconds
   Future<void> waitForSignatureStatus(
-      TxSignature signature, TxStatus desiredStatus,
-      [timeout = const Duration(seconds: 30)]) async {
-    Completer completer = Completer<void>();
-    Stopwatch clock = Stopwatch();
-    void check() async {
+    TxSignature signature,
+    TxStatus desiredStatus, {
+    Duration timeout = const Duration(seconds: 30),
+  }) async {
+    final completer = Completer<void>();
+    final clock = Stopwatch();
+    Future<void> check() async {
       if (clock.elapsed > timeout) {
         completer.completeError(
           'timed out waiting for the requested status $desiredStatus',
         );
         return;
       }
-      final SignatureStatuses statuses =
-          await getSignatureStatuses([signature]);
-      final SignatureStatus status = statuses[0];
+      final statuses = await getSignatureStatuses([signature]);
+      final SignatureStatus status = statuses.isEmpty ? null : statuses.first;
       if (status != null) {
         if (status.err != null) {
           completer.completeError(status.err);
         } else if (status.confirmationStatus.index >= desiredStatus.index) {
           completer.complete();
         } else {
-          await Future.delayed(Duration(seconds: 5), () => {});
-          check();
+          await Future<void>.delayed(const Duration(seconds: 5));
+          return check();
         }
       } else {
-        await Future.delayed(Duration(seconds: 5), () => {});
-        check();
+        await Future<void>.delayed(const Duration(seconds: 5));
+        return check();
       }
     }
 
     clock.start();
+    // ignore: unawaited_futures
     check();
 
     return completer.future;
@@ -201,23 +227,24 @@ class SolanaClient {
   ///
   /// Providing [before] and [until] also moves the cursor to a more specific
   /// subset
-  Future<ConfirmedSignatureList> getConfirmedSignaturesForAddress2(
+  Future<Iterable<ConfirmedSignature>> getConfirmedSignaturesForAddress2(
     String address, {
     int limit = 10,
     String before,
     String until,
-  }) {
-    return _client.call(
+  }) async {
+    final data = await _client.request(
       'getConfirmedSignaturesForAddress2',
-      params: [
+      params: <dynamic>[
         address,
         <String, dynamic>{
-          "limit": limit,
-          "before": before,
-          "after": until,
+          'limit': limit,
+          'before': before,
+          'after': until,
         }
       ],
     );
+    return ConfirmedSignaturesResponse.fromJson(data).result;
   }
 
   /// Returns a Future that resolves to the transaction details for a given
@@ -231,36 +258,29 @@ class SolanaClient {
   /// - `"jsonParsed"` the instructions are made more human friendly
   /// - `"base64"` unparsed binary data
   /// - `"base58"` like `"base64"` but according to Solana docs it's slow
-  Future<TransactionDetails> getConfirmedTransaction(
-      String signature, String encoding) {
-    return _client.call(
+  Future<TransactionResponse> getConfirmedTransaction(
+    String signature,
+    String encoding,
+  ) async {
+    final data = await _client.request(
       'getConfirmedTransaction',
-      params: [
-        signature,
-        encoding,
-      ],
+      params: <dynamic>[signature, encoding],
     );
+    return TransactionResponse.fromJson(data);
   }
 
   /// Get the [limit] most recent transactions for the [address] account
-  Future<List<BaseTx>> getTransactionsList(
+  Future<Iterable<TransactionResponse>> getTransactionsList(
     String address, {
     int limit = 10,
   }) async {
-    final ConfirmedSignatureList signatures =
-        await getConfirmedSignaturesForAddress2(
+    final signatures = await getConfirmedSignaturesForAddress2(
       address,
       limit: limit,
     );
-    List<BaseTx> list = [];
-    for (int index = 0; index < signatures.length; index++) {
-      final ConfirmedSignature confirmedSignature = signatures[index];
-      final TransactionDetails confirmedTx = await getConfirmedTransaction(
-        confirmedSignature.signature,
-        "jsonParsed",
-      );
-      list.add(confirmedTx.transaction);
-    }
-    return list;
+    return Future.wait(signatures.map((s) async => getConfirmedTransaction(
+          s.signature,
+          'jsonParsed',
+        )));
   }
 }

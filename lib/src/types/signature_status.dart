@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 
 part 'signature_status.g.dart';
 
@@ -21,5 +22,16 @@ class SignatureStatus {
   final dynamic err;
   final TxStatus confirmationStatus;
 
+  @override
   String toString() => confirmationStatus.toString();
+}
+
+@JsonSerializable(createToJson: false)
+class SignatureStatusesResponse
+    extends JsonRpcResponse<ValueResponse<Iterable<SignatureStatus>>> {
+  SignatureStatusesResponse(ValueResponse<Iterable<SignatureStatus>> result)
+      : super(result: result);
+
+  factory SignatureStatusesResponse.fromJson(Map<String, dynamic> json) =>
+      _$SignatureStatusesResponseFromJson(json);
 }

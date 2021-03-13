@@ -15,10 +15,8 @@ class Transaction extends Serializable {
   final Message message;
 
   @override
-  List<int> serialize() {
-    return [
-      ...signatures.serialize(),
-      ...message.serialize(),
-    ];
-  }
+  List<int> serialize() => [
+        ...signatures.serialize(),
+        ...message.serialize(),
+      ];
 }

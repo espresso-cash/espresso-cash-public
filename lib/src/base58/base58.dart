@@ -268,17 +268,17 @@ const List<int> _reverseMap = [
 // Note: Taken from https://github.com/bitcoin/bitcoin/blob/master/src/base58.cpp
 //       and adapted to the dart language
 String encode(List<int> bytes) {
-  int zeroes = 0;
-  int length = 0;
   String encoded = '';
-  if (bytes.length == 0) return encoded;
-  // Count zeroes
-  for (; zeroes < bytes.length && bytes[zeroes] == 0; zeroes++);
+  if (bytes.isEmpty) return encoded;
+
+  final zeroes = bytes.takeWhile((v) => v == 0).length;
+  int length = 0;
+
   // Compute final size
-  int size = (bytes.length - zeroes) * 138 ~/ 100 + 1;
+  final size = (bytes.length - zeroes) * 138 ~/ 100 + 1;
   // Create temporary storage
-  List<int> b58bytes = List<int>.filled(size, 0);
-  for (int byteValue in bytes.sublist(zeroes)) {
+  final List<int> b58bytes = List<int>.filled(size, 0);
+  for (final byteValue in bytes.sublist(zeroes)) {
     int carry = byteValue;
     int i = 0;
     for (int j = 0; j < size; j++, i++) {
@@ -289,27 +289,29 @@ String encode(List<int> bytes) {
     }
     length = i;
   }
-  List<int> finalBytes = b58bytes.sublist(0, length);
-  for (int byte in finalBytes) {
+  final List<int> finalBytes = b58bytes.sublist(0, length);
+  for (final byte in finalBytes) {
     encoded = _base58Alphabet[byte] + encoded;
   }
-  encoded = '1' * zeroes + encoded;
-  return encoded;
+  return '1' * zeroes + encoded;
 }
 
 List<int> decode(String value) {
-  String trimmed = value.trim();
-  if (trimmed.length == 0) return [];
-  int zeroes = 0;
+  final trimmed = value.trim();
+  if (trimmed.isEmpty) return [];
+
   int length = 0;
-  for (; zeroes < trimmed.length && trimmed[zeroes] == '1'; zeroes++);
-  int size = (trimmed.length - zeroes) * 733 ~/ 1000 + 1;
-  List<int> bytes256 = List.filled(size, 0);
-  List<int> inputBytes = utf8.encode(trimmed);
-  for (int currentByte in inputBytes) {
+  final zeroes = trimmed.split('').takeWhile((v) => v == '1').length;
+
+  final size = (trimmed.length - zeroes) * 733 ~/ 1000 + 1;
+  final bytes256 = List.filled(size, 0);
+  final List<int> inputBytes = utf8.encode(trimmed);
+  for (final currentByte in inputBytes) {
     int carry = _reverseMap[currentByte];
     int i = 0;
-    if (carry == -1) throw ('invalid base58 character found ${currentByte}');
+    if (carry == -1) {
+      throw ArgumentError('invalid base58 character found $currentByte');
+    }
     for (int j = size - 1; j >= 0; j--, i++) {
       if (!((carry != 0) || (i < length))) break;
       carry += 58 * bytes256[j];

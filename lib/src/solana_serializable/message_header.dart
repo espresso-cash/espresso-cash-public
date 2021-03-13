@@ -8,16 +8,17 @@ class MessageHeader extends Serializable {
     this.numReadonlySignedAccounts,
     this.numReadonlyUnSignedAccounts,
   );
+
   final int numRequiredSignatures;
   final int numReadonlySignedAccounts;
   final int numReadonlyUnSignedAccounts;
 
   @override
   List<int> serialize() {
-    var data = ByteData(3);
-    data.setUint8(0, numRequiredSignatures);
-    data.setUint8(1, numReadonlySignedAccounts);
-    data.setUint8(2, numReadonlyUnSignedAccounts);
+    final data = ByteData(3)
+      ..setUint8(0, numRequiredSignatures)
+      ..setUint8(1, numReadonlySignedAccounts)
+      ..setUint8(2, numReadonlyUnSignedAccounts);
     return data.buffer.asUint8List();
   }
 }

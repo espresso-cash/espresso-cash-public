@@ -7,7 +7,5 @@ class Address extends Serializable {
   final String _address;
 
   @override
-  List<int> serialize() {
-    return base58.decode(_address);
-  }
+  List<int> serialize() => base58.decode(_address);
 }

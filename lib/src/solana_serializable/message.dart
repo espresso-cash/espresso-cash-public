@@ -13,18 +13,17 @@ class Message extends Serializable {
     @required this.recentBlockhash,
     @required this.instructions,
   });
+
   MessageHeader header;
   CompactArray<Address> accounts;
   String recentBlockhash;
   CompactArray<Instruction> instructions;
 
   @override
-  List<int> serialize() {
-    return [
-      ...header.serialize(),
-      ...accounts.serialize(),
-      ...base58.decode(recentBlockhash),
-      ...instructions.serialize(),
-    ];
-  }
+  List<int> serialize() => [
+        ...header.serialize(),
+        ...accounts.serialize(),
+        ...base58.decode(recentBlockhash),
+        ...instructions.serialize(),
+      ];
 }
