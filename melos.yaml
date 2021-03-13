@@ -7,7 +7,6 @@ scripts:
   check_master:
     run: |
       melos run get \
-      && melos run build \
       && melos run format \
       && melos run analyze
 
@@ -17,4 +16,4 @@ scripts:
 
   format: dart format --set-exit-if-changed -o none .
 
-  analyze: dart analyze .
+  analyze: dart analyze --fatal-infos .
