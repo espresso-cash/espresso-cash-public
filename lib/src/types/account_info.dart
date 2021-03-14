@@ -7,11 +7,10 @@ class AccountInfo {
     this.executable,
     this.rentEpoch,
     this.data,
-  }) {
-    if (owner == null) throw ('`owner\' must never be `null\'');
-  }
+  });
 
   factory AccountInfo.fromJson(Map<String, dynamic> json) {
+    if (json == null) return AccountInfo();
     return AccountInfo(
       owner: json['owner'],
       lamports: json['lamports'],

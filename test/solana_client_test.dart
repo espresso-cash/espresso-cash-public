@@ -22,6 +22,21 @@ void main() {
     );
     int currentBalance = 0;
 
+    test('Can handle non existent accounts gracefully', () async {
+      final AccountInfo accountInfo =
+          await solanaClient.getAccountInfo(sourceWallet.address);
+      expect(accountInfo.owner, null);
+      expect(accountInfo.lamports, null);
+      expect(accountInfo.executable, null);
+      expect(accountInfo.rentEpoch, null);
+      expect(accountInfo.data, null);
+    });
+
+    test('Returns 0 balance for new accounts', () async {
+      final int balance = await solanaClient.getBalance(sourceWallet.address);
+      expect(balance, 0);
+    });
+
     test('Can call `requestAirdrop\' and add SOL to an account', () async {
       final int addedBalance = (0.5 * lamportsPerSol).ceil();
       final TxSignature signature = await solanaClient.requestAirdrop(
@@ -60,7 +75,9 @@ void main() {
           await solanaClient.getAccountInfo(sourceWallet.address);
       expect(accountInfo.lamports, currentBalance);
       expect(accountInfo.owner, solanaSystemProgramID);
-      expect(accountInfo.executable, false);
+      expect(accountInfo.executable, isNot(null));
+      expect(accountInfo.rentEpoch, isNot(null));
+      expect(accountInfo.data, isNot(null));
     });
 
     test('Can simulate a transfer', () async {
