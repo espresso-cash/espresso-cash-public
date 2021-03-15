@@ -12,7 +12,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     services:
-      solana:
+      localhost:
         image: iharob/solana:latest
         ports:
           - 8899:8899
