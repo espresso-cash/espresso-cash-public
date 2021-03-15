@@ -1,0 +1,20 @@
+name: Check PR to master
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    container: iharob/solana:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pub get &>/dev/null
+      - name: dart tests
+        run: solana-test-validator &>/dev/null & pub run test
