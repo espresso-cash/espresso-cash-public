@@ -18,4 +18,4 @@ jobs:
       - name: Install dependencies
         run: pub get
       - name: dart tests
-        run: pub run test
+        run: solana-test-validator -r &>/dev/null & pub run test
