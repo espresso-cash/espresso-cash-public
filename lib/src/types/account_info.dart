@@ -29,7 +29,9 @@ class AccountInfo {
   }
 
   factory AccountInfo.fromJsonRpcResponseString(String value) =>
-      AccountInfo.fromJson(JsonRpcResponseObject.getValue(value));
+      AccountInfo.fromJson(
+        JsonRpcResponseObject.getValue(value),
+      );
 
   final String owner;
   final int lamports;

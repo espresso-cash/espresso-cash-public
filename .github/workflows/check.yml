@@ -12,10 +12,15 @@ jobs:
   check:
     runs-on: ubuntu-latest
     container:
-      image: iharob/solana:latest
+      image: google/dart:latest
+    services:
+      solana:
+        image: iharob/solana:latest
+        ports:
+          - 8899:8899
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: pub get
-      - name: dart tests
-        run: solana-test-validator -r &>/dev/null & pub run test
+      - name: Dart tests
+        run: pub run test

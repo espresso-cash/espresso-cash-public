@@ -7,7 +7,8 @@ class TxSignature {
 
   factory TxSignature.fromJsonRpcResponseString(jsonRpcResponseString) =>
       TxSignature.fromJson(
-          JsonRpcResponseObject.getResult(jsonRpcResponseString));
+        JsonRpcResponseObject.getResult(jsonRpcResponseString),
+      );
 
   final String _signature;
 

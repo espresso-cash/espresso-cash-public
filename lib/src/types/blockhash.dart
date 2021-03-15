@@ -12,7 +12,9 @@ class Blockhash {
   final String blockhash;
 
   factory Blockhash.fromJsonRpcResponseString(String jsonRpcResponseString) =>
-      Blockhash.fromJson(JsonRpcResponseObject.getValue(jsonRpcResponseString));
+      Blockhash.fromJson(
+        JsonRpcResponseObject.getValue(jsonRpcResponseString),
+      );
 
   factory Blockhash.fromJson(Map<String, dynamic> json) {
     return Blockhash(

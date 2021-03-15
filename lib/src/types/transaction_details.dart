@@ -23,7 +23,8 @@ class TransactionDetails {
       );
 
   factory TransactionDetails.fromJsonRpcResponseString(
-          String jsonRpcResponseString) =>
+    String jsonRpcResponseString,
+  ) =>
       TransactionDetails.fromJson(
         JsonRpcResponseObject.getResult(jsonRpcResponseString),
       );
