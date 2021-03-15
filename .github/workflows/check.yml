@@ -11,7 +11,8 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    container: iharob/solana:latest
+    container:
+      image: iharob/solana:latest
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
