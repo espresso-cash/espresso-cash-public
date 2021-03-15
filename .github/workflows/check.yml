@@ -15,6 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: pub get &>/dev/null
+        run: pub get
       - name: dart tests
-        run: solana-test-validator &>/dev/null & pub run test
+        run: solana-test-validator & sleep 5 & pub run test
