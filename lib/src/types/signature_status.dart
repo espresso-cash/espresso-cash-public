@@ -1,15 +1,17 @@
-enum TxStatus { processed, confirmed, finalized }
+import 'package:meta/meta.dart';
+
+enum TxStatus { processed, confirmed, finalized, invalid }
 
 class SignatureStatus {
   SignatureStatus({
-    this.slot,
-    this.confirmations,
-    this.err,
-    this.confirmationStatus,
+    @required this.slot,
+    @required this.confirmations,
+    @required this.err,
+    @required this.confirmationStatus,
   });
 
   factory SignatureStatus.fromJson(Map<String, dynamic> json) {
-    TxStatus confirmationStatus;
+    TxStatus confirmationStatus = TxStatus.invalid;
     switch (json['confirmationStatus']) {
       case 'processed':
         confirmationStatus = TxStatus.processed;

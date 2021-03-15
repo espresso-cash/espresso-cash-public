@@ -1,7 +1,11 @@
+import 'package:meta/meta.dart';
 import 'package:solana_dart/src/types/json_rpc_response_object.dart';
 
 class SimulateTxResult {
-  SimulateTxResult({this.err, this.logs});
+  SimulateTxResult({
+    @required this.err,
+    @required this.logs,
+  });
 
   factory SimulateTxResult.fromJson(Map<String, dynamic> json) =>
       SimulateTxResult(
@@ -12,7 +16,8 @@ class SimulateTxResult {
   factory SimulateTxResult.fromJsonRpcResponseString(
           String jsonRpcResponseString) =>
       SimulateTxResult.fromJson(
-          JsonRpcResponseObject.getValue(jsonRpcResponseString));
+        JsonRpcResponseObject.getValue(jsonRpcResponseString),
+      );
 
   final dynamic err;
   final List<dynamic> logs;

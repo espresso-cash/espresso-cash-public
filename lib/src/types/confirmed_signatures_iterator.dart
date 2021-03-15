@@ -8,7 +8,6 @@ class ConfirmedSignatureIterator extends Iterator<ConfirmedSignature> {
 
   @override
   get current {
-    if (currentIndex >= _list.length) return null;
     return _list[currentIndex];
   }
 

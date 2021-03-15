@@ -1,5 +1,11 @@
+import 'package:meta/meta.dart';
+
 class JsonRpcError implements Exception {
-  JsonRpcError({this.message, this.code, this.data});
+  JsonRpcError({
+    @required this.message,
+    @required this.code,
+    this.data,
+  });
 
   factory JsonRpcError.fromJson(Map<String, dynamic> value) => JsonRpcError(
         message: value['message'] as String,

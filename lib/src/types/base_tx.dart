@@ -15,11 +15,8 @@ class BaseTx {
 
   factory BaseTx.fromJson(Map<String, dynamic> json) {
     Map<String, dynamic> message = json['message'];
-    if (message == null) throw ('invalid data, must have a message field');
     List<dynamic> instructions = message['instructions'];
-    if (instructions == null) {
-      throw ('invalid instructions array');
-    } else if (instructions.length > 1) {
+    if (instructions.length > 1) {
       throw ('multiple instructions not yet supported');
     } else {
       return BaseTx.fromInstruction(instructions[0], json['timestamp']);

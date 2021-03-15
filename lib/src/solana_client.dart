@@ -28,11 +28,9 @@ import 'package:solana_dart/src/util/encode_int.dart';
 class SolanaClient {
   /// Constructs a SolanaClient that is capable of sending various RPCs to
   /// [rpcUrl]
-  SolanaClient(String rpcUrl) {
-    _client = JsonRpcClient(rpcUrl);
-  }
+  SolanaClient(String rpcUrl) : _client = JsonRpcClient(rpcUrl);
 
-  JsonRpcClient _client;
+  final JsonRpcClient _client;
 
   /// Returns the recent blockhash from the ledger, and a fee schedule that
   /// can be used to compute the cost of submitting transaction with

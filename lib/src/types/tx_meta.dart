@@ -1,5 +1,10 @@
+import 'package:meta/meta.dart';
+
 class TxMeta {
-  TxMeta({this.err, this.fee});
+  TxMeta({
+    @required this.err,
+    @required this.fee,
+  });
   factory TxMeta.fromJson(Map<String, dynamic> json) {
     return TxMeta(
       err: json['err'],

@@ -1,10 +1,12 @@
+import 'package:meta/meta.dart';
+
 class ConfirmedSignature {
   ConfirmedSignature({
-    this.signature,
-    this.slot,
-    this.err,
-    this.memo,
-    this.blockTime,
+    @required this.signature,
+    @required this.slot,
+    @required this.err,
+    @required this.memo,
+    @required this.blockTime,
   });
 
   factory ConfirmedSignature.fromJson(Map<String, dynamic> json) {

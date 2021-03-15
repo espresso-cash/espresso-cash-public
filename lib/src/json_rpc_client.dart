@@ -11,6 +11,8 @@ import 'package:solana_dart/src/types/simulate_tx_result.dart';
 import 'package:solana_dart/src/types/transaction_details.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
 
+typedef S ItemCreator<S>();
+
 class JsonRpcClient {
   JsonRpcClient(this._url);
 
@@ -39,9 +41,14 @@ class JsonRpcClient {
 
   T _handleResponse<T>(String jsonRpc2ResponseString) {
     if (_constructors[T] != null) {
-      return _constructors[T](jsonRpc2ResponseString);
+      var fn = _constructors[T];
+      if (fn != null) {
+        return fn(jsonRpc2ResponseString);
+      } else {
+        throw Exception("constructor not registered for ${T}");
+      }
     } else {
-      return null;
+      throw Exception("constructor not registered for ${T}");
     }
   }
 

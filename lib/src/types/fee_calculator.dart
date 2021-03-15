@@ -1,5 +1,9 @@
+import 'package:meta/meta.dart';
+
 class FeeCalculator {
-  FeeCalculator({this.lamportsPerSignature});
+  FeeCalculator({
+    @required this.lamportsPerSignature,
+  });
 
   final int lamportsPerSignature;
 

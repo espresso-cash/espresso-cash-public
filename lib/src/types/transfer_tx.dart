@@ -1,12 +1,13 @@
+import 'package:meta/meta.dart';
 import 'package:solana_dart/solana_dart.dart';
 import 'package:solana_dart/src/types/base_tx.dart';
 
 class TransferTx implements BaseTx {
   TransferTx({
-    this.source,
-    this.destination,
-    this.lamports,
-    this.timestamp,
+    @required this.source,
+    @required this.destination,
+    @required this.lamports,
+    @required this.timestamp,
   });
 
   factory TransferTx.fromJson(Map<String, dynamic> json) {
@@ -23,6 +24,7 @@ class TransferTx implements BaseTx {
   final int lamports;
   final int timestamp;
 
+  @override
   String toString() {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(1000 * timestamp);
     String amount = (lamports / lamportsPerSol).toStringAsFixed(9);

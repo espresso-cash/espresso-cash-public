@@ -23,9 +23,9 @@ abstract class JsonRpcResponseObject {
     return responseObject['result'];
   }
 
-  static Map<String, dynamic> getValue(String jsonRpc2String) {
+  static dynamic getValue(String jsonRpc2String) {
     final dynamic result = getResult(jsonRpc2String);
     // If there's no value it's ok, we return null in that case
-    return result['value'] as Map<String, dynamic>;
+    return result['value'];
   }
 }

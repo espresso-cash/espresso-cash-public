@@ -3,14 +3,12 @@ import 'package:solana_dart/src/types/signature_status.dart';
 
 class SignatureStatuses {
   SignatureStatuses._(dynamic value)
-      : _list = [
-          for (var item in value)
-            item == null ? null : SignatureStatus.fromJson(item)
-        ];
+      : _list = [for (var item in value) SignatureStatus.fromJson(item)];
+
   SignatureStatuses.fromJsonRpcResponseString(String jsonString)
       : this._(JsonRpcResponseObject.getValue(jsonString));
 
-  SignatureStatus operator [](int index) => _list == null ? null : _list[index];
+  SignatureStatus operator [](int index) => _list[index];
   int get length => _list.length;
 
   @override
