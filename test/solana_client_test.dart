@@ -25,10 +25,10 @@ void main() {
     test('Can handle non existent accounts gracefully', () async {
       final AccountInfo accountInfo =
           await solanaClient.getAccountInfo(sourceWallet.address);
-      expect(accountInfo.owner, null);
-      expect(accountInfo.lamports, null);
-      expect(accountInfo.executable, null);
-      expect(accountInfo.rentEpoch, null);
+      expect(accountInfo.owner, '');
+      expect(accountInfo.lamports, 0);
+      expect(accountInfo.executable, false);
+      expect(accountInfo.rentEpoch, 0);
       expect(accountInfo.data, null);
     });
 

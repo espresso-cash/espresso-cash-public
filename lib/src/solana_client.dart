@@ -173,7 +173,7 @@ class SolanaClient {
       final SignatureStatuses statuses =
           await getSignatureStatuses([signature]);
       final SignatureStatus status = statuses[0];
-      if (status != null) {
+      if (status != null && status.confirmationStatus != TxStatus.invalid) {
         if (status.err != null) {
           completer.completeError(status.err);
         } else if (status.confirmationStatus.index >= desiredStatus.index) {

@@ -12,6 +12,14 @@ class SignatureStatus {
 
   factory SignatureStatus.fromJson(Map<String, dynamic> json) {
     TxStatus confirmationStatus = TxStatus.invalid;
+    if (json == null) {
+      return SignatureStatus(
+        slot: 0,
+        confirmations: 0,
+        confirmationStatus: TxStatus.invalid,
+        err: null,
+      );
+    }
     switch (json['confirmationStatus']) {
       case 'processed':
         confirmationStatus = TxStatus.processed;
