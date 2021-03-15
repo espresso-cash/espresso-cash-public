@@ -10,16 +10,15 @@ class TransactionDetails {
     this.transaction,
   });
 
-  factory TransactionDetails.fromJson(Map<String, dynamic> json) {
-    return TransactionDetails(
-      slot: json['slot'],
-      meta: TxMeta.fromJson(json['meta']),
-      transaction: BaseTx.fromJson({
-        ...json['transaction'],
-        "timestamp": json['blockTime'],
-      }),
-    );
-  }
+  factory TransactionDetails.fromJson(Map<String, dynamic> json) =>
+      TransactionDetails(
+        slot: json['slot'] as int,
+        meta: TxMeta.fromJson(json['meta'] as Map<String, dynamic>),
+        transaction: BaseTx.fromJson(<String, dynamic>{
+          ...json['transaction'],
+          'timestamp': json['blockTime'],
+        }),
+      );
 
   factory TransactionDetails.fromJsonRpcResponseString(
           String jsonRpcResponseString) =>
@@ -32,7 +31,6 @@ class TransactionDetails {
   final int blockTime;
   final TxMeta meta;
 
-  String toString() {
-    return '$transaction';
-  }
+  @override
+  String toString() => '$transaction';
 }

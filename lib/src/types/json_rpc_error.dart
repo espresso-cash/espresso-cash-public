@@ -1,16 +1,23 @@
-class JsonRpcError {
-  JsonRpcError(dynamic value) {
-    this._message = value['message'];
-    this._code = value['code'];
-    this._data = value['data'];
-  }
+class JsonRpcError implements Exception {
+  JsonRpcError({this.message, this.code, this.data});
 
-  String toString() {
-    return 'jsonrpc-2.0 error ($_code): $_message\n\t$_data';
-  }
+  factory JsonRpcError.fromJson(Map<String, dynamic> value) => JsonRpcError(
+        message: value['message'] as String,
+        code: value['code'] as int,
+        data: value['data'],
+      );
 
-  String _message;
-  int _code;
+  factory JsonRpcError.fromString(String value) => JsonRpcError(
+        message: value,
+        code: -1,
+        data: null,
+      );
+
+  @override
+  String toString() => 'jsonrpc-2.0 error ($code): $message\n\t$data';
+
+  final String message;
+  final int code;
   // FIXME: data can be structured
-  dynamic _data;
+  dynamic data;
 }

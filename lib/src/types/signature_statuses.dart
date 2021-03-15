@@ -13,6 +13,7 @@ class SignatureStatuses {
   SignatureStatus operator [](int index) => _list == null ? null : _list[index];
   int get length => _list.length;
 
+  @override
   String toString() => '$_list';
 
   final List<SignatureStatus> _list;
