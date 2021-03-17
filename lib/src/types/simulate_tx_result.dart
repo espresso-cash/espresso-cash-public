@@ -10,11 +10,16 @@ class SimulateTxResult {
   factory SimulateTxResult.fromJson(Map<String, dynamic> json) =>
       _$SimulateTxResultFromJson(json);
 
-  factory SimulateTxResult.fromJsonRpcResponseString(
-          String jsonRpcResponseString) =>
-      SimulateTxResult.fromJson(
-          JsonRpcResponseObject.getValue(jsonRpcResponseString));
-
   final dynamic err;
   final List<dynamic> logs;
+}
+
+@JsonSerializable(createToJson: false)
+class SimulateTxResultResponse
+    extends JsonRpcResponse<ValueResponse<SimulateTxResult>> {
+  SimulateTxResultResponse(ValueResponse<SimulateTxResult> result)
+      : super(result: result);
+
+  factory SimulateTxResultResponse.fromJson(Map<String, dynamic> json) =>
+      _$SimulateTxResultResponseFromJson(json);
 }

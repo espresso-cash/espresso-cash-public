@@ -1,16 +1,20 @@
-class JsonRpcError {
-  JsonRpcError(dynamic value) {
-    this._message = value['message'];
-    this._code = value['code'];
-    this._data = value['data'];
-  }
+import 'package:json_annotation/json_annotation.dart';
 
-  String toString() {
-    return 'jsonrpc-2.0 error ($_code): $_message\n\t$_data';
-  }
+part 'json_rpc_error.g.dart';
 
-  String _message;
-  int _code;
+@JsonSerializable(createToJson: false)
+class JsonRpcError extends Error {
+  JsonRpcError(this.message, this.code, this.data);
+
+  factory JsonRpcError.fromJson(Map<String, dynamic> json) =>
+      _$JsonRpcErrorFromJson(json);
+
+  final String message;
+  final int code;
+
   // FIXME: data can be structured
-  dynamic _data;
+  final dynamic data;
+
+  @override
+  String toString() => 'jsonrpc-2.0 error ($code): $message\n\t$data';
 }

@@ -1,20 +1,23 @@
 name: solana_dart
-version: 0.0.5
+version: 0.1.0
 repository: https://github.com/antoineherzog/dart-solana-lib
 description: >-
   Simple library to interact with the Solana blockchain
+
 environment:
   sdk: '>=2.10.0 <3.0.0'
+
 dependencies:
-  test: ^1.15.7
-  http: ^0.12.2
   bip39: ^1.0.3
-  cryptography: ^1.4.1
   convert: ^2.1.1
-  meta: ^1.2.4
+  cryptography: ^1.4.1
+  http: ^0.12.2
   json_annotation: ^3.1.1
+  meta: ^1.2.4
+  test: ^1.15.7
 
 dev_dependencies:
-  json_serializable: ^3.5.1
   build_runner: ^1.11.1
+  json_serializable: ^3.5.1
+  mews_pedantic: ^0.2.0
 

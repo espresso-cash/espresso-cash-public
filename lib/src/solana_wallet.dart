@@ -12,11 +12,11 @@ class SolanaWallet {
   /// [mnemonic] string of 12 words
   factory SolanaWallet.fromMnemonic(String mnemonic) {
     // Create the seed
-    List<int> seedBytes = bip39.mnemonicToSeed(mnemonic);
+    final List<int> seedBytes = bip39.mnemonicToSeed(mnemonic);
     // Create a private key from the seed
-    PrivateKey privateKey = PrivateKey(seedBytes.sublist(0, 32));
+    final PrivateKey privateKey = PrivateKey(seedBytes.sublist(0, 32));
     // Build the key pair
-    KeyPair keyPair = ed25519.newKeyPairFromSeedSync(privateKey);
+    final KeyPair keyPair = ed25519.newKeyPairFromSeedSync(privateKey);
     // Finally, create a new wallet
     return SolanaWallet._fromKeyPair(keyPair);
   }
@@ -24,9 +24,7 @@ class SolanaWallet {
   /// Returns a Future that resolves to the result of signing
   /// [data] with the private key held internally by a given
   /// instance
-  Future<Signature> sign(List<int> data) {
-    return ed25519.sign(data, _keyPair);
-  }
+  Future<Signature> sign(List<int> data) => ed25519.sign(data, _keyPair);
 
   /// The address or public key of this wallet
   final String address;

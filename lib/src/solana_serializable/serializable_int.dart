@@ -8,7 +8,7 @@ class SerializableInt extends Serializable {
 
   @override
   List<int> serialize() {
-    String string = _value.toRadixString(16);
+    final String string = _value.toRadixString(16);
     return hex.decode(string.padLeft(2, '0'));
   }
 }

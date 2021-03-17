@@ -4,7 +4,7 @@ class HttpError extends Error {
   final int _code;
   final String _message;
 
-  String toString() {
-    return 'http status code $_code, the following content\n\n---\n$_message';
-  }
+  @override
+  String toString() =>
+      'http status code $_code, the following content\n\n---\n$_message';
 }

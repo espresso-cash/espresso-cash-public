@@ -4,11 +4,12 @@ import 'package:solana_dart/src/util/encode_int.dart';
 
 class CompactArray<T> extends Serializable {
   CompactArray.fromList(this._items);
+
   final List<T> _items;
 
   @override
   List<int> serialize() {
-    List<int> Function(T) serializeItem = (T value) {
+    final List<int> Function(T) serializeItem = (T value) {
       if (value is Serializable) {
         return value.serialize();
       } else if (T == int) {
@@ -17,11 +18,11 @@ class CompactArray<T> extends Serializable {
         return [];
       }
     };
-    var reducer = (List<int> values, List<int> next) => [...values, ...next];
-    var mapped = List<List<int>>.from(_items.map(serializeItem));
-    Compact_u16 length = Compact_u16(mapped.length);
-    List<int> mappedAndReduced = mapped.reduce(reducer);
-    if (mapped.length == 0) {
+    final reducer = (List<int> values, List<int> next) => [...values, ...next];
+    final mapped = List<List<int>>.from(_items.map<List<int>>(serializeItem));
+    final length = CompactU16(mapped.length);
+    final mappedAndReduced = mapped.reduce(reducer);
+    if (mapped.isEmpty) {
       return length.serialize();
     }
     return [...length.serialize(), ...mappedAndReduced];
