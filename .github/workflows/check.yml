@@ -8,9 +8,15 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      DEVNET_RPC_URL: "http://solana:8899"
+    container:
+      image: google/dart:latest
+    services:
+      solana:
+        image: ookamikb/solana-test-validator:latest
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
       - run: dart pub global activate melos
       - run: melos run check_master

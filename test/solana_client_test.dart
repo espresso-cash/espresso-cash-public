@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip39/bip39.dart';
 import 'package:solana_dart/solana_dart.dart';
 import 'package:solana_dart/src/solana_wallet.dart';
@@ -9,14 +11,15 @@ import 'package:solana_dart/src/types/transaction.dart';
 import 'package:solana_dart/src/types/tx_signature.dart';
 import 'package:test/test.dart';
 
-const String _devnetRpcUrl = 'http://127.0.0.1:8899';
-
 void main() {
+  final devnetRpcUrl =
+      Platform.environment['DEVNET_RPC_URL'] ?? 'http://127.0.0.1:8899';
+
   group('SolanaClient testsuite', () {
     final SolanaWallet targetWallet = SolanaWallet.fromMnemonic(
       generateMnemonic(),
     );
-    final SolanaClient solanaClient = SolanaClient(_devnetRpcUrl);
+    final SolanaClient solanaClient = SolanaClient(devnetRpcUrl);
     final SolanaWallet sourceWallet = SolanaWallet.fromMnemonic(
       generateMnemonic(),
     );

@@ -8,7 +8,8 @@ scripts:
     run: |
       melos run get \
       && melos run format \
-      && melos run analyze
+      && melos run analyze \
+      && melos run test
 
   get: pub get
 
@@ -17,3 +18,5 @@ scripts:
   format: dart format --set-exit-if-changed -o none .
 
   analyze: dart analyze --fatal-infos .
+
+  test: pub run test
