@@ -1,14 +1,11 @@
 import 'dart:io';
 
 import 'package:bip39/bip39.dart';
-import 'package:solana_dart/solana_dart.dart';
-import 'package:solana_dart/src/solana_wallet.dart';
-import 'package:solana_dart/src/types/account_info.dart';
-import 'package:solana_dart/src/types/blockhash.dart';
-import 'package:solana_dart/src/types/signature_status.dart';
-import 'package:solana_dart/src/types/simulate_tx_result.dart';
-import 'package:solana_dart/src/types/transaction.dart';
-import 'package:solana_dart/src/types/tx_signature.dart';
+import 'package:solana/solana_dart.dart';
+import 'package:solana/src/types/blockhash.dart';
+import 'package:solana/src/types/signature_status.dart';
+import 'package:solana/src/types/simulate_tx_result.dart';
+import 'package:solana/src/types/transaction.dart';
 import 'package:test/test.dart';
 
 void main() {

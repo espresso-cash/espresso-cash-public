@@ -1,6 +1,6 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart';
-import 'package:solana_dart/src/base58/base58.dart' as base58;
+import 'package:solana/src/base58/base58.dart' as base58;
 
 /// Signs transactions to be sent to a Solana Cluster
 class SolanaWallet {

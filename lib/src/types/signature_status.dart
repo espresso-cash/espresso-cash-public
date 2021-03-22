@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana_dart/src/types/json_rpc_response_object.dart';
+import 'package:solana/src/types/json_rpc_response_object.dart';
 
 part 'signature_status.g.dart';
 

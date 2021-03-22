@@ -1,25 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:solana_dart/solana_dart.dart';
-import 'package:solana_dart/src/json_rpc_client.dart';
-import 'package:solana_dart/src/solana_serializable/address.dart';
-import 'package:solana_dart/src/solana_serializable/compact_array.dart';
-import 'package:solana_dart/src/solana_serializable/instruction.dart';
-import 'package:solana_dart/src/solana_serializable/message.dart';
-import 'package:solana_dart/src/solana_serializable/message_header.dart';
-import 'package:solana_dart/src/solana_serializable/signature.dart';
-import 'package:solana_dart/src/solana_serializable/transaction.dart';
-import 'package:solana_dart/src/solana_wallet.dart';
-import 'package:solana_dart/src/types/account_info.dart';
-import 'package:solana_dart/src/types/balance.dart';
-import 'package:solana_dart/src/types/blockhash.dart';
-import 'package:solana_dart/src/types/confirmed_signature.dart';
-import 'package:solana_dart/src/types/signature_status.dart';
-import 'package:solana_dart/src/types/simulate_tx_result.dart';
-import 'package:solana_dart/src/types/transaction.dart';
-import 'package:solana_dart/src/types/tx_signature.dart';
-import 'package:solana_dart/src/util/encode_int.dart';
+import 'package:solana/solana_dart.dart';
+import 'package:solana/src/json_rpc_client.dart';
+import 'package:solana/src/solana_serializable/address.dart';
+import 'package:solana/src/solana_serializable/compact_array.dart';
+import 'package:solana/src/solana_serializable/instruction.dart';
+import 'package:solana/src/solana_serializable/message.dart';
+import 'package:solana/src/solana_serializable/message_header.dart';
+import 'package:solana/src/solana_serializable/signature.dart';
+import 'package:solana/src/solana_serializable/transaction.dart';
+import 'package:solana/src/solana_wallet.dart';
+import 'package:solana/src/types/account_info.dart';
+import 'package:solana/src/types/balance.dart';
+import 'package:solana/src/types/blockhash.dart';
+import 'package:solana/src/types/confirmed_signature.dart';
+import 'package:solana/src/types/signature_status.dart';
+import 'package:solana/src/types/simulate_tx_result.dart';
+import 'package:solana/src/types/transaction.dart';
+import 'package:solana/src/types/tx_signature.dart';
+import 'package:solana/src/util/encode_int.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API

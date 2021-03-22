@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:solana_dart/src/types/http_error.dart';
-import 'package:solana_dart/src/types/json_rpc_error.dart';
+import 'package:solana/src/types/http_error.dart';
+import 'package:solana/src/types/json_rpc_error.dart';
 
 class JsonRpcClient {
   JsonRpcClient(this._url);
