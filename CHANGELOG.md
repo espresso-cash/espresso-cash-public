@@ -1,3 +1,7 @@
+## 0.3.1
+
+ - Bump "solana" to `0.3.1`.
+
 ## 0.3.0
 
 > Note: This release has breaking changes.
