@@ -8,7 +8,7 @@ enum TxStatus { processed, confirmed, finalized }
 @JsonSerializable(createToJson: false)
 class SignatureStatus {
   SignatureStatus({
-    this.slot,
+    required this.slot,
     this.confirmations,
     this.err,
     this.confirmationStatus,
@@ -18,9 +18,9 @@ class SignatureStatus {
       _$SignatureStatusFromJson(json);
 
   final int slot;
-  final int confirmations;
-  final dynamic err;
-  final TxStatus confirmationStatus;
+  final int? confirmations;
+  final Object? err;
+  final TxStatus? confirmationStatus;
 
   @override
   String toString() => confirmationStatus.toString();
@@ -28,8 +28,8 @@ class SignatureStatus {
 
 @JsonSerializable(createToJson: false)
 class SignatureStatusesResponse
-    extends JsonRpcResponse<ValueResponse<Iterable<SignatureStatus>>> {
-  SignatureStatusesResponse(ValueResponse<Iterable<SignatureStatus>> result)
+    extends JsonRpcResponse<ValueResponse<Iterable<SignatureStatus?>>> {
+  SignatureStatusesResponse(ValueResponse<Iterable<SignatureStatus?>> result)
       : super(result: result);
 
   factory SignatureStatusesResponse.fromJson(Map<String, dynamic> json) =>

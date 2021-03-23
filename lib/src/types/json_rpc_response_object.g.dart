@@ -8,7 +8,7 @@ part of 'json_rpc_response_object.dart';
 
 ValueResponse<T> _$ValueResponseFromJson<T>(
   Map<String, dynamic> json,
-  T Function(Object json) fromJsonT,
+  T Function(Object? json) fromJsonT,
 ) {
   return ValueResponse<T>(
     value: fromJsonT(json['value']),

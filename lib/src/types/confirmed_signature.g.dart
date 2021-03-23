@@ -11,16 +11,15 @@ ConfirmedSignature _$ConfirmedSignatureFromJson(Map<String, dynamic> json) {
     signature: json['signature'] as String,
     slot: json['slot'] as int,
     err: json['err'],
-    memo: json['memo'] as String,
-    blockTime: json['blockTime'] as int,
+    memo: json['memo'] as String?,
+    blockTime: json['blockTime'] as int?,
   );
 }
 
 ConfirmedSignaturesResponse _$ConfirmedSignaturesResponseFromJson(
     Map<String, dynamic> json) {
   return ConfirmedSignaturesResponse(
-    (json['result'] as List)?.map((e) => e == null
-        ? null
-        : ConfirmedSignature.fromJson(e as Map<String, dynamic>)),
+    (json['result'] as List<dynamic>)
+        .map((e) => ConfirmedSignature.fromJson(e as Map<String, dynamic>)),
   );
 }

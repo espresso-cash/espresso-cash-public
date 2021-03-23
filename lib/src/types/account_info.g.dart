@@ -18,12 +18,7 @@ AccountInfo _$AccountInfoFromJson(Map<String, dynamic> json) {
 
 AccountInfoResponse _$AccountInfoResponseFromJson(Map<String, dynamic> json) {
   return AccountInfoResponse(
-    json['result'] == null
-        ? null
-        : ValueResponse.fromJson(
-            json['result'] as Map<String, dynamic>,
-            (value) => value == null
-                ? null
-                : AccountInfo.fromJson(value as Map<String, dynamic>)),
+    ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
+        (value) => AccountInfo.fromJson(value as Map<String, dynamic>)),
   );
 }

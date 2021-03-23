@@ -1,11 +1,7 @@
 import 'dart:io';
 
 import 'package:bip39/bip39.dart';
-import 'package:solana/solana_dart.dart';
-import 'package:solana/src/types/blockhash.dart';
-import 'package:solana/src/types/signature_status.dart';
-import 'package:solana/src/types/simulate_tx_result.dart';
-import 'package:solana/src/types/transaction.dart';
+import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -13,17 +9,18 @@ void main() {
       Platform.environment['DEVNET_RPC_URL'] ?? 'http://127.0.0.1:8899';
 
   group('SolanaClient testsuite', () {
-    final SolanaWallet targetWallet = SolanaWallet.fromMnemonic(
-      generateMnemonic(),
-    );
     final SolanaClient solanaClient = SolanaClient(devnetRpcUrl);
-    final SolanaWallet sourceWallet = SolanaWallet.fromMnemonic(
-      generateMnemonic(),
-    );
+    late SolanaWallet targetWallet;
+    late SolanaWallet sourceWallet;
     int currentBalance = 0;
 
+    setUpAll(() async {
+      targetWallet = await SolanaWallet.fromMnemonic(generateMnemonic());
+      sourceWallet = await SolanaWallet.fromMnemonic(generateMnemonic());
+    });
+
     test('Can call requestAirdrop and add SOL to an account', () async {
-      final int addedBalance = 100 * lamportsPerSol;
+      const int addedBalance = 100 * lamportsPerSol;
       final TxSignature signature = await solanaClient.requestAirdrop(
         sourceWallet.address,
         addedBalance,
@@ -93,7 +90,7 @@ void main() {
     test('Can list recent transactions', () async {
       final txs = await solanaClient.getTransactionsList(sourceWallet.address);
       expect(txs, isNot(null));
-      txs.forEach((TransactionResponse tx) => expect(tx, isNot(null)));
+      txs.forEach((ConfirmedTransaction? tx) => expect(tx, isNot(null)));
       expect(txs.length, greaterThan(0));
     });
   });

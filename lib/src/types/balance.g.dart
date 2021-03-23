@@ -8,9 +8,7 @@ part of 'balance.dart';
 
 BalanceResponse _$BalanceResponseFromJson(Map<String, dynamic> json) {
   return BalanceResponse(
-    json['result'] == null
-        ? null
-        : ValueResponse.fromJson(
-            json['result'] as Map<String, dynamic>, (value) => value as int),
+    ValueResponse.fromJson(
+        json['result'] as Map<String, dynamic>, (value) => value as int),
   );
 }
