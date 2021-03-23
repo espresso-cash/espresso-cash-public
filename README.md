@@ -7,6 +7,8 @@ Currently, it supports
 - Getting the balance in SOL of an address
 - Transferring SOL
 - Listing all the transactions for a given address
+- Generate a keypair from a 12 word mnemonic seed
+- Sign transactions with the `SolanaWallet` object
 
 ### Our pub.dev package
 We have [the package published here](https://pub.dev/packages/solana) if you like to use it in your project
