@@ -8,7 +8,7 @@ environment:
   sdk: '>=2.10.0 <3.0.0'
 
 dependencies:
-  bip39: ^1.0.3
+  bip39: '>=1.0.3 <1.0.6'
   convert: ^2.1.1
   cryptography: ^1.4.1
   http: ^0.12.2

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:solana/solana_dart.dart';
+import 'package:solana/solana.dart';
 import 'package:solana/src/json_rpc_client.dart';
 import 'package:solana/src/solana_serializable/address.dart';
 import 'package:solana/src/solana_serializable/compact_array.dart';

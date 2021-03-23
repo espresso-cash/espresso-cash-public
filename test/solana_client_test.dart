@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:bip39/bip39.dart';
-import 'package:solana/solana_dart.dart';
+import 'package:solana/solana.dart';
 import 'package:solana/src/types/blockhash.dart';
 import 'package:solana/src/types/signature_status.dart';
 import 'package:solana/src/types/simulate_tx_result.dart';
