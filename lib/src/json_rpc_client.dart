@@ -13,7 +13,7 @@ class JsonRpcClient {
   /// Calls the [method] jsonrpc-2.0 method with [params] parameters
   Future<Map<String, dynamic>> request(
     String method, {
-    List<dynamic> params,
+    List<dynamic>? params,
   }) async {
     final request = <String, dynamic>{
       'jsonrpc': '2.0',

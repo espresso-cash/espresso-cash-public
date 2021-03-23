@@ -6,8 +6,8 @@ part 'confirmed_signature.g.dart';
 @JsonSerializable(createToJson: false)
 class ConfirmedSignature {
   ConfirmedSignature({
-    this.signature,
-    this.slot,
+    required this.signature,
+    required this.slot,
     this.err,
     this.memo,
     this.blockTime,
@@ -18,9 +18,9 @@ class ConfirmedSignature {
 
   final String signature;
   final int slot;
-  final dynamic err;
-  final String memo;
-  final int blockTime;
+  final Object? err;
+  final String? memo;
+  final int? blockTime;
 
   @override
   String toString() => signature;

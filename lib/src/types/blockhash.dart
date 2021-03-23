@@ -7,8 +7,8 @@ part 'blockhash.g.dart';
 @JsonSerializable(createToJson: false)
 class Blockhash {
   Blockhash({
-    this.feeCalculator,
-    this.blockhash,
+    required this.feeCalculator,
+    required this.blockhash,
   });
 
   factory Blockhash.fromJson(Map<String, dynamic> json) =>

@@ -10,8 +10,8 @@ class SimulateTxResult {
   factory SimulateTxResult.fromJson(Map<String, dynamic> json) =>
       _$SimulateTxResultFromJson(json);
 
-  final dynamic err;
-  final List<dynamic> logs;
+  final Object? err;
+  final List<dynamic>? logs;
 }
 
 @JsonSerializable(createToJson: false)

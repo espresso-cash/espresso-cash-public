@@ -6,10 +6,10 @@ part 'account_info.g.dart';
 @JsonSerializable(createToJson: false)
 class AccountInfo {
   AccountInfo({
-    this.owner,
-    this.lamports,
-    this.executable,
-    this.rentEpoch,
+    required this.owner,
+    required this.lamports,
+    required this.executable,
+    required this.rentEpoch,
     this.data,
   });
 

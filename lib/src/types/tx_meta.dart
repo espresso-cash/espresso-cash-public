@@ -6,12 +6,12 @@ part 'tx_meta.g.dart';
 class TxMeta {
   TxMeta({
     this.err,
-    this.fee,
+    required this.fee,
   });
 
   factory TxMeta.fromJson(Map<String, dynamic> json) => _$TxMetaFromJson(json);
 
-  final dynamic err;
+  final Object? err;
   final int fee;
 
 // TODO(KB): add other fields

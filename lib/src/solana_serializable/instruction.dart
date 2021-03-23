@@ -1,13 +1,11 @@
-import 'package:meta/meta.dart';
-import 'package:solana/src/solana_serializable/serializable.dart';
-import 'package:solana/src/solana_serializable/serializable_int.dart';
 import 'package:solana/src/solana_serializable/compact_array.dart';
+import 'package:solana/src/solana_serializable/serializable.dart';
 
 class Instruction extends Serializable {
   Instruction({
-    @required this.programIdIndex,
-    @required this.accountIndices,
-    @required this.data,
+    required this.programIdIndex,
+    required this.accountIndices,
+    required this.data,
   });
 
   final int programIdIndex;
