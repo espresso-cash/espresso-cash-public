@@ -31,8 +31,6 @@ solana-test-validator
 
 You can also create an image from [Dockerfile](Dockerfile) and run it.
 
-For more information view the library [documentation](https://pub.dev/documentation/solana_dart/latest/)
-
 ## Next steps
 
 We are actively working on the library and adding features to as well as fixing bugs.
