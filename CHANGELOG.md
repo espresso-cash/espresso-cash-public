@@ -1,3 +1,11 @@
+## 0.4.0
+
+> Note: This release has breaking changes.
+
+ - **CHORE**: Update .gitignore.
+ - **CHORE**: Fix warnings.
+ - **BREAKING** **FEAT**: Migrate to nullsafety.
+
 ## 0.3.1
 
  - Bump "solana" to `0.3.1`.
