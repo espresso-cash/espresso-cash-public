@@ -1,5 +1,19 @@
 # Dart library for Solana
 
+This is the Solana library for dart using the [JSON RPC API](https://docs.solana.com/apps/jsonrpc-api)
+
+Currently, it supports
+
+- Getting the balance in SOL of an address
+- Transferring SOL
+- Listing all the transactions for a given address
+
+### Our pub.dev package
+We have [the package published here](https://pub.dev/packages/solana) if you like to use it in your project
+
+### Documentation
+You can find the documentation for the existing API [right here](https://pub.dev/documentation/solana/latest/)
+
 ## Publishing new version
 
 - Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
@@ -17,4 +31,8 @@ solana-test-validator
 
 You can also create an image from [Dockerfile](Dockerfile) and run it.
 
-For more information view the library [documentation](https://pub.dev/documentation/solana_dart/latest/)
+## Next steps
+
+We are actively working on the library and adding features to as well as fixing bugs.
+
+The very next step is to build a layer to use SPL tokens as a `SolanaClient`
