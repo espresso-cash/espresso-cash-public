@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana_dart/src/types/tx_meta.dart';
+import 'package:solana/src/types/tx_meta.dart';
 
 part 'transaction.g.dart';
 

@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
-import 'package:solana_dart/src/solana_serializable/serializable.dart';
-import 'package:solana_dart/src/solana_serializable/serializable_int.dart';
-import 'package:solana_dart/src/solana_serializable/compact_array.dart';
+import 'package:solana/src/solana_serializable/serializable.dart';
+import 'package:solana/src/solana_serializable/serializable_int.dart';
+import 'package:solana/src/solana_serializable/compact_array.dart';
 
 class Instruction extends Serializable {
   Instruction({

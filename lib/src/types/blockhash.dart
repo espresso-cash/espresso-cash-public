@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana_dart/src/types/fee_calculator.dart';
-import 'package:solana_dart/src/types/json_rpc_response_object.dart';
+import 'package:solana/src/types/fee_calculator.dart';
+import 'package:solana/src/types/json_rpc_response_object.dart';
 
 part 'blockhash.g.dart';
 

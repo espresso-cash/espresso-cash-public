@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:solana_dart/src/solana_serializable/serializable.dart';
+import 'package:solana/src/solana_serializable/serializable.dart';
 
 class MessageHeader extends Serializable {
   MessageHeader(

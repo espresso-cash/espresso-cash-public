@@ -1,5 +1,5 @@
-import 'package:solana_dart/src/base58/base58.dart' as base58;
-import 'package:solana_dart/src/solana_serializable/serializable.dart';
+import 'package:solana/src/base58/base58.dart' as base58;
+import 'package:solana/src/solana_serializable/serializable.dart';
 
 class Address extends Serializable {
   Address.from(this._address);

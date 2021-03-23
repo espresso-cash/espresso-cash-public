@@ -1,3 +1,9 @@
+## 0.3.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **CHORE**: Rename library to solana.
+
 ## 0.2.0
 
  - Bump "solana_dart" to `0.2.0`.
