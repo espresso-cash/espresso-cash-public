@@ -20,7 +20,7 @@ void main() {
     });
 
     test('Can call requestAirdrop and add SOL to an account', () async {
-      final int addedBalance = 100 * lamportsPerSol;
+      const int addedBalance = 100 * lamportsPerSol;
       final TxSignature signature = await solanaClient.requestAirdrop(
         sourceWallet.address,
         addedBalance,
