@@ -20,6 +20,7 @@ class ConfirmedTransaction {
     this.meta,
     required this.slot,
     required this.blockTime,
+    required this.transaction,
   });
 
   factory ConfirmedTransaction.fromJson(Map<String, dynamic> json) =>
@@ -28,6 +29,7 @@ class ConfirmedTransaction {
   final TxMeta? meta;
   final int slot;
   final int blockTime;
+  final Transaction transaction;
 }
 
 @JsonSerializable(createToJson: false)
