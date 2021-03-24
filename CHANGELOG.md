@@ -1,3 +1,7 @@
+## 0.4.1
+
+ - **FEAT**: Update ConfirmedTransaction model.
+
 ## 0.4.0+1
 
  - **REFACTOR**: Fix analyzer issue.
