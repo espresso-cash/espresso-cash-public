@@ -1,3 +1,7 @@
+## 0.4.2+1
+
+ - **FIX**: Fix instruction parsing.
+
 ## 0.4.2
 
  - **FEAT**: Add UnknownTx.
