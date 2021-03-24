@@ -60,9 +60,13 @@ abstract class TxInstruction {
           json['parsed']['info'] as Map<String, dynamic>,
         );
       default:
-        throw FallThroughError();
+        return const UnknownTx();
     }
   }
+}
+
+class UnknownTx implements TxInstruction {
+  const UnknownTx();
 }
 
 @JsonSerializable(createToJson: false)
