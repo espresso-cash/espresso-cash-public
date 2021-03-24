@@ -1,5 +1,5 @@
 name: solana
-version: 0.4.1
+version: 0.4.2
 repository: https://github.com/antoineherzog/dart-solana-lib
 description: >-
   Simple library to interact with the Solana blockchain

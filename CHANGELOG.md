@@ -1,3 +1,7 @@
+## 0.4.2
+
+ - **FEAT**: Add UnknownTx.
+
 ## 0.4.1
 
  - **FEAT**: Update ConfirmedTransaction model.
