@@ -54,7 +54,7 @@ class TxMessage {
 
 abstract class TxInstruction {
   factory TxInstruction.fromJson(Map<String, dynamic> json) {
-    switch (json['type'] as String) {
+    switch (json['parsed']['type'] as String) {
       case 'transfer':
         return TransferTx.fromJson(
           json['parsed']['info'] as Map<String, dynamic>,
