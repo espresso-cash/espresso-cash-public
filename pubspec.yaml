@@ -13,11 +13,10 @@ dependencies:
   cryptography: ^2.0.1
   http: ^0.13.1
   json_annotation: ^4.0.1
-  meta: ^1.2.4
-  test: ^1.16.8
 
 dev_dependencies:
   build_runner: ^1.11.1
   json_serializable: ^4.1.0
   mews_pedantic: ^0.2.0
+  test: ^1.16.8
 
