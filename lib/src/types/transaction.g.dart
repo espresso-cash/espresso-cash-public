@@ -22,6 +22,8 @@ ConfirmedTransaction _$ConfirmedTransactionFromJson(Map<String, dynamic> json) {
         : TxMeta.fromJson(json['meta'] as Map<String, dynamic>),
     slot: json['slot'] as int,
     blockTime: json['blockTime'] as int,
+    transaction:
+        Transaction.fromJson(json['transaction'] as Map<String, dynamic>),
   );
 }
 

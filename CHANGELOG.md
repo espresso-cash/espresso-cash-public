@@ -1,3 +1,20 @@
+## 0.4.2+1
+
+ - **FIX**: Fix instruction parsing.
+
+## 0.4.2
+
+ - **FEAT**: Add UnknownTx.
+
+## 0.4.1
+
+ - **FEAT**: Update ConfirmedTransaction model.
+
+## 0.4.0+1
+
+ - **REFACTOR**: Fix analyzer issue.
+ - **CHORE**: Update dependencies.
+
 ## 0.4.0
 
 > Note: This release has breaking changes.

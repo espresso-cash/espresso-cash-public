@@ -20,6 +20,7 @@ class ConfirmedTransaction {
     this.meta,
     required this.slot,
     required this.blockTime,
+    required this.transaction,
   });
 
   factory ConfirmedTransaction.fromJson(Map<String, dynamic> json) =>
@@ -28,6 +29,7 @@ class ConfirmedTransaction {
   final TxMeta? meta;
   final int slot;
   final int blockTime;
+  final Transaction transaction;
 }
 
 @JsonSerializable(createToJson: false)
@@ -52,15 +54,19 @@ class TxMessage {
 
 abstract class TxInstruction {
   factory TxInstruction.fromJson(Map<String, dynamic> json) {
-    switch (json['type'] as String) {
+    switch (json['parsed']['type'] as String) {
       case 'transfer':
         return TransferTx.fromJson(
           json['parsed']['info'] as Map<String, dynamic>,
         );
       default:
-        throw FallThroughError();
+        return const UnknownTx();
     }
   }
+}
+
+class UnknownTx implements TxInstruction {
+  const UnknownTx();
 }
 
 @JsonSerializable(createToJson: false)
