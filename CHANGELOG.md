@@ -1,3 +1,9 @@
+## 0.5.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FIX**: Update errors base classes.
+
 ## 0.4.2+1
 
  - **FIX**: Fix instruction parsing.
