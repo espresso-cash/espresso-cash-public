@@ -1,4 +1,4 @@
-class HttpError extends Error {
+class HttpError implements Exception {
   HttpError(this._code, this._message);
 
   final int _code;
