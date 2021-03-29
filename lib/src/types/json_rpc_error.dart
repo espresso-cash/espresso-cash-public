@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'json_rpc_error.g.dart';
 
 @JsonSerializable(createToJson: false)
-class JsonRpcError extends Error {
+class JsonRpcError implements Exception {
   JsonRpcError(this.message, this.code, this.data);
 
   factory JsonRpcError.fromJson(Map<String, dynamic> json) =>
