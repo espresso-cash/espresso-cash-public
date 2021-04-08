@@ -270,10 +270,8 @@ const List<int> _reverseMap = [
 String encode(List<int> bytes) {
   String encoded = '';
   if (bytes.isEmpty) return encoded;
-
   final zeroes = bytes.takeWhile((v) => v == 0).length;
   int length = 0;
-
   // Compute final size
   final size = (bytes.length - zeroes) * 138 ~/ 100 + 1;
   // Create temporary storage

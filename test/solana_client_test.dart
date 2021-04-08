@@ -16,7 +16,10 @@ void main() {
 
     setUpAll(() async {
       targetWallet = await SolanaWallet.fromMnemonic(generateMnemonic());
-      sourceWallet = await SolanaWallet.fromMnemonic(generateMnemonic());
+      sourceWallet = await SolanaWallet.fromMnemonic(
+        generateMnemonic(),
+        account: 1,
+      );
     });
 
     test('Can call requestAirdrop and add SOL to an account', () async {
