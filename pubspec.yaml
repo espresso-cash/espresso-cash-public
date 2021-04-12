@@ -11,6 +11,7 @@ dependencies:
   bip39: ^1.0.6
   convert: ^3.0.0
   cryptography: ^2.0.1
+  ed25519_hd_key: ^2.0.0
   http: ^0.13.1
   json_annotation: ^4.0.1
 
