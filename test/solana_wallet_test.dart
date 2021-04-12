@@ -11,7 +11,7 @@ void main() {
       final wallet = await SolanaWallet.fromMnemonic(mnemonic);
       expect(wallet.address, 'GLwos8Rrtjqxm9JThToeZmj5D68dnnMn7tdjHNn4Urom');
     });
-    test('Default wallet has the same addess as zeroth account', () async {
+    test('Default wallet has the same address as zeroth account', () async {
       final wallet = await SolanaWallet.fromMnemonic(mnemonic, account: 0);
       expect(wallet.address, 'GLwos8Rrtjqxm9JThToeZmj5D68dnnMn7tdjHNn4Urom');
     });

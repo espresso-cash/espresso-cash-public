@@ -11,10 +11,13 @@ class SolanaWallet {
   });
 
   /// Creates and initializes a new SolanaWallet for the given bip39
-  /// [mnemonic] string of 12 words
+  /// [mnemonic] string of 12 words.
+  ///
+  /// Multiple accounts can be attached to the same seed by using the [account]
+  /// parameter as index
   static Future<SolanaWallet> fromMnemonic(
     String mnemonic, {
-    int? account,
+    int account = 0,
   }) async {
     // Create the seed
     final List<int> seedBytes = bip39.mnemonicToSeed(mnemonic);
@@ -34,12 +37,13 @@ class SolanaWallet {
   /// Returns a Future that resolves to the result of signing
   /// [data] with the private key held internally by a given
   /// instance
-  Future<Signature> sign(List<int> data) async =>
+  Future<Signature> sign(List<int> data) =>
       _ed25519.sign(data, keyPair: _keyPair);
 
-  /// The address or public key of this wallet
   static final _ed25519 = Ed25519();
   final KeyPair _keyPair;
+
+  /// The address or public key of this wallet
   final String address;
 
   static String _getHDPath(int account) => "m/44'/501'/${account - 1}'";

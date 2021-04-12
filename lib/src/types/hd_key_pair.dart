@@ -21,12 +21,10 @@ class HDKeyPair implements SimpleKeyPair {
   final List<int> _publicKey;
 
   @override
-  Future<SimpleKeyPairData> extract() async => Future<SimpleKeyPairData>.value(
-        SimpleKeyPairData(
-          _private.key,
-          publicKey: await extractPublicKey(),
-          type: KeyPairType.ed25519,
-        ),
+  Future<SimpleKeyPairData> extract() async => SimpleKeyPairData(
+        _private.key,
+        publicKey: await extractPublicKey(),
+        type: KeyPairType.ed25519,
       );
 
   @override
