@@ -9,6 +9,7 @@ export 'src/types/simulate_tx_result.dart' show SimulateTxResult;
 export 'src/types/transaction.dart' hide ConfirmedTransactionResponse;
 export 'src/types/tx_meta.dart' show TxMeta;
 export 'src/types/tx_signature.dart' show TxSignature;
+export 'src/util/is_valid_address.dart' show isValidAddress;
 
 const int lamportsPerSol = 1000000000;
 const String solanaSystemProgramID = '11111111111111111111111111111111';
