@@ -29,23 +29,21 @@ final List<List<String>> _testVector = [
 ];
 
 void main() {
-  group('Base58 encoding tests', () {
-    test('base58 implementation correctly encodes', () {
-      for (final item in _testVector) {
-        final source = hex.decode(item[0]);
-        final target = item[1];
+  test('base58 implementation correctly encodes', () {
+    for (final item in _testVector) {
+      final source = hex.decode(item[0]);
+      final target = item[1];
 
-        expect(base58.encode(source), target);
-      }
-    });
+      expect(base58.encode(source), target);
+    }
+  });
 
-    test('base58 implementation correctly decodes', () {
-      for (final item in _testVector) {
-        final source = item[1];
-        final target = item[0];
+  test('base58 implementation correctly decodes', () {
+    for (final item in _testVector) {
+      final source = item[1];
+      final target = item[0];
 
-        expect(hex.encode(base58.decode(source)), target);
-      }
-    });
+      expect(hex.encode(base58.decode(source)), target);
+    }
   });
 }
