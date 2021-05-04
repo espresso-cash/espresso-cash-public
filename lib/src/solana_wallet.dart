@@ -81,15 +81,13 @@ class SolanaWallet {
     required String destination,
     required int lamports,
     required Blockhash recentBlockhash,
-  }) {
-    final transferTx = TransferTx(
-      source: address,
-      destination: destination,
-      lamports: lamports,
-    );
-
-    return signMessage(
-      transferTx.compile(recentBlockhash),
-    );
-  }
+  }) =>
+      signMessage(
+        Message.transfer(
+          source: address,
+          destination: destination,
+          lamports: lamports,
+          recentBlockhash: recentBlockhash,
+        ),
+      );
 }

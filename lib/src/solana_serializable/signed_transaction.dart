@@ -10,8 +10,8 @@ class SignedTx extends Serializable {
     required this.message,
   });
 
-  late final CompactArray<Signature> signatures;
-  late final Message message;
+  final CompactArray<Signature> signatures;
+  final Message message;
 
   @override
   List<int> serialize() => [
