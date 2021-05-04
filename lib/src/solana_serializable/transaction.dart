@@ -1,6 +1,6 @@
 import 'package:solana/src/solana_serializable/compact_array.dart';
-import 'package:solana/src/solana_serializable/serializable.dart';
 import 'package:solana/src/solana_serializable/signature.dart';
+import 'package:solana/src/solana_serializable/solana_serializable.dart';
 
 import 'message.dart';
 

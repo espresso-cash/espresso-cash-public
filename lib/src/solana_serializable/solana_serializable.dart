@@ -1,3 +1,5 @@
+library solana_serializable;
+
 import 'package:convert/convert.dart';
 
 export 'address.dart';

@@ -3,7 +3,7 @@ import 'package:solana/src/solana_serializable/address.dart';
 import 'package:solana/src/solana_serializable/compact_array.dart';
 import 'package:solana/src/solana_serializable/instruction.dart';
 import 'package:solana/src/solana_serializable/message_header.dart';
-import 'package:solana/src/solana_serializable/serializable.dart';
+import 'package:solana/src/solana_serializable/solana_serializable.dart';
 
 class Message extends Serializable {
   Message({
