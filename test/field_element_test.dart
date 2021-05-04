@@ -167,7 +167,7 @@ void main() {
   });
 
   test('a + a equals a * 2', () {
-    FieldElement one = FieldElement.one;
+    final FieldElement one = FieldElement.one;
     expect(a.add(a), a.multiply(one.add(one)));
   });
 
