@@ -167,7 +167,7 @@ void main() {
   });
 
   test('a + a equals a * 2', () {
-    final FieldElement one = FieldElement.one;
+    const FieldElement one = FieldElement.one;
     expect(a.add(a), a.multiply(one.add(one)));
   });
 
@@ -184,9 +184,8 @@ void main() {
   });
 
   test('field element sqrt ratio m1', () {
-    final FieldElement zero = FieldElement.zero;
-    final FieldElement one = FieldElement.one;
-    final FieldElement i = sqrtM1;
+    const FieldElement zero = FieldElement.zero;
+    const FieldElement one = FieldElement.one;
     final FieldElement two = one.add(one); // 2 is non square mod p.
     final FieldElement four = two.add(two); // 4 is square mod p.
     SqrtRatioM1Result sqrt;
@@ -205,7 +204,7 @@ void main() {
     // 2/1 is non square, so we expect (0, sqrt(i*2))
     sqrt = FieldElement.sqrtRatioM1(two, one);
     expect(sqrt.wasSquare, 0);
-    expect(sqrt.result.square(), two.multiply(i));
+    expect(sqrt.result.square(), two.multiply(sqrtM1));
     expect(sqrt.result.isNegative(), 0);
 
     // 4/1 is square, so we expect (1, sqrt(4))
