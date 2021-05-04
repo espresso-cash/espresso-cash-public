@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/solana_serializable/signed_transaction.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -65,22 +66,25 @@ void main() {
 
     test('Can simulate a transfer', () async {
       const int transferredAmount = 7500;
-      final SimulateTxResult transferResult =
-          await solanaClient.simulateTransfer(
-        sourceWallet,
-        targetWallet.address,
-        transferredAmount,
+      final SignedTx signedTx = await sourceWallet.buildAndSignTransferTx(
+        destination: targetWallet.address,
+        lamports: transferredAmount,
+        recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
+      final SimulateTxResult transferResult =
+          await solanaClient.simulateTransaction(signedTx);
       expect(transferResult.err, null);
     });
 
     test('Can transfer tokens', () async {
       const int transferredAmount = 7500;
-      final TxSignature signature = await solanaClient.transfer(
-        sourceWallet,
-        targetWallet.address,
-        transferredAmount,
+      final SignedTx signedTx = await sourceWallet.buildAndSignTransferTx(
+        destination: targetWallet.address,
+        lamports: transferredAmount,
+        recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
+      final TxSignature signature =
+          await solanaClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
       await solanaClient.waitForSignatureStatus(
         signature,

@@ -9,7 +9,7 @@ export 'instruction.dart';
 export 'message.dart';
 export 'message_header.dart';
 export 'signature.dart';
-export 'transaction.dart';
+export 'signed_transaction.dart';
 
 // ignore: one_member_abstracts
 abstract class Serializable {

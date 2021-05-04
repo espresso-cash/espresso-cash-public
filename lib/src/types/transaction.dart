@@ -1,6 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/solana.dart';
+import 'package:solana/src/solana_serializable/solana_serializable.dart';
+import 'package:solana/src/types/blockhash.dart';
 import 'package:solana/src/types/json_rpc_response_object.dart';
 import 'package:solana/src/types/tx_meta.dart';
+import 'package:solana/src/util/solana_int_encoder.dart';
 
 part 'transaction.g.dart';
 
@@ -83,4 +87,29 @@ class TransferTx implements TxInstruction {
   final String source;
   final String destination;
   final int lamports;
+
+  Message compile(Blockhash recentBlockhash) {
+    final instruction = Instruction(
+      programIdIndex: 2,
+      accountIndices: CompactArray.fromList([0, 1]),
+      data: CompactArray.fromList(
+        [
+          ...2.toSolanaBytes(32),
+          ...lamports.toSolanaBytes(64),
+        ],
+      ),
+    );
+
+    final message = Message(
+      header: MessageHeader(1, 0, 1),
+      accounts: CompactArray.fromList([
+        Address.from(source),
+        Address.from(destination),
+        Address.from(solanaSystemProgramID),
+      ]),
+      recentBlockhash: recentBlockhash.blockhash,
+      instructions: CompactArray.fromList([instruction]),
+    );
+    return message;
+  }
 }

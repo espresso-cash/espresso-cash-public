@@ -4,14 +4,14 @@ import 'package:solana/src/solana_serializable/solana_serializable.dart';
 
 import 'message.dart';
 
-class Transaction extends Serializable {
-  Transaction({
+class SignedTx extends Serializable {
+  SignedTx({
     required this.signatures,
     required this.message,
   });
 
-  final CompactArray<Signature> signatures;
-  final Message message;
+  late final CompactArray<Signature> signatures;
+  late final Message message;
 
   @override
   List<int> serialize() => [
