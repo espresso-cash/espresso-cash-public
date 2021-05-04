@@ -34,7 +34,7 @@ class EdwardsPoint {
 
   EdwardsPoint multiplyByPow2(int k) {
     if (k <= 0) {
-      throw Exception('Exponent must be positive and non-zero');
+      throw const FormatException('exponent must be positive and non-zero');
     }
     ProjectivePoint s = toProjective();
     for (int i = 0; i < k - 1; i++) {
@@ -44,10 +44,9 @@ class EdwardsPoint {
     return s.dbl().toExtended();
   }
 
-  bool isIdentity() => constantTimeEqual(EdwardsPoint.identity) == 1;
+  bool isIdentity() => fastEqual(EdwardsPoint.identity) == 1;
 
   bool isSmallOrder() => multiplyByCofactor().isIdentity();
 
-  int constantTimeEqual(EdwardsPoint other) =>
-      compress().constantTimeEqual(other.compress());
+  int fastEqual(EdwardsPoint other) => compress().fastEqual(other.compress());
 }

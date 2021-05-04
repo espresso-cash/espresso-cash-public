@@ -1,16 +1,8 @@
 import 'package:solana/src/edwards25519/extensions.dart';
 
 const FieldElement sqrtM1 = FieldElement._fromConstList([
-  -32595792,
-  -7943725,
-  9377950,
-  3500415,
-  12389472,
-  -272473,
-  -25146209,
-  -2005654,
-  326686,
-  11406482,
+  -32595792, -7943725, 9377950, 3500415, 12389472, //
+  -272473, -25146209, -2005654, 326686, 11406482,
 ]);
 
 class SqrtRatioM1Result {
@@ -22,8 +14,8 @@ class SqrtRatioM1Result {
 
 class FieldElement {
   FieldElement(this._t) {
-    if (_t.length < 10) {
-      throw Exception(
+    if (_t.length != 10) {
+      throw FormatException(
         'cannot create a `FieldElement\' '
         'from a byte array of length ${_t.length}, it MUST be 10',
       );
@@ -228,12 +220,12 @@ class FieldElement {
 
   @override
   bool operator ==(Object other) =>
-      other is FieldElement && constantTimeEqual(other) == 1;
+      other is FieldElement && fastEqual(other) == 1;
 
-  int constantTimeEqual(FieldElement other) {
+  int fastEqual(FieldElement other) {
     final b = toByteArray();
     final c = other.toByteArray();
-    return b.constantTimeEqual(c);
+    return b.fastEqual(c);
   }
 
   FieldElement select(FieldElement other, int selector) {
@@ -248,7 +240,7 @@ class FieldElement {
     return FieldElement(result);
   }
 
-  FieldElement abs() => select(negate(), isNegative());
+  FieldElement abs() => select(-this, isNegative());
 
   int isNegative() {
     final List<int> s = toByteArray();
@@ -273,7 +265,7 @@ class FieldElement {
     return FieldElement._fromConstList(h);
   }
 
-  FieldElement negate() {
+  FieldElement operator -() {
     final List<int> h = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
       h[i] = -_t[i];
@@ -1024,10 +1016,10 @@ class FieldElement {
     final FieldElement v7 = v3.square() * v;
     FieldElement r = u * v3 * (u * v7).powP58();
     final FieldElement check = v * r.square();
-    final FieldElement uNeg = u.negate();
-    final int correctSignSqrt = check.constantTimeEqual(u);
-    final int flippedSignSqrt = check.constantTimeEqual(uNeg);
-    final int flippedSignSqrtM1 = check.constantTimeEqual(uNeg * sqrtM1);
+    final FieldElement uNeg = -u;
+    final int correctSignSqrt = check.fastEqual(u);
+    final int flippedSignSqrt = check.fastEqual(uNeg);
+    final int flippedSignSqrtM1 = check.fastEqual(uNeg * sqrtM1);
     final FieldElement rPrime = r * sqrtM1;
     r = r.select(rPrime, flippedSignSqrt | flippedSignSqrtM1);
     // Choose the non-negative square root.

@@ -1,7 +1,7 @@
 extension ListExtension on List<int> {
   int bit(int offset) => (this[offset >> 3] >> (offset & 7)) & 1;
 
-  int constantTimeEqual(List<int> other) {
+  int fastEqual(List<int> other) {
     int result = 0;
     if (length != other.length) {
       return 0;
@@ -9,12 +9,12 @@ extension ListExtension on List<int> {
     for (int i = 0; i < length; ++i) {
       result |= this[i] ^ other[i];
     }
-    return result.constantTimeEqual(0);
+    return result.fastEqual(0);
   }
 }
 
 extension IntExtension on int {
-  int constantTimeEqual(int other) {
+  int fastEqual(int other) {
     int result = 0;
     final int xor = this ^ other;
     for (int i = 0; i < 8; ++i) {
