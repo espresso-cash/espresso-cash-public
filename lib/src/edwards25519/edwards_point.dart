@@ -21,8 +21,8 @@ class EdwardsPoint {
 
   CompressedEdwardsY compress() {
     final FieldElement r = _z.invert();
-    final FieldElement x = _x.multiply(r);
-    final FieldElement y = _y.multiply(r);
+    final FieldElement x = _x * r;
+    final FieldElement y = _y * r;
     final List<int> s = y.toByteArray();
     s[31] |= x.isNegative() << 7;
     return CompressedEdwardsY(s);

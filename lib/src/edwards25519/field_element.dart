@@ -281,7 +281,7 @@ class FieldElement {
     return FieldElement._fromConstList(h);
   }
 
-  FieldElement multiply(FieldElement val) {
+  FieldElement operator *(FieldElement val) {
     final List<int> g = val._t;
     final int g1_19 = 19 * g[1]; /* 1.959375*2^29 */
     final int g2_19 = 19 * g[2]; /* 1.959375*2^30; still ok */
@@ -866,13 +866,13 @@ class FieldElement {
     // 8 == 2 * 4
     t1 = t1.square();
     // 9 == 8 + 1
-    t1 = multiply(t1);
+    t1 = this * t1;
     // 11 == 9 + 2
-    t0 = t0.multiply(t1);
+    t0 = t0 * t1;
     // 22 == 2 * 11
     t2 = t0.square();
     // 31 == 22 + 9
-    t1 = t1.multiply(t2);
+    t1 = t1 * t2;
     // 2^6 - 2^1
     t2 = t1.square();
     // 2^10 - 2^5
@@ -880,7 +880,7 @@ class FieldElement {
       t2 = t2.square();
     }
     // 2^10 - 2^0
-    t1 = t2.multiply(t1);
+    t1 = t2 * t1;
     // 2^11 - 2^1
     t2 = t1.square();
     // 2^20 - 2^10
@@ -888,7 +888,7 @@ class FieldElement {
       t2 = t2.square();
     }
     // 2^20 - 2^0
-    t2 = t2.multiply(t1);
+    t2 = t2 * t1;
     // 2^21 - 2^1
     t3 = t2.square();
     // 2^40 - 2^20
@@ -896,7 +896,7 @@ class FieldElement {
       t3 = t3.square();
     }
     // 2^40 - 2^0
-    t2 = t3.multiply(t2);
+    t2 = t3 * t2;
     // 2^41 - 2^1
     t2 = t2.square();
     // 2^50 - 2^10
@@ -904,7 +904,7 @@ class FieldElement {
       t2 = t2.square();
     }
     // 2^50 - 2^0
-    t1 = t2.multiply(t1);
+    t1 = t2 * t1;
     // 2^51 - 2^1
     t2 = t1.square();
     // 2^100 - 2^50
@@ -912,7 +912,7 @@ class FieldElement {
       t2 = t2.square();
     }
     // 2^100 - 2^0
-    t2 = t2.multiply(t1);
+    t2 = t2 * t1;
     // 2^101 - 2^1
     t3 = t2.square();
     // 2^200 - 2^100
@@ -920,7 +920,7 @@ class FieldElement {
       t3 = t3.square();
     }
     // 2^200 - 2^0
-    t2 = t3.multiply(t2);
+    t2 = t3 * t2;
     // 2^201 - 2^1
     t2 = t2.square();
     // 2^250 - 2^50
@@ -928,7 +928,7 @@ class FieldElement {
       t2 = t2.square();
     }
     // 2^250 - 2^0
-    t1 = t2.multiply(t1);
+    t1 = t2 * t1;
     // 2^251 - 2^1
     t1 = t1.square();
     // 2^255 - 2^5
@@ -936,7 +936,7 @@ class FieldElement {
       t1 = t1.square();
     }
     // 2^255 - 21
-    return t1.multiply(t0);
+    return t1 * t0;
   }
 
   FieldElement powP58() {
@@ -948,13 +948,13 @@ class FieldElement {
     // 8 == 2 * 4
     t1 = t1.square();
     // z9 = z1*z8
-    t1 = multiply(t1);
+    t1 = this * t1;
     // 11 == 9 + 2
-    t0 = t0.multiply(t1);
+    t0 = t0 * t1;
     // 22 == 2 * 11
     t0 = t0.square();
     // 31 == 22 + 9
-    t0 = t1.multiply(t0);
+    t0 = t1 * t0;
     // 2^6 - 2^1
     t1 = t0.square();
     // 2^10 - 2^5
@@ -962,7 +962,7 @@ class FieldElement {
       t1 = t1.square();
     }
     // 2^10 - 2^0
-    t0 = t1.multiply(t0);
+    t0 = t1 * t0;
     // 2^11 - 2^1
     t1 = t0.square();
     // 2^20 - 2^10
@@ -970,7 +970,7 @@ class FieldElement {
       t1 = t1.square();
     }
     // 2^20 - 2^0
-    t1 = t1.multiply(t0);
+    t1 = t1 * t0;
     // 2^21 - 2^1
     t2 = t1.square();
     // 2^40 - 2^20
@@ -978,7 +978,7 @@ class FieldElement {
       t2 = t2.square();
     }
     // 2^40 - 2^0
-    t1 = t2.multiply(t1);
+    t1 = t2 * t1;
     // 2^41 - 2^1
     t1 = t1.square();
     // 2^50 - 2^10
@@ -986,7 +986,7 @@ class FieldElement {
       t1 = t1.square();
     }
     // 2^50 - 2^0
-    t0 = t1.multiply(t0);
+    t0 = t1 * t0;
     // 2^51 - 2^1
     t1 = t0.square();
     // 2^100 - 2^50
@@ -994,7 +994,7 @@ class FieldElement {
       t1 = t1.square();
     }
     // 2^100 - 2^0
-    t1 = t1.multiply(t0);
+    t1 = t1 * t0;
     // 2^101 - 2^1
     t2 = t1.square();
     // 2^200 - 2^100
@@ -1002,7 +1002,7 @@ class FieldElement {
       t2 = t2.square();
     }
     // 2^200 - 2^0
-    t1 = t2.multiply(t1);
+    t1 = t2 * t1;
     // 2^201 - 2^1
     t1 = t1.square();
     // 2^250 - 2^50
@@ -1010,26 +1010,25 @@ class FieldElement {
       t1 = t1.square();
     }
     // 2^250 - 2^0
-    t0 = t1.multiply(t0);
+    t0 = t1 * t0;
     // 2^251 - 2^1
     t0 = t0.square();
     // 2^252 - 2^2
     t0 = t0.square();
     // 2^252 - 3
-    return multiply(t0);
+    return this * t0;
   }
 
   static SqrtRatioM1Result sqrtRatioM1(FieldElement u, FieldElement v) {
-    final FieldElement v3 = v.square().multiply(v);
-    final FieldElement v7 = v3.square().multiply(v);
-    FieldElement r = u.multiply(v3).multiply(u.multiply(v7).powP58());
-    final FieldElement check = v.multiply(r.square());
+    final FieldElement v3 = v.square() * v;
+    final FieldElement v7 = v3.square() * v;
+    FieldElement r = u * v3 * (u * v7).powP58();
+    final FieldElement check = v * r.square();
     final FieldElement uNeg = u.negate();
     final int correctSignSqrt = check.constantTimeEqual(u);
     final int flippedSignSqrt = check.constantTimeEqual(uNeg);
-    final int flippedSignSqrtM1 =
-        check.constantTimeEqual(uNeg.multiply(sqrtM1));
-    final FieldElement rPrime = r.multiply(sqrtM1);
+    final int flippedSignSqrtM1 = check.constantTimeEqual(uNeg * sqrtM1);
+    final FieldElement rPrime = r * sqrtM1;
     r = r.select(rPrime, flippedSignSqrt | flippedSignSqrtM1);
     // Choose the non-negative square root.
     r = r.abs();

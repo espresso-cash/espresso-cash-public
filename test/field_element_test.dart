@@ -2,13 +2,13 @@ import 'package:solana/src/edwards25519/field_element.dart';
 import 'package:test/test.dart';
 
 void main() {
-  // Test vectors below, and the tests they are used in, are from
-  // curve25519-dalek.
-  // https://github.com/dalek-cryptography/curve25519-dalek/blob/4bdccd7b7c394d9f8ffc4b29d5acc23c972f3d7a/src/field.rs#L280-L301
-
-  // Random element a of GF(2^255-19), from Sage
-  // a = 10703145068883540813293858232352184442332212228051251926706380353716438957572
-  // @formatter:off
+  /// Test vectors below, and the tests they are used in, are from
+  /// curve25519-dalek.
+  /// https://github.com/dalek-cryptography/curve25519-dalek/blob/4bdccd7b7c394d9f8ffc4b29d5acc23c972f3d7a/src/field.rs#L280-L301
+  ///
+  /// Random element a of GF(2^255-19), from Sage
+  /// a = 10703145068883540813293858232352184442332212228051251926706380353716438957572
+  /// @formatter:off
   final List<int> aBytes = [
     0x04,
     0xfe,
@@ -155,7 +155,7 @@ void main() {
   final FieldElement aSquared = FieldElement.fromByteArray(aSquaredBytes);
 
   test('a * a equals a^2 constant', () {
-    expect(a.multiply(a), aSquared);
+    expect(a * a, aSquared);
   });
 
   test('a^2 equals a^2 constant', () {
@@ -163,19 +163,19 @@ void main() {
   });
 
   test('a * a equals a^2 constant', () {
-    expect(a.multiply(a), a.square());
+    expect(a * a, a.square());
   });
 
   test('a + a equals a * 2', () {
     const FieldElement one = FieldElement.one;
-    expect(a + a, a.multiply(one + one));
+    expect(a + a, a * (one + one));
   });
 
   test('1/a equals 1/a constant', () {
     final aInverseConstant = FieldElement.fromByteArray(aInverseBytes);
     final aInverseValue = a.invert();
     expect(aInverseValue, aInverseConstant);
-    expect(aInverseValue.multiply(a), FieldElement.one);
+    expect(aInverseValue * a, FieldElement.one);
   });
 
   test('a^((p-5/8)) equals a^((p-5)/8) constant', () {
@@ -204,7 +204,7 @@ void main() {
     // 2/1 is non square, so we expect (0, sqrt(i*2))
     sqrt = FieldElement.sqrtRatioM1(two, one);
     expect(sqrt.wasSquare, 0);
-    expect(sqrt.result.square(), two.multiply(sqrtM1));
+    expect(sqrt.result.square(), two * sqrtM1);
     expect(sqrt.result.isNegative(), 0);
 
     // 4/1 is square, so we expect (1, sqrt(4))
@@ -216,7 +216,7 @@ void main() {
     // 1/4 is square, so we expect (1, 1/sqrt(4))
     sqrt = FieldElement.sqrtRatioM1(one, four);
     expect(sqrt.wasSquare, 1);
-    expect(sqrt.result.square().multiply(four), one);
+    expect(sqrt.result.square() * four, one);
     expect(sqrt.result.isNegative(), 0);
   });
 }

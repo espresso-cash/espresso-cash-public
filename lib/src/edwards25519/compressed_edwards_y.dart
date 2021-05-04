@@ -24,7 +24,7 @@ class CompressedEdwardsY {
     final FieldElement y = FieldElement.fromByteArray(data);
     final FieldElement ySquare = y.square();
     final FieldElement u = ySquare - FieldElement.one;
-    final FieldElement v = ySquare.multiply(_d) + FieldElement.one;
+    final FieldElement v = ySquare * _d + FieldElement.one;
     final SqrtRatioM1Result sqrt = FieldElement.sqrtRatioM1(u, v);
     if (sqrt.wasSquare != 1) {
       throw Exception('not a valid point');
@@ -34,7 +34,7 @@ class CompressedEdwardsY {
     final FieldElement x = sqrt.result
         .negate()
         .select(sqrt.result, isNegative.constantTimeEqual(data.bit(255)));
-    return EdwardsPoint(x, y, FieldElement.one, x.multiply(y));
+    return EdwardsPoint(x, y, FieldElement.one, x * y);
   }
 
   @override

@@ -10,10 +10,10 @@ class ProjectivePoint {
   final FieldElement z;
 
   EdwardsPoint toExtended() => EdwardsPoint(
-        x.multiply(z),
-        y.multiply(z),
+        x * z,
+        y * z,
         z.square(),
-        x.multiply(y),
+        x * y,
       );
 
   CompletedPoint dbl() {

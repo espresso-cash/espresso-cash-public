@@ -11,15 +11,15 @@ class CompletedPoint {
   final FieldElement t;
 
   ProjectivePoint toProjective() => ProjectivePoint(
-        x.multiply(t),
-        y.multiply(z),
-        z.multiply(t),
+        x * t,
+        y * z,
+        z * t,
       );
 
   EdwardsPoint toExtended() => EdwardsPoint(
-        x.multiply(t),
-        y.multiply(z),
-        z.multiply(t),
-        x.multiply(y),
+        x * t,
+        y * z,
+        z * t,
+        x * y,
       );
 }
