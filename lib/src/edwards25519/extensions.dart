@@ -1,5 +1,6 @@
 extension ListExtension on List<int> {
   int bit(int offset) => (this[offset >> 3] >> (offset & 7)) & 1;
+
   int constantTimeEqual(List<int> other) {
     int result = 0;
     if (length != other.length) {

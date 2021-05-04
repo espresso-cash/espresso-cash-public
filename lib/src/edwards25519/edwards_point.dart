@@ -15,6 +15,7 @@ class EdwardsPoint {
   late final FieldElement _x;
   late final FieldElement _y;
   late final FieldElement _z;
+
   // ignore: unused_field
   late final FieldElement _t;
 
