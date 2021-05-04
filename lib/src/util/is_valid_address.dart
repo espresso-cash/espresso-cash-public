@@ -1,3 +1,13 @@
-RegExp _regularExpression = RegExp(r'[1-9A-HJ-NP-Za-km-z]{32,44}');
+import 'package:solana/src/base58/base58.dart';
+import 'package:solana/src/edwards25519/edwards_25519.dart';
 
-bool isValidAddress(String address) => _regularExpression.hasMatch(address);
+bool isValidAddress(String address) {
+  try {
+    final List<int> data = decode(address);
+    final CompressedEdwardsY compressedEdwardsY = CompressedEdwardsY(data);
+    final EdwardsPoint edwardsPoint = compressedEdwardsY.decompress();
+    return !edwardsPoint.isSmallOrder();
+  } on Exception {
+    return false;
+  }
+}

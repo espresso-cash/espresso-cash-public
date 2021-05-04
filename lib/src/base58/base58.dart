@@ -308,7 +308,7 @@ List<int> decode(String value) {
     int carry = _reverseMap[currentByte];
     int i = 0;
     if (carry == -1) {
-      throw ArgumentError('invalid base58 character found $currentByte');
+      throw Exception('invalid base58 character found `$currentByte\'');
     }
     for (int j = size - 1; j >= 0; j--, i++) {
       if (!((carry != 0) || (i < length))) break;
