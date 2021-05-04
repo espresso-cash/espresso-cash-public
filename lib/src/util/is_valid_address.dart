@@ -4,6 +4,9 @@ import 'package:solana/src/edwards25519/edwards_25519.dart';
 bool isValidAddress(String address) {
   try {
     final List<int> data = decode(address);
+    if (data.length != 32) {
+      return false;
+    }
     final CompressedEdwardsY compressedEdwardsY = CompressedEdwardsY(data);
     final EdwardsPoint edwardsPoint = compressedEdwardsY.decompress();
     return !edwardsPoint.isSmallOrder();
