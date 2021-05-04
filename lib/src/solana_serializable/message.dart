@@ -16,19 +16,6 @@ class Message extends Serializable {
     required this.instructions,
   });
 
-  final MessageHeader header;
-  final CompactArray<Address> accounts;
-  final String recentBlockhash;
-  final CompactArray<Instruction> instructions;
-
-  @override
-  List<int> serialize() => [
-        ...header.serialize(),
-        ...accounts.serialize(),
-        ...base58.decode(recentBlockhash),
-        ...instructions.serialize(),
-      ];
-
   factory Message.transfer({
     required String source,
     required String destination,
@@ -58,4 +45,17 @@ class Message extends Serializable {
     );
     return message;
   }
+
+  final MessageHeader header;
+  final CompactArray<Address> accounts;
+  final String recentBlockhash;
+  final CompactArray<Instruction> instructions;
+
+  @override
+  List<int> serialize() => [
+        ...header.serialize(),
+        ...accounts.serialize(),
+        ...base58.decode(recentBlockhash),
+        ...instructions.serialize(),
+      ];
 }
