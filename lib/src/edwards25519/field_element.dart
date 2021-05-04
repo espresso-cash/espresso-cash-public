@@ -255,7 +255,7 @@ class FieldElement {
     return s[0] & 1;
   }
 
-  FieldElement add(FieldElement val) {
+  FieldElement operator +(FieldElement val) {
     final List<int> g = val._t;
     final List<int> h = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
@@ -264,7 +264,7 @@ class FieldElement {
     return FieldElement._fromConstList(h);
   }
 
-  FieldElement subtract(FieldElement val) {
+  FieldElement operator -(FieldElement val) {
     final List<int> g = val._t;
     final List<int> h = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
