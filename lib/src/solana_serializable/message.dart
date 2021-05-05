@@ -33,7 +33,7 @@ class Message extends Serializable {
       ),
     );
 
-    final message = Message(
+    return Message(
       header: MessageHeader(1, 0, 1),
       accounts: CompactArray.fromList([
         Address.from(source),
@@ -43,7 +43,6 @@ class Message extends Serializable {
       recentBlockhash: recentBlockhash.blockhash,
       instructions: CompactArray.fromList([instruction]),
     );
-    return message;
   }
 
   final MessageHeader header;
