@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:solana/solana.dart';
 import 'package:solana/src/json_rpc_client.dart';
-import 'package:solana/src/solana_serializable/signed_transaction.dart';
+import 'package:solana/src/solana_serializable/signed_tx.dart';
 import 'package:solana/src/types/account_info.dart';
 import 'package:solana/src/types/balance.dart';
 import 'package:solana/src/types/blockhash.dart';

@@ -1,8 +1,7 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart' as crypto;
-import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
-import 'package:solana/src/solana_serializable/signed_transaction.dart';
+import 'package:solana/src/solana_serializable/signed_tx.dart';
 import 'package:solana/src/types/hd_key_pair.dart';
 
 import 'solana_serializable/solana_serializable.dart';
@@ -74,20 +73,4 @@ class SolanaWallet {
       message: message,
     );
   }
-
-  /// Create a transfer of [lamports] from this wallet to
-  /// [destination] transaction and sign it
-  Future<SignedTx> buildAndSignTransferTx({
-    required String destination,
-    required int lamports,
-    required Blockhash recentBlockhash,
-  }) =>
-      signMessage(
-        Message.transfer(
-          source: address,
-          destination: destination,
-          lamports: lamports,
-          recentBlockhash: recentBlockhash,
-        ),
-      );
 }

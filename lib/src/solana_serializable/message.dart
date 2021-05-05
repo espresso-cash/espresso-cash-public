@@ -8,14 +8,18 @@ import 'package:solana/src/solana_serializable/solana_serializable.dart';
 import 'package:solana/src/types/blockhash.dart';
 import 'package:solana/src/util/solana_int_encoder.dart';
 
+/// This is an implementation of the Solana message format.
 class Message extends Serializable {
-  Message({
+  Message._({
     required this.header,
     required this.accounts,
     required this.recentBlockhash,
     required this.instructions,
   });
 
+  /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
+  /// to [destination]. The recent block hash must be queried and provided as
+  /// [recentBlockhash] to this function.
   factory Message.transfer({
     required String source,
     required String destination,
@@ -33,7 +37,7 @@ class Message extends Serializable {
       ),
     );
 
-    final message = Message(
+    final message = Message._(
       header: MessageHeader(1, 0, 1),
       accounts: CompactArray.fromList([
         Address.from(source),
