@@ -70,7 +70,7 @@ class SolanaClient {
     return TxSignature(TxSignatureResponse.fromJson(data).result);
   }
 
-  /// Simulates sending a signed transaction [signedTx]
+  /// Simulates sending a signed transaction [signedTx].
   Future<SimulateTxResult> simulateTransaction(SignedTx signedTx) async {
     final data = await _client.request(
       'simulateTransaction',
