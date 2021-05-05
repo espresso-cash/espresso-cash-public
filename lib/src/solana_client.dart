@@ -55,7 +55,7 @@ class SolanaClient {
     return AccountInfoResponse.fromJson(data).result.value;
   }
 
-  /// Send signed transaction [signedTx]
+  /// Sends signed transaction [signedTx].
   Future<TxSignature> sendTransaction(SignedTx signedTx) async {
     final data = await _client.request(
       'sendTransaction',
@@ -70,7 +70,7 @@ class SolanaClient {
     return TxSignature(TxSignatureResponse.fromJson(data).result);
   }
 
-  /// Simulates sending a signed transaction [signedTx]
+  /// Simulates sending a signed transaction [signedTx].
   Future<SimulateTxResult> simulateTransaction(SignedTx signedTx) async {
     final data = await _client.request(
       'simulateTransaction',
