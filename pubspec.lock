@@ -162,6 +162,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  curve25519_kimble:
+    dependency: "direct main"
+    description:
+      name: curve25519_kimble
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   dart_style:
     dependency: transitive
     description:
@@ -169,13 +176,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  ed25519_edwards:
-    dependency: "direct main"
-    description:
-      name: ed25519_edwards
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   ed25519_hd_key:
     dependency: "direct main"
     description:
