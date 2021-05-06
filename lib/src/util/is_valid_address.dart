@@ -12,7 +12,7 @@ bool isValidAddress(String address) {
     final CompressedEdwardsY compressedEdwardsY = CompressedEdwardsY(data);
     final EdwardsPoint edwardsPoint = compressedEdwardsY.decompress();
     return !edwardsPoint.isSmallOrder();
-  } on Exception {
+  } on FormatException {
     return false;
   }
 }
