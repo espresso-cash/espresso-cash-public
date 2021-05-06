@@ -1,3 +1,5 @@
+library solana_serializable;
+
 import 'package:convert/convert.dart';
 
 export 'address.dart';
@@ -7,7 +9,7 @@ export 'instruction.dart';
 export 'message.dart';
 export 'message_header.dart';
 export 'signature.dart';
-export 'transaction.dart';
+export 'signed_tx.dart';
 
 // ignore: one_member_abstracts
 abstract class Serializable {

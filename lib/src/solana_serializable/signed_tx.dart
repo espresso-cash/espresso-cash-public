@@ -1,11 +1,15 @@
 import 'package:solana/src/solana_serializable/compact_array.dart';
-import 'package:solana/src/solana_serializable/serializable.dart';
 import 'package:solana/src/solana_serializable/signature.dart';
+import 'package:solana/src/solana_serializable/solana_serializable.dart';
 
 import 'message.dart';
 
-class Transaction extends Serializable {
-  Transaction({
+/// Represents a signed transaction that consists of the transaction
+/// message and an array of signatures. The array of signatures must
+/// be populated following the solana convention for the set of addresses
+/// that they belong to within the message.
+class SignedTx extends Serializable {
+  SignedTx({
     required this.signatures,
     required this.message,
   });

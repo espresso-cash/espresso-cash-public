@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/solana_serializable/signed_tx.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -65,22 +66,29 @@ void main() {
 
     test('Can simulate a transfer', () async {
       const int transferredAmount = 7500;
-      final SimulateTxResult transferResult =
-          await solanaClient.simulateTransfer(
-        sourceWallet,
-        targetWallet.address,
-        transferredAmount,
+      final message = Message.transfer(
+        source: sourceWallet.address,
+        destination: targetWallet.address,
+        lamports: transferredAmount,
+        recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
+      final SignedTx signedTx = await sourceWallet.signMessage(message);
+      final SimulateTxResult transferResult =
+          await solanaClient.simulateTransaction(signedTx);
       expect(transferResult.err, null);
     });
 
     test('Can transfer tokens', () async {
       const int transferredAmount = 7500;
-      final TxSignature signature = await solanaClient.transfer(
-        sourceWallet,
-        targetWallet.address,
-        transferredAmount,
+      final message = Message.transfer(
+        source: sourceWallet.address,
+        destination: targetWallet.address,
+        lamports: transferredAmount,
+        recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
+      final SignedTx signedTx = await sourceWallet.signMessage(message);
+      final TxSignature signature =
+          await solanaClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
       await solanaClient.waitForSignatureStatus(
         signature,

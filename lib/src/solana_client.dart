@@ -3,8 +3,7 @@ import 'dart:convert';
 
 import 'package:solana/solana.dart';
 import 'package:solana/src/json_rpc_client.dart';
-import 'package:solana/src/solana_serializable/serializable.dart' as s;
-import 'package:solana/src/solana_wallet.dart';
+import 'package:solana/src/solana_serializable/signed_tx.dart';
 import 'package:solana/src/types/account_info.dart';
 import 'package:solana/src/types/balance.dart';
 import 'package:solana/src/types/blockhash.dart';
@@ -13,7 +12,6 @@ import 'package:solana/src/types/signature_status.dart';
 import 'package:solana/src/types/simulate_tx_result.dart';
 import 'package:solana/src/types/transaction.dart';
 import 'package:solana/src/types/tx_signature.dart';
-import 'package:solana/src/util/encode_int.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API
@@ -57,84 +55,31 @@ class SolanaClient {
     return AccountInfoResponse.fromJson(data).result.value;
   }
 
-  Future<Map<String, dynamic>> _doTransfer(
-    SolanaWallet senderWallet,
-    String recipientAddress,
-    int amountInLamports, {
-    bool simulate = false,
-  }) async {
-    final Blockhash recentBlockhash = await getRecentBlockhash();
-
-    final instruction = s.Instruction(
-      programIdIndex: 2,
-      accountIndices: s.CompactArray.fromList([0, 1]),
-      data: s.CompactArray.fromList(
-        [
-          ...encodeInt(2, 32),
-          ...encodeInt(amountInLamports.toInt(), 64),
-        ],
-      ),
-    );
-
-    final message = s.Message(
-      header: s.MessageHeader(1, 0, 1),
-      accounts: s.CompactArray.fromList([
-        s.Address.from(senderWallet.address),
-        s.Address.from(recipientAddress),
-        s.Address.from(solanaSystemProgramID),
-      ]),
-      recentBlockhash: recentBlockhash.blockhash,
-      instructions: s.CompactArray.fromList([instruction]),
-    );
-    final serializedMessage = message.serialize();
-
-    final signature =
-        s.Signature.from(await senderWallet.sign(serializedMessage));
-
-    final transaction = s.Transaction(
-      signatures: s.CompactArray.fromList([signature]),
-      message: message,
-    );
-
-    return _client.request(
-      simulate ? 'simulateTransaction' : 'sendTransaction',
+  /// Sends signed transaction [signedTx].
+  Future<TxSignature> sendTransaction(SignedTx signedTx) async {
+    final data = await _client.request(
+      'sendTransaction',
       params: <dynamic>[
-        base64.encode(transaction.serialize()),
+        base64.encode(signedTx.serialize()),
         <String, String>{
           'encoding': 'base64',
         }
       ],
     );
-  }
-
-  /// Transfers [amountInLamports] from [senderWallet] to [recipientAddress].
-  Future<TxSignature> transfer(
-    SolanaWallet senderWallet,
-    String recipientAddress,
-    int amountInLamports,
-  ) async {
-    final data = await _doTransfer(
-      senderWallet,
-      recipientAddress,
-      amountInLamports,
-      simulate: false,
-    );
 
     return TxSignature(TxSignatureResponse.fromJson(data).result);
   }
 
-  /// Simulates a transfer of [amountInLamports] from [senderWallet]
-  /// to [recipientAddress].
-  Future<SimulateTxResult> simulateTransfer(
-    SolanaWallet senderWallet,
-    String recipientAddress,
-    int amountInLamports,
-  ) async {
-    final data = await _doTransfer(
-      senderWallet,
-      recipientAddress,
-      amountInLamports,
-      simulate: true,
+  /// Simulates sending a signed transaction [signedTx].
+  Future<SimulateTxResult> simulateTransaction(SignedTx signedTx) async {
+    final data = await _client.request(
+      'simulateTransaction',
+      params: <dynamic>[
+        base64.encode(signedTx.serialize()),
+        <String, String>{
+          'encoding': 'base64',
+        }
+      ],
     );
 
     return SimulateTxResultResponse.fromJson(data).result.value;
