@@ -104,5 +104,5 @@ void main() {
       txs.forEach((ConfirmedTransaction? tx) => expect(tx, isNot(null)));
       expect(txs.length, greaterThan(0));
     });
-  }, skip: true);
+  });
 }
