@@ -1,4 +1,4 @@
-import 'package:solana/src/solana_serializable/serializable.dart';
+import 'package:solana/src/solana_serializable/solana_serializable.dart';
 
 class CompactU16 extends Serializable {
   CompactU16(this._value);

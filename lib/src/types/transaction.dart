@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/solana.dart';
 import 'package:solana/src/types/json_rpc_response_object.dart';
 import 'package:solana/src/types/tx_meta.dart';
 

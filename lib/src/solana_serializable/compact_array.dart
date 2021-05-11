@@ -1,6 +1,6 @@
 import 'package:solana/src/solana_serializable/compact_u16.dart';
-import 'package:solana/src/solana_serializable/serializable.dart';
-import 'package:solana/src/util/encode_int.dart';
+import 'package:solana/src/solana_serializable/solana_serializable.dart';
+import 'package:solana/src/util/solana_int_encoder.dart';
 
 class CompactArray<T> extends Serializable {
   CompactArray.fromList(this._items);
@@ -13,7 +13,7 @@ class CompactArray<T> extends Serializable {
       if (value is Serializable) {
         return value.serialize();
       } else if (T == int) {
-        return encodeInt(value as int);
+        return (value as int).toSolanaBytes();
       } else {
         return [];
       }

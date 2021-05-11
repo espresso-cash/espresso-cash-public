@@ -1,4 +1,6 @@
 export 'src/solana_client.dart';
+export 'src/solana_serializable/message.dart' show Message;
+export 'src/solana_serializable/signed_tx.dart' show SignedTx;
 export 'src/solana_wallet.dart';
 export 'src/types/account_info.dart' show AccountInfo;
 export 'src/types/blockhash.dart' show Blockhash;
