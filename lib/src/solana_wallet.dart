@@ -33,7 +33,7 @@ class SolanaWallet {
         address: base58.encode(publicKey.bytes),
       );
     } else {
-      throw Exception('could not build a key pair');
+      throw const FormatException('could not build a key pair');
     }
   }
 
