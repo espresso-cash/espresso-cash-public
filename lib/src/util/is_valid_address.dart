@@ -75,7 +75,7 @@ class EdwardsPoint {
 }
 
 /// Returns true if [address] is a valid ed25519 point encoded
-/// to base58
+/// to base58.
 bool isValidAddress(String address) {
   try {
     final List<int> data = decode(address);
