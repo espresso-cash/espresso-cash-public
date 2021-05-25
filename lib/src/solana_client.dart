@@ -25,6 +25,9 @@ class SolanaClient {
   /// Returns the recent blockhash from the ledger, and a fee schedule that
   /// can be used to compute the cost of submitting transaction with
   /// the returned [Blockhash].
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<Blockhash> getRecentBlockhash({
     TxStatus? commitment,
   }) async {
@@ -40,6 +43,9 @@ class SolanaClient {
   }
 
   /// Returns a Future that resolves the the balance of [address]
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<int> getBalance(
     String address, {
     TxStatus? commitment,
@@ -58,6 +64,9 @@ class SolanaClient {
 
   /// Returns a Future that resolves to the account related information
   /// for [address].
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<AccountInfo> getAccountInfo(
     String address, {
     TxStatus? commitment,
@@ -107,6 +116,9 @@ class SolanaClient {
   }
 
   /// Requests an airdrop of [lamports] lamports to [address].
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TxSignature> requestAirdrop(
     String address,
     int lamports, {
