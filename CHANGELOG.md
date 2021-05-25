@@ -1,3 +1,10 @@
+## 0.6.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: Add a function to validate solana addresses (#22).
+ - **BREAKING** **FEAT**: Separate signing and sending transaction (#23).
+
 ## 0.5.1
 
  - **FEAT**: Add accounts support (#19).
