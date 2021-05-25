@@ -1,3 +1,11 @@
+## 0.7.0
+
+> Note: This release has breaking changes.
+
+ - **STYLE**: Fix formatting.
+ - **DOCS**: Update documentation.
+ - **BREAKING** **FEAT**: Add `commitment` parameters to Solana client.
+
 ## 0.6.0
 
 > Note: This release has breaking changes.
