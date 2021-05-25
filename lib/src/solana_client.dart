@@ -25,17 +25,38 @@ class SolanaClient {
   /// Returns the recent blockhash from the ledger, and a fee schedule that
   /// can be used to compute the cost of submitting transaction with
   /// the returned [Blockhash].
-  Future<Blockhash> getRecentBlockhash() async {
-    final data = await _client.request('getRecentBlockhash');
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<Blockhash> getRecentBlockhash({
+    TxStatus? commitment,
+  }) async {
+    final data = await _client.request(
+      'getRecentBlockhash',
+      params: <dynamic>[
+        if (commitment != null)
+          <String, String>{'commitment': commitment.value},
+      ],
+    );
 
     return BlockhashResponse.fromJson(data).result.value;
   }
 
   /// Returns a Future that resolves the the balance of [address]
-  Future<int> getBalance(String address) async {
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<int> getBalance(
+    String address, {
+    TxStatus? commitment,
+  }) async {
     final data = await _client.request(
       'getBalance',
-      params: <dynamic>[address],
+      params: <dynamic>[
+        address,
+        if (commitment != null)
+          <String, String>{'commitment': commitment.value},
+      ],
     );
 
     return BalanceResponse.fromJson(data).result.value;
@@ -43,12 +64,21 @@ class SolanaClient {
 
   /// Returns a Future that resolves to the account related information
   /// for [address].
-  Future<AccountInfo> getAccountInfo(String address) async {
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<AccountInfo> getAccountInfo(
+    String address, {
+    TxStatus? commitment,
+  }) async {
     final data = await _client.request(
       'getAccountInfo',
       params: <dynamic>[
         address,
-        <String, String>{'encoding': 'jsonParsed'}
+        <String, String>{
+          'encoding': 'jsonParsed',
+          if (commitment != null) 'commitment': commitment.value,
+        }
       ],
     );
 
@@ -86,16 +116,19 @@ class SolanaClient {
   }
 
   /// Requests an airdrop of [lamports] lamports to [address].
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TxSignature> requestAirdrop(
     String address,
     int lamports, {
-    String commitment = 'processed',
+    TxStatus commitment = TxStatus.processed,
   }) async {
     final data = await _client.request('requestAirdrop', params: <dynamic>[
       address,
       lamports.toInt(),
       <String, String>{
-        'commitment': commitment,
+        'commitment': commitment.value,
       },
     ]);
 
@@ -219,5 +252,18 @@ class SolanaClient {
         signatures.map((s) => s.signature).map(getConfirmedTransaction);
 
     return Future.wait(confirmedTransactions);
+  }
+}
+
+extension on TxStatus {
+  String get value {
+    switch (this) {
+      case TxStatus.processed:
+        return 'processed';
+      case TxStatus.confirmed:
+        return 'confirmed';
+      case TxStatus.finalized:
+        return 'finalized';
+    }
   }
 }

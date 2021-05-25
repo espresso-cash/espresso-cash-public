@@ -5,7 +5,7 @@ class HDKeyPair implements SimpleKeyPair {
   HDKeyPair._({
     required KeyData private,
     required List<int> publicKey,
-  })   : _private = private,
+  })  : _private = private,
         _publicKey = publicKey;
 
   static Future<KeyPair> fromSeed(List<int> seed, String hdPath) async {

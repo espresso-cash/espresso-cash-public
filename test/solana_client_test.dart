@@ -28,7 +28,7 @@ void main() {
       final TxSignature signature = await solanaClient.requestAirdrop(
         sourceWallet.address,
         addedBalance,
-        commitment: 'finalized',
+        commitment: TxStatus.finalized,
       );
       expect(signature, isNot(null));
       await solanaClient.waitForSignatureStatus(
@@ -103,6 +103,48 @@ void main() {
       expect(txs, isNot(null));
       txs.forEach((ConfirmedTransaction? tx) => expect(tx, isNot(null)));
       expect(txs.length, greaterThan(0));
+    });
+  });
+
+  group('Test commitment', () {
+    final SolanaClient solanaClient = SolanaClient(devnetRpcUrl);
+    late SolanaWallet wallet;
+
+    setUp(() async {
+      wallet = await SolanaWallet.fromMnemonic(generateMnemonic());
+    });
+
+    test('Balance is not updated until tx is finalized', () async {
+      const int addedBalance = 5 * lamportsPerSol;
+      final TxSignature signature = await solanaClient.requestAirdrop(
+        wallet.address,
+        addedBalance,
+        commitment: TxStatus.finalized,
+      );
+
+      await solanaClient.waitForSignatureStatus(signature, TxStatus.confirmed);
+      var balance = await solanaClient.getBalance(wallet.address);
+      expect(balance, 0);
+
+      await solanaClient.waitForSignatureStatus(signature, TxStatus.finalized);
+      balance = await solanaClient.getBalance(wallet.address);
+      expect(balance, greaterThan(0));
+    });
+
+    test('Balance is updated if requested with confirmed commitment', () async {
+      const int addedBalance = 5 * lamportsPerSol;
+      final TxSignature signature = await solanaClient.requestAirdrop(
+        wallet.address,
+        addedBalance,
+        commitment: TxStatus.finalized,
+      );
+
+      await solanaClient.waitForSignatureStatus(signature, TxStatus.confirmed);
+      final balance = await solanaClient.getBalance(
+        wallet.address,
+        commitment: TxStatus.confirmed,
+      );
+      expect(balance, greaterThan(0));
     });
   });
 }
