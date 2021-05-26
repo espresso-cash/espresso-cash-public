@@ -13,11 +13,9 @@ class SolanaWallet {
     required this.address,
   });
 
-  /// Creates and initializes a new SolanaWallet for the given bip39
-  /// [mnemonic] string of 12 words.
-  ///
-  /// Multiple accounts can be attached to the same seed by using the [account]
-  /// parameter as index
+  /// Creates and initializes the [walletIndex]th SolanaWallet and the
+  /// [accountIndex]th account for the given bip39 [mnemonic] string of
+  /// 12 words
   static Future<SolanaWallet> fromMnemonic(
     String mnemonic, {
     int walletIndex = 0,
