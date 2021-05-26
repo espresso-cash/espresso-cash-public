@@ -13,18 +13,18 @@ class SolanaWallet {
     required this.address,
   });
 
-  /// Creates and initializes a new SolanaWallet for the given bip39
-  /// [mnemonic] string of 12 words.
-  ///
-  /// Multiple accounts can be attached to the same seed by using the [account]
-  /// parameter as index
+  /// Creates and initializes the [walletIndex]th SolanaWallet and the
+  /// [accountIndex]th account for the given bip39 [mnemonic] string of
+  /// 12 words
   static Future<SolanaWallet> fromMnemonic(
     String mnemonic, {
-    int account = 0,
+    int walletIndex = 0,
+    int accountIndex = 0,
   }) async {
     // Create the seed
     final List<int> seedBytes = bip39.mnemonicToSeed(mnemonic);
-    final crypto.KeyPair keyPair = await _deriveKeyPair(seedBytes, account);
+    final crypto.KeyPair keyPair =
+        await _deriveKeyPair(seedBytes, walletIndex, accountIndex);
     final crypto.PublicKey publicKey = await keyPair.extractPublicKey();
     if (publicKey is crypto.SimplePublicKey) {
       // Finally, create a new wallet
@@ -43,18 +43,16 @@ class SolanaWallet {
   /// The address or public key of this wallet
   final String address;
 
-  static String _getHDPath(int account) => "m/44'/501'/${account - 1}'";
+  static String _getHDPath(int walletIndex, int accountIndex) =>
+      "m/44'/501'/$walletIndex'/$accountIndex'";
 
   static Future<crypto.KeyPair> _deriveKeyPair(
     List<int> rawSeed,
-    int? account,
+    int walletIndex,
+    int accountIndex,
   ) async {
-    final List<int> seed = rawSeed.sublist(0, 32);
-    if (account == null || account == 0) {
-      return _ed25519.newKeyPairFromSeed(seed);
-    } else {
-      return HDKeyPair.fromSeed(seed, _getHDPath(account));
-    }
+    final List<int> seed = rawSeed;
+    return HDKeyPair.fromSeed(seed, _getHDPath(walletIndex, accountIndex));
   }
 
   /// Returns a Future that resolves to the result of signing
