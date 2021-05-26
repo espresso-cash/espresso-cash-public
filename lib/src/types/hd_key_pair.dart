@@ -8,13 +8,13 @@ class HDKeyPair implements SimpleKeyPair {
   })  : _private = private,
         _publicKey = publicKey;
 
+  static final _ed25519 = Ed25519();
+
   static Future<KeyPair> fromSeed(List<int> seed, String hdPath) async {
-    final KeyData private = await ED25519_HD_KEY.derivePath(hdPath, seed);
-    final List<int> publicKey = await ED25519_HD_KEY.getPublicKey(
-      private.key,
-      false,
-    );
-    return HDKeyPair._(private: private, publicKey: publicKey);
+    final KeyData derivedSeed = await ED25519_HD_KEY.derivePath(hdPath, seed);
+    final SimpleKeyPair keyPair =
+        await _ed25519.newKeyPairFromSeed(derivedSeed.key);
+    return keyPair;
   }
 
   final KeyData _private;

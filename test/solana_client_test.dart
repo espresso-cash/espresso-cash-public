@@ -19,7 +19,7 @@ void main() {
       targetWallet = await SolanaWallet.fromMnemonic(generateMnemonic());
       sourceWallet = await SolanaWallet.fromMnemonic(
         generateMnemonic(),
-        account: 1,
+        walletIndex: 1,
       );
     });
 
