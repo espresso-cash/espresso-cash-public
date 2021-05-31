@@ -250,8 +250,8 @@ class SolanaClient {
       'getConfirmedTransaction',
       params: <dynamic>[
         signature,
-        'jsonParsed',
         {
+          'encoding': 'jsonParsed',
           if (commitment != null) 'commitment': commitment.value,
         }
       ],
