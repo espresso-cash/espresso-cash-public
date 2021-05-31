@@ -207,11 +207,17 @@ class SolanaClient {
   ///
   /// Providing [before] and [until] also moves the cursor to a more specific
   /// subset.
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [TxStatus.processed] is not supported as [commitment].
   Future<Iterable<ConfirmedSignature>> getConfirmedSignaturesForAddress2(
     String address, {
     int limit = 10,
     String? before,
     String? until,
+    TxStatus? commitment,
   }) async {
     final data = await _client.request(
       'getConfirmedSignaturesForAddress2',
@@ -221,6 +227,7 @@ class SolanaClient {
           'limit': limit,
           'before': before,
           'after': until,
+          if (commitment != null) 'commitment': commitment.value,
         }
       ],
     );
@@ -230,26 +237,47 @@ class SolanaClient {
 
   /// Returns a Future that resolves to the transaction details for a given
   /// [signature].
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [TxStatus.processed] is not supported as [commitment].
   Future<ConfirmedTransaction?> getConfirmedTransaction(
-      String signature) async {
+    String signature, {
+    TxStatus? commitment,
+  }) async {
     final data = await _client.request(
       'getConfirmedTransaction',
-      params: <dynamic>[signature, 'jsonParsed'],
+      params: <dynamic>[
+        signature,
+        {
+          'string': 'jsonParsed',
+          if (commitment != null) 'commitment': commitment.value,
+        }
+      ],
     );
     return ConfirmedTransactionResponse.fromJson(data).result;
   }
 
   /// Get the [limit] most recent transactions for the [address] account
+  ///
+  /// For [commitment] parameter description see
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [TxStatus.processed] is not supported as [commitment].
   Future<Iterable<ConfirmedTransaction?>> getTransactionsList(
     String address, {
     int limit = 10,
+    TxStatus? commitment,
   }) async {
     final signatures = await getConfirmedSignaturesForAddress2(
       address,
       limit: limit,
+      commitment: commitment,
     );
-    final confirmedTransactions =
-        signatures.map((s) => s.signature).map(getConfirmedTransaction);
+    final confirmedTransactions = signatures
+        .map((s) => s.signature)
+        .map((s) => getConfirmedTransaction(s, commitment: commitment));
 
     return Future.wait(confirmedTransactions);
   }
