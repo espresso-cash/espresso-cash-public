@@ -251,7 +251,7 @@ class SolanaClient {
       params: <dynamic>[
         signature,
         {
-          'string': 'jsonParsed',
+          'encoding': 'jsonParsed',
           if (commitment != null) 'commitment': commitment.value,
         }
       ],
