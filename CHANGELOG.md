@@ -1,3 +1,11 @@
+## 0.8.0
+
+> Note: This release has breaking changes.
+
+- **FEAT**: Add commitment parameter to transactions methods (#28).
+- **BREAKING** **FIX**: Correct the derivation method (#27)
+
+
 ## 0.7.0
 
 > Note: This release has breaking changes.
