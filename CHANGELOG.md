@@ -1,3 +1,7 @@
+## 0.7.1
+
+ - **FEAT**: Add commitment parameter to transactions methods (#28).
+
 ## 0.7.0
 
 > Note: This release has breaking changes.
