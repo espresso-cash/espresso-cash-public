@@ -26,6 +26,9 @@ class Message extends Serializable {
     required int lamports,
     required Blockhash recentBlockhash,
   }) {
+    if (source == destination) {
+      throw const FormatException('source and destination cannot be the same');
+    }
     final instruction = Instruction(
       programIdIndex: 2,
       accountIndices: CompactArray.fromList([0, 1]),

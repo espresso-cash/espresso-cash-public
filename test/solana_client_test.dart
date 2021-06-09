@@ -64,6 +64,19 @@ void main() {
       expect(accountInfo.executable, false);
     });
 
+    test('Prevents transfer to self infinite loop', () async {
+      const int transferredAmount = 7500;
+      final recentHash = await solanaClient.getRecentBlockhash();
+      expect(
+          () => Message.transfer(
+                source: sourceWallet.address,
+                destination: sourceWallet.address,
+                lamports: transferredAmount,
+                recentBlockhash: recentHash,
+              ),
+          throwsA(const TypeMatcher<FormatException>()));
+    });
+
     test('Can simulate a transfer', () async {
       const int transferredAmount = 7500;
       final message = Message.transfer(
