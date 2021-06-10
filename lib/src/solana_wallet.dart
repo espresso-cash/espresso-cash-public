@@ -2,9 +2,8 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart' as crypto;
 import 'package:solana/src/base58/base58.dart' as base58;
 import 'package:solana/src/solana_serializable/signed_tx.dart';
+import 'package:solana/src/solana_serializable/solana_serializable.dart';
 import 'package:solana/src/types/hd_key_pair.dart';
-
-import 'solana_serializable/solana_serializable.dart';
 
 /// Signs transactions to be sent to a Solana Cluster
 class SolanaWallet {

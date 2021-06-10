@@ -169,6 +169,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  dfunc:
+    dependency: "direct main"
+    description:
+      name: dfunc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.2"
   ed25519_hd_key:
     dependency: "direct main"
     description:
@@ -190,6 +197,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  freezed:
+    dependency: "direct main"
+    description:
+      name: freezed
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.14.1+2"
+  freezed_annotation:
+    dependency: "direct main"
+    description:
+      name: freezed_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.14.2"
   glob:
     dependency: transitive
     description:
@@ -513,4 +534,4 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.12.0 <3.0.0"
+  dart: ">=2.13.0 <3.0.0"

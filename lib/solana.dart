@@ -14,4 +14,5 @@ export 'src/types/tx_signature.dart' show TxSignature;
 export 'src/util/is_valid_address.dart' show isValidAddress;
 
 const int lamportsPerSol = 1000000000;
-const String solanaSystemProgramID = '11111111111111111111111111111111';
+const String systemProgramID = '11111111111111111111111111111111';
+const String memoProgramID = 'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr';

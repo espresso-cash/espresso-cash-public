@@ -242,7 +242,8 @@ class SolanaClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [TxStatus.processed] is not supported as [commitment].
-  Future<ConfirmedTransaction?> getConfirmedTransaction(
+  @deprecated
+  Future<GetTransactionResult?> getConfirmedTransaction(
     String signature, {
     TxStatus? commitment,
   }) async {
@@ -256,6 +257,7 @@ class SolanaClient {
         }
       ],
     );
+
     return ConfirmedTransactionResponse.fromJson(data).result;
   }
 
@@ -265,7 +267,7 @@ class SolanaClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [TxStatus.processed] is not supported as [commitment].
-  Future<Iterable<ConfirmedTransaction?>> getTransactionsList(
+  Future<Iterable<GetTransactionResult>> getTransactionsList(
     String address, {
     int limit = 10,
     TxStatus? commitment,
@@ -275,11 +277,31 @@ class SolanaClient {
       limit: limit,
       commitment: commitment,
     );
-    final confirmedTransactions = signatures
-        .map((s) => s.signature)
-        .map((s) => getConfirmedTransaction(s, commitment: commitment));
+    final transactions = signatures
+        .map((s) => getTransaction(s.signature, commitment: commitment));
+    print(transactions);
 
-    return Future.wait(confirmedTransactions);
+    return []; //  Future.wait(transactions);
+  }
+
+  /// Returns transaction details for a confirmed transaction with
+  /// signature [signature]
+  Future<GetTransactionResult?> getTransaction(
+    String signature, {
+    TxStatus? commitment,
+  }) async {
+    final data = await _client.request(
+      'getTransaction',
+      params: <dynamic>[
+        signature.toString(),
+        <String, dynamic>{
+          'encoding': 'jsonParsed',
+          if (commitment != null) 'commitment': commitment.value,
+        }
+      ],
+    );
+
+    return GetTransactionResponse.fromJson(data).result;
   }
 }
 
