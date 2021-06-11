@@ -27,7 +27,7 @@ class Instruction extends Serializable {
     return Instruction._(
       programIdIndex,
       CompactArray.fromList(
-        pubKeys.extractIndexes(metas),
+        pubKeys.extractIndexesFromAccountMetas(metas),
       ),
       data,
     );
@@ -43,7 +43,7 @@ class Instruction extends Serializable {
     );
     return Instruction._(
       programIdIndex,
-      CompactArray<int>.fromList(signers.extractIndexes(metas)),
+      CompactArray<int>.fromList(signers.extractIndexesFromAccountMetas(metas)),
       CompactArray<int>.fromList(memo.serialize()),
     );
   }
@@ -64,7 +64,7 @@ class Instruction extends Serializable {
 }
 
 extension on List<String> {
-  List<int> extractIndexes(List<AccountMeta> metas) => map(
+  List<int> extractIndexesFromAccountMetas(List<AccountMeta> metas) => map(
         (String each) => metas.indexWhere((meta) => meta.pubKey == each),
       ).toList();
 }
