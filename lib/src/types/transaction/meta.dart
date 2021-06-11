@@ -6,6 +6,7 @@ part 'meta.g.dart';
 class Meta {
   Meta({
     this.err,
+    this.rewards,
     required this.fee,
     required this.preBalances,
     required this.postBalances,
@@ -13,7 +14,6 @@ class Meta {
     required this.preTokenBalances,
     required this.postTokenBalances,
     required this.logMessages,
-    required this.rewards,
   });
 
   factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
@@ -26,7 +26,7 @@ class Meta {
   final List<dynamic> preTokenBalances;
   final List<dynamic> postTokenBalances;
   final List<String> logMessages;
-  final List<Reward> rewards;
+  final List<Reward>? rewards;
 }
 
 @JsonSerializable(createToJson: false)

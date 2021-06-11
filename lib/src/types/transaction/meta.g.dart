@@ -9,6 +9,9 @@ part of 'meta.dart';
 Meta _$MetaFromJson(Map<String, dynamic> json) {
   return Meta(
     err: json['err'],
+    rewards: (json['rewards'] as List<dynamic>?)
+        ?.map((e) => Reward.fromJson(e as Map<String, dynamic>))
+        .toList(),
     fee: json['fee'] as int,
     preBalances: json['preBalances'] as List<dynamic>,
     postBalances: json['postBalances'] as List<dynamic>,
@@ -17,9 +20,6 @@ Meta _$MetaFromJson(Map<String, dynamic> json) {
     postTokenBalances: json['postTokenBalances'] as List<dynamic>,
     logMessages:
         (json['logMessages'] as List<dynamic>).map((e) => e as String).toList(),
-    rewards: (json['rewards'] as List<dynamic>)
-        .map((e) => Reward.fromJson(e as Map<String, dynamic>))
-        .toList(),
   );
 }
 
