@@ -1,5 +1,5 @@
-import 'package:solana/src/solana_serializable/byte.dart';
 import 'package:solana/src/solana_serializable/compact_u16.dart';
+import 'package:solana/src/solana_serializable/int.dart';
 import 'package:solana/src/solana_serializable/solana_serializable.dart';
 
 class CompactArray<T> extends Serializable {
@@ -13,7 +13,7 @@ class CompactArray<T> extends Serializable {
       if (value is Serializable) {
         return value.serialize();
       } else if (value is int) {
-        return Byte.from(value);
+        return SerializableInt.from(value);
       } else {
         throw FormatException('cannot serialize $value');
       }

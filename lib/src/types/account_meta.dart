@@ -3,6 +3,8 @@ enum AccessMode {
   readonly,
 }
 
+/// Class that wraps addresses with information necessary for
+/// solana transactions to be encoded correctly
 class AccountMeta {
   AccountMeta._({
     required this.pubKey,

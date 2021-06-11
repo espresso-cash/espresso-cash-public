@@ -286,7 +286,7 @@ class SolanaClient {
 
     // We are sure that no transaction in this list is `null` because
     // we have queried the signatures so the surely exist
-    return transactions.map((t) => t!);
+    return transactions.whereType();
   }
 
   /// Returns transaction details for a confirmed transaction with
