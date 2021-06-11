@@ -11,6 +11,8 @@ import 'package:solana/src/solana_serializable/string.dart';
 import 'package:solana/src/types/account_meta.dart';
 import 'package:solana/src/types/blockhash.dart';
 
+/// Taken from
+/// https://spl.solana.com/memo#compute-limits
 const _memoSizeLimit = 566;
 
 /// This is an implementation of the Solana message format.
