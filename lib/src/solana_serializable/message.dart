@@ -1,6 +1,5 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
-import 'package:solana/src/helpers/create_transfer_metas.dart';
 import 'package:solana/src/solana_serializable/address.dart';
 import 'package:solana/src/solana_serializable/compact_array.dart';
 import 'package:solana/src/solana_serializable/instruction.dart';
@@ -38,14 +37,22 @@ class Message extends Serializable {
     required Blockhash recentBlockhash,
     String? memo,
   }) {
-    final metas = createTransferMetas(source, destination);
+    final accounts = [
+      AccountMeta.writeable(pubKey: source, isSigner: true),
+      AccountMeta.writeable(pubKey: destination, isSigner: false),
+      AccountMeta.readonly(pubKey: systemProgramID, isSigner: false),
+      AccountMeta.readonly(pubKey: memoProgramID, isSigner: false),
+    ];
+
+    final uniqueAccounts = accounts.unique();
+
     final data = CompactArray.fromList([
       ...SerializableInt.from(2, bitSize: 32),
       ...SerializableInt.from(lamports, bitSize: 64),
     ]);
     final instruction = Instruction.system(
       pubKeys: [source, destination],
-      metas: metas,
+      accounts: uniqueAccounts,
       data: data,
     );
     final instructions = [instruction];
@@ -58,17 +65,18 @@ class Message extends Serializable {
       }
       instructions.add(
         Instruction.memo(
-          metas: metas,
           signers: [source],
+          accounts: uniqueAccounts,
           memo: SerializableString(memo),
         ),
       );
     }
 
     return Message._(
-      header: MessageHeader.fromAccounts(metas),
+      header: MessageHeader.fromAccounts(uniqueAccounts),
       accounts: CompactArray.fromList([
-        for (AccountMeta account in metas) Address.from(account.pubKey),
+        for (AccountMeta account in uniqueAccounts)
+          Address.from(account.pubKey),
       ]),
       recentBlockhash: recentBlockhash.blockhash,
       instructions: CompactArray.fromList(instructions),

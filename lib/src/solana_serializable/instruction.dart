@@ -12,38 +12,36 @@ class Instruction extends Serializable {
     this._data,
   );
 
-  /// Create a system program instruction with [data] for [metas].
-  /// The [metas] must be sorted according to
+  /// Create a system program instruction with [data] for [accounts].
+  /// The [accounts] must be sorted according to
   ///
   /// https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
   factory Instruction.system({
-    required List<AccountMeta> metas,
+    required List<AccountMeta> accounts,
     required List<String> pubKeys,
     required CompactArray<int> data,
   }) {
-    final programIdIndex = metas.indexWhere(
-      (meta) => meta.pubKey == systemProgramID,
-    );
+    final programIdIndex = accounts.indexOfPubKey(systemProgramID);
     return Instruction._(
       programIdIndex,
       CompactArray.fromList(
-        pubKeys.extractIndexesFromAccountMetas(metas),
+        pubKeys.extractIndexesFromAccountMetas(accounts),
       ),
       data,
     );
   }
 
   factory Instruction.memo({
-    required List<AccountMeta> metas,
+    required List<AccountMeta> accounts,
     required List<String> signers,
     required SerializableString memo,
   }) {
-    final programIdIndex = metas.indexWhere(
-      (meta) => meta.pubKey == memoProgramID,
-    );
+    final programIdIndex = accounts.indexOfPubKey(memoProgramID);
     return Instruction._(
       programIdIndex,
-      CompactArray<int>.fromList(signers.extractIndexesFromAccountMetas(metas)),
+      CompactArray<int>.fromList(
+        signers.extractIndexesFromAccountMetas(accounts),
+      ),
       CompactArray<int>.fromList(memo.serialize()),
     );
   }
@@ -66,6 +64,6 @@ class Instruction extends Serializable {
 
 extension on List<String> {
   List<int> extractIndexesFromAccountMetas(List<AccountMeta> metas) => map(
-        (String each) => metas.indexWhere((meta) => meta.pubKey == each),
+        (String pubKey) => metas.indexOfPubKey(pubKey),
       ).toList();
 }

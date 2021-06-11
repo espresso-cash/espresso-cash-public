@@ -12,19 +12,10 @@ class MessageHeader extends Serializable {
 
   factory MessageHeader.fromAccounts(List<AccountMeta> accounts) =>
       MessageHeader._(
-        accounts.fold(0, _signersCounterReducer),
-        accounts.fold(0, _readonlySignersCounterReducer),
-        accounts.fold(0, _readonlyNonSignerCounterReducer),
+        accounts.getNumSigners(),
+        accounts.getNumReadonlySigners(),
+        accounts.getNumReadonlyNonSigners(),
       );
-
-  static int _signersCounterReducer(int total, AccountMeta meta) =>
-      (meta.isSigner ? 1 : 0) + total;
-
-  static int _readonlyNonSignerCounterReducer(int total, AccountMeta meta) =>
-      (meta.isReadonlyNonSigner ? 1 : 0) + total;
-
-  static int _readonlySignersCounterReducer(int total, AccountMeta meta) =>
-      (meta.isReadonlySigner ? 1 : 0) + total;
 
   final int numRequiredSignatures;
   final int numReadonlySignedAccounts;
