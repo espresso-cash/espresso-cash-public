@@ -31,6 +31,7 @@ class AccountMeta {
       );
 
   bool get isReadonlySigner => isSigner && accessMode == AccessMode.readonly;
+
   bool get isReadonlyNonSigner =>
       !isSigner && accessMode == AccessMode.readonly;
 

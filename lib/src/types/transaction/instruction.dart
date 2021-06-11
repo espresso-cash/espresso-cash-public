@@ -4,6 +4,8 @@ import 'package:solana/src/types/transaction/transaction.dart';
 part 'instruction.freezed.dart';
 part 'instruction.g.dart';
 
+const _transferParsedInstruction = 'transfer';
+
 /// An instruction which is part of a [TxMessage]
 @freezed
 class TxInstruction {
@@ -16,20 +18,21 @@ class TxInstruction {
         final data = _ParsedTransferInstruction.fromJson(
           base.parsed as Map<String, dynamic>,
         );
-        if (data.type != 'transfer') {
-          throw const FormatException(
-            'invalid parsed object from instruction, cannot be converted to a transfer',
+        if (data.type == _transferParsedInstruction) {
+          return TxInstruction.transfer(
+            lamports: data.info['lamports'] as int,
+            source: data.info['source'] as String,
+            destination: data.info['destination'] as String,
           );
+        } else {
+          return const TxInstruction.unsupported();
         }
-        return TxInstruction.transfer(
-          lamports: data.info['lamports'] as int,
-          source: data.info['source'] as String,
-          destination: data.info['destination'] as String,
-        );
       case ProgramType.memo:
         return TxInstruction.memo(base.parsed as String);
     }
   }
+
+  const factory TxInstruction.unsupported() = UnsupportedInstruction;
 
   const factory TxInstruction.transfer({
     required int lamports,

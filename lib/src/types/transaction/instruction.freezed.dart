@@ -16,6 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$TxInstructionTearOff {
   const _$TxInstructionTearOff();
 
+  UnsupportedInstruction unsupported() {
+    return const UnsupportedInstruction();
+  }
+
   TransferInstruction transfer(
       {required int lamports,
       required String source,
@@ -41,6 +45,7 @@ const $TxInstruction = _$TxInstructionTearOff();
 mixin _$TxInstruction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() unsupported,
     required TResult Function(int lamports, String source, String destination)
         transfer,
     required TResult Function(String memo) memo,
@@ -48,6 +53,7 @@ mixin _$TxInstruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unsupported,
     TResult Function(int lamports, String source, String destination)? transfer,
     TResult Function(String memo)? memo,
     required TResult orElse(),
@@ -55,12 +61,14 @@ mixin _$TxInstruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(UnsupportedInstruction value) unsupported,
     required TResult Function(TransferInstruction value) transfer,
     required TResult Function(MemoInstruction value) memo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(UnsupportedInstruction value)? unsupported,
     TResult Function(TransferInstruction value)? transfer,
     TResult Function(MemoInstruction value)? memo,
     required TResult orElse(),
@@ -83,6 +91,97 @@ class _$TxInstructionCopyWithImpl<$Res>
   final TxInstruction _value;
   // ignore: unused_field
   final $Res Function(TxInstruction) _then;
+}
+
+/// @nodoc
+abstract class $UnsupportedInstructionCopyWith<$Res> {
+  factory $UnsupportedInstructionCopyWith(UnsupportedInstruction value,
+          $Res Function(UnsupportedInstruction) then) =
+      _$UnsupportedInstructionCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$UnsupportedInstructionCopyWithImpl<$Res>
+    extends _$TxInstructionCopyWithImpl<$Res>
+    implements $UnsupportedInstructionCopyWith<$Res> {
+  _$UnsupportedInstructionCopyWithImpl(UnsupportedInstruction _value,
+      $Res Function(UnsupportedInstruction) _then)
+      : super(_value, (v) => _then(v as UnsupportedInstruction));
+
+  @override
+  UnsupportedInstruction get _value => super._value as UnsupportedInstruction;
+}
+
+/// @nodoc
+class _$UnsupportedInstruction extends UnsupportedInstruction {
+  const _$UnsupportedInstruction() : super._();
+
+  @override
+  String toString() {
+    return 'TxInstruction.unsupported()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is UnsupportedInstruction);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unsupported,
+    required TResult Function(int lamports, String source, String destination)
+        transfer,
+    required TResult Function(String memo) memo,
+  }) {
+    return unsupported();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unsupported,
+    TResult Function(int lamports, String source, String destination)? transfer,
+    TResult Function(String memo)? memo,
+    required TResult orElse(),
+  }) {
+    if (unsupported != null) {
+      return unsupported();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(UnsupportedInstruction value) unsupported,
+    required TResult Function(TransferInstruction value) transfer,
+    required TResult Function(MemoInstruction value) memo,
+  }) {
+    return unsupported(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(UnsupportedInstruction value)? unsupported,
+    TResult Function(TransferInstruction value)? transfer,
+    TResult Function(MemoInstruction value)? memo,
+    required TResult orElse(),
+  }) {
+    if (unsupported != null) {
+      return unsupported(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UnsupportedInstruction extends TxInstruction {
+  const factory UnsupportedInstruction() = _$UnsupportedInstruction;
+  const UnsupportedInstruction._() : super._();
 }
 
 /// @nodoc
@@ -174,6 +273,7 @@ class _$TransferInstruction extends TransferInstruction {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() unsupported,
     required TResult Function(int lamports, String source, String destination)
         transfer,
     required TResult Function(String memo) memo,
@@ -184,6 +284,7 @@ class _$TransferInstruction extends TransferInstruction {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unsupported,
     TResult Function(int lamports, String source, String destination)? transfer,
     TResult Function(String memo)? memo,
     required TResult orElse(),
@@ -197,6 +298,7 @@ class _$TransferInstruction extends TransferInstruction {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(UnsupportedInstruction value) unsupported,
     required TResult Function(TransferInstruction value) transfer,
     required TResult Function(MemoInstruction value) memo,
   }) {
@@ -206,6 +308,7 @@ class _$TransferInstruction extends TransferInstruction {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(UnsupportedInstruction value)? unsupported,
     TResult Function(TransferInstruction value)? transfer,
     TResult Function(MemoInstruction value)? memo,
     required TResult orElse(),
@@ -296,6 +399,7 @@ class _$MemoInstruction extends MemoInstruction {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() unsupported,
     required TResult Function(int lamports, String source, String destination)
         transfer,
     required TResult Function(String memo) memo,
@@ -306,6 +410,7 @@ class _$MemoInstruction extends MemoInstruction {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unsupported,
     TResult Function(int lamports, String source, String destination)? transfer,
     TResult Function(String memo)? memo,
     required TResult orElse(),
@@ -319,6 +424,7 @@ class _$MemoInstruction extends MemoInstruction {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(UnsupportedInstruction value) unsupported,
     required TResult Function(TransferInstruction value) transfer,
     required TResult Function(MemoInstruction value) memo,
   }) {
@@ -328,6 +434,7 @@ class _$MemoInstruction extends MemoInstruction {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(UnsupportedInstruction value)? unsupported,
     TResult Function(TransferInstruction value)? transfer,
     TResult Function(MemoInstruction value)? memo,
     required TResult orElse(),
