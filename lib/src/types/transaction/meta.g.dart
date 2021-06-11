@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tx_meta.dart';
+part of 'meta.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TxMeta _$TxMetaFromJson(Map<String, dynamic> json) {
-  return TxMeta(
+Meta _$MetaFromJson(Map<String, dynamic> json) {
+  return Meta(
     err: json['err'],
     fee: json['fee'] as int,
     preBalances: json['preBalances'] as List<dynamic>,

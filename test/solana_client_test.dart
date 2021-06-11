@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/solana_serializable/signed_tx.dart';
+import 'package:solana/src/types/transaction/get_transaction_result.dart';
+import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:test/test.dart';
 
 void main() {

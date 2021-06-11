@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
-part of 'transaction.dart';
+part of 'instruction.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,8 +13,8 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$TxInstructionTearOff {
-  const _$TxInstructionTearOff();
+class _$InstructionTearOff {
+  const _$InstructionTearOff();
 
   TransferInstruction transfer(
       {required int lamports,
@@ -35,10 +35,10 @@ class _$TxInstructionTearOff {
 }
 
 /// @nodoc
-const $TxInstruction = _$TxInstructionTearOff();
+const $Instruction = _$InstructionTearOff();
 
 /// @nodoc
-mixin _$TxInstruction {
+mixin _$Instruction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int lamports, String source, String destination)
@@ -69,20 +69,19 @@ mixin _$TxInstruction {
 }
 
 /// @nodoc
-abstract class $TxInstructionCopyWith<$Res> {
-  factory $TxInstructionCopyWith(
-          TxInstruction value, $Res Function(TxInstruction) then) =
-      _$TxInstructionCopyWithImpl<$Res>;
+abstract class $InstructionCopyWith<$Res> {
+  factory $InstructionCopyWith(
+          Instruction value, $Res Function(Instruction) then) =
+      _$InstructionCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$TxInstructionCopyWithImpl<$Res>
-    implements $TxInstructionCopyWith<$Res> {
-  _$TxInstructionCopyWithImpl(this._value, this._then);
+class _$InstructionCopyWithImpl<$Res> implements $InstructionCopyWith<$Res> {
+  _$InstructionCopyWithImpl(this._value, this._then);
 
-  final TxInstruction _value;
+  final Instruction _value;
   // ignore: unused_field
-  final $Res Function(TxInstruction) _then;
+  final $Res Function(Instruction) _then;
 }
 
 /// @nodoc
@@ -95,7 +94,7 @@ abstract class $TransferInstructionCopyWith<$Res> {
 
 /// @nodoc
 class _$TransferInstructionCopyWithImpl<$Res>
-    extends _$TxInstructionCopyWithImpl<$Res>
+    extends _$InstructionCopyWithImpl<$Res>
     implements $TransferInstructionCopyWith<$Res> {
   _$TransferInstructionCopyWithImpl(
       TransferInstruction _value, $Res Function(TransferInstruction) _then)
@@ -142,7 +141,7 @@ class _$TransferInstruction extends TransferInstruction {
 
   @override
   String toString() {
-    return 'TxInstruction.transfer(lamports: $lamports, source: $source, destination: $destination)';
+    return 'Instruction.transfer(lamports: $lamports, source: $source, destination: $destination)';
   }
 
   @override
@@ -217,7 +216,7 @@ class _$TransferInstruction extends TransferInstruction {
   }
 }
 
-abstract class TransferInstruction extends TxInstruction {
+abstract class TransferInstruction extends Instruction {
   const factory TransferInstruction(
       {required int lamports,
       required String source,
@@ -242,7 +241,7 @@ abstract class $MemoInstructionCopyWith<$Res> {
 
 /// @nodoc
 class _$MemoInstructionCopyWithImpl<$Res>
-    extends _$TxInstructionCopyWithImpl<$Res>
+    extends _$InstructionCopyWithImpl<$Res>
     implements $MemoInstructionCopyWith<$Res> {
   _$MemoInstructionCopyWithImpl(
       MemoInstruction _value, $Res Function(MemoInstruction) _then)
@@ -273,7 +272,7 @@ class _$MemoInstruction extends MemoInstruction {
 
   @override
   String toString() {
-    return 'TxInstruction.memo(memo: $memo)';
+    return 'Instruction.memo(memo: $memo)';
   }
 
   @override
@@ -339,7 +338,7 @@ class _$MemoInstruction extends MemoInstruction {
   }
 }
 
-abstract class MemoInstruction extends TxInstruction {
+abstract class MemoInstruction extends Instruction {
   const factory MemoInstruction(String memo) = _$MemoInstruction;
   const MemoInstruction._() : super._();
 

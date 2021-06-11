@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'tx_meta.g.dart';
+part 'meta.g.dart';
 
 @JsonSerializable(createToJson: false)
-class TxMeta {
-  TxMeta({
+class Meta {
+  Meta({
     this.err,
     required this.fee,
     required this.preBalances,
@@ -16,7 +16,7 @@ class TxMeta {
     required this.rewards,
   });
 
-  factory TxMeta.fromJson(Map<String, dynamic> json) => _$TxMetaFromJson(json);
+  factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
 
   final Object? err;
   final int fee;
