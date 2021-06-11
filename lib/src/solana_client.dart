@@ -12,7 +12,7 @@ import 'package:solana/src/types/confirmed_transaction_response.dart';
 import 'package:solana/src/types/signature_status.dart';
 import 'package:solana/src/types/simulate_tx_result.dart';
 import 'package:solana/src/types/transaction/get_transaction_response.dart';
-import 'package:solana/src/types/transaction/get_transaction_result.dart';
+import 'package:solana/src/types/transaction/transaction_result.dart';
 import 'package:solana/src/types/tx_signature.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
@@ -244,7 +244,7 @@ class SolanaClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [TxStatus.processed] is not supported as [commitment].
-  Future<GetTransactionResult?> getConfirmedTransaction(
+  Future<TransactionResult?> getConfirmedTransaction(
     String signature, {
     TxStatus? commitment,
   }) async {
@@ -268,7 +268,7 @@ class SolanaClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [TxStatus.processed] is not supported as [commitment].
-  Future<Iterable<GetTransactionResult>> getTransactionsList(
+  Future<Iterable<TransactionResult>> getTransactionsList(
     String address, {
     int limit = 10,
     TxStatus? commitment,
@@ -291,7 +291,7 @@ class SolanaClient {
 
   /// Returns transaction details for a confirmed transaction with
   /// signature [signature]
-  Future<GetTransactionResult?> getTransaction(
+  Future<TransactionResult?> getTransaction(
     String signature, {
     TxStatus? commitment,
   }) async {

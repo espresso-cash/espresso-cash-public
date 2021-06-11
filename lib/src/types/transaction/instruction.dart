@@ -32,10 +32,6 @@ class TxInstruction {
     }
   }
 
-  /// Instruction representing any unsupported instructions
-  /// that might be found in a transaction
-  const factory TxInstruction.unsupported() = UnsupportedInstruction;
-
   /// Instruction representing a transfer of [lamports] from [source]
   /// to [destination]
   const factory TxInstruction.transfer({
@@ -46,6 +42,10 @@ class TxInstruction {
 
   /// Instruction representing a memo with content [memo]
   const factory TxInstruction.memo(String memo) = MemoInstruction;
+
+  /// Instruction representing any unsupported instructions
+  /// that might be found in a transaction
+  const factory TxInstruction.unsupported() = UnsupportedInstruction;
 }
 
 @JsonSerializable(createToJson: false)

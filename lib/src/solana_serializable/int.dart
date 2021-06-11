@@ -6,20 +6,20 @@ import 'package:solana/src/solana_serializable/solana_serializable.dart';
 const int _bitsPerByte = 8;
 const int _hexCharsPerByte = 2;
 
-class Int extends ListBase<int> implements Serializable {
-  Int._(this._values) : length = _values.length;
+class SerializableInt extends ListBase<int> implements Serializable {
+  SerializableInt._(this._values) : length = _values.length;
 
-  factory Int._fromIterable(Iterable<int> iterable) =>
-      Int._([for (int i in iterable) i]);
+  factory SerializableInt._fromIterable(Iterable<int> iterable) =>
+      SerializableInt._([for (int i in iterable) i]);
 
-  factory Int.from(int value, {int bitSize = 8}) {
+  factory SerializableInt.from(int value, {int bitSize = 8}) {
     final String padded = value.toRadixString(16).padLeft(
           _hexCharsPerByte * bitSize ~/ _bitsPerByte,
           '0',
         );
     final List<int> be = hex.decode(padded);
     // Convert to LE
-    return Int._fromIterable(be.reversed);
+    return SerializableInt._fromIterable(be.reversed);
   }
 
   final List<int> _values;

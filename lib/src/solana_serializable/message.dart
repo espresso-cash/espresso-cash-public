@@ -38,8 +38,8 @@ class Message extends Serializable {
   }) {
     final metas = createTransferMetas(source, destination);
     final data = CompactArray.fromList([
-      ...Int.from(2, bitSize: 32),
-      ...Int.from(lamports, bitSize: 64),
+      ...SerializableInt.from(2, bitSize: 32),
+      ...SerializableInt.from(lamports, bitSize: 64),
     ]);
     final instruction = Instruction.system(
       pubKeys: [source, destination],
@@ -48,7 +48,7 @@ class Message extends Serializable {
     );
     final instructions = [instruction];
     if (memo != null) {
-      final memoStr = Str(memo);
+      final memoStr = SerializableString(memo);
       if (memoStr.size > _memoSizeLimit) {
         throw const FormatException(
           'the [memo] cannot be more than 566 bytes length',
@@ -58,7 +58,7 @@ class Message extends Serializable {
         Instruction.memo(
           metas: metas,
           signers: [source],
-          memo: Str(memo),
+          memo: SerializableString(memo),
         ),
       );
     }

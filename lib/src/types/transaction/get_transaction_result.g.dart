@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'get_transaction_result.dart';
+part of 'transaction_result.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

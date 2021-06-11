@@ -36,7 +36,7 @@ class Instruction extends Serializable {
   factory Instruction.memo({
     required List<AccountMeta> metas,
     required List<String> signers,
-    required Str memo,
+    required SerializableString memo,
   }) {
     final programIdIndex = metas.indexWhere(
       (meta) => meta.pubKey == memoProgramID,
@@ -54,7 +54,8 @@ class Instruction extends Serializable {
 
   @override
   List<int> serialize() {
-    final Int programIdIndex = Int.from(_programIdIndex);
+    final SerializableInt programIdIndex =
+        SerializableInt.from(_programIdIndex);
     return [
       ...programIdIndex.serialize(),
       ..._accountIndices.serialize(),

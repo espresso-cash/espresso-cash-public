@@ -11,6 +11,6 @@ ConfirmedTransactionResponse _$ConfirmedTransactionResponseFromJson(
   return ConfirmedTransactionResponse(
     json['result'] == null
         ? null
-        : GetTransactionResult.fromJson(json['result'] as Map<String, dynamic>),
+        : TransactionResult.fromJson(json['result'] as Map<String, dynamic>),
   );
 }
