@@ -11,6 +11,8 @@ enum ProgramType {
   memo,
 }
 
+/// A generic transaction as returned by the `getTransaction` RPC
+/// method
 @JsonSerializable(createToJson: false)
 class Transaction {
   Transaction({

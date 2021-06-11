@@ -4,6 +4,7 @@ import 'package:solana/src/types/transaction/transaction.dart';
 part 'instruction.freezed.dart';
 part 'instruction.g.dart';
 
+/// An instruction which is part of a [TxMessage]
 @freezed
 class TxInstruction {
   const TxInstruction._();
