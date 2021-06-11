@@ -11,7 +11,6 @@ dependencies:
   bip39: ^1.0.6
   convert: ^3.0.0
   cryptography: ^2.0.1
-  dfunc: ^0.7.2
   ed25519_hd_key: ^2.0.0
   freezed_annotation: ^0.14.2
   http: ^0.13.1
