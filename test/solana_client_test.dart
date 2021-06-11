@@ -153,7 +153,8 @@ void main() {
         completes,
       );
 
-      final result = await solanaClient.getTransaction(signature.toString());
+      final result =
+          await solanaClient.getConfirmedTransaction(signature.toString());
       expect(result, isNot(null));
       expect(result?.transaction, isNot(null));
       final transaction = result!.transaction;

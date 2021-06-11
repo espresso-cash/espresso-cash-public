@@ -281,7 +281,7 @@ class SolanaClient {
     );
     final transactions = await Future.wait(
       signatures.map(
-        (s) => getTransaction(s.signature, commitment: commitment),
+        (s) => getConfirmedTransaction(s.signature, commitment: commitment),
       ),
     );
 
