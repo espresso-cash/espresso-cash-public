@@ -277,11 +277,15 @@ class SolanaClient {
       limit: limit,
       commitment: commitment,
     );
-    final transactions = signatures
-        .map((s) => getTransaction(s.signature, commitment: commitment));
-    print(transactions);
+    final transactions = await Future.wait(
+      signatures.map(
+        (s) => getTransaction(s.signature, commitment: commitment),
+      ),
+    );
 
-    return []; //  Future.wait(transactions);
+    // We are sure that no transaction in this list is `null` because
+    // we have queried the signatures so the surely exist
+    return transactions.map((t) => t!);
   }
 
   /// Returns transaction details for a confirmed transaction with

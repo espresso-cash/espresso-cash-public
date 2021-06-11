@@ -92,7 +92,6 @@ void main() {
       final SignedTx signedTx = await sourceWallet.signMessage(message);
       final TxSignature signature =
           await solanaClient.sendTransaction(signedTx);
-      print(signature);
       expect(signature, isNot(null));
       await expectLater(
         solanaClient.waitForSignatureStatus(
@@ -164,7 +163,7 @@ void main() {
       expect(instructions[0], const TypeMatcher<TransferInstruction>());
       expect(instructions[1], const TypeMatcher<MemoInstruction>());
       final memoInstruction = instructions[1] as MemoInstruction;
-      expect(memoInstruction, equals(memoText));
+      expect(memoInstruction.memo, equals(memoText));
     });
 
     test('Can list recent transactions', () async {
