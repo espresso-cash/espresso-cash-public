@@ -6,19 +6,19 @@ import 'package:solana/src/types/transaction/message_header.dart';
 part 'message.g.dart';
 
 @JsonSerializable(createToJson: false)
-class Message {
-  Message({
+class TxMessage {
+  TxMessage({
     this.header,
     required this.accountKeys,
     required this.recentBlockhash,
     required this.instructions,
   });
 
-  factory Message.fromJson(Map<String, dynamic> json) =>
-      _$MessageFromJson(json);
+  factory TxMessage.fromJson(Map<String, dynamic> json) =>
+      _$TxMessageFromJson(json);
 
   final List<AccountKey> accountKeys;
-  final MessageHeader? header;
+  final TxMessageHeader? header;
   final String recentBlockhash;
-  final List<Instruction> instructions;
+  final List<TxInstruction> instructions;
 }

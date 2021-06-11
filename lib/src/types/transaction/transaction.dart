@@ -22,5 +22,5 @@ class Transaction {
       _$TransactionFromJson(json);
 
   final List<String> signatures;
-  final Message? message;
+  final TxMessage? message;
 }

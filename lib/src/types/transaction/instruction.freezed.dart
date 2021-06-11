@@ -13,8 +13,8 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$InstructionTearOff {
-  const _$InstructionTearOff();
+class _$TxInstructionTearOff {
+  const _$TxInstructionTearOff();
 
   TransferInstruction transfer(
       {required int lamports,
@@ -35,10 +35,10 @@ class _$InstructionTearOff {
 }
 
 /// @nodoc
-const $Instruction = _$InstructionTearOff();
+const $TxInstruction = _$TxInstructionTearOff();
 
 /// @nodoc
-mixin _$Instruction {
+mixin _$TxInstruction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int lamports, String source, String destination)
@@ -69,19 +69,20 @@ mixin _$Instruction {
 }
 
 /// @nodoc
-abstract class $InstructionCopyWith<$Res> {
-  factory $InstructionCopyWith(
-          Instruction value, $Res Function(Instruction) then) =
-      _$InstructionCopyWithImpl<$Res>;
+abstract class $TxInstructionCopyWith<$Res> {
+  factory $TxInstructionCopyWith(
+          TxInstruction value, $Res Function(TxInstruction) then) =
+      _$TxInstructionCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$InstructionCopyWithImpl<$Res> implements $InstructionCopyWith<$Res> {
-  _$InstructionCopyWithImpl(this._value, this._then);
+class _$TxInstructionCopyWithImpl<$Res>
+    implements $TxInstructionCopyWith<$Res> {
+  _$TxInstructionCopyWithImpl(this._value, this._then);
 
-  final Instruction _value;
+  final TxInstruction _value;
   // ignore: unused_field
-  final $Res Function(Instruction) _then;
+  final $Res Function(TxInstruction) _then;
 }
 
 /// @nodoc
@@ -94,7 +95,7 @@ abstract class $TransferInstructionCopyWith<$Res> {
 
 /// @nodoc
 class _$TransferInstructionCopyWithImpl<$Res>
-    extends _$InstructionCopyWithImpl<$Res>
+    extends _$TxInstructionCopyWithImpl<$Res>
     implements $TransferInstructionCopyWith<$Res> {
   _$TransferInstructionCopyWithImpl(
       TransferInstruction _value, $Res Function(TransferInstruction) _then)
@@ -141,7 +142,7 @@ class _$TransferInstruction extends TransferInstruction {
 
   @override
   String toString() {
-    return 'Instruction.transfer(lamports: $lamports, source: $source, destination: $destination)';
+    return 'TxInstruction.transfer(lamports: $lamports, source: $source, destination: $destination)';
   }
 
   @override
@@ -216,7 +217,7 @@ class _$TransferInstruction extends TransferInstruction {
   }
 }
 
-abstract class TransferInstruction extends Instruction {
+abstract class TransferInstruction extends TxInstruction {
   const factory TransferInstruction(
       {required int lamports,
       required String source,
@@ -241,7 +242,7 @@ abstract class $MemoInstructionCopyWith<$Res> {
 
 /// @nodoc
 class _$MemoInstructionCopyWithImpl<$Res>
-    extends _$InstructionCopyWithImpl<$Res>
+    extends _$TxInstructionCopyWithImpl<$Res>
     implements $MemoInstructionCopyWith<$Res> {
   _$MemoInstructionCopyWithImpl(
       MemoInstruction _value, $Res Function(MemoInstruction) _then)
@@ -272,7 +273,7 @@ class _$MemoInstruction extends MemoInstruction {
 
   @override
   String toString() {
-    return 'Instruction.memo(memo: $memo)';
+    return 'TxInstruction.memo(memo: $memo)';
   }
 
   @override
@@ -338,7 +339,7 @@ class _$MemoInstruction extends MemoInstruction {
   }
 }
 
-abstract class MemoInstruction extends Instruction {
+abstract class MemoInstruction extends TxInstruction {
   const factory MemoInstruction(String memo) = _$MemoInstruction;
   const MemoInstruction._() : super._();
 

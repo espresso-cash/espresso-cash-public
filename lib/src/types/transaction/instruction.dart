@@ -5,10 +5,10 @@ part 'instruction.freezed.dart';
 part 'instruction.g.dart';
 
 @freezed
-class Instruction {
-  const Instruction._();
+class TxInstruction {
+  const TxInstruction._();
 
-  factory Instruction.fromJson(Map<String, dynamic> json) {
+  factory TxInstruction.fromJson(Map<String, dynamic> json) {
     final base = _Instruction.fromJson(json);
     switch (base.program) {
       case ProgramType.system:
@@ -20,23 +20,23 @@ class Instruction {
             'invalid parsed object from instruction, cannot be converted to a transfer',
           );
         }
-        return Instruction.transfer(
+        return TxInstruction.transfer(
           lamports: data.info['lamports'] as int,
           source: data.info['source'] as String,
           destination: data.info['destination'] as String,
         );
       case ProgramType.memo:
-        return Instruction.memo(base.parsed as String);
+        return TxInstruction.memo(base.parsed as String);
     }
   }
 
-  const factory Instruction.transfer({
+  const factory TxInstruction.transfer({
     required int lamports,
     required String source,
     required String destination,
   }) = TransferInstruction;
 
-  const factory Instruction.memo(String memo) = MemoInstruction;
+  const factory TxInstruction.memo(String memo) = MemoInstruction;
 }
 
 @JsonSerializable(createToJson: false)
