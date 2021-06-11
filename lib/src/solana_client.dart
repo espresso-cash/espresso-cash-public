@@ -244,7 +244,6 @@ class SolanaClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [TxStatus.processed] is not supported as [commitment].
-  @deprecated
   Future<GetTransactionResult?> getConfirmedTransaction(
     String signature, {
     TxStatus? commitment,
