@@ -1,14 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tx_meta.dart';
+part of 'account_key.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TxMeta _$TxMetaFromJson(Map<String, dynamic> json) {
-  return TxMeta(
-    err: json['err'],
-    fee: json['fee'] as int,
+AccountKey _$AccountKeyFromJson(Map<String, dynamic> json) {
+  return AccountKey(
+    pubkey: json['pubkey'] as String,
   );
 }

@@ -70,8 +70,10 @@ class EdwardsPoint {
     return x;
   }
 
-  static BigInt _bigIntFromBytes(List<int> bytes) =>
-      BigInt.parse(hex.encode(bytes.reversed.toList()), radix: 16);
+  static BigInt _bigIntFromBytes(List<int> bytes) => BigInt.parse(
+        hex.encode([for (int byte in bytes.reversed) byte]),
+        radix: 16,
+      );
 }
 
 /// Returns true if [address] is a valid ed25519 point encoded

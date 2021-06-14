@@ -8,9 +8,11 @@ import 'package:solana/src/types/account_info.dart';
 import 'package:solana/src/types/balance.dart';
 import 'package:solana/src/types/blockhash.dart';
 import 'package:solana/src/types/confirmed_signature.dart';
+import 'package:solana/src/types/confirmed_transaction_response.dart';
 import 'package:solana/src/types/signature_status.dart';
 import 'package:solana/src/types/simulate_tx_result.dart';
-import 'package:solana/src/types/transaction.dart';
+import 'package:solana/src/types/transaction/get_transaction_response.dart';
+import 'package:solana/src/types/transaction/transaction_result.dart';
 import 'package:solana/src/types/tx_signature.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
@@ -242,7 +244,7 @@ class SolanaClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [TxStatus.processed] is not supported as [commitment].
-  Future<ConfirmedTransaction?> getConfirmedTransaction(
+  Future<TransactionResult?> getConfirmedTransaction(
     String signature, {
     TxStatus? commitment,
   }) async {
@@ -256,6 +258,7 @@ class SolanaClient {
         }
       ],
     );
+
     return ConfirmedTransactionResponse.fromJson(data).result;
   }
 
@@ -265,7 +268,7 @@ class SolanaClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [TxStatus.processed] is not supported as [commitment].
-  Future<Iterable<ConfirmedTransaction?>> getTransactionsList(
+  Future<Iterable<TransactionResult>> getTransactionsList(
     String address, {
     int limit = 10,
     TxStatus? commitment,
@@ -275,11 +278,35 @@ class SolanaClient {
       limit: limit,
       commitment: commitment,
     );
-    final confirmedTransactions = signatures
-        .map((s) => s.signature)
-        .map((s) => getConfirmedTransaction(s, commitment: commitment));
+    final transactions = await Future.wait(
+      signatures.map(
+        (s) => getConfirmedTransaction(s.signature, commitment: commitment),
+      ),
+    );
 
-    return Future.wait(confirmedTransactions);
+    // We are sure that no transaction in this list is `null` because
+    // we have queried the signatures so the surely exist
+    return transactions.whereType();
+  }
+
+  /// Returns transaction details for a confirmed transaction with
+  /// signature [signature]
+  Future<TransactionResult?> getTransaction(
+    String signature, {
+    TxStatus? commitment,
+  }) async {
+    final data = await _client.request(
+      'getTransaction',
+      params: <dynamic>[
+        signature.toString(),
+        <String, dynamic>{
+          'encoding': 'jsonParsed',
+          if (commitment != null) 'commitment': commitment.value,
+        }
+      ],
+    );
+
+    return GetTransactionResponse.fromJson(data).result;
   }
 }
 

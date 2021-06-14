@@ -41,7 +41,7 @@ class JsonRpcClient {
       if (data['error'] != null) {
         throw JsonRpcError.fromJson(data['error'] as Map<String, dynamic>);
       }
-      if (data['result'] == null) {
+      if (!data.containsKey('result')) {
         throw ArgumentError('object has no result field, invalid jsonrpc-2.0');
       }
       return data;

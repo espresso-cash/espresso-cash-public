@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/solana_serializable/signed_tx.dart';
+import 'package:solana/src/types/transaction/instruction.dart';
+import 'package:solana/src/types/transaction/transaction_result.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -31,9 +33,12 @@ void main() {
         commitment: TxStatus.finalized,
       );
       expect(signature, isNot(null));
-      await solanaClient.waitForSignatureStatus(
-        signature,
-        TxStatus.finalized,
+      await expectLater(
+        solanaClient.waitForSignatureStatus(
+          signature,
+          TxStatus.finalized,
+        ),
+        completes,
       );
       final int balance = await solanaClient.getBalance(sourceWallet.address);
       // Update the global balance
@@ -60,12 +65,12 @@ void main() {
       final AccountInfo accountInfo =
           await solanaClient.getAccountInfo(sourceWallet.address);
       expect(accountInfo.lamports, currentBalance);
-      expect(accountInfo.owner, solanaSystemProgramID);
+      expect(accountInfo.owner, systemProgramID);
       expect(accountInfo.executable, false);
     });
 
     test('Can simulate a transfer', () async {
-      const int transferredAmount = 7500;
+      const int transferredAmount = 50000;
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
@@ -79,7 +84,7 @@ void main() {
     });
 
     test('Can transfer tokens', () async {
-      const int transferredAmount = 7500;
+      const int transferredAmount = 50000;
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
@@ -90,18 +95,85 @@ void main() {
       final TxSignature signature =
           await solanaClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
-      await solanaClient.waitForSignatureStatus(
-        signature,
-        TxStatus.finalized,
+      await expectLater(
+        solanaClient.waitForSignatureStatus(
+          signature,
+          TxStatus.finalized,
+        ),
+        completes,
       );
       final int balance = await solanaClient.getBalance(targetWallet.address);
       expect(balance, greaterThan(0));
     });
 
+    test('Can transfer to the same address', () async {
+      const int transferredAmount = 50000;
+      final message = Message.transfer(
+        source: sourceWallet.address,
+        destination: sourceWallet.address,
+        lamports: transferredAmount,
+        recentBlockhash: await solanaClient.getRecentBlockhash(),
+      );
+      final SignedTx signedTx = await sourceWallet.signMessage(message);
+      final TxSignature signature =
+          await solanaClient.sendTransaction(signedTx);
+      expect(signature, isNot(null));
+
+      await expectLater(
+        solanaClient.waitForSignatureStatus(
+          signature,
+          TxStatus.finalized,
+        ),
+        completes,
+      );
+    });
+
+    test('Can transfer with memo', () async {
+      const int transferredAmount = 50000;
+      const memoText = 'Memo test string...';
+
+      final message = Message.transfer(
+        source: sourceWallet.address,
+        destination: targetWallet.address,
+        lamports: transferredAmount,
+        recentBlockhash: await solanaClient.getRecentBlockhash(),
+        memo: memoText,
+      );
+      final SignedTx signedTx = await sourceWallet.signMessage(message);
+      final TxSignature signature = await solanaClient.sendTransaction(
+        signedTx,
+      );
+      expect(signature, isNot(null));
+
+      await expectLater(
+        solanaClient.waitForSignatureStatus(
+          signature,
+          TxStatus.finalized,
+        ),
+        completes,
+      );
+
+      final result =
+          await solanaClient.getConfirmedTransaction(signature.toString());
+      expect(result, isNot(null));
+      expect(result?.transaction, isNot(null));
+      final transaction = result!.transaction;
+      expect(transaction.message, isNot(null));
+      final txMessage = transaction.message!;
+      expect(txMessage.instructions, isNot(null));
+      final instructions = txMessage.instructions;
+      expect(instructions.length, equals(2));
+      expect(instructions[0], const TypeMatcher<TxSystemInstruction>());
+      expect(instructions[1], const TypeMatcher<TxMemoInstruction>());
+      final memoInstruction = instructions[1] as TxMemoInstruction;
+      expect(memoInstruction.memo, equals(memoText));
+    });
+
     test('Can list recent transactions', () async {
       final txs = await solanaClient.getTransactionsList(sourceWallet.address);
       expect(txs, isNot(null));
-      txs.forEach((ConfirmedTransaction? tx) => expect(tx, isNot(null)));
+
+      txs.forEach((TransactionResult? tx) => expect(tx, isNot(null)));
       expect(txs.length, greaterThan(0));
     });
   });
@@ -122,12 +194,20 @@ void main() {
         commitment: TxStatus.finalized,
       );
 
-      await solanaClient.waitForSignatureStatus(signature, TxStatus.confirmed);
+      await expectLater(
+        solanaClient.waitForSignatureStatus(signature, TxStatus.confirmed),
+        completes,
+      );
+
       var balance = await solanaClient.getBalance(wallet.address);
       expect(balance, 0);
 
-      await solanaClient.waitForSignatureStatus(signature, TxStatus.finalized);
+      await expectLater(
+        solanaClient.waitForSignatureStatus(signature, TxStatus.finalized),
+        completes,
+      );
       balance = await solanaClient.getBalance(wallet.address);
+
       expect(balance, greaterThan(0));
     });
 
@@ -139,7 +219,10 @@ void main() {
         commitment: TxStatus.finalized,
       );
 
-      await solanaClient.waitForSignatureStatus(signature, TxStatus.confirmed);
+      await expectLater(
+        solanaClient.waitForSignatureStatus(signature, TxStatus.confirmed),
+        completes,
+      );
       final balance = await solanaClient.getBalance(
         wallet.address,
         commitment: TxStatus.confirmed,
