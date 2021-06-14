@@ -10,7 +10,7 @@ _$TxSystemInstruction _$_$TxSystemInstructionFromJson(
     Map<String, dynamic> json) {
   return _$TxSystemInstruction(
     programId: json['programId'] as String,
-    parsed: _SystemInstruction.fromJson(json['parsed'] as Map<String, dynamic>),
+    parsed: SystemInstruction.fromJson(json['parsed'] as Map<String, dynamic>),
   );
 }
 

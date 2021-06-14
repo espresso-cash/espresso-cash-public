@@ -29,7 +29,7 @@ class _$TxInstructionTearOff {
   const _$TxInstructionTearOff();
 
   TxSystemInstruction system(
-      {required String programId, required _SystemInstruction parsed}) {
+      {required String programId, required SystemInstruction parsed}) {
     return TxSystemInstruction(
       programId: programId,
       parsed: parsed,
@@ -60,7 +60,7 @@ const $TxInstruction = _$TxInstructionTearOff();
 mixin _$TxInstruction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String programId, _SystemInstruction parsed)
+    required TResult Function(String programId, SystemInstruction parsed)
         system,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String program) unsupported,
@@ -68,7 +68,7 @@ mixin _$TxInstruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String programId, _SystemInstruction parsed)? system,
+    TResult Function(String programId, SystemInstruction parsed)? system,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
     TResult Function(String program)? unsupported,
     required TResult orElse(),
@@ -114,9 +114,9 @@ abstract class $TxSystemInstructionCopyWith<$Res> {
   factory $TxSystemInstructionCopyWith(
           TxSystemInstruction value, $Res Function(TxSystemInstruction) then) =
       _$TxSystemInstructionCopyWithImpl<$Res>;
-  $Res call({String programId, _SystemInstruction parsed});
+  $Res call({String programId, SystemInstruction parsed});
 
-  _$SystemInstructionCopyWith<$Res> get parsed;
+  $SystemInstructionCopyWith<$Res> get parsed;
 }
 
 /// @nodoc
@@ -143,13 +143,13 @@ class _$TxSystemInstructionCopyWithImpl<$Res>
       parsed: parsed == freezed
           ? _value.parsed
           : parsed // ignore: cast_nullable_to_non_nullable
-              as _SystemInstruction,
+              as SystemInstruction,
     ));
   }
 
   @override
-  _$SystemInstructionCopyWith<$Res> get parsed {
-    return _$SystemInstructionCopyWith<$Res>(_value.parsed, (value) {
+  $SystemInstructionCopyWith<$Res> get parsed {
+    return $SystemInstructionCopyWith<$Res>(_value.parsed, (value) {
       return _then(_value.copyWith(parsed: value));
     });
   }
@@ -166,7 +166,7 @@ class _$TxSystemInstruction implements TxSystemInstruction {
   @override
   final String programId;
   @override
-  final _SystemInstruction parsed;
+  final SystemInstruction parsed;
 
   @override
   String toString() {
@@ -198,7 +198,7 @@ class _$TxSystemInstruction implements TxSystemInstruction {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String programId, _SystemInstruction parsed)
+    required TResult Function(String programId, SystemInstruction parsed)
         system,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String program) unsupported,
@@ -209,7 +209,7 @@ class _$TxSystemInstruction implements TxSystemInstruction {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String programId, _SystemInstruction parsed)? system,
+    TResult Function(String programId, SystemInstruction parsed)? system,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
     TResult Function(String program)? unsupported,
     required TResult orElse(),
@@ -253,13 +253,13 @@ class _$TxSystemInstruction implements TxSystemInstruction {
 abstract class TxSystemInstruction implements TxInstruction {
   const factory TxSystemInstruction(
       {required String programId,
-      required _SystemInstruction parsed}) = _$TxSystemInstruction;
+      required SystemInstruction parsed}) = _$TxSystemInstruction;
 
   factory TxSystemInstruction.fromJson(Map<String, dynamic> json) =
       _$TxSystemInstruction.fromJson;
 
   String get programId => throw _privateConstructorUsedError;
-  _SystemInstruction get parsed => throw _privateConstructorUsedError;
+  SystemInstruction get parsed => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $TxSystemInstructionCopyWith<TxSystemInstruction> get copyWith =>
       throw _privateConstructorUsedError;
@@ -335,7 +335,7 @@ class _$TxMemoInstruction implements TxMemoInstruction {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String programId, _SystemInstruction parsed)
+    required TResult Function(String programId, SystemInstruction parsed)
         system,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String program) unsupported,
@@ -346,7 +346,7 @@ class _$TxMemoInstruction implements TxMemoInstruction {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String programId, _SystemInstruction parsed)? system,
+    TResult Function(String programId, SystemInstruction parsed)? system,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
     TResult Function(String program)? unsupported,
     required TResult orElse(),
@@ -471,7 +471,7 @@ class _$_TxUnsupportedInstruction implements _TxUnsupportedInstruction {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String programId, _SystemInstruction parsed)
+    required TResult Function(String programId, SystemInstruction parsed)
         system,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String program) unsupported,
@@ -482,7 +482,7 @@ class _$_TxUnsupportedInstruction implements _TxUnsupportedInstruction {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String programId, _SystemInstruction parsed)? system,
+    TResult Function(String programId, SystemInstruction parsed)? system,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
     TResult Function(String program)? unsupported,
     required TResult orElse(),
@@ -537,7 +537,7 @@ abstract class _TxUnsupportedInstruction implements TxInstruction {
       throw _privateConstructorUsedError;
 }
 
-_SystemInstruction _$_SystemInstructionFromJson(Map<String, dynamic> json) {
+SystemInstruction _$SystemInstructionFromJson(Map<String, dynamic> json) {
   switch (json['type'] as String) {
     case 'transfer':
       return TxSystemInstructionTransfer.fromJson(json);
@@ -548,8 +548,8 @@ _SystemInstruction _$_SystemInstructionFromJson(Map<String, dynamic> json) {
 }
 
 /// @nodoc
-class _$_SystemInstructionTearOff {
-  const _$_SystemInstructionTearOff();
+class _$SystemInstructionTearOff {
+  const _$SystemInstructionTearOff();
 
   TxSystemInstructionTransfer transfer({required TransferInfo info}) {
     return TxSystemInstructionTransfer(
@@ -563,16 +563,16 @@ class _$_SystemInstructionTearOff {
     );
   }
 
-  _SystemInstruction fromJson(Map<String, Object> json) {
-    return _SystemInstruction.fromJson(json);
+  SystemInstruction fromJson(Map<String, Object> json) {
+    return SystemInstruction.fromJson(json);
   }
 }
 
 /// @nodoc
-const _$SystemInstruction = _$_SystemInstructionTearOff();
+const $SystemInstruction = _$SystemInstructionTearOff();
 
 /// @nodoc
-mixin _$_SystemInstruction {
+mixin _$SystemInstruction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(TransferInfo info) transfer,
@@ -603,20 +603,20 @@ mixin _$_SystemInstruction {
 }
 
 /// @nodoc
-abstract class _$SystemInstructionCopyWith<$Res> {
-  factory _$SystemInstructionCopyWith(
-          _SystemInstruction value, $Res Function(_SystemInstruction) then) =
-      __$SystemInstructionCopyWithImpl<$Res>;
+abstract class $SystemInstructionCopyWith<$Res> {
+  factory $SystemInstructionCopyWith(
+          SystemInstruction value, $Res Function(SystemInstruction) then) =
+      _$SystemInstructionCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$SystemInstructionCopyWithImpl<$Res>
-    implements _$SystemInstructionCopyWith<$Res> {
-  __$SystemInstructionCopyWithImpl(this._value, this._then);
+class _$SystemInstructionCopyWithImpl<$Res>
+    implements $SystemInstructionCopyWith<$Res> {
+  _$SystemInstructionCopyWithImpl(this._value, this._then);
 
-  final _SystemInstruction _value;
+  final SystemInstruction _value;
   // ignore: unused_field
-  final $Res Function(_SystemInstruction) _then;
+  final $Res Function(SystemInstruction) _then;
 }
 
 /// @nodoc
@@ -632,7 +632,7 @@ abstract class $TxSystemInstructionTransferCopyWith<$Res> {
 
 /// @nodoc
 class _$TxSystemInstructionTransferCopyWithImpl<$Res>
-    extends __$SystemInstructionCopyWithImpl<$Res>
+    extends _$SystemInstructionCopyWithImpl<$Res>
     implements $TxSystemInstructionTransferCopyWith<$Res> {
   _$TxSystemInstructionTransferCopyWithImpl(TxSystemInstructionTransfer _value,
       $Res Function(TxSystemInstructionTransfer) _then)
@@ -675,7 +675,7 @@ class _$TxSystemInstructionTransfer implements TxSystemInstructionTransfer {
 
   @override
   String toString() {
-    return '_SystemInstruction.transfer(info: $info)';
+    return 'SystemInstruction.transfer(info: $info)';
   }
 
   @override
@@ -746,7 +746,7 @@ class _$TxSystemInstructionTransfer implements TxSystemInstructionTransfer {
   }
 }
 
-abstract class TxSystemInstructionTransfer implements _SystemInstruction {
+abstract class TxSystemInstructionTransfer implements SystemInstruction {
   const factory TxSystemInstructionTransfer({required TransferInfo info}) =
       _$TxSystemInstructionTransfer;
 
@@ -770,7 +770,7 @@ abstract class $TxSystemInstructionUnsupportedCopyWith<$Res> {
 
 /// @nodoc
 class _$TxSystemInstructionUnsupportedCopyWithImpl<$Res>
-    extends __$SystemInstructionCopyWithImpl<$Res>
+    extends _$SystemInstructionCopyWithImpl<$Res>
     implements $TxSystemInstructionUnsupportedCopyWith<$Res> {
   _$TxSystemInstructionUnsupportedCopyWithImpl(
       TxSystemInstructionUnsupported _value,
@@ -809,7 +809,7 @@ class _$TxSystemInstructionUnsupported
 
   @override
   String toString() {
-    return '_SystemInstruction.unsupported(type: $type)';
+    return 'SystemInstruction.unsupported(type: $type)';
   }
 
   @override
@@ -881,7 +881,7 @@ class _$TxSystemInstructionUnsupported
   }
 }
 
-abstract class TxSystemInstructionUnsupported implements _SystemInstruction {
+abstract class TxSystemInstructionUnsupported implements SystemInstruction {
   const factory TxSystemInstructionUnsupported({required String type}) =
       _$TxSystemInstructionUnsupported;
 

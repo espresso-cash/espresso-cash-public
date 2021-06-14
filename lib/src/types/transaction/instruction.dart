@@ -8,7 +8,7 @@ part 'instruction.g.dart';
 class TxInstruction with _$TxInstruction {
   const factory TxInstruction.system({
     required String programId,
-    required _SystemInstruction parsed,
+    required SystemInstruction parsed,
   }) = TxSystemInstruction;
 
   /// Instruction representing a memo with content [memo]
@@ -26,20 +26,20 @@ class TxInstruction with _$TxInstruction {
 }
 
 @Freezed(unionKey: 'type', fallbackUnion: 'unsupported')
-class _SystemInstruction with _$_SystemInstruction {
+class SystemInstruction with _$SystemInstruction {
   /// Transfer instruction data for a transfer of [info.lamports]
   /// from [info.source] to [info.destination]
-  const factory _SystemInstruction.transfer({
+  const factory SystemInstruction.transfer({
     required TransferInfo info,
   }) = TxSystemInstructionTransfer;
 
   /// Instructions that we haven't implemented yet
-  const factory _SystemInstruction.unsupported({
+  const factory SystemInstruction.unsupported({
     required String type,
   }) = TxSystemInstructionUnsupported;
 
-  factory _SystemInstruction.fromJson(Map<String, dynamic> json) =>
-      _$_SystemInstructionFromJson(json);
+  factory SystemInstruction.fromJson(Map<String, dynamic> json) =>
+      _$SystemInstructionFromJson(json);
 }
 
 /// Information about a transfer of [lamports] from
