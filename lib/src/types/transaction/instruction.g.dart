@@ -6,49 +6,83 @@ part of 'instruction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Instruction _$_InstructionFromJson(Map<String, dynamic> json) {
-  return _Instruction(
+_$TxSystemInstruction _$_$TxSystemInstructionFromJson(
+    Map<String, dynamic> json) {
+  return _$TxSystemInstruction(
     programId: json['programId'] as String,
-    program: _$enumDecode(_$ProgramTypeEnumMap, json['program']),
-    parsed: json['parsed'],
+    parsed: _SystemInstruction.fromJson(json['parsed'] as Map<String, dynamic>),
   );
 }
 
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
+Map<String, dynamic> _$_$TxSystemInstructionToJson(
+        _$TxSystemInstruction instance) =>
+    <String, dynamic>{
+      'programId': instance.programId,
+      'parsed': instance.parsed,
+    };
 
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
+_$TxMemoInstruction _$_$TxMemoInstructionFromJson(Map<String, dynamic> json) {
+  return _$TxMemoInstruction(
+    memo: json['parsed'] as String?,
+  );
 }
 
-const _$ProgramTypeEnumMap = {
-  ProgramType.system: 'system',
-  ProgramType.memo: 'spl-memo',
-};
+Map<String, dynamic> _$_$TxMemoInstructionToJson(
+        _$TxMemoInstruction instance) =>
+    <String, dynamic>{
+      'parsed': instance.memo,
+    };
 
-_ParsedTransferInstruction _$_ParsedTransferInstructionFromJson(
+_$_TxUnsupportedInstruction _$_$_TxUnsupportedInstructionFromJson(
     Map<String, dynamic> json) {
-  return _ParsedTransferInstruction(
-    info: json['info'] as Map<String, dynamic>,
+  return _$_TxUnsupportedInstruction(
+    program: json['program'] as String,
+  );
+}
+
+Map<String, dynamic> _$_$_TxUnsupportedInstructionToJson(
+        _$_TxUnsupportedInstruction instance) =>
+    <String, dynamic>{
+      'program': instance.program,
+    };
+
+_$TxSystemInstructionTransfer _$_$TxSystemInstructionTransferFromJson(
+    Map<String, dynamic> json) {
+  return _$TxSystemInstructionTransfer(
+    info: TransferInfo.fromJson(json['info'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$_$TxSystemInstructionTransferToJson(
+        _$TxSystemInstructionTransfer instance) =>
+    <String, dynamic>{
+      'info': instance.info,
+    };
+
+_$TxSystemInstructionUnsupported _$_$TxSystemInstructionUnsupportedFromJson(
+    Map<String, dynamic> json) {
+  return _$TxSystemInstructionUnsupported(
     type: json['type'] as String,
   );
 }
+
+Map<String, dynamic> _$_$TxSystemInstructionUnsupportedToJson(
+        _$TxSystemInstructionUnsupported instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+    };
+
+_$_TransferInfo _$_$_TransferInfoFromJson(Map<String, dynamic> json) {
+  return _$_TransferInfo(
+    lamports: json['lamports'] as int,
+    source: json['source'] as String,
+    destination: json['destination'] as String,
+  );
+}
+
+Map<String, dynamic> _$_$_TransferInfoToJson(_$_TransferInfo instance) =>
+    <String, dynamic>{
+      'lamports': instance.lamports,
+      'source': instance.source,
+      'destination': instance.destination,
+    };

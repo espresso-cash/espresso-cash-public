@@ -7,7 +7,7 @@ const int _bitsPerByte = 8;
 const int _hexCharsPerByte = 2;
 
 class SerializableInt extends ListBase<int> implements Serializable {
-  SerializableInt._(this._values) : length = _values.length;
+  SerializableInt._(this._values) : super();
 
   factory SerializableInt._fromIterable(Iterable<int> iterable) =>
       SerializableInt._([for (int i in iterable) i]);
@@ -25,9 +25,6 @@ class SerializableInt extends ListBase<int> implements Serializable {
   final List<int> _values;
 
   @override
-  int length = 0;
-
-  @override
   int operator [](int index) => _values[index];
 
   @override
@@ -37,4 +34,10 @@ class SerializableInt extends ListBase<int> implements Serializable {
 
   @override
   List<int> serialize() => _values;
+
+  @override
+  int get length => _values.length;
+
+  @override
+  set length(int newLength) => _values.length = newLength;
 }

@@ -163,9 +163,9 @@ void main() {
       expect(txMessage.instructions, isNot(null));
       final instructions = txMessage.instructions;
       expect(instructions.length, equals(2));
-      expect(instructions[0], const TypeMatcher<TransferInstruction>());
-      expect(instructions[1], const TypeMatcher<MemoInstruction>());
-      final memoInstruction = instructions[1] as MemoInstruction;
+      expect(instructions[0], const TypeMatcher<TxSystemInstruction>());
+      expect(instructions[1], const TypeMatcher<TxMemoInstruction>());
+      final memoInstruction = instructions[1] as TxMemoInstruction;
       expect(memoInstruction.memo, equals(memoText));
     });
 
