@@ -1,5 +1,6 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
+import 'package:solana/src/constants/constants.dart';
 import 'package:solana/src/solana_serializable/address.dart';
 import 'package:solana/src/solana_serializable/compact_array.dart';
 import 'package:solana/src/solana_serializable/instruction.dart';
@@ -40,14 +41,14 @@ class Message extends Serializable {
     final accounts = [
       AccountMeta.writeable(pubKey: source, isSigner: true),
       AccountMeta.writeable(pubKey: destination, isSigner: false),
-      AccountMeta.readonly(pubKey: systemProgramID, isSigner: false),
-      AccountMeta.readonly(pubKey: memoProgramID, isSigner: false),
+      AccountMeta.readonly(pubKey: SystemProgram.id, isSigner: false),
+      AccountMeta.readonly(pubKey: MemoProgram.id, isSigner: false),
     ];
 
     final uniqueAccounts = accounts.unique();
 
     final data = CompactArray.fromList([
-      ...SerializableInt.from(2, bitSize: 32),
+      ...SystemProgramIndex.transfer,
       ...SerializableInt.from(lamports, bitSize: 64),
     ]);
     final instruction = Instruction.system(

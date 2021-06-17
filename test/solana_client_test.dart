@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/constants/constants.dart';
 import 'package:solana/src/solana_serializable/signed_tx.dart';
 import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
@@ -65,7 +66,7 @@ void main() {
       final AccountInfo accountInfo =
           await solanaClient.getAccountInfo(sourceWallet.address);
       expect(accountInfo.lamports, currentBalance);
-      expect(accountInfo.owner, systemProgramID);
+      expect(accountInfo.owner, SystemProgram.id);
       expect(accountInfo.executable, false);
     });
 

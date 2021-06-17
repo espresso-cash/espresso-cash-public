@@ -1,4 +1,4 @@
-import 'package:solana/solana.dart';
+import 'package:solana/src/constants/constants.dart';
 import 'package:solana/src/solana_serializable/compact_array.dart';
 import 'package:solana/src/solana_serializable/int.dart';
 import 'package:solana/src/solana_serializable/solana_serializable.dart';
@@ -21,7 +21,7 @@ class Instruction extends Serializable {
     required List<String> pubKeys,
     required CompactArray<int> data,
   }) {
-    final programIdIndex = accounts.indexOfPubKey(systemProgramID);
+    final programIdIndex = accounts.indexOfPubKey(SystemProgram.id);
     return Instruction._(
       programIdIndex,
       CompactArray.fromList(
@@ -36,7 +36,7 @@ class Instruction extends Serializable {
     required List<String> signers,
     required SerializableString memo,
   }) {
-    final programIdIndex = accounts.indexOfPubKey(memoProgramID);
+    final programIdIndex = accounts.indexOfPubKey(MemoProgram.id);
     return Instruction._(
       programIdIndex,
       CompactArray<int>.fromList(
