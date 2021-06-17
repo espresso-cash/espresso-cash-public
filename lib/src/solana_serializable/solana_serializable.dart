@@ -11,5 +11,6 @@ export 'signed_tx.dart';
 
 // ignore: one_member_abstracts
 abstract class Serializable {
+  const Serializable();
   List<int> serialize();
 }

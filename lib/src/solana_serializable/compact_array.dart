@@ -3,7 +3,7 @@ import 'package:solana/src/solana_serializable/int.dart';
 import 'package:solana/src/solana_serializable/solana_serializable.dart';
 
 class CompactArray<T> extends Serializable {
-  CompactArray.fromList(this._items);
+  const CompactArray.fromList(this._items);
 
   final List<T> _items;
 
