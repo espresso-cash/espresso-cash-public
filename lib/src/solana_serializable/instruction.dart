@@ -9,7 +9,19 @@ import 'package:solana/src/types/account_meta.dart';
 /// https://spl.solana.com/memo#compute-limits
 const _memoSizeLimit = 566;
 
+/// An implementation of the solana instruction format
+/// https://docs.solana.com/developing/programming-model/transactions#instruction-format
 class Instruction extends Serializable {
+  /// Construct a generic instruction for the [programId] program
+  /// with [accounts] being the same array that will be passed with
+  /// the message carrying this instruction and [keys] being any
+  /// of those in accounts that will be used by the program itself.
+  ///
+  /// The [keys] array will be used to build the array of indexes for
+  /// this instruction.
+  ///
+  /// The [data] parameter can be used to pass the data to be interpreted
+  /// by [programId] and is to be specified as raw bytes.
   Instruction({
     required String programId,
     required List<String> keys,
