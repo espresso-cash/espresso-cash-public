@@ -4,6 +4,7 @@ import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/constants/constants.dart';
 import 'package:solana/src/solana_serializable/signed_tx.dart';
+import 'package:solana/src/token/token.dart';
 import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
 import 'package:test/test.dart';
@@ -176,6 +177,15 @@ void main() {
 
       txs.forEach((TransactionResult? tx) => expect(tx, isNot(null)));
       expect(txs.length, greaterThan(0));
+    });
+
+    test('Can get token supply', () async {
+      final TokenSupplyResult supplyResult = await solanaClient.getTokenSupply(
+        'BgLR7yanLaAHR58MHUTLXw7A7jhu9KSd3NaxkHsuQtQH',
+      );
+      final TokenSupply tokenSupply = supplyResult.value;
+
+      expect(int.parse(tokenSupply.amount), greaterThan(0));
     });
   });
 
