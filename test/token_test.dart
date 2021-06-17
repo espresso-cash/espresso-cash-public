@@ -27,13 +27,15 @@ void main() {
 
     test('It creates a new mint', () async {
       final randomWallet = await SolanaWallet.random();
+      final recentBlockhash = await solanaClient.getRecentBlockhash();
       final message = TokenMessage.createToken(
         authority: sourceWallet.address,
         mint: randomWallet.address,
         decimals: 2,
-        recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
-      await solanaClient.sendTransaction(SignedTx(message: message));
+      await solanaClient.sendTransaction(SignedTx(
+        messageBytes: message.compile(recentBlockhash),
+      ));
       print(message);
     });
   }, skip: true);

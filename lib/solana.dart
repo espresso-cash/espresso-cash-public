@@ -1,12 +1,12 @@
 export 'src/solana_client.dart';
-export 'src/solana_serializable/instruction.dart' show Instruction;
-export 'src/solana_serializable/message.dart' show Message;
-export 'src/solana_serializable/signed_tx.dart' show SignedTx;
 export 'src/solana_wallet.dart';
 export 'src/types/account_info.dart' show AccountInfo;
 export 'src/types/blockhash.dart' show Blockhash;
 export 'src/types/confirmed_signature.dart' show ConfirmedSignature;
 export 'src/types/fee_calculator.dart' show FeeCalculator;
+export 'src/types/serializable/instruction.dart' show Instruction;
+export 'src/types/serializable/message.dart' show Message;
+export 'src/types/serializable/signed_tx.dart' show SignedTx;
 export 'src/types/signature_status.dart' show SignatureStatus, TxStatus;
 export 'src/types/simulate_tx_result.dart' show SimulateTxResult;
 export 'src/types/transaction/instruction.dart'

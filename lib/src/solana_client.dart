@@ -3,13 +3,13 @@ import 'dart:convert';
 
 import 'package:solana/solana.dart';
 import 'package:solana/src/json_rpc_client.dart';
-import 'package:solana/src/solana_serializable/signed_tx.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/types/account_info.dart';
 import 'package:solana/src/types/balance.dart';
 import 'package:solana/src/types/blockhash.dart';
 import 'package:solana/src/types/confirmed_signature.dart';
 import 'package:solana/src/types/confirmed_transaction_response.dart';
+import 'package:solana/src/types/serializable/signed_tx.dart';
 import 'package:solana/src/types/signature_status.dart';
 import 'package:solana/src/types/simulate_tx_result.dart';
 import 'package:solana/src/types/transaction/get_transaction_response.dart';
@@ -93,7 +93,7 @@ class SolanaClient {
     final data = await _client.request(
       'sendTransaction',
       params: <dynamic>[
-        base64.encode(signedTx.serialize()),
+        base64.encode(signedTx.toList()),
         <String, String>{
           'encoding': 'base64',
         }
@@ -108,7 +108,7 @@ class SolanaClient {
     final data = await _client.request(
       'simulateTransaction',
       params: <dynamic>[
-        base64.encode(signedTx.serialize()),
+        base64.encode(signedTx.toList()),
         <String, String>{
           'encoding': 'base64',
         }

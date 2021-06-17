@@ -2,10 +2,11 @@ import 'dart:math';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart' as crypto;
+import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
-import 'package:solana/src/solana_serializable/signed_tx.dart';
-import 'package:solana/src/solana_serializable/solana_serializable.dart';
 import 'package:solana/src/types/hd_key_pair.dart';
+import 'package:solana/src/types/serializable/signature.dart';
+import 'package:solana/src/types/serializable/signed_tx.dart';
 
 final _random = Random.secure();
 
@@ -84,13 +85,16 @@ class SolanaWallet {
       _ed25519.sign(data, keyPair: _keyPair);
 
   /// Sign a solana program message
-  Future<SignedTx> signMessage(Message message) async {
-    final List<int> serializedMessage = message.serialize();
-    final signature = Signature.from(await sign(serializedMessage));
+  Future<SignedTx> signMessage(
+    Message message,
+    Blockhash recentBlockhash,
+  ) async {
+    final List<int> messageBytes = message.compile(recentBlockhash);
+    final signature = Signature.from(await sign(messageBytes));
 
     return SignedTx(
-      signatures: CompactArray.fromIterable([signature]),
-      message: message,
+      signatures: [signature],
+      messageBytes: messageBytes,
     );
   }
 }

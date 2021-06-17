@@ -7,6 +7,13 @@ const _nonce = 255;
 final _sha256 = crypto.Sha256();
 const _magicWord = 'ProgramDerivedAddress';
 
+/// Derive the associated token account address for [walletAddress] and
+/// for the [mintAddress] SPL token.
+///
+/// In order to send SPL tokens we need to derive the associated address
+/// as per [read this link for more information][associated token account]
+///
+/// [associated token account]: https://spl.solana.com/associated-token-account
 Future<String> deriveAssociatedTokenAddress({
   required String walletAddress,
   required String mintAddress,

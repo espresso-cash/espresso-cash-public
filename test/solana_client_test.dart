@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/constants/constants.dart';
-import 'package:solana/src/solana_serializable/signed_tx.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
@@ -22,7 +21,9 @@ void main() {
     int currentBalance = 0;
 
     setUpAll(() async {
-      targetWallet = await SolanaWallet.fromMnemonic(generateMnemonic());
+      targetWallet = await SolanaWallet.fromMnemonic(
+        generateMnemonic(),
+      ); // generateMnemonic());
       sourceWallet = await SolanaWallet.fromMnemonic(
         generateMnemonic(),
         walletIndex: 1,
@@ -76,26 +77,30 @@ void main() {
     });
 
     test('Can simulate a transfer', () async {
+      final recentBlockhash = await solanaClient.getRecentBlockhash();
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
         lamports: _transferredAmount,
-        recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
-      final SignedTx signedTx = await sourceWallet.signMessage(message);
+      final SignedTx signedTx = await sourceWallet.signMessage(
+        message,
+        recentBlockhash,
+      );
       final SimulateTxResult transferResult =
           await solanaClient.simulateTransaction(signedTx);
       expect(transferResult.err, null);
     });
 
     test('Can transfer tokens', () async {
+      final recentBlockhash = await solanaClient.getRecentBlockhash();
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
         lamports: _transferredAmount,
-        recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
-      final SignedTx signedTx = await sourceWallet.signMessage(message);
+      final SignedTx signedTx =
+          await sourceWallet.signMessage(message, recentBlockhash);
       final TxSignature signature =
           await solanaClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
@@ -111,13 +116,16 @@ void main() {
     });
 
     test('Can transfer to the same address', () async {
+      final recentBlockhash = await solanaClient.getRecentBlockhash();
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: sourceWallet.address,
         lamports: _transferredAmount,
-        recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
-      final SignedTx signedTx = await sourceWallet.signMessage(message);
+      final SignedTx signedTx = await sourceWallet.signMessage(
+        message,
+        recentBlockhash,
+      );
       final TxSignature signature =
           await solanaClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
@@ -133,15 +141,18 @@ void main() {
 
     test('Can transfer with memo', () async {
       const memoText = 'Memo test string...';
+      final recentBlockhash = await solanaClient.getRecentBlockhash();
 
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
         lamports: _transferredAmount,
-        recentBlockhash: await solanaClient.getRecentBlockhash(),
         memo: memoText,
       );
-      final SignedTx signedTx = await sourceWallet.signMessage(message);
+      final SignedTx signedTx = await sourceWallet.signMessage(
+        message,
+        recentBlockhash,
+      );
       final TxSignature signature = await solanaClient.sendTransaction(
         signedTx,
       );
