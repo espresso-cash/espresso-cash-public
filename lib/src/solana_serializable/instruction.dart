@@ -20,7 +20,13 @@ class Instruction extends Serializable {
           keys.extractIndexesFromAccountMetas(accounts),
         ),
         _data = CompactArray.fromList(data),
-        super();
+        super() {
+    if (_programIdIndex == -1) {
+      throw ArgumentError(
+        'the program id must be present in the accounts array',
+      );
+    }
+  }
 
   /// Create a system program instruction with [data] for [accounts].
   /// The [accounts] must be sorted according to
