@@ -29,19 +29,17 @@ class AccountMeta {
         isSigner: isSigner,
       );
 
-  /// Constructs a new [AccountMeta] from two [AccountMeta]s [a1] and [a2],
-  /// it combines their properties by setting [isWriteable] to [true] in case
-  /// either [a1] or [a2] is writeable, and [isSigner] to [true] if either
-  /// [a1] or [a2] are signers.
-  factory AccountMeta.merged(AccountMeta a1, AccountMeta a2) {
-    if (a1.pubKey != a2.pubKey) {
-      throw ArgumentError("cannot merge 'AccountMeta's pubKeys must match");
+  AccountMeta mergeWith(AccountMeta other) {
+    if (pubKey != other.pubKey) {
+      throw ArgumentError(
+        'pubKeys must match, or else it does not make sense to merge',
+      );
     }
 
     return AccountMeta._(
-      pubKey: a1.pubKey,
-      isWriteable: a1.isWriteable || a2.isWriteable,
-      isSigner: a1.isSigner || a2.isSigner,
+      pubKey: pubKey,
+      isWriteable: isWriteable || other.isWriteable,
+      isSigner: isSigner || other.isSigner,
     );
   }
 
@@ -62,7 +60,7 @@ extension AccountMetaListExt on Iterable<AccountMeta> {
         } else {
           // Keep then one of the two that is either a signer or
           // a writeable account
-          list[index] = AccountMeta.merged(item, list[index]);
+          list[index] = item.mergeWith(list[index]);
 
           return list;
         }
