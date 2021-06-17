@@ -11,7 +11,6 @@ const _memoSizeLimit = 566;
 /// An implementation of the solana [Instruction Format][instruction format]
 ///
 /// [instruction format]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
-///
 class Instruction extends Serializable {
   /// Construct a generic instruction for the [programId] program
   /// with [accounts] being the same array that will be passed with

@@ -3,9 +3,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'meta.g.dart';
 
 /// Metadata of a transaction response from the
-/// [RPC call response](https://docs.solana.com/developing/clients/jsonrpc-api#results-44).
+/// [RPC call response][result 44].
 ///
 /// This is the `meta` field of the response.
+///
+/// [result 44]: https://docs.solana.com/developing/clients/jsonrpc-api#results-44
 @JsonSerializable(createToJson: false)
 class Meta {
   Meta({

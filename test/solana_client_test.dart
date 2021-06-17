@@ -186,7 +186,7 @@ void main() {
       final TokenSupply tokenSupply = supplyResult.value;
 
       expect(int.parse(tokenSupply.amount), greaterThan(0));
-    }, skip: true);
+    });
   });
 
   group('Test commitment', () {
