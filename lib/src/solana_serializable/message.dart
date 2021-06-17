@@ -11,8 +11,9 @@ import 'package:solana/src/solana_serializable/string.dart';
 import 'package:solana/src/types/account_meta.dart';
 import 'package:solana/src/types/blockhash.dart';
 
-/// This is an implementation of the Solana message format.
-/// https://docs.solana.com/developing/programming-model/transactions#message-format
+/// This is an implementation of the [Message Format][message format].
+///
+/// [message format]: https://docs.solana.com/developing/programming-model/transactions#message-format
 class Message extends Serializable {
   /// Construct a message to send with a transaction to execute
   /// the provided [instructions] using the provided [accounts] and the

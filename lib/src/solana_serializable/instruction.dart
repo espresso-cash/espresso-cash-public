@@ -5,12 +5,13 @@ import 'package:solana/src/solana_serializable/solana_serializable.dart';
 import 'package:solana/src/solana_serializable/string.dart';
 import 'package:solana/src/types/account_meta.dart';
 
-/// Taken from
-/// https://spl.solana.com/memo#compute-limits
+/// Taken from [here](https://spl.solana.com/memo#compute-limits)
 const _memoSizeLimit = 566;
 
-/// An implementation of the solana instruction format
-/// https://docs.solana.com/developing/programming-model/transactions#instruction-format
+/// An implementation of the solana [Instruction Format][instruction format]
+///
+/// [instruction format]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
+///
 class Instruction extends Serializable {
   /// Construct a generic instruction for the [programId] program
   /// with [accounts] being the same array that will be passed with
@@ -40,10 +41,15 @@ class Instruction extends Serializable {
     }
   }
 
-  /// Create a system program instruction with [data] for [accounts].
-  /// The [accounts] must be sorted according to
+  /// Create a system program instruction with [data], for [accounts].
+  /// The [accounts] must be sorted according to the
+  /// [Account Address Format][account address format]
   ///
-  /// https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
+  /// Use [keys] to provide the program specific keys. These [keys] are often
+  /// required to be in a specific order. Like for instance in a transfer
+  /// program they must be `[source, destination]`.
+  ///
+  /// [account address format]: https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
   factory Instruction.system({
     required List<String> keys,
     required List<AccountMeta> accounts,
