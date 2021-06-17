@@ -5,12 +5,24 @@ import 'package:solana/src/solana_serializable/solana_serializable.dart';
 import 'package:solana/src/solana_serializable/string.dart';
 import 'package:solana/src/types/account_meta.dart';
 
+/// Taken from
+/// https://spl.solana.com/memo#compute-limits
+const _memoSizeLimit = 566;
+
 class Instruction extends Serializable {
-  Instruction._(
-    this._programIdIndex,
-    this._accountIndices,
-    this._data,
-  );
+  Instruction({
+    required String programId,
+    required List<AccountMeta> accounts,
+    required List<int> data,
+  })  : _programIdIndex = accounts.indexOfPubKey(programId),
+        _accountIndices = CompactArray.fromList(
+          accounts
+              .where((a) => a.isWriteable)
+              .map((a) => a.pubKey)
+              .extractIndexesFromAccountMetas(accounts),
+        ),
+        _data = CompactArray.fromList(data),
+        super();
 
   /// Create a system program instruction with [data] for [accounts].
   /// The [accounts] must be sorted according to
@@ -18,31 +30,28 @@ class Instruction extends Serializable {
   /// https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
   factory Instruction.system({
     required List<AccountMeta> accounts,
-    required List<String> pubKeys,
-    required CompactArray<int> data,
-  }) {
-    final programIdIndex = accounts.indexOfPubKey(SystemProgram.id);
-    return Instruction._(
-      programIdIndex,
-      CompactArray.fromList(
-        pubKeys.extractIndexesFromAccountMetas(accounts),
-      ),
-      data,
-    );
-  }
+    required List<int> data,
+  }) =>
+      Instruction(
+        programId: SystemProgram.id,
+        accounts: accounts,
+        data: data,
+      );
 
   factory Instruction.memo({
     required List<AccountMeta> accounts,
-    required List<String> signers,
     required SerializableString memo,
   }) {
-    final programIdIndex = accounts.indexOfPubKey(MemoProgram.id);
-    return Instruction._(
-      programIdIndex,
-      CompactArray<int>.fromList(
-        signers.extractIndexesFromAccountMetas(accounts),
-      ),
-      CompactArray<int>.fromList(memo.serialize()),
+    if (memo.size > _memoSizeLimit) {
+      throw const FormatException(
+        'the [memo] cannot be more than 566 bytes length',
+      );
+    }
+
+    return Instruction(
+      programId: MemoProgram.id,
+      accounts: accounts,
+      data: memo.serialize(),
     );
   }
 
@@ -62,7 +71,7 @@ class Instruction extends Serializable {
   }
 }
 
-extension on List<String> {
+extension on Iterable<String> {
   List<int> extractIndexesFromAccountMetas(List<AccountMeta> metas) => map(
         (String pubKey) => metas.indexOfPubKey(pubKey),
       ).toList();

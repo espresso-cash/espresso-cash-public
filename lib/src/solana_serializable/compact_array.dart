@@ -21,10 +21,10 @@ class CompactArray<T> extends Serializable {
     final reducer = (List<int> values, List<int> next) => [...values, ...next];
     final mapped = List<List<int>>.from(_items.map<List<int>>(serializeItem));
     final length = CompactU16(mapped.length);
-    final mappedAndReduced = mapped.reduce(reducer);
     if (mapped.isEmpty) {
       return length.serialize();
     }
+    final mappedAndReduced = mapped.reduce(reducer);
     return [...length.serialize(), ...mappedAndReduced];
   }
 }

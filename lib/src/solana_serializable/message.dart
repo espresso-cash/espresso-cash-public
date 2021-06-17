@@ -11,18 +11,19 @@ import 'package:solana/src/solana_serializable/string.dart';
 import 'package:solana/src/types/account_meta.dart';
 import 'package:solana/src/types/blockhash.dart';
 
-/// Taken from
-/// https://spl.solana.com/memo#compute-limits
-const _memoSizeLimit = 566;
-
 /// This is an implementation of the Solana message format.
 class Message extends Serializable {
-  Message._({
-    required this.header,
-    required this.accounts,
-    required this.recentBlockhash,
-    required this.instructions,
-  });
+  Message({
+    required List<AccountMeta> accounts,
+    required List<Instruction> instructions,
+    required Blockhash recentBlockhash,
+  })  : _header = MessageHeader.fromAccounts(accounts),
+        _instructions = CompactArray.fromList(instructions),
+        _accounts = CompactArray.fromList([
+          for (AccountMeta account in accounts) Address.from(account.pubKey),
+        ]),
+        _recentBlockhash = base58.decode(recentBlockhash.blockhash),
+        super();
 
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
   /// to [destination]. The recent block hash must be queried and provided as
@@ -42,58 +43,43 @@ class Message extends Serializable {
       AccountMeta.writeable(pubKey: source, isSigner: true),
       AccountMeta.writeable(pubKey: destination, isSigner: false),
       AccountMeta.readonly(pubKey: SystemProgram.id, isSigner: false),
-      AccountMeta.readonly(pubKey: MemoProgram.id, isSigner: false),
     ];
-
-    final uniqueAccounts = accounts.unique();
-
-    final data = CompactArray.fromList([
-      ...SystemProgramIndex.transfer,
+    final data = [
+      ...SerializableInt.from(2, bitSize: 32),
       ...SerializableInt.from(lamports, bitSize: 64),
-    ]);
-    final instruction = Instruction.system(
-      pubKeys: [source, destination],
-      accounts: uniqueAccounts,
-      data: data,
-    );
-    final instructions = [instruction];
-    if (memo != null) {
-      final memoStr = SerializableString(memo);
-      if (memoStr.size > _memoSizeLimit) {
-        throw const FormatException(
-          'the [memo] cannot be more than 566 bytes length',
-        );
-      }
-      instructions.add(
+    ];
+    final instructions = [
+      Instruction.system(
+        accounts: accounts,
+        data: data,
+      ),
+      if (memo != null)
         Instruction.memo(
-          signers: [source],
-          accounts: uniqueAccounts,
+          accounts: [
+            AccountMeta.writeable(pubKey: source, isSigner: true),
+            AccountMeta.readonly(pubKey: MemoProgram.id, isSigner: false),
+          ],
           memo: SerializableString(memo),
         ),
-      );
-    }
+    ];
 
-    return Message._(
-      header: MessageHeader.fromAccounts(uniqueAccounts),
-      accounts: CompactArray.fromList([
-        for (AccountMeta account in uniqueAccounts)
-          Address.from(account.pubKey),
-      ]),
-      recentBlockhash: recentBlockhash.blockhash,
-      instructions: CompactArray.fromList(instructions),
+    return Message(
+      accounts: accounts.unique(),
+      recentBlockhash: recentBlockhash,
+      instructions: instructions,
     );
   }
 
-  final MessageHeader header;
-  final CompactArray<Address> accounts;
-  final String recentBlockhash;
-  final CompactArray<Instruction> instructions;
+  final MessageHeader _header;
+  final CompactArray<Address> _accounts;
+  final List<int> _recentBlockhash;
+  final CompactArray<Instruction> _instructions;
 
   @override
   List<int> serialize() => [
-        ...header.serialize(),
-        ...accounts.serialize(),
-        ...base58.decode(recentBlockhash),
-        ...instructions.serialize(),
+        ..._header.serialize(),
+        ..._accounts.serialize(),
+        ..._recentBlockhash,
+        ..._instructions.serialize(),
       ];
 }
