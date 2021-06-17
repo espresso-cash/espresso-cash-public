@@ -48,9 +48,11 @@ class Message extends Serializable {
       ...SerializableInt.from(2, bitSize: 32),
       ...SerializableInt.from(lamports, bitSize: 64),
     ];
+    final uniqueAccounts = accounts.unique();
     final instructions = [
       Instruction.system(
-        accounts: accounts,
+        keys: [source, destination],
+        accounts: uniqueAccounts,
         data: data,
       ),
       if (memo != null)
@@ -59,12 +61,13 @@ class Message extends Serializable {
             AccountMeta.writeable(pubKey: source, isSigner: true),
             AccountMeta.readonly(pubKey: MemoProgram.id, isSigner: false),
           ],
+          keys: [source],
           memo: SerializableString(memo),
         ),
     ];
 
     return Message(
-      accounts: accounts.unique(),
+      accounts: uniqueAccounts,
       recentBlockhash: recentBlockhash,
       instructions: instructions,
     );

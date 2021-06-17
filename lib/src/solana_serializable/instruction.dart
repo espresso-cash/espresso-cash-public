@@ -12,14 +12,12 @@ const _memoSizeLimit = 566;
 class Instruction extends Serializable {
   Instruction({
     required String programId,
+    required List<String> keys,
     required List<AccountMeta> accounts,
     required List<int> data,
   })  : _programIdIndex = accounts.indexOfPubKey(programId),
         _accountIndices = CompactArray.fromList(
-          accounts
-              .where((a) => a.isWriteable)
-              .map((a) => a.pubKey)
-              .extractIndexesFromAccountMetas(accounts),
+          keys.extractIndexesFromAccountMetas(accounts),
         ),
         _data = CompactArray.fromList(data),
         super();
@@ -29,16 +27,19 @@ class Instruction extends Serializable {
   ///
   /// https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
   factory Instruction.system({
+    required List<String> keys,
     required List<AccountMeta> accounts,
     required List<int> data,
   }) =>
       Instruction(
         programId: SystemProgram.id,
+        keys: keys,
         accounts: accounts,
         data: data,
       );
 
   factory Instruction.memo({
+    required List<String> keys,
     required List<AccountMeta> accounts,
     required SerializableString memo,
   }) {
@@ -50,6 +51,7 @@ class Instruction extends Serializable {
 
     return Instruction(
       programId: MemoProgram.id,
+      keys: keys,
       accounts: accounts,
       data: memo.serialize(),
     );
