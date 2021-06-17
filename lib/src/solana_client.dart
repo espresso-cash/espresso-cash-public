@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:solana/solana.dart';
 import 'package:solana/src/json_rpc_client.dart';
 import 'package:solana/src/solana_serializable/signed_tx.dart';
+import 'package:solana/src/token/token.dart';
 import 'package:solana/src/types/account_info.dart';
 import 'package:solana/src/types/balance.dart';
 import 'package:solana/src/types/blockhash.dart';
@@ -307,6 +308,24 @@ class SolanaClient {
     );
 
     return GetTransactionResponse.fromJson(data).result;
+  }
+
+  Future<TokenSupplyResult> getTokenSupply(
+    String tokenMintAddress, {
+    TxStatus commitment = TxStatus.confirmed,
+  }) async {
+    final data = await _client.request(
+      'getTokenSupply',
+      params: <dynamic>[
+        tokenMintAddress,
+        <String, dynamic>{
+          'encoding': 'jsonParsed',
+          'commitment': commitment.value,
+        }
+      ],
+    );
+
+    return GetTokenSupplyResponse.fromJson(data).result;
   }
 }
 
