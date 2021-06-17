@@ -2,9 +2,19 @@ class SystemProgram {
   static const id = '11111111111111111111111111111111';
 }
 
+class Int32Bytes {
+  static const zero = [0, 0, 0, 0];
+  static const one = [1, 0, 0, 0];
+  static const two = [2, 0, 0, 0];
+}
+
 class SystemProgramIndex {
-  static const transfer = [2, 0, 0, 0];
-  static const account = [1, 0, 0, 0];
+  static const createAccount = Int32Bytes.one;
+  static const transfer = Int32Bytes.two;
+}
+
+class TokenProgramIndex {
+  static const initializeMint = Int32Bytes.zero;
 }
 
 class MemoProgram {

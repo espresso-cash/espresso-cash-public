@@ -1,4 +1,5 @@
 import 'package:cryptography/cryptography.dart' as crypto;
+import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
 import 'package:solana/src/constants/constants.dart';
 
@@ -20,5 +21,9 @@ Future<String> deriveAssociatedTokenAddress({
   ];
   final hash = await _sha256.hash(seeds);
   final data = hash.bytes.sublist(0, 32);
+  final address = base58.encode(data);
+  if (!isValidAddress(address)) {
+    throw ArgumentError('derived address is not valid');
+  }
   return base58.encode(data);
 }

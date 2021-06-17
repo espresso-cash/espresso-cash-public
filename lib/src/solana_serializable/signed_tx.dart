@@ -9,8 +9,8 @@ import 'message.dart';
 /// be populated following the solana convention for the set of addresses
 /// that they belong to within the message.
 class SignedTx extends Serializable {
-  SignedTx({
-    required this.signatures,
+  const SignedTx({
+    this.signatures = const CompactArray<Signature>.fromIterable([]),
     required this.message,
   });
 

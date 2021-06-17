@@ -4,10 +4,12 @@ import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/constants/constants.dart';
 import 'package:solana/src/solana_serializable/signed_tx.dart';
-import 'package:solana/src/token/token.dart';
+import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
 import 'package:test/test.dart';
+
+const int _transferredAmount = 0x1000;
 
 void main() {
   final devnetRpcUrl =
@@ -32,7 +34,6 @@ void main() {
       final TxSignature signature = await solanaClient.requestAirdrop(
         sourceWallet.address,
         addedBalance,
-        commitment: TxStatus.finalized,
       );
       expect(signature, isNot(null));
       await expectLater(
@@ -59,24 +60,26 @@ void main() {
     });
 
     test('Can read the balance of an account', () async {
-      final int balance = await solanaClient.getBalance(sourceWallet.address);
+      final int balance = await solanaClient.getBalance(
+        sourceWallet.address,
+      );
       expect(balance, currentBalance);
     });
 
     test('Can get all the account information of an account', () async {
-      final AccountInfo accountInfo =
-          await solanaClient.getAccountInfo(sourceWallet.address);
+      final AccountInfo accountInfo = await solanaClient.getAccountInfo(
+        sourceWallet.address,
+      );
       expect(accountInfo.lamports, currentBalance);
       expect(accountInfo.owner, SystemProgram.id);
       expect(accountInfo.executable, false);
     });
 
     test('Can simulate a transfer', () async {
-      const int transferredAmount = 50000;
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
-        lamports: transferredAmount,
+        lamports: _transferredAmount,
         recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
       final SignedTx signedTx = await sourceWallet.signMessage(message);
@@ -86,11 +89,10 @@ void main() {
     });
 
     test('Can transfer tokens', () async {
-      const int transferredAmount = 50000;
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
-        lamports: transferredAmount,
+        lamports: _transferredAmount,
         recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
       final SignedTx signedTx = await sourceWallet.signMessage(message);
@@ -109,11 +111,10 @@ void main() {
     });
 
     test('Can transfer to the same address', () async {
-      const int transferredAmount = 50000;
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: sourceWallet.address,
-        lamports: transferredAmount,
+        lamports: _transferredAmount,
         recentBlockhash: await solanaClient.getRecentBlockhash(),
       );
       final SignedTx signedTx = await sourceWallet.signMessage(message);
@@ -131,13 +132,12 @@ void main() {
     });
 
     test('Can transfer with memo', () async {
-      const int transferredAmount = 50000;
       const memoText = 'Memo test string...';
 
       final message = Message.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
-        lamports: transferredAmount,
+        lamports: _transferredAmount,
         recentBlockhash: await solanaClient.getRecentBlockhash(),
         memo: memoText,
       );
@@ -179,7 +179,7 @@ void main() {
       expect(txs.length, greaterThan(0));
     });
 
-    test('Can get token supply', () async {
+    test('Can get spl_token supply', () async {
       final TokenSupplyResult supplyResult = await solanaClient.getTokenSupply(
         'BgLR7yanLaAHR58MHUTLXw7A7jhu9KSd3NaxkHsuQtQH',
       );

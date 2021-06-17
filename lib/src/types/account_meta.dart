@@ -27,7 +27,7 @@ class AccountMeta {
         isSigner: isSigner,
       );
 
-  factory AccountMeta.fromMerge(AccountMeta a1, AccountMeta a2) {
+  factory AccountMeta.merged(AccountMeta a1, AccountMeta a2) {
     if (a1.pubKey != a2.pubKey) {
       throw ArgumentError("cannot merge 'AccountMeta's pubKeys must match");
     }
@@ -44,32 +44,42 @@ class AccountMeta {
   final bool isSigner;
 }
 
-/// Filter out duplicate accounts from the list of
-/// accounts metadata
-extension UniqueMetas on List<AccountMeta> {
-  List<AccountMeta> unique() => fold([], (list, item) {
-        final index = list.indexWhere((meta) => meta.pubKey == item.pubKey);
+extension AccountMetaListExt on Iterable<AccountMeta> {
+  List<AccountMeta> unique() =>
+      fold<List<AccountMeta>>([], (List<AccountMeta> list, AccountMeta item) {
+        final index = list.indexOfPubKey(item.pubKey);
         if (index == -1) {
           return [...list, item];
         } else {
           // Keep then one of the two that is either a signer or
           // a writeable account
-          list[index] = AccountMeta.fromMerge(item, list[index]);
+          list[index] = AccountMeta.merged(item, list[index]);
+
           return list;
         }
-      });
+      })
+        ..sort((AccountMeta a1, AccountMeta a2) {
+          int score = 0;
+          score += a1.isSigner ? 1 : 0;
+          score += a2.isSigner ? -1 : 0;
+          score += a1.isWriteable ? 1 : 0;
+          score += a2.isWriteable ? -1 : 0;
+          return score;
+        });
 
   int indexOfPubKey(String pubKey) =>
-      indexWhere((meta) => meta.pubKey == pubKey);
+      toList().indexWhere((account) => account.pubKey == pubKey);
 
   int getNumSigners() =>
-      fold(0, (total, meta) => total + (meta.isSigner ? 1 : 0));
+      fold(0, (total, account) => total + (account.isSigner ? 1 : 0));
   int getNumReadonlySigners() => fold(
         0,
-        (total, meta) => total + (!meta.isWriteable && meta.isSigner ? 1 : 0),
+        (total, account) =>
+            total + (!account.isWriteable && account.isSigner ? 1 : 0),
       );
   int getNumReadonlyNonSigners() => fold(
         0,
-        (total, meta) => total + (!meta.isWriteable && !meta.isSigner ? 1 : 0),
+        (total, account) =>
+            total + (!account.isWriteable && !account.isSigner ? 1 : 0),
       );
 }

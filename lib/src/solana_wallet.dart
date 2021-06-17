@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart' as crypto;
 import 'package:solana/src/base58/base58.dart' as base58;
@@ -5,12 +7,33 @@ import 'package:solana/src/solana_serializable/signed_tx.dart';
 import 'package:solana/src/solana_serializable/solana_serializable.dart';
 import 'package:solana/src/types/hd_key_pair.dart';
 
+final _random = Random.secure();
+
 /// Signs transactions to be sent to a Solana Cluster
 class SolanaWallet {
   SolanaWallet._fromKeyPair(
     this._keyPair, {
     required this.address,
   });
+
+  static Future<SolanaWallet> random() async {
+    // Create the seed
+    final List<int> seedBytes = List<int>.generate(
+      32,
+      (_) => _random.nextInt(256),
+    );
+    final crypto.KeyPair keyPair = await _deriveKeyPair(seedBytes, 0, 0);
+    final crypto.PublicKey publicKey = await keyPair.extractPublicKey();
+    if (publicKey is crypto.SimplePublicKey) {
+      // Finally, create a new wallet
+      return SolanaWallet._fromKeyPair(
+        keyPair,
+        address: base58.encode(publicKey.bytes),
+      );
+    } else {
+      throw const FormatException('could not build a key pair');
+    }
+  }
 
   /// Creates and initializes the [walletIndex]th SolanaWallet and the
   /// [accountIndex]th account for the given bip39 [mnemonic] string of
@@ -66,7 +89,7 @@ class SolanaWallet {
     final signature = Signature.from(await sign(serializedMessage));
 
     return SignedTx(
-      signatures: CompactArray.fromList([signature]),
+      signatures: CompactArray.fromIterable([signature]),
       message: message,
     );
   }

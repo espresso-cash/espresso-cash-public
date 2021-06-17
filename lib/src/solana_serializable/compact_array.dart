@@ -3,9 +3,9 @@ import 'package:solana/src/solana_serializable/int.dart';
 import 'package:solana/src/solana_serializable/solana_serializable.dart';
 
 class CompactArray<T> extends Serializable {
-  const CompactArray.fromList(this._items);
+  const CompactArray.fromIterable(this._items);
 
-  final List<T> _items;
+  final Iterable<T> _items;
 
   @override
   List<int> serialize() {

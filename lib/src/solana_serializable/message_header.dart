@@ -10,7 +10,7 @@ class MessageHeader extends Serializable {
     this.numReadonlyUnSignedAccounts,
   );
 
-  factory MessageHeader.fromAccounts(List<AccountMeta> accounts) =>
+  factory MessageHeader.fromAccounts(Iterable<AccountMeta> accounts) =>
       MessageHeader._(
         accounts.getNumSigners(),
         accounts.getNumReadonlySigners(),
