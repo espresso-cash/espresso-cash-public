@@ -40,7 +40,7 @@ void main() {
       await expectLater(
         solanaClient.waitForSignatureStatus(
           signature,
-          TxStatus.finalized,
+          Commitment.finalized,
         ),
         completes,
       );
@@ -107,7 +107,7 @@ void main() {
       await expectLater(
         solanaClient.waitForSignatureStatus(
           signature,
-          TxStatus.finalized,
+          Commitment.finalized,
         ),
         completes,
       );
@@ -133,7 +133,7 @@ void main() {
       await expectLater(
         solanaClient.waitForSignatureStatus(
           signature,
-          TxStatus.finalized,
+          Commitment.finalized,
         ),
         completes,
       );
@@ -161,7 +161,7 @@ void main() {
       await expectLater(
         solanaClient.waitForSignatureStatus(
           signature,
-          TxStatus.finalized,
+          Commitment.finalized,
         ),
         completes,
       );
@@ -213,11 +213,11 @@ void main() {
       final TxSignature signature = await solanaClient.requestAirdrop(
         wallet.address,
         addedBalance,
-        commitment: TxStatus.finalized,
+        commitment: Commitment.finalized,
       );
 
       await expectLater(
-        solanaClient.waitForSignatureStatus(signature, TxStatus.confirmed),
+        solanaClient.waitForSignatureStatus(signature, Commitment.confirmed),
         completes,
       );
 
@@ -225,7 +225,7 @@ void main() {
       expect(balance, 0);
 
       await expectLater(
-        solanaClient.waitForSignatureStatus(signature, TxStatus.finalized),
+        solanaClient.waitForSignatureStatus(signature, Commitment.finalized),
         completes,
       );
       balance = await solanaClient.getBalance(wallet.address);
@@ -238,16 +238,16 @@ void main() {
       final TxSignature signature = await solanaClient.requestAirdrop(
         wallet.address,
         addedBalance,
-        commitment: TxStatus.finalized,
+        commitment: Commitment.finalized,
       );
 
       await expectLater(
-        solanaClient.waitForSignatureStatus(signature, TxStatus.confirmed),
+        solanaClient.waitForSignatureStatus(signature, Commitment.confirmed),
         completes,
       );
       final balance = await solanaClient.getBalance(
         wallet.address,
-        commitment: TxStatus.confirmed,
+        commitment: Commitment.confirmed,
       );
       expect(balance, greaterThan(0));
     });

@@ -12,7 +12,7 @@ SignatureStatus _$SignatureStatusFromJson(Map<String, dynamic> json) {
     confirmations: json['confirmations'] as int?,
     err: json['err'],
     confirmationStatus:
-        _$enumDecodeNullable(_$TxStatusEnumMap, json['confirmationStatus']),
+        _$enumDecodeNullable(_$CommitmentEnumMap, json['confirmationStatus']),
   );
 }
 
@@ -53,10 +53,10 @@ K? _$enumDecodeNullable<K, V>(
   return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$TxStatusEnumMap = {
-  TxStatus.processed: 'processed',
-  TxStatus.confirmed: 'confirmed',
-  TxStatus.finalized: 'finalized',
+const _$CommitmentEnumMap = {
+  Commitment.processed: 'processed',
+  Commitment.confirmed: 'confirmed',
+  Commitment.finalized: 'finalized',
 };
 
 SignatureStatusesResponse _$SignatureStatusesResponseFromJson(

@@ -27,7 +27,7 @@ void main() {
       );
       await solanaClient.waitForSignatureStatus(
         txSignature,
-        TxStatus.finalized,
+        Commitment.finalized,
       );
     });
 

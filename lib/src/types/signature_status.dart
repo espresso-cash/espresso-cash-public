@@ -3,7 +3,7 @@ import 'package:solana/src/types/json_rpc_response_object.dart';
 
 part 'signature_status.g.dart';
 
-enum TxStatus { processed, confirmed, finalized }
+enum Commitment { processed, confirmed, finalized }
 
 @JsonSerializable(createToJson: false)
 class SignatureStatus {
@@ -20,7 +20,7 @@ class SignatureStatus {
   final int slot;
   final int? confirmations;
   final Object? err;
-  final TxStatus? confirmationStatus;
+  final Commitment? confirmationStatus;
 
   @override
   String toString() => confirmationStatus.toString();

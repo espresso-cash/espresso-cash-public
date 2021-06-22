@@ -32,7 +32,7 @@ class SolanaClient {
   /// For [commitment] parameter description see
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<Blockhash> getRecentBlockhash({
-    TxStatus? commitment,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getRecentBlockhash',
@@ -51,7 +51,7 @@ class SolanaClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<int> getBalance(
     String address, {
-    TxStatus? commitment,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getBalance',
@@ -72,7 +72,7 @@ class SolanaClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<AccountInfo> getAccountInfo(
     String address, {
-    TxStatus? commitment,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getAccountInfo',
@@ -125,7 +125,7 @@ class SolanaClient {
   Future<TxSignature> requestAirdrop(
     String address,
     int lamports, {
-    TxStatus commitment = TxStatus.processed,
+    Commitment commitment = Commitment.processed,
   }) async {
     final data = await _client.request('requestAirdrop', params: <dynamic>[
       address,
@@ -169,7 +169,7 @@ class SolanaClient {
   /// Note: the default [timeout] is 30 seconds.
   Future<void> waitForSignatureStatus(
     TxSignature signature,
-    TxStatus desiredStatus, {
+    Commitment desiredStatus, {
     Duration timeout = const Duration(seconds: 30),
   }) async {
     final completer = Completer<void>();
@@ -214,13 +214,13 @@ class SolanaClient {
   /// For [commitment] parameter description see
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
-  /// [TxStatus.processed] is not supported as [commitment].
+  /// [Commitment.processed] is not supported as [commitment].
   Future<Iterable<ConfirmedSignature>> getConfirmedSignaturesForAddress2(
     String address, {
     int limit = 10,
     String? before,
     String? until,
-    TxStatus? commitment,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getConfirmedSignaturesForAddress2',
@@ -244,10 +244,10 @@ class SolanaClient {
   /// For [commitment] parameter description see
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
-  /// [TxStatus.processed] is not supported as [commitment].
+  /// [Commitment.processed] is not supported as [commitment].
   Future<TransactionResult?> getConfirmedTransaction(
     String signature, {
-    TxStatus? commitment,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getConfirmedTransaction',
@@ -268,11 +268,11 @@ class SolanaClient {
   /// For [commitment] parameter description see
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
-  /// [TxStatus.processed] is not supported as [commitment].
+  /// [Commitment.processed] is not supported as [commitment].
   Future<Iterable<TransactionResult>> getTransactionsList(
     String address, {
     int limit = 10,
-    TxStatus? commitment,
+    Commitment? commitment,
   }) async {
     final signatures = await getConfirmedSignaturesForAddress2(
       address,
@@ -294,7 +294,7 @@ class SolanaClient {
   /// signature [signature]
   Future<TransactionResult?> getTransaction(
     String signature, {
-    TxStatus? commitment,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getTransaction',
@@ -312,7 +312,7 @@ class SolanaClient {
 
   Future<TokenSupplyResult> getTokenSupply(
     String tokenMintAddress, {
-    TxStatus commitment = TxStatus.confirmed,
+    Commitment commitment = Commitment.confirmed,
   }) async {
     final data = await _client.request(
       'getTokenSupply',
@@ -330,7 +330,7 @@ class SolanaClient {
 
   Future<int> getMinimumBalanceForRentExemption(
     int size, {
-    TxStatus? commitment,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getMinimumBalanceForRentExemption',
@@ -345,14 +345,14 @@ class SolanaClient {
   }
 }
 
-extension on TxStatus {
+extension on Commitment {
   String get value {
     switch (this) {
-      case TxStatus.processed:
+      case Commitment.processed:
         return 'processed';
-      case TxStatus.confirmed:
+      case Commitment.confirmed:
         return 'confirmed';
-      case TxStatus.finalized:
+      case Commitment.finalized:
         return 'finalized';
     }
   }

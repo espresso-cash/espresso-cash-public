@@ -5,7 +5,7 @@ export 'src/types/account_info.dart' show AccountInfo;
 export 'src/types/blockhash.dart' show Blockhash;
 export 'src/types/confirmed_signature.dart' show ConfirmedSignature;
 export 'src/types/fee_calculator.dart' show FeeCalculator;
-export 'src/types/signature_status.dart' show SignatureStatus, TxStatus;
+export 'src/types/signature_status.dart' show SignatureStatus, Commitment;
 export 'src/types/simulate_tx_result.dart' show SimulateTxResult;
 export 'src/types/transaction/instruction.dart'
     show
