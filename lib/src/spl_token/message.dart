@@ -1,9 +1,5 @@
 import 'package:solana/src/base58/base58.dart' as base58;
-import 'package:solana/src/constants/constants.dart';
-import 'package:solana/src/types/account_meta.dart';
-import 'package:solana/src/types/serializable/instruction.dart';
-import 'package:solana/src/types/serializable/message.dart';
-import 'package:solana/src/types/serializable/serializable_int.dart';
+import 'package:solana/src/encoder/encoder.dart';
 
 class TokenMessage extends Message {
   TokenMessage({

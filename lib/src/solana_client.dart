@@ -9,7 +9,6 @@ import 'package:solana/src/types/balance.dart';
 import 'package:solana/src/types/blockhash.dart';
 import 'package:solana/src/types/confirmed_signature.dart';
 import 'package:solana/src/types/confirmed_transaction_response.dart';
-import 'package:solana/src/types/serializable/signed_tx.dart';
 import 'package:solana/src/types/signature_status.dart';
 import 'package:solana/src/types/simulate_tx_result.dart';
 import 'package:solana/src/types/transaction/get_transaction_response.dart';

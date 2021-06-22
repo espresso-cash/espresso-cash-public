@@ -1,3 +1,5 @@
+part of 'encoder.dart';
+
 class CompactU16 extends Iterable<int> {
   CompactU16(int value) {
     final List<int> data = List<int>.empty(growable: true);

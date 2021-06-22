@@ -1,4 +1,4 @@
-import 'package:convert/convert.dart';
+part of 'encoder.dart';
 
 const int _bitsPerByte = 8;
 const int _hexCharsPerByte = 2;

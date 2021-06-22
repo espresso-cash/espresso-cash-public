@@ -1,13 +1,4 @@
-import 'package:solana/solana.dart';
-import 'package:solana/src/types/account_meta.dart';
-import 'package:solana/src/types/blockhash.dart';
-import 'package:solana/src/types/serializable/address.dart';
-import 'package:solana/src/types/serializable/compact_array.dart';
-import 'package:solana/src/types/serializable/compiled_instruction.dart';
-import 'package:solana/src/types/serializable/instruction.dart';
-import 'package:solana/src/types/serializable/instruction_data.dart';
-import 'package:solana/src/types/serializable/message_header.dart';
-import 'package:solana/src/types/serializable/serializable_string.dart';
+part of 'encoder.dart';
 
 /// This is an implementation of the [Message Format][message format].
 ///
@@ -83,13 +74,13 @@ class Message {
   }
 }
 
-extension on Iterable<AccountMeta> {
-  // Convert account metas to serializable public keys
+extension _EncodableAccountsInterableExt on Iterable<AccountMeta> {
+  // Convert account metas to encoder public keys
   Iterable<SerializablePubKey> toSerializablePubKeys() =>
       map((a) => SerializablePubKey.from(a.pubKey));
 }
 
-extension on List<Instruction> {
+extension _InstructionsIterableExt on Iterable<Instruction> {
   /// Simple helper to extract all accounts from an instruction, it also appends
   /// the program id account which needs to be present in the accounts array sent
   /// in a message.
@@ -115,7 +106,7 @@ extension on List<Instruction> {
       _extractAccounts().unique()..sort(_accountComparator);
 }
 
-extension on Blockhash {
+extension _BlockhashExt on Blockhash {
   Iterable<int> toBytes() => SerializablePubKey.from(blockhash);
 }
 

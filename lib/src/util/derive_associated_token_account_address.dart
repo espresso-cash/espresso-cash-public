@@ -1,7 +1,7 @@
 import 'package:cryptography/cryptography.dart' as crypto;
 import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
-import 'package:solana/src/constants/constants.dart';
+import 'package:solana/src/encoder/encoder.dart';
 
 const _nonce = 255;
 final _sha256 = crypto.Sha256();

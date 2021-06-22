@@ -1,6 +1,4 @@
-import 'package:solana/src/constants/constants.dart';
-import 'package:solana/src/types/account_meta.dart';
-import 'package:solana/src/types/serializable/serializable_string.dart';
+part of 'encoder.dart';
 
 /// Taken from [here](https://spl.solana.com/memo#compute-limits)
 const _memoSizeLimit = 566;

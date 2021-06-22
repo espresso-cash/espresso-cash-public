@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/constants/constants.dart';
+import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';

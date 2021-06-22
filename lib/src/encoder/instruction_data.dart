@@ -1,5 +1,4 @@
-import 'package:solana/src/constants/constants.dart';
-import 'package:solana/src/types/serializable/serializable_int.dart';
+part of 'encoder.dart';
 
 /// Convenience class with constructors for specific program
 /// data that can be interpreted by a given program.

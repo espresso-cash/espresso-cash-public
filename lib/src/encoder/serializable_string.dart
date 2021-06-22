@@ -1,4 +1,4 @@
-import 'dart:convert';
+part of 'encoder.dart';
 
 class SerializableString extends Iterable<int> {
   SerializableString(String string) : _data = utf8.encode(string);

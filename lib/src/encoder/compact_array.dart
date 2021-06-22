@@ -1,5 +1,4 @@
-import 'package:solana/src/types/serializable/compact_u16.dart';
-import 'package:solana/src/types/serializable/serializable_int.dart';
+part of 'encoder.dart';
 
 class CompactArray<T> extends Iterable<int> {
   // const CompactArray.fromIterable(this._items);

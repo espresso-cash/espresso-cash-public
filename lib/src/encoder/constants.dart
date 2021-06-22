@@ -1,3 +1,5 @@
+part of 'encoder.dart';
+
 abstract class SystemProgram {
   SystemProgram._();
 

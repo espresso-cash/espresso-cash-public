@@ -1,5 +1,4 @@
-import 'package:solana/src/types/serializable/compact_array.dart';
-import 'package:solana/src/types/serializable/signature.dart';
+part of 'encoder.dart';
 
 /// Represents a signed transaction that consists of the transaction
 /// message and an array of signatures. The array of signatures must

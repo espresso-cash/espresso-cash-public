@@ -1,7 +1,4 @@
-import 'package:solana/src/types/account_meta.dart';
-import 'package:solana/src/types/serializable/compact_array.dart';
-import 'package:solana/src/types/serializable/instruction.dart';
-import 'package:solana/src/types/serializable/serializable_int.dart';
+part of 'encoder.dart';
 
 /// Class to convert the [Instruction] representation of an instruction to
 /// the [Instruction Format][instruction format].

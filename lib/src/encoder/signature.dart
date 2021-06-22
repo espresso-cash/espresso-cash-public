@@ -1,4 +1,4 @@
-import 'package:cryptography/cryptography.dart' as crypto;
+part of 'encoder.dart';
 
 class Signature extends Iterable<int> {
   Signature.from(crypto.Signature signature) : _data = signature.bytes;

@@ -1,4 +1,4 @@
-import 'package:solana/src/base58/base58.dart' as base58;
+part of 'encoder.dart';
 
 class SerializablePubKey extends Iterable<int> {
   SerializablePubKey._(this._data);

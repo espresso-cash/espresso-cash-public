@@ -1,5 +1,4 @@
-import 'package:solana/src/types/account_meta.dart';
-import 'package:solana/src/types/serializable/serializable_int.dart';
+part of 'encoder.dart';
 
 /// The message header as described [Message Header Format][message header format]
 ///
