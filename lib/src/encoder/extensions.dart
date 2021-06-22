@@ -33,5 +33,5 @@ extension _InstructionsIterableExt on Iterable<Instruction> {
 }
 
 extension _BlockhashExt on Blockhash {
-  Iterable<int> toBytes() => PubKeyBytes.from(blockhash);
+  ByteArray toBytes() => PubKeyBytes.from(blockhash);
 }

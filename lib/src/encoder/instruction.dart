@@ -26,7 +26,7 @@ class Instruction {
   /// be before the [destination]
   factory Instruction.system({
     required Iterable<AccountMeta> accounts,
-    required Iterable<int> data,
+    required ByteArray data,
   }) =>
       Instruction(
         programId: SystemProgram.id,
@@ -61,5 +61,5 @@ class Instruction {
 
   final String programId;
   final Iterable<AccountMeta> accounts;
-  final Iterable<int> data;
+  final ByteArray data;
 }

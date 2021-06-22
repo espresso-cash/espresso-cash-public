@@ -2,8 +2,8 @@ part of 'encoder.dart';
 
 /// Convenience class with constructors for specific program
 /// data that can be interpreted by a given program.
-class InstructionData extends Iterable<int> {
-  InstructionData(Iterable<Iterable<int>> data)
+class InstructionData extends ByteArray {
+  InstructionData(Iterable<ByteArray> data)
       : _data = Buffer.fromByteArrays(data);
 
   /// Build the program data for a transfer instruction with
@@ -12,7 +12,7 @@ class InstructionData extends Iterable<int> {
         Buffer.fromInt64(lamports),
       ]);
 
-  final Iterable<int> _data;
+  final ByteArray _data;
 
   @override
   Iterator<int> get iterator => _data.iterator;

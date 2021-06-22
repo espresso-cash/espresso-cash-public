@@ -4,10 +4,10 @@ const int _bitsPerByte = 8;
 const int _hexCharsPerByte = 2;
 
 // TODO(IA): we probably need unsigned versions of integers as well
-class Buffer extends Iterable<int> {
+class Buffer extends ByteArray {
   Buffer._(this._data) : super();
 
-  factory Buffer._fromIterable(Iterable<int> iterable) =>
+  factory Buffer._fromIterable(ByteArray iterable) =>
       Buffer._([for (int i in iterable) i]);
 
   factory Buffer._fromIntWithBitSize(
@@ -37,11 +37,11 @@ class Buffer extends Iterable<int> {
 
   factory Buffer.fromString(String string) => Buffer._(utf8.encode(string));
 
-  factory Buffer.fromByteArrays(Iterable<Iterable<int>> buffers) => Buffer._(
-        buffers.fold([], (combined, buffer) => [...combined, ...buffer]),
+  factory Buffer.fromByteArrays(Iterable<ByteArray> byteArrays) => Buffer._(
+        byteArrays.fold([], (combined, buffer) => [...combined, ...buffer]),
       );
 
-  final Iterable<int> _data;
+  final ByteArray _data;
 
   @override
   Iterator<int> get iterator => _data.iterator;

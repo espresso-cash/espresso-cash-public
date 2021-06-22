@@ -1,6 +1,6 @@
 part of 'encoder.dart';
 
-class CompactU16 extends Iterable<int> {
+class CompactU16 extends ByteArray {
   CompactU16(int value) {
     final List<int> data = List<int>.empty(growable: true);
     int rawValue = value;
@@ -17,7 +17,7 @@ class CompactU16 extends Iterable<int> {
     _data = data;
   }
 
-  late final Iterable<int> _data;
+  late final ByteArray _data;
 
   @override
   Iterator<int> get iterator => _data.iterator;

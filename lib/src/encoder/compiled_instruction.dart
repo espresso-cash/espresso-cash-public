@@ -4,7 +4,7 @@ part of 'encoder.dart';
 /// the [Instruction Format][instruction format].
 ///
 /// [instruction format]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
-class CompiledInstruction extends Iterable<int> {
+class CompiledInstruction extends ByteArray {
   factory CompiledInstruction({
     required Instruction instruction,
     required Iterable<AccountMeta> messageAccounts,
@@ -36,16 +36,16 @@ class CompiledInstruction extends Iterable<int> {
   }
 
   CompiledInstruction._({
-    required Iterable<int> programIdIndex,
-    required Iterable<int> accountIndexes,
-    required Iterable<int> data,
+    required ByteArray programIdIndex,
+    required ByteArray accountIndexes,
+    required ByteArray data,
   }) : _data = Buffer.fromByteArrays([
           programIdIndex,
           accountIndexes,
           data,
         ]);
 
-  final Iterable<int> _data;
+  final ByteArray _data;
 
   @override
   Iterator<int> get iterator => _data.iterator;

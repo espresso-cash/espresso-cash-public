@@ -3,7 +3,7 @@ part of 'encoder.dart';
 /// The message header as described [Message Header Format][message header format]
 ///
 /// [message header format]: https://docs.solana.com/developing/programming-model/transactions#message-header-format
-class MessageHeader extends Iterable<int> {
+class MessageHeader extends ByteArray {
   MessageHeader._({
     required int numRequiredSignatures,
     required int numReadonlySignedAccounts,
@@ -23,7 +23,7 @@ class MessageHeader extends Iterable<int> {
         numReadonlyUnsignedAccounts: accounts.getNumReadonlyNonSigners(),
       );
 
-  final Iterable<int> _data;
+  final ByteArray _data;
 
   @override
   Iterator<int> get iterator => _data.iterator;

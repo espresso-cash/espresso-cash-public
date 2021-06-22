@@ -50,7 +50,7 @@ class Message {
   /// Compiles a message into the array of bytes that would be interpreted
   /// by solana. The [recentBlockhash] is passed here as this is the final
   /// step before sending the [Message].
-  Iterable<int> compile(Blockhash recentBlockhash) {
+  ByteArray compile(Blockhash recentBlockhash) {
     final accounts = instructions.getAccounts();
     final keys = CompactArray<PubKeyBytes>.fromIterable(
       accounts.toSerializablePubKeys(),
