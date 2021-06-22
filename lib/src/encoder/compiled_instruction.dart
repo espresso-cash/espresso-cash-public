@@ -15,8 +15,7 @@ class CompiledInstruction extends Iterable<int> {
     if (!accountsMap.containsKey(instruction.programId)) {
       throw ArgumentError('programId not found in accountsMap');
     }
-    final programIdIndex =
-        SerializableInt.from(accountsMap[instruction.programId]!);
+    final programIdIndex = Buffer.fromInt8(accountsMap[instruction.programId]!);
     final accountIndexes = CompactArray.fromIterable(
       accounts.map((a) {
         if (!accountsMap.containsKey(a.pubKey)) {
@@ -40,11 +39,11 @@ class CompiledInstruction extends Iterable<int> {
     required Iterable<int> programIdIndex,
     required Iterable<int> accountIndexes,
     required Iterable<int> data,
-  }) : _data = [
-          ...programIdIndex,
-          ...accountIndexes,
-          ...data,
-        ];
+  }) : _data = Buffer.fromByteArrays([
+          programIdIndex,
+          accountIndexes,
+          data,
+        ]);
 
   final Iterable<int> _data;
 

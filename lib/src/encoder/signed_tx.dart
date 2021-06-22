@@ -8,10 +8,10 @@ class SignedTx extends Iterable<int> {
   SignedTx({
     Iterable<Signature> signatures = const Iterable<Signature>.empty(),
     required Iterable<int> messageBytes,
-  }) : _data = [
-          ...CompactArray.fromIterable(signatures),
-          ...messageBytes,
-        ];
+  }) : _data = Buffer.fromByteArrays([
+          CompactArray.fromIterable(signatures),
+          messageBytes,
+        ]);
 
   final Iterable<int> _data;
 

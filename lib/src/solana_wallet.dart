@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:cryptography/cryptography.dart' as crypto;
+import 'package:cryptography/cryptography.dart'
+    show KeyPair, PublicKey, SimplePublicKey, Ed25519;
 import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
 import 'package:solana/src/encoder/encoder.dart';
@@ -22,9 +23,9 @@ class SolanaWallet {
       32,
       (_) => _random.nextInt(256),
     );
-    final crypto.KeyPair keyPair = await _deriveKeyPair(seedBytes, 0, 0);
-    final crypto.PublicKey publicKey = await keyPair.extractPublicKey();
-    if (publicKey is crypto.SimplePublicKey) {
+    final KeyPair keyPair = await _deriveKeyPair(seedBytes, 0, 0);
+    final PublicKey publicKey = await keyPair.extractPublicKey();
+    if (publicKey is SimplePublicKey) {
       // Finally, create a new wallet
       return SolanaWallet._fromKeyPair(
         keyPair,
@@ -45,10 +46,10 @@ class SolanaWallet {
   }) async {
     // Create the seed
     final List<int> seedBytes = bip39.mnemonicToSeed(mnemonic);
-    final crypto.KeyPair keyPair =
+    final KeyPair keyPair =
         await _deriveKeyPair(seedBytes, walletIndex, accountIndex);
-    final crypto.PublicKey publicKey = await keyPair.extractPublicKey();
-    if (publicKey is crypto.SimplePublicKey) {
+    final PublicKey publicKey = await keyPair.extractPublicKey();
+    if (publicKey is SimplePublicKey) {
       // Finally, create a new wallet
       return SolanaWallet._fromKeyPair(
         keyPair,
@@ -59,8 +60,8 @@ class SolanaWallet {
     }
   }
 
-  static final _ed25519 = crypto.Ed25519();
-  final crypto.KeyPair _keyPair;
+  static final _ed25519 = Ed25519();
+  final KeyPair _keyPair;
 
   /// The address or public key of this wallet
   final String address;
@@ -68,7 +69,7 @@ class SolanaWallet {
   static String _getHDPath(int walletIndex, int accountIndex) =>
       "m/44'/501'/$walletIndex'/$accountIndex'";
 
-  static Future<crypto.KeyPair> _deriveKeyPair(
+  static Future<KeyPair> _deriveKeyPair(
     List<int> rawSeed,
     int walletIndex,
     int accountIndex,
@@ -80,16 +81,17 @@ class SolanaWallet {
   /// Returns a Future that resolves to the result of signing
   /// [data] with the private key held internally by a given
   /// instance
-  Future<crypto.Signature> sign(List<int> data) =>
-      _ed25519.sign(data, keyPair: _keyPair);
+  Future<Signature> sign(Iterable<int> data) async => Signature.from(
+        await _ed25519.sign(data.toList(growable: false), keyPair: _keyPair),
+      );
 
   /// Sign a solana program message
   Future<SignedTx> signMessage(
     Message message,
     Blockhash recentBlockhash,
   ) async {
-    final List<int> messageBytes = message.compile(recentBlockhash);
-    final signature = Signature.from(await sign(messageBytes));
+    final Iterable<int> messageBytes = message.compile(recentBlockhash);
+    final signature = await sign(messageBytes);
 
     return SignedTx(
       signatures: [signature],

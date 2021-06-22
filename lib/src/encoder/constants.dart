@@ -4,27 +4,8 @@ abstract class SystemProgram {
   SystemProgram._();
 
   static const id = '11111111111111111111111111111111';
-}
-
-abstract class Int32Bytes {
-  Int32Bytes._();
-
-  static const zero = [0, 0, 0, 0];
-  static const one = [1, 0, 0, 0];
-  static const two = [2, 0, 0, 0];
-}
-
-abstract class SystemProgramIndex {
-  SystemProgramIndex._();
-
-  static const createAccount = Int32Bytes.one;
-  static const transfer = Int32Bytes.two;
-}
-
-abstract class TokenProgramIndex {
-  TokenProgramIndex._();
-
-  static const initializeMint = Int32Bytes.zero;
+  static const createAccount = [1, 0, 0, 0];
+  static const transfer = [2, 0, 0, 0];
 }
 
 abstract class MemoProgram {
@@ -37,6 +18,8 @@ abstract class TokenProgram {
   TokenProgram._();
 
   static const id = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
+  static const initializeMint = [0];
+  static const requiredAccountSpace = 82;
 }
 
 abstract class Sysvar {

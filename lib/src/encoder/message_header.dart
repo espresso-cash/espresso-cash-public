@@ -8,11 +8,11 @@ class MessageHeader extends Iterable<int> {
     required int numRequiredSignatures,
     required int numReadonlySignedAccounts,
     required int numReadonlyUnsignedAccounts,
-  }) : _data = [
-          ...SerializableInt.from(numRequiredSignatures),
-          ...SerializableInt.from(numReadonlySignedAccounts),
-          ...SerializableInt.from(numReadonlyUnsignedAccounts),
-        ];
+  }) : _data = Buffer.fromByteArrays([
+          Buffer.fromUInt8(numRequiredSignatures),
+          Buffer.fromUInt8(numReadonlySignedAccounts),
+          Buffer.fromUInt8(numReadonlyUnsignedAccounts),
+        ]);
 
   /// Constructs a message header by counting signers, and readonly accounts
   /// from [accounts].

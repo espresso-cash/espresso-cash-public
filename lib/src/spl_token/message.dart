@@ -8,30 +8,43 @@ class TokenMessage extends Message {
           instructions: instructions,
         );
 
-  factory TokenMessage.createToken({
-    required String authority,
-    required String mint,
+  factory TokenMessage.createMint({
+    String? freezePubkey,
+    required String authorityPubkey,
+    required String mintPubkey,
+    required int requiredBalance,
+    required int allocatedSpace,
     required int decimals,
   }) {
-    final mintAccount = AccountMeta.readonly(pubKey: mint, isSigner: false);
     final instructions = [
-      Instruction(
-        programId: SystemProgram.id,
-        accounts: [mintAccount],
-        data: SystemProgramIndex.createAccount,
+      Instruction.system(
+        accounts: [
+          AccountMeta.writeableSigner(pubKey: authorityPubkey),
+          AccountMeta.writeableSigner(pubKey: mintPubkey),
+        ],
+        data: InstructionData([
+          SystemProgram.createAccount,
+          Buffer.fromInt64(requiredBalance),
+          Buffer.fromInt64(allocatedSpace),
+          base58.decode(TokenProgram.id),
+        ]),
       ),
       Instruction(
         programId: TokenProgram.id,
         accounts: [
-          mintAccount,
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.writeable(pubKey: mintPubkey),
+          AccountMeta.readonly(pubKey: Sysvar.rent),
         ],
-        data: [
-          ...TokenProgramIndex.initializeMint,
-          ...SerializableInt.from(decimals),
-          ...base58.decode(authority),
-          ...Int32Bytes.zero,
-        ],
+        data: InstructionData([
+          TokenProgram.initializeMint,
+          Buffer.fromUInt8(decimals),
+          base58.decode(authorityPubkey),
+          Buffer.fromUInt8(freezePubkey != null ? 1 : 0),
+          if (freezePubkey != null)
+            base58.decode(freezePubkey)
+          else
+            List<int>.filled(32, 0),
+        ]),
       )
     ];
 

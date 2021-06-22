@@ -45,9 +45,9 @@ class Instruction {
   /// [memo limit](https://spl.solana.com/memo#compute-limits)
   factory Instruction.memo({
     required List<AccountMeta> signers,
-    required SerializableString memo,
+    required Buffer memo,
   }) {
-    if (memo.size > _memoSizeLimit) {
+    if (memo.length > _memoSizeLimit) {
       throw const FormatException(
         'the [memo] cannot be more than 566 bytes length',
       );

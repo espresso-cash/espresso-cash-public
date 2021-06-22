@@ -9,26 +9,41 @@ class AccountMeta {
     required this.isSigner,
   });
 
-  /// Constructs a writeable account that [isSigner] and has [pubKey] public key.
-  factory AccountMeta.writeable({
+  /// Constructs a writeable account that is signer with [pubKey] public key.
+  factory AccountMeta.writeableSigner({
     required String pubKey,
-    required bool isSigner,
   }) =>
       AccountMeta._(
         pubKey: pubKey,
         isWriteable: true,
-        isSigner: isSigner,
+        isSigner: true,
       );
 
-  /// Constructs a readonly account that [isSigner] and has [pubKey] public key.
+  /// Constructs a writeable account that is not signer with [pubKey] public key.
+  factory AccountMeta.writeable({
+    required String pubKey,
+  }) =>
+      AccountMeta._(
+        pubKey: pubKey,
+        isWriteable: true,
+        isSigner: false,
+      );
+
+  /// Constructs a readonly account that is signer with [pubKey] public key.
+  factory AccountMeta.readonlySigner({required String pubKey}) => AccountMeta._(
+        pubKey: pubKey,
+        isWriteable: false,
+        isSigner: true,
+      );
+
+  /// Constructs a readonly account that is not signer has [pubKey] public key.
   factory AccountMeta.readonly({
     required String pubKey,
-    required bool isSigner,
   }) =>
       AccountMeta._(
         pubKey: pubKey,
         isWriteable: false,
-        isSigner: isSigner,
+        isSigner: false,
       );
 
   AccountMeta mergeWith(AccountMeta other) {

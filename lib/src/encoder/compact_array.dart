@@ -8,7 +8,7 @@ class CompactArray<T> extends Iterable<int> {
 
   factory CompactArray._fromLengthAndContent(
           Iterable<int> length, Iterable<int> content) =>
-      CompactArray([...length, ...content]);
+      CompactArray(Buffer.fromByteArrays([length, content]));
 
   const CompactArray.empty() : _data = const Iterable<int>.empty();
 
@@ -28,13 +28,13 @@ class CompactArray<T> extends Iterable<int> {
 }
 
 Iterable<int> _merge(Iterable<int> values, Iterable<int> next) =>
-    [...values, ...next];
+    Buffer.fromByteArrays([values, next]);
 
 Iterable<int> _getBytesOf<T>(T value) {
   if (value is Iterable<int>) {
     return value;
   } else if (value is int) {
-    return SerializableInt.from(value);
+    return Buffer.fromInt8(value);
   } else {
     throw FormatException('cannot serialize $value');
   }
