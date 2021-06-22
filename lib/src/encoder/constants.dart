@@ -19,7 +19,18 @@ abstract class TokenProgram {
 
   static const id = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
   static const initializeMint = [0];
-  static const requiredAccountSpace = 82;
+
+  /// This is computed by adding the bytes in the following
+  /// structure
+  ///
+  /// mintAuthorityOption:   int32 ( 4 bytes)
+  /// mintAuthority:        PubKey (32 bytes)
+  /// supply:                int64 ( 8 bytes)
+  /// decimals:               int8 ( 1 bytes)
+  /// isInitialized:          int8 ( 1 bytes)
+  /// freezeAuthorityOption: int32 ( 4 bytes)
+  /// freezeAuthority:      PubKey (32 bytes)
+  static const neededMintAccountSpace = 82;
 }
 
 abstract class Sysvar {

@@ -33,24 +33,25 @@ void main() {
 
     test('It creates a new mint', () async {
       final recentBlockhash = await solanaClient.getRecentBlockhash();
-      const allocatedSpace = TokenProgram.requiredAccountSpace;
+      const allocatedSpace = TokenProgram.neededMintAccountSpace;
       final requiredBalance =
           await solanaClient.getMinimumBalanceForRentExemption(allocatedSpace);
       final message = TokenMessage.createMint(
         authorityPubkey: sourceWallet.address,
-        freezePubkey: sourceWallet.address,
         mintPubkey: mintWallet.address,
         requiredBalance: requiredBalance,
         allocatedSpace: allocatedSpace,
         decimals: 2,
       );
       final messageBytes = message.compile(recentBlockhash);
-      final signature1 = await sourceWallet.sign(messageBytes);
-      final signature2 = await mintWallet.sign(messageBytes);
+      final signatures = [
+        await sourceWallet.sign(messageBytes),
+        await mintWallet.sign(messageBytes),
+      ];
       await solanaClient.sendTransaction(
         SignedTx(
           messageBytes: messageBytes,
-          signatures: [signature1, signature2],
+          signatures: signatures,
         ),
       );
     });

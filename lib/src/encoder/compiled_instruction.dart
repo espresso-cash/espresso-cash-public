@@ -7,24 +7,24 @@ part of 'encoder.dart';
 class CompiledInstruction extends ByteArray {
   factory CompiledInstruction({
     required Instruction instruction,
-    required Iterable<AccountMeta> messageAccounts,
+    required Map<String, int> accountIndexesMap,
   }) {
     final Iterable<AccountMeta> accounts = instruction.accounts;
-    final Map<String, int> accountsMap = messageAccounts.toIndexesMap();
     final data = CompactArray.fromIterable(instruction.data);
-    if (!accountsMap.containsKey(instruction.programId)) {
-      throw ArgumentError('programId not found in accountsMap');
+    if (!accountIndexesMap.containsKey(instruction.programId)) {
+      throw ArgumentError('programId not found in accountIndexesMap');
     }
-    final programIdIndex = Buffer.fromInt8(accountsMap[instruction.programId]!);
+    final programIdIndex =
+        Buffer.fromInt8(accountIndexesMap[instruction.programId]!);
     final accountIndexes = CompactArray.fromIterable(
       accounts.map((a) {
-        if (!accountsMap.containsKey(a.pubKey)) {
+        if (!accountIndexesMap.containsKey(a.pubKey)) {
           throw ArgumentError(
-            'one of the supplied accounts was not found in the accountsMap',
+            'one of the supplied accounts was not found in the accountIndexesMap',
           );
         }
 
-        return accountsMap[a.pubKey]!;
+        return accountIndexesMap[a.pubKey]!;
       }),
     );
 
@@ -49,17 +49,4 @@ class CompiledInstruction extends ByteArray {
 
   @override
   Iterator<int> get iterator => _data.iterator;
-}
-
-extension on Iterable<AccountMeta> {
-  Map<String, int> toIndexesMap() {
-    final Map<String, int> mapped = {};
-
-    for (int i = 0; i < length; ++i) {
-      final AccountMeta item = elementAt(i);
-      mapped[item.pubKey] = i;
-    }
-
-    return mapped;
-  }
 }

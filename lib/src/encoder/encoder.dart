@@ -7,7 +7,6 @@ import 'package:solana/src/types/blockhash.dart';
 import 'package:solana/src/types/byte_array.dart';
 
 part 'account_meta.dart';
-part 'address.dart';
 part 'buffer.dart';
 part 'compact_array.dart';
 part 'compact_u16.dart';
@@ -19,5 +18,6 @@ part 'instruction.dart';
 part 'instruction_data.dart';
 part 'message.dart';
 part 'message_header.dart';
+part 'pub_key_bytes.dart';
 part 'signature.dart';
 part 'signed_tx.dart';

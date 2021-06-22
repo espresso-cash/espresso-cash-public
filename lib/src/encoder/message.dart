@@ -55,12 +55,13 @@ class Message {
     final keys = CompactArray<PubKeyBytes>.fromIterable(
       accounts.toSerializablePubKeys(),
     );
+    final accountsIndexesMap = accounts.toIndexesMap();
     final header = MessageHeader.fromAccounts(accounts);
     final compiledInstructions = CompactArray.fromIterable(
       instructions.map(
         (Instruction instruction) => CompiledInstruction(
           instruction: instruction,
-          messageAccounts: accounts,
+          accountIndexesMap: accountsIndexesMap,
         ),
       ),
     );
@@ -71,5 +72,18 @@ class Message {
       recentBlockhash.toBytes(),
       compiledInstructions,
     ]);
+  }
+}
+
+extension on Iterable<AccountMeta> {
+  Map<String, int> toIndexesMap() {
+    final Map<String, int> mapped = {};
+
+    for (int i = 0; i < length; ++i) {
+      final AccountMeta item = elementAt(i);
+      mapped[item.pubKey] = i;
+    }
+
+    return mapped;
   }
 }
