@@ -8,10 +8,10 @@ class MessageHeader extends ByteArray {
     required int numRequiredSignatures,
     required int numReadonlySignedAccounts,
     required int numReadonlyUnsignedAccounts,
-  }) : _data = Buffer.fromByteArrays([
-          Buffer.fromUInt8(numRequiredSignatures),
-          Buffer.fromUInt8(numReadonlySignedAccounts),
-          Buffer.fromUInt8(numReadonlyUnsignedAccounts),
+  }) : _data = Buffer.fromConcatenatedByteArrays([
+          Buffer.fromUint8(numRequiredSignatures),
+          Buffer.fromUint8(numReadonlySignedAccounts),
+          Buffer.fromUint8(numReadonlyUnsignedAccounts),
         ]);
 
   /// Constructs a message header by counting signers, and readonly accounts

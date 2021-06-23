@@ -39,7 +39,7 @@ class CompiledInstruction extends ByteArray {
     required ByteArray programIdIndex,
     required ByteArray accountIndexes,
     required ByteArray data,
-  }) : _data = Buffer.fromByteArrays([
+  }) : _data = Buffer.fromConcatenatedByteArrays([
           programIdIndex,
           accountIndexes,
           data,

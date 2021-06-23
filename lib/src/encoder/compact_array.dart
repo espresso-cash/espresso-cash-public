@@ -8,7 +8,7 @@ class CompactArray<T> extends ByteArray {
 
   factory CompactArray._fromLengthAndContent(
           ByteArray length, ByteArray content) =>
-      CompactArray(Buffer.fromByteArrays([length, content]));
+      CompactArray(Buffer.fromConcatenatedByteArrays([length, content]));
 
   const CompactArray.empty() : _data = const ByteArray.empty();
 
@@ -28,7 +28,7 @@ class CompactArray<T> extends ByteArray {
 }
 
 ByteArray _merge(ByteArray values, ByteArray next) =>
-    Buffer.fromByteArrays([values, next]);
+    Buffer.fromConcatenatedByteArrays([values, next]);
 
 ByteArray _getBytesOf<T>(T value) {
   if (value is ByteArray) {

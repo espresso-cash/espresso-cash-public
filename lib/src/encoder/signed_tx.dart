@@ -8,7 +8,7 @@ class SignedTx extends ByteArray {
   SignedTx({
     Iterable<Signature> signatures = const Iterable<Signature>.empty(),
     required ByteArray messageBytes,
-  }) : _data = Buffer.fromByteArrays([
+  }) : _data = Buffer.fromConcatenatedByteArrays([
           CompactArray.fromIterable(signatures),
           messageBytes,
         ]);

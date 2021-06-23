@@ -4,7 +4,7 @@ abstract class SystemProgram {
   SystemProgram._();
 
   static const id = '11111111111111111111111111111111';
-  static const createAccount = [1, 0, 0, 0];
+  static const createAccount = [0, 0, 0, 0];
   static const transfer = [2, 0, 0, 0];
 }
 
@@ -19,18 +19,36 @@ abstract class TokenProgram {
 
   static const id = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
   static const initializeMint = [0];
+  static const initializeAccount = [1];
+  static const mintTo = [7];
 
-  /// This is computed by adding the bytes in the following
-  /// structure
-  ///
-  /// mintAuthorityOption:   int32 ( 4 bytes)
-  /// mintAuthority:        PubKey (32 bytes)
-  /// supply:                int64 ( 8 bytes)
-  /// decimals:               int8 ( 1 bytes)
-  /// isInitialized:          int8 ( 1 bytes)
-  /// freezeAuthorityOption: int32 ( 4 bytes)
-  /// freezeAuthority:      PubKey (32 bytes)
+  // This is computed by adding the bytes in the following
+  // structure
+  //
+  // mintAuthorityOption:   int32 ( 4 bytes)
+  // mintAuthority:        PubKey (32 bytes)
+  // supply:                int64 ( 8 bytes)
+  // decimals:               byte ( 1 bytes)
+  // isInitialized:          byte ( 1 bytes)
+  // freezeAuthorityOption: int32 ( 4 bytes)
+  // freezeAuthority:      PubKey (32 bytes)
   static const neededMintAccountSpace = 82;
+
+  // This is computed by adding the bytes in the following
+  // structure
+  //
+  // mint:                 PubKey (32 bytes),
+  // owner:                PubKey (32 bytes),
+  // amount:               uint64 ( 8 bytes),
+  // delegateOption:       uint32 ( 4 bytes),
+  // delegate:             PubKey (32 bytes),
+  // state:                byte   ( 1 bytes),
+  // isNativeOption:       uint32 ( 4 bytes),
+  // isNative:             uint64 ( 8 bytes),
+  // delegatedAmount:      uint64 ( 8 bytes),
+  // closeAuthorityOption: uint32 ( 4 bytes),
+  // closeAuthority:       PubKey (32 bytes),
+  static const neededAccountSpace = 165;
 }
 
 abstract class Sysvar {

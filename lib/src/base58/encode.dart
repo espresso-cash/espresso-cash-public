@@ -13,7 +13,7 @@ String encode(List<int> bytes) {
   final size = (bytes.length - zeroes) * 138 ~/ 100 + 1;
   // Create temporary storage
   final List<int> b58bytes = List<int>.filled(size, 0);
-  for (final byteValue in bytes.sublist(zeroes)) {
+  for (final byteValue in bytes.skip(zeroes)) {
     int carry = byteValue;
     int i = 0;
     for (int j = 0; j < size; j++, i++) {

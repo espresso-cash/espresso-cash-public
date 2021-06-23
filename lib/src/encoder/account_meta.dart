@@ -3,47 +3,34 @@ part of 'encoder.dart';
 /// Class that wraps addresses with information necessary for
 /// solana transactions to be encoded correctly
 class AccountMeta {
-  AccountMeta._({
+  AccountMeta({
     required this.pubKey,
     required this.isWriteable,
     required this.isSigner,
   });
 
-  /// Constructs a writeable account that is signer with [pubKey] public key.
-  factory AccountMeta.writeableSigner({
-    required String pubKey,
-  }) =>
-      AccountMeta._(
-        pubKey: pubKey,
-        isWriteable: true,
-        isSigner: true,
-      );
-
-  /// Constructs a writeable account that is not signer with [pubKey] public key.
+  /// Constructs a writeable account that is not signer with [pubKey]
+  /// public key. To make it a signing account set [isSigner] to true.
   factory AccountMeta.writeable({
     required String pubKey,
+    required bool isSigner,
   }) =>
-      AccountMeta._(
+      AccountMeta(
         pubKey: pubKey,
         isWriteable: true,
-        isSigner: false,
+        isSigner: isSigner,
       );
 
-  /// Constructs a readonly account that is signer with [pubKey] public key.
-  factory AccountMeta.readonlySigner({required String pubKey}) => AccountMeta._(
-        pubKey: pubKey,
-        isWriteable: false,
-        isSigner: true,
-      );
-
-  /// Constructs a readonly account that is not signer has [pubKey] public key.
+  /// Constructs a readonly account that is not signer has [pubKey]
+  /// public key. To make it a signing account set [isSigner] to true.
   factory AccountMeta.readonly({
     required String pubKey,
+    required bool isSigner,
   }) =>
-      AccountMeta._(
+      AccountMeta(
         pubKey: pubKey,
         isWriteable: false,
-        isSigner: false,
+        isSigner: isSigner,
       );
 
   AccountMeta mergeWith(AccountMeta other) {
@@ -53,7 +40,7 @@ class AccountMeta {
       );
     }
 
-    return AccountMeta._(
+    return AccountMeta(
       pubKey: pubKey,
       isWriteable: isWriteable || other.isWriteable,
       isSigner: isSigner || other.isSigner,
@@ -63,6 +50,9 @@ class AccountMeta {
   final String pubKey;
   final bool isWriteable;
   final bool isSigner;
+
+  @override
+  String toString() => pubKey;
 }
 
 extension AccountMetaListExt on Iterable<AccountMeta> {
@@ -85,7 +75,7 @@ extension AccountMetaListExt on Iterable<AccountMeta> {
 
   /// Find an account with a matching [pubKey].
   int indexOfPubKey(String pubKey) =>
-      toList().indexWhere((account) => account.pubKey == pubKey);
+      toList(growable: false).indexWhere((account) => account.pubKey == pubKey);
 
   /// Counts the number of accounts that are signers.
   int getNumSigners() =>

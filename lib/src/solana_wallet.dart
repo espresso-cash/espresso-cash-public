@@ -86,11 +86,13 @@ class SolanaWallet {
       );
 
   /// Sign a solana program message
-  Future<SignedTx> signMessage(
-    Message message,
-    Blockhash recentBlockhash,
-  ) async {
-    final Iterable<int> messageBytes = message.compile(recentBlockhash);
+  Future<SignedTx> signMessage({
+    required Message message,
+    required Blockhash recentBlockhash,
+  }) async {
+    final Iterable<int> messageBytes = message.compile(
+      recentBlockhash: recentBlockhash,
+    );
     final signature = await sign(messageBytes);
 
     return SignedTx(

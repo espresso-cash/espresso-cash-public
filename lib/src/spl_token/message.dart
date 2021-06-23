@@ -1,4 +1,3 @@
-import 'package:solana/src/base58/base58.dart' as base58;
 import 'package:solana/src/encoder/encoder.dart';
 
 class TokenMessage extends Message {
@@ -9,47 +8,102 @@ class TokenMessage extends Message {
         );
 
   factory TokenMessage.createMint({
-    String? freezePubkey,
-    required String authorityPubkey,
-    required String mintPubkey,
-    required int requiredBalance,
-    required int allocatedSpace,
+    required String mintAuthority,
+    required String mint,
+    required int rent,
+    required int space,
     required int decimals,
-  }) {
-    final instructions = [
-      Instruction.system(
-        accounts: [
-          AccountMeta.writeableSigner(pubKey: authorityPubkey),
-          AccountMeta.writeableSigner(pubKey: mintPubkey),
+    String? freezeAuthority,
+  }) =>
+      TokenMessage(
+        instructions: [
+          Instruction.system(
+            accounts: [
+              AccountMeta.writeable(pubKey: mintAuthority, isSigner: true),
+              AccountMeta.writeable(pubKey: mint, isSigner: true),
+            ],
+            data: InstructionData.createAccount(
+              programId: TokenProgram.id,
+              rent: rent,
+              space: space,
+            ),
+          ),
+          Instruction(
+            programId: TokenProgram.id,
+            accounts: [
+              AccountMeta.writeable(pubKey: mint, isSigner: false),
+              AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+            ],
+            data: Buffer.fromConcatenatedByteArrays([
+              TokenProgram.initializeMint,
+              Buffer.fromUint8(decimals),
+              Buffer.fromBase58(mintAuthority),
+              Buffer.fromUint8(freezeAuthority != null ? 1 : 0),
+              if (freezeAuthority != null)
+                Buffer.fromBase58(freezeAuthority)
+              else
+                List<int>.filled(32, 0),
+            ]),
+          )
         ],
-        data: InstructionData([
-          SystemProgram.createAccount,
-          Buffer.fromInt64(requiredBalance),
-          Buffer.fromInt64(allocatedSpace),
-          base58.decode(TokenProgram.id),
-        ]),
-      ),
-      Instruction(
-        programId: TokenProgram.id,
-        accounts: [
-          AccountMeta.writeable(pubKey: mintPubkey),
-          AccountMeta.readonly(pubKey: Sysvar.rent),
-        ],
-        data: InstructionData([
-          TokenProgram.initializeMint,
-          Buffer.fromUInt8(decimals),
-          base58.decode(authorityPubkey),
-          Buffer.fromUInt8(freezePubkey != null ? 1 : 0),
-          if (freezePubkey != null)
-            base58.decode(freezePubkey)
-          else
-            List<int>.filled(32, 0),
-        ]),
-      )
-    ];
+      );
 
-    return TokenMessage(
-      instructions: instructions,
-    );
-  }
+  factory TokenMessage.createAccount({
+    required String pubKey,
+    required String owner,
+    required String mint,
+    required int rent,
+    required int space,
+  }) =>
+      TokenMessage(instructions: [
+        Instruction.system(
+          accounts: [
+            AccountMeta.writeable(pubKey: owner, isSigner: true),
+            AccountMeta.writeable(pubKey: pubKey, isSigner: true),
+          ],
+          data: InstructionData.createAccount(
+            programId: TokenProgram.id,
+            rent: rent,
+            space: space,
+          ),
+        ),
+        Instruction(
+          programId: TokenProgram.id,
+          accounts: [
+            AccountMeta.writeable(pubKey: pubKey, isSigner: true),
+            AccountMeta.readonly(pubKey: mint, isSigner: false),
+            AccountMeta.readonly(pubKey: owner, isSigner: false),
+            AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          ],
+          data: TokenProgram.initializeAccount,
+        ),
+      ]);
+
+  factory TokenMessage.mintTo({
+    required String mint,
+    required String destination,
+    required String owner,
+    required int amount,
+    String? feePayer,
+  }) =>
+      TokenMessage(
+        instructions: [
+          Instruction(
+            programId: TokenProgram.id,
+            accounts: [
+              AccountMeta.writeable(pubKey: mint, isSigner: false),
+              AccountMeta.writeable(pubKey: destination, isSigner: false),
+              AccountMeta(
+                pubKey: owner,
+                isSigner: true,
+                isWriteable: feePayer == null,
+              ),
+            ],
+            data: Buffer.fromConcatenatedByteArrays([
+              TokenProgram.mintTo,
+              Buffer.fromUint64(amount),
+            ]),
+          ),
+        ],
+      );
 }

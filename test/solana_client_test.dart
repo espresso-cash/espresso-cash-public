@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/encoder.dart';
-import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
 import 'package:test/test.dart';
@@ -84,8 +83,8 @@ void main() {
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await sourceWallet.signMessage(
-        message,
-        recentBlockhash,
+        message: message,
+        recentBlockhash: recentBlockhash,
       );
       final SimulateTxResult transferResult =
           await solanaClient.simulateTransaction(signedTx);
@@ -99,8 +98,10 @@ void main() {
         destination: targetWallet.address,
         lamports: _transferredAmount,
       );
-      final SignedTx signedTx =
-          await sourceWallet.signMessage(message, recentBlockhash);
+      final SignedTx signedTx = await sourceWallet.signMessage(
+        message: message,
+        recentBlockhash: recentBlockhash,
+      );
       final TxSignature signature =
           await solanaClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
@@ -123,8 +124,8 @@ void main() {
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await sourceWallet.signMessage(
-        message,
-        recentBlockhash,
+        message: message,
+        recentBlockhash: recentBlockhash,
       );
       final TxSignature signature =
           await solanaClient.sendTransaction(signedTx);
@@ -150,8 +151,8 @@ void main() {
         memo: memoText,
       );
       final SignedTx signedTx = await sourceWallet.signMessage(
-        message,
-        recentBlockhash,
+        message: message,
+        recentBlockhash: recentBlockhash,
       );
       final TxSignature signature = await solanaClient.sendTransaction(
         signedTx,
@@ -188,15 +189,6 @@ void main() {
 
       txs.forEach((TransactionResult? tx) => expect(tx, isNot(null)));
       expect(txs.length, greaterThan(0));
-    });
-
-    test('Can get spl_token supply', () async {
-      final TokenSupplyResult supplyResult = await solanaClient.getTokenSupply(
-        'BgLR7yanLaAHR58MHUTLXw7A7jhu9KSd3NaxkHsuQtQH',
-      );
-      final TokenSupply tokenSupply = supplyResult.value;
-
-      expect(int.parse(tokenSupply.amount), greaterThan(0));
     });
   });
 

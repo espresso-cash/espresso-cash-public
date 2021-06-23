@@ -43,7 +43,7 @@ void main() {
       final source = item[1];
       final target = item[0];
 
-      expect(hex.encode(base58.decode(source)), target);
+      expect(hex.encode(base58.decode(source).toList()), target);
     }
   });
 }

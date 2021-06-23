@@ -93,7 +93,7 @@ class SolanaClient {
     final data = await _client.request(
       'sendTransaction',
       params: <dynamic>[
-        base64.encode(signedTx.toList()),
+        base64.encode(signedTx.toList(growable: false)),
         <String, String>{
           'encoding': 'base64',
         }
@@ -108,7 +108,7 @@ class SolanaClient {
     final data = await _client.request(
       'simulateTransaction',
       params: <dynamic>[
-        base64.encode(signedTx.toList()),
+        base64.encode(signedTx.toList(growable: false)),
         <String, String>{
           'encoding': 'base64',
         }

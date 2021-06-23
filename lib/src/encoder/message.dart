@@ -28,14 +28,14 @@ class Message {
     final instructions = [
       Instruction.system(
         accounts: [
-          AccountMeta.writeableSigner(pubKey: source),
-          AccountMeta.writeable(pubKey: destination),
+          AccountMeta.writeable(pubKey: source, isSigner: true),
+          AccountMeta.writeable(pubKey: destination, isSigner: false),
         ],
         data: InstructionData.transfer(lamports: lamports),
       ),
       if (memo != null)
         Instruction.memo(
-          signers: [AccountMeta.writeableSigner(pubKey: source)],
+          signers: [AccountMeta.writeable(pubKey: source, isSigner: true)],
           memo: Buffer.fromString(memo),
         ),
     ];
@@ -47,12 +47,55 @@ class Message {
 
   final List<Instruction> instructions;
 
+  String debug(
+    Blockhash recentBlockhash, {
+    String? feePayer,
+  }) {
+    final accounts = instructions._getAccounts(feePayer);
+    final accountsIndexesMap = accounts.toIndexesMap();
+    final header = MessageHeader.fromAccounts(accounts);
+    final compiledInstructions = instructions
+        .map(
+          (Instruction instruction) => <String, dynamic>{
+            'programIdIndex': accountsIndexesMap[instruction.programId]!,
+            'accounts': instruction.accounts
+                .map((a) => accountsIndexesMap[a.pubKey]!)
+                .toList(growable: false),
+            'data': base58.encode(
+              instruction.data.toList(growable: false),
+            ),
+          },
+        )
+        .toList(growable: false);
+    const encoder = JsonEncoder.withIndent('  ');
+
+    return encoder.convert(
+      <String, dynamic>{
+        'header': <String, dynamic>{
+          'numRequiredSignatures': header.elementAt(0),
+          'numReadonlySignedAccounts': header.elementAt(1),
+          'numReadonlyUnsignedAccounts': header.elementAt(2),
+        },
+        'accounts': accounts.map((a) => a.toString()).toList(growable: false),
+        'recentBlockhash': recentBlockhash.blockhash,
+        'instructions': compiledInstructions,
+      },
+    );
+  }
+
   /// Compiles a message into the array of bytes that would be interpreted
   /// by solana. The [recentBlockhash] is passed here as this is the final
   /// step before sending the [Message].
-  ByteArray compile(Blockhash recentBlockhash) {
-    final accounts = instructions.getAccounts();
-    final keys = CompactArray<PubKeyBytes>.fromIterable(
+  ///
+  /// You can also set the [feePayer]'s public key here in order for the
+  /// compiler to put the [feePayer] as the first signer in the list of accounts
+  /// of the compiled message.
+  ByteArray compile({
+    required Blockhash recentBlockhash,
+    String? feePayer,
+  }) {
+    final accounts = instructions._getAccounts(feePayer);
+    final keys = CompactArray<Buffer>.fromIterable(
       accounts.toSerializablePubKeys(),
     );
     final accountsIndexesMap = accounts.toIndexesMap();
@@ -66,7 +109,7 @@ class Message {
       ),
     );
 
-    return Buffer.fromByteArrays([
+    return Buffer.fromConcatenatedByteArrays([
       header,
       keys,
       recentBlockhash.toBytes(),
