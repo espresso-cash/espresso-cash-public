@@ -10,6 +10,11 @@ class Message {
     required this.instructions,
   }) : super();
 
+  int countRequiredSignatures(String? feePayer) {
+    final accounts = instructions._getAccounts(feePayer);
+    return accounts.getNumReadonlySigners() + accounts.getNumSigners();
+  }
+
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
   /// to [destination].
   ///

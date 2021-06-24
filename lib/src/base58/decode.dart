@@ -24,5 +24,7 @@ List<int> decode(String value) {
     }
     length = i;
   }
-  return [...List<int>.filled(zeroes, 0), ...bytes256.sublist(size - length)];
+  return List<int>.filled(zeroes, 0)
+      .followedBy(bytes256.sublist(size - length))
+      .toList(growable: false);
 }

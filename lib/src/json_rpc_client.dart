@@ -36,13 +36,14 @@ class JsonRpcClient {
     } else {
       final data = json.decode(response.body) as Map<String, dynamic>;
       if (data['jsonrpc'] != '2.0') {
-        throw ArgumentError('invalid jsonrpc-2.0 response');
+        throw const FormatException('invalid jsonrpc-2.0 response');
       }
       if (data['error'] != null) {
         throw JsonRpcError.fromJson(data['error'] as Map<String, dynamic>);
       }
       if (!data.containsKey('result')) {
-        throw ArgumentError('object has no result field, invalid jsonrpc-2.0');
+        throw const FormatException(
+            'object has no result field, invalid jsonrpc-2.0');
       }
       return data;
     }

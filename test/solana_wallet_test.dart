@@ -1,4 +1,4 @@
-import 'package:solana/solana.dart';
+import 'package:solana/src/wallet.dart';
 import 'package:test/test.dart';
 
 const mnemonic =

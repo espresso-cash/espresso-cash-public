@@ -35,7 +35,7 @@ class AccountMeta {
 
   AccountMeta mergeWith(AccountMeta other) {
     if (pubKey != other.pubKey) {
-      throw ArgumentError(
+      throw const FormatException(
         'pubKeys must match, or else it does not make sense to merge',
       );
     }

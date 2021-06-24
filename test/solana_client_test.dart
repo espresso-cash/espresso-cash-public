@@ -5,6 +5,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
+import 'package:solana/src/wallet.dart';
 import 'package:test/test.dart';
 
 const int _transferredAmount = 0x1000;

@@ -20,6 +20,7 @@ abstract class TokenProgram {
   static const id = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
   static const initializeMint = [0];
   static const initializeAccount = [1];
+  static const transfer = [3];
   static const mintTo = [7];
 
   // This is computed by adding the bytes in the following

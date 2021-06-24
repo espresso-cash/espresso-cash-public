@@ -1,6 +1,6 @@
+export 'src/client.dart';
+export 'src/client.dart';
 export 'src/encoder/encoder.dart' show Instruction, Message, SignedTx;
-export 'src/solana_client.dart';
-export 'src/solana_wallet.dart';
 export 'src/types/account_info.dart' show AccountInfo;
 export 'src/types/blockhash.dart' show Blockhash;
 export 'src/types/confirmed_signature.dart' show ConfirmedSignature;

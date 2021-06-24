@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:solana/solana.dart';
 import 'package:solana/src/json_rpc_client.dart';
-import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/types/account_info.dart';
 import 'package:solana/src/types/balance.dart';
 import 'package:solana/src/types/blockhash.dart';
@@ -12,9 +11,11 @@ import 'package:solana/src/types/confirmed_transaction_response.dart';
 import 'package:solana/src/types/minimum_balance_for_rent_exemption_response.dart';
 import 'package:solana/src/types/signature_status.dart';
 import 'package:solana/src/types/simulate_tx_result.dart';
+import 'package:solana/src/types/token_supply.dart';
 import 'package:solana/src/types/transaction/get_transaction_response.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
 import 'package:solana/src/types/tx_signature.dart';
+import 'package:solana/src/wallet.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API
@@ -88,14 +89,19 @@ class SolanaClient {
     return AccountInfoResponse.fromJson(data).result.value;
   }
 
-  /// Sends signed transaction [signedTx].
-  Future<TxSignature> sendTransaction(SignedTx signedTx) async {
+  /// Sends signed transaction [signedTx]. Optionally you can also pass a
+  /// [commitment] value.
+  Future<TxSignature> sendTransaction(
+    SignedTx signedTx, {
+    Commitment? commitment,
+  }) async {
     final data = await _client.request(
       'sendTransaction',
       params: <dynamic>[
         base64.encode(signedTx.toList(growable: false)),
         <String, String>{
           'encoding': 'base64',
+          if (commitment != null) 'commitment': commitment.value,
         }
       ],
     );
@@ -169,7 +175,7 @@ class SolanaClient {
   /// Note: the default [timeout] is 30 seconds.
   Future<void> waitForSignatureStatus(
     TxSignature signature,
-    Commitment desiredStatus, {
+    TxStatus desiredStatus, {
     Duration timeout = const Duration(seconds: 30),
   }) async {
     final completer = Completer<void>();
@@ -342,6 +348,38 @@ class SolanaClient {
     );
 
     return MinimumBalanceForRentExemptionResponse.fromJson(data).result;
+  }
+
+  Future<TxSignature> signAndSendTransaction(
+    Message message,
+    List<SolanaWallet> signers, {
+    Commitment? commitment,
+    String? feePayer,
+  }) async {
+    final int numSignaturesCount = message.countRequiredSignatures(feePayer);
+    if (signers.length != numSignaturesCount) {
+      throw FormatException(
+        'your message requires $numSignaturesCount signatures but '
+        'you provided ${signers.length}',
+      );
+    }
+    final recentBlockhash = await getRecentBlockhash();
+    final messageBytes = message.compile(
+      recentBlockhash: recentBlockhash,
+      feePayer: feePayer ?? signers[0].address,
+    );
+    final signatures = await Future.wait(
+      signers.map((wallet) => wallet.sign(messageBytes)),
+    );
+    final signature = await sendTransaction(
+      SignedTx(
+        messageBytes: messageBytes,
+        signatures: signatures,
+      ),
+      commitment: commitment ?? Commitment.finalized,
+    );
+    await waitForSignatureStatus(signature, commitment ?? TxStatus.finalized);
+    return signature;
   }
 }
 

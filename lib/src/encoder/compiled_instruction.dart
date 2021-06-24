@@ -12,14 +12,14 @@ class CompiledInstruction extends ByteArray {
     final Iterable<AccountMeta> accounts = instruction.accounts;
     final data = CompactArray.fromIterable(instruction.data);
     if (!accountIndexesMap.containsKey(instruction.programId)) {
-      throw ArgumentError('programId not found in accountIndexesMap');
+      throw const FormatException('programId not found in accountIndexesMap');
     }
     final programIdIndex =
         Buffer.fromInt8(accountIndexesMap[instruction.programId]!);
     final accountIndexes = CompactArray.fromIterable(
       accounts.map((a) {
         if (!accountIndexesMap.containsKey(a.pubKey)) {
-          throw ArgumentError(
+          throw const FormatException(
             'one of the supplied accounts was not found in the accountIndexesMap',
           );
         }

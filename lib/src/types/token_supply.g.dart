@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'supply.dart';
+part of 'token_supply.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
