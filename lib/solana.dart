@@ -1,7 +1,6 @@
-export 'src/client.dart';
-export 'src/client.dart';
 export 'src/encoder/encoder.dart' show Instruction, Message, SignedTx;
-export 'src/types/account_info.dart' show AccountInfo;
+export 'src/rpc_client.dart';
+export 'src/types/account.dart' show Account;
 export 'src/types/blockhash.dart' show Blockhash;
 export 'src/types/confirmed_signature.dart' show ConfirmedSignature;
 export 'src/types/fee_calculator.dart' show FeeCalculator;

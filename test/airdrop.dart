@@ -1,9 +1,10 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/wallet.dart';
+import 'package:solana/src/signer.dart';
+import 'package:solana/src/types/commitment.dart';
 
 Future<void> airdrop(
-  SolanaClient client,
-  SolanaWallet wallet, {
+  RPCClient client,
+  Signer wallet, {
   int? sol,
   int? lamports,
 }) async {

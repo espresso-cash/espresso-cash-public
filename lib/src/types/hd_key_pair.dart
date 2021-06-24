@@ -3,26 +3,28 @@ import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 
 class HDKeyPair implements SimpleKeyPair {
   HDKeyPair._({
-    required KeyData private,
+    required KeyData privateKey,
     required List<int> publicKey,
-  })  : _private = private,
+  })  : _privateKey = privateKey,
         _publicKey = publicKey;
 
-  static final _ed25519 = Ed25519();
-
-  static Future<KeyPair> fromSeed(List<int> seed, String hdPath) async {
-    final KeyData derivedSeed = await ED25519_HD_KEY.derivePath(hdPath, seed);
-    final SimpleKeyPair keyPair =
-        await _ed25519.newKeyPairFromSeed(derivedSeed.key);
-    return keyPair;
+  static Future<KeyPair> fromSeedWithHdPath({
+    required List<int> seed,
+    required String hdPath,
+  }) async {
+    final KeyData privateKey = await ED25519_HD_KEY.derivePath(hdPath, seed);
+    return HDKeyPair._(
+      privateKey: privateKey,
+      publicKey: await ED25519_HD_KEY.getPublicKey(privateKey.key, false),
+    );
   }
 
-  final KeyData _private;
+  final KeyData _privateKey;
   final List<int> _publicKey;
 
   @override
   Future<SimpleKeyPairData> extract() async => SimpleKeyPairData(
-        _private.key,
+        _privateKey.key,
         publicKey: await extractPublicKey(),
         type: KeyPairType.ed25519,
       );
@@ -34,5 +36,5 @@ class HDKeyPair implements SimpleKeyPair {
 
   @override
   Future<List<int>> extractPrivateKeyBytes() =>
-      Future<List<int>>.value(_private.key);
+      Future<List<int>>.value(_privateKey.key);
 }

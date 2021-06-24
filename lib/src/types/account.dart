@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/types/json_rpc_response_object.dart';
 
-part 'account_info.g.dart';
+part 'account.g.dart';
 
 @JsonSerializable(createToJson: false)
-class AccountInfo {
-  AccountInfo({
+class Account {
+  Account({
     required this.owner,
     required this.lamports,
     required this.executable,
@@ -13,8 +13,8 @@ class AccountInfo {
     this.data,
   });
 
-  factory AccountInfo.fromJson(Map<String, dynamic> json) =>
-      _$AccountInfoFromJson(json);
+  factory Account.fromJson(Map<String, dynamic> json) =>
+      _$AccountFromJson(json);
 
   final String owner;
   final int lamports;
@@ -24,9 +24,8 @@ class AccountInfo {
 }
 
 @JsonSerializable(createToJson: false)
-class AccountInfoResponse extends JsonRpcResponse<ValueResponse<AccountInfo>> {
-  AccountInfoResponse(ValueResponse<AccountInfo> result)
-      : super(result: result);
+class AccountInfoResponse extends JsonRpcResponse<ValueResponse<Account>> {
+  AccountInfoResponse(ValueResponse<Account> result) : super(result: result);
 
   factory AccountInfoResponse.fromJson(Map<String, dynamic> json) =>
       _$AccountInfoResponseFromJson(json);

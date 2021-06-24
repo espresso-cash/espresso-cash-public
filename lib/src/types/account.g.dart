@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'account_info.dart';
+part of 'account.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-AccountInfo _$AccountInfoFromJson(Map<String, dynamic> json) {
-  return AccountInfo(
+Account _$AccountFromJson(Map<String, dynamic> json) {
+  return Account(
     owner: json['owner'] as String,
     lamports: json['lamports'] as int,
     executable: json['executable'] as bool,
@@ -19,6 +19,6 @@ AccountInfo _$AccountInfoFromJson(Map<String, dynamic> json) {
 AccountInfoResponse _$AccountInfoResponseFromJson(Map<String, dynamic> json) {
   return AccountInfoResponse(
     ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
-        (value) => AccountInfo.fromJson(value as Map<String, dynamic>)),
+        (value) => Account.fromJson(value as Map<String, dynamic>)),
   );
 }

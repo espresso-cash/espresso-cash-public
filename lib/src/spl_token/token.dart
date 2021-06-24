@@ -11,8 +11,8 @@ class SPLToken {
 
   static Future<SPLToken> withOwner({
     required String mint,
-    required SolanaClient client,
-    SolanaWallet? owner,
+    required RPCClient client,
+    Signer? owner,
   }) async {
     final supplyResponse = await client.getTokenSupply(mint);
     final supplyValue = supplyResponse.value;
@@ -27,16 +27,49 @@ class SPLToken {
 
   static Future<SPLToken> fromMint({
     required String mint,
-    required SolanaClient client,
+    required RPCClient client,
   }) =>
       SPLToken.withOwner(
         mint: mint,
         client: client,
       );
 
-  // FIXME(IA): return the account
+  final int decimals;
+  final int supply;
+  final String mint;
+  final Signer? owner;
+  final RPCClient client;
+
+  Future<TxSignature> transfer({
+    required String source,
+    required String destination,
+    required int amount,
+    required Signer owner,
+  }) async {
+    final accounts = await getAssociatedAccountFor(owner: destination);
+    if (accounts.isEmpty) {
+      throw FormatException(
+        'there are no associated token accounts for $destination',
+      );
+    }
+    // FIXME: check if the account exists and create it if it does not
+    final message = TokenMessage.transfer(
+      source: source,
+      destination: accounts[0].address,
+      owner: owner.address,
+      amount: 100,
+    );
+    return client.signAndSendTransaction(
+      message,
+      [
+        owner,
+      ],
+    );
+  }
+
+  // TODO(IA): return the account
   Future<void> createAccount(
-    SolanaWallet account,
+    Signer account,
   ) async {
     final owner = this.owner;
     if (owner == null) {
@@ -55,46 +88,42 @@ class SPLToken {
       message,
       [
         owner,
-        account,
+        if (account.address != owner.address) account,
       ],
     );
     await client.waitForSignatureStatus(signature, TxStatus.finalized);
   }
 
   Future<String> getAssociatedTokenAddress({
-    required String systemAccountAddress,
+    required String owner,
   }) =>
       findProgramAddress(
         seeds: [
-          base58.decode(systemAccountAddress),
+          base58.decode(owner),
           base58.decode(TokenProgram.id),
           base58.decode(mint),
         ],
         programId: AssociatedTokenAccountProgram.id,
       );
 
-  // FIXME(IA): return the account
+  // TODO(IA): return the account
   Future<String> createAssociatedAccount({
-    required String systemAccountAddress,
-    required SolanaWallet funder,
+    required String owner,
+    required Signer funder,
   }) async {
-    final owner = this.owner;
-    if (owner == null) {
-      throw _readonlyTokenError;
-    }
     final associatedAddress = await getAssociatedTokenAddress(
-      systemAccountAddress: systemAccountAddress,
+      owner: owner,
     );
     final message = TokenMessage.createAssociatedTokenAccount(
       mint: mint,
       associatedAddress: associatedAddress,
-      walletAddress: systemAccountAddress,
+      walletAddress: owner,
       funder: funder.address,
     );
     final signature = await client.signAndSendTransaction(
       message,
       [
-        owner,
+        funder,
       ],
     );
     await client.waitForSignatureStatus(
@@ -105,7 +134,7 @@ class SPLToken {
   }
 
   Future<void> mintTo({
-    required String address,
+    required String destination,
     required int amount,
   }) async {
     final owner = this.owner;
@@ -114,7 +143,7 @@ class SPLToken {
     }
     final message = TokenMessage.mintTo(
       mint: mint,
-      destination: address,
+      destination: destination,
       owner: owner.address,
       amount: amount,
     );
@@ -126,23 +155,31 @@ class SPLToken {
     );
   }
 
-  final int decimals;
-  final int supply;
-  final String mint;
-  final SolanaWallet? owner;
-  final SolanaClient client;
+  Future<List<AssociatedAccount>> getAssociatedAccountFor({
+    required String owner,
+  }) async =>
+      client.getTokenAccountsByOwner(owner, mint: mint);
 }
 
-extension TokenExt on SolanaClient {
+extension TokenExt on RPCClient {
+  /// Create a new token owned by [owner] with [decimals] base 10 decimal digits.
+  ///
+  /// You can optionally specify a [mintAuthority] address. By default the [owner]
+  /// address will be used as the _Mint Authority_.
+  ///
+  /// Also optional, you can specify a [freezeAuthority]. By default the
+  /// [freezeAuthority] is not set.
+  ///
+  /// Finally, you can also send the transaction with optional [commitment].
   Future<SPLToken> newToken({
-    required SolanaWallet owner,
+    required Signer owner,
     required int decimals,
     String? mintAuthority,
     String? freezeAuthority,
     Commitment? commitment,
   }) async {
     const space = TokenProgram.neededMintAccountSpace;
-    final mintWallet = await SolanaWallet.random();
+    final mintWallet = await Signer.random();
     final rent = await getMinimumBalanceForRentExemption(space);
 
     final message = TokenMessage.createMint(

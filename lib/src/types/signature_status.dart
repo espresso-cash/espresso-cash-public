@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/types/commitment.dart';
 import 'package:solana/src/types/json_rpc_response_object.dart';
 
 part 'signature_status.g.dart';
 
-enum Commitment { processed, confirmed, finalized }
 typedef TxStatus = Commitment;
 
 @JsonSerializable(createToJson: false)

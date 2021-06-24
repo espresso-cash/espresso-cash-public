@@ -3,9 +3,11 @@ import 'dart:convert';
 
 import 'package:solana/solana.dart';
 import 'package:solana/src/json_rpc_client.dart';
-import 'package:solana/src/types/account_info.dart';
+import 'package:solana/src/signer.dart';
+import 'package:solana/src/types/account.dart';
 import 'package:solana/src/types/balance.dart';
 import 'package:solana/src/types/blockhash.dart';
+import 'package:solana/src/types/commitment.dart';
 import 'package:solana/src/types/confirmed_signature.dart';
 import 'package:solana/src/types/confirmed_transaction_response.dart';
 import 'package:solana/src/types/minimum_balance_for_rent_exemption_response.dart';
@@ -15,16 +17,15 @@ import 'package:solana/src/types/token_supply.dart';
 import 'package:solana/src/types/transaction/get_transaction_response.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
 import 'package:solana/src/types/tx_signature.dart';
-import 'package:solana/src/wallet.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API
-class SolanaClient {
+class RPCClient {
   /// Constructs a SolanaClient that is capable of sending various RPCs to
   /// [rpcUrl].
-  SolanaClient(String rpcUrl) : _client = JsonRpcClient(rpcUrl);
+  RPCClient(String rpcUrl) : client = JsonRpcClient(rpcUrl);
 
-  final JsonRpcClient _client;
+  final JsonRpcClient client;
 
   /// Returns the recent blockhash from the ledger, and a fee schedule that
   /// can be used to compute the cost of submitting transaction with
@@ -35,7 +36,7 @@ class SolanaClient {
   Future<Blockhash> getRecentBlockhash({
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'getRecentBlockhash',
       params: <dynamic>[
         if (commitment != null)
@@ -54,7 +55,7 @@ class SolanaClient {
     String address, {
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'getBalance',
       params: <dynamic>[
         address,
@@ -71,11 +72,11 @@ class SolanaClient {
   ///
   /// For [commitment] parameter description see
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<AccountInfo> getAccountInfo(
+  Future<Account> getAccountInfo(
     String address, {
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'getAccountInfo',
       params: <dynamic>[
         address,
@@ -95,7 +96,7 @@ class SolanaClient {
     SignedTx signedTx, {
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'sendTransaction',
       params: <dynamic>[
         base64.encode(signedTx.toList(growable: false)),
@@ -111,7 +112,7 @@ class SolanaClient {
 
   /// Simulates sending a signed transaction [signedTx].
   Future<SimulateTxResult> simulateTransaction(SignedTx signedTx) async {
-    final data = await _client.request(
+    final data = await client.request(
       'simulateTransaction',
       params: <dynamic>[
         base64.encode(signedTx.toList(growable: false)),
@@ -133,7 +134,7 @@ class SolanaClient {
     int lamports, {
     Commitment commitment = Commitment.processed,
   }) async {
-    final data = await _client.request('requestAirdrop', params: <dynamic>[
+    final data = await client.request('requestAirdrop', params: <dynamic>[
       address,
       lamports.toInt(),
       <String, String>{
@@ -151,7 +152,7 @@ class SolanaClient {
     List<TxSignature> signatures, {
     bool searchTransactionHistory = false,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'getSignatureStatuses',
       params: <dynamic>[
         [for (TxSignature signature in signatures) signature.toString()],
@@ -228,7 +229,7 @@ class SolanaClient {
     String? until,
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'getConfirmedSignaturesForAddress2',
       params: <dynamic>[
         address,
@@ -255,7 +256,7 @@ class SolanaClient {
     String signature, {
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'getConfirmedTransaction',
       params: <dynamic>[
         signature,
@@ -302,7 +303,7 @@ class SolanaClient {
     String signature, {
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'getTransaction',
       params: <dynamic>[
         signature.toString(),
@@ -320,7 +321,7 @@ class SolanaClient {
     String tokenMintAddress, {
     Commitment commitment = Commitment.confirmed,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'getTokenSupply',
       params: <dynamic>[
         tokenMintAddress,
@@ -338,7 +339,7 @@ class SolanaClient {
     int size, {
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await client.request(
       'getMinimumBalanceForRentExemption',
       params: <dynamic>[
         size,
@@ -350,9 +351,14 @@ class SolanaClient {
     return MinimumBalanceForRentExemptionResponse.fromJson(data).result;
   }
 
+  /// Sign a transaction with [message] using [signers]. Send the transaction
+  /// after signing it optionally with [commitment] and a [feePayer].
+  ///
+  /// If the [feePayer] is not present in the [signers] then the transaction
+  /// will be rejected.
   Future<TxSignature> signAndSendTransaction(
     Message message,
-    List<SolanaWallet> signers, {
+    List<Signer> signers, {
     Commitment? commitment,
     String? feePayer,
   }) async {
@@ -368,6 +374,7 @@ class SolanaClient {
       recentBlockhash: recentBlockhash,
       feePayer: feePayer ?? signers[0].address,
     );
+    // FIXME(IA): signatures must match signers in the message accounts sorting
     final signatures = await Future.wait(
       signers.map((wallet) => wallet.sign(messageBytes)),
     );
@@ -380,18 +387,5 @@ class SolanaClient {
     );
     await waitForSignatureStatus(signature, commitment ?? TxStatus.finalized);
     return signature;
-  }
-}
-
-extension on Commitment {
-  String get value {
-    switch (this) {
-      case Commitment.processed:
-        return 'processed';
-      case Commitment.confirmed:
-        return 'confirmed';
-      case Commitment.finalized:
-        return 'finalized';
-    }
   }
 }

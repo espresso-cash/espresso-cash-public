@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/signer.dart';
+import 'package:solana/src/types/commitment.dart';
 import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
-import 'package:solana/src/wallet.dart';
 import 'package:test/test.dart';
 
 const int _transferredAmount = 0x1000;
@@ -15,16 +16,16 @@ void main() {
       Platform.environment['DEVNET_RPC_URL'] ?? 'http://127.0.0.1:8899';
 
   group('SolanaClient testsuite', () {
-    final SolanaClient solanaClient = SolanaClient(devnetRpcUrl);
-    late SolanaWallet targetWallet;
-    late SolanaWallet sourceWallet;
+    final RPCClient solanaClient = RPCClient(devnetRpcUrl);
+    late Signer targetWallet;
+    late Signer sourceWallet;
     int currentBalance = 0;
 
     setUpAll(() async {
-      targetWallet = await SolanaWallet.fromMnemonic(
+      targetWallet = await Signer.fromMnemonic(
         generateMnemonic(),
       ); // generateMnemonic());
-      sourceWallet = await SolanaWallet.fromMnemonic(
+      sourceWallet = await Signer.fromMnemonic(
         generateMnemonic(),
         walletIndex: 1,
       );
@@ -68,7 +69,7 @@ void main() {
     });
 
     test('Can get all the account information of an account', () async {
-      final AccountInfo accountInfo = await solanaClient.getAccountInfo(
+      final Account accountInfo = await solanaClient.getAccountInfo(
         sourceWallet.address,
       );
       expect(accountInfo.lamports, currentBalance);
@@ -194,11 +195,11 @@ void main() {
   });
 
   group('Test commitment', () {
-    final SolanaClient solanaClient = SolanaClient(devnetRpcUrl);
-    late SolanaWallet wallet;
+    final RPCClient solanaClient = RPCClient(devnetRpcUrl);
+    late Signer wallet;
 
     setUp(() async {
-      wallet = await SolanaWallet.fromMnemonic(generateMnemonic());
+      wallet = await Signer.fromMnemonic(generateMnemonic());
     });
 
     test('Balance is not updated until tx is finalized', () async {

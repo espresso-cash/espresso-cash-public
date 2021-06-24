@@ -1,34 +1,25 @@
 import 'dart:io';
 
 import 'package:solana/solana.dart';
+import 'package:solana/src/signer.dart';
+import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/types/token_supply.dart';
-import 'package:solana/src/wallet.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
-
-void dumpAddress(String key, String address) {}
-
-const mnemonic =
-    'april boy slush piano discover sell balance frequent enrich noble worry purchase';
-
-const totalSupply = 1000000000000;
 
 void main() {
   final devnetRpcUrl =
       Platform.environment['DEVNET_RPC_URL'] ?? 'http://127.0.0.1:8899';
 
   group('Test spl tokens', () {
-    final SolanaClient client = SolanaClient(devnetRpcUrl);
-    late final SolanaWallet owner;
-    late final SolanaWallet account;
+    final RPCClient client = RPCClient(devnetRpcUrl);
     late final String newTokenMint;
-    late final String associatedTokenAccountAddress;
+    late final Signer owner;
 
     setUpAll(() async {
-      owner = await SolanaWallet.random();
-      account = await SolanaWallet.random();
+      owner = await Signer.random(); // fromMnemonic(mnemonic);
       await airdrop(client, owner, sol: 100);
     });
 
@@ -44,26 +35,26 @@ void main() {
       newTokenMint = token.mint;
     });
 
-    test('Can create an account', () async {
-      final token = await SPLToken.withOwner(
-        owner: owner,
-        mint: newTokenMint,
-        client: client,
-      );
-      // Just expect it not to throw
-      await token.createAccount(account);
-    });
-
     test('Can create an associated token account', () async {
       final token = await SPLToken.withOwner(
         owner: owner,
         mint: newTokenMint,
         client: client,
       );
-      associatedTokenAccountAddress = await token.createAssociatedAccount(
-        systemAccountAddress: owner.address,
+      List<AssociatedAccount> accounts =
+          await token.getAssociatedAccountFor(owner: owner.address);
+      expect(accounts, isNot(null));
+      expect(accounts.length, equals(0));
+
+      final address = await token.createAssociatedAccount(
+        owner: owner.address,
         funder: owner,
       );
+
+      accounts = await token.getAssociatedAccountFor(owner: owner.address);
+      expect(accounts, isNot(null));
+      expect(accounts.length, equals(1));
+      expect(accounts.where((a) => a.address == address), isNot(null));
     });
 
     test('Can mint the newly created token and account', () async {
@@ -72,7 +63,10 @@ void main() {
         mint: newTokenMint,
         client: client,
       );
-      await token.mintTo(address: account.address, amount: totalSupply);
+      final accounts =
+          await token.getAssociatedAccountFor(owner: owner.address);
+      await token.mintTo(
+          destination: accounts[0].address, amount: _totalSupply);
       // Reload it
       token = await SPLToken.withOwner(
         owner: owner,
@@ -80,7 +74,7 @@ void main() {
         client: client,
       );
 
-      expect(token.supply, equals(totalSupply));
+      expect(token.supply, equals(_totalSupply));
       expect(token.decimals, equals(2));
     });
 
@@ -90,30 +84,42 @@ void main() {
       );
       final TokenSupply tokenSupply = supplyResult.value;
 
-      expect(int.parse(tokenSupply.amount), equals(totalSupply));
+      expect(int.parse(tokenSupply.amount), equals(_totalSupply));
     });
 
     test('Can transfer tokens', () async {
+      final recipient = await Signer.random();
       final token = await SPLToken.withOwner(
         owner: owner,
         mint: newTokenMint,
         client: client,
       );
-      final recipient = await SolanaWallet.random();
-      await token.createAccount(recipient);
-      final message = TokenMessage.transfer(
-        source: account.address,
-        destination: associatedTokenAccountAddress,
+      final myAssociatedAccounts = await token.getAssociatedAccountFor(
         owner: owner.address,
+      );
+      var associatedAccounts =
+          await token.getAssociatedAccountFor(owner: recipient.address);
+      expect(associatedAccounts.length, equals(0));
+      // The account does not exist, so create it
+      final recipientAddress = await token.createAssociatedAccount(
+        owner: recipient.address,
+        funder: owner,
+      );
+      associatedAccounts =
+          await token.getAssociatedAccountFor(owner: recipient.address);
+      expect(associatedAccounts.length, equals(1));
+      expect(associatedAccounts[0].address, equals(recipientAddress));
+      // Send to the newly created account
+      final signature = await token.transfer(
+        source: myAssociatedAccounts[0].address,
+        destination: recipient.address,
         amount: 100,
+        owner: owner,
       );
-      final signature = await client.signAndSendTransaction(
-        message,
-        [
-          owner,
-        ],
-      );
+
       expect(signature, isNot(null));
     }, timeout: const Timeout(Duration(minutes: 2)));
   });
 }
+
+const _totalSupply = 1000000000000;

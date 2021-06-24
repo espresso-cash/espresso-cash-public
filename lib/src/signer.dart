@@ -11,13 +11,13 @@ import 'package:solana/src/types/hd_key_pair.dart';
 final _random = Random.secure();
 
 /// Signs transactions to be sent to a Solana Cluster
-class SolanaWallet {
-  SolanaWallet._fromKeyPair(
+class Signer {
+  Signer._fromKeyPair(
     this._keyPair, {
     required this.address,
   });
 
-  static Future<SolanaWallet> random() async {
+  static Future<Signer> random() async {
     // Create the seed
     final List<int> seedBytes = List<int>.generate(
       32,
@@ -27,7 +27,7 @@ class SolanaWallet {
     final PublicKey publicKey = await keyPair.extractPublicKey();
     if (publicKey is SimplePublicKey) {
       // Finally, create a new wallet
-      return SolanaWallet._fromKeyPair(
+      return Signer._fromKeyPair(
         keyPair,
         address: base58.encode(publicKey.bytes),
       );
@@ -38,11 +38,24 @@ class SolanaWallet {
 
   /// Creates and initializes the [walletIndex]th SolanaWallet and the
   /// [accountIndex]th account for the given bip39 [mnemonic] string of
-  /// 12 words
-  static Future<SolanaWallet> fromMnemonic(
+  /// 12 words.
+  ///
+  /// Omitting [walletIndex] or [accountIndex] means they will be `null`
+  /// with the following rules of the meaning of `null` in this context.
+  ///
+  /// If either [walletIndex] or [accountIndex] is `null`, and the other
+  /// is not, then it will be taken to be zero.
+  ///
+  /// If [walletIndex] and [accountIndex] are both `null`, then we derive
+  /// the address that would be returned by using
+  ///
+  ///     solana-keygen pubkey prompt://
+  ///
+  /// and passing the [mnemonic] seed phrase
+  static Future<Signer> fromMnemonic(
     String mnemonic, {
-    int walletIndex = 0,
-    int accountIndex = 0,
+    int? walletIndex,
+    int? accountIndex,
   }) async {
     // Create the seed
     final List<int> seedBytes = bip39.mnemonicToSeed(mnemonic);
@@ -51,7 +64,7 @@ class SolanaWallet {
     final PublicKey publicKey = await keyPair.extractPublicKey();
     if (publicKey is SimplePublicKey) {
       // Finally, create a new wallet
-      return SolanaWallet._fromKeyPair(
+      return Signer._fromKeyPair(
         keyPair,
         address: base58.encode(publicKey.bytes),
       );
@@ -71,11 +84,16 @@ class SolanaWallet {
 
   static Future<KeyPair> _deriveKeyPair(
     List<int> rawSeed,
-    int walletIndex,
-    int accountIndex,
+    int? walletIndex,
+    int? accountIndex,
   ) async {
-    final List<int> seed = rawSeed;
-    return HDKeyPair.fromSeed(seed, _getHDPath(walletIndex, accountIndex));
+    if (walletIndex == null && accountIndex == null) {
+      return _ed25519.newKeyPairFromSeed(rawSeed.sublist(0, 32));
+    }
+    return HDKeyPair.fromSeedWithHdPath(
+      seed: rawSeed,
+      hdPath: _getHDPath(walletIndex ?? 0, accountIndex ?? 0),
+    );
   }
 
   /// Returns a Future that resolves to the result of signing
