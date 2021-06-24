@@ -1,7 +1,6 @@
-import 'dart:io';
-
-import 'package:solana/src/client.dart';
-import 'package:solana/src/spl_token/spl_token.dart';
+import 'package:solana/src/base58/base58.dart' as base58;
+import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/util/find_program_address.dart';
 import 'package:test/test.dart';
 
 const _mint = '3i4L7AYcwYQgdipuWCJhf4HgAfUDU21mQtrgxuwHqQwZ';
@@ -18,16 +17,14 @@ const _map = <String, String>{
 
 void main() {
   test('Can generate associated token account address', () async {
-    final devnetRpcUrl =
-        Platform.environment['DEVNET_RPC_URL'] ?? 'http://127.0.0.1:8899';
-    final SolanaClient client = SolanaClient(devnetRpcUrl);
-    final token = await SPLToken.fromMint(
-      mint: _mint,
-      client: client,
-    );
     for (final entry in _map.entries) {
-      final address = await token.getAssociatedTokenAddress(
-        systemAccountAddress: entry.key,
+      final address = await findProgramAddress(
+        seeds: [
+          base58.decode(entry.key),
+          base58.decode(TokenProgram.id),
+          base58.decode(_mint),
+        ],
+        programId: AssociatedTokenAccountProgram.id,
       );
       expect(address, equals(entry.value));
     }

@@ -74,7 +74,7 @@ class SPLToken {
       );
 
   // FIXME(IA): return the account
-  Future<void> createAssociatedAccount({
+  Future<String> createAssociatedAccount({
     required String systemAccountAddress,
     required SolanaWallet funder,
   }) async {
@@ -101,6 +101,7 @@ class SPLToken {
       signature,
       Commitment.finalized,
     );
+    return associatedAddress;
   }
 
   Future<void> mintTo({

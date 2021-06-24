@@ -24,6 +24,7 @@ void main() {
     late final SolanaWallet owner;
     late final SolanaWallet account;
     late final String newTokenMint;
+    late final String associatedTokenAccountAddress;
 
     setUpAll(() async {
       owner = await SolanaWallet.random();
@@ -59,7 +60,7 @@ void main() {
         mint: newTokenMint,
         client: client,
       );
-      await token.createAssociatedAccount(
+      associatedTokenAccountAddress = await token.createAssociatedAccount(
         systemAccountAddress: owner.address,
         funder: owner,
       );
@@ -102,7 +103,7 @@ void main() {
       await token.createAccount(recipient);
       final message = TokenMessage.transfer(
         source: account.address,
-        destination: recipient.address,
+        destination: associatedTokenAccountAddress,
         owner: owner.address,
         amount: 100,
       );
@@ -112,6 +113,7 @@ void main() {
           owner,
         ],
       );
+      expect(signature, isNot(null));
     }, timeout: const Timeout(Duration(minutes: 2)));
   });
 }
