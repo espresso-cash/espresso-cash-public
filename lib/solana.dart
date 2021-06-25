@@ -1,6 +1,10 @@
 export 'src/encoder/encoder.dart'
     show Instruction, CompiledInstruction, Message, SignedTx;
+export 'src/memo_program/memo_program.dart' show MemoProgram, MemoInstruction;
 export 'src/rpc_client.dart';
+export 'src/spl_token/spl_token.dart' show SplToken, TokenProgram;
+export 'src/system_program/system_program.dart'
+    show SystemProgram, SystemInstruction;
 export 'src/types/account.dart' show Account;
 export 'src/types/blockhash.dart' show Blockhash;
 export 'src/types/commitment.dart';

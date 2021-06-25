@@ -1,5 +1,6 @@
+import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/encoder/encoder.dart';
-import 'package:solana/src/spl_token/spl_token.dart';
+import 'package:solana/src/token_program/token_program.dart';
 import 'package:solana/src/utils.dart';
 import 'package:test/test.dart';
 
@@ -12,7 +13,7 @@ void main() {
           Buffer.fromBase58(TokenProgram.programId),
           Buffer.fromBase58(_mint),
         ],
-        programId: AssociatedTokenAccountProgram.id,
+        programId: AssociatedTokenAccountProgram.programId,
       );
       expect(address, equals(entry.value));
     }

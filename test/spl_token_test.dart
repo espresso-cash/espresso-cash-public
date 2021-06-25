@@ -39,7 +39,7 @@ void main() {
       final creator = await HDKeyPair.random();
       final account = await HDKeyPair.random();
       await airdrop(client, creator, sol: 100);
-      final token = await SPLToken.readonly(
+      final token = await SplToken.readonly(
         mint: newTokenMint,
         rpcClient: client,
       );
@@ -50,13 +50,13 @@ void main() {
     }, timeout: const Timeout(Duration(minutes: 2)));
 
     test('Can create an associated token account', () async {
-      final token = await SPLToken.readWrite(
+      final token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
         rpcClient: client,
       );
       List<AssociatedTokenAccount> accounts =
-          await token.getAssociatedAccountFor(owner: owner.address);
+          await token.getAssociatedAccountsFor(owner: owner.address);
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
 
@@ -65,7 +65,7 @@ void main() {
         funder: owner,
       );
 
-      accounts = await token.getAssociatedAccountFor(owner: owner.address);
+      accounts = await token.getAssociatedAccountsFor(owner: owner.address);
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
       expect(
@@ -75,17 +75,17 @@ void main() {
     });
 
     test('Can mint the newly created token and account', () async {
-      var token = await SPLToken.readWrite(
+      var token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
         rpcClient: client,
       );
       final accounts =
-          await token.getAssociatedAccountFor(owner: owner.address);
+          await token.getAssociatedAccountsFor(owner: owner.address);
       await token.mintTo(
           destination: accounts[0].address, amount: _totalSupply);
       // Reload it
-      token = await SPLToken.readWrite(
+      token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
         rpcClient: client,
@@ -107,7 +107,7 @@ void main() {
     test('Can transfer tokens succeeds when associated accounts exist',
         () async {
       final recipient = await HDKeyPair.random();
-      final token = await SPLToken.readWrite(
+      final token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
         rpcClient: client,
@@ -136,7 +136,7 @@ void main() {
         'Fails to transfer tokens if the recipient has no associated token account',
         () async {
       final recipient = await HDKeyPair.random();
-      final token = await SPLToken.readWrite(
+      final token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
         rpcClient: client,
@@ -157,7 +157,7 @@ void main() {
         'Fails to transfer tokens if the sender has no associated token account',
         () async {
       final sender = await HDKeyPair.random();
-      final token = await SPLToken.readWrite(
+      final token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
         rpcClient: client,

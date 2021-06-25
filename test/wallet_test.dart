@@ -13,7 +13,7 @@ void main() {
   late final RPCClient rpcClient;
   late final Wallet source;
   late final Wallet destination;
-  late SPLToken token;
+  late SplToken token;
 
   setUpAll(() async {
     final signer = await HDKeyPair.random();
@@ -22,7 +22,7 @@ void main() {
     destination =
         Wallet(signer: await HDKeyPair.random(), rpcClient: rpcClient);
     // Add tokens to the sender
-    await source.airdrop(100 * lamportsPerSol);
+    await source.requestAirdrop(100 * lamportsPerSol);
     token = await rpcClient.initializeMint(
       owner: signer,
       decimals: 2,
@@ -68,15 +68,28 @@ void main() {
     expect(memoInstruction.memo, equals(memoText));
   });
 
+  test('Can load a token into a wallet', () async {
+    final wallet = Wallet(
+      signer: await HDKeyPair.random(),
+      rpcClient: rpcClient,
+    );
+    await wallet.loadToken(mint: token.mint);
+    expect(wallet.hasAssociatedTokenAccount(mint: token.mint), equals(false));
+  });
+
   test('Can get a token balance', () async {
-    final associatedAccount =
-        await token.createAssociatedAccount(funder: source.signer);
+    await source.loadToken(mint: token.mint);
+    expect(source.hasAssociatedTokenAccount(mint: token.mint), equals(false));
+
+    await source.createAssociatedTokenAccount(mint: token.mint);
 
     var tokenBalance = await source.getTokenBalance(mint: token.mint);
     expect(tokenBalance.decimals, equals(token.decimals));
     expect(tokenBalance.amount, equals('0'));
+    final associatedAccount =
+        source.getAssociatedTokenAccountAddress(mint: token.mint);
     // Add some tokens
-    await token.mintTo(destination: associatedAccount.address, amount: 1000);
+    await token.mintTo(destination: associatedAccount, amount: 1000);
 
     tokenBalance = await source.getTokenBalance(mint: token.mint);
     expect(tokenBalance.decimals, equals(token.decimals));

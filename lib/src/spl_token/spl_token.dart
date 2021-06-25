@@ -1,10 +1,11 @@
 library spl_token;
 
+import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/hd_keypair.dart';
 import 'package:solana/src/rpc_client.dart';
 import 'package:solana/src/spl_token/associated_account.dart';
-import 'package:solana/src/system_program/system_program.dart';
+import 'package:solana/src/token_program/token_program.dart';
 import 'package:solana/src/types/account.dart';
 import 'package:solana/src/types/commitment.dart';
 import 'package:solana/src/types/signature_status.dart';
@@ -15,8 +16,8 @@ part 'rpc_extensions.dart';
 part 'token_program.dart';
 
 /// Represents a SPL token program
-class SPLToken {
-  SPLToken._({
+class SplToken {
+  SplToken._({
     required this.mint,
     required this.supply,
     required this.decimals,
@@ -25,14 +26,14 @@ class SPLToken {
   }) : _rpcClient = rpcClient;
 
   /// Passing [owner] makes this a writeable token.
-  static Future<SPLToken> _withOptionalOwner({
+  static Future<SplToken> _withOptionalOwner({
     required String mint,
     required RPCClient rpcClient,
     HDKeyPair? owner,
   }) async {
     final supplyResponse = await rpcClient.getTokenSupply(mint);
     final supplyValue = supplyResponse.value;
-    return SPLToken._(
+    return SplToken._(
       decimals: supplyValue.decimals,
       supply: int.parse(supplyValue.amount),
       rpcClient: rpcClient,
@@ -42,23 +43,23 @@ class SPLToken {
   }
 
   /// Create a read write account
-  static Future<SPLToken> readWrite({
+  static Future<SplToken> readWrite({
     required String mint,
     required RPCClient rpcClient,
     required HDKeyPair owner,
   }) =>
-      SPLToken._withOptionalOwner(
+      SplToken._withOptionalOwner(
         mint: mint,
         rpcClient: rpcClient,
         owner: owner,
       );
 
   /// Create a readonly account for [mint].
-  static Future<SPLToken> readonly({
+  static Future<SplToken> readonly({
     required String mint,
     required RPCClient rpcClient,
   }) =>
-      SPLToken._withOptionalOwner(
+      SplToken._withOptionalOwner(
         mint: mint,
         rpcClient: rpcClient,
       );
@@ -74,7 +75,7 @@ class SPLToken {
     //
     // A sender must have the appropriate associated account, in case they
     // don't it's an error and we should throw an exception.
-    final sourceATA = await getAssociatedAccountFor(owner: source);
+    final sourceATA = await getAssociatedAccountsFor(owner: source);
 
     if (sourceATA.isEmpty) {
       throw FormatException(
@@ -83,7 +84,7 @@ class SPLToken {
     }
 
     // A recipient needs an associated account as well
-    final destinationATA = await getAssociatedAccountFor(owner: destination);
+    final destinationATA = await getAssociatedAccountsFor(owner: destination);
 
     if (destinationATA.isEmpty) {
       throw FormatException(
@@ -111,7 +112,7 @@ class SPLToken {
     required HDKeyPair account,
     required HDKeyPair creator,
   }) async {
-    const space = TokenProgram._neededAccountSpace;
+    const space = TokenProgram.neededAccountSpace;
     final rent = await _rpcClient.getMinimumBalanceForRentExemption(space);
     final message = TokenProgram.createAccount(
       address: account.address,
@@ -148,7 +149,7 @@ class SPLToken {
           Buffer.fromBase58(TokenProgram.programId),
           Buffer.fromBase58(mint),
         ],
-        programId: AssociatedTokenAccountProgram.id,
+        programId: AssociatedTokenAccountProgram.programId,
       );
 
   /// Create the associated account for [owner] funded by [funder].
@@ -218,7 +219,7 @@ class SPLToken {
   /// This method returns all the accounts that are owned by [owner]
   /// and associated with this token. If there are none, then an empty
   /// list is returned.
-  Future<List<AssociatedTokenAccount>> getAssociatedAccountFor({
+  Future<List<AssociatedTokenAccount>> getAssociatedAccountsFor({
     required String owner,
   }) async =>
       _rpcClient.getTokenAccountsByOwner(owner, mint: mint);
@@ -240,14 +241,14 @@ extension TokenExt on RPCClient {
   /// [freezeAuthority] is not set.
   ///
   /// Finally, you can also send the transaction with optional [commitment].
-  Future<SPLToken> initializeMint({
+  Future<SplToken> initializeMint({
     required HDKeyPair owner,
     required int decimals,
     String? mintAuthority,
     String? freezeAuthority,
     Commitment? commitment,
   }) async {
-    const space = TokenProgram._neededMintAccountSpace;
+    const space = TokenProgram.neededMintAccountSpace;
     final mintWallet = await HDKeyPair.random();
     final rent = await getMinimumBalanceForRentExemption(space);
 
@@ -273,7 +274,7 @@ extension TokenExt on RPCClient {
       Commitment.finalized,
     );
 
-    return SPLToken.readWrite(
+    return SplToken.readWrite(
       owner: owner,
       mint: mintWallet.address,
       rpcClient: this,

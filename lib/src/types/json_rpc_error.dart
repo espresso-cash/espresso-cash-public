@@ -16,5 +16,11 @@ class JsonRpcError implements Exception {
   final dynamic data;
 
   @override
-  String toString() => 'jsonrpc-2.0 error ($code): $message\n\t$data';
+  String toString() {
+    if (data != null) {
+      return 'jsonrpc-2.0 error ($code): $message\n\t$data';
+    } else {
+      return 'jsonrpc-2.0 error ($code): $message';
+    }
+  }
 }
