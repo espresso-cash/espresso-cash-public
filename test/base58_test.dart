@@ -2,6 +2,26 @@ import 'package:convert/convert.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
 import 'package:test/test.dart';
 
+void main() {
+  test('base58 implementation correctly encodes', () {
+    for (final item in _testVector) {
+      final source = hex.decode(item[0]);
+      final target = item[1];
+
+      expect(base58.encode(source), target);
+    }
+  });
+
+  test('base58 implementation correctly decodes', () {
+    for (final item in _testVector) {
+      final source = item[1];
+      final target = item[0];
+
+      expect(hex.encode(base58.decode(source).toList()), target);
+    }
+  });
+}
+
 final List<List<String>> _testVector = [
   ['', ''],
   ['61', '2g'],
@@ -27,23 +47,3 @@ final List<List<String>> _testVector = [
     '1cWB5HCBdLjAuqGGReWE3R3CguuwSjw6RHn39s2yuDRTS5NsBgNiFpWgAnEx6VQi8csexkgYw3mdYrMHr8x9i7aEwP8kZ7vccXWqKDvGv3u1GxFKPuAkn8JCPPGDMf3vMMnbzm6Nh9zh1gcNsMvH3ZNLmP5fSG6DGbbi2tuwMWPthr4boWwCxf7ewSgNQeacyozhKDDQQ1qL5fQFUW52QKUZDZ5fw3KXNQJMcNTcaB723LchjeKun7MuGW5qyCBZYzA1KjofN1gYBV3NqyhQJ3Ns746GNuf9N2pQPmHz4xpnSrrfCvy6TVVz5d4PdrjeshsWQwpZsZGzvbdAdN8MKV5QsBDY'
   ]
 ];
-
-void main() {
-  test('base58 implementation correctly encodes', () {
-    for (final item in _testVector) {
-      final source = hex.decode(item[0]);
-      final target = item[1];
-
-      expect(base58.encode(source), target);
-    }
-  });
-
-  test('base58 implementation correctly decodes', () {
-    for (final item in _testVector) {
-      final source = item[1];
-      final target = item[0];
-
-      expect(hex.encode(base58.decode(source).toList()), target);
-    }
-  });
-}

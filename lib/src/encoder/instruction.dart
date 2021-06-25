@@ -12,27 +12,11 @@ class Instruction {
   ///
   /// Some programs take specific [data]. You can provide raw 8bit bytes arrays
   /// with the [data] parameter.
-  Instruction({
+  const Instruction({
     required this.programId,
     required this.accounts,
     required this.data,
   }) : super();
-
-  /// Create a system program instruction with [data], for [accounts].
-  ///
-  /// Since [accounts] is interpreted by the specific program that will
-  /// be called, then it's the responsibility of the caller to pass the
-  /// array correctly sorted, e.g., for a transfer program the [source] should
-  /// be before the [destination]
-  factory Instruction.system({
-    required Iterable<AccountMeta> accounts,
-    required ByteArray data,
-  }) =>
-      Instruction(
-        programId: SystemProgram.id,
-        accounts: accounts,
-        data: data,
-      );
 
   /// Construct a memo instruction for the memo program with
   /// [signers] as signers and [memo] as content.

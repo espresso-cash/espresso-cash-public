@@ -21,27 +21,28 @@ const _invalidAddresses = [
 void main() {
   test('It throws for invalid base58 characters', () {
     expect(
-      () => isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpdSl'),
+      () =>
+          Utils.isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpdSl'),
       throwsFormatException,
     );
   });
 
   test('It throws for invalid length', () {
     expect(
-      () => isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpd'),
+      () => Utils.isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpd'),
       throwsFormatException,
     );
   });
 
   test('It correctly validates valid addresses', () {
     for (final a in _validAddresses) {
-      expect(isValidAddress(a), equals(true));
+      expect(Utils.isValidAddress(a), equals(true));
     }
   });
 
   test('It fails for invalid ed25519 points', () {
     for (final a in _invalidAddresses) {
-      expect(isValidAddress(a), false);
+      expect(Utils.isValidAddress(a), false);
     }
   });
 }

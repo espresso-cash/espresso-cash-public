@@ -1,10 +1,10 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/signer.dart';
+import 'package:solana/src/hd_keypair.dart';
 import 'package:solana/src/types/commitment.dart';
 
 Future<void> airdrop(
   RPCClient client,
-  Signer wallet, {
+  HDKeyPair wallet, {
   int? sol,
   int? lamports,
 }) async {

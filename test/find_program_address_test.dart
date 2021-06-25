@@ -1,7 +1,23 @@
-import 'package:solana/src/base58/base58.dart' as base58;
 import 'package:solana/src/encoder/encoder.dart';
-import 'package:solana/src/util/find_program_address.dart';
+import 'package:solana/src/spl_token/spl_token.dart';
+import 'package:solana/src/utils.dart';
 import 'package:test/test.dart';
+
+void main() {
+  test('Can generate associated token account address', () async {
+    for (final entry in _map.entries) {
+      final address = await Utils.findProgramAddress(
+        seeds: [
+          Buffer.fromBase58(entry.key),
+          Buffer.fromBase58(TokenProgram.programId),
+          Buffer.fromBase58(_mint),
+        ],
+        programId: AssociatedTokenAccountProgram.id,
+      );
+      expect(address, equals(entry.value));
+    }
+  });
+}
 
 const _mint = '3i4L7AYcwYQgdipuWCJhf4HgAfUDU21mQtrgxuwHqQwZ';
 const _map = <String, String>{
@@ -14,19 +30,3 @@ const _map = <String, String>{
   '6pr7pCxXu9cF8oP2ARRhrkDj6ikw6QyJNAZ62gyQmwjZ':
       'CLmiMYTeoqGQHmNu1jBYWtu3hcPr4u32aRWAPQCwCHjP',
 };
-
-void main() {
-  test('Can generate associated token account address', () async {
-    for (final entry in _map.entries) {
-      final address = await findProgramAddress(
-        seeds: [
-          base58.decode(entry.key),
-          base58.decode(TokenProgram.id),
-          base58.decode(_mint),
-        ],
-        programId: AssociatedTokenAccountProgram.id,
-      );
-      expect(address, equals(entry.value));
-    }
-  });
-}

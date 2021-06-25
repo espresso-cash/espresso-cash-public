@@ -6,48 +6,13 @@ part of 'encoder.dart';
 class Message {
   /// Construct a message to send with a transaction to execute
   /// the provided [instructions].
-  Message({
+  const Message({
     required this.instructions,
   }) : super();
 
   int countRequiredSignatures(String? feePayer) {
     final accounts = instructions._getAccounts(feePayer);
     return accounts.getNumReadonlySigners() + accounts.getNumSigners();
-  }
-
-  /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
-  /// to [destination].
-  ///
-  /// To add additional data to the transaction you can use the [memo] field.
-  /// It accepts an arbitrary string of utf-8 characters. As of now the maximum
-  /// allowed length for the memo is 566 bytes of utf-8 data.
-  ///
-  /// NOTE: This constructor creates a transaction with 2 instructions when a [memo]
-  /// is provided.
-  factory Message.transfer({
-    required String source,
-    required String destination,
-    required int lamports,
-    String? memo,
-  }) {
-    final instructions = [
-      Instruction.system(
-        accounts: [
-          AccountMeta.writeable(pubKey: source, isSigner: true),
-          AccountMeta.writeable(pubKey: destination, isSigner: false),
-        ],
-        data: InstructionData.transfer(lamports: lamports),
-      ),
-      if (memo != null)
-        Instruction.memo(
-          signers: [AccountMeta.writeable(pubKey: source, isSigner: true)],
-          memo: Buffer.fromString(memo),
-        ),
-    ];
-
-    return Message(
-      instructions: instructions,
-    );
   }
 
   final List<Instruction> instructions;

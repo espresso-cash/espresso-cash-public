@@ -33,6 +33,16 @@ class AccountMeta {
         isSigner: isSigner,
       );
 
+  /// Merges a [this] with [other] by applying the following rules,
+  ///
+  /// Resulting [AccountMeta] is,
+  ///
+  /// `writeable` if either [this] or [other] is writeable
+  /// `signer` if either [this] or [other] is signer.
+  ///
+  /// The [pubKey]s must match or it throws a [FormatException].
+  ///
+  /// It returns a new [AccountMeta] object.
   AccountMeta mergeWith(AccountMeta other) {
     if (pubKey != other.pubKey) {
       throw const FormatException(
