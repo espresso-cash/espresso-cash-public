@@ -1,15 +1,284 @@
 library spl_token;
 
-import 'package:solana/src/base58/base58.dart' as base58;
 import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/hd_keypair.dart';
 import 'package:solana/src/rpc_client.dart';
-import 'package:solana/src/signer.dart';
 import 'package:solana/src/spl_token/associated_account.dart';
+import 'package:solana/src/system_program/system_program.dart';
+import 'package:solana/src/types/account.dart';
 import 'package:solana/src/types/commitment.dart';
 import 'package:solana/src/types/signature_status.dart';
 import 'package:solana/src/types/tx_signature.dart';
-import 'package:solana/src/util/find_program_address.dart';
+import 'package:solana/src/utils.dart';
 
-part 'message.dart';
 part 'rpc_extensions.dart';
-part 'token.dart';
+part 'token_program.dart';
+
+/// Represents a SPL token program
+class SPLToken {
+  SPLToken._({
+    required this.mint,
+    required this.supply,
+    required this.decimals,
+    required RPCClient rpcClient,
+    this.owner,
+  }) : _rpcClient = rpcClient;
+
+  /// Passing [owner] makes this a writeable token.
+  static Future<SPLToken> _withOptionalOwner({
+    required String mint,
+    required RPCClient rpcClient,
+    HDKeyPair? owner,
+  }) async {
+    final supplyResponse = await rpcClient.getTokenSupply(mint);
+    final supplyValue = supplyResponse.value;
+    return SPLToken._(
+      decimals: supplyValue.decimals,
+      supply: int.parse(supplyValue.amount),
+      rpcClient: rpcClient,
+      mint: mint,
+      owner: owner,
+    );
+  }
+
+  /// Create a read write account
+  static Future<SPLToken> readWrite({
+    required String mint,
+    required RPCClient rpcClient,
+    required HDKeyPair owner,
+  }) =>
+      SPLToken._withOptionalOwner(
+        mint: mint,
+        rpcClient: rpcClient,
+        owner: owner,
+      );
+
+  /// Create a readonly account for [mint].
+  static Future<SPLToken> readonly({
+    required String mint,
+    required RPCClient rpcClient,
+  }) =>
+      SPLToken._withOptionalOwner(
+        mint: mint,
+        rpcClient: rpcClient,
+      );
+
+  /// Transfer [amount] tokens owned by [owner] from [source] to [destination]
+  Future<TxSignature> transfer({
+    required String source,
+    required String destination,
+    required int amount,
+    required HDKeyPair owner,
+  }) async {
+    // NOTE: the suffix ATA means (Associated Token Account)
+    //
+    // A sender must have the appropriate associated account, in case they
+    // don't it's an error and we should throw an exception.
+    final sourceATA = await getAssociatedAccountFor(owner: source);
+
+    if (sourceATA.isEmpty) {
+      throw FormatException(
+        'there are no associated token accounts for source: $source',
+      );
+    }
+
+    // A recipient needs an associated account as well
+    final destinationATA = await getAssociatedAccountFor(owner: destination);
+
+    if (destinationATA.isEmpty) {
+      throw FormatException(
+        'there are no associated token accounts for destination: $destination',
+      );
+    }
+
+    final message = TokenProgram.transfer(
+      source: sourceATA.first.address,
+      destination: destinationATA.first.address,
+      owner: owner.address,
+      amount: 100,
+    );
+
+    return _rpcClient.signAndSendTransaction(
+      message,
+      [
+        owner,
+      ],
+    );
+  }
+
+  /// Create an account for [account]
+  Future<Account> createAccount({
+    required HDKeyPair account,
+    required HDKeyPair creator,
+  }) async {
+    const space = TokenProgram._neededAccountSpace;
+    final rent = await _rpcClient.getMinimumBalanceForRentExemption(space);
+    final message = TokenProgram.createAccount(
+      address: account.address,
+      owner: creator.address,
+      mint: mint,
+      rent: rent,
+      space: space,
+    );
+    final signature = await _rpcClient.signAndSendTransaction(
+      message,
+      [
+        creator,
+        account,
+      ],
+    );
+    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+
+    // TODO(IA): need to check if it is executable and grab the rentEpoch
+    return Account(
+      owner: account.address,
+      lamports: 0,
+      executable: false,
+      rentEpoch: 0,
+    );
+  }
+
+  /// Compute and derive the associated token address of [owner]
+  Future<String> getAssociatedTokenAddress({
+    required String owner,
+  }) =>
+      Utils.findProgramAddress(
+        seeds: [
+          Buffer.fromBase58(owner),
+          Buffer.fromBase58(TokenProgram.programId),
+          Buffer.fromBase58(mint),
+        ],
+        programId: AssociatedTokenAccountProgram.id,
+      );
+
+  /// Create the associated account for [owner] funded by [funder].
+  /// If [owner] is `null` then [funder] is used as the owning account.
+  Future<AssociatedTokenAccount> createAssociatedAccount({
+    required HDKeyPair funder,
+    String? owner,
+  }) async {
+    final ownerAddress = owner ?? funder.address;
+    final derivedAddress = await getAssociatedTokenAddress(
+      owner: ownerAddress,
+    );
+    final message = TokenProgram.createAssociatedTokenAccount(
+      mint: mint,
+      address: derivedAddress,
+      owner: ownerAddress,
+      funder: funder.address,
+    );
+    final signature = await _rpcClient.signAndSendTransaction(
+      message,
+      [
+        funder,
+      ],
+    );
+    await _rpcClient.waitForSignatureStatus(
+      signature,
+      Commitment.finalized,
+    );
+
+    // TODO(IA): populate rentEpoch correctly
+    return AssociatedTokenAccount(
+      address: derivedAddress,
+      account: Account(
+        owner: ownerAddress,
+        lamports: 0,
+        executable: false,
+        rentEpoch: 0,
+      ),
+    );
+  }
+
+  /// Mint [destination] with [amount] tokens. Requires writable [Token].
+  Future<void> mintTo({
+    required String destination,
+    required int amount,
+  }) async {
+    final owner = this.owner;
+    if (owner == null) {
+      throw _readonlyTokenError;
+    }
+    final message = TokenProgram.mintTo(
+      mint: mint,
+      destination: destination,
+      owner: owner.address,
+      amount: amount,
+    );
+    await _rpcClient.signAndSendTransaction(
+      message,
+      [
+        owner,
+      ],
+    );
+  }
+
+  /// Query [owner]'s associated accounts for this token.
+  ///
+  /// This method returns all the accounts that are owned by [owner]
+  /// and associated with this token. If there are none, then an empty
+  /// list is returned.
+  Future<List<AssociatedTokenAccount>> getAssociatedAccountFor({
+    required String owner,
+  }) async =>
+      _rpcClient.getTokenAccountsByOwner(owner, mint: mint);
+
+  final int decimals;
+  final int supply;
+  final String mint;
+  final HDKeyPair? owner;
+  final RPCClient _rpcClient;
+}
+
+extension TokenExt on RPCClient {
+  /// Create a new token owned by [owner] with [decimals] base 10 decimal digits.
+  ///
+  /// You can optionally specify a [mintAuthority] address. By default the [owner]
+  /// address will be used as the _Mint Authority_.
+  ///
+  /// Also optional, you can specify a [freezeAuthority]. By default the
+  /// [freezeAuthority] is not set.
+  ///
+  /// Finally, you can also send the transaction with optional [commitment].
+  Future<SPLToken> initializeMint({
+    required HDKeyPair owner,
+    required int decimals,
+    String? mintAuthority,
+    String? freezeAuthority,
+    Commitment? commitment,
+  }) async {
+    const space = TokenProgram._neededMintAccountSpace;
+    final mintWallet = await HDKeyPair.random();
+    final rent = await getMinimumBalanceForRentExemption(space);
+
+    final message = TokenProgram.initializeMint(
+      mint: mintWallet.address,
+      mintAuthority: mintAuthority ?? owner.address,
+      freezeAuthority: freezeAuthority,
+      rent: rent,
+      space: space,
+      decimals: decimals,
+    );
+    final signature = await signAndSendTransaction(
+      message,
+      [
+        owner,
+        mintWallet,
+      ],
+      commitment: commitment,
+      feePayer: owner.address,
+    );
+    await waitForSignatureStatus(
+      signature,
+      Commitment.finalized,
+    );
+
+    return SPLToken.readWrite(
+      owner: owner,
+      mint: mintWallet.address,
+      rpcClient: this,
+    );
+  }
+}
+
+const _readonlyTokenError = FormatException('this token instance is readonly');

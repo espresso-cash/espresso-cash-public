@@ -1,7 +1,7 @@
 part of 'spl_token.dart';
 
 extension SPLTokenRPCExt on RPCClient {
-  Future<List<AssociatedAccount>> getTokenAccountsByOwner(
+  Future<List<AssociatedTokenAccount>> getTokenAccountsByOwner(
     String address, {
     String? mint,
     String? programId,
@@ -22,6 +22,6 @@ extension SPLTokenRPCExt on RPCClient {
       ],
     );
 
-    return AssociatedAccountResponse.fromJson(data).result.value;
+    return AssociatedTokenAccountResponse.fromJson(data).result.value;
   }
 }

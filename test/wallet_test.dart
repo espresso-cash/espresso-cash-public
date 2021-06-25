@@ -1,78 +1,85 @@
-import 'package:solana/src/signer.dart';
+import 'dart:io';
+
+import 'package:solana/solana.dart';
+import 'package:solana/src/hd_keypair.dart';
+import 'package:solana/src/spl_token/spl_token.dart';
+import 'package:solana/src/wallet.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('Solana wallet is built correctly', () {
-    test('The base test case matches that of solana cli', () async {
-      final wallet = await Signer.fromMnemonic(_mnemonic);
-      expect(wallet.address, _baseAddress);
-    });
-    test('Derivation works for all test cases', () async {
-      for (final int walletIndex in _testCases.keys) {
-        final wallet = _testCases[walletIndex]!;
-        for (final MapEntry<int, String> item in wallet.entries) {
-          final signer = await Signer.fromMnemonic(
-            _mnemonic,
-            walletIndex: walletIndex,
-            accountIndex: item.key,
-          );
-          expect(signer.address, equals(item.value));
-        }
-      }
-    });
-  });
-}
+final _devnetRpcUrl =
+    Platform.environment['DEVNET_RPC_URL'] ?? 'http://127.0.0.1:8899';
 
-const _mnemonic =
-    'nothing steak step patient peasant assist add coral tone harsh hint dilemma';
-const _baseAddress = 'C9jaWessQpsJV7Zc6br7hKzfa9jXEc9k3GsAj2ATkwFq';
-const _testCases = {
-  0: {
-    0: 'AZ9tSkwgBjvgNrSBKujYVobWkcVy7QuJJHUiiUs7PTG',
-    1: 'EABPLcGWs53zd1Kdhz25S7dSy5WNSAvS8DzjyGsDSaWN',
-    2: 'GsiMGRtdX5ufN3CZmx8UbgpVmV29V2R9PcXH6xuDghGV',
-    3: 'JEECvYzWfARXz5s4tsW1kR6ar2jkqSV3sfZSkw7ZweXY',
-    4: '4q4XDHkK2QRLmBPfFaz6wky5r8BnHsgNsFFvU9rYyvsS',
-    5: 'CcT6Ffgf498guEyVXaGxsv4mKWRXTtby8i4TEAEdYgJY',
-  },
-  1: {
-    0: 'B7KveuCb5W4CpDe4SQHdCmokEU8A8wDVEkcEyQJ5Nnyu',
-    1: '2YWUvBHTYBnXhkQnXkYvgMw3gipxc6uJ6rE9Lss9UVWB',
-    2: '6JxNKUf83kF5kUBdWbjC3CD62kkmiY4imvFB38qMxjvs',
-    3: 'AWFMLshwnwamhgfEnDYPUWVMewNswzazWtUaEEnyuh99',
-    4: 'GwFbSCTiy1eusJ9Axk3GqZthvvQZVY715FJzqAnor7bf',
-    5: '4hG6dGqGHGJRcAtHLJsZi3Vat1rgtSyC5zY4XQvfekqC',
-  },
-  2: {
-    0: 'J1QX218Pckm9m2MxWkhdKgdTBieAADzUfThGpCWqRcEu',
-    1: 'GtFJrgxwHBGuBChuuHKq3adda16PT9nuyMfBDaUgmgZ7',
-    2: '3kaUj3THFwbZsZwbJ5DRKnwVmHurZutK5PZ6rUeKYHSG',
-    3: 'GaVaMi5qgds93g5C8egHZzA5T9A2P4rxmGQaFTpTFRtR',
-    4: '5U1yWdhWWyKW1WKf3kse3MwUjXDngQCj7spV8GWvCPcJ',
-    5: '7gziCSpT9kPSodDxqmzCbZrwwm2kmMDGJj1hawohyJyQ',
-  },
-  3: {
-    0: 'FsBwksd1gXb22sX8w36VP3EdA4eFcJCJzXtYXrzhrzKF',
-    1: '54xnBocBr1xKkfTJgY43fU9LJ1SrZ2XeKhnnSFR9RcHb',
-    2: 'ADzMC2fj48AUFCESoQsGED6s4e33Uj7whzfPVfFHumGY',
-    3: 'DMV9b9cKDe4PzehTHYiLg7UZSbCUHyfMgYsY4QGbSQYq',
-    4: '8E3RxPKT8uwgqVtQEFyqM252SAGp9KoehGfL6kqFEju3',
-    5: 'HL42no5PJdQ657nDcr2fSSNAdZZbQAjNMhwxxL3TiQ1d',
-  },
-  4: {
-    0: 'EfvhFZxeptKe7pCrCfXPUZBpeqBHUu97ERsE426WTdVU',
-    1: '2WXL6RUk7qmacdmoYyEW37HHY5wviAKsYvGGP67eWYHt',
-    2: '7zGmgoa37oGncK2SYjxKeBRe7NnbvrZ94LyzEZiJEain',
-    3: '72UYv24V3NWHND8KzGF2bkLWgQ3Hc181L9pL24Bf1iPo',
-    4: 'DAVEtUY4xM4f8MEZutGvXjDTQgfWNmjsn6hhf32xdVJR',
-    5: 'YReA4Xv7PpL6BZokvsiwHZdpcd8bqEf6NjvRW2bX8Cw',
-  },
-  5: {
-    0: 'Bz69BTu8T3zQe3RXiE9D3DuARQ81U8rzCBC1bRPJSPTF',
-    1: '4F6CtKKyWNgqnoSrxFTSReUMChvCmuzCKwBK6Jc3FstJ',
-    2: 'H4FaiGjattjVe8ve9UqEgDT765pjbjGZV77Bv1vZqgUm',
-    3: 'kHtcpyHD2YjvdSnyJPzGA26TGj7D8WJfYJBUSKjK7Xj',
-    4: 'C5FkQjgPi7pezRcAHLaoafdFGW2Kavco8WvCrJ2HBYkM',
-    5: 'Av4QAMBwZKt5bNnfT2mVc8VhWzE2z4JoWW36CsprwRHP',
-  },
-};
+void main() {
+  late final RPCClient rpcClient;
+  late final Wallet source;
+  late final Wallet destination;
+  late SPLToken token;
+
+  setUpAll(() async {
+    final signer = await HDKeyPair.random();
+    rpcClient = RPCClient(_devnetRpcUrl);
+    source = Wallet(signer: signer, rpcClient: rpcClient);
+    destination =
+        Wallet(signer: await HDKeyPair.random(), rpcClient: rpcClient);
+    // Add tokens to the sender
+    await source.airdrop(100 * lamportsPerSol);
+    token = await rpcClient.initializeMint(
+      owner: signer,
+      decimals: 2,
+    );
+  });
+
+  test('Can get lamports', () async {
+    expect(await source.getLamports(), greaterThan(0));
+  });
+
+  test('Can transfer tokens', () async {
+    final signature = await source.transfer(
+      destination: destination.address,
+      lamports: lamportsPerSol,
+    );
+    expect(signature, isNotNull);
+    expect(await destination.getLamports(), equals(lamportsPerSol));
+  });
+
+  test('Can transfer with memo', () async {
+    const memoText = 'Memo test string...';
+
+    final signature = await source.transferWithMemo(
+      destination: destination.address,
+      lamports: 1000,
+      memo: memoText,
+    );
+    expect(signature, isNotNull);
+
+    final result =
+        await rpcClient.getConfirmedTransaction(signature.toString());
+    expect(result, isNotNull);
+    expect(result?.transaction, isNotNull);
+    final transaction = result!.transaction;
+    expect(transaction.message, isNotNull);
+    final txMessage = transaction.message!;
+    expect(txMessage.instructions, isNotNull);
+    final instructions = txMessage.instructions;
+    expect(instructions.length, equals(2));
+    expect(instructions[0], const TypeMatcher<TxSystemInstruction>());
+    expect(instructions[1], const TypeMatcher<TxMemoInstruction>());
+    final memoInstruction = instructions[1] as TxMemoInstruction;
+    expect(memoInstruction.memo, equals(memoText));
+  });
+
+  test('Can get a token balance', () async {
+    final associatedAccount =
+        await token.createAssociatedAccount(funder: source.signer);
+
+    var tokenBalance = await source.getTokenBalance(mint: token.mint);
+    expect(tokenBalance.decimals, equals(token.decimals));
+    expect(tokenBalance.amount, equals('0'));
+    // Add some tokens
+    await token.mintTo(destination: associatedAccount.address, amount: 1000);
+
+    tokenBalance = await source.getTokenBalance(mint: token.mint);
+    expect(tokenBalance.decimals, equals(token.decimals));
+    expect(tokenBalance.amount, equals('1000'));
+  }, timeout: const Timeout(Duration(minutes: 2)));
+}

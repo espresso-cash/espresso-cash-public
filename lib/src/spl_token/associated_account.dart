@@ -5,14 +5,14 @@ import 'package:solana/src/types/json_rpc_response_object.dart';
 part 'associated_account.g.dart';
 
 @JsonSerializable(createToJson: false)
-class AssociatedAccount {
-  AssociatedAccount({
+class AssociatedTokenAccount {
+  AssociatedTokenAccount({
     required this.address,
     required this.account,
   });
 
-  factory AssociatedAccount.fromJson(Map<String, dynamic> json) =>
-      _$AssociatedAccountFromJson(json);
+  factory AssociatedTokenAccount.fromJson(Map<String, dynamic> json) =>
+      _$AssociatedTokenAccountFromJson(json);
 
   @JsonKey(name: 'pubkey')
   final String address;
@@ -20,11 +20,12 @@ class AssociatedAccount {
 }
 
 @JsonSerializable(createToJson: false)
-class AssociatedAccountResponse
-    extends JsonRpcResponse<ValueResponse<List<AssociatedAccount>>> {
-  AssociatedAccountResponse(ValueResponse<List<AssociatedAccount>> result)
+class AssociatedTokenAccountResponse
+    extends JsonRpcResponse<ValueResponse<List<AssociatedTokenAccount>>> {
+  AssociatedTokenAccountResponse(
+      ValueResponse<List<AssociatedTokenAccount>> result)
       : super(result: result);
 
-  factory AssociatedAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociatedAccountResponseFromJson(json);
+  factory AssociatedTokenAccountResponse.fromJson(Map<String, dynamic> json) =>
+      _$AssociatedTokenAccountResponseFromJson(json);
 }

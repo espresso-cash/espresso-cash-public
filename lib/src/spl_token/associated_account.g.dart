@@ -6,20 +6,22 @@ part of 'associated_account.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AssociatedAccount _$AssociatedAccountFromJson(Map<String, dynamic> json) {
-  return AssociatedAccount(
+AssociatedTokenAccount _$AssociatedTokenAccountFromJson(
+    Map<String, dynamic> json) {
+  return AssociatedTokenAccount(
     address: json['pubkey'] as String,
     account: Account.fromJson(json['account'] as Map<String, dynamic>),
   );
 }
 
-AssociatedAccountResponse _$AssociatedAccountResponseFromJson(
+AssociatedTokenAccountResponse _$AssociatedTokenAccountResponseFromJson(
     Map<String, dynamic> json) {
-  return AssociatedAccountResponse(
+  return AssociatedTokenAccountResponse(
     ValueResponse.fromJson(
         json['result'] as Map<String, dynamic>,
         (value) => (value as List<dynamic>)
-            .map((e) => AssociatedAccount.fromJson(e as Map<String, dynamic>))
+            .map((e) =>
+                AssociatedTokenAccount.fromJson(e as Map<String, dynamic>))
             .toList()),
   );
 }

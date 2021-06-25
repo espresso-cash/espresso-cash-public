@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/encoder.dart';
-import 'package:solana/src/signer.dart';
+import 'package:solana/src/hd_keypair.dart';
+import 'package:solana/src/system_program/system_program.dart';
 import 'package:solana/src/types/commitment.dart';
-import 'package:solana/src/types/transaction/instruction.dart';
 import 'package:solana/src/types/transaction/transaction_result.dart';
 import 'package:test/test.dart';
 
@@ -17,17 +17,17 @@ void main() {
 
   group('SolanaClient testsuite', () {
     final RPCClient solanaClient = RPCClient(devnetRpcUrl);
-    late Signer targetWallet;
-    late Signer sourceWallet;
+    late HDKeyPair targetWallet;
+    late HDKeyPair sourceWallet;
     int currentBalance = 0;
 
     setUpAll(() async {
-      targetWallet = await Signer.fromMnemonic(
+      targetWallet = await HDKeyPair.fromMnemonic(
         generateMnemonic(),
       ); // generateMnemonic());
-      sourceWallet = await Signer.fromMnemonic(
+      sourceWallet = await HDKeyPair.fromMnemonic(
         generateMnemonic(),
-        walletIndex: 1,
+        account: 1,
       );
     });
 
@@ -73,13 +73,13 @@ void main() {
         sourceWallet.address,
       );
       expect(accountInfo.lamports, currentBalance);
-      expect(accountInfo.owner, SystemProgram.id);
+      expect(accountInfo.owner, SystemProgram.programId);
       expect(accountInfo.executable, false);
     });
 
     test('Can simulate a transfer', () async {
       final recentBlockhash = await solanaClient.getRecentBlockhash();
-      final message = Message.transfer(
+      final message = SystemProgram.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
         lamports: _transferredAmount,
@@ -95,7 +95,7 @@ void main() {
 
     test('Can transfer tokens', () async {
       final recentBlockhash = await solanaClient.getRecentBlockhash();
-      final message = Message.transfer(
+      final message = SystemProgram.transfer(
         source: sourceWallet.address,
         destination: targetWallet.address,
         lamports: _transferredAmount,
@@ -120,7 +120,7 @@ void main() {
 
     test('Can transfer to the same address', () async {
       final recentBlockhash = await solanaClient.getRecentBlockhash();
-      final message = Message.transfer(
+      final message = SystemProgram.transfer(
         source: sourceWallet.address,
         destination: sourceWallet.address,
         lamports: _transferredAmount,
@@ -142,49 +142,6 @@ void main() {
       );
     });
 
-    test('Can transfer with memo', () async {
-      const memoText = 'Memo test string...';
-      final recentBlockhash = await solanaClient.getRecentBlockhash();
-
-      final message = Message.transfer(
-        source: sourceWallet.address,
-        destination: targetWallet.address,
-        lamports: _transferredAmount,
-        memo: memoText,
-      );
-      final SignedTx signedTx = await sourceWallet.signMessage(
-        message: message,
-        recentBlockhash: recentBlockhash,
-      );
-      final TxSignature signature = await solanaClient.sendTransaction(
-        signedTx,
-      );
-      expect(signature, isNot(null));
-
-      await expectLater(
-        solanaClient.waitForSignatureStatus(
-          signature,
-          Commitment.finalized,
-        ),
-        completes,
-      );
-
-      final result =
-          await solanaClient.getConfirmedTransaction(signature.toString());
-      expect(result, isNot(null));
-      expect(result?.transaction, isNot(null));
-      final transaction = result!.transaction;
-      expect(transaction.message, isNot(null));
-      final txMessage = transaction.message!;
-      expect(txMessage.instructions, isNot(null));
-      final instructions = txMessage.instructions;
-      expect(instructions.length, equals(2));
-      expect(instructions[0], const TypeMatcher<TxSystemInstruction>());
-      expect(instructions[1], const TypeMatcher<TxMemoInstruction>());
-      final memoInstruction = instructions[1] as TxMemoInstruction;
-      expect(memoInstruction.memo, equals(memoText));
-    });
-
     test('Can list recent transactions', () async {
       final txs = await solanaClient.getTransactionsList(sourceWallet.address);
       expect(txs, isNot(null));
@@ -196,10 +153,10 @@ void main() {
 
   group('Test commitment', () {
     final RPCClient solanaClient = RPCClient(devnetRpcUrl);
-    late Signer wallet;
+    late HDKeyPair wallet;
 
     setUp(() async {
-      wallet = await Signer.fromMnemonic(generateMnemonic());
+      wallet = await HDKeyPair.fromMnemonic(generateMnemonic());
     });
 
     test('Balance is not updated until tx is finalized', () async {
