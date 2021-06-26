@@ -1,27 +1,49 @@
 part of 'encoder.dart';
 
 const int _bitsPerByte = 8;
-const int _hexCharsPerByte = 2;
 
-// TODO(IA): we probably need unsigned versions of integers as well
 class Buffer extends ByteArray {
   const Buffer._(this._data) : super();
-
-  factory Buffer._fromIterable(ByteArray iterable) =>
-      Buffer._([for (int i in iterable) i]);
 
   factory Buffer._fromIntWithBitSize(
     int value, {
     required int bitSize,
-    bool? unsigned,
+    bool unsigned = false,
   }) {
-    final String padded = value.toRadixString(16).padLeft(
-          _hexCharsPerByte * bitSize ~/ _bitsPerByte,
-          '0',
-        );
-    final List<int> be = hex.decode(padded);
-    // Convert to LE
-    return Buffer._fromIterable(be.reversed);
+    final data = ByteData(bitSize ~/ _bitsPerByte);
+    switch (bitSize) {
+      case 8:
+        if (unsigned) {
+          data.setUint8(0, value);
+        } else {
+          data.setInt8(0, value);
+        }
+        break;
+      case 16:
+        if (unsigned) {
+          data.setUint16(0, value, Endian.little);
+        } else {
+          data.setInt16(0, value, Endian.little);
+        }
+        break;
+      case 32:
+        if (unsigned) {
+          data.setUint32(0, value, Endian.little);
+        } else {
+          data.setInt32(0, value, Endian.little);
+        }
+        break;
+      case 64:
+        if (unsigned) {
+          data.setUint64(0, value, Endian.little);
+        } else {
+          data.setInt64(0, value, Endian.little);
+        }
+        break;
+      default:
+        throw FormatException('invalid bit size $bitSize');
+    }
+    return Buffer._(Uint8List.view(data.buffer));
   }
 
   factory Buffer.fromUint8(int value) =>
@@ -42,7 +64,7 @@ class Buffer extends ByteArray {
   factory Buffer.fromInt64(int value) =>
       Buffer._fromIntWithBitSize(value, bitSize: 64);
 
-  factory Buffer.fromString(String string) => Buffer._(utf8.encode(string));
+  Buffer.fromString(String string) : _data = utf8.encode(string);
 
   Buffer.fromConcatenatedByteArrays(Iterable<ByteArray> byteArrays)
       : _data = byteArrays.fold(
@@ -52,7 +74,7 @@ class Buffer extends ByteArray {
 
   Buffer.fromBase58(String base58String) : _data = base58.decode(base58String);
 
-  final ByteArray _data;
+  final Iterable<int> _data;
 
   @override
   Iterator<int> get iterator => _data.iterator;

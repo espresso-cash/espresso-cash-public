@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
-import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart' as crypto;
 import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
