@@ -78,81 +78,151 @@ ConfirmedTransactionResponse _$ConfirmedTransactionResponseFromJson(
   );
 }
 
-_$TxSystemInstruction _$_$TxSystemInstructionFromJson(
+_$ParsedInstructionSystem _$_$ParsedInstructionSystemFromJson(
     Map<String, dynamic> json) {
-  return _$TxSystemInstruction(
+  return _$ParsedInstructionSystem(
     programId: json['programId'] as String,
-    parsed: SystemInstruction.fromJson(json['parsed'] as Map<String, dynamic>),
+    parsed: ParsedSystemInstruction.fromJson(
+        json['parsed'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$_$TxSystemInstructionToJson(
-        _$TxSystemInstruction instance) =>
+Map<String, dynamic> _$_$ParsedInstructionSystemToJson(
+        _$ParsedInstructionSystem instance) =>
     <String, dynamic>{
       'programId': instance.programId,
       'parsed': instance.parsed,
     };
 
-_$TxMemoInstruction _$_$TxMemoInstructionFromJson(Map<String, dynamic> json) {
-  return _$TxMemoInstruction(
+_$ParsedInstructionSplToken _$_$ParsedInstructionSplTokenFromJson(
+    Map<String, dynamic> json) {
+  return _$ParsedInstructionSplToken(
+    parsed: ParsedSplTokenInstruction.fromJson(
+        json['parsed'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$_$ParsedInstructionSplTokenToJson(
+        _$ParsedInstructionSplToken instance) =>
+    <String, dynamic>{
+      'parsed': instance.parsed,
+    };
+
+_$ParsedInstructionMemo _$_$ParsedInstructionMemoFromJson(
+    Map<String, dynamic> json) {
+  return _$ParsedInstructionMemo(
     memo: json['parsed'] as String?,
   );
 }
 
-Map<String, dynamic> _$_$TxMemoInstructionToJson(
-        _$TxMemoInstruction instance) =>
+Map<String, dynamic> _$_$ParsedInstructionMemoToJson(
+        _$ParsedInstructionMemo instance) =>
     <String, dynamic>{
       'parsed': instance.memo,
     };
 
-_$TxUnsupportedInstruction _$_$TxUnsupportedInstructionFromJson(
+_$ParsedInstructionUnsupported _$_$ParsedInstructionUnsupportedFromJson(
     Map<String, dynamic> json) {
-  return _$TxUnsupportedInstruction(
+  return _$ParsedInstructionUnsupported(
     program: json['program'] as String,
   );
 }
 
-Map<String, dynamic> _$_$TxUnsupportedInstructionToJson(
-        _$TxUnsupportedInstruction instance) =>
+Map<String, dynamic> _$_$ParsedInstructionUnsupportedToJson(
+        _$ParsedInstructionUnsupported instance) =>
     <String, dynamic>{
       'program': instance.program,
     };
 
-_$TxSystemInstructionTransfer _$_$TxSystemInstructionTransferFromJson(
-    Map<String, dynamic> json) {
-  return _$TxSystemInstructionTransfer(
-    info: TransferInfo.fromJson(json['info'] as Map<String, dynamic>),
-  );
-}
-
-Map<String, dynamic> _$_$TxSystemInstructionTransferToJson(
-        _$TxSystemInstructionTransfer instance) =>
-    <String, dynamic>{
-      'info': instance.info,
-    };
-
-_$TxSystemInstructionUnsupported _$_$TxSystemInstructionUnsupportedFromJson(
-    Map<String, dynamic> json) {
-  return _$TxSystemInstructionUnsupported(
+_$ParsedSplTokenTransferInstruction
+    _$_$ParsedSplTokenTransferInstructionFromJson(Map<String, dynamic> json) {
+  return _$ParsedSplTokenTransferInstruction(
+    info: ParsedSplTokenTransferInformation.fromJson(
+        json['info'] as Map<String, dynamic>),
     type: json['type'] as String,
   );
 }
 
-Map<String, dynamic> _$_$TxSystemInstructionUnsupportedToJson(
-        _$TxSystemInstructionUnsupported instance) =>
+Map<String, dynamic> _$_$ParsedSplTokenTransferInstructionToJson(
+        _$ParsedSplTokenTransferInstruction instance) =>
+    <String, dynamic>{
+      'info': instance.info,
+      'type': instance.type,
+    };
+
+_$ParsedSplTokenUnsupportedInstruction
+    _$_$ParsedSplTokenUnsupportedInstructionFromJson(
+        Map<String, dynamic> json) {
+  return _$ParsedSplTokenUnsupportedInstruction(
+    type: json['type'] as String,
+  );
+}
+
+Map<String, dynamic> _$_$ParsedSplTokenUnsupportedInstructionToJson(
+        _$ParsedSplTokenUnsupportedInstruction instance) =>
     <String, dynamic>{
       'type': instance.type,
     };
 
-_$_TransferInfo _$_$_TransferInfoFromJson(Map<String, dynamic> json) {
-  return _$_TransferInfo(
+_$_ParsedSplTokenTransferInformation
+    _$_$_ParsedSplTokenTransferInformationFromJson(Map<String, dynamic> json) {
+  return _$_ParsedSplTokenTransferInformation(
+    amount: json['amount'] as String,
+    authority: json['authority'] as String,
+    source: json['source'] as String,
+    destination: json['destination'] as String,
+  );
+}
+
+Map<String, dynamic> _$_$_ParsedSplTokenTransferInformationToJson(
+        _$_ParsedSplTokenTransferInformation instance) =>
+    <String, dynamic>{
+      'amount': instance.amount,
+      'authority': instance.authority,
+      'source': instance.source,
+      'destination': instance.destination,
+    };
+
+_$ParsedSystemTransferInstruction _$_$ParsedSystemTransferInstructionFromJson(
+    Map<String, dynamic> json) {
+  return _$ParsedSystemTransferInstruction(
+    info: ParsedSystemTransferInformation.fromJson(
+        json['info'] as Map<String, dynamic>),
+    type: json['type'] as String,
+  );
+}
+
+Map<String, dynamic> _$_$ParsedSystemTransferInstructionToJson(
+        _$ParsedSystemTransferInstruction instance) =>
+    <String, dynamic>{
+      'info': instance.info,
+      'type': instance.type,
+    };
+
+_$ParsedSystemUnsupportedInstruction
+    _$_$ParsedSystemUnsupportedInstructionFromJson(Map<String, dynamic> json) {
+  return _$ParsedSystemUnsupportedInstruction(
+    type: json['type'] as String,
+  );
+}
+
+Map<String, dynamic> _$_$ParsedSystemUnsupportedInstructionToJson(
+        _$ParsedSystemUnsupportedInstruction instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+    };
+
+_$_ParsedSystemTransferInformation _$_$_ParsedSystemTransferInformationFromJson(
+    Map<String, dynamic> json) {
+  return _$_ParsedSystemTransferInformation(
     lamports: json['lamports'] as int,
     source: json['source'] as String,
     destination: json['destination'] as String,
   );
 }
 
-Map<String, dynamic> _$_$_TransferInfoToJson(_$_TransferInfo instance) =>
+Map<String, dynamic> _$_$_ParsedSystemTransferInformationToJson(
+        _$_ParsedSystemTransferInformation instance) =>
     <String, dynamic>{
       'lamports': instance.lamports,
       'source': instance.source,
@@ -191,7 +261,7 @@ TxMessage _$TxMessageFromJson(Map<String, dynamic> json) {
         .toList(),
     recentBlockhash: json['recentBlockhash'] as String,
     instructions: (json['instructions'] as List<dynamic>)
-        .map((e) => TxInstruction.fromJson(e as Map<String, dynamic>))
+        .map((e) => ParsedInstruction.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

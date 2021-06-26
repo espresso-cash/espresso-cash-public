@@ -70,9 +70,16 @@ void main() {
     expect(txMessage.instructions, isNotNull);
     final instructions = txMessage.instructions;
     expect(instructions.length, equals(2));
-    expect(instructions[0], const TypeMatcher<TxSystemInstruction>());
-    expect(instructions[1], const TypeMatcher<TxMemoInstruction>());
-    final memoInstruction = instructions[1] as TxMemoInstruction;
+    expect(instructions[0], const TypeMatcher<ParsedInstructionSystem>());
+    final parsedInstructionSystem = instructions[0] as ParsedInstructionSystem;
+    expect(
+        parsedInstructionSystem.parsed, isA<ParsedSystemTransferInstruction>());
+    final parsedTransferInstruction =
+        parsedInstructionSystem.parsed as ParsedSystemTransferInstruction;
+    expect(parsedTransferInstruction.info.lamports,
+        equals(_lamportsTransferAmount));
+    expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
+    final memoInstruction = instructions[1] as ParsedInstructionMemo;
     expect(memoInstruction.memo, equals(memoText));
   });
 
@@ -160,6 +167,7 @@ void main() {
       signer: await HDKeyPair.random(),
       rpcClient: rpcClient,
     );
+    // Create the associated account for the recipient
     await wallet.createAssociatedTokenAccount(
       mint: token.mint,
       funder: source,
@@ -184,10 +192,19 @@ void main() {
     expect(txMessage.instructions, isNotNull);
     final instructions = txMessage.instructions;
     expect(instructions.length, equals(2));
-    expect(instructions[0], const TypeMatcher<TxUnsupportedInstruction>());
-    expect(instructions[1], const TypeMatcher<TxMemoInstruction>());
-    final memoInstruction = instructions[1] as TxMemoInstruction;
+    expect(instructions[0], const TypeMatcher<ParsedInstructionSplToken>());
+    expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
+    final memoInstruction = instructions[1] as ParsedInstructionMemo;
     expect(memoInstruction.memo, equals(memoText));
+    final splTokenInstruction = instructions[0] as ParsedInstructionSplToken;
+    expect(
+        splTokenInstruction.parsed, isA<ParsedSplTokenTransferInstruction>());
+    final parsedSplTokenInstruction =
+        splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
+    expect(parsedSplTokenInstruction.type, equals('transfer'));
+    expect(parsedSplTokenInstruction.info,
+        isA<ParsedSplTokenTransferInformation>());
+    expect(parsedSplTokenInstruction.info.amount, '40');
     final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
     expect(tokenBalance.amount, equals('40'));
   }, timeout: const Timeout(Duration(minutes: 2)));

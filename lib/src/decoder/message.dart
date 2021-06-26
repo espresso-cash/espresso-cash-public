@@ -17,5 +17,5 @@ class TxMessage {
   final List<AccountKey> accountKeys;
   final TxMessageHeader? header;
   final String recentBlockhash;
-  final List<TxInstruction> instructions;
+  final List<ParsedInstruction> instructions;
 }

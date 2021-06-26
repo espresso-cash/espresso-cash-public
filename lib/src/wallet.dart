@@ -1,5 +1,6 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/decoder/decoder.dart' hide SystemInstruction;
+import 'package:solana/src/decoder/decoder.dart'
+    hide SystemInstruction, MemoInstruction;
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/hd_keypair.dart';
