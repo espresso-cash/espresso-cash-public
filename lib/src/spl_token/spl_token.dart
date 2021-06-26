@@ -1,19 +1,21 @@
 library spl_token;
 
+import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
+import 'package:solana/src/decoder/decoder.dart';
 import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/hd_keypair.dart';
 import 'package:solana/src/rpc_client.dart';
-import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/token_program/token_program.dart';
-import 'package:solana/src/types/account.dart';
-import 'package:solana/src/types/commitment.dart';
-import 'package:solana/src/types/signature_status.dart';
-import 'package:solana/src/types/tx_signature.dart';
 import 'package:solana/src/utils.dart';
 
+part 'associated_account.dart';
 part 'rpc_extensions.dart';
+part 'spl_token.g.dart';
+part 'token_amount.dart';
 part 'token_program.dart';
+part 'token_supply.dart';
 
 /// Represents a SPL token program
 class SplToken {
@@ -78,18 +80,14 @@ class SplToken {
     final sourceATA = await getAssociatedAccountsFor(owner: source);
 
     if (sourceATA.isEmpty) {
-      throw FormatException(
-        'there are no associated token accounts for source: $source',
-      );
+      throw NoAssociatedTokenAccountException(source, mint);
     }
 
     // A recipient needs an associated account as well
     final destinationATA = await getAssociatedAccountsFor(owner: destination);
 
     if (destinationATA.isEmpty) {
-      throw FormatException(
-        'there are no associated token accounts for destination: $destination',
-      );
+      throw NoAssociatedTokenAccountException(destination, mint);
     }
 
     final message = TokenProgram.transfer(

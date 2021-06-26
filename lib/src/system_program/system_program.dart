@@ -1,7 +1,7 @@
 library system_program;
 
+import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/encoder.dart';
-import 'package:solana/src/types/byte_array.dart';
 
 part 'system_instruction.dart';
 

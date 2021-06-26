@@ -5,7 +5,7 @@ import 'package:solana/src/utils.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Can generate associated token account address', () async {
+  test('Generate associated token account address', () async {
     for (final entry in _map.entries) {
       final address = await Utils.findProgramAddress(
         seeds: [

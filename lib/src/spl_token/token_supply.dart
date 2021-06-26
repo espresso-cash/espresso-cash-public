@@ -1,7 +1,4 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/types/json_rpc_response_object.dart';
-
-part 'token_supply.g.dart';
+part of 'spl_token.dart';
 
 @JsonSerializable(createToJson: false)
 class TokenSupply {

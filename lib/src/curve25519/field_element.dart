@@ -92,7 +92,7 @@ class _FieldElement {
       _FieldElement._fromConstList([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   static const _FieldElement one =
       _FieldElement._fromConstList([1, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-  static const _FieldElement minusOne =
+  static const _FieldElement minusOne = // ignore: unused_field
       _FieldElement._fromConstList([-1, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   final List<int> _t;
 

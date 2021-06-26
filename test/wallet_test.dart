@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:solana/solana.dart';
+import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/hd_keypair.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/wallet.dart';
@@ -29,11 +30,11 @@ void main() {
     );
   });
 
-  test('Can get lamports', () async {
+  test('Get wallet lamports', () async {
     expect(await source.getLamports(), greaterThan(0));
   });
 
-  test('Can transfer tokens', () async {
+  test('Transfer SOL', () async {
     final signature = await source.transfer(
       destination: destination.address,
       lamports: lamportsPerSol,
@@ -42,7 +43,7 @@ void main() {
     expect(await destination.getLamports(), equals(lamportsPerSol));
   });
 
-  test('Can transfer with memo', () async {
+  test('Transfer SOL with memo', () async {
     const memoText = 'Memo test string...';
 
     final signature = await source.transferWithMemo(
@@ -68,17 +69,24 @@ void main() {
     expect(memoInstruction.memo, equals(memoText));
   });
 
-  test('Can load a token into a wallet', () async {
+  test('Throws exception when token is not loaded', () {
+    expect(
+      () => source.getTokenBalance(mint: token.mint),
+      throwsA(isA<BadStateException>()),
+    );
+  });
+
+  test('Load a token into a wallet', () async {
     final wallet = Wallet(
       signer: await HDKeyPair.random(),
       rpcClient: rpcClient,
     );
-    await wallet.loadToken(mint: token.mint);
+    await wallet.addSplToken(mint: token.mint);
     expect(wallet.hasAssociatedTokenAccount(mint: token.mint), equals(false));
   });
 
-  test('Can get a token balance', () async {
-    await source.loadToken(mint: token.mint);
+  test('Get a token balance', () async {
+    await source.addSplToken(mint: token.mint);
     expect(source.hasAssociatedTokenAccount(mint: token.mint), equals(false));
 
     await source.createAssociatedTokenAccount(mint: token.mint);
@@ -94,5 +102,36 @@ void main() {
     tokenBalance = await source.getTokenBalance(mint: token.mint);
     expect(tokenBalance.decimals, equals(token.decimals));
     expect(tokenBalance.amount, equals('1000'));
+  }, timeout: const Timeout(Duration(minutes: 2)));
+
+  test('Fails SPL transfer if recipient has no associated token account',
+      () async {
+    final wallet = Wallet(
+      signer: await HDKeyPair.random(),
+      rpcClient: rpcClient,
+    );
+    await wallet.addSplToken(mint: token.mint);
+    expect(
+      source.transferSplToken(
+        destination: wallet.address,
+        amount: 100,
+        mint: token.mint,
+      ),
+      throwsA(isA<NoAssociatedTokenAccountException>()),
+    );
+  });
+
+  test('Transfer SPL successfully', () async {
+    await destination.addSplToken(mint: token.mint);
+    await destination.createAssociatedTokenAccount(mint: token.mint);
+    final signature = await source.transferSplToken(
+      destination: destination.address,
+      amount: 100,
+      mint: token.mint,
+    );
+    expect(signature, isNotNull);
+
+    final tokenBalance = await destination.getTokenBalance(mint: token.mint);
+    expect(tokenBalance.amount, equals('100'));
   }, timeout: const Timeout(Duration(minutes: 2)));
 }

@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:solana/solana.dart';
+import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/hd_keypair.dart';
-import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
-import 'package:solana/src/spl_token/token_supply.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
@@ -23,7 +22,7 @@ void main() {
       await airdrop(client, owner, sol: 100);
     });
 
-    test('Can create a new mint', () async {
+    test('Create a new mint', () async {
       final token = await client.initializeMint(
         owner: owner,
         decimals: 2,
@@ -35,7 +34,7 @@ void main() {
       newTokenMint = token.mint;
     });
 
-    test('Can create an account with', () async {
+    test(' create an account with', () async {
       final creator = await HDKeyPair.random();
       final account = await HDKeyPair.random();
       await airdrop(client, creator, sol: 100);
@@ -49,7 +48,7 @@ void main() {
       );
     }, timeout: const Timeout(Duration(minutes: 2)));
 
-    test('Can create an associated token account', () async {
+    test('Create an associated token account', () async {
       final token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
@@ -74,7 +73,7 @@ void main() {
       );
     });
 
-    test('Can mint the newly created token and account', () async {
+    test('Mint the newly created token and account', () async {
       var token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
@@ -95,7 +94,7 @@ void main() {
       expect(token.decimals, equals(2));
     });
 
-    test('Can get spl_token supply', () async {
+    test('Get spl_token supply', () async {
       final TokenSupplyResult supplyResult = await client.getTokenSupply(
         newTokenMint,
       );
@@ -104,8 +103,7 @@ void main() {
       expect(int.parse(tokenSupply.amount), equals(_totalSupply));
     });
 
-    test('Can transfer tokens succeeds when associated accounts exist',
-        () async {
+    test('Transfer tokens succeeds when associated accounts exist', () async {
       final recipient = await HDKeyPair.random();
       final token = await SplToken.readWrite(
         owner: owner,
@@ -149,7 +147,7 @@ void main() {
           amount: 100,
           owner: owner,
         ),
-        throwsFormatException,
+        throwsA(isA<NoAssociatedTokenAccountException>()),
       );
     });
 
@@ -170,7 +168,7 @@ void main() {
           amount: 100,
           owner: owner,
         ),
-        throwsFormatException,
+        throwsA(isA<NoAssociatedTokenAccountException>()),
       );
     });
   });

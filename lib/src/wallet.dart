@@ -1,12 +1,10 @@
 import 'package:solana/solana.dart';
+import 'package:solana/src/decoder/decoder.dart' hide SystemInstruction;
 import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/hd_keypair.dart';
-import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
-import 'package:solana/src/spl_token/token_amount.dart';
 import 'package:solana/src/system_program/system_program.dart';
-import 'package:solana/src/types/signature_status.dart';
-import 'package:solana/src/types/tx_signature.dart';
 
 /// Convenient object for common operations
 class Wallet {
@@ -44,7 +42,7 @@ class Wallet {
   }
 
   /// Loads the [mint] token into the tokens list
-  Future<_TokenInfo> loadToken({required String mint}) async {
+  Future<void> addSplToken({required String mint}) async {
     late final _TokenInfo tokenInfo;
     if (_tokens.containsKey(mint)) {
       throw const FormatException('token already added to this wallet');
@@ -81,7 +79,6 @@ class Wallet {
       }
     }
     _tokens[mint] = tokenInfo;
-    return tokenInfo;
   }
 
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
@@ -132,6 +129,11 @@ class Wallet {
       );
 
   /// Request airdrop for [amount] to this wallet's account.
+  ///
+  /// For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TxSignature> requestAirdrop(
     int amount, {
     Commitment? commitment,
@@ -149,7 +151,14 @@ class Wallet {
     return signature;
   }
 
-  Future<TxSignature>? transferToken({
+  /// Transfers [amount] SPL token with [mint] from this wallet to the
+  /// [destination address.
+  ///
+  /// For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<TxSignature>? transferSplToken({
     required String mint,
     required String destination,
     required int amount,
@@ -159,7 +168,7 @@ class Wallet {
       throw const FormatException(
           'this wallet has no associated token account');
     }
-    final tokenInfo = getTokenInfoOrThrow(mint);
+    final tokenInfo = _getTokenInfoOrThrow(mint);
     final token = tokenInfo.token;
 
     return token.transfer(
@@ -170,10 +179,17 @@ class Wallet {
     );
   }
 
+  /// Create the account associated to the SPL token [mint] for this wallet.
+  ///
+  /// For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<AssociatedTokenAccount> createAssociatedTokenAccount({
     required String mint,
+    Commitment? commitment,
   }) async {
-    final tokenInfo = getTokenInfoOrThrow(mint);
+    final tokenInfo = _getTokenInfoOrThrow(mint);
     final token = tokenInfo.token;
     final associatedTokenAccount = await token.createAssociatedAccount(
       funder: signer,
@@ -186,6 +202,7 @@ class Wallet {
     return associatedTokenAccount;
   }
 
+  /// Whether this wallet has an associated token account for the SPL token [mint].
   bool hasAssociatedTokenAccount({
     required String mint,
   }) {
@@ -196,10 +213,14 @@ class Wallet {
     return tokenInfo.hasAssociatedAccount;
   }
 
+  /// Get the account associated to the SPL token [mint] for this wallet.
+  ///
+  /// Note: this method always returns the address because it is computed
+  /// when the [Wallet.loadToken()] method is called
   String getAssociatedTokenAccountAddress({
     required String mint,
   }) {
-    final tokenInfo = getTokenInfoOrThrow(mint);
+    final tokenInfo = _getTokenInfoOrThrow(mint);
     return tokenInfo.associatedAddress;
   }
 
@@ -213,8 +234,7 @@ class Wallet {
     required String mint,
     Commitment? commitment,
   }) async {
-    final tokenInfo = getTokenInfoOrThrow(mint);
-    final token = tokenInfo.token;
+    final tokenInfo = _getTokenInfoOrThrow(mint);
     return _rpcClient.getTokenAccountBalance(
       associatedTokenAccountAddress: tokenInfo.associatedAddress,
       commitment: commitment,
@@ -230,19 +250,22 @@ class Wallet {
   Future<int> getLamports({Commitment? commitment}) =>
       _rpcClient.getBalance(address, commitment: commitment);
 
-  _TokenInfo getTokenInfoOrThrow(String mint) {
+  _TokenInfo _getTokenInfoOrThrow(String mint) {
     final tokenInfo = _tokens[mint];
     if (tokenInfo == null) {
-      throw StateError('invalid state, token info must exist at this point');
+      throw BadStateException('token $mint was not added to this wallet.');
     }
     return tokenInfo;
   }
 
+  /// The address associated to this wallet
   String get address => signer.address;
 
+  /// The [signer] associated to this wallet. This is exported
+  /// because it can be needed in some places.
   final HDKeyPair signer;
-  final RPCClient _rpcClient;
 
+  final RPCClient _rpcClient;
   final Map<String, _TokenInfo> _tokens;
 }
 

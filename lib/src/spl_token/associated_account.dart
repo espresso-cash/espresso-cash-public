@@ -1,8 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/src/types/account.dart';
-import 'package:solana/src/types/json_rpc_response_object.dart';
-
-part 'associated_account.g.dart';
+part of 'spl_token.dart';
 
 @JsonSerializable(createToJson: false)
 class AssociatedTokenAccount {

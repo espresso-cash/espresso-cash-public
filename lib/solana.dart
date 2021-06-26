@@ -1,27 +1,30 @@
-export 'src/encoder/encoder.dart'
-    show Instruction, CompiledInstruction, Message, SignedTx;
-export 'src/memo_program/memo_program.dart' show MemoProgram, MemoInstruction;
-export 'src/rpc_client.dart';
-export 'src/spl_token/spl_token.dart' show SplToken, TokenProgram;
-export 'src/system_program/system_program.dart'
-    show SystemProgram, SystemInstruction;
-export 'src/types/account.dart' show Account;
-export 'src/types/blockhash.dart' show Blockhash;
-export 'src/types/commitment.dart';
-export 'src/types/confirmed_signature.dart' show ConfirmedSignature;
-export 'src/types/fee_calculator.dart' show FeeCalculator;
-export 'src/types/signature_status.dart' show SignatureStatus;
-export 'src/types/simulate_tx_result.dart' show SimulateTxResult;
-export 'src/types/transaction/instruction.dart'
+export 'src/decoder/decoder.dart'
     show
         TxSystemInstruction,
         TxSystemInstructionTransfer,
         TxMemoInstruction,
-        TxSystemInstructionUnsupported;
-export 'src/types/transaction/message.dart' show TxMessage;
-export 'src/types/transaction/meta.dart' show Meta;
-export 'src/types/transaction/transaction.dart' show Transaction;
-export 'src/types/tx_signature.dart' show TxSignature;
+        TxSystemInstructionUnsupported,
+        TxMessage,
+        Meta,
+        Transaction,
+        Commitment,
+        Account,
+        Blockhash,
+        ConfirmedSignature,
+        FeeCalculator,
+        SignatureStatus,
+        SimulateTxResult,
+        TxSignature;
+export 'src/encoder/encoder.dart'
+    show Instruction, CompiledInstruction, Message, SignedTx;
+export 'src/memo_program/memo_program.dart' show MemoProgram, MemoInstruction;
+export 'src/memo_program/memo_program.dart' show MemoProgram, MemoInstruction;
+export 'src/rpc_client.dart';
+export 'src/spl_token/spl_token.dart' show SplToken;
+export 'src/system_program/system_program.dart'
+    show SystemProgram, SystemInstruction;
+export 'src/token_program/token_program.dart'
+    show TokenProgram, TokenInstruction;
 export 'src/utils.dart' show Utils;
 
 const int lamportsPerSol = 1000000000;
