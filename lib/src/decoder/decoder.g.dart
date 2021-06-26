@@ -105,15 +105,15 @@ Map<String, dynamic> _$_$TxMemoInstructionToJson(
       'parsed': instance.memo,
     };
 
-_$_TxUnsupportedInstruction _$_$_TxUnsupportedInstructionFromJson(
+_$TxUnsupportedInstruction _$_$TxUnsupportedInstructionFromJson(
     Map<String, dynamic> json) {
-  return _$_TxUnsupportedInstruction(
+  return _$TxUnsupportedInstruction(
     program: json['program'] as String,
   );
 }
 
-Map<String, dynamic> _$_$_TxUnsupportedInstructionToJson(
-        _$_TxUnsupportedInstruction instance) =>
+Map<String, dynamic> _$_$TxUnsupportedInstructionToJson(
+        _$TxUnsupportedInstruction instance) =>
     <String, dynamic>{
       'program': instance.program,
     };

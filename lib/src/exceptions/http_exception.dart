@@ -1,7 +1,7 @@
 part of 'exceptions.dart';
 
 class HttpError implements Exception {
-  HttpError(this._code, this._message);
+  const HttpError(this._code, this._message);
 
   final int _code;
   final String _message;

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/decoder/decoder.dart';
@@ -8,23 +6,22 @@ import 'package:solana/src/hd_keypair.dart';
 import 'package:solana/src/system_program/system_program.dart';
 import 'package:test/test.dart';
 
+import 'config.dart';
+
 const int _transferredAmount = 0x1000;
 
 void main() {
-  final devnetRpcUrl =
-      Platform.environment['DEVNET_RPC_URL'] ?? 'http://127.0.0.1:8899';
-
   group('SolanaClient testsuite', () {
-    final RPCClient solanaClient = RPCClient(devnetRpcUrl);
-    late HDKeyPair targetWallet;
-    late HDKeyPair sourceWallet;
+    final RPCClient rpcClient = RPCClient(devnetRpcUrl);
+    late HDKeyPair destination;
+    late HDKeyPair source;
     int currentBalance = 0;
 
     setUpAll(() async {
-      targetWallet = await HDKeyPair.fromMnemonic(
+      destination = await HDKeyPair.fromMnemonic(
         generateMnemonic(),
       ); // generateMnemonic());
-      sourceWallet = await HDKeyPair.fromMnemonic(
+      source = await HDKeyPair.fromMnemonic(
         generateMnemonic(),
         account: 1,
       );
@@ -32,19 +29,19 @@ void main() {
 
     test('Call requestAirdrop and add SOL to an account works', () async {
       const int addedBalance = 100 * lamportsPerSol;
-      final TxSignature signature = await solanaClient.requestAirdrop(
-        sourceWallet.address,
-        addedBalance,
+      final TxSignature signature = await rpcClient.requestAirdrop(
+        address: source.address,
+        lamports: addedBalance,
       );
       expect(signature, isNot(null));
       await expectLater(
-        solanaClient.waitForSignatureStatus(
+        rpcClient.waitForSignatureStatus(
           signature,
           Commitment.finalized,
         ),
         completes,
       );
-      final int balance = await solanaClient.getBalance(sourceWallet.address);
+      final int balance = await rpcClient.getBalance(source.address);
       // Update the global balance
       currentBalance += addedBalance;
       // Check that it matches
@@ -52,7 +49,7 @@ void main() {
     });
 
     test('Read the recent blockhash', () async {
-      final Blockhash blockHash = await solanaClient.getRecentBlockhash();
+      final Blockhash blockHash = await rpcClient.getRecentBlockhash();
       expect(blockHash, isNot(null));
       expect(blockHash.blockhash, isNot(null));
       expect(blockHash.blockhash, isNot(''));
@@ -61,15 +58,15 @@ void main() {
     });
 
     test('Read the balance of an account', () async {
-      final int balance = await solanaClient.getBalance(
-        sourceWallet.address,
+      final int balance = await rpcClient.getBalance(
+        source.address,
       );
       expect(balance, currentBalance);
     });
 
     test('Get all the account information of an account', () async {
-      final Account accountInfo = await solanaClient.getAccountInfo(
-        sourceWallet.address,
+      final Account accountInfo = await rpcClient.getAccountInfo(
+        source.address,
       );
       expect(accountInfo.lamports, currentBalance);
       expect(accountInfo.owner, SystemProgram.programId);
@@ -77,63 +74,61 @@ void main() {
     });
 
     test('Simulate a transfer', () async {
-      final recentBlockhash = await solanaClient.getRecentBlockhash();
+      final recentBlockhash = await rpcClient.getRecentBlockhash();
       final message = SystemProgram.transfer(
-        source: sourceWallet.address,
-        destination: targetWallet.address,
+        source: source.address,
+        destination: destination.address,
         lamports: _transferredAmount,
       );
-      final SignedTx signedTx = await sourceWallet.signMessage(
+      final SignedTx signedTx = await source.signMessage(
         message: message,
         recentBlockhash: recentBlockhash,
       );
       final SimulateTxResult transferResult =
-          await solanaClient.simulateTransaction(signedTx);
+          await rpcClient.simulateTransaction(signedTx);
       expect(transferResult.err, null);
     });
 
     test('Transfer SOL', () async {
-      final recentBlockhash = await solanaClient.getRecentBlockhash();
+      final recentBlockhash = await rpcClient.getRecentBlockhash();
       final message = SystemProgram.transfer(
-        source: sourceWallet.address,
-        destination: targetWallet.address,
+        source: source.address,
+        destination: destination.address,
         lamports: _transferredAmount,
       );
-      final SignedTx signedTx = await sourceWallet.signMessage(
+      final SignedTx signedTx = await source.signMessage(
         message: message,
         recentBlockhash: recentBlockhash,
       );
-      final TxSignature signature =
-          await solanaClient.sendTransaction(signedTx);
+      final TxSignature signature = await rpcClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
       await expectLater(
-        solanaClient.waitForSignatureStatus(
+        rpcClient.waitForSignatureStatus(
           signature,
           Commitment.finalized,
         ),
         completes,
       );
-      final int balance = await solanaClient.getBalance(targetWallet.address);
+      final int balance = await rpcClient.getBalance(destination.address);
       expect(balance, greaterThan(0));
     });
 
     test('Transfer SOL to the same address', () async {
-      final recentBlockhash = await solanaClient.getRecentBlockhash();
+      final recentBlockhash = await rpcClient.getRecentBlockhash();
       final message = SystemProgram.transfer(
-        source: sourceWallet.address,
-        destination: sourceWallet.address,
+        source: source.address,
+        destination: source.address,
         lamports: _transferredAmount,
       );
-      final SignedTx signedTx = await sourceWallet.signMessage(
+      final SignedTx signedTx = await source.signMessage(
         message: message,
         recentBlockhash: recentBlockhash,
       );
-      final TxSignature signature =
-          await solanaClient.sendTransaction(signedTx);
+      final TxSignature signature = await rpcClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
 
       await expectLater(
-        solanaClient.waitForSignatureStatus(
+        rpcClient.waitForSignatureStatus(
           signature,
           Commitment.finalized,
         ),
@@ -142,7 +137,7 @@ void main() {
     });
 
     test('List recent transactions', () async {
-      final txs = await solanaClient.getTransactionsList(sourceWallet.address);
+      final txs = await rpcClient.getTransactionsList(source.address);
       expect(txs, isNot(null));
 
       txs.forEach((TransactionResult? tx) => expect(tx, isNot(null)));
@@ -161,8 +156,8 @@ void main() {
     test('Balance is not updated until tx is finalized', () async {
       const int addedBalance = 5 * lamportsPerSol;
       final TxSignature signature = await solanaClient.requestAirdrop(
-        wallet.address,
-        addedBalance,
+        address: wallet.address,
+        lamports: addedBalance,
         commitment: Commitment.finalized,
       );
 
@@ -186,8 +181,8 @@ void main() {
     test('Balance is updated if requested with confirmed commitment', () async {
       const int addedBalance = 5 * lamportsPerSol;
       final TxSignature signature = await solanaClient.requestAirdrop(
-        wallet.address,
-        addedBalance,
+        address: wallet.address,
+        lamports: addedBalance,
         commitment: Commitment.finalized,
       );
 

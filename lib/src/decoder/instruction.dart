@@ -16,7 +16,7 @@ class TxInstruction with _$TxInstruction {
 
   const factory TxInstruction.unsupported({
     required String program,
-  }) = _TxUnsupportedInstruction;
+  }) = TxUnsupportedInstruction;
 
   factory TxInstruction.fromJson(Map<String, dynamic> json) =>
       _$TxInstructionFromJson(json);

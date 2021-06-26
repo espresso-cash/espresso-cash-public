@@ -72,21 +72,12 @@ class TokenProgram extends Message {
   }) =>
       TokenProgram._(
         instructions: [
-          Instruction(
-            programId: TokenProgram.programId,
-            accounts: [
-              AccountMeta.writeable(pubKey: mint, isSigner: false),
-              AccountMeta.writeable(pubKey: destination, isSigner: false),
-              AccountMeta(
-                pubKey: owner,
-                isSigner: true,
-                isWriteable: feePayer == null,
-              ),
-            ],
-            data: Buffer.fromConcatenatedByteArrays([
-              TokenProgram.mintToInstructionIndex,
-              Buffer.fromUint64(amount),
-            ]),
+          TokenInstruction.mintTo(
+            mint: mint,
+            destination: destination,
+            owner: owner,
+            amount: amount,
+            feePayer: feePayer,
           ),
         ],
       );
@@ -100,22 +91,13 @@ class TokenProgram extends Message {
   }) =>
       TokenProgram._(
         instructions: [
-          Instruction(
-            programId: TokenProgram.programId,
-            accounts: [
-              AccountMeta.writeable(pubKey: source, isSigner: false),
-              AccountMeta.writeable(pubKey: destination, isSigner: false),
-              AccountMeta(
-                pubKey: owner,
-                isSigner: true,
-                isWriteable: feePayer == null,
-              ),
-            ],
-            data: Buffer.fromConcatenatedByteArrays([
-              TokenProgram.transferInstructionIndex,
-              Buffer.fromUint64(amount),
-            ]),
-          ),
+          TokenInstruction.transfer(
+            source: source,
+            destination: destination,
+            owner: owner,
+            amount: amount,
+            feePayer: feePayer,
+          )
         ],
       );
 

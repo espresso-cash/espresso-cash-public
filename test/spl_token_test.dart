@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:solana/solana.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/hd_keypair.dart';
@@ -7,11 +5,9 @@ import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
+import 'config.dart';
 
 void main() {
-  final devnetRpcUrl =
-      Platform.environment['DEVNET_RPC_URL'] ?? 'http://127.0.0.1:8899';
-
   group('Test spl tokens', () {
     final RPCClient client = RPCClient(devnetRpcUrl);
     late final String newTokenMint;
@@ -110,15 +106,12 @@ void main() {
         mint: newTokenMint,
         rpcClient: client,
       );
-      final associatedAddress =
-          await token.getAssociatedTokenAddress(owner: recipient.address);
-      expect(associatedAddress, isA<String>());
       // The account does not exist, so create it
-      final recipientAddress = await token.createAssociatedAccount(
+      final account = await token.createAssociatedAccount(
         owner: recipient.address,
         funder: owner,
       );
-      expect(recipientAddress, isA<AssociatedTokenAccount>());
+      expect(account, isA<AssociatedTokenAccount>());
       // Send to the newly created account
       final signature = await token.transfer(
         source: owner.address,

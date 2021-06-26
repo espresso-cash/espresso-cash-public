@@ -1,7 +1,7 @@
 part of 'exceptions.dart';
 
 class NoAssociatedTokenAccountException implements Exception {
-  NoAssociatedTokenAccountException(this._account, this._mint);
+  const NoAssociatedTokenAccountException(this._account, this._mint);
 
   @override
   String toString() =>

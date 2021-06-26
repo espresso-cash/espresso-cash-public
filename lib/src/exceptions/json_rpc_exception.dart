@@ -2,7 +2,7 @@ part of 'exceptions.dart';
 
 @JsonSerializable(createToJson: false)
 class JsonRpcError implements Exception {
-  JsonRpcError(this.message, this.code, this.data);
+  const JsonRpcError(this.message, this.code, this.data);
 
   factory JsonRpcError.fromJson(Map<String, dynamic> json) =>
       _$JsonRpcErrorFromJson(json);

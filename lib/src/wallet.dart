@@ -45,10 +45,10 @@ class Wallet {
   Future<void> addSplToken({required String mint}) async {
     late final _TokenInfo tokenInfo;
     if (_tokens.containsKey(mint)) {
-      throw const FormatException('token already added to this wallet');
+      throw const BadStateException('token already added to this wallet');
     }
     final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
-    final associatedTokenAddress = await token.getAssociatedTokenAddress(
+    final associatedTokenAddress = await token.computeAssociatedAddress(
       owner: address,
     );
     late final List<AssociatedTokenAccount> accounts;
@@ -134,13 +134,13 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TxSignature> requestAirdrop(
-    int amount, {
+  Future<TxSignature> requestAirdrop({
+    required int lamports,
     Commitment? commitment,
   }) async {
     final signature = await _rpcClient.requestAirdrop(
-      address,
-      amount,
+      address: address,
+      lamports: lamports,
       commitment: commitment,
     );
     await _rpcClient.waitForSignatureStatus(
@@ -179,7 +179,49 @@ class Wallet {
     );
   }
 
+  Future<TxSignature>? transferSplTokenWithMemo({
+    required String mint,
+    required String destination,
+    required int amount,
+    required String memo,
+    Commitment? commitment,
+  }) async {
+    if (!hasAssociatedTokenAccount(mint: mint)) {
+      throw const FormatException(
+          'this wallet has no associated token account');
+    }
+
+    final tokenInfo = _getTokenInfoOrThrow(mint);
+    final token = tokenInfo.token;
+    final source = tokenInfo.associatedAddress;
+
+    final message = Message(
+      instructions: [
+        TokenInstruction.transfer(
+          source: source,
+          destination: await token.findAssociatedTokenAddress(destination),
+          amount: amount,
+          owner: address,
+        ),
+        MemoInstruction(
+          signers: [address],
+          memo: memo,
+        ),
+      ],
+    );
+
+    return _rpcClient.signAndSendTransaction(
+      message,
+      [signer],
+      commitment: commitment,
+    );
+  }
+
   /// Create the account associated to the SPL token [mint] for this wallet.
+  ///
+  /// If you want to use another wallet as a funder use the [funder] parameter.
+  ///
+  /// Also adds the token to the wallet object.
   ///
   /// For [commitment] parameter description [see this document][see this document]
   /// [Commitment.processed] is not supported as [commitment].
@@ -188,21 +230,28 @@ class Wallet {
   Future<AssociatedTokenAccount> createAssociatedTokenAccount({
     required String mint,
     Commitment? commitment,
+    Wallet? funder,
   }) async {
-    final tokenInfo = _getTokenInfoOrThrow(mint);
-    final token = tokenInfo.token;
+    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
     final associatedTokenAccount = await token.createAssociatedAccount(
-      funder: signer,
+      owner: address,
+      funder: funder?.signer ?? signer,
     );
+
+    /// Add the token to the list
     _tokens[mint] = _TokenInfo(
       token: token,
       associatedAddress: associatedTokenAccount.address,
       account: associatedTokenAccount,
     );
+
     return associatedTokenAccount;
   }
 
   /// Whether this wallet has an associated token account for the SPL token [mint].
+  ///
+  /// If the [mint] was not added to the list of known tokens for this wallet
+  /// this method simply returns `false`.
   bool hasAssociatedTokenAccount({
     required String mint,
   }) {

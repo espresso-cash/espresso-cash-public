@@ -1,7 +1,11 @@
 part of 'base58.dart';
 
-List<int> decode(String value) {
-  final trimmed = value.trim();
+/// Decode a [base58String] into the original bytes.
+///
+// Note: Taken from https://github.com/bitcoin/bitcoin/blob/master/src/base58.cpp
+//       and adapted to the dart language
+List<int> decode(String base58String) {
+  final trimmed = base58String.trim();
   if (trimmed.isEmpty) return [];
 
   int length = 0;

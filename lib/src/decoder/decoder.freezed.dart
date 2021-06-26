@@ -20,7 +20,7 @@ TxInstruction _$TxInstructionFromJson(Map<String, dynamic> json) {
       return TxMemoInstruction.fromJson(json);
 
     default:
-      return _TxUnsupportedInstruction.fromJson(json);
+      return TxUnsupportedInstruction.fromJson(json);
   }
 }
 
@@ -42,8 +42,8 @@ class _$TxInstructionTearOff {
     );
   }
 
-  _TxUnsupportedInstruction unsupported({required String program}) {
-    return _TxUnsupportedInstruction(
+  TxUnsupportedInstruction unsupported({required String program}) {
+    return TxUnsupportedInstruction(
       program: program,
     );
   }
@@ -78,14 +78,14 @@ mixin _$TxInstruction {
   TResult map<TResult extends Object?>({
     required TResult Function(TxSystemInstruction value) system,
     required TResult Function(TxMemoInstruction value) memo,
-    required TResult Function(_TxUnsupportedInstruction value) unsupported,
+    required TResult Function(TxUnsupportedInstruction value) unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TxSystemInstruction value)? system,
     TResult Function(TxMemoInstruction value)? memo,
-    TResult Function(_TxUnsupportedInstruction value)? unsupported,
+    TResult Function(TxUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -225,7 +225,7 @@ class _$TxSystemInstruction implements TxSystemInstruction {
   TResult map<TResult extends Object?>({
     required TResult Function(TxSystemInstruction value) system,
     required TResult Function(TxMemoInstruction value) memo,
-    required TResult Function(_TxUnsupportedInstruction value) unsupported,
+    required TResult Function(TxUnsupportedInstruction value) unsupported,
   }) {
     return system(this);
   }
@@ -235,7 +235,7 @@ class _$TxSystemInstruction implements TxSystemInstruction {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TxSystemInstruction value)? system,
     TResult Function(TxMemoInstruction value)? memo,
-    TResult Function(_TxUnsupportedInstruction value)? unsupported,
+    TResult Function(TxUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) {
     if (system != null) {
@@ -362,7 +362,7 @@ class _$TxMemoInstruction implements TxMemoInstruction {
   TResult map<TResult extends Object?>({
     required TResult Function(TxSystemInstruction value) system,
     required TResult Function(TxMemoInstruction value) memo,
-    required TResult Function(_TxUnsupportedInstruction value) unsupported,
+    required TResult Function(TxUnsupportedInstruction value) unsupported,
   }) {
     return memo(this);
   }
@@ -372,7 +372,7 @@ class _$TxMemoInstruction implements TxMemoInstruction {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TxSystemInstruction value)? system,
     TResult Function(TxMemoInstruction value)? memo,
-    TResult Function(_TxUnsupportedInstruction value)? unsupported,
+    TResult Function(TxUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) {
     if (memo != null) {
@@ -402,30 +402,30 @@ abstract class TxMemoInstruction implements TxInstruction {
 }
 
 /// @nodoc
-abstract class _$TxUnsupportedInstructionCopyWith<$Res> {
-  factory _$TxUnsupportedInstructionCopyWith(_TxUnsupportedInstruction value,
-          $Res Function(_TxUnsupportedInstruction) then) =
-      __$TxUnsupportedInstructionCopyWithImpl<$Res>;
+abstract class $TxUnsupportedInstructionCopyWith<$Res> {
+  factory $TxUnsupportedInstructionCopyWith(TxUnsupportedInstruction value,
+          $Res Function(TxUnsupportedInstruction) then) =
+      _$TxUnsupportedInstructionCopyWithImpl<$Res>;
   $Res call({String program});
 }
 
 /// @nodoc
-class __$TxUnsupportedInstructionCopyWithImpl<$Res>
+class _$TxUnsupportedInstructionCopyWithImpl<$Res>
     extends _$TxInstructionCopyWithImpl<$Res>
-    implements _$TxUnsupportedInstructionCopyWith<$Res> {
-  __$TxUnsupportedInstructionCopyWithImpl(_TxUnsupportedInstruction _value,
-      $Res Function(_TxUnsupportedInstruction) _then)
-      : super(_value, (v) => _then(v as _TxUnsupportedInstruction));
+    implements $TxUnsupportedInstructionCopyWith<$Res> {
+  _$TxUnsupportedInstructionCopyWithImpl(TxUnsupportedInstruction _value,
+      $Res Function(TxUnsupportedInstruction) _then)
+      : super(_value, (v) => _then(v as TxUnsupportedInstruction));
 
   @override
-  _TxUnsupportedInstruction get _value =>
-      super._value as _TxUnsupportedInstruction;
+  TxUnsupportedInstruction get _value =>
+      super._value as TxUnsupportedInstruction;
 
   @override
   $Res call({
     Object? program = freezed,
   }) {
-    return _then(_TxUnsupportedInstruction(
+    return _then(TxUnsupportedInstruction(
       program: program == freezed
           ? _value.program
           : program // ignore: cast_nullable_to_non_nullable
@@ -436,11 +436,11 @@ class __$TxUnsupportedInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TxUnsupportedInstruction implements _TxUnsupportedInstruction {
-  const _$_TxUnsupportedInstruction({required this.program});
+class _$TxUnsupportedInstruction implements TxUnsupportedInstruction {
+  const _$TxUnsupportedInstruction({required this.program});
 
-  factory _$_TxUnsupportedInstruction.fromJson(Map<String, dynamic> json) =>
-      _$_$_TxUnsupportedInstructionFromJson(json);
+  factory _$TxUnsupportedInstruction.fromJson(Map<String, dynamic> json) =>
+      _$_$TxUnsupportedInstructionFromJson(json);
 
   @override
   final String program;
@@ -453,7 +453,7 @@ class _$_TxUnsupportedInstruction implements _TxUnsupportedInstruction {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _TxUnsupportedInstruction &&
+        (other is TxUnsupportedInstruction &&
             (identical(other.program, program) ||
                 const DeepCollectionEquality().equals(other.program, program)));
   }
@@ -464,8 +464,8 @@ class _$_TxUnsupportedInstruction implements _TxUnsupportedInstruction {
 
   @JsonKey(ignore: true)
   @override
-  _$TxUnsupportedInstructionCopyWith<_TxUnsupportedInstruction> get copyWith =>
-      __$TxUnsupportedInstructionCopyWithImpl<_TxUnsupportedInstruction>(
+  $TxUnsupportedInstructionCopyWith<TxUnsupportedInstruction> get copyWith =>
+      _$TxUnsupportedInstructionCopyWithImpl<TxUnsupportedInstruction>(
           this, _$identity);
 
   @override
@@ -498,7 +498,7 @@ class _$_TxUnsupportedInstruction implements _TxUnsupportedInstruction {
   TResult map<TResult extends Object?>({
     required TResult Function(TxSystemInstruction value) system,
     required TResult Function(TxMemoInstruction value) memo,
-    required TResult Function(_TxUnsupportedInstruction value) unsupported,
+    required TResult Function(TxUnsupportedInstruction value) unsupported,
   }) {
     return unsupported(this);
   }
@@ -508,7 +508,7 @@ class _$_TxUnsupportedInstruction implements _TxUnsupportedInstruction {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TxSystemInstruction value)? system,
     TResult Function(TxMemoInstruction value)? memo,
-    TResult Function(_TxUnsupportedInstruction value)? unsupported,
+    TResult Function(TxUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) {
     if (unsupported != null) {
@@ -519,21 +519,21 @@ class _$_TxUnsupportedInstruction implements _TxUnsupportedInstruction {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_TxUnsupportedInstructionToJson(this)
+    return _$_$TxUnsupportedInstructionToJson(this)
       ..['program'] = 'unsupported';
   }
 }
 
-abstract class _TxUnsupportedInstruction implements TxInstruction {
-  const factory _TxUnsupportedInstruction({required String program}) =
-      _$_TxUnsupportedInstruction;
+abstract class TxUnsupportedInstruction implements TxInstruction {
+  const factory TxUnsupportedInstruction({required String program}) =
+      _$TxUnsupportedInstruction;
 
-  factory _TxUnsupportedInstruction.fromJson(Map<String, dynamic> json) =
-      _$_TxUnsupportedInstruction.fromJson;
+  factory TxUnsupportedInstruction.fromJson(Map<String, dynamic> json) =
+      _$TxUnsupportedInstruction.fromJson;
 
   String get program => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  _$TxUnsupportedInstructionCopyWith<_TxUnsupportedInstruction> get copyWith =>
+  $TxUnsupportedInstructionCopyWith<TxUnsupportedInstruction> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

@@ -66,6 +66,18 @@ class SplToken {
         rpcClient: rpcClient,
       );
 
+  Future<String> findAssociatedTokenAddress(String owner) async {
+    final accounts = await getAssociatedAccountsFor(owner: owner);
+    if (accounts.isEmpty) {
+      throw NoAssociatedTokenAccountException(owner, mint);
+    }
+    final address = await computeAssociatedAddress(owner: owner);
+    if (accounts.indexWhere((a) => a.address == address) == -1) {
+      throw NoAssociatedTokenAccountException(owner, mint);
+    }
+    return address;
+  }
+
   /// Transfer [amount] tokens owned by [owner] from [source] to [destination]
   Future<TxSignature> transfer({
     required String source,
@@ -73,28 +85,19 @@ class SplToken {
     required int amount,
     required HDKeyPair owner,
   }) async {
-    // NOTE: the suffix ATA means (Associated Token Account)
-    //
     // A sender must have the appropriate associated account, in case they
     // don't it's an error and we should throw an exception.
-    final sourceATA = await getAssociatedAccountsFor(owner: source);
-
-    if (sourceATA.isEmpty) {
-      throw NoAssociatedTokenAccountException(source, mint);
-    }
-
+    final sourceAssociatedTokenAddress =
+        await findAssociatedTokenAddress(source);
     // A recipient needs an associated account as well
-    final destinationATA = await getAssociatedAccountsFor(owner: destination);
-
-    if (destinationATA.isEmpty) {
-      throw NoAssociatedTokenAccountException(destination, mint);
-    }
+    final destinationAssociatedTokenAddress =
+        await findAssociatedTokenAddress(destination);
 
     final message = TokenProgram.transfer(
-      source: sourceATA.first.address,
-      destination: destinationATA.first.address,
+      source: sourceAssociatedTokenAddress,
+      destination: destinationAssociatedTokenAddress,
       owner: owner.address,
-      amount: 100,
+      amount: amount,
     );
 
     return _rpcClient.signAndSendTransaction(
@@ -138,7 +141,7 @@ class SplToken {
   }
 
   /// Compute and derive the associated token address of [owner]
-  Future<String> getAssociatedTokenAddress({
+  Future<String> computeAssociatedAddress({
     required String owner,
   }) =>
       Utils.findProgramAddress(
@@ -151,19 +154,17 @@ class SplToken {
       );
 
   /// Create the associated account for [owner] funded by [funder].
-  /// If [owner] is `null` then [funder] is used as the owning account.
   Future<AssociatedTokenAccount> createAssociatedAccount({
+    required String owner,
     required HDKeyPair funder,
-    String? owner,
   }) async {
-    final ownerAddress = owner ?? funder.address;
-    final derivedAddress = await getAssociatedTokenAddress(
-      owner: ownerAddress,
+    final derivedAddress = await computeAssociatedAddress(
+      owner: owner,
     );
     final message = TokenProgram.createAssociatedTokenAccount(
       mint: mint,
       address: derivedAddress,
-      owner: ownerAddress,
+      owner: owner,
       funder: funder.address,
     );
     final signature = await _rpcClient.signAndSendTransaction(
@@ -181,7 +182,7 @@ class SplToken {
     return AssociatedTokenAccount(
       address: derivedAddress,
       account: Account(
-        owner: ownerAddress,
+        owner: owner,
         lamports: 0,
         executable: false,
         rentEpoch: 0,

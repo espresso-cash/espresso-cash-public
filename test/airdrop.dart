@@ -12,6 +12,9 @@ Future<void> airdrop(
   if (amount == null) {
     throw const FormatException('either specify "sol" or "lamports"');
   }
-  final txSignature = await client.requestAirdrop(wallet.address, amount);
+  final txSignature = await client.requestAirdrop(
+    address: wallet.address,
+    lamports: amount,
+  );
   await client.waitForSignatureStatus(txSignature, Commitment.finalized);
 }

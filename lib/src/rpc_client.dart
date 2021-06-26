@@ -134,8 +134,11 @@ class RPCClient {
   }
 
   /// Requests an airdrop of [lamports] lamports to [address].
-  Future<TxSignature> requestAirdrop(String address, int lamports,
-      {Commitment? commitment}) async {
+  Future<TxSignature> requestAirdrop({
+    required String address,
+    required int lamports,
+    Commitment? commitment,
+  }) async {
     final data = await client.request('requestAirdrop', params: <dynamic>[
       address,
       lamports.toInt(),

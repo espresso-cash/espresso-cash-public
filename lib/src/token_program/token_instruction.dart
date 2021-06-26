@@ -47,4 +47,50 @@ class TokenInstruction extends Instruction {
         ],
         data: TokenProgram.initializeAccountInstructionIndex,
       );
+
+  factory TokenInstruction.transfer({
+    required String source,
+    required String destination,
+    required String owner,
+    required int amount,
+    String? feePayer,
+  }) =>
+      TokenInstruction._(
+        accounts: [
+          AccountMeta.writeable(pubKey: source, isSigner: false),
+          AccountMeta.writeable(pubKey: destination, isSigner: false),
+          AccountMeta(
+            pubKey: owner,
+            isSigner: true,
+            isWriteable: feePayer == null || feePayer == owner,
+          ),
+        ],
+        data: Buffer.fromConcatenatedByteArrays([
+          TokenProgram.transferInstructionIndex,
+          Buffer.fromUint64(amount),
+        ]),
+      );
+
+  factory TokenInstruction.mintTo({
+    required String mint,
+    required String destination,
+    required String owner,
+    required int amount,
+    String? feePayer,
+  }) =>
+      TokenInstruction._(
+        accounts: [
+          AccountMeta.writeable(pubKey: mint, isSigner: false),
+          AccountMeta.writeable(pubKey: destination, isSigner: false),
+          AccountMeta(
+            pubKey: owner,
+            isSigner: true,
+            isWriteable: feePayer == null,
+          ),
+        ],
+        data: Buffer.fromConcatenatedByteArrays([
+          TokenProgram.mintToInstructionIndex,
+          Buffer.fromUint64(amount),
+        ]),
+      );
 }
