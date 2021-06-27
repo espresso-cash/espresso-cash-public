@@ -160,7 +160,7 @@ class SplToken {
     final derivedAddress = await computeAssociatedAddress(
       owner: owner,
     );
-    final message = TokenProgram.createAssociatedTokenAccount(
+    final message = AssociatedTokenAccountProgram(
       mint: mint,
       address: derivedAddress,
       owner: owner,
@@ -201,7 +201,7 @@ class SplToken {
     final message = TokenProgram.mintTo(
       mint: mint,
       destination: destination,
-      owner: owner.address,
+      authority: owner.address,
       amount: amount,
     );
     await _rpcClient.signAndSendTransaction(
