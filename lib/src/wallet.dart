@@ -1,5 +1,5 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/decoder/decoder.dart'
+import 'package:solana/src/rpc_client/rpc_client.dart'
     hide SystemInstruction, MemoInstruction;
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/exceptions/exceptions.dart';

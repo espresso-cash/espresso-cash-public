@@ -1,4 +1,4 @@
-part of 'decoder.dart';
+part of 'rpc_client.dart';
 
 enum Commitment { processed, confirmed, finalized }
 

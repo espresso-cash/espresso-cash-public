@@ -1,4 +1,4 @@
-part of 'decoder.dart';
+part of 'rpc_client.dart';
 
 @Freezed(unionKey: 'type', fallbackUnion: 'unsupported')
 class ParsedSystemInstruction with _$ParsedSystemInstruction {

@@ -1,4 +1,4 @@
-part of 'decoder.dart';
+part of 'rpc_client.dart';
 
 /// Metadata of a transaction response from the
 /// [RPC call response][result 44].

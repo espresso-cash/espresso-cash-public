@@ -1,4 +1,4 @@
-part of 'decoder.dart';
+part of 'rpc_client.dart';
 
 /// A message as it's returned within a [Transaction] when
 /// calling the `getTransaction` RPC method.

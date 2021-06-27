@@ -1,6 +1,6 @@
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/decoder/decoder.dart';
+import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/hd_keypair.dart';
 import 'package:solana/src/system_program/system_program.dart';

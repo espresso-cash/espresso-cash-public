@@ -1,8 +1,8 @@
 import 'package:solana/solana.dart' show lamportsPerSol;
-import 'package:solana/src/decoder/decoder.dart';
+import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/hd_keypair.dart';
-import 'package:solana/src/rpc_client.dart';
+import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/wallet.dart';
 import 'package:test/test.dart';

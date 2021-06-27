@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of decoder;
+part of rpc_client;
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -75,6 +75,85 @@ ConfirmedTransactionResponse _$ConfirmedTransactionResponseFromJson(
     json['result'] == null
         ? null
         : TransactionResult.fromJson(json['result'] as Map<String, dynamic>),
+  );
+}
+
+FeeCalculator _$FeeCalculatorFromJson(Map<String, dynamic> json) {
+  return FeeCalculator(
+    lamportsPerSignature: json['lamportsPerSignature'] as int,
+  );
+}
+
+GetTransactionResponse _$GetTransactionResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetTransactionResponse(
+    TransactionResult.fromJson(json['result'] as Map<String, dynamic>),
+  );
+}
+
+ValueResponse<T> _$ValueResponseFromJson<T>(
+  Map<String, dynamic> json,
+  T Function(Object? json) fromJsonT,
+) {
+  return ValueResponse<T>(
+    value: fromJsonT(json['value']),
+  );
+}
+
+TxMessage _$TxMessageFromJson(Map<String, dynamic> json) {
+  return TxMessage(
+    header: json['header'] == null
+        ? null
+        : TxMessageHeader.fromJson(json['header'] as Map<String, dynamic>),
+    accountKeys: (json['accountKeys'] as List<dynamic>)
+        .map((e) => AccountKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    recentBlockhash: json['recentBlockhash'] as String,
+    instructions: (json['instructions'] as List<dynamic>)
+        .map((e) => ParsedInstruction.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+TxMessageHeader _$TxMessageHeaderFromJson(Map<String, dynamic> json) {
+  return TxMessageHeader(
+    numRequiredSignatures: json['numRequiredSignatures'] as int,
+    numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
+    numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
+  );
+}
+
+Meta _$MetaFromJson(Map<String, dynamic> json) {
+  return Meta(
+    err: json['err'],
+    rewards: (json['rewards'] as List<dynamic>?)
+        ?.map((e) => Reward.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    fee: json['fee'] as int,
+    preBalances: json['preBalances'] as List<dynamic>,
+    postBalances: json['postBalances'] as List<dynamic>,
+    innerInstructions: json['innerInstructions'] as List<dynamic>,
+    preTokenBalances: json['preTokenBalances'] as List<dynamic>,
+    postTokenBalances: json['postTokenBalances'] as List<dynamic>,
+    logMessages:
+        (json['logMessages'] as List<dynamic>).map((e) => e as String).toList(),
+  );
+}
+
+Reward _$RewardFromJson(Map<String, dynamic> json) {
+  return Reward(
+    pubkey: json['pubkey'] as String,
+    lamports: json['lamports'] as int,
+    postBalance: json['postBalance'] as int,
+    rewardType: json['rewardType'] as String,
+  );
+}
+
+MinimumBalanceForRentExemptionResponse
+    _$MinimumBalanceForRentExemptionResponseFromJson(
+        Map<String, dynamic> json) {
+  return MinimumBalanceForRentExemptionResponse(
+    json['result'] as int,
   );
 }
 
@@ -229,85 +308,6 @@ Map<String, dynamic> _$_$_ParsedSystemTransferInformationToJson(
       'destination': instance.destination,
     };
 
-FeeCalculator _$FeeCalculatorFromJson(Map<String, dynamic> json) {
-  return FeeCalculator(
-    lamportsPerSignature: json['lamportsPerSignature'] as int,
-  );
-}
-
-GetTransactionResponse _$GetTransactionResponseFromJson(
-    Map<String, dynamic> json) {
-  return GetTransactionResponse(
-    TransactionResult.fromJson(json['result'] as Map<String, dynamic>),
-  );
-}
-
-ValueResponse<T> _$ValueResponseFromJson<T>(
-  Map<String, dynamic> json,
-  T Function(Object? json) fromJsonT,
-) {
-  return ValueResponse<T>(
-    value: fromJsonT(json['value']),
-  );
-}
-
-TxMessage _$TxMessageFromJson(Map<String, dynamic> json) {
-  return TxMessage(
-    header: json['header'] == null
-        ? null
-        : TxMessageHeader.fromJson(json['header'] as Map<String, dynamic>),
-    accountKeys: (json['accountKeys'] as List<dynamic>)
-        .map((e) => AccountKey.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    recentBlockhash: json['recentBlockhash'] as String,
-    instructions: (json['instructions'] as List<dynamic>)
-        .map((e) => ParsedInstruction.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
-}
-
-TxMessageHeader _$TxMessageHeaderFromJson(Map<String, dynamic> json) {
-  return TxMessageHeader(
-    numRequiredSignatures: json['numRequiredSignatures'] as int,
-    numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
-    numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
-  );
-}
-
-Meta _$MetaFromJson(Map<String, dynamic> json) {
-  return Meta(
-    err: json['err'],
-    rewards: (json['rewards'] as List<dynamic>?)
-        ?.map((e) => Reward.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    fee: json['fee'] as int,
-    preBalances: json['preBalances'] as List<dynamic>,
-    postBalances: json['postBalances'] as List<dynamic>,
-    innerInstructions: json['innerInstructions'] as List<dynamic>,
-    preTokenBalances: json['preTokenBalances'] as List<dynamic>,
-    postTokenBalances: json['postTokenBalances'] as List<dynamic>,
-    logMessages:
-        (json['logMessages'] as List<dynamic>).map((e) => e as String).toList(),
-  );
-}
-
-Reward _$RewardFromJson(Map<String, dynamic> json) {
-  return Reward(
-    pubkey: json['pubkey'] as String,
-    lamports: json['lamports'] as int,
-    postBalance: json['postBalance'] as int,
-    rewardType: json['rewardType'] as String,
-  );
-}
-
-MinimumBalanceForRentExemptionResponse
-    _$MinimumBalanceForRentExemptionResponseFromJson(
-        Map<String, dynamic> json) {
-  return MinimumBalanceForRentExemptionResponse(
-    json['result'] as int,
-  );
-}
-
 SignatureStatus _$SignatureStatusFromJson(Map<String, dynamic> json) {
   return SignatureStatus(
     slot: json['slot'] as int,
@@ -411,6 +411,6 @@ TransactionResult _$TransactionResultFromJson(Map<String, dynamic> json) {
 
 TxSignatureResponse _$TxSignatureResponseFromJson(Map<String, dynamic> json) {
   return TxSignatureResponse(
-    json['result'] as String,
+    TxSignature.fromJson(json['result'] as String),
   );
 }

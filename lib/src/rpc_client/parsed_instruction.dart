@@ -1,4 +1,4 @@
-part of 'decoder.dart';
+part of 'rpc_client.dart';
 
 /// An instruction which is part of a [ParsedMessage]
 @Freezed(unionKey: 'program', fallbackUnion: 'unsupported')

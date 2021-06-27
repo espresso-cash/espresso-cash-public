@@ -1,11 +1,39 @@
+library rpc_client;
+
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/decoder/decoder.dart';
 import 'package:solana/src/hd_keypair.dart';
 import 'package:solana/src/json_rpc_client.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
+
+part 'account.dart';
+part 'account_key.dart';
+part 'balance.dart';
+part 'blockhash.dart';
+part 'commitment.dart';
+part 'confirmed_signature.dart';
+part 'confirmed_transaction_response.dart';
+part 'fee_calculator.dart';
+part 'get_transaction_response.dart';
+part 'json_rpc_response_object.dart';
+part 'message.dart';
+part 'message_header.dart';
+part 'meta.dart';
+part 'minimum_balance_for_rent_exemption_response.dart';
+part 'parsed_instruction.dart';
+part 'parsed_spl_token_instruction.dart';
+part 'parsed_system_instruction.dart';
+part 'rpc_client.freezed.dart';
+part 'rpc_client.g.dart';
+part 'signature_status.dart';
+part 'simulate_tx_result.dart';
+part 'transaction.dart';
+part 'transaction_result.dart';
+part 'tx_signature.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API
@@ -106,7 +134,7 @@ class RPCClient {
       ],
     );
 
-    return TxSignature(TxSignatureResponse.fromJson(data).result);
+    return TxSignatureResponse.fromJson(data).result;
   }
 
   /// Simulates sending a signed transaction [signedTx].
@@ -148,7 +176,7 @@ class RPCClient {
         }
     ]);
 
-    return TxSignature(TxSignatureResponse.fromJson(data).result);
+    return TxSignatureResponse.fromJson(data).result;
   }
 
   /// Returns a Future that resolves to the most recent [limit] signatures

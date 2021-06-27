@@ -1,4 +1,4 @@
-export 'src/decoder/decoder.dart'
+export 'src/rpc_client/rpc_client.dart'
     show
         TxSystemInstruction,
         TxSystemInstructionTransfer,
@@ -19,7 +19,7 @@ export 'src/encoder/encoder.dart'
     show Instruction, CompiledInstruction, Message, SignedTx;
 export 'src/memo_program/memo_program.dart' show MemoProgram, MemoInstruction;
 export 'src/memo_program/memo_program.dart' show MemoProgram, MemoInstruction;
-export 'src/rpc_client.dart';
+export 'src/rpc_client/rpc_client.dart';
 export 'src/spl_token/spl_token.dart' show SplToken;
 export 'src/system_program/system_program.dart'
     show SystemProgram, SystemInstruction;
