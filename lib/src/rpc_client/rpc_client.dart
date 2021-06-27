@@ -6,8 +6,8 @@ import 'dart:convert';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/hd_keypair.dart';
-import 'package:solana/src/json_rpc_client.dart';
+import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/rpc_client/json_rpc_client.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 
 part 'account.dart';

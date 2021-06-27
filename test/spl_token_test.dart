@@ -1,6 +1,6 @@
 import 'package:solana/solana.dart';
+import 'package:solana/src/crypto/hd_keypair.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
-import 'package:solana/src/hd_keypair.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:test/test.dart';
 

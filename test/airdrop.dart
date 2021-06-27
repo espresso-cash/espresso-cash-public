@@ -1,5 +1,5 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/hd_keypair.dart';
+import 'package:solana/src/crypto/hd_keypair.dart';
 
 Future<void> airdrop(
   RPCClient client,

@@ -1,4 +1,4 @@
-import 'package:solana/src/hd_keypair.dart';
+import 'package:solana/src/crypto/hd_keypair.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/wallet.dart';
 

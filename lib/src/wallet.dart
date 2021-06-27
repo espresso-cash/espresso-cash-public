@@ -1,9 +1,8 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart'
-    hide SystemInstruction, MemoInstruction;
+import 'package:solana/src/crypto/hd_keypair.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
-import 'package:solana/src/hd_keypair.dart';
+import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/system_program/system_program.dart';
 
