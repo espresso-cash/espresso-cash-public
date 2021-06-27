@@ -2,7 +2,7 @@ part of 'encoder.dart';
 
 /// Taken from [here](https://spl.solana.com/memo#compute-limits)
 ///
-/// An instruction representation that can be converted to a [CompiledInstruction]
+/// An instruction representation that can be converted to a [_CompiledInstruction]
 /// and included into a message.
 class Instruction {
   /// Construct a generic instruction for the [programId] program

@@ -4,19 +4,19 @@ part of 'encoder.dart';
 /// the [Instruction Format][instruction format].
 ///
 /// [instruction format]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
-class CompiledInstruction extends ByteArray {
-  factory CompiledInstruction({
+class _CompiledInstruction extends ByteArray {
+  factory _CompiledInstruction({
     required Instruction instruction,
     required Map<String, int> accountIndexesMap,
   }) {
     final Iterable<AccountMeta> accounts = instruction.accounts;
-    final data = CompactArray.fromIterable(instruction.data);
+    final data = _CompactArray.fromIterable(instruction.data);
     if (!accountIndexesMap.containsKey(instruction.programId)) {
       throw const FormatException('programId not found in accountIndexesMap');
     }
     final programIdIndex =
         Buffer.fromInt8(accountIndexesMap[instruction.programId]!);
-    final accountIndexes = CompactArray.fromIterable(
+    final accountIndexes = _CompactArray.fromIterable(
       accounts.map((a) {
         if (!accountIndexesMap.containsKey(a.pubKey)) {
           throw const FormatException(
@@ -28,14 +28,14 @@ class CompiledInstruction extends ByteArray {
       }),
     );
 
-    return CompiledInstruction._(
+    return _CompiledInstruction._(
       programIdIndex: programIdIndex,
       accountIndexes: accountIndexes,
       data: data,
     );
   }
 
-  CompiledInstruction._({
+  _CompiledInstruction._({
     required ByteArray programIdIndex,
     required ByteArray accountIndexes,
     required ByteArray data,

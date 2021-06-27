@@ -251,6 +251,8 @@ class RPCClient {
     int limit = 10,
     Commitment? commitment,
   }) async {
+    // FIXME: this must be replaced soon
+    // ignore: deprecated_member_use_from_same_package
     final signatures = await getConfirmedSignaturesForAddress2(
       address,
       limit: limit,

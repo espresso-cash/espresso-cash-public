@@ -1,5 +1,6 @@
 part of 'memo_program.dart';
 
+/// The memo instruction for the memo program
 class MemoInstruction extends Instruction {
   /// Construct a memo instruction for the memo program with
   /// [signers] as signers and [memo] as content.

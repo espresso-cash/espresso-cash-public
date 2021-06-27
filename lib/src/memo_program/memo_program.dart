@@ -4,6 +4,7 @@ import 'package:solana/src/encoder/encoder.dart';
 
 part 'memo_instruction.dart';
 
+/// The memo program from the SPL
 class MemoProgram extends Message {
   /// Construct a [memo program][memo program] with [signers] and [memo].
   ///

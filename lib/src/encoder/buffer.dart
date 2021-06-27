@@ -2,6 +2,7 @@ part of 'encoder.dart';
 
 const int _bitsPerByte = 8;
 
+/// Convenient way of building a buffer for a message
 class Buffer extends ByteArray {
   const Buffer._(this._data) : super();
 

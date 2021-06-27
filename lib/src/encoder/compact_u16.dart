@@ -1,7 +1,7 @@
 part of 'encoder.dart';
 
-class CompactU16 extends ByteArray {
-  CompactU16(int value) {
+class _CompactU16 extends ByteArray {
+  _CompactU16(int value) {
     final List<int> data = List<int>.empty(growable: true);
     int rawValue = value;
     // ignore: literal_only_boolean_expressions

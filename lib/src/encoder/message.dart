@@ -23,7 +23,7 @@ class Message {
   }) {
     final accounts = instructions._getAccounts(feePayer);
     final accountsIndexesMap = accounts.toIndexesMap();
-    final header = MessageHeader.fromAccounts(accounts);
+    final header = _MessageHeader.fromAccounts(accounts);
     final compiledInstructions = instructions
         .map(
           (Instruction instruction) => <String, dynamic>{
@@ -65,14 +65,14 @@ class Message {
     String? feePayer,
   }) {
     final accounts = instructions._getAccounts(feePayer);
-    final keys = CompactArray<Buffer>.fromIterable(
+    final keys = _CompactArray<Buffer>.fromIterable(
       accounts.toSerializablePubKeys(),
     );
     final accountsIndexesMap = accounts.toIndexesMap();
-    final header = MessageHeader.fromAccounts(accounts);
-    final compiledInstructions = CompactArray.fromIterable(
+    final header = _MessageHeader.fromAccounts(accounts);
+    final compiledInstructions = _CompactArray.fromIterable(
       instructions.map(
-        (Instruction instruction) => CompiledInstruction(
+        (Instruction instruction) => _CompiledInstruction(
           instruction: instruction,
           accountIndexesMap: accountsIndexesMap,
         ),

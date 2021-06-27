@@ -1,24 +1,19 @@
 part of 'encoder.dart';
 
-class CompactArray<T> extends ByteArray {
-  // const CompactArray.fromIterable(this._items);
+class _CompactArray<T> extends ByteArray {
+  const _CompactArray(this._data);
 
-  // final Iterable<T> _items;
-  const CompactArray(this._data);
-
-  factory CompactArray._fromLengthAndContent(
+  factory _CompactArray._fromLengthAndContent(
           ByteArray length, ByteArray content) =>
-      CompactArray(Buffer.fromConcatenatedByteArrays([length, content]));
+      _CompactArray(Buffer.fromConcatenatedByteArrays([length, content]));
 
-  const CompactArray.empty() : _data = const ByteArray.empty();
-
-  factory CompactArray.fromIterable(Iterable<T> items) {
+  factory _CompactArray.fromIterable(Iterable<T> items) {
     final mapped = items.map<ByteArray>(_getBytesOf);
-    final length = CompactU16(mapped.length);
+    final length = _CompactU16(mapped.length);
     if (mapped.isEmpty) {
-      return CompactArray(length);
+      return _CompactArray(length);
     }
-    return CompactArray._fromLengthAndContent(length, mapped.reduce(_merge));
+    return _CompactArray._fromLengthAndContent(length, mapped.reduce(_merge));
   }
 
   final ByteArray _data;
