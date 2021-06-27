@@ -28,7 +28,7 @@ void main() {
 
     test('Call requestAirdrop and add SOL to an account works', () async {
       const int addedBalance = 100 * lamportsPerSol;
-      final TxSignature signature = await rpcClient.requestAirdrop(
+      final TransactionSignature signature = await rpcClient.requestAirdrop(
         address: source.address,
         lamports: addedBalance,
       );
@@ -99,7 +99,8 @@ void main() {
         message: message,
         recentBlockhash: recentBlockhash,
       );
-      final TxSignature signature = await rpcClient.sendTransaction(signedTx);
+      final TransactionSignature signature =
+          await rpcClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
       await expectLater(
         rpcClient.waitForSignatureStatus(
@@ -123,7 +124,8 @@ void main() {
         message: message,
         recentBlockhash: recentBlockhash,
       );
-      final TxSignature signature = await rpcClient.sendTransaction(signedTx);
+      final TransactionSignature signature =
+          await rpcClient.sendTransaction(signedTx);
       expect(signature, isNot(null));
 
       await expectLater(
@@ -139,7 +141,7 @@ void main() {
       final txs = await rpcClient.getTransactionsList(source.address);
       expect(txs, isNot(null));
 
-      txs.forEach((TransactionResult? tx) => expect(tx, isNot(null)));
+      txs.forEach((TransactionResponse? tx) => expect(tx, isNot(null)));
       expect(txs.length, greaterThan(0));
     });
   });
@@ -154,7 +156,7 @@ void main() {
 
     test('Balance is not updated until tx is finalized', () async {
       const int addedBalance = 5 * lamportsPerSol;
-      final TxSignature signature = await solanaClient.requestAirdrop(
+      final TransactionSignature signature = await solanaClient.requestAirdrop(
         address: wallet.address,
         lamports: addedBalance,
         commitment: Commitment.finalized,
@@ -179,7 +181,7 @@ void main() {
 
     test('Balance is updated if requested with confirmed commitment', () async {
       const int addedBalance = 5 * lamportsPerSol;
-      final TxSignature signature = await solanaClient.requestAirdrop(
+      final TransactionSignature signature = await solanaClient.requestAirdrop(
         address: wallet.address,
         lamports: addedBalance,
         commitment: Commitment.finalized,

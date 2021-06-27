@@ -1,15 +1,16 @@
 part of 'rpc_client.dart';
 
+/// The header of a [ParsedMessage]
 @JsonSerializable(createToJson: false)
-class TxMessageHeader {
-  TxMessageHeader({
+class ParsedMessageHeader {
+  ParsedMessageHeader({
     required this.numRequiredSignatures,
     required this.numReadonlySignedAccounts,
     required this.numReadonlyUnsignedAccounts,
   });
 
-  factory TxMessageHeader.fromJson(Map<String, dynamic> json) =>
-      _$TxMessageHeaderFromJson(json);
+  factory ParsedMessageHeader.fromJson(Map<String, dynamic> json) =>
+      _$ParsedMessageHeaderFromJson(json);
 
   final int numRequiredSignatures;
   final int numReadonlySignedAccounts;

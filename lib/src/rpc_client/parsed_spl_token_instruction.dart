@@ -1,5 +1,8 @@
 part of 'rpc_client.dart';
 
+/// An instruction of a [spl token] program
+///
+/// [spl token]: https://spl.solana.com/token
 @Freezed(unionKey: 'type', fallbackUnion: 'unsupported')
 class ParsedSplTokenInstruction with _$ParsedSplTokenInstruction {
   const factory ParsedSplTokenInstruction.transfer({
@@ -15,6 +18,9 @@ class ParsedSplTokenInstruction with _$ParsedSplTokenInstruction {
       _$ParsedSplTokenInstructionFromJson(json);
 }
 
+/// Information about a [spl token] transfer
+///
+/// [spl token]: https://spl.solana.com/token
 @freezed
 class ParsedSplTokenTransferInformation
     with _$ParsedSplTokenTransferInformation {

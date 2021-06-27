@@ -1,5 +1,8 @@
 part of 'rpc_client.dart';
 
+/// Response of the [`getAccountInfo`][get account info] rpc method.
+///
+/// [get account info]: https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo
 @JsonSerializable(createToJson: false)
 class Account {
   Account({
@@ -21,9 +24,9 @@ class Account {
 }
 
 @JsonSerializable(createToJson: false)
-class AccountInfoResponse extends JsonRpcResponse<ValueResponse<Account>> {
-  AccountInfoResponse(ValueResponse<Account> result) : super(result: result);
+class _AccountInfoResponse extends JsonRpcResponse<ValueResponse<Account>> {
+  _AccountInfoResponse(ValueResponse<Account> result) : super(result: result);
 
-  factory AccountInfoResponse.fromJson(Map<String, dynamic> json) =>
-      _$AccountInfoResponseFromJson(json);
+  factory _AccountInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$_AccountInfoResponseFromJson(json);
 }

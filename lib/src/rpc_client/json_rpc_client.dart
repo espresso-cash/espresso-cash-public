@@ -1,10 +1,7 @@
-import 'dart:convert';
+part of 'rpc_client.dart';
 
-import 'package:http/http.dart' as http;
-import 'package:solana/src/exceptions/exceptions.dart';
-
-class JsonRpcClient {
-  JsonRpcClient(this._url);
+class _JsonRpcClient {
+  _JsonRpcClient(this._url);
 
   final String _url;
   int lastId = 1;

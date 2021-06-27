@@ -78,7 +78,7 @@ class SplToken {
   }
 
   /// Transfer [amount] tokens owned by [owner] from [source] to [destination]
-  Future<TxSignature> transfer({
+  Future<TransactionSignature> transfer({
     required String source,
     required String destination,
     required int amount,

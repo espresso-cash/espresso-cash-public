@@ -1,9 +1,9 @@
 part of 'rpc_client.dart';
 
 @JsonSerializable(createToJson: false)
-class BalanceResponse extends JsonRpcResponse<ValueResponse<int>> {
-  BalanceResponse(ValueResponse<int> result) : super(result: result);
+class _BalanceResponse extends JsonRpcResponse<ValueResponse<int>> {
+  _BalanceResponse(ValueResponse<int> result) : super(result: result);
 
-  factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$BalanceResponseFromJson(json);
+  factory _BalanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$_BalanceResponseFromJson(json);
 }

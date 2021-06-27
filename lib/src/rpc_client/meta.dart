@@ -1,11 +1,6 @@
 part of 'rpc_client.dart';
 
-/// Metadata of a transaction response from the
-/// [RPC call response][result 44].
-///
-/// This is the `meta` field of the response.
-///
-/// [result 44]: https://docs.solana.com/developing/clients/jsonrpc-api#results-44
+/// Metadata of a [TransactionResponse] object.
 @JsonSerializable(createToJson: false)
 class Meta {
   Meta({
@@ -33,6 +28,7 @@ class Meta {
   final List<Reward>? rewards;
 }
 
+/// A [Reward] which is part of a [Meta] object.
 @JsonSerializable(createToJson: false)
 class Reward {
   Reward({

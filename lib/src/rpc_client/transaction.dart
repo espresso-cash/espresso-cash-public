@@ -1,14 +1,16 @@
 part of 'rpc_client.dart';
 
+/// The program type of a transaction instruction
 enum ProgramType {
   @JsonValue('system')
   system,
   @JsonValue('spl-memo')
   memo,
+  @JsonValue('spl-token')
+  splToken,
 }
 
-/// A generic transaction as returned by the `getTransaction` RPC
-/// method
+/// The `transaction` field type of a [TransactionResponse] object.
 @JsonSerializable(createToJson: false)
 class Transaction {
   Transaction({
@@ -20,5 +22,5 @@ class Transaction {
       _$TransactionFromJson(json);
 
   final List<String> signatures;
-  final TxMessage? message;
+  final ParsedMessage? message;
 }

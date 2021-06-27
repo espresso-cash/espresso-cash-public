@@ -16,8 +16,8 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
   );
 }
 
-AccountInfoResponse _$AccountInfoResponseFromJson(Map<String, dynamic> json) {
-  return AccountInfoResponse(
+_AccountInfoResponse _$_AccountInfoResponseFromJson(Map<String, dynamic> json) {
+  return _AccountInfoResponse(
     ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
         (value) => Account.fromJson(value as Map<String, dynamic>)),
   );
@@ -29,8 +29,8 @@ AccountKey _$AccountKeyFromJson(Map<String, dynamic> json) {
   );
 }
 
-BalanceResponse _$BalanceResponseFromJson(Map<String, dynamic> json) {
-  return BalanceResponse(
+_BalanceResponse _$_BalanceResponseFromJson(Map<String, dynamic> json) {
+  return _BalanceResponse(
     ValueResponse.fromJson(
         json['result'] as Map<String, dynamic>, (value) => value as int),
   );
@@ -44,8 +44,8 @@ Blockhash _$BlockhashFromJson(Map<String, dynamic> json) {
   );
 }
 
-BlockhashResponse _$BlockhashResponseFromJson(Map<String, dynamic> json) {
-  return BlockhashResponse(
+_BlockhashResponse _$_BlockhashResponseFromJson(Map<String, dynamic> json) {
+  return _BlockhashResponse(
     ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
         (value) => Blockhash.fromJson(value as Map<String, dynamic>)),
   );
@@ -61,20 +61,20 @@ ConfirmedSignature _$ConfirmedSignatureFromJson(Map<String, dynamic> json) {
   );
 }
 
-ConfirmedSignaturesResponse _$ConfirmedSignaturesResponseFromJson(
+_ConfirmedSignaturesResponse _$_ConfirmedSignaturesResponseFromJson(
     Map<String, dynamic> json) {
-  return ConfirmedSignaturesResponse(
+  return _ConfirmedSignaturesResponse(
     (json['result'] as List<dynamic>)
         .map((e) => ConfirmedSignature.fromJson(e as Map<String, dynamic>)),
   );
 }
 
-ConfirmedTransactionResponse _$ConfirmedTransactionResponseFromJson(
+_ConfirmedTransactionResponse _$_ConfirmedTransactionResponseFromJson(
     Map<String, dynamic> json) {
-  return ConfirmedTransactionResponse(
+  return _ConfirmedTransactionResponse(
     json['result'] == null
         ? null
-        : TransactionResult.fromJson(json['result'] as Map<String, dynamic>),
+        : TransactionResponse.fromJson(json['result'] as Map<String, dynamic>),
   );
 }
 
@@ -84,10 +84,10 @@ FeeCalculator _$FeeCalculatorFromJson(Map<String, dynamic> json) {
   );
 }
 
-GetTransactionResponse _$GetTransactionResponseFromJson(
+_GetTransactionResponse _$_GetTransactionResponseFromJson(
     Map<String, dynamic> json) {
-  return GetTransactionResponse(
-    TransactionResult.fromJson(json['result'] as Map<String, dynamic>),
+  return _GetTransactionResponse(
+    TransactionResponse.fromJson(json['result'] as Map<String, dynamic>),
   );
 }
 
@@ -97,29 +97,6 @@ ValueResponse<T> _$ValueResponseFromJson<T>(
 ) {
   return ValueResponse<T>(
     value: fromJsonT(json['value']),
-  );
-}
-
-TxMessage _$TxMessageFromJson(Map<String, dynamic> json) {
-  return TxMessage(
-    header: json['header'] == null
-        ? null
-        : TxMessageHeader.fromJson(json['header'] as Map<String, dynamic>),
-    accountKeys: (json['accountKeys'] as List<dynamic>)
-        .map((e) => AccountKey.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    recentBlockhash: json['recentBlockhash'] as String,
-    instructions: (json['instructions'] as List<dynamic>)
-        .map((e) => ParsedInstruction.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
-}
-
-TxMessageHeader _$TxMessageHeaderFromJson(Map<String, dynamic> json) {
-  return TxMessageHeader(
-    numRequiredSignatures: json['numRequiredSignatures'] as int,
-    numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
-    numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
   );
 }
 
@@ -149,11 +126,34 @@ Reward _$RewardFromJson(Map<String, dynamic> json) {
   );
 }
 
-MinimumBalanceForRentExemptionResponse
-    _$MinimumBalanceForRentExemptionResponseFromJson(
+_MinimumBalanceForRentExemptionResponse
+    _$_MinimumBalanceForRentExemptionResponseFromJson(
         Map<String, dynamic> json) {
-  return MinimumBalanceForRentExemptionResponse(
+  return _MinimumBalanceForRentExemptionResponse(
     json['result'] as int,
+  );
+}
+
+ParsedMessage _$ParsedMessageFromJson(Map<String, dynamic> json) {
+  return ParsedMessage(
+    header: json['header'] == null
+        ? null
+        : ParsedMessageHeader.fromJson(json['header'] as Map<String, dynamic>),
+    accountKeys: (json['accountKeys'] as List<dynamic>)
+        .map((e) => AccountKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    recentBlockhash: json['recentBlockhash'] as String,
+    instructions: (json['instructions'] as List<dynamic>)
+        .map((e) => ParsedInstruction.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+ParsedMessageHeader _$ParsedMessageHeaderFromJson(Map<String, dynamic> json) {
+  return ParsedMessageHeader(
+    numRequiredSignatures: json['numRequiredSignatures'] as int,
+    numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
+    numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
   );
 }
 
@@ -308,6 +308,12 @@ Map<String, dynamic> _$_$_ParsedSystemTransferInformationToJson(
       'destination': instance.destination,
     };
 
+_SignatureResponse _$_SignatureResponseFromJson(Map<String, dynamic> json) {
+  return _SignatureResponse(
+    TransactionSignature.fromJson(json['result'] as String),
+  );
+}
+
 SignatureStatus _$SignatureStatusFromJson(Map<String, dynamic> json) {
   return SignatureStatus(
     slot: json['slot'] as int,
@@ -361,9 +367,9 @@ const _$CommitmentEnumMap = {
   Commitment.finalized: 'finalized',
 };
 
-SignatureStatusesResponse _$SignatureStatusesResponseFromJson(
+_SignatureStatusesResponse _$_SignatureStatusesResponseFromJson(
     Map<String, dynamic> json) {
-  return SignatureStatusesResponse(
+  return _SignatureStatusesResponse(
     ValueResponse.fromJson(
         json['result'] as Map<String, dynamic>,
         (value) => (value as List<dynamic>).map((e) => e == null
@@ -379,9 +385,9 @@ SimulateTxResult _$SimulateTxResultFromJson(Map<String, dynamic> json) {
   );
 }
 
-SimulateTxResultResponse _$SimulateTxResultResponseFromJson(
+_SimulateTxResultResponse _$_SimulateTxResultResponseFromJson(
     Map<String, dynamic> json) {
-  return SimulateTxResultResponse(
+  return _SimulateTxResultResponse(
     ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
         (value) => SimulateTxResult.fromJson(value as Map<String, dynamic>)),
   );
@@ -391,14 +397,14 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
   return Transaction(
     message: json['message'] == null
         ? null
-        : TxMessage.fromJson(json['message'] as Map<String, dynamic>),
+        : ParsedMessage.fromJson(json['message'] as Map<String, dynamic>),
     signatures:
         (json['signatures'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
-TransactionResult _$TransactionResultFromJson(Map<String, dynamic> json) {
-  return TransactionResult(
+TransactionResponse _$TransactionResponseFromJson(Map<String, dynamic> json) {
+  return TransactionResponse(
     meta: json['meta'] == null
         ? null
         : Meta.fromJson(json['meta'] as Map<String, dynamic>),
@@ -406,11 +412,5 @@ TransactionResult _$TransactionResultFromJson(Map<String, dynamic> json) {
     blockTime: json['blockTime'] as int,
     transaction:
         Transaction.fromJson(json['transaction'] as Map<String, dynamic>),
-  );
-}
-
-TxSignatureResponse _$TxSignatureResponseFromJson(Map<String, dynamic> json) {
-  return TxSignatureResponse(
-    TxSignature.fromJson(json['result'] as String),
   );
 }

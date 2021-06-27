@@ -19,6 +19,7 @@ class ParsedInstruction with _$ParsedInstruction {
     @JsonKey(name: 'parsed') required String? memo,
   }) = ParsedInstructionMemo;
 
+  /// Any instruction that we are not currencly supporting.
   const factory ParsedInstruction.unsupported({
     required String program,
   }) = ParsedInstructionUnsupported;

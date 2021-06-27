@@ -1,5 +1,6 @@
 part of 'rpc_client.dart';
 
+/// An instruction that is part if a [ParsedInstruction]
 @Freezed(unionKey: 'type', fallbackUnion: 'unsupported')
 class ParsedSystemInstruction with _$ParsedSystemInstruction {
   /// Transfer instruction data for a transfer of [info.lamports]
@@ -18,8 +19,7 @@ class ParsedSystemInstruction with _$ParsedSystemInstruction {
       _$ParsedSystemInstructionFromJson(json);
 }
 
-/// Information about a transfer of [lamports] from
-/// [source] to [destination]
+/// Information about a transfer of [lamports] from [source] to [destination]
 @freezed
 class ParsedSystemTransferInformation with _$ParsedSystemTransferInformation {
   const factory ParsedSystemTransferInformation({

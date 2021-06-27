@@ -1,5 +1,8 @@
 part of 'rpc_client.dart';
 
+/// Response of the [`getRecentBlockhash`][get recent blockhash] rpc method.
+///
+/// [get recent blockhash]: https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash
 @JsonSerializable(createToJson: false)
 class Blockhash {
   Blockhash({
@@ -15,9 +18,9 @@ class Blockhash {
 }
 
 @JsonSerializable(createToJson: false)
-class BlockhashResponse extends JsonRpcResponse<ValueResponse<Blockhash>> {
-  BlockhashResponse(ValueResponse<Blockhash> result) : super(result: result);
+class _BlockhashResponse extends JsonRpcResponse<ValueResponse<Blockhash>> {
+  _BlockhashResponse(ValueResponse<Blockhash> result) : super(result: result);
 
-  factory BlockhashResponse.fromJson(Map<String, dynamic> json) =>
-      _$BlockhashResponseFromJson(json);
+  factory _BlockhashResponse.fromJson(Map<String, dynamic> json) =>
+      _$_BlockhashResponseFromJson(json);
 }

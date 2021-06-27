@@ -1,0 +1,22 @@
+part of 'rpc_client.dart';
+
+/// Response of the [`getTransaction`][get transaction] rpc method.
+///
+/// [get transaction]: https://docs.solana.com/developing/clients/jsonrpc-api#gettransaction
+@JsonSerializable(createToJson: false)
+class TransactionResponse {
+  TransactionResponse({
+    this.meta,
+    required this.slot,
+    required this.blockTime,
+    required this.transaction,
+  });
+
+  factory TransactionResponse.fromJson(Map<String, dynamic> json) =>
+      _$TransactionResponseFromJson(json);
+
+  final Meta? meta;
+  final int slot;
+  final int blockTime;
+  final Transaction transaction;
+}

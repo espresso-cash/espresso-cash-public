@@ -1,7 +1,12 @@
 part of 'rpc_client.dart';
 
+/// A type alias which makes [TxStatus] more semantically correct in some
+/// context.
 typedef TxStatus = Commitment;
 
+/// Response of the [`getSignatureStatuses`][get signature statuses] rpc method.
+///
+/// [get signature statuses]: https://docs.solana.com/developing/clients/jsonrpc-api#getsignaturestatuses
 @JsonSerializable(createToJson: false)
 class SignatureStatus {
   SignatureStatus({
@@ -24,11 +29,11 @@ class SignatureStatus {
 }
 
 @JsonSerializable(createToJson: false)
-class SignatureStatusesResponse
+class _SignatureStatusesResponse
     extends JsonRpcResponse<ValueResponse<Iterable<SignatureStatus?>>> {
-  SignatureStatusesResponse(ValueResponse<Iterable<SignatureStatus?>> result)
+  _SignatureStatusesResponse(ValueResponse<Iterable<SignatureStatus?>> result)
       : super(result: result);
 
-  factory SignatureStatusesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SignatureStatusesResponseFromJson(json);
+  factory _SignatureStatusesResponse.fromJson(Map<String, dynamic> json) =>
+      _$_SignatureStatusesResponseFromJson(json);
 }

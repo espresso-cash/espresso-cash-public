@@ -4,10 +4,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/hd_keypair.dart';
-import 'package:solana/src/rpc_client/json_rpc_client.dart';
+import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 
 part 'account.dart';
@@ -19,30 +20,31 @@ part 'confirmed_signature.dart';
 part 'confirmed_transaction_response.dart';
 part 'fee_calculator.dart';
 part 'get_transaction_response.dart';
+part 'json_rpc_client.dart';
 part 'json_rpc_response_object.dart';
-part 'message.dart';
-part 'message_header.dart';
 part 'meta.dart';
 part 'minimum_balance_for_rent_exemption_response.dart';
 part 'parsed_instruction.dart';
+part 'parsed_message.dart';
+part 'parsed_message_header.dart';
 part 'parsed_spl_token_instruction.dart';
 part 'parsed_system_instruction.dart';
 part 'rpc_client.freezed.dart';
 part 'rpc_client.g.dart';
+part 'signature.dart';
 part 'signature_status.dart';
 part 'simulate_tx_result.dart';
 part 'transaction.dart';
-part 'transaction_result.dart';
-part 'tx_signature.dart';
+part 'transaction_response.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API
 class RPCClient {
   /// Constructs a SolanaClient that is capable of sending various RPCs to
   /// [rpcUrl].
-  RPCClient(String rpcUrl) : client = JsonRpcClient(rpcUrl);
+  RPCClient(String rpcUrl) : client = _JsonRpcClient(rpcUrl);
 
-  final JsonRpcClient client;
+  final _JsonRpcClient client;
 
   /// Returns the recent blockhash from the ledger, and a fee schedule that
   /// can be used to compute the cost of submitting transaction with
@@ -63,7 +65,7 @@ class RPCClient {
       ],
     );
 
-    return BlockhashResponse.fromJson(data).result.value;
+    return _BlockhashResponse.fromJson(data).result.value;
   }
 
   /// Returns a Future that resolves the the balance of [address]
@@ -85,7 +87,7 @@ class RPCClient {
       ],
     );
 
-    return BalanceResponse.fromJson(data).result.value;
+    return _BalanceResponse.fromJson(data).result.value;
   }
 
   /// Returns a Future that resolves to the account related information
@@ -110,7 +112,7 @@ class RPCClient {
       ],
     );
 
-    return AccountInfoResponse.fromJson(data).result.value;
+    return _AccountInfoResponse.fromJson(data).result.value;
   }
 
   /// Sends signed transaction [signedTx].
@@ -119,7 +121,7 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TxSignature> sendTransaction(
+  Future<TransactionSignature> sendTransaction(
     SignedTx signedTx, {
     Commitment? commitment,
   }) async {
@@ -134,7 +136,7 @@ class RPCClient {
       ],
     );
 
-    return TxSignatureResponse.fromJson(data).result;
+    return _SignatureResponse.fromJson(data).result;
   }
 
   /// Simulates sending a signed transaction [signedTx].
@@ -158,11 +160,11 @@ class RPCClient {
       ],
     );
 
-    return SimulateTxResultResponse.fromJson(data).result.value;
+    return _SimulateTxResultResponse.fromJson(data).result.value;
   }
 
   /// Requests an airdrop of [lamports] lamports to [address].
-  Future<TxSignature> requestAirdrop({
+  Future<TransactionSignature> requestAirdrop({
     required String address,
     required int lamports,
     Commitment? commitment,
@@ -176,7 +178,7 @@ class RPCClient {
         }
     ]);
 
-    return TxSignatureResponse.fromJson(data).result;
+    return _SignatureResponse.fromJson(data).result;
   }
 
   /// Returns a Future that resolves to the most recent [limit] signatures
@@ -189,6 +191,7 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  @Deprecated('Should be replaced with `getConfirmedSignaturesForAddress` soon')
   Future<Iterable<ConfirmedSignature>> getConfirmedSignaturesForAddress2(
     String address, {
     int limit = 10,
@@ -209,7 +212,7 @@ class RPCClient {
       ],
     );
 
-    return ConfirmedSignaturesResponse.fromJson(data).result;
+    return _ConfirmedSignaturesResponse.fromJson(data).result;
   }
 
   /// Returns a Future that resolves to the transaction details for a given
@@ -219,7 +222,7 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionResult?> getConfirmedTransaction(
+  Future<TransactionResponse?> getConfirmedTransaction(
     String signature, {
     Commitment? commitment,
   }) async {
@@ -234,7 +237,7 @@ class RPCClient {
       ],
     );
 
-    return ConfirmedTransactionResponse.fromJson(data).result;
+    return _ConfirmedTransactionResponse.fromJson(data).result;
   }
 
   /// Get the [limit] most recent transactions for the [address] account
@@ -243,7 +246,7 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Iterable<TransactionResult>> getTransactionsList(
+  Future<Iterable<TransactionResponse>> getTransactionsList(
     String address, {
     int limit = 10,
     Commitment? commitment,
@@ -271,7 +274,7 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionResult?> getTransaction(
+  Future<TransactionResponse?> getTransaction(
     String signature, {
     Commitment? commitment,
   }) async {
@@ -286,7 +289,7 @@ class RPCClient {
       ],
     );
 
-    return GetTransactionResponse.fromJson(data).result;
+    return _GetTransactionResponse.fromJson(data).result;
   }
 
   /// Get token supply for [tokenMintAddress]
@@ -317,20 +320,23 @@ class RPCClient {
   /// Unless the [searchTransactionHistory] configuration parameter is included,
   /// this method only searches the recent status cache of signatures.
   Future<Iterable<SignatureStatus?>> getSignatureStatuses(
-    List<TxSignature> signatures, {
+    List<TransactionSignature> signatures, {
     bool searchTransactionHistory = false,
   }) async {
     final data = await client.request(
       'getSignatureStatuses',
       params: <dynamic>[
-        [for (TxSignature signature in signatures) signature.toString()],
+        [
+          for (TransactionSignature signature in signatures)
+            signature.toString()
+        ],
         <String, bool>{
           'searchTransactionHistory': searchTransactionHistory,
         }
       ],
     );
 
-    return SignatureStatusesResponse.fromJson(data).result.value;
+    return _SignatureStatusesResponse.fromJson(data).result.value;
   }
 
   /// Get minimum balance for ren exemption to allocate [size] bytes
@@ -353,7 +359,7 @@ class RPCClient {
       ],
     );
 
-    return MinimumBalanceForRentExemptionResponse.fromJson(data).result;
+    return _MinimumBalanceForRentExemptionResponse.fromJson(data).result;
   }
 
   Future<TokenAmount> getTokenAccountBalance({
@@ -383,7 +389,7 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TxSignature> signAndSendTransaction(
+  Future<TransactionSignature> signAndSendTransaction(
     Message message,
     List<HDKeyPair> signers, {
     String? feePayer,
@@ -402,7 +408,7 @@ class RPCClient {
       feePayer: feePayer ?? signers[0].address,
     );
     // FIXME(IA): signatures must match signers in the message accounts sorting
-    final signatures = await Future.wait(
+    final List<Signature> signatures = await Future.wait(
       signers.map((wallet) => wallet.sign(messageBytes)),
     );
     final signature = await sendTransaction(
@@ -427,7 +433,7 @@ class RPCClient {
   ///
   /// Note: the default [timeout] is 30 seconds.
   Future<void> waitForSignatureStatus(
-    TxSignature signature,
+    TransactionSignature signature,
     TxStatus desiredStatus, {
     Duration timeout = const Duration(seconds: 30),
   }) async {

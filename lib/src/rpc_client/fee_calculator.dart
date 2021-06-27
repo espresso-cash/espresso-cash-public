@@ -1,5 +1,6 @@
 part of 'rpc_client.dart';
 
+/// Fee calculator object which is part of a [Blockhash] object.
 @JsonSerializable(createToJson: false)
 class FeeCalculator {
   FeeCalculator({required this.lamportsPerSignature});

@@ -14,7 +14,7 @@ class Wallet {
   })  : _rpcClient = rpcClient,
         _tokens = <String, _TokenInfo>{};
 
-  Future<TxSignature> _genericTransfer({
+  Future<TransactionSignature> _genericTransfer({
     required String source,
     required String destination,
     required int lamports,
@@ -88,7 +88,7 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TxSignature> transfer({
+  Future<TransactionSignature> transfer({
     required String destination,
     required int lamports,
     Commitment? commitment,
@@ -114,7 +114,7 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TxSignature> transferWithMemo({
+  Future<TransactionSignature> transferWithMemo({
     required String destination,
     required int lamports,
     required String memo,
@@ -134,7 +134,7 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TxSignature> requestAirdrop({
+  Future<TransactionSignature> requestAirdrop({
     required int lamports,
     Commitment? commitment,
   }) async {
@@ -158,7 +158,7 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TxSignature>? transferSplToken({
+  Future<TransactionSignature>? transferSplToken({
     required String mint,
     required String destination,
     required int amount,
@@ -179,7 +179,7 @@ class Wallet {
     );
   }
 
-  Future<TxSignature>? transferSplTokenWithMemo({
+  Future<TransactionSignature>? transferSplTokenWithMemo({
     required String mint,
     required String destination,
     required int amount,

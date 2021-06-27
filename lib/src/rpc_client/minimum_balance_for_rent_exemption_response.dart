@@ -1,10 +1,10 @@
 part of 'rpc_client.dart';
 
 @JsonSerializable(createToJson: false)
-class MinimumBalanceForRentExemptionResponse extends JsonRpcResponse<int> {
-  MinimumBalanceForRentExemptionResponse(int result) : super(result: result);
+class _MinimumBalanceForRentExemptionResponse extends JsonRpcResponse<int> {
+  _MinimumBalanceForRentExemptionResponse(int result) : super(result: result);
 
-  factory MinimumBalanceForRentExemptionResponse.fromJson(
+  factory _MinimumBalanceForRentExemptionResponse.fromJson(
           Map<String, dynamic> json) =>
-      _$MinimumBalanceForRentExemptionResponseFromJson(json);
+      _$_MinimumBalanceForRentExemptionResponseFromJson(json);
 }
