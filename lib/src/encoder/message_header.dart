@@ -16,7 +16,7 @@ class _MessageHeader extends ByteArray {
 
   /// Constructs a message header by counting signers, and readonly accounts
   /// from [accounts].
-  factory _MessageHeader.fromAccounts(Iterable<AccountMeta> accounts) =>
+  factory _MessageHeader.fromAccounts(List<AccountMeta> accounts) =>
       _MessageHeader._(
         numRequiredSignatures: accounts.getNumSigners(),
         numReadonlySignedAccounts: accounts.getNumReadonlySigners(),

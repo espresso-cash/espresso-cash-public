@@ -2,7 +2,7 @@ part of 'encoder.dart';
 
 /// Class that wraps addresses with information necessary for
 /// solana transactions to be encoded correctly
-class AccountMeta {
+class AccountMeta implements Comparable<AccountMeta> {
   AccountMeta({
     required this.pubKey,
     required this.isWriteable,
@@ -63,45 +63,22 @@ class AccountMeta {
 
   @override
   String toString() => pubKey;
-}
 
-extension AccountMetaListExt on Iterable<AccountMeta> {
-  /// Remove all duplicate accounts, meaning accounts having the same public
-  /// key. Signers and/or writeable accounts are picked over non-signers and
-  /// non-writeable.
-  List<AccountMeta> unique() =>
-      fold<List<AccountMeta>>([], (List<AccountMeta> list, AccountMeta item) {
-        final index = list.indexOfPubKey(item.pubKey);
-        if (index == -1) {
-          return [...list, item];
-        } else {
-          // Keep then one of the two that is either a signer or
-          // a writeable account
-          list[index] = item.mergeWith(list[index]);
+  /// Compare accounts according to the following rules
+  ///
+  /// Signer accounts go first, and within them writeable accounts
+  /// go first
+  ///
+  /// Non-Signer accounts go after, and within them the writeable
+  /// accounts go first
+  @override
+  int compareTo(AccountMeta other) {
+    if (isSigner && !other.isSigner) return -1;
+    if (!isSigner && other.isSigner) return 1;
 
-          return list;
-        }
-      });
+    if (isWriteable && !other.isWriteable) return -1;
+    if (!isWriteable && other.isWriteable) return 1;
 
-  /// Find an account with a matching [pubKey].
-  int indexOfPubKey(String pubKey) =>
-      toList(growable: false).indexWhere((account) => account.pubKey == pubKey);
-
-  /// Counts the number of accounts that are signers.
-  int getNumSigners() =>
-      fold(0, (total, account) => total + (account.isSigner ? 1 : 0));
-
-  /// Counts the number of accounts that are signers and readonly.
-  int getNumReadonlySigners() => fold(
-        0,
-        (total, account) =>
-            total + (!account.isWriteable && account.isSigner ? 1 : 0),
-      );
-
-  /// Counts the number of accounts that are non signers and readonly.
-  int getNumReadonlyNonSigners() => fold(
-        0,
-        (total, account) =>
-            total + (!account.isWriteable && !account.isSigner ? 1 : 0),
-      );
+    return 0;
+  }
 }

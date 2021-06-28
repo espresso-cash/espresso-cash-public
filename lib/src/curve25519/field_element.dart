@@ -92,8 +92,7 @@ class _FieldElement {
       _FieldElement._fromConstList([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   static const _FieldElement one =
       _FieldElement._fromConstList([1, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-  static const _FieldElement minusOne = // ignore: unused_field
-      _FieldElement._fromConstList([-1, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
   final List<int> _t;
 
   static int load_3(List<int> input, int offset) {
@@ -1026,4 +1025,7 @@ class _FieldElement {
     r = r.abs();
     return SqrtRatioM1Result(correctSignSqrt | flippedSignSqrt, r);
   }
+
+  @override
+  String toString() => _t.toString();
 }

@@ -4,7 +4,6 @@ class _CompactU16 extends ByteArray {
   _CompactU16(int value) {
     final List<int> data = List<int>.empty(growable: true);
     int rawValue = value;
-    // ignore: literal_only_boolean_expressions
     while (rawValue != 0) {
       final int currentByte = rawValue & 0x7f;
       rawValue >>= 7;

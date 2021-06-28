@@ -13,7 +13,6 @@ part 'compact_u16.dart';
 part 'compiled_instruction.dart';
 part 'constants.dart';
 part 'extensions.dart';
-part 'helpers.dart';
 part 'instruction.dart';
 part 'message.dart';
 part 'message_header.dart';
