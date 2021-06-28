@@ -84,6 +84,37 @@ class Message extends Serializable {
     );
   }
 
+  /// Create a solana create_account message
+  factory Message.createAccount({
+    required String fromPubKey,
+    required String toPubKey,
+    required int lamports,
+    required int space,
+    required Blockhash recentBlockhash,
+  }) {
+    final instruction = Instruction(
+      programIdIndex: 2,
+      accountIndices: CompactArray.fromList([0, 1]),
+      data: CompactArray.fromList([
+        ...0.toSolanaBytes(32),
+        ...lamports.toSolanaBytes(64),
+        ...space.toSolanaBytes(64),
+        ...base58.decode(solanaSystemProgramID),
+      ]),
+    );
+
+    return Message._(
+      header: MessageHeader(2, 0, 1),
+      accounts: CompactArray.fromList([
+        Address.from(fromPubKey),
+        Address.from(toPubKey),
+        Address.from(solanaSystemProgramID),
+      ]),
+      recentBlockhash: recentBlockhash.blockhash,
+      instructions: CompactArray.fromList([instruction]),
+    );
+  }
+
   final MessageHeader header;
   final CompactArray<Address> accounts;
   final String recentBlockhash;

@@ -60,13 +60,19 @@ class SolanaWallet {
   Future<crypto.Signature> sign(List<int> data) =>
       _ed25519.sign(data, keyPair: _keyPair);
 
-  /// Sign a solana program message
-  Future<SignedTx> signMessage(Message message) async {
+  /// Sign a solana program message.
+  /// [anotherSignatures] - array of signatures to add
+  /// to the signed message
+  Future<SignedTx> signMessage(Message message,
+      {List<crypto.Signature> anotherSignatures = const []}) async {
     final List<int> serializedMessage = message.serialize();
     final signature = Signature.from(await sign(serializedMessage));
-
+    final signatures = <Signature>[signature];
+    for (final anotherSignature in anotherSignatures) {
+      signatures.add(Signature.from(anotherSignature));
+    }
     return SignedTx(
-      signatures: CompactArray.fromList([signature]),
+      signatures: CompactArray.fromList(signatures),
       message: message,
     );
   }
