@@ -1,4 +1,4 @@
-import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/wallet.dart';
 
@@ -6,7 +6,7 @@ Future<void> example() async {
   final rpcClient = RPCClient(_rpcClientUrl);
   // Create a wallet
   final source = Wallet(
-    signer: await HDKeyPair.random(),
+    signer: await Ed25519HDKeyPair.random(),
     rpcClient: rpcClient,
   );
 
@@ -15,7 +15,7 @@ Future<void> example() async {
   await source.requestAirdrop(lamports: 5);
 
   // Final Destination (so funny :D)
-  final destination = await HDKeyPair.random();
+  final destination = await Ed25519HDKeyPair.random();
 
   // Finally transfer the tokens to the recipient
   await source.transferWithMemo(

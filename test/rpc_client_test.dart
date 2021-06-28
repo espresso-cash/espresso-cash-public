@@ -1,6 +1,6 @@
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/system_program/system_program.dart';
 import 'package:test/test.dart';
@@ -12,15 +12,15 @@ const int _transferredAmount = 0x1000;
 void main() {
   group('SolanaClient testsuite', () {
     final RPCClient rpcClient = RPCClient(devnetRpcUrl);
-    late HDKeyPair destination;
-    late HDKeyPair source;
+    late Ed25519HDKeyPair destination;
+    late Ed25519HDKeyPair source;
     int currentBalance = 0;
 
     setUpAll(() async {
-      destination = await HDKeyPair.fromMnemonic(
+      destination = await Ed25519HDKeyPair.fromMnemonic(
         generateMnemonic(),
       ); // generateMnemonic());
-      source = await HDKeyPair.fromMnemonic(
+      source = await Ed25519HDKeyPair.fromMnemonic(
         generateMnemonic(),
         account: 1,
       );
@@ -148,10 +148,10 @@ void main() {
 
   group('Test commitment', () {
     final RPCClient solanaClient = RPCClient(devnetRpcUrl);
-    late HDKeyPair wallet;
+    late Ed25519HDKeyPair wallet;
 
     setUp(() async {
-      wallet = await HDKeyPair.fromMnemonic(generateMnemonic());
+      wallet = await Ed25519HDKeyPair.fromMnemonic(generateMnemonic());
     });
 
     test('Balance is not updated until tx is finalized', () async {

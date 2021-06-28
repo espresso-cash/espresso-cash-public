@@ -1,5 +1,5 @@
 import 'package:solana/solana.dart' show lamportsPerSol;
-import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
@@ -15,11 +15,11 @@ void main() {
   late SplToken token;
 
   setUpAll(() async {
-    final signer = await HDKeyPair.random();
+    final signer = await Ed25519HDKeyPair.random();
     rpcClient = RPCClient(devnetRpcUrl);
     source = Wallet(signer: signer, rpcClient: rpcClient);
     destination =
-        Wallet(signer: await HDKeyPair.random(), rpcClient: rpcClient);
+        Wallet(signer: await Ed25519HDKeyPair.random(), rpcClient: rpcClient);
     // Add tokens to the sender
     await source.requestAirdrop(lamports: 100 * lamportsPerSol);
     token = await rpcClient.initializeMint(
@@ -84,7 +84,7 @@ void main() {
 
   test('Throws when token is not loaded', () async {
     final wallet = Wallet(
-      signer: await HDKeyPair.random(),
+      signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
     expect(
@@ -95,7 +95,7 @@ void main() {
 
   test('Load a token into a wallet', () async {
     final wallet = Wallet(
-      signer: await HDKeyPair.random(),
+      signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
     await wallet.addSplToken(mint: token.mint);
@@ -104,7 +104,7 @@ void main() {
 
   test('Get a token balance', () async {
     final wallet = Wallet(
-      signer: await HDKeyPair.random(),
+      signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
     expect(wallet.hasAssociatedTokenAccount(mint: token.mint), equals(false));
@@ -127,7 +127,7 @@ void main() {
   test('Fails SPL transfer if recipient has no associated token account',
       () async {
     final wallet = Wallet(
-      signer: await HDKeyPair.random(),
+      signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
     await wallet.addSplToken(mint: token.mint);
@@ -143,7 +143,7 @@ void main() {
 
   test('Transfer SPL tokens successfully', () async {
     final wallet = Wallet(
-      signer: await HDKeyPair.random(),
+      signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
     await wallet.createAssociatedTokenAccount(
@@ -163,7 +163,7 @@ void main() {
 
   test('Transfer SPL tokens with memo', () async {
     final wallet = Wallet(
-      signer: await HDKeyPair.random(),
+      signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
     // Create the associated account for the recipient

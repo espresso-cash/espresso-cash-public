@@ -11,8 +11,8 @@ import 'package:solana/src/encoder/encoder.dart';
 final _random = Random.secure();
 
 /// Signs solana transactions using the ed25519 elliptic curve
-class HDKeyPair extends KeyPair {
-  HDKeyPair._({
+class Ed25519HDKeyPair extends KeyPair {
+  Ed25519HDKeyPair._({
     required KeyData keyData,
     required List<int> publicKey,
   })  : _keyData = keyData,
@@ -21,26 +21,26 @@ class HDKeyPair extends KeyPair {
         // over and over because it's needed often.
         address = base58.encode(publicKey);
 
-  /// Construct a new [HDKeyPair] from a [seed] and a derivation path [hdPath].
-  static Future<HDKeyPair> fromSeedWithHdPath({
+  /// Construct a new [Ed25519HDKeyPair] from a [seed] and a derivation path [hdPath].
+  static Future<Ed25519HDKeyPair> fromSeedWithHdPath({
     required List<int> seed,
     required String hdPath,
   }) async {
     final KeyData _keyData = await ED25519_HD_KEY.derivePath(hdPath, seed);
-    return HDKeyPair._(
+    return Ed25519HDKeyPair._(
       keyData: _keyData,
       publicKey: await ED25519_HD_KEY.getPublicKey(_keyData.key, false),
     );
   }
 
-  /// Generate a new random [HDKeyPair]
-  static Future<HDKeyPair> random() async {
+  /// Generate a new random [Ed25519HDKeyPair]
+  static Future<Ed25519HDKeyPair> random() async {
     final random = (int _) => _random.nextInt(256);
     // Create the seed
     final List<int> seedBytes = List<int>.generate(32, random);
     // final PublicKey publicKey = await keyPair.extractPublicKey();
     // Finally, create a new wallet
-    return HDKeyPair.fromSeedWithHdPath(
+    return Ed25519HDKeyPair.fromSeedWithHdPath(
       seed: seedBytes,
       hdPath: "m/44'/501'/0'/0'",
     );
@@ -62,13 +62,13 @@ class HDKeyPair extends KeyPair {
   ///     solana-keygen pubkey prompt://
   ///
   /// and passing the [mnemonic] seed phrase
-  static Future<HDKeyPair> fromMnemonic(
+  static Future<Ed25519HDKeyPair> fromMnemonic(
     String mnemonic, {
     int account = 0,
     int change = 0,
   }) async {
     final List<int> seed = bip39.mnemonicToSeed(mnemonic);
-    return HDKeyPair.fromSeedWithHdPath(
+    return Ed25519HDKeyPair.fromSeedWithHdPath(
       seed: seed,
       hdPath: _getHDPath(account, change),
     );

@@ -2,7 +2,7 @@ library spl_token;
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
-import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
@@ -30,7 +30,7 @@ class SplToken {
   static Future<SplToken> _withOptionalOwner({
     required String mint,
     required RPCClient rpcClient,
-    HDKeyPair? owner,
+    Ed25519HDKeyPair? owner,
   }) async {
     final supplyResponse = await rpcClient.getTokenSupply(mint);
     final supplyValue = supplyResponse.value;
@@ -47,7 +47,7 @@ class SplToken {
   static Future<SplToken> readWrite({
     required String mint,
     required RPCClient rpcClient,
-    required HDKeyPair owner,
+    required Ed25519HDKeyPair owner,
   }) =>
       SplToken._withOptionalOwner(
         mint: mint,
@@ -82,7 +82,7 @@ class SplToken {
     required String source,
     required String destination,
     required int amount,
-    required HDKeyPair owner,
+    required Ed25519HDKeyPair owner,
   }) async {
     // A sender must have the appropriate associated account, in case they
     // don't it's an error and we should throw an exception.
@@ -109,8 +109,8 @@ class SplToken {
 
   /// Create an account for [account]
   Future<Account> createAccount({
-    required HDKeyPair account,
-    required HDKeyPair creator,
+    required Ed25519HDKeyPair account,
+    required Ed25519HDKeyPair creator,
   }) async {
     const space = TokenProgram.neededAccountSpace;
     final rent = await _rpcClient.getMinimumBalanceForRentExemption(space);
@@ -155,7 +155,7 @@ class SplToken {
   /// Create the associated account for [owner] funded by [funder].
   Future<AssociatedTokenAccount> createAssociatedAccount({
     required String owner,
-    required HDKeyPair funder,
+    required Ed25519HDKeyPair funder,
   }) async {
     final derivedAddress = await computeAssociatedAddress(
       owner: owner,
@@ -225,7 +225,7 @@ class SplToken {
   final int decimals;
   final int supply;
   final String mint;
-  final HDKeyPair? owner;
+  final Ed25519HDKeyPair? owner;
   final RPCClient _rpcClient;
 }
 
@@ -240,14 +240,14 @@ extension TokenExt on RPCClient {
   ///
   /// Finally, you can also send the transaction with optional [commitment].
   Future<SplToken> initializeMint({
-    required HDKeyPair owner,
+    required Ed25519HDKeyPair owner,
     required int decimals,
     String? mintAuthority,
     String? freezeAuthority,
     Commitment? commitment,
   }) async {
     const space = TokenProgram.neededMintAccountSpace;
-    final mintWallet = await HDKeyPair.random();
+    final mintWallet = await Ed25519HDKeyPair.random();
     final rent = await getMinimumBalanceForRentExemption(space);
 
     final message = TokenProgram.initializeMint(

@@ -1,9 +1,9 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 
 Future<void> airdrop(
   RPCClient client,
-  HDKeyPair wallet, {
+  Ed25519HDKeyPair wallet, {
   int? sol,
   int? lamports,
 }) async {

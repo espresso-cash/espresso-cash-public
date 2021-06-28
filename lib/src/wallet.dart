@@ -1,5 +1,5 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
@@ -312,7 +312,7 @@ class Wallet {
 
   /// The [signer] associated to this wallet. This is exported
   /// because it can be needed in some places.
-  final HDKeyPair signer;
+  final Ed25519HDKeyPair signer;
 
   final RPCClient _rpcClient;
   final Map<String, _TokenInfo> _tokens;

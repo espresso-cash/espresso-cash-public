@@ -1,5 +1,5 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:test/test.dart';
@@ -11,10 +11,10 @@ void main() {
   group('Test spl tokens', () {
     final RPCClient client = RPCClient(devnetRpcUrl);
     late final String newTokenMint;
-    late final HDKeyPair owner;
+    late final Ed25519HDKeyPair owner;
 
     setUpAll(() async {
-      owner = await HDKeyPair.random();
+      owner = await Ed25519HDKeyPair.random();
       await airdrop(client, owner, sol: 100);
     });
 
@@ -31,8 +31,8 @@ void main() {
     });
 
     test(' create an account with', () async {
-      final creator = await HDKeyPair.random();
-      final account = await HDKeyPair.random();
+      final creator = await Ed25519HDKeyPair.random();
+      final account = await Ed25519HDKeyPair.random();
       await airdrop(client, creator, sol: 100);
       final token = await SplToken.readonly(
         mint: newTokenMint,
@@ -100,7 +100,7 @@ void main() {
     });
 
     test('Transfer tokens succeeds when associated accounts exist', () async {
-      final recipient = await HDKeyPair.random();
+      final recipient = await Ed25519HDKeyPair.random();
       final token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
@@ -126,7 +126,7 @@ void main() {
     test(
         'Fails to transfer tokens if the recipient has no associated token account',
         () async {
-      final recipient = await HDKeyPair.random();
+      final recipient = await Ed25519HDKeyPair.random();
       final token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
@@ -147,7 +147,7 @@ void main() {
     test(
         'Fails to transfer tokens if the sender has no associated token account',
         () async {
-      final sender = await HDKeyPair.random();
+      final sender = await Ed25519HDKeyPair.random();
       final token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,

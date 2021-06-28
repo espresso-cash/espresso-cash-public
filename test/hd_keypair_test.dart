@@ -1,4 +1,4 @@
-import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -6,7 +6,7 @@ void main() {
     for (final int walletIndex in _testCases.keys) {
       final wallet = _testCases[walletIndex]!;
       for (final MapEntry<int, String> item in wallet.entries) {
-        final signer = await HDKeyPair.fromMnemonic(
+        final signer = await Ed25519HDKeyPair.fromMnemonic(
           _mnemonic,
           account: walletIndex,
           change: item.key,

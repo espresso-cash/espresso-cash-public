@@ -7,7 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/crypto/hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 
@@ -393,7 +393,7 @@ class RPCClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TransactionSignature> signAndSendTransaction(
     Message message,
-    List<HDKeyPair> signers, {
+    List<Ed25519HDKeyPair> signers, {
     String? feePayer,
     Commitment? commitment,
   }) async {
