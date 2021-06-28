@@ -219,13 +219,13 @@ class _FieldElement {
   int get hashCode => toByteArray().hashCode;
 
   @override
-  bool operator ==(Object other) =>
-      other is _FieldElement && fastEqual(other) == 1;
-
-  int fastEqual(_FieldElement other) {
+  bool operator ==(Object other) {
+    if (other is! _FieldElement) {
+      return false;
+    }
     final b = toByteArray();
     final c = other.toByteArray();
-    return b._fastEqual(c);
+    return b._compareAll(c);
   }
 
   _FieldElement select(_FieldElement other, int selector) {
@@ -1017,9 +1017,9 @@ class _FieldElement {
     _FieldElement r = u * v3 * (u * v7).powP58();
     final _FieldElement check = v * r.square();
     final _FieldElement uNeg = -u;
-    final int correctSignSqrt = check.fastEqual(u);
-    final int flippedSignSqrt = check.fastEqual(uNeg);
-    final int flippedSignSqrtM1 = check.fastEqual(uNeg * sqrtM1);
+    final int correctSignSqrt = check == u ? 1 : 0;
+    final int flippedSignSqrt = check == uNeg ? 1 : 0;
+    final int flippedSignSqrtM1 = check == uNeg * sqrtM1 ? 1 : 0;
     final _FieldElement rPrime = r * sqrtM1;
     r = r.select(rPrime, flippedSignSqrt | flippedSignSqrtM1);
     // Choose the non-negative square root.

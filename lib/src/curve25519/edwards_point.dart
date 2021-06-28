@@ -42,9 +42,14 @@ class EdwardsPoint {
     return s.dbl().toExtended();
   }
 
-  bool isIdentity() => _fastEqual(EdwardsPoint.identity) == 1;
+  bool isIdentity() => this == EdwardsPoint.identity;
 
   bool isSmallOrder() => _multiplyByCofactor().isIdentity();
 
-  int _fastEqual(EdwardsPoint other) => compress().fastEqual(other.compress());
+  @override
+  bool operator ==(Object other) =>
+      other is EdwardsPoint && compress() == other.compress();
+
+  @override
+  int get hashCode => _t.hashCode;
 }
