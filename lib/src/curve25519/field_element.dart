@@ -225,7 +225,7 @@ class _FieldElement {
     }
     final b = toByteArray();
     final c = other.toByteArray();
-    return b._compareAll(c);
+    return b.compareAll(c);
   }
 
   _FieldElement select(_FieldElement other, int selector) {

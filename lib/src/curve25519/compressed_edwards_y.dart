@@ -21,7 +21,7 @@ class CompressedEdwardsY {
     }
     final _FieldElement sqrtResult = sqrt.result;
     final int isNegative = sqrtResult.isNegative();
-    final int selector = isNegative == data._bit(255) ? 1 : 0;
+    final int selector = isNegative == data.bit(255) ? 1 : 0;
     final _FieldElement x = (-sqrt.result).select(sqrt.result, selector);
     return EdwardsPoint(x, y, _FieldElement.one, x * y);
   }
@@ -31,5 +31,5 @@ class CompressedEdwardsY {
 
   @override
   bool operator ==(Object other) =>
-      other is CompressedEdwardsY && data._compareAll(other.data);
+      other is CompressedEdwardsY && data.compareAll(other.data);
 }

@@ -1,9 +1,9 @@
 part of 'curve25519.dart';
 
 extension on List<int> {
-  int _bit(int offset) => (this[offset >> 3] >> (offset & 7)) & 1;
+  int bit(int offset) => (this[offset >> 3] >> (offset & 7)) & 1;
 
-  bool _compareAll(List<int> other) {
+  bool compareAll(List<int> other) {
     if (length != other.length) {
       return false;
     }
