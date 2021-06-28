@@ -13,8 +13,6 @@ class EdwardsPoint {
   late final _FieldElement _x;
   late final _FieldElement _y;
   late final _FieldElement _z;
-
-  // ignore: unused_field
   late final _FieldElement _t;
 
   CompressedEdwardsY compress() {
@@ -51,5 +49,5 @@ class EdwardsPoint {
       other is EdwardsPoint && compress() == other.compress();
 
   @override
-  int get hashCode => _t.hashCode;
+  int get hashCode => '$_x$_y$_z$_t'.hashCode;
 }

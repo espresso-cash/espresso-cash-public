@@ -11,7 +11,7 @@ class Message {
   }) : super();
 
   int countRequiredSignatures(String? feePayer) {
-    final accounts = instructions._getAccounts(feePayer);
+    final accounts = instructions.getAccounts(feePayer);
     return accounts.getNumReadonlySigners() + accounts.getNumSigners();
   }
 
@@ -21,7 +21,7 @@ class Message {
     Blockhash recentBlockhash, {
     String? feePayer,
   }) {
-    final accounts = instructions._getAccounts(feePayer);
+    final accounts = instructions.getAccounts(feePayer);
     final accountsIndexesMap = accounts.toIndexesMap();
     final header = _MessageHeader.fromAccounts(accounts);
     final compiledInstructions = instructions
@@ -64,8 +64,8 @@ class Message {
     required Blockhash recentBlockhash,
     String? feePayer,
   }) {
-    final accounts = instructions._getAccounts(feePayer);
-    final keys = _CompactArray<Buffer>.fromIterable(
+    final accounts = instructions.getAccounts(feePayer);
+    final keys = _CompactArray.fromIterable(
       accounts.toSerializablePubKeys(),
     );
     final accountsIndexesMap = accounts.toIndexesMap();
@@ -85,18 +85,5 @@ class Message {
       recentBlockhash.toBytes(),
       compiledInstructions,
     ]);
-  }
-}
-
-extension on Iterable<AccountMeta> {
-  Map<String, int> toIndexesMap() {
-    final Map<String, int> mapped = {};
-
-    for (int i = 0; i < length; ++i) {
-      final AccountMeta item = elementAt(i);
-      mapped[item.pubKey] = i;
-    }
-
-    return mapped;
   }
 }

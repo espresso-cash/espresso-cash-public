@@ -9,7 +9,7 @@ class _CompiledInstruction extends ByteArray {
     required Instruction instruction,
     required Map<String, int> accountIndexesMap,
   }) {
-    final Iterable<AccountMeta> accounts = instruction.accounts;
+    final List<AccountMeta> accounts = instruction.accounts;
     final data = _CompactArray.fromIterable(instruction.data);
     if (!accountIndexesMap.containsKey(instruction.programId)) {
       throw const FormatException('programId not found in accountIndexesMap');

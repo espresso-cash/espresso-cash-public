@@ -8,7 +8,7 @@ class SystemInstruction extends Instruction {
   /// array correctly sorted, e.g., for a transfer program the `source` should
   /// be before the `destination`
   const SystemInstruction({
-    required Iterable<AccountMeta> accounts,
+    required List<AccountMeta> accounts,
     required ByteArray data,
   }) : super(
           programId: SystemProgram.programId,

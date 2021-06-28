@@ -18,6 +18,6 @@ class Instruction {
   }) : super();
 
   final String programId;
-  final Iterable<AccountMeta> accounts;
+  final List<AccountMeta> accounts;
   final ByteArray data;
 }
