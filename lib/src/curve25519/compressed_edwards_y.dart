@@ -21,7 +21,7 @@ class CompressedEdwardsY {
     }
     final sqrtResult = sqrt.result;
     final isNegative = sqrtResult.isNegative();
-    final selector = isNegative == _data.bit(255) ? 1 : 0;
+    final selector = isNegative && _data.bit(255) == 1 ? 1 : 0;
     final x = (-sqrt.result).select(sqrt.result, selector);
     return EdwardsPoint(x, y, _FieldElement.one, x * y);
   }

@@ -214,11 +214,12 @@ class _FieldElement {
     return _FieldElement(result);
   }
 
-  _FieldElement abs() => select(-this, isNegative());
+  _FieldElement abs() => select(-this, isNegative() ? 1 : 0);
 
-  int isNegative() {
+  bool isNegative() {
     final s = toByteArray();
-    return s[0] & 1;
+    print(s[0] & 1);
+    return s[0] & 1 == 1;
   }
 
   _FieldElement operator +(_FieldElement val) {

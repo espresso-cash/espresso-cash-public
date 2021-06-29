@@ -20,7 +20,8 @@ class EdwardsPoint {
     final x = _x * r;
     final y = _y * r;
     final s = y.toByteArray();
-    s[31] |= x.isNegative() << 7;
+    final shift = x.isNegative() ? 1 : 0;
+    s[31] |= shift << 7;
     return CompressedEdwardsY(s);
   }
 
