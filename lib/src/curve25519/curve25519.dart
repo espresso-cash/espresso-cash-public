@@ -1,5 +1,7 @@
 library curve25519;
 
+import 'dart:typed_data';
+
 part 'completed_point.dart';
 /**
  * Most of the code in this library was taken from

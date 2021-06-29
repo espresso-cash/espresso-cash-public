@@ -6,8 +6,11 @@ const _FieldElement sqrtM1 = _FieldElement._fromConstList([
 ]);
 
 class SqrtRatioM1Result {
-  SqrtRatioM1Result(this.wasSquare, this.result);
+  SqrtRatioM1Result(
+    this.result, {
+    required this.wasSquare,
+  });
 
-  final int wasSquare;
+  final bool wasSquare;
   final _FieldElement result;
 }

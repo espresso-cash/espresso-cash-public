@@ -999,7 +999,8 @@ class _FieldElement {
     r = r.select(rPrime, flippedSignSqrt | flippedSignSqrtM1);
     // Choose the non-negative square root.
     r = r.abs();
-    return SqrtRatioM1Result(correctSignSqrt | flippedSignSqrt, r);
+    final wasSquare = correctSignSqrt | flippedSignSqrt != 0;
+    return SqrtRatioM1Result(r, wasSquare: wasSquare);
   }
 
   @override

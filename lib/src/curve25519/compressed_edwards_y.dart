@@ -16,7 +16,7 @@ class CompressedEdwardsY {
     final u = ySquare - _FieldElement.one;
     final v = ySquare * _d + _FieldElement.one;
     final sqrt = _FieldElement.sqrtRatioM1(u, v);
-    if (sqrt.wasSquare != 1) {
+    if (!sqrt.wasSquare) {
       throw const FormatException('not a valid point');
     }
     final sqrtResult = sqrt.result;
