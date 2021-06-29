@@ -19,3 +19,4 @@ part 'edwards_point.dart';
 part 'extensions.dart';
 part 'field_element.dart';
 part 'projective_point.dart';
+part 'sqrt_ratio_m1_result.dart';

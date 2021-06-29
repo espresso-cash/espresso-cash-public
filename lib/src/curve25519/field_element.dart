@@ -1,17 +1,5 @@
 part of 'curve25519.dart';
 
-const _FieldElement sqrtM1 = _FieldElement._fromConstList([
-  -32595792, -7943725, 9377950, 3500415, 12389472, //
-  -272473, -25146209, -2005654, 326686, 11406482,
-]);
-
-class SqrtRatioM1Result {
-  SqrtRatioM1Result(this.wasSquare, this.result);
-
-  final int wasSquare;
-  final _FieldElement result;
-}
-
 class _FieldElement {
   _FieldElement(this._t) {
     if (_t.length != 10) {
@@ -178,7 +166,7 @@ class _FieldElement {
     carry9 = h9 >> 25;
     h9 -= carry9 << 25;
     // Step 2 (straight forward conversion):
-    final List<int> s = List.filled(32, 0);
+    final s = List.filled(32, 0);
     s[0] = h0;
     s[1] = h0 >> 8;
     s[2] = h0 >> 16;
@@ -214,22 +202,9 @@ class _FieldElement {
     return s;
   }
 
-  @override
-  int get hashCode => toByteArray().hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    if (other is! _FieldElement) {
-      return false;
-    }
-    final b = toByteArray();
-    final c = other.toByteArray();
-    return b.compareAll(c);
-  }
-
   _FieldElement select(_FieldElement other, int selector) {
-    final int b = -selector;
-    final List<int> result = List.filled(10, 0);
+    final b = -selector;
+    final result = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
       result[i] = _t[i];
       int x = _t[i] ^ other._t[i];
@@ -242,13 +217,13 @@ class _FieldElement {
   _FieldElement abs() => select(-this, isNegative());
 
   int isNegative() {
-    final List<int> s = toByteArray();
+    final s = toByteArray();
     return s[0] & 1;
   }
 
   _FieldElement operator +(_FieldElement val) {
-    final List<int> g = val._t;
-    final List<int> h = List.filled(10, 0);
+    final g = val._t;
+    final h = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
       h[i] = _t[i] + g[i];
     }
@@ -256,8 +231,8 @@ class _FieldElement {
   }
 
   _FieldElement operator -(_FieldElement val) {
-    final List<int> g = val._t;
-    final List<int> h = List.filled(10, 0);
+    final g = val._t;
+    final h = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
       h[i] = _t[i] - g[i];
     }
@@ -265,7 +240,7 @@ class _FieldElement {
   }
 
   _FieldElement operator -() {
-    final List<int> h = List.filled(10, 0);
+    final h = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
       h[i] = -_t[i];
     }
@@ -273,121 +248,121 @@ class _FieldElement {
   }
 
   _FieldElement operator *(_FieldElement val) {
-    final List<int> g = val._t;
-    final int g1_19 = 19 * g[1]; /* 1.959375*2^29 */
-    final int g2_19 = 19 * g[2]; /* 1.959375*2^30; still ok */
-    final int g3_19 = 19 * g[3];
-    final int g4_19 = 19 * g[4];
-    final int g5_19 = 19 * g[5];
-    final int g6_19 = 19 * g[6];
-    final int g7_19 = 19 * g[7];
-    final int g8_19 = 19 * g[8];
-    final int g9_19 = 19 * g[9];
-    final int f1_2 = 2 * _t[1];
-    final int f3_2 = 2 * _t[3];
-    final int f5_2 = 2 * _t[5];
-    final int f7_2 = 2 * _t[7];
-    final int f9_2 = 2 * _t[9];
-    final int f0g0 = _t[0] * g[0];
-    final int f0g1 = _t[0] * g[1];
-    final int f0g2 = _t[0] * g[2];
-    final int f0g3 = _t[0] * g[3];
-    final int f0g4 = _t[0] * g[4];
-    final int f0g5 = _t[0] * g[5];
-    final int f0g6 = _t[0] * g[6];
-    final int f0g7 = _t[0] * g[7];
-    final int f0g8 = _t[0] * g[8];
-    final int f0g9 = _t[0] * g[9];
-    final int f1g0 = _t[1] * g[0];
-    final int f1g1_2 = f1_2 * g[1];
-    final int f1g2 = _t[1] * g[2];
-    final int f1g3_2 = f1_2 * g[3];
-    final int f1g4 = _t[1] * g[4];
-    final int f1g5_2 = f1_2 * g[5];
-    final int f1g6 = _t[1] * g[6];
-    final int f1g7_2 = f1_2 * g[7];
-    final int f1g8 = _t[1] * g[8];
-    final int f1g9_38 = f1_2 * g9_19;
-    final int f2g0 = _t[2] * g[0];
-    final int f2g1 = _t[2] * g[1];
-    final int f2g2 = _t[2] * g[2];
-    final int f2g3 = _t[2] * g[3];
-    final int f2g4 = _t[2] * g[4];
-    final int f2g5 = _t[2] * g[5];
-    final int f2g6 = _t[2] * g[6];
-    final int f2g7 = _t[2] * g[7];
-    final int f2g8_19 = _t[2] * g8_19;
-    final int f2g9_19 = _t[2] * g9_19;
-    final int f3g0 = _t[3] * g[0];
-    final int f3g1_2 = f3_2 * g[1];
-    final int f3g2 = _t[3] * g[2];
-    final int f3g3_2 = f3_2 * g[3];
-    final int f3g4 = _t[3] * g[4];
-    final int f3g5_2 = f3_2 * g[5];
-    final int f3g6 = _t[3] * g[6];
-    final int f3g7_38 = f3_2 * g7_19;
-    final int f3g8_19 = _t[3] * g8_19;
-    final int f3g9_38 = f3_2 * g9_19;
-    final int f4g0 = _t[4] * g[0];
-    final int f4g1 = _t[4] * g[1];
-    final int f4g2 = _t[4] * g[2];
-    final int f4g3 = _t[4] * g[3];
-    final int f4g4 = _t[4] * g[4];
-    final int f4g5 = _t[4] * g[5];
-    final int f4g6_19 = _t[4] * g6_19;
-    final int f4g7_19 = _t[4] * g7_19;
-    final int f4g8_19 = _t[4] * g8_19;
-    final int f4g9_19 = _t[4] * g9_19;
-    final int f5g0 = _t[5] * g[0];
-    final int f5g1_2 = f5_2 * g[1];
-    final int f5g2 = _t[5] * g[2];
-    final int f5g3_2 = f5_2 * g[3];
-    final int f5g4 = _t[5] * g[4];
-    final int f5g5_38 = f5_2 * g5_19;
-    final int f5g6_19 = _t[5] * g6_19;
-    final int f5g7_38 = f5_2 * g7_19;
-    final int f5g8_19 = _t[5] * g8_19;
-    final int f5g9_38 = f5_2 * g9_19;
-    final int f6g0 = _t[6] * g[0];
-    final int f6g1 = _t[6] * g[1];
-    final int f6g2 = _t[6] * g[2];
-    final int f6g3 = _t[6] * g[3];
-    final int f6g4_19 = _t[6] * g4_19;
-    final int f6g5_19 = _t[6] * g5_19;
-    final int f6g6_19 = _t[6] * g6_19;
-    final int f6g7_19 = _t[6] * g7_19;
-    final int f6g8_19 = _t[6] * g8_19;
-    final int f6g9_19 = _t[6] * g9_19;
-    final int f7g0 = _t[7] * g[0];
-    final int f7g1_2 = f7_2 * g[1];
-    final int f7g2 = _t[7] * g[2];
-    final int f7g3_38 = f7_2 * g3_19;
-    final int f7g4_19 = _t[7] * g4_19;
-    final int f7g5_38 = f7_2 * g5_19;
-    final int f7g6_19 = _t[7] * g6_19;
-    final int f7g7_38 = f7_2 * g7_19;
-    final int f7g8_19 = _t[7] * g8_19;
-    final int f7g9_38 = f7_2 * g9_19;
-    final int f8g0 = _t[8] * g[0];
-    final int f8g1 = _t[8] * g[1];
-    final int f8g2_19 = _t[8] * g2_19;
-    final int f8g3_19 = _t[8] * g3_19;
-    final int f8g4_19 = _t[8] * g4_19;
-    final int f8g5_19 = _t[8] * g5_19;
-    final int f8g6_19 = _t[8] * g6_19;
-    final int f8g7_19 = _t[8] * g7_19;
-    final int f8g8_19 = _t[8] * g8_19;
-    final int f8g9_19 = _t[8] * g9_19;
-    final int f9g0 = _t[9] * g[0];
-    final int f9g1_38 = f9_2 * g1_19;
-    final int f9g2_19 = _t[9] * g2_19;
-    final int f9g3_38 = f9_2 * g3_19;
-    final int f9g4_19 = _t[9] * g4_19;
-    final int f9g5_38 = f9_2 * g5_19;
-    final int f9g6_19 = _t[9] * g6_19;
-    final int f9g7_38 = f9_2 * g7_19;
-    final int f9g8_19 = _t[9] * g8_19;
-    final int f9g9_38 = f9_2 * g9_19;
+    final g = val._t;
+    final g1_19 = 19 * g[1]; /* 1.959375*2^29 */
+    final g2_19 = 19 * g[2]; /* 1.959375*2^30; still ok */
+    final g3_19 = 19 * g[3];
+    final g4_19 = 19 * g[4];
+    final g5_19 = 19 * g[5];
+    final g6_19 = 19 * g[6];
+    final g7_19 = 19 * g[7];
+    final g8_19 = 19 * g[8];
+    final g9_19 = 19 * g[9];
+    final f1_2 = 2 * _t[1];
+    final f3_2 = 2 * _t[3];
+    final f5_2 = 2 * _t[5];
+    final f7_2 = 2 * _t[7];
+    final f9_2 = 2 * _t[9];
+    final f0g0 = _t[0] * g[0];
+    final f0g1 = _t[0] * g[1];
+    final f0g2 = _t[0] * g[2];
+    final f0g3 = _t[0] * g[3];
+    final f0g4 = _t[0] * g[4];
+    final f0g5 = _t[0] * g[5];
+    final f0g6 = _t[0] * g[6];
+    final f0g7 = _t[0] * g[7];
+    final f0g8 = _t[0] * g[8];
+    final f0g9 = _t[0] * g[9];
+    final f1g0 = _t[1] * g[0];
+    final f1g1_2 = f1_2 * g[1];
+    final f1g2 = _t[1] * g[2];
+    final f1g3_2 = f1_2 * g[3];
+    final f1g4 = _t[1] * g[4];
+    final f1g5_2 = f1_2 * g[5];
+    final f1g6 = _t[1] * g[6];
+    final f1g7_2 = f1_2 * g[7];
+    final f1g8 = _t[1] * g[8];
+    final f1g9_38 = f1_2 * g9_19;
+    final f2g0 = _t[2] * g[0];
+    final f2g1 = _t[2] * g[1];
+    final f2g2 = _t[2] * g[2];
+    final f2g3 = _t[2] * g[3];
+    final f2g4 = _t[2] * g[4];
+    final f2g5 = _t[2] * g[5];
+    final f2g6 = _t[2] * g[6];
+    final f2g7 = _t[2] * g[7];
+    final f2g8_19 = _t[2] * g8_19;
+    final f2g9_19 = _t[2] * g9_19;
+    final f3g0 = _t[3] * g[0];
+    final f3g1_2 = f3_2 * g[1];
+    final f3g2 = _t[3] * g[2];
+    final f3g3_2 = f3_2 * g[3];
+    final f3g4 = _t[3] * g[4];
+    final f3g5_2 = f3_2 * g[5];
+    final f3g6 = _t[3] * g[6];
+    final f3g7_38 = f3_2 * g7_19;
+    final f3g8_19 = _t[3] * g8_19;
+    final f3g9_38 = f3_2 * g9_19;
+    final f4g0 = _t[4] * g[0];
+    final f4g1 = _t[4] * g[1];
+    final f4g2 = _t[4] * g[2];
+    final f4g3 = _t[4] * g[3];
+    final f4g4 = _t[4] * g[4];
+    final f4g5 = _t[4] * g[5];
+    final f4g6_19 = _t[4] * g6_19;
+    final f4g7_19 = _t[4] * g7_19;
+    final f4g8_19 = _t[4] * g8_19;
+    final f4g9_19 = _t[4] * g9_19;
+    final f5g0 = _t[5] * g[0];
+    final f5g1_2 = f5_2 * g[1];
+    final f5g2 = _t[5] * g[2];
+    final f5g3_2 = f5_2 * g[3];
+    final f5g4 = _t[5] * g[4];
+    final f5g5_38 = f5_2 * g5_19;
+    final f5g6_19 = _t[5] * g6_19;
+    final f5g7_38 = f5_2 * g7_19;
+    final f5g8_19 = _t[5] * g8_19;
+    final f5g9_38 = f5_2 * g9_19;
+    final f6g0 = _t[6] * g[0];
+    final f6g1 = _t[6] * g[1];
+    final f6g2 = _t[6] * g[2];
+    final f6g3 = _t[6] * g[3];
+    final f6g4_19 = _t[6] * g4_19;
+    final f6g5_19 = _t[6] * g5_19;
+    final f6g6_19 = _t[6] * g6_19;
+    final f6g7_19 = _t[6] * g7_19;
+    final f6g8_19 = _t[6] * g8_19;
+    final f6g9_19 = _t[6] * g9_19;
+    final f7g0 = _t[7] * g[0];
+    final f7g1_2 = f7_2 * g[1];
+    final f7g2 = _t[7] * g[2];
+    final f7g3_38 = f7_2 * g3_19;
+    final f7g4_19 = _t[7] * g4_19;
+    final f7g5_38 = f7_2 * g5_19;
+    final f7g6_19 = _t[7] * g6_19;
+    final f7g7_38 = f7_2 * g7_19;
+    final f7g8_19 = _t[7] * g8_19;
+    final f7g9_38 = f7_2 * g9_19;
+    final f8g0 = _t[8] * g[0];
+    final f8g1 = _t[8] * g[1];
+    final f8g2_19 = _t[8] * g2_19;
+    final f8g3_19 = _t[8] * g3_19;
+    final f8g4_19 = _t[8] * g4_19;
+    final f8g5_19 = _t[8] * g5_19;
+    final f8g6_19 = _t[8] * g6_19;
+    final f8g7_19 = _t[8] * g7_19;
+    final f8g8_19 = _t[8] * g8_19;
+    final f8g9_19 = _t[8] * g9_19;
+    final f9g0 = _t[9] * g[0];
+    final f9g1_38 = f9_2 * g1_19;
+    final f9g2_19 = _t[9] * g2_19;
+    final f9g3_38 = f9_2 * g3_19;
+    final f9g4_19 = _t[9] * g4_19;
+    final f9g5_38 = f9_2 * g5_19;
+    final f9g6_19 = _t[9] * g6_19;
+    final f9g7_38 = f9_2 * g7_19;
+    final f9g8_19 = _t[9] * g8_19;
+    final f9g9_38 = f9_2 * g9_19;
     int h0 = f0g0 +
         f1g9_38 +
         f2g8_19 +
@@ -526,7 +501,7 @@ class _FieldElement {
     carry0 = (h0 + (1 << 25)) >> 26;
     h1 += carry0;
     h0 -= carry0 << 26;
-    final List<int> h = List.filled(10, 0);
+    final h = List.filled(10, 0);
     h[0] = h0;
     h[1] = h1;
     h[2] = h2;
@@ -541,84 +516,84 @@ class _FieldElement {
   }
 
   _FieldElement square() {
-    final int f0 = _t[0];
-    final int f1 = _t[1];
-    final int f2 = _t[2];
-    final int f3 = _t[3];
-    final int f4 = _t[4];
-    final int f5 = _t[5];
-    final int f6 = _t[6];
-    final int f7 = _t[7];
-    final int f8 = _t[8];
-    final int f9 = _t[9];
-    final int f0_2 = 2 * f0;
-    final int f1_2 = 2 * f1;
-    final int f2_2 = 2 * f2;
-    final int f3_2 = 2 * f3;
-    final int f4_2 = 2 * f4;
-    final int f5_2 = 2 * f5;
-    final int f6_2 = 2 * f6;
-    final int f7_2 = 2 * f7;
-    final int f5_38 = 38 * f5; /* 1.959375*2^30 */
-    final int f6_19 = 19 * f6; /* 1.959375*2^30 */
-    final int f7_38 = 38 * f7; /* 1.959375*2^30 */
-    final int f8_19 = 19 * f8; /* 1.959375*2^30 */
-    final int f9_38 = 38 * f9; /* 1.959375*2^30 */
-    final int f0f0 = f0 * f0;
-    final int f0f1_2 = f0_2 * f1;
-    final int f0f2_2 = f0_2 * f2;
-    final int f0f3_2 = f0_2 * f3;
-    final int f0f4_2 = f0_2 * f4;
-    final int f0f5_2 = f0_2 * f5;
-    final int f0f6_2 = f0_2 * f6;
-    final int f0f7_2 = f0_2 * f7;
-    final int f0f8_2 = f0_2 * f8;
-    final int f0f9_2 = f0_2 * f9;
-    final int f1f1_2 = f1_2 * f1;
-    final int f1f2_2 = f1_2 * f2;
-    final int f1f3_4 = f1_2 * f3_2;
-    final int f1f4_2 = f1_2 * f4;
-    final int f1f5_4 = f1_2 * f5_2;
-    final int f1f6_2 = f1_2 * f6;
-    final int f1f7_4 = f1_2 * f7_2;
-    final int f1f8_2 = f1_2 * f8;
-    final int f1f9_76 = f1_2 * f9_38;
-    final int f2f2 = f2 * f2;
-    final int f2f3_2 = f2_2 * f3;
-    final int f2f4_2 = f2_2 * f4;
-    final int f2f5_2 = f2_2 * f5;
-    final int f2f6_2 = f2_2 * f6;
-    final int f2f7_2 = f2_2 * f7;
-    final int f2f8_38 = f2_2 * f8_19;
-    final int f2f9_38 = f2 * f9_38;
-    final int f3f3_2 = f3_2 * f3;
-    final int f3f4_2 = f3_2 * f4;
-    final int f3f5_4 = f3_2 * f5_2;
-    final int f3f6_2 = f3_2 * f6;
-    final int f3f7_76 = f3_2 * f7_38;
-    final int f3f8_38 = f3_2 * f8_19;
-    final int f3f9_76 = f3_2 * f9_38;
-    final int f4f4 = f4 * f4;
-    final int f4f5_2 = f4_2 * f5;
-    final int f4f6_38 = f4_2 * f6_19;
-    final int f4f7_38 = f4 * f7_38;
-    final int f4f8_38 = f4_2 * f8_19;
-    final int f4f9_38 = f4 * f9_38;
-    final int f5f5_38 = f5 * f5_38;
-    final int f5f6_38 = f5_2 * f6_19;
-    final int f5f7_76 = f5_2 * f7_38;
-    final int f5f8_38 = f5_2 * f8_19;
-    final int f5f9_76 = f5_2 * f9_38;
-    final int f6f6_19 = f6 * f6_19;
-    final int f6f7_38 = f6 * f7_38;
-    final int f6f8_38 = f6_2 * f8_19;
-    final int f6f9_38 = f6 * f9_38;
-    final int f7f7_38 = f7 * f7_38;
-    final int f7f8_38 = f7_2 * f8_19;
-    final int f7f9_76 = f7_2 * f9_38;
-    final int f8f8_19 = f8 * f8_19;
-    final int f8f9_38 = f8 * f9_38;
-    final int f9f9_38 = f9 * f9_38;
+    final f0 = _t[0];
+    final f1 = _t[1];
+    final f2 = _t[2];
+    final f3 = _t[3];
+    final f4 = _t[4];
+    final f5 = _t[5];
+    final f6 = _t[6];
+    final f7 = _t[7];
+    final f8 = _t[8];
+    final f9 = _t[9];
+    final f0_2 = 2 * f0;
+    final f1_2 = 2 * f1;
+    final f2_2 = 2 * f2;
+    final f3_2 = 2 * f3;
+    final f4_2 = 2 * f4;
+    final f5_2 = 2 * f5;
+    final f6_2 = 2 * f6;
+    final f7_2 = 2 * f7;
+    final f5_38 = 38 * f5; /* 1.959375*2^30 */
+    final f6_19 = 19 * f6; /* 1.959375*2^30 */
+    final f7_38 = 38 * f7; /* 1.959375*2^30 */
+    final f8_19 = 19 * f8; /* 1.959375*2^30 */
+    final f9_38 = 38 * f9; /* 1.959375*2^30 */
+    final f0f0 = f0 * f0;
+    final f0f1_2 = f0_2 * f1;
+    final f0f2_2 = f0_2 * f2;
+    final f0f3_2 = f0_2 * f3;
+    final f0f4_2 = f0_2 * f4;
+    final f0f5_2 = f0_2 * f5;
+    final f0f6_2 = f0_2 * f6;
+    final f0f7_2 = f0_2 * f7;
+    final f0f8_2 = f0_2 * f8;
+    final f0f9_2 = f0_2 * f9;
+    final f1f1_2 = f1_2 * f1;
+    final f1f2_2 = f1_2 * f2;
+    final f1f3_4 = f1_2 * f3_2;
+    final f1f4_2 = f1_2 * f4;
+    final f1f5_4 = f1_2 * f5_2;
+    final f1f6_2 = f1_2 * f6;
+    final f1f7_4 = f1_2 * f7_2;
+    final f1f8_2 = f1_2 * f8;
+    final f1f9_76 = f1_2 * f9_38;
+    final f2f2 = f2 * f2;
+    final f2f3_2 = f2_2 * f3;
+    final f2f4_2 = f2_2 * f4;
+    final f2f5_2 = f2_2 * f5;
+    final f2f6_2 = f2_2 * f6;
+    final f2f7_2 = f2_2 * f7;
+    final f2f8_38 = f2_2 * f8_19;
+    final f2f9_38 = f2 * f9_38;
+    final f3f3_2 = f3_2 * f3;
+    final f3f4_2 = f3_2 * f4;
+    final f3f5_4 = f3_2 * f5_2;
+    final f3f6_2 = f3_2 * f6;
+    final f3f7_76 = f3_2 * f7_38;
+    final f3f8_38 = f3_2 * f8_19;
+    final f3f9_76 = f3_2 * f9_38;
+    final f4f4 = f4 * f4;
+    final f4f5_2 = f4_2 * f5;
+    final f4f6_38 = f4_2 * f6_19;
+    final f4f7_38 = f4 * f7_38;
+    final f4f8_38 = f4_2 * f8_19;
+    final f4f9_38 = f4 * f9_38;
+    final f5f5_38 = f5 * f5_38;
+    final f5f6_38 = f5_2 * f6_19;
+    final f5f7_76 = f5_2 * f7_38;
+    final f5f8_38 = f5_2 * f8_19;
+    final f5f9_76 = f5_2 * f9_38;
+    final f6f6_19 = f6 * f6_19;
+    final f6f7_38 = f6 * f7_38;
+    final f6f8_38 = f6_2 * f8_19;
+    final f6f9_38 = f6 * f9_38;
+    final f7f7_38 = f7 * f7_38;
+    final f7f8_38 = f7_2 * f8_19;
+    final f7f9_76 = f7_2 * f9_38;
+    final f8f8_19 = f8 * f8_19;
+    final f8f9_38 = f8 * f9_38;
+    final f9f9_38 = f9 * f9_38;
     int h0 = f0f0 + f1f9_76 + f2f8_38 + f3f7_76 + f4f6_38 + f5f5_38;
     int h1 = f0f1_2 + f2f9_38 + f3f8_38 + f4f7_38 + f5f6_38;
     int h2 = f0f2_2 + f1f1_2 + f3f9_76 + f4f8_38 + f5f7_76 + f6f6_19;
@@ -675,7 +650,7 @@ class _FieldElement {
     carry0 = (h0 + (1 << 25)) >> 26;
     h1 += carry0;
     h0 -= carry0 << 26;
-    final List<int> h = List.filled(10, 0);
+    final h = List.filled(10, 0);
     h[0] = h0;
     h[1] = h1;
     h[2] = h2;
@@ -690,84 +665,84 @@ class _FieldElement {
   }
 
   _FieldElement squareAndDouble() {
-    final int f0 = _t[0];
-    final int f1 = _t[1];
-    final int f2 = _t[2];
-    final int f3 = _t[3];
-    final int f4 = _t[4];
-    final int f5 = _t[5];
-    final int f6 = _t[6];
-    final int f7 = _t[7];
-    final int f8 = _t[8];
-    final int f9 = _t[9];
-    final int f0_2 = 2 * f0;
-    final int f1_2 = 2 * f1;
-    final int f2_2 = 2 * f2;
-    final int f3_2 = 2 * f3;
-    final int f4_2 = 2 * f4;
-    final int f5_2 = 2 * f5;
-    final int f6_2 = 2 * f6;
-    final int f7_2 = 2 * f7;
-    final int f5_38 = 38 * f5; /* 1.959375*2^30 */
-    final int f6_19 = 19 * f6; /* 1.959375*2^30 */
-    final int f7_38 = 38 * f7; /* 1.959375*2^30 */
-    final int f8_19 = 19 * f8; /* 1.959375*2^30 */
-    final int f9_38 = 38 * f9; /* 1.959375*2^30 */
-    final int f0f0 = f0 * f0;
-    final int f0f1_2 = f0_2 * f1;
-    final int f0f2_2 = f0_2 * f2;
-    final int f0f3_2 = f0_2 * f3;
-    final int f0f4_2 = f0_2 * f4;
-    final int f0f5_2 = f0_2 * f5;
-    final int f0f6_2 = f0_2 * f6;
-    final int f0f7_2 = f0_2 * f7;
-    final int f0f8_2 = f0_2 * f8;
-    final int f0f9_2 = f0_2 * f9;
-    final int f1f1_2 = f1_2 * f1;
-    final int f1f2_2 = f1_2 * f2;
-    final int f1f3_4 = f1_2 * f3_2;
-    final int f1f4_2 = f1_2 * f4;
-    final int f1f5_4 = f1_2 * f5_2;
-    final int f1f6_2 = f1_2 * f6;
-    final int f1f7_4 = f1_2 * f7_2;
-    final int f1f8_2 = f1_2 * f8;
-    final int f1f9_76 = f1_2 * f9_38;
-    final int f2f2 = f2 * f2;
-    final int f2f3_2 = f2_2 * f3;
-    final int f2f4_2 = f2_2 * f4;
-    final int f2f5_2 = f2_2 * f5;
-    final int f2f6_2 = f2_2 * f6;
-    final int f2f7_2 = f2_2 * f7;
-    final int f2f8_38 = f2_2 * f8_19;
-    final int f2f9_38 = f2 * f9_38;
-    final int f3f3_2 = f3_2 * f3;
-    final int f3f4_2 = f3_2 * f4;
-    final int f3f5_4 = f3_2 * f5_2;
-    final int f3f6_2 = f3_2 * f6;
-    final int f3f7_76 = f3_2 * f7_38;
-    final int f3f8_38 = f3_2 * f8_19;
-    final int f3f9_76 = f3_2 * f9_38;
-    final int f4f4 = f4 * f4;
-    final int f4f5_2 = f4_2 * f5;
-    final int f4f6_38 = f4_2 * f6_19;
-    final int f4f7_38 = f4 * f7_38;
-    final int f4f8_38 = f4_2 * f8_19;
-    final int f4f9_38 = f4 * f9_38;
-    final int f5f5_38 = f5 * f5_38;
-    final int f5f6_38 = f5_2 * f6_19;
-    final int f5f7_76 = f5_2 * f7_38;
-    final int f5f8_38 = f5_2 * f8_19;
-    final int f5f9_76 = f5_2 * f9_38;
-    final int f6f6_19 = f6 * f6_19;
-    final int f6f7_38 = f6 * f7_38;
-    final int f6f8_38 = f6_2 * f8_19;
-    final int f6f9_38 = f6 * f9_38;
-    final int f7f7_38 = f7 * f7_38;
-    final int f7f8_38 = f7_2 * f8_19;
-    final int f7f9_76 = f7_2 * f9_38;
-    final int f8f8_19 = f8 * f8_19;
-    final int f8f9_38 = f8 * f9_38;
-    final int f9f9_38 = f9 * f9_38;
+    final f0 = _t[0];
+    final f1 = _t[1];
+    final f2 = _t[2];
+    final f3 = _t[3];
+    final f4 = _t[4];
+    final f5 = _t[5];
+    final f6 = _t[6];
+    final f7 = _t[7];
+    final f8 = _t[8];
+    final f9 = _t[9];
+    final f0_2 = 2 * f0;
+    final f1_2 = 2 * f1;
+    final f2_2 = 2 * f2;
+    final f3_2 = 2 * f3;
+    final f4_2 = 2 * f4;
+    final f5_2 = 2 * f5;
+    final f6_2 = 2 * f6;
+    final f7_2 = 2 * f7;
+    final f5_38 = 38 * f5; /* 1.959375*2^30 */
+    final f6_19 = 19 * f6; /* 1.959375*2^30 */
+    final f7_38 = 38 * f7; /* 1.959375*2^30 */
+    final f8_19 = 19 * f8; /* 1.959375*2^30 */
+    final f9_38 = 38 * f9; /* 1.959375*2^30 */
+    final f0f0 = f0 * f0;
+    final f0f1_2 = f0_2 * f1;
+    final f0f2_2 = f0_2 * f2;
+    final f0f3_2 = f0_2 * f3;
+    final f0f4_2 = f0_2 * f4;
+    final f0f5_2 = f0_2 * f5;
+    final f0f6_2 = f0_2 * f6;
+    final f0f7_2 = f0_2 * f7;
+    final f0f8_2 = f0_2 * f8;
+    final f0f9_2 = f0_2 * f9;
+    final f1f1_2 = f1_2 * f1;
+    final f1f2_2 = f1_2 * f2;
+    final f1f3_4 = f1_2 * f3_2;
+    final f1f4_2 = f1_2 * f4;
+    final f1f5_4 = f1_2 * f5_2;
+    final f1f6_2 = f1_2 * f6;
+    final f1f7_4 = f1_2 * f7_2;
+    final f1f8_2 = f1_2 * f8;
+    final f1f9_76 = f1_2 * f9_38;
+    final f2f2 = f2 * f2;
+    final f2f3_2 = f2_2 * f3;
+    final f2f4_2 = f2_2 * f4;
+    final f2f5_2 = f2_2 * f5;
+    final f2f6_2 = f2_2 * f6;
+    final f2f7_2 = f2_2 * f7;
+    final f2f8_38 = f2_2 * f8_19;
+    final f2f9_38 = f2 * f9_38;
+    final f3f3_2 = f3_2 * f3;
+    final f3f4_2 = f3_2 * f4;
+    final f3f5_4 = f3_2 * f5_2;
+    final f3f6_2 = f3_2 * f6;
+    final f3f7_76 = f3_2 * f7_38;
+    final f3f8_38 = f3_2 * f8_19;
+    final f3f9_76 = f3_2 * f9_38;
+    final f4f4 = f4 * f4;
+    final f4f5_2 = f4_2 * f5;
+    final f4f6_38 = f4_2 * f6_19;
+    final f4f7_38 = f4 * f7_38;
+    final f4f8_38 = f4_2 * f8_19;
+    final f4f9_38 = f4 * f9_38;
+    final f5f5_38 = f5 * f5_38;
+    final f5f6_38 = f5_2 * f6_19;
+    final f5f7_76 = f5_2 * f7_38;
+    final f5f8_38 = f5_2 * f8_19;
+    final f5f9_76 = f5_2 * f9_38;
+    final f6f6_19 = f6 * f6_19;
+    final f6f7_38 = f6 * f7_38;
+    final f6f8_38 = f6_2 * f8_19;
+    final f6f9_38 = f6 * f9_38;
+    final f7f7_38 = f7 * f7_38;
+    final f7f8_38 = f7_2 * f8_19;
+    final f7f9_76 = f7_2 * f9_38;
+    final f8f8_19 = f8 * f8_19;
+    final f8f9_38 = f8 * f9_38;
+    final f9f9_38 = f9 * f9_38;
     int h0 = f0f0 + f1f9_76 + f2f8_38 + f3f7_76 + f4f6_38 + f5f5_38;
     int h1 = f0f1_2 + f2f9_38 + f3f8_38 + f4f7_38 + f5f6_38;
     int h2 = f0f2_2 + f1f1_2 + f3f9_76 + f4f8_38 + f5f7_76 + f6f6_19;
@@ -834,7 +809,7 @@ class _FieldElement {
     carry0 = (h0 + (1 << 25)) >> 26;
     h1 += carry0;
     h0 -= carry0 << 26;
-    final List<int> h = List.filled(10, 0);
+    final h = List.filled(10, 0);
     h[0] = h0;
     h[1] = h1;
     h[2] = h2;
@@ -1011,19 +986,32 @@ class _FieldElement {
   }
 
   static SqrtRatioM1Result sqrtRatioM1(_FieldElement u, _FieldElement v) {
-    final _FieldElement v3 = v.square() * v;
-    final _FieldElement v7 = v3.square() * v;
+    final v3 = v.square() * v;
+    final v7 = v3.square() * v;
     _FieldElement r = u * v3 * (u * v7).powP58();
-    final _FieldElement check = v * r.square();
-    final _FieldElement uNeg = -u;
-    final int correctSignSqrt = check == u ? 1 : 0;
-    final int flippedSignSqrt = check == uNeg ? 1 : 0;
-    final int flippedSignSqrtM1 = check == uNeg * sqrtM1 ? 1 : 0;
-    final _FieldElement rPrime = r * sqrtM1;
+    final check = v * r.square();
+    final uNeg = -u;
+    final correctSignSqrt = check == u ? 1 : 0;
+    final flippedSignSqrt = check == uNeg ? 1 : 0;
+    final flippedSignSqrtM1 = check == uNeg * sqrtM1 ? 1 : 0;
+    final rPrime = r * sqrtM1;
     r = r.select(rPrime, flippedSignSqrt | flippedSignSqrtM1);
     // Choose the non-negative square root.
     r = r.abs();
     return SqrtRatioM1Result(correctSignSqrt | flippedSignSqrt, r);
+  }
+
+  @override
+  int get hashCode => toByteArray().hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! _FieldElement) {
+      return false;
+    }
+    final b = toByteArray();
+    final c = other.toByteArray();
+    return b.compareAll(c);
   }
 
   @override

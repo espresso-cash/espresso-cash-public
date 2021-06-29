@@ -16,10 +16,10 @@ class EdwardsPoint {
   late final _FieldElement _t;
 
   CompressedEdwardsY compress() {
-    final _FieldElement r = _z.invert();
-    final _FieldElement x = _x * r;
-    final _FieldElement y = _y * r;
-    final List<int> s = y.toByteArray();
+    final r = _z.invert();
+    final x = _x * r;
+    final y = _y * r;
+    final s = y.toByteArray();
     s[31] |= x.isNegative() << 7;
     return CompressedEdwardsY(s);
   }

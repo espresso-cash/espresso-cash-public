@@ -6,30 +6,30 @@ final _d = _FieldElement([
 ]);
 
 class CompressedEdwardsY {
-  CompressedEdwardsY(this.data);
+  CompressedEdwardsY(this._data);
 
-  final List<int> data;
+  final List<int> _data;
 
   EdwardsPoint decompress() {
-    final _FieldElement y = _FieldElement.fromByteArray(data);
-    final _FieldElement ySquare = y.square();
-    final _FieldElement u = ySquare - _FieldElement.one;
-    final _FieldElement v = ySquare * _d + _FieldElement.one;
-    final SqrtRatioM1Result sqrt = _FieldElement.sqrtRatioM1(u, v);
+    final y = _FieldElement.fromByteArray(_data);
+    final ySquare = y.square();
+    final u = ySquare - _FieldElement.one;
+    final v = ySquare * _d + _FieldElement.one;
+    final sqrt = _FieldElement.sqrtRatioM1(u, v);
     if (sqrt.wasSquare != 1) {
       throw const FormatException('not a valid point');
     }
-    final _FieldElement sqrtResult = sqrt.result;
-    final int isNegative = sqrtResult.isNegative();
-    final int selector = isNegative == data.bit(255) ? 1 : 0;
-    final _FieldElement x = (-sqrt.result).select(sqrt.result, selector);
+    final sqrtResult = sqrt.result;
+    final isNegative = sqrtResult.isNegative();
+    final selector = isNegative == _data.bit(255) ? 1 : 0;
+    final x = (-sqrt.result).select(sqrt.result, selector);
     return EdwardsPoint(x, y, _FieldElement.one, x * y);
   }
 
   @override
-  int get hashCode => data.hashCode;
+  int get hashCode => _data.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      other is CompressedEdwardsY && data.compareAll(other.data);
+      other is CompressedEdwardsY && _data.compareAll(other._data);
 }
