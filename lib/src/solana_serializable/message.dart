@@ -92,26 +92,36 @@ class Message extends Serializable {
     required int space,
     required Blockhash recentBlockhash,
   }) {
-    final instruction = Instruction(
-      programIdIndex: 2,
-      accountIndices: CompactArray.fromList([0, 1]),
-      data: CompactArray.fromList([
-        ...0.toSolanaBytes(32),
-        ...lamports.toSolanaBytes(64),
-        ...space.toSolanaBytes(64),
-        ...base58.decode(solanaSystemProgramID),
-      ]),
+    final accounts = [
+      AccountMeta.writeable(pubKey: fromPubKey, isSigner: true),
+      AccountMeta.writeable(pubKey: toPubKey, isSigner: true),
+      AccountMeta.readonly(pubKey: SystemProgram.id, isSigner: false),
+    ];
+
+    final uniqueAccounts = accounts.unique();
+
+    final data = CompactArray.fromList([
+      ...SystemProgramIndex.createAccount,
+      ...SerializableInt.from(lamports, bitSize: 64),
+      ...SerializableInt.from(space, bitSize: 64),
+      ...base58.decode(SystemProgram.id),
+    ]);
+
+    final instruction = Instruction.system(
+      pubKeys: [fromPubKey, toPubKey],
+      accounts: uniqueAccounts,
+      data: data,
     );
+    final instructions = [instruction];
 
     return Message._(
-      header: MessageHeader(2, 0, 1),
+      header: MessageHeader.fromAccounts(uniqueAccounts),
       accounts: CompactArray.fromList([
-        Address.from(fromPubKey),
-        Address.from(toPubKey),
-        Address.from(solanaSystemProgramID),
+        for (AccountMeta account in uniqueAccounts)
+          Address.from(account.pubKey),
       ]),
       recentBlockhash: recentBlockhash.blockhash,
-      instructions: CompactArray.fromList([instruction]),
+      instructions: CompactArray.fromList(instructions),
     );
   }
 

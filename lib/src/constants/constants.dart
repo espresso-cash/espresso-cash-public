@@ -5,6 +5,7 @@ class SystemProgram {
 class SystemProgramIndex {
   static const transfer = [2, 0, 0, 0];
   static const account = [1, 0, 0, 0];
+  static const createAccount = [0, 0, 0, 0];
 }
 
 class MemoProgram {
