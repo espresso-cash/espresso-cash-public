@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 void main() {
   test('Generate associated token account address', () async {
     for (final entry in _map.entries) {
-      final address = await Utils.findProgramAddress(
+      final address = await findProgramAddress(
         seeds: [
           Buffer.fromBase58(entry.key),
           Buffer.fromBase58(TokenProgram.programId),

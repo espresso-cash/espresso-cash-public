@@ -143,7 +143,7 @@ class SplToken {
   Future<String> computeAssociatedAddress({
     required String owner,
   }) =>
-      Utils.findProgramAddress(
+      findProgramAddress(
         seeds: [
           Buffer.fromBase58(owner),
           Buffer.fromBase58(TokenProgram.programId),
