@@ -1,4 +1,8 @@
-part of 'encoder.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:solana/src/base58/base58.dart' as base58;
+import 'package:solana/src/common/byte_array.dart';
 
 const int _bitsPerByte = 8;
 

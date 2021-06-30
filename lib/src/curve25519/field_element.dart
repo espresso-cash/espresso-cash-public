@@ -218,7 +218,6 @@ class _FieldElement {
 
   bool isNegative() {
     final s = toByteArray();
-    print(s[0] & 1);
     return s[0] & 1 == 1;
   }
 

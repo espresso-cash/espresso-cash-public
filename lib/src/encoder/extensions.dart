@@ -1,6 +1,10 @@
-part of 'encoder.dart';
+import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/encoder/account_meta.dart';
+import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/rpc_client/rpc_client.dart';
 
-extension on List<AccountMeta> {
+extension AccountMetaListExt on List<AccountMeta> {
   // Convert account metas to encoder public keys
   Iterable<Buffer> toSerializablePubKeys() =>
       map((a) => Buffer.fromBase58(a.pubKey));
@@ -56,7 +60,7 @@ extension on List<AccountMeta> {
       );
 }
 
-extension on List<Instruction> {
+extension InstructionListExt on List<Instruction> {
   /// Simple helper to extract all accounts from an instruction, it also appends
   /// the program id account which needs to be present in the accounts array sent
   /// in a message.
@@ -104,6 +108,6 @@ extension on List<Instruction> {
       extractAccounts(feePayer).unique()..sort();
 }
 
-extension on Blockhash {
+extension ByteArrayToBytesExt on Blockhash {
   ByteArray toBytes() => Buffer.fromBase58(blockhash);
 }

@@ -8,6 +8,9 @@ import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/encoder/message.dart';
+import 'package:solana/src/encoder/signature.dart';
+import 'package:solana/src/encoder/signed_tx.dart';
 import 'package:solana/src/exceptions/exceptions.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 

@@ -1,4 +1,14 @@
-part of 'encoder.dart';
+import 'dart:convert';
+
+import 'package:solana/src/base58/base58.dart' as base58;
+import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/compact_array.dart';
+import 'package:solana/src/encoder/compiled_instruction.dart';
+import 'package:solana/src/encoder/extensions.dart';
+import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/encoder/message_header.dart';
+import 'package:solana/src/rpc_client/rpc_client.dart';
 
 /// This is an implementation of the [Message Format][message format].
 ///
@@ -23,7 +33,7 @@ class Message {
   }) {
     final accounts = instructions.getAccounts(feePayer);
     final accountsIndexesMap = accounts.toIndexesMap();
-    final header = _MessageHeader.fromAccounts(accounts);
+    final header = MessageHeader.fromAccounts(accounts);
     final compiledInstructions = instructions
         .map(
           (Instruction instruction) => <String, dynamic>{
@@ -65,14 +75,14 @@ class Message {
     String? feePayer,
   }) {
     final accounts = instructions.getAccounts(feePayer);
-    final keys = _CompactArray.fromIterable(
+    final keys = CompactArray.fromIterable(
       accounts.toSerializablePubKeys(),
     );
     final accountsIndexesMap = accounts.toIndexesMap();
-    final header = _MessageHeader.fromAccounts(accounts);
-    final compiledInstructions = _CompactArray.fromIterable(
+    final header = MessageHeader.fromAccounts(accounts);
+    final compiledInstructions = CompactArray.fromIterable(
       instructions.map(
-        (Instruction instruction) => _CompiledInstruction(
+        (Instruction instruction) => CompiledInstruction(
           instruction: instruction,
           accountIndexesMap: accountsIndexesMap,
         ),

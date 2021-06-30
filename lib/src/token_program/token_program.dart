@@ -1,6 +1,10 @@
 library token_program;
 
-import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/encoder/account_meta.dart';
+import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/constants.dart';
+import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/system_program/system_program.dart';
 
 part 'token_instruction.dart';

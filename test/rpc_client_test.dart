@@ -1,7 +1,7 @@
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/encoder/signed_tx.dart';
 import 'package:solana/src/system_program/system_program.dart';
 import 'package:test/test.dart';
 

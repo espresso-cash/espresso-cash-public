@@ -6,7 +6,9 @@ import 'package:cryptography/cryptography.dart'
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
-import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/encoder/message.dart';
+import 'package:solana/src/encoder/signature.dart';
+import 'package:solana/src/encoder/signed_tx.dart';
 
 final _random = Random.secure();
 

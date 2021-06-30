@@ -1,7 +1,8 @@
 import 'package:cryptography/cryptography.dart';
 import 'package:solana/src/base58/base58.dart' as base58;
 import 'package:solana/src/curve25519/curve25519.dart';
-import 'package:solana/src/encoder/encoder.dart';
+
+import 'encoder/buffer.dart';
 
 typedef HashFunc = List<int> Function(List<int> m);
 

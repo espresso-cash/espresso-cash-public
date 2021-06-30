@@ -1,5 +1,3 @@
-part of 'encoder.dart';
-
 /// Class that wraps addresses with information necessary for
 /// solana transactions to be encoded correctly
 class AccountMeta implements Comparable<AccountMeta> {

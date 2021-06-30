@@ -1,19 +1,21 @@
-part of 'encoder.dart';
+import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/compact_u16.dart';
 
-class _CompactArray extends ByteArray {
-  const _CompactArray(this._data);
+class CompactArray extends ByteArray {
+  const CompactArray(this._data);
 
-  factory _CompactArray._fromLengthAndContent(
+  factory CompactArray._fromLengthAndContent(
           ByteArray length, ByteArray content) =>
-      _CompactArray(Buffer.fromConcatenatedByteArrays([length, content]));
+      CompactArray(Buffer.fromConcatenatedByteArrays([length, content]));
 
-  factory _CompactArray.fromIterable(Iterable<Object> items) {
-    final mapped = items.map<ByteArray>(_CompactArray._getBytesOf);
-    final length = _CompactU16(mapped.length);
+  factory CompactArray.fromIterable(Iterable<Object> items) {
+    final mapped = items.map<ByteArray>(CompactArray._getBytesOf);
+    final length = CompactU16(mapped.length);
     if (mapped.isEmpty) {
-      return _CompactArray(length);
+      return CompactArray(length);
     }
-    return _CompactArray._fromLengthAndContent(length, mapped.reduce(_merge));
+    return CompactArray._fromLengthAndContent(length, mapped.reduce(_merge));
   }
 
   static ByteArray _merge(ByteArray values, ByteArray next) =>

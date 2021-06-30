@@ -1,5 +1,3 @@
-part of 'encoder.dart';
-
 abstract class Sysvar {
   Sysvar._();
 

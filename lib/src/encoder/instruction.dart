@@ -1,8 +1,9 @@
-part of 'encoder.dart';
+import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/encoder/account_meta.dart';
 
 /// Taken from [here](https://spl.solana.com/memo#compute-limits)
 ///
-/// An instruction representation that can be converted to a [_CompiledInstruction]
+/// An instruction representation that can be converted to a [CompiledInstruction]
 /// and included into a message.
 class Instruction {
   /// Construct a generic instruction for the [programId] program

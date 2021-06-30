@@ -1,7 +1,7 @@
-part of 'encoder.dart';
+import 'package:solana/src/common/byte_array.dart';
 
-class _CompactU16 extends ByteArray {
-  _CompactU16(int value) {
+class CompactU16 extends ByteArray {
+  CompactU16(int value) {
     final List<int> data = List<int>.empty(growable: true);
     int rawValue = value;
     while (rawValue != 0) {
