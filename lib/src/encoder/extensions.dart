@@ -59,49 +59,26 @@ extension AccountMetaListExt on List<AccountMeta> {
 }
 
 extension InstructionListExt on List<Instruction> {
-  /// Simple helper to extract all accounts from an instruction, it also appends
-  /// the program id account which needs to be present in the accounts array sent
-  /// in a message.
-  List<AccountMeta> extractAccounts(String? feePayer) {
-    final accounts = [
-      for (final Instruction instruction in this) ...[
-        ...instruction.accounts,
-      ],
-      for (final Instruction instruction in this) ...[
-        AccountMeta.readonly(pubKey: instruction.programId, isSigner: false),
-      ]
-    ];
-    if (feePayer == null) {
-      return accounts;
-    }
-    final feePayerIndex = accounts.indexOfPubKey(feePayer);
-    if (feePayerIndex == -1) {
-      return [
-        AccountMeta.writeable(pubKey: feePayer, isSigner: true),
-        ...accounts,
-      ];
-    } else {
-      return [
-        AccountMeta.writeable(
-          pubKey: feePayer,
-          isSigner: true,
-        ),
-        ...accounts.sublist(0, feePayerIndex),
-        ...accounts.sublist(feePayerIndex + 1),
-      ];
-    }
-  }
-
-  /// Combines accounts from every instruction and sorts them according
-  /// to [Account Addresses Format][1], also removes
-  /// any duplicates.
+  /// Prepares all the accounts from instructions:
   ///
-  /// Duplicates are removed by picking signers and writeable accounts
-  /// over non-writeable and non-signers.
-  ///
-  /// Accounts are considered duplicates if they have the same public keys.
+  /// - extracts accounts from every instruction;
+  /// - appends program id accounts (accounts with the sample public keys);
+  /// - removes duplicates (by picking signers and writeable accounts
+  ///   over non-writeable and non-signers);
+  /// - sorts accounts according to [Account Addresses Format][1].
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
-  List<AccountMeta> getAccounts(String? feePayer) =>
-      extractAccounts(feePayer).unique()..sort();
+  List<AccountMeta> getAccounts(String? feePayer) {
+    final accounts = expand((i) => [
+          ...i.accounts,
+          AccountMeta.readonly(pubKey: i.programId, isSigner: false),
+        ]);
+
+    return [
+      ...accounts,
+      if (feePayer != null)
+        AccountMeta.writeable(pubKey: feePayer, isSigner: true),
+    ].unique()
+      ..sort();
+  }
 }
