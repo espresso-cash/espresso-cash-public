@@ -1,15 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of exceptions;
+part of 'json_rpc_response_object.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-JsonRpcError _$JsonRpcErrorFromJson(Map<String, dynamic> json) {
-  return JsonRpcError(
-    json['message'] as String,
-    json['code'] as int,
-    json['data'],
+ValueResponse<T> _$ValueResponseFromJson<T>(
+  Map<String, dynamic> json,
+  T Function(Object? json) fromJsonT,
+) {
+  return ValueResponse<T>(
+    value: fromJsonT(json['value']),
   );
 }
