@@ -1,4 +1,7 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
+
+part 'confirmed_signature.g.dart';
 
 /// Each item in the response of [`getConfirmedSignaturesForAddress2`][get confirmed transactions] rpc method.
 ///
@@ -27,11 +30,11 @@ class ConfirmedSignature {
 }
 
 @JsonSerializable(createToJson: false)
-class _ConfirmedSignaturesResponse
+class ConfirmedSignaturesResponse
     extends JsonRpcResponse<Iterable<ConfirmedSignature>> {
-  _ConfirmedSignaturesResponse(Iterable<ConfirmedSignature> result)
+  ConfirmedSignaturesResponse(Iterable<ConfirmedSignature> result)
       : super(result: result);
 
-  factory _ConfirmedSignaturesResponse.fromJson(Map<String, dynamic> json) =>
-      _$_ConfirmedSignaturesResponseFromJson(json);
+  factory ConfirmedSignaturesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ConfirmedSignaturesResponseFromJson(json);
 }

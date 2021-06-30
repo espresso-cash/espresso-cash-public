@@ -1,11 +1,15 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
+import 'package:solana/src/rpc_client/transaction_response.dart';
+
+part 'confirmed_transaction_response.g.dart';
 
 @JsonSerializable(createToJson: false)
-class _ConfirmedTransactionResponse
+class ConfirmedTransactionResponse
     extends JsonRpcResponse<TransactionResponse?> {
-  _ConfirmedTransactionResponse(TransactionResponse? result)
+  ConfirmedTransactionResponse(TransactionResponse? result)
       : super(result: result);
 
-  factory _ConfirmedTransactionResponse.fromJson(Map<String, dynamic> json) =>
-      _$_ConfirmedTransactionResponseFromJson(json);
+  factory ConfirmedTransactionResponse.fromJson(Map<String, dynamic> json) =>
+      _$ConfirmedTransactionResponseFromJson(json);
 }

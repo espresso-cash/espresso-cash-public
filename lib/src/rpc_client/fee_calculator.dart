@@ -1,4 +1,6 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'fee_calculator.g.dart';
 
 /// Fee calculator object which is part of a [Blockhash] object.
 @JsonSerializable(createToJson: false)

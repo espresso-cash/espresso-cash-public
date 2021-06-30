@@ -1,53 +1,34 @@
-library rpc_client;
-
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:http/http.dart' as http;
-import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/encoder/signature.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
-import 'package:solana/src/exceptions/exceptions.dart';
-import 'package:solana/src/spl_token/spl_token.dart';
-
-part 'account.dart';
-part 'account_key.dart';
-part 'balance.dart';
-part 'blockhash.dart';
-part 'commitment.dart';
-part 'confirmed_signature.dart';
-part 'confirmed_transaction_response.dart';
-part 'fee_calculator.dart';
-part 'get_transaction_response.dart';
-part 'json_rpc_client.dart';
-part 'json_rpc_response_object.dart';
-part 'meta.dart';
-part 'minimum_balance_for_rent_exemption_response.dart';
-part 'parsed_instruction.dart';
-part 'parsed_message.dart';
-part 'parsed_message_header.dart';
-part 'parsed_spl_token_instruction.dart';
-part 'parsed_system_instruction.dart';
-part 'rpc_client.freezed.dart';
-part 'rpc_client.g.dart';
-part 'signature.dart';
-part 'signature_status.dart';
-part 'simulate_tx_result.dart';
-part 'transaction.dart';
-part 'transaction_response.dart';
+import 'package:solana/src/rpc_client/account.dart';
+import 'package:solana/src/rpc_client/balance.dart';
+import 'package:solana/src/rpc_client/blockhash.dart';
+import 'package:solana/src/rpc_client/commitment.dart';
+import 'package:solana/src/rpc_client/confirmed_signature.dart';
+import 'package:solana/src/rpc_client/confirmed_transaction_response.dart';
+import 'package:solana/src/rpc_client/get_transaction_response.dart';
+import 'package:solana/src/rpc_client/json_rpc_client.dart';
+import 'package:solana/src/rpc_client/minimum_balance_for_rent_exemption_response.dart';
+import 'package:solana/src/rpc_client/signature_status.dart';
+import 'package:solana/src/rpc_client/simulate_tx_result.dart';
+import 'package:solana/src/rpc_client/transaction_response.dart';
+import 'package:solana/src/rpc_client/transaction_signature.dart';
+import 'package:solana/src/spl_token/token_amount.dart';
+import 'package:solana/src/spl_token/token_supply.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API
 class RPCClient {
   /// Constructs a SolanaClient that is capable of sending various RPCs to
   /// [rpcUrl].
-  RPCClient(String rpcUrl) : client = _JsonRpcClient(rpcUrl);
+  RPCClient(String rpcUrl) : client = JsonRpcClient(rpcUrl);
 
-  final _JsonRpcClient client;
+  final JsonRpcClient client;
 
   /// Returns the recent blockhash from the ledger, and a fee schedule that
   /// can be used to compute the cost of submitting transaction with
@@ -68,7 +49,7 @@ class RPCClient {
       ],
     );
 
-    return _BlockhashResponse.fromJson(data).result.value;
+    return BlockhashResponse.fromJson(data).result.value;
   }
 
   /// Returns a Future that resolves the the balance of [address]
@@ -90,7 +71,7 @@ class RPCClient {
       ],
     );
 
-    return _BalanceResponse.fromJson(data).result.value;
+    return BalanceResponse.fromJson(data).result.value;
   }
 
   /// Returns a Future that resolves to the account related information
@@ -115,7 +96,7 @@ class RPCClient {
       ],
     );
 
-    return _AccountInfoResponse.fromJson(data).result.value;
+    return AccountInfoResponse.fromJson(data).result.value;
   }
 
   /// Sends signed transaction [signedTx].
@@ -139,7 +120,7 @@ class RPCClient {
       ],
     );
 
-    return _SignatureResponse.fromJson(data).result;
+    return SignatureResponse.fromJson(data).result;
   }
 
   /// Simulates sending a signed transaction [signedTx].
@@ -163,7 +144,7 @@ class RPCClient {
       ],
     );
 
-    return _SimulateTxResultResponse.fromJson(data).result.value;
+    return SimulateTxResultResponse.fromJson(data).result.value;
   }
 
   /// Requests an airdrop of [lamports] lamports to [address].
@@ -181,7 +162,7 @@ class RPCClient {
         }
     ]);
 
-    return _SignatureResponse.fromJson(data).result;
+    return SignatureResponse.fromJson(data).result;
   }
 
   /// Returns a Future that resolves to the most recent [limit] signatures
@@ -215,7 +196,7 @@ class RPCClient {
       ],
     );
 
-    return _ConfirmedSignaturesResponse.fromJson(data).result;
+    return ConfirmedSignaturesResponse.fromJson(data).result;
   }
 
   /// Returns a Future that resolves to the transaction details for a given
@@ -240,7 +221,7 @@ class RPCClient {
       ],
     );
 
-    return _ConfirmedTransactionResponse.fromJson(data).result;
+    return ConfirmedTransactionResponse.fromJson(data).result;
   }
 
   /// Get the [limit] most recent transactions for the [address] account
@@ -294,7 +275,7 @@ class RPCClient {
       ],
     );
 
-    return _GetTransactionResponse.fromJson(data).result;
+    return GetTransactionResponse.fromJson(data).result;
   }
 
   /// Get token supply for [tokenMintAddress]
@@ -341,7 +322,7 @@ class RPCClient {
       ],
     );
 
-    return _SignatureStatusesResponse.fromJson(data).result.value;
+    return SignatureStatusesResponse.fromJson(data).result.value;
   }
 
   /// Get minimum balance for ren exemption to allocate [size] bytes
@@ -364,7 +345,7 @@ class RPCClient {
       ],
     );
 
-    return _MinimumBalanceForRentExemptionResponse.fromJson(data).result;
+    return MinimumBalanceForRentExemptionResponse.fromJson(data).result;
   }
 
   Future<TokenAmount> getTokenAccountBalance({
@@ -409,7 +390,7 @@ class RPCClient {
     }
     final recentBlockhash = await getRecentBlockhash();
     final messageBytes = message.compile(
-      recentBlockhash: recentBlockhash,
+      recentBlockhash: recentBlockhash.blockhash,
       feePayer: feePayer ?? signers[0].address,
     );
     // FIXME(IA): signatures must match signers in the message accounts sorting

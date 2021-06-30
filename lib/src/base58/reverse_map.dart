@@ -1,4 +1,4 @@
-part of 'base58.dart';
+part of 'decode.dart';
 
 const List<int> _reverseMap = [
   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, //

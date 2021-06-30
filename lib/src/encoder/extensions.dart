@@ -1,8 +1,6 @@
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/instruction.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
 
 extension AccountMetaListExt on List<AccountMeta> {
   // Convert account metas to encoder public keys
@@ -106,8 +104,4 @@ extension InstructionListExt on List<Instruction> {
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
   List<AccountMeta> getAccounts(String? feePayer) =>
       extractAccounts(feePayer).unique()..sort();
-}
-
-extension ByteArrayToBytesExt on Blockhash {
-  ByteArray toBytes() => Buffer.fromBase58(blockhash);
 }

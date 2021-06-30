@@ -1,5 +1,6 @@
 import 'package:convert/convert.dart';
-import 'package:solana/src/base58/base58.dart' as base58;
+import 'package:solana/src/base58/decode.dart';
+import 'package:solana/src/base58/encode.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -8,7 +9,7 @@ void main() {
       final source = hex.decode(item[0]);
       final target = item[1];
 
-      expect(base58.encode(source), target);
+      expect(base58encode(source), target);
     }
   });
 
@@ -17,7 +18,7 @@ void main() {
       final source = item[1];
       final target = item[0];
 
-      expect(hex.encode(base58.decode(source).toList()), target);
+      expect(hex.encode(base58decode(source).toList()), target);
     }
   });
 }

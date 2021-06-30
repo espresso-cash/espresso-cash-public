@@ -1,4 +1,8 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc_client/commitment.dart';
+import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
+
+part 'signature_status.g.dart';
 
 /// A type alias which makes [TxStatus] more semantically correct in some
 /// context.
@@ -29,11 +33,11 @@ class SignatureStatus {
 }
 
 @JsonSerializable(createToJson: false)
-class _SignatureStatusesResponse
+class SignatureStatusesResponse
     extends JsonRpcResponse<ValueResponse<Iterable<SignatureStatus?>>> {
-  _SignatureStatusesResponse(ValueResponse<Iterable<SignatureStatus?>> result)
+  SignatureStatusesResponse(ValueResponse<Iterable<SignatureStatus?>> result)
       : super(result: result);
 
-  factory _SignatureStatusesResponse.fromJson(Map<String, dynamic> json) =>
-      _$_SignatureStatusesResponseFromJson(json);
+  factory SignatureStatusesResponse.fromJson(Map<String, dynamic> json) =>
+      _$SignatureStatusesResponseFromJson(json);
 }

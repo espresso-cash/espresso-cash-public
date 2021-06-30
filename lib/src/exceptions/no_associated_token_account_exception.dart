@@ -1,5 +1,3 @@
-part of 'exceptions.dart';
-
 class NoAssociatedTokenAccountException implements Exception {
   const NoAssociatedTokenAccountException(this._account, this._mint);
 

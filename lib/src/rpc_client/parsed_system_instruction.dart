@@ -1,4 +1,6 @@
-part of 'rpc_client.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'parsed_system_instruction.freezed.dart';
 
 /// An instruction that is part if a [ParsedInstruction]
 @Freezed(unionKey: 'type', fallbackUnion: 'unsupported')

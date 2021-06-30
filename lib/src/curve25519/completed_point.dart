@@ -1,14 +1,16 @@
-part of 'curve25519.dart';
+import 'package:solana/src/curve25519/edwards_point.dart';
+import 'package:solana/src/curve25519/field_element.dart';
+import 'package:solana/src/curve25519/projective_point.dart';
 
-class _CompletedPoint {
-  _CompletedPoint(this._x, this._y, this._z, this._t);
+class CompletedPoint {
+  CompletedPoint(this._x, this._y, this._z, this._t);
 
-  final _FieldElement _x;
-  final _FieldElement _y;
-  final _FieldElement _z;
-  final _FieldElement _t;
+  final FieldElement _x;
+  final FieldElement _y;
+  final FieldElement _z;
+  final FieldElement _t;
 
-  _ProjectivePoint toProjective() => _ProjectivePoint(
+  ProjectivePoint toProjective() => ProjectivePoint(
         _x * _t,
         _y * _z,
         _z * _t,

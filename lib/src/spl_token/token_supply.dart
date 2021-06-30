@@ -1,4 +1,7 @@
-part of 'spl_token.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
+
+part 'token_supply.g.dart';
 
 @JsonSerializable(createToJson: false)
 class TokenSupply {

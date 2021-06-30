@@ -1,4 +1,6 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'meta.g.dart';
 
 /// Metadata of a [TransactionResponse] object.
 @JsonSerializable(createToJson: false)

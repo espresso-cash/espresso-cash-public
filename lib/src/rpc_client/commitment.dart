@@ -1,5 +1,3 @@
-part of 'rpc_client.dart';
-
 /// The [commitment] of a transaction
 ///
 /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment

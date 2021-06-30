@@ -1,20 +1,16 @@
-library spl_token;
-
-import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/buffer.dart';
-import 'package:solana/src/exceptions/exceptions.dart';
+import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
+import 'package:solana/src/rpc_client/account.dart';
+import 'package:solana/src/rpc_client/commitment.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
+import 'package:solana/src/rpc_client/signature_status.dart';
+import 'package:solana/src/rpc_client/transaction_signature.dart';
+import 'package:solana/src/spl_token/associated_account.dart';
+import 'package:solana/src/spl_token/rpc_extensions.dart';
 import 'package:solana/src/token_program/token_program.dart';
 import 'package:solana/src/utils.dart';
-
-part 'associated_account.dart';
-part 'rpc_extensions.dart';
-part 'spl_token.g.dart';
-part 'token_amount.dart';
-part 'token_program.dart';
-part 'token_supply.dart';
 
 /// Represents a SPL token program
 class SplToken {

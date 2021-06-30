@@ -1,6 +1,8 @@
-part of 'curve25519.dart';
+import 'package:solana/src/curve25519/edwards_point.dart';
+import 'package:solana/src/curve25519/extensions.dart';
+import 'package:solana/src/curve25519/field_element.dart';
 
-final _d = _FieldElement([
+final _d = FieldElement([
   -10913610, 13857413, -15372611, 6949391, 114729, //
   -8787816, -6275908, -3247719, -18696448, -12055116,
 ]);
@@ -11,11 +13,11 @@ class CompressedEdwardsY {
   final List<int> _data;
 
   EdwardsPoint decompress() {
-    final y = _FieldElement.fromByteArray(_data);
+    final y = FieldElement.fromByteArray(_data);
     final ySquare = y.square();
-    final u = ySquare - _FieldElement.one;
-    final v = ySquare * _d + _FieldElement.one;
-    final sqrt = _FieldElement.sqrtRatioM1(u, v);
+    final u = ySquare - FieldElement.one;
+    final v = ySquare * _d + FieldElement.one;
+    final sqrt = FieldElement.sqrtRatioM1(u, v);
     if (!sqrt.wasSquare) {
       throw const FormatException('not a valid point');
     }
@@ -23,7 +25,7 @@ class CompressedEdwardsY {
     final isNegative = sqrtResult.isNegative();
     final selector = isNegative && _data.bit(255) == 1 ? 1 : 0;
     final x = (-sqrt.result).select(sqrt.result, selector);
-    return EdwardsPoint(x, y, _FieldElement.one, x * y);
+    return EdwardsPoint(x, y, FieldElement.one, x * y);
   }
 
   @override

@@ -1,7 +1,8 @@
-part of 'curve25519.dart';
+import 'package:solana/src/curve25519/extensions.dart';
+import 'package:solana/src/curve25519/sqrt_ratio_m1_result.dart';
 
-class _FieldElement {
-  _FieldElement(this._t) {
+class FieldElement {
+  FieldElement(this._t) {
     if (_t.length != 10) {
       throw FormatException(
         'cannot create a `FieldElement\' '
@@ -10,7 +11,7 @@ class _FieldElement {
     }
   }
 
-  _FieldElement.fromByteArray(List<int> input) : _t = List.filled(10, 0) {
+  FieldElement.fromByteArray(List<int> input) : _t = List.filled(10, 0) {
     int h0 = load_4(input, 0);
     int h1 = load_3(input, 4) << 6;
     int h2 = load_3(input, 7) << 5;
@@ -74,12 +75,12 @@ class _FieldElement {
     _t[9] = h9;
   }
 
-  const _FieldElement._fromConstList(this._t);
+  const FieldElement.fromConstList(this._t);
 
-  static const _FieldElement zero =
-      _FieldElement._fromConstList([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-  static const _FieldElement one =
-      _FieldElement._fromConstList([1, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  static const FieldElement zero =
+      FieldElement.fromConstList([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  static const FieldElement one =
+      FieldElement.fromConstList([1, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   final List<int> _t;
 
@@ -202,7 +203,7 @@ class _FieldElement {
     return s;
   }
 
-  _FieldElement select(_FieldElement other, int selector) {
+  FieldElement select(FieldElement other, int selector) {
     final b = -selector;
     final result = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
@@ -211,43 +212,43 @@ class _FieldElement {
       x &= b;
       result[i] ^= x;
     }
-    return _FieldElement(result);
+    return FieldElement(result);
   }
 
-  _FieldElement abs() => select(-this, isNegative() ? 1 : 0);
+  FieldElement abs() => select(-this, isNegative() ? 1 : 0);
 
   bool isNegative() {
     final s = toByteArray();
     return s[0] & 1 == 1;
   }
 
-  _FieldElement operator +(_FieldElement val) {
+  FieldElement operator +(FieldElement val) {
     final g = val._t;
     final h = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
       h[i] = _t[i] + g[i];
     }
-    return _FieldElement._fromConstList(h);
+    return FieldElement.fromConstList(h);
   }
 
-  _FieldElement operator -(_FieldElement val) {
+  FieldElement operator -(FieldElement val) {
     final g = val._t;
     final h = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
       h[i] = _t[i] - g[i];
     }
-    return _FieldElement._fromConstList(h);
+    return FieldElement.fromConstList(h);
   }
 
-  _FieldElement operator -() {
+  FieldElement operator -() {
     final h = List.filled(10, 0);
     for (int i = 0; i < 10; i++) {
       h[i] = -_t[i];
     }
-    return _FieldElement._fromConstList(h);
+    return FieldElement.fromConstList(h);
   }
 
-  _FieldElement operator *(_FieldElement val) {
+  FieldElement operator *(FieldElement val) {
     final g = val._t;
     final g1_19 = 19 * g[1]; /* 1.959375*2^29 */
     final g2_19 = 19 * g[2]; /* 1.959375*2^30; still ok */
@@ -512,10 +513,10 @@ class _FieldElement {
     h[7] = h7;
     h[8] = h8;
     h[9] = h9;
-    return _FieldElement._fromConstList(h);
+    return FieldElement.fromConstList(h);
   }
 
-  _FieldElement square() {
+  FieldElement square() {
     final f0 = _t[0];
     final f1 = _t[1];
     final f2 = _t[2];
@@ -661,10 +662,10 @@ class _FieldElement {
     h[7] = h7;
     h[8] = h8;
     h[9] = h9;
-    return _FieldElement._fromConstList(h);
+    return FieldElement.fromConstList(h);
   }
 
-  _FieldElement squareAndDouble() {
+  FieldElement squareAndDouble() {
     final f0 = _t[0];
     final f1 = _t[1];
     final f2 = _t[2];
@@ -820,11 +821,11 @@ class _FieldElement {
     h[7] = h7;
     h[8] = h8;
     h[9] = h9;
-    return _FieldElement._fromConstList(h);
+    return FieldElement.fromConstList(h);
   }
 
-  _FieldElement invert() {
-    _FieldElement t0, t1, t2, t3;
+  FieldElement invert() {
+    FieldElement t0, t1, t2, t3;
     // 2 == 2 * 1
     t0 = square();
     // 4 == 2 * 2
@@ -905,8 +906,8 @@ class _FieldElement {
     return t1 * t0;
   }
 
-  _FieldElement powP58() {
-    _FieldElement t0, t1, t2;
+  FieldElement powP58() {
+    FieldElement t0, t1, t2;
     // 2 == 2 * 1
     t0 = square();
     // 4 == 2 * 2
@@ -985,10 +986,10 @@ class _FieldElement {
     return this * t0;
   }
 
-  static SqrtRatioM1Result sqrtRatioM1(_FieldElement u, _FieldElement v) {
+  static SqrtRatioM1Result sqrtRatioM1(FieldElement u, FieldElement v) {
     final v3 = v.square() * v;
     final v7 = v3.square() * v;
-    _FieldElement r = u * v3 * (u * v7).powP58();
+    FieldElement r = u * v3 * (u * v7).powP58();
     final check = v * r.square();
     final uNeg = -u;
     final correctSignSqrt = check == u ? 1 : 0;
@@ -1007,7 +1008,7 @@ class _FieldElement {
 
   @override
   bool operator ==(Object other) {
-    if (other is! _FieldElement) {
+    if (other is! FieldElement) {
       return false;
     }
     final b = toByteArray();

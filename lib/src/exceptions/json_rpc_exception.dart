@@ -1,11 +1,13 @@
-part of 'exceptions.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'json_rpc_exception.g.dart';
 
 @JsonSerializable(createToJson: false)
-class JsonRpcError implements Exception {
-  const JsonRpcError(this.message, this.code, this.data);
+class JsonRpcException implements Exception {
+  const JsonRpcException(this.message, this.code, this.data);
 
-  factory JsonRpcError.fromJson(Map<String, dynamic> json) =>
-      _$JsonRpcErrorFromJson(json);
+  factory JsonRpcException.fromJson(Map<String, dynamic> json) =>
+      _$JsonRpcExceptionFromJson(json);
 
   final String message;
   final int code;

@@ -5,7 +5,7 @@ import 'package:cryptography/cryptography.dart'
     show Ed25519, KeyPair, KeyPairType, SimpleKeyPairData, SimplePublicKey;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/base58/base58.dart' as base58;
+import 'package:solana/src/base58/encode.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/encoder/signature.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
@@ -21,7 +21,7 @@ class Ed25519HDKeyPair extends KeyPair {
         _publicKey = publicKey,
         // We pre-compute this in order to avoid doing it
         // over and over because it's needed often.
-        address = base58.encode(publicKey);
+        address = base58encode(publicKey);
 
   /// Construct a new [Ed25519HDKeyPair] from a [seed] and a derivation path [hdPath].
   static Future<Ed25519HDKeyPair> fromSeedWithHdPath({
@@ -79,7 +79,8 @@ class Ed25519HDKeyPair extends KeyPair {
   /// Sign a solana program message
   Future<SignedTx> signMessage({
     required Message message,
-    required Blockhash recentBlockhash,
+    // FIXME: should be string (no knowledge of these structures is needed here)
+    required String recentBlockhash,
   }) async {
     final Iterable<int> messageBytes = message.compile(
       recentBlockhash: recentBlockhash,

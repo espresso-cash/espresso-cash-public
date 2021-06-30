@@ -1,4 +1,6 @@
-part of 'rpc_client.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'parsed_spl_token_instruction.freezed.dart';
 
 /// An instruction of a [spl token] program
 ///

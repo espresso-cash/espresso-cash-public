@@ -1,7 +1,11 @@
-part of 'rpc_client.dart';
+import 'dart:convert';
 
-class _JsonRpcClient {
-  _JsonRpcClient(this._url);
+import 'package:http/http.dart' as http;
+import 'package:solana/src/exceptions/http_exception.dart';
+import 'package:solana/src/exceptions/json_rpc_exception.dart';
+
+class JsonRpcClient {
+  JsonRpcClient(this._url);
 
   final String _url;
   int lastId = 1;
@@ -28,14 +32,14 @@ class _JsonRpcClient {
     );
     // Handle the response
     if (response.statusCode != 200) {
-      throw HttpError(response.statusCode, response.body);
+      throw HttpException(response.statusCode, response.body);
     } else {
       final data = json.decode(response.body) as Map<String, dynamic>;
       if (data['jsonrpc'] != '2.0') {
         throw const FormatException('invalid jsonrpc-2.0 response');
       }
       if (data['error'] != null) {
-        throw JsonRpcError.fromJson(data['error'] as Map<String, dynamic>);
+        throw JsonRpcException.fromJson(data['error'] as Map<String, dynamic>);
       }
       if (!data.containsKey('result')) {
         throw const FormatException(

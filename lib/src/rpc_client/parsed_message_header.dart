@@ -1,4 +1,6 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'parsed_message_header.g.dart';
 
 /// The header of a [ParsedMessage]
 @JsonSerializable(createToJson: false)

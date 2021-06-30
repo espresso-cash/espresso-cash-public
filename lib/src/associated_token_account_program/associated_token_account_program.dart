@@ -1,5 +1,3 @@
-library associated_account_program;
-
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/constants.dart';

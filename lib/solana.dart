@@ -1,4 +1,5 @@
-export 'src/encoder/encoder.dart';
+export 'src/encoder/encoder.dart'
+    show Instruction, Message, Buffer, AccountMeta;
 export 'src/memo_program/memo_program.dart';
 export 'src/rpc_client/rpc_client.dart';
 export 'src/spl_token/spl_token.dart';

@@ -1,4 +1,7 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc_client/parsed_message.dart';
+
+part 'transaction.g.dart';
 
 /// The program type of a transaction instruction
 enum ProgramType {

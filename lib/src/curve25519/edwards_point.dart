@@ -1,19 +1,21 @@
-part of 'curve25519.dart';
+import 'package:solana/src/curve25519/compressed_edwards_y.dart';
+import 'package:solana/src/curve25519/field_element.dart';
+import 'package:solana/src/curve25519/projective_point.dart';
 
 class EdwardsPoint {
   EdwardsPoint(this._x, this._y, this._z, this._t);
 
   static final EdwardsPoint identity = EdwardsPoint(
-    _FieldElement.zero,
-    _FieldElement.one,
-    _FieldElement.one,
-    _FieldElement.zero,
+    FieldElement.zero,
+    FieldElement.one,
+    FieldElement.one,
+    FieldElement.zero,
   );
 
-  late final _FieldElement _x;
-  late final _FieldElement _y;
-  late final _FieldElement _z;
-  late final _FieldElement _t;
+  late final FieldElement _x;
+  late final FieldElement _y;
+  late final FieldElement _z;
+  late final FieldElement _t;
 
   CompressedEdwardsY compress() {
     final r = _z.invert();
@@ -27,13 +29,13 @@ class EdwardsPoint {
 
   EdwardsPoint _multiplyByCofactor() => _multiplyByPow2(3);
 
-  _ProjectivePoint _toProjective() => _ProjectivePoint(_x, _y, _z);
+  ProjectivePoint _toProjective() => ProjectivePoint(_x, _y, _z);
 
   EdwardsPoint _multiplyByPow2(int k) {
     if (k <= 0) {
       throw const FormatException('exponent must be positive and non-zero');
     }
-    _ProjectivePoint s = _toProjective();
+    ProjectivePoint s = _toProjective();
     for (int i = 0; i < k - 1; i++) {
       s = s.dbl().toProjective();
     }

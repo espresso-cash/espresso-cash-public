@@ -1,6 +1,4 @@
-part of 'curve25519.dart';
-
-extension on List<int> {
+extension IntegerListExt on List<int> {
   int bit(int offset) => (this[offset >> 3] >> (offset & 7)) & 1;
 
   bool compareAll(List<int> other) {

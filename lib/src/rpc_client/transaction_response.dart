@@ -1,4 +1,8 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc_client/meta.dart';
+import 'package:solana/src/rpc_client/transaction.dart';
+
+part 'transaction_response.g.dart';
 
 /// Response of the [`getTransaction`][get transaction] rpc method.
 ///

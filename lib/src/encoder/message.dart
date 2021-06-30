@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:solana/src/base58/base58.dart' as base58;
+import 'package:solana/src/base58/encode.dart';
 import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
@@ -8,7 +8,6 @@ import 'package:solana/src/encoder/compiled_instruction.dart';
 import 'package:solana/src/encoder/extensions.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message_header.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
 
 /// This is an implementation of the [Message Format][message format].
 ///
@@ -28,7 +27,7 @@ class Message {
   final List<Instruction> instructions;
 
   String debug(
-    Blockhash recentBlockhash, {
+    String recentBlockhash, {
     String? feePayer,
   }) {
     final accounts = instructions.getAccounts(feePayer);
@@ -41,7 +40,7 @@ class Message {
             'accounts': instruction.accounts
                 .map((a) => accountsIndexesMap[a.pubKey]!)
                 .toList(growable: false),
-            'data': base58.encode(
+            'data': base58encode(
               instruction.data.toList(growable: false),
             ),
           },
@@ -57,7 +56,7 @@ class Message {
           'numReadonlyUnsignedAccounts': header.elementAt(2),
         },
         'accounts': accounts.map((a) => a.toString()).toList(growable: false),
-        'recentBlockhash': recentBlockhash.blockhash,
+        'recentBlockhash': recentBlockhash,
         'instructions': compiledInstructions,
       },
     );
@@ -71,7 +70,7 @@ class Message {
   /// compiler to put the [feePayer] as the first signer in the list of accounts
   /// of the compiled message.
   ByteArray compile({
-    required Blockhash recentBlockhash,
+    required String recentBlockhash,
     String? feePayer,
   }) {
     final accounts = instructions.getAccounts(feePayer);
@@ -92,7 +91,7 @@ class Message {
     return Buffer.fromConcatenatedByteArrays([
       header,
       keys,
-      recentBlockhash.toBytes(),
+      Buffer.fromBase58(recentBlockhash),
       compiledInstructions,
     ]);
   }

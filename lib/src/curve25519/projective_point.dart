@@ -1,11 +1,13 @@
-part of 'curve25519.dart';
+import 'package:solana/src/curve25519/completed_point.dart';
+import 'package:solana/src/curve25519/edwards_point.dart';
+import 'package:solana/src/curve25519/field_element.dart';
 
-class _ProjectivePoint {
-  _ProjectivePoint(this._x, this._y, this._z);
+class ProjectivePoint {
+  ProjectivePoint(this._x, this._y, this._z);
 
-  final _FieldElement _x;
-  final _FieldElement _y;
-  final _FieldElement _z;
+  final FieldElement _x;
+  final FieldElement _y;
+  final FieldElement _z;
 
   EdwardsPoint toExtended() => EdwardsPoint(
         _x * _z,
@@ -14,7 +16,7 @@ class _ProjectivePoint {
         _x * _y,
       );
 
-  _CompletedPoint dbl() {
+  CompletedPoint dbl() {
     final xx = _x.square();
     final yy = _y.square();
     final zz2 = _z.squareAndDouble();
@@ -22,7 +24,7 @@ class _ProjectivePoint {
     final xPlusYSq = xPlusY.square();
     final yyPlusXX = yy + xx;
     final yyMinusXX = yy - xx;
-    return _CompletedPoint(
+    return CompletedPoint(
       xPlusYSq - yyPlusXX,
       yyPlusXX,
       yyMinusXX,

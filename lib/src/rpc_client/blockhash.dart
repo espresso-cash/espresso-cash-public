@@ -1,4 +1,8 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc_client/fee_calculator.dart';
+import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
+
+part 'blockhash.g.dart';
 
 /// Response of the [`getRecentBlockhash`][get recent blockhash] rpc method.
 ///
@@ -18,9 +22,9 @@ class Blockhash {
 }
 
 @JsonSerializable(createToJson: false)
-class _BlockhashResponse extends JsonRpcResponse<ValueResponse<Blockhash>> {
-  _BlockhashResponse(ValueResponse<Blockhash> result) : super(result: result);
+class BlockhashResponse extends JsonRpcResponse<ValueResponse<Blockhash>> {
+  BlockhashResponse(ValueResponse<Blockhash> result) : super(result: result);
 
-  factory _BlockhashResponse.fromJson(Map<String, dynamic> json) =>
-      _$_BlockhashResponseFromJson(json);
+  factory BlockhashResponse.fromJson(Map<String, dynamic> json) =>
+      _$BlockhashResponseFromJson(json);
 }

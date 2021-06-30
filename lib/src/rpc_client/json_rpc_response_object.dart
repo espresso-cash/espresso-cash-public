@@ -1,4 +1,6 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'json_rpc_response_object.g.dart';
 
 class JsonRpcResponse<T> {
   JsonRpcResponse({required this.result});

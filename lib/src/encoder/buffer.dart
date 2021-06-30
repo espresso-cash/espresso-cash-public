@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:solana/src/base58/base58.dart' as base58;
+import 'package:solana/src/base58/decode.dart';
 import 'package:solana/src/common/byte_array.dart';
 
 const int _bitsPerByte = 8;
@@ -77,7 +77,7 @@ class Buffer extends ByteArray {
           (concatenated, buffer) => concatenated.followedBy(buffer),
         );
 
-  Buffer.fromBase58(String base58String) : _data = base58.decode(base58String);
+  Buffer.fromBase58(String base58String) : _data = base58decode(base58String);
 
   final Iterable<int> _data;
 

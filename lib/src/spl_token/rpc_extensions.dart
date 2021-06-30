@@ -1,4 +1,6 @@
-part of 'spl_token.dart';
+import 'package:solana/src/rpc_client/commitment.dart';
+import 'package:solana/src/rpc_client/rpc_client.dart';
+import 'package:solana/src/spl_token/associated_account.dart';
 
 extension SPLTokenRPCExt on RPCClient {
   Future<List<AssociatedTokenAccount>> getTokenAccountsByOwner(

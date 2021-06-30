@@ -1,4 +1,6 @@
-part of 'rpc_client.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'account_key.g.dart';
 
 /// A commonly used object that stores a single [pubkey]
 @JsonSerializable(createToJson: false)
