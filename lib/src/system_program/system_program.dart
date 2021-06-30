@@ -1,12 +1,8 @@
-library system_program;
-
-import 'package:solana/src/common/byte_array.dart';
-import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message.dart';
+import 'package:solana/src/system_program/system_instruction.dart';
 
-part 'system_instruction.dart';
+export 'package:solana/src/system_program/system_instruction.dart';
 
 class SystemProgram extends Message {
   const SystemProgram._({

@@ -1,11 +1,7 @@
-library memo_program;
-
-import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
-import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message.dart';
+import 'package:solana/src/memo_program/memo_instruction.dart';
 
-part 'memo_instruction.dart';
+export 'package:solana/src/memo_program/memo_instruction.dart';
 
 /// The memo program from the SPL
 class MemoProgram extends Message {

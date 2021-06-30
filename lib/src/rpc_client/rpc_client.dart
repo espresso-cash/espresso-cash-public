@@ -21,6 +21,19 @@ import 'package:solana/src/rpc_client/transaction_signature.dart';
 import 'package:solana/src/spl_token/token_amount.dart';
 import 'package:solana/src/spl_token/token_supply.dart';
 
+export 'account.dart' show Account;
+export 'blockhash.dart' show Blockhash;
+export 'commitment.dart' show Commitment;
+export 'confirmed_signature.dart' show ConfirmedSignature;
+export 'fee_calculator.dart';
+export 'meta.dart' show Meta;
+export 'parsed_instruction.dart';
+export 'parsed_message.dart';
+export 'parsed_spl_token_instruction.dart';
+export 'parsed_system_instruction.dart';
+export 'signature_status.dart' show SignatureStatus;
+export 'transaction.dart' show Transaction;
+
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API
 class RPCClient {

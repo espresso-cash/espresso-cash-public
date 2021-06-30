@@ -1,4 +1,8 @@
-part of 'token_program.dart';
+import 'package:solana/src/encoder/account_meta.dart';
+import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/constants.dart';
+import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/token_program/token_program.dart';
 
 /// A spl token program instruction.
 class TokenInstruction extends Instruction {
