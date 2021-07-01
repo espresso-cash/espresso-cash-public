@@ -1,0 +1,34 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/src/rpc_client/parsed_spl_token_instruction.dart';
+import 'package:solana/src/rpc_client/parsed_system_instruction.dart';
+
+part 'parsed_instruction.freezed.dart';
+part 'parsed_instruction.g.dart';
+
+/// An instruction which is part of a [ParsedMessage]
+@Freezed(unionKey: 'program', fallbackUnion: 'unsupported')
+class ParsedInstruction with _$ParsedInstruction {
+  const factory ParsedInstruction.system({
+    required String programId,
+    required ParsedSystemInstruction parsed,
+  }) = ParsedInstructionSystem;
+
+  @FreezedUnionValue('spl-token')
+  const factory ParsedInstruction.splToken({
+    required ParsedSplTokenInstruction parsed,
+  }) = ParsedInstructionSplToken;
+
+  /// Instruction representing a memo with content [memo]
+  @FreezedUnionValue('spl-memo')
+  const factory ParsedInstruction.memo({
+    @JsonKey(name: 'parsed') required String? memo,
+  }) = ParsedInstructionMemo;
+
+  /// Any instruction that we are not currently supporting.
+  const factory ParsedInstruction.unsupported({
+    required String program,
+  }) = ParsedInstructionUnsupported;
+
+  factory ParsedInstruction.fromJson(Map<String, dynamic> json) =>
+      _$ParsedInstructionFromJson(json);
+}

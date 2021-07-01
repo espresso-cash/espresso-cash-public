@@ -1,0 +1,1 @@
+typedef ByteArray = Iterable<int>;

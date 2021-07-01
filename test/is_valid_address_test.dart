@@ -1,32 +1,47 @@
-import 'package:solana/solana.dart';
+import 'package:solana/src/utils.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('it fails for invalid base58 characters', () {
+  test('Throws for invalid base58 characters', () {
     expect(
-        isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpdSl'), false);
+      () => isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpdSl'),
+      throwsFormatException,
+    );
   });
 
-  test('it fails for invalid length', () {
-    expect(isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpd'), false);
+  test('Throws for invalid length', () {
+    expect(
+      () => isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpd'),
+      throwsFormatException,
+    );
   });
 
-  test('it correctly validates valid addresses', () {
-    expect(
-        isValidAddress('HzqnaMjWFbK2io6WgV2Z5uBguCBU21RMUS16wsDUHkon'), true);
-    expect(
-        isValidAddress('68io7dTfyeWua1wD1YcCMka4y5iiChceaFRCBjqCM5PK'), true);
-    expect(
-        isValidAddress('Dra34QLFCjxnk8tUNcBwxs6pgb5spF4oseQYF2xn7ABZ'), true);
+  test('Correctly validates valid addresses', () {
+    for (final a in _validAddresses) {
+      expect(isValidAddress(a), equals(true));
+    }
   });
-  test('it fails for invalid ed25519 points', () {
-    expect(
-        isValidAddress('6X4X1Ae24mkoWeCEpktevySVG9jzeCufut5vtUW3wFrD'), false);
-    expect(
-        isValidAddress('EDNd1ycsydWYwVmrYZvqYazFqwk1QjBgAUKFjBoz1jKP'), false);
-    expect(
-        isValidAddress('ANVCrmRw7Ww7rTFfMbrjApSPXEEcZpBa6YEiBdf98pAf'), false);
-    expect(
-        isValidAddress('AbygL37RheNZv327cMvZPqKYLLkZ6wqWYexRxgNiZyeP'), false);
+
+  test('Fails for invalid ed25519 points', () {
+    for (final a in _invalidAddresses) {
+      expect(isValidAddress(a), false);
+    }
   });
 }
+
+const _validAddresses = [
+  '7vVcBLQwT1rmjiTXhhvmHKfiaCda2giGMeKchc2jwmBN',
+  '3z99cfKQ2kvKxs79gJon7GeRZ3gtJWfmNG1NkZqFJKQs',
+  '6pr7pCxXu9cF8oP2ARRhrkDj6ikw6QyJNAZ62gyQmwjZ',
+  'HzqnaMjWFbK2io6WgV2Z5uBguCBU21RMUS16wsDUHkon',
+  '68io7dTfyeWua1wD1YcCMka4y5iiChceaFRCBjqCM5PK',
+  'Dra34QLFCjxnk8tUNcBwxs6pgb5spF4oseQYF2xn7ABZ',
+];
+
+const _invalidAddresses = [
+  '6X4X1Ae24mkoWeCEpktevySVG9jzeCufut5vtUW3wFrD',
+  'EDNd1ycsydWYwVmrYZvqYazFqwk1QjBgAUKFjBoz1jKP',
+  'ANVCrmRw7Ww7rTFfMbrjApSPXEEcZpBa6YEiBdf98pAf',
+  'AbygL37RheNZv327cMvZPqKYLLkZ6wqWYexRxgNiZyeP',
+  '3gF2KMe9KiC6FNVBmfg9i267aMPvK37FewCip4eGBFcT',
+];
