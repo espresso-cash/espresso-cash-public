@@ -1,3 +1,11 @@
+## 0.9.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: Derive associated token account address. (#34).
+ - **BREAKING** **FEAT**: Add spl token support and an API to write arbitrary transactions  (#35).
+ - **BREAKING** **FEAT**: Memo program implementation (#31).
+
 ## 0.8.0
 
 > Note: This release has breaking changes.
