@@ -21,7 +21,7 @@ class Message {
 
   int countRequiredSignatures(String? feePayer) {
     final accounts = instructions.getAccounts(feePayer);
-    return accounts.getNumReadonlySigners() + accounts.getNumSigners();
+    return accounts.getNumSigners();
   }
 
   final List<Instruction> instructions;
