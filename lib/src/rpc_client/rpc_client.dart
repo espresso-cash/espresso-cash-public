@@ -33,6 +33,7 @@ export 'parsed_spl_token_instruction.dart';
 export 'parsed_system_instruction.dart';
 export 'signature_status.dart' show SignatureStatus;
 export 'transaction.dart' show Transaction;
+export 'transaction_response.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API
