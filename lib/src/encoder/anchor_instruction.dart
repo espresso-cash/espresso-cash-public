@@ -1,6 +1,6 @@
 import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
-import 'package:solana/src/borsh_serializer/borsh_serializer.dart';
+import 'package:solana/src/borsh_serializer/simple.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/instruction.dart';
 
@@ -17,19 +17,16 @@ class AnchorInstruction extends Instruction {
 
   static Future<AnchorInstruction> forMethod({
     required String programId,
-    required String namespace,
     required String method,
-    required Map<String, dynamic> arguments,
+    required String namespace,
     required List<AccountMeta> accounts,
+    Map<String, dynamic> arguments = const <String, dynamic>{},
   }) async {
-    final hash = await '$namespace::${method.toCamelCase()}'.signHash();
+    final serializedArguments = serializeMap(arguments);
     return AnchorInstruction._(
       programId: programId,
       accounts: accounts,
-      data: [
-        ...hash.sublist(0, 8),
-        ...arguments.toBorshBytes(),
-      ],
+      data: await serializedArguments.addDiscriminator(namespace, method),
     );
   }
 
@@ -39,28 +36,16 @@ class AnchorInstruction extends Instruction {
 
 final _sha256 = Sha256();
 
-extension on String {
-  String toCamelCase() => this;
-
-  Future<List<int>> signHash() async {
-    final hash = await _sha256.hash(codeUnits);
-    return hash.bytes;
+extension on List<int> {
+  Future<List<int>> addDiscriminator(String ns, String name) async {
+    final discriminator = await _createDiscriminator(ns, name);
+    return discriminator.followedBy(this).toList(growable: false);
   }
 }
 
-extension on Map<String, dynamic> {
-  List<int> toBorshBytes() {
-    final List<int> data = [];
-    for (final value in values) {
-      if (value is String) {
-        data.addAll(value.codeUnits);
-      } else if (value is int) {
-        final borshInteger = BorshInteger.u64(value);
-        data.addAll(borshInteger.serialize());
-      } else {
-        throw ArgumentError('unsupported type in map');
-      }
-    }
-    return data;
-  }
+Future<List<int>> _createDiscriminator(String ns, String name) async {
+  final preImage = '$ns:$name';
+  final hash = await _sha256.hash(preImage.codeUnits);
+  final hashBytes = hash.bytes;
+  return hashBytes.sublist(0, 8);
 }

@@ -67,17 +67,19 @@ extension InstructionListExt on List<Instruction> {
   ///   over non-writeable and non-signers);
   /// - sorts accounts according to [Account Addresses Format][1].
   ///
+  /// If [feePayer] is provided, it will make the address a signer too.
+  ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
-  List<AccountMeta> getAccounts(String? feePayer) {
+  List<AccountMeta> getAccountsWithOptionalFeePayer(String? feePayer) {
     final accounts = expand((i) => [
           ...i.accounts,
           AccountMeta.readonly(pubKey: i.programId, isSigner: false),
         ]);
 
     return [
-      ...accounts,
       if (feePayer != null)
         AccountMeta.writeable(pubKey: feePayer, isSigner: true),
+      ...accounts,
     ].unique()
       ..sort();
   }

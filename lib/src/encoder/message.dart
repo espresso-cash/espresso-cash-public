@@ -20,8 +20,8 @@ class Message {
   }) : super();
 
   int countRequiredSignatures(String? feePayer) {
-    final accounts = instructions.getAccounts(feePayer);
-    return accounts.getNumReadonlySigners() + accounts.getNumSigners();
+    final accounts = instructions.getAccountsWithOptionalFeePayer(feePayer);
+    return accounts.getNumSigners();
   }
 
   final List<Instruction> instructions;
@@ -30,7 +30,7 @@ class Message {
     String recentBlockhash, {
     String? feePayer,
   }) {
-    final accounts = instructions.getAccounts(feePayer);
+    final accounts = instructions.getAccountsWithOptionalFeePayer(feePayer);
     final accountsIndexesMap = accounts.toIndexesMap();
     final header = MessageHeader.fromAccounts(accounts);
     final compiledInstructions = instructions
@@ -73,7 +73,7 @@ class Message {
     required String recentBlockhash,
     String? feePayer,
   }) {
-    final accounts = instructions.getAccounts(feePayer);
+    final accounts = instructions.getAccountsWithOptionalFeePayer(feePayer);
     final keys = CompactArray.fromIterable(
       accounts.toSerializablePubKeys(),
     );

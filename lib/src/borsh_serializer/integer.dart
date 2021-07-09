@@ -8,7 +8,7 @@ import 'package:solana/src/borsh_serializer/borsh_serializer.dart';
 class BorshInteger implements BorshSerializable<int> {
   const BorshInteger._(this._data);
   factory BorshInteger._unsigned(int value, int bitSize) {
-    if (value % _bitsPerByte != 0) {
+    if (bitSize % _bitsPerByte != 0) {
       throw ArgumentError(
           'invalid bit size $bitSize, must be multiple of $_bitsPerByte');
     }
@@ -33,7 +33,7 @@ class BorshInteger implements BorshSerializable<int> {
   }
 
   factory BorshInteger._signed(int value, int bitSize) {
-    if (value % _bitsPerByte != 0) {
+    if (bitSize % _bitsPerByte != 0) {
       throw ArgumentError(
           'invalid bit size $bitSize, must be multiple of $_bitsPerByte');
     }
