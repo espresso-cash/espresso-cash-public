@@ -1,3 +1,8 @@
+## 0.9.0+1
+
+ - **FIX**: Add required exports (#41).
+ - **FIX**: Add readonly signers once (#40).
+
 ## 0.9.0
 
 > Note: This release has breaking changes.
