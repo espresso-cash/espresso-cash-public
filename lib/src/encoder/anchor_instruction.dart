@@ -38,12 +38,12 @@ final _sha256 = Sha256();
 
 extension on List<int> {
   Future<List<int>> addDiscriminator(String ns, String name) async {
-    final discriminator = await _createDiscriminator(ns, name);
+    final discriminator = await computeDiscriminator(ns, name);
     return discriminator.followedBy(this).toList(growable: false);
   }
 }
 
-Future<List<int>> _createDiscriminator(String ns, String name) async {
+Future<List<int>> computeDiscriminator(String ns, String name) async {
   final preImage = '$ns:$name';
   final hash = await _sha256.hash(preImage.codeUnits);
   final hashBytes = hash.bytes;

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:solana/solana.dart';
 import 'package:solana/src/borsh_serializer/borsh_serializer.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
@@ -14,7 +17,6 @@ void main() {
   late final Ed25519HDKeyPair vault;
   late final Ed25519HDKeyPair updater;
   final client = RPCClient(devnetRpcUrl);
-  // const mainDataAddress = 'D1o3SbHRy4VYbPyBUnygMmkArtaPQPdYUJypeuN4Y17F';
 
   setUpAll(() async {
     payer = await Ed25519HDKeyPair.random();
@@ -46,7 +48,8 @@ void main() {
   });
 
   test('Call to basic-1 methods succeeds', () async {
-    const space = 200;
+    // 8 bytes for the discriminator and 8 bytes for the data
+    const space = 16;
     final rent = await client.getMinimumBalanceForRentExemption(space);
     final instructions = [
       SystemInstruction.createAccount(
@@ -77,6 +80,32 @@ void main() {
         updater,
       ],
     );
+    final expectedDiscriminator = Uint8List.fromList(
+      await computeDiscriminator('account', 'my_account'),
+    );
+    final accountInfo = await client.getAccountInfo(updater.address);
+    final dynamic data = accountInfo.data;
+    // TODO(IA): parse it as borsh encoded data + discriminator
+    if (data is List) {
+      final dynamic base64Data = data[0];
+      if (base64Data is String && data[1] == 'base64') {
+        final decoded = base64Decode(base64Data);
+        final discriminator = ByteData.sublistView(decoded, 0, 8);
+        final data = ByteData.sublistView(decoded, 8, 16);
+
+        final discriminatorBytes = discriminator.buffer.asUint8List();
+        print(discriminatorBytes);
+
+        expect(data.getUint64(0, Endian.little), equals(100));
+        expect(
+          discriminator.getUint64(0, Endian.little),
+          equals(
+            ByteData.sublistView(expectedDiscriminator)
+                .getUint64(0, Endian.little),
+          ),
+        );
+      }
+    }
     expect(signature, isNotNull);
   });
 }
