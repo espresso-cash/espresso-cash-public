@@ -82,14 +82,15 @@ class Ed25519HDKeyPair extends KeyPair {
     // FIXME: should be string (no knowledge of these structures is needed here)
     required String recentBlockhash,
   }) async {
-    final Iterable<int> messageBytes = message.compile(
+    final compiledMessage = message.compile(
       recentBlockhash: recentBlockhash,
+      feePayer: this,
     );
-    final signature = await sign(messageBytes);
+    final signature = await sign(compiledMessage.data);
 
     return SignedTx(
       signatures: [signature],
-      messageBytes: messageBytes,
+      messageBytes: compiledMessage.data,
     );
   }
 

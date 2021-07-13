@@ -86,8 +86,7 @@ class TokenProgram extends Message {
 
   /// Mint the [destination] account with [amount] tokens of the [mint] token.
   /// The [authority] is the mint authority of the token and must sign the
-  /// transaction. If you want to use a different account to pay for the fees, then
-  /// you must tell this method by means of the [feePayer] parameter.
+  /// transaction.
   ///
   /// The [destination] account must exist and be linked with [mint]. You can create
   /// it by using [TokenProgram.createAccount].
@@ -96,7 +95,6 @@ class TokenProgram extends Message {
     required String destination,
     required String authority,
     required int amount,
-    String? feePayer,
   }) =>
       TokenProgram._(
         instructions: [
@@ -105,27 +103,21 @@ class TokenProgram extends Message {
             destination: destination,
             authority: authority,
             amount: amount,
-            feePayer: feePayer,
           ),
         ],
       );
 
   /// Construct a program to transfer [amount] tokens owned by [owner]
   /// from [source] to [destination].
-  ///
-  /// If you are going to specify a [feePayer] other than source, then you must
-  /// pass the [feePayer] address to this method.
-  ///
+
   /// Note that often the [owner] is the same account as [source].
   ///
   /// The [owner] must sign this transaction and if you specify a [feePayer] then,
-  /// the [feePayer] must also be a signer.
   factory TokenProgram.transfer({
     required String source,
     required String destination,
     required String owner,
     required int amount,
-    String? feePayer,
   }) =>
       TokenProgram._(
         instructions: [
@@ -134,7 +126,6 @@ class TokenProgram extends Message {
             destination: destination,
             owner: owner,
             amount: amount,
-            feePayer: feePayer,
           )
         ],
       );

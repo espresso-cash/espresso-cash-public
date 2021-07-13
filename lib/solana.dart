@@ -1,6 +1,6 @@
 export 'src/crypto/ed25519_hd_keypair.dart';
 export 'src/encoder/encoder.dart'
-    show Instruction, Message, Buffer, AccountMeta;
+    show Instruction, Message, Buffer, AccountMeta, CompiledMessage;
 export 'src/memo_program/memo_program.dart';
 export 'src/rpc_client/rpc_client.dart';
 export 'src/spl_token/spl_token.dart';

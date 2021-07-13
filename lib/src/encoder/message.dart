@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:solana/solana.dart';
 import 'package:solana/src/base58/encode.dart';
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compiled_instruction.dart';
+import 'package:solana/src/encoder/compiled_message.dart';
 import 'package:solana/src/encoder/extensions.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message_header.dart';
@@ -19,17 +20,9 @@ class Message {
     required this.instructions,
   }) : super();
 
-  int countRequiredSignatures(String? feePayer) {
-    final accounts = instructions.getAccountsWithOptionalFeePayer(feePayer);
-    return accounts.getNumSigners();
-  }
-
   final List<Instruction> instructions;
 
-  String debug(
-    String recentBlockhash, {
-    String? feePayer,
-  }) {
+  String debug(String recentBlockhash, Ed25519HDKeyPair feePayer) {
     final accounts = instructions.getAccountsWithOptionalFeePayer(feePayer);
     final accountsIndexesMap = accounts.toIndexesMap();
     final header = MessageHeader.fromAccounts(accounts);
@@ -40,9 +33,7 @@ class Message {
             'accounts': instruction.accounts
                 .map((a) => accountsIndexesMap[a.pubKey]!)
                 .toList(growable: false),
-            'data': base58encode(
-              instruction.data.toList(growable: false),
-            ),
+            'data': base58encode(instruction.data.toList(growable: false))
           },
         )
         .toList(growable: false);
@@ -66,12 +57,14 @@ class Message {
   /// by solana. The [recentBlockhash] is passed here as this is the final
   /// step before sending the [Message].
   ///
-  /// You can also set the [feePayer]'s public key here in order for the
-  /// compiler to put the [feePayer] as the first signer in the list of accounts
-  /// of the compiled message.
-  ByteArray compile({
+  /// If provided the [feePayer] can be added to the accounts if it's not
+  /// present.
+  ///
+  /// Returns a [CompiledMessage] that can be used to sign the transaction,
+  /// and also verify that the number of signers is correct.
+  CompiledMessage compile({
     required String recentBlockhash,
-    String? feePayer,
+    required Ed25519HDKeyPair feePayer,
   }) {
     final accounts = instructions.getAccountsWithOptionalFeePayer(feePayer);
     final keys = CompactArray.fromIterable(
@@ -88,11 +81,14 @@ class Message {
       ),
     );
 
-    return Buffer.fromConcatenatedByteArrays([
-      header,
-      keys,
-      Buffer.fromBase58(recentBlockhash),
-      compiledInstructions,
-    ]);
+    return CompiledMessage(
+      data: Buffer.fromConcatenatedByteArrays([
+        header,
+        keys,
+        Buffer.fromBase58(recentBlockhash),
+        compiledInstructions,
+      ]),
+      requiredSignatureCount: accounts.getNumSigners(),
+    );
   }
 }

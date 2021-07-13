@@ -5,15 +5,19 @@ import 'package:solana/src/encoder/compact_u16.dart';
 class CompactArray extends ByteArray {
   const CompactArray(this._data);
 
+  const CompactArray.empty() : _data = CompactU16.zero;
+
   factory CompactArray._fromLengthAndContent(
-          ByteArray length, ByteArray content) =>
+    ByteArray length,
+    ByteArray content,
+  ) =>
       CompactArray(Buffer.fromConcatenatedByteArrays([length, content]));
 
   factory CompactArray.fromIterable(Iterable<Object> items) {
     final mapped = items.map<ByteArray>(CompactArray._getBytesOf);
     final length = CompactU16(mapped.length);
     if (mapped.isEmpty) {
-      return CompactArray(length);
+      return const CompactArray.empty();
     }
     return CompactArray._fromLengthAndContent(length, mapped.reduce(_merge));
   }

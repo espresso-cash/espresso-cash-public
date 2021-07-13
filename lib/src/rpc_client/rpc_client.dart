@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/encoder/compiled_message.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/encoder/signature.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
@@ -381,9 +382,8 @@ class RPCClient {
   /// Convenience method to sign a transaction with [message] using [signers].
   /// Send the transaction after signing it.
   ///
-  /// The [feePayer] will pay for the transaction fee if provided as the [feePayer]
-  /// parameter and the corresponding signer is the first item of the [signers]
-  /// list.
+  /// The first element of the [signers] array is considered to be the
+  /// fee payer.
   ///
   /// For [commitment] parameter description [see this document][see this document]
   /// [Commitment.processed] is not supported as [commitment].
@@ -392,28 +392,28 @@ class RPCClient {
   Future<TransactionSignature> signAndSendTransaction(
     Message message,
     List<Ed25519HDKeyPair> signers, {
-    String? feePayer,
     Commitment? commitment,
   }) async {
-    final int numSignaturesCount = message.countRequiredSignatures(feePayer);
-    if (signers.length != numSignaturesCount) {
+    final recentBlockhash = await getRecentBlockhash();
+    final CompiledMessage compiledMessage = message.compile(
+      recentBlockhash: recentBlockhash.blockhash,
+      feePayer: signers.feePayer,
+    );
+    final int requiredSignaturesCount = compiledMessage.requiredSignatureCount;
+    if (signers.length != requiredSignaturesCount) {
       throw FormatException(
-        'your message requires $numSignaturesCount signatures but '
+        'your message requires $requiredSignaturesCount signatures but '
         'you provided ${signers.length}',
       );
     }
-    final recentBlockhash = await getRecentBlockhash();
-    final messageBytes = message.compile(
-      recentBlockhash: recentBlockhash.blockhash,
-      feePayer: feePayer ?? signers[0].address,
-    );
+
     // FIXME(IA): signatures must match signers in the message accounts sorting
     final List<Signature> signatures = await Future.wait(
-      signers.map((wallet) => wallet.sign(messageBytes)),
+      signers.map((wallet) => wallet.sign(compiledMessage.data)),
     );
     final signature = await sendTransaction(
       SignedTx(
-        messageBytes: messageBytes,
+        messageBytes: compiledMessage.data,
         signatures: signatures,
       ),
       commitment: commitment,
@@ -468,5 +468,17 @@ class RPCClient {
     check();
 
     return completer.future;
+  }
+}
+
+extension on List<Ed25519HDKeyPair> {
+  Ed25519HDKeyPair get feePayer {
+    if (isEmpty) {
+      throw const FormatException(
+        'must have at least 1 signer to pay for fees',
+      );
+    } else {
+      return first;
+    }
   }
 }

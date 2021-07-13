@@ -1,17 +1,20 @@
-import 'package:convert/convert.dart';
-import 'package:solana/src/borsh_serializer/borsh_serializer.dart';
-import 'package:solana/src/borsh_serializer/simple.dart';
 import 'package:test/test.dart';
+
+import 'borsh_test_structs/simple_struct1.dart';
 
 void main() {
   test('Borsh', () {
-    final list = [BorshInteger.i8(1), BorshInteger.i8(2), BorshInteger.i8(3)];
-    final bytes = serializeMap(<String, dynamic>{
-      'x': BorshInteger.u8(255),
-      'y': BorshInteger.u64(20),
-      'z': '123',
-      'q': list,
-    });
-    expect(hex.encode(bytes), equals(''));
+    const original = SimpleStruct1(
+      strValue: 'Example',
+      int32Value: 13,
+      fixedIntegersArray: [1, 2, 3],
+      dynamicStringArray: ['string 1', 'one more', 'and last one'],
+    );
+    final bytes = original.toBinary();
+    final deserialized = SimpleStruct1.fromBinary(bytes);
+
+    expect(bytes.length, equals(62));
+    expect(original.strValue, equals(deserialized.strValue));
+    expect(original.int32Value, equals(deserialized.int32Value));
   });
 }

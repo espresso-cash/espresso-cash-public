@@ -1,6 +1,6 @@
 import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
-import 'package:solana/src/borsh_serializer/simple.dart';
+import 'package:solana/src/borsh/struct.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/instruction.dart';
 
@@ -20,9 +20,9 @@ class AnchorInstruction extends Instruction {
     required String method,
     required String namespace,
     required List<AccountMeta> accounts,
-    Map<String, dynamic> arguments = const <String, dynamic>{},
+    BorshStruct arguments = const EmptyBorshStruct(),
   }) async {
-    final serializedArguments = serializeMap(arguments);
+    final serializedArguments = arguments.toBinary();
     return AnchorInstruction._(
       programId: programId,
       accounts: accounts,
@@ -43,9 +43,9 @@ extension on List<int> {
   }
 }
 
-Future<List<int>> computeDiscriminator(String ns, String name) async {
-  final preImage = '$ns:$name';
-  final hash = await _sha256.hash(preImage.codeUnits);
+Future<List<int>> computeDiscriminator(String namespace, String name) async {
+  final identifier = '$namespace:$name';
+  final hash = await _sha256.hash(identifier.codeUnits);
   final hashBytes = hash.bytes;
   return hashBytes.sublist(0, 8);
 }

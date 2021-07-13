@@ -1,3 +1,4 @@
+import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/instruction.dart';
@@ -67,20 +68,32 @@ extension InstructionListExt on List<Instruction> {
   ///   over non-writeable and non-signers);
   /// - sorts accounts according to [Account Addresses Format][1].
   ///
-  /// If [feePayer] is provided, it will make the address a signer too.
-  ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
-  List<AccountMeta> getAccountsWithOptionalFeePayer(String? feePayer) {
-    final accounts = expand((i) => [
-          ...i.accounts,
-          AccountMeta.readonly(pubKey: i.programId, isSigner: false),
-        ]);
+  List<AccountMeta> getAccountsWithOptionalFeePayer(
+    Ed25519HDKeyPair feePayer,
+  ) {
+    final accounts = expand<AccountMeta>(
+      (Instruction instruction) => [
+        ...instruction.accounts,
 
-    return [
-      if (feePayer != null)
-        AccountMeta.writeable(pubKey: feePayer, isSigner: true),
-      ...accounts,
-    ].unique()
-      ..sort();
+        /// Append the instruction program id
+        AccountMeta.readonly(pubKey: instruction.programId, isSigner: false),
+      ],
+    ).toList();
+    final index = accounts.indexWhere(
+      (AccountMeta account) => account.pubKey == feePayer.address,
+    );
+    if (index != -1) {
+      // If the account is already here, remove it as we are going
+      // to put it as the first element of the accounts array anyway
+      accounts.removeAt(index);
+    }
+    // The fee payer must be the first account in they "keys" provided with
+    // the message object
+    accounts.insert(
+      0,
+      AccountMeta.writeable(pubKey: feePayer.address, isSigner: true),
+    );
+    return accounts.unique()..sort();
   }
 }
