@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:solana/solana.dart';
 import 'package:solana/src/anchor/instruction.dart';
+import 'package:solana/src/anchor/programs/crypto_please/push_notifications.dart';
+import 'package:solana/src/anchor/programs/crypto_please/types/prepaid_notification.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/message.dart';
@@ -8,7 +12,7 @@ import 'package:test/test.dart';
 import 'airdrop.dart';
 import 'anchor_tutorial_types/basic1.dart';
 import 'config.dart';
-import 'pushnotifications_types/push_notifications.dart';
+import 'push_notifications_types/push_notifications.dart';
 
 void main() {
   late final Ed25519HDKeyPair payer;
@@ -22,6 +26,7 @@ void main() {
     updater = await Ed25519HDKeyPair.random();
     data = await Ed25519HDKeyPair.random();
     vault = await Ed25519HDKeyPair.random();
+
     await airdrop(client, payer, sol: 10);
   });
 
@@ -146,9 +151,29 @@ void main() {
       ],
     );
   }, skip: true);
+
+  test('Calls push notifications program prepaid notification method',
+      () async {
+    final program = PushNotifications(
+      _pushNotifications,
+      mainData: data.address,
+    );
+    final signature = await program.prepaidNotification(
+      client,
+      const PrepaidNotification(notificationId: '123'),
+      vault: vault.address,
+      updater: updater.address,
+      payer: payer.address,
+      signers: [payer],
+    );
+    expect(signature, isNotNull);
+  }, skip: true);
 }
 
-const _basic0 = '73JSEtceE6QVgN44rfYtfkB1HnMW3z1tQH1ek79CTQtX';
-const _basic1 = '6gYaFMp7H5iao1wDJ7q7BAaXjLJi1w6UvSrGH14oUv4n';
-
-const _pushNotifications = '384J5ei4zbK7N7tGrEUwoTThDbxWtNbdYaiD2kC9v2CL';
+final _basic0 = Platform.environment['PROGRAM_ID_BASIC_0'] ??
+    '73JSEtceE6QVgN44rfYtfkB1HnMW3z1tQH1ek79CTQtX';
+final _basic1 = Platform.environment['PROGRAM_ID_BASIC_1'] ??
+    '6gYaFMp7H5iao1wDJ7q7BAaXjLJi1w6UvSrGH14oUv4n';
+final _pushNotifications =
+    Platform.environment['PROGRAM_ID_PUSHNOTIFICATION'] ??
+        '384J5ei4zbK7N7tGrEUwoTThDbxWtNbdYaiD2kC9v2CL';

@@ -18,7 +18,7 @@ class Basic1DataAccount implements AnchorAccount {
   factory Basic1DataAccount._fromBinary(
     List<int> bytes,
   ) {
-    final accountData = _AccountData.fromBinary(bytes.sublist(8));
+    final accountData = _AccountData.fromBorsh(bytes.sublist(8));
     return Basic1DataAccount._(
       discriminator: bytes.sublist(0, 8),
       data: accountData.data,
@@ -43,7 +43,7 @@ class Basic1DataAccount implements AnchorAccount {
 class _AccountData {
   _AccountData({required this.data});
 
-  factory _AccountData.fromBinary(List<int> data) =>
+  factory _AccountData.fromBorsh(List<int> data) =>
       __AccountDataFromBorsh(data);
 
   @u64
@@ -55,7 +55,7 @@ class Basic1Arguments extends BorshStruct {
   const Basic1Arguments({required this.data});
 
   @override
-  List<int> toBinary() => _Basic1ArgumentsToBorsh(this);
+  List<int> toBorsh() => _Basic1ArgumentsToBorsh(this);
 
   @u64
   final int data;

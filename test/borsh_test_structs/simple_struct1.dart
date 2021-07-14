@@ -16,11 +16,11 @@ class SimpleStruct1 extends BorshStruct {
     required this.dynamicStringArray,
   });
 
-  factory SimpleStruct1.fromBinary(List<int> bytes) =>
+  factory SimpleStruct1.fromBorsh(List<int> bytes) =>
       _SimpleStruct1FromBorsh(bytes);
 
   @override
-  List<int> toBinary() => _SimpleStruct1ToBorsh(this);
+  List<int> toBorsh() => _SimpleStruct1ToBorsh(this);
 
   @string
   final String strValue;

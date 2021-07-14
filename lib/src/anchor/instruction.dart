@@ -22,7 +22,7 @@ class AnchorInstruction extends Instruction {
     required List<AccountMeta> accounts,
     BorshStruct arguments = const EmptyBorshStruct(),
   }) async {
-    final serializedArguments = arguments.toBinary();
+    final serializedArguments = arguments.toBorsh();
     return AnchorInstruction._(
       programId: programId,
       accounts: accounts,

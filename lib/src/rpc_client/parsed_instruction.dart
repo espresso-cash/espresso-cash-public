@@ -21,6 +21,7 @@ class ParsedInstruction with _$ParsedInstruction {
   /// Instruction representing a memo with content [memo]
   @FreezedUnionValue('spl-memo')
   const factory ParsedInstruction.memo({
+    // ignore: invalid_annotation_target
     @JsonKey(name: 'parsed') required String? memo,
   }) = ParsedInstructionMemo;
 

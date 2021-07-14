@@ -8,8 +8,12 @@ builders:
   borsh:
     target: ":borsh"
     import: "package:solana/src/borsh/builder.dart"
-    builder_factories: ["borsh"]
-    build_extensions: {".dart": [".borsh.g.part"]}
-    auto_apply: dependents
-    build_to: cache
-    applies_builders: ["source_gen|combining_builder"]
+    builder_factories:
+      - "borsh"
+    build_extensions:
+      ".dart":
+        - ".borsh.g.part"
+    auto_apply: "dependents"
+    build_to: "cache"
+    applies_builders:
+      - "source_gen|combining_builder"

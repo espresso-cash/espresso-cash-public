@@ -10,8 +10,8 @@ void main() {
       fixedIntegersArray: [1, 2, 3],
       dynamicStringArray: ['string 1', 'one more', 'and last one'],
     );
-    final bytes = original.toBinary();
-    final deserialized = SimpleStruct1.fromBinary(bytes);
+    final bytes = original.toBorsh();
+    final deserialized = SimpleStruct1.fromBorsh(bytes);
 
     expect(bytes.length, equals(62));
     expect(original.strValue, equals(deserialized.strValue));

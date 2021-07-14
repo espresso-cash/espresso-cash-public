@@ -1,12 +1,12 @@
 abstract class BorshStruct {
   const BorshStruct();
 
-  List<int> toBinary();
+  List<int> toBorsh();
 }
 
 class EmptyBorshStruct extends BorshStruct {
   const EmptyBorshStruct();
 
   @override
-  List<int> toBinary() => [];
+  List<int> toBorsh() => [];
 }

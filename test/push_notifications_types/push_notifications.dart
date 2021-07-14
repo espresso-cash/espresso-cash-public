@@ -15,5 +15,5 @@ class Init extends BorshStruct {
   final int fee;
 
   @override
-  List<int> toBinary() => _InitToBorsh(this);
+  List<int> toBorsh() => _InitToBorsh(this);
 }
