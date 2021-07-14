@@ -79,7 +79,7 @@ List<FieldInfo> classFieldToFieldInfos(List<FieldElement> classFields) {
   return fields;
 }
 
-class FieldInfo implements {
+class FieldInfo {
   const FieldInfo({
     required this.name,
     required this.type,
