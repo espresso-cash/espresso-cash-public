@@ -14,6 +14,7 @@ FieldInfo? _constantValueToFieldInfo(
     if (fieldType == null) {
       throw ArgumentError('cannot determine field type');
     }
+
     // TODO(iharob): compare field type with borsh type to see if it's compatible
     return FieldInfo(name: fieldName, type: fieldType);
   } else if (type.toString() == 'Array') {
@@ -48,6 +49,7 @@ FieldInfo? _getFieldInfo(FieldElement element) {
   if (element.isPrivate) {
     return null;
   }
+
   final constantValues = metadata.map(_toConstantValue);
   if (constantValues.isEmpty) {
     return null;
@@ -56,6 +58,7 @@ FieldInfo? _getFieldInfo(FieldElement element) {
     if (first == null) {
       return null;
     }
+
     return _constantValueToFieldInfo(element.name, first);
   } else {
     throw ArgumentError('cannot extract field info');
@@ -70,10 +73,13 @@ List<FieldInfo> classFieldToFieldInfos(List<FieldElement> classFields) {
       fields.add(fieldInfo);
     }
   }
-  return fields..sort();
+
+  // For now, we don't sort the fields. We need to make sure that they
+  // actually preserve the sorting order of their declarations.
+  return fields;
 }
 
-class FieldInfo implements Comparable<FieldInfo> {
+class FieldInfo implements {
   const FieldInfo({
     required this.name,
     required this.type,
@@ -86,7 +92,4 @@ class FieldInfo implements Comparable<FieldInfo> {
 
   final int? length;
   final Borsh? itemType;
-
-  @override
-  int compareTo(FieldInfo other) => name.compareTo(other.name);
 }
