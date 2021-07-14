@@ -9,8 +9,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     env:
-      DEVNET_RPC_URL: "http://localhost:8899"
-      PATH: "/usr/bin:/bin:/root/.cargo/bin"
+      DEVNET_RPC_URL: "http://solana:8899"
     container:
       image: google/dart:latest
     services:
