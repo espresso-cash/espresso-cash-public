@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:solana/solana.dart';
 import 'package:solana/src/anchor/instruction.dart';
-import 'package:solana/src/anchor/programs/crypto_please/push_notifications.dart';
-import 'package:solana/src/anchor/programs/crypto_please/types/prepaid_notification.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/message.dart';
@@ -12,7 +10,6 @@ import 'package:test/test.dart';
 import 'airdrop.dart';
 import 'anchor_tutorial_types/basic1.dart';
 import 'config.dart';
-import 'push_notifications_types/push_notifications.dart';
 
 void main() {
   late final Ed25519HDKeyPair payer;
@@ -109,71 +106,9 @@ void main() {
     expect(dataAccount.data, equals(25));
     expect(dataAccount.discriminator, equals(discriminator));
   }, skip: true);
-
-  test('Test push notifications', () async {
-    final initAddress = await findProgramAddress(
-      programId: _pushNotifications,
-      seeds: ['mainDataForTheProgram'.codeUnits],
-    );
-    const space = 500;
-    final rent = await client.getMinimumBalanceForRentExemption(space);
-    // Call update
-    final instructions = [
-      SystemInstruction.createAccount(
-        rent: rent,
-        programId: _pushNotifications,
-        address: data.address,
-        owner: payer.address,
-        space: space,
-      ),
-      await AnchorInstruction.forMethod(
-        programId: _pushNotifications,
-        method: 'init',
-        arguments: const Init(fee: 4400),
-        accounts: <AccountMeta>[
-          AccountMeta.writeable(pubKey: data.address, isSigner: false),
-          AccountMeta.writeable(pubKey: initAddress, isSigner: false),
-          AccountMeta.writeable(pubKey: vault.address, isSigner: false),
-          AccountMeta.writeable(pubKey: payer.address, isSigner: true),
-          AccountMeta.writeable(
-              pubKey: SystemProgram.programId, isSigner: false),
-          AccountMeta.writeable(pubKey: Sysvar.rent, isSigner: false),
-        ],
-        namespace: 'global',
-      ),
-    ];
-    final message = Message(instructions: instructions);
-    await client.signAndSendTransaction(
-      message,
-      [
-        payer,
-        data,
-      ],
-    );
-  }, skip: true);
-
-  test('Calls push notifications program prepaid notification method',
-      () async {
-    final program = PushNotifications(
-      _pushNotifications,
-      mainData: data.address,
-    );
-    final signature = await program.prepaidNotification(
-      client,
-      const PrepaidNotification(notificationId: '123'),
-      vault: vault.address,
-      updater: updater.address,
-      payer: payer.address,
-      signers: [payer],
-    );
-    expect(signature, isNotNull);
-  }, skip: true);
 }
 
 final _basic0 = Platform.environment['PROGRAM_ID_BASIC_0'] ??
     '73JSEtceE6QVgN44rfYtfkB1HnMW3z1tQH1ek79CTQtX';
 final _basic1 = Platform.environment['PROGRAM_ID_BASIC_1'] ??
     '6gYaFMp7H5iao1wDJ7q7BAaXjLJi1w6UvSrGH14oUv4n';
-final _pushNotifications =
-    Platform.environment['PROGRAM_ID_PUSHNOTIFICATION'] ??
-        '384J5ei4zbK7N7tGrEUwoTThDbxWtNbdYaiD2kC9v2CL';
