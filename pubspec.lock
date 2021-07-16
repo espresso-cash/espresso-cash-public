@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  borsh:
+    dependency: "direct dev"
+    description:
+      path: "../borsh"
+      relative: true
+    source: path
+    version: "0.1.0"
   build:
     dependency: transitive
     description:
@@ -406,7 +413,7 @@ packages:
       name: source_gen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.3"
   source_map_stack_trace:
     dependency: transitive
     description:

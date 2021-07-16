@@ -1,10 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:borsh/borsh.dart';
 import 'package:solana/src/anchor/account.dart';
-import 'package:solana/src/borsh/field_annotation.dart';
-import 'package:solana/src/borsh/struct.dart';
-import 'package:solana/src/borsh/struct_annotation.dart';
-import 'package:solana/src/borsh/type.dart';
 import 'package:solana/src/rpc_client/account.dart';
 
 part 'basic1.g.dart';

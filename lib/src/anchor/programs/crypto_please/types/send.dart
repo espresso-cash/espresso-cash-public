@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:solana/src/borsh/field_annotation.dart';
-import 'package:solana/src/borsh/struct.dart';
-import 'package:solana/src/borsh/struct_annotation.dart';
+import 'package:borsh/borsh.dart';
 
 part 'send.g.dart';
 

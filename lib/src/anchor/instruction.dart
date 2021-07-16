@@ -1,6 +1,6 @@
+import 'package:borsh/borsh.dart';
 import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
-import 'package:solana/src/borsh/struct.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/instruction.dart';
 
