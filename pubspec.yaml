@@ -17,8 +17,7 @@ dependencies:
   json_annotation: ^4.0.1
 
 dev_dependencies:
-  borsh:
-    path: /data/Code/CryptoPlease/borsh
+  borsh: ^0.1.0
   build_runner: ^2.0.6
   freezed: ^0.14.2
   json_serializable: ^4.1.3
