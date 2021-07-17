@@ -1,7 +1,7 @@
 name: dart-solana-lib
 
 packages:
-  - '**'
+  - 'packages/**'
 
 scripts:
   check_master:
@@ -11,12 +11,12 @@ scripts:
       && melos run analyze \
       && melos run test
 
-  get: dart pub get
+  get: melos exec -- dart pub get
 
-  build: dart pub run build_runner build
+  build: melos exec -- dart pub run build_runner build --delete-conflicting-outputs
 
-  format: dart format --set-exit-if-changed -o none .
+  format: melos exec -- dart format --set-exit-if-changed -o none .
 
-  analyze: dart analyze --fatal-infos .
+  analyze: melos exec -- dart analyze --fatal-infos .
 
-  test: dart pub run test
+  test: melos exec -- dart pub run test
