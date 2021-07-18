@@ -21,6 +21,8 @@ class ParsedInstruction with _$ParsedInstruction {
   /// Instruction representing a memo with content [memo]
   @FreezedUnionValue('spl-memo')
   const factory ParsedInstruction.memo({
+    // This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
+    // ignore: invalid_annotation_target
     @JsonKey(name: 'parsed') required String? memo,
   }) = ParsedInstructionMemo;
 
