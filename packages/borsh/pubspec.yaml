@@ -8,6 +8,8 @@ environment:
   sdk: ">=2.13.0 <3.0.0"
 
 dependencies:
+  analyzer: ^2.0.0
+  build: ^2.0.3
   source_gen: ^1.0.3
 
 dev_dependencies:
