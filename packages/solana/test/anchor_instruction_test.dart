@@ -14,8 +14,6 @@ import 'config.dart';
 void main() {
   late final Ed25519HDKeyPair payer;
   late final Ed25519HDKeyPair updater;
-  late final Ed25519HDKeyPair data;
-  late final Ed25519HDKeyPair vault;
   final client = RPCClient(devnetRpcUrl);
 
   setUpAll(() async {
