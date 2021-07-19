@@ -19,8 +19,6 @@ void main() {
   setUpAll(() async {
     payer = await Ed25519HDKeyPair.random();
     updater = await Ed25519HDKeyPair.random();
-    data = await Ed25519HDKeyPair.random();
-    vault = await Ed25519HDKeyPair.random();
 
     await airdrop(client, payer, sol: 10);
   });
