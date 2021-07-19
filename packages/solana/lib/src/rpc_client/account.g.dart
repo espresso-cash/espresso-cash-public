@@ -12,7 +12,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
     lamports: json['lamports'] as int,
     executable: json['executable'] as bool,
     rentEpoch: json['rentEpoch'] as int,
-    data: json['data'],
+    data: AccountData.fromJson(json['data']),
   );
 }
 

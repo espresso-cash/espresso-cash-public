@@ -32,7 +32,7 @@ void main() {
       newTokenMint = token.mint;
     });
 
-    test(' create an account with', () async {
+    test('Create an account with', () async {
       final creator = await Ed25519HDKeyPair.random();
       final account = await Ed25519HDKeyPair.random();
       await airdrop(client, creator, sol: 100);
@@ -80,7 +80,9 @@ void main() {
       final accounts =
           await token.getAssociatedAccountsFor(owner: owner.address);
       await token.mintTo(
-          destination: accounts[0].address, amount: _totalSupply);
+        destination: accounts[0].address,
+        amount: _totalSupply,
+      );
       // Reload it
       token = await SplToken.readWrite(
         owner: owner,

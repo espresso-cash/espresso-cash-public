@@ -73,17 +73,13 @@ class TokenInstruction extends Instruction {
     required String destination,
     required String owner,
     required int amount,
-    String? feePayer,
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: source, isSigner: false),
           AccountMeta.writeable(pubKey: destination, isSigner: false),
-          AccountMeta(
-            pubKey: owner,
-            isSigner: true,
-            isWriteable: feePayer == null || feePayer == owner,
-          ),
+          // TODO(IA): this should be readonly unless, it is the fee payer
+          AccountMeta.writeable(pubKey: owner, isSigner: true),
         ],
         data: Buffer.fromConcatenatedByteArrays([
           TokenProgram.transferInstructionIndex,
@@ -94,31 +90,20 @@ class TokenInstruction extends Instruction {
   /// Mint the [destination] account with [amount] tokens of the [mint] token.
   /// The [authority] is the mint authority of the token.
   ///
-  /// If you want to use a different account to pay for the fees, then
-  /// you must tell this method by means of the [feePayer] parameter.
-  ///
   /// The [destination] account must exist and be linked with [mint]. You can create
   /// it by using [TokenProgram.createAccount].
-  ///
-  /// If you include this instruction in a transaction, then the transaction must
-  /// be signed by [authority]. If you specify a [feePayer] then of course, the
-  /// [feePayer] must sign the transaction as well.
   factory TokenInstruction.mintTo({
     required String mint,
     required String destination,
     required String authority,
     required int amount,
-    String? feePayer,
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(pubKey: destination, isSigner: false),
-          AccountMeta(
-            pubKey: authority,
-            isSigner: true,
-            isWriteable: feePayer == null,
-          ),
+          // TODO(IA): this should be readonly unless, it is the fee payer
+          AccountMeta.writeable(pubKey: authority, isSigner: true),
         ],
         data: Buffer.fromConcatenatedByteArrays([
           TokenProgram.mintToInstructionIndex,

@@ -475,7 +475,7 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
   factory _$ParsedInstructionMemo.fromJson(Map<String, dynamic> json) =>
       _$_$ParsedInstructionMemoFromJson(json);
 
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: 'parsed')
   final String? memo;
 
@@ -569,6 +569,7 @@ abstract class ParsedInstructionMemo implements ParsedInstruction {
   factory ParsedInstructionMemo.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionMemo.fromJson;
 
+// ignore: invalid_annotation_target
   @JsonKey(name: 'parsed')
   String? get memo => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)

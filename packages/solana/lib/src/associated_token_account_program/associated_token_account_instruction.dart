@@ -41,6 +41,6 @@ class AssociatedTokenAccountInstruction extends Instruction {
   }) : super(
           programId: AssociatedTokenAccountProgram.programId,
           accounts: accounts,
-          data: [0],
+          data: [],
         );
 }
