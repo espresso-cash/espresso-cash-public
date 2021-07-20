@@ -6,8 +6,7 @@ part of 'fee_calculator.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FeeCalculator _$FeeCalculatorFromJson(Map<String, dynamic> json) {
-  return FeeCalculator(
-    lamportsPerSignature: json['lamportsPerSignature'] as int,
-  );
-}
+FeeCalculator _$FeeCalculatorFromJson(Map<String, dynamic> json) =>
+    FeeCalculator(
+      lamportsPerSignature: json['lamportsPerSignature'] as int,
+    );

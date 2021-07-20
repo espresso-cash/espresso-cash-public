@@ -6,7 +6,7 @@ part of 'simple_struct1.dart';
 // Borsh Struct Generator
 // **************************************************************************
 
-SimpleStruct1 _SimpleStruct1FromBorsh(List<int> _data) {
+SimpleStruct1 _$SimpleStruct1FromBorsh(List<int> _data) {
   ByteData _view = ByteData.sublistView(Uint8List.fromList(_data));
   int offset = 0;
 
@@ -31,7 +31,7 @@ SimpleStruct1 _SimpleStruct1FromBorsh(List<int> _data) {
   );
 }
 
-List<int> _SimpleStruct1ToBorsh(SimpleStruct1 s) {
+List<int> _$SimpleStruct1ToBorsh(SimpleStruct1 s) {
   int size = 0;
   size += s.strValue.length;
   size += s.fixedIntegersArray.length * 1;

@@ -14,10 +14,10 @@ class SimpleStruct1 extends BorshStruct {
   });
 
   factory SimpleStruct1.fromBorsh(List<int> bytes) =>
-      _SimpleStruct1FromBorsh(bytes);
+      _$SimpleStruct1FromBorsh(bytes);
 
   @override
-  List<int> toBorsh() => _SimpleStruct1ToBorsh(this);
+  List<int> toBorsh() => _$SimpleStruct1ToBorsh(this);
 
   @string
   final String strValue;

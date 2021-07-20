@@ -7,15 +7,14 @@ part of 'parsed_spl_token_instruction.dart';
 // **************************************************************************
 
 _$ParsedSplTokenTransferInstruction
-    _$_$ParsedSplTokenTransferInstructionFromJson(Map<String, dynamic> json) {
-  return _$ParsedSplTokenTransferInstruction(
-    info: ParsedSplTokenTransferInformation.fromJson(
-        json['info'] as Map<String, dynamic>),
-    type: json['type'] as String,
-  );
-}
+    _$$ParsedSplTokenTransferInstructionFromJson(Map<String, dynamic> json) =>
+        _$ParsedSplTokenTransferInstruction(
+          info: ParsedSplTokenTransferInformation.fromJson(
+              json['info'] as Map<String, dynamic>),
+          type: json['type'] as String,
+        );
 
-Map<String, dynamic> _$_$ParsedSplTokenTransferInstructionToJson(
+Map<String, dynamic> _$$ParsedSplTokenTransferInstructionToJson(
         _$ParsedSplTokenTransferInstruction instance) =>
     <String, dynamic>{
       'info': instance.info,
@@ -23,30 +22,28 @@ Map<String, dynamic> _$_$ParsedSplTokenTransferInstructionToJson(
     };
 
 _$ParsedSplTokenUnsupportedInstruction
-    _$_$ParsedSplTokenUnsupportedInstructionFromJson(
-        Map<String, dynamic> json) {
-  return _$ParsedSplTokenUnsupportedInstruction(
-    type: json['type'] as String,
-  );
-}
+    _$$ParsedSplTokenUnsupportedInstructionFromJson(
+            Map<String, dynamic> json) =>
+        _$ParsedSplTokenUnsupportedInstruction(
+          type: json['type'] as String,
+        );
 
-Map<String, dynamic> _$_$ParsedSplTokenUnsupportedInstructionToJson(
+Map<String, dynamic> _$$ParsedSplTokenUnsupportedInstructionToJson(
         _$ParsedSplTokenUnsupportedInstruction instance) =>
     <String, dynamic>{
       'type': instance.type,
     };
 
 _$_ParsedSplTokenTransferInformation
-    _$_$_ParsedSplTokenTransferInformationFromJson(Map<String, dynamic> json) {
-  return _$_ParsedSplTokenTransferInformation(
-    amount: json['amount'] as String,
-    authority: json['authority'] as String,
-    source: json['source'] as String,
-    destination: json['destination'] as String,
-  );
-}
+    _$$_ParsedSplTokenTransferInformationFromJson(Map<String, dynamic> json) =>
+        _$_ParsedSplTokenTransferInformation(
+          amount: json['amount'] as String,
+          authority: json['authority'] as String,
+          source: json['source'] as String,
+          destination: json['destination'] as String,
+        );
 
-Map<String, dynamic> _$_$_ParsedSplTokenTransferInformationToJson(
+Map<String, dynamic> _$$_ParsedSplTokenTransferInformationToJson(
         _$_ParsedSplTokenTransferInformation instance) =>
     <String, dynamic>{
       'amount': instance.amount,
