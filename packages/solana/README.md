@@ -4,11 +4,13 @@ This is the Solana library for dart using the [JSON RPC API](https://docs.solana
 
 Currently, it supports
 
-- Getting the balance in SOL of an address
-- Transferring SOL
-- Listing all the transactions for a given address
-- Generate a keypair from a 12 word mnemonic seed
-- Sign transactions with the `SolanaWallet` object
+- Creating arbitrary transactions with an API similar to that of the Rust SDK.
+- Partial implementation of the system program. Transfer and Create Account instructions for the current version.  
+- Partial implementation of the SPL token program.
+- Memo program.  
+- Manually writing anchor compatible programs through a simple API.
+- Generating a keypair from a 12 word mnemonic seed.
+- Partial RPC Api implementation.
 
 ### Our pub.dev package
 We have [the package published here](https://pub.dev/packages/solana) if you like to use it in your project
@@ -35,6 +37,4 @@ You can also create an image from [Dockerfile](Dockerfile) and run it.
 
 ## Next steps
 
-We are actively working on the library and adding features to as well as fixing bugs.
-
-The very next step is to build a layer to use SPL tokens as a `SolanaClient`
+Complete the RPC api and implement all methods. Implement all methods in the System program and SPL Token program.
