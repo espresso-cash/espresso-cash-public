@@ -1,7 +1,6 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/exceptions/bad_state_exception.dart';
 import 'package:solana/src/rpc_client/commitment.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/rpc_client/signature_status.dart';
@@ -16,8 +15,7 @@ class Wallet {
   Wallet({
     required this.signer,
     required RPCClient rpcClient,
-  })  : _rpcClient = rpcClient,
-        _tokens = <String, _TokenInfo>{};
+  }) : _rpcClient = rpcClient;
 
   Future<TransactionSignature> _genericTransfer({
     required String source,
@@ -47,7 +45,7 @@ class Wallet {
   }
 
   /// Loads the [mint] token into the tokens list
-  Future<void> addSplToken({required String mint}) async {
+  /*Future<void> addSplToken({required String mint}) async {
     late final _TokenInfo tokenInfo;
     if (_tokens.containsKey(mint)) {
       throw const BadStateException('token already added to this wallet');
@@ -58,6 +56,7 @@ class Wallet {
     );
     late final List<AssociatedTokenAccount> accounts;
     try {
+    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
       accounts = await token.getAssociatedAccountsFor(owner: address);
     } on FormatException {
       accounts = [];
@@ -84,7 +83,7 @@ class Wallet {
       }
     }
     _tokens[mint] = tokenInfo;
-  }
+  }*/
 
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
   /// to [destination].
@@ -169,12 +168,11 @@ class Wallet {
     required int amount,
     Commitment? commitment,
   }) async {
-    if (!hasAssociatedTokenAccount(mint: mint)) {
+    if (!await hasAssociatedTokenAccount(mint: mint)) {
       throw const FormatException(
           'this wallet has no associated token account');
     }
-    final tokenInfo = _getTokenInfoOrThrow(mint);
-    final token = tokenInfo.token;
+    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
 
     return token.transfer(
       source: address,
@@ -191,14 +189,13 @@ class Wallet {
     required String memo,
     Commitment? commitment,
   }) async {
-    if (!hasAssociatedTokenAccount(mint: mint)) {
+    if (!await hasAssociatedTokenAccount(mint: mint)) {
       throw const FormatException(
           'this wallet has no associated token account');
     }
 
-    final tokenInfo = _getTokenInfoOrThrow(mint);
-    final token = tokenInfo.token;
-    final source = tokenInfo.associatedAddress;
+    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final source = await token.computeAssociatedAddress(owner: address);
 
     final message = Message(
       instructions: [
@@ -243,13 +240,6 @@ class Wallet {
       funder: funder?.signer ?? signer,
     );
 
-    /// Add the token to the list
-    _tokens[mint] = _TokenInfo(
-      token: token,
-      associatedAddress: associatedTokenAccount.address,
-      account: associatedTokenAccount,
-    );
-
     return associatedTokenAccount;
   }
 
@@ -257,25 +247,37 @@ class Wallet {
   ///
   /// If the [mint] was not added to the list of known tokens for this wallet
   /// this method simply returns `false`.
-  bool hasAssociatedTokenAccount({
+  Future<bool> hasAssociatedTokenAccount({
     required String mint,
-  }) {
-    final tokenInfo = _tokens[mint];
-    if (tokenInfo == null) {
-      return false;
+  }) async {
+    List<AssociatedTokenAccount> accounts;
+    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final associatedTokenAddress = await token.computeAssociatedAddress(
+      owner: address,
+    );
+    try {
+      accounts = await token.getAssociatedAccountsFor(owner: address);
+    } on FormatException {
+      accounts = [];
     }
-    return tokenInfo.hasAssociatedAccount;
+    if (accounts.isEmpty) {
+      return false;
+    } else {
+      final indexOfExistingAccount =
+          accounts.indexWhere((a) => a.address == associatedTokenAddress);
+      return indexOfExistingAccount != -1;
+    }
   }
 
   /// Get the account associated to the SPL token [mint] for this wallet.
   ///
   /// Note: this method always returns the address because it is computed
   /// when the [Wallet.loadToken()] method is called
-  String getAssociatedTokenAccountAddress({
+  Future<String> getAssociatedTokenAccountAddress({
     required String mint,
-  }) {
-    final tokenInfo = _getTokenInfoOrThrow(mint);
-    return tokenInfo.associatedAddress;
+  }) async {
+    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    return token.computeAssociatedAddress(owner: address);
   }
 
   /// Get token [mint] balance for this wallet's account.
@@ -287,13 +289,13 @@ class Wallet {
   Future<TokenAmount> getTokenBalance({
     required String mint,
     Commitment? commitment,
-  }) async {
-    final tokenInfo = _getTokenInfoOrThrow(mint);
-    return _rpcClient.getTokenAccountBalance(
-      associatedTokenAccountAddress: tokenInfo.associatedAddress,
-      commitment: commitment,
-    );
-  }
+  }) async =>
+      _rpcClient.getTokenAccountBalance(
+        associatedTokenAccountAddress: await getAssociatedTokenAccountAddress(
+          mint: mint,
+        ),
+        commitment: commitment,
+      );
 
   /// Get the balance in lamports for this wallet's account
   ///
@@ -304,14 +306,6 @@ class Wallet {
   Future<int> getLamports({Commitment? commitment}) =>
       _rpcClient.getBalance(address, commitment: commitment);
 
-  _TokenInfo _getTokenInfoOrThrow(String mint) {
-    final tokenInfo = _tokens[mint];
-    if (tokenInfo == null) {
-      throw BadStateException('token $mint was not added to this wallet.');
-    }
-    return tokenInfo;
-  }
-
   /// The address associated to this wallet
   String get address => signer.address;
 
@@ -320,19 +314,4 @@ class Wallet {
   final Ed25519HDKeyPair signer;
 
   final RPCClient _rpcClient;
-  final Map<String, _TokenInfo> _tokens;
-}
-
-class _TokenInfo {
-  const _TokenInfo({
-    required this.token,
-    required this.associatedAddress,
-    this.account,
-  });
-
-  bool get hasAssociatedAccount => account != null;
-
-  final SplToken token;
-  final AssociatedTokenAccount? account;
-  final String associatedAddress;
 }

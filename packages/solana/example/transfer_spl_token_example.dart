@@ -45,7 +45,7 @@ Future<void> example() async {
   // in the recipients wallet
   final balance = await rpcClient.getTokenAccountBalance(
     associatedTokenAccountAddress:
-        destination.getAssociatedTokenAccountAddress(mint: _tokenMint),
+        await destination.getAssociatedTokenAccountAddress(mint: _tokenMint),
   );
 
   if (balance.amount == '1') {

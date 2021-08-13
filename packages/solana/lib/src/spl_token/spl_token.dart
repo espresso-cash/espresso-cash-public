@@ -28,6 +28,7 @@ class SplToken {
     required RPCClient rpcClient,
     Ed25519HDKeyPair? owner,
   }) async {
+    // TODO(IA): perhaps delay this or use a user provided token information
     final supplyResponse = await rpcClient.getTokenSupply(mint);
     final supplyValue = supplyResponse.value;
     return SplToken._(

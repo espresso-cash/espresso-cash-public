@@ -1,6 +1,5 @@
 import 'package:solana/solana.dart' show lamportsPerSol;
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/exceptions/bad_state_exception.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
 import 'package:solana/src/rpc_client/commitment.dart';
 import 'package:solana/src/rpc_client/parsed_instruction.dart';
@@ -87,24 +86,13 @@ void main() {
     expect(memoInstruction.memo, equals(memoText));
   });
 
-  test('Throws when token is not loaded', () async {
-    final wallet = Wallet(
-      signer: await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
-    );
-    expect(
-      () => wallet.getTokenBalance(mint: token.mint),
-      throwsA(isA<BadStateException>()),
-    );
-  });
-
   test('Load a token into a wallet', () async {
     final wallet = Wallet(
       signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
-    await wallet.addSplToken(mint: token.mint);
-    expect(wallet.hasAssociatedTokenAccount(mint: token.mint), equals(false));
+    expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
+        completion(equals(false)));
   });
 
   test('Get a token balance', () async {
@@ -112,7 +100,8 @@ void main() {
       signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
-    expect(wallet.hasAssociatedTokenAccount(mint: token.mint), equals(false));
+    expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
+        completion(equals(false)));
 
     final signature = await wallet.requestAirdrop(
       lamports: lamportsPerSol,
@@ -122,7 +111,8 @@ void main() {
     expect(await wallet.getLamports(), equals(lamportsPerSol));
 
     await wallet.createAssociatedTokenAccount(mint: token.mint);
-    expect(wallet.hasAssociatedTokenAccount(mint: token.mint), equals(true));
+    expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
+        completion(equals(true)));
 
     final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
     expect(tokenBalance.decimals, equals(token.decimals));
@@ -135,7 +125,6 @@ void main() {
       signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
-    await wallet.addSplToken(mint: token.mint);
     expect(
       source.transferSplToken(
         destination: wallet.address,
