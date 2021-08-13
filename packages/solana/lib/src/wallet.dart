@@ -144,11 +144,6 @@ class Wallet {
     required String memo,
     Commitment? commitment,
   }) async {
-    if (!await hasAssociatedTokenAccount(mint: mint)) {
-      throw const FormatException(
-          'this wallet has no associated token account');
-    }
-
     final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
     final source = await token.computeAssociatedAddress(owner: address);
 
