@@ -115,7 +115,7 @@ class Wallet {
   }
 
   /// Transfers [amount] SPL token with [mint] from this wallet to the
-  /// [destination address.
+  /// [destination] address.
   ///
   /// For [commitment] parameter description [see this document][see this document]
   /// [Commitment.processed] is not supported as [commitment].
@@ -137,6 +137,13 @@ class Wallet {
     );
   }
 
+  /// Transfers [amount] SPL token with [mint] from this wallet to the
+  /// [destination] address with a [memo].
+  ///
+  /// For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TransactionSignature>? transferSplTokenWithMemo({
     required String mint,
     required String destination,
@@ -194,9 +201,6 @@ class Wallet {
   }
 
   /// Whether this wallet has an associated token account for the SPL token [mint].
-  ///
-  /// If the [mint] was not added to the list of known tokens for this wallet
-  /// this method simply returns `false`.
   Future<bool> hasAssociatedTokenAccount({
     required String mint,
   }) async {
