@@ -214,13 +214,7 @@ class Wallet {
     } on FormatException {
       accounts = [];
     }
-    if (accounts.isEmpty) {
-      return false;
-    } else {
-      final indexOfExistingAccount =
-          accounts.indexWhere((a) => a.address == associatedTokenAddress);
-      return indexOfExistingAccount != -1;
-    }
+    return accounts.any((a) => a.address == associatedTokenAddress);
   }
 
   /// Get the account associated to the SPL token [mint] for this wallet.
