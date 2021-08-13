@@ -44,47 +44,6 @@ class Wallet {
     );
   }
 
-  /// Loads the [mint] token into the tokens list
-  /*Future<void> addSplToken({required String mint}) async {
-    late final _TokenInfo tokenInfo;
-    if (_tokens.containsKey(mint)) {
-      throw const BadStateException('token already added to this wallet');
-    }
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
-    final associatedTokenAddress = await token.computeAssociatedAddress(
-      owner: address,
-    );
-    late final List<AssociatedTokenAccount> accounts;
-    try {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
-      accounts = await token.getAssociatedAccountsFor(owner: address);
-    } on FormatException {
-      accounts = [];
-    }
-    if (accounts.isEmpty) {
-      tokenInfo = _TokenInfo(
-        token: token,
-        associatedAddress: associatedTokenAddress,
-      );
-    } else {
-      final indexOfExistingAccount =
-          accounts.indexWhere((a) => a.address == associatedTokenAddress);
-      if (indexOfExistingAccount == -1) {
-        tokenInfo = _TokenInfo(
-          token: token,
-          associatedAddress: associatedTokenAddress,
-        );
-      } else {
-        tokenInfo = _TokenInfo(
-          token: token,
-          account: accounts[indexOfExistingAccount],
-          associatedAddress: associatedTokenAddress,
-        );
-      }
-    }
-    _tokens[mint] = tokenInfo;
-  }*/
-
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
   /// to [destination].
   ///
