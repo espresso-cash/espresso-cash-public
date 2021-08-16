@@ -12,7 +12,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       executable: json['executable'] as bool,
       rentEpoch: json['rentEpoch'] as int,
       data: json['data'] == null
-          ? const AccountData.empty()
+          ? null
           : AccountData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
@@ -59,22 +59,12 @@ Map<String, dynamic> _$ParsedSplTokenAccountDataInfoToJson(
         ParsedSplTokenAccountDataInfo instance) =>
     <String, dynamic>{
       'tokenAmount': instance.tokenAmount,
-      'delegate': instance.delegate,
-      'delegateAmount': instance.delegateAmount,
       'state': instance.state,
       'isNative': instance.isNative,
       'mint': instance.mint,
       'owner': instance.owner,
-    };
-
-_$StringAccountData _$$StringAccountDataFromJson(Map<String, dynamic> json) =>
-    _$StringAccountData(
-      json['value'] as String,
-    );
-
-Map<String, dynamic> _$$StringAccountDataToJson(_$StringAccountData instance) =>
-    <String, dynamic>{
-      'value': instance.value,
+      'delegate': instance.delegate,
+      'delegateAmount': instance.delegateAmount,
     };
 
 _$BinaryAccountData _$$BinaryAccountDataFromJson(Map<String, dynamic> json) =>
@@ -85,6 +75,16 @@ _$BinaryAccountData _$$BinaryAccountDataFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$BinaryAccountDataToJson(_$BinaryAccountData instance) =>
     <String, dynamic>{
       'bytes': instance.bytes,
+    };
+
+_$StringAccountData _$$StringAccountDataFromJson(Map<String, dynamic> json) =>
+    _$StringAccountData(
+      json['string'] as String,
+    );
+
+Map<String, dynamic> _$$StringAccountDataToJson(_$StringAccountData instance) =>
+    <String, dynamic>{
+      'string': instance.string,
     };
 
 _$EmptyAccountData _$$EmptyAccountDataFromJson(Map<String, dynamic> json) =>

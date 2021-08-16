@@ -18,5 +18,5 @@ class ValueResponse<T> {
   ) =>
       _$ValueResponseFromJson(json, fromJsonT);
 
-  final T value;
+  final T? value;
 }

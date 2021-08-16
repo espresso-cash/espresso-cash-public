@@ -14,10 +14,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 AccountData _$AccountDataFromJson(Map<String, dynamic> json) {
   switch (json['program'] as String) {
-    case 'fromString':
-      return StringAccountData.fromJson(json);
     case 'fromBytes':
       return BinaryAccountData.fromJson(json);
+    case 'fromString':
+      return StringAccountData.fromJson(json);
     case 'spl-token':
       return SplTokenAccountData.fromJson(json);
 
@@ -30,15 +30,15 @@ AccountData _$AccountDataFromJson(Map<String, dynamic> json) {
 class _$AccountDataTearOff {
   const _$AccountDataTearOff();
 
-  StringAccountData fromString(String value) {
-    return StringAccountData(
-      value,
-    );
-  }
-
   BinaryAccountData fromBytes(List<int> bytes) {
     return BinaryAccountData(
       bytes,
+    );
+  }
+
+  StringAccountData fromString(String string) {
+    return StringAccountData(
+      string,
     );
   }
 
@@ -64,16 +64,16 @@ const $AccountData = _$AccountDataTearOff();
 mixin _$AccountData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String value) fromString,
     required TResult Function(List<int> bytes) fromBytes,
+    required TResult Function(String string) fromString,
     required TResult Function() empty,
     required TResult Function(ParsedSplTokenAccountData parsed) splToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? fromString,
     TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
     TResult Function()? empty,
     TResult Function(ParsedSplTokenAccountData parsed)? splToken,
     required TResult orElse(),
@@ -81,16 +81,16 @@ mixin _$AccountData {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(StringAccountData value) fromString,
     required TResult Function(BinaryAccountData value) fromBytes,
+    required TResult Function(StringAccountData value) fromString,
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(StringAccountData value)? fromString,
     TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
     TResult Function(EmptyAccountData value)? empty,
     TResult Function(SplTokenAccountData value)? splToken,
     required TResult orElse(),
@@ -113,141 +113,6 @@ class _$AccountDataCopyWithImpl<$Res> implements $AccountDataCopyWith<$Res> {
   final AccountData _value;
   // ignore: unused_field
   final $Res Function(AccountData) _then;
-}
-
-/// @nodoc
-abstract class $StringAccountDataCopyWith<$Res> {
-  factory $StringAccountDataCopyWith(
-          StringAccountData value, $Res Function(StringAccountData) then) =
-      _$StringAccountDataCopyWithImpl<$Res>;
-  $Res call({String value});
-}
-
-/// @nodoc
-class _$StringAccountDataCopyWithImpl<$Res>
-    extends _$AccountDataCopyWithImpl<$Res>
-    implements $StringAccountDataCopyWith<$Res> {
-  _$StringAccountDataCopyWithImpl(
-      StringAccountData _value, $Res Function(StringAccountData) _then)
-      : super(_value, (v) => _then(v as StringAccountData));
-
-  @override
-  StringAccountData get _value => super._value as StringAccountData;
-
-  @override
-  $Res call({
-    Object? value = freezed,
-  }) {
-    return _then(StringAccountData(
-      value == freezed
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$StringAccountData implements StringAccountData {
-  const _$StringAccountData(this.value);
-
-  factory _$StringAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$StringAccountDataFromJson(json);
-
-  @override
-  final String value;
-
-  @override
-  String toString() {
-    return 'AccountData.fromString(value: $value)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is StringAccountData &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(value);
-
-  @JsonKey(ignore: true)
-  @override
-  $StringAccountDataCopyWith<StringAccountData> get copyWith =>
-      _$StringAccountDataCopyWithImpl<StringAccountData>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String value) fromString,
-    required TResult Function(List<int> bytes) fromBytes,
-    required TResult Function() empty,
-    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
-  }) {
-    return fromString(value);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? fromString,
-    TResult Function(List<int> bytes)? fromBytes,
-    TResult Function()? empty,
-    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
-    required TResult orElse(),
-  }) {
-    if (fromString != null) {
-      return fromString(value);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(StringAccountData value) fromString,
-    required TResult Function(BinaryAccountData value) fromBytes,
-    required TResult Function(EmptyAccountData value) empty,
-    required TResult Function(SplTokenAccountData value) splToken,
-  }) {
-    return fromString(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(StringAccountData value)? fromString,
-    TResult Function(BinaryAccountData value)? fromBytes,
-    TResult Function(EmptyAccountData value)? empty,
-    TResult Function(SplTokenAccountData value)? splToken,
-    required TResult orElse(),
-  }) {
-    if (fromString != null) {
-      return fromString(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$StringAccountDataToJson(this)..['program'] = 'fromString';
-  }
-}
-
-abstract class StringAccountData implements AccountData {
-  const factory StringAccountData(String value) = _$StringAccountData;
-
-  factory StringAccountData.fromJson(Map<String, dynamic> json) =
-      _$StringAccountData.fromJson;
-
-  String get value => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $StringAccountDataCopyWith<StringAccountData> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -318,8 +183,8 @@ class _$BinaryAccountData implements BinaryAccountData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String value) fromString,
     required TResult Function(List<int> bytes) fromBytes,
+    required TResult Function(String string) fromString,
     required TResult Function() empty,
     required TResult Function(ParsedSplTokenAccountData parsed) splToken,
   }) {
@@ -329,8 +194,8 @@ class _$BinaryAccountData implements BinaryAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? fromString,
     TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
     TResult Function()? empty,
     TResult Function(ParsedSplTokenAccountData parsed)? splToken,
     required TResult orElse(),
@@ -344,8 +209,8 @@ class _$BinaryAccountData implements BinaryAccountData {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(StringAccountData value) fromString,
     required TResult Function(BinaryAccountData value) fromBytes,
+    required TResult Function(StringAccountData value) fromString,
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
   }) {
@@ -355,8 +220,8 @@ class _$BinaryAccountData implements BinaryAccountData {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(StringAccountData value)? fromString,
     TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
     TResult Function(EmptyAccountData value)? empty,
     TResult Function(SplTokenAccountData value)? splToken,
     required TResult orElse(),
@@ -382,6 +247,141 @@ abstract class BinaryAccountData implements AccountData {
   List<int> get bytes => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $BinaryAccountDataCopyWith<BinaryAccountData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $StringAccountDataCopyWith<$Res> {
+  factory $StringAccountDataCopyWith(
+          StringAccountData value, $Res Function(StringAccountData) then) =
+      _$StringAccountDataCopyWithImpl<$Res>;
+  $Res call({String string});
+}
+
+/// @nodoc
+class _$StringAccountDataCopyWithImpl<$Res>
+    extends _$AccountDataCopyWithImpl<$Res>
+    implements $StringAccountDataCopyWith<$Res> {
+  _$StringAccountDataCopyWithImpl(
+      StringAccountData _value, $Res Function(StringAccountData) _then)
+      : super(_value, (v) => _then(v as StringAccountData));
+
+  @override
+  StringAccountData get _value => super._value as StringAccountData;
+
+  @override
+  $Res call({
+    Object? string = freezed,
+  }) {
+    return _then(StringAccountData(
+      string == freezed
+          ? _value.string
+          : string // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StringAccountData implements StringAccountData {
+  const _$StringAccountData(this.string);
+
+  factory _$StringAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$StringAccountDataFromJson(json);
+
+  @override
+  final String string;
+
+  @override
+  String toString() {
+    return 'AccountData.fromString(string: $string)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is StringAccountData &&
+            (identical(other.string, string) ||
+                const DeepCollectionEquality().equals(other.string, string)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(string);
+
+  @JsonKey(ignore: true)
+  @override
+  $StringAccountDataCopyWith<StringAccountData> get copyWith =>
+      _$StringAccountDataCopyWithImpl<StringAccountData>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<int> bytes) fromBytes,
+    required TResult Function(String string) fromString,
+    required TResult Function() empty,
+    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+  }) {
+    return fromString(string);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
+    TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    required TResult orElse(),
+  }) {
+    if (fromString != null) {
+      return fromString(string);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(BinaryAccountData value) fromBytes,
+    required TResult Function(StringAccountData value) fromString,
+    required TResult Function(EmptyAccountData value) empty,
+    required TResult Function(SplTokenAccountData value) splToken,
+  }) {
+    return fromString(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
+    TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
+    required TResult orElse(),
+  }) {
+    if (fromString != null) {
+      return fromString(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StringAccountDataToJson(this)..['program'] = 'fromString';
+  }
+}
+
+abstract class StringAccountData implements AccountData {
+  const factory StringAccountData(String string) = _$StringAccountData;
+
+  factory StringAccountData.fromJson(Map<String, dynamic> json) =
+      _$StringAccountData.fromJson;
+
+  String get string => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $StringAccountDataCopyWith<StringAccountData> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -428,8 +428,8 @@ class _$EmptyAccountData implements EmptyAccountData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String value) fromString,
     required TResult Function(List<int> bytes) fromBytes,
+    required TResult Function(String string) fromString,
     required TResult Function() empty,
     required TResult Function(ParsedSplTokenAccountData parsed) splToken,
   }) {
@@ -439,8 +439,8 @@ class _$EmptyAccountData implements EmptyAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? fromString,
     TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
     TResult Function()? empty,
     TResult Function(ParsedSplTokenAccountData parsed)? splToken,
     required TResult orElse(),
@@ -454,8 +454,8 @@ class _$EmptyAccountData implements EmptyAccountData {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(StringAccountData value) fromString,
     required TResult Function(BinaryAccountData value) fromBytes,
+    required TResult Function(StringAccountData value) fromString,
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
   }) {
@@ -465,8 +465,8 @@ class _$EmptyAccountData implements EmptyAccountData {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(StringAccountData value)? fromString,
     TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
     TResult Function(EmptyAccountData value)? empty,
     TResult Function(SplTokenAccountData value)? splToken,
     required TResult orElse(),
@@ -559,8 +559,8 @@ class _$SplTokenAccountData implements SplTokenAccountData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String value) fromString,
     required TResult Function(List<int> bytes) fromBytes,
+    required TResult Function(String string) fromString,
     required TResult Function() empty,
     required TResult Function(ParsedSplTokenAccountData parsed) splToken,
   }) {
@@ -570,8 +570,8 @@ class _$SplTokenAccountData implements SplTokenAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? fromString,
     TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
     TResult Function()? empty,
     TResult Function(ParsedSplTokenAccountData parsed)? splToken,
     required TResult orElse(),
@@ -585,8 +585,8 @@ class _$SplTokenAccountData implements SplTokenAccountData {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(StringAccountData value) fromString,
     required TResult Function(BinaryAccountData value) fromBytes,
+    required TResult Function(StringAccountData value) fromString,
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
   }) {
@@ -596,8 +596,8 @@ class _$SplTokenAccountData implements SplTokenAccountData {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(StringAccountData value)? fromString,
     TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
     TResult Function(EmptyAccountData value)? empty,
     TResult Function(SplTokenAccountData value)? splToken,
     required TResult orElse(),

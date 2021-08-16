@@ -65,7 +65,8 @@ class RPCClient {
       ],
     );
 
-    return BlockhashResponse.fromJson(data).result.value;
+    // This is never `null`
+    return BlockhashResponse.fromJson(data).result.value!;
   }
 
   /// Returns a Future that resolves the the balance of [address]
@@ -87,7 +88,8 @@ class RPCClient {
       ],
     );
 
-    return BalanceResponse.fromJson(data).result.value;
+    // Will never be null
+    return BalanceResponse.fromJson(data).result.value!;
   }
 
   /// Returns a Future that resolves to the account related information
@@ -97,7 +99,7 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Account> getAccountInfo(
+  Future<Account?> getAccountInfo(
     String address, {
     Commitment? commitment,
   }) async {
@@ -160,7 +162,8 @@ class RPCClient {
       ],
     );
 
-    return SimulateTxResultResponse.fromJson(data).result.value;
+    // Will never be null
+    return SimulateTxResultResponse.fromJson(data).result.value!;
   }
 
   /// Requests an airdrop of [lamports] lamports to [address].
@@ -321,7 +324,7 @@ class RPCClient {
   /// Returns Future that resolves to the statuses of a list of [signatures].
   /// Unless the [searchTransactionHistory] configuration parameter is included,
   /// this method only searches the recent status cache of signatures.
-  Future<Iterable<SignatureStatus?>> getSignatureStatuses(
+  Future<List<SignatureStatus?>> getSignatureStatuses(
     List<TransactionSignature> signatures, {
     bool searchTransactionHistory = false,
   }) async {
@@ -338,7 +341,8 @@ class RPCClient {
       ],
     );
 
-    return SignatureStatusesResponse.fromJson(data).result.value;
+    // Will never be null
+    return SignatureStatusesResponse.fromJson(data).result.value!;
   }
 
   /// Get minimum balance for rent exemption to allocate [size] bytes
@@ -378,7 +382,8 @@ class RPCClient {
       ],
     );
 
-    return TokenBalanceResponse.fromJson(data).result.value;
+    // Will never be null
+    return TokenBalanceResponse.fromJson(data).result.value!;
   }
 
   /// Gets associated token accounts for a given user. If [mint] or [programId]
@@ -409,7 +414,8 @@ class RPCClient {
       ],
     );
 
-    return AssociatedTokenAccountResponse.fromJson(data).result.value;
+    // Will never be null
+    return AssociatedTokenAccountResponse.fromJson(data).result.value!;
   }
 
   /// Convenience method to sign a transaction with [message] using [signers].

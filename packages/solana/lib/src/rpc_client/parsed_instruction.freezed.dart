@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'parsed_instruction.dart';
 
@@ -175,7 +175,7 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
       {required this.programId, required this.parsed});
 
   factory _$ParsedInstructionSystem.fromJson(Map<String, dynamic> json) =>
-      _$_$ParsedInstructionSystemFromJson(json);
+      _$$ParsedInstructionSystemFromJson(json);
 
   @override
   final String programId;
@@ -265,7 +265,7 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$ParsedInstructionSystemToJson(this)..['program'] = 'system';
+    return _$$ParsedInstructionSystemToJson(this)..['program'] = 'system';
   }
 }
 
@@ -333,7 +333,7 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
   const _$ParsedInstructionSplToken({required this.parsed});
 
   factory _$ParsedInstructionSplToken.fromJson(Map<String, dynamic> json) =>
-      _$_$ParsedInstructionSplTokenFromJson(json);
+      _$$ParsedInstructionSplTokenFromJson(json);
 
   @override
   final ParsedSplTokenInstruction parsed;
@@ -416,7 +416,7 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$ParsedInstructionSplTokenToJson(this)..['program'] = 'spl-token';
+    return _$$ParsedInstructionSplTokenToJson(this)..['program'] = 'spl-token';
   }
 }
 
@@ -473,9 +473,10 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
   const _$ParsedInstructionMemo({@JsonKey(name: 'parsed') required this.memo});
 
   factory _$ParsedInstructionMemo.fromJson(Map<String, dynamic> json) =>
-      _$_$ParsedInstructionMemoFromJson(json);
+      _$$ParsedInstructionMemoFromJson(json);
 
-  @override // ignore: invalid_annotation_target
+  @override // This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
+// ignore: invalid_annotation_target
   @JsonKey(name: 'parsed')
   final String? memo;
 
@@ -557,7 +558,7 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$ParsedInstructionMemoToJson(this)..['program'] = 'spl-memo';
+    return _$$ParsedInstructionMemoToJson(this)..['program'] = 'spl-memo';
   }
 }
 
@@ -569,6 +570,7 @@ abstract class ParsedInstructionMemo implements ParsedInstruction {
   factory ParsedInstructionMemo.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionMemo.fromJson;
 
+// This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
 // ignore: invalid_annotation_target
   @JsonKey(name: 'parsed')
   String? get memo => throw _privateConstructorUsedError;
@@ -618,7 +620,7 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
   const _$ParsedInstructionUnsupported({required this.program});
 
   factory _$ParsedInstructionUnsupported.fromJson(Map<String, dynamic> json) =>
-      _$_$ParsedInstructionUnsupportedFromJson(json);
+      _$$ParsedInstructionUnsupportedFromJson(json);
 
   @override
   final String program;
@@ -701,7 +703,7 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$ParsedInstructionUnsupportedToJson(this)
+    return _$$ParsedInstructionUnsupportedToJson(this)
       ..['program'] = 'unsupported';
   }
 }

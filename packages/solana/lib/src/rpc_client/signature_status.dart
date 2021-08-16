@@ -34,8 +34,8 @@ class SignatureStatus {
 
 @JsonSerializable(createToJson: false)
 class SignatureStatusesResponse
-    extends JsonRpcResponse<ValueResponse<Iterable<SignatureStatus?>>> {
-  SignatureStatusesResponse(ValueResponse<Iterable<SignatureStatus?>> result)
+    extends JsonRpcResponse<ValueResponse<List<SignatureStatus?>>> {
+  SignatureStatusesResponse(ValueResponse<List<SignatureStatus?>> result)
       : super(result: result);
 
   factory SignatureStatusesResponse.fromJson(Map<String, dynamic> json) =>

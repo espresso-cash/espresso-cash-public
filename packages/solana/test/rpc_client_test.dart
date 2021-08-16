@@ -71,12 +71,13 @@ void main() {
     });
 
     test('Get all the account information of an account', () async {
-      final Account accountInfo = await rpcClient.getAccountInfo(
+      final Account? accountInfo = await rpcClient.getAccountInfo(
         source.address,
       );
-      expect(accountInfo.lamports, currentBalance);
-      expect(accountInfo.owner, SystemProgram.programId);
-      expect(accountInfo.executable, false);
+      expect(accountInfo, isNotNull);
+      expect(accountInfo?.lamports, currentBalance);
+      expect(accountInfo?.owner, SystemProgram.programId);
+      expect(accountInfo?.executable, false);
     });
 
     test('Simulate a transfer', () async {

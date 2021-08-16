@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
@@ -16,7 +18,7 @@ class Account {
     required this.lamports,
     required this.executable,
     required this.rentEpoch,
-    this.data = const AccountData.empty(),
+    @_AccountDataConverter() this.data,
   });
 
   factory Account.fromJson(Map<String, dynamic> json) =>
@@ -26,7 +28,7 @@ class Account {
   final int lamports;
   final bool executable;
 
-  final AccountData data;
+  final AccountData? data;
 
   final int rentEpoch;
 }
@@ -41,9 +43,9 @@ class AccountInfoResponse extends JsonRpcResponse<ValueResponse<Account>> {
 
 @Freezed(unionKey: 'program', fallbackUnion: 'empty')
 class AccountData with _$AccountData {
-  const factory AccountData.fromString(String value) = StringAccountData;
-
   const factory AccountData.fromBytes(List<int> bytes) = BinaryAccountData;
+
+  const factory AccountData.fromString(String string) = StringAccountData;
 
   const factory AccountData.empty() = EmptyAccountData;
 
@@ -52,8 +54,44 @@ class AccountData with _$AccountData {
     required ParsedSplTokenAccountData parsed,
   }) = SplTokenAccountData;
 
-  factory AccountData.fromJson(Map<String, dynamic> data) =>
-      _$AccountDataFromJson(data);
+  factory AccountData.fromJson(Map<String, dynamic> json) =>
+      _$AccountDataFromJson(json);
+}
+
+class _AccountDataConverter implements JsonConverter<AccountData, dynamic> {
+  const _AccountDataConverter();
+
+  @override
+  AccountData fromJson(dynamic data) {
+    if (data == null) {
+      return const AccountData.empty();
+    } else if (data is String) {
+      if (data == '') {
+        return const AccountData.empty();
+      }
+      return AccountData.fromBytes(base64Decode(data));
+    } else if (data is List) {
+      if (data.length != 2) {
+        throw const FormatException(
+            'unexpected array of strings, cannot be account data');
+      }
+      if (data.last != 'base64') {
+        throw FormatException('unexpected encoding "${data.last}"');
+      }
+      final dynamic base64String = data.first;
+      if (base64String is! String) {
+        throw FormatException('unexpected data "${data.first}"');
+      }
+      return AccountData.fromBytes(base64Decode(base64String));
+    } else if (data is Map<String, dynamic>) {
+      return AccountData.fromJson(data);
+    } else {
+      throw const FormatException('cannot decode account data');
+    }
+  }
+
+  @override
+  Map<String, dynamic> toJson(AccountData object) => <String, dynamic>{};
 }
 
 @JsonSerializable()
@@ -84,14 +122,14 @@ class ParsedSplTokenAccountDataInfo {
     this.delegateAmount,
   });
 
-  factory ParsedSplTokenAccountDataInfo.fromJson(Map<String, dynamic> data) =>
-      _$ParsedSplTokenAccountDataInfoFromJson(data);
+  factory ParsedSplTokenAccountDataInfo.fromJson(Map<String, dynamic> json) =>
+      _$ParsedSplTokenAccountDataInfoFromJson(json);
 
   final TokenAmount tokenAmount;
-  final String? delegate;
-  final TokenAmount? delegateAmount;
   final String state;
   final bool isNative;
   final String mint;
   final String owner;
+  final String? delegate;
+  final TokenAmount? delegateAmount;
 }
