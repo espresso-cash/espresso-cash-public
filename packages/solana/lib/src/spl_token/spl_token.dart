@@ -216,7 +216,7 @@ class SplToken {
   Future<List<AssociatedTokenAccount>> getAssociatedAccountsFor({
     required String owner,
   }) async =>
-      _rpcClient.getTokenAccountsByOwner(owner, mint: mint);
+      _rpcClient.getTokenAccountsByOwner(owner: owner, mint: mint);
 
   final int decimals;
   final int supply;
