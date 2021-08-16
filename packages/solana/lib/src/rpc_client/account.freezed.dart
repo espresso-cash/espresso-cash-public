@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'account.dart';
 
@@ -11,6 +11,20 @@ T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
+AccountData _$AccountDataFromJson(Map<String, dynamic> json) {
+  switch (json['program'] as String) {
+    case 'fromString':
+      return StringAccountData.fromJson(json);
+    case 'fromBytes':
+      return BinaryAccountData.fromJson(json);
+    case 'spl-token':
+      return SplTokenAccountData.fromJson(json);
+
+    default:
+      return EmptyAccountData.fromJson(json);
+  }
+}
 
 /// @nodoc
 class _$AccountDataTearOff {
@@ -31,6 +45,16 @@ class _$AccountDataTearOff {
   EmptyAccountData empty() {
     return const EmptyAccountData();
   }
+
+  SplTokenAccountData splToken({required ParsedSplTokenAccountData parsed}) {
+    return SplTokenAccountData(
+      parsed: parsed,
+    );
+  }
+
+  AccountData fromJson(Map<String, Object> json) {
+    return AccountData.fromJson(json);
+  }
 }
 
 /// @nodoc
@@ -43,6 +67,7 @@ mixin _$AccountData {
     required TResult Function(String value) fromString,
     required TResult Function(List<int> bytes) fromBytes,
     required TResult Function() empty,
+    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +75,7 @@ mixin _$AccountData {
     TResult Function(String value)? fromString,
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -58,6 +84,7 @@ mixin _$AccountData {
     required TResult Function(StringAccountData value) fromString,
     required TResult Function(BinaryAccountData value) fromBytes,
     required TResult Function(EmptyAccountData value) empty,
+    required TResult Function(SplTokenAccountData value) splToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,9 +92,11 @@ mixin _$AccountData {
     TResult Function(StringAccountData value)? fromString,
     TResult Function(BinaryAccountData value)? fromBytes,
     TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -119,9 +148,12 @@ class _$StringAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$StringAccountData implements StringAccountData {
   const _$StringAccountData(this.value);
+
+  factory _$StringAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$StringAccountDataFromJson(json);
 
   @override
   final String value;
@@ -154,6 +186,7 @@ class _$StringAccountData implements StringAccountData {
     required TResult Function(String value) fromString,
     required TResult Function(List<int> bytes) fromBytes,
     required TResult Function() empty,
+    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
   }) {
     return fromString(value);
   }
@@ -164,6 +197,7 @@ class _$StringAccountData implements StringAccountData {
     TResult Function(String value)? fromString,
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
     required TResult orElse(),
   }) {
     if (fromString != null) {
@@ -178,6 +212,7 @@ class _$StringAccountData implements StringAccountData {
     required TResult Function(StringAccountData value) fromString,
     required TResult Function(BinaryAccountData value) fromBytes,
     required TResult Function(EmptyAccountData value) empty,
+    required TResult Function(SplTokenAccountData value) splToken,
   }) {
     return fromString(this);
   }
@@ -188,6 +223,7 @@ class _$StringAccountData implements StringAccountData {
     TResult Function(StringAccountData value)? fromString,
     TResult Function(BinaryAccountData value)? fromBytes,
     TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
     required TResult orElse(),
   }) {
     if (fromString != null) {
@@ -195,10 +231,18 @@ class _$StringAccountData implements StringAccountData {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StringAccountDataToJson(this)..['program'] = 'fromString';
+  }
 }
 
 abstract class StringAccountData implements AccountData {
   const factory StringAccountData(String value) = _$StringAccountData;
+
+  factory StringAccountData.fromJson(Map<String, dynamic> json) =
+      _$StringAccountData.fromJson;
 
   String get value => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -239,9 +283,12 @@ class _$BinaryAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$BinaryAccountData implements BinaryAccountData {
   const _$BinaryAccountData(this.bytes);
+
+  factory _$BinaryAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$BinaryAccountDataFromJson(json);
 
   @override
   final List<int> bytes;
@@ -274,6 +321,7 @@ class _$BinaryAccountData implements BinaryAccountData {
     required TResult Function(String value) fromString,
     required TResult Function(List<int> bytes) fromBytes,
     required TResult Function() empty,
+    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
   }) {
     return fromBytes(bytes);
   }
@@ -284,6 +332,7 @@ class _$BinaryAccountData implements BinaryAccountData {
     TResult Function(String value)? fromString,
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
     required TResult orElse(),
   }) {
     if (fromBytes != null) {
@@ -298,6 +347,7 @@ class _$BinaryAccountData implements BinaryAccountData {
     required TResult Function(StringAccountData value) fromString,
     required TResult Function(BinaryAccountData value) fromBytes,
     required TResult Function(EmptyAccountData value) empty,
+    required TResult Function(SplTokenAccountData value) splToken,
   }) {
     return fromBytes(this);
   }
@@ -308,6 +358,7 @@ class _$BinaryAccountData implements BinaryAccountData {
     TResult Function(StringAccountData value)? fromString,
     TResult Function(BinaryAccountData value)? fromBytes,
     TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
     required TResult orElse(),
   }) {
     if (fromBytes != null) {
@@ -315,10 +366,18 @@ class _$BinaryAccountData implements BinaryAccountData {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BinaryAccountDataToJson(this)..['program'] = 'fromBytes';
+  }
 }
 
 abstract class BinaryAccountData implements AccountData {
   const factory BinaryAccountData(List<int> bytes) = _$BinaryAccountData;
+
+  factory BinaryAccountData.fromJson(Map<String, dynamic> json) =
+      _$BinaryAccountData.fromJson;
 
   List<int> get bytes => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -346,9 +405,12 @@ class _$EmptyAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$EmptyAccountData implements EmptyAccountData {
   const _$EmptyAccountData();
+
+  factory _$EmptyAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$EmptyAccountDataFromJson(json);
 
   @override
   String toString() {
@@ -369,6 +431,7 @@ class _$EmptyAccountData implements EmptyAccountData {
     required TResult Function(String value) fromString,
     required TResult Function(List<int> bytes) fromBytes,
     required TResult Function() empty,
+    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
   }) {
     return empty();
   }
@@ -379,6 +442,7 @@ class _$EmptyAccountData implements EmptyAccountData {
     TResult Function(String value)? fromString,
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -393,6 +457,7 @@ class _$EmptyAccountData implements EmptyAccountData {
     required TResult Function(StringAccountData value) fromString,
     required TResult Function(BinaryAccountData value) fromBytes,
     required TResult Function(EmptyAccountData value) empty,
+    required TResult Function(SplTokenAccountData value) splToken,
   }) {
     return empty(this);
   }
@@ -403,6 +468,7 @@ class _$EmptyAccountData implements EmptyAccountData {
     TResult Function(StringAccountData value)? fromString,
     TResult Function(BinaryAccountData value)? fromBytes,
     TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -410,8 +476,153 @@ class _$EmptyAccountData implements EmptyAccountData {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$EmptyAccountDataToJson(this)..['program'] = 'empty';
+  }
 }
 
 abstract class EmptyAccountData implements AccountData {
   const factory EmptyAccountData() = _$EmptyAccountData;
+
+  factory EmptyAccountData.fromJson(Map<String, dynamic> json) =
+      _$EmptyAccountData.fromJson;
+}
+
+/// @nodoc
+abstract class $SplTokenAccountDataCopyWith<$Res> {
+  factory $SplTokenAccountDataCopyWith(
+          SplTokenAccountData value, $Res Function(SplTokenAccountData) then) =
+      _$SplTokenAccountDataCopyWithImpl<$Res>;
+  $Res call({ParsedSplTokenAccountData parsed});
+}
+
+/// @nodoc
+class _$SplTokenAccountDataCopyWithImpl<$Res>
+    extends _$AccountDataCopyWithImpl<$Res>
+    implements $SplTokenAccountDataCopyWith<$Res> {
+  _$SplTokenAccountDataCopyWithImpl(
+      SplTokenAccountData _value, $Res Function(SplTokenAccountData) _then)
+      : super(_value, (v) => _then(v as SplTokenAccountData));
+
+  @override
+  SplTokenAccountData get _value => super._value as SplTokenAccountData;
+
+  @override
+  $Res call({
+    Object? parsed = freezed,
+  }) {
+    return _then(SplTokenAccountData(
+      parsed: parsed == freezed
+          ? _value.parsed
+          : parsed // ignore: cast_nullable_to_non_nullable
+              as ParsedSplTokenAccountData,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+@FreezedUnionValue('spl-token')
+class _$SplTokenAccountData implements SplTokenAccountData {
+  const _$SplTokenAccountData({required this.parsed});
+
+  factory _$SplTokenAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$SplTokenAccountDataFromJson(json);
+
+  @override
+  final ParsedSplTokenAccountData parsed;
+
+  @override
+  String toString() {
+    return 'AccountData.splToken(parsed: $parsed)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SplTokenAccountData &&
+            (identical(other.parsed, parsed) ||
+                const DeepCollectionEquality().equals(other.parsed, parsed)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(parsed);
+
+  @JsonKey(ignore: true)
+  @override
+  $SplTokenAccountDataCopyWith<SplTokenAccountData> get copyWith =>
+      _$SplTokenAccountDataCopyWithImpl<SplTokenAccountData>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) fromString,
+    required TResult Function(List<int> bytes) fromBytes,
+    required TResult Function() empty,
+    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+  }) {
+    return splToken(parsed);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? fromString,
+    TResult Function(List<int> bytes)? fromBytes,
+    TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    required TResult orElse(),
+  }) {
+    if (splToken != null) {
+      return splToken(parsed);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(StringAccountData value) fromString,
+    required TResult Function(BinaryAccountData value) fromBytes,
+    required TResult Function(EmptyAccountData value) empty,
+    required TResult Function(SplTokenAccountData value) splToken,
+  }) {
+    return splToken(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(StringAccountData value)? fromString,
+    TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
+    required TResult orElse(),
+  }) {
+    if (splToken != null) {
+      return splToken(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SplTokenAccountDataToJson(this)..['program'] = 'spl-token';
+  }
+}
+
+abstract class SplTokenAccountData implements AccountData {
+  const factory SplTokenAccountData(
+      {required ParsedSplTokenAccountData parsed}) = _$SplTokenAccountData;
+
+  factory SplTokenAccountData.fromJson(Map<String, dynamic> json) =
+      _$SplTokenAccountData.fromJson;
+
+  ParsedSplTokenAccountData get parsed => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SplTokenAccountDataCopyWith<SplTokenAccountData> get copyWith =>
+      throw _privateConstructorUsedError;
 }

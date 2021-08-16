@@ -204,5 +204,13 @@ void main() {
       );
       expect(balance, greaterThan(0));
     });
+
+    test('Get token accounts by owner', () async {
+      final accounts = await solanaClient.getTokenAccountsByOwner(
+        owner: wallet.address,
+        programId: TokenProgram.programId,
+      );
+      expect(accounts.length, greaterThan(0));
+    });
   });
 }

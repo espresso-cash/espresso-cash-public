@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
+import 'package:solana/src/spl_token/token_amount.dart';
 
 part 'account.freezed.dart';
 part 'account.g.dart';
@@ -40,7 +39,7 @@ class AccountInfoResponse extends JsonRpcResponse<ValueResponse<Account>> {
       _$AccountInfoResponseFromJson(json);
 }
 
-@freezed
+@Freezed(unionKey: 'program', fallbackUnion: 'empty')
 class AccountData with _$AccountData {
   const factory AccountData.fromString(String value) = StringAccountData;
 
@@ -48,32 +47,51 @@ class AccountData with _$AccountData {
 
   const factory AccountData.empty() = EmptyAccountData;
 
-  factory AccountData.fromJson(dynamic data) {
-    if (data == null) {
-      return const AccountData.empty();
-    } else if (data is String) {
-      if (data == '') {
-        return const AccountData.empty();
-      }
-      return AccountData.fromString(data);
-    } else if (data is List) {
-      if (data.length != 2) {
-        throw const FormatException(
-            'unexpected array of strings, cannot be account data');
-      }
-      if (data.last != 'base64') {
-        throw FormatException('unexpected encoding "${data.last}"');
-      }
-      final dynamic base64String = data.first;
-      if (base64String is! String) {
-        throw FormatException('unexpected data "${data.first}"');
-      }
-      return AccountData.fromBytes(base64Decode(base64String));
-    } else if (data is Map) {
-      // TODO(IA): object data, must be converted into a valid thing
-      return const AccountData.empty();
-    } else {
-      throw const FormatException('cannot decode account data');
-    }
-  }
+  @FreezedUnionValue('spl-token')
+  const factory AccountData.splToken({
+    required ParsedSplTokenAccountData parsed,
+  }) = SplTokenAccountData;
+
+  factory AccountData.fromJson(Map<String, dynamic> data) =>
+      _$AccountDataFromJson(data);
+}
+
+@JsonSerializable()
+class ParsedSplTokenAccountData {
+  const ParsedSplTokenAccountData({
+    required this.accountType,
+    required this.info,
+    required this.type,
+  });
+
+  factory ParsedSplTokenAccountData.fromJson(Map<String, dynamic> data) =>
+      _$ParsedSplTokenAccountDataFromJson(data);
+
+  final String accountType;
+  final ParsedSplTokenAccountDataInfo info;
+  final String type;
+}
+
+@JsonSerializable()
+class ParsedSplTokenAccountDataInfo {
+  const ParsedSplTokenAccountDataInfo({
+    required this.tokenAmount,
+    required this.state,
+    required this.isNative,
+    required this.mint,
+    required this.owner,
+    this.delegate,
+    this.delegateAmount,
+  });
+
+  factory ParsedSplTokenAccountDataInfo.fromJson(Map<String, dynamic> data) =>
+      _$ParsedSplTokenAccountDataInfoFromJson(data);
+
+  final TokenAmount tokenAmount;
+  final String? delegate;
+  final TokenAmount? delegateAmount;
+  final String state;
+  final bool isNative;
+  final String mint;
+  final String owner;
 }

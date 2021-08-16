@@ -208,16 +208,6 @@ class SplToken {
     );
   }
 
-  /// Query [owner]'s associated accounts for this token.
-  ///
-  /// This method returns all the accounts that are owned by [owner]
-  /// and associated with this token. If there are none, then an empty
-  /// list is returned.
-  Future<List<AssociatedTokenAccount>> getAssociatedAccountsFor({
-    required String owner,
-  }) async =>
-      _rpcClient.getTokenAccountsByOwner(owner: owner, mint: mint);
-
   final int decimals;
   final int supply;
   final String mint;
