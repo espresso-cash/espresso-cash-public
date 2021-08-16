@@ -388,8 +388,8 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<List<AssociatedTokenAccount>> getTokenAccountsByOwner(
-    String address, {
+  Future<List<AssociatedTokenAccount>> getTokenAccountsByOwner({
+    required String owner,
     String? mint,
     String? programId,
     Commitment? commitment,
@@ -397,7 +397,7 @@ class RPCClient {
     final data = await client.request(
       'getTokenAccountsByOwner',
       params: <dynamic>[
-        address,
+        owner,
         <String, String>{
           if (mint != null) 'mint': mint,
           if (programId != null) 'programId': programId,
