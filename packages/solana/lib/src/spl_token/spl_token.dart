@@ -62,7 +62,10 @@ class SplToken {
       );
 
   Future<String> findAssociatedTokenAddress(String owner) async {
-    final accounts = await getAssociatedAccountsFor(owner: owner);
+    final accounts = await _rpcClient.getTokenAccountsByOwner(
+      owner: owner,
+      mint: mint,
+    );
     if (accounts.isEmpty) {
       throw NoAssociatedTokenAccountException(owner, mint);
     }

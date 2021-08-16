@@ -210,7 +210,10 @@ class Wallet {
       owner: address,
     );
     try {
-      accounts = await token.getAssociatedAccountsFor(owner: address);
+      accounts = await _rpcClient.getTokenAccountsByOwner(
+        owner: address,
+        mint: token.mint,
+      );
     } on FormatException {
       accounts = [];
     }
