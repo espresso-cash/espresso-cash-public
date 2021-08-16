@@ -19,6 +19,7 @@ import 'package:solana/src/rpc_client/signature_status.dart';
 import 'package:solana/src/rpc_client/simulate_tx_result.dart';
 import 'package:solana/src/rpc_client/transaction_response.dart';
 import 'package:solana/src/rpc_client/transaction_signature.dart';
+import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/spl_token/token_amount.dart';
 import 'package:solana/src/spl_token/token_supply.dart';
 
@@ -340,7 +341,7 @@ class RPCClient {
     return SignatureStatusesResponse.fromJson(data).result.value;
   }
 
-  /// Get minimum balance for ren exemption to allocate [size] bytes
+  /// Get minimum balance for rent exemption to allocate [size] bytes
   /// in an account.
   ///
   /// For [commitment] parameter description [see this document][see this document]
@@ -363,6 +364,7 @@ class RPCClient {
     return MinimumBalanceForRentExemptionResponse.fromJson(data).result;
   }
 
+  /// Get the balance of a token account with [associatedTokenAccountAddress].
   Future<TokenAmount> getTokenAccountBalance({
     required String associatedTokenAccountAddress,
     Commitment? commitment,
@@ -377,6 +379,37 @@ class RPCClient {
     );
 
     return TokenBalanceResponse.fromJson(data).result.value;
+  }
+
+  /// Gets associated token accounts for a given user. If [mint] or [programId]
+  /// are provided, it returns the accounts associated to those specific values.
+  ///
+  /// For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<List<AssociatedTokenAccount>> getTokenAccountsByOwner(
+    String address, {
+    String? mint,
+    String? programId,
+    Commitment? commitment,
+  }) async {
+    final data = await client.request(
+      'getTokenAccountsByOwner',
+      params: <dynamic>[
+        address,
+        <String, String>{
+          if (mint != null) 'mint': mint,
+          if (programId != null) 'programId': programId,
+        },
+        <String, String>{
+          'encoding': 'jsonParsed',
+          if (commitment != null) 'commitment': commitment.value,
+        }
+      ],
+    );
+
+    return AssociatedTokenAccountResponse.fromJson(data).result.value;
   }
 
   /// Convenience method to sign a transaction with [message] using [signers].
