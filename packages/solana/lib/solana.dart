@@ -1,3 +1,4 @@
+export 'src/associated_token_account_program/associated_token_account_program.dart';
 export 'src/crypto/ed25519_hd_keypair.dart';
 export 'src/encoder/encoder.dart'
     show Instruction, Message, Buffer, AccountMeta;
