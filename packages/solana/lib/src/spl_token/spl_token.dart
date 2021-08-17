@@ -61,19 +61,17 @@ class SplToken {
         rpcClient: rpcClient,
       );
 
-  Future<String> findAssociatedTokenAddress(String owner) async {
+  Future<AssociatedTokenAccount?> getAssociatedAccount(
+    String owner,
+  ) async {
     final accounts = await _rpcClient.getTokenAccountsByOwner(
       owner: owner,
       mint: mint,
     );
     if (accounts.isEmpty) {
-      throw NoAssociatedTokenAccountException(owner, mint);
+      return null;
     }
-    final address = await computeAssociatedAddress(owner: owner);
-    if (accounts.indexWhere((a) => a.address == address) == -1) {
-      throw NoAssociatedTokenAccountException(owner, mint);
-    }
-    return address;
+    return accounts.first;
   }
 
   /// Transfer [amount] tokens owned by [owner] from [source] to [destination]
@@ -83,17 +81,22 @@ class SplToken {
     required int amount,
     required Ed25519HDKeyPair owner,
   }) async {
-    // A sender must have the appropriate associated account, in case they
-    // don't it's an error and we should throw an exception.
-    final sourceAssociatedTokenAddress =
-        await findAssociatedTokenAddress(source);
-    // A recipient needs an associated account as well
-    final destinationAssociatedTokenAddress =
-        await findAssociatedTokenAddress(destination);
+    final associatedRecipientAccount = await getAssociatedAccount(destination);
+    final associatedSenderAccount = await getAssociatedAccount(source);
+    // Throw an appropriate exception if the sender has no associated
+    // token account
+    if (associatedSenderAccount == null) {
+      throw NoAssociatedTokenAccountException(source, mint);
+    }
+    // Also throw an adequate exception if the recipient has no associated
+    // token account
+    if (associatedRecipientAccount == null) {
+      throw NoAssociatedTokenAccountException(destination, mint);
+    }
 
     final message = TokenProgram.transfer(
-      source: sourceAssociatedTokenAddress,
-      destination: destinationAssociatedTokenAddress,
+      source: associatedSenderAccount.address,
+      destination: associatedRecipientAccount.address,
       owner: owner.address,
       amount: amount,
     );

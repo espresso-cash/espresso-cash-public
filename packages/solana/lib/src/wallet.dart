@@ -158,7 +158,7 @@ class Wallet {
       instructions: [
         TokenInstruction.transfer(
           source: source,
-          destination: await token.findAssociatedTokenAddress(destination),
+          destination: await token.computeAssociatedAddress(owner: destination),
           amount: amount,
           owner: address,
         ),
