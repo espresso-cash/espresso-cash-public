@@ -66,7 +66,7 @@ class RPCClient {
     );
 
     // This is never `null`
-    return BlockhashResponse.fromJson(data).result.value!;
+    return BlockhashResponse.fromJson(data).result.value;
   }
 
   /// Returns a Future that resolves the the balance of [address]
@@ -89,7 +89,7 @@ class RPCClient {
     );
 
     // Will never be null
-    return BalanceResponse.fromJson(data).result.value!;
+    return BalanceResponse.fromJson(data).result.value;
   }
 
   /// Returns a Future that resolves to the account related information
@@ -163,7 +163,7 @@ class RPCClient {
     );
 
     // Will never be null
-    return SimulateTxResultResponse.fromJson(data).result.value!;
+    return SimulateTxResultResponse.fromJson(data).result.value;
   }
 
   /// Requests an airdrop of [lamports] lamports to [address].
@@ -341,8 +341,7 @@ class RPCClient {
       ],
     );
 
-    // Will never be null
-    return SignatureStatusesResponse.fromJson(data).result.value!;
+    return SignatureStatusesResponse.fromJson(data).result.value;
   }
 
   /// Get minimum balance for rent exemption to allocate [size] bytes
@@ -382,8 +381,7 @@ class RPCClient {
       ],
     );
 
-    // Will never be null
-    return TokenBalanceResponse.fromJson(data).result.value!;
+    return TokenBalanceResponse.fromJson(data).result.value;
   }
 
   /// Gets associated token accounts for a given user. If [mint] or [programId]
@@ -415,7 +413,7 @@ class RPCClient {
     );
 
     // Will never be null
-    return AssociatedTokenAccountResponse.fromJson(data).result.value!;
+    return AssociatedTokenAccountResponse.fromJson(data).result.value;
   }
 
   /// Convenience method to sign a transaction with [message] using [signers].

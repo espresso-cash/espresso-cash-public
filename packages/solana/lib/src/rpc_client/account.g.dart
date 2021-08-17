@@ -11,9 +11,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       lamports: json['lamports'] as int,
       executable: json['executable'] as bool,
       rentEpoch: json['rentEpoch'] as int,
-      data: json['data'] == null
-          ? null
-          : AccountData.fromJson(json['data'] as Map<String, dynamic>),
+      data: const _AccountDataConverter().fromJson(json['data']),
     );
 
 AccountInfoResponse _$AccountInfoResponseFromJson(Map<String, dynamic> json) =>
@@ -25,7 +23,7 @@ AccountInfoResponse _$AccountInfoResponseFromJson(Map<String, dynamic> json) =>
 ParsedSplTokenAccountData _$ParsedSplTokenAccountDataFromJson(
         Map<String, dynamic> json) =>
     ParsedSplTokenAccountData(
-      accountType: json['accountType'] as String,
+      accountType: json['accountType'] as String?,
       info: ParsedSplTokenAccountDataInfo.fromJson(
           json['info'] as Map<String, dynamic>),
       type: json['type'] as String,
@@ -65,43 +63,4 @@ Map<String, dynamic> _$ParsedSplTokenAccountDataInfoToJson(
       'owner': instance.owner,
       'delegate': instance.delegate,
       'delegateAmount': instance.delegateAmount,
-    };
-
-_$BinaryAccountData _$$BinaryAccountDataFromJson(Map<String, dynamic> json) =>
-    _$BinaryAccountData(
-      (json['bytes'] as List<dynamic>).map((e) => e as int).toList(),
-    );
-
-Map<String, dynamic> _$$BinaryAccountDataToJson(_$BinaryAccountData instance) =>
-    <String, dynamic>{
-      'bytes': instance.bytes,
-    };
-
-_$StringAccountData _$$StringAccountDataFromJson(Map<String, dynamic> json) =>
-    _$StringAccountData(
-      json['string'] as String,
-    );
-
-Map<String, dynamic> _$$StringAccountDataToJson(_$StringAccountData instance) =>
-    <String, dynamic>{
-      'string': instance.string,
-    };
-
-_$EmptyAccountData _$$EmptyAccountDataFromJson(Map<String, dynamic> json) =>
-    _$EmptyAccountData();
-
-Map<String, dynamic> _$$EmptyAccountDataToJson(_$EmptyAccountData instance) =>
-    <String, dynamic>{};
-
-_$SplTokenAccountData _$$SplTokenAccountDataFromJson(
-        Map<String, dynamic> json) =>
-    _$SplTokenAccountData(
-      parsed: ParsedSplTokenAccountData.fromJson(
-          json['parsed'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$SplTokenAccountDataToJson(
-        _$SplTokenAccountData instance) =>
-    <String, dynamic>{
-      'parsed': instance.parsed,
     };

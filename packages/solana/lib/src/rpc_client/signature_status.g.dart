@@ -61,9 +61,12 @@ const _$CommitmentEnumMap = {
 SignatureStatusesResponse _$SignatureStatusesResponseFromJson(
         Map<String, dynamic> json) =>
     SignatureStatusesResponse(
-      ValueResponse.fromJson(
-          json['result'] as Map<String, dynamic>,
-          (value) => (value as List<dynamic>)
-              .map((e) => SignatureStatus.fromJson(e as Map<String, dynamic>))
-              .toList()),
+      result: _SignatureStatusesResult.fromJson(
+          json['result'] as Map<String, dynamic>),
+    );
+
+_SignatureStatusesResult _$SignatureStatusesResultFromJson(
+        Map<String, dynamic> json) =>
+    _SignatureStatusesResult(
+      value: const _NullableListConverter().fromJson(json['value'] as List),
     );

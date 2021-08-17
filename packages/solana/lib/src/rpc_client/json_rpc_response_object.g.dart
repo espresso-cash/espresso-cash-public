@@ -11,11 +11,5 @@ ValueResponse<T> _$ValueResponseFromJson<T>(
   T Function(Object? json) fromJsonT,
 ) =>
     ValueResponse<T>(
-      value: _$nullableGenericFromJson(json['value'], fromJsonT),
+      value: fromJsonT(json['value']),
     );
-
-T? _$nullableGenericFromJson<T>(
-  Object? input,
-  T Function(Object? json) fromJson,
-) =>
-    input == null ? null : fromJson(input);

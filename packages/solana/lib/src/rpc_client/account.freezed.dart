@@ -12,20 +12,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-AccountData _$AccountDataFromJson(Map<String, dynamic> json) {
-  switch (json['program'] as String) {
-    case 'fromBytes':
-      return BinaryAccountData.fromJson(json);
-    case 'fromString':
-      return StringAccountData.fromJson(json);
-    case 'spl-token':
-      return SplTokenAccountData.fromJson(json);
-
-    default:
-      return EmptyAccountData.fromJson(json);
-  }
-}
-
 /// @nodoc
 class _$AccountDataTearOff {
   const _$AccountDataTearOff();
@@ -46,14 +32,16 @@ class _$AccountDataTearOff {
     return const EmptyAccountData();
   }
 
-  SplTokenAccountData splToken({required ParsedSplTokenAccountData parsed}) {
+  SplTokenAccountData splToken(ParsedSplTokenAccountData parsed) {
     return SplTokenAccountData(
-      parsed: parsed,
+      parsed,
     );
   }
 
-  AccountData fromJson(Map<String, Object> json) {
-    return AccountData.fromJson(json);
+  GenericAccountData generic(Map<String, dynamic> data) {
+    return GenericAccountData(
+      data,
+    );
   }
 }
 
@@ -68,6 +56,7 @@ mixin _$AccountData {
     required TResult Function(String string) fromString,
     required TResult Function() empty,
     required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(Map<String, dynamic> data) generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -76,6 +65,7 @@ mixin _$AccountData {
     TResult Function(String string)? fromString,
     TResult Function()? empty,
     TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -85,6 +75,7 @@ mixin _$AccountData {
     required TResult Function(StringAccountData value) fromString,
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
+    required TResult Function(GenericAccountData value) generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -93,10 +84,10 @@ mixin _$AccountData {
     TResult Function(StringAccountData value)? fromString,
     TResult Function(EmptyAccountData value)? empty,
     TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -148,12 +139,9 @@ class _$BinaryAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$BinaryAccountData implements BinaryAccountData {
   const _$BinaryAccountData(this.bytes);
-
-  factory _$BinaryAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$BinaryAccountDataFromJson(json);
 
   @override
   final List<int> bytes;
@@ -187,6 +175,7 @@ class _$BinaryAccountData implements BinaryAccountData {
     required TResult Function(String string) fromString,
     required TResult Function() empty,
     required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(Map<String, dynamic> data) generic,
   }) {
     return fromBytes(bytes);
   }
@@ -198,6 +187,7 @@ class _$BinaryAccountData implements BinaryAccountData {
     TResult Function(String string)? fromString,
     TResult Function()? empty,
     TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
     required TResult orElse(),
   }) {
     if (fromBytes != null) {
@@ -213,6 +203,7 @@ class _$BinaryAccountData implements BinaryAccountData {
     required TResult Function(StringAccountData value) fromString,
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
+    required TResult Function(GenericAccountData value) generic,
   }) {
     return fromBytes(this);
   }
@@ -224,6 +215,7 @@ class _$BinaryAccountData implements BinaryAccountData {
     TResult Function(StringAccountData value)? fromString,
     TResult Function(EmptyAccountData value)? empty,
     TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
     required TResult orElse(),
   }) {
     if (fromBytes != null) {
@@ -231,18 +223,10 @@ class _$BinaryAccountData implements BinaryAccountData {
     }
     return orElse();
   }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BinaryAccountDataToJson(this)..['program'] = 'fromBytes';
-  }
 }
 
 abstract class BinaryAccountData implements AccountData {
   const factory BinaryAccountData(List<int> bytes) = _$BinaryAccountData;
-
-  factory BinaryAccountData.fromJson(Map<String, dynamic> json) =
-      _$BinaryAccountData.fromJson;
 
   List<int> get bytes => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -283,12 +267,9 @@ class _$StringAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$StringAccountData implements StringAccountData {
   const _$StringAccountData(this.string);
-
-  factory _$StringAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$StringAccountDataFromJson(json);
 
   @override
   final String string;
@@ -322,6 +303,7 @@ class _$StringAccountData implements StringAccountData {
     required TResult Function(String string) fromString,
     required TResult Function() empty,
     required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(Map<String, dynamic> data) generic,
   }) {
     return fromString(string);
   }
@@ -333,6 +315,7 @@ class _$StringAccountData implements StringAccountData {
     TResult Function(String string)? fromString,
     TResult Function()? empty,
     TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
     required TResult orElse(),
   }) {
     if (fromString != null) {
@@ -348,6 +331,7 @@ class _$StringAccountData implements StringAccountData {
     required TResult Function(StringAccountData value) fromString,
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
+    required TResult Function(GenericAccountData value) generic,
   }) {
     return fromString(this);
   }
@@ -359,6 +343,7 @@ class _$StringAccountData implements StringAccountData {
     TResult Function(StringAccountData value)? fromString,
     TResult Function(EmptyAccountData value)? empty,
     TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
     required TResult orElse(),
   }) {
     if (fromString != null) {
@@ -366,18 +351,10 @@ class _$StringAccountData implements StringAccountData {
     }
     return orElse();
   }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$StringAccountDataToJson(this)..['program'] = 'fromString';
-  }
 }
 
 abstract class StringAccountData implements AccountData {
   const factory StringAccountData(String string) = _$StringAccountData;
-
-  factory StringAccountData.fromJson(Map<String, dynamic> json) =
-      _$StringAccountData.fromJson;
 
   String get string => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -405,12 +382,9 @@ class _$EmptyAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$EmptyAccountData implements EmptyAccountData {
   const _$EmptyAccountData();
-
-  factory _$EmptyAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$EmptyAccountDataFromJson(json);
 
   @override
   String toString() {
@@ -432,6 +406,7 @@ class _$EmptyAccountData implements EmptyAccountData {
     required TResult Function(String string) fromString,
     required TResult Function() empty,
     required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(Map<String, dynamic> data) generic,
   }) {
     return empty();
   }
@@ -443,6 +418,7 @@ class _$EmptyAccountData implements EmptyAccountData {
     TResult Function(String string)? fromString,
     TResult Function()? empty,
     TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -458,6 +434,7 @@ class _$EmptyAccountData implements EmptyAccountData {
     required TResult Function(StringAccountData value) fromString,
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
+    required TResult Function(GenericAccountData value) generic,
   }) {
     return empty(this);
   }
@@ -469,6 +446,7 @@ class _$EmptyAccountData implements EmptyAccountData {
     TResult Function(StringAccountData value)? fromString,
     TResult Function(EmptyAccountData value)? empty,
     TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -476,18 +454,10 @@ class _$EmptyAccountData implements EmptyAccountData {
     }
     return orElse();
   }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$EmptyAccountDataToJson(this)..['program'] = 'empty';
-  }
 }
 
 abstract class EmptyAccountData implements AccountData {
   const factory EmptyAccountData() = _$EmptyAccountData;
-
-  factory EmptyAccountData.fromJson(Map<String, dynamic> json) =
-      _$EmptyAccountData.fromJson;
 }
 
 /// @nodoc
@@ -514,7 +484,7 @@ class _$SplTokenAccountDataCopyWithImpl<$Res>
     Object? parsed = freezed,
   }) {
     return _then(SplTokenAccountData(
-      parsed: parsed == freezed
+      parsed == freezed
           ? _value.parsed
           : parsed // ignore: cast_nullable_to_non_nullable
               as ParsedSplTokenAccountData,
@@ -523,13 +493,9 @@ class _$SplTokenAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
-@FreezedUnionValue('spl-token')
-class _$SplTokenAccountData implements SplTokenAccountData {
-  const _$SplTokenAccountData({required this.parsed});
 
-  factory _$SplTokenAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$SplTokenAccountDataFromJson(json);
+class _$SplTokenAccountData implements SplTokenAccountData {
+  const _$SplTokenAccountData(this.parsed);
 
   @override
   final ParsedSplTokenAccountData parsed;
@@ -563,6 +529,7 @@ class _$SplTokenAccountData implements SplTokenAccountData {
     required TResult Function(String string) fromString,
     required TResult Function() empty,
     required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(Map<String, dynamic> data) generic,
   }) {
     return splToken(parsed);
   }
@@ -574,6 +541,7 @@ class _$SplTokenAccountData implements SplTokenAccountData {
     TResult Function(String string)? fromString,
     TResult Function()? empty,
     TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
     required TResult orElse(),
   }) {
     if (splToken != null) {
@@ -589,6 +557,7 @@ class _$SplTokenAccountData implements SplTokenAccountData {
     required TResult Function(StringAccountData value) fromString,
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
+    required TResult Function(GenericAccountData value) generic,
   }) {
     return splToken(this);
   }
@@ -600,6 +569,7 @@ class _$SplTokenAccountData implements SplTokenAccountData {
     TResult Function(StringAccountData value)? fromString,
     TResult Function(EmptyAccountData value)? empty,
     TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
     required TResult orElse(),
   }) {
     if (splToken != null) {
@@ -607,22 +577,143 @@ class _$SplTokenAccountData implements SplTokenAccountData {
     }
     return orElse();
   }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SplTokenAccountDataToJson(this)..['program'] = 'spl-token';
-  }
 }
 
 abstract class SplTokenAccountData implements AccountData {
-  const factory SplTokenAccountData(
-      {required ParsedSplTokenAccountData parsed}) = _$SplTokenAccountData;
-
-  factory SplTokenAccountData.fromJson(Map<String, dynamic> json) =
-      _$SplTokenAccountData.fromJson;
+  const factory SplTokenAccountData(ParsedSplTokenAccountData parsed) =
+      _$SplTokenAccountData;
 
   ParsedSplTokenAccountData get parsed => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SplTokenAccountDataCopyWith<SplTokenAccountData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GenericAccountDataCopyWith<$Res> {
+  factory $GenericAccountDataCopyWith(
+          GenericAccountData value, $Res Function(GenericAccountData) then) =
+      _$GenericAccountDataCopyWithImpl<$Res>;
+  $Res call({Map<String, dynamic> data});
+}
+
+/// @nodoc
+class _$GenericAccountDataCopyWithImpl<$Res>
+    extends _$AccountDataCopyWithImpl<$Res>
+    implements $GenericAccountDataCopyWith<$Res> {
+  _$GenericAccountDataCopyWithImpl(
+      GenericAccountData _value, $Res Function(GenericAccountData) _then)
+      : super(_value, (v) => _then(v as GenericAccountData));
+
+  @override
+  GenericAccountData get _value => super._value as GenericAccountData;
+
+  @override
+  $Res call({
+    Object? data = freezed,
+  }) {
+    return _then(GenericAccountData(
+      data == freezed
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GenericAccountData implements GenericAccountData {
+  const _$GenericAccountData(this.data);
+
+  @override
+  final Map<String, dynamic> data;
+
+  @override
+  String toString() {
+    return 'AccountData.generic(data: $data)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GenericAccountData &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(data);
+
+  @JsonKey(ignore: true)
+  @override
+  $GenericAccountDataCopyWith<GenericAccountData> get copyWith =>
+      _$GenericAccountDataCopyWithImpl<GenericAccountData>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<int> bytes) fromBytes,
+    required TResult Function(String string) fromString,
+    required TResult Function() empty,
+    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(Map<String, dynamic> data) generic,
+  }) {
+    return generic(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
+    TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
+    required TResult orElse(),
+  }) {
+    if (generic != null) {
+      return generic(data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(BinaryAccountData value) fromBytes,
+    required TResult Function(StringAccountData value) fromString,
+    required TResult Function(EmptyAccountData value) empty,
+    required TResult Function(SplTokenAccountData value) splToken,
+    required TResult Function(GenericAccountData value) generic,
+  }) {
+    return generic(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
+    TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
+    required TResult orElse(),
+  }) {
+    if (generic != null) {
+      return generic(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GenericAccountData implements AccountData {
+  const factory GenericAccountData(Map<String, dynamic> data) =
+      _$GenericAccountData;
+
+  Map<String, dynamic> get data => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GenericAccountDataCopyWith<GenericAccountData> get copyWith =>
       throw _privateConstructorUsedError;
 }

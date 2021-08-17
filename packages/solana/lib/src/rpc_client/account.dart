@@ -18,7 +18,7 @@ class Account {
     required this.lamports,
     required this.executable,
     required this.rentEpoch,
-    @_AccountDataConverter() this.data,
+    this.data,
   });
 
   factory Account.fromJson(Map<String, dynamic> json) =>
@@ -27,10 +27,10 @@ class Account {
   final String owner;
   final int lamports;
   final bool executable;
-
-  final AccountData? data;
-
   final int rentEpoch;
+
+  @_AccountDataConverter()
+  final AccountData? data;
 }
 
 @JsonSerializable(createToJson: false)
@@ -41,7 +41,7 @@ class AccountInfoResponse extends JsonRpcResponse<ValueResponse<Account>> {
       _$AccountInfoResponseFromJson(json);
 }
 
-@Freezed(unionKey: 'program', fallbackUnion: 'empty')
+@freezed
 class AccountData with _$AccountData {
   const factory AccountData.fromBytes(List<int> bytes) = BinaryAccountData;
 
@@ -49,25 +49,24 @@ class AccountData with _$AccountData {
 
   const factory AccountData.empty() = EmptyAccountData;
 
-  @FreezedUnionValue('spl-token')
-  const factory AccountData.splToken({
-    required ParsedSplTokenAccountData parsed,
-  }) = SplTokenAccountData;
+  const factory AccountData.splToken(ParsedSplTokenAccountData parsed) =
+      SplTokenAccountData;
 
-  factory AccountData.fromJson(Map<String, dynamic> json) =>
-      _$AccountDataFromJson(json);
+  const factory AccountData.generic(Map<String, dynamic> data) =
+      GenericAccountData;
 }
 
-class _AccountDataConverter implements JsonConverter<AccountData, dynamic> {
+class _AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
   const _AccountDataConverter();
 
   @override
-  AccountData fromJson(dynamic data) {
+  AccountData? fromJson(dynamic data) {
     if (data == null) {
-      return const AccountData.empty();
+      return null;
     } else if (data is String) {
       if (data == '') {
-        return const AccountData.empty();
+        throw const FormatException(
+            'unexpected string for account data, expecting base64 data');
       }
       return AccountData.fromBytes(base64Decode(data));
     } else if (data is List) {
@@ -84,14 +83,22 @@ class _AccountDataConverter implements JsonConverter<AccountData, dynamic> {
       }
       return AccountData.fromBytes(base64Decode(base64String));
     } else if (data is Map<String, dynamic>) {
-      return AccountData.fromJson(data);
+      switch (data['program']) {
+        // TODO(IA): add other program data
+        case 'spl-token':
+          return AccountData.splToken(ParsedSplTokenAccountData.fromJson(
+            data['parsed'] as Map<String, dynamic>,
+          ));
+        default:
+          return AccountData.generic(data);
+      }
     } else {
       throw const FormatException('cannot decode account data');
     }
   }
 
   @override
-  Map<String, dynamic> toJson(AccountData object) => <String, dynamic>{};
+  Map<String, dynamic> toJson(AccountData? object) => <String, dynamic>{};
 }
 
 @JsonSerializable()
@@ -105,7 +112,7 @@ class ParsedSplTokenAccountData {
   factory ParsedSplTokenAccountData.fromJson(Map<String, dynamic> data) =>
       _$ParsedSplTokenAccountDataFromJson(data);
 
-  final String accountType;
+  final String? accountType;
   final ParsedSplTokenAccountDataInfo info;
   final String type;
 }
