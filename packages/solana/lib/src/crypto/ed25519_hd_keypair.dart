@@ -23,6 +23,13 @@ class Ed25519HDKeyPair extends KeyPair {
         // over and over because it's needed often.
         address = base58encode(publicKey);
 
+  static Future<Ed25519HDKeyPair> fromKeyData({
+    required KeyData keyData
+  }) async => Ed25519HDKeyPair._(
+      keyData: keyData,
+      publicKey: await ED25519_HD_KEY.getPublicKey(keyData.key, false),
+  );
+
   /// Construct a new [Ed25519HDKeyPair] from a [seed] and a derivation path [hdPath].
   static Future<Ed25519HDKeyPair> fromSeedWithHdPath({
     required List<int> seed,
