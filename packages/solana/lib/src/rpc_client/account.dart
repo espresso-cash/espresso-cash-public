@@ -98,7 +98,9 @@ class _AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
   }
 
   @override
-  Map<String, dynamic> toJson(AccountData? object) => <String, dynamic>{};
+  Map<String, dynamic> toJson(AccountData? object) {
+    throw UnsupportedError('converting this object to json is not supported');
+  }
 }
 
 @JsonSerializable()
