@@ -1,3 +1,15 @@
+## 0.10.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Update tests to reflect some API changes (#59).
+ - **FEAT**: Support anchor generated programs (#42).
+ - **CHORE**: Add an example and a test for sending SPL with a fee payer (#55).
+ - **CHORE**: Update readme (#49).
+ - **CHORE**: Restructure packages (#44).
+ - **BREAKING** **FIX**: Remove explicit tokens adding (#52).
+ - **BREAKING** **FEAT**: Implement `getTokenAccountsByOwner` rpc method (#53).
+
 ## 0.9.0+1
 
  - **FIX**: Add required exports (#41).
