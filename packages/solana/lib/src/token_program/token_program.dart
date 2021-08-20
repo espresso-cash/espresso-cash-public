@@ -108,11 +108,10 @@ class TokenProgram extends Message {
       );
 
   /// Construct a program to transfer [amount] tokens owned by [owner]
-  /// from [source] to [destination].
+  /// from the associated token address [source] to the associated token address
+  /// [destination].
 
   /// Note that often the [owner] is the same account as [source].
-  ///
-  /// The [owner] must sign this transaction and if you specify a [feePayer] then,
   factory TokenProgram.transfer({
     required String source,
     required String destination,

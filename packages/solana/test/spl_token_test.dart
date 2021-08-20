@@ -127,6 +127,58 @@ void main() {
       expect(signature, isNot(null));
     }, timeout: const Timeout(Duration(minutes: 2)));
 
+    test('Transfer tokens succeeds with fee payer', () async {
+      final recipient = await Ed25519HDKeyPair.random();
+      final token = await SplToken.readWrite(
+        owner: owner,
+        mint: newTokenMint,
+        rpcClient: client,
+      );
+      final feePayer = await Ed25519HDKeyPair.random();
+      // Add some tokens to pay for fees
+      await airdrop(client, feePayer, sol: 10);
+
+      // The account does not exist, so create it
+      final account = await token.createAssociatedAccount(
+        owner: recipient.address,
+        funder: owner,
+      );
+      // A sender must have the appropriate associated account, in case they
+      // don't it's an error and we should throw an exception.
+      final sourceAssociatedTokenAddress =
+          await token.findAssociatedTokenAddress(owner.address);
+      // A recipient needs an associated account as well
+      final destinationAssociatedTokenAddress =
+          await token.findAssociatedTokenAddress(recipient.address);
+
+      expect(account, isA<AssociatedTokenAccount>());
+      // Send to the newly created account
+      final message = TokenProgram.transfer(
+        source: sourceAssociatedTokenAddress,
+        destination: destinationAssociatedTokenAddress,
+        amount: 100,
+        owner: owner.address,
+      );
+
+      final signature = await client.signAndSendTransaction(
+        message,
+        [
+          feePayer,
+          owner,
+        ],
+      );
+
+      print('Transfer ($signature)');
+      print('');
+      print('amount   : 1.00 ${token.mint}');
+      print('from     : $sourceAssociatedTokenAddress (${owner.address})');
+      print(
+          'to       : $destinationAssociatedTokenAddress (${recipient.address})');
+      print('fee payer: ${feePayer.address}');
+
+      expect(signature, isNot(null));
+    }, timeout: const Timeout(Duration(minutes: 2)));
+
     test(
         'Fails to transfer tokens if the recipient has no associated token account',
         () async {

@@ -86,15 +86,6 @@ void main() {
     expect(memoInstruction.memo, equals(memoText));
   });
 
-  test('Load a token into a wallet', () async {
-    final wallet = Wallet(
-      signer: await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
-    );
-    expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
-        completion(equals(false)));
-  });
-
   test('Get a token balance', () async {
     final wallet = Wallet(
       signer: await Ed25519HDKeyPair.random(),
