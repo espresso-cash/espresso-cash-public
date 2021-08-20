@@ -1,9 +1,8 @@
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
-import 'package:solana/src/wallet.dart';
+import 'package:solana/solana.dart';
 
 Future<void> example() async {
   final rpcClient = RPCClient(_rpcClientUrl);
+
   // Create a wallet
   final source = Wallet(
     signer: await Ed25519HDKeyPair.random(),
@@ -29,30 +28,47 @@ Future<void> example() async {
     mint: _tokenMint,
   );
 
-  // Finally transfer the tokens to the recipient
-  await source.transferSplToken(
-    mint: _tokenMint,
-    destination: destination.address,
-    amount: 1,
+  // Create a wallet to pay for fees
+  final feePayer = Wallet(
+    signer: await Ed25519HDKeyPair.random(),
+    rpcClient: rpcClient,
+  );
+  // Add some tokens to pay for fees
+  await feePayer.requestAirdrop(lamports: 10 * lamportsPerSol);
+
+    final readOnly = await SplToken.readonly(mint: _tokenMint, rpcClient: rpcClient);
+
+    final sourceAssociatedTokenAddress = await readOnly.computeAssociatedAddress(
+        owner: source.address);
+
+    final destinationAssociatedTokenAddress = await readOnly.computeAssociatedAddress(
+        owner: destination.address);
+
+  // Send to the newly created account
+  final message = TokenProgram.transfer(
+    source: sourceAssociatedTokenAddress,
+    destination: destinationAssociatedTokenAddress,
+    amount: 1000000,
+    owner: source.address,
   );
 
-  // Compute the fee that source payed
-  final fee = 5 - await source.getLamports();
-
-  print('You payed $fee lamports for the network fees');
-
-  // To confirm that it worked let's see if there's any balance
-  // in the recipients wallet
-  final balance = await rpcClient.getTokenAccountBalance(
-    associatedTokenAccountAddress:
-        await destination.getAssociatedTokenAccountAddress(mint: _tokenMint),
+  // In order for another account to pay for the fees, we must make it
+  // the first signer in the following call.
+  final signature = await rpcClient.signAndSendTransaction(
+    message,
+    [
+      feePayer.signer,
+      source.signer,
+    ],
   );
 
-  if (balance.amount == '1') {
-    print('Good, it worked.');
-  } else {
-    print('Bad, it failed.');
-  }
+  print('Transfer ($signature)');
+  print('');
+  print('amount   : 1.00 USDT');
+  print('from     : $sourceAssociatedTokenAddress (${source.address})');
+  print(
+      'to       : $destinationAssociatedTokenAddress (${destination.address})');
+  print('fee payer: ${feePayer.address}');
 }
 
 const _rpcClientUrl = 'https://api.devnet.solana.com';
