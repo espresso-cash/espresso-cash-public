@@ -154,16 +154,18 @@ void main() {
       // A sender must have the appropriate associated account, in case they
       // don't it's an error and we should throw an exception.
       final sourceAssociatedTokenAddress =
-          await token.findAssociatedTokenAddress(owner.address);
+          await token.getAssociatedAccount(owner.address);
       // A recipient needs an associated account as well
       final destinationAssociatedTokenAddress =
-          await token.findAssociatedTokenAddress(recipient.address);
+          await token.getAssociatedAccount(recipient.address);
+      expect(sourceAssociatedTokenAddress, isNotNull);
+      expect(destinationAssociatedTokenAddress, isNotNull);
 
       expect(account, isA<AssociatedTokenAccount>());
       // Send to the newly created account
       final message = TokenProgram.transfer(
-        source: sourceAssociatedTokenAddress,
-        destination: destinationAssociatedTokenAddress,
+        source: sourceAssociatedTokenAddress!.address,
+        destination: destinationAssociatedTokenAddress!.address,
         amount: 100,
         owner: owner.address,
       );
@@ -175,14 +177,6 @@ void main() {
           owner,
         ],
       );
-
-      print('Transfer ($signature)');
-      print('');
-      print('amount   : 1.00 ${token.mint}');
-      print('from     : $sourceAssociatedTokenAddress (${owner.address})');
-      print(
-          'to       : $destinationAssociatedTokenAddress (${recipient.address})');
-      print('fee payer: ${feePayer.address}');
 
       expect(signature, isNot(null));
     }, timeout: const Timeout(Duration(minutes: 2)));
