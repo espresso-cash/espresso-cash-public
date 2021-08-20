@@ -1,11 +1,11 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:build/build.dart';
 import 'package:borsh/src/field_info_generators/constructor.dart';
 import 'package:borsh/src/field_info_generators/field_list_deserialization.dart';
 import 'package:borsh/src/field_info_generators/field_list_serialization.dart';
 import 'package:borsh/src/field_info_generators/size_calculation.dart';
 import 'package:borsh/src/generator_utils.dart';
-import 'package:borsh/src/struct_annotation.dart';
+import 'package:borsh_annotation/borsh_annotation.dart';
+import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 
 String createFromBorsh(String name, List<FieldInfo> fields) => '''

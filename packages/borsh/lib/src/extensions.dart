@@ -1,5 +1,5 @@
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:borsh/src/type.dart';
+import 'package:borsh_annotation/borsh_annotation.dart';
 
 extension DartObjectExt on DartObject {
   T? getFieldAs<T>(String name) {
