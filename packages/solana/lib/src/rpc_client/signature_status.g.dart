@@ -6,15 +6,14 @@ part of 'signature_status.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SignatureStatus _$SignatureStatusFromJson(Map<String, dynamic> json) {
-  return SignatureStatus(
-    slot: json['slot'] as int,
-    confirmations: json['confirmations'] as int?,
-    err: json['err'],
-    confirmationStatus:
-        _$enumDecodeNullable(_$CommitmentEnumMap, json['confirmationStatus']),
-  );
-}
+SignatureStatus _$SignatureStatusFromJson(Map<String, dynamic> json) =>
+    SignatureStatus(
+      slot: json['slot'] as int,
+      confirmations: json['confirmations'] as int?,
+      err: json['err'],
+      confirmationStatus:
+          _$enumDecodeNullable(_$CommitmentEnumMap, json['confirmationStatus']),
+    );
 
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,
@@ -60,12 +59,14 @@ const _$CommitmentEnumMap = {
 };
 
 SignatureStatusesResponse _$SignatureStatusesResponseFromJson(
-    Map<String, dynamic> json) {
-  return SignatureStatusesResponse(
-    ValueResponse.fromJson(
-        json['result'] as Map<String, dynamic>,
-        (value) => (value as List<dynamic>).map((e) => e == null
-            ? null
-            : SignatureStatus.fromJson(e as Map<String, dynamic>))),
-  );
-}
+        Map<String, dynamic> json) =>
+    SignatureStatusesResponse(
+      result: _SignatureStatusesResult.fromJson(
+          json['result'] as Map<String, dynamic>),
+    );
+
+_SignatureStatusesResult _$SignatureStatusesResultFromJson(
+        Map<String, dynamic> json) =>
+    _SignatureStatusesResult(
+      value: const _NullableListConverter().fromJson(json['value'] as List),
+    );

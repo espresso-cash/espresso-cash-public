@@ -158,7 +158,7 @@ class Wallet {
       instructions: [
         TokenInstruction.transfer(
           source: source,
-          destination: await token.findAssociatedTokenAddress(destination),
+          destination: await token.computeAssociatedAddress(owner: destination),
           amount: amount,
           owner: address,
         ),
@@ -204,13 +204,16 @@ class Wallet {
   Future<bool> hasAssociatedTokenAccount({
     required String mint,
   }) async {
-    List<AssociatedTokenAccount> accounts;
+    Iterable<AssociatedTokenAccount> accounts;
     final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
     final associatedTokenAddress = await token.computeAssociatedAddress(
       owner: address,
     );
     try {
-      accounts = await token.getAssociatedAccountsFor(owner: address);
+      accounts = await _rpcClient.getTokenAccountsByOwner(
+        owner: address,
+        mint: token.mint,
+      );
     } on FormatException {
       accounts = [];
     }

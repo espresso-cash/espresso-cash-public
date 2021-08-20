@@ -12,6 +12,7 @@ import 'package:solana/src/rpc_client/transaction_signature.dart';
 import 'package:solana/src/system_program/system_program.dart';
 import 'package:test/test.dart';
 
+import 'airdrop.dart';
 import 'config.dart';
 
 const int _transferredAmount = 0x1000;
@@ -71,12 +72,13 @@ void main() {
     });
 
     test('Get all the account information of an account', () async {
-      final Account accountInfo = await rpcClient.getAccountInfo(
+      final Account? accountInfo = await rpcClient.getAccountInfo(
         source.address,
       );
-      expect(accountInfo.lamports, currentBalance);
-      expect(accountInfo.owner, SystemProgram.programId);
-      expect(accountInfo.executable, false);
+      expect(accountInfo, isNotNull);
+      expect(accountInfo?.lamports, currentBalance);
+      expect(accountInfo?.owner, SystemProgram.programId);
+      expect(accountInfo?.executable, false);
     });
 
     test('Simulate a transfer', () async {
@@ -204,5 +206,36 @@ void main() {
       );
       expect(balance, greaterThan(0));
     });
+
+    test('Get token accounts by owner', () async {
+      final accountKeyPair = await Ed25519HDKeyPair.random();
+      final accountCreator = await Ed25519HDKeyPair.random();
+
+      await airdrop(solanaClient, wallet, sol: 100);
+      await airdrop(solanaClient, accountCreator, sol: 100);
+
+      final token = await solanaClient.initializeMint(
+        owner: wallet,
+        decimals: 8,
+      );
+
+      final createdAccount = await token.createAssociatedAccount(
+        owner: accountKeyPair.address,
+        funder: accountCreator,
+      );
+
+      final accounts = await solanaClient.getTokenAccountsByOwner(
+        owner: accountKeyPair.address,
+        programId: TokenProgram.programId,
+      );
+
+      expect(accounts.length, equals(1));
+      expect(accounts.first.address, equals(createdAccount.address));
+      expect(accounts.first.account.data, isA<SplTokenAccountData>());
+
+      final data = accounts.first.account.data as SplTokenAccountData;
+      expect(data.parsed.info.mint, equals(token.mint));
+      expect(data.parsed.info.owner, equals(createdAccount.account.owner));
+    }, timeout: const Timeout(Duration(minutes: 4)));
   });
 }

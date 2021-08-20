@@ -52,8 +52,11 @@ void main() {
         mint: newTokenMint,
         rpcClient: client,
       );
-      List<AssociatedTokenAccount> accounts =
-          await token.getAssociatedAccountsFor(owner: owner.address);
+      Iterable<AssociatedTokenAccount> accounts =
+          await client.getTokenAccountsByOwner(
+        owner: owner.address,
+        mint: token.mint,
+      );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
 
@@ -62,7 +65,10 @@ void main() {
         funder: owner,
       );
 
-      accounts = await token.getAssociatedAccountsFor(owner: owner.address);
+      accounts = await client.getTokenAccountsByOwner(
+        owner: owner.address,
+        mint: token.mint,
+      );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
       expect(
@@ -77,10 +83,12 @@ void main() {
         mint: newTokenMint,
         rpcClient: client,
       );
-      final accounts =
-          await token.getAssociatedAccountsFor(owner: owner.address);
+      final accounts = await client.getTokenAccountsByOwner(
+        owner: owner.address,
+        mint: token.mint,
+      );
       await token.mintTo(
-        destination: accounts[0].address,
+        destination: accounts.first.address,
         amount: _totalSupply,
       );
       // Reload it

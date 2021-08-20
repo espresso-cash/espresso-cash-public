@@ -8,7 +8,6 @@ import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/rpc_client/signature_status.dart';
 import 'package:solana/src/rpc_client/transaction_signature.dart';
 import 'package:solana/src/spl_token/associated_account.dart';
-import 'package:solana/src/spl_token/rpc_extensions.dart';
 import 'package:solana/src/token_program/token_program.dart';
 import 'package:solana/src/utils.dart';
 
@@ -62,16 +61,17 @@ class SplToken {
         rpcClient: rpcClient,
       );
 
-  Future<String> findAssociatedTokenAddress(String owner) async {
-    final accounts = await getAssociatedAccountsFor(owner: owner);
+  Future<AssociatedTokenAccount?> getAssociatedAccount(
+    String owner,
+  ) async {
+    final accounts = await _rpcClient.getTokenAccountsByOwner(
+      owner: owner,
+      mint: mint,
+    );
     if (accounts.isEmpty) {
-      throw NoAssociatedTokenAccountException(owner, mint);
+      return null;
     }
-    final address = await computeAssociatedAddress(owner: owner);
-    if (accounts.indexWhere((a) => a.address == address) == -1) {
-      throw NoAssociatedTokenAccountException(owner, mint);
-    }
-    return address;
+    return accounts.first;
   }
 
   /// Transfer [amount] tokens owned by [owner] from [source] to [destination]
@@ -81,17 +81,22 @@ class SplToken {
     required int amount,
     required Ed25519HDKeyPair owner,
   }) async {
-    // A sender must have the appropriate associated account, in case they
-    // don't it's an error and we should throw an exception.
-    final sourceAssociatedTokenAddress =
-        await findAssociatedTokenAddress(source);
-    // A recipient needs an associated account as well
-    final destinationAssociatedTokenAddress =
-        await findAssociatedTokenAddress(destination);
+    final associatedRecipientAccount = await getAssociatedAccount(destination);
+    final associatedSenderAccount = await getAssociatedAccount(source);
+    // Throw an appropriate exception if the sender has no associated
+    // token account
+    if (associatedSenderAccount == null) {
+      throw NoAssociatedTokenAccountException(source, mint);
+    }
+    // Also throw an adequate exception if the recipient has no associated
+    // token account
+    if (associatedRecipientAccount == null) {
+      throw NoAssociatedTokenAccountException(destination, mint);
+    }
 
     final message = TokenProgram.transfer(
-      source: sourceAssociatedTokenAddress,
-      destination: destinationAssociatedTokenAddress,
+      source: associatedSenderAccount.address,
+      destination: associatedRecipientAccount.address,
       owner: owner.address,
       amount: amount,
     );
@@ -208,16 +213,6 @@ class SplToken {
       ],
     );
   }
-
-  /// Query [owner]'s associated accounts for this token.
-  ///
-  /// This method returns all the accounts that are owned by [owner]
-  /// and associated with this token. If there are none, then an empty
-  /// list is returned.
-  Future<List<AssociatedTokenAccount>> getAssociatedAccountsFor({
-    required String owner,
-  }) async =>
-      _rpcClient.getTokenAccountsByOwner(owner, mint: mint);
 
   final int decimals;
   final int supply;

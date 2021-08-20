@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc_client/commitment.dart';
-import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
 
 part 'signature_status.g.dart';
 
@@ -33,11 +32,41 @@ class SignatureStatus {
 }
 
 @JsonSerializable(createToJson: false)
-class SignatureStatusesResponse
-    extends JsonRpcResponse<ValueResponse<Iterable<SignatureStatus?>>> {
-  SignatureStatusesResponse(ValueResponse<Iterable<SignatureStatus?>> result)
-      : super(result: result);
+class SignatureStatusesResponse {
+  SignatureStatusesResponse({required this.result});
 
   factory SignatureStatusesResponse.fromJson(Map<String, dynamic> json) =>
       _$SignatureStatusesResponseFromJson(json);
+
+  final _SignatureStatusesResult result;
+}
+
+@JsonSerializable(createToJson: false)
+class _SignatureStatusesResult {
+  _SignatureStatusesResult({required this.value});
+
+  factory _SignatureStatusesResult.fromJson(Map<String, dynamic> json) =>
+      _$SignatureStatusesResultFromJson(json);
+
+  // This is just a workaround for
+  // https://github.com/google/json_serializable.dart/issues/956
+  @_NullableListConverter()
+  final List<SignatureStatus?> value;
+}
+
+// This is just a workaround for
+// https://github.com/google/json_serializable.dart/issues/956
+class _NullableListConverter
+    implements JsonConverter<List<SignatureStatus?>, List<dynamic>> {
+  const _NullableListConverter();
+
+  @override
+  List<SignatureStatus?> fromJson(List<dynamic> json) => json
+      .map((dynamic e) => e == null
+          ? null
+          : SignatureStatus.fromJson(e as Map<String, dynamic>))
+      .toList(growable: false);
+
+  @override
+  List<dynamic> toJson(List<SignatureStatus?> object) => object;
 }

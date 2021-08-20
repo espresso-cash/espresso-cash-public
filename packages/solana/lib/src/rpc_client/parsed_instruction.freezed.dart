@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'parsed_instruction.dart';
 
@@ -13,7 +14,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 ParsedInstruction _$ParsedInstructionFromJson(Map<String, dynamic> json) {
-  switch (json['program'] as String) {
+  switch (json['program'] as String?) {
     case 'system':
       return ParsedInstructionSystem.fromJson(json);
     case 'spl-token':
@@ -77,6 +78,14 @@ mixin _$ParsedInstruction {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String programId, ParsedSystemInstruction parsed)? system,
+    TResult Function(ParsedSplTokenInstruction parsed)? splToken,
+    TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
+    TResult Function(String program)? unsupported,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
@@ -91,6 +100,14 @@ mixin _$ParsedInstruction {
     required TResult Function(ParsedInstructionSplToken value) splToken,
     required TResult Function(ParsedInstructionMemo value) memo,
     required TResult Function(ParsedInstructionUnsupported value) unsupported,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedInstructionSystem value)? system,
+    TResult Function(ParsedInstructionSplToken value)? splToken,
+    TResult Function(ParsedInstructionMemo value)? memo,
+    TResult Function(ParsedInstructionUnsupported value)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -175,7 +192,7 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
       {required this.programId, required this.parsed});
 
   factory _$ParsedInstructionSystem.fromJson(Map<String, dynamic> json) =>
-      _$_$ParsedInstructionSystemFromJson(json);
+      _$$ParsedInstructionSystemFromJson(json);
 
   @override
   final String programId;
@@ -224,6 +241,17 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String programId, ParsedSystemInstruction parsed)? system,
+    TResult Function(ParsedSplTokenInstruction parsed)? splToken,
+    TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
+    TResult Function(String program)? unsupported,
+  }) {
+    return system?.call(programId, parsed);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
@@ -250,6 +278,17 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedInstructionSystem value)? system,
+    TResult Function(ParsedInstructionSplToken value)? splToken,
+    TResult Function(ParsedInstructionMemo value)? memo,
+    TResult Function(ParsedInstructionUnsupported value)? unsupported,
+  }) {
+    return system?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedInstructionSystem value)? system,
     TResult Function(ParsedInstructionSplToken value)? splToken,
@@ -265,7 +304,7 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$ParsedInstructionSystemToJson(this)..['program'] = 'system';
+    return _$$ParsedInstructionSystemToJson(this)..['program'] = 'system';
   }
 }
 
@@ -333,7 +372,7 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
   const _$ParsedInstructionSplToken({required this.parsed});
 
   factory _$ParsedInstructionSplToken.fromJson(Map<String, dynamic> json) =>
-      _$_$ParsedInstructionSplTokenFromJson(json);
+      _$$ParsedInstructionSplTokenFromJson(json);
 
   @override
   final ParsedSplTokenInstruction parsed;
@@ -375,6 +414,17 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String programId, ParsedSystemInstruction parsed)? system,
+    TResult Function(ParsedSplTokenInstruction parsed)? splToken,
+    TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
+    TResult Function(String program)? unsupported,
+  }) {
+    return splToken?.call(parsed);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
@@ -401,6 +451,17 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedInstructionSystem value)? system,
+    TResult Function(ParsedInstructionSplToken value)? splToken,
+    TResult Function(ParsedInstructionMemo value)? memo,
+    TResult Function(ParsedInstructionUnsupported value)? unsupported,
+  }) {
+    return splToken?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedInstructionSystem value)? system,
     TResult Function(ParsedInstructionSplToken value)? splToken,
@@ -416,7 +477,7 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$ParsedInstructionSplTokenToJson(this)..['program'] = 'spl-token';
+    return _$$ParsedInstructionSplTokenToJson(this)..['program'] = 'spl-token';
   }
 }
 
@@ -473,9 +534,10 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
   const _$ParsedInstructionMemo({@JsonKey(name: 'parsed') required this.memo});
 
   factory _$ParsedInstructionMemo.fromJson(Map<String, dynamic> json) =>
-      _$_$ParsedInstructionMemoFromJson(json);
+      _$$ParsedInstructionMemoFromJson(json);
 
-  @override // ignore: invalid_annotation_target
+  @override // This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
+// ignore: invalid_annotation_target
   @JsonKey(name: 'parsed')
   final String? memo;
 
@@ -516,6 +578,17 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String programId, ParsedSystemInstruction parsed)? system,
+    TResult Function(ParsedSplTokenInstruction parsed)? splToken,
+    TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
+    TResult Function(String program)? unsupported,
+  }) {
+    return memo?.call(this.memo);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
@@ -542,6 +615,17 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedInstructionSystem value)? system,
+    TResult Function(ParsedInstructionSplToken value)? splToken,
+    TResult Function(ParsedInstructionMemo value)? memo,
+    TResult Function(ParsedInstructionUnsupported value)? unsupported,
+  }) {
+    return memo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedInstructionSystem value)? system,
     TResult Function(ParsedInstructionSplToken value)? splToken,
@@ -557,7 +641,7 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$ParsedInstructionMemoToJson(this)..['program'] = 'spl-memo';
+    return _$$ParsedInstructionMemoToJson(this)..['program'] = 'spl-memo';
   }
 }
 
@@ -569,6 +653,7 @@ abstract class ParsedInstructionMemo implements ParsedInstruction {
   factory ParsedInstructionMemo.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionMemo.fromJson;
 
+// This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
 // ignore: invalid_annotation_target
   @JsonKey(name: 'parsed')
   String? get memo => throw _privateConstructorUsedError;
@@ -618,7 +703,7 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
   const _$ParsedInstructionUnsupported({required this.program});
 
   factory _$ParsedInstructionUnsupported.fromJson(Map<String, dynamic> json) =>
-      _$_$ParsedInstructionUnsupportedFromJson(json);
+      _$$ParsedInstructionUnsupportedFromJson(json);
 
   @override
   final String program;
@@ -660,6 +745,17 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String programId, ParsedSystemInstruction parsed)? system,
+    TResult Function(ParsedSplTokenInstruction parsed)? splToken,
+    TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
+    TResult Function(String program)? unsupported,
+  }) {
+    return unsupported?.call(program);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
@@ -686,6 +782,17 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedInstructionSystem value)? system,
+    TResult Function(ParsedInstructionSplToken value)? splToken,
+    TResult Function(ParsedInstructionMemo value)? memo,
+    TResult Function(ParsedInstructionUnsupported value)? unsupported,
+  }) {
+    return unsupported?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedInstructionSystem value)? system,
     TResult Function(ParsedInstructionSplToken value)? splToken,
@@ -701,7 +808,7 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$ParsedInstructionUnsupportedToJson(this)
+    return _$$ParsedInstructionUnsupportedToJson(this)
       ..['program'] = 'unsupported';
   }
 }

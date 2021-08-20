@@ -6,8 +6,7 @@ part of 'transaction_signature.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SignatureResponse _$SignatureResponseFromJson(Map<String, dynamic> json) {
-  return SignatureResponse(
-    TransactionSignature.fromJson(json['result'] as String),
-  );
-}
+SignatureResponse _$SignatureResponseFromJson(Map<String, dynamic> json) =>
+    SignatureResponse(
+      TransactionSignature.fromJson(json['result'] as String),
+    );
