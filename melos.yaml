@@ -19,4 +19,8 @@ scripts:
 
   analyze: melos exec -- dart analyze --fatal-infos .
 
-  test: melos exec -- dart pub run test
+  test: 
+    run: melos exec -- dart pub run test
+    select-package:
+      dir-exists:
+        - test
