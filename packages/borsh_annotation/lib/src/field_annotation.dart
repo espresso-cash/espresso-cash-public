@@ -1,4 +1,4 @@
-import 'package:borsh/src/type.dart';
+import 'package:borsh_annotation/src/type.dart';
 
 class Array {
   const Array.dynamic(this.itemType)

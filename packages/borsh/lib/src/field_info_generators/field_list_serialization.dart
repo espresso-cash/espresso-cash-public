@@ -1,6 +1,6 @@
 import 'package:borsh/src/extensions.dart';
 import 'package:borsh/src/generator_utils.dart';
-import 'package:borsh/src/type.dart';
+import 'package:borsh_annotation/borsh_annotation.dart';
 
 String generateSerializationCode(List<FieldInfo> fields) {
   final StringBuffer buffer = StringBuffer();

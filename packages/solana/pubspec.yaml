@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   bip39: ^1.0.6
-  borsh: ^0.1.0
+  borsh_annotation: ^0.2.0
   convert: ^3.0.1
   cryptography: ^2.0.2
   ed25519_hd_key: ^2.1.0
@@ -18,6 +18,7 @@ dependencies:
   json_annotation: ^4.0.1
 
 dev_dependencies:
+  borsh: ^0.2.0
   build_runner: ^2.1.1
   freezed: ^0.14.5
   json_serializable: ^5.0.0

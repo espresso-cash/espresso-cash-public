@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:borsh/src/extensions.dart';
-import 'package:borsh/src/type.dart';
+import 'package:borsh_annotation/borsh_annotation.dart';
 
 FieldInfo? _constantValueToFieldInfo(
   String fieldName,

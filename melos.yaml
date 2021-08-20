@@ -9,7 +9,7 @@ scripts:
       melos run get \
       && melos run format \
       && melos run analyze \
-      && melos run test
+      && melos run test --no-select
 
   get: melos exec -- dart pub get
 
@@ -19,4 +19,8 @@ scripts:
 
   analyze: melos exec -- dart analyze --fatal-infos .
 
-  test: melos exec -- dart pub run test
+  test: 
+    run: melos exec -- dart pub run test
+    select-package:
+      dir-exists:
+        - test

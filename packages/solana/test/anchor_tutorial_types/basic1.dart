@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:borsh/borsh.dart';
+import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/src/anchor/account.dart';
 import 'package:solana/src/rpc_client/account.dart';
 
