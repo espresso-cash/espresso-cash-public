@@ -230,10 +230,10 @@ void main() {
       );
 
       expect(accounts.length, equals(1));
-      expect(accounts[0].address, equals(createdAccount.address));
-      expect(accounts[0].account.data, isA<SplTokenAccountData>());
+      expect(accounts.first.address, equals(createdAccount.address));
+      expect(accounts.first.account.data, isA<SplTokenAccountData>());
 
-      final data = accounts[0].account.data as SplTokenAccountData;
+      final data = accounts.first.account.data as SplTokenAccountData;
       expect(data.parsed.info.mint, equals(token.mint));
       expect(data.parsed.info.owner, equals(createdAccount.account.owner));
     }, timeout: const Timeout(Duration(minutes: 4)));

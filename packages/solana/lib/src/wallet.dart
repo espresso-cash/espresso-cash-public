@@ -204,7 +204,7 @@ class Wallet {
   Future<bool> hasAssociatedTokenAccount({
     required String mint,
   }) async {
-    List<AssociatedTokenAccount> accounts;
+    Iterable<AssociatedTokenAccount> accounts;
     final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
     final associatedTokenAddress = await token.computeAssociatedAddress(
       owner: address,

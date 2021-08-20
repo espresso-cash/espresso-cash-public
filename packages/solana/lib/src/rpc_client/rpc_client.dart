@@ -324,7 +324,7 @@ class RPCClient {
   /// Returns Future that resolves to the statuses of a list of [signatures].
   /// Unless the [searchTransactionHistory] configuration parameter is included,
   /// this method only searches the recent status cache of signatures.
-  Future<List<SignatureStatus?>> getSignatureStatuses(
+  Future<Iterable<SignatureStatus?>> getSignatureStatuses(
     List<TransactionSignature> signatures, {
     bool searchTransactionHistory = false,
   }) async {
@@ -391,7 +391,7 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<List<AssociatedTokenAccount>> getTokenAccountsByOwner({
+  Future<Iterable<AssociatedTokenAccount>> getTokenAccountsByOwner({
     required String owner,
     String? mint,
     String? programId,

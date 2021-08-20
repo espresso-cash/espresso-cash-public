@@ -52,7 +52,7 @@ void main() {
         mint: newTokenMint,
         rpcClient: client,
       );
-      List<AssociatedTokenAccount> accounts =
+      Iterable<AssociatedTokenAccount> accounts =
           await client.getTokenAccountsByOwner(
         owner: owner.address,
         mint: token.mint,
@@ -88,7 +88,7 @@ void main() {
         mint: token.mint,
       );
       await token.mintTo(
-        destination: accounts[0].address,
+        destination: accounts.first.address,
         amount: _totalSupply,
       );
       // Reload it
