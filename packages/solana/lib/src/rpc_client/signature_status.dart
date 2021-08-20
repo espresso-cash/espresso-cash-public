@@ -48,10 +48,14 @@ class _SignatureStatusesResult {
   factory _SignatureStatusesResult.fromJson(Map<String, dynamic> json) =>
       _$SignatureStatusesResultFromJson(json);
 
+  // This is just a workaround for
+  // https://github.com/google/json_serializable.dart/issues/956
   @_NullableListConverter()
   final List<SignatureStatus?> value;
 }
 
+// This is just a workaround for
+// https://github.com/google/json_serializable.dart/issues/956
 class _NullableListConverter
     implements JsonConverter<List<SignatureStatus?>, List<dynamic>> {
   const _NullableListConverter();

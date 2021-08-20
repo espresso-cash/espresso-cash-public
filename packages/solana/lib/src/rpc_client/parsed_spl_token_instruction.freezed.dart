@@ -1,3 +1,4 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
@@ -14,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 ParsedSplTokenInstruction _$ParsedSplTokenInstructionFromJson(
     Map<String, dynamic> json) {
-  switch (json['type'] as String) {
+  switch (json['type'] as String?) {
     case 'transfer':
       return ParsedSplTokenTransferInstruction.fromJson(json);
 
@@ -62,6 +63,13 @@ mixin _$ParsedSplTokenInstruction {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ParsedSplTokenTransferInformation info, String type)?
+        transfer,
+    TResult Function(String type)? unsupported,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ParsedSplTokenTransferInformation info, String type)?
         transfer,
@@ -74,6 +82,12 @@ mixin _$ParsedSplTokenInstruction {
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
     required TResult Function(ParsedSplTokenUnsupportedInstruction value)
         unsupported,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
+    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -227,6 +241,16 @@ class _$ParsedSplTokenTransferInstruction
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ParsedSplTokenTransferInformation info, String type)?
+        transfer,
+    TResult Function(String type)? unsupported,
+  }) {
+    return transfer?.call(info, type);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ParsedSplTokenTransferInformation info, String type)?
         transfer,
@@ -247,6 +271,15 @@ class _$ParsedSplTokenTransferInstruction
         unsupported,
   }) {
     return transfer(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
+    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+  }) {
+    return transfer?.call(this);
   }
 
   @override
@@ -375,6 +408,16 @@ class _$ParsedSplTokenUnsupportedInstruction
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ParsedSplTokenTransferInformation info, String type)?
+        transfer,
+    TResult Function(String type)? unsupported,
+  }) {
+    return unsupported?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ParsedSplTokenTransferInformation info, String type)?
         transfer,
@@ -395,6 +438,15 @@ class _$ParsedSplTokenUnsupportedInstruction
         unsupported,
   }) {
     return unsupported(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
+    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+  }) {
+    return unsupported?.call(this);
   }
 
   @override

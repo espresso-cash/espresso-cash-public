@@ -1,3 +1,4 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
@@ -14,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 ParsedSystemInstruction _$ParsedSystemInstructionFromJson(
     Map<String, dynamic> json) {
-  switch (json['type'] as String) {
+  switch (json['type'] as String?) {
     case 'transfer':
       return ParsedSystemTransferInstruction.fromJson(json);
 
@@ -61,6 +62,13 @@ mixin _$ParsedSystemInstruction {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transfer,
+    TResult Function(String type)? unsupported,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInformation info, String type)?
         transfer,
@@ -73,6 +81,12 @@ mixin _$ParsedSystemInstruction {
     required TResult Function(ParsedSystemTransferInstruction value) transfer,
     required TResult Function(ParsedSystemUnsupportedInstruction value)
         unsupported,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -224,6 +238,16 @@ class _$ParsedSystemTransferInstruction
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transfer,
+    TResult Function(String type)? unsupported,
+  }) {
+    return transfer?.call(info, type);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInformation info, String type)?
         transfer,
@@ -244,6 +268,15 @@ class _$ParsedSystemTransferInstruction
         unsupported,
   }) {
     return transfer(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
+  }) {
+    return transfer?.call(this);
   }
 
   @override
@@ -371,6 +404,16 @@ class _$ParsedSystemUnsupportedInstruction
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transfer,
+    TResult Function(String type)? unsupported,
+  }) {
+    return unsupported?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInformation info, String type)?
         transfer,
@@ -391,6 +434,15 @@ class _$ParsedSystemUnsupportedInstruction
         unsupported,
   }) {
     return unsupported(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
+  }) {
+    return unsupported?.call(this);
   }
 
   @override

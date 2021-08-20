@@ -1,3 +1,4 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
@@ -60,6 +61,15 @@ mixin _$AccountData {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
+    TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function(String string)? fromString,
@@ -76,6 +86,15 @@ mixin _$AccountData {
     required TResult Function(EmptyAccountData value) empty,
     required TResult Function(SplTokenAccountData value) splToken,
     required TResult Function(GenericAccountData value) generic,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
+    TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -182,6 +201,18 @@ class _$BinaryAccountData implements BinaryAccountData {
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
+    TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
+  }) {
+    return fromBytes?.call(bytes);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function(String string)? fromString,
@@ -206,6 +237,18 @@ class _$BinaryAccountData implements BinaryAccountData {
     required TResult Function(GenericAccountData value) generic,
   }) {
     return fromBytes(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
+    TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
+  }) {
+    return fromBytes?.call(this);
   }
 
   @override
@@ -310,6 +353,18 @@ class _$StringAccountData implements StringAccountData {
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
+    TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
+  }) {
+    return fromString?.call(string);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function(String string)? fromString,
@@ -334,6 +389,18 @@ class _$StringAccountData implements StringAccountData {
     required TResult Function(GenericAccountData value) generic,
   }) {
     return fromString(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
+    TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
+  }) {
+    return fromString?.call(this);
   }
 
   @override
@@ -413,6 +480,18 @@ class _$EmptyAccountData implements EmptyAccountData {
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
+    TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
+  }) {
+    return empty?.call();
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function(String string)? fromString,
@@ -437,6 +516,18 @@ class _$EmptyAccountData implements EmptyAccountData {
     required TResult Function(GenericAccountData value) generic,
   }) {
     return empty(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
+    TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
+  }) {
+    return empty?.call(this);
   }
 
   @override
@@ -536,6 +627,18 @@ class _$SplTokenAccountData implements SplTokenAccountData {
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
+    TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
+  }) {
+    return splToken?.call(parsed);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function(String string)? fromString,
@@ -560,6 +663,18 @@ class _$SplTokenAccountData implements SplTokenAccountData {
     required TResult Function(GenericAccountData value) generic,
   }) {
     return splToken(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
+    TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
+  }) {
+    return splToken?.call(this);
   }
 
   @override
@@ -665,6 +780,18 @@ class _$GenericAccountData implements GenericAccountData {
 
   @override
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<int> bytes)? fromBytes,
+    TResult Function(String string)? fromString,
+    TResult Function()? empty,
+    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(Map<String, dynamic> data)? generic,
+  }) {
+    return generic?.call(data);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<int> bytes)? fromBytes,
     TResult Function(String string)? fromString,
@@ -689,6 +816,18 @@ class _$GenericAccountData implements GenericAccountData {
     required TResult Function(GenericAccountData value) generic,
   }) {
     return generic(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(BinaryAccountData value)? fromBytes,
+    TResult Function(StringAccountData value)? fromString,
+    TResult Function(EmptyAccountData value)? empty,
+    TResult Function(SplTokenAccountData value)? splToken,
+    TResult Function(GenericAccountData value)? generic,
+  }) {
+    return generic?.call(this);
   }
 
   @override
