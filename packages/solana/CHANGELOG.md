@@ -1,3 +1,10 @@
+## 0.10.0+1
+
+ - **FIX**: Update tests to reflect some API changes (#59).
+ - **CHORE**: Splits borsh package (#60).
+ - **CHORE**: publish packages.
+ - **CHORE**: publish packages.
+
 ## 0.10.0
 
 > Note: This release has breaking changes.
