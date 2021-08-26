@@ -23,7 +23,7 @@ class Wallet {
     required int lamports,
     String? memo,
     Commitment? commitment,
-  }) {
+  }) async {
     final instructions = [
       SystemInstruction.transfer(
         source: source,
@@ -37,11 +37,14 @@ class Wallet {
       instructions: instructions,
     );
 
-    return _rpcClient.signAndSendTransaction(
+    final signature = await _rpcClient.signAndSendTransaction(
       message,
       [signer],
       commitment: commitment,
     );
+    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+
+    return signature;
   }
 
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
@@ -169,11 +172,14 @@ class Wallet {
       ],
     );
 
-    return _rpcClient.signAndSendTransaction(
+    final signature = await _rpcClient.signAndSendTransaction(
       message,
       [signer],
       commitment: commitment,
     );
+    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+
+    return signature;
   }
 
   /// Create the account associated to the SPL token [mint] for this wallet.

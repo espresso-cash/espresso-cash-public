@@ -177,6 +177,7 @@ void main() {
           owner,
         ],
       );
+      await client.waitForSignatureStatus(signature, TxStatus.finalized);
 
       expect(signature, isNot(null));
     }, timeout: const Timeout(Duration(minutes: 2)));

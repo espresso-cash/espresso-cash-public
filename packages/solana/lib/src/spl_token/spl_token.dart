@@ -9,7 +9,7 @@ import 'package:solana/src/rpc_client/signature_status.dart';
 import 'package:solana/src/rpc_client/transaction_signature.dart';
 import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/token_program/token_program.dart';
-import 'package:solana/src/utils.dart';
+import 'package:solana/src/utilities.dart';
 
 /// Represents a SPL token program
 class SplToken {
@@ -101,12 +101,15 @@ class SplToken {
       amount: amount,
     );
 
-    return _rpcClient.signAndSendTransaction(
+    final signature = await _rpcClient.signAndSendTransaction(
       message,
       [
         owner,
       ],
     );
+    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+
+    return signature;
   }
 
   /// Create an account for [account]
@@ -174,10 +177,7 @@ class SplToken {
         funder,
       ],
     );
-    await _rpcClient.waitForSignatureStatus(
-      signature,
-      Commitment.finalized,
-    );
+    await _rpcClient.waitForSignatureStatus(signature, Commitment.finalized);
 
     // TODO(IA): populate rentEpoch correctly
     return AssociatedTokenAccount(
@@ -206,12 +206,11 @@ class SplToken {
       authority: owner.address,
       amount: amount,
     );
-    await _rpcClient.signAndSendTransaction(
+    final signature = await _rpcClient.signAndSendTransaction(
       message,
-      [
-        owner,
-      ],
+      [owner],
     );
+    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
   }
 
   final int decimals;
@@ -258,10 +257,7 @@ extension TokenExt on RPCClient {
       ],
       commitment: commitment,
     );
-    await waitForSignatureStatus(
-      signature,
-      Commitment.finalized,
-    );
+    await waitForSignatureStatus(signature, Commitment.finalized);
 
     return SplToken.readWrite(
       owner: owner,
