@@ -21,10 +21,7 @@ extension Convenience on RPCClient {
     final recentBlockhash = await getRecentBlockhash();
     final signedTx = await signTransaction(recentBlockhash, message, signers);
 
-    final signature = await sendTransaction(
-      signedTx.encode(),
-      commitment: commitment,
-    );
+    final signature = await sendTransaction(signedTx.encode());
 
     return signature;
   }
