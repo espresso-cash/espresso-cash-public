@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:solana/src/common/encoding_type.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/rpc_client/account.dart';
@@ -126,14 +125,13 @@ class RPCClient {
   Future<TransactionSignature> sendTransaction(
     String encodedTransaction, {
     Commitment? commitment,
-    EncodingType encoding = EncodingType.base58,
   }) async {
     final data = await client.request(
       'sendTransaction',
       params: <dynamic>[
         encodedTransaction,
         <String, String>{
-          'encoding': encoding.toJson(),
+          'encoding': 'base64',
           if (commitment != null) 'commitment': commitment.value,
         }
       ],
@@ -151,14 +149,13 @@ class RPCClient {
   Future<SimulateTxResult> simulateTransaction(
     String transaction, {
     Commitment? commitment,
-    EncodingType encoding = EncodingType.base58,
   }) async {
     final data = await client.request(
       'simulateTransaction',
       params: <dynamic>[
         transaction,
         <String, String>{
-          'encoding': encoding.toJson(),
+          'encoding': 'base64',
           if (commitment != null) 'commitment': commitment.value,
         }
       ],

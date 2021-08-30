@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:solana/src/base58/encode.dart';
 import 'package:solana/src/common/byte_array.dart';
-import 'package:solana/src/common/encoding_type.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/signature.dart';
@@ -25,12 +23,5 @@ class SignedTx extends ByteArray {
   @override
   Iterator<int> get iterator => _data.iterator;
 
-  String encode({EncodingType encodingType = EncodingType.base58}) {
-    switch (encodingType) {
-      case EncodingType.base64:
-        return base64.encode(toList(growable: false));
-      case EncodingType.base58:
-        return base58encode(toList(growable: false));
-    }
-  }
+  String encode() => base64.encode(toList(growable: false));
 }
