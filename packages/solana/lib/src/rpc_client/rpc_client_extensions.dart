@@ -25,7 +25,6 @@ extension Convenience on RPCClient {
       signedTx.encode(),
       commitment: commitment,
     );
-    await waitForSignatureStatus(signature, commitment ?? TxStatus.finalized);
 
     return signature;
   }
