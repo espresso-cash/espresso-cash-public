@@ -8,7 +8,7 @@ export 'src/spl_token/associated_account.dart';
 export 'src/spl_token/spl_token.dart';
 export 'src/system_program/system_program.dart';
 export 'src/token_program/token_program.dart';
-export 'src/utilities.dart';
+export 'src/utils.dart';
 export 'src/wallet.dart';
 
 const int lamportsPerSol = 1000000000;

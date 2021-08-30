@@ -19,7 +19,7 @@ import 'package:solana/src/rpc_client/transaction_signature.dart';
 import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/spl_token/token_amount.dart';
 import 'package:solana/src/spl_token/token_supply.dart';
-import 'package:solana/src/utilities.dart';
+import 'package:solana/src/utils.dart';
 
 export 'account.dart' show Account;
 export 'blockhash.dart' show Blockhash;
