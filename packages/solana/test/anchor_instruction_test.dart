@@ -37,6 +37,8 @@ void main() {
       message,
       [payer],
     );
+    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+
     expect(signature, isNotNull);
   }, skip: true);
 
@@ -64,13 +66,15 @@ void main() {
       ),
     ];
     final message = Message(instructions: instructions);
-    await client.signAndSendTransaction(
+    final signature = await client.signAndSendTransaction(
       message,
       [
         payer,
         updater,
       ],
     );
+    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+
     final account = await client.getAccountInfo(updater.address);
     expect(account, isNotNull);
     final rawData = account!.data;
@@ -94,11 +98,14 @@ void main() {
         namespace: 'global',
       ),
     ];
+
     final message = Message(instructions: instructions);
-    await client.signAndSendTransaction(
+    final signature = await client.signAndSendTransaction(
       message,
       [payer],
     );
+    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+
     final discriminator = await computeDiscriminator('account', 'MyAccount');
     final account = await client.getAccountInfo(updater.address);
     expect(account, isNotNull);

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
@@ -20,4 +22,6 @@ class SignedTx extends ByteArray {
 
   @override
   Iterator<int> get iterator => _data.iterator;
+
+  String encode() => base64.encode(toList(growable: false));
 }

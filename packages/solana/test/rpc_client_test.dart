@@ -93,7 +93,7 @@ void main() {
         recentBlockhash: recentBlockhash.blockhash,
       );
       final SimulateTxResult transferResult =
-          await rpcClient.simulateTransaction(signedTx);
+          await rpcClient.simulateTransaction(signedTx.encode());
       expect(transferResult.err, null);
     });
 
@@ -109,7 +109,7 @@ void main() {
         recentBlockhash: recentBlockhash.blockhash,
       );
       final TransactionSignature signature =
-          await rpcClient.sendTransaction(signedTx);
+          await rpcClient.sendTransaction(signedTx.encode());
       expect(signature, isNot(null));
       await expectLater(
         rpcClient.waitForSignatureStatus(
@@ -134,7 +134,7 @@ void main() {
         recentBlockhash: recentBlockhash.blockhash,
       );
       final TransactionSignature signature =
-          await rpcClient.sendTransaction(signedTx);
+          await rpcClient.sendTransaction(signedTx.encode());
       expect(signature, isNot(null));
 
       await expectLater(
