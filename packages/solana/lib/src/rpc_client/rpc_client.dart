@@ -133,13 +133,22 @@ class RPCClient {
   }
 
   /// Simulates sending a signed transaction [signedTx].
-  Future<SimulateTxResult> simulateTransaction(String transaction) async {
+  ///
+  /// For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<SimulateTxResult> simulateTransaction(
+    String transaction, {
+    Commitment? commitment,
+  }) async {
     final data = await client.request(
       'simulateTransaction',
       params: <dynamic>[
         transaction,
         <String, String>{
           'encoding': 'base64',
+          if (commitment != null) 'commitment': commitment.value,
         }
       ],
     );
