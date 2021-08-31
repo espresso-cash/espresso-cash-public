@@ -255,7 +255,6 @@ extension TokenExt on RPCClient {
         owner,
         mintWallet,
       ],
-      commitment: commitment,
     );
     await waitForSignatureStatus(signature, Commitment.finalized);
 
