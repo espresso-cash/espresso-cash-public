@@ -1,3 +1,9 @@
+## 0.11.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Create a separate sign method and split waiting for signature statuses from sending transactions (#64).
+
 ## 0.10.0+2
 
  - Update a dependency to the latest release.
