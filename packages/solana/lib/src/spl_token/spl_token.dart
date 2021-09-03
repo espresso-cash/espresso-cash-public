@@ -32,7 +32,7 @@ class SplToken {
     final supplyValue = supplyResponse.value;
     return SplToken._(
       decimals: supplyValue.decimals,
-      supply: int.parse(supplyValue.amount),
+      supply: BigInt.parse(supplyValue.amount),
       rpcClient: rpcClient,
       mint: mint,
       owner: owner,
@@ -214,7 +214,7 @@ class SplToken {
   }
 
   final int decimals;
-  final int supply;
+  final BigInt supply;
   final String mint;
   final Ed25519HDKeyPair? owner;
   final RPCClient _rpcClient;
