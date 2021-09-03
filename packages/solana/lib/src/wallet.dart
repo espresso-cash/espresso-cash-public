@@ -3,7 +3,6 @@ import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/rpc_client/commitment.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
-import 'package:solana/src/rpc_client/signature_status.dart';
 import 'package:solana/src/rpc_client/transaction_signature.dart';
 import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
@@ -21,8 +20,8 @@ class Wallet {
     required String source,
     required String destination,
     required int lamports,
+    required Commitment commitment,
     String? memo,
-    Commitment? commitment,
   }) async {
     final instructions = [
       SystemInstruction.transfer(
@@ -41,10 +40,7 @@ class Wallet {
       message,
       [signer],
     );
-    await _rpcClient.waitForSignatureStatus(
-      signature,
-      commitment ?? TxStatus.finalized,
-    );
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     return signature;
   }
@@ -59,7 +55,7 @@ class Wallet {
   Future<TransactionSignature> transfer({
     required String destination,
     required int lamports,
-    Commitment? commitment,
+    Commitment commitment = Commitment.finalized,
   }) =>
       _genericTransfer(
         source: address,
@@ -86,7 +82,7 @@ class Wallet {
     required String destination,
     required int lamports,
     required String memo,
-    Commitment? commitment,
+    Commitment commitment = Commitment.finalized,
   }) =>
       _genericTransfer(
         source: address,
@@ -104,17 +100,14 @@ class Wallet {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TransactionSignature> requestAirdrop({
     required int lamports,
-    Commitment? commitment,
+    Commitment commitment = Commitment.finalized,
   }) async {
     final signature = await _rpcClient.requestAirdrop(
       address: address,
       lamports: lamports,
       commitment: commitment,
     );
-    await _rpcClient.waitForSignatureStatus(
-      signature,
-      commitment ?? TxStatus.finalized,
-    );
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     return signature;
   }
@@ -130,7 +123,7 @@ class Wallet {
     required String mint,
     required String destination,
     required int amount,
-    Commitment? commitment,
+    Commitment commitment = Commitment.finalized,
   }) async {
     final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
 
@@ -139,6 +132,7 @@ class Wallet {
       amount: amount,
       destination: destination,
       owner: signer,
+      commitment: commitment,
     );
   }
 
@@ -154,7 +148,7 @@ class Wallet {
     required String destination,
     required int amount,
     required String memo,
-    Commitment? commitment,
+    Commitment commitment = Commitment.finalized,
   }) async {
     final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
     final source = await token.computeAssociatedAddress(owner: address);
@@ -178,7 +172,7 @@ class Wallet {
       message,
       [signer],
     );
-    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     return signature;
   }

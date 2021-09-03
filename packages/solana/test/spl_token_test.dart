@@ -26,7 +26,7 @@ void main() {
         decimals: 2,
       );
 
-      expect(token.supply, equals(0));
+      expect(token.supply, equals(BigInt.zero));
       expect(token.decimals, equals(2));
 
       newTokenMint = token.mint;
@@ -98,7 +98,7 @@ void main() {
         rpcClient: client,
       );
 
-      expect(token.supply, equals(_totalSupply));
+      expect(token.supply, equals(BigInt.from(_totalSupply)));
       expect(token.decimals, equals(2));
     });
 

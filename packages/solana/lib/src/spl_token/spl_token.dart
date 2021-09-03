@@ -32,7 +32,7 @@ class SplToken {
     final supplyValue = supplyResponse.value;
     return SplToken._(
       decimals: supplyValue.decimals,
-      supply: int.parse(supplyValue.amount),
+      supply: BigInt.parse(supplyValue.amount),
       rpcClient: rpcClient,
       mint: mint,
       owner: owner,
@@ -80,6 +80,7 @@ class SplToken {
     required String destination,
     required int amount,
     required Ed25519HDKeyPair owner,
+    Commitment commitment = TxStatus.finalized,
   }) async {
     final associatedRecipientAccount = await getAssociatedAccount(destination);
     final associatedSenderAccount = await getAssociatedAccount(source);
@@ -107,7 +108,7 @@ class SplToken {
         owner,
       ],
     );
-    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     return signature;
   }
@@ -116,6 +117,7 @@ class SplToken {
   Future<Account> createAccount({
     required Ed25519HDKeyPair account,
     required Ed25519HDKeyPair creator,
+    Commitment commitment = Commitment.finalized,
   }) async {
     const space = TokenProgram.neededAccountSpace;
     final rent = await _rpcClient.getMinimumBalanceForRentExemption(space);
@@ -133,7 +135,7 @@ class SplToken {
         account,
       ],
     );
-    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     // TODO(IA): need to check if it is executable and grab the rentEpoch
     return Account(
@@ -161,6 +163,7 @@ class SplToken {
   Future<AssociatedTokenAccount> createAssociatedAccount({
     required String owner,
     required Ed25519HDKeyPair funder,
+    Commitment commitment = Commitment.finalized,
   }) async {
     final derivedAddress = await computeAssociatedAddress(
       owner: owner,
@@ -177,7 +180,7 @@ class SplToken {
         funder,
       ],
     );
-    await _rpcClient.waitForSignatureStatus(signature, Commitment.finalized);
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     // TODO(IA): populate rentEpoch correctly
     return AssociatedTokenAccount(
@@ -195,6 +198,7 @@ class SplToken {
   Future<void> mintTo({
     required String destination,
     required int amount,
+    Commitment commitment = Commitment.finalized,
   }) async {
     final owner = this.owner;
     if (owner == null) {
@@ -210,11 +214,11 @@ class SplToken {
       message,
       [owner],
     );
-    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
   }
 
   final int decimals;
-  final int supply;
+  final BigInt supply;
   final String mint;
   final Ed25519HDKeyPair? owner;
   final RPCClient _rpcClient;
@@ -235,7 +239,7 @@ extension TokenExt on RPCClient {
     required int decimals,
     String? mintAuthority,
     String? freezeAuthority,
-    Commitment? commitment,
+    Commitment commitment = Commitment.finalized,
   }) async {
     const space = TokenProgram.neededMintAccountSpace;
     final mintWallet = await Ed25519HDKeyPair.random();
@@ -256,7 +260,7 @@ extension TokenExt on RPCClient {
         mintWallet,
       ],
     );
-    await waitForSignatureStatus(signature, Commitment.finalized);
+    await waitForSignatureStatus(signature, commitment);
 
     return SplToken.readWrite(
       owner: owner,
