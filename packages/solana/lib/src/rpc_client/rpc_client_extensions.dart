@@ -42,7 +42,8 @@ extension Convenience on RPCClient {
     Future<void> check() async {
       if (clock.elapsed > timeout) {
         completer.completeError(
-          'timed out waiting for the requested status $desiredStatus',
+          TimeoutException(
+              'timed out waiting for the requested status $desiredStatus'),
         );
         return;
       }
