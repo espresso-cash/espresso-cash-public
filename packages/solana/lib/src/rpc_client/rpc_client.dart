@@ -117,22 +117,14 @@ class RPCClient {
   }
 
   /// Sends signed transaction [signedTx].
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TransactionSignature> sendTransaction(
-    String encodedTransaction, {
-    Commitment? commitment,
-  }) async {
+      String encodedTransaction) async {
     final data = await client.request(
       'sendTransaction',
       params: <dynamic>[
         encodedTransaction,
         <String, String>{
           'encoding': 'base64',
-          if (commitment != null) 'commitment': commitment.value,
         }
       ],
     );

@@ -15,18 +15,12 @@ extension Convenience on RPCClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TransactionSignature> signAndSendTransaction(
     Message message,
-    List<Ed25519HDKeyPair> signers, {
-    Commitment? commitment,
-  }) async {
+    List<Ed25519HDKeyPair> signers,
+  ) async {
     final recentBlockhash = await getRecentBlockhash();
     final signedTx = await signTransaction(recentBlockhash, message, signers);
 
-    final signature = await sendTransaction(
-      signedTx.encode(),
-      commitment: commitment,
-    );
-
-    return signature;
+    return sendTransaction(signedTx.encode());
   }
 
   /// This is just a helper function that allows the caller

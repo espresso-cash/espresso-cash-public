@@ -40,9 +40,11 @@ class Wallet {
     final signature = await _rpcClient.signAndSendTransaction(
       message,
       [signer],
-      commitment: commitment,
     );
-    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+    await _rpcClient.waitForSignatureStatus(
+      signature,
+      commitment ?? TxStatus.finalized,
+    );
 
     return signature;
   }
@@ -175,7 +177,6 @@ class Wallet {
     final signature = await _rpcClient.signAndSendTransaction(
       message,
       [signer],
-      commitment: commitment,
     );
     await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
 
