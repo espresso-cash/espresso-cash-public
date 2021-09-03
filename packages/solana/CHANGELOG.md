@@ -1,3 +1,10 @@
+## 0.12.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Remove commitment from `simulateTransaction` and `sendTransaction`. (#67).
+ - **BREAKING** **FIX**: Use commitment when waiting for signature status (#69).
+
 ## 0.11.0
 
 > Note: This release has breaking changes.
