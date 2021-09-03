@@ -41,7 +41,10 @@ class Wallet {
       message,
       [signer],
     );
-    await _rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+    await _rpcClient.waitForSignatureStatus(
+      signature,
+      commitment ?? TxStatus.finalized,
+    );
 
     return signature;
   }
