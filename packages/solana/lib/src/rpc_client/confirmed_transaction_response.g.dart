@@ -7,10 +7,10 @@ part of 'confirmed_transaction_response.dart';
 // **************************************************************************
 
 ConfirmedTransactionResponse _$ConfirmedTransactionResponseFromJson(
-    Map<String, dynamic> json) {
-  return ConfirmedTransactionResponse(
-    json['result'] == null
-        ? null
-        : TransactionResponse.fromJson(json['result'] as Map<String, dynamic>),
-  );
-}
+        Map<String, dynamic> json) =>
+    ConfirmedTransactionResponse(
+      json['result'] == null
+          ? null
+          : TransactionResponse.fromJson(
+              json['result'] as Map<String, dynamic>),
+    );

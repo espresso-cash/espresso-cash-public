@@ -37,6 +37,8 @@ void main() {
       message,
       [payer],
     );
+    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+
     expect(signature, isNotNull);
   }, skip: true);
 
@@ -64,15 +66,20 @@ void main() {
       ),
     ];
     final message = Message(instructions: instructions);
-    await client.signAndSendTransaction(
+    final signature = await client.signAndSendTransaction(
       message,
       [
         payer,
         updater,
       ],
     );
+    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+
     final account = await client.getAccountInfo(updater.address);
-    final data = Basic1DataAccount.fromAccountData(account.data);
+    expect(account, isNotNull);
+    final rawData = account!.data;
+    expect(rawData, isNotNull);
+    final data = Basic1DataAccount.fromAccountData(rawData!);
     final discriminator = await computeDiscriminator('account', 'MyAccount');
     expect(data.data, equals(100));
     expect(data.discriminator, equals(discriminator));
@@ -91,14 +98,20 @@ void main() {
         namespace: 'global',
       ),
     ];
+
     final message = Message(instructions: instructions);
-    await client.signAndSendTransaction(
+    final signature = await client.signAndSendTransaction(
       message,
       [payer],
     );
+    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+
     final discriminator = await computeDiscriminator('account', 'MyAccount');
     final account = await client.getAccountInfo(updater.address);
-    final dataAccount = Basic1DataAccount.fromAccountData(account.data);
+    expect(account, isNotNull);
+    final rawData = account!.data;
+    expect(rawData, isNotNull);
+    final dataAccount = Basic1DataAccount.fromAccountData(rawData!);
     expect(dataAccount.data, equals(25));
     expect(dataAccount.discriminator, equals(discriminator));
   }, skip: true);

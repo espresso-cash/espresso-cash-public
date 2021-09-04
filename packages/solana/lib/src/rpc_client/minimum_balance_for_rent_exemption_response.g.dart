@@ -8,8 +8,7 @@ part of 'minimum_balance_for_rent_exemption_response.dart';
 
 MinimumBalanceForRentExemptionResponse
     _$MinimumBalanceForRentExemptionResponseFromJson(
-        Map<String, dynamic> json) {
-  return MinimumBalanceForRentExemptionResponse(
-    json['result'] as int,
-  );
-}
+            Map<String, dynamic> json) =>
+        MinimumBalanceForRentExemptionResponse(
+          json['result'] as int,
+        );

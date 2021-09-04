@@ -1,3 +1,39 @@
+## 0.12.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Remove commitment from `simulateTransaction` and `sendTransaction`. (#67).
+ - **BREAKING** **FIX**: Use commitment when waiting for signature status (#69).
+
+## 0.11.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Create a separate sign method and split waiting for signature statuses from sending transactions (#64).
+
+## 0.10.0+2
+
+ - Update a dependency to the latest release.
+
+## 0.10.0+1
+
+ - **FIX**: Update tests to reflect some API changes (#59).
+ - **CHORE**: Splits borsh package (#60).
+ - **CHORE**: publish packages.
+ - **CHORE**: publish packages.
+
+## 0.10.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Update tests to reflect some API changes (#59).
+ - **FEAT**: Support anchor generated programs (#42).
+ - **CHORE**: Add an example and a test for sending SPL with a fee payer (#55).
+ - **CHORE**: Update readme (#49).
+ - **CHORE**: Restructure packages (#44).
+ - **BREAKING** **FIX**: Remove explicit tokens adding (#52).
+ - **BREAKING** **FEAT**: Implement `getTokenAccountsByOwner` rpc method (#53).
+
 ## 0.9.0+1
 
  - **FIX**: Add required exports (#41).

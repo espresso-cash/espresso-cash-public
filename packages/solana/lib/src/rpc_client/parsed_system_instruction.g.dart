@@ -6,16 +6,15 @@ part of 'parsed_system_instruction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ParsedSystemTransferInstruction _$_$ParsedSystemTransferInstructionFromJson(
-    Map<String, dynamic> json) {
-  return _$ParsedSystemTransferInstruction(
-    info: ParsedSystemTransferInformation.fromJson(
-        json['info'] as Map<String, dynamic>),
-    type: json['type'] as String,
-  );
-}
+_$ParsedSystemTransferInstruction _$$ParsedSystemTransferInstructionFromJson(
+        Map<String, dynamic> json) =>
+    _$ParsedSystemTransferInstruction(
+      info: ParsedSystemTransferInformation.fromJson(
+          json['info'] as Map<String, dynamic>),
+      type: json['type'] as String,
+    );
 
-Map<String, dynamic> _$_$ParsedSystemTransferInstructionToJson(
+Map<String, dynamic> _$$ParsedSystemTransferInstructionToJson(
         _$ParsedSystemTransferInstruction instance) =>
     <String, dynamic>{
       'info': instance.info,
@@ -23,28 +22,26 @@ Map<String, dynamic> _$_$ParsedSystemTransferInstructionToJson(
     };
 
 _$ParsedSystemUnsupportedInstruction
-    _$_$ParsedSystemUnsupportedInstructionFromJson(Map<String, dynamic> json) {
-  return _$ParsedSystemUnsupportedInstruction(
-    type: json['type'] as String,
-  );
-}
+    _$$ParsedSystemUnsupportedInstructionFromJson(Map<String, dynamic> json) =>
+        _$ParsedSystemUnsupportedInstruction(
+          type: json['type'] as String,
+        );
 
-Map<String, dynamic> _$_$ParsedSystemUnsupportedInstructionToJson(
+Map<String, dynamic> _$$ParsedSystemUnsupportedInstructionToJson(
         _$ParsedSystemUnsupportedInstruction instance) =>
     <String, dynamic>{
       'type': instance.type,
     };
 
-_$_ParsedSystemTransferInformation _$_$_ParsedSystemTransferInformationFromJson(
-    Map<String, dynamic> json) {
-  return _$_ParsedSystemTransferInformation(
-    lamports: json['lamports'] as int,
-    source: json['source'] as String,
-    destination: json['destination'] as String,
-  );
-}
+_$_ParsedSystemTransferInformation _$$_ParsedSystemTransferInformationFromJson(
+        Map<String, dynamic> json) =>
+    _$_ParsedSystemTransferInformation(
+      lamports: json['lamports'] as int,
+      source: json['source'] as String,
+      destination: json['destination'] as String,
+    );
 
-Map<String, dynamic> _$_$_ParsedSystemTransferInformationToJson(
+Map<String, dynamic> _$$_ParsedSystemTransferInformationToJson(
         _$_ParsedSystemTransferInformation instance) =>
     <String, dynamic>{
       'lamports': instance.lamports,

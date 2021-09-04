@@ -7,8 +7,7 @@ part of 'get_transaction_response.dart';
 // **************************************************************************
 
 GetTransactionResponse _$GetTransactionResponseFromJson(
-    Map<String, dynamic> json) {
-  return GetTransactionResponse(
-    TransactionResponse.fromJson(json['result'] as Map<String, dynamic>),
-  );
-}
+        Map<String, dynamic> json) =>
+    GetTransactionResponse(
+      TransactionResponse.fromJson(json['result'] as Map<String, dynamic>),
+    );

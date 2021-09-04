@@ -26,7 +26,7 @@ void main() {
         decimals: 2,
       );
 
-      expect(token.supply, equals(0));
+      expect(token.supply, equals(BigInt.zero));
       expect(token.decimals, equals(2));
 
       newTokenMint = token.mint;
@@ -52,8 +52,11 @@ void main() {
         mint: newTokenMint,
         rpcClient: client,
       );
-      List<AssociatedTokenAccount> accounts =
-          await token.getAssociatedAccountsFor(owner: owner.address);
+      Iterable<AssociatedTokenAccount> accounts =
+          await client.getTokenAccountsByOwner(
+        owner: owner.address,
+        mint: token.mint,
+      );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
 
@@ -62,7 +65,10 @@ void main() {
         funder: owner,
       );
 
-      accounts = await token.getAssociatedAccountsFor(owner: owner.address);
+      accounts = await client.getTokenAccountsByOwner(
+        owner: owner.address,
+        mint: token.mint,
+      );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
       expect(
@@ -77,10 +83,12 @@ void main() {
         mint: newTokenMint,
         rpcClient: client,
       );
-      final accounts =
-          await token.getAssociatedAccountsFor(owner: owner.address);
+      final accounts = await client.getTokenAccountsByOwner(
+        owner: owner.address,
+        mint: token.mint,
+      );
       await token.mintTo(
-        destination: accounts[0].address,
+        destination: accounts.first.address,
         amount: _totalSupply,
       );
       // Reload it
@@ -90,7 +98,7 @@ void main() {
         rpcClient: client,
       );
 
-      expect(token.supply, equals(_totalSupply));
+      expect(token.supply, equals(BigInt.from(_totalSupply)));
       expect(token.decimals, equals(2));
     });
 
@@ -123,6 +131,53 @@ void main() {
         amount: 100,
         owner: owner,
       );
+
+      expect(signature, isNot(null));
+    }, timeout: const Timeout(Duration(minutes: 2)));
+
+    test('Transfer tokens succeeds with fee payer', () async {
+      final recipient = await Ed25519HDKeyPair.random();
+      final token = await SplToken.readWrite(
+        owner: owner,
+        mint: newTokenMint,
+        rpcClient: client,
+      );
+      final feePayer = await Ed25519HDKeyPair.random();
+      // Add some tokens to pay for fees
+      await airdrop(client, feePayer, sol: 10);
+
+      // The account does not exist, so create it
+      final account = await token.createAssociatedAccount(
+        owner: recipient.address,
+        funder: owner,
+      );
+      // A sender must have the appropriate associated account, in case they
+      // don't it's an error and we should throw an exception.
+      final sourceAssociatedTokenAddress =
+          await token.getAssociatedAccount(owner.address);
+      // A recipient needs an associated account as well
+      final destinationAssociatedTokenAddress =
+          await token.getAssociatedAccount(recipient.address);
+      expect(sourceAssociatedTokenAddress, isNotNull);
+      expect(destinationAssociatedTokenAddress, isNotNull);
+
+      expect(account, isA<AssociatedTokenAccount>());
+      // Send to the newly created account
+      final message = TokenProgram.transfer(
+        source: sourceAssociatedTokenAddress!.address,
+        destination: destinationAssociatedTokenAddress!.address,
+        amount: 100,
+        owner: owner.address,
+      );
+
+      final signature = await client.signAndSendTransaction(
+        message,
+        [
+          feePayer,
+          owner,
+        ],
+      );
+      await client.waitForSignatureStatus(signature, TxStatus.finalized);
 
       expect(signature, isNot(null));
     }, timeout: const Timeout(Duration(minutes: 2)));

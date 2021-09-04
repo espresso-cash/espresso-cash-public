@@ -1,9 +1,10 @@
-import 'dart:typed_data';
+## Annotations for the borsh generator
 
-import 'package:borsh_annotation/borsh_annotation.dart';
-import 'package:borsh_annotation/src/struct.dart';
+See [borsh generator](https://github.com/cryptoplease/cryptoplease-dart/tree/master/packages/borsh).
 
-part 'simple_struct1.g.dart';
+This package is still under development, as an example you can use it as follows
+
+```dart
 
 @Struct()
 class SimpleStruct1 extends BorshStruct {
@@ -32,3 +33,6 @@ class SimpleStruct1 extends BorshStruct {
   @Array.dynamic(Borsh.string)
   final List<String> dynamicStringArray;
 }
+```
+
+The generator will generate a _.g.dart_ file that you must include in your file as a _part_.

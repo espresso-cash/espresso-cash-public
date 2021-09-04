@@ -1,0 +1,8 @@
+name: borsh_annotation
+version: 0.2.0+1
+repository: https://github.com/cryptoplease/cryptoplease-dart
+description: >-
+  Annotation used to make a Dart object borsh serializable.
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"

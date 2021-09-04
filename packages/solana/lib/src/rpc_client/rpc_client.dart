@@ -1,11 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/encoder/compiled_message.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/encoder/signature.dart';
-import 'package:solana/src/encoder/signed_tx.dart';
 import 'package:solana/src/rpc_client/account.dart';
 import 'package:solana/src/rpc_client/balance.dart';
 import 'package:solana/src/rpc_client/blockhash.dart';
@@ -19,8 +15,10 @@ import 'package:solana/src/rpc_client/signature_status.dart';
 import 'package:solana/src/rpc_client/simulate_tx_result.dart';
 import 'package:solana/src/rpc_client/transaction_response.dart';
 import 'package:solana/src/rpc_client/transaction_signature.dart';
+import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/spl_token/token_amount.dart';
 import 'package:solana/src/spl_token/token_supply.dart';
+import 'package:solana/src/utils.dart';
 
 export 'account.dart' show Account;
 export 'blockhash.dart' show Blockhash;
@@ -32,9 +30,11 @@ export 'parsed_instruction.dart';
 export 'parsed_message.dart';
 export 'parsed_spl_token_instruction.dart';
 export 'parsed_system_instruction.dart';
-export 'signature_status.dart' show SignatureStatus;
+export 'signature_status.dart' show SignatureStatus, TxStatus;
 export 'transaction.dart' show Transaction;
 export 'transaction_response.dart';
+
+part 'rpc_client_extensions.dart';
 
 /// Encapsulates the jsonrpc-2.0 protocol and implements the
 /// Solana RPC API
@@ -64,6 +64,7 @@ class RPCClient {
       ],
     );
 
+    // This is never `null`
     return BlockhashResponse.fromJson(data).result.value;
   }
 
@@ -86,6 +87,7 @@ class RPCClient {
       ],
     );
 
+    // Will never be null
     return BalanceResponse.fromJson(data).result.value;
   }
 
@@ -96,7 +98,7 @@ class RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Account> getAccountInfo(
+  Future<Account?> getAccountInfo(
     String address, {
     Commitment? commitment,
   }) async {
@@ -115,22 +117,14 @@ class RPCClient {
   }
 
   /// Sends signed transaction [signedTx].
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TransactionSignature> sendTransaction(
-    SignedTx signedTx, {
-    Commitment? commitment,
-  }) async {
+      String encodedTransaction) async {
     final data = await client.request(
       'sendTransaction',
       params: <dynamic>[
-        base64.encode(signedTx.toList(growable: false)),
+        encodedTransaction,
         <String, String>{
           'encoding': 'base64',
-          if (commitment != null) 'commitment': commitment.value,
         }
       ],
     );
@@ -145,13 +139,13 @@ class RPCClient {
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<SimulateTxResult> simulateTransaction(
-    SignedTx signedTx, {
+    String transaction, {
     Commitment? commitment,
   }) async {
     final data = await client.request(
       'simulateTransaction',
       params: <dynamic>[
-        base64.encode(signedTx.toList(growable: false)),
+        transaction,
         <String, String>{
           'encoding': 'base64',
           if (commitment != null) 'commitment': commitment.value,
@@ -159,6 +153,7 @@ class RPCClient {
       ],
     );
 
+    // Will never be null
     return SimulateTxResultResponse.fromJson(data).result.value;
   }
 
@@ -239,35 +234,6 @@ class RPCClient {
     return ConfirmedTransactionResponse.fromJson(data).result;
   }
 
-  /// Get the [limit] most recent transactions for the [address] account
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Iterable<TransactionResponse>> getTransactionsList(
-    String address, {
-    int limit = 10,
-    Commitment? commitment,
-  }) async {
-    // FIXME: this must be replaced soon
-    // ignore: deprecated_member_use_from_same_package
-    final signatures = await getConfirmedSignaturesForAddress2(
-      address,
-      limit: limit,
-      commitment: commitment,
-    );
-    final transactions = await Future.wait(
-      signatures.map(
-        (s) => getConfirmedTransaction(s.signature, commitment: commitment),
-      ),
-    );
-
-    // We are sure that no transaction in this list is `null` because
-    // we have queried the signatures so they surely exist
-    return transactions.whereType();
-  }
-
   /// Returns transaction details for a confirmed transaction with
   /// signature [signature]
   ///
@@ -340,7 +306,7 @@ class RPCClient {
     return SignatureStatusesResponse.fromJson(data).result.value;
   }
 
-  /// Get minimum balance for ren exemption to allocate [size] bytes
+  /// Get minimum balance for rent exemption to allocate [size] bytes
   /// in an account.
   ///
   /// For [commitment] parameter description [see this document][see this document]
@@ -363,6 +329,7 @@ class RPCClient {
     return MinimumBalanceForRentExemptionResponse.fromJson(data).result;
   }
 
+  /// Get the balance of a token account with [associatedTokenAccountAddress].
   Future<TokenAmount> getTokenAccountBalance({
     required String associatedTokenAccountAddress,
     Commitment? commitment,
@@ -379,106 +346,35 @@ class RPCClient {
     return TokenBalanceResponse.fromJson(data).result.value;
   }
 
-  /// Convenience method to sign a transaction with [message] using [signers].
-  /// Send the transaction after signing it.
-  ///
-  /// The first element of the [signers] array is considered to be the
-  /// fee payer.
+  /// Gets associated token accounts for a given user. If [mint] or [programId]
+  /// are provided, it returns the accounts associated to those specific values.
   ///
   /// For [commitment] parameter description [see this document][see this document]
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionSignature> signAndSendTransaction(
-    Message message,
-    List<Ed25519HDKeyPair> signers, {
+  Future<Iterable<AssociatedTokenAccount>> getTokenAccountsByOwner({
+    required String owner,
+    String? mint,
+    String? programId,
     Commitment? commitment,
   }) async {
-    final recentBlockhash = await getRecentBlockhash();
-    final CompiledMessage compiledMessage = message.compile(
-      recentBlockhash: recentBlockhash.blockhash,
-      feePayer: signers.feePayer,
-    );
-    final int requiredSignaturesCount = compiledMessage.requiredSignatureCount;
-    if (signers.length != requiredSignaturesCount) {
-      throw FormatException(
-        'your message requires $requiredSignaturesCount signatures but '
-        'you provided ${signers.length}',
-      );
-    }
-
-    // FIXME(IA): signatures must match signers in the message accounts sorting
-    final List<Signature> signatures = await Future.wait(
-      signers.map((wallet) => wallet.sign(compiledMessage.data)),
-    );
-    final signature = await sendTransaction(
-      SignedTx(
-        messageBytes: compiledMessage.data,
-        signatures: signatures,
-      ),
-      commitment: commitment,
-    );
-    await waitForSignatureStatus(signature, commitment ?? TxStatus.finalized);
-
-    return signature;
-  }
-
-  /// This is just a helper function that allows the caller
-  /// to wait for the transaction with signature [signature] to
-  /// be in a desired [desiredStatus].
-  ///
-  /// Optionally a [timeout] can be specified and given that the state
-  /// did not change to or past [desiredStatus] the method will
-  /// throw an error.
-  ///
-  /// Note: the default [timeout] is 30 seconds.
-  Future<void> waitForSignatureStatus(
-    TransactionSignature signature,
-    TxStatus desiredStatus, {
-    Duration timeout = const Duration(seconds: 30),
-  }) async {
-    final completer = Completer<void>();
-    final clock = Stopwatch();
-    Future<void> check() async {
-      if (clock.elapsed > timeout) {
-        completer.completeError(
-          'timed out waiting for the requested status $desiredStatus',
-        );
-        return;
-      }
-      final statuses = await getSignatureStatuses([signature]);
-      final SignatureStatus? status = statuses.isEmpty ? null : statuses.first;
-      if (status != null) {
-        if (status.err != null) {
-          completer.completeError(status.err!);
-        } else if (status.confirmationStatus!.index >= desiredStatus.index) {
-          completer.complete();
-        } else {
-          await Future<void>.delayed(const Duration(seconds: 5));
-          return check();
+    final data = await client.request(
+      'getTokenAccountsByOwner',
+      params: <dynamic>[
+        owner,
+        <String, String>{
+          if (mint != null) 'mint': mint,
+          if (programId != null) 'programId': programId,
+        },
+        <String, String>{
+          'encoding': 'jsonParsed',
+          if (commitment != null) 'commitment': commitment.value,
         }
-      } else {
-        await Future<void>.delayed(const Duration(seconds: 5));
-        return check();
-      }
-    }
+      ],
+    );
 
-    clock.start();
-    // ignore: unawaited_futures
-    check();
-
-    return completer.future;
-  }
-}
-
-extension on List<Ed25519HDKeyPair> {
-  Ed25519HDKeyPair get feePayer {
-    if (isEmpty) {
-      throw const FormatException(
-        'must have at least 1 signer to pay for fees',
-      );
-    } else {
-      return first;
-    }
+    // Will never be null
+    return AssociatedTokenAccountResponse.fromJson(data).result.value;
   }
 }

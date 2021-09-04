@@ -1,4 +1,4 @@
-import 'package:borsh/borsh.dart';
+import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:solana/src/encoder/account_meta.dart';

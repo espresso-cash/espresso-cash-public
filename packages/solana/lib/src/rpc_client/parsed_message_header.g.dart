@@ -6,10 +6,9 @@ part of 'parsed_message_header.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ParsedMessageHeader _$ParsedMessageHeaderFromJson(Map<String, dynamic> json) {
-  return ParsedMessageHeader(
-    numRequiredSignatures: json['numRequiredSignatures'] as int,
-    numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
-    numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
-  );
-}
+ParsedMessageHeader _$ParsedMessageHeaderFromJson(Map<String, dynamic> json) =>
+    ParsedMessageHeader(
+      numRequiredSignatures: json['numRequiredSignatures'] as int,
+      numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
+      numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
+    );
