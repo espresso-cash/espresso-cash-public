@@ -48,4 +48,31 @@ class JsonRpcClient {
       return data;
     }
   }
+  Future<Map<String, dynamic>> multiRequest(List<Map<String, dynamic>> requests) async {
+    // Perform the POST requests
+    final http.Response response = await http.post(
+      Uri.parse(_url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(requests),
+    );
+    // Handle the response
+    if (response.statusCode != 200) {
+      throw HttpException(response.statusCode, response.body);
+    } else {
+      final data = json.decode(response.body) as Map<String, dynamic>;
+      if (data['jsonrpc'] != '2.0') {
+        throw const FormatException('invalid jsonrpc-2.0 response');
+      }
+      if (data['error'] != null) {
+        throw JsonRpcException.fromJson(data['error'] as Map<String, dynamic>);
+      }
+      if (!data.containsKey('result')) {
+        throw const FormatException(
+            'object has no result field, invalid jsonrpc-2.0');
+      }
+      return data;
+    }
+  }
 }
