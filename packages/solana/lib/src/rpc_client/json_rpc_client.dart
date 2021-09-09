@@ -48,4 +48,21 @@ class JsonRpcClient {
       return data;
     }
   }
+  Future<List<dynamic>> multiRequest(List<Map<String, dynamic>> requests) async {
+    // Perform the POST requests
+    final http.Response response = await http.post(
+      Uri.parse(_url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(requests),
+    );
+    // Handle the response
+    if (response.statusCode != 200) {
+      throw HttpException(response.statusCode, response.body);
+    } else {
+      final data = json.decode(response.body) as List<dynamic>;
+      return data;
+    }
+  }
 }
