@@ -223,6 +223,42 @@ void main() {
         throwsA(isA<NoAssociatedTokenAccountException>()),
       );
     });
+
+    test('Send transfer instruction in an existing transaction', () async {
+      final destination = await Ed25519HDKeyPair.random();
+      final token =
+          await SplToken.readonly(mint: newTokenMint, rpcClient: client);
+      final associatedSourceAddress =
+          await token.computeAssociatedAddress(owner: owner.address);
+      final destinationAccount = await token.createAccount(
+        account: destination,
+        creator: owner,
+      );
+
+      final instructions = <Instruction>[
+        SystemInstruction.transfer(
+          source: owner.address,
+          destination: destination.address,
+          lamports: lamportsPerSol,
+        ),
+        TokenInstruction.transfer(
+          source: associatedSourceAddress,
+          destination: destinationAccount.owner,
+          owner: owner.address,
+          amount: 10,
+        ),
+        MemoInstruction(
+          memo: 'Nice, it works with many more instructions too',
+          signers: [owner.address],
+        ),
+      ];
+      final message = Message(instructions: instructions);
+
+      final signature = await client.signAndSendTransaction(message, [owner]);
+      await client.waitForSignatureStatus(signature, TxStatus.finalized);
+
+      print(signature);
+    }, timeout: const Timeout(Duration(minutes: 2)));
   });
 }
 
