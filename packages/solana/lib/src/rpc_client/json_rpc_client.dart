@@ -26,7 +26,7 @@ class JsonRpcClient {
     final http.Response response = await http.post(
       Uri.parse(_url),
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json',
       },
       body: json.encode(request),
     );
