@@ -2,6 +2,11 @@ export 'src/associated_token_account_program/associated_token_account_program.da
 export 'src/crypto/ed25519_hd_keypair.dart';
 export 'src/encoder/encoder.dart'
     show Instruction, Message, Buffer, AccountMeta;
+export 'src/exceptions/bad_state_exception.dart';
+export 'src/exceptions/http_exception.dart';
+export 'src/exceptions/json_rpc_exception.dart';
+export 'src/exceptions/no_associated_token_account_exception.dart';
+export 'src/exceptions/transaction_exception.dart';
 export 'src/memo_program/memo_program.dart';
 export 'src/rpc_client/rpc_client.dart';
 export 'src/spl_token/associated_account.dart';
