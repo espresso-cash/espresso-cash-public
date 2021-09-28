@@ -43,7 +43,8 @@ extension Convenience on RPCClient {
       if (clock.elapsed > timeout) {
         completer.completeError(
           TimeoutException(
-              'timed out waiting for the requested status $desiredStatus'),
+            'Timed out waiting for the requested status $desiredStatus',
+          ),
         );
         return;
       }
@@ -51,7 +52,7 @@ extension Convenience on RPCClient {
       final SignatureStatus? status = statuses.isEmpty ? null : statuses.first;
       if (status != null) {
         if (status.err != null) {
-          completer.completeError(status.err!);
+          completer.completeError(TransactionException(status.err!));
         } else if (status.confirmationStatus!.index >= desiredStatus.index) {
           completer.complete();
         } else {
