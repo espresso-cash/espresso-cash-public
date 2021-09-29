@@ -6,17 +6,7 @@ part 'transaction_signature.g.dart';
 /// Response of the [`sendTransaction`][send transaction] rpc method.
 ///
 /// [send transaction]: https://docs.solana.com/developing/clients/jsonrpc-api#sendtransaction
-class TransactionSignature {
-  TransactionSignature(this._signature);
-
-  factory TransactionSignature.fromJson(String json) =>
-      TransactionSignature(json);
-
-  @override
-  String toString() => _signature;
-
-  final String _signature;
-}
+typedef TransactionSignature = String;
 
 @JsonSerializable(createToJson: false)
 class SignatureResponse extends JsonRpcResponse<TransactionSignature> {
