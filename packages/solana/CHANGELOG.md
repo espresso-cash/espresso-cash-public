@@ -1,3 +1,9 @@
+## 0.13.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Make TransactionSignature typedef (#76).
+
 ## 0.12.0+1
 
  - **TEST**: Add a test for sending SPL and SOL in a single transaction (#73).
