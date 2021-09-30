@@ -8,5 +8,5 @@ part of 'transaction_signature.dart';
 
 SignatureResponse _$SignatureResponseFromJson(Map<String, dynamic> json) =>
     SignatureResponse(
-      TransactionSignature.fromJson(json['result'] as String),
+      json['result'] as String,
     );

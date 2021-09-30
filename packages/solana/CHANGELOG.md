@@ -1,3 +1,8 @@
+## 0.12.0+1
+
+ - **TEST**: Add a test for sending SPL and SOL in a single transaction (#73).
+ - **FIX**: Throw TransactionException in waitForSignatureStatus.
+
 ## 0.12.0
 
 > Note: This release has breaking changes.
