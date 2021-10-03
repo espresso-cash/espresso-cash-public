@@ -71,7 +71,7 @@ class Message {
     );
     final header = MessageHeader.fromAccounts(accounts);
     final compiledInstructions = CompactArray.fromIterable(
-      instructions.map((instruction) => instruction.compile()),
+      instructions.map((i) => i.compile(accounts.toIndexesMap())),
     );
 
     return CompiledMessage(

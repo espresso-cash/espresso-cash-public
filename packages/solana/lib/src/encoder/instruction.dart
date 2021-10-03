@@ -28,10 +28,9 @@ class Instruction {
   /// Compiles instruction according to the [instruction format][1].
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
-  ByteArray compile() {
+  ByteArray compile(Map<String, int> accountIndexesMap) {
     final data = CompactArray.fromIterable(this.data);
 
-    final accountIndexesMap = accounts.toIndexesMap();
     if (!accountIndexesMap.containsKey(programId)) {
       throw const FormatException('programId not found in accountIndexesMap');
     }
