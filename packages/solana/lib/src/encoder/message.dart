@@ -4,7 +4,6 @@ import 'package:solana/src/base58/encode.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
-import 'package:solana/src/encoder/compiled_instruction.dart';
 import 'package:solana/src/encoder/compiled_message.dart';
 import 'package:solana/src/encoder/extensions.dart';
 import 'package:solana/src/encoder/instruction.dart';
@@ -70,15 +69,9 @@ class Message {
     final keys = CompactArray.fromIterable(
       accounts.toSerializablePubKeys(),
     );
-    final accountsIndexesMap = accounts.toIndexesMap();
     final header = MessageHeader.fromAccounts(accounts);
     final compiledInstructions = CompactArray.fromIterable(
-      instructions.map(
-        (Instruction instruction) => CompiledInstruction(
-          instruction: instruction,
-          accountIndexesMap: accountsIndexesMap,
-        ),
-      ),
+      instructions.map((instruction) => instruction.compile()),
     );
 
     return CompiledMessage(
