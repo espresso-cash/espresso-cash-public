@@ -2,7 +2,6 @@ import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
-import 'package:solana/src/encoder/extensions.dart';
 
 /// Taken from [here](https://spl.solana.com/memo#compute-limits)
 ///
