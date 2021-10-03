@@ -69,9 +69,10 @@ class Message {
     final keys = CompactArray.fromIterable(
       accounts.toSerializablePubKeys(),
     );
+    final accountsIndexesMap = accounts.toIndexesMap();
     final header = MessageHeader.fromAccounts(accounts);
     final compiledInstructions = CompactArray.fromIterable(
-      instructions.map((i) => i.compile(accounts.toIndexesMap())),
+      instructions.map((i) => i.compile(accountsIndexesMap)),
     );
 
     return CompiledMessage(
