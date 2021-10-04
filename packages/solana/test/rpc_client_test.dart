@@ -109,7 +109,7 @@ void main() {
       );
       final TransactionSignature signature =
           await rpcClient.sendTransaction(signedTx.encode());
-      expect(signature, signedTx.signatures.first.encodeBase58());
+      expect(signature, signedTx.signatures.first.toBase58());
       await expectLater(
         rpcClient.waitForSignatureStatus(
           signature,
