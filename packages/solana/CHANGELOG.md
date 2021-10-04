@@ -1,3 +1,7 @@
+## 0.13.1
+
+ - **FEAT**: Export SignedTx (#78).
+
 ## 0.13.0
 
 > Note: This release has breaking changes.
