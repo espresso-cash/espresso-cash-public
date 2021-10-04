@@ -1,7 +1,6 @@
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/encoder/signed_tx.dart';
 import 'package:solana/src/rpc_client/account.dart';
 import 'package:solana/src/rpc_client/blockhash.dart';
 import 'package:solana/src/rpc_client/commitment.dart';
@@ -110,7 +109,7 @@ void main() {
       );
       final TransactionSignature signature =
           await rpcClient.sendTransaction(signedTx.encode());
-      expect(signature, isNot(null));
+      expect(signature, signedTx.signatures.first.toBase58());
       await expectLater(
         rpcClient.waitForSignatureStatus(
           signature,
