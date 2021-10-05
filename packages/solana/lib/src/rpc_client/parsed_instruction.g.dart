@@ -49,7 +49,7 @@ Map<String, dynamic> _$$ParsedInstructionMemoToJson(
 _$ParsedInstructionUnsupported _$$ParsedInstructionUnsupportedFromJson(
         Map<String, dynamic> json) =>
     _$ParsedInstructionUnsupported(
-      program: json['program'] as String,
+      program: json['program'] as String?,
     );
 
 Map<String, dynamic> _$$ParsedInstructionUnsupportedToJson(

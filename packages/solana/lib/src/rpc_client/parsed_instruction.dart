@@ -28,7 +28,7 @@ class ParsedInstruction with _$ParsedInstruction {
 
   /// Any instruction that we are not currently supporting.
   const factory ParsedInstruction.unsupported({
-    required String program,
+    String? program,
   }) = ParsedInstructionUnsupported;
 
   factory ParsedInstruction.fromJson(Map<String, dynamic> json) =>

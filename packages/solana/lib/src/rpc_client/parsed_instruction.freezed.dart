@@ -52,7 +52,7 @@ class _$ParsedInstructionTearOff {
     );
   }
 
-  ParsedInstructionUnsupported unsupported({required String program}) {
+  ParsedInstructionUnsupported unsupported({String? program}) {
     return ParsedInstructionUnsupported(
       program: program,
     );
@@ -74,7 +74,7 @@ mixin _$ParsedInstruction {
         system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
-    required TResult Function(String program) unsupported,
+    required TResult Function(String? program) unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -82,7 +82,7 @@ mixin _$ParsedInstruction {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -90,7 +90,7 @@ mixin _$ParsedInstruction {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -234,7 +234,7 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
         system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
-    required TResult Function(String program) unsupported,
+    required TResult Function(String? program) unsupported,
   }) {
     return system(programId, parsed);
   }
@@ -245,7 +245,7 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
   }) {
     return system?.call(programId, parsed);
   }
@@ -256,7 +256,7 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
     required TResult orElse(),
   }) {
     if (system != null) {
@@ -407,7 +407,7 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
         system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
-    required TResult Function(String program) unsupported,
+    required TResult Function(String? program) unsupported,
   }) {
     return splToken(parsed);
   }
@@ -418,7 +418,7 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
   }) {
     return splToken?.call(parsed);
   }
@@ -429,7 +429,7 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
     required TResult orElse(),
   }) {
     if (splToken != null) {
@@ -571,7 +571,7 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
         system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
-    required TResult Function(String program) unsupported,
+    required TResult Function(String? program) unsupported,
   }) {
     return memo(this.memo);
   }
@@ -582,7 +582,7 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
   }) {
     return memo?.call(this.memo);
   }
@@ -593,7 +593,7 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
     required TResult orElse(),
   }) {
     if (memo != null) {
@@ -668,7 +668,7 @@ abstract class $ParsedInstructionUnsupportedCopyWith<$Res> {
           ParsedInstructionUnsupported value,
           $Res Function(ParsedInstructionUnsupported) then) =
       _$ParsedInstructionUnsupportedCopyWithImpl<$Res>;
-  $Res call({String program});
+  $Res call({String? program});
 }
 
 /// @nodoc
@@ -692,7 +692,7 @@ class _$ParsedInstructionUnsupportedCopyWithImpl<$Res>
       program: program == freezed
           ? _value.program
           : program // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -700,13 +700,13 @@ class _$ParsedInstructionUnsupportedCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
-  const _$ParsedInstructionUnsupported({required this.program});
+  const _$ParsedInstructionUnsupported({this.program});
 
   factory _$ParsedInstructionUnsupported.fromJson(Map<String, dynamic> json) =>
       _$$ParsedInstructionUnsupportedFromJson(json);
 
   @override
-  final String program;
+  final String? program;
 
   @override
   String toString() {
@@ -738,7 +738,7 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
         system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
-    required TResult Function(String program) unsupported,
+    required TResult Function(String? program) unsupported,
   }) {
     return unsupported(program);
   }
@@ -749,7 +749,7 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
   }) {
     return unsupported?.call(program);
   }
@@ -760,7 +760,7 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
-    TResult Function(String program)? unsupported,
+    TResult Function(String? program)? unsupported,
     required TResult orElse(),
   }) {
     if (unsupported != null) {
@@ -814,13 +814,13 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
 }
 
 abstract class ParsedInstructionUnsupported implements ParsedInstruction {
-  const factory ParsedInstructionUnsupported({required String program}) =
+  const factory ParsedInstructionUnsupported({String? program}) =
       _$ParsedInstructionUnsupported;
 
   factory ParsedInstructionUnsupported.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionUnsupported.fromJson;
 
-  String get program => throw _privateConstructorUsedError;
+  String? get program => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ParsedInstructionUnsupportedCopyWith<ParsedInstructionUnsupported>
       get copyWith => throw _privateConstructorUsedError;
