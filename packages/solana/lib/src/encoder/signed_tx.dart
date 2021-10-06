@@ -11,17 +11,20 @@ import 'package:solana/src/encoder/signature.dart';
 /// that they belong to within the message.
 class SignedTx extends ByteArray {
   SignedTx({
-    Iterable<Signature> signatures = const Iterable<Signature>.empty(),
-    required ByteArray messageBytes,
-  }) : _data = Buffer.fromConcatenatedByteArrays([
-          CompactArray.fromIterable(signatures),
-          messageBytes,
-        ]);
+    this.signatures = const Iterable<Signature>.empty(),
+    required this.messageBytes,
+  });
 
-  final ByteArray _data;
+  final Iterable<Signature> signatures;
+  final ByteArray messageBytes;
+
+  String encode() => base64.encode(toList(growable: false));
 
   @override
   Iterator<int> get iterator => _data.iterator;
 
-  String encode() => base64.encode(toList(growable: false));
+  late final ByteArray _data = Buffer.fromConcatenatedByteArrays([
+    CompactArray.fromIterable(signatures),
+    messageBytes,
+  ]);
 }
