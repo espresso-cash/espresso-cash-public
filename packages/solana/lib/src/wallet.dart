@@ -190,11 +190,12 @@ class Wallet {
   Future<AssociatedTokenAccount> createAssociatedTokenAccount({
     required String mint,
     Commitment? commitment,
+    String? otherAddress,
     Wallet? funder,
   }) async {
     final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
     final associatedTokenAccount = await token.createAssociatedAccount(
-      owner: address,
+      owner: otherAddress ?? address,
       funder: funder?.signer ?? signer,
     );
 
