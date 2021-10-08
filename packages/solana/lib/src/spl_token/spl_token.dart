@@ -155,7 +155,7 @@ class SplToken {
     final transferMessage = TokenProgram.transfer(
       source: associatedSenderAccount.address,
       destination: associatedRecipientAccountAddres,
-      owner: destination,
+      owner: payer.address,
       amount: amount,
     );
     instructions.addAll(transferMessage.instructions);
