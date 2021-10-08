@@ -133,7 +133,7 @@ class SplToken {
     }
     // Also throw an adequate exception if the recipient has no associated
     // token account
-    String? associatedRecipientAccountAddres;
+    String? associatedRecipientAccountAddres = associatedRecipientAccount?.address;
     if (associatedRecipientAccount == null) {
       final derivedAddress = await computeAssociatedAddress(
         owner: destination,
