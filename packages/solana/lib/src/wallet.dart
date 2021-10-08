@@ -136,6 +136,22 @@ class Wallet {
     );
   }
 
+  Future<TransactionSignature>? createAssociatedAccountAndTransfer({
+    required String mint,
+    required String destination,
+    required int amount,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    return token.createAssociatedAccountAndTransfer(
+      source: address,
+      destination: destination,
+      amount: amount,
+      payer: signer,
+      commitment: commitment,
+    );
+  }
+
   /// Transfers [amount] SPL token with [mint] from this wallet to the
   /// [destination] address with a [memo].
   ///

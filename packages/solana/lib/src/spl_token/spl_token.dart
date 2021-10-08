@@ -1,3 +1,4 @@
+import 'package:solana/solana.dart';
 import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/buffer.dart';
@@ -110,6 +111,62 @@ class SplToken {
     );
     await _rpcClient.waitForSignatureStatus(signature, commitment);
 
+    return signature;
+  }
+
+  /// Transfer [amount] tokens owned by [owner] from [source] to [destination]
+  Future<TransactionSignature> createAssociatedAccountAndTransfer({
+    required String source,
+    required String destination,
+    required int amount,
+    required Ed25519HDKeyPair payer,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final List<Instruction> instructions = <Instruction>[];
+    final AssociatedTokenAccount? associatedSenderAccount = await getAssociatedAccount(source);
+    final AssociatedTokenAccount? associatedRecipientAccount = await getAssociatedAccount(destination);
+
+    // Throw an appropriate exception if the sender has no associated
+    // token account
+    if (associatedSenderAccount == null) {
+      throw NoAssociatedTokenAccountException(source, mint);
+    }
+    // Also throw an adequate exception if the recipient has no associated
+    // token account
+    String? associatedRecipientAccountAddres;
+    if (associatedRecipientAccount == null) {
+      final derivedAddress = await computeAssociatedAddress(
+        owner: destination,
+      );
+      final associatedTokenAccountProgramMessage = AssociatedTokenAccountProgram(
+        mint: mint,
+        address: derivedAddress,
+        owner: destination,
+        funder: payer.address,
+      );
+      associatedRecipientAccountAddres = derivedAddress;
+      instructions.addAll(associatedTokenAccountProgramMessage.instructions);
+    }
+
+    if (associatedRecipientAccountAddres == null) {
+      throw NoAssociatedTokenAccountException(destination, mint);
+    }
+
+    final transferMessage = TokenProgram.transfer(
+      source: associatedSenderAccount.address,
+      destination: associatedRecipientAccountAddres,
+      owner: payer.address,
+      amount: amount,
+    );
+    instructions.addAll(transferMessage.instructions);
+    final Message message = Message(instructions: instructions);
+    final signature = await _rpcClient.signAndSendTransaction(
+      message,
+      [
+        payer,
+      ],
+    );
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
     return signature;
   }
 
