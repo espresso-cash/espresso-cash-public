@@ -109,8 +109,6 @@ class SplToken {
         owner,
       ],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
-
     return signature;
   }
 
@@ -166,7 +164,6 @@ class SplToken {
         payer,
       ],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
     return signature;
   }
 

@@ -186,8 +186,6 @@ class Wallet {
       message,
       [signer],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
-
     return signature;
   }
 
