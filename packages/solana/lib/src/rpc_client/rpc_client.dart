@@ -23,7 +23,6 @@ import 'package:solana/src/spl_token/token_amount.dart';
 import 'package:solana/src/spl_token/token_supply.dart';
 import 'package:solana/src/utils.dart';
 
-export '../dto/signature_status.dart' show SignatureStatus, TxStatus;
 export 'confirmed_signature.dart' show ConfirmedSignature;
 export 'transaction_response.dart';
 

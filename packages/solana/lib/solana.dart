@@ -5,6 +5,7 @@ export 'src/dto/blockhash.dart';
 export 'src/dto/commitment.dart' show Commitment;
 export 'src/dto/fee_calculator.dart';
 export 'src/dto/meta.dart' show Meta;
+export 'src/dto/signature_status.dart' show SignatureStatus, TxStatus;
 export 'src/dto/transaction.dart';
 export 'src/encoder/encoder.dart'
     show Instruction, Message, Buffer, AccountMeta, SignedTx;
