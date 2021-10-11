@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/rpc_client/account_key.dart';
 import 'package:solana/src/rpc_client/parsed_instruction.dart';
 import 'package:solana/src/rpc_client/parsed_message_header.dart';
+import 'package:solana/src/types/account_key.dart';
 
 part 'parsed_message.g.dart';
 

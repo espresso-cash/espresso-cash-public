@@ -13,6 +13,12 @@ export 'src/spl_token/associated_account.dart';
 export 'src/spl_token/spl_token.dart';
 export 'src/system_program/system_program.dart';
 export 'src/token_program/token_program.dart';
+export 'src/types/account.dart' show Account;
+export 'src/types/blockhash.dart' show Blockhash;
+export 'src/types/commitment.dart' show Commitment;
+export 'src/types/fee_calculator.dart';
+export 'src/types/meta.dart' show Meta;
+export 'src/types/transaction.dart' show Transaction;
 export 'src/utils.dart';
 export 'src/wallet.dart';
 

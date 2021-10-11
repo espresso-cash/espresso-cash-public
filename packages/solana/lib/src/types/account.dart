@@ -65,8 +65,7 @@ class _AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
       return null;
     } else if (data is String) {
       if (data == '') {
-        throw const FormatException(
-            'unexpected string for account data, expecting base64 data');
+        return const AccountData.empty();
       }
       return AccountData.fromBytes(base64Decode(data));
     } else if (data is List) {
