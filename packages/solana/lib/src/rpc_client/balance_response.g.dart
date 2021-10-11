@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'balance.dart';
+part of 'balance_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

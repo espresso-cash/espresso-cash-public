@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
 
-part 'balance.g.dart';
+part 'balance_response.g.dart';
 
 @JsonSerializable(createToJson: false)
 class BalanceResponse extends JsonRpcResponse<ValueResponse<int>> {
