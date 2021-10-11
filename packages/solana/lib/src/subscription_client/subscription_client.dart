@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:solana/src/exceptions/bad_state_exception.dart';
 import 'package:solana/src/subscription_client/abstract_message.dart';
-import 'package:solana/src/subscription_client/empty_notification.dart';
 import 'package:solana/src/subscription_client/error_message.dart';
 import 'package:solana/src/subscription_client/logs_filter.dart';
 import 'package:solana/src/subscription_client/notification_message.dart';
@@ -79,7 +78,7 @@ class SubscriptionClient {
         'subscription manager not found for ${message.subscription}',
       );
     } else {
-      subscriptionManager.add(message.data);
+      subscriptionManager.add(message.value);
     }
   }
 
@@ -194,11 +193,11 @@ class SubscriptionClient {
         ],
       );
 
-  Stream<EmptyNotification> signatureSubscribe(
+  Stream<Object?> signatureSubscribe(
     String signature, {
     Commitment? commitment,
   }) =>
-      _subscribe<EmptyNotification>(
+      _subscribe<Object?>(
         'signature',
         params: <dynamic>[
           signature,

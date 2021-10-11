@@ -11,6 +11,8 @@ class Logs {
     required this.err,
   });
 
+  factory Logs.fromJson(Map<String, dynamic> json) => _$LogsFromJson(json);
+
   final String signature;
   final Object? err;
   final List<String> logs;

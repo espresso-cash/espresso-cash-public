@@ -11,6 +11,9 @@ class SlotUpdate {
     required this.type,
   });
 
+  factory SlotUpdate.fromJson(Map<String, dynamic> json) =>
+      _$SlotUpdateFromJson(json);
+
   final int parent;
   final int slot;
   final int timestamp;

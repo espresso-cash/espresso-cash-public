@@ -10,6 +10,8 @@ class Slot {
     required this.type,
   });
 
+  factory Slot.fromJson(Map<String, dynamic> json) => _$SlotFromJson(json);
+
   final int parent;
   final int slot;
   final String type;
