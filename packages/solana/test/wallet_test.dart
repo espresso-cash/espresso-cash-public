@@ -1,10 +1,10 @@
 import 'package:solana/solana.dart' show lamportsPerSol;
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/dto/commitment.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
-import 'package:solana/src/rpc_client/commitment.dart';
-import 'package:solana/src/rpc_client/parsed_instruction.dart';
-import 'package:solana/src/rpc_client/parsed_spl_token_instruction.dart';
-import 'package:solana/src/rpc_client/parsed_system_instruction.dart';
+import 'package:solana/src/parsed_message/parsed_instruction.dart';
+import 'package:solana/src/parsed_message/parsed_spl_token_instruction.dart';
+import 'package:solana/src/parsed_message/parsed_system_instruction.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/wallet.dart';

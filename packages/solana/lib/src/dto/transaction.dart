@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/rpc_client/parsed_message.dart';
+import 'package:solana/src/parsed_message/parsed_message.dart';
 
 part 'transaction.g.dart';
 

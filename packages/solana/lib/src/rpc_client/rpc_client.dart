@@ -1,18 +1,20 @@
 import 'dart:async';
 
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/dto/account.dart';
+import 'package:solana/src/dto/blockhash.dart';
+import 'package:solana/src/dto/commitment.dart';
+import 'package:solana/src/dto/signature_status.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/exceptions/transaction_exception.dart';
-import 'package:solana/src/rpc_client/account.dart';
-import 'package:solana/src/rpc_client/balance.dart';
-import 'package:solana/src/rpc_client/blockhash.dart';
-import 'package:solana/src/rpc_client/commitment.dart';
+import 'package:solana/src/rpc_client/account_info_response.dart';
+import 'package:solana/src/rpc_client/balance_response.dart';
+import 'package:solana/src/rpc_client/blockhash_response.dart';
 import 'package:solana/src/rpc_client/confirmed_signature.dart';
 import 'package:solana/src/rpc_client/confirmed_transaction_response.dart';
 import 'package:solana/src/rpc_client/get_transaction_response.dart';
 import 'package:solana/src/rpc_client/json_rpc_client.dart';
 import 'package:solana/src/rpc_client/minimum_balance_for_rent_exemption_response.dart';
-import 'package:solana/src/rpc_client/signature_status.dart';
 import 'package:solana/src/rpc_client/simulate_tx_result.dart';
 import 'package:solana/src/rpc_client/transaction_response.dart';
 import 'package:solana/src/rpc_client/transaction_signature.dart';
@@ -21,18 +23,7 @@ import 'package:solana/src/spl_token/token_amount.dart';
 import 'package:solana/src/spl_token/token_supply.dart';
 import 'package:solana/src/utils.dart';
 
-export 'account.dart' show Account;
-export 'blockhash.dart' show Blockhash;
-export 'commitment.dart' show Commitment;
 export 'confirmed_signature.dart' show ConfirmedSignature;
-export 'fee_calculator.dart';
-export 'meta.dart' show Meta;
-export 'parsed_instruction.dart';
-export 'parsed_message.dart';
-export 'parsed_spl_token_instruction.dart';
-export 'parsed_system_instruction.dart';
-export 'signature_status.dart' show SignatureStatus, TxStatus;
-export 'transaction.dart' show Transaction;
 export 'transaction_response.dart';
 
 part 'rpc_client_extensions.dart';
