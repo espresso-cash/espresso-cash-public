@@ -1,11 +1,11 @@
 export 'src/associated_token_account_program/associated_token_account_program.dart';
 export 'src/crypto/ed25519_hd_keypair.dart';
-export 'src/dto/account.dart' show Account;
-export 'src/dto/blockhash.dart' show Blockhash;
+export 'src/dto/account.dart';
+export 'src/dto/blockhash.dart';
 export 'src/dto/commitment.dart' show Commitment;
 export 'src/dto/fee_calculator.dart';
 export 'src/dto/meta.dart' show Meta;
-export 'src/dto/transaction.dart' show Transaction;
+export 'src/dto/transaction.dart';
 export 'src/encoder/encoder.dart'
     show Instruction, Message, Buffer, AccountMeta, SignedTx;
 export 'src/exceptions/bad_state_exception.dart';
