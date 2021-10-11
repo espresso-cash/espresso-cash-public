@@ -2,6 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:solana/src/dto/account.dart';
+import 'package:solana/src/dto/commitment.dart';
+import 'package:solana/src/dto/encoding.dart';
+import 'package:solana/src/dto/logs.dart';
+import 'package:solana/src/dto/program_filter.dart';
+import 'package:solana/src/dto/slot.dart';
+import 'package:solana/src/dto/slot_update.dart';
 import 'package:solana/src/exceptions/bad_state_exception.dart';
 import 'package:solana/src/subscription_client/abstract_message.dart';
 import 'package:solana/src/subscription_client/error_message.dart';
@@ -10,13 +17,6 @@ import 'package:solana/src/subscription_client/notification_message.dart';
 import 'package:solana/src/subscription_client/subscribed_message.dart';
 import 'package:solana/src/subscription_client/subscription_client_exception.dart';
 import 'package:solana/src/subscription_client/subscription_manager.dart';
-import 'package:solana/src/types/account.dart';
-import 'package:solana/src/types/commitment.dart';
-import 'package:solana/src/types/encoding.dart';
-import 'package:solana/src/types/logs.dart';
-import 'package:solana/src/types/program_filter.dart';
-import 'package:solana/src/types/slot.dart';
-import 'package:solana/src/types/slot_update.dart';
 
 class SubscriptionClient {
   SubscriptionClient._(this._webSocket)

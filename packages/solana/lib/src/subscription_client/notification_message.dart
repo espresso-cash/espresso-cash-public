@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/src/dto/account.dart';
+import 'package:solana/src/dto/logs.dart';
+import 'package:solana/src/dto/slot.dart';
+import 'package:solana/src/dto/slot_update.dart';
 import 'package:solana/src/subscription_client/abstract_message.dart';
 import 'package:solana/src/subscription_client/notification_params.dart';
-import 'package:solana/src/types/account.dart';
-import 'package:solana/src/types/logs.dart';
-import 'package:solana/src/types/slot.dart';
-import 'package:solana/src/types/slot_update.dart';
 
 part 'notification_message.freezed.dart';
 part 'notification_message.g.dart';

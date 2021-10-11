@@ -11,9 +11,3 @@ Blockhash _$BlockhashFromJson(Map<String, dynamic> json) => Blockhash(
           FeeCalculator.fromJson(json['feeCalculator'] as Map<String, dynamic>),
       blockhash: json['blockhash'] as String,
     );
-
-BlockhashResponse _$BlockhashResponseFromJson(Map<String, dynamic> json) =>
-    BlockhashResponse(
-      ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
-          (value) => Blockhash.fromJson(value as Map<String, dynamic>)),
-    );

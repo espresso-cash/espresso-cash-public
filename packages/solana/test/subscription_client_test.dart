@@ -1,5 +1,5 @@
+import 'package:solana/src/dto/account.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
-import 'package:solana/src/types/account.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -19,7 +19,7 @@ FieldInfo? _constantValueToFieldInfo(
   } else if (type.toString() == 'Array') {
     final itemType = constantValue.getFieldAs<Borsh>('itemType');
     if (itemType == null) {
-      throw ArgumentError('arrays must specify item types');
+      throw ArgumentError('arrays must specify item dto');
     }
     final fieldType = constantValue.getFieldAs<Borsh>('type');
     if (fieldType == null) {

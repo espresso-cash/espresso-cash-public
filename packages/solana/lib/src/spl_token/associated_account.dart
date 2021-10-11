@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/dto/account.dart';
 import 'package:solana/src/rpc_client/json_rpc_response_object.dart';
-import 'package:solana/src/types/account.dart';
 
 part 'associated_account.g.dart';
 
