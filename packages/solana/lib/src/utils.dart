@@ -6,7 +6,7 @@ import 'package:solana/src/curve25519/compressed_edwards_y.dart';
 import 'package:solana/src/encoder/compiled_message.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/encoder/signature.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
+import 'package:solana/src/types/blockhash.dart';
 
 import 'base58/encode.dart';
 import 'encoder/buffer.dart';
