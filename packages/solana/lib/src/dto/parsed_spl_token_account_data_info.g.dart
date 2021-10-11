@@ -1,41 +1,10 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'account.dart';
+part of 'parsed_spl_token_account_data_info.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
-
-Account _$AccountFromJson(Map<String, dynamic> json) => Account(
-      owner: json['owner'] as String,
-      lamports: json['lamports'] as int,
-      executable: json['executable'] as bool,
-      rentEpoch: json['rentEpoch'] as int,
-      data: const _AccountDataConverter().fromJson(json['data']),
-    );
-
-AccountInfoResponse _$AccountInfoResponseFromJson(Map<String, dynamic> json) =>
-    AccountInfoResponse(
-      ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
-          (value) => Account.fromJson(value as Map<String, dynamic>)),
-    );
-
-ParsedSplTokenAccountData _$ParsedSplTokenAccountDataFromJson(
-        Map<String, dynamic> json) =>
-    ParsedSplTokenAccountData(
-      accountType: json['accountType'] as String?,
-      info: ParsedSplTokenAccountDataInfo.fromJson(
-          json['info'] as Map<String, dynamic>),
-      type: json['type'] as String,
-    );
-
-Map<String, dynamic> _$ParsedSplTokenAccountDataToJson(
-        ParsedSplTokenAccountData instance) =>
-    <String, dynamic>{
-      'accountType': instance.accountType,
-      'info': instance.info,
-      'type': instance.type,
-    };
 
 ParsedSplTokenAccountDataInfo _$ParsedSplTokenAccountDataInfoFromJson(
         Map<String, dynamic> json) =>

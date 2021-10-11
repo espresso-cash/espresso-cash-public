@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/src/rpc_client/parsed_spl_token_instruction.dart';
-import 'package:solana/src/rpc_client/parsed_system_instruction.dart';
+import 'package:solana/src/parsed_message/parsed_spl_token_instruction.dart';
+import 'package:solana/src/parsed_message/parsed_system_instruction.dart';
 
 part 'parsed_instruction.freezed.dart';
 part 'parsed_instruction.g.dart';
