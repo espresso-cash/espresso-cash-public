@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/rpc_client/meta.dart';
-import 'package:solana/src/rpc_client/transaction.dart';
+import 'package:solana/src/dto/meta.dart';
+import 'package:solana/src/dto/transaction.dart';
 
 part 'transaction_response.g.dart';
 
