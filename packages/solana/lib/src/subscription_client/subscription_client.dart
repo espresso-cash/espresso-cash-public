@@ -14,6 +14,7 @@ import 'package:solana/src/subscription_client/abstract_message.dart';
 import 'package:solana/src/subscription_client/error_message.dart';
 import 'package:solana/src/subscription_client/logs_filter.dart';
 import 'package:solana/src/subscription_client/notification_message.dart';
+import 'package:solana/src/subscription_client/optional_error.dart';
 import 'package:solana/src/subscription_client/subscribed_message.dart';
 import 'package:solana/src/subscription_client/subscription_client_exception.dart';
 import 'package:solana/src/subscription_client/subscription_manager.dart';
@@ -111,6 +112,7 @@ class SubscriptionClient {
   void _cancelSubscription(String method, int? id) {
     if (id != null) {
       _sendRequest(_lastCallId++, '${method}Unsubscribe', <int>[id]);
+      _attachedSubscriptionManagers.remove(id);
     }
   }
 
@@ -193,11 +195,11 @@ class SubscriptionClient {
         ],
       );
 
-  Stream<Object?> signatureSubscribe(
+  Stream<OptionalError> signatureSubscribe(
     String signature, {
     Commitment? commitment,
   }) =>
-      _subscribe<Object?>(
+      _subscribe<OptionalError>(
         'signature',
         params: <dynamic>[
           signature,

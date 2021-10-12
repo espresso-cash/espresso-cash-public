@@ -57,7 +57,8 @@ _$SignatureNotification _$$SignatureNotificationFromJson(
         Map<String, dynamic> json) =>
     _$SignatureNotification(
       params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>, (value) => value),
+          json['params'] as Map<String, dynamic>,
+          (value) => OptionalError.fromJson(value as Map<String, dynamic>)),
     );
 
 Map<String, dynamic> _$$SignatureNotificationToJson(

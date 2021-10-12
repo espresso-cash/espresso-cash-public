@@ -63,7 +63,7 @@ class _$NotificationMessageTearOff {
   }
 
   SignatureNotification signatureNotification(
-      {required NotificationParams<Object?> params}) {
+      {required NotificationParams<OptionalError> params}) {
     return SignatureNotification(
       params: params,
     );
@@ -101,7 +101,7 @@ mixin _$NotificationMessage {
     required TResult Function(NotificationParams<Logs> params) logsNotification,
     required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParams<Object?> params)
+    required TResult Function(NotificationParams<OptionalError> params)
         signatureNotification,
     required TResult Function(NotificationParams<Slot> params) slotNotification,
     required TResult Function(NotificationParams<SlotUpdate> params)
@@ -114,7 +114,8 @@ mixin _$NotificationMessage {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -126,7 +127,8 @@ mixin _$NotificationMessage {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -239,7 +241,7 @@ class _$_UnsupportedNotification extends _UnsupportedNotification {
     required TResult Function(NotificationParams<Logs> params) logsNotification,
     required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParams<Object?> params)
+    required TResult Function(NotificationParams<OptionalError> params)
         signatureNotification,
     required TResult Function(NotificationParams<Slot> params) slotNotification,
     required TResult Function(NotificationParams<SlotUpdate> params)
@@ -255,7 +257,8 @@ class _$_UnsupportedNotification extends _UnsupportedNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -270,7 +273,8 @@ class _$_UnsupportedNotification extends _UnsupportedNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -418,7 +422,7 @@ class _$AccountNotification extends AccountNotification {
     required TResult Function(NotificationParams<Logs> params) logsNotification,
     required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParams<Object?> params)
+    required TResult Function(NotificationParams<OptionalError> params)
         signatureNotification,
     required TResult Function(NotificationParams<Slot> params) slotNotification,
     required TResult Function(NotificationParams<SlotUpdate> params)
@@ -434,7 +438,8 @@ class _$AccountNotification extends AccountNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -449,7 +454,8 @@ class _$AccountNotification extends AccountNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -604,7 +610,7 @@ class _$LogsNotification extends LogsNotification {
     required TResult Function(NotificationParams<Logs> params) logsNotification,
     required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParams<Object?> params)
+    required TResult Function(NotificationParams<OptionalError> params)
         signatureNotification,
     required TResult Function(NotificationParams<Slot> params) slotNotification,
     required TResult Function(NotificationParams<SlotUpdate> params)
@@ -620,7 +626,8 @@ class _$LogsNotification extends LogsNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -635,7 +642,8 @@ class _$LogsNotification extends LogsNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -789,7 +797,7 @@ class _$ProgramNotification extends ProgramNotification {
     required TResult Function(NotificationParams<Logs> params) logsNotification,
     required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParams<Object?> params)
+    required TResult Function(NotificationParams<OptionalError> params)
         signatureNotification,
     required TResult Function(NotificationParams<Slot> params) slotNotification,
     required TResult Function(NotificationParams<SlotUpdate> params)
@@ -805,7 +813,8 @@ class _$ProgramNotification extends ProgramNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -820,7 +829,8 @@ class _$ProgramNotification extends ProgramNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -906,7 +916,7 @@ abstract class $SignatureNotificationCopyWith<$Res> {
   factory $SignatureNotificationCopyWith(SignatureNotification value,
           $Res Function(SignatureNotification) then) =
       _$SignatureNotificationCopyWithImpl<$Res>;
-  $Res call({NotificationParams<Object?> params});
+  $Res call({NotificationParams<OptionalError> params});
 }
 
 /// @nodoc
@@ -928,7 +938,7 @@ class _$SignatureNotificationCopyWithImpl<$Res>
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
-              as NotificationParams<Object?>,
+              as NotificationParams<OptionalError>,
     ));
   }
 }
@@ -942,7 +952,7 @@ class _$SignatureNotification extends SignatureNotification {
       _$$SignatureNotificationFromJson(json);
 
   @override
-  final NotificationParams<Object?> params;
+  final NotificationParams<OptionalError> params;
 
   @override
   String toString() {
@@ -976,7 +986,7 @@ class _$SignatureNotification extends SignatureNotification {
     required TResult Function(NotificationParams<Logs> params) logsNotification,
     required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParams<Object?> params)
+    required TResult Function(NotificationParams<OptionalError> params)
         signatureNotification,
     required TResult Function(NotificationParams<Slot> params) slotNotification,
     required TResult Function(NotificationParams<SlotUpdate> params)
@@ -992,7 +1002,8 @@ class _$SignatureNotification extends SignatureNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -1007,7 +1018,8 @@ class _$SignatureNotification extends SignatureNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -1076,13 +1088,15 @@ class _$SignatureNotification extends SignatureNotification {
 
 abstract class SignatureNotification extends NotificationMessage {
   const factory SignatureNotification(
-      {required NotificationParams<Object?> params}) = _$SignatureNotification;
+          {required NotificationParams<OptionalError> params}) =
+      _$SignatureNotification;
   const SignatureNotification._() : super._();
 
   factory SignatureNotification.fromJson(Map<String, dynamic> json) =
       _$SignatureNotification.fromJson;
 
-  NotificationParams<Object?> get params => throw _privateConstructorUsedError;
+  NotificationParams<OptionalError> get params =>
+      throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SignatureNotificationCopyWith<SignatureNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1162,7 +1176,7 @@ class _$SlotNotification extends SlotNotification {
     required TResult Function(NotificationParams<Logs> params) logsNotification,
     required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParams<Object?> params)
+    required TResult Function(NotificationParams<OptionalError> params)
         signatureNotification,
     required TResult Function(NotificationParams<Slot> params) slotNotification,
     required TResult Function(NotificationParams<SlotUpdate> params)
@@ -1178,7 +1192,8 @@ class _$SlotNotification extends SlotNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -1193,7 +1208,8 @@ class _$SlotNotification extends SlotNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -1348,7 +1364,7 @@ class _$SlotUpdateNotification extends SlotUpdateNotification {
     required TResult Function(NotificationParams<Logs> params) logsNotification,
     required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParams<Object?> params)
+    required TResult Function(NotificationParams<OptionalError> params)
         signatureNotification,
     required TResult Function(NotificationParams<Slot> params) slotNotification,
     required TResult Function(NotificationParams<SlotUpdate> params)
@@ -1364,7 +1380,8 @@ class _$SlotUpdateNotification extends SlotUpdateNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
@@ -1379,7 +1396,8 @@ class _$SlotUpdateNotification extends SlotUpdateNotification {
     TResult Function(NotificationParams<Account> params)? accountNotification,
     TResult Function(NotificationParams<Logs> params)? logsNotification,
     TResult Function(NotificationParams<dynamic> params)? programNotification,
-    TResult Function(NotificationParams<Object?> params)? signatureNotification,
+    TResult Function(NotificationParams<OptionalError> params)?
+        signatureNotification,
     TResult Function(NotificationParams<Slot> params)? slotNotification,
     TResult Function(NotificationParams<SlotUpdate> params)?
         slotUpdatesNotification,
