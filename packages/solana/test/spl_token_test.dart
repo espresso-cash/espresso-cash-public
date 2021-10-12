@@ -256,8 +256,6 @@ void main() {
 
       final signature = await client.signAndSendTransaction(message, [owner]);
       await client.waitForSignatureStatus(signature, TxStatus.finalized);
-
-      print(signature);
     }, timeout: const Timeout(Duration(minutes: 2)));
   });
 }

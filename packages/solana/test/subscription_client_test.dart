@@ -11,7 +11,7 @@ import 'config.dart';
 void main() {
   test('accountSubscribe must return account owned by the system program',
       () async {
-    final originalLamports = 10 * lamportsPerSol;
+    const originalLamports = 10 * lamportsPerSol;
     final sender = await Ed25519HDKeyPair.random();
     final recipient = await Ed25519HDKeyPair.random();
     final rpcClient = RPCClient(devnetRpcUrl);
