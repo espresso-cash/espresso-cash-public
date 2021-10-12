@@ -1,7 +1,22 @@
 import 'dart:async';
 
 class SubscriptionManager<T> {
-  SubscriptionManager(this._controller);
+  SubscriptionManager({
+    required void Function() onListen,
+    required void Function(int) onCancel,
+    bool singleShot = false,
+  }) : isSingleShot = singleShot {
+    _controller = StreamController<T>(
+      onListen: onListen,
+      onCancel: () {
+        if (isSingleShot) return;
+        final subscriptionId = this.subscriptionId;
+        if (subscriptionId != null) {
+          onCancel(subscriptionId);
+        }
+      },
+    );
+  }
 
   void add(T event) => _controller.add(event);
 
@@ -10,5 +25,7 @@ class SubscriptionManager<T> {
   Stream<T> get stream => _controller.stream;
 
   int? subscriptionId;
-  final StreamController<T> _controller;
+
+  late final StreamController<T> _controller;
+  final bool isSingleShot;
 }

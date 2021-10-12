@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'error_message.dart';
+part of 'unsubscribed_message.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ErrorMessage _$ErrorMessageFromJson(Map<String, dynamic> json) => ErrorMessage(
-      error: SubscribeError.fromJson(json['error'] as Map<String, dynamic>),
+UnsubscribedMessage _$UnsubscribedMessageFromJson(Map<String, dynamic> json) =>
+    UnsubscribedMessage(
+      result: json['result'] as int,
       id: json['id'] as int,
     );

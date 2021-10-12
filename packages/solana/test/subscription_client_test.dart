@@ -41,5 +41,5 @@ void main() {
     );
 
     expect(account.lamports, lessThan(originalLamports));
-  }, timeout: const Timeout(Duration(minutes: 1)));
+  });
 }

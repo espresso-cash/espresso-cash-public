@@ -78,17 +78,3 @@ Map<String, dynamic> _$$SlotNotificationToJson(_$SlotNotification instance) =>
     <String, dynamic>{
       'params': instance.params,
     };
-
-_$SlotUpdateNotification _$$SlotUpdateNotificationFromJson(
-        Map<String, dynamic> json) =>
-    _$SlotUpdateNotification(
-      params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>,
-          (value) => SlotUpdate.fromJson(value as Map<String, dynamic>)),
-    );
-
-Map<String, dynamic> _$$SlotUpdateNotificationToJson(
-        _$SlotUpdateNotification instance) =>
-    <String, dynamic>{
-      'params': instance.params,
-    };

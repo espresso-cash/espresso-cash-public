@@ -15,5 +15,5 @@ class ErrorMessage implements SubscriptionMessage {
       _$ErrorMessageFromJson(json);
 
   final SubscribeError error;
-  final String id;
+  final int id;
 }
