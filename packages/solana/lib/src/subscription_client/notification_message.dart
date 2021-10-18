@@ -51,12 +51,12 @@ class NotificationMessage
         unsupported: () => null,
       );
 
-  int get subscription => maybeWhen(
+  int get subscription => when(
         accountNotification: (params) => params.subscription,
         logsNotification: (params) => params.subscription,
         programNotification: (params) => params.subscription,
         signatureNotification: (params) => params.subscription,
         slotNotification: (params) => params.subscription,
-        orElse: () => -1,
+        unsupported: () => -1,
       );
 }
