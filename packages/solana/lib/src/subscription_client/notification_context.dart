@@ -12,8 +12,4 @@ class NotificationContext {
       _$NotificationContextFromJson(json);
 
   final int slot;
-
-  Map<String, dynamic> toJson() {
-    throw UnsupportedError('it does not make sense to convert this to json');
-  }
 }
