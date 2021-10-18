@@ -1,0 +1,38 @@
+targets:
+  $default:
+    builders:
+      solana|solana_rpc_types:
+        enabled: true
+      solana|solana_rpc_methods:
+        enabled: true
+
+builders:
+  solana_rpc_types:
+    target: ":solana"
+    import: "package:solana/src/builders/rpc_types_builder.dart"
+    builder_factories:
+      - "rpcTypes"
+    build_extensions:
+      ".rpc.types.json":
+        - "rpc.types.dart"
+    auto_apply: "dependents"
+    build_to: "source"
+    applies_builders:
+      - "source_gen|combining_builder"
+    runs_before:
+      - "freezed"
+
+  solana_rpc_methods:
+    target: ":solana"
+    import: "package:solana/src/builders/rpc_methods_builder.dart"
+    builder_factories:
+      - "rpcMethods"
+    build_extensions:
+      ".rpc.types.json":
+        - "rpc.methods.dart"
+    auto_apply: "dependents"
+    build_to: "source"
+    applies_builders:
+      - "source_gen|combining_builder"
+    runs_before:
+      - "freezed"
