@@ -83,6 +83,7 @@ class SubscriptionClient {
       throw const BadStateException('cannot attach subscription manager');
     } else {
       _attachedSubscriptionManagers[subscriptionId] = subscriptionManager;
+      subscriptionManager.subscriptionId = subscriptionId;
     }
   }
 
