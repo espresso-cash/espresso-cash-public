@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEVNET_RPC_URL: "http://solana:8899"
+      DEVNET_WEBSOCKET_URL: "ws://solana:8900"
     container:
       image: google/dart:latest
     services:
