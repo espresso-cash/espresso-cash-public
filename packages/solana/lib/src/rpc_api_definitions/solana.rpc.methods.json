@@ -23,8 +23,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -80,10 +80,10 @@
           "is_optional": false
         },
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -137,7 +137,7 @@
               "type": "Commitment",
               "name": "commitment",
               "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-              "url": null,
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             }
           ]
@@ -156,10 +156,10 @@
       "is_new": false,
       "parameters": [
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -184,8 +184,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -270,7 +270,7 @@
           "type": "Commitment",
           "name": "commitment",
           "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-          "url": null,
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -303,7 +303,7 @@
           "type": "Commitment",
           "name": "commitment",
           "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-          "url": null,
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -350,10 +350,10 @@
       "is_new": false,
       "parameters": [
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -387,10 +387,10 @@
           "is_optional": false
         },
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -418,10 +418,10 @@
       "is_new": false,
       "parameters": [
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -481,10 +481,10 @@
       "is_new": false,
       "parameters": [
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -539,16 +539,12 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
-              "type": "enum",
-              "values": [
-                "circulating",
-                "nonCirculating"
-              ],
+              "type": "CirculationStatus",
               "name": "filter",
               "description": "filter results by account type; currently supported: circulating|nonCirculating",
               "url": null,
@@ -585,8 +581,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -649,10 +645,10 @@
           "is_optional": false
         },
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -684,8 +680,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -749,8 +745,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -812,10 +808,10 @@
       "is_new": false,
       "parameters": [
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -895,8 +891,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             }
           ],
@@ -951,10 +947,10 @@
       "is_new": false,
       "parameters": [
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -970,10 +966,10 @@
       "is_new": false,
       "parameters": [
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -1031,8 +1027,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -1066,8 +1062,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -1099,10 +1095,10 @@
           "is_optional": false
         },
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -1125,8 +1121,8 @@
           "is_optional": false
         },
         {
-          "type": "either",
-          "name": "options",
+          "type": "object",
+          "name": "mintOrProgramId",
           "description": "Either a mint or a programId",
           "url": null,
           "is_optional": false,
@@ -1157,8 +1153,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -1214,8 +1210,8 @@
         },
         {
           "type": "object",
-          "name": "either:",
-          "description": "Either:",
+          "name": "mintOrProgramId",
+          "description": "Either a mint or a programId",
           "url": null,
           "is_optional": false,
           "fields": [
@@ -1224,14 +1220,14 @@
               "name": "mint",
               "description": "Pubkey of the specific token Mint to limit accounts to, as base-58 encoded string; or",
               "url": null,
-              "is_optional": false
+              "is_optional": true
             },
             {
               "type": "string",
               "name": "programId",
               "description": "Pubkey of the Token program ID that owns the accounts, as base-58 encoded string",
               "url": null,
-              "is_optional": false
+              "is_optional": true
             }
           ]
         },
@@ -1245,8 +1241,8 @@
             {
               "type": "Commitment",
               "name": "commitment",
-              "description": "Commitment",
-              "url": null,
+              "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -1301,10 +1297,10 @@
           "is_optional": false
         },
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -1327,10 +1323,10 @@
           "is_optional": false
         },
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -1370,7 +1366,7 @@
               "type": "Commitment",
               "name": "commitment",
               "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-              "url": null,
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             }
           ]
@@ -1389,10 +1385,10 @@
       "is_new": false,
       "parameters": [
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
-          "description": "Commitment",
-          "url": null,
+          "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -1428,7 +1424,7 @@
               "type": "Commitment",
               "name": "commitment",
               "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-              "url": null,
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -1492,10 +1488,10 @@
           "is_optional": false
         },
         {
-          "type": "object",
+          "type": "CommitmentObject",
           "name": "commitment",
           "description": "Commitment (used for retrieving blockhash and verifying airdrop success)",
-          "url": null,
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -1588,10 +1584,10 @@
               "is_optional": false
             },
             {
-              "type": "string",
+              "type": "Commitment",
               "name": "commitment",
               "description": "Commitment level to simulate the transaction at (default: \"finalized\").",
-              "url": null,
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             },
             {
@@ -1617,7 +1613,7 @@
               "fields": [
                 {
                   "type": "Encoding",
-                  "name": "encoding",
+                  "name": "accountEncoding",
                   "description": "encoding for returned Account data, either  \"base64\" (default), \"base64+zstd\" or \"jsonParsed\".\\n\"jsonParsed\" encoding attempts to use program-specific state parsers to return more human-readable and explicit account state data. If \"jsonParsed\" is requested but a parser cannot be found, the field falls back to binary encoding, detectable when the data field is type <string>.",
                   "url": null,
                   "is_optional": true
@@ -1684,7 +1680,7 @@
               "type": "Commitment",
               "name": "commitment",
               "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-              "url": null,
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             }
           ]
@@ -1719,7 +1715,7 @@
           "type": "Commitment",
           "name": "commitment",
           "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-          "url": null,
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -1752,7 +1748,7 @@
           "type": "Commitment",
           "name": "commitment",
           "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-          "url": null,
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
           "is_optional": true
         }
       ],
@@ -1806,7 +1802,7 @@
               "type": "Commitment",
               "name": "commitment",
               "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-              "url": null,
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             }
           ]
@@ -1848,7 +1844,7 @@
               "type": "Commitment",
               "name": "commitment",
               "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\".",
-              "url": null,
+              "url": "https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment",
               "is_optional": true
             }
           ]

@@ -2,8 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:build/build.dart';
-import 'package:recase/recase.dart';
-import 'package:solana/src/builders/heplers.dart';
+import 'package:solana/src/builders/helpers.dart';
 
 class TypesBuilder extends Builder {
   TypesBuilder();
@@ -22,8 +21,9 @@ class TypesBuilder extends Builder {
     final data = json.decode(content) as Map<String, dynamic>;
 
     buffer
-      ..writeln(
-          'import \'package:freezed_annotation/freezed_annotation.dart\';\n')
+      ..writeln(_importFreezed)
+      ..writeln(_importAccountData)
+      ..writeln()
       ..writeln('part \'${_toPartName(buildStep, "freezed")}\';')
       ..writeln('part \'${_toPartName(buildStep, "g")}\';\n');
 
@@ -54,25 +54,21 @@ class TypesBuilder extends Builder {
 
         for (final String name in definition.keys) {
           final dynamic value = definition[name];
+
           if (value is! Map<String, dynamic>) {
             throw ArgumentError('expected a map but got $value');
           }
+          value['name'] = name;
 
           final field = _Field.fromJson(value);
-          if (!name.isCamelCase()) {
-            final camelCased = name.camelCase;
-            final fieldDeclarator = '@JsonKey(name: \'$name\') required';
-            buffer.writeln('    $fieldDeclarator ${field.type} $camelCased,');
-          } else {
-            buffer.writeln('    required ${field.type} $name,');
-          }
+          // Now write it to the buffer
+          buffer.writeln('    $field,');
         }
         buffer
           ..writeln('  }) = _$key;\n')
           ..write('  factory $key.fromJson(Map<String, dynamic> json)')
           ..write(' => _\$${key}FromJson(json);\n')
           ..writeln('}\n');
-        ;
       }
     }
 
@@ -84,42 +80,35 @@ class _Field {
   _Field({
     required this.type,
     required this.description,
+    required this.name,
     this.nullable = false,
     this.fields = const {},
   });
 
-  factory _Field.fromJson(Map<String, dynamic> json) {
-    if (json['type'] == null) {
-      throw ArgumentError('type must be NOT null');
-    }
-
-    if (json['description'] == null) {
-      throw ArgumentError('description must be NOT null');
-    }
-
-    if (json['type'] is! String) {
-      throw ArgumentError('type must be a string but was ${json["type"]}');
-    }
-
-    if (json['description'] is! String) {
-      throw ArgumentError(
-          'type must be a string but was ${json["description"]}');
-    }
-
-    return _Field(
-      type: toDartType(json['type'] as String),
-      description: json['description'] as String,
-      nullable: json['nullable'] as bool? ?? false,
-    );
-  }
+  factory _Field.fromJson(Map<String, dynamic> json) => _Field(
+        type: toDartType(json['type'] as String),
+        description: json['description'] as String,
+        nullable: json['nullable'] as bool? ?? false,
+        name: json['name'] as String,
+      );
 
   @override
-  String toString() => '''
-class $type {}
-    ''';
+  String toString() {
+    final marker = nullable ? '?' : '';
+    if (type == 'AccountData') {
+      return '@AccountDataConverter() required $type$marker $name';
+    } else if (!name.isCamelCase) {
+      final validName = name.toCamelCase();
+      return '@JsonKey(name: \'$name\') required $type$marker $validName';
+    } else {
+      return 'required $type$marker $name';
+    }
+  }
 
   final String type;
   final String description;
+  final String name;
+
   bool nullable;
   Map<String, _Field> fields;
 }
@@ -131,5 +120,26 @@ String _toPartName(BuildStep buildStep, String discriminator) {
 }
 
 extension on String {
-  bool isCamelCase() => !contains(RegExp(r'[^a-zA-Z]'));
+  bool get isCamelCase => !contains(RegExp('[^a-zA-Z]'));
+
+  String toCamelCase() {
+    final words = split(RegExp('[ _-]'));
+    return words
+        .map((word) => word.toLowerCase())
+        .reduce((concatenated, word) => concatenated + word.toTitle());
+  }
+
+  String toTitle() {
+    final lowerCased = toLowerCase();
+    if (lowerCased.isEmpty) {
+      throw ArgumentError('cannot determine the name of this field');
+    }
+
+    return lowerCased[0].toUpperCase() + lowerCased.substring(1);
+  }
 }
+
+const _importFreezed =
+    'import \'package:freezed_annotation/freezed_annotation.dart\';';
+const _importAccountData =
+    'import \'package:solana/src/rpc_api_definitions/helper_types/account_data.dart\';';
