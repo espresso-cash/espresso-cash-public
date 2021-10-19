@@ -1,7 +1,27 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/src/rpc_api_definitions/helper_types/account_data.dart';
 
 part 'solana.rpc.types.freezed.dart';
 part 'solana.rpc.types.g.dart';
+
+enum CirculationStatus {
+  circulating,
+  nonCirculating,
+}
+
+enum Encoding {
+  base64,
+  jsonParsed,
+}
+
+@freezed
+class CommitmentObject with _$CommitmentObject {
+  const factory CommitmentObject({
+    required Commitment commitment,
+  }) = _CommitmentObject;
+
+  factory CommitmentObject.fromJson(Map<String, dynamic> json) => _$CommitmentObjectFromJson(json);
+}
 
 enum Commitment {
   processed,
@@ -32,7 +52,7 @@ class Account with _$Account {
   const factory Account({
     required int lamports,
     required String owner,
-    required [string, encoding] data,
+    @AccountDataConverter() required AccountData? data,
     required bool executable,
     required int rentEpoch,
   }) = _Account;
@@ -47,11 +67,11 @@ class Block with _$Block {
     required String previousBlockhash,
     required int parentSlot,
     required List<Transaction> transactions,
-    required Meta meta,
+    required Meta? meta,
     required List<String> signatures,
     required List<Reward> rewards,
-    required int blockTime,
-    required int blockHeight,
+    required int? blockTime,
+    required int? blockHeight,
   }) = _Block;
 
   factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
@@ -60,7 +80,7 @@ class Block with _$Block {
 @freezed
 class Meta with _$Meta {
   const factory Meta({
-    required Map<String, dynamic> err,
+    required Map<String, dynamic>? err,
     required int fee,
     required List<int> preBalances,
     required List<int> postBalances,
@@ -101,7 +121,7 @@ class TransactionDetails with _$TransactionDetails {
   const factory TransactionDetails({
     required int slot,
     required Transaction transaction,
-    required int blockTime,
+    required int? blockTime,
     required Meta meta,
   }) = _TransactionDetails;
 
@@ -130,11 +150,22 @@ class Instruction with _$Instruction {
 }
 
 @freezed
+class TokenAmount with _$TokenAmount {
+  const factory TokenAmount({
+    required String amount,
+    required int decimals,
+    required String? uiAmountString,
+  }) = _TokenAmount;
+
+  factory TokenAmount.fromJson(Map<String, dynamic> json) => _$TokenAmountFromJson(json);
+}
+
+@freezed
 class TokenBalance with _$TokenBalance {
   const factory TokenBalance({
     required int accountIndex,
     required String mint,
-    required Map<String, dynamic> uiTokenAmount,
+    required TokenAmount uiTokenAmount,
   }) = _TokenBalance;
 
   factory TokenBalance.fromJson(Map<String, dynamic> json) => _$TokenBalanceFromJson(json);
@@ -146,10 +177,10 @@ class ClusterNode with _$ClusterNode {
     required String pubkey,
     required String gossip,
     required String tpu,
-    required String rpc,
-    required String version,
-    required int featureSet,
-    required int shredVersion,
+    required String? rpc,
+    required String? version,
+    required int? featureSet,
+    required int? shredVersion,
   }) = _ClusterNode;
 
   factory ClusterNode.fromJson(Map<String, dynamic> json) => _$ClusterNodeFromJson(json);
@@ -190,7 +221,7 @@ class BlockProduction with _$BlockProduction {
 @freezed
 class BlockCommitment with _$BlockCommitment {
   const factory BlockCommitment({
-    required List<int> commitment,
+    required List<int>? commitment,
     required int totalStake,
   }) = _BlockCommitment;
 
@@ -336,9 +367,9 @@ class TransactionSignatureInformation with _$TransactionSignatureInformation {
   const factory TransactionSignatureInformation({
     required String signature,
     required int slot,
-    required Map<String, dynamic> err,
-    required String memo,
-    required int blockTime,
+    required Map<String, dynamic>? err,
+    required String? memo,
+    required int? blockTime,
   }) = _TransactionSignatureInformation;
 
   factory TransactionSignatureInformation.fromJson(Map<String, dynamic> json) => _$TransactionSignatureInformationFromJson(json);
@@ -348,8 +379,8 @@ class TransactionSignatureInformation with _$TransactionSignatureInformation {
 class SignatureStatus with _$SignatureStatus {
   const factory SignatureStatus({
     required int slot,
-    required int confirmations,
-    required Map<String, dynamic> err,
+    required int? confirmations,
+    required Map<String, dynamic>? err,
     required TxStatus confirmationStatus,
   }) = _SignatureStatus;
 
@@ -407,9 +438,9 @@ class VoteAccounts with _$VoteAccounts {
 @freezed
 class TransactionStatus with _$TransactionStatus {
   const factory TransactionStatus({
-    required Map<String, dynamic> err,
-    required List<String> logs,
-    required List<Account> accounts,
+    required Map<String, dynamic>? err,
+    required List<String>? logs,
+    required List<Account>? accounts,
   }) = _TransactionStatus;
 
   factory TransactionStatus.fromJson(Map<String, dynamic> json) => _$TransactionStatusFromJson(json);

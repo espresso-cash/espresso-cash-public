@@ -1,7 +1,31 @@
 {
+  "CirculationStatus": {
+    "@type": "enum",
+    "values": [
+      "circulating",
+      "nonCirculating"
+    ]
+  },
+  "Encoding": {
+    "@type": "enum",
+    "values": [
+      "base64",
+      "jsonParsed"
+    ]
+  },
+  "CommitmentObject": {
+    "commitment": {
+      "type": "Commitment",
+      "description": "Commitment; \"processed\" is not supported. If parameter not provided, the default is \"finalized\"."
+    }
+  },
   "Commitment": {
     "@type": "enum",
-    "values": ["processed", "confirmed", "finalized"]
+    "values": [
+      "processed",
+      "confirmed",
+      "finalized"
+    ]
   },
   "TxStatus": {
     "@type": "Commitment"
@@ -39,6 +63,7 @@
     },
     "data": {
       "type": "[string, encoding]|object",
+      "nullable": true,
       "description": "data associated with the account, either as encoded binary data or JSON format {<program>: <state>}, depending on encoding parameter"
     },
     "executable": {
@@ -241,6 +266,21 @@
       "description": "The program input data encoded in a base-58 string."
     }
   },
+  "TokenAmount": {
+    "amount": {
+      "type": "string",
+      "description": "Raw amount of tokens as a string, ignoring decimals."
+    },
+    "decimals": {
+      "type": "int",
+      "description": "Number of decimals configured for token's mint."
+    },
+    "uiAmountString": {
+      "type": "string",
+      "nullable": true,
+      "description": "Token amount as a string, accounting for decimals."
+    }
+  },
   "TokenBalance": {
     "accountIndex": {
       "type": "int",
@@ -251,23 +291,8 @@
       "description": "Pubkey of the token's mint."
     },
     "uiTokenAmount": {
-      "type": "object",
-      "description": "Token balance",
-      "fields": {
-        "amount": {
-          "type": "string",
-          "description": "Raw amount of tokens as a string, ignoring decimals."
-        },
-        "decimals": {
-          "type": "int",
-          "description": "Number of decimals configured for token's mint."
-        },
-        "uiAmountString": {
-          "type": "string",
-          "nullable": true,
-          "description": "Token amount as a string, accounting for decimals."
-        }
-      }
+      "type": "TokenAmount",
+      "description": "Token balance"
     }
   },
   "ClusterNode": {

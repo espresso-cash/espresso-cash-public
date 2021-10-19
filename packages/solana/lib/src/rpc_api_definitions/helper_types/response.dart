@@ -1,16 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'rpc_response.g.dart';
+part 'response.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true, createToJson: false)
-class RpcResponse<T> {
-  const RpcResponse({required this.value});
+class Response<T> {
+  const Response({required this.result});
 
-  factory RpcResponse.fromJson(
+  factory Response.fromJson(
     Map<String, dynamic> data,
     T Function(Object? json) fromJsonT,
   ) =>
-      _$RpcResponseFromJson(data, fromJsonT);
+      _$ResponseFromJson(data, fromJsonT);
 
-  final T value;
+  final T result;
 }
