@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:build/build.dart';
-import 'package:solana/src/builders/heplers.dart';
+import 'package:dart_style/dart_style.dart';
+import 'package:solana/src/builders/helpers.dart';
 
 class MethodsBuilder extends Builder {
   MethodsBuilder();
@@ -17,22 +18,62 @@ class MethodsBuilder extends Builder {
     final content = await buildStep.readAsString(buildStep.inputId);
     final parsed = json.decode(content) as Map<String, dynamic>;
     final api = _ApiSpecs.fromJson(parsed);
-    final buffer = StringBuffer()
-      ..writeln('import \'dart:async\';\n')
-      ..writeln('import \'$_packagePath/helper_types/rpc_response.dart\';')
-      ..writeln('import \'$_packagePath/solana.rpc.types.dart\';\n')
-      ..writeln('class RPCClient {');
-    for (final method in api.methods) {
-      buffer
-        ..writeln('  Future<${toDartType(method.result.type)}> ${method.name}(')
-        ..writeln('      int parameter1,')
-        ..writeln('  ) {')
-        ..writeln('    throw UnimplementedError(\'not yet implemented\');')
-        ..writeln('  }\n');
-    }
-    buffer.writeln('}');
+    final buffer = StringBuffer()..write(_outputFileHeader);
 
-    buildStep.writeAsString(outfile, buffer.toString()).ignore();
+    for (final method in api.methods) {
+      final result = method.result;
+      final parameters = method.parameters;
+      final returnType = toDartType(result.type);
+      final resultType = result.type;
+      final def = 'Future<$returnType> ${method.name}';
+      if (parameters != null) {
+        buffer
+          ..write('$def({')
+          ..write(_unwrapParameters(parameters))
+          ..write('}) async');
+      } else {
+        buffer.write('$def() async');
+      }
+      buffer.write('{final data = await _client.request(\'${method.name}\',');
+      if (parameters != null) {
+        buffer.write(_parametersAsCallArguments(parameters));
+      }
+      buffer
+        ..write(');')
+        ..write('');
+      if (resultType.startsWith('RpcResponse')) {
+        buffer.write(
+          '''
+          final response = Response<RpcResponse<$returnType>>.fromJson(
+            data,
+            (Object? data) => RpcResponse<$returnType>.fromJson(
+              data as Map<String, dynamic>,
+              (Object? data) => ${_createFromJson(returnType)},
+            ),
+          );
+          final rpcResponse = response.result;
+          
+          return rpcResponse.value;''',
+        );
+      } else {
+        buffer.write(
+          '''
+          final response = Response<$returnType>.fromJson(
+           data,
+            (Object? data) => ${_createFromJson(returnType)},
+          );
+          
+          return response.result;''',
+        );
+      }
+      buffer.write('  }\n');
+    }
+    buffer.write('}');
+    final formatter = DartFormatter();
+
+    buildStep
+        .writeAsString(outfile, formatter.format(buffer.toString()))
+        .ignore();
   }
 }
 
@@ -141,4 +182,101 @@ List<_Field>? _toFieldsList(List<dynamic>? list) {
       .toList(growable: false);
 }
 
-const _packagePath = 'package:solana/src/rpc_api_definitions';
+String _unwrapParameters(List<_Field> parameters) {
+  final buffer = StringBuffer();
+  for (final field in parameters) {
+    final type = field.type;
+    if (type == 'object') {
+      final fields = field.fields;
+      if (fields == null) {
+        print(field.name);
+        throw ArgumentError('cannot unwrap object of unknown fields');
+      }
+      buffer.write(_unwrapParameters(fields));
+    } else {
+      final dartType = toDartType(type);
+      if (!field.isOptional) {
+        buffer.write('required $dartType ${field.name},');
+      } else {
+        buffer.write('$dartType? ${field.name},');
+      }
+    }
+  }
+
+  return buffer.toString();
+}
+
+String _createFromJsonForList(String type) {
+  final regexp = RegExp('List<([^>]+)>');
+  final allMatches = regexp.allMatches(type);
+  final typeName = allMatches.first.group(1);
+  if (typeName == null) {
+    throw ArgumentError('cannot determine the type of list elements');
+  }
+
+  return '''(data as List<dynamic>)
+          .map((dynamic data) => ${_createFromJson(typeName)})
+          .toList(growable: false)
+        ''';
+}
+
+String _createFromJson(String type) {
+  switch (type) {
+    case 'List<int>':
+    case 'LeaderSchedule':
+    case 'int':
+    case 'String':
+      return 'data as $type';
+    default:
+      if (RegExp('List<([^>]+)>').stringMatch(type) != null) {
+        return _createFromJsonForList(type);
+      }
+
+      return '$type.fromJson(data as Map<String, dynamic>)';
+  }
+}
+
+String _dumpObject(List<_Field>? fields) {
+  final buffer = StringBuffer()..write('<String, dynamic>{');
+  for (final field in fields ?? <_Field>[]) {
+    if (field.type == 'object') {
+      buffer.write('\'${field.name}\': ${_dumpObject(field.fields)},');
+    } else {
+      buffer.write('\'${field.name}\': ${field.name},');
+    }
+  }
+  buffer.write('}');
+
+  return buffer.toString();
+}
+
+String _parametersAsCallArguments(List<_Field> parameters) {
+  final buffer = StringBuffer()..write('params: <dynamic>[');
+
+  for (final parameter in parameters) {
+    if (parameter.type == 'object') {
+      buffer.write('${_dumpObject(parameter.fields)},');
+    } else {
+      buffer.write('${parameter.name},');
+    }
+  }
+  buffer.write('    ]');
+
+  return buffer.toString();
+}
+
+const _outputFileHeader = '''
+import 'dart:async';
+
+import 'package:solana/src/rpc_api_definitions/helper_types/response.dart';
+import 'package:solana/src/rpc_api_definitions/helper_types/rpc_response.dart';
+import 'package:solana/src/rpc_api_definitions/solana.rpc.types.dart';
+import 'package:solana/src/rpc_client/json_rpc_client.dart';
+
+class RPCClient {
+  /// Constructs a SolanaClient that is capable of sending various RPCs to')
+  /// [rpcUrl].
+  RPCClient(String rpcUrl) : _client = JsonRpcClient(rpcUrl);
+  
+  final JsonRpcClient _client;
+''';
