@@ -1,4 +1,4 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/dto/account_key.dart';
 import 'package:solana/src/parsed_message/parsed_instruction.dart';
 import 'package:solana/src/parsed_message/parsed_message_header.dart';
@@ -7,23 +7,19 @@ export 'parsed_instruction.dart';
 export 'parsed_spl_token_instruction.dart';
 export 'parsed_system_instruction.dart';
 
+part 'parsed_message.freezed.dart';
 part 'parsed_message.g.dart';
 
 /// A parsed message that is part of a [Transaction] object.
-@JsonSerializable(createToJson: false)
-class ParsedMessage {
-  ParsedMessage({
-    this.header,
-    required this.accountKeys,
-    required this.recentBlockhash,
-    required this.instructions,
-  });
+@freezed
+class ParsedMessage with _$ParsedMessage {
+  const factory ParsedMessage({
+    required List<AccountKey> accountKeys,
+    required ParsedMessageHeader? header,
+    required String recentBlockhash,
+    required List<ParsedInstruction> instructions,
+  }) = _ParsedMessage;
 
   factory ParsedMessage.fromJson(Map<String, dynamic> json) =>
       _$ParsedMessageFromJson(json);
-
-  final List<AccountKey> accountKeys;
-  final ParsedMessageHeader? header;
-  final String recentBlockhash;
-  final List<ParsedInstruction> instructions;
 }

@@ -3,10 +3,10 @@ library utilities;
 import 'package:cryptography/cryptography.dart' hide Signature;
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';
-import 'package:solana/src/dto/blockhash.dart';
 import 'package:solana/src/encoder/compiled_message.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/encoder/signature.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
 
 import 'base58/encode.dart';
 import 'encoder/buffer.dart';
@@ -72,7 +72,7 @@ bool isPointOnEd25519Curve(Iterable<int> data) {
 }
 
 Future<SignedTx> signTransaction(
-  Blockhash recentBlockhash,
+  RecentBlockhash recentBlockhash,
   Message message,
   List<Ed25519HDKeyPair> signers,
 ) async {

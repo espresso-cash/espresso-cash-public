@@ -42,7 +42,7 @@ Future<void> example() async {
   // To confirm that it worked let's see if there's any balance
   // in the recipients wallet
   final balance = await rpcClient.getTokenAccountBalance(
-    associatedTokenAccountAddress:
+    pubKey:
         await destination.getAssociatedTokenAccountAddress(mint: _tokenMint),
   );
 

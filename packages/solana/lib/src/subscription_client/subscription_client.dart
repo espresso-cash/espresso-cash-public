@@ -2,13 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:solana/src/dto/account.dart';
-import 'package:solana/src/dto/commitment.dart';
-import 'package:solana/src/dto/encoding.dart';
 import 'package:solana/src/dto/logs.dart';
 import 'package:solana/src/dto/program_filter.dart';
 import 'package:solana/src/dto/slot.dart';
 import 'package:solana/src/exceptions/bad_state_exception.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
+import 'package:solana/src/rpc_client/rpc_types_extension.dart';
 import 'package:solana/src/subscription_client/abstract_message.dart';
 import 'package:solana/src/subscription_client/error_message.dart';
 import 'package:solana/src/subscription_client/logs_filter.dart';

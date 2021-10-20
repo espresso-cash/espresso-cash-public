@@ -4,8 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/exceptions/transaction_exception.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
-import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/utils.dart';
 
 // These methods are not part of the RPC api so we are including them as
