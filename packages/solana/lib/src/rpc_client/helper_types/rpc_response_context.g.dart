@@ -1,15 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'json_rpc_response_object.dart';
+part of 'rpc_response_context.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ValueResponse<T> _$ValueResponseFromJson<T>(
-  Map<String, dynamic> json,
-  T Function(Object? json) fromJsonT,
-) =>
-    ValueResponse<T>(
-      value: fromJsonT(json['value']),
+RpcResponseContext _$RpcResponseContextFromJson(Map<String, dynamic> json) =>
+    RpcResponseContext(
+      slot: json['slot'] as int,
     );
