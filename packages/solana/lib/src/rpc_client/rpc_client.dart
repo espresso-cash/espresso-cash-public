@@ -1,372 +1,1130 @@
 import 'dart:async';
 
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/dto/account.dart';
-import 'package:solana/src/dto/blockhash.dart';
-import 'package:solana/src/dto/commitment.dart';
-import 'package:solana/src/dto/signature_status.dart';
-import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/exceptions/transaction_exception.dart';
-import 'package:solana/src/rpc_client/account_info_response.dart';
-import 'package:solana/src/rpc_client/balance_response.dart';
-import 'package:solana/src/rpc_client/blockhash_response.dart';
-import 'package:solana/src/rpc_client/confirmed_signature.dart';
-import 'package:solana/src/rpc_client/confirmed_transaction_response.dart';
-import 'package:solana/src/rpc_client/get_transaction_response.dart';
+import 'package:solana/src/rpc_client/helper_types/response.dart';
+import 'package:solana/src/rpc_client/helper_types/rpc_response.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/rpc_client/json_rpc_client.dart';
-import 'package:solana/src/rpc_client/minimum_balance_for_rent_exemption_response.dart';
-import 'package:solana/src/rpc_client/simulate_tx_result.dart';
-import 'package:solana/src/rpc_client/transaction_response.dart';
-import 'package:solana/src/rpc_client/transaction_signature.dart';
-import 'package:solana/src/spl_token/associated_account.dart';
-import 'package:solana/src/spl_token/token_amount.dart';
-import 'package:solana/src/spl_token/token_supply.dart';
-import 'package:solana/src/utils.dart';
 
-export 'confirmed_signature.dart' show ConfirmedSignature;
-export 'transaction_response.dart';
-
-part 'rpc_client_extensions.dart';
-
-/// Encapsulates the jsonrpc-2.0 protocol and implements the
-/// Solana RPC API
 class RPCClient {
-  /// Constructs a SolanaClient that is capable of sending various RPCs to
+  /// Constructs a SolanaClient that is capable of sending various RPCs to')
   /// [rpcUrl].
-  RPCClient(String rpcUrl) : client = JsonRpcClient(rpcUrl);
+  RPCClient(String rpcUrl) : _client = JsonRpcClient(rpcUrl);
 
-  final JsonRpcClient client;
-
-  /// Returns the recent blockhash from the ledger, and a fee schedule that
-  /// can be used to compute the cost of submitting transaction with
-  /// the returned [Blockhash].
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Blockhash> getRecentBlockhash({
+  final JsonRpcClient _client;
+  Future<Account> getAccountInfo({
+    required String pubKey,
     Commitment? commitment,
+    required Encoding encoding,
+    int? offset,
+    int? length,
   }) async {
-    final data = await client.request(
-      'getRecentBlockhash',
-      params: <dynamic>[
-        if (commitment != null)
-          <String, String>{'commitment': commitment.value},
-      ],
-    );
-
-    // This is never `null`
-    return BlockhashResponse.fromJson(data).result.value;
-  }
-
-  /// Returns a Future that resolves the the balance of [address]
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<int> getBalance(
-    String address, {
-    Commitment? commitment,
-  }) async {
-    final data = await client.request(
-      'getBalance',
-      params: <dynamic>[
-        address,
-        if (commitment != null)
-          <String, String>{'commitment': commitment.value},
-      ],
-    );
-
-    // Will never be null
-    return BalanceResponse.fromJson(data).result.value;
-  }
-
-  /// Returns a Future that resolves to the account related information
-  /// for [address].
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Account?> getAccountInfo(
-    String address, {
-    Commitment? commitment,
-  }) async {
-    final data = await client.request(
-      'getAccountInfo',
-      params: <dynamic>[
-        address,
-        <String, String>{
-          'encoding': 'jsonParsed',
-          if (commitment != null) 'commitment': commitment.value,
-        }
-      ],
-    );
-
-    return AccountInfoResponse.fromJson(data).result.value;
-  }
-
-  /// Sends signed transaction [signedTx].
-  Future<TransactionSignature> sendTransaction(
-      String encodedTransaction) async {
-    final data = await client.request(
-      'sendTransaction',
-      params: <dynamic>[
-        encodedTransaction,
-        <String, String>{
-          'encoding': 'base64',
-        }
-      ],
-    );
-
-    return SignatureResponse.fromJson(data).result;
-  }
-
-  /// Simulates sending a signed transaction [signedTx].
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<SimulateTxResult> simulateTransaction(
-    String transaction, {
-    Commitment? commitment,
-  }) async {
-    final data = await client.request(
-      'simulateTransaction',
-      params: <dynamic>[
-        transaction,
-        <String, String>{
-          'encoding': 'base64',
-          if (commitment != null) 'commitment': commitment.value,
-        }
-      ],
-    );
-
-    // Will never be null
-    return SimulateTxResultResponse.fromJson(data).result.value;
-  }
-
-  /// Requests an airdrop of [lamports] lamports to [address].
-  Future<TransactionSignature> requestAirdrop({
-    required String address,
-    required int lamports,
-    Commitment? commitment,
-  }) async {
-    final data = await client.request('requestAirdrop', params: <dynamic>[
-      address,
-      lamports.toInt(),
-      if (commitment != null)
-        <String, String>{
-          'commitment': commitment.value,
-        }
+    final data = await _client.request('getAccountInfo', params: <dynamic>[
+      pubKey,
+      <String, dynamic>{
+        'commitment': commitment,
+        'encoding': encoding,
+        'dataSlice': <String, dynamic>{
+          'offset': offset,
+          'length': length,
+        },
+      },
     ]);
+    final response = Response<RpcResponse<Account>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<Account>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => Account.fromJson(data as Map<String, dynamic>),
+      ),
+    );
+    final rpcResponse = response.result;
 
-    return SignatureResponse.fromJson(data).result;
+    return rpcResponse.value;
   }
 
-  /// Returns a Future that resolves to the most recent [limit] signatures
-  /// that have been confirmed for a given [address].
-  ///
-  /// Providing [before] and [until] also moves the cursor to a more specific
-  /// subset.
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @Deprecated('Should be replaced with `getConfirmedSignaturesForAddress` soon')
-  Future<Iterable<ConfirmedSignature>> getConfirmedSignaturesForAddress2(
-    String address, {
-    int limit = 10,
+  Future<int> getBalance({
+    required String pubKey,
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('getBalance', params: <dynamic>[
+      pubKey,
+      commitment,
+    ]);
+    final response = Response<RpcResponse<int>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<int>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => data as int,
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<Block> getBlock({
+    required int slot,
+    Encoding? encoding,
+    String? transactionDetails,
+    bool? rewards,
+    Commitment? commitment,
+  }) async {
+    final data = await _client.request('getBlock', params: <dynamic>[
+      slot,
+      <String, dynamic>{
+        'encoding': encoding,
+        'transactionDetails': transactionDetails,
+        'rewards': rewards,
+        'commitment': commitment,
+      },
+    ]);
+    final response = Response<Block>.fromJson(
+      data,
+      (Object? data) => Block.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<int> getBlockHeight({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('getBlockHeight', params: <dynamic>[
+      commitment,
+    ]);
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<BlockProduction> getBlockProduction({
+    Commitment? commitment,
+    required int firstSlot,
+    int? lastSlot,
+    String? identity,
+  }) async {
+    final data = await _client.request('getBlockProduction', params: <dynamic>[
+      <String, dynamic>{
+        'commitment': commitment,
+        'range': <String, dynamic>{
+          'firstSlot': firstSlot,
+          'lastSlot': lastSlot,
+        },
+        'identity': identity,
+      },
+    ]);
+    final response = Response<RpcResponse<BlockProduction>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<BlockProduction>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) =>
+            BlockProduction.fromJson(data as Map<String, dynamic>),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<BlockCommitment> getBlockCommitment({
+    required int block,
+  }) async {
+    final data = await _client.request('getBlockCommitment', params: <dynamic>[
+      block,
+    ]);
+    final response = Response<BlockCommitment>.fromJson(
+      data,
+      (Object? data) => BlockCommitment.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<List<int>> getBlocks({
+    required int startSlot,
+    int? endSlot,
+    Commitment? commitment,
+  }) async {
+    final data = await _client.request('getBlocks', params: <dynamic>[
+      startSlot,
+      endSlot,
+      commitment,
+    ]);
+    final response = Response<List<int>>.fromJson(
+      data,
+      (Object? data) => data as List<int>,
+    );
+
+    return response.result;
+  }
+
+  Future<List<int>> getBlocksWithLimit({
+    required int startSlot,
+    required int limit,
+    Commitment? commitment,
+  }) async {
+    final data = await _client.request('getBlocksWithLimit', params: <dynamic>[
+      startSlot,
+      limit,
+      commitment,
+    ]);
+    final response = Response<List<int>>.fromJson(
+      data,
+      (Object? data) => data as List<int>,
+    );
+
+    return response.result;
+  }
+
+  Future<int> getBlockTime({
+    required int block,
+  }) async {
+    final data = await _client.request('getBlockTime', params: <dynamic>[
+      block,
+    ]);
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<List<ClusterNode>> getClusterNodes() async {
+    final data = await _client.request(
+      'getClusterNodes',
+    );
+    final response = Response<List<ClusterNode>>.fromJson(
+      data,
+      (Object? data) => (data as List<dynamic>)
+          .map((dynamic data) =>
+              ClusterNode.fromJson(data as Map<String, dynamic>))
+          .toList(growable: false),
+    );
+
+    return response.result;
+  }
+
+  Future<EpochInfo> getEpochInfo({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('getEpochInfo', params: <dynamic>[
+      commitment,
+    ]);
+    final response = Response<EpochInfo>.fromJson(
+      data,
+      (Object? data) => EpochInfo.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<EpochSchedule> getEpochSchedule() async {
+    final data = await _client.request(
+      'getEpochSchedule',
+    );
+    final response = Response<EpochSchedule>.fromJson(
+      data,
+      (Object? data) => EpochSchedule.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<FeeCalculator> getFeeCalculatorForBlockhash({
+    required String blockhash,
+    CommitmentObject? commitment,
+  }) async {
+    final data =
+        await _client.request('getFeeCalculatorForBlockhash', params: <dynamic>[
+      blockhash,
+      commitment,
+    ]);
+    final response = Response<FeeCalculator>.fromJson(
+      data,
+      (Object? data) => FeeCalculator.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<FeeRateGovernor> getFeeRateGovernor() async {
+    final data = await _client.request(
+      'getFeeRateGovernor',
+    );
+    final response = Response<FeeRateGovernor>.fromJson(
+      data,
+      (Object? data) => FeeRateGovernor.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<Fees> getFees({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('getFees', params: <dynamic>[
+      commitment,
+    ]);
+    final response = Response<RpcResponse<Fees>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<Fees>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => Fees.fromJson(data as Map<String, dynamic>),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<int> getFirstAvailableBlock() async {
+    final data = await _client.request(
+      'getFirstAvailableBlock',
+    );
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<String> getGenesisHash() async {
+    final data = await _client.request(
+      'getGenesisHash',
+    );
+    final response = Response<String>.fromJson(
+      data,
+      (Object? data) => data as String,
+    );
+
+    return response.result;
+  }
+
+  Future<String> getHealth() async {
+    final data = await _client.request(
+      'getHealth',
+    );
+    final response = Response<String>.fromJson(
+      data,
+      (Object? data) => data as String,
+    );
+
+    return response.result;
+  }
+
+  Future<Identity> getIdentity() async {
+    final data = await _client.request(
+      'getIdentity',
+    );
+    final response = Response<Identity>.fromJson(
+      data,
+      (Object? data) => Identity.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<InflationGovernor> getInflationGovernor({
+    CommitmentObject? commitment,
+  }) async {
+    final data =
+        await _client.request('getInflationGovernor', params: <dynamic>[
+      commitment,
+    ]);
+    final response = Response<InflationGovernor>.fromJson(
+      data,
+      (Object? data) =>
+          InflationGovernor.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<InflationRate> getInflationRate() async {
+    final data = await _client.request(
+      'getInflationRate',
+    );
+    final response = Response<InflationRate>.fromJson(
+      data,
+      (Object? data) => InflationRate.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<List<InflationReward>> getInflationReward({
+    required List<String> addresses,
+  }) async {
+    final data = await _client.request('getInflationReward', params: <dynamic>[
+      addresses,
+    ]);
+    final response = Response<List<InflationReward>>.fromJson(
+      data,
+      (Object? data) => (data as List<dynamic>)
+          .map((dynamic data) =>
+              InflationReward.fromJson(data as Map<String, dynamic>))
+          .toList(growable: false),
+    );
+
+    return response.result;
+  }
+
+  Future<List<LargeAccount>> getLargestAccounts({
+    Commitment? commitment,
+    CirculationStatus? filter,
+  }) async {
+    final data = await _client.request('getLargestAccounts', params: <dynamic>[
+      <String, dynamic>{
+        'commitment': commitment,
+        'filter': filter,
+      },
+    ]);
+    final response = Response<RpcResponse<List<LargeAccount>>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<List<LargeAccount>>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => (data as List<dynamic>)
+            .map((dynamic data) =>
+                LargeAccount.fromJson(data as Map<String, dynamic>))
+            .toList(growable: false),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<LeaderSchedule> getLeaderSchedule({
+    int? slot,
+    Commitment? commitment,
+    String? identity,
+  }) async {
+    final data = await _client.request('getLeaderSchedule', params: <dynamic>[
+      slot,
+      <String, dynamic>{
+        'commitment': commitment,
+        'identity': identity,
+      },
+    ]);
+    final response = Response<LeaderSchedule>.fromJson(
+      data,
+      (Object? data) => data as LeaderSchedule,
+    );
+
+    return response.result;
+  }
+
+  Future<int> getMaxRetransmitSlot({
+    required int slot,
+  }) async {
+    final data =
+        await _client.request('getMaxRetransmitSlot', params: <dynamic>[
+      slot,
+    ]);
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<int> getMaxShredInsertSlot() async {
+    final data = await _client.request(
+      'getMaxShredInsertSlot',
+    );
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<int> getMinimumBalanceForRentExemption({
+    required int accountDataLength,
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client
+        .request('getMinimumBalanceForRentExemption', params: <dynamic>[
+      accountDataLength,
+      commitment,
+    ]);
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<List<Account>> getMultipleAccounts({
+    required List<String> pubKey,
+    Commitment? commitment,
+    required Encoding encoding,
+    int? offset,
+    int? length,
+  }) async {
+    final data = await _client.request('getMultipleAccounts', params: <dynamic>[
+      pubKey,
+      <String, dynamic>{
+        'commitment': commitment,
+        'encoding': encoding,
+        'dataSlice': <String, dynamic>{
+          'offset': offset,
+          'length': length,
+        },
+      },
+    ]);
+    final response = Response<RpcResponse<List<Account>>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<List<Account>>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => (data as List<dynamic>)
+            .map((dynamic data) =>
+                Account.fromJson(data as Map<String, dynamic>))
+            .toList(growable: false),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<List<ProgramAccount>> getProgramAccounts({
+    required String pubKey,
+    Commitment? commitment,
+    required Encoding encoding,
+    int? offset,
+    int? length,
+    List<Filter>? filters,
+    bool? withContext,
+  }) async {
+    final data = await _client.request('getProgramAccounts', params: <dynamic>[
+      pubKey,
+      <String, dynamic>{
+        'commitment': commitment,
+        'encoding': encoding,
+        'dataSlice': <String, dynamic>{
+          'offset': offset,
+          'length': length,
+        },
+        'filters': filters,
+        'withContext': withContext,
+      },
+    ]);
+    final response = Response<List<ProgramAccount>>.fromJson(
+      data,
+      (Object? data) => (data as List<dynamic>)
+          .map((dynamic data) =>
+              ProgramAccount.fromJson(data as Map<String, dynamic>))
+          .toList(growable: false),
+    );
+
+    return response.result;
+  }
+
+  Future<RecentBlockhash> getRecentBlockhash({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('getRecentBlockhash', params: <dynamic>[
+      commitment,
+    ]);
+    final response = Response<RpcResponse<RecentBlockhash>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<RecentBlockhash>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) =>
+            RecentBlockhash.fromJson(data as Map<String, dynamic>),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<List<PerfSample>> getRecentPerformanceSamples({
+    int? limit,
+  }) async {
+    final data =
+        await _client.request('getRecentPerformanceSamples', params: <dynamic>[
+      limit,
+    ]);
+    final response = Response<List<PerfSample>>.fromJson(
+      data,
+      (Object? data) => (data as List<dynamic>)
+          .map((dynamic data) =>
+              PerfSample.fromJson(data as Map<String, dynamic>))
+          .toList(growable: false),
+    );
+
+    return response.result;
+  }
+
+  Future<int> getSnapshotSlot() async {
+    final data = await _client.request(
+      'getSnapshotSlot',
+    );
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<List<TransactionSignatureInformation>> getSignaturesForAddress({
+    required String pubKey,
+    int? limit,
     String? before,
     String? until,
     Commitment? commitment,
   }) async {
-    final data = await client.request(
-      'getConfirmedSignaturesForAddress2',
-      params: <dynamic>[
-        address,
-        <String, dynamic>{
-          'limit': limit,
-          'before': before,
-          'after': until,
-          if (commitment != null) 'commitment': commitment.value,
-        }
-      ],
+    final data =
+        await _client.request('getSignaturesForAddress', params: <dynamic>[
+      pubKey,
+      <String, dynamic>{
+        'limit': limit,
+        'before': before,
+        'until': until,
+        'commitment': commitment,
+      },
+    ]);
+    final response = Response<List<TransactionSignatureInformation>>.fromJson(
+      data,
+      (Object? data) => (data as List<dynamic>)
+          .map((dynamic data) => TransactionSignatureInformation.fromJson(
+              data as Map<String, dynamic>))
+          .toList(growable: false),
     );
 
-    return ConfirmedSignaturesResponse.fromJson(data).result;
+    return response.result;
   }
 
-  /// Returns a Future that resolves to the transaction details for a given
-  /// [signature].
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionResponse?> getConfirmedTransaction(
-    String signature, {
+  Future<SignatureStatus> getSignatureStatuses({
+    required List<String> signatures,
+    required bool searchTransactionHistory,
+  }) async {
+    final data =
+        await _client.request('getSignatureStatuses', params: <dynamic>[
+      signatures,
+      <String, dynamic>{
+        'searchTransactionHistory': searchTransactionHistory,
+      },
+    ]);
+    final response = Response<RpcResponse<SignatureStatus>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<SignatureStatus>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) =>
+            SignatureStatus.fromJson(data as Map<String, dynamic>),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<int> getSlot({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('getSlot', params: <dynamic>[
+      commitment,
+    ]);
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<String> getSlotLeader({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('getSlotLeader', params: <dynamic>[
+      commitment,
+    ]);
+    final response = Response<String>.fromJson(
+      data,
+      (Object? data) => data as String,
+    );
+
+    return response.result;
+  }
+
+  Future<List<String>> getSlotLeaders({
+    required int startSlot,
+    required int limit,
+  }) async {
+    final data = await _client.request('getSlotLeaders', params: <dynamic>[
+      startSlot,
+      limit,
+    ]);
+    final response = Response<List<String>>.fromJson(
+      data,
+      (Object? data) => (data as List<dynamic>)
+          .map((dynamic data) => data as String)
+          .toList(growable: false),
+    );
+
+    return response.result;
+  }
+
+  Future<StakeActivation> getStakeActivation({
+    required String pubKey,
     Commitment? commitment,
+    int? epoch,
   }) async {
-    final data = await client.request(
-      'getConfirmedTransaction',
-      params: <dynamic>[
-        signature,
-        {
-          'encoding': 'jsonParsed',
-          if (commitment != null) 'commitment': commitment.value,
-        }
-      ],
+    final data = await _client.request('getStakeActivation', params: <dynamic>[
+      pubKey,
+      <String, dynamic>{
+        'commitment': commitment,
+        'epoch': epoch,
+      },
+    ]);
+    final response = Response<StakeActivation>.fromJson(
+      data,
+      (Object? data) => StakeActivation.fromJson(data as Map<String, dynamic>),
     );
 
-    return ConfirmedTransactionResponse.fromJson(data).result;
+    return response.result;
   }
 
-  /// Returns transaction details for a confirmed transaction with
-  /// signature [signature]
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionResponse?> getTransaction(
-    String signature, {
+  Future<Supply> getSupply({
     Commitment? commitment,
+    bool? excludeNonCirculatingAccountsList,
   }) async {
-    final data = await client.request(
-      'getTransaction',
-      params: <dynamic>[
-        signature.toString(),
-        <String, dynamic>{
-          'encoding': 'jsonParsed',
-          if (commitment != null) 'commitment': commitment.value,
-        }
-      ],
+    final data = await _client.request('getSupply', params: <dynamic>[
+      <String, dynamic>{
+        'commitment': commitment,
+        'excludeNonCirculatingAccountsList': excludeNonCirculatingAccountsList,
+      },
+    ]);
+    final response = Response<Supply>.fromJson(
+      data,
+      (Object? data) => Supply.fromJson(data as Map<String, dynamic>),
     );
 
-    return GetTransactionResponse.fromJson(data).result;
+    return response.result;
   }
 
-  /// Get token supply for [tokenMintAddress]
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TokenSupplyResult> getTokenSupply(
-    String tokenMintAddress, {
-    Commitment commitment = Commitment.confirmed,
-  }) async {
-    final data = await client.request(
-      'getTokenSupply',
-      params: <dynamic>[
-        tokenMintAddress,
-        <String, dynamic>{
-          'encoding': 'jsonParsed',
-          'commitment': commitment.value,
-        }
-      ],
-    );
-
-    return GetTokenSupplyResponse.fromJson(data).result;
-  }
-
-  /// Returns Future that resolves to the statuses of a list of [signatures].
-  /// Unless the [searchTransactionHistory] configuration parameter is included,
-  /// this method only searches the recent status cache of signatures.
-  Future<Iterable<SignatureStatus?>> getSignatureStatuses(
-    List<TransactionSignature> signatures, {
-    bool searchTransactionHistory = false,
-  }) async {
-    final data = await client.request(
-      'getSignatureStatuses',
-      params: <dynamic>[
-        [
-          for (TransactionSignature signature in signatures)
-            signature.toString()
-        ],
-        <String, bool>{
-          'searchTransactionHistory': searchTransactionHistory,
-        }
-      ],
-    );
-
-    return SignatureStatusesResponse.fromJson(data).result.value;
-  }
-
-  /// Get minimum balance for rent exemption to allocate [size] bytes
-  /// in an account.
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<int> getMinimumBalanceForRentExemption(
-    int size, {
-    Commitment? commitment,
-  }) async {
-    final data = await client.request(
-      'getMinimumBalanceForRentExemption',
-      params: <dynamic>[
-        size,
-        if (commitment != null)
-          <String, String>{'commitment': commitment.value},
-      ],
-    );
-
-    return MinimumBalanceForRentExemptionResponse.fromJson(data).result;
-  }
-
-  /// Get the balance of a token account with [associatedTokenAccountAddress].
   Future<TokenAmount> getTokenAccountBalance({
-    required String associatedTokenAccountAddress,
-    Commitment? commitment,
+    required String pubKey,
+    CommitmentObject? commitment,
   }) async {
-    final data = await client.request(
-      'getTokenAccountBalance',
-      params: <dynamic>[
-        associatedTokenAccountAddress,
-        if (commitment != null)
-          <String, String>{'commitment': commitment.value},
-      ],
+    final data =
+        await _client.request('getTokenAccountBalance', params: <dynamic>[
+      pubKey,
+      commitment,
+    ]);
+    final response = Response<RpcResponse<TokenAmount>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<TokenAmount>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => TokenAmount.fromJson(data as Map<String, dynamic>),
+      ),
     );
+    final rpcResponse = response.result;
 
-    return TokenBalanceResponse.fromJson(data).result.value;
+    return rpcResponse.value;
   }
 
-  /// Gets associated token accounts for a given user. If [mint] or [programId]
-  /// are provided, it returns the accounts associated to those specific values.
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Iterable<AssociatedTokenAccount>> getTokenAccountsByOwner({
-    required String owner,
+  Future<List<ProgramAccount>> getTokenAccountsByDelegate({
+    required String pubKey,
     String? mint,
     String? programId,
     Commitment? commitment,
+    required Encoding encoding,
+    int? offset,
+    int? length,
   }) async {
-    final data = await client.request(
-      'getTokenAccountsByOwner',
-      params: <dynamic>[
-        owner,
-        <String, String>{
-          if (mint != null) 'mint': mint,
-          if (programId != null) 'programId': programId,
+    final data =
+        await _client.request('getTokenAccountsByDelegate', params: <dynamic>[
+      pubKey,
+      <String, dynamic>{
+        'mint': mint,
+        'programId': programId,
+      },
+      <String, dynamic>{
+        'commitment': commitment,
+        'encoding': encoding,
+        'dataSlice': <String, dynamic>{
+          'offset': offset,
+          'length': length,
         },
-        <String, String>{
-          'encoding': 'jsonParsed',
-          if (commitment != null) 'commitment': commitment.value,
-        }
-      ],
+      },
+    ]);
+    final response = Response<RpcResponse<List<ProgramAccount>>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<List<ProgramAccount>>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => (data as List<dynamic>)
+            .map((dynamic data) =>
+                ProgramAccount.fromJson(data as Map<String, dynamic>))
+            .toList(growable: false),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<List<ProgramAccount>> getTokenAccountsByOwner({
+    required String pubKey,
+    String? mint,
+    String? programId,
+    Commitment? commitment,
+    required Encoding encoding,
+    int? offset,
+    int? length,
+  }) async {
+    final data =
+        await _client.request('getTokenAccountsByOwner', params: <dynamic>[
+      pubKey,
+      <String, dynamic>{
+        'mint': mint,
+        'programId': programId,
+      },
+      <String, dynamic>{
+        'commitment': commitment,
+        'encoding': encoding,
+        'dataSlice': <String, dynamic>{
+          'offset': offset,
+          'length': length,
+        },
+      },
+    ]);
+    final response = Response<RpcResponse<List<ProgramAccount>>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<List<ProgramAccount>>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => (data as List<dynamic>)
+            .map((dynamic data) =>
+                ProgramAccount.fromJson(data as Map<String, dynamic>))
+            .toList(growable: false),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<List<ProgramAccount>> getTokenLargestAccounts({
+    required String pubKey,
+    CommitmentObject? commitment,
+  }) async {
+    final data =
+        await _client.request('getTokenLargestAccounts', params: <dynamic>[
+      pubKey,
+      commitment,
+    ]);
+    final response = Response<RpcResponse<List<ProgramAccount>>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<List<ProgramAccount>>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => (data as List<dynamic>)
+            .map((dynamic data) =>
+                ProgramAccount.fromJson(data as Map<String, dynamic>))
+            .toList(growable: false),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<TokenAmount> getTokenSupply({
+    required String pubKey,
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('getTokenSupply', params: <dynamic>[
+      pubKey,
+      commitment,
+    ]);
+    final response = Response<RpcResponse<TokenAmount>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<TokenAmount>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) => TokenAmount.fromJson(data as Map<String, dynamic>),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<TransactionDetails> getTransaction({
+    required String signature,
+    Encoding? encoding,
+    Commitment? commitment,
+  }) async {
+    final data = await _client.request('getTransaction', params: <dynamic>[
+      signature,
+      <String, dynamic>{
+        'encoding': encoding,
+        'commitment': commitment,
+      },
+    ]);
+    final response = Response<TransactionDetails>.fromJson(
+      data,
+      (Object? data) =>
+          TransactionDetails.fromJson(data as Map<String, dynamic>),
     );
 
-    // Will never be null
-    return AssociatedTokenAccountResponse.fromJson(data).result.value;
+    return response.result;
+  }
+
+  Future<int> getTransactionCount({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('getTransactionCount', params: <dynamic>[
+      commitment,
+    ]);
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<SolanaVersion> getVersion() async {
+    final data = await _client.request(
+      'getVersion',
+    );
+    final response = Response<SolanaVersion>.fromJson(
+      data,
+      (Object? data) => SolanaVersion.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<VoteAccounts> getVoteAccounts({
+    Commitment? commitment,
+    String? votePubKey,
+    bool? keepUnstakedDelinquents,
+    int? delinquentSlotDistance,
+  }) async {
+    final data = await _client.request('getVoteAccounts', params: <dynamic>[
+      <String, dynamic>{
+        'commitment': commitment,
+        'votePubKey': votePubKey,
+        'keepUnstakedDelinquents': keepUnstakedDelinquents,
+        'delinquentSlotDistance': delinquentSlotDistance,
+      },
+    ]);
+    final response = Response<VoteAccounts>.fromJson(
+      data,
+      (Object? data) => VoteAccounts.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<int> minimumLedgerSlot() async {
+    final data = await _client.request(
+      'minimumLedgerSlot',
+    );
+    final response = Response<int>.fromJson(
+      data,
+      (Object? data) => data as int,
+    );
+
+    return response.result;
+  }
+
+  Future<String> requestAirdrop({
+    required String pubKey,
+    required int lamports,
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _client.request('requestAirdrop', params: <dynamic>[
+      pubKey,
+      lamports,
+      commitment,
+    ]);
+    final response = Response<String>.fromJson(
+      data,
+      (Object? data) => data as String,
+    );
+
+    return response.result;
+  }
+
+  Future<String> sendTransaction({
+    required String transaction,
+    required bool skipPreflight,
+    Commitment? preflightCommitment,
+    Encoding? encoding,
+    int? maxRetries,
+  }) async {
+    final data = await _client.request('sendTransaction', params: <dynamic>[
+      transaction,
+      <String, dynamic>{
+        'skipPreflight': skipPreflight,
+        'preflightCommitment': preflightCommitment,
+        'encoding': encoding,
+        'maxRetries': maxRetries,
+      },
+    ]);
+    final response = Response<String>.fromJson(
+      data,
+      (Object? data) => data as String,
+    );
+
+    return response.result;
+  }
+
+  Future<TransactionStatus> simulateTransaction({
+    required String transaction,
+    required bool sigVerify,
+    Commitment? commitment,
+    Encoding? encoding,
+    bool? replaceRecentBlockhash,
+    Encoding? accountEncoding,
+    required List<String> addresses,
+  }) async {
+    final data = await _client.request('simulateTransaction', params: <dynamic>[
+      transaction,
+      <String, dynamic>{
+        'sigVerify': sigVerify,
+        'commitment': commitment,
+        'encoding': encoding,
+        'replaceRecentBlockhash': replaceRecentBlockhash,
+        'accounts': <String, dynamic>{
+          'accountEncoding': accountEncoding,
+          'addresses': addresses,
+        },
+      },
+    ]);
+    final response = Response<RpcResponse<TransactionStatus>>.fromJson(
+      data,
+      (Object? data) => RpcResponse<TransactionStatus>.fromJson(
+        data as Map<String, dynamic>,
+        (Object? data) =>
+            TransactionStatus.fromJson(data as Map<String, dynamic>),
+      ),
+    );
+    final rpcResponse = response.result;
+
+    return rpcResponse.value;
+  }
+
+  Future<Block> getConfirmedBlock({
+    required int slot,
+    Encoding? encoding,
+    String? transactionDetails,
+    bool? rewards,
+    Commitment? commitment,
+  }) async {
+    final data = await _client.request('getConfirmedBlock', params: <dynamic>[
+      slot,
+      <String, dynamic>{
+        'encoding': encoding,
+        'transactionDetails': transactionDetails,
+        'rewards': rewards,
+        'commitment': commitment,
+      },
+    ]);
+    final response = Response<Block>.fromJson(
+      data,
+      (Object? data) => Block.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
+  }
+
+  Future<List<int>> getConfirmedBlocks({
+    required int startSlot,
+    int? endSlot,
+    Commitment? commitment,
+  }) async {
+    final data = await _client.request('getConfirmedBlocks', params: <dynamic>[
+      startSlot,
+      endSlot,
+      commitment,
+    ]);
+    final response = Response<List<int>>.fromJson(
+      data,
+      (Object? data) => data as List<int>,
+    );
+
+    return response.result;
+  }
+
+  Future<List<int>> getConfirmedBlocksWithLimit({
+    required int startSlot,
+    required int limit,
+    Commitment? commitment,
+  }) async {
+    final data =
+        await _client.request('getConfirmedBlocksWithLimit', params: <dynamic>[
+      startSlot,
+      limit,
+      commitment,
+    ]);
+    final response = Response<List<int>>.fromJson(
+      data,
+      (Object? data) => data as List<int>,
+    );
+
+    return response.result;
+  }
+
+  Future<List<TransactionSignatureInformation>>
+      getConfirmedSignaturesForAddress2({
+    required String pubKey,
+    int? limit,
+    String? before,
+    String? until,
+    Commitment? commitment,
+  }) async {
+    final data = await _client
+        .request('getConfirmedSignaturesForAddress2', params: <dynamic>[
+      pubKey,
+      <String, dynamic>{
+        'limit': limit,
+        'before': before,
+        'until': until,
+        'commitment': commitment,
+      },
+    ]);
+    final response = Response<List<TransactionSignatureInformation>>.fromJson(
+      data,
+      (Object? data) => (data as List<dynamic>)
+          .map((dynamic data) => TransactionSignatureInformation.fromJson(
+              data as Map<String, dynamic>))
+          .toList(growable: false),
+    );
+
+    return response.result;
+  }
+
+  Future<TransactionDetails> getConfirmedTransaction({
+    required String signature,
+    Encoding? encoding,
+    Commitment? commitment,
+  }) async {
+    final data =
+        await _client.request('getConfirmedTransaction', params: <dynamic>[
+      signature,
+      <String, dynamic>{
+        'encoding': encoding,
+        'commitment': commitment,
+      },
+    ]);
+    final response = Response<TransactionDetails>.fromJson(
+      data,
+      (Object? data) =>
+          TransactionDetails.fromJson(data as Map<String, dynamic>),
+    );
+
+    return response.result;
   }
 }

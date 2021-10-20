@@ -1,12 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'transaction_signature.dart';
+part of 'response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SignatureResponse _$SignatureResponseFromJson(Map<String, dynamic> json) =>
-    SignatureResponse(
-      json['result'] as String,
+Response<T> _$ResponseFromJson<T>(
+  Map<String, dynamic> json,
+  T Function(Object? json) fromJsonT,
+) =>
+    Response<T>(
+      result: fromJsonT(json['result']),
     );

@@ -15,13 +15,13 @@ enum ProgramType {
 
 /// The `transaction` field type of a [TransactionResponse] object.
 @JsonSerializable(createToJson: false)
-class Transaction {
-  Transaction({
+class ParsedTransaction {
+  ParsedTransaction({
     this.message,
     required this.signatures,
   });
 
-  factory Transaction.fromJson(Map<String, dynamic> json) =>
+  factory ParsedTransaction.fromJson(Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
 
   final List<String> signatures;
