@@ -1,11 +1,11 @@
 import 'package:solana/solana.dart' show lamportsPerSol;
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/dto/commitment.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
 import 'package:solana/src/parsed_message/parsed_instruction.dart';
 import 'package:solana/src/parsed_message/parsed_spl_token_instruction.dart';
 import 'package:solana/src/parsed_message/parsed_system_instruction.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/wallet.dart';
 import 'package:test/test.dart';
@@ -35,7 +35,7 @@ void main() {
       funder: source,
     );
     await token.mintTo(
-      destination: associatedAccount.address,
+      destination: associatedAccount.pubkey,
       amount: _tokenMintAmount,
     );
   });
@@ -63,13 +63,16 @@ void main() {
     );
     expect(signature, isNotNull);
 
-    final result =
-        await rpcClient.getConfirmedTransaction(signature.toString());
+    final result = await rpcClient.getConfirmedTransaction(
+      signature: signature.toString(),
+    );
     expect(result, isNotNull);
-    expect(result?.transaction, isNotNull);
-    final transaction = result!.transaction;
+    expect(result, isA<TransactionDetailsParsed>());
+    final transactionDetails = result as TransactionDetailsParsed;
+    final transaction = transactionDetails.transaction;
+    expect(transaction, isA<ParsedTransaction>());
     expect(transaction.message, isNotNull);
-    final txMessage = transaction.message!;
+    final txMessage = transaction.message;
     expect(txMessage.instructions, isNotNull);
     final instructions = txMessage.instructions;
     expect(instructions.length, equals(2));
@@ -166,13 +169,17 @@ void main() {
     );
     expect(signature, isNotNull);
 
-    final result =
-        await rpcClient.getConfirmedTransaction(signature.toString());
+    final result = await rpcClient.getConfirmedTransaction(
+      signature: signature.toString(),
+    );
+    expect(result, isA<TransactionDetailsParsed>());
     expect(result, isNotNull);
-    expect(result?.transaction, isNotNull);
-    final transaction = result!.transaction;
+    final transactionDetails = result as TransactionDetailsParsed;
+    final transaction = transactionDetails.transaction;
+    expect(transaction, isA<ParsedTransaction>());
     expect(transaction.message, isNotNull);
-    final txMessage = transaction.message!;
+    expect(transaction.message, isNotNull);
+    final txMessage = transaction.message;
     expect(txMessage.instructions, isNotNull);
     final instructions = txMessage.instructions;
     expect(instructions.length, equals(2));

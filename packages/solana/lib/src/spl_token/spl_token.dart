@@ -1,13 +1,10 @@
 import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/dto/account.dart';
-import 'package:solana/src/dto/commitment.dart';
-import 'package:solana/src/dto/signature_status.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
-import 'package:solana/src/rpc_client/transaction_signature.dart';
-import 'package:solana/src/spl_token/associated_account.dart';
+import 'package:solana/src/rpc_client/rpc_client_extension.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/token_program/token_program.dart';
 import 'package:solana/src/utils.dart';
 
@@ -28,11 +25,10 @@ class SplToken {
     Ed25519HDKeyPair? owner,
   }) async {
     // TODO(IA): perhaps delay this or use a user provided token information
-    final supplyResponse = await rpcClient.getTokenSupply(mint);
-    final supplyValue = supplyResponse.value;
+    final supply = await rpcClient.getTokenSupply(mint: mint);
     return SplToken._(
-      decimals: supplyValue.decimals,
-      supply: BigInt.parse(supplyValue.amount),
+      decimals: supply.decimals,
+      supply: BigInt.parse(supply.amount),
       rpcClient: rpcClient,
       mint: mint,
       owner: owner,
@@ -61,12 +57,14 @@ class SplToken {
         rpcClient: rpcClient,
       );
 
-  Future<AssociatedTokenAccount?> getAssociatedAccount(
+  Future<ProgramAccount?> getAssociatedAccount(
     String owner,
   ) async {
     final accounts = await _rpcClient.getTokenAccountsByOwner(
-      owner: owner,
-      mint: mint,
+      pubKey: owner,
+      mintOrProgramId: MintOrProgramId(
+        mint: mint,
+      ),
     );
     if (accounts.isEmpty) {
       return null;
@@ -75,7 +73,7 @@ class SplToken {
   }
 
   /// Transfer [amount] tokens owned by [owner] from [source] to [destination]
-  Future<TransactionSignature> transfer({
+  Future<String> transfer({
     required String source,
     required String destination,
     required int amount,
@@ -96,8 +94,8 @@ class SplToken {
     }
 
     final message = TokenProgram.transfer(
-      source: associatedSenderAccount.address,
-      destination: associatedRecipientAccount.address,
+      source: associatedSenderAccount.pubkey,
+      destination: associatedRecipientAccount.pubkey,
       owner: owner.address,
       amount: amount,
     );
@@ -120,7 +118,9 @@ class SplToken {
     Commitment commitment = Commitment.finalized,
   }) async {
     const space = TokenProgram.neededAccountSpace;
-    final rent = await _rpcClient.getMinimumBalanceForRentExemption(space);
+    final rent = await _rpcClient.getMinimumBalanceForRentExemption(
+      accountDataLength: space,
+    );
     final message = TokenProgram.createAccount(
       address: account.address,
       owner: creator.address,
@@ -143,6 +143,7 @@ class SplToken {
       lamports: 0,
       executable: false,
       rentEpoch: 0,
+      data: null,
     );
   }
 
@@ -160,7 +161,7 @@ class SplToken {
       );
 
   /// Create the associated account for [owner] funded by [funder].
-  Future<AssociatedTokenAccount> createAssociatedAccount({
+  Future<ProgramAccount> createAssociatedAccount({
     required String owner,
     required Ed25519HDKeyPair funder,
     Commitment commitment = Commitment.finalized,
@@ -183,13 +184,14 @@ class SplToken {
     await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     // TODO(IA): populate rentEpoch correctly
-    return AssociatedTokenAccount(
-      address: derivedAddress,
+    return ProgramAccount(
+      pubkey: derivedAddress,
       account: Account(
         owner: owner,
         lamports: 0,
         executable: false,
         rentEpoch: 0,
+        data: null,
       ),
     );
   }
@@ -243,7 +245,9 @@ extension TokenExt on RPCClient {
   }) async {
     const space = TokenProgram.neededMintAccountSpace;
     final mintWallet = await Ed25519HDKeyPair.random();
-    final rent = await getMinimumBalanceForRentExemption(space);
+    final rent = await getMinimumBalanceForRentExemption(
+      accountDataLength: space,
+    );
 
     final message = TokenProgram.initializeMint(
       mint: mintWallet.address,

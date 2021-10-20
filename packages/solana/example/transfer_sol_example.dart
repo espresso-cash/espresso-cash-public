@@ -29,7 +29,7 @@ Future<void> example() async {
 
   // To confirm that it worked let's see if there's any balance
   // in the recipients wallet
-  final lamports = await rpcClient.getBalance(destination.address);
+  final lamports = await rpcClient.getBalance(pubKey: destination.address);
   if (lamports == 1) {
     print('Good, it worked.');
   } else {

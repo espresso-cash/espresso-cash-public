@@ -1,9 +1,7 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
-import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
-import 'package:solana/src/spl_token/token_supply.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
@@ -52,10 +50,9 @@ void main() {
         mint: newTokenMint,
         rpcClient: client,
       );
-      Iterable<AssociatedTokenAccount> accounts =
-          await client.getTokenAccountsByOwner(
-        owner: owner.address,
-        mint: token.mint,
+      Iterable<ProgramAccount> accounts = await client.getTokenAccountsByOwner(
+        pubKey: owner.address,
+        mintOrProgramId: MintOrProgramId(mint: token.mint),
       );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
@@ -66,13 +63,13 @@ void main() {
       );
 
       accounts = await client.getTokenAccountsByOwner(
-        owner: owner.address,
-        mint: token.mint,
+        pubKey: owner.address,
+        mintOrProgramId: MintOrProgramId(mint: token.mint),
       );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
       expect(
-        accounts.where((a) => a.address == newAccount.address),
+        accounts.where((a) => a.pubkey == newAccount.pubkey),
         isNot(null),
       );
     });
@@ -84,11 +81,11 @@ void main() {
         rpcClient: client,
       );
       final accounts = await client.getTokenAccountsByOwner(
-        owner: owner.address,
-        mint: token.mint,
+        pubKey: owner.address,
+        mintOrProgramId: MintOrProgramId(mint: token.mint),
       );
       await token.mintTo(
-        destination: accounts.first.address,
+        destination: accounts.first.pubkey,
         amount: _totalSupply,
       );
       // Reload it
@@ -103,10 +100,9 @@ void main() {
     });
 
     test('Get spl_token supply', () async {
-      final TokenSupplyResult supplyResult = await client.getTokenSupply(
-        newTokenMint,
+      final TokenAmount tokenSupply = await client.getTokenSupply(
+        mint: newTokenMint,
       );
-      final TokenSupply tokenSupply = supplyResult.value;
 
       expect(int.parse(tokenSupply.amount), equals(_totalSupply));
     });
@@ -123,7 +119,7 @@ void main() {
         owner: recipient.address,
         funder: owner,
       );
-      expect(account, isA<AssociatedTokenAccount>());
+      expect(account, isA<ProgramAccount>());
       // Send to the newly created account
       final signature = await token.transfer(
         source: owner.address,
@@ -161,11 +157,11 @@ void main() {
       expect(sourceAssociatedTokenAddress, isNotNull);
       expect(destinationAssociatedTokenAddress, isNotNull);
 
-      expect(account, isA<AssociatedTokenAccount>());
+      expect(account, isA<ProgramAccount>());
       // Send to the newly created account
       final message = TokenProgram.transfer(
-        source: sourceAssociatedTokenAddress!.address,
-        destination: destinationAssociatedTokenAddress!.address,
+        source: sourceAssociatedTokenAddress!.pubkey,
+        destination: destinationAssociatedTokenAddress!.pubkey,
         amount: 100,
         owner: owner.address,
       );

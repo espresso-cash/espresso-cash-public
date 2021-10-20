@@ -13,6 +13,3711 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+GetConfirmedTransactionOptions _$GetConfirmedTransactionOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetConfirmedTransactionOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetConfirmedTransactionOptionsTearOff {
+  const _$GetConfirmedTransactionOptionsTearOff();
+
+  _GetConfirmedTransactionOptions call(
+      {Encoding? encoding = Encoding.jsonParsed,
+      Commitment? commitment = Commitment.finalized}) {
+    return _GetConfirmedTransactionOptions(
+      encoding: encoding,
+      commitment: commitment,
+    );
+  }
+
+  GetConfirmedTransactionOptions fromJson(Map<String, Object> json) {
+    return GetConfirmedTransactionOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetConfirmedTransactionOptions =
+    _$GetConfirmedTransactionOptionsTearOff();
+
+/// @nodoc
+mixin _$GetConfirmedTransactionOptions {
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  Commitment? get commitment => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetConfirmedTransactionOptionsCopyWith<GetConfirmedTransactionOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetConfirmedTransactionOptionsCopyWith<$Res> {
+  factory $GetConfirmedTransactionOptionsCopyWith(
+          GetConfirmedTransactionOptions value,
+          $Res Function(GetConfirmedTransactionOptions) then) =
+      _$GetConfirmedTransactionOptionsCopyWithImpl<$Res>;
+  $Res call({Encoding? encoding, Commitment? commitment});
+}
+
+/// @nodoc
+class _$GetConfirmedTransactionOptionsCopyWithImpl<$Res>
+    implements $GetConfirmedTransactionOptionsCopyWith<$Res> {
+  _$GetConfirmedTransactionOptionsCopyWithImpl(this._value, this._then);
+
+  final GetConfirmedTransactionOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetConfirmedTransactionOptions) _then;
+
+  @override
+  $Res call({
+    Object? encoding = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_value.copyWith(
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetConfirmedTransactionOptionsCopyWith<$Res>
+    implements $GetConfirmedTransactionOptionsCopyWith<$Res> {
+  factory _$GetConfirmedTransactionOptionsCopyWith(
+          _GetConfirmedTransactionOptions value,
+          $Res Function(_GetConfirmedTransactionOptions) then) =
+      __$GetConfirmedTransactionOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call({Encoding? encoding, Commitment? commitment});
+}
+
+/// @nodoc
+class __$GetConfirmedTransactionOptionsCopyWithImpl<$Res>
+    extends _$GetConfirmedTransactionOptionsCopyWithImpl<$Res>
+    implements _$GetConfirmedTransactionOptionsCopyWith<$Res> {
+  __$GetConfirmedTransactionOptionsCopyWithImpl(
+      _GetConfirmedTransactionOptions _value,
+      $Res Function(_GetConfirmedTransactionOptions) _then)
+      : super(_value, (v) => _then(v as _GetConfirmedTransactionOptions));
+
+  @override
+  _GetConfirmedTransactionOptions get _value =>
+      super._value as _GetConfirmedTransactionOptions;
+
+  @override
+  $Res call({
+    Object? encoding = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_GetConfirmedTransactionOptions(
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetConfirmedTransactionOptions
+    implements _GetConfirmedTransactionOptions {
+  const _$_GetConfirmedTransactionOptions(
+      {this.encoding = Encoding.jsonParsed,
+      this.commitment = Commitment.finalized});
+
+  factory _$_GetConfirmedTransactionOptions.fromJson(
+          Map<String, dynamic> json) =>
+      _$$_GetConfirmedTransactionOptionsFromJson(json);
+
+  @JsonKey(defaultValue: Encoding.jsonParsed)
+  @override
+  final Encoding? encoding;
+  @JsonKey(defaultValue: Commitment.finalized)
+  @override
+  final Commitment? commitment;
+
+  @override
+  String toString() {
+    return 'GetConfirmedTransactionOptions(encoding: $encoding, commitment: $commitment)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetConfirmedTransactionOptions &&
+            (identical(other.encoding, encoding) ||
+                const DeepCollectionEquality()
+                    .equals(other.encoding, encoding)) &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(encoding) ^
+      const DeepCollectionEquality().hash(commitment);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetConfirmedTransactionOptionsCopyWith<_GetConfirmedTransactionOptions>
+      get copyWith => __$GetConfirmedTransactionOptionsCopyWithImpl<
+          _GetConfirmedTransactionOptions>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetConfirmedTransactionOptionsToJson(this);
+  }
+}
+
+abstract class _GetConfirmedTransactionOptions
+    implements GetConfirmedTransactionOptions {
+  const factory _GetConfirmedTransactionOptions(
+      {Encoding? encoding,
+      Commitment? commitment}) = _$_GetConfirmedTransactionOptions;
+
+  factory _GetConfirmedTransactionOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetConfirmedTransactionOptions.fromJson;
+
+  @override
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetConfirmedTransactionOptionsCopyWith<_GetConfirmedTransactionOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+SimulateTransactionAccounts _$SimulateTransactionAccountsFromJson(
+    Map<String, dynamic> json) {
+  return _SimulateTransactionAccounts.fromJson(json);
+}
+
+/// @nodoc
+class _$SimulateTransactionAccountsTearOff {
+  const _$SimulateTransactionAccountsTearOff();
+
+  _SimulateTransactionAccounts call(
+      {Encoding? accountEncoding, List<String>? addresses}) {
+    return _SimulateTransactionAccounts(
+      accountEncoding: accountEncoding,
+      addresses: addresses,
+    );
+  }
+
+  SimulateTransactionAccounts fromJson(Map<String, Object> json) {
+    return SimulateTransactionAccounts.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $SimulateTransactionAccounts = _$SimulateTransactionAccountsTearOff();
+
+/// @nodoc
+mixin _$SimulateTransactionAccounts {
+  Encoding? get accountEncoding => throw _privateConstructorUsedError;
+  List<String>? get addresses => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SimulateTransactionAccountsCopyWith<SimulateTransactionAccounts>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SimulateTransactionAccountsCopyWith<$Res> {
+  factory $SimulateTransactionAccountsCopyWith(
+          SimulateTransactionAccounts value,
+          $Res Function(SimulateTransactionAccounts) then) =
+      _$SimulateTransactionAccountsCopyWithImpl<$Res>;
+  $Res call({Encoding? accountEncoding, List<String>? addresses});
+}
+
+/// @nodoc
+class _$SimulateTransactionAccountsCopyWithImpl<$Res>
+    implements $SimulateTransactionAccountsCopyWith<$Res> {
+  _$SimulateTransactionAccountsCopyWithImpl(this._value, this._then);
+
+  final SimulateTransactionAccounts _value;
+  // ignore: unused_field
+  final $Res Function(SimulateTransactionAccounts) _then;
+
+  @override
+  $Res call({
+    Object? accountEncoding = freezed,
+    Object? addresses = freezed,
+  }) {
+    return _then(_value.copyWith(
+      accountEncoding: accountEncoding == freezed
+          ? _value.accountEncoding
+          : accountEncoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      addresses: addresses == freezed
+          ? _value.addresses
+          : addresses // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$SimulateTransactionAccountsCopyWith<$Res>
+    implements $SimulateTransactionAccountsCopyWith<$Res> {
+  factory _$SimulateTransactionAccountsCopyWith(
+          _SimulateTransactionAccounts value,
+          $Res Function(_SimulateTransactionAccounts) then) =
+      __$SimulateTransactionAccountsCopyWithImpl<$Res>;
+  @override
+  $Res call({Encoding? accountEncoding, List<String>? addresses});
+}
+
+/// @nodoc
+class __$SimulateTransactionAccountsCopyWithImpl<$Res>
+    extends _$SimulateTransactionAccountsCopyWithImpl<$Res>
+    implements _$SimulateTransactionAccountsCopyWith<$Res> {
+  __$SimulateTransactionAccountsCopyWithImpl(
+      _SimulateTransactionAccounts _value,
+      $Res Function(_SimulateTransactionAccounts) _then)
+      : super(_value, (v) => _then(v as _SimulateTransactionAccounts));
+
+  @override
+  _SimulateTransactionAccounts get _value =>
+      super._value as _SimulateTransactionAccounts;
+
+  @override
+  $Res call({
+    Object? accountEncoding = freezed,
+    Object? addresses = freezed,
+  }) {
+    return _then(_SimulateTransactionAccounts(
+      accountEncoding: accountEncoding == freezed
+          ? _value.accountEncoding
+          : accountEncoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      addresses: addresses == freezed
+          ? _value.addresses
+          : addresses // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_SimulateTransactionAccounts implements _SimulateTransactionAccounts {
+  const _$_SimulateTransactionAccounts({this.accountEncoding, this.addresses});
+
+  factory _$_SimulateTransactionAccounts.fromJson(Map<String, dynamic> json) =>
+      _$$_SimulateTransactionAccountsFromJson(json);
+
+  @override
+  final Encoding? accountEncoding;
+  @override
+  final List<String>? addresses;
+
+  @override
+  String toString() {
+    return 'SimulateTransactionAccounts(accountEncoding: $accountEncoding, addresses: $addresses)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _SimulateTransactionAccounts &&
+            (identical(other.accountEncoding, accountEncoding) ||
+                const DeepCollectionEquality()
+                    .equals(other.accountEncoding, accountEncoding)) &&
+            (identical(other.addresses, addresses) ||
+                const DeepCollectionEquality()
+                    .equals(other.addresses, addresses)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(accountEncoding) ^
+      const DeepCollectionEquality().hash(addresses);
+
+  @JsonKey(ignore: true)
+  @override
+  _$SimulateTransactionAccountsCopyWith<_SimulateTransactionAccounts>
+      get copyWith => __$SimulateTransactionAccountsCopyWithImpl<
+          _SimulateTransactionAccounts>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_SimulateTransactionAccountsToJson(this);
+  }
+}
+
+abstract class _SimulateTransactionAccounts
+    implements SimulateTransactionAccounts {
+  const factory _SimulateTransactionAccounts(
+      {Encoding? accountEncoding,
+      List<String>? addresses}) = _$_SimulateTransactionAccounts;
+
+  factory _SimulateTransactionAccounts.fromJson(Map<String, dynamic> json) =
+      _$_SimulateTransactionAccounts.fromJson;
+
+  @override
+  Encoding? get accountEncoding => throw _privateConstructorUsedError;
+  @override
+  List<String>? get addresses => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$SimulateTransactionAccountsCopyWith<_SimulateTransactionAccounts>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+SimulateTransactionOptions _$SimulateTransactionOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _SimulateTransactionOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$SimulateTransactionOptionsTearOff {
+  const _$SimulateTransactionOptionsTearOff();
+
+  _SimulateTransactionOptions call(
+      {bool? sigVerify,
+      Encoding? encoding,
+      Commitment? commitment,
+      bool? replaceRecentBlockhash,
+      SimulateTransactionAccounts? accounts}) {
+    return _SimulateTransactionOptions(
+      sigVerify: sigVerify,
+      encoding: encoding,
+      commitment: commitment,
+      replaceRecentBlockhash: replaceRecentBlockhash,
+      accounts: accounts,
+    );
+  }
+
+  SimulateTransactionOptions fromJson(Map<String, Object> json) {
+    return SimulateTransactionOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $SimulateTransactionOptions = _$SimulateTransactionOptionsTearOff();
+
+/// @nodoc
+mixin _$SimulateTransactionOptions {
+  bool? get sigVerify => throw _privateConstructorUsedError;
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  bool? get replaceRecentBlockhash => throw _privateConstructorUsedError;
+  SimulateTransactionAccounts? get accounts =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SimulateTransactionOptionsCopyWith<SimulateTransactionOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SimulateTransactionOptionsCopyWith<$Res> {
+  factory $SimulateTransactionOptionsCopyWith(SimulateTransactionOptions value,
+          $Res Function(SimulateTransactionOptions) then) =
+      _$SimulateTransactionOptionsCopyWithImpl<$Res>;
+  $Res call(
+      {bool? sigVerify,
+      Encoding? encoding,
+      Commitment? commitment,
+      bool? replaceRecentBlockhash,
+      SimulateTransactionAccounts? accounts});
+
+  $SimulateTransactionAccountsCopyWith<$Res>? get accounts;
+}
+
+/// @nodoc
+class _$SimulateTransactionOptionsCopyWithImpl<$Res>
+    implements $SimulateTransactionOptionsCopyWith<$Res> {
+  _$SimulateTransactionOptionsCopyWithImpl(this._value, this._then);
+
+  final SimulateTransactionOptions _value;
+  // ignore: unused_field
+  final $Res Function(SimulateTransactionOptions) _then;
+
+  @override
+  $Res call({
+    Object? sigVerify = freezed,
+    Object? encoding = freezed,
+    Object? commitment = freezed,
+    Object? replaceRecentBlockhash = freezed,
+    Object? accounts = freezed,
+  }) {
+    return _then(_value.copyWith(
+      sigVerify: sigVerify == freezed
+          ? _value.sigVerify
+          : sigVerify // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      replaceRecentBlockhash: replaceRecentBlockhash == freezed
+          ? _value.replaceRecentBlockhash
+          : replaceRecentBlockhash // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      accounts: accounts == freezed
+          ? _value.accounts
+          : accounts // ignore: cast_nullable_to_non_nullable
+              as SimulateTransactionAccounts?,
+    ));
+  }
+
+  @override
+  $SimulateTransactionAccountsCopyWith<$Res>? get accounts {
+    if (_value.accounts == null) {
+      return null;
+    }
+
+    return $SimulateTransactionAccountsCopyWith<$Res>(_value.accounts!,
+        (value) {
+      return _then(_value.copyWith(accounts: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$SimulateTransactionOptionsCopyWith<$Res>
+    implements $SimulateTransactionOptionsCopyWith<$Res> {
+  factory _$SimulateTransactionOptionsCopyWith(
+          _SimulateTransactionOptions value,
+          $Res Function(_SimulateTransactionOptions) then) =
+      __$SimulateTransactionOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {bool? sigVerify,
+      Encoding? encoding,
+      Commitment? commitment,
+      bool? replaceRecentBlockhash,
+      SimulateTransactionAccounts? accounts});
+
+  @override
+  $SimulateTransactionAccountsCopyWith<$Res>? get accounts;
+}
+
+/// @nodoc
+class __$SimulateTransactionOptionsCopyWithImpl<$Res>
+    extends _$SimulateTransactionOptionsCopyWithImpl<$Res>
+    implements _$SimulateTransactionOptionsCopyWith<$Res> {
+  __$SimulateTransactionOptionsCopyWithImpl(_SimulateTransactionOptions _value,
+      $Res Function(_SimulateTransactionOptions) _then)
+      : super(_value, (v) => _then(v as _SimulateTransactionOptions));
+
+  @override
+  _SimulateTransactionOptions get _value =>
+      super._value as _SimulateTransactionOptions;
+
+  @override
+  $Res call({
+    Object? sigVerify = freezed,
+    Object? encoding = freezed,
+    Object? commitment = freezed,
+    Object? replaceRecentBlockhash = freezed,
+    Object? accounts = freezed,
+  }) {
+    return _then(_SimulateTransactionOptions(
+      sigVerify: sigVerify == freezed
+          ? _value.sigVerify
+          : sigVerify // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      replaceRecentBlockhash: replaceRecentBlockhash == freezed
+          ? _value.replaceRecentBlockhash
+          : replaceRecentBlockhash // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      accounts: accounts == freezed
+          ? _value.accounts
+          : accounts // ignore: cast_nullable_to_non_nullable
+              as SimulateTransactionAccounts?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_SimulateTransactionOptions implements _SimulateTransactionOptions {
+  const _$_SimulateTransactionOptions(
+      {this.sigVerify,
+      this.encoding,
+      this.commitment,
+      this.replaceRecentBlockhash,
+      this.accounts});
+
+  factory _$_SimulateTransactionOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_SimulateTransactionOptionsFromJson(json);
+
+  @override
+  final bool? sigVerify;
+  @override
+  final Encoding? encoding;
+  @override
+  final Commitment? commitment;
+  @override
+  final bool? replaceRecentBlockhash;
+  @override
+  final SimulateTransactionAccounts? accounts;
+
+  @override
+  String toString() {
+    return 'SimulateTransactionOptions(sigVerify: $sigVerify, encoding: $encoding, commitment: $commitment, replaceRecentBlockhash: $replaceRecentBlockhash, accounts: $accounts)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _SimulateTransactionOptions &&
+            (identical(other.sigVerify, sigVerify) ||
+                const DeepCollectionEquality()
+                    .equals(other.sigVerify, sigVerify)) &&
+            (identical(other.encoding, encoding) ||
+                const DeepCollectionEquality()
+                    .equals(other.encoding, encoding)) &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.replaceRecentBlockhash, replaceRecentBlockhash) ||
+                const DeepCollectionEquality().equals(
+                    other.replaceRecentBlockhash, replaceRecentBlockhash)) &&
+            (identical(other.accounts, accounts) ||
+                const DeepCollectionEquality()
+                    .equals(other.accounts, accounts)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(sigVerify) ^
+      const DeepCollectionEquality().hash(encoding) ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(replaceRecentBlockhash) ^
+      const DeepCollectionEquality().hash(accounts);
+
+  @JsonKey(ignore: true)
+  @override
+  _$SimulateTransactionOptionsCopyWith<_SimulateTransactionOptions>
+      get copyWith => __$SimulateTransactionOptionsCopyWithImpl<
+          _SimulateTransactionOptions>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_SimulateTransactionOptionsToJson(this);
+  }
+}
+
+abstract class _SimulateTransactionOptions
+    implements SimulateTransactionOptions {
+  const factory _SimulateTransactionOptions(
+      {bool? sigVerify,
+      Encoding? encoding,
+      Commitment? commitment,
+      bool? replaceRecentBlockhash,
+      SimulateTransactionAccounts? accounts}) = _$_SimulateTransactionOptions;
+
+  factory _SimulateTransactionOptions.fromJson(Map<String, dynamic> json) =
+      _$_SimulateTransactionOptions.fromJson;
+
+  @override
+  bool? get sigVerify => throw _privateConstructorUsedError;
+  @override
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  bool? get replaceRecentBlockhash => throw _privateConstructorUsedError;
+  @override
+  SimulateTransactionAccounts? get accounts =>
+      throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$SimulateTransactionOptionsCopyWith<_SimulateTransactionOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+SendTransactionOptions _$SendTransactionOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _SendTransactionOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$SendTransactionOptionsTearOff {
+  const _$SendTransactionOptionsTearOff();
+
+  _SendTransactionOptions call(
+      {Encoding? encoding,
+      Commitment? commitment,
+      bool? skipPreflight,
+      int? maxRetries}) {
+    return _SendTransactionOptions(
+      encoding: encoding,
+      commitment: commitment,
+      skipPreflight: skipPreflight,
+      maxRetries: maxRetries,
+    );
+  }
+
+  SendTransactionOptions fromJson(Map<String, Object> json) {
+    return SendTransactionOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $SendTransactionOptions = _$SendTransactionOptionsTearOff();
+
+/// @nodoc
+mixin _$SendTransactionOptions {
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  bool? get skipPreflight => throw _privateConstructorUsedError;
+  int? get maxRetries => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SendTransactionOptionsCopyWith<SendTransactionOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SendTransactionOptionsCopyWith<$Res> {
+  factory $SendTransactionOptionsCopyWith(SendTransactionOptions value,
+          $Res Function(SendTransactionOptions) then) =
+      _$SendTransactionOptionsCopyWithImpl<$Res>;
+  $Res call(
+      {Encoding? encoding,
+      Commitment? commitment,
+      bool? skipPreflight,
+      int? maxRetries});
+}
+
+/// @nodoc
+class _$SendTransactionOptionsCopyWithImpl<$Res>
+    implements $SendTransactionOptionsCopyWith<$Res> {
+  _$SendTransactionOptionsCopyWithImpl(this._value, this._then);
+
+  final SendTransactionOptions _value;
+  // ignore: unused_field
+  final $Res Function(SendTransactionOptions) _then;
+
+  @override
+  $Res call({
+    Object? encoding = freezed,
+    Object? commitment = freezed,
+    Object? skipPreflight = freezed,
+    Object? maxRetries = freezed,
+  }) {
+    return _then(_value.copyWith(
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      skipPreflight: skipPreflight == freezed
+          ? _value.skipPreflight
+          : skipPreflight // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      maxRetries: maxRetries == freezed
+          ? _value.maxRetries
+          : maxRetries // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$SendTransactionOptionsCopyWith<$Res>
+    implements $SendTransactionOptionsCopyWith<$Res> {
+  factory _$SendTransactionOptionsCopyWith(_SendTransactionOptions value,
+          $Res Function(_SendTransactionOptions) then) =
+      __$SendTransactionOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {Encoding? encoding,
+      Commitment? commitment,
+      bool? skipPreflight,
+      int? maxRetries});
+}
+
+/// @nodoc
+class __$SendTransactionOptionsCopyWithImpl<$Res>
+    extends _$SendTransactionOptionsCopyWithImpl<$Res>
+    implements _$SendTransactionOptionsCopyWith<$Res> {
+  __$SendTransactionOptionsCopyWithImpl(_SendTransactionOptions _value,
+      $Res Function(_SendTransactionOptions) _then)
+      : super(_value, (v) => _then(v as _SendTransactionOptions));
+
+  @override
+  _SendTransactionOptions get _value => super._value as _SendTransactionOptions;
+
+  @override
+  $Res call({
+    Object? encoding = freezed,
+    Object? commitment = freezed,
+    Object? skipPreflight = freezed,
+    Object? maxRetries = freezed,
+  }) {
+    return _then(_SendTransactionOptions(
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      skipPreflight: skipPreflight == freezed
+          ? _value.skipPreflight
+          : skipPreflight // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      maxRetries: maxRetries == freezed
+          ? _value.maxRetries
+          : maxRetries // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_SendTransactionOptions implements _SendTransactionOptions {
+  const _$_SendTransactionOptions(
+      {this.encoding, this.commitment, this.skipPreflight, this.maxRetries});
+
+  factory _$_SendTransactionOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_SendTransactionOptionsFromJson(json);
+
+  @override
+  final Encoding? encoding;
+  @override
+  final Commitment? commitment;
+  @override
+  final bool? skipPreflight;
+  @override
+  final int? maxRetries;
+
+  @override
+  String toString() {
+    return 'SendTransactionOptions(encoding: $encoding, commitment: $commitment, skipPreflight: $skipPreflight, maxRetries: $maxRetries)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _SendTransactionOptions &&
+            (identical(other.encoding, encoding) ||
+                const DeepCollectionEquality()
+                    .equals(other.encoding, encoding)) &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.skipPreflight, skipPreflight) ||
+                const DeepCollectionEquality()
+                    .equals(other.skipPreflight, skipPreflight)) &&
+            (identical(other.maxRetries, maxRetries) ||
+                const DeepCollectionEquality()
+                    .equals(other.maxRetries, maxRetries)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(encoding) ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(skipPreflight) ^
+      const DeepCollectionEquality().hash(maxRetries);
+
+  @JsonKey(ignore: true)
+  @override
+  _$SendTransactionOptionsCopyWith<_SendTransactionOptions> get copyWith =>
+      __$SendTransactionOptionsCopyWithImpl<_SendTransactionOptions>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_SendTransactionOptionsToJson(this);
+  }
+}
+
+abstract class _SendTransactionOptions implements SendTransactionOptions {
+  const factory _SendTransactionOptions(
+      {Encoding? encoding,
+      Commitment? commitment,
+      bool? skipPreflight,
+      int? maxRetries}) = _$_SendTransactionOptions;
+
+  factory _SendTransactionOptions.fromJson(Map<String, dynamic> json) =
+      _$_SendTransactionOptions.fromJson;
+
+  @override
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  bool? get skipPreflight => throw _privateConstructorUsedError;
+  @override
+  int? get maxRetries => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$SendTransactionOptionsCopyWith<_SendTransactionOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GetVoteAccountsOptions _$GetVoteAccountsOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetVoteAccountsOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetVoteAccountsOptionsTearOff {
+  const _$GetVoteAccountsOptionsTearOff();
+
+  _GetVoteAccountsOptions call(
+      {Commitment? commitment,
+      String? votePubKey,
+      bool? keepUnstakedDelinquents,
+      int? delinquentSlotDistance}) {
+    return _GetVoteAccountsOptions(
+      commitment: commitment,
+      votePubKey: votePubKey,
+      keepUnstakedDelinquents: keepUnstakedDelinquents,
+      delinquentSlotDistance: delinquentSlotDistance,
+    );
+  }
+
+  GetVoteAccountsOptions fromJson(Map<String, Object> json) {
+    return GetVoteAccountsOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetVoteAccountsOptions = _$GetVoteAccountsOptionsTearOff();
+
+/// @nodoc
+mixin _$GetVoteAccountsOptions {
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  String? get votePubKey => throw _privateConstructorUsedError;
+  bool? get keepUnstakedDelinquents => throw _privateConstructorUsedError;
+  int? get delinquentSlotDistance => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetVoteAccountsOptionsCopyWith<GetVoteAccountsOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetVoteAccountsOptionsCopyWith<$Res> {
+  factory $GetVoteAccountsOptionsCopyWith(GetVoteAccountsOptions value,
+          $Res Function(GetVoteAccountsOptions) then) =
+      _$GetVoteAccountsOptionsCopyWithImpl<$Res>;
+  $Res call(
+      {Commitment? commitment,
+      String? votePubKey,
+      bool? keepUnstakedDelinquents,
+      int? delinquentSlotDistance});
+}
+
+/// @nodoc
+class _$GetVoteAccountsOptionsCopyWithImpl<$Res>
+    implements $GetVoteAccountsOptionsCopyWith<$Res> {
+  _$GetVoteAccountsOptionsCopyWithImpl(this._value, this._then);
+
+  final GetVoteAccountsOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetVoteAccountsOptions) _then;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? votePubKey = freezed,
+    Object? keepUnstakedDelinquents = freezed,
+    Object? delinquentSlotDistance = freezed,
+  }) {
+    return _then(_value.copyWith(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      votePubKey: votePubKey == freezed
+          ? _value.votePubKey
+          : votePubKey // ignore: cast_nullable_to_non_nullable
+              as String?,
+      keepUnstakedDelinquents: keepUnstakedDelinquents == freezed
+          ? _value.keepUnstakedDelinquents
+          : keepUnstakedDelinquents // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      delinquentSlotDistance: delinquentSlotDistance == freezed
+          ? _value.delinquentSlotDistance
+          : delinquentSlotDistance // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetVoteAccountsOptionsCopyWith<$Res>
+    implements $GetVoteAccountsOptionsCopyWith<$Res> {
+  factory _$GetVoteAccountsOptionsCopyWith(_GetVoteAccountsOptions value,
+          $Res Function(_GetVoteAccountsOptions) then) =
+      __$GetVoteAccountsOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {Commitment? commitment,
+      String? votePubKey,
+      bool? keepUnstakedDelinquents,
+      int? delinquentSlotDistance});
+}
+
+/// @nodoc
+class __$GetVoteAccountsOptionsCopyWithImpl<$Res>
+    extends _$GetVoteAccountsOptionsCopyWithImpl<$Res>
+    implements _$GetVoteAccountsOptionsCopyWith<$Res> {
+  __$GetVoteAccountsOptionsCopyWithImpl(_GetVoteAccountsOptions _value,
+      $Res Function(_GetVoteAccountsOptions) _then)
+      : super(_value, (v) => _then(v as _GetVoteAccountsOptions));
+
+  @override
+  _GetVoteAccountsOptions get _value => super._value as _GetVoteAccountsOptions;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? votePubKey = freezed,
+    Object? keepUnstakedDelinquents = freezed,
+    Object? delinquentSlotDistance = freezed,
+  }) {
+    return _then(_GetVoteAccountsOptions(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      votePubKey: votePubKey == freezed
+          ? _value.votePubKey
+          : votePubKey // ignore: cast_nullable_to_non_nullable
+              as String?,
+      keepUnstakedDelinquents: keepUnstakedDelinquents == freezed
+          ? _value.keepUnstakedDelinquents
+          : keepUnstakedDelinquents // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      delinquentSlotDistance: delinquentSlotDistance == freezed
+          ? _value.delinquentSlotDistance
+          : delinquentSlotDistance // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetVoteAccountsOptions implements _GetVoteAccountsOptions {
+  const _$_GetVoteAccountsOptions(
+      {this.commitment,
+      this.votePubKey,
+      this.keepUnstakedDelinquents,
+      this.delinquentSlotDistance});
+
+  factory _$_GetVoteAccountsOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetVoteAccountsOptionsFromJson(json);
+
+  @override
+  final Commitment? commitment;
+  @override
+  final String? votePubKey;
+  @override
+  final bool? keepUnstakedDelinquents;
+  @override
+  final int? delinquentSlotDistance;
+
+  @override
+  String toString() {
+    return 'GetVoteAccountsOptions(commitment: $commitment, votePubKey: $votePubKey, keepUnstakedDelinquents: $keepUnstakedDelinquents, delinquentSlotDistance: $delinquentSlotDistance)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetVoteAccountsOptions &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.votePubKey, votePubKey) ||
+                const DeepCollectionEquality()
+                    .equals(other.votePubKey, votePubKey)) &&
+            (identical(
+                    other.keepUnstakedDelinquents, keepUnstakedDelinquents) ||
+                const DeepCollectionEquality().equals(
+                    other.keepUnstakedDelinquents, keepUnstakedDelinquents)) &&
+            (identical(other.delinquentSlotDistance, delinquentSlotDistance) ||
+                const DeepCollectionEquality().equals(
+                    other.delinquentSlotDistance, delinquentSlotDistance)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(votePubKey) ^
+      const DeepCollectionEquality().hash(keepUnstakedDelinquents) ^
+      const DeepCollectionEquality().hash(delinquentSlotDistance);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetVoteAccountsOptionsCopyWith<_GetVoteAccountsOptions> get copyWith =>
+      __$GetVoteAccountsOptionsCopyWithImpl<_GetVoteAccountsOptions>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetVoteAccountsOptionsToJson(this);
+  }
+}
+
+abstract class _GetVoteAccountsOptions implements GetVoteAccountsOptions {
+  const factory _GetVoteAccountsOptions(
+      {Commitment? commitment,
+      String? votePubKey,
+      bool? keepUnstakedDelinquents,
+      int? delinquentSlotDistance}) = _$_GetVoteAccountsOptions;
+
+  factory _GetVoteAccountsOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetVoteAccountsOptions.fromJson;
+
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  String? get votePubKey => throw _privateConstructorUsedError;
+  @override
+  bool? get keepUnstakedDelinquents => throw _privateConstructorUsedError;
+  @override
+  int? get delinquentSlotDistance => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetVoteAccountsOptionsCopyWith<_GetVoteAccountsOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GetTransactionOptions _$GetTransactionOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetTransactionOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetTransactionOptionsTearOff {
+  const _$GetTransactionOptionsTearOff();
+
+  _GetTransactionOptions call({Encoding? encoding, Commitment? commitment}) {
+    return _GetTransactionOptions(
+      encoding: encoding,
+      commitment: commitment,
+    );
+  }
+
+  GetTransactionOptions fromJson(Map<String, Object> json) {
+    return GetTransactionOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetTransactionOptions = _$GetTransactionOptionsTearOff();
+
+/// @nodoc
+mixin _$GetTransactionOptions {
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  Commitment? get commitment => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetTransactionOptionsCopyWith<GetTransactionOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetTransactionOptionsCopyWith<$Res> {
+  factory $GetTransactionOptionsCopyWith(GetTransactionOptions value,
+          $Res Function(GetTransactionOptions) then) =
+      _$GetTransactionOptionsCopyWithImpl<$Res>;
+  $Res call({Encoding? encoding, Commitment? commitment});
+}
+
+/// @nodoc
+class _$GetTransactionOptionsCopyWithImpl<$Res>
+    implements $GetTransactionOptionsCopyWith<$Res> {
+  _$GetTransactionOptionsCopyWithImpl(this._value, this._then);
+
+  final GetTransactionOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetTransactionOptions) _then;
+
+  @override
+  $Res call({
+    Object? encoding = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_value.copyWith(
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetTransactionOptionsCopyWith<$Res>
+    implements $GetTransactionOptionsCopyWith<$Res> {
+  factory _$GetTransactionOptionsCopyWith(_GetTransactionOptions value,
+          $Res Function(_GetTransactionOptions) then) =
+      __$GetTransactionOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call({Encoding? encoding, Commitment? commitment});
+}
+
+/// @nodoc
+class __$GetTransactionOptionsCopyWithImpl<$Res>
+    extends _$GetTransactionOptionsCopyWithImpl<$Res>
+    implements _$GetTransactionOptionsCopyWith<$Res> {
+  __$GetTransactionOptionsCopyWithImpl(_GetTransactionOptions _value,
+      $Res Function(_GetTransactionOptions) _then)
+      : super(_value, (v) => _then(v as _GetTransactionOptions));
+
+  @override
+  _GetTransactionOptions get _value => super._value as _GetTransactionOptions;
+
+  @override
+  $Res call({
+    Object? encoding = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_GetTransactionOptions(
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetTransactionOptions implements _GetTransactionOptions {
+  const _$_GetTransactionOptions({this.encoding, this.commitment});
+
+  factory _$_GetTransactionOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetTransactionOptionsFromJson(json);
+
+  @override
+  final Encoding? encoding;
+  @override
+  final Commitment? commitment;
+
+  @override
+  String toString() {
+    return 'GetTransactionOptions(encoding: $encoding, commitment: $commitment)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetTransactionOptions &&
+            (identical(other.encoding, encoding) ||
+                const DeepCollectionEquality()
+                    .equals(other.encoding, encoding)) &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(encoding) ^
+      const DeepCollectionEquality().hash(commitment);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetTransactionOptionsCopyWith<_GetTransactionOptions> get copyWith =>
+      __$GetTransactionOptionsCopyWithImpl<_GetTransactionOptions>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetTransactionOptionsToJson(this);
+  }
+}
+
+abstract class _GetTransactionOptions implements GetTransactionOptions {
+  const factory _GetTransactionOptions(
+      {Encoding? encoding, Commitment? commitment}) = _$_GetTransactionOptions;
+
+  factory _GetTransactionOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetTransactionOptions.fromJson;
+
+  @override
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetTransactionOptionsCopyWith<_GetTransactionOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MintOrProgramId _$MintOrProgramIdFromJson(Map<String, dynamic> json) {
+  return _MintOrProgramId.fromJson(json);
+}
+
+/// @nodoc
+class _$MintOrProgramIdTearOff {
+  const _$MintOrProgramIdTearOff();
+
+  _MintOrProgramId call(
+      {@JsonKey(includeIfNull: false) String? mint,
+      @JsonKey(includeIfNull: false) String? programId}) {
+    return _MintOrProgramId(
+      mint: mint,
+      programId: programId,
+    );
+  }
+
+  MintOrProgramId fromJson(Map<String, Object> json) {
+    return MintOrProgramId.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $MintOrProgramId = _$MintOrProgramIdTearOff();
+
+/// @nodoc
+mixin _$MintOrProgramId {
+  @JsonKey(includeIfNull: false)
+  String? get mint => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  String? get programId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MintOrProgramIdCopyWith<MintOrProgramId> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MintOrProgramIdCopyWith<$Res> {
+  factory $MintOrProgramIdCopyWith(
+          MintOrProgramId value, $Res Function(MintOrProgramId) then) =
+      _$MintOrProgramIdCopyWithImpl<$Res>;
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? mint,
+      @JsonKey(includeIfNull: false) String? programId});
+}
+
+/// @nodoc
+class _$MintOrProgramIdCopyWithImpl<$Res>
+    implements $MintOrProgramIdCopyWith<$Res> {
+  _$MintOrProgramIdCopyWithImpl(this._value, this._then);
+
+  final MintOrProgramId _value;
+  // ignore: unused_field
+  final $Res Function(MintOrProgramId) _then;
+
+  @override
+  $Res call({
+    Object? mint = freezed,
+    Object? programId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      mint: mint == freezed
+          ? _value.mint
+          : mint // ignore: cast_nullable_to_non_nullable
+              as String?,
+      programId: programId == freezed
+          ? _value.programId
+          : programId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$MintOrProgramIdCopyWith<$Res>
+    implements $MintOrProgramIdCopyWith<$Res> {
+  factory _$MintOrProgramIdCopyWith(
+          _MintOrProgramId value, $Res Function(_MintOrProgramId) then) =
+      __$MintOrProgramIdCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? mint,
+      @JsonKey(includeIfNull: false) String? programId});
+}
+
+/// @nodoc
+class __$MintOrProgramIdCopyWithImpl<$Res>
+    extends _$MintOrProgramIdCopyWithImpl<$Res>
+    implements _$MintOrProgramIdCopyWith<$Res> {
+  __$MintOrProgramIdCopyWithImpl(
+      _MintOrProgramId _value, $Res Function(_MintOrProgramId) _then)
+      : super(_value, (v) => _then(v as _MintOrProgramId));
+
+  @override
+  _MintOrProgramId get _value => super._value as _MintOrProgramId;
+
+  @override
+  $Res call({
+    Object? mint = freezed,
+    Object? programId = freezed,
+  }) {
+    return _then(_MintOrProgramId(
+      mint: mint == freezed
+          ? _value.mint
+          : mint // ignore: cast_nullable_to_non_nullable
+              as String?,
+      programId: programId == freezed
+          ? _value.programId
+          : programId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_MintOrProgramId implements _MintOrProgramId {
+  const _$_MintOrProgramId(
+      {@JsonKey(includeIfNull: false) this.mint,
+      @JsonKey(includeIfNull: false) this.programId});
+
+  factory _$_MintOrProgramId.fromJson(Map<String, dynamic> json) =>
+      _$$_MintOrProgramIdFromJson(json);
+
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? mint;
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? programId;
+
+  @override
+  String toString() {
+    return 'MintOrProgramId(mint: $mint, programId: $programId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _MintOrProgramId &&
+            (identical(other.mint, mint) ||
+                const DeepCollectionEquality().equals(other.mint, mint)) &&
+            (identical(other.programId, programId) ||
+                const DeepCollectionEquality()
+                    .equals(other.programId, programId)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(mint) ^
+      const DeepCollectionEquality().hash(programId);
+
+  @JsonKey(ignore: true)
+  @override
+  _$MintOrProgramIdCopyWith<_MintOrProgramId> get copyWith =>
+      __$MintOrProgramIdCopyWithImpl<_MintOrProgramId>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_MintOrProgramIdToJson(this);
+  }
+}
+
+abstract class _MintOrProgramId implements MintOrProgramId {
+  const factory _MintOrProgramId(
+      {@JsonKey(includeIfNull: false) String? mint,
+      @JsonKey(includeIfNull: false) String? programId}) = _$_MintOrProgramId;
+
+  factory _MintOrProgramId.fromJson(Map<String, dynamic> json) =
+      _$_MintOrProgramId.fromJson;
+
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get mint => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get programId => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$MintOrProgramIdCopyWith<_MintOrProgramId> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GetSupplyOptions _$GetSupplyOptionsFromJson(Map<String, dynamic> json) {
+  return _GetSupplyOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetSupplyOptionsTearOff {
+  const _$GetSupplyOptionsTearOff();
+
+  _GetSupplyOptions call(
+      {Commitment? commitment, bool? excludeNonCirculatingAccountsList}) {
+    return _GetSupplyOptions(
+      commitment: commitment,
+      excludeNonCirculatingAccountsList: excludeNonCirculatingAccountsList,
+    );
+  }
+
+  GetSupplyOptions fromJson(Map<String, Object> json) {
+    return GetSupplyOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetSupplyOptions = _$GetSupplyOptionsTearOff();
+
+/// @nodoc
+mixin _$GetSupplyOptions {
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  bool? get excludeNonCirculatingAccountsList =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetSupplyOptionsCopyWith<GetSupplyOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetSupplyOptionsCopyWith<$Res> {
+  factory $GetSupplyOptionsCopyWith(
+          GetSupplyOptions value, $Res Function(GetSupplyOptions) then) =
+      _$GetSupplyOptionsCopyWithImpl<$Res>;
+  $Res call({Commitment? commitment, bool? excludeNonCirculatingAccountsList});
+}
+
+/// @nodoc
+class _$GetSupplyOptionsCopyWithImpl<$Res>
+    implements $GetSupplyOptionsCopyWith<$Res> {
+  _$GetSupplyOptionsCopyWithImpl(this._value, this._then);
+
+  final GetSupplyOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetSupplyOptions) _then;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? excludeNonCirculatingAccountsList = freezed,
+  }) {
+    return _then(_value.copyWith(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      excludeNonCirculatingAccountsList: excludeNonCirculatingAccountsList ==
+              freezed
+          ? _value.excludeNonCirculatingAccountsList
+          : excludeNonCirculatingAccountsList // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetSupplyOptionsCopyWith<$Res>
+    implements $GetSupplyOptionsCopyWith<$Res> {
+  factory _$GetSupplyOptionsCopyWith(
+          _GetSupplyOptions value, $Res Function(_GetSupplyOptions) then) =
+      __$GetSupplyOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call({Commitment? commitment, bool? excludeNonCirculatingAccountsList});
+}
+
+/// @nodoc
+class __$GetSupplyOptionsCopyWithImpl<$Res>
+    extends _$GetSupplyOptionsCopyWithImpl<$Res>
+    implements _$GetSupplyOptionsCopyWith<$Res> {
+  __$GetSupplyOptionsCopyWithImpl(
+      _GetSupplyOptions _value, $Res Function(_GetSupplyOptions) _then)
+      : super(_value, (v) => _then(v as _GetSupplyOptions));
+
+  @override
+  _GetSupplyOptions get _value => super._value as _GetSupplyOptions;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? excludeNonCirculatingAccountsList = freezed,
+  }) {
+    return _then(_GetSupplyOptions(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      excludeNonCirculatingAccountsList: excludeNonCirculatingAccountsList ==
+              freezed
+          ? _value.excludeNonCirculatingAccountsList
+          : excludeNonCirculatingAccountsList // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetSupplyOptions implements _GetSupplyOptions {
+  const _$_GetSupplyOptions(
+      {this.commitment, this.excludeNonCirculatingAccountsList});
+
+  factory _$_GetSupplyOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetSupplyOptionsFromJson(json);
+
+  @override
+  final Commitment? commitment;
+  @override
+  final bool? excludeNonCirculatingAccountsList;
+
+  @override
+  String toString() {
+    return 'GetSupplyOptions(commitment: $commitment, excludeNonCirculatingAccountsList: $excludeNonCirculatingAccountsList)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetSupplyOptions &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.excludeNonCirculatingAccountsList,
+                    excludeNonCirculatingAccountsList) ||
+                const DeepCollectionEquality().equals(
+                    other.excludeNonCirculatingAccountsList,
+                    excludeNonCirculatingAccountsList)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(excludeNonCirculatingAccountsList);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetSupplyOptionsCopyWith<_GetSupplyOptions> get copyWith =>
+      __$GetSupplyOptionsCopyWithImpl<_GetSupplyOptions>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetSupplyOptionsToJson(this);
+  }
+}
+
+abstract class _GetSupplyOptions implements GetSupplyOptions {
+  const factory _GetSupplyOptions(
+      {Commitment? commitment,
+      bool? excludeNonCirculatingAccountsList}) = _$_GetSupplyOptions;
+
+  factory _GetSupplyOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetSupplyOptions.fromJson;
+
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  bool? get excludeNonCirculatingAccountsList =>
+      throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetSupplyOptionsCopyWith<_GetSupplyOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GetStakeActivationOptions _$GetStakeActivationOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetStakeActivationOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetStakeActivationOptionsTearOff {
+  const _$GetStakeActivationOptionsTearOff();
+
+  _GetStakeActivationOptions call({Commitment? commitment, int? epoch}) {
+    return _GetStakeActivationOptions(
+      commitment: commitment,
+      epoch: epoch,
+    );
+  }
+
+  GetStakeActivationOptions fromJson(Map<String, Object> json) {
+    return GetStakeActivationOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetStakeActivationOptions = _$GetStakeActivationOptionsTearOff();
+
+/// @nodoc
+mixin _$GetStakeActivationOptions {
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  int? get epoch => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetStakeActivationOptionsCopyWith<GetStakeActivationOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetStakeActivationOptionsCopyWith<$Res> {
+  factory $GetStakeActivationOptionsCopyWith(GetStakeActivationOptions value,
+          $Res Function(GetStakeActivationOptions) then) =
+      _$GetStakeActivationOptionsCopyWithImpl<$Res>;
+  $Res call({Commitment? commitment, int? epoch});
+}
+
+/// @nodoc
+class _$GetStakeActivationOptionsCopyWithImpl<$Res>
+    implements $GetStakeActivationOptionsCopyWith<$Res> {
+  _$GetStakeActivationOptionsCopyWithImpl(this._value, this._then);
+
+  final GetStakeActivationOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetStakeActivationOptions) _then;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? epoch = freezed,
+  }) {
+    return _then(_value.copyWith(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      epoch: epoch == freezed
+          ? _value.epoch
+          : epoch // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetStakeActivationOptionsCopyWith<$Res>
+    implements $GetStakeActivationOptionsCopyWith<$Res> {
+  factory _$GetStakeActivationOptionsCopyWith(_GetStakeActivationOptions value,
+          $Res Function(_GetStakeActivationOptions) then) =
+      __$GetStakeActivationOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call({Commitment? commitment, int? epoch});
+}
+
+/// @nodoc
+class __$GetStakeActivationOptionsCopyWithImpl<$Res>
+    extends _$GetStakeActivationOptionsCopyWithImpl<$Res>
+    implements _$GetStakeActivationOptionsCopyWith<$Res> {
+  __$GetStakeActivationOptionsCopyWithImpl(_GetStakeActivationOptions _value,
+      $Res Function(_GetStakeActivationOptions) _then)
+      : super(_value, (v) => _then(v as _GetStakeActivationOptions));
+
+  @override
+  _GetStakeActivationOptions get _value =>
+      super._value as _GetStakeActivationOptions;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? epoch = freezed,
+  }) {
+    return _then(_GetStakeActivationOptions(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      epoch: epoch == freezed
+          ? _value.epoch
+          : epoch // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetStakeActivationOptions implements _GetStakeActivationOptions {
+  const _$_GetStakeActivationOptions({this.commitment, this.epoch});
+
+  factory _$_GetStakeActivationOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetStakeActivationOptionsFromJson(json);
+
+  @override
+  final Commitment? commitment;
+  @override
+  final int? epoch;
+
+  @override
+  String toString() {
+    return 'GetStakeActivationOptions(commitment: $commitment, epoch: $epoch)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetStakeActivationOptions &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.epoch, epoch) ||
+                const DeepCollectionEquality().equals(other.epoch, epoch)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(epoch);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetStakeActivationOptionsCopyWith<_GetStakeActivationOptions>
+      get copyWith =>
+          __$GetStakeActivationOptionsCopyWithImpl<_GetStakeActivationOptions>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetStakeActivationOptionsToJson(this);
+  }
+}
+
+abstract class _GetStakeActivationOptions implements GetStakeActivationOptions {
+  const factory _GetStakeActivationOptions(
+      {Commitment? commitment, int? epoch}) = _$_GetStakeActivationOptions;
+
+  factory _GetStakeActivationOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetStakeActivationOptions.fromJson;
+
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  int? get epoch => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetStakeActivationOptionsCopyWith<_GetStakeActivationOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetSignatureStatusesOptions _$GetSignatureStatusesOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetSignatureStatusesOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetSignatureStatusesOptionsTearOff {
+  const _$GetSignatureStatusesOptionsTearOff();
+
+  _GetSignatureStatusesOptions call({bool? searchTransactionHistory}) {
+    return _GetSignatureStatusesOptions(
+      searchTransactionHistory: searchTransactionHistory,
+    );
+  }
+
+  GetSignatureStatusesOptions fromJson(Map<String, Object> json) {
+    return GetSignatureStatusesOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetSignatureStatusesOptions = _$GetSignatureStatusesOptionsTearOff();
+
+/// @nodoc
+mixin _$GetSignatureStatusesOptions {
+  bool? get searchTransactionHistory => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetSignatureStatusesOptionsCopyWith<GetSignatureStatusesOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetSignatureStatusesOptionsCopyWith<$Res> {
+  factory $GetSignatureStatusesOptionsCopyWith(
+          GetSignatureStatusesOptions value,
+          $Res Function(GetSignatureStatusesOptions) then) =
+      _$GetSignatureStatusesOptionsCopyWithImpl<$Res>;
+  $Res call({bool? searchTransactionHistory});
+}
+
+/// @nodoc
+class _$GetSignatureStatusesOptionsCopyWithImpl<$Res>
+    implements $GetSignatureStatusesOptionsCopyWith<$Res> {
+  _$GetSignatureStatusesOptionsCopyWithImpl(this._value, this._then);
+
+  final GetSignatureStatusesOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetSignatureStatusesOptions) _then;
+
+  @override
+  $Res call({
+    Object? searchTransactionHistory = freezed,
+  }) {
+    return _then(_value.copyWith(
+      searchTransactionHistory: searchTransactionHistory == freezed
+          ? _value.searchTransactionHistory
+          : searchTransactionHistory // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetSignatureStatusesOptionsCopyWith<$Res>
+    implements $GetSignatureStatusesOptionsCopyWith<$Res> {
+  factory _$GetSignatureStatusesOptionsCopyWith(
+          _GetSignatureStatusesOptions value,
+          $Res Function(_GetSignatureStatusesOptions) then) =
+      __$GetSignatureStatusesOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call({bool? searchTransactionHistory});
+}
+
+/// @nodoc
+class __$GetSignatureStatusesOptionsCopyWithImpl<$Res>
+    extends _$GetSignatureStatusesOptionsCopyWithImpl<$Res>
+    implements _$GetSignatureStatusesOptionsCopyWith<$Res> {
+  __$GetSignatureStatusesOptionsCopyWithImpl(
+      _GetSignatureStatusesOptions _value,
+      $Res Function(_GetSignatureStatusesOptions) _then)
+      : super(_value, (v) => _then(v as _GetSignatureStatusesOptions));
+
+  @override
+  _GetSignatureStatusesOptions get _value =>
+      super._value as _GetSignatureStatusesOptions;
+
+  @override
+  $Res call({
+    Object? searchTransactionHistory = freezed,
+  }) {
+    return _then(_GetSignatureStatusesOptions(
+      searchTransactionHistory: searchTransactionHistory == freezed
+          ? _value.searchTransactionHistory
+          : searchTransactionHistory // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetSignatureStatusesOptions implements _GetSignatureStatusesOptions {
+  const _$_GetSignatureStatusesOptions({this.searchTransactionHistory});
+
+  factory _$_GetSignatureStatusesOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetSignatureStatusesOptionsFromJson(json);
+
+  @override
+  final bool? searchTransactionHistory;
+
+  @override
+  String toString() {
+    return 'GetSignatureStatusesOptions(searchTransactionHistory: $searchTransactionHistory)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetSignatureStatusesOptions &&
+            (identical(
+                    other.searchTransactionHistory, searchTransactionHistory) ||
+                const DeepCollectionEquality().equals(
+                    other.searchTransactionHistory, searchTransactionHistory)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(searchTransactionHistory);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetSignatureStatusesOptionsCopyWith<_GetSignatureStatusesOptions>
+      get copyWith => __$GetSignatureStatusesOptionsCopyWithImpl<
+          _GetSignatureStatusesOptions>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetSignatureStatusesOptionsToJson(this);
+  }
+}
+
+abstract class _GetSignatureStatusesOptions
+    implements GetSignatureStatusesOptions {
+  const factory _GetSignatureStatusesOptions({bool? searchTransactionHistory}) =
+      _$_GetSignatureStatusesOptions;
+
+  factory _GetSignatureStatusesOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetSignatureStatusesOptions.fromJson;
+
+  @override
+  bool? get searchTransactionHistory => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetSignatureStatusesOptionsCopyWith<_GetSignatureStatusesOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetSignaturesForAddressOptions _$GetSignaturesForAddressOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetSignaturesForAddressOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetSignaturesForAddressOptionsTearOff {
+  const _$GetSignaturesForAddressOptionsTearOff();
+
+  _GetSignaturesForAddressOptions call(
+      {int? limit, String? before, String? until, Commitment? commitment}) {
+    return _GetSignaturesForAddressOptions(
+      limit: limit,
+      before: before,
+      until: until,
+      commitment: commitment,
+    );
+  }
+
+  GetSignaturesForAddressOptions fromJson(Map<String, Object> json) {
+    return GetSignaturesForAddressOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetSignaturesForAddressOptions =
+    _$GetSignaturesForAddressOptionsTearOff();
+
+/// @nodoc
+mixin _$GetSignaturesForAddressOptions {
+  int? get limit => throw _privateConstructorUsedError;
+  String? get before => throw _privateConstructorUsedError;
+  String? get until => throw _privateConstructorUsedError;
+  Commitment? get commitment => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetSignaturesForAddressOptionsCopyWith<GetSignaturesForAddressOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetSignaturesForAddressOptionsCopyWith<$Res> {
+  factory $GetSignaturesForAddressOptionsCopyWith(
+          GetSignaturesForAddressOptions value,
+          $Res Function(GetSignaturesForAddressOptions) then) =
+      _$GetSignaturesForAddressOptionsCopyWithImpl<$Res>;
+  $Res call(
+      {int? limit, String? before, String? until, Commitment? commitment});
+}
+
+/// @nodoc
+class _$GetSignaturesForAddressOptionsCopyWithImpl<$Res>
+    implements $GetSignaturesForAddressOptionsCopyWith<$Res> {
+  _$GetSignaturesForAddressOptionsCopyWithImpl(this._value, this._then);
+
+  final GetSignaturesForAddressOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetSignaturesForAddressOptions) _then;
+
+  @override
+  $Res call({
+    Object? limit = freezed,
+    Object? before = freezed,
+    Object? until = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_value.copyWith(
+      limit: limit == freezed
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int?,
+      before: before == freezed
+          ? _value.before
+          : before // ignore: cast_nullable_to_non_nullable
+              as String?,
+      until: until == freezed
+          ? _value.until
+          : until // ignore: cast_nullable_to_non_nullable
+              as String?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetSignaturesForAddressOptionsCopyWith<$Res>
+    implements $GetSignaturesForAddressOptionsCopyWith<$Res> {
+  factory _$GetSignaturesForAddressOptionsCopyWith(
+          _GetSignaturesForAddressOptions value,
+          $Res Function(_GetSignaturesForAddressOptions) then) =
+      __$GetSignaturesForAddressOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {int? limit, String? before, String? until, Commitment? commitment});
+}
+
+/// @nodoc
+class __$GetSignaturesForAddressOptionsCopyWithImpl<$Res>
+    extends _$GetSignaturesForAddressOptionsCopyWithImpl<$Res>
+    implements _$GetSignaturesForAddressOptionsCopyWith<$Res> {
+  __$GetSignaturesForAddressOptionsCopyWithImpl(
+      _GetSignaturesForAddressOptions _value,
+      $Res Function(_GetSignaturesForAddressOptions) _then)
+      : super(_value, (v) => _then(v as _GetSignaturesForAddressOptions));
+
+  @override
+  _GetSignaturesForAddressOptions get _value =>
+      super._value as _GetSignaturesForAddressOptions;
+
+  @override
+  $Res call({
+    Object? limit = freezed,
+    Object? before = freezed,
+    Object? until = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_GetSignaturesForAddressOptions(
+      limit: limit == freezed
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int?,
+      before: before == freezed
+          ? _value.before
+          : before // ignore: cast_nullable_to_non_nullable
+              as String?,
+      until: until == freezed
+          ? _value.until
+          : until // ignore: cast_nullable_to_non_nullable
+              as String?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetSignaturesForAddressOptions
+    implements _GetSignaturesForAddressOptions {
+  const _$_GetSignaturesForAddressOptions(
+      {this.limit, this.before, this.until, this.commitment});
+
+  factory _$_GetSignaturesForAddressOptions.fromJson(
+          Map<String, dynamic> json) =>
+      _$$_GetSignaturesForAddressOptionsFromJson(json);
+
+  @override
+  final int? limit;
+  @override
+  final String? before;
+  @override
+  final String? until;
+  @override
+  final Commitment? commitment;
+
+  @override
+  String toString() {
+    return 'GetSignaturesForAddressOptions(limit: $limit, before: $before, until: $until, commitment: $commitment)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetSignaturesForAddressOptions &&
+            (identical(other.limit, limit) ||
+                const DeepCollectionEquality().equals(other.limit, limit)) &&
+            (identical(other.before, before) ||
+                const DeepCollectionEquality().equals(other.before, before)) &&
+            (identical(other.until, until) ||
+                const DeepCollectionEquality().equals(other.until, until)) &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(limit) ^
+      const DeepCollectionEquality().hash(before) ^
+      const DeepCollectionEquality().hash(until) ^
+      const DeepCollectionEquality().hash(commitment);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetSignaturesForAddressOptionsCopyWith<_GetSignaturesForAddressOptions>
+      get copyWith => __$GetSignaturesForAddressOptionsCopyWithImpl<
+          _GetSignaturesForAddressOptions>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetSignaturesForAddressOptionsToJson(this);
+  }
+}
+
+abstract class _GetSignaturesForAddressOptions
+    implements GetSignaturesForAddressOptions {
+  const factory _GetSignaturesForAddressOptions(
+      {int? limit,
+      String? before,
+      String? until,
+      Commitment? commitment}) = _$_GetSignaturesForAddressOptions;
+
+  factory _GetSignaturesForAddressOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetSignaturesForAddressOptions.fromJson;
+
+  @override
+  int? get limit => throw _privateConstructorUsedError;
+  @override
+  String? get before => throw _privateConstructorUsedError;
+  @override
+  String? get until => throw _privateConstructorUsedError;
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetSignaturesForAddressOptionsCopyWith<_GetSignaturesForAddressOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetProgramAccountsOptions _$GetProgramAccountsOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetProgramAccountsOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetProgramAccountsOptionsTearOff {
+  const _$GetProgramAccountsOptionsTearOff();
+
+  _GetProgramAccountsOptions call(
+      {Commitment? commitment,
+      Encoding? encoding,
+      DataSlice? dataSlice,
+      List<Filter>? filter,
+      bool? withContext}) {
+    return _GetProgramAccountsOptions(
+      commitment: commitment,
+      encoding: encoding,
+      dataSlice: dataSlice,
+      filter: filter,
+      withContext: withContext,
+    );
+  }
+
+  GetProgramAccountsOptions fromJson(Map<String, Object> json) {
+    return GetProgramAccountsOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetProgramAccountsOptions = _$GetProgramAccountsOptionsTearOff();
+
+/// @nodoc
+mixin _$GetProgramAccountsOptions {
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  DataSlice? get dataSlice => throw _privateConstructorUsedError;
+  List<Filter>? get filter => throw _privateConstructorUsedError;
+  bool? get withContext => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetProgramAccountsOptionsCopyWith<GetProgramAccountsOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetProgramAccountsOptionsCopyWith<$Res> {
+  factory $GetProgramAccountsOptionsCopyWith(GetProgramAccountsOptions value,
+          $Res Function(GetProgramAccountsOptions) then) =
+      _$GetProgramAccountsOptionsCopyWithImpl<$Res>;
+  $Res call(
+      {Commitment? commitment,
+      Encoding? encoding,
+      DataSlice? dataSlice,
+      List<Filter>? filter,
+      bool? withContext});
+
+  $DataSliceCopyWith<$Res>? get dataSlice;
+}
+
+/// @nodoc
+class _$GetProgramAccountsOptionsCopyWithImpl<$Res>
+    implements $GetProgramAccountsOptionsCopyWith<$Res> {
+  _$GetProgramAccountsOptionsCopyWithImpl(this._value, this._then);
+
+  final GetProgramAccountsOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetProgramAccountsOptions) _then;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? encoding = freezed,
+    Object? dataSlice = freezed,
+    Object? filter = freezed,
+    Object? withContext = freezed,
+  }) {
+    return _then(_value.copyWith(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      dataSlice: dataSlice == freezed
+          ? _value.dataSlice
+          : dataSlice // ignore: cast_nullable_to_non_nullable
+              as DataSlice?,
+      filter: filter == freezed
+          ? _value.filter
+          : filter // ignore: cast_nullable_to_non_nullable
+              as List<Filter>?,
+      withContext: withContext == freezed
+          ? _value.withContext
+          : withContext // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+
+  @override
+  $DataSliceCopyWith<$Res>? get dataSlice {
+    if (_value.dataSlice == null) {
+      return null;
+    }
+
+    return $DataSliceCopyWith<$Res>(_value.dataSlice!, (value) {
+      return _then(_value.copyWith(dataSlice: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$GetProgramAccountsOptionsCopyWith<$Res>
+    implements $GetProgramAccountsOptionsCopyWith<$Res> {
+  factory _$GetProgramAccountsOptionsCopyWith(_GetProgramAccountsOptions value,
+          $Res Function(_GetProgramAccountsOptions) then) =
+      __$GetProgramAccountsOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {Commitment? commitment,
+      Encoding? encoding,
+      DataSlice? dataSlice,
+      List<Filter>? filter,
+      bool? withContext});
+
+  @override
+  $DataSliceCopyWith<$Res>? get dataSlice;
+}
+
+/// @nodoc
+class __$GetProgramAccountsOptionsCopyWithImpl<$Res>
+    extends _$GetProgramAccountsOptionsCopyWithImpl<$Res>
+    implements _$GetProgramAccountsOptionsCopyWith<$Res> {
+  __$GetProgramAccountsOptionsCopyWithImpl(_GetProgramAccountsOptions _value,
+      $Res Function(_GetProgramAccountsOptions) _then)
+      : super(_value, (v) => _then(v as _GetProgramAccountsOptions));
+
+  @override
+  _GetProgramAccountsOptions get _value =>
+      super._value as _GetProgramAccountsOptions;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? encoding = freezed,
+    Object? dataSlice = freezed,
+    Object? filter = freezed,
+    Object? withContext = freezed,
+  }) {
+    return _then(_GetProgramAccountsOptions(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      dataSlice: dataSlice == freezed
+          ? _value.dataSlice
+          : dataSlice // ignore: cast_nullable_to_non_nullable
+              as DataSlice?,
+      filter: filter == freezed
+          ? _value.filter
+          : filter // ignore: cast_nullable_to_non_nullable
+              as List<Filter>?,
+      withContext: withContext == freezed
+          ? _value.withContext
+          : withContext // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetProgramAccountsOptions implements _GetProgramAccountsOptions {
+  const _$_GetProgramAccountsOptions(
+      {this.commitment,
+      this.encoding,
+      this.dataSlice,
+      this.filter,
+      this.withContext});
+
+  factory _$_GetProgramAccountsOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetProgramAccountsOptionsFromJson(json);
+
+  @override
+  final Commitment? commitment;
+  @override
+  final Encoding? encoding;
+  @override
+  final DataSlice? dataSlice;
+  @override
+  final List<Filter>? filter;
+  @override
+  final bool? withContext;
+
+  @override
+  String toString() {
+    return 'GetProgramAccountsOptions(commitment: $commitment, encoding: $encoding, dataSlice: $dataSlice, filter: $filter, withContext: $withContext)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetProgramAccountsOptions &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.encoding, encoding) ||
+                const DeepCollectionEquality()
+                    .equals(other.encoding, encoding)) &&
+            (identical(other.dataSlice, dataSlice) ||
+                const DeepCollectionEquality()
+                    .equals(other.dataSlice, dataSlice)) &&
+            (identical(other.filter, filter) ||
+                const DeepCollectionEquality().equals(other.filter, filter)) &&
+            (identical(other.withContext, withContext) ||
+                const DeepCollectionEquality()
+                    .equals(other.withContext, withContext)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(encoding) ^
+      const DeepCollectionEquality().hash(dataSlice) ^
+      const DeepCollectionEquality().hash(filter) ^
+      const DeepCollectionEquality().hash(withContext);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetProgramAccountsOptionsCopyWith<_GetProgramAccountsOptions>
+      get copyWith =>
+          __$GetProgramAccountsOptionsCopyWithImpl<_GetProgramAccountsOptions>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetProgramAccountsOptionsToJson(this);
+  }
+}
+
+abstract class _GetProgramAccountsOptions implements GetProgramAccountsOptions {
+  const factory _GetProgramAccountsOptions(
+      {Commitment? commitment,
+      Encoding? encoding,
+      DataSlice? dataSlice,
+      List<Filter>? filter,
+      bool? withContext}) = _$_GetProgramAccountsOptions;
+
+  factory _GetProgramAccountsOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetProgramAccountsOptions.fromJson;
+
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  @override
+  DataSlice? get dataSlice => throw _privateConstructorUsedError;
+  @override
+  List<Filter>? get filter => throw _privateConstructorUsedError;
+  @override
+  bool? get withContext => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetProgramAccountsOptionsCopyWith<_GetProgramAccountsOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetLeaderScheduleOptions _$GetLeaderScheduleOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetLeaderScheduleOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetLeaderScheduleOptionsTearOff {
+  const _$GetLeaderScheduleOptionsTearOff();
+
+  _GetLeaderScheduleOptions call({Commitment? commitment, String? identity}) {
+    return _GetLeaderScheduleOptions(
+      commitment: commitment,
+      identity: identity,
+    );
+  }
+
+  GetLeaderScheduleOptions fromJson(Map<String, Object> json) {
+    return GetLeaderScheduleOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetLeaderScheduleOptions = _$GetLeaderScheduleOptionsTearOff();
+
+/// @nodoc
+mixin _$GetLeaderScheduleOptions {
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  String? get identity => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetLeaderScheduleOptionsCopyWith<GetLeaderScheduleOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetLeaderScheduleOptionsCopyWith<$Res> {
+  factory $GetLeaderScheduleOptionsCopyWith(GetLeaderScheduleOptions value,
+          $Res Function(GetLeaderScheduleOptions) then) =
+      _$GetLeaderScheduleOptionsCopyWithImpl<$Res>;
+  $Res call({Commitment? commitment, String? identity});
+}
+
+/// @nodoc
+class _$GetLeaderScheduleOptionsCopyWithImpl<$Res>
+    implements $GetLeaderScheduleOptionsCopyWith<$Res> {
+  _$GetLeaderScheduleOptionsCopyWithImpl(this._value, this._then);
+
+  final GetLeaderScheduleOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetLeaderScheduleOptions) _then;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? identity = freezed,
+  }) {
+    return _then(_value.copyWith(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      identity: identity == freezed
+          ? _value.identity
+          : identity // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetLeaderScheduleOptionsCopyWith<$Res>
+    implements $GetLeaderScheduleOptionsCopyWith<$Res> {
+  factory _$GetLeaderScheduleOptionsCopyWith(_GetLeaderScheduleOptions value,
+          $Res Function(_GetLeaderScheduleOptions) then) =
+      __$GetLeaderScheduleOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call({Commitment? commitment, String? identity});
+}
+
+/// @nodoc
+class __$GetLeaderScheduleOptionsCopyWithImpl<$Res>
+    extends _$GetLeaderScheduleOptionsCopyWithImpl<$Res>
+    implements _$GetLeaderScheduleOptionsCopyWith<$Res> {
+  __$GetLeaderScheduleOptionsCopyWithImpl(_GetLeaderScheduleOptions _value,
+      $Res Function(_GetLeaderScheduleOptions) _then)
+      : super(_value, (v) => _then(v as _GetLeaderScheduleOptions));
+
+  @override
+  _GetLeaderScheduleOptions get _value =>
+      super._value as _GetLeaderScheduleOptions;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? identity = freezed,
+  }) {
+    return _then(_GetLeaderScheduleOptions(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      identity: identity == freezed
+          ? _value.identity
+          : identity // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetLeaderScheduleOptions implements _GetLeaderScheduleOptions {
+  const _$_GetLeaderScheduleOptions({this.commitment, this.identity});
+
+  factory _$_GetLeaderScheduleOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetLeaderScheduleOptionsFromJson(json);
+
+  @override
+  final Commitment? commitment;
+  @override
+  final String? identity;
+
+  @override
+  String toString() {
+    return 'GetLeaderScheduleOptions(commitment: $commitment, identity: $identity)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetLeaderScheduleOptions &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.identity, identity) ||
+                const DeepCollectionEquality()
+                    .equals(other.identity, identity)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(identity);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetLeaderScheduleOptionsCopyWith<_GetLeaderScheduleOptions> get copyWith =>
+      __$GetLeaderScheduleOptionsCopyWithImpl<_GetLeaderScheduleOptions>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetLeaderScheduleOptionsToJson(this);
+  }
+}
+
+abstract class _GetLeaderScheduleOptions implements GetLeaderScheduleOptions {
+  const factory _GetLeaderScheduleOptions(
+      {Commitment? commitment, String? identity}) = _$_GetLeaderScheduleOptions;
+
+  factory _GetLeaderScheduleOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetLeaderScheduleOptions.fromJson;
+
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  String? get identity => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetLeaderScheduleOptionsCopyWith<_GetLeaderScheduleOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GetLargestAccountsOptions _$GetLargestAccountsOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetLargestAccountsOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetLargestAccountsOptionsTearOff {
+  const _$GetLargestAccountsOptionsTearOff();
+
+  _GetLargestAccountsOptions call(
+      {Commitment? commitment, CirculationStatus? filter}) {
+    return _GetLargestAccountsOptions(
+      commitment: commitment,
+      filter: filter,
+    );
+  }
+
+  GetLargestAccountsOptions fromJson(Map<String, Object> json) {
+    return GetLargestAccountsOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetLargestAccountsOptions = _$GetLargestAccountsOptionsTearOff();
+
+/// @nodoc
+mixin _$GetLargestAccountsOptions {
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  CirculationStatus? get filter => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetLargestAccountsOptionsCopyWith<GetLargestAccountsOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetLargestAccountsOptionsCopyWith<$Res> {
+  factory $GetLargestAccountsOptionsCopyWith(GetLargestAccountsOptions value,
+          $Res Function(GetLargestAccountsOptions) then) =
+      _$GetLargestAccountsOptionsCopyWithImpl<$Res>;
+  $Res call({Commitment? commitment, CirculationStatus? filter});
+}
+
+/// @nodoc
+class _$GetLargestAccountsOptionsCopyWithImpl<$Res>
+    implements $GetLargestAccountsOptionsCopyWith<$Res> {
+  _$GetLargestAccountsOptionsCopyWithImpl(this._value, this._then);
+
+  final GetLargestAccountsOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetLargestAccountsOptions) _then;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? filter = freezed,
+  }) {
+    return _then(_value.copyWith(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      filter: filter == freezed
+          ? _value.filter
+          : filter // ignore: cast_nullable_to_non_nullable
+              as CirculationStatus?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetLargestAccountsOptionsCopyWith<$Res>
+    implements $GetLargestAccountsOptionsCopyWith<$Res> {
+  factory _$GetLargestAccountsOptionsCopyWith(_GetLargestAccountsOptions value,
+          $Res Function(_GetLargestAccountsOptions) then) =
+      __$GetLargestAccountsOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call({Commitment? commitment, CirculationStatus? filter});
+}
+
+/// @nodoc
+class __$GetLargestAccountsOptionsCopyWithImpl<$Res>
+    extends _$GetLargestAccountsOptionsCopyWithImpl<$Res>
+    implements _$GetLargestAccountsOptionsCopyWith<$Res> {
+  __$GetLargestAccountsOptionsCopyWithImpl(_GetLargestAccountsOptions _value,
+      $Res Function(_GetLargestAccountsOptions) _then)
+      : super(_value, (v) => _then(v as _GetLargestAccountsOptions));
+
+  @override
+  _GetLargestAccountsOptions get _value =>
+      super._value as _GetLargestAccountsOptions;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? filter = freezed,
+  }) {
+    return _then(_GetLargestAccountsOptions(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      filter: filter == freezed
+          ? _value.filter
+          : filter // ignore: cast_nullable_to_non_nullable
+              as CirculationStatus?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetLargestAccountsOptions implements _GetLargestAccountsOptions {
+  const _$_GetLargestAccountsOptions({this.commitment, this.filter});
+
+  factory _$_GetLargestAccountsOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetLargestAccountsOptionsFromJson(json);
+
+  @override
+  final Commitment? commitment;
+  @override
+  final CirculationStatus? filter;
+
+  @override
+  String toString() {
+    return 'GetLargestAccountsOptions(commitment: $commitment, filter: $filter)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetLargestAccountsOptions &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.filter, filter) ||
+                const DeepCollectionEquality().equals(other.filter, filter)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(filter);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetLargestAccountsOptionsCopyWith<_GetLargestAccountsOptions>
+      get copyWith =>
+          __$GetLargestAccountsOptionsCopyWithImpl<_GetLargestAccountsOptions>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetLargestAccountsOptionsToJson(this);
+  }
+}
+
+abstract class _GetLargestAccountsOptions implements GetLargestAccountsOptions {
+  const factory _GetLargestAccountsOptions(
+      {Commitment? commitment,
+      CirculationStatus? filter}) = _$_GetLargestAccountsOptions;
+
+  factory _GetLargestAccountsOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetLargestAccountsOptions.fromJson;
+
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  CirculationStatus? get filter => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetLargestAccountsOptionsCopyWith<_GetLargestAccountsOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetBlockProductionOptions _$GetBlockProductionOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _GetBlockProductionOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetBlockProductionOptionsTearOff {
+  const _$GetBlockProductionOptionsTearOff();
+
+  _GetBlockProductionOptions call(
+      {Commitment? commitment = Commitment.finalized,
+      @JsonKey(includeIfNull: false) Range? range,
+      @JsonKey(includeIfNull: false) String? identity}) {
+    return _GetBlockProductionOptions(
+      commitment: commitment,
+      range: range,
+      identity: identity,
+    );
+  }
+
+  GetBlockProductionOptions fromJson(Map<String, Object> json) {
+    return GetBlockProductionOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetBlockProductionOptions = _$GetBlockProductionOptionsTearOff();
+
+/// @nodoc
+mixin _$GetBlockProductionOptions {
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  Range? get range => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  String? get identity => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetBlockProductionOptionsCopyWith<GetBlockProductionOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetBlockProductionOptionsCopyWith<$Res> {
+  factory $GetBlockProductionOptionsCopyWith(GetBlockProductionOptions value,
+          $Res Function(GetBlockProductionOptions) then) =
+      _$GetBlockProductionOptionsCopyWithImpl<$Res>;
+  $Res call(
+      {Commitment? commitment,
+      @JsonKey(includeIfNull: false) Range? range,
+      @JsonKey(includeIfNull: false) String? identity});
+
+  $RangeCopyWith<$Res>? get range;
+}
+
+/// @nodoc
+class _$GetBlockProductionOptionsCopyWithImpl<$Res>
+    implements $GetBlockProductionOptionsCopyWith<$Res> {
+  _$GetBlockProductionOptionsCopyWithImpl(this._value, this._then);
+
+  final GetBlockProductionOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetBlockProductionOptions) _then;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? range = freezed,
+    Object? identity = freezed,
+  }) {
+    return _then(_value.copyWith(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      range: range == freezed
+          ? _value.range
+          : range // ignore: cast_nullable_to_non_nullable
+              as Range?,
+      identity: identity == freezed
+          ? _value.identity
+          : identity // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+
+  @override
+  $RangeCopyWith<$Res>? get range {
+    if (_value.range == null) {
+      return null;
+    }
+
+    return $RangeCopyWith<$Res>(_value.range!, (value) {
+      return _then(_value.copyWith(range: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$GetBlockProductionOptionsCopyWith<$Res>
+    implements $GetBlockProductionOptionsCopyWith<$Res> {
+  factory _$GetBlockProductionOptionsCopyWith(_GetBlockProductionOptions value,
+          $Res Function(_GetBlockProductionOptions) then) =
+      __$GetBlockProductionOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {Commitment? commitment,
+      @JsonKey(includeIfNull: false) Range? range,
+      @JsonKey(includeIfNull: false) String? identity});
+
+  @override
+  $RangeCopyWith<$Res>? get range;
+}
+
+/// @nodoc
+class __$GetBlockProductionOptionsCopyWithImpl<$Res>
+    extends _$GetBlockProductionOptionsCopyWithImpl<$Res>
+    implements _$GetBlockProductionOptionsCopyWith<$Res> {
+  __$GetBlockProductionOptionsCopyWithImpl(_GetBlockProductionOptions _value,
+      $Res Function(_GetBlockProductionOptions) _then)
+      : super(_value, (v) => _then(v as _GetBlockProductionOptions));
+
+  @override
+  _GetBlockProductionOptions get _value =>
+      super._value as _GetBlockProductionOptions;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? range = freezed,
+    Object? identity = freezed,
+  }) {
+    return _then(_GetBlockProductionOptions(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      range: range == freezed
+          ? _value.range
+          : range // ignore: cast_nullable_to_non_nullable
+              as Range?,
+      identity: identity == freezed
+          ? _value.identity
+          : identity // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetBlockProductionOptions implements _GetBlockProductionOptions {
+  const _$_GetBlockProductionOptions(
+      {this.commitment = Commitment.finalized,
+      @JsonKey(includeIfNull: false) this.range,
+      @JsonKey(includeIfNull: false) this.identity});
+
+  factory _$_GetBlockProductionOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetBlockProductionOptionsFromJson(json);
+
+  @JsonKey(defaultValue: Commitment.finalized)
+  @override
+  final Commitment? commitment;
+  @override
+  @JsonKey(includeIfNull: false)
+  final Range? range;
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? identity;
+
+  @override
+  String toString() {
+    return 'GetBlockProductionOptions(commitment: $commitment, range: $range, identity: $identity)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetBlockProductionOptions &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.range, range) ||
+                const DeepCollectionEquality().equals(other.range, range)) &&
+            (identical(other.identity, identity) ||
+                const DeepCollectionEquality()
+                    .equals(other.identity, identity)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(range) ^
+      const DeepCollectionEquality().hash(identity);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetBlockProductionOptionsCopyWith<_GetBlockProductionOptions>
+      get copyWith =>
+          __$GetBlockProductionOptionsCopyWithImpl<_GetBlockProductionOptions>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetBlockProductionOptionsToJson(this);
+  }
+}
+
+abstract class _GetBlockProductionOptions implements GetBlockProductionOptions {
+  const factory _GetBlockProductionOptions(
+          {Commitment? commitment,
+          @JsonKey(includeIfNull: false) Range? range,
+          @JsonKey(includeIfNull: false) String? identity}) =
+      _$_GetBlockProductionOptions;
+
+  factory _GetBlockProductionOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetBlockProductionOptions.fromJson;
+
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(includeIfNull: false)
+  Range? get range => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get identity => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetBlockProductionOptionsCopyWith<_GetBlockProductionOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetBlockOptions _$GetBlockOptionsFromJson(Map<String, dynamic> json) {
+  return _GetBlockOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetBlockOptionsTearOff {
+  const _$GetBlockOptionsTearOff();
+
+  _GetBlockOptions call(
+      {Encoding? encoding = Encoding.jsonParsed,
+      TransactionDetailLevel? transactionDetails = TransactionDetailLevel.full,
+      bool? rewards = true,
+      Commitment? commitment = Commitment.finalized}) {
+    return _GetBlockOptions(
+      encoding: encoding,
+      transactionDetails: transactionDetails,
+      rewards: rewards,
+      commitment: commitment,
+    );
+  }
+
+  GetBlockOptions fromJson(Map<String, Object> json) {
+    return GetBlockOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetBlockOptions = _$GetBlockOptionsTearOff();
+
+/// @nodoc
+mixin _$GetBlockOptions {
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  TransactionDetailLevel? get transactionDetails =>
+      throw _privateConstructorUsedError;
+  bool? get rewards => throw _privateConstructorUsedError;
+  Commitment? get commitment => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetBlockOptionsCopyWith<GetBlockOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetBlockOptionsCopyWith<$Res> {
+  factory $GetBlockOptionsCopyWith(
+          GetBlockOptions value, $Res Function(GetBlockOptions) then) =
+      _$GetBlockOptionsCopyWithImpl<$Res>;
+  $Res call(
+      {Encoding? encoding,
+      TransactionDetailLevel? transactionDetails,
+      bool? rewards,
+      Commitment? commitment});
+}
+
+/// @nodoc
+class _$GetBlockOptionsCopyWithImpl<$Res>
+    implements $GetBlockOptionsCopyWith<$Res> {
+  _$GetBlockOptionsCopyWithImpl(this._value, this._then);
+
+  final GetBlockOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetBlockOptions) _then;
+
+  @override
+  $Res call({
+    Object? encoding = freezed,
+    Object? transactionDetails = freezed,
+    Object? rewards = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_value.copyWith(
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      transactionDetails: transactionDetails == freezed
+          ? _value.transactionDetails
+          : transactionDetails // ignore: cast_nullable_to_non_nullable
+              as TransactionDetailLevel?,
+      rewards: rewards == freezed
+          ? _value.rewards
+          : rewards // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetBlockOptionsCopyWith<$Res>
+    implements $GetBlockOptionsCopyWith<$Res> {
+  factory _$GetBlockOptionsCopyWith(
+          _GetBlockOptions value, $Res Function(_GetBlockOptions) then) =
+      __$GetBlockOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {Encoding? encoding,
+      TransactionDetailLevel? transactionDetails,
+      bool? rewards,
+      Commitment? commitment});
+}
+
+/// @nodoc
+class __$GetBlockOptionsCopyWithImpl<$Res>
+    extends _$GetBlockOptionsCopyWithImpl<$Res>
+    implements _$GetBlockOptionsCopyWith<$Res> {
+  __$GetBlockOptionsCopyWithImpl(
+      _GetBlockOptions _value, $Res Function(_GetBlockOptions) _then)
+      : super(_value, (v) => _then(v as _GetBlockOptions));
+
+  @override
+  _GetBlockOptions get _value => super._value as _GetBlockOptions;
+
+  @override
+  $Res call({
+    Object? encoding = freezed,
+    Object? transactionDetails = freezed,
+    Object? rewards = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_GetBlockOptions(
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      transactionDetails: transactionDetails == freezed
+          ? _value.transactionDetails
+          : transactionDetails // ignore: cast_nullable_to_non_nullable
+              as TransactionDetailLevel?,
+      rewards: rewards == freezed
+          ? _value.rewards
+          : rewards // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetBlockOptions implements _GetBlockOptions {
+  const _$_GetBlockOptions(
+      {this.encoding = Encoding.jsonParsed,
+      this.transactionDetails = TransactionDetailLevel.full,
+      this.rewards = true,
+      this.commitment = Commitment.finalized});
+
+  factory _$_GetBlockOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetBlockOptionsFromJson(json);
+
+  @JsonKey(defaultValue: Encoding.jsonParsed)
+  @override
+  final Encoding? encoding;
+  @JsonKey(defaultValue: TransactionDetailLevel.full)
+  @override
+  final TransactionDetailLevel? transactionDetails;
+  @JsonKey(defaultValue: true)
+  @override
+  final bool? rewards;
+  @JsonKey(defaultValue: Commitment.finalized)
+  @override
+  final Commitment? commitment;
+
+  @override
+  String toString() {
+    return 'GetBlockOptions(encoding: $encoding, transactionDetails: $transactionDetails, rewards: $rewards, commitment: $commitment)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetBlockOptions &&
+            (identical(other.encoding, encoding) ||
+                const DeepCollectionEquality()
+                    .equals(other.encoding, encoding)) &&
+            (identical(other.transactionDetails, transactionDetails) ||
+                const DeepCollectionEquality()
+                    .equals(other.transactionDetails, transactionDetails)) &&
+            (identical(other.rewards, rewards) ||
+                const DeepCollectionEquality()
+                    .equals(other.rewards, rewards)) &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(encoding) ^
+      const DeepCollectionEquality().hash(transactionDetails) ^
+      const DeepCollectionEquality().hash(rewards) ^
+      const DeepCollectionEquality().hash(commitment);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetBlockOptionsCopyWith<_GetBlockOptions> get copyWith =>
+      __$GetBlockOptionsCopyWithImpl<_GetBlockOptions>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetBlockOptionsToJson(this);
+  }
+}
+
+abstract class _GetBlockOptions implements GetBlockOptions {
+  const factory _GetBlockOptions(
+      {Encoding? encoding,
+      TransactionDetailLevel? transactionDetails,
+      bool? rewards,
+      Commitment? commitment}) = _$_GetBlockOptions;
+
+  factory _GetBlockOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetBlockOptions.fromJson;
+
+  @override
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  @override
+  TransactionDetailLevel? get transactionDetails =>
+      throw _privateConstructorUsedError;
+  @override
+  bool? get rewards => throw _privateConstructorUsedError;
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetBlockOptionsCopyWith<_GetBlockOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GetAccountOptions _$GetAccountOptionsFromJson(Map<String, dynamic> json) {
+  return _GetAccountOptions.fromJson(json);
+}
+
+/// @nodoc
+class _$GetAccountOptionsTearOff {
+  const _$GetAccountOptionsTearOff();
+
+  _GetAccountOptions call(
+      {Commitment? commitment = Commitment.finalized,
+      Encoding? encoding = Encoding.jsonParsed,
+      @JsonKey(includeIfNull: false) DataSlice? dataSlice}) {
+    return _GetAccountOptions(
+      commitment: commitment,
+      encoding: encoding,
+      dataSlice: dataSlice,
+    );
+  }
+
+  GetAccountOptions fromJson(Map<String, Object> json) {
+    return GetAccountOptions.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetAccountOptions = _$GetAccountOptionsTearOff();
+
+/// @nodoc
+mixin _$GetAccountOptions {
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  DataSlice? get dataSlice => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetAccountOptionsCopyWith<GetAccountOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetAccountOptionsCopyWith<$Res> {
+  factory $GetAccountOptionsCopyWith(
+          GetAccountOptions value, $Res Function(GetAccountOptions) then) =
+      _$GetAccountOptionsCopyWithImpl<$Res>;
+  $Res call(
+      {Commitment? commitment,
+      Encoding? encoding,
+      @JsonKey(includeIfNull: false) DataSlice? dataSlice});
+
+  $DataSliceCopyWith<$Res>? get dataSlice;
+}
+
+/// @nodoc
+class _$GetAccountOptionsCopyWithImpl<$Res>
+    implements $GetAccountOptionsCopyWith<$Res> {
+  _$GetAccountOptionsCopyWithImpl(this._value, this._then);
+
+  final GetAccountOptions _value;
+  // ignore: unused_field
+  final $Res Function(GetAccountOptions) _then;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? encoding = freezed,
+    Object? dataSlice = freezed,
+  }) {
+    return _then(_value.copyWith(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      dataSlice: dataSlice == freezed
+          ? _value.dataSlice
+          : dataSlice // ignore: cast_nullable_to_non_nullable
+              as DataSlice?,
+    ));
+  }
+
+  @override
+  $DataSliceCopyWith<$Res>? get dataSlice {
+    if (_value.dataSlice == null) {
+      return null;
+    }
+
+    return $DataSliceCopyWith<$Res>(_value.dataSlice!, (value) {
+      return _then(_value.copyWith(dataSlice: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$GetAccountOptionsCopyWith<$Res>
+    implements $GetAccountOptionsCopyWith<$Res> {
+  factory _$GetAccountOptionsCopyWith(
+          _GetAccountOptions value, $Res Function(_GetAccountOptions) then) =
+      __$GetAccountOptionsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {Commitment? commitment,
+      Encoding? encoding,
+      @JsonKey(includeIfNull: false) DataSlice? dataSlice});
+
+  @override
+  $DataSliceCopyWith<$Res>? get dataSlice;
+}
+
+/// @nodoc
+class __$GetAccountOptionsCopyWithImpl<$Res>
+    extends _$GetAccountOptionsCopyWithImpl<$Res>
+    implements _$GetAccountOptionsCopyWith<$Res> {
+  __$GetAccountOptionsCopyWithImpl(
+      _GetAccountOptions _value, $Res Function(_GetAccountOptions) _then)
+      : super(_value, (v) => _then(v as _GetAccountOptions));
+
+  @override
+  _GetAccountOptions get _value => super._value as _GetAccountOptions;
+
+  @override
+  $Res call({
+    Object? commitment = freezed,
+    Object? encoding = freezed,
+    Object? dataSlice = freezed,
+  }) {
+    return _then(_GetAccountOptions(
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+      encoding: encoding == freezed
+          ? _value.encoding
+          : encoding // ignore: cast_nullable_to_non_nullable
+              as Encoding?,
+      dataSlice: dataSlice == freezed
+          ? _value.dataSlice
+          : dataSlice // ignore: cast_nullable_to_non_nullable
+              as DataSlice?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetAccountOptions implements _GetAccountOptions {
+  const _$_GetAccountOptions(
+      {this.commitment = Commitment.finalized,
+      this.encoding = Encoding.jsonParsed,
+      @JsonKey(includeIfNull: false) this.dataSlice});
+
+  factory _$_GetAccountOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_GetAccountOptionsFromJson(json);
+
+  @JsonKey(defaultValue: Commitment.finalized)
+  @override
+  final Commitment? commitment;
+  @JsonKey(defaultValue: Encoding.jsonParsed)
+  @override
+  final Encoding? encoding;
+  @override
+  @JsonKey(includeIfNull: false)
+  final DataSlice? dataSlice;
+
+  @override
+  String toString() {
+    return 'GetAccountOptions(commitment: $commitment, encoding: $encoding, dataSlice: $dataSlice)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetAccountOptions &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)) &&
+            (identical(other.encoding, encoding) ||
+                const DeepCollectionEquality()
+                    .equals(other.encoding, encoding)) &&
+            (identical(other.dataSlice, dataSlice) ||
+                const DeepCollectionEquality()
+                    .equals(other.dataSlice, dataSlice)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(commitment) ^
+      const DeepCollectionEquality().hash(encoding) ^
+      const DeepCollectionEquality().hash(dataSlice);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetAccountOptionsCopyWith<_GetAccountOptions> get copyWith =>
+      __$GetAccountOptionsCopyWithImpl<_GetAccountOptions>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetAccountOptionsToJson(this);
+  }
+}
+
+abstract class _GetAccountOptions implements GetAccountOptions {
+  const factory _GetAccountOptions(
+          {Commitment? commitment,
+          Encoding? encoding,
+          @JsonKey(includeIfNull: false) DataSlice? dataSlice}) =
+      _$_GetAccountOptions;
+
+  factory _GetAccountOptions.fromJson(Map<String, dynamic> json) =
+      _$_GetAccountOptions.fromJson;
+
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  Encoding? get encoding => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(includeIfNull: false)
+  DataSlice? get dataSlice => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetAccountOptionsCopyWith<_GetAccountOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+DataSlice _$DataSliceFromJson(Map<String, dynamic> json) {
+  return _DataSlice.fromJson(json);
+}
+
+/// @nodoc
+class _$DataSliceTearOff {
+  const _$DataSliceTearOff();
+
+  _DataSlice call({int? offset, int? length}) {
+    return _DataSlice(
+      offset: offset,
+      length: length,
+    );
+  }
+
+  DataSlice fromJson(Map<String, Object> json) {
+    return DataSlice.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $DataSlice = _$DataSliceTearOff();
+
+/// @nodoc
+mixin _$DataSlice {
+  int? get offset => throw _privateConstructorUsedError;
+  int? get length => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DataSliceCopyWith<DataSlice> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DataSliceCopyWith<$Res> {
+  factory $DataSliceCopyWith(DataSlice value, $Res Function(DataSlice) then) =
+      _$DataSliceCopyWithImpl<$Res>;
+  $Res call({int? offset, int? length});
+}
+
+/// @nodoc
+class _$DataSliceCopyWithImpl<$Res> implements $DataSliceCopyWith<$Res> {
+  _$DataSliceCopyWithImpl(this._value, this._then);
+
+  final DataSlice _value;
+  // ignore: unused_field
+  final $Res Function(DataSlice) _then;
+
+  @override
+  $Res call({
+    Object? offset = freezed,
+    Object? length = freezed,
+  }) {
+    return _then(_value.copyWith(
+      offset: offset == freezed
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as int?,
+      length: length == freezed
+          ? _value.length
+          : length // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$DataSliceCopyWith<$Res> implements $DataSliceCopyWith<$Res> {
+  factory _$DataSliceCopyWith(
+          _DataSlice value, $Res Function(_DataSlice) then) =
+      __$DataSliceCopyWithImpl<$Res>;
+  @override
+  $Res call({int? offset, int? length});
+}
+
+/// @nodoc
+class __$DataSliceCopyWithImpl<$Res> extends _$DataSliceCopyWithImpl<$Res>
+    implements _$DataSliceCopyWith<$Res> {
+  __$DataSliceCopyWithImpl(_DataSlice _value, $Res Function(_DataSlice) _then)
+      : super(_value, (v) => _then(v as _DataSlice));
+
+  @override
+  _DataSlice get _value => super._value as _DataSlice;
+
+  @override
+  $Res call({
+    Object? offset = freezed,
+    Object? length = freezed,
+  }) {
+    return _then(_DataSlice(
+      offset: offset == freezed
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as int?,
+      length: length == freezed
+          ? _value.length
+          : length // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_DataSlice implements _DataSlice {
+  const _$_DataSlice({this.offset, this.length});
+
+  factory _$_DataSlice.fromJson(Map<String, dynamic> json) =>
+      _$$_DataSliceFromJson(json);
+
+  @override
+  final int? offset;
+  @override
+  final int? length;
+
+  @override
+  String toString() {
+    return 'DataSlice(offset: $offset, length: $length)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _DataSlice &&
+            (identical(other.offset, offset) ||
+                const DeepCollectionEquality().equals(other.offset, offset)) &&
+            (identical(other.length, length) ||
+                const DeepCollectionEquality().equals(other.length, length)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(offset) ^
+      const DeepCollectionEquality().hash(length);
+
+  @JsonKey(ignore: true)
+  @override
+  _$DataSliceCopyWith<_DataSlice> get copyWith =>
+      __$DataSliceCopyWithImpl<_DataSlice>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_DataSliceToJson(this);
+  }
+}
+
+abstract class _DataSlice implements DataSlice {
+  const factory _DataSlice({int? offset, int? length}) = _$_DataSlice;
+
+  factory _DataSlice.fromJson(Map<String, dynamic> json) =
+      _$_DataSlice.fromJson;
+
+  @override
+  int? get offset => throw _privateConstructorUsedError;
+  @override
+  int? get length => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$DataSliceCopyWith<_DataSlice> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 CommitmentObject _$CommitmentObjectFromJson(Map<String, dynamic> json) {
   return _CommitmentObject.fromJson(json);
 }
@@ -21,7 +3726,7 @@ CommitmentObject _$CommitmentObjectFromJson(Map<String, dynamic> json) {
 class _$CommitmentObjectTearOff {
   const _$CommitmentObjectTearOff();
 
-  _CommitmentObject call({required Commitment commitment}) {
+  _CommitmentObject call({Commitment commitment = Commitment.finalized}) {
     return _CommitmentObject(
       commitment: commitment,
     );
@@ -112,11 +3817,12 @@ class __$CommitmentObjectCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_CommitmentObject implements _CommitmentObject {
-  const _$_CommitmentObject({required this.commitment});
+  const _$_CommitmentObject({this.commitment = Commitment.finalized});
 
   factory _$_CommitmentObject.fromJson(Map<String, dynamic> json) =>
       _$$_CommitmentObjectFromJson(json);
 
+  @JsonKey(defaultValue: Commitment.finalized)
   @override
   final Commitment commitment;
 
@@ -150,7 +3856,7 @@ class _$_CommitmentObject implements _CommitmentObject {
 }
 
 abstract class _CommitmentObject implements CommitmentObject {
-  const factory _CommitmentObject({required Commitment commitment}) =
+  const factory _CommitmentObject({Commitment commitment}) =
       _$_CommitmentObject;
 
   factory _CommitmentObject.fromJson(Map<String, dynamic> json) =
@@ -1360,6 +5066,647 @@ abstract class _Reward implements Reward {
   _$RewardCopyWith<_Reward> get copyWith => throw _privateConstructorUsedError;
 }
 
+TransactionMessageHeader _$TransactionMessageHeaderFromJson(
+    Map<String, dynamic> json) {
+  return _TransactionMessageHeader.fromJson(json);
+}
+
+/// @nodoc
+class _$TransactionMessageHeaderTearOff {
+  const _$TransactionMessageHeaderTearOff();
+
+  _TransactionMessageHeader call(
+      {required int numRequiredSignatures,
+      required int numReadonlySignedAccounts,
+      required int numReadonlyUnsignedAccounts}) {
+    return _TransactionMessageHeader(
+      numRequiredSignatures: numRequiredSignatures,
+      numReadonlySignedAccounts: numReadonlySignedAccounts,
+      numReadonlyUnsignedAccounts: numReadonlyUnsignedAccounts,
+    );
+  }
+
+  TransactionMessageHeader fromJson(Map<String, Object> json) {
+    return TransactionMessageHeader.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $TransactionMessageHeader = _$TransactionMessageHeaderTearOff();
+
+/// @nodoc
+mixin _$TransactionMessageHeader {
+  int get numRequiredSignatures => throw _privateConstructorUsedError;
+  int get numReadonlySignedAccounts => throw _privateConstructorUsedError;
+  int get numReadonlyUnsignedAccounts => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TransactionMessageHeaderCopyWith<TransactionMessageHeader> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TransactionMessageHeaderCopyWith<$Res> {
+  factory $TransactionMessageHeaderCopyWith(TransactionMessageHeader value,
+          $Res Function(TransactionMessageHeader) then) =
+      _$TransactionMessageHeaderCopyWithImpl<$Res>;
+  $Res call(
+      {int numRequiredSignatures,
+      int numReadonlySignedAccounts,
+      int numReadonlyUnsignedAccounts});
+}
+
+/// @nodoc
+class _$TransactionMessageHeaderCopyWithImpl<$Res>
+    implements $TransactionMessageHeaderCopyWith<$Res> {
+  _$TransactionMessageHeaderCopyWithImpl(this._value, this._then);
+
+  final TransactionMessageHeader _value;
+  // ignore: unused_field
+  final $Res Function(TransactionMessageHeader) _then;
+
+  @override
+  $Res call({
+    Object? numRequiredSignatures = freezed,
+    Object? numReadonlySignedAccounts = freezed,
+    Object? numReadonlyUnsignedAccounts = freezed,
+  }) {
+    return _then(_value.copyWith(
+      numRequiredSignatures: numRequiredSignatures == freezed
+          ? _value.numRequiredSignatures
+          : numRequiredSignatures // ignore: cast_nullable_to_non_nullable
+              as int,
+      numReadonlySignedAccounts: numReadonlySignedAccounts == freezed
+          ? _value.numReadonlySignedAccounts
+          : numReadonlySignedAccounts // ignore: cast_nullable_to_non_nullable
+              as int,
+      numReadonlyUnsignedAccounts: numReadonlyUnsignedAccounts == freezed
+          ? _value.numReadonlyUnsignedAccounts
+          : numReadonlyUnsignedAccounts // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$TransactionMessageHeaderCopyWith<$Res>
+    implements $TransactionMessageHeaderCopyWith<$Res> {
+  factory _$TransactionMessageHeaderCopyWith(_TransactionMessageHeader value,
+          $Res Function(_TransactionMessageHeader) then) =
+      __$TransactionMessageHeaderCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {int numRequiredSignatures,
+      int numReadonlySignedAccounts,
+      int numReadonlyUnsignedAccounts});
+}
+
+/// @nodoc
+class __$TransactionMessageHeaderCopyWithImpl<$Res>
+    extends _$TransactionMessageHeaderCopyWithImpl<$Res>
+    implements _$TransactionMessageHeaderCopyWith<$Res> {
+  __$TransactionMessageHeaderCopyWithImpl(_TransactionMessageHeader _value,
+      $Res Function(_TransactionMessageHeader) _then)
+      : super(_value, (v) => _then(v as _TransactionMessageHeader));
+
+  @override
+  _TransactionMessageHeader get _value =>
+      super._value as _TransactionMessageHeader;
+
+  @override
+  $Res call({
+    Object? numRequiredSignatures = freezed,
+    Object? numReadonlySignedAccounts = freezed,
+    Object? numReadonlyUnsignedAccounts = freezed,
+  }) {
+    return _then(_TransactionMessageHeader(
+      numRequiredSignatures: numRequiredSignatures == freezed
+          ? _value.numRequiredSignatures
+          : numRequiredSignatures // ignore: cast_nullable_to_non_nullable
+              as int,
+      numReadonlySignedAccounts: numReadonlySignedAccounts == freezed
+          ? _value.numReadonlySignedAccounts
+          : numReadonlySignedAccounts // ignore: cast_nullable_to_non_nullable
+              as int,
+      numReadonlyUnsignedAccounts: numReadonlyUnsignedAccounts == freezed
+          ? _value.numReadonlyUnsignedAccounts
+          : numReadonlyUnsignedAccounts // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_TransactionMessageHeader implements _TransactionMessageHeader {
+  const _$_TransactionMessageHeader(
+      {required this.numRequiredSignatures,
+      required this.numReadonlySignedAccounts,
+      required this.numReadonlyUnsignedAccounts});
+
+  factory _$_TransactionMessageHeader.fromJson(Map<String, dynamic> json) =>
+      _$$_TransactionMessageHeaderFromJson(json);
+
+  @override
+  final int numRequiredSignatures;
+  @override
+  final int numReadonlySignedAccounts;
+  @override
+  final int numReadonlyUnsignedAccounts;
+
+  @override
+  String toString() {
+    return 'TransactionMessageHeader(numRequiredSignatures: $numRequiredSignatures, numReadonlySignedAccounts: $numReadonlySignedAccounts, numReadonlyUnsignedAccounts: $numReadonlyUnsignedAccounts)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _TransactionMessageHeader &&
+            (identical(other.numRequiredSignatures, numRequiredSignatures) ||
+                const DeepCollectionEquality().equals(
+                    other.numRequiredSignatures, numRequiredSignatures)) &&
+            (identical(other.numReadonlySignedAccounts,
+                    numReadonlySignedAccounts) ||
+                const DeepCollectionEquality().equals(
+                    other.numReadonlySignedAccounts,
+                    numReadonlySignedAccounts)) &&
+            (identical(other.numReadonlyUnsignedAccounts,
+                    numReadonlyUnsignedAccounts) ||
+                const DeepCollectionEquality().equals(
+                    other.numReadonlyUnsignedAccounts,
+                    numReadonlyUnsignedAccounts)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(numRequiredSignatures) ^
+      const DeepCollectionEquality().hash(numReadonlySignedAccounts) ^
+      const DeepCollectionEquality().hash(numReadonlyUnsignedAccounts);
+
+  @JsonKey(ignore: true)
+  @override
+  _$TransactionMessageHeaderCopyWith<_TransactionMessageHeader> get copyWith =>
+      __$TransactionMessageHeaderCopyWithImpl<_TransactionMessageHeader>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_TransactionMessageHeaderToJson(this);
+  }
+}
+
+abstract class _TransactionMessageHeader implements TransactionMessageHeader {
+  const factory _TransactionMessageHeader(
+      {required int numRequiredSignatures,
+      required int numReadonlySignedAccounts,
+      required int numReadonlyUnsignedAccounts}) = _$_TransactionMessageHeader;
+
+  factory _TransactionMessageHeader.fromJson(Map<String, dynamic> json) =
+      _$_TransactionMessageHeader.fromJson;
+
+  @override
+  int get numRequiredSignatures => throw _privateConstructorUsedError;
+  @override
+  int get numReadonlySignedAccounts => throw _privateConstructorUsedError;
+  @override
+  int get numReadonlyUnsignedAccounts => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$TransactionMessageHeaderCopyWith<_TransactionMessageHeader> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+TransactionMessage _$TransactionMessageFromJson(Map<String, dynamic> json) {
+  return _TransactionMessage.fromJson(json);
+}
+
+/// @nodoc
+class _$TransactionMessageTearOff {
+  const _$TransactionMessageTearOff();
+
+  _TransactionMessage call(
+      {required List<String> accountKeys,
+      required TransactionMessageHeader header,
+      required String recentBlockhash,
+      required List<Instruction> instructions}) {
+    return _TransactionMessage(
+      accountKeys: accountKeys,
+      header: header,
+      recentBlockhash: recentBlockhash,
+      instructions: instructions,
+    );
+  }
+
+  TransactionMessage fromJson(Map<String, Object> json) {
+    return TransactionMessage.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $TransactionMessage = _$TransactionMessageTearOff();
+
+/// @nodoc
+mixin _$TransactionMessage {
+  List<String> get accountKeys => throw _privateConstructorUsedError;
+  TransactionMessageHeader get header => throw _privateConstructorUsedError;
+  String get recentBlockhash => throw _privateConstructorUsedError;
+  List<Instruction> get instructions => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TransactionMessageCopyWith<TransactionMessage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TransactionMessageCopyWith<$Res> {
+  factory $TransactionMessageCopyWith(
+          TransactionMessage value, $Res Function(TransactionMessage) then) =
+      _$TransactionMessageCopyWithImpl<$Res>;
+  $Res call(
+      {List<String> accountKeys,
+      TransactionMessageHeader header,
+      String recentBlockhash,
+      List<Instruction> instructions});
+
+  $TransactionMessageHeaderCopyWith<$Res> get header;
+}
+
+/// @nodoc
+class _$TransactionMessageCopyWithImpl<$Res>
+    implements $TransactionMessageCopyWith<$Res> {
+  _$TransactionMessageCopyWithImpl(this._value, this._then);
+
+  final TransactionMessage _value;
+  // ignore: unused_field
+  final $Res Function(TransactionMessage) _then;
+
+  @override
+  $Res call({
+    Object? accountKeys = freezed,
+    Object? header = freezed,
+    Object? recentBlockhash = freezed,
+    Object? instructions = freezed,
+  }) {
+    return _then(_value.copyWith(
+      accountKeys: accountKeys == freezed
+          ? _value.accountKeys
+          : accountKeys // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      header: header == freezed
+          ? _value.header
+          : header // ignore: cast_nullable_to_non_nullable
+              as TransactionMessageHeader,
+      recentBlockhash: recentBlockhash == freezed
+          ? _value.recentBlockhash
+          : recentBlockhash // ignore: cast_nullable_to_non_nullable
+              as String,
+      instructions: instructions == freezed
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as List<Instruction>,
+    ));
+  }
+
+  @override
+  $TransactionMessageHeaderCopyWith<$Res> get header {
+    return $TransactionMessageHeaderCopyWith<$Res>(_value.header, (value) {
+      return _then(_value.copyWith(header: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$TransactionMessageCopyWith<$Res>
+    implements $TransactionMessageCopyWith<$Res> {
+  factory _$TransactionMessageCopyWith(
+          _TransactionMessage value, $Res Function(_TransactionMessage) then) =
+      __$TransactionMessageCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {List<String> accountKeys,
+      TransactionMessageHeader header,
+      String recentBlockhash,
+      List<Instruction> instructions});
+
+  @override
+  $TransactionMessageHeaderCopyWith<$Res> get header;
+}
+
+/// @nodoc
+class __$TransactionMessageCopyWithImpl<$Res>
+    extends _$TransactionMessageCopyWithImpl<$Res>
+    implements _$TransactionMessageCopyWith<$Res> {
+  __$TransactionMessageCopyWithImpl(
+      _TransactionMessage _value, $Res Function(_TransactionMessage) _then)
+      : super(_value, (v) => _then(v as _TransactionMessage));
+
+  @override
+  _TransactionMessage get _value => super._value as _TransactionMessage;
+
+  @override
+  $Res call({
+    Object? accountKeys = freezed,
+    Object? header = freezed,
+    Object? recentBlockhash = freezed,
+    Object? instructions = freezed,
+  }) {
+    return _then(_TransactionMessage(
+      accountKeys: accountKeys == freezed
+          ? _value.accountKeys
+          : accountKeys // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      header: header == freezed
+          ? _value.header
+          : header // ignore: cast_nullable_to_non_nullable
+              as TransactionMessageHeader,
+      recentBlockhash: recentBlockhash == freezed
+          ? _value.recentBlockhash
+          : recentBlockhash // ignore: cast_nullable_to_non_nullable
+              as String,
+      instructions: instructions == freezed
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as List<Instruction>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_TransactionMessage implements _TransactionMessage {
+  const _$_TransactionMessage(
+      {required this.accountKeys,
+      required this.header,
+      required this.recentBlockhash,
+      required this.instructions});
+
+  factory _$_TransactionMessage.fromJson(Map<String, dynamic> json) =>
+      _$$_TransactionMessageFromJson(json);
+
+  @override
+  final List<String> accountKeys;
+  @override
+  final TransactionMessageHeader header;
+  @override
+  final String recentBlockhash;
+  @override
+  final List<Instruction> instructions;
+
+  @override
+  String toString() {
+    return 'TransactionMessage(accountKeys: $accountKeys, header: $header, recentBlockhash: $recentBlockhash, instructions: $instructions)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _TransactionMessage &&
+            (identical(other.accountKeys, accountKeys) ||
+                const DeepCollectionEquality()
+                    .equals(other.accountKeys, accountKeys)) &&
+            (identical(other.header, header) ||
+                const DeepCollectionEquality().equals(other.header, header)) &&
+            (identical(other.recentBlockhash, recentBlockhash) ||
+                const DeepCollectionEquality()
+                    .equals(other.recentBlockhash, recentBlockhash)) &&
+            (identical(other.instructions, instructions) ||
+                const DeepCollectionEquality()
+                    .equals(other.instructions, instructions)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(accountKeys) ^
+      const DeepCollectionEquality().hash(header) ^
+      const DeepCollectionEquality().hash(recentBlockhash) ^
+      const DeepCollectionEquality().hash(instructions);
+
+  @JsonKey(ignore: true)
+  @override
+  _$TransactionMessageCopyWith<_TransactionMessage> get copyWith =>
+      __$TransactionMessageCopyWithImpl<_TransactionMessage>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_TransactionMessageToJson(this);
+  }
+}
+
+abstract class _TransactionMessage implements TransactionMessage {
+  const factory _TransactionMessage(
+      {required List<String> accountKeys,
+      required TransactionMessageHeader header,
+      required String recentBlockhash,
+      required List<Instruction> instructions}) = _$_TransactionMessage;
+
+  factory _TransactionMessage.fromJson(Map<String, dynamic> json) =
+      _$_TransactionMessage.fromJson;
+
+  @override
+  List<String> get accountKeys => throw _privateConstructorUsedError;
+  @override
+  TransactionMessageHeader get header => throw _privateConstructorUsedError;
+  @override
+  String get recentBlockhash => throw _privateConstructorUsedError;
+  @override
+  List<Instruction> get instructions => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$TransactionMessageCopyWith<_TransactionMessage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ParsedTransaction _$ParsedTransactionFromJson(Map<String, dynamic> json) {
+  return _ParsedTransaction.fromJson(json);
+}
+
+/// @nodoc
+class _$ParsedTransactionTearOff {
+  const _$ParsedTransactionTearOff();
+
+  _ParsedTransaction call(
+      {required ParsedMessage message, required List<String> signatures}) {
+    return _ParsedTransaction(
+      message: message,
+      signatures: signatures,
+    );
+  }
+
+  ParsedTransaction fromJson(Map<String, Object> json) {
+    return ParsedTransaction.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $ParsedTransaction = _$ParsedTransactionTearOff();
+
+/// @nodoc
+mixin _$ParsedTransaction {
+  ParsedMessage get message => throw _privateConstructorUsedError;
+  List<String> get signatures => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ParsedTransactionCopyWith<ParsedTransaction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ParsedTransactionCopyWith<$Res> {
+  factory $ParsedTransactionCopyWith(
+          ParsedTransaction value, $Res Function(ParsedTransaction) then) =
+      _$ParsedTransactionCopyWithImpl<$Res>;
+  $Res call({ParsedMessage message, List<String> signatures});
+
+  $ParsedMessageCopyWith<$Res> get message;
+}
+
+/// @nodoc
+class _$ParsedTransactionCopyWithImpl<$Res>
+    implements $ParsedTransactionCopyWith<$Res> {
+  _$ParsedTransactionCopyWithImpl(this._value, this._then);
+
+  final ParsedTransaction _value;
+  // ignore: unused_field
+  final $Res Function(ParsedTransaction) _then;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+    Object? signatures = freezed,
+  }) {
+    return _then(_value.copyWith(
+      message: message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as ParsedMessage,
+      signatures: signatures == freezed
+          ? _value.signatures
+          : signatures // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+
+  @override
+  $ParsedMessageCopyWith<$Res> get message {
+    return $ParsedMessageCopyWith<$Res>(_value.message, (value) {
+      return _then(_value.copyWith(message: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$ParsedTransactionCopyWith<$Res>
+    implements $ParsedTransactionCopyWith<$Res> {
+  factory _$ParsedTransactionCopyWith(
+          _ParsedTransaction value, $Res Function(_ParsedTransaction) then) =
+      __$ParsedTransactionCopyWithImpl<$Res>;
+  @override
+  $Res call({ParsedMessage message, List<String> signatures});
+
+  @override
+  $ParsedMessageCopyWith<$Res> get message;
+}
+
+/// @nodoc
+class __$ParsedTransactionCopyWithImpl<$Res>
+    extends _$ParsedTransactionCopyWithImpl<$Res>
+    implements _$ParsedTransactionCopyWith<$Res> {
+  __$ParsedTransactionCopyWithImpl(
+      _ParsedTransaction _value, $Res Function(_ParsedTransaction) _then)
+      : super(_value, (v) => _then(v as _ParsedTransaction));
+
+  @override
+  _ParsedTransaction get _value => super._value as _ParsedTransaction;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+    Object? signatures = freezed,
+  }) {
+    return _then(_ParsedTransaction(
+      message: message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as ParsedMessage,
+      signatures: signatures == freezed
+          ? _value.signatures
+          : signatures // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_ParsedTransaction implements _ParsedTransaction {
+  const _$_ParsedTransaction({required this.message, required this.signatures});
+
+  factory _$_ParsedTransaction.fromJson(Map<String, dynamic> json) =>
+      _$$_ParsedTransactionFromJson(json);
+
+  @override
+  final ParsedMessage message;
+  @override
+  final List<String> signatures;
+
+  @override
+  String toString() {
+    return 'ParsedTransaction(message: $message, signatures: $signatures)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _ParsedTransaction &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality()
+                    .equals(other.message, message)) &&
+            (identical(other.signatures, signatures) ||
+                const DeepCollectionEquality()
+                    .equals(other.signatures, signatures)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(message) ^
+      const DeepCollectionEquality().hash(signatures);
+
+  @JsonKey(ignore: true)
+  @override
+  _$ParsedTransactionCopyWith<_ParsedTransaction> get copyWith =>
+      __$ParsedTransactionCopyWithImpl<_ParsedTransaction>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ParsedTransactionToJson(this);
+  }
+}
+
+abstract class _ParsedTransaction implements ParsedTransaction {
+  const factory _ParsedTransaction(
+      {required ParsedMessage message,
+      required List<String> signatures}) = _$_ParsedTransaction;
+
+  factory _ParsedTransaction.fromJson(Map<String, dynamic> json) =
+      _$_ParsedTransaction.fromJson;
+
+  @override
+  ParsedMessage get message => throw _privateConstructorUsedError;
+  @override
+  List<String> get signatures => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$ParsedTransactionCopyWith<_ParsedTransaction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Transaction _$TransactionFromJson(Map<String, dynamic> json) {
   return _Transaction.fromJson(json);
 }
@@ -1369,8 +5716,7 @@ class _$TransactionTearOff {
   const _$TransactionTearOff();
 
   _Transaction call(
-      {required List<String> signatures,
-      required Map<String, dynamic> message}) {
+      {required List<String> signatures, required TransactionMessage message}) {
     return _Transaction(
       signatures: signatures,
       message: message,
@@ -1388,7 +5734,7 @@ const $Transaction = _$TransactionTearOff();
 /// @nodoc
 mixin _$Transaction {
   List<String> get signatures => throw _privateConstructorUsedError;
-  Map<String, dynamic> get message => throw _privateConstructorUsedError;
+  TransactionMessage get message => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1401,7 +5747,9 @@ abstract class $TransactionCopyWith<$Res> {
   factory $TransactionCopyWith(
           Transaction value, $Res Function(Transaction) then) =
       _$TransactionCopyWithImpl<$Res>;
-  $Res call({List<String> signatures, Map<String, dynamic> message});
+  $Res call({List<String> signatures, TransactionMessage message});
+
+  $TransactionMessageCopyWith<$Res> get message;
 }
 
 /// @nodoc
@@ -1425,8 +5773,15 @@ class _$TransactionCopyWithImpl<$Res> implements $TransactionCopyWith<$Res> {
       message: message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as TransactionMessage,
     ));
+  }
+
+  @override
+  $TransactionMessageCopyWith<$Res> get message {
+    return $TransactionMessageCopyWith<$Res>(_value.message, (value) {
+      return _then(_value.copyWith(message: value));
+    });
   }
 }
 
@@ -1437,7 +5792,10 @@ abstract class _$TransactionCopyWith<$Res>
           _Transaction value, $Res Function(_Transaction) then) =
       __$TransactionCopyWithImpl<$Res>;
   @override
-  $Res call({List<String> signatures, Map<String, dynamic> message});
+  $Res call({List<String> signatures, TransactionMessage message});
+
+  @override
+  $TransactionMessageCopyWith<$Res> get message;
 }
 
 /// @nodoc
@@ -1463,7 +5821,7 @@ class __$TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res>
       message: message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as TransactionMessage,
     ));
   }
 }
@@ -1479,7 +5837,7 @@ class _$_Transaction implements _Transaction {
   @override
   final List<String> signatures;
   @override
-  final Map<String, dynamic> message;
+  final TransactionMessage message;
 
   @override
   String toString() {
@@ -1517,7 +5875,7 @@ class _$_Transaction implements _Transaction {
 abstract class _Transaction implements Transaction {
   const factory _Transaction(
       {required List<String> signatures,
-      required Map<String, dynamic> message}) = _$_Transaction;
+      required TransactionMessage message}) = _$_Transaction;
 
   factory _Transaction.fromJson(Map<String, dynamic> json) =
       _$_Transaction.fromJson;
@@ -1525,7 +5883,7 @@ abstract class _Transaction implements Transaction {
   @override
   List<String> get signatures => throw _privateConstructorUsedError;
   @override
-  Map<String, dynamic> get message => throw _privateConstructorUsedError;
+  TransactionMessage get message => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$TransactionCopyWith<_Transaction> get copyWith =>
@@ -1533,19 +5891,41 @@ abstract class _Transaction implements Transaction {
 }
 
 TransactionDetails _$TransactionDetailsFromJson(Map<String, dynamic> json) {
-  return _TransactionDetails.fromJson(json);
+  switch (json['runtimeType'] as String?) {
+    case 'base64':
+      return TransactionDetailsBase64.fromJson(json);
+    case 'parsed':
+      return TransactionDetailsParsed.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'TransactionDetails',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
 }
 
 /// @nodoc
 class _$TransactionDetailsTearOff {
   const _$TransactionDetailsTearOff();
 
-  _TransactionDetails call(
+  TransactionDetailsBase64 base64(
       {required int slot,
       required Transaction transaction,
       required int? blockTime,
       required Meta meta}) {
-    return _TransactionDetails(
+    return TransactionDetailsBase64(
+      slot: slot,
+      transaction: transaction,
+      blockTime: blockTime,
+      meta: meta,
+    );
+  }
+
+  TransactionDetailsParsed parsed(
+      {required int slot,
+      required ParsedTransaction transaction,
+      required int? blockTime,
+      required Meta meta}) {
+    return TransactionDetailsParsed(
       slot: slot,
       transaction: transaction,
       blockTime: blockTime,
@@ -1564,10 +5944,59 @@ const $TransactionDetails = _$TransactionDetailsTearOff();
 /// @nodoc
 mixin _$TransactionDetails {
   int get slot => throw _privateConstructorUsedError;
-  Transaction get transaction => throw _privateConstructorUsedError;
   int? get blockTime => throw _privateConstructorUsedError;
   Meta get meta => throw _privateConstructorUsedError;
 
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int slot, Transaction transaction, int? blockTime, Meta meta)
+        base64,
+    required TResult Function(
+            int slot, ParsedTransaction transaction, int? blockTime, Meta meta)
+        parsed,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(
+            int slot, Transaction transaction, int? blockTime, Meta meta)?
+        base64,
+    TResult Function(
+            int slot, ParsedTransaction transaction, int? blockTime, Meta meta)?
+        parsed,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int slot, Transaction transaction, int? blockTime, Meta meta)?
+        base64,
+    TResult Function(
+            int slot, ParsedTransaction transaction, int? blockTime, Meta meta)?
+        parsed,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TransactionDetailsBase64 value) base64,
+    required TResult Function(TransactionDetailsParsed value) parsed,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(TransactionDetailsBase64 value)? base64,
+    TResult Function(TransactionDetailsParsed value)? parsed,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TransactionDetailsBase64 value)? base64,
+    TResult Function(TransactionDetailsParsed value)? parsed,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $TransactionDetailsCopyWith<TransactionDetails> get copyWith =>
@@ -1579,9 +6008,8 @@ abstract class $TransactionDetailsCopyWith<$Res> {
   factory $TransactionDetailsCopyWith(
           TransactionDetails value, $Res Function(TransactionDetails) then) =
       _$TransactionDetailsCopyWithImpl<$Res>;
-  $Res call({int slot, Transaction transaction, int? blockTime, Meta meta});
+  $Res call({int slot, int? blockTime, Meta meta});
 
-  $TransactionCopyWith<$Res> get transaction;
   $MetaCopyWith<$Res> get meta;
 }
 
@@ -1597,11 +6025,67 @@ class _$TransactionDetailsCopyWithImpl<$Res>
   @override
   $Res call({
     Object? slot = freezed,
-    Object? transaction = freezed,
     Object? blockTime = freezed,
     Object? meta = freezed,
   }) {
     return _then(_value.copyWith(
+      slot: slot == freezed
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as int,
+      blockTime: blockTime == freezed
+          ? _value.blockTime
+          : blockTime // ignore: cast_nullable_to_non_nullable
+              as int?,
+      meta: meta == freezed
+          ? _value.meta
+          : meta // ignore: cast_nullable_to_non_nullable
+              as Meta,
+    ));
+  }
+
+  @override
+  $MetaCopyWith<$Res> get meta {
+    return $MetaCopyWith<$Res>(_value.meta, (value) {
+      return _then(_value.copyWith(meta: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class $TransactionDetailsBase64CopyWith<$Res>
+    implements $TransactionDetailsCopyWith<$Res> {
+  factory $TransactionDetailsBase64CopyWith(TransactionDetailsBase64 value,
+          $Res Function(TransactionDetailsBase64) then) =
+      _$TransactionDetailsBase64CopyWithImpl<$Res>;
+  @override
+  $Res call({int slot, Transaction transaction, int? blockTime, Meta meta});
+
+  $TransactionCopyWith<$Res> get transaction;
+  @override
+  $MetaCopyWith<$Res> get meta;
+}
+
+/// @nodoc
+class _$TransactionDetailsBase64CopyWithImpl<$Res>
+    extends _$TransactionDetailsCopyWithImpl<$Res>
+    implements $TransactionDetailsBase64CopyWith<$Res> {
+  _$TransactionDetailsBase64CopyWithImpl(TransactionDetailsBase64 _value,
+      $Res Function(TransactionDetailsBase64) _then)
+      : super(_value, (v) => _then(v as TransactionDetailsBase64));
+
+  @override
+  TransactionDetailsBase64 get _value =>
+      super._value as TransactionDetailsBase64;
+
+  @override
+  $Res call({
+    Object? slot = freezed,
+    Object? transaction = freezed,
+    Object? blockTime = freezed,
+    Object? meta = freezed,
+  }) {
+    return _then(TransactionDetailsBase64(
       slot: slot == freezed
           ? _value.slot
           : slot // ignore: cast_nullable_to_non_nullable
@@ -1627,80 +6111,19 @@ class _$TransactionDetailsCopyWithImpl<$Res>
       return _then(_value.copyWith(transaction: value));
     });
   }
-
-  @override
-  $MetaCopyWith<$Res> get meta {
-    return $MetaCopyWith<$Res>(_value.meta, (value) {
-      return _then(_value.copyWith(meta: value));
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$TransactionDetailsCopyWith<$Res>
-    implements $TransactionDetailsCopyWith<$Res> {
-  factory _$TransactionDetailsCopyWith(
-          _TransactionDetails value, $Res Function(_TransactionDetails) then) =
-      __$TransactionDetailsCopyWithImpl<$Res>;
-  @override
-  $Res call({int slot, Transaction transaction, int? blockTime, Meta meta});
-
-  @override
-  $TransactionCopyWith<$Res> get transaction;
-  @override
-  $MetaCopyWith<$Res> get meta;
-}
-
-/// @nodoc
-class __$TransactionDetailsCopyWithImpl<$Res>
-    extends _$TransactionDetailsCopyWithImpl<$Res>
-    implements _$TransactionDetailsCopyWith<$Res> {
-  __$TransactionDetailsCopyWithImpl(
-      _TransactionDetails _value, $Res Function(_TransactionDetails) _then)
-      : super(_value, (v) => _then(v as _TransactionDetails));
-
-  @override
-  _TransactionDetails get _value => super._value as _TransactionDetails;
-
-  @override
-  $Res call({
-    Object? slot = freezed,
-    Object? transaction = freezed,
-    Object? blockTime = freezed,
-    Object? meta = freezed,
-  }) {
-    return _then(_TransactionDetails(
-      slot: slot == freezed
-          ? _value.slot
-          : slot // ignore: cast_nullable_to_non_nullable
-              as int,
-      transaction: transaction == freezed
-          ? _value.transaction
-          : transaction // ignore: cast_nullable_to_non_nullable
-              as Transaction,
-      blockTime: blockTime == freezed
-          ? _value.blockTime
-          : blockTime // ignore: cast_nullable_to_non_nullable
-              as int?,
-      meta: meta == freezed
-          ? _value.meta
-          : meta // ignore: cast_nullable_to_non_nullable
-              as Meta,
-    ));
-  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_TransactionDetails implements _TransactionDetails {
-  const _$_TransactionDetails(
+class _$TransactionDetailsBase64 implements TransactionDetailsBase64 {
+  const _$TransactionDetailsBase64(
       {required this.slot,
       required this.transaction,
       required this.blockTime,
       required this.meta});
 
-  factory _$_TransactionDetails.fromJson(Map<String, dynamic> json) =>
-      _$$_TransactionDetailsFromJson(json);
+  factory _$TransactionDetailsBase64.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionDetailsBase64FromJson(json);
 
   @override
   final int slot;
@@ -1713,13 +6136,13 @@ class _$_TransactionDetails implements _TransactionDetails {
 
   @override
   String toString() {
-    return 'TransactionDetails(slot: $slot, transaction: $transaction, blockTime: $blockTime, meta: $meta)';
+    return 'TransactionDetails.base64(slot: $slot, transaction: $transaction, blockTime: $blockTime, meta: $meta)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _TransactionDetails &&
+        (other is TransactionDetailsBase64 &&
             (identical(other.slot, slot) ||
                 const DeepCollectionEquality().equals(other.slot, slot)) &&
             (identical(other.transaction, transaction) ||
@@ -1742,28 +6165,102 @@ class _$_TransactionDetails implements _TransactionDetails {
 
   @JsonKey(ignore: true)
   @override
-  _$TransactionDetailsCopyWith<_TransactionDetails> get copyWith =>
-      __$TransactionDetailsCopyWithImpl<_TransactionDetails>(this, _$identity);
+  $TransactionDetailsBase64CopyWith<TransactionDetailsBase64> get copyWith =>
+      _$TransactionDetailsBase64CopyWithImpl<TransactionDetailsBase64>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int slot, Transaction transaction, int? blockTime, Meta meta)
+        base64,
+    required TResult Function(
+            int slot, ParsedTransaction transaction, int? blockTime, Meta meta)
+        parsed,
+  }) {
+    return base64(slot, transaction, blockTime, meta);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(
+            int slot, Transaction transaction, int? blockTime, Meta meta)?
+        base64,
+    TResult Function(
+            int slot, ParsedTransaction transaction, int? blockTime, Meta meta)?
+        parsed,
+  }) {
+    return base64?.call(slot, transaction, blockTime, meta);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int slot, Transaction transaction, int? blockTime, Meta meta)?
+        base64,
+    TResult Function(
+            int slot, ParsedTransaction transaction, int? blockTime, Meta meta)?
+        parsed,
+    required TResult orElse(),
+  }) {
+    if (base64 != null) {
+      return base64(slot, transaction, blockTime, meta);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TransactionDetailsBase64 value) base64,
+    required TResult Function(TransactionDetailsParsed value) parsed,
+  }) {
+    return base64(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(TransactionDetailsBase64 value)? base64,
+    TResult Function(TransactionDetailsParsed value)? parsed,
+  }) {
+    return base64?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TransactionDetailsBase64 value)? base64,
+    TResult Function(TransactionDetailsParsed value)? parsed,
+    required TResult orElse(),
+  }) {
+    if (base64 != null) {
+      return base64(this);
+    }
+    return orElse();
+  }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TransactionDetailsToJson(this);
+    return _$$TransactionDetailsBase64ToJson(this)..['runtimeType'] = 'base64';
   }
 }
 
-abstract class _TransactionDetails implements TransactionDetails {
-  const factory _TransactionDetails(
+abstract class TransactionDetailsBase64 implements TransactionDetails {
+  const factory TransactionDetailsBase64(
       {required int slot,
       required Transaction transaction,
       required int? blockTime,
-      required Meta meta}) = _$_TransactionDetails;
+      required Meta meta}) = _$TransactionDetailsBase64;
 
-  factory _TransactionDetails.fromJson(Map<String, dynamic> json) =
-      _$_TransactionDetails.fromJson;
+  factory TransactionDetailsBase64.fromJson(Map<String, dynamic> json) =
+      _$TransactionDetailsBase64.fromJson;
 
   @override
   int get slot => throw _privateConstructorUsedError;
-  @override
   Transaction get transaction => throw _privateConstructorUsedError;
   @override
   int? get blockTime => throw _privateConstructorUsedError;
@@ -1771,7 +6268,228 @@ abstract class _TransactionDetails implements TransactionDetails {
   Meta get meta => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$TransactionDetailsCopyWith<_TransactionDetails> get copyWith =>
+  $TransactionDetailsBase64CopyWith<TransactionDetailsBase64> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TransactionDetailsParsedCopyWith<$Res>
+    implements $TransactionDetailsCopyWith<$Res> {
+  factory $TransactionDetailsParsedCopyWith(TransactionDetailsParsed value,
+          $Res Function(TransactionDetailsParsed) then) =
+      _$TransactionDetailsParsedCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {int slot, ParsedTransaction transaction, int? blockTime, Meta meta});
+
+  $ParsedTransactionCopyWith<$Res> get transaction;
+  @override
+  $MetaCopyWith<$Res> get meta;
+}
+
+/// @nodoc
+class _$TransactionDetailsParsedCopyWithImpl<$Res>
+    extends _$TransactionDetailsCopyWithImpl<$Res>
+    implements $TransactionDetailsParsedCopyWith<$Res> {
+  _$TransactionDetailsParsedCopyWithImpl(TransactionDetailsParsed _value,
+      $Res Function(TransactionDetailsParsed) _then)
+      : super(_value, (v) => _then(v as TransactionDetailsParsed));
+
+  @override
+  TransactionDetailsParsed get _value =>
+      super._value as TransactionDetailsParsed;
+
+  @override
+  $Res call({
+    Object? slot = freezed,
+    Object? transaction = freezed,
+    Object? blockTime = freezed,
+    Object? meta = freezed,
+  }) {
+    return _then(TransactionDetailsParsed(
+      slot: slot == freezed
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as int,
+      transaction: transaction == freezed
+          ? _value.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as ParsedTransaction,
+      blockTime: blockTime == freezed
+          ? _value.blockTime
+          : blockTime // ignore: cast_nullable_to_non_nullable
+              as int?,
+      meta: meta == freezed
+          ? _value.meta
+          : meta // ignore: cast_nullable_to_non_nullable
+              as Meta,
+    ));
+  }
+
+  @override
+  $ParsedTransactionCopyWith<$Res> get transaction {
+    return $ParsedTransactionCopyWith<$Res>(_value.transaction, (value) {
+      return _then(_value.copyWith(transaction: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TransactionDetailsParsed implements TransactionDetailsParsed {
+  const _$TransactionDetailsParsed(
+      {required this.slot,
+      required this.transaction,
+      required this.blockTime,
+      required this.meta});
+
+  factory _$TransactionDetailsParsed.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionDetailsParsedFromJson(json);
+
+  @override
+  final int slot;
+  @override
+  final ParsedTransaction transaction;
+  @override
+  final int? blockTime;
+  @override
+  final Meta meta;
+
+  @override
+  String toString() {
+    return 'TransactionDetails.parsed(slot: $slot, transaction: $transaction, blockTime: $blockTime, meta: $meta)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is TransactionDetailsParsed &&
+            (identical(other.slot, slot) ||
+                const DeepCollectionEquality().equals(other.slot, slot)) &&
+            (identical(other.transaction, transaction) ||
+                const DeepCollectionEquality()
+                    .equals(other.transaction, transaction)) &&
+            (identical(other.blockTime, blockTime) ||
+                const DeepCollectionEquality()
+                    .equals(other.blockTime, blockTime)) &&
+            (identical(other.meta, meta) ||
+                const DeepCollectionEquality().equals(other.meta, meta)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(slot) ^
+      const DeepCollectionEquality().hash(transaction) ^
+      const DeepCollectionEquality().hash(blockTime) ^
+      const DeepCollectionEquality().hash(meta);
+
+  @JsonKey(ignore: true)
+  @override
+  $TransactionDetailsParsedCopyWith<TransactionDetailsParsed> get copyWith =>
+      _$TransactionDetailsParsedCopyWithImpl<TransactionDetailsParsed>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int slot, Transaction transaction, int? blockTime, Meta meta)
+        base64,
+    required TResult Function(
+            int slot, ParsedTransaction transaction, int? blockTime, Meta meta)
+        parsed,
+  }) {
+    return parsed(slot, transaction, blockTime, meta);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(
+            int slot, Transaction transaction, int? blockTime, Meta meta)?
+        base64,
+    TResult Function(
+            int slot, ParsedTransaction transaction, int? blockTime, Meta meta)?
+        parsed,
+  }) {
+    return parsed?.call(slot, transaction, blockTime, meta);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int slot, Transaction transaction, int? blockTime, Meta meta)?
+        base64,
+    TResult Function(
+            int slot, ParsedTransaction transaction, int? blockTime, Meta meta)?
+        parsed,
+    required TResult orElse(),
+  }) {
+    if (parsed != null) {
+      return parsed(slot, transaction, blockTime, meta);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TransactionDetailsBase64 value) base64,
+    required TResult Function(TransactionDetailsParsed value) parsed,
+  }) {
+    return parsed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(TransactionDetailsBase64 value)? base64,
+    TResult Function(TransactionDetailsParsed value)? parsed,
+  }) {
+    return parsed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TransactionDetailsBase64 value)? base64,
+    TResult Function(TransactionDetailsParsed value)? parsed,
+    required TResult orElse(),
+  }) {
+    if (parsed != null) {
+      return parsed(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TransactionDetailsParsedToJson(this)..['runtimeType'] = 'parsed';
+  }
+}
+
+abstract class TransactionDetailsParsed implements TransactionDetails {
+  const factory TransactionDetailsParsed(
+      {required int slot,
+      required ParsedTransaction transaction,
+      required int? blockTime,
+      required Meta meta}) = _$TransactionDetailsParsed;
+
+  factory TransactionDetailsParsed.fromJson(Map<String, dynamic> json) =
+      _$TransactionDetailsParsed.fromJson;
+
+  @override
+  int get slot => throw _privateConstructorUsedError;
+  ParsedTransaction get transaction => throw _privateConstructorUsedError;
+  @override
+  int? get blockTime => throw _privateConstructorUsedError;
+  @override
+  Meta get meta => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  $TransactionDetailsParsedCopyWith<TransactionDetailsParsed> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -3109,9 +7827,9 @@ FeeCalculator _$FeeCalculatorFromJson(Map<String, dynamic> json) {
 class _$FeeCalculatorTearOff {
   const _$FeeCalculatorTearOff();
 
-  _FeeCalculator call({required Map<String, dynamic> feeCalculator}) {
+  _FeeCalculator call({required int lamportsPerSignature}) {
     return _FeeCalculator(
-      feeCalculator: feeCalculator,
+      lamportsPerSignature: lamportsPerSignature,
     );
   }
 
@@ -3125,7 +7843,7 @@ const $FeeCalculator = _$FeeCalculatorTearOff();
 
 /// @nodoc
 mixin _$FeeCalculator {
-  Map<String, dynamic> get feeCalculator => throw _privateConstructorUsedError;
+  int get lamportsPerSignature => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3138,7 +7856,7 @@ abstract class $FeeCalculatorCopyWith<$Res> {
   factory $FeeCalculatorCopyWith(
           FeeCalculator value, $Res Function(FeeCalculator) then) =
       _$FeeCalculatorCopyWithImpl<$Res>;
-  $Res call({Map<String, dynamic> feeCalculator});
+  $Res call({int lamportsPerSignature});
 }
 
 /// @nodoc
@@ -3152,13 +7870,13 @@ class _$FeeCalculatorCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? feeCalculator = freezed,
+    Object? lamportsPerSignature = freezed,
   }) {
     return _then(_value.copyWith(
-      feeCalculator: feeCalculator == freezed
-          ? _value.feeCalculator
-          : feeCalculator // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+      lamportsPerSignature: lamportsPerSignature == freezed
+          ? _value.lamportsPerSignature
+          : lamportsPerSignature // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -3170,7 +7888,7 @@ abstract class _$FeeCalculatorCopyWith<$Res>
           _FeeCalculator value, $Res Function(_FeeCalculator) then) =
       __$FeeCalculatorCopyWithImpl<$Res>;
   @override
-  $Res call({Map<String, dynamic> feeCalculator});
+  $Res call({int lamportsPerSignature});
 }
 
 /// @nodoc
@@ -3186,13 +7904,13 @@ class __$FeeCalculatorCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? feeCalculator = freezed,
+    Object? lamportsPerSignature = freezed,
   }) {
     return _then(_FeeCalculator(
-      feeCalculator: feeCalculator == freezed
-          ? _value.feeCalculator
-          : feeCalculator // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+      lamportsPerSignature: lamportsPerSignature == freezed
+          ? _value.lamportsPerSignature
+          : lamportsPerSignature // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -3200,31 +7918,32 @@ class __$FeeCalculatorCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_FeeCalculator implements _FeeCalculator {
-  const _$_FeeCalculator({required this.feeCalculator});
+  const _$_FeeCalculator({required this.lamportsPerSignature});
 
   factory _$_FeeCalculator.fromJson(Map<String, dynamic> json) =>
       _$$_FeeCalculatorFromJson(json);
 
   @override
-  final Map<String, dynamic> feeCalculator;
+  final int lamportsPerSignature;
 
   @override
   String toString() {
-    return 'FeeCalculator(feeCalculator: $feeCalculator)';
+    return 'FeeCalculator(lamportsPerSignature: $lamportsPerSignature)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _FeeCalculator &&
-            (identical(other.feeCalculator, feeCalculator) ||
+            (identical(other.lamportsPerSignature, lamportsPerSignature) ||
                 const DeepCollectionEquality()
-                    .equals(other.feeCalculator, feeCalculator)));
+                    .equals(other.lamportsPerSignature, lamportsPerSignature)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(feeCalculator);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(lamportsPerSignature);
 
   @JsonKey(ignore: true)
   @override
@@ -3238,18 +7957,181 @@ class _$_FeeCalculator implements _FeeCalculator {
 }
 
 abstract class _FeeCalculator implements FeeCalculator {
-  const factory _FeeCalculator({required Map<String, dynamic> feeCalculator}) =
+  const factory _FeeCalculator({required int lamportsPerSignature}) =
       _$_FeeCalculator;
 
   factory _FeeCalculator.fromJson(Map<String, dynamic> json) =
       _$_FeeCalculator.fromJson;
 
   @override
-  Map<String, dynamic> get feeCalculator => throw _privateConstructorUsedError;
+  int get lamportsPerSignature => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$FeeCalculatorCopyWith<_FeeCalculator> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+Range _$RangeFromJson(Map<String, dynamic> json) {
+  return _Range.fromJson(json);
+}
+
+/// @nodoc
+class _$RangeTearOff {
+  const _$RangeTearOff();
+
+  _Range call({required int firstSlot, required int lastSlot}) {
+    return _Range(
+      firstSlot: firstSlot,
+      lastSlot: lastSlot,
+    );
+  }
+
+  Range fromJson(Map<String, Object> json) {
+    return Range.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $Range = _$RangeTearOff();
+
+/// @nodoc
+mixin _$Range {
+  int get firstSlot => throw _privateConstructorUsedError;
+  int get lastSlot => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RangeCopyWith<Range> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RangeCopyWith<$Res> {
+  factory $RangeCopyWith(Range value, $Res Function(Range) then) =
+      _$RangeCopyWithImpl<$Res>;
+  $Res call({int firstSlot, int lastSlot});
+}
+
+/// @nodoc
+class _$RangeCopyWithImpl<$Res> implements $RangeCopyWith<$Res> {
+  _$RangeCopyWithImpl(this._value, this._then);
+
+  final Range _value;
+  // ignore: unused_field
+  final $Res Function(Range) _then;
+
+  @override
+  $Res call({
+    Object? firstSlot = freezed,
+    Object? lastSlot = freezed,
+  }) {
+    return _then(_value.copyWith(
+      firstSlot: firstSlot == freezed
+          ? _value.firstSlot
+          : firstSlot // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastSlot: lastSlot == freezed
+          ? _value.lastSlot
+          : lastSlot // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$RangeCopyWith<$Res> implements $RangeCopyWith<$Res> {
+  factory _$RangeCopyWith(_Range value, $Res Function(_Range) then) =
+      __$RangeCopyWithImpl<$Res>;
+  @override
+  $Res call({int firstSlot, int lastSlot});
+}
+
+/// @nodoc
+class __$RangeCopyWithImpl<$Res> extends _$RangeCopyWithImpl<$Res>
+    implements _$RangeCopyWith<$Res> {
+  __$RangeCopyWithImpl(_Range _value, $Res Function(_Range) _then)
+      : super(_value, (v) => _then(v as _Range));
+
+  @override
+  _Range get _value => super._value as _Range;
+
+  @override
+  $Res call({
+    Object? firstSlot = freezed,
+    Object? lastSlot = freezed,
+  }) {
+    return _then(_Range(
+      firstSlot: firstSlot == freezed
+          ? _value.firstSlot
+          : firstSlot // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastSlot: lastSlot == freezed
+          ? _value.lastSlot
+          : lastSlot // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Range implements _Range {
+  const _$_Range({required this.firstSlot, required this.lastSlot});
+
+  factory _$_Range.fromJson(Map<String, dynamic> json) =>
+      _$$_RangeFromJson(json);
+
+  @override
+  final int firstSlot;
+  @override
+  final int lastSlot;
+
+  @override
+  String toString() {
+    return 'Range(firstSlot: $firstSlot, lastSlot: $lastSlot)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _Range &&
+            (identical(other.firstSlot, firstSlot) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstSlot, firstSlot)) &&
+            (identical(other.lastSlot, lastSlot) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastSlot, lastSlot)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(firstSlot) ^
+      const DeepCollectionEquality().hash(lastSlot);
+
+  @JsonKey(ignore: true)
+  @override
+  _$RangeCopyWith<_Range> get copyWith =>
+      __$RangeCopyWithImpl<_Range>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_RangeToJson(this);
+  }
+}
+
+abstract class _Range implements Range {
+  const factory _Range({required int firstSlot, required int lastSlot}) =
+      _$_Range;
+
+  factory _Range.fromJson(Map<String, dynamic> json) = _$_Range.fromJson;
+
+  @override
+  int get firstSlot => throw _privateConstructorUsedError;
+  @override
+  int get lastSlot => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$RangeCopyWith<_Range> get copyWith => throw _privateConstructorUsedError;
 }
 
 BlockProduction _$BlockProductionFromJson(Map<String, dynamic> json) {
@@ -3261,8 +8143,7 @@ class _$BlockProductionTearOff {
   const _$BlockProductionTearOff();
 
   _BlockProduction call(
-      {required Map<String, List<int>> byIdentity,
-      required Map<String, dynamic> range}) {
+      {required Map<String, List<int>> byIdentity, required Range range}) {
     return _BlockProduction(
       byIdentity: byIdentity,
       range: range,
@@ -3280,7 +8161,7 @@ const $BlockProduction = _$BlockProductionTearOff();
 /// @nodoc
 mixin _$BlockProduction {
   Map<String, List<int>> get byIdentity => throw _privateConstructorUsedError;
-  Map<String, dynamic> get range => throw _privateConstructorUsedError;
+  Range get range => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3293,7 +8174,9 @@ abstract class $BlockProductionCopyWith<$Res> {
   factory $BlockProductionCopyWith(
           BlockProduction value, $Res Function(BlockProduction) then) =
       _$BlockProductionCopyWithImpl<$Res>;
-  $Res call({Map<String, List<int>> byIdentity, Map<String, dynamic> range});
+  $Res call({Map<String, List<int>> byIdentity, Range range});
+
+  $RangeCopyWith<$Res> get range;
 }
 
 /// @nodoc
@@ -3318,8 +8201,15 @@ class _$BlockProductionCopyWithImpl<$Res>
       range: range == freezed
           ? _value.range
           : range // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as Range,
     ));
+  }
+
+  @override
+  $RangeCopyWith<$Res> get range {
+    return $RangeCopyWith<$Res>(_value.range, (value) {
+      return _then(_value.copyWith(range: value));
+    });
   }
 }
 
@@ -3330,7 +8220,10 @@ abstract class _$BlockProductionCopyWith<$Res>
           _BlockProduction value, $Res Function(_BlockProduction) then) =
       __$BlockProductionCopyWithImpl<$Res>;
   @override
-  $Res call({Map<String, List<int>> byIdentity, Map<String, dynamic> range});
+  $Res call({Map<String, List<int>> byIdentity, Range range});
+
+  @override
+  $RangeCopyWith<$Res> get range;
 }
 
 /// @nodoc
@@ -3357,7 +8250,7 @@ class __$BlockProductionCopyWithImpl<$Res>
       range: range == freezed
           ? _value.range
           : range // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as Range,
     ));
   }
 }
@@ -3373,7 +8266,7 @@ class _$_BlockProduction implements _BlockProduction {
   @override
   final Map<String, List<int>> byIdentity;
   @override
-  final Map<String, dynamic> range;
+  final Range range;
 
   @override
   String toString() {
@@ -3411,7 +8304,7 @@ class _$_BlockProduction implements _BlockProduction {
 abstract class _BlockProduction implements BlockProduction {
   const factory _BlockProduction(
       {required Map<String, List<int>> byIdentity,
-      required Map<String, dynamic> range}) = _$_BlockProduction;
+      required Range range}) = _$_BlockProduction;
 
   factory _BlockProduction.fromJson(Map<String, dynamic> json) =
       _$_BlockProduction.fromJson;
@@ -3419,7 +8312,7 @@ abstract class _BlockProduction implements BlockProduction {
   @override
   Map<String, List<int>> get byIdentity => throw _privateConstructorUsedError;
   @override
-  Map<String, dynamic> get range => throw _privateConstructorUsedError;
+  Range get range => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$BlockProductionCopyWith<_BlockProduction> get copyWith =>
@@ -3858,6 +8751,268 @@ abstract class _EpochSchedule implements EpochSchedule {
       throw _privateConstructorUsedError;
 }
 
+FeeRateGovernorValue _$FeeRateGovernorValueFromJson(Map<String, dynamic> json) {
+  return _FeeRateGovernorValue.fromJson(json);
+}
+
+/// @nodoc
+class _$FeeRateGovernorValueTearOff {
+  const _$FeeRateGovernorValueTearOff();
+
+  _FeeRateGovernorValue call(
+      {required int burnPercent,
+      required int maxLamportsPerSignature,
+      required int minLamportsPerSignature,
+      required int targetLamportsPerSignature,
+      required int targetSignaturesPerSlot}) {
+    return _FeeRateGovernorValue(
+      burnPercent: burnPercent,
+      maxLamportsPerSignature: maxLamportsPerSignature,
+      minLamportsPerSignature: minLamportsPerSignature,
+      targetLamportsPerSignature: targetLamportsPerSignature,
+      targetSignaturesPerSlot: targetSignaturesPerSlot,
+    );
+  }
+
+  FeeRateGovernorValue fromJson(Map<String, Object> json) {
+    return FeeRateGovernorValue.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $FeeRateGovernorValue = _$FeeRateGovernorValueTearOff();
+
+/// @nodoc
+mixin _$FeeRateGovernorValue {
+  int get burnPercent => throw _privateConstructorUsedError;
+  int get maxLamportsPerSignature => throw _privateConstructorUsedError;
+  int get minLamportsPerSignature => throw _privateConstructorUsedError;
+  int get targetLamportsPerSignature => throw _privateConstructorUsedError;
+  int get targetSignaturesPerSlot => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FeeRateGovernorValueCopyWith<FeeRateGovernorValue> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FeeRateGovernorValueCopyWith<$Res> {
+  factory $FeeRateGovernorValueCopyWith(FeeRateGovernorValue value,
+          $Res Function(FeeRateGovernorValue) then) =
+      _$FeeRateGovernorValueCopyWithImpl<$Res>;
+  $Res call(
+      {int burnPercent,
+      int maxLamportsPerSignature,
+      int minLamportsPerSignature,
+      int targetLamportsPerSignature,
+      int targetSignaturesPerSlot});
+}
+
+/// @nodoc
+class _$FeeRateGovernorValueCopyWithImpl<$Res>
+    implements $FeeRateGovernorValueCopyWith<$Res> {
+  _$FeeRateGovernorValueCopyWithImpl(this._value, this._then);
+
+  final FeeRateGovernorValue _value;
+  // ignore: unused_field
+  final $Res Function(FeeRateGovernorValue) _then;
+
+  @override
+  $Res call({
+    Object? burnPercent = freezed,
+    Object? maxLamportsPerSignature = freezed,
+    Object? minLamportsPerSignature = freezed,
+    Object? targetLamportsPerSignature = freezed,
+    Object? targetSignaturesPerSlot = freezed,
+  }) {
+    return _then(_value.copyWith(
+      burnPercent: burnPercent == freezed
+          ? _value.burnPercent
+          : burnPercent // ignore: cast_nullable_to_non_nullable
+              as int,
+      maxLamportsPerSignature: maxLamportsPerSignature == freezed
+          ? _value.maxLamportsPerSignature
+          : maxLamportsPerSignature // ignore: cast_nullable_to_non_nullable
+              as int,
+      minLamportsPerSignature: minLamportsPerSignature == freezed
+          ? _value.minLamportsPerSignature
+          : minLamportsPerSignature // ignore: cast_nullable_to_non_nullable
+              as int,
+      targetLamportsPerSignature: targetLamportsPerSignature == freezed
+          ? _value.targetLamportsPerSignature
+          : targetLamportsPerSignature // ignore: cast_nullable_to_non_nullable
+              as int,
+      targetSignaturesPerSlot: targetSignaturesPerSlot == freezed
+          ? _value.targetSignaturesPerSlot
+          : targetSignaturesPerSlot // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$FeeRateGovernorValueCopyWith<$Res>
+    implements $FeeRateGovernorValueCopyWith<$Res> {
+  factory _$FeeRateGovernorValueCopyWith(_FeeRateGovernorValue value,
+          $Res Function(_FeeRateGovernorValue) then) =
+      __$FeeRateGovernorValueCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {int burnPercent,
+      int maxLamportsPerSignature,
+      int minLamportsPerSignature,
+      int targetLamportsPerSignature,
+      int targetSignaturesPerSlot});
+}
+
+/// @nodoc
+class __$FeeRateGovernorValueCopyWithImpl<$Res>
+    extends _$FeeRateGovernorValueCopyWithImpl<$Res>
+    implements _$FeeRateGovernorValueCopyWith<$Res> {
+  __$FeeRateGovernorValueCopyWithImpl(
+      _FeeRateGovernorValue _value, $Res Function(_FeeRateGovernorValue) _then)
+      : super(_value, (v) => _then(v as _FeeRateGovernorValue));
+
+  @override
+  _FeeRateGovernorValue get _value => super._value as _FeeRateGovernorValue;
+
+  @override
+  $Res call({
+    Object? burnPercent = freezed,
+    Object? maxLamportsPerSignature = freezed,
+    Object? minLamportsPerSignature = freezed,
+    Object? targetLamportsPerSignature = freezed,
+    Object? targetSignaturesPerSlot = freezed,
+  }) {
+    return _then(_FeeRateGovernorValue(
+      burnPercent: burnPercent == freezed
+          ? _value.burnPercent
+          : burnPercent // ignore: cast_nullable_to_non_nullable
+              as int,
+      maxLamportsPerSignature: maxLamportsPerSignature == freezed
+          ? _value.maxLamportsPerSignature
+          : maxLamportsPerSignature // ignore: cast_nullable_to_non_nullable
+              as int,
+      minLamportsPerSignature: minLamportsPerSignature == freezed
+          ? _value.minLamportsPerSignature
+          : minLamportsPerSignature // ignore: cast_nullable_to_non_nullable
+              as int,
+      targetLamportsPerSignature: targetLamportsPerSignature == freezed
+          ? _value.targetLamportsPerSignature
+          : targetLamportsPerSignature // ignore: cast_nullable_to_non_nullable
+              as int,
+      targetSignaturesPerSlot: targetSignaturesPerSlot == freezed
+          ? _value.targetSignaturesPerSlot
+          : targetSignaturesPerSlot // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_FeeRateGovernorValue implements _FeeRateGovernorValue {
+  const _$_FeeRateGovernorValue(
+      {required this.burnPercent,
+      required this.maxLamportsPerSignature,
+      required this.minLamportsPerSignature,
+      required this.targetLamportsPerSignature,
+      required this.targetSignaturesPerSlot});
+
+  factory _$_FeeRateGovernorValue.fromJson(Map<String, dynamic> json) =>
+      _$$_FeeRateGovernorValueFromJson(json);
+
+  @override
+  final int burnPercent;
+  @override
+  final int maxLamportsPerSignature;
+  @override
+  final int minLamportsPerSignature;
+  @override
+  final int targetLamportsPerSignature;
+  @override
+  final int targetSignaturesPerSlot;
+
+  @override
+  String toString() {
+    return 'FeeRateGovernorValue(burnPercent: $burnPercent, maxLamportsPerSignature: $maxLamportsPerSignature, minLamportsPerSignature: $minLamportsPerSignature, targetLamportsPerSignature: $targetLamportsPerSignature, targetSignaturesPerSlot: $targetSignaturesPerSlot)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _FeeRateGovernorValue &&
+            (identical(other.burnPercent, burnPercent) ||
+                const DeepCollectionEquality()
+                    .equals(other.burnPercent, burnPercent)) &&
+            (identical(
+                    other.maxLamportsPerSignature, maxLamportsPerSignature) ||
+                const DeepCollectionEquality().equals(
+                    other.maxLamportsPerSignature, maxLamportsPerSignature)) &&
+            (identical(
+                    other.minLamportsPerSignature, minLamportsPerSignature) ||
+                const DeepCollectionEquality().equals(
+                    other.minLamportsPerSignature, minLamportsPerSignature)) &&
+            (identical(other.targetLamportsPerSignature,
+                    targetLamportsPerSignature) ||
+                const DeepCollectionEquality().equals(
+                    other.targetLamportsPerSignature,
+                    targetLamportsPerSignature)) &&
+            (identical(
+                    other.targetSignaturesPerSlot, targetSignaturesPerSlot) ||
+                const DeepCollectionEquality().equals(
+                    other.targetSignaturesPerSlot, targetSignaturesPerSlot)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(burnPercent) ^
+      const DeepCollectionEquality().hash(maxLamportsPerSignature) ^
+      const DeepCollectionEquality().hash(minLamportsPerSignature) ^
+      const DeepCollectionEquality().hash(targetLamportsPerSignature) ^
+      const DeepCollectionEquality().hash(targetSignaturesPerSlot);
+
+  @JsonKey(ignore: true)
+  @override
+  _$FeeRateGovernorValueCopyWith<_FeeRateGovernorValue> get copyWith =>
+      __$FeeRateGovernorValueCopyWithImpl<_FeeRateGovernorValue>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_FeeRateGovernorValueToJson(this);
+  }
+}
+
+abstract class _FeeRateGovernorValue implements FeeRateGovernorValue {
+  const factory _FeeRateGovernorValue(
+      {required int burnPercent,
+      required int maxLamportsPerSignature,
+      required int minLamportsPerSignature,
+      required int targetLamportsPerSignature,
+      required int targetSignaturesPerSlot}) = _$_FeeRateGovernorValue;
+
+  factory _FeeRateGovernorValue.fromJson(Map<String, dynamic> json) =
+      _$_FeeRateGovernorValue.fromJson;
+
+  @override
+  int get burnPercent => throw _privateConstructorUsedError;
+  @override
+  int get maxLamportsPerSignature => throw _privateConstructorUsedError;
+  @override
+  int get minLamportsPerSignature => throw _privateConstructorUsedError;
+  @override
+  int get targetLamportsPerSignature => throw _privateConstructorUsedError;
+  @override
+  int get targetSignaturesPerSlot => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$FeeRateGovernorValueCopyWith<_FeeRateGovernorValue> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 FeeRateGovernor _$FeeRateGovernorFromJson(Map<String, dynamic> json) {
   return _FeeRateGovernor.fromJson(json);
 }
@@ -3866,7 +9021,7 @@ FeeRateGovernor _$FeeRateGovernorFromJson(Map<String, dynamic> json) {
 class _$FeeRateGovernorTearOff {
   const _$FeeRateGovernorTearOff();
 
-  _FeeRateGovernor call({required Map<String, dynamic> feeRateGovernor}) {
+  _FeeRateGovernor call({required FeeRateGovernorValue feeRateGovernor}) {
     return _FeeRateGovernor(
       feeRateGovernor: feeRateGovernor,
     );
@@ -3882,7 +9037,7 @@ const $FeeRateGovernor = _$FeeRateGovernorTearOff();
 
 /// @nodoc
 mixin _$FeeRateGovernor {
-  Map<String, dynamic> get feeRateGovernor =>
+  FeeRateGovernorValue get feeRateGovernor =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -3896,7 +9051,9 @@ abstract class $FeeRateGovernorCopyWith<$Res> {
   factory $FeeRateGovernorCopyWith(
           FeeRateGovernor value, $Res Function(FeeRateGovernor) then) =
       _$FeeRateGovernorCopyWithImpl<$Res>;
-  $Res call({Map<String, dynamic> feeRateGovernor});
+  $Res call({FeeRateGovernorValue feeRateGovernor});
+
+  $FeeRateGovernorValueCopyWith<$Res> get feeRateGovernor;
 }
 
 /// @nodoc
@@ -3916,8 +9073,15 @@ class _$FeeRateGovernorCopyWithImpl<$Res>
       feeRateGovernor: feeRateGovernor == freezed
           ? _value.feeRateGovernor
           : feeRateGovernor // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as FeeRateGovernorValue,
     ));
+  }
+
+  @override
+  $FeeRateGovernorValueCopyWith<$Res> get feeRateGovernor {
+    return $FeeRateGovernorValueCopyWith<$Res>(_value.feeRateGovernor, (value) {
+      return _then(_value.copyWith(feeRateGovernor: value));
+    });
   }
 }
 
@@ -3928,7 +9092,10 @@ abstract class _$FeeRateGovernorCopyWith<$Res>
           _FeeRateGovernor value, $Res Function(_FeeRateGovernor) then) =
       __$FeeRateGovernorCopyWithImpl<$Res>;
   @override
-  $Res call({Map<String, dynamic> feeRateGovernor});
+  $Res call({FeeRateGovernorValue feeRateGovernor});
+
+  @override
+  $FeeRateGovernorValueCopyWith<$Res> get feeRateGovernor;
 }
 
 /// @nodoc
@@ -3950,7 +9117,7 @@ class __$FeeRateGovernorCopyWithImpl<$Res>
       feeRateGovernor: feeRateGovernor == freezed
           ? _value.feeRateGovernor
           : feeRateGovernor // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as FeeRateGovernorValue,
     ));
   }
 }
@@ -3964,7 +9131,7 @@ class _$_FeeRateGovernor implements _FeeRateGovernor {
       _$$_FeeRateGovernorFromJson(json);
 
   @override
-  final Map<String, dynamic> feeRateGovernor;
+  final FeeRateGovernorValue feeRateGovernor;
 
   @override
   String toString() {
@@ -3998,13 +9165,13 @@ class _$_FeeRateGovernor implements _FeeRateGovernor {
 
 abstract class _FeeRateGovernor implements FeeRateGovernor {
   const factory _FeeRateGovernor(
-      {required Map<String, dynamic> feeRateGovernor}) = _$_FeeRateGovernor;
+      {required FeeRateGovernorValue feeRateGovernor}) = _$_FeeRateGovernor;
 
   factory _FeeRateGovernor.fromJson(Map<String, dynamic> json) =
       _$_FeeRateGovernor.fromJson;
 
   @override
-  Map<String, dynamic> get feeRateGovernor =>
+  FeeRateGovernorValue get feeRateGovernor =>
       throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -5263,6 +10430,174 @@ abstract class _LargeAccount implements LargeAccount {
       throw _privateConstructorUsedError;
 }
 
+FilterParams _$FilterParamsFromJson(Map<String, dynamic> json) {
+  return _FilterParams.fromJson(json);
+}
+
+/// @nodoc
+class _$FilterParamsTearOff {
+  const _$FilterParamsTearOff();
+
+  _FilterParams call({required int offset, required String bytes}) {
+    return _FilterParams(
+      offset: offset,
+      bytes: bytes,
+    );
+  }
+
+  FilterParams fromJson(Map<String, Object> json) {
+    return FilterParams.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $FilterParams = _$FilterParamsTearOff();
+
+/// @nodoc
+mixin _$FilterParams {
+  int get offset => throw _privateConstructorUsedError;
+  String get bytes => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FilterParamsCopyWith<FilterParams> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FilterParamsCopyWith<$Res> {
+  factory $FilterParamsCopyWith(
+          FilterParams value, $Res Function(FilterParams) then) =
+      _$FilterParamsCopyWithImpl<$Res>;
+  $Res call({int offset, String bytes});
+}
+
+/// @nodoc
+class _$FilterParamsCopyWithImpl<$Res> implements $FilterParamsCopyWith<$Res> {
+  _$FilterParamsCopyWithImpl(this._value, this._then);
+
+  final FilterParams _value;
+  // ignore: unused_field
+  final $Res Function(FilterParams) _then;
+
+  @override
+  $Res call({
+    Object? offset = freezed,
+    Object? bytes = freezed,
+  }) {
+    return _then(_value.copyWith(
+      offset: offset == freezed
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as int,
+      bytes: bytes == freezed
+          ? _value.bytes
+          : bytes // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$FilterParamsCopyWith<$Res>
+    implements $FilterParamsCopyWith<$Res> {
+  factory _$FilterParamsCopyWith(
+          _FilterParams value, $Res Function(_FilterParams) then) =
+      __$FilterParamsCopyWithImpl<$Res>;
+  @override
+  $Res call({int offset, String bytes});
+}
+
+/// @nodoc
+class __$FilterParamsCopyWithImpl<$Res> extends _$FilterParamsCopyWithImpl<$Res>
+    implements _$FilterParamsCopyWith<$Res> {
+  __$FilterParamsCopyWithImpl(
+      _FilterParams _value, $Res Function(_FilterParams) _then)
+      : super(_value, (v) => _then(v as _FilterParams));
+
+  @override
+  _FilterParams get _value => super._value as _FilterParams;
+
+  @override
+  $Res call({
+    Object? offset = freezed,
+    Object? bytes = freezed,
+  }) {
+    return _then(_FilterParams(
+      offset: offset == freezed
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as int,
+      bytes: bytes == freezed
+          ? _value.bytes
+          : bytes // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_FilterParams implements _FilterParams {
+  const _$_FilterParams({required this.offset, required this.bytes});
+
+  factory _$_FilterParams.fromJson(Map<String, dynamic> json) =>
+      _$$_FilterParamsFromJson(json);
+
+  @override
+  final int offset;
+  @override
+  final String bytes;
+
+  @override
+  String toString() {
+    return 'FilterParams(offset: $offset, bytes: $bytes)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _FilterParams &&
+            (identical(other.offset, offset) ||
+                const DeepCollectionEquality().equals(other.offset, offset)) &&
+            (identical(other.bytes, bytes) ||
+                const DeepCollectionEquality().equals(other.bytes, bytes)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(offset) ^
+      const DeepCollectionEquality().hash(bytes);
+
+  @JsonKey(ignore: true)
+  @override
+  _$FilterParamsCopyWith<_FilterParams> get copyWith =>
+      __$FilterParamsCopyWithImpl<_FilterParams>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_FilterParamsToJson(this);
+  }
+}
+
+abstract class _FilterParams implements FilterParams {
+  const factory _FilterParams({required int offset, required String bytes}) =
+      _$_FilterParams;
+
+  factory _FilterParams.fromJson(Map<String, dynamic> json) =
+      _$_FilterParams.fromJson;
+
+  @override
+  int get offset => throw _privateConstructorUsedError;
+  @override
+  String get bytes => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$FilterParamsCopyWith<_FilterParams> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Filter _$FilterFromJson(Map<String, dynamic> json) {
   return _Filter.fromJson(json);
 }
@@ -5271,7 +10606,7 @@ Filter _$FilterFromJson(Map<String, dynamic> json) {
 class _$FilterTearOff {
   const _$FilterTearOff();
 
-  _Filter call({required Map<String, dynamic> memcmp, required int dataSize}) {
+  _Filter call({required FilterParams memcmp, required int dataSize}) {
     return _Filter(
       memcmp: memcmp,
       dataSize: dataSize,
@@ -5288,7 +10623,7 @@ const $Filter = _$FilterTearOff();
 
 /// @nodoc
 mixin _$Filter {
-  Map<String, dynamic> get memcmp => throw _privateConstructorUsedError;
+  FilterParams get memcmp => throw _privateConstructorUsedError;
   int get dataSize => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -5300,7 +10635,9 @@ mixin _$Filter {
 abstract class $FilterCopyWith<$Res> {
   factory $FilterCopyWith(Filter value, $Res Function(Filter) then) =
       _$FilterCopyWithImpl<$Res>;
-  $Res call({Map<String, dynamic> memcmp, int dataSize});
+  $Res call({FilterParams memcmp, int dataSize});
+
+  $FilterParamsCopyWith<$Res> get memcmp;
 }
 
 /// @nodoc
@@ -5320,12 +10657,19 @@ class _$FilterCopyWithImpl<$Res> implements $FilterCopyWith<$Res> {
       memcmp: memcmp == freezed
           ? _value.memcmp
           : memcmp // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as FilterParams,
       dataSize: dataSize == freezed
           ? _value.dataSize
           : dataSize // ignore: cast_nullable_to_non_nullable
               as int,
     ));
+  }
+
+  @override
+  $FilterParamsCopyWith<$Res> get memcmp {
+    return $FilterParamsCopyWith<$Res>(_value.memcmp, (value) {
+      return _then(_value.copyWith(memcmp: value));
+    });
   }
 }
 
@@ -5334,7 +10678,10 @@ abstract class _$FilterCopyWith<$Res> implements $FilterCopyWith<$Res> {
   factory _$FilterCopyWith(_Filter value, $Res Function(_Filter) then) =
       __$FilterCopyWithImpl<$Res>;
   @override
-  $Res call({Map<String, dynamic> memcmp, int dataSize});
+  $Res call({FilterParams memcmp, int dataSize});
+
+  @override
+  $FilterParamsCopyWith<$Res> get memcmp;
 }
 
 /// @nodoc
@@ -5355,7 +10702,7 @@ class __$FilterCopyWithImpl<$Res> extends _$FilterCopyWithImpl<$Res>
       memcmp: memcmp == freezed
           ? _value.memcmp
           : memcmp // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as FilterParams,
       dataSize: dataSize == freezed
           ? _value.dataSize
           : dataSize // ignore: cast_nullable_to_non_nullable
@@ -5373,7 +10720,7 @@ class _$_Filter implements _Filter {
       _$$_FilterFromJson(json);
 
   @override
-  final Map<String, dynamic> memcmp;
+  final FilterParams memcmp;
   @override
   final int dataSize;
 
@@ -5411,14 +10758,13 @@ class _$_Filter implements _Filter {
 }
 
 abstract class _Filter implements Filter {
-  const factory _Filter(
-      {required Map<String, dynamic> memcmp,
-      required int dataSize}) = _$_Filter;
+  const factory _Filter({required FilterParams memcmp, required int dataSize}) =
+      _$_Filter;
 
   factory _Filter.fromJson(Map<String, dynamic> json) = _$_Filter.fromJson;
 
   @override
-  Map<String, dynamic> get memcmp => throw _privateConstructorUsedError;
+  FilterParams get memcmp => throw _privateConstructorUsedError;
   @override
   int get dataSize => throw _privateConstructorUsedError;
   @override
