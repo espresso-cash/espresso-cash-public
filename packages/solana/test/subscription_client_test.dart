@@ -1,6 +1,5 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/dto/account.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/subscription_client/optional_error.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
@@ -16,7 +15,7 @@ void main() {
     final recipient = await Ed25519HDKeyPair.random();
     final rpcClient = RPCClient(devnetRpcUrl);
     final signature = await rpcClient.requestAirdrop(
-      address: sender.address,
+      pubKey: sender.address,
       lamports: originalLamports,
     );
 

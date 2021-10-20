@@ -45,7 +45,8 @@ void main() {
   test('Call basic-1 initialize method', () async {
     // 8 bytes for the discriminator and 8 bytes for the data
     const space = 16;
-    final rent = await client.getMinimumBalanceForRentExemption(space);
+    final rent = await client.getMinimumBalanceForRentExemption(
+        accountDataLength: space);
     final instructions = [
       SystemInstruction.createAccount(
         rent: rent,
@@ -75,9 +76,9 @@ void main() {
     );
     await client.waitForSignatureStatus(signature, TxStatus.finalized);
 
-    final account = await client.getAccountInfo(updater.address);
+    final account = await client.getAccountInfo(pubKey: updater.address);
     expect(account, isNotNull);
-    final rawData = account!.data;
+    final rawData = account?.data;
     expect(rawData, isNotNull);
     final data = Basic1DataAccount.fromAccountData(rawData!);
     final discriminator = await computeDiscriminator('account', 'MyAccount');
@@ -107,9 +108,9 @@ void main() {
     await client.waitForSignatureStatus(signature, TxStatus.finalized);
 
     final discriminator = await computeDiscriminator('account', 'MyAccount');
-    final account = await client.getAccountInfo(updater.address);
+    final account = await client.getAccountInfo(pubKey: updater.address);
     expect(account, isNotNull);
-    final rawData = account!.data;
+    final rawData = account?.data;
     expect(rawData, isNotNull);
     final dataAccount = Basic1DataAccount.fromAccountData(rawData!);
     expect(dataAccount.data, equals(25));

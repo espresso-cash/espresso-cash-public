@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/spl_token/token_amount.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
 
 part 'parsed_spl_token_account_data_info.g.dart';
 

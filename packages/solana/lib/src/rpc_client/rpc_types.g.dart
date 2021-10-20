@@ -6,13 +6,20 @@ part of 'rpc_types.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CommitmentObject _$$_CommitmentObjectFromJson(Map<String, dynamic> json) =>
-    _$_CommitmentObject(
-      commitment: _$enumDecode(_$CommitmentEnumMap, json['commitment']),
+_$_GetConfirmedTransactionOptions _$$_GetConfirmedTransactionOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetConfirmedTransactionOptions(
+      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']) ??
+          Encoding.jsonParsed,
+      commitment:
+          _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']) ??
+              Commitment.finalized,
     );
 
-Map<String, dynamic> _$$_CommitmentObjectToJson(_$_CommitmentObject instance) =>
+Map<String, dynamic> _$$_GetConfirmedTransactionOptionsToJson(
+        _$_GetConfirmedTransactionOptions instance) =>
     <String, dynamic>{
+      'encoding': _$EncodingEnumMap[instance.encoding],
       'commitment': _$CommitmentEnumMap[instance.commitment],
     };
 
@@ -42,11 +49,361 @@ K _$enumDecode<K, V>(
   ).key;
 }
 
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$EncodingEnumMap = {
+  Encoding.base64: 'base64',
+  Encoding.jsonParsed: 'jsonParsed',
+};
+
 const _$CommitmentEnumMap = {
   Commitment.processed: 'processed',
   Commitment.confirmed: 'confirmed',
   Commitment.finalized: 'finalized',
 };
+
+_$_SimulateTransactionAccounts _$$_SimulateTransactionAccountsFromJson(
+        Map<String, dynamic> json) =>
+    _$_SimulateTransactionAccounts(
+      accountEncoding:
+          _$enumDecodeNullable(_$EncodingEnumMap, json['accountEncoding']),
+      addresses: (json['addresses'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$$_SimulateTransactionAccountsToJson(
+        _$_SimulateTransactionAccounts instance) =>
+    <String, dynamic>{
+      'accountEncoding': _$EncodingEnumMap[instance.accountEncoding],
+      'addresses': instance.addresses,
+    };
+
+_$_SimulateTransactionOptions _$$_SimulateTransactionOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_SimulateTransactionOptions(
+      sigVerify: json['sigVerify'] as bool?,
+      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']),
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      replaceRecentBlockhash: json['replaceRecentBlockhash'] as bool?,
+      accounts: json['accounts'] == null
+          ? null
+          : SimulateTransactionAccounts.fromJson(
+              json['accounts'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$_SimulateTransactionOptionsToJson(
+        _$_SimulateTransactionOptions instance) =>
+    <String, dynamic>{
+      'sigVerify': instance.sigVerify,
+      'encoding': _$EncodingEnumMap[instance.encoding],
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+      'replaceRecentBlockhash': instance.replaceRecentBlockhash,
+      'accounts': instance.accounts,
+    };
+
+_$_SendTransactionOptions _$$_SendTransactionOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_SendTransactionOptions(
+      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']),
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      skipPreflight: json['skipPreflight'] as bool?,
+      maxRetries: json['maxRetries'] as int?,
+    );
+
+Map<String, dynamic> _$$_SendTransactionOptionsToJson(
+        _$_SendTransactionOptions instance) =>
+    <String, dynamic>{
+      'encoding': _$EncodingEnumMap[instance.encoding],
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+      'skipPreflight': instance.skipPreflight,
+      'maxRetries': instance.maxRetries,
+    };
+
+_$_GetVoteAccountsOptions _$$_GetVoteAccountsOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetVoteAccountsOptions(
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      votePubKey: json['votePubKey'] as String?,
+      keepUnstakedDelinquents: json['keepUnstakedDelinquents'] as bool?,
+      delinquentSlotDistance: json['delinquentSlotDistance'] as int?,
+    );
+
+Map<String, dynamic> _$$_GetVoteAccountsOptionsToJson(
+        _$_GetVoteAccountsOptions instance) =>
+    <String, dynamic>{
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+      'votePubKey': instance.votePubKey,
+      'keepUnstakedDelinquents': instance.keepUnstakedDelinquents,
+      'delinquentSlotDistance': instance.delinquentSlotDistance,
+    };
+
+_$_GetTransactionOptions _$$_GetTransactionOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetTransactionOptions(
+      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']),
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+    );
+
+Map<String, dynamic> _$$_GetTransactionOptionsToJson(
+        _$_GetTransactionOptions instance) =>
+    <String, dynamic>{
+      'encoding': _$EncodingEnumMap[instance.encoding],
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+    };
+
+_$_MintOrProgramId _$$_MintOrProgramIdFromJson(Map<String, dynamic> json) =>
+    _$_MintOrProgramId(
+      mint: json['mint'] as String?,
+      programId: json['programId'] as String?,
+    );
+
+Map<String, dynamic> _$$_MintOrProgramIdToJson(_$_MintOrProgramId instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('mint', instance.mint);
+  writeNotNull('programId', instance.programId);
+  return val;
+}
+
+_$_GetSupplyOptions _$$_GetSupplyOptionsFromJson(Map<String, dynamic> json) =>
+    _$_GetSupplyOptions(
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      excludeNonCirculatingAccountsList:
+          json['excludeNonCirculatingAccountsList'] as bool?,
+    );
+
+Map<String, dynamic> _$$_GetSupplyOptionsToJson(_$_GetSupplyOptions instance) =>
+    <String, dynamic>{
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+      'excludeNonCirculatingAccountsList':
+          instance.excludeNonCirculatingAccountsList,
+    };
+
+_$_GetStakeActivationOptions _$$_GetStakeActivationOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetStakeActivationOptions(
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      epoch: json['epoch'] as int?,
+    );
+
+Map<String, dynamic> _$$_GetStakeActivationOptionsToJson(
+        _$_GetStakeActivationOptions instance) =>
+    <String, dynamic>{
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+      'epoch': instance.epoch,
+    };
+
+_$_GetSignatureStatusesOptions _$$_GetSignatureStatusesOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetSignatureStatusesOptions(
+      searchTransactionHistory: json['searchTransactionHistory'] as bool?,
+    );
+
+Map<String, dynamic> _$$_GetSignatureStatusesOptionsToJson(
+        _$_GetSignatureStatusesOptions instance) =>
+    <String, dynamic>{
+      'searchTransactionHistory': instance.searchTransactionHistory,
+    };
+
+_$_GetSignaturesForAddressOptions _$$_GetSignaturesForAddressOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetSignaturesForAddressOptions(
+      limit: json['limit'] as int?,
+      before: json['before'] as String?,
+      until: json['until'] as String?,
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+    );
+
+Map<String, dynamic> _$$_GetSignaturesForAddressOptionsToJson(
+        _$_GetSignaturesForAddressOptions instance) =>
+    <String, dynamic>{
+      'limit': instance.limit,
+      'before': instance.before,
+      'until': instance.until,
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+    };
+
+_$_GetProgramAccountsOptions _$$_GetProgramAccountsOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetProgramAccountsOptions(
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']),
+      dataSlice: json['dataSlice'] == null
+          ? null
+          : DataSlice.fromJson(json['dataSlice'] as Map<String, dynamic>),
+      filter: (json['filter'] as List<dynamic>?)
+          ?.map((e) => Filter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      withContext: json['withContext'] as bool?,
+    );
+
+Map<String, dynamic> _$$_GetProgramAccountsOptionsToJson(
+        _$_GetProgramAccountsOptions instance) =>
+    <String, dynamic>{
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+      'encoding': _$EncodingEnumMap[instance.encoding],
+      'dataSlice': instance.dataSlice,
+      'filter': instance.filter,
+      'withContext': instance.withContext,
+    };
+
+_$_GetLeaderScheduleOptions _$$_GetLeaderScheduleOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetLeaderScheduleOptions(
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      identity: json['identity'] as String?,
+    );
+
+Map<String, dynamic> _$$_GetLeaderScheduleOptionsToJson(
+        _$_GetLeaderScheduleOptions instance) =>
+    <String, dynamic>{
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+      'identity': instance.identity,
+    };
+
+_$_GetLargestAccountsOptions _$$_GetLargestAccountsOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetLargestAccountsOptions(
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      filter: _$enumDecodeNullable(_$CirculationStatusEnumMap, json['filter']),
+    );
+
+Map<String, dynamic> _$$_GetLargestAccountsOptionsToJson(
+        _$_GetLargestAccountsOptions instance) =>
+    <String, dynamic>{
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+      'filter': _$CirculationStatusEnumMap[instance.filter],
+    };
+
+const _$CirculationStatusEnumMap = {
+  CirculationStatus.circulating: 'circulating',
+  CirculationStatus.nonCirculating: 'nonCirculating',
+};
+
+_$_GetBlockProductionOptions _$$_GetBlockProductionOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _$_GetBlockProductionOptions(
+      commitment:
+          _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']) ??
+              Commitment.finalized,
+      range: json['range'] == null
+          ? null
+          : Range.fromJson(json['range'] as Map<String, dynamic>),
+      identity: json['identity'] as String?,
+    );
+
+Map<String, dynamic> _$$_GetBlockProductionOptionsToJson(
+    _$_GetBlockProductionOptions instance) {
+  final val = <String, dynamic>{
+    'commitment': _$CommitmentEnumMap[instance.commitment],
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('range', instance.range);
+  writeNotNull('identity', instance.identity);
+  return val;
+}
+
+_$_GetBlockOptions _$$_GetBlockOptionsFromJson(Map<String, dynamic> json) =>
+    _$_GetBlockOptions(
+      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']) ??
+          Encoding.jsonParsed,
+      transactionDetails: _$enumDecodeNullable(
+              _$TransactionDetailLevelEnumMap, json['transactionDetails']) ??
+          TransactionDetailLevel.full,
+      rewards: json['rewards'] as bool? ?? true,
+      commitment:
+          _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']) ??
+              Commitment.finalized,
+    );
+
+Map<String, dynamic> _$$_GetBlockOptionsToJson(_$_GetBlockOptions instance) =>
+    <String, dynamic>{
+      'encoding': _$EncodingEnumMap[instance.encoding],
+      'transactionDetails':
+          _$TransactionDetailLevelEnumMap[instance.transactionDetails],
+      'rewards': instance.rewards,
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+    };
+
+const _$TransactionDetailLevelEnumMap = {
+  TransactionDetailLevel.full: 'full',
+  TransactionDetailLevel.signatures: 'signatures',
+  TransactionDetailLevel.none: 'none',
+};
+
+_$_GetAccountOptions _$$_GetAccountOptionsFromJson(Map<String, dynamic> json) =>
+    _$_GetAccountOptions(
+      commitment:
+          _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']) ??
+              Commitment.finalized,
+      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']) ??
+          Encoding.jsonParsed,
+      dataSlice: json['dataSlice'] == null
+          ? null
+          : DataSlice.fromJson(json['dataSlice'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$_GetAccountOptionsToJson(
+    _$_GetAccountOptions instance) {
+  final val = <String, dynamic>{
+    'commitment': _$CommitmentEnumMap[instance.commitment],
+    'encoding': _$EncodingEnumMap[instance.encoding],
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dataSlice', instance.dataSlice);
+  return val;
+}
+
+_$_DataSlice _$$_DataSliceFromJson(Map<String, dynamic> json) => _$_DataSlice(
+      offset: json['offset'] as int?,
+      length: json['length'] as int?,
+    );
+
+Map<String, dynamic> _$$_DataSliceToJson(_$_DataSlice instance) =>
+    <String, dynamic>{
+      'offset': instance.offset,
+      'length': instance.length,
+    };
+
+_$_CommitmentObject _$$_CommitmentObjectFromJson(Map<String, dynamic> json) =>
+    _$_CommitmentObject(
+      commitment:
+          _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']) ??
+              Commitment.finalized,
+    );
+
+Map<String, dynamic> _$$_CommitmentObjectToJson(_$_CommitmentObject instance) =>
+    <String, dynamic>{
+      'commitment': _$CommitmentEnumMap[instance.commitment],
+    };
 
 _$_Account _$$_AccountFromJson(Map<String, dynamic> json) => _$_Account(
       lamports: json['lamports'] as int,
@@ -152,12 +509,67 @@ const _$RewardTypeEnumMap = {
   RewardType.staking: 'staking',
 };
 
+_$_TransactionMessageHeader _$$_TransactionMessageHeaderFromJson(
+        Map<String, dynamic> json) =>
+    _$_TransactionMessageHeader(
+      numRequiredSignatures: json['numRequiredSignatures'] as int,
+      numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
+      numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
+    );
+
+Map<String, dynamic> _$$_TransactionMessageHeaderToJson(
+        _$_TransactionMessageHeader instance) =>
+    <String, dynamic>{
+      'numRequiredSignatures': instance.numRequiredSignatures,
+      'numReadonlySignedAccounts': instance.numReadonlySignedAccounts,
+      'numReadonlyUnsignedAccounts': instance.numReadonlyUnsignedAccounts,
+    };
+
+_$_TransactionMessage _$$_TransactionMessageFromJson(
+        Map<String, dynamic> json) =>
+    _$_TransactionMessage(
+      accountKeys: (json['accountKeys'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      header: TransactionMessageHeader.fromJson(
+          json['header'] as Map<String, dynamic>),
+      recentBlockhash: json['recentBlockhash'] as String,
+      instructions: (json['instructions'] as List<dynamic>)
+          .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$_TransactionMessageToJson(
+        _$_TransactionMessage instance) =>
+    <String, dynamic>{
+      'accountKeys': instance.accountKeys,
+      'header': instance.header,
+      'recentBlockhash': instance.recentBlockhash,
+      'instructions': instance.instructions,
+    };
+
+_$_ParsedTransaction _$$_ParsedTransactionFromJson(Map<String, dynamic> json) =>
+    _$_ParsedTransaction(
+      message: ParsedMessage.fromJson(json['message'] as Map<String, dynamic>),
+      signatures: (json['signatures'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$$_ParsedTransactionToJson(
+        _$_ParsedTransaction instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+      'signatures': instance.signatures,
+    };
+
 _$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
     _$_Transaction(
       signatures: (json['signatures'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      message: json['message'] as Map<String, dynamic>,
+      message:
+          TransactionMessage.fromJson(json['message'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
@@ -166,9 +578,9 @@ Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
       'message': instance.message,
     };
 
-_$_TransactionDetails _$$_TransactionDetailsFromJson(
+_$TransactionDetailsBase64 _$$TransactionDetailsBase64FromJson(
         Map<String, dynamic> json) =>
-    _$_TransactionDetails(
+    _$TransactionDetailsBase64(
       slot: json['slot'] as int,
       transaction:
           Transaction.fromJson(json['transaction'] as Map<String, dynamic>),
@@ -176,8 +588,27 @@ _$_TransactionDetails _$$_TransactionDetailsFromJson(
       meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_TransactionDetailsToJson(
-        _$_TransactionDetails instance) =>
+Map<String, dynamic> _$$TransactionDetailsBase64ToJson(
+        _$TransactionDetailsBase64 instance) =>
+    <String, dynamic>{
+      'slot': instance.slot,
+      'transaction': instance.transaction,
+      'blockTime': instance.blockTime,
+      'meta': instance.meta,
+    };
+
+_$TransactionDetailsParsed _$$TransactionDetailsParsedFromJson(
+        Map<String, dynamic> json) =>
+    _$TransactionDetailsParsed(
+      slot: json['slot'] as int,
+      transaction: ParsedTransaction.fromJson(
+          json['transaction'] as Map<String, dynamic>),
+      blockTime: json['blockTime'] as int?,
+      meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$TransactionDetailsParsedToJson(
+        _$TransactionDetailsParsed instance) =>
     <String, dynamic>{
       'slot': instance.slot,
       'transaction': instance.transaction,
@@ -284,12 +715,22 @@ Map<String, dynamic> _$$_EpochInfoToJson(_$_EpochInfo instance) =>
 
 _$_FeeCalculator _$$_FeeCalculatorFromJson(Map<String, dynamic> json) =>
     _$_FeeCalculator(
-      feeCalculator: json['feeCalculator'] as Map<String, dynamic>,
+      lamportsPerSignature: json['lamportsPerSignature'] as int,
     );
 
 Map<String, dynamic> _$$_FeeCalculatorToJson(_$_FeeCalculator instance) =>
     <String, dynamic>{
-      'feeCalculator': instance.feeCalculator,
+      'lamportsPerSignature': instance.lamportsPerSignature,
+    };
+
+_$_Range _$$_RangeFromJson(Map<String, dynamic> json) => _$_Range(
+      firstSlot: json['firstSlot'] as int,
+      lastSlot: json['lastSlot'] as int,
+    );
+
+Map<String, dynamic> _$$_RangeToJson(_$_Range instance) => <String, dynamic>{
+      'firstSlot': instance.firstSlot,
+      'lastSlot': instance.lastSlot,
     };
 
 _$_BlockProduction _$$_BlockProductionFromJson(Map<String, dynamic> json) =>
@@ -298,7 +739,7 @@ _$_BlockProduction _$$_BlockProductionFromJson(Map<String, dynamic> json) =>
         (k, e) =>
             MapEntry(k, (e as List<dynamic>).map((e) => e as int).toList()),
       ),
-      range: json['range'] as Map<String, dynamic>,
+      range: Range.fromJson(json['range'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_BlockProductionToJson(_$_BlockProduction instance) =>
@@ -338,9 +779,30 @@ Map<String, dynamic> _$$_EpochScheduleToJson(_$_EpochSchedule instance) =>
       'firstNormalSlot': instance.firstNormalSlot,
     };
 
+_$_FeeRateGovernorValue _$$_FeeRateGovernorValueFromJson(
+        Map<String, dynamic> json) =>
+    _$_FeeRateGovernorValue(
+      burnPercent: json['burnPercent'] as int,
+      maxLamportsPerSignature: json['maxLamportsPerSignature'] as int,
+      minLamportsPerSignature: json['minLamportsPerSignature'] as int,
+      targetLamportsPerSignature: json['targetLamportsPerSignature'] as int,
+      targetSignaturesPerSlot: json['targetSignaturesPerSlot'] as int,
+    );
+
+Map<String, dynamic> _$$_FeeRateGovernorValueToJson(
+        _$_FeeRateGovernorValue instance) =>
+    <String, dynamic>{
+      'burnPercent': instance.burnPercent,
+      'maxLamportsPerSignature': instance.maxLamportsPerSignature,
+      'minLamportsPerSignature': instance.minLamportsPerSignature,
+      'targetLamportsPerSignature': instance.targetLamportsPerSignature,
+      'targetSignaturesPerSlot': instance.targetSignaturesPerSlot,
+    };
+
 _$_FeeRateGovernor _$$_FeeRateGovernorFromJson(Map<String, dynamic> json) =>
     _$_FeeRateGovernor(
-      feeRateGovernor: json['feeRateGovernor'] as Map<String, dynamic>,
+      feeRateGovernor: FeeRateGovernorValue.fromJson(
+          json['feeRateGovernor'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_FeeRateGovernorToJson(_$_FeeRateGovernor instance) =>
@@ -435,8 +897,20 @@ Map<String, dynamic> _$$_LargeAccountToJson(_$_LargeAccount instance) =>
       'lamports': instance.lamports,
     };
 
+_$_FilterParams _$$_FilterParamsFromJson(Map<String, dynamic> json) =>
+    _$_FilterParams(
+      offset: json['offset'] as int,
+      bytes: json['bytes'] as String,
+    );
+
+Map<String, dynamic> _$$_FilterParamsToJson(_$_FilterParams instance) =>
+    <String, dynamic>{
+      'offset': instance.offset,
+      'bytes': instance.bytes,
+    };
+
 _$_Filter _$$_FilterFromJson(Map<String, dynamic> json) => _$_Filter(
-      memcmp: json['memcmp'] as Map<String, dynamic>,
+      memcmp: FilterParams.fromJson(json['memcmp'] as Map<String, dynamic>),
       dataSize: json['dataSize'] as int,
     );
 

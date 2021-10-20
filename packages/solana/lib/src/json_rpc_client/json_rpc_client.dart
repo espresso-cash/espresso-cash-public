@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:solana/src/exceptions/http_exception.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
@@ -21,7 +22,18 @@ class JsonRpcClient {
       'method': method,
     };
     // If no parameters were specified, skip this field
-    if (params != null) request['params'] = params;
+    if (params != null) {
+      request['params'] = params
+          .map<dynamic>((dynamic param) {
+            if (param is JsonSerializable) {
+              return param.toJson();
+            } else {
+              return param;
+            }
+          })
+          .where((dynamic p) => p != null)
+          .toList(growable: false);
+    }
     // Perform the POST request
     final http.Response response = await http.post(
       Uri.parse(_url),
@@ -39,6 +51,7 @@ class JsonRpcClient {
         throw const FormatException('invalid jsonrpc-2.0 response');
       }
       if (data['error'] != null) {
+        print(json.encode(request));
         throw JsonRpcException.fromJson(data['error'] as Map<String, dynamic>);
       }
       if (!data.containsKey('result')) {

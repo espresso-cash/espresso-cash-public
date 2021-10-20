@@ -28,10 +28,7 @@ extension Convenience on RPCClient {
     final recentBlockhash = await getRecentBlockhash();
     final signedTx = await signTransaction(recentBlockhash, message, signers);
 
-    return sendTransaction(
-      transaction: signedTx.encode(),
-      skipPreflight: false,
-    );
+    return sendTransaction(transaction: signedTx.encode());
   }
 
   /// This is just a helper function that allows the caller
@@ -67,11 +64,11 @@ extension Convenience on RPCClient {
         } else if (status.confirmationStatus.index >= desiredStatus.index) {
           completer.complete();
         } else {
-          await Future<void>.delayed(const Duration(seconds: 5));
+          await Future<void>.delayed(const Duration(milliseconds: 100));
           return check();
         }
       } else {
-        await Future<void>.delayed(const Duration(seconds: 5));
+        await Future<void>.delayed(const Duration(milliseconds: 100));
         return check();
       }
     }
@@ -89,10 +86,10 @@ extension Convenience on RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Iterable<TransactionResponse>> getTransactionsList(
+  Future<Iterable<TransactionDetails>> getTransactionsList(
     String address, {
     int limit = 10,
-    Commitment? commitment,
+    Commitment commitment = Commitment.finalized,
   }) async {
     // FIXME: this must be replaced soon
     // ignore: deprecated_member_use_from_same_package
@@ -106,7 +103,9 @@ extension Convenience on RPCClient {
       signatures.map(
         (s) => getConfirmedTransaction(
           signature: s.signature,
-          commitment: commitment,
+          options: GetConfirmedTransactionOptions(
+            commitment: commitment,
+          ),
         ),
       ),
     );
