@@ -1,6 +1,14 @@
-part of 'rpc_client.dart';
+import 'dart:async';
 
-/// These methods are not part of the RPC api so we are including them as
+import 'package:collection/collection.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/encoder/message.dart';
+import 'package:solana/src/exceptions/transaction_exception.dart';
+import 'package:solana/src/rpc_client/rpc_client.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
+import 'package:solana/src/utils.dart';
+
+// These methods are not part of the RPC api so we are including them as
 /// an extension instead.
 extension Convenience on RPCClient {
   /// Convenience method to sign a transaction with [message] using [signers].
@@ -13,14 +21,17 @@ extension Convenience on RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionSignature> signAndSendTransaction(
+  Future<String> signAndSendTransaction(
     Message message,
     List<Ed25519HDKeyPair> signers,
   ) async {
     final recentBlockhash = await getRecentBlockhash();
     final signedTx = await signTransaction(recentBlockhash, message, signers);
 
-    return sendTransaction(signedTx.encode());
+    return sendTransaction(
+      transaction: signedTx.encode(),
+      skipPreflight: false,
+    );
   }
 
   /// This is just a helper function that allows the caller
@@ -33,7 +44,7 @@ extension Convenience on RPCClient {
   ///
   /// Note: the default [timeout] is 30 seconds.
   Future<void> waitForSignatureStatus(
-    TransactionSignature signature,
+    String signature,
     TxStatus desiredStatus, {
     Duration timeout = const Duration(seconds: 30),
   }) async {
@@ -48,12 +59,12 @@ extension Convenience on RPCClient {
         );
         return;
       }
-      final statuses = await getSignatureStatuses([signature]);
-      final SignatureStatus? status = statuses.isEmpty ? null : statuses.first;
+      final statuses = await getSignatureStatuses(signatures: [signature]);
+      final SignatureStatus? status = statuses.firstOrNull;
       if (status != null) {
         if (status.err != null) {
           completer.completeError(TransactionException(status.err!));
-        } else if (status.confirmationStatus!.index >= desiredStatus.index) {
+        } else if (status.confirmationStatus.index >= desiredStatus.index) {
           completer.complete();
         } else {
           await Future<void>.delayed(const Duration(seconds: 5));
@@ -86,13 +97,17 @@ extension Convenience on RPCClient {
     // FIXME: this must be replaced soon
     // ignore: deprecated_member_use_from_same_package
     final signatures = await getConfirmedSignaturesForAddress2(
-      address,
+      pubKey: address,
       limit: limit,
       commitment: commitment,
     );
+
     final transactions = await Future.wait(
       signatures.map(
-        (s) => getConfirmedTransaction(s.signature, commitment: commitment),
+        (s) => getConfirmedTransaction(
+          signature: s.signature,
+          commitment: commitment,
+        ),
       ),
     );
 
