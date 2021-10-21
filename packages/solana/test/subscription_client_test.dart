@@ -13,7 +13,7 @@ void main() {
     const originalLamports = 10 * lamportsPerSol;
     final sender = await Ed25519HDKeyPair.random();
     final recipient = await Ed25519HDKeyPair.random();
-    final rpcClient = RPCClient(devnetRpcUrl);
+    final rpcClient = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
     final signature = await rpcClient.requestAirdrop(
       pubKey: sender.address,
       lamports: originalLamports,
