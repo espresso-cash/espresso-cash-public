@@ -1,6 +1,7 @@
 library utilities;
 
 import 'package:cryptography/cryptography.dart' hide Signature;
+import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';
 import 'package:solana/src/encoder/compiled_message.dart';
@@ -12,6 +13,7 @@ import 'base58/encode.dart';
 import 'encoder/buffer.dart';
 import 'encoder/signed_tx.dart';
 
+const absentIfNull = JsonKey(includeIfNull: false);
 typedef HashFunc = List<int> Function(List<int> m);
 
 /// Returns true if [address] is a valid ed25519 point encoded

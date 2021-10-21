@@ -208,10 +208,14 @@ class Wallet {
       accounts = await _rpcClient.getTokenAccountsByOwner(
         pubKey: address,
         mintOrProgramId: MintOrProgramId(mint: token.mint),
+        options: const GetAccountInfoOptions(
+          encoding: Encoding.jsonParsed,
+        ),
       );
     } on FormatException {
       accounts = [];
     }
+
     return accounts.any((a) => a.pubkey == associatedTokenAddress);
   }
 

@@ -1,6 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/parsed_message/parsed_message.dart';
+import 'package:solana/src/utils.dart';
+
+export 'rpc_types_extension.dart';
 
 part 'rpc_types.freezed.dart';
 part 'rpc_types.g.dart';
@@ -11,238 +14,27 @@ enum TransactionDetailLevel {
   none,
 }
 
-@freezed
-class GetConfirmedTransactionOptions with _$GetConfirmedTransactionOptions {
-  const factory GetConfirmedTransactionOptions({
-    @Default(Encoding.jsonParsed) Encoding? encoding,
-    @Default(Commitment.finalized) Commitment? commitment,
-  }) = _GetConfirmedTransactionOptions;
-
-  factory GetConfirmedTransactionOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetConfirmedTransactionOptionsFromJson(data);
-}
-
-@freezed
-class SimulateTransactionAccounts with _$SimulateTransactionAccounts {
-  const factory SimulateTransactionAccounts({
-    Encoding? accountEncoding,
-    List<String>? addresses,
-  }) = _SimulateTransactionAccounts;
-
-  factory SimulateTransactionAccounts.fromJson(Map<String, dynamic> data) =>
-      _$SimulateTransactionAccountsFromJson(data);
-}
-
-@freezed
-class SimulateTransactionOptions with _$SimulateTransactionOptions {
-  const factory SimulateTransactionOptions({
-    bool? sigVerify,
-    Encoding? encoding,
-    Commitment? commitment,
-    bool? replaceRecentBlockhash,
-    SimulateTransactionAccounts? accounts,
-  }) = _SimulateTransactionOptions;
-
-  factory SimulateTransactionOptions.fromJson(Map<String, dynamic> data) =>
-      _$SimulateTransactionOptionsFromJson(data);
-}
-
-@freezed
-class SendTransactionOptions with _$SendTransactionOptions {
-  const factory SendTransactionOptions({
-    Encoding? encoding,
-    Commitment? commitment,
-    bool? skipPreflight,
-    int? maxRetries,
-  }) = _SendTransactionOptions;
-
-  factory SendTransactionOptions.fromJson(Map<String, dynamic> data) =>
-      _$SendTransactionOptionsFromJson(data);
-}
-
-@freezed
-class GetVoteAccountsOptions with _$GetVoteAccountsOptions {
-  const factory GetVoteAccountsOptions({
-    Commitment? commitment,
-    String? votePubKey,
-    bool? keepUnstakedDelinquents,
-    int? delinquentSlotDistance,
-  }) = _GetVoteAccountsOptions;
-
-  factory GetVoteAccountsOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetVoteAccountsOptionsFromJson(data);
-}
-
-@freezed
-class GetTransactionOptions with _$GetTransactionOptions {
-  const factory GetTransactionOptions({
-    Encoding? encoding,
-    Commitment? commitment,
-  }) = _GetTransactionOptions;
-
-  factory GetTransactionOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetTransactionOptionsFromJson(data);
-}
-
-@freezed
-class MintOrProgramId with _$MintOrProgramId {
-  const factory MintOrProgramId({
-    @JsonKey(includeIfNull: false) String? mint,
-    @JsonKey(includeIfNull: false) String? programId,
-  }) = _MintOrProgramId;
-
-  factory MintOrProgramId.fromJson(Map<String, dynamic> data) =>
-      _$MintOrProgramIdFromJson(data);
-}
-
-@freezed
-class GetSupplyOptions with _$GetSupplyOptions {
-  const factory GetSupplyOptions({
-    Commitment? commitment,
-    bool? excludeNonCirculatingAccountsList,
-  }) = _GetSupplyOptions;
-
-  factory GetSupplyOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetSupplyOptionsFromJson(data);
-}
-
-@freezed
-class GetStakeActivationOptions with _$GetStakeActivationOptions {
-  const factory GetStakeActivationOptions({
-    Commitment? commitment,
-    int? epoch,
-  }) = _GetStakeActivationOptions;
-
-  factory GetStakeActivationOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetStakeActivationOptionsFromJson(data);
-}
-
-@freezed
-class GetSignatureStatusesOptions with _$GetSignatureStatusesOptions {
-  const factory GetSignatureStatusesOptions({
-    bool? searchTransactionHistory,
-  }) = _GetSignatureStatusesOptions;
-
-  factory GetSignatureStatusesOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetSignatureStatusesOptionsFromJson(data);
-}
-
-@freezed
-class GetSignaturesForAddressOptions with _$GetSignaturesForAddressOptions {
-  const factory GetSignaturesForAddressOptions({
-    int? limit,
-    String? before,
-    String? until,
-    Commitment? commitment,
-  }) = _GetSignaturesForAddressOptions;
-
-  factory GetSignaturesForAddressOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetSignaturesForAddressOptionsFromJson(data);
-}
-
-@freezed
-class GetProgramAccountsOptions with _$GetProgramAccountsOptions {
-  const factory GetProgramAccountsOptions({
-    Commitment? commitment,
-    Encoding? encoding,
-    DataSlice? dataSlice,
-    List<Filter>? filter,
-    bool? withContext,
-  }) = _GetProgramAccountsOptions;
-
-  factory GetProgramAccountsOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetProgramAccountsOptionsFromJson(data);
-}
-
-@freezed
-class GetLeaderScheduleOptions with _$GetLeaderScheduleOptions {
-  const factory GetLeaderScheduleOptions({
-    Commitment? commitment,
-    String? identity,
-  }) = _GetLeaderScheduleOptions;
-
-  factory GetLeaderScheduleOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetLeaderScheduleOptionsFromJson(data);
-}
-
-@freezed
-class GetLargestAccountsOptions with _$GetLargestAccountsOptions {
-  const factory GetLargestAccountsOptions({
-    Commitment? commitment,
-    CirculationStatus? filter,
-  }) = _GetLargestAccountsOptions;
-
-  factory GetLargestAccountsOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetLargestAccountsOptionsFromJson(data);
-}
-
-@freezed
-class GetBlockProductionOptions with _$GetBlockProductionOptions {
-  const factory GetBlockProductionOptions({
-    @Default(Commitment.finalized) Commitment? commitment,
-    @JsonKey(includeIfNull: false) Range? range,
-    @JsonKey(includeIfNull: false) String? identity,
-  }) = _GetBlockProductionOptions;
-
-  factory GetBlockProductionOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetBlockProductionOptionsFromJson(data);
-}
-
-@freezed
-class GetBlockOptions with _$GetBlockOptions {
-  const factory GetBlockOptions({
-    @Default(Encoding.jsonParsed) Encoding? encoding,
-    @Default(TransactionDetailLevel.full)
-        TransactionDetailLevel? transactionDetails,
-    @Default(true) bool? rewards,
-    @Default(Commitment.finalized) Commitment? commitment,
-  }) = _GetBlockOptions;
-
-  factory GetBlockOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetBlockOptionsFromJson(data);
-}
-
-@freezed
-class GetAccountOptions with _$GetAccountOptions {
-  const factory GetAccountOptions({
-    @Default(Commitment.finalized) Commitment? commitment,
-    @Default(Encoding.jsonParsed) Encoding? encoding,
-    @JsonKey(includeIfNull: false) DataSlice? dataSlice,
-  }) = _GetAccountOptions;
-
-  factory GetAccountOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetAccountOptionsFromJson(data);
-}
-
-@freezed
-class DataSlice with _$DataSlice {
-  const factory DataSlice({
-    int? offset,
-    int? length,
-  }) = _DataSlice;
-
-  factory DataSlice.fromJson(Map<String, dynamic> data) =>
-      _$DataSliceFromJson(data);
-}
-
 enum CirculationStatus {
   circulating,
   nonCirculating,
 }
 
+/// Encoding used by methods to send their response
+/// either "base58" (slow), "base64",  "base64+zstd", or "jsonParsed".
+/// "base58" is limited to Account data of
+/// less than 129 bytes. "base64" will return base64 encoded data for
+/// Account data of any size. "base64+zstd" compresses the Account data
+/// using Zstandard and base64-encodes the result. "jsonParsed" encoding
+/// attempts to use program-specific state parsers to return more
+/// human-readable and explicit account state data. If "jsonParsed" is
+/// requested but a parser cannot be found, the field falls back to "base64"
+/// encoding, detectable when the
+///
+/// Currently we are not supporting compressed encodings or base58. The latter
+/// is deprecated
 enum Encoding {
   base64,
   jsonParsed,
-}
-
-@freezed
-class CommitmentObject with _$CommitmentObject {
-  const factory CommitmentObject({
-    @Default(Commitment.finalized) Commitment commitment,
-  }) = _CommitmentObject;
-
-  factory CommitmentObject.fromJson(Map<String, dynamic> data) =>
-      _$CommitmentObjectFromJson(data);
 }
 
 enum Commitment {
@@ -250,10 +42,6 @@ enum Commitment {
   confirmed,
   finalized,
 }
-
-typedef TxStatus = Commitment;
-
-typedef ValidatorIdentity = List<int>;
 
 enum RewardType {
   fee,
@@ -267,6 +55,307 @@ enum StakeActivationState {
   inactive,
   activating,
   deactivating,
+}
+
+typedef TxStatus = Commitment;
+
+typedef ValidatorIdentity = List<int>;
+
+@freezed
+class GetConfirmedTransactionOptions with _$GetConfirmedTransactionOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetConfirmedTransactionOptions({
+    @absentIfNull Encoding? encoding,
+    @absentIfNull Commitment? commitment,
+  }) = _GetConfirmedTransactionOptions;
+
+  factory GetConfirmedTransactionOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetConfirmedTransactionOptionsFromJson(data);
+}
+
+@freezed
+class SimulateTransactionAccounts with _$SimulateTransactionAccounts {
+  const factory SimulateTransactionAccounts({
+    @absentIfNull Encoding? accountEncoding,
+    @absentIfNull List<String>? addresses,
+  }) = _SimulateTransactionAccounts;
+
+  factory SimulateTransactionAccounts.fromJson(Map<String, dynamic> data) =>
+      _$SimulateTransactionAccountsFromJson(data);
+}
+
+@freezed
+class SimulateTransactionOptions with _$SimulateTransactionOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory SimulateTransactionOptions({
+    @absentIfNull bool? sigVerify,
+    @absentIfNull Encoding? encoding,
+    @absentIfNull Commitment? commitment,
+    @absentIfNull bool? replaceRecentBlockhash,
+    @absentIfNull SimulateTransactionAccounts? accounts,
+  }) = _SimulateTransactionOptions;
+
+  factory SimulateTransactionOptions.fromJson(Map<String, dynamic> data) =>
+      _$SimulateTransactionOptionsFromJson(data);
+}
+
+@freezed
+class SendTransactionOptions with _$SendTransactionOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory SendTransactionOptions({
+    @absentIfNull Encoding? encoding,
+    @absentIfNull Commitment? commitment,
+    @absentIfNull bool? skipPreflight,
+    @absentIfNull int? maxRetries,
+  }) = _SendTransactionOptions;
+
+  factory SendTransactionOptions.fromJson(Map<String, dynamic> data) =>
+      _$SendTransactionOptionsFromJson(data);
+}
+
+@freezed
+class GetVoteAccountsOptions with _$GetVoteAccountsOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetVoteAccountsOptions({
+    @absentIfNull Commitment? commitment,
+    @absentIfNull String? votePubKey,
+    @absentIfNull bool? keepUnstakedDelinquents,
+    @absentIfNull int? delinquentSlotDistance,
+  }) = _GetVoteAccountsOptions;
+
+  factory GetVoteAccountsOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetVoteAccountsOptionsFromJson(data);
+}
+
+@freezed
+class GetTransactionOptions with _$GetTransactionOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetTransactionOptions({
+    @absentIfNull Encoding? encoding,
+    @absentIfNull Commitment? commitment,
+  }) = _GetTransactionOptions;
+
+  factory GetTransactionOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetTransactionOptionsFromJson(data);
+}
+
+@freezed
+class MintOrProgramId with _$MintOrProgramId {
+  const factory MintOrProgramId({
+    @absentIfNull String? mint,
+    @absentIfNull String? programId,
+  }) = _MintOrProgramId;
+
+  factory MintOrProgramId.fromJson(Map<String, dynamic> data) =>
+      _$MintOrProgramIdFromJson(data);
+}
+
+@freezed
+class GetSupplyOptions with _$GetSupplyOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetSupplyOptions({
+    @absentIfNull Commitment? commitment,
+    @absentIfNull bool? excludeNonCirculatingAccountsList,
+  }) = _GetSupplyOptions;
+
+  factory GetSupplyOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetSupplyOptionsFromJson(data);
+}
+
+@freezed
+class GetStakeActivationOptions with _$GetStakeActivationOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetStakeActivationOptions({
+    @absentIfNull Commitment? commitment,
+    @absentIfNull int? epoch,
+  }) = _GetStakeActivationOptions;
+
+  factory GetStakeActivationOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetStakeActivationOptionsFromJson(data);
+}
+
+@freezed
+class GetSignatureStatusesOptions with _$GetSignatureStatusesOptions {
+  const factory GetSignatureStatusesOptions({
+    @absentIfNull bool? searchTransactionHistory,
+  }) = _GetSignatureStatusesOptions;
+
+  factory GetSignatureStatusesOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetSignatureStatusesOptionsFromJson(data);
+}
+
+@freezed
+class GetSignaturesForAddressOptions with _$GetSignaturesForAddressOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetSignaturesForAddressOptions({
+    @absentIfNull int? limit,
+    @absentIfNull String? before,
+    @absentIfNull String? until,
+    @absentIfNull Commitment? commitment,
+  }) = _GetSignaturesForAddressOptions;
+
+  factory GetSignaturesForAddressOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetSignaturesForAddressOptionsFromJson(data);
+}
+
+@freezed
+class GetProgramAccountsOptions with _$GetProgramAccountsOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetProgramAccountsOptions({
+    @absentIfNull Commitment? commitment,
+    @absentIfNull Encoding? encoding,
+    @absentIfNull DataSlice? dataSlice,
+    @absentIfNull List<Filter>? filter,
+    @absentIfNull bool? withContext,
+  }) = _GetProgramAccountsOptions;
+
+  factory GetProgramAccountsOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetProgramAccountsOptionsFromJson(data);
+}
+
+@freezed
+class GetLeaderScheduleOptions with _$GetLeaderScheduleOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetLeaderScheduleOptions({
+    @absentIfNull Commitment? commitment,
+    @absentIfNull String? identity,
+  }) = _GetLeaderScheduleOptions;
+
+  factory GetLeaderScheduleOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetLeaderScheduleOptionsFromJson(data);
+}
+
+@freezed
+class GetLargestAccountsOptions with _$GetLargestAccountsOptions {
+  /// Options used to configure the [RPCClient.getLargestAccounts()] method.
+  ///
+  /// [filter] results by account type; currently supported:
+  /// [CirculationStatus.circulating]|[CirculationStatus.nonCirculating]
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetLargestAccountsOptions({
+    @absentIfNull Commitment? commitment,
+    @absentIfNull CirculationStatus? filter,
+  }) = _GetLargestAccountsOptions;
+
+  factory GetLargestAccountsOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetLargestAccountsOptionsFromJson(data);
+}
+
+@freezed
+class GetConfirmedSignaturesForAddress2Options
+    with _$GetConfirmedSignaturesForAddress2Options {
+  const factory GetConfirmedSignaturesForAddress2Options({
+    int? limit,
+    String? before,
+    String? until,
+    Commitment? commitment,
+  }) = _GetConfirmedSignaturesForAddress2Options;
+
+  factory GetConfirmedSignaturesForAddress2Options.fromJson(
+          Map<String, dynamic> data) =>
+      _$GetConfirmedSignaturesForAddress2OptionsFromJson(data);
+}
+
+@freezed
+class GetBlockProductionOptions with _$GetBlockProductionOptions {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetBlockProductionOptions({
+    @absentIfNull Commitment? commitment,
+    @absentIfNull Range? range,
+    @absentIfNull String? identity,
+  }) = _GetBlockProductionOptions;
+
+  factory GetBlockProductionOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetBlockProductionOptionsFromJson(data);
+}
+
+@freezed
+class GetBlockOptions with _$GetBlockOptions {
+  /// Object used to configure getting blocks via some of the RPC methods.
+  ///
+  /// [encoding] for each return transaction
+  /// [transactionDetails]  level of transaction detail to return, either "full",
+  /// "signatures", or "none". If parameter not provided, the default detail level is "full".
+  /// [rewards] whether to populate the rewards array. If parameter not provided,
+  /// the default includes rewards.
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetBlockOptions({
+    @absentIfNull Encoding? encoding,
+    @absentIfNull TransactionDetailLevel? transactionDetails,
+    @absentIfNull bool? rewards,
+    @absentIfNull Commitment? commitment,
+  }) = _GetBlockOptions;
+
+  factory GetBlockOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetBlockOptionsFromJson(data);
+}
+
+@freezed
+class GetAccountInfoOptions with _$GetAccountInfoOptions {
+  /// Build an object to be passed as the options for the [RPCClient.getAccountInfo()]
+  /// method.
+  ///
+  /// [encoding] encoding for Account data
+  /// [dataSlice] limit the returned account data;
+  /// only available for "base58", "base64" or "base64+zstd" encodings.
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  const factory GetAccountInfoOptions({
+    @absentIfNull Commitment? commitment,
+    @absentIfNull Encoding? encoding,
+    @absentIfNull DataSlice? dataSlice,
+  }) = _GetAccountOptions;
+
+  factory GetAccountInfoOptions.fromJson(Map<String, dynamic> data) =>
+      _$GetAccountInfoOptionsFromJson(data);
+}
+
+@freezed
+class DataSlice with _$DataSlice {
+  const factory DataSlice({
+    @absentIfNull int? offset,
+    @absentIfNull int? length,
+  }) = _DataSlice;
+
+  factory DataSlice.fromJson(Map<String, dynamic> data) =>
+      _$DataSliceFromJson(data);
+}
+
+@freezed
+class CommitmentObject with _$CommitmentObject {
+  const factory CommitmentObject({
+    @absentIfNull Commitment? commitment,
+  }) = _CommitmentObject;
+
+  factory CommitmentObject.fromJson(Map<String, dynamic> data) =>
+      _$CommitmentObjectFromJson(data);
 }
 
 @freezed
@@ -506,6 +595,9 @@ class BlockProduction with _$BlockProduction {
 
 @freezed
 class BlockCommitment with _$BlockCommitment {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   const factory BlockCommitment({
     required List<int>? commitment,
     required int totalStake,
