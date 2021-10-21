@@ -31,6 +31,9 @@ class JsonRpcClient {
               return param;
             }
           })
+          // Remove nulls because it is of our interest that these fields
+          // are omitted when null. JsonSerializable is already correctly
+          // configured for that
           .where((dynamic p) => p != null)
           .toList(growable: false);
     }
@@ -51,7 +54,6 @@ class JsonRpcClient {
         throw const FormatException('invalid jsonrpc-2.0 response');
       }
       if (data['error'] != null) {
-        print(json.encode(request));
         throw JsonRpcException.fromJson(data['error'] as Map<String, dynamic>);
       }
       if (!data.containsKey('result')) {

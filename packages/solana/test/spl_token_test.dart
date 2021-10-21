@@ -53,6 +53,9 @@ void main() {
       Iterable<ProgramAccount> accounts = await client.getTokenAccountsByOwner(
         pubKey: owner.address,
         mintOrProgramId: MintOrProgramId(mint: token.mint),
+        options: const GetAccountInfoOptions(
+          encoding: Encoding.jsonParsed,
+        ),
       );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
@@ -65,6 +68,9 @@ void main() {
       accounts = await client.getTokenAccountsByOwner(
         pubKey: owner.address,
         mintOrProgramId: MintOrProgramId(mint: token.mint),
+        options: const GetAccountInfoOptions(
+          encoding: Encoding.jsonParsed,
+        ),
       );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
@@ -83,6 +89,9 @@ void main() {
       final accounts = await client.getTokenAccountsByOwner(
         pubKey: owner.address,
         mintOrProgramId: MintOrProgramId(mint: token.mint),
+        options: const GetAccountInfoOptions(
+          encoding: Encoding.jsonParsed,
+        ),
       );
       await token.mintTo(
         destination: accounts.first.pubkey,

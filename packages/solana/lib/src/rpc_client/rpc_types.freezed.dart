@@ -23,8 +23,8 @@ class _$GetConfirmedTransactionOptionsTearOff {
   const _$GetConfirmedTransactionOptionsTearOff();
 
   _GetConfirmedTransactionOptions call(
-      {Encoding? encoding = Encoding.jsonParsed,
-      Commitment? commitment = Commitment.finalized}) {
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment}) {
     return _GetConfirmedTransactionOptions(
       encoding: encoding,
       commitment: commitment,
@@ -42,7 +42,9 @@ const $GetConfirmedTransactionOptions =
 
 /// @nodoc
 mixin _$GetConfirmedTransactionOptions {
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,7 +59,8 @@ abstract class $GetConfirmedTransactionOptionsCopyWith<$Res> {
           GetConfirmedTransactionOptions value,
           $Res Function(GetConfirmedTransactionOptions) then) =
       _$GetConfirmedTransactionOptionsCopyWithImpl<$Res>;
-  $Res call({Encoding? encoding, Commitment? commitment});
+  $Res call(
+      {@absentIfNull Encoding? encoding, @absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -95,7 +98,8 @@ abstract class _$GetConfirmedTransactionOptionsCopyWith<$Res>
           $Res Function(_GetConfirmedTransactionOptions) then) =
       __$GetConfirmedTransactionOptionsCopyWithImpl<$Res>;
   @override
-  $Res call({Encoding? encoding, Commitment? commitment});
+  $Res call(
+      {@absentIfNull Encoding? encoding, @absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -134,18 +138,17 @@ class __$GetConfirmedTransactionOptionsCopyWithImpl<$Res>
 class _$_GetConfirmedTransactionOptions
     implements _GetConfirmedTransactionOptions {
   const _$_GetConfirmedTransactionOptions(
-      {this.encoding = Encoding.jsonParsed,
-      this.commitment = Commitment.finalized});
+      {@absentIfNull this.encoding, @absentIfNull this.commitment});
 
   factory _$_GetConfirmedTransactionOptions.fromJson(
           Map<String, dynamic> json) =>
       _$$_GetConfirmedTransactionOptionsFromJson(json);
 
-  @JsonKey(defaultValue: Encoding.jsonParsed)
   @override
+  @absentIfNull
   final Encoding? encoding;
-  @JsonKey(defaultValue: Commitment.finalized)
   @override
+  @absentIfNull
   final Commitment? commitment;
 
   @override
@@ -186,15 +189,18 @@ class _$_GetConfirmedTransactionOptions
 abstract class _GetConfirmedTransactionOptions
     implements GetConfirmedTransactionOptions {
   const factory _GetConfirmedTransactionOptions(
-      {Encoding? encoding,
-      Commitment? commitment}) = _$_GetConfirmedTransactionOptions;
+          {@absentIfNull Encoding? encoding,
+          @absentIfNull Commitment? commitment}) =
+      _$_GetConfirmedTransactionOptions;
 
   factory _GetConfirmedTransactionOptions.fromJson(Map<String, dynamic> json) =
       _$_GetConfirmedTransactionOptions.fromJson;
 
   @override
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -212,7 +218,8 @@ class _$SimulateTransactionAccountsTearOff {
   const _$SimulateTransactionAccountsTearOff();
 
   _SimulateTransactionAccounts call(
-      {Encoding? accountEncoding, List<String>? addresses}) {
+      {@absentIfNull Encoding? accountEncoding,
+      @absentIfNull List<String>? addresses}) {
     return _SimulateTransactionAccounts(
       accountEncoding: accountEncoding,
       addresses: addresses,
@@ -229,7 +236,9 @@ const $SimulateTransactionAccounts = _$SimulateTransactionAccountsTearOff();
 
 /// @nodoc
 mixin _$SimulateTransactionAccounts {
+  @absentIfNull
   Encoding? get accountEncoding => throw _privateConstructorUsedError;
+  @absentIfNull
   List<String>? get addresses => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -244,7 +253,9 @@ abstract class $SimulateTransactionAccountsCopyWith<$Res> {
           SimulateTransactionAccounts value,
           $Res Function(SimulateTransactionAccounts) then) =
       _$SimulateTransactionAccountsCopyWithImpl<$Res>;
-  $Res call({Encoding? accountEncoding, List<String>? addresses});
+  $Res call(
+      {@absentIfNull Encoding? accountEncoding,
+      @absentIfNull List<String>? addresses});
 }
 
 /// @nodoc
@@ -282,7 +293,9 @@ abstract class _$SimulateTransactionAccountsCopyWith<$Res>
           $Res Function(_SimulateTransactionAccounts) then) =
       __$SimulateTransactionAccountsCopyWithImpl<$Res>;
   @override
-  $Res call({Encoding? accountEncoding, List<String>? addresses});
+  $Res call(
+      {@absentIfNull Encoding? accountEncoding,
+      @absentIfNull List<String>? addresses});
 }
 
 /// @nodoc
@@ -319,14 +332,17 @@ class __$SimulateTransactionAccountsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_SimulateTransactionAccounts implements _SimulateTransactionAccounts {
-  const _$_SimulateTransactionAccounts({this.accountEncoding, this.addresses});
+  const _$_SimulateTransactionAccounts(
+      {@absentIfNull this.accountEncoding, @absentIfNull this.addresses});
 
   factory _$_SimulateTransactionAccounts.fromJson(Map<String, dynamic> json) =>
       _$$_SimulateTransactionAccountsFromJson(json);
 
   @override
+  @absentIfNull
   final Encoding? accountEncoding;
   @override
+  @absentIfNull
   final List<String>? addresses;
 
   @override
@@ -367,15 +383,17 @@ class _$_SimulateTransactionAccounts implements _SimulateTransactionAccounts {
 abstract class _SimulateTransactionAccounts
     implements SimulateTransactionAccounts {
   const factory _SimulateTransactionAccounts(
-      {Encoding? accountEncoding,
-      List<String>? addresses}) = _$_SimulateTransactionAccounts;
+      {@absentIfNull Encoding? accountEncoding,
+      @absentIfNull List<String>? addresses}) = _$_SimulateTransactionAccounts;
 
   factory _SimulateTransactionAccounts.fromJson(Map<String, dynamic> json) =
       _$_SimulateTransactionAccounts.fromJson;
 
   @override
+  @absentIfNull
   Encoding? get accountEncoding => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   List<String>? get addresses => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -393,11 +411,11 @@ class _$SimulateTransactionOptionsTearOff {
   const _$SimulateTransactionOptionsTearOff();
 
   _SimulateTransactionOptions call(
-      {bool? sigVerify,
-      Encoding? encoding,
-      Commitment? commitment,
-      bool? replaceRecentBlockhash,
-      SimulateTransactionAccounts? accounts}) {
+      {@absentIfNull bool? sigVerify,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment,
+      @absentIfNull bool? replaceRecentBlockhash,
+      @absentIfNull SimulateTransactionAccounts? accounts}) {
     return _SimulateTransactionOptions(
       sigVerify: sigVerify,
       encoding: encoding,
@@ -417,10 +435,15 @@ const $SimulateTransactionOptions = _$SimulateTransactionOptionsTearOff();
 
 /// @nodoc
 mixin _$SimulateTransactionOptions {
+  @absentIfNull
   bool? get sigVerify => throw _privateConstructorUsedError;
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
   bool? get replaceRecentBlockhash => throw _privateConstructorUsedError;
+  @absentIfNull
   SimulateTransactionAccounts? get accounts =>
       throw _privateConstructorUsedError;
 
@@ -436,11 +459,11 @@ abstract class $SimulateTransactionOptionsCopyWith<$Res> {
           $Res Function(SimulateTransactionOptions) then) =
       _$SimulateTransactionOptionsCopyWithImpl<$Res>;
   $Res call(
-      {bool? sigVerify,
-      Encoding? encoding,
-      Commitment? commitment,
-      bool? replaceRecentBlockhash,
-      SimulateTransactionAccounts? accounts});
+      {@absentIfNull bool? sigVerify,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment,
+      @absentIfNull bool? replaceRecentBlockhash,
+      @absentIfNull SimulateTransactionAccounts? accounts});
 
   $SimulateTransactionAccountsCopyWith<$Res>? get accounts;
 }
@@ -508,11 +531,11 @@ abstract class _$SimulateTransactionOptionsCopyWith<$Res>
       __$SimulateTransactionOptionsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool? sigVerify,
-      Encoding? encoding,
-      Commitment? commitment,
-      bool? replaceRecentBlockhash,
-      SimulateTransactionAccounts? accounts});
+      {@absentIfNull bool? sigVerify,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment,
+      @absentIfNull bool? replaceRecentBlockhash,
+      @absentIfNull SimulateTransactionAccounts? accounts});
 
   @override
   $SimulateTransactionAccountsCopyWith<$Res>? get accounts;
@@ -567,24 +590,29 @@ class __$SimulateTransactionOptionsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_SimulateTransactionOptions implements _SimulateTransactionOptions {
   const _$_SimulateTransactionOptions(
-      {this.sigVerify,
-      this.encoding,
-      this.commitment,
-      this.replaceRecentBlockhash,
-      this.accounts});
+      {@absentIfNull this.sigVerify,
+      @absentIfNull this.encoding,
+      @absentIfNull this.commitment,
+      @absentIfNull this.replaceRecentBlockhash,
+      @absentIfNull this.accounts});
 
   factory _$_SimulateTransactionOptions.fromJson(Map<String, dynamic> json) =>
       _$$_SimulateTransactionOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final bool? sigVerify;
   @override
+  @absentIfNull
   final Encoding? encoding;
   @override
+  @absentIfNull
   final Commitment? commitment;
   @override
+  @absentIfNull
   final bool? replaceRecentBlockhash;
   @override
+  @absentIfNull
   final SimulateTransactionAccounts? accounts;
 
   @override
@@ -637,24 +665,30 @@ class _$_SimulateTransactionOptions implements _SimulateTransactionOptions {
 abstract class _SimulateTransactionOptions
     implements SimulateTransactionOptions {
   const factory _SimulateTransactionOptions(
-      {bool? sigVerify,
-      Encoding? encoding,
-      Commitment? commitment,
-      bool? replaceRecentBlockhash,
-      SimulateTransactionAccounts? accounts}) = _$_SimulateTransactionOptions;
+          {@absentIfNull bool? sigVerify,
+          @absentIfNull Encoding? encoding,
+          @absentIfNull Commitment? commitment,
+          @absentIfNull bool? replaceRecentBlockhash,
+          @absentIfNull SimulateTransactionAccounts? accounts}) =
+      _$_SimulateTransactionOptions;
 
   factory _SimulateTransactionOptions.fromJson(Map<String, dynamic> json) =
       _$_SimulateTransactionOptions.fromJson;
 
   @override
+  @absentIfNull
   bool? get sigVerify => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   bool? get replaceRecentBlockhash => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   SimulateTransactionAccounts? get accounts =>
       throw _privateConstructorUsedError;
   @override
@@ -673,10 +707,10 @@ class _$SendTransactionOptionsTearOff {
   const _$SendTransactionOptionsTearOff();
 
   _SendTransactionOptions call(
-      {Encoding? encoding,
-      Commitment? commitment,
-      bool? skipPreflight,
-      int? maxRetries}) {
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment,
+      @absentIfNull bool? skipPreflight,
+      @absentIfNull int? maxRetries}) {
     return _SendTransactionOptions(
       encoding: encoding,
       commitment: commitment,
@@ -695,9 +729,13 @@ const $SendTransactionOptions = _$SendTransactionOptionsTearOff();
 
 /// @nodoc
 mixin _$SendTransactionOptions {
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
   bool? get skipPreflight => throw _privateConstructorUsedError;
+  @absentIfNull
   int? get maxRetries => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -712,10 +750,10 @@ abstract class $SendTransactionOptionsCopyWith<$Res> {
           $Res Function(SendTransactionOptions) then) =
       _$SendTransactionOptionsCopyWithImpl<$Res>;
   $Res call(
-      {Encoding? encoding,
-      Commitment? commitment,
-      bool? skipPreflight,
-      int? maxRetries});
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment,
+      @absentIfNull bool? skipPreflight,
+      @absentIfNull int? maxRetries});
 }
 
 /// @nodoc
@@ -763,10 +801,10 @@ abstract class _$SendTransactionOptionsCopyWith<$Res>
       __$SendTransactionOptionsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Encoding? encoding,
-      Commitment? commitment,
-      bool? skipPreflight,
-      int? maxRetries});
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment,
+      @absentIfNull bool? skipPreflight,
+      @absentIfNull int? maxRetries});
 }
 
 /// @nodoc
@@ -812,18 +850,25 @@ class __$SendTransactionOptionsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_SendTransactionOptions implements _SendTransactionOptions {
   const _$_SendTransactionOptions(
-      {this.encoding, this.commitment, this.skipPreflight, this.maxRetries});
+      {@absentIfNull this.encoding,
+      @absentIfNull this.commitment,
+      @absentIfNull this.skipPreflight,
+      @absentIfNull this.maxRetries});
 
   factory _$_SendTransactionOptions.fromJson(Map<String, dynamic> json) =>
       _$$_SendTransactionOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final Encoding? encoding;
   @override
+  @absentIfNull
   final Commitment? commitment;
   @override
+  @absentIfNull
   final bool? skipPreflight;
   @override
+  @absentIfNull
   final int? maxRetries;
 
   @override
@@ -871,21 +916,25 @@ class _$_SendTransactionOptions implements _SendTransactionOptions {
 
 abstract class _SendTransactionOptions implements SendTransactionOptions {
   const factory _SendTransactionOptions(
-      {Encoding? encoding,
-      Commitment? commitment,
-      bool? skipPreflight,
-      int? maxRetries}) = _$_SendTransactionOptions;
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment,
+      @absentIfNull bool? skipPreflight,
+      @absentIfNull int? maxRetries}) = _$_SendTransactionOptions;
 
   factory _SendTransactionOptions.fromJson(Map<String, dynamic> json) =
       _$_SendTransactionOptions.fromJson;
 
   @override
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   bool? get skipPreflight => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   int? get maxRetries => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -903,10 +952,10 @@ class _$GetVoteAccountsOptionsTearOff {
   const _$GetVoteAccountsOptionsTearOff();
 
   _GetVoteAccountsOptions call(
-      {Commitment? commitment,
-      String? votePubKey,
-      bool? keepUnstakedDelinquents,
-      int? delinquentSlotDistance}) {
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull String? votePubKey,
+      @absentIfNull bool? keepUnstakedDelinquents,
+      @absentIfNull int? delinquentSlotDistance}) {
     return _GetVoteAccountsOptions(
       commitment: commitment,
       votePubKey: votePubKey,
@@ -925,9 +974,13 @@ const $GetVoteAccountsOptions = _$GetVoteAccountsOptionsTearOff();
 
 /// @nodoc
 mixin _$GetVoteAccountsOptions {
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
   String? get votePubKey => throw _privateConstructorUsedError;
+  @absentIfNull
   bool? get keepUnstakedDelinquents => throw _privateConstructorUsedError;
+  @absentIfNull
   int? get delinquentSlotDistance => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -942,10 +995,10 @@ abstract class $GetVoteAccountsOptionsCopyWith<$Res> {
           $Res Function(GetVoteAccountsOptions) then) =
       _$GetVoteAccountsOptionsCopyWithImpl<$Res>;
   $Res call(
-      {Commitment? commitment,
-      String? votePubKey,
-      bool? keepUnstakedDelinquents,
-      int? delinquentSlotDistance});
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull String? votePubKey,
+      @absentIfNull bool? keepUnstakedDelinquents,
+      @absentIfNull int? delinquentSlotDistance});
 }
 
 /// @nodoc
@@ -993,10 +1046,10 @@ abstract class _$GetVoteAccountsOptionsCopyWith<$Res>
       __$GetVoteAccountsOptionsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Commitment? commitment,
-      String? votePubKey,
-      bool? keepUnstakedDelinquents,
-      int? delinquentSlotDistance});
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull String? votePubKey,
+      @absentIfNull bool? keepUnstakedDelinquents,
+      @absentIfNull int? delinquentSlotDistance});
 }
 
 /// @nodoc
@@ -1042,21 +1095,25 @@ class __$GetVoteAccountsOptionsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GetVoteAccountsOptions implements _GetVoteAccountsOptions {
   const _$_GetVoteAccountsOptions(
-      {this.commitment,
-      this.votePubKey,
-      this.keepUnstakedDelinquents,
-      this.delinquentSlotDistance});
+      {@absentIfNull this.commitment,
+      @absentIfNull this.votePubKey,
+      @absentIfNull this.keepUnstakedDelinquents,
+      @absentIfNull this.delinquentSlotDistance});
 
   factory _$_GetVoteAccountsOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetVoteAccountsOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final Commitment? commitment;
   @override
+  @absentIfNull
   final String? votePubKey;
   @override
+  @absentIfNull
   final bool? keepUnstakedDelinquents;
   @override
+  @absentIfNull
   final int? delinquentSlotDistance;
 
   @override
@@ -1105,21 +1162,25 @@ class _$_GetVoteAccountsOptions implements _GetVoteAccountsOptions {
 
 abstract class _GetVoteAccountsOptions implements GetVoteAccountsOptions {
   const factory _GetVoteAccountsOptions(
-      {Commitment? commitment,
-      String? votePubKey,
-      bool? keepUnstakedDelinquents,
-      int? delinquentSlotDistance}) = _$_GetVoteAccountsOptions;
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull String? votePubKey,
+      @absentIfNull bool? keepUnstakedDelinquents,
+      @absentIfNull int? delinquentSlotDistance}) = _$_GetVoteAccountsOptions;
 
   factory _GetVoteAccountsOptions.fromJson(Map<String, dynamic> json) =
       _$_GetVoteAccountsOptions.fromJson;
 
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   String? get votePubKey => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   bool? get keepUnstakedDelinquents => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   int? get delinquentSlotDistance => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -1136,7 +1197,9 @@ GetTransactionOptions _$GetTransactionOptionsFromJson(
 class _$GetTransactionOptionsTearOff {
   const _$GetTransactionOptionsTearOff();
 
-  _GetTransactionOptions call({Encoding? encoding, Commitment? commitment}) {
+  _GetTransactionOptions call(
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment}) {
     return _GetTransactionOptions(
       encoding: encoding,
       commitment: commitment,
@@ -1153,7 +1216,9 @@ const $GetTransactionOptions = _$GetTransactionOptionsTearOff();
 
 /// @nodoc
 mixin _$GetTransactionOptions {
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1167,7 +1232,8 @@ abstract class $GetTransactionOptionsCopyWith<$Res> {
   factory $GetTransactionOptionsCopyWith(GetTransactionOptions value,
           $Res Function(GetTransactionOptions) then) =
       _$GetTransactionOptionsCopyWithImpl<$Res>;
-  $Res call({Encoding? encoding, Commitment? commitment});
+  $Res call(
+      {@absentIfNull Encoding? encoding, @absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -1204,7 +1270,8 @@ abstract class _$GetTransactionOptionsCopyWith<$Res>
           $Res Function(_GetTransactionOptions) then) =
       __$GetTransactionOptionsCopyWithImpl<$Res>;
   @override
-  $Res call({Encoding? encoding, Commitment? commitment});
+  $Res call(
+      {@absentIfNull Encoding? encoding, @absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -1239,14 +1306,17 @@ class __$GetTransactionOptionsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GetTransactionOptions implements _GetTransactionOptions {
-  const _$_GetTransactionOptions({this.encoding, this.commitment});
+  const _$_GetTransactionOptions(
+      {@absentIfNull this.encoding, @absentIfNull this.commitment});
 
   factory _$_GetTransactionOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetTransactionOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final Encoding? encoding;
   @override
+  @absentIfNull
   final Commitment? commitment;
 
   @override
@@ -1286,14 +1356,17 @@ class _$_GetTransactionOptions implements _GetTransactionOptions {
 
 abstract class _GetTransactionOptions implements GetTransactionOptions {
   const factory _GetTransactionOptions(
-      {Encoding? encoding, Commitment? commitment}) = _$_GetTransactionOptions;
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull Commitment? commitment}) = _$_GetTransactionOptions;
 
   factory _GetTransactionOptions.fromJson(Map<String, dynamic> json) =
       _$_GetTransactionOptions.fromJson;
 
   @override
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -1310,8 +1383,7 @@ class _$MintOrProgramIdTearOff {
   const _$MintOrProgramIdTearOff();
 
   _MintOrProgramId call(
-      {@JsonKey(includeIfNull: false) String? mint,
-      @JsonKey(includeIfNull: false) String? programId}) {
+      {@absentIfNull String? mint, @absentIfNull String? programId}) {
     return _MintOrProgramId(
       mint: mint,
       programId: programId,
@@ -1328,9 +1400,9 @@ const $MintOrProgramId = _$MintOrProgramIdTearOff();
 
 /// @nodoc
 mixin _$MintOrProgramId {
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   String? get mint => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   String? get programId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1344,9 +1416,7 @@ abstract class $MintOrProgramIdCopyWith<$Res> {
   factory $MintOrProgramIdCopyWith(
           MintOrProgramId value, $Res Function(MintOrProgramId) then) =
       _$MintOrProgramIdCopyWithImpl<$Res>;
-  $Res call(
-      {@JsonKey(includeIfNull: false) String? mint,
-      @JsonKey(includeIfNull: false) String? programId});
+  $Res call({@absentIfNull String? mint, @absentIfNull String? programId});
 }
 
 /// @nodoc
@@ -1383,9 +1453,7 @@ abstract class _$MintOrProgramIdCopyWith<$Res>
           _MintOrProgramId value, $Res Function(_MintOrProgramId) then) =
       __$MintOrProgramIdCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {@JsonKey(includeIfNull: false) String? mint,
-      @JsonKey(includeIfNull: false) String? programId});
+  $Res call({@absentIfNull String? mint, @absentIfNull String? programId});
 }
 
 /// @nodoc
@@ -1421,17 +1489,16 @@ class __$MintOrProgramIdCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_MintOrProgramId implements _MintOrProgramId {
   const _$_MintOrProgramId(
-      {@JsonKey(includeIfNull: false) this.mint,
-      @JsonKey(includeIfNull: false) this.programId});
+      {@absentIfNull this.mint, @absentIfNull this.programId});
 
   factory _$_MintOrProgramId.fromJson(Map<String, dynamic> json) =>
       _$$_MintOrProgramIdFromJson(json);
 
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   final String? mint;
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   final String? programId;
 
   @override
@@ -1469,17 +1536,17 @@ class _$_MintOrProgramId implements _MintOrProgramId {
 
 abstract class _MintOrProgramId implements MintOrProgramId {
   const factory _MintOrProgramId(
-      {@JsonKey(includeIfNull: false) String? mint,
-      @JsonKey(includeIfNull: false) String? programId}) = _$_MintOrProgramId;
+      {@absentIfNull String? mint,
+      @absentIfNull String? programId}) = _$_MintOrProgramId;
 
   factory _MintOrProgramId.fromJson(Map<String, dynamic> json) =
       _$_MintOrProgramId.fromJson;
 
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   String? get mint => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   String? get programId => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -1496,7 +1563,8 @@ class _$GetSupplyOptionsTearOff {
   const _$GetSupplyOptionsTearOff();
 
   _GetSupplyOptions call(
-      {Commitment? commitment, bool? excludeNonCirculatingAccountsList}) {
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull bool? excludeNonCirculatingAccountsList}) {
     return _GetSupplyOptions(
       commitment: commitment,
       excludeNonCirculatingAccountsList: excludeNonCirculatingAccountsList,
@@ -1513,7 +1581,9 @@ const $GetSupplyOptions = _$GetSupplyOptionsTearOff();
 
 /// @nodoc
 mixin _$GetSupplyOptions {
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
   bool? get excludeNonCirculatingAccountsList =>
       throw _privateConstructorUsedError;
 
@@ -1528,7 +1598,9 @@ abstract class $GetSupplyOptionsCopyWith<$Res> {
   factory $GetSupplyOptionsCopyWith(
           GetSupplyOptions value, $Res Function(GetSupplyOptions) then) =
       _$GetSupplyOptionsCopyWithImpl<$Res>;
-  $Res call({Commitment? commitment, bool? excludeNonCirculatingAccountsList});
+  $Res call(
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull bool? excludeNonCirculatingAccountsList});
 }
 
 /// @nodoc
@@ -1566,7 +1638,9 @@ abstract class _$GetSupplyOptionsCopyWith<$Res>
           _GetSupplyOptions value, $Res Function(_GetSupplyOptions) then) =
       __$GetSupplyOptionsCopyWithImpl<$Res>;
   @override
-  $Res call({Commitment? commitment, bool? excludeNonCirculatingAccountsList});
+  $Res call(
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull bool? excludeNonCirculatingAccountsList});
 }
 
 /// @nodoc
@@ -1603,14 +1677,17 @@ class __$GetSupplyOptionsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GetSupplyOptions implements _GetSupplyOptions {
   const _$_GetSupplyOptions(
-      {this.commitment, this.excludeNonCirculatingAccountsList});
+      {@absentIfNull this.commitment,
+      @absentIfNull this.excludeNonCirculatingAccountsList});
 
   factory _$_GetSupplyOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetSupplyOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final Commitment? commitment;
   @override
+  @absentIfNull
   final bool? excludeNonCirculatingAccountsList;
 
   @override
@@ -1651,15 +1728,18 @@ class _$_GetSupplyOptions implements _GetSupplyOptions {
 
 abstract class _GetSupplyOptions implements GetSupplyOptions {
   const factory _GetSupplyOptions(
-      {Commitment? commitment,
-      bool? excludeNonCirculatingAccountsList}) = _$_GetSupplyOptions;
+          {@absentIfNull Commitment? commitment,
+          @absentIfNull bool? excludeNonCirculatingAccountsList}) =
+      _$_GetSupplyOptions;
 
   factory _GetSupplyOptions.fromJson(Map<String, dynamic> json) =
       _$_GetSupplyOptions.fromJson;
 
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   bool? get excludeNonCirculatingAccountsList =>
       throw _privateConstructorUsedError;
   @override
@@ -1677,7 +1757,8 @@ GetStakeActivationOptions _$GetStakeActivationOptionsFromJson(
 class _$GetStakeActivationOptionsTearOff {
   const _$GetStakeActivationOptionsTearOff();
 
-  _GetStakeActivationOptions call({Commitment? commitment, int? epoch}) {
+  _GetStakeActivationOptions call(
+      {@absentIfNull Commitment? commitment, @absentIfNull int? epoch}) {
     return _GetStakeActivationOptions(
       commitment: commitment,
       epoch: epoch,
@@ -1694,7 +1775,9 @@ const $GetStakeActivationOptions = _$GetStakeActivationOptionsTearOff();
 
 /// @nodoc
 mixin _$GetStakeActivationOptions {
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
   int? get epoch => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1708,7 +1791,7 @@ abstract class $GetStakeActivationOptionsCopyWith<$Res> {
   factory $GetStakeActivationOptionsCopyWith(GetStakeActivationOptions value,
           $Res Function(GetStakeActivationOptions) then) =
       _$GetStakeActivationOptionsCopyWithImpl<$Res>;
-  $Res call({Commitment? commitment, int? epoch});
+  $Res call({@absentIfNull Commitment? commitment, @absentIfNull int? epoch});
 }
 
 /// @nodoc
@@ -1745,7 +1828,7 @@ abstract class _$GetStakeActivationOptionsCopyWith<$Res>
           $Res Function(_GetStakeActivationOptions) then) =
       __$GetStakeActivationOptionsCopyWithImpl<$Res>;
   @override
-  $Res call({Commitment? commitment, int? epoch});
+  $Res call({@absentIfNull Commitment? commitment, @absentIfNull int? epoch});
 }
 
 /// @nodoc
@@ -1781,14 +1864,17 @@ class __$GetStakeActivationOptionsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GetStakeActivationOptions implements _GetStakeActivationOptions {
-  const _$_GetStakeActivationOptions({this.commitment, this.epoch});
+  const _$_GetStakeActivationOptions(
+      {@absentIfNull this.commitment, @absentIfNull this.epoch});
 
   factory _$_GetStakeActivationOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetStakeActivationOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final Commitment? commitment;
   @override
+  @absentIfNull
   final int? epoch;
 
   @override
@@ -1828,14 +1914,17 @@ class _$_GetStakeActivationOptions implements _GetStakeActivationOptions {
 
 abstract class _GetStakeActivationOptions implements GetStakeActivationOptions {
   const factory _GetStakeActivationOptions(
-      {Commitment? commitment, int? epoch}) = _$_GetStakeActivationOptions;
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull int? epoch}) = _$_GetStakeActivationOptions;
 
   factory _GetStakeActivationOptions.fromJson(Map<String, dynamic> json) =
       _$_GetStakeActivationOptions.fromJson;
 
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   int? get epoch => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -1852,7 +1941,8 @@ GetSignatureStatusesOptions _$GetSignatureStatusesOptionsFromJson(
 class _$GetSignatureStatusesOptionsTearOff {
   const _$GetSignatureStatusesOptionsTearOff();
 
-  _GetSignatureStatusesOptions call({bool? searchTransactionHistory}) {
+  _GetSignatureStatusesOptions call(
+      {@absentIfNull bool? searchTransactionHistory}) {
     return _GetSignatureStatusesOptions(
       searchTransactionHistory: searchTransactionHistory,
     );
@@ -1868,6 +1958,7 @@ const $GetSignatureStatusesOptions = _$GetSignatureStatusesOptionsTearOff();
 
 /// @nodoc
 mixin _$GetSignatureStatusesOptions {
+  @absentIfNull
   bool? get searchTransactionHistory => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1882,7 +1973,7 @@ abstract class $GetSignatureStatusesOptionsCopyWith<$Res> {
           GetSignatureStatusesOptions value,
           $Res Function(GetSignatureStatusesOptions) then) =
       _$GetSignatureStatusesOptionsCopyWithImpl<$Res>;
-  $Res call({bool? searchTransactionHistory});
+  $Res call({@absentIfNull bool? searchTransactionHistory});
 }
 
 /// @nodoc
@@ -1915,7 +2006,7 @@ abstract class _$GetSignatureStatusesOptionsCopyWith<$Res>
           $Res Function(_GetSignatureStatusesOptions) then) =
       __$GetSignatureStatusesOptionsCopyWithImpl<$Res>;
   @override
-  $Res call({bool? searchTransactionHistory});
+  $Res call({@absentIfNull bool? searchTransactionHistory});
 }
 
 /// @nodoc
@@ -1947,12 +2038,14 @@ class __$GetSignatureStatusesOptionsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GetSignatureStatusesOptions implements _GetSignatureStatusesOptions {
-  const _$_GetSignatureStatusesOptions({this.searchTransactionHistory});
+  const _$_GetSignatureStatusesOptions(
+      {@absentIfNull this.searchTransactionHistory});
 
   factory _$_GetSignatureStatusesOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetSignatureStatusesOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final bool? searchTransactionHistory;
 
   @override
@@ -1989,13 +2082,15 @@ class _$_GetSignatureStatusesOptions implements _GetSignatureStatusesOptions {
 
 abstract class _GetSignatureStatusesOptions
     implements GetSignatureStatusesOptions {
-  const factory _GetSignatureStatusesOptions({bool? searchTransactionHistory}) =
+  const factory _GetSignatureStatusesOptions(
+          {@absentIfNull bool? searchTransactionHistory}) =
       _$_GetSignatureStatusesOptions;
 
   factory _GetSignatureStatusesOptions.fromJson(Map<String, dynamic> json) =
       _$_GetSignatureStatusesOptions.fromJson;
 
   @override
+  @absentIfNull
   bool? get searchTransactionHistory => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -2013,7 +2108,10 @@ class _$GetSignaturesForAddressOptionsTearOff {
   const _$GetSignaturesForAddressOptionsTearOff();
 
   _GetSignaturesForAddressOptions call(
-      {int? limit, String? before, String? until, Commitment? commitment}) {
+      {@absentIfNull int? limit,
+      @absentIfNull String? before,
+      @absentIfNull String? until,
+      @absentIfNull Commitment? commitment}) {
     return _GetSignaturesForAddressOptions(
       limit: limit,
       before: before,
@@ -2033,9 +2131,13 @@ const $GetSignaturesForAddressOptions =
 
 /// @nodoc
 mixin _$GetSignaturesForAddressOptions {
+  @absentIfNull
   int? get limit => throw _privateConstructorUsedError;
+  @absentIfNull
   String? get before => throw _privateConstructorUsedError;
+  @absentIfNull
   String? get until => throw _privateConstructorUsedError;
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2051,7 +2153,10 @@ abstract class $GetSignaturesForAddressOptionsCopyWith<$Res> {
           $Res Function(GetSignaturesForAddressOptions) then) =
       _$GetSignaturesForAddressOptionsCopyWithImpl<$Res>;
   $Res call(
-      {int? limit, String? before, String? until, Commitment? commitment});
+      {@absentIfNull int? limit,
+      @absentIfNull String? before,
+      @absentIfNull String? until,
+      @absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -2100,7 +2205,10 @@ abstract class _$GetSignaturesForAddressOptionsCopyWith<$Res>
       __$GetSignaturesForAddressOptionsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int? limit, String? before, String? until, Commitment? commitment});
+      {@absentIfNull int? limit,
+      @absentIfNull String? before,
+      @absentIfNull String? until,
+      @absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -2149,19 +2257,26 @@ class __$GetSignaturesForAddressOptionsCopyWithImpl<$Res>
 class _$_GetSignaturesForAddressOptions
     implements _GetSignaturesForAddressOptions {
   const _$_GetSignaturesForAddressOptions(
-      {this.limit, this.before, this.until, this.commitment});
+      {@absentIfNull this.limit,
+      @absentIfNull this.before,
+      @absentIfNull this.until,
+      @absentIfNull this.commitment});
 
   factory _$_GetSignaturesForAddressOptions.fromJson(
           Map<String, dynamic> json) =>
       _$$_GetSignaturesForAddressOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final int? limit;
   @override
+  @absentIfNull
   final String? before;
   @override
+  @absentIfNull
   final String? until;
   @override
+  @absentIfNull
   final Commitment? commitment;
 
   @override
@@ -2207,21 +2322,26 @@ class _$_GetSignaturesForAddressOptions
 abstract class _GetSignaturesForAddressOptions
     implements GetSignaturesForAddressOptions {
   const factory _GetSignaturesForAddressOptions(
-      {int? limit,
-      String? before,
-      String? until,
-      Commitment? commitment}) = _$_GetSignaturesForAddressOptions;
+          {@absentIfNull int? limit,
+          @absentIfNull String? before,
+          @absentIfNull String? until,
+          @absentIfNull Commitment? commitment}) =
+      _$_GetSignaturesForAddressOptions;
 
   factory _GetSignaturesForAddressOptions.fromJson(Map<String, dynamic> json) =
       _$_GetSignaturesForAddressOptions.fromJson;
 
   @override
+  @absentIfNull
   int? get limit => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   String? get before => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   String? get until => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -2239,11 +2359,11 @@ class _$GetProgramAccountsOptionsTearOff {
   const _$GetProgramAccountsOptionsTearOff();
 
   _GetProgramAccountsOptions call(
-      {Commitment? commitment,
-      Encoding? encoding,
-      DataSlice? dataSlice,
-      List<Filter>? filter,
-      bool? withContext}) {
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull DataSlice? dataSlice,
+      @absentIfNull List<Filter>? filter,
+      @absentIfNull bool? withContext}) {
     return _GetProgramAccountsOptions(
       commitment: commitment,
       encoding: encoding,
@@ -2263,10 +2383,15 @@ const $GetProgramAccountsOptions = _$GetProgramAccountsOptionsTearOff();
 
 /// @nodoc
 mixin _$GetProgramAccountsOptions {
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
+  @absentIfNull
   DataSlice? get dataSlice => throw _privateConstructorUsedError;
+  @absentIfNull
   List<Filter>? get filter => throw _privateConstructorUsedError;
+  @absentIfNull
   bool? get withContext => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2281,11 +2406,11 @@ abstract class $GetProgramAccountsOptionsCopyWith<$Res> {
           $Res Function(GetProgramAccountsOptions) then) =
       _$GetProgramAccountsOptionsCopyWithImpl<$Res>;
   $Res call(
-      {Commitment? commitment,
-      Encoding? encoding,
-      DataSlice? dataSlice,
-      List<Filter>? filter,
-      bool? withContext});
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull DataSlice? dataSlice,
+      @absentIfNull List<Filter>? filter,
+      @absentIfNull bool? withContext});
 
   $DataSliceCopyWith<$Res>? get dataSlice;
 }
@@ -2351,11 +2476,11 @@ abstract class _$GetProgramAccountsOptionsCopyWith<$Res>
       __$GetProgramAccountsOptionsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Commitment? commitment,
-      Encoding? encoding,
-      DataSlice? dataSlice,
-      List<Filter>? filter,
-      bool? withContext});
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull DataSlice? dataSlice,
+      @absentIfNull List<Filter>? filter,
+      @absentIfNull bool? withContext});
 
   @override
   $DataSliceCopyWith<$Res>? get dataSlice;
@@ -2410,24 +2535,29 @@ class __$GetProgramAccountsOptionsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GetProgramAccountsOptions implements _GetProgramAccountsOptions {
   const _$_GetProgramAccountsOptions(
-      {this.commitment,
-      this.encoding,
-      this.dataSlice,
-      this.filter,
-      this.withContext});
+      {@absentIfNull this.commitment,
+      @absentIfNull this.encoding,
+      @absentIfNull this.dataSlice,
+      @absentIfNull this.filter,
+      @absentIfNull this.withContext});
 
   factory _$_GetProgramAccountsOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetProgramAccountsOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final Commitment? commitment;
   @override
+  @absentIfNull
   final Encoding? encoding;
   @override
+  @absentIfNull
   final DataSlice? dataSlice;
   @override
+  @absentIfNull
   final List<Filter>? filter;
   @override
+  @absentIfNull
   final bool? withContext;
 
   @override
@@ -2479,24 +2609,29 @@ class _$_GetProgramAccountsOptions implements _GetProgramAccountsOptions {
 
 abstract class _GetProgramAccountsOptions implements GetProgramAccountsOptions {
   const factory _GetProgramAccountsOptions(
-      {Commitment? commitment,
-      Encoding? encoding,
-      DataSlice? dataSlice,
-      List<Filter>? filter,
-      bool? withContext}) = _$_GetProgramAccountsOptions;
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull DataSlice? dataSlice,
+      @absentIfNull List<Filter>? filter,
+      @absentIfNull bool? withContext}) = _$_GetProgramAccountsOptions;
 
   factory _GetProgramAccountsOptions.fromJson(Map<String, dynamic> json) =
       _$_GetProgramAccountsOptions.fromJson;
 
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   DataSlice? get dataSlice => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   List<Filter>? get filter => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   bool? get withContext => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -2513,7 +2648,8 @@ GetLeaderScheduleOptions _$GetLeaderScheduleOptionsFromJson(
 class _$GetLeaderScheduleOptionsTearOff {
   const _$GetLeaderScheduleOptionsTearOff();
 
-  _GetLeaderScheduleOptions call({Commitment? commitment, String? identity}) {
+  _GetLeaderScheduleOptions call(
+      {@absentIfNull Commitment? commitment, @absentIfNull String? identity}) {
     return _GetLeaderScheduleOptions(
       commitment: commitment,
       identity: identity,
@@ -2530,7 +2666,9 @@ const $GetLeaderScheduleOptions = _$GetLeaderScheduleOptionsTearOff();
 
 /// @nodoc
 mixin _$GetLeaderScheduleOptions {
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
   String? get identity => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2544,7 +2682,8 @@ abstract class $GetLeaderScheduleOptionsCopyWith<$Res> {
   factory $GetLeaderScheduleOptionsCopyWith(GetLeaderScheduleOptions value,
           $Res Function(GetLeaderScheduleOptions) then) =
       _$GetLeaderScheduleOptionsCopyWithImpl<$Res>;
-  $Res call({Commitment? commitment, String? identity});
+  $Res call(
+      {@absentIfNull Commitment? commitment, @absentIfNull String? identity});
 }
 
 /// @nodoc
@@ -2581,7 +2720,8 @@ abstract class _$GetLeaderScheduleOptionsCopyWith<$Res>
           $Res Function(_GetLeaderScheduleOptions) then) =
       __$GetLeaderScheduleOptionsCopyWithImpl<$Res>;
   @override
-  $Res call({Commitment? commitment, String? identity});
+  $Res call(
+      {@absentIfNull Commitment? commitment, @absentIfNull String? identity});
 }
 
 /// @nodoc
@@ -2617,14 +2757,17 @@ class __$GetLeaderScheduleOptionsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GetLeaderScheduleOptions implements _GetLeaderScheduleOptions {
-  const _$_GetLeaderScheduleOptions({this.commitment, this.identity});
+  const _$_GetLeaderScheduleOptions(
+      {@absentIfNull this.commitment, @absentIfNull this.identity});
 
   factory _$_GetLeaderScheduleOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetLeaderScheduleOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final Commitment? commitment;
   @override
+  @absentIfNull
   final String? identity;
 
   @override
@@ -2664,14 +2807,17 @@ class _$_GetLeaderScheduleOptions implements _GetLeaderScheduleOptions {
 
 abstract class _GetLeaderScheduleOptions implements GetLeaderScheduleOptions {
   const factory _GetLeaderScheduleOptions(
-      {Commitment? commitment, String? identity}) = _$_GetLeaderScheduleOptions;
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull String? identity}) = _$_GetLeaderScheduleOptions;
 
   factory _GetLeaderScheduleOptions.fromJson(Map<String, dynamic> json) =
       _$_GetLeaderScheduleOptions.fromJson;
 
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   String? get identity => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -2689,7 +2835,8 @@ class _$GetLargestAccountsOptionsTearOff {
   const _$GetLargestAccountsOptionsTearOff();
 
   _GetLargestAccountsOptions call(
-      {Commitment? commitment, CirculationStatus? filter}) {
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull CirculationStatus? filter}) {
     return _GetLargestAccountsOptions(
       commitment: commitment,
       filter: filter,
@@ -2706,7 +2853,9 @@ const $GetLargestAccountsOptions = _$GetLargestAccountsOptionsTearOff();
 
 /// @nodoc
 mixin _$GetLargestAccountsOptions {
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
   CirculationStatus? get filter => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2720,7 +2869,9 @@ abstract class $GetLargestAccountsOptionsCopyWith<$Res> {
   factory $GetLargestAccountsOptionsCopyWith(GetLargestAccountsOptions value,
           $Res Function(GetLargestAccountsOptions) then) =
       _$GetLargestAccountsOptionsCopyWithImpl<$Res>;
-  $Res call({Commitment? commitment, CirculationStatus? filter});
+  $Res call(
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull CirculationStatus? filter});
 }
 
 /// @nodoc
@@ -2757,7 +2908,9 @@ abstract class _$GetLargestAccountsOptionsCopyWith<$Res>
           $Res Function(_GetLargestAccountsOptions) then) =
       __$GetLargestAccountsOptionsCopyWithImpl<$Res>;
   @override
-  $Res call({Commitment? commitment, CirculationStatus? filter});
+  $Res call(
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull CirculationStatus? filter});
 }
 
 /// @nodoc
@@ -2793,14 +2946,17 @@ class __$GetLargestAccountsOptionsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GetLargestAccountsOptions implements _GetLargestAccountsOptions {
-  const _$_GetLargestAccountsOptions({this.commitment, this.filter});
+  const _$_GetLargestAccountsOptions(
+      {@absentIfNull this.commitment, @absentIfNull this.filter});
 
   factory _$_GetLargestAccountsOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetLargestAccountsOptionsFromJson(json);
 
   @override
+  @absentIfNull
   final Commitment? commitment;
   @override
+  @absentIfNull
   final CirculationStatus? filter;
 
   @override
@@ -2840,19 +2996,254 @@ class _$_GetLargestAccountsOptions implements _GetLargestAccountsOptions {
 
 abstract class _GetLargestAccountsOptions implements GetLargestAccountsOptions {
   const factory _GetLargestAccountsOptions(
-      {Commitment? commitment,
-      CirculationStatus? filter}) = _$_GetLargestAccountsOptions;
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull CirculationStatus? filter}) = _$_GetLargestAccountsOptions;
 
   factory _GetLargestAccountsOptions.fromJson(Map<String, dynamic> json) =
       _$_GetLargestAccountsOptions.fromJson;
 
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   CirculationStatus? get filter => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$GetLargestAccountsOptionsCopyWith<_GetLargestAccountsOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetConfirmedSignaturesForAddress2Options
+    _$GetConfirmedSignaturesForAddress2OptionsFromJson(
+        Map<String, dynamic> json) {
+  return _GetConfirmedSignaturesForAddress2Options.fromJson(json);
+}
+
+/// @nodoc
+class _$GetConfirmedSignaturesForAddress2OptionsTearOff {
+  const _$GetConfirmedSignaturesForAddress2OptionsTearOff();
+
+  _GetConfirmedSignaturesForAddress2Options call(
+      {int? limit, String? before, String? until, Commitment? commitment}) {
+    return _GetConfirmedSignaturesForAddress2Options(
+      limit: limit,
+      before: before,
+      until: until,
+      commitment: commitment,
+    );
+  }
+
+  GetConfirmedSignaturesForAddress2Options fromJson(Map<String, Object> json) {
+    return GetConfirmedSignaturesForAddress2Options.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $GetConfirmedSignaturesForAddress2Options =
+    _$GetConfirmedSignaturesForAddress2OptionsTearOff();
+
+/// @nodoc
+mixin _$GetConfirmedSignaturesForAddress2Options {
+  int? get limit => throw _privateConstructorUsedError;
+  String? get before => throw _privateConstructorUsedError;
+  String? get until => throw _privateConstructorUsedError;
+  Commitment? get commitment => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetConfirmedSignaturesForAddress2OptionsCopyWith<
+          GetConfirmedSignaturesForAddress2Options>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetConfirmedSignaturesForAddress2OptionsCopyWith<$Res> {
+  factory $GetConfirmedSignaturesForAddress2OptionsCopyWith(
+          GetConfirmedSignaturesForAddress2Options value,
+          $Res Function(GetConfirmedSignaturesForAddress2Options) then) =
+      _$GetConfirmedSignaturesForAddress2OptionsCopyWithImpl<$Res>;
+  $Res call(
+      {int? limit, String? before, String? until, Commitment? commitment});
+}
+
+/// @nodoc
+class _$GetConfirmedSignaturesForAddress2OptionsCopyWithImpl<$Res>
+    implements $GetConfirmedSignaturesForAddress2OptionsCopyWith<$Res> {
+  _$GetConfirmedSignaturesForAddress2OptionsCopyWithImpl(
+      this._value, this._then);
+
+  final GetConfirmedSignaturesForAddress2Options _value;
+  // ignore: unused_field
+  final $Res Function(GetConfirmedSignaturesForAddress2Options) _then;
+
+  @override
+  $Res call({
+    Object? limit = freezed,
+    Object? before = freezed,
+    Object? until = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_value.copyWith(
+      limit: limit == freezed
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int?,
+      before: before == freezed
+          ? _value.before
+          : before // ignore: cast_nullable_to_non_nullable
+              as String?,
+      until: until == freezed
+          ? _value.until
+          : until // ignore: cast_nullable_to_non_nullable
+              as String?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$GetConfirmedSignaturesForAddress2OptionsCopyWith<$Res>
+    implements $GetConfirmedSignaturesForAddress2OptionsCopyWith<$Res> {
+  factory _$GetConfirmedSignaturesForAddress2OptionsCopyWith(
+          _GetConfirmedSignaturesForAddress2Options value,
+          $Res Function(_GetConfirmedSignaturesForAddress2Options) then) =
+      __$GetConfirmedSignaturesForAddress2OptionsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {int? limit, String? before, String? until, Commitment? commitment});
+}
+
+/// @nodoc
+class __$GetConfirmedSignaturesForAddress2OptionsCopyWithImpl<$Res>
+    extends _$GetConfirmedSignaturesForAddress2OptionsCopyWithImpl<$Res>
+    implements _$GetConfirmedSignaturesForAddress2OptionsCopyWith<$Res> {
+  __$GetConfirmedSignaturesForAddress2OptionsCopyWithImpl(
+      _GetConfirmedSignaturesForAddress2Options _value,
+      $Res Function(_GetConfirmedSignaturesForAddress2Options) _then)
+      : super(_value,
+            (v) => _then(v as _GetConfirmedSignaturesForAddress2Options));
+
+  @override
+  _GetConfirmedSignaturesForAddress2Options get _value =>
+      super._value as _GetConfirmedSignaturesForAddress2Options;
+
+  @override
+  $Res call({
+    Object? limit = freezed,
+    Object? before = freezed,
+    Object? until = freezed,
+    Object? commitment = freezed,
+  }) {
+    return _then(_GetConfirmedSignaturesForAddress2Options(
+      limit: limit == freezed
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int?,
+      before: before == freezed
+          ? _value.before
+          : before // ignore: cast_nullable_to_non_nullable
+              as String?,
+      until: until == freezed
+          ? _value.until
+          : until // ignore: cast_nullable_to_non_nullable
+              as String?,
+      commitment: commitment == freezed
+          ? _value.commitment
+          : commitment // ignore: cast_nullable_to_non_nullable
+              as Commitment?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_GetConfirmedSignaturesForAddress2Options
+    implements _GetConfirmedSignaturesForAddress2Options {
+  const _$_GetConfirmedSignaturesForAddress2Options(
+      {this.limit, this.before, this.until, this.commitment});
+
+  factory _$_GetConfirmedSignaturesForAddress2Options.fromJson(
+          Map<String, dynamic> json) =>
+      _$$_GetConfirmedSignaturesForAddress2OptionsFromJson(json);
+
+  @override
+  final int? limit;
+  @override
+  final String? before;
+  @override
+  final String? until;
+  @override
+  final Commitment? commitment;
+
+  @override
+  String toString() {
+    return 'GetConfirmedSignaturesForAddress2Options(limit: $limit, before: $before, until: $until, commitment: $commitment)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _GetConfirmedSignaturesForAddress2Options &&
+            (identical(other.limit, limit) ||
+                const DeepCollectionEquality().equals(other.limit, limit)) &&
+            (identical(other.before, before) ||
+                const DeepCollectionEquality().equals(other.before, before)) &&
+            (identical(other.until, until) ||
+                const DeepCollectionEquality().equals(other.until, until)) &&
+            (identical(other.commitment, commitment) ||
+                const DeepCollectionEquality()
+                    .equals(other.commitment, commitment)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(limit) ^
+      const DeepCollectionEquality().hash(before) ^
+      const DeepCollectionEquality().hash(until) ^
+      const DeepCollectionEquality().hash(commitment);
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetConfirmedSignaturesForAddress2OptionsCopyWith<
+          _GetConfirmedSignaturesForAddress2Options>
+      get copyWith => __$GetConfirmedSignaturesForAddress2OptionsCopyWithImpl<
+          _GetConfirmedSignaturesForAddress2Options>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GetConfirmedSignaturesForAddress2OptionsToJson(this);
+  }
+}
+
+abstract class _GetConfirmedSignaturesForAddress2Options
+    implements GetConfirmedSignaturesForAddress2Options {
+  const factory _GetConfirmedSignaturesForAddress2Options(
+      {int? limit,
+      String? before,
+      String? until,
+      Commitment? commitment}) = _$_GetConfirmedSignaturesForAddress2Options;
+
+  factory _GetConfirmedSignaturesForAddress2Options.fromJson(
+          Map<String, dynamic> json) =
+      _$_GetConfirmedSignaturesForAddress2Options.fromJson;
+
+  @override
+  int? get limit => throw _privateConstructorUsedError;
+  @override
+  String? get before => throw _privateConstructorUsedError;
+  @override
+  String? get until => throw _privateConstructorUsedError;
+  @override
+  Commitment? get commitment => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$GetConfirmedSignaturesForAddress2OptionsCopyWith<
+          _GetConfirmedSignaturesForAddress2Options>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -2866,9 +3257,9 @@ class _$GetBlockProductionOptionsTearOff {
   const _$GetBlockProductionOptionsTearOff();
 
   _GetBlockProductionOptions call(
-      {Commitment? commitment = Commitment.finalized,
-      @JsonKey(includeIfNull: false) Range? range,
-      @JsonKey(includeIfNull: false) String? identity}) {
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Range? range,
+      @absentIfNull String? identity}) {
     return _GetBlockProductionOptions(
       commitment: commitment,
       range: range,
@@ -2886,10 +3277,11 @@ const $GetBlockProductionOptions = _$GetBlockProductionOptionsTearOff();
 
 /// @nodoc
 mixin _$GetBlockProductionOptions {
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   Range? get range => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   String? get identity => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2904,9 +3296,9 @@ abstract class $GetBlockProductionOptionsCopyWith<$Res> {
           $Res Function(GetBlockProductionOptions) then) =
       _$GetBlockProductionOptionsCopyWithImpl<$Res>;
   $Res call(
-      {Commitment? commitment,
-      @JsonKey(includeIfNull: false) Range? range,
-      @JsonKey(includeIfNull: false) String? identity});
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Range? range,
+      @absentIfNull String? identity});
 
   $RangeCopyWith<$Res>? get range;
 }
@@ -2962,9 +3354,9 @@ abstract class _$GetBlockProductionOptionsCopyWith<$Res>
       __$GetBlockProductionOptionsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Commitment? commitment,
-      @JsonKey(includeIfNull: false) Range? range,
-      @JsonKey(includeIfNull: false) String? identity});
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Range? range,
+      @absentIfNull String? identity});
 
   @override
   $RangeCopyWith<$Res>? get range;
@@ -3009,21 +3401,21 @@ class __$GetBlockProductionOptionsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GetBlockProductionOptions implements _GetBlockProductionOptions {
   const _$_GetBlockProductionOptions(
-      {this.commitment = Commitment.finalized,
-      @JsonKey(includeIfNull: false) this.range,
-      @JsonKey(includeIfNull: false) this.identity});
+      {@absentIfNull this.commitment,
+      @absentIfNull this.range,
+      @absentIfNull this.identity});
 
   factory _$_GetBlockProductionOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetBlockProductionOptionsFromJson(json);
 
-  @JsonKey(defaultValue: Commitment.finalized)
   @override
+  @absentIfNull
   final Commitment? commitment;
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   final Range? range;
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   final String? identity;
 
   @override
@@ -3067,21 +3459,21 @@ class _$_GetBlockProductionOptions implements _GetBlockProductionOptions {
 
 abstract class _GetBlockProductionOptions implements GetBlockProductionOptions {
   const factory _GetBlockProductionOptions(
-          {Commitment? commitment,
-          @JsonKey(includeIfNull: false) Range? range,
-          @JsonKey(includeIfNull: false) String? identity}) =
-      _$_GetBlockProductionOptions;
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Range? range,
+      @absentIfNull String? identity}) = _$_GetBlockProductionOptions;
 
   factory _GetBlockProductionOptions.fromJson(Map<String, dynamic> json) =
       _$_GetBlockProductionOptions.fromJson;
 
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   Range? get range => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   String? get identity => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -3098,10 +3490,10 @@ class _$GetBlockOptionsTearOff {
   const _$GetBlockOptionsTearOff();
 
   _GetBlockOptions call(
-      {Encoding? encoding = Encoding.jsonParsed,
-      TransactionDetailLevel? transactionDetails = TransactionDetailLevel.full,
-      bool? rewards = true,
-      Commitment? commitment = Commitment.finalized}) {
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull TransactionDetailLevel? transactionDetails,
+      @absentIfNull bool? rewards,
+      @absentIfNull Commitment? commitment}) {
     return _GetBlockOptions(
       encoding: encoding,
       transactionDetails: transactionDetails,
@@ -3120,10 +3512,14 @@ const $GetBlockOptions = _$GetBlockOptionsTearOff();
 
 /// @nodoc
 mixin _$GetBlockOptions {
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
+  @absentIfNull
   TransactionDetailLevel? get transactionDetails =>
       throw _privateConstructorUsedError;
+  @absentIfNull
   bool? get rewards => throw _privateConstructorUsedError;
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -3138,10 +3534,10 @@ abstract class $GetBlockOptionsCopyWith<$Res> {
           GetBlockOptions value, $Res Function(GetBlockOptions) then) =
       _$GetBlockOptionsCopyWithImpl<$Res>;
   $Res call(
-      {Encoding? encoding,
-      TransactionDetailLevel? transactionDetails,
-      bool? rewards,
-      Commitment? commitment});
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull TransactionDetailLevel? transactionDetails,
+      @absentIfNull bool? rewards,
+      @absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -3189,10 +3585,10 @@ abstract class _$GetBlockOptionsCopyWith<$Res>
       __$GetBlockOptionsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Encoding? encoding,
-      TransactionDetailLevel? transactionDetails,
-      bool? rewards,
-      Commitment? commitment});
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull TransactionDetailLevel? transactionDetails,
+      @absentIfNull bool? rewards,
+      @absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -3238,25 +3634,25 @@ class __$GetBlockOptionsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GetBlockOptions implements _GetBlockOptions {
   const _$_GetBlockOptions(
-      {this.encoding = Encoding.jsonParsed,
-      this.transactionDetails = TransactionDetailLevel.full,
-      this.rewards = true,
-      this.commitment = Commitment.finalized});
+      {@absentIfNull this.encoding,
+      @absentIfNull this.transactionDetails,
+      @absentIfNull this.rewards,
+      @absentIfNull this.commitment});
 
   factory _$_GetBlockOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetBlockOptionsFromJson(json);
 
-  @JsonKey(defaultValue: Encoding.jsonParsed)
   @override
+  @absentIfNull
   final Encoding? encoding;
-  @JsonKey(defaultValue: TransactionDetailLevel.full)
   @override
+  @absentIfNull
   final TransactionDetailLevel? transactionDetails;
-  @JsonKey(defaultValue: true)
   @override
+  @absentIfNull
   final bool? rewards;
-  @JsonKey(defaultValue: Commitment.finalized)
   @override
+  @absentIfNull
   final Commitment? commitment;
 
   @override
@@ -3303,22 +3699,26 @@ class _$_GetBlockOptions implements _GetBlockOptions {
 
 abstract class _GetBlockOptions implements GetBlockOptions {
   const factory _GetBlockOptions(
-      {Encoding? encoding,
-      TransactionDetailLevel? transactionDetails,
-      bool? rewards,
-      Commitment? commitment}) = _$_GetBlockOptions;
+      {@absentIfNull Encoding? encoding,
+      @absentIfNull TransactionDetailLevel? transactionDetails,
+      @absentIfNull bool? rewards,
+      @absentIfNull Commitment? commitment}) = _$_GetBlockOptions;
 
   factory _GetBlockOptions.fromJson(Map<String, dynamic> json) =
       _$_GetBlockOptions.fromJson;
 
   @override
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   TransactionDetailLevel? get transactionDetails =>
       throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   bool? get rewards => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -3326,18 +3726,19 @@ abstract class _GetBlockOptions implements GetBlockOptions {
       throw _privateConstructorUsedError;
 }
 
-GetAccountOptions _$GetAccountOptionsFromJson(Map<String, dynamic> json) {
+GetAccountInfoOptions _$GetAccountInfoOptionsFromJson(
+    Map<String, dynamic> json) {
   return _GetAccountOptions.fromJson(json);
 }
 
 /// @nodoc
-class _$GetAccountOptionsTearOff {
-  const _$GetAccountOptionsTearOff();
+class _$GetAccountInfoOptionsTearOff {
+  const _$GetAccountInfoOptionsTearOff();
 
   _GetAccountOptions call(
-      {Commitment? commitment = Commitment.finalized,
-      Encoding? encoding = Encoding.jsonParsed,
-      @JsonKey(includeIfNull: false) DataSlice? dataSlice}) {
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull DataSlice? dataSlice}) {
     return _GetAccountOptions(
       commitment: commitment,
       encoding: encoding,
@@ -3345,48 +3746,50 @@ class _$GetAccountOptionsTearOff {
     );
   }
 
-  GetAccountOptions fromJson(Map<String, Object> json) {
-    return GetAccountOptions.fromJson(json);
+  GetAccountInfoOptions fromJson(Map<String, Object> json) {
+    return GetAccountInfoOptions.fromJson(json);
   }
 }
 
 /// @nodoc
-const $GetAccountOptions = _$GetAccountOptionsTearOff();
+const $GetAccountInfoOptions = _$GetAccountInfoOptionsTearOff();
 
 /// @nodoc
-mixin _$GetAccountOptions {
+mixin _$GetAccountInfoOptions {
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   DataSlice? get dataSlice => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $GetAccountOptionsCopyWith<GetAccountOptions> get copyWith =>
+  $GetAccountInfoOptionsCopyWith<GetAccountInfoOptions> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GetAccountOptionsCopyWith<$Res> {
-  factory $GetAccountOptionsCopyWith(
-          GetAccountOptions value, $Res Function(GetAccountOptions) then) =
-      _$GetAccountOptionsCopyWithImpl<$Res>;
+abstract class $GetAccountInfoOptionsCopyWith<$Res> {
+  factory $GetAccountInfoOptionsCopyWith(GetAccountInfoOptions value,
+          $Res Function(GetAccountInfoOptions) then) =
+      _$GetAccountInfoOptionsCopyWithImpl<$Res>;
   $Res call(
-      {Commitment? commitment,
-      Encoding? encoding,
-      @JsonKey(includeIfNull: false) DataSlice? dataSlice});
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull DataSlice? dataSlice});
 
   $DataSliceCopyWith<$Res>? get dataSlice;
 }
 
 /// @nodoc
-class _$GetAccountOptionsCopyWithImpl<$Res>
-    implements $GetAccountOptionsCopyWith<$Res> {
-  _$GetAccountOptionsCopyWithImpl(this._value, this._then);
+class _$GetAccountInfoOptionsCopyWithImpl<$Res>
+    implements $GetAccountInfoOptionsCopyWith<$Res> {
+  _$GetAccountInfoOptionsCopyWithImpl(this._value, this._then);
 
-  final GetAccountOptions _value;
+  final GetAccountInfoOptions _value;
   // ignore: unused_field
-  final $Res Function(GetAccountOptions) _then;
+  final $Res Function(GetAccountInfoOptions) _then;
 
   @override
   $Res call({
@@ -3424,15 +3827,15 @@ class _$GetAccountOptionsCopyWithImpl<$Res>
 
 /// @nodoc
 abstract class _$GetAccountOptionsCopyWith<$Res>
-    implements $GetAccountOptionsCopyWith<$Res> {
+    implements $GetAccountInfoOptionsCopyWith<$Res> {
   factory _$GetAccountOptionsCopyWith(
           _GetAccountOptions value, $Res Function(_GetAccountOptions) then) =
       __$GetAccountOptionsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Commitment? commitment,
-      Encoding? encoding,
-      @JsonKey(includeIfNull: false) DataSlice? dataSlice});
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull DataSlice? dataSlice});
 
   @override
   $DataSliceCopyWith<$Res>? get dataSlice;
@@ -3440,7 +3843,7 @@ abstract class _$GetAccountOptionsCopyWith<$Res>
 
 /// @nodoc
 class __$GetAccountOptionsCopyWithImpl<$Res>
-    extends _$GetAccountOptionsCopyWithImpl<$Res>
+    extends _$GetAccountInfoOptionsCopyWithImpl<$Res>
     implements _$GetAccountOptionsCopyWith<$Res> {
   __$GetAccountOptionsCopyWithImpl(
       _GetAccountOptions _value, $Res Function(_GetAccountOptions) _then)
@@ -3476,26 +3879,26 @@ class __$GetAccountOptionsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GetAccountOptions implements _GetAccountOptions {
   const _$_GetAccountOptions(
-      {this.commitment = Commitment.finalized,
-      this.encoding = Encoding.jsonParsed,
-      @JsonKey(includeIfNull: false) this.dataSlice});
+      {@absentIfNull this.commitment,
+      @absentIfNull this.encoding,
+      @absentIfNull this.dataSlice});
 
   factory _$_GetAccountOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetAccountOptionsFromJson(json);
 
-  @JsonKey(defaultValue: Commitment.finalized)
   @override
+  @absentIfNull
   final Commitment? commitment;
-  @JsonKey(defaultValue: Encoding.jsonParsed)
   @override
+  @absentIfNull
   final Encoding? encoding;
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   final DataSlice? dataSlice;
 
   @override
   String toString() {
-    return 'GetAccountOptions(commitment: $commitment, encoding: $encoding, dataSlice: $dataSlice)';
+    return 'GetAccountInfoOptions(commitment: $commitment, encoding: $encoding, dataSlice: $dataSlice)';
   }
 
   @override
@@ -3531,22 +3934,23 @@ class _$_GetAccountOptions implements _GetAccountOptions {
   }
 }
 
-abstract class _GetAccountOptions implements GetAccountOptions {
+abstract class _GetAccountOptions implements GetAccountInfoOptions {
   const factory _GetAccountOptions(
-          {Commitment? commitment,
-          Encoding? encoding,
-          @JsonKey(includeIfNull: false) DataSlice? dataSlice}) =
-      _$_GetAccountOptions;
+      {@absentIfNull Commitment? commitment,
+      @absentIfNull Encoding? encoding,
+      @absentIfNull DataSlice? dataSlice}) = _$_GetAccountOptions;
 
   factory _GetAccountOptions.fromJson(Map<String, dynamic> json) =
       _$_GetAccountOptions.fromJson;
 
   @override
+  @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   Encoding? get encoding => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false)
+  @absentIfNull
   DataSlice? get dataSlice => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -3562,7 +3966,7 @@ DataSlice _$DataSliceFromJson(Map<String, dynamic> json) {
 class _$DataSliceTearOff {
   const _$DataSliceTearOff();
 
-  _DataSlice call({int? offset, int? length}) {
+  _DataSlice call({@absentIfNull int? offset, @absentIfNull int? length}) {
     return _DataSlice(
       offset: offset,
       length: length,
@@ -3579,7 +3983,9 @@ const $DataSlice = _$DataSliceTearOff();
 
 /// @nodoc
 mixin _$DataSlice {
+  @absentIfNull
   int? get offset => throw _privateConstructorUsedError;
+  @absentIfNull
   int? get length => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -3592,7 +3998,7 @@ mixin _$DataSlice {
 abstract class $DataSliceCopyWith<$Res> {
   factory $DataSliceCopyWith(DataSlice value, $Res Function(DataSlice) then) =
       _$DataSliceCopyWithImpl<$Res>;
-  $Res call({int? offset, int? length});
+  $Res call({@absentIfNull int? offset, @absentIfNull int? length});
 }
 
 /// @nodoc
@@ -3627,7 +4033,7 @@ abstract class _$DataSliceCopyWith<$Res> implements $DataSliceCopyWith<$Res> {
           _DataSlice value, $Res Function(_DataSlice) then) =
       __$DataSliceCopyWithImpl<$Res>;
   @override
-  $Res call({int? offset, int? length});
+  $Res call({@absentIfNull int? offset, @absentIfNull int? length});
 }
 
 /// @nodoc
@@ -3660,14 +4066,16 @@ class __$DataSliceCopyWithImpl<$Res> extends _$DataSliceCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_DataSlice implements _DataSlice {
-  const _$_DataSlice({this.offset, this.length});
+  const _$_DataSlice({@absentIfNull this.offset, @absentIfNull this.length});
 
   factory _$_DataSlice.fromJson(Map<String, dynamic> json) =>
       _$$_DataSliceFromJson(json);
 
   @override
+  @absentIfNull
   final int? offset;
   @override
+  @absentIfNull
   final int? length;
 
   @override
@@ -3703,14 +4111,17 @@ class _$_DataSlice implements _DataSlice {
 }
 
 abstract class _DataSlice implements DataSlice {
-  const factory _DataSlice({int? offset, int? length}) = _$_DataSlice;
+  const factory _DataSlice(
+      {@absentIfNull int? offset, @absentIfNull int? length}) = _$_DataSlice;
 
   factory _DataSlice.fromJson(Map<String, dynamic> json) =
       _$_DataSlice.fromJson;
 
   @override
+  @absentIfNull
   int? get offset => throw _privateConstructorUsedError;
   @override
+  @absentIfNull
   int? get length => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -3726,7 +4137,7 @@ CommitmentObject _$CommitmentObjectFromJson(Map<String, dynamic> json) {
 class _$CommitmentObjectTearOff {
   const _$CommitmentObjectTearOff();
 
-  _CommitmentObject call({Commitment commitment = Commitment.finalized}) {
+  _CommitmentObject call({@absentIfNull Commitment? commitment}) {
     return _CommitmentObject(
       commitment: commitment,
     );
@@ -3742,7 +4153,8 @@ const $CommitmentObject = _$CommitmentObjectTearOff();
 
 /// @nodoc
 mixin _$CommitmentObject {
-  Commitment get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
+  Commitment? get commitment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3755,7 +4167,7 @@ abstract class $CommitmentObjectCopyWith<$Res> {
   factory $CommitmentObjectCopyWith(
           CommitmentObject value, $Res Function(CommitmentObject) then) =
       _$CommitmentObjectCopyWithImpl<$Res>;
-  $Res call({Commitment commitment});
+  $Res call({@absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -3775,7 +4187,7 @@ class _$CommitmentObjectCopyWithImpl<$Res>
       commitment: commitment == freezed
           ? _value.commitment
           : commitment // ignore: cast_nullable_to_non_nullable
-              as Commitment,
+              as Commitment?,
     ));
   }
 }
@@ -3787,7 +4199,7 @@ abstract class _$CommitmentObjectCopyWith<$Res>
           _CommitmentObject value, $Res Function(_CommitmentObject) then) =
       __$CommitmentObjectCopyWithImpl<$Res>;
   @override
-  $Res call({Commitment commitment});
+  $Res call({@absentIfNull Commitment? commitment});
 }
 
 /// @nodoc
@@ -3809,7 +4221,7 @@ class __$CommitmentObjectCopyWithImpl<$Res>
       commitment: commitment == freezed
           ? _value.commitment
           : commitment // ignore: cast_nullable_to_non_nullable
-              as Commitment,
+              as Commitment?,
     ));
   }
 }
@@ -3817,14 +4229,14 @@ class __$CommitmentObjectCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_CommitmentObject implements _CommitmentObject {
-  const _$_CommitmentObject({this.commitment = Commitment.finalized});
+  const _$_CommitmentObject({@absentIfNull this.commitment});
 
   factory _$_CommitmentObject.fromJson(Map<String, dynamic> json) =>
       _$$_CommitmentObjectFromJson(json);
 
-  @JsonKey(defaultValue: Commitment.finalized)
   @override
-  final Commitment commitment;
+  @absentIfNull
+  final Commitment? commitment;
 
   @override
   String toString() {
@@ -3856,14 +4268,15 @@ class _$_CommitmentObject implements _CommitmentObject {
 }
 
 abstract class _CommitmentObject implements CommitmentObject {
-  const factory _CommitmentObject({Commitment commitment}) =
+  const factory _CommitmentObject({@absentIfNull Commitment? commitment}) =
       _$_CommitmentObject;
 
   factory _CommitmentObject.fromJson(Map<String, dynamic> json) =
       _$_CommitmentObject.fromJson;
 
   @override
-  Commitment get commitment => throw _privateConstructorUsedError;
+  @absentIfNull
+  Commitment? get commitment => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$CommitmentObjectCopyWith<_CommitmentObject> get copyWith =>

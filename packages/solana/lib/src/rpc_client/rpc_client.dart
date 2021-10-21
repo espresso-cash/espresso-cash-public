@@ -4,7 +4,6 @@ import 'package:solana/src/dto/response.dart';
 import 'package:solana/src/dto/rpc_response.dart';
 import 'package:solana/src/json_rpc_client/json_rpc_client.dart';
 import 'package:solana/src/rpc_client/rpc_types.dart';
-import 'package:solana/src/rpc_client/rpc_types_extension.dart';
 
 /// Solana rpc api client
 class RPCClient {
@@ -14,17 +13,17 @@ class RPCClient {
   final JsonRpcClient _client;
 
   /// Returns all information associated with the account of
-  /// provided [pubKey]
+  /// provided [pubKey].
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   Future<Account?> getAccountInfo({
     required String pubKey,
-    GetAccountOptions options = const GetAccountOptions(),
+    GetAccountInfoOptions? options,
   }) async {
     final data = await _client.request(
       'getAccountInfo',
-      params: <dynamic>[
-        pubKey,
-        options,
-      ],
+      params: <dynamic>[pubKey, options],
     );
 
     final response = Response<RpcResponse<Account?>>.fromJson(
@@ -45,17 +44,18 @@ class RPCClient {
     return rpcResponse.value;
   }
 
-  /// Returns the balance of the account of provided Pubkey
+  /// Returns the balance of the account of provided [pubKey] optionally
+  /// providing the [commitment] parameter.
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<int> getBalance({
     required String pubKey,
-    CommitmentObject commitment = const CommitmentObject(),
+    CommitmentObject? commitment,
   }) async {
     final data = await _client.request(
       'getBalance',
-      params: <dynamic>[
-        pubKey,
-        commitment,
-      ],
+      params: <dynamic>[pubKey, commitment],
     );
 
     final response = Response<RpcResponse<int>>.fromJson(
@@ -71,17 +71,17 @@ class RPCClient {
   }
 
   /// Returns identity and transaction information about a
-  /// confirmed block in the ledger
+  /// confirmed block in the ledger at [slot]
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   Future<Block?> getBlock({
     required int slot,
-    GetBlockOptions options = const GetBlockOptions(),
+    GetBlockOptions? options,
   }) async {
     final data = await _client.request(
       'getBlock',
-      params: <dynamic>[
-        slot,
-        options,
-      ],
+      params: <dynamic>[slot, options],
     );
 
     final response = Response<Block?>.fromJson(
@@ -99,14 +99,13 @@ class RPCClient {
   }
 
   /// Returns the current block height of the node
-  Future<int> getBlockHeight({
-    CommitmentObject commitment = const CommitmentObject(),
-  }) async {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  Future<int> getBlockHeight({CommitmentObject? commitment}) async {
     final data = await _client.request(
       'getBlockHeight',
-      params: <dynamic>[
-        commitment,
-      ],
+      params: <dynamic>[commitment],
     );
 
     final response = Response<int>.fromJson(
@@ -119,14 +118,15 @@ class RPCClient {
 
   /// Returns recent block production information from the
   /// current or previous epoch.
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   Future<BlockProduction> getBlockProduction({
-    GetBlockProductionOptions options = const GetBlockProductionOptions(),
+    GetBlockProductionOptions? options,
   }) async {
     final data = await _client.request(
       'getBlockProduction',
-      params: <dynamic>[
-        options,
-      ],
+      params: <dynamic>[options],
     );
 
     final response = Response<RpcResponse<BlockProduction>>.fromJson(
@@ -142,15 +142,11 @@ class RPCClient {
     return rpcResponse.value;
   }
 
-  /// Returns commitment for particular block
-  Future<BlockCommitment?> getBlockCommitment({
-    required int block,
-  }) async {
+  /// Returns commitment for particular [block]
+  Future<BlockCommitment?> getBlockCommitment({required int block}) async {
     final data = await _client.request(
       'getBlockCommitment',
-      params: <dynamic>[
-        block,
-      ],
+      params: <dynamic>[block],
     );
 
     final response = Response<BlockCommitment?>.fromJson(
@@ -167,18 +163,24 @@ class RPCClient {
     return response.result;
   }
 
-  /// Returns a list of confirmed blocks between two slots
+  /// Returns a list of confirmed blocks between two slots [startSlot] and
+  /// [endSlot]. If [endSlot] is not provided then last block in the result is
+  /// the latest confirmed block unless, there are more than 500,000 blocks
+  /// after [startSlot].
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<List<int>> getBlocks({
     required int startSlot,
     int? endSlot,
-    Commitment commitment = Commitment.finalized,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getBlocks',
       params: <dynamic>[
         startSlot,
         if (endSlot != null) endSlot,
-        commitment.value,
+        if (commitment != null) commitment.value,
       ],
     );
 
@@ -191,18 +193,21 @@ class RPCClient {
   }
 
   /// Returns a list of confirmed blocks starting at the given
-  /// slot
+  /// slot [startSlot] for up to [limit] blocks, inclusive.
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<List<int>> getBlocksWithLimit({
     required int startSlot,
     required int limit,
-    Commitment commitment = Commitment.finalized,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getBlocksWithLimit',
       params: <dynamic>[
         startSlot,
         limit,
-        commitment.value,
+        if (commitment != null) commitment.value,
       ],
     );
 
@@ -214,15 +219,11 @@ class RPCClient {
     return response.result;
   }
 
-  /// Returns the estimated production time of a block.
-  Future<int?> getBlockTime({
-    required int block,
-  }) async {
+  /// Returns the estimated production time of a [block].
+  Future<int?> getBlockTime({required int block}) async {
     final data = await _client.request(
       'getBlockTime',
-      params: <dynamic>[
-        block,
-      ],
+      params: <dynamic>[block],
     );
 
     final response = Response<int?>.fromJson(
@@ -258,15 +259,13 @@ class RPCClient {
   }
 
   /// Returns information about the current epoch
-  Future<EpochInfo> getEpochInfo({
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
-  }) async {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  Future<EpochInfo> getEpochInfo({CommitmentObject? commitment}) async {
     final data = await _client.request(
       'getEpochInfo',
-      params: <dynamic>[
-        commitment,
-      ],
+      params: <dynamic>[commitment],
     );
 
     final response = Response<EpochInfo>.fromJson(
@@ -293,18 +292,17 @@ class RPCClient {
   }
 
   /// Returns the fee calculator associated with the query
-  /// blockhash, or null if the blockhash has expired
+  /// [blockhash], or null if the blockhash has expired
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<FeeCalculator?> getFeeCalculatorForBlockhash({
     required String blockhash,
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
+    CommitmentObject? commitment,
   }) async {
     final data = await _client.request(
       'getFeeCalculatorForBlockhash',
-      params: <dynamic>[
-        blockhash,
-        commitment,
-      ],
+      params: <dynamic>[blockhash, commitment],
     );
 
     final response = Response<FeeCalculator?>.fromJson(
@@ -339,15 +337,13 @@ class RPCClient {
   /// that can be used to compute the cost of submitting a
   /// a transaction using it, and the last slot in which the
   /// blockhash will be valid.
-  Future<Fees> getFees({
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
-  }) async {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  Future<Fees> getFees({CommitmentObject? commitment}) async {
     final data = await _client.request(
       'getFees',
-      params: <dynamic>[
-        commitment,
-      ],
+      params: <dynamic>[commitment],
     );
 
     final response = Response<RpcResponse<Fees>>.fromJson(
@@ -426,15 +422,15 @@ class RPCClient {
   }
 
   /// Returns the current inflation governor
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<InflationGovernor> getInflationGovernor({
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
+    CommitmentObject? commitment,
   }) async {
     final data = await _client.request(
       'getInflationGovernor',
-      params: <dynamic>[
-        commitment,
-      ],
+      params: <dynamic>[commitment],
     );
 
     final response = Response<InflationGovernor>.fromJson(
@@ -460,16 +456,14 @@ class RPCClient {
     return response.result;
   }
 
-  /// Returns the inflation reward for a list of addresses for an
+  /// Returns the inflation reward for a list of [addresses] for an
   /// epoch
   Future<List<InflationReward>> getInflationReward({
     required List<String> addresses,
   }) async {
     final data = await _client.request(
       'getInflationReward',
-      params: <dynamic>[
-        addresses,
-      ],
+      params: <dynamic>[addresses],
     );
 
     final response = Response<List<InflationReward>>.fromJson(
@@ -485,14 +479,15 @@ class RPCClient {
 
   /// Returns the 20 largest accounts, by lamport balance
   /// (results may be cached up to two hours)
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   Future<List<LargeAccount>> getLargestAccounts({
     GetLargestAccountsOptions? options,
   }) async {
     final data = await _client.request(
       'getLargestAccounts',
-      params: <dynamic>[
-        options,
-      ],
+      params: <dynamic>[options],
     );
 
     final response = Response<RpcResponse<List<LargeAccount>>>.fromJson(
@@ -517,10 +512,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getLeaderSchedule',
-      params: <dynamic>[
-        slot,
-        options,
-      ],
+      params: <dynamic>[slot, options],
     );
 
     final response = Response<LeaderSchedule?>.fromJson(
@@ -538,14 +530,10 @@ class RPCClient {
   }
 
   /// Get the max slot seen from retransmit stage.
-  Future<int> getMaxRetransmitSlot({
-    required int slot,
-  }) async {
+  Future<int> getMaxRetransmitSlot({required int slot}) async {
     final data = await _client.request(
       'getMaxRetransmitSlot',
-      params: <dynamic>[
-        slot,
-      ],
+      params: <dynamic>[slot],
     );
 
     final response = Response<int>.fromJson(
@@ -572,17 +560,16 @@ class RPCClient {
 
   /// Returns minimum balance required to make account rent
   /// exempt.
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<int> getMinimumBalanceForRentExemption({
     required int accountDataLength,
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
+    CommitmentObject? commitment,
   }) async {
     final data = await _client.request(
       'getMinimumBalanceForRentExemption',
-      params: <dynamic>[
-        accountDataLength,
-        commitment,
-      ],
+      params: <dynamic>[accountDataLength, commitment],
     );
 
     final response = Response<int>.fromJson(
@@ -596,14 +583,11 @@ class RPCClient {
   /// Returns the account information for a list of Public keys
   Future<List<Account>> getMultipleAccounts({
     required List<String> pubKeys,
-    GetAccountOptions? options,
+    GetAccountInfoOptions? options,
   }) async {
     final data = await _client.request(
       'getMultipleAccounts',
-      params: <dynamic>[
-        pubKeys,
-        options,
-      ],
+      params: <dynamic>[pubKeys, options],
     );
 
     final response = Response<RpcResponse<List<Account>>>.fromJson(
@@ -622,18 +606,16 @@ class RPCClient {
   }
 
   /// Returns all accounts owned by the provided program Pubkey
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   Future<List<ProgramAccount>> getProgramAccounts({
     required String pubKey,
-    GetProgramAccountsOptions options = const GetProgramAccountsOptions(
-      encoding: Encoding.jsonParsed,
-    ),
+    GetProgramAccountsOptions? options,
   }) async {
     final data = await _client.request(
       'getProgramAccounts',
-      params: <dynamic>[
-        pubKey,
-        options,
-      ],
+      params: <dynamic>[pubKey, options],
     );
 
     final response = Response<List<ProgramAccount>>.fromJson(
@@ -650,15 +632,15 @@ class RPCClient {
   /// Returns a recent block hash from the ledger, and a fee
   /// schedule that can be used to compute the cost of
   /// f submitting a transaction using it.
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<RecentBlockhash> getRecentBlockhash({
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
+    CommitmentObject? commitment,
   }) async {
     final data = await _client.request(
       'getRecentBlockhash',
-      params: <dynamic>[
-        commitment,
-      ],
+      params: <dynamic>[commitment],
     );
 
     final response = Response<RpcResponse<RecentBlockhash>>.fromJson(
@@ -683,9 +665,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getRecentPerformanceSamples',
-      params: <dynamic>[
-        limit,
-      ],
+      params: <dynamic>[limit],
     );
 
     final response = Response<List<PerfSample>>.fromJson(
@@ -722,10 +702,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getSignaturesForAddress',
-      params: <dynamic>[
-        pubKey,
-        options,
-      ],
+      params: <dynamic>[pubKey, options],
     );
 
     final response = Response<List<TransactionSignatureInformation>>.fromJson(
@@ -750,10 +727,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getSignatureStatuses',
-      params: <dynamic>[
-        signatures,
-        options,
-      ],
+      params: <dynamic>[signatures, options],
     );
 
     final response = Response<RpcResponse<List<SignatureStatus?>>>.fromJson(
@@ -776,15 +750,13 @@ class RPCClient {
 
   /// Returns the slot that has reached the given or default
   /// commitment level
-  Future<int> getSlot({
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
-  }) async {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  Future<int> getSlot({CommitmentObject? commitment}) async {
     final data = await _client.request(
       'getSlot',
-      params: <dynamic>[
-        commitment,
-      ],
+      params: <dynamic>[commitment],
     );
 
     final response = Response<int>.fromJson(
@@ -796,15 +768,13 @@ class RPCClient {
   }
 
   /// Returns the current slot leader
-  Future<String> getSlotLeader({
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
-  }) async {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  Future<String> getSlotLeader({CommitmentObject? commitment}) async {
     final data = await _client.request(
       'getSlotLeader',
-      params: <dynamic>[
-        commitment,
-      ],
+      params: <dynamic>[commitment],
     );
 
     final response = Response<String>.fromJson(
@@ -822,10 +792,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getSlotLeaders',
-      params: <dynamic>[
-        startSlot,
-        limit,
-      ],
+      params: <dynamic>[startSlot, limit],
     );
 
     final response = Response<List<String>>.fromJson(
@@ -845,10 +812,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getStakeActivation',
-      params: <dynamic>[
-        pubKey,
-        options,
-      ],
+      params: <dynamic>[pubKey, options],
     );
 
     final response = Response<StakeActivation>.fromJson(
@@ -865,9 +829,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getSupply',
-      params: <dynamic>[
-        options,
-      ],
+      params: <dynamic>[options],
     );
 
     final response = Response<Supply>.fromJson(
@@ -879,17 +841,16 @@ class RPCClient {
   }
 
   /// Returns the token balance of an SPL Token account.
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<TokenAmount> getTokenAccountBalance({
     required String pubKey,
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
+    CommitmentObject? commitment,
   }) async {
     final data = await _client.request(
       'getTokenAccountBalance',
-      params: <dynamic>[
-        pubKey,
-        commitment,
-      ],
+      params: <dynamic>[pubKey, commitment],
     );
 
     final response = Response<RpcResponse<TokenAmount>>.fromJson(
@@ -905,20 +866,17 @@ class RPCClient {
   }
 
   /// Returns all SPL Token accounts by approved Delegate.
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   Future<List<ProgramAccount>> getTokenAccountsByDelegate({
     required String pubKey,
     required MintOrProgramId mintOrProgramId,
-    GetAccountOptions options = const GetAccountOptions(
-      encoding: Encoding.jsonParsed,
-    ),
+    GetAccountInfoOptions? options,
   }) async {
     final data = await _client.request(
       'getTokenAccountsByDelegate',
-      params: <dynamic>[
-        pubKey,
-        mintOrProgramId,
-        options,
-      ],
+      params: <dynamic>[pubKey, mintOrProgramId, options],
     );
 
     final response = Response<RpcResponse<List<ProgramAccount>>>.fromJson(
@@ -937,20 +895,17 @@ class RPCClient {
   }
 
   /// Returns all SPL Token accounts by token owner.
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   Future<List<ProgramAccount>> getTokenAccountsByOwner({
     required String pubKey,
     required MintOrProgramId mintOrProgramId,
-    GetAccountOptions options = const GetAccountOptions(
-      encoding: Encoding.jsonParsed,
-    ),
+    GetAccountInfoOptions? options,
   }) async {
     final data = await _client.request(
       'getTokenAccountsByOwner',
-      params: <dynamic>[
-        pubKey,
-        mintOrProgramId,
-        options,
-      ],
+      params: <dynamic>[pubKey, mintOrProgramId, options],
     );
 
     final response = Response<RpcResponse<List<ProgramAccount>>>.fromJson(
@@ -969,18 +924,17 @@ class RPCClient {
   }
 
   /// Returns the 20 largest accounts of a particular SPL Token
-  /// type.
+  /// type with mint [mint].
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<List<ProgramAccount>> getTokenLargestAccounts({
-    required String pubKey,
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
+    required String mint,
+    CommitmentObject? commitment,
   }) async {
     final data = await _client.request(
       'getTokenLargestAccounts',
-      params: <dynamic>[
-        pubKey,
-        commitment,
-      ],
+      params: <dynamic>[mint, commitment],
     );
 
     final response = Response<RpcResponse<List<ProgramAccount>>>.fromJson(
@@ -999,17 +953,16 @@ class RPCClient {
   }
 
   /// Returns the total supply of an SPL Token type.
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<TokenAmount> getTokenSupply({
     required String mint,
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
+    CommitmentObject? commitment,
   }) async {
     final data = await _client.request(
       'getTokenSupply',
-      params: <dynamic>[
-        mint,
-        commitment,
-      ],
+      params: <dynamic>[mint, commitment],
     );
 
     final response = Response<RpcResponse<TokenAmount>>.fromJson(
@@ -1031,10 +984,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getTransaction',
-      params: <dynamic>[
-        signature,
-        options,
-      ],
+      params: <dynamic>[signature, options],
     );
 
     final response = Response<TransactionDetails?>.fromJson(
@@ -1052,15 +1002,13 @@ class RPCClient {
   }
 
   /// Returns the current Transaction count from the ledger
-  Future<int> getTransactionCount({
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
-  }) async {
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  Future<int> getTransactionCount({CommitmentObject? commitment}) async {
     final data = await _client.request(
       'getTransactionCount',
-      params: <dynamic>[
-        commitment,
-      ],
+      params: <dynamic>[commitment],
     );
 
     final response = Response<int>.fromJson(
@@ -1092,9 +1040,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getVoteAccounts',
-      params: <dynamic>[
-        options,
-      ],
+      params: <dynamic>[options],
     );
 
     final response = Response<VoteAccounts>.fromJson(
@@ -1122,19 +1068,17 @@ class RPCClient {
   }
 
   /// Requests an airdrop of lamports to a Pubkey
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   Future<String> requestAirdrop({
     required String pubKey,
     required int lamports,
-    CommitmentObject commitment =
-        const CommitmentObject(commitment: Commitment.finalized),
+    CommitmentObject? commitment,
   }) async {
     final data = await _client.request(
       'requestAirdrop',
-      params: <dynamic>[
-        pubKey,
-        lamports,
-        commitment,
-      ],
+      params: <dynamic>[pubKey, lamports, commitment],
     );
 
     final response = Response<String>.fromJson(
@@ -1179,20 +1123,16 @@ class RPCClient {
   /// transaction, which is used to identify the transaction
   /// (transaction id). This identifier can be easily extracted
   /// from the transaction data before submission.
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   Future<String> sendTransaction({
     required String transaction,
-    SendTransactionOptions options = const SendTransactionOptions(
-      skipPreflight: false,
-      commitment: Commitment.finalized,
-      encoding: Encoding.base64,
-    ),
+    SendTransactionOptions? options,
   }) async {
     final data = await _client.request(
       'sendTransaction',
-      params: <dynamic>[
-        transaction,
-        options,
-      ],
+      params: <dynamic>[transaction, options],
     );
 
     final response = Response<String>.fromJson(
@@ -1204,25 +1144,16 @@ class RPCClient {
   }
 
   /// Simulate sending a transaction
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   Future<TransactionStatus> simulateTransaction({
     required String transaction,
-    SimulateTransactionOptions options = const SimulateTransactionOptions(
-      encoding: Encoding.base64,
-      commitment: Commitment.finalized,
-      sigVerify: false,
-      replaceRecentBlockhash: false,
-      accounts: SimulateTransactionAccounts(
-        addresses: [],
-        accountEncoding: Encoding.jsonParsed,
-      ),
-    ),
+    SimulateTransactionOptions? options,
   }) async {
     final data = await _client.request(
       'simulateTransaction',
-      params: <dynamic>[
-        transaction,
-        options,
-      ],
+      params: <dynamic>[transaction, options],
     );
 
     final response = Response<RpcResponse<TransactionStatus>>.fromJson(
@@ -1247,10 +1178,7 @@ class RPCClient {
   }) async {
     final data = await _client.request(
       'getConfirmedBlock',
-      params: <dynamic>[
-        slot,
-        options,
-      ],
+      params: <dynamic>[slot, options],
     );
 
     final response = Response<Block>.fromJson(
@@ -1262,18 +1190,21 @@ class RPCClient {
   }
 
   /// Returns a list of confirmed blocks between two slots
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   @deprecated
   Future<List<int>> getConfirmedBlocks({
     required int startSlot,
     int? endSlot,
-    Commitment commitment = Commitment.finalized,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getConfirmedBlocks',
       params: <dynamic>[
         startSlot,
         endSlot,
-        commitment.value,
+        if (commitment != null) commitment.value,
       ],
     );
 
@@ -1287,18 +1218,21 @@ class RPCClient {
 
   /// Returns a list of confirmed blocks starting at the given
   /// slot
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   @deprecated
   Future<List<int>> getConfirmedBlocksWithLimit({
     required int startSlot,
     required int limit,
-    Commitment commitment = Commitment.finalized,
+    Commitment? commitment,
   }) async {
     final data = await _client.request(
       'getConfirmedBlocksWithLimit',
       params: <dynamic>[
         startSlot,
         limit,
-        commitment.value,
+        if (commitment != null) commitment.value,
       ],
     );
 
@@ -1313,26 +1247,18 @@ class RPCClient {
   /// Returns confirmed signatures for transactions involving an
   /// address backwards in time from the provided signature or
   /// most recent confirmed block
+  ///
+  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
+  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   @deprecated
   Future<List<TransactionSignatureInformation>>
       getConfirmedSignaturesForAddress2({
     required String pubKey,
-    int? limit,
-    String? before,
-    String? until,
-    Commitment commitment = Commitment.finalized,
+    GetConfirmedSignaturesForAddress2Options? options,
   }) async {
     final data = await _client.request(
       'getConfirmedSignaturesForAddress2',
-      params: <dynamic>[
-        pubKey,
-        <String, dynamic>{
-          'limit': limit,
-          'before': before,
-          'until': until,
-          'commitment': commitment.value,
-        },
-      ],
+      params: <dynamic>[pubKey, options],
     );
 
     final response = Response<List<TransactionSignatureInformation>>.fromJson(
@@ -1347,21 +1273,20 @@ class RPCClient {
   }
 
   /// Returns transaction details for a confirmed transaction
+  ///
+  /// Optionally you can pass an [options] parameter to configure
+  /// the result and query
   @deprecated
   Future<TransactionDetails?> getConfirmedTransaction({
     required String signature,
-    GetConfirmedTransactionOptions options =
-        const GetConfirmedTransactionOptions(),
+    GetConfirmedTransactionOptions? options,
   }) async {
     final data = await _client.request(
       'getConfirmedTransaction',
-      params: <dynamic>[
-        signature,
-        options,
-      ],
+      params: <dynamic>[signature, options],
     );
 
-    if (options.encoding == Encoding.jsonParsed) {
+    if (options?.encoding == Encoding.jsonParsed) {
       final response = Response<TransactionDetails?>.fromJson(
         data,
         (Object? data) {
