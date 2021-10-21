@@ -21,8 +21,9 @@ extension Convenience on RPCClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<String> signAndSendTransaction(
     Message message,
-    List<Ed25519HDKeyPair> signers,
-  ) async {
+    List<Ed25519HDKeyPair> signers, {
+    Commitment? commitment,
+  }) async {
     final recentBlockhash = await getRecentBlockhash();
     final signedTx = await signTransaction(recentBlockhash, message, signers);
 
@@ -96,12 +97,15 @@ extension Convenience on RPCClient {
     // ignore: deprecated_member_use_from_same_package
     final signatures = await getConfirmedSignaturesForAddress2(
       pubKey: address,
-      limit: limit,
-      commitment: commitment,
+      options: GetConfirmedSignaturesForAddress2Options(
+        limit: limit,
+        commitment: commitment,
+      ),
     );
 
     final transactions = await Future.wait(
       signatures.map(
+        // ignore: deprecated_member_use_from_same_package
         (s) => getConfirmedTransaction(
           signature: s.signature,
           commitment: commitment,

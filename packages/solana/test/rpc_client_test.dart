@@ -87,7 +87,10 @@ void main() {
         recentBlockhash: recentBlockhash.blockhash,
       );
       final TransactionStatus transferResult =
-          await rpcClient.simulateTransaction(transaction: signedTx.encode());
+          await rpcClient.simulateTransaction(
+        transaction: signedTx.encode(),
+        options: const SimulateTransactionOptions(encoding: Encoding.base64),
+      );
       expect(transferResult.err, null);
     });
 
@@ -102,8 +105,10 @@ void main() {
         message: message,
         recentBlockhash: recentBlockhash.blockhash,
       );
-      final String signature =
-          await rpcClient.sendTransaction(transaction: signedTx.encode());
+      final String signature = await rpcClient.sendTransaction(
+        transaction: signedTx.encode(),
+        options: const SendTransactionOptions(encoding: Encoding.base64),
+      );
       expect(signature, signedTx.signatures.first.toBase58());
       await expectLater(
         rpcClient.waitForSignatureStatus(
@@ -129,8 +134,10 @@ void main() {
         message: message,
         recentBlockhash: recentBlockhash.blockhash,
       );
-      final String signature =
-          await rpcClient.sendTransaction(transaction: signedTx.encode());
+      final String signature = await rpcClient.sendTransaction(
+        transaction: signedTx.encode(),
+        options: const SendTransactionOptions(encoding: Encoding.base64),
+      );
       expect(signature, isNot(null));
 
       await expectLater(
@@ -224,6 +231,9 @@ void main() {
         pubKey: accountKeyPair.address,
         mintOrProgramId: const MintOrProgramId(
           programId: TokenProgram.programId,
+        ),
+        options: const GetAccountInfoOptions(
+          encoding: Encoding.jsonParsed,
         ),
       );
 

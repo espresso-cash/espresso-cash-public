@@ -63,8 +63,12 @@ void main() {
     );
     expect(signature, isNotNull);
 
+    // ignore: deprecated_member_use_from_same_package
     final result = await rpcClient.getConfirmedTransaction(
       signature: signature.toString(),
+      options: const GetConfirmedTransactionOptions(
+        encoding: Encoding.jsonParsed,
+      ),
     );
     expect(result, isNotNull);
     expect(result, isA<TransactionDetailsParsed>());
@@ -94,8 +98,10 @@ void main() {
       signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
-    expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
-        completion(equals(false)));
+    expect(
+      await wallet.hasAssociatedTokenAccount(mint: token.mint),
+      equals(false),
+    );
 
     final signature = await wallet.requestAirdrop(
       lamports: lamportsPerSol,
@@ -105,8 +111,11 @@ void main() {
     expect(await wallet.getLamports(), equals(lamportsPerSol));
 
     await wallet.createAssociatedTokenAccount(mint: token.mint);
-    expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
-        completion(equals(true)));
+
+    expect(
+      await wallet.hasAssociatedTokenAccount(mint: token.mint),
+      equals(true),
+    );
 
     final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
     expect(tokenBalance.decimals, equals(token.decimals));
@@ -169,8 +178,12 @@ void main() {
     );
     expect(signature, isNotNull);
 
+    // ignore: deprecated_member_use_from_same_package
     final result = await rpcClient.getConfirmedTransaction(
       signature: signature.toString(),
+      options: const GetConfirmedTransactionOptions(
+        encoding: Encoding.jsonParsed,
+      ),
     );
     expect(result, isA<TransactionDetailsParsed>());
     expect(result, isNotNull);

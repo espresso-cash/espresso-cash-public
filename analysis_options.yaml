@@ -1,1 +1,10 @@
 include: package:mews_pedantic/analysis_options.yaml
+
+analyzer:
+  errors:
+    invalid_annotation_target: ignore
+
+linter:
+  rules:
+      - package_api_docs
+      - comment_references

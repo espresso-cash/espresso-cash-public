@@ -65,6 +65,9 @@ class SplToken {
       mintOrProgramId: MintOrProgramId(
         mint: mint,
       ),
+      options: const GetAccountInfoOptions(
+        encoding: Encoding.jsonParsed,
+      ),
     );
     if (accounts.isEmpty) {
       return null;
