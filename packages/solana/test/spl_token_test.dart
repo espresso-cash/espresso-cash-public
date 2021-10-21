@@ -11,7 +11,7 @@ import 'config.dart';
 
 void main() {
   group('Test spl tokens', () {
-    final RPCClient client = RPCClient(devnetRpcUrl);
+    final RPCClient client = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
     late final String newTokenMint;
     late final Ed25519HDKeyPair owner;
 

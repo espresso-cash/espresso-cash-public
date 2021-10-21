@@ -34,42 +34,17 @@ extension Convenience on RPCClient {
   /// Note: the default [timeout] is 30 seconds.
   Future<void> waitForSignatureStatus(
     TransactionSignature signature,
-    TxStatus desiredStatus, {
-    Duration timeout = const Duration(seconds: 30),
-  }) async {
-    final completer = Completer<void>();
-    final clock = Stopwatch();
-    Future<void> check() async {
-      if (clock.elapsed > timeout) {
-        completer.completeError(
-          TimeoutException(
-            'Timed out waiting for the requested status $desiredStatus',
-          ),
-        );
-        return;
-      }
-      final statuses = await getSignatureStatuses([signature]);
-      final SignatureStatus? status = statuses.isEmpty ? null : statuses.first;
-      if (status != null) {
-        if (status.err != null) {
-          completer.completeError(TransactionException(status.err!));
-        } else if (status.confirmationStatus!.index >= desiredStatus.index) {
-          completer.complete();
-        } else {
-          await Future<void>.delayed(const Duration(seconds: 5));
-          return check();
-        }
-      } else {
-        await Future<void>.delayed(const Duration(seconds: 5));
-        return check();
-      }
+    TxStatus desiredStatus,
+  ) async {
+    // Simply, if the returned result did not error out it means the desiredStatus
+    // was fulfilled
+    final optionalError = await _subscriptionClient
+        .signatureSubscribe(signature, status: desiredStatus)
+        .first;
+    final error = optionalError.err;
+    if (error != null) {
+      throw Exception(error.toString());
     }
-
-    clock.start();
-    // ignore: unawaited_futures
-    check();
-
-    return completer.future;
   }
 
   /// Get the [limit] most recent transactions for the [address] account

@@ -1,7 +1,7 @@
 import 'package:solana/solana.dart';
 
 Future<void> example() async {
-  final rpcClient = RPCClient(_rpcClientUrl);
+  final rpcClient = RPCClient(_rpcClientUrl, _websocketClientUrl);
   // Create a wallet
   final source = Wallet(
     signer: await Ed25519HDKeyPair.random(),
@@ -38,3 +38,4 @@ Future<void> example() async {
 }
 
 const _rpcClientUrl = 'https://api.devnet.solana.com';
+const _websocketClientUrl = 'wss://api.devnet.solana.com';

@@ -6,7 +6,6 @@ import 'package:solana/src/dto/blockhash.dart';
 import 'package:solana/src/dto/commitment.dart';
 import 'package:solana/src/dto/signature_status.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/exceptions/transaction_exception.dart';
 import 'package:solana/src/rpc_client/account_info_response.dart';
 import 'package:solana/src/rpc_client/balance_response.dart';
 import 'package:solana/src/rpc_client/blockhash_response.dart';
@@ -21,6 +20,7 @@ import 'package:solana/src/rpc_client/transaction_signature.dart';
 import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/spl_token/token_amount.dart';
 import 'package:solana/src/spl_token/token_supply.dart';
+import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:solana/src/utils.dart';
 
 export 'confirmed_signature.dart' show ConfirmedSignature;
@@ -33,9 +33,14 @@ part 'rpc_client_extensions.dart';
 class RPCClient {
   /// Constructs a SolanaClient that is capable of sending various RPCs to
   /// [rpcUrl].
-  RPCClient(String rpcUrl) : client = JsonRpcClient(rpcUrl);
+  RPCClient(String rpcUrl, String subscriptionsUrl)
+      : client = JsonRpcClient(rpcUrl) {
+    SubscriptionClient.connect(subscriptionsUrl)
+        .then((client) => _subscriptionClient = client);
+  }
 
   final JsonRpcClient client;
+  late final SubscriptionClient _subscriptionClient;
 
   /// Returns the recent blockhash from the ledger, and a fee schedule that
   /// can be used to compute the cost of submitting transaction with

@@ -19,7 +19,7 @@ const int _transferredAmount = 0x1000;
 
 void main() {
   group('SolanaClient testsuite', () {
-    final RPCClient rpcClient = RPCClient(devnetRpcUrl);
+    final RPCClient rpcClient = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
     late Ed25519HDKeyPair destination;
     late Ed25519HDKeyPair source;
     int currentBalance = 0;
@@ -156,7 +156,7 @@ void main() {
   });
 
   group('Test commitment', () {
-    final RPCClient solanaClient = RPCClient(devnetRpcUrl);
+    final RPCClient solanaClient = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
     late Ed25519HDKeyPair wallet;
 
     setUp(() async {
