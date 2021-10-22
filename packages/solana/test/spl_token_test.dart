@@ -8,7 +8,7 @@ import 'airdrop.dart';
 import 'config.dart';
 
 void main() {
-  group('Test spl tokens', () async {
+  group('Test spl tokens', () {
     late final RPCClient client;
     late final String newTokenMint;
     late final Ed25519HDKeyPair owner;
