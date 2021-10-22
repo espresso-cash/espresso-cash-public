@@ -105,7 +105,6 @@ _$_SimulateTransactionOptions _$$_SimulateTransactionOptionsFromJson(
         Map<String, dynamic> json) =>
     _$_SimulateTransactionOptions(
       sigVerify: json['sigVerify'] as bool?,
-      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']),
       commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
       replaceRecentBlockhash: json['replaceRecentBlockhash'] as bool?,
       accounts: json['accounts'] == null
@@ -125,7 +124,6 @@ Map<String, dynamic> _$$_SimulateTransactionOptionsToJson(
   }
 
   writeNotNull('sigVerify', instance.sigVerify);
-  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('replaceRecentBlockhash', instance.replaceRecentBlockhash);
   writeNotNull('accounts', instance.accounts);
@@ -136,6 +134,8 @@ _$_SendTransactionOptions _$$_SendTransactionOptionsFromJson(
         Map<String, dynamic> json) =>
     _$_SendTransactionOptions(
       commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      preflightCommitment: _$enumDecodeNullable(
+          _$CommitmentEnumMap, json['preflightCommitment']),
       skipPreflight: json['skipPreflight'] as bool?,
       maxRetries: json['maxRetries'] as int?,
     );
@@ -151,6 +151,8 @@ Map<String, dynamic> _$$_SendTransactionOptionsToJson(
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull(
+      'preflightCommitment', _$CommitmentEnumMap[instance.preflightCommitment]);
   writeNotNull('skipPreflight', instance.skipPreflight);
   writeNotNull('maxRetries', instance.maxRetries);
   return val;
@@ -557,9 +559,6 @@ _$_Block _$$_BlockFromJson(Map<String, dynamic> json) => _$_Block(
       transactions: (json['transactions'] as List<dynamic>)
           .map((e) => Transaction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      meta: json['meta'] == null
-          ? null
-          : Meta.fromJson(json['meta'] as Map<String, dynamic>),
       signatures: (json['signatures'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -575,7 +574,6 @@ Map<String, dynamic> _$$_BlockToJson(_$_Block instance) => <String, dynamic>{
       'previousBlockhash': instance.previousBlockhash,
       'parentSlot': instance.parentSlot,
       'transactions': instance.transactions,
-      'meta': instance.meta,
       'signatures': instance.signatures,
       'rewards': instance.rewards,
       'blockTime': instance.blockTime,
@@ -864,8 +862,10 @@ Map<String, dynamic> _$$_RangeToJson(_$_Range instance) => <String, dynamic>{
 _$_BlockProduction _$$_BlockProductionFromJson(Map<String, dynamic> json) =>
     _$_BlockProduction(
       byIdentity: (json['byIdentity'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, (e as List<dynamic>).map((e) => e as int).toList()),
+        (k, e) => MapEntry(
+            k,
+            ByIdentityValue.fromJson(
+                (e as List<dynamic>).map((e) => e as int).toList())),
       ),
       range: Range.fromJson(json['range'] as Map<String, dynamic>),
     );

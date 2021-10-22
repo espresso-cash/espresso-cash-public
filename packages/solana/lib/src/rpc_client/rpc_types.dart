@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/parsed_message/parsed_message.dart';
-import 'package:solana/src/utils.dart';
 
 export 'rpc_types_extension.dart';
 
@@ -37,12 +36,42 @@ enum Encoding {
   jsonParsed,
 }
 
+/// For preflight checks and transaction processing, Solana nodes choose
+/// which bank state to query based on a commitment requirement set by the
+/// client. The commitment describes how finalized a block is at that point in
+/// time. When querying the ledger state, it's recommended to use
+/// lower levels of commitment to report progress and higher levels to
+/// ensure the state will not be rolled back.
+///
+/// In descending order of commitment (most finalized to least finalized),
+/// clients may specify:
+///
+/// For processing many dependent transactions in series, it's recommended to
+/// use "confirmed" commitment, which balances speed with rollback safety. For
+/// total safety, it's recommended to use [Commitment.finalized] commitment.
 enum Commitment {
+  /// The node will query its most recent block. Note
+  /// that the block may not be complete.
   processed,
+
+  /// The node will query the most recent block that has been voted
+  /// on by supermajority of the cluster.
+  ///
+  /// - It incorporates votes from gossip and replay.
+  /// - It does not count votes on descendants of a block, only direct votes on
+  /// that block.
+  ///
+  /// This confirmation level also upholds "optimistic confirmation" guarantees
+  /// in release 1.3 and onwards.
   confirmed,
+
+  /// The node will query the most recent block confirmed by
+  /// supermajority of the cluster as having reached maximum lockout, meaning
+  /// the cluster has recognized this block as finalized
   finalized,
 }
 
+/// Type of reward
 enum RewardType {
   fee,
   rent,
@@ -50,6 +79,7 @@ enum RewardType {
   staking,
 }
 
+/// The stake account's activation state
 enum StakeActivationState {
   active,
   inactive,
@@ -57,20 +87,25 @@ enum StakeActivationState {
   deactivating,
 }
 
+/// A convenience type that is more semantic in some cases
+///
+/// It is more natural sometimes to say "status" but otherwise
+/// the values are identical to those of [Commitment]
 typedef TxStatus = Commitment;
 
-typedef ValidatorIdentity = List<int>;
-
-/// Configuration object for [RPCClient.getConfirmedTransaction()]
+/// Configuration object for [RPCClient.getConfirmedTransaction()].
 @freezed
 class GetConfirmedTransactionOptions with _$GetConfirmedTransactionOptions {
   /// [encoding] Encoding for the returned transactions
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetConfirmedTransactionOptions({
-    @absentIfNull Encoding? encoding,
-    @absentIfNull Commitment? commitment,
+    @JsonKey(includeIfNull: false) Encoding? encoding,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
   }) = _GetConfirmedTransactionOptions;
 
   factory GetConfirmedTransactionOptions.fromJson(Map<String, dynamic> data) =>
@@ -80,211 +115,287 @@ class GetConfirmedTransactionOptions with _$GetConfirmedTransactionOptions {
 @freezed
 class SimulateTransactionAccounts with _$SimulateTransactionAccounts {
   const factory SimulateTransactionAccounts({
-    @absentIfNull Encoding? accountEncoding,
-    @absentIfNull List<String>? addresses,
+    @JsonKey(includeIfNull: false) Encoding? accountEncoding,
+    @JsonKey(includeIfNull: false) List<String>? addresses,
   }) = _SimulateTransactionAccounts;
 
   factory SimulateTransactionAccounts.fromJson(Map<String, dynamic> data) =>
       _$SimulateTransactionAccountsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.simulateTransaction()].
 @freezed
 class SimulateTransactionOptions with _$SimulateTransactionOptions {
-  /// Build a configuration object for [RPCClient.simulateTransaction()]
+  /// [sigVerify] if true the transaction signatures will be verified
+  /// (default: false, conflicts with [replaceRecentBlockhash])
+  /// [replaceRecentBlockhash] if true the transaction recent blockhash will
+  /// be replaced with the most recent blockhash.
+  /// (default: false, conflicts with [sigVerify])
+  /// [accounts] Accounts configuration object, see [SimulateTransactionAccounts]
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory SimulateTransactionOptions({
-    @absentIfNull bool? sigVerify,
-    @absentIfNull Encoding? encoding,
-    @absentIfNull Commitment? commitment,
-    @absentIfNull bool? replaceRecentBlockhash,
-    @absentIfNull SimulateTransactionAccounts? accounts,
+    @JsonKey(includeIfNull: false) bool? sigVerify,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) bool? replaceRecentBlockhash,
+    @JsonKey(includeIfNull: false) SimulateTransactionAccounts? accounts,
   }) = _SimulateTransactionOptions;
 
   factory SimulateTransactionOptions.fromJson(Map<String, dynamic> data) =>
       _$SimulateTransactionOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.sendTransaction()].
 @freezed
 class SendTransactionOptions with _$SendTransactionOptions {
-  /// Build a configuration object for [RPCClient.sendTransaction()]
+  /// [skipPreflight] if true, skip the preflight transaction checks (default: false)
+  /// [maxRetries] Maximum number of times for the RPC node to retry sending the
+  /// transaction to the leader. If this parameter not provided, the RPC node will
+  /// retry the transaction until it is finalized or until the blockhash expires.
+  /// [preflightCommitment] commitment level to use for preflight (default: [Commitment.finalized])
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory SendTransactionOptions({
-    @absentIfNull Commitment? commitment,
-    @absentIfNull bool? skipPreflight,
-    @absentIfNull int? maxRetries,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) Commitment? preflightCommitment,
+    @JsonKey(includeIfNull: false) bool? skipPreflight,
+    @JsonKey(includeIfNull: false) int? maxRetries,
   }) = _SendTransactionOptions;
 
   factory SendTransactionOptions.fromJson(Map<String, dynamic> data) =>
       _$SendTransactionOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getVoteAccounts()].
 @freezed
 class GetVoteAccountsOptions with _$GetVoteAccountsOptions {
-  /// Build a configuration object for [RPCClient.getVoteAccounts()]
+  /// [votePubKey] Only return results for this validator vote address (base-58 encoded)
+  /// [keepUnstakedDelinquents] Do not filter out delinquent validators with no stake
+  /// [delinquentSlotDistance] Specify the number of slots behind the tip that a
+  /// validator must fall to be considered delinquent.
+  /// **NOTE**: For the sake of consistency between ecosystem products, it is not
+  /// recommended that this argument be specified.
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetVoteAccountsOptions({
-    @absentIfNull Commitment? commitment,
-    @absentIfNull String? votePubKey,
-    @absentIfNull bool? keepUnstakedDelinquents,
-    @absentIfNull int? delinquentSlotDistance,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) String? votePubKey,
+    @JsonKey(includeIfNull: false) bool? keepUnstakedDelinquents,
+    @JsonKey(includeIfNull: false) int? delinquentSlotDistance,
   }) = _GetVoteAccountsOptions;
 
   factory GetVoteAccountsOptions.fromJson(Map<String, dynamic> data) =>
       _$GetVoteAccountsOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getTransaction()].
+///
+/// NEW: This method is only available in solana-core v1.7 or newer. Please use
+/// [RPCClient.getConfirmedTransaction()] for solana-core v1.6
 @freezed
 class GetTransactionOptions with _$GetTransactionOptions {
-  /// Build a configuration object for [RPCClient.getTransaction()]
+  /// [encoding] [Encoding] for each transaction
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetTransactionOptions({
-    @absentIfNull Encoding? encoding,
-    @absentIfNull Commitment? commitment,
+    @JsonKey(includeIfNull: false) Encoding? encoding,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
   }) = _GetTransactionOptions;
 
   factory GetTransactionOptions.fromJson(Map<String, dynamic> data) =>
       _$GetTransactionOptionsFromJson(data);
 }
 
+/// Union type to specify either [mint] or [programId]
 @freezed
 class MintOrProgramId with _$MintOrProgramId {
   const factory MintOrProgramId({
-    @absentIfNull String? mint,
-    @absentIfNull String? programId,
+    @JsonKey(includeIfNull: false) String? mint,
+    @JsonKey(includeIfNull: false) String? programId,
   }) = _MintOrProgramId;
 
   factory MintOrProgramId.fromJson(Map<String, dynamic> data) =>
       _$MintOrProgramIdFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getSupply()].
 @freezed
 class GetSupplyOptions with _$GetSupplyOptions {
-  /// Build a configuration object for [RPCClient.getSupply()]
+  /// [excludeNonCirculatingAccountsList] exclude non circulating accounts list from response
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetSupplyOptions({
-    @absentIfNull Commitment? commitment,
-    @absentIfNull bool? excludeNonCirculatingAccountsList,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) bool? excludeNonCirculatingAccountsList,
   }) = _GetSupplyOptions;
 
   factory GetSupplyOptions.fromJson(Map<String, dynamic> data) =>
       _$GetSupplyOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getStakeActivation()].
 @freezed
 class GetStakeActivationOptions with _$GetStakeActivationOptions {
-  /// Build a configuration object for [RPCClient.getStakeActivation()]
+  /// [epoch] epoch for which to calculate activation details. If parameter not
+  /// provided, defaults to current epoch.
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetStakeActivationOptions({
-    @absentIfNull Commitment? commitment,
-    @absentIfNull int? epoch,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) int? epoch,
   }) = _GetStakeActivationOptions;
 
   factory GetStakeActivationOptions.fromJson(Map<String, dynamic> data) =>
       _$GetStakeActivationOptionsFromJson(data);
 }
 
-/// Configuration object for [RPCClient.getStakeActivation()]
+/// Configuration object for [RPCClient.getStakeActivation()].
 @freezed
 class GetSignatureStatusesOptions with _$GetSignatureStatusesOptions {
-  /// Build a configuration object for [RPCClient.getStakeActivation()]
-  ///
-  /// [searchTransactionHistory]
+  /// [searchTransactionHistory] if true, a Solana node will search its ledger
+  /// cache for any signatures not found in the recent status cache
   const factory GetSignatureStatusesOptions({
-    @absentIfNull bool? searchTransactionHistory,
+    @JsonKey(includeIfNull: false) bool? searchTransactionHistory,
   }) = _GetSignatureStatusesOptions;
 
   factory GetSignatureStatusesOptions.fromJson(Map<String, dynamic> data) =>
       _$GetSignatureStatusesOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getSignaturesForAddress()].
+///
+/// NEW: This method is only available in solana-core v1.7 or newer. Please use
+/// [RPCClient.getConfirmedSignaturesForAddress2()] for solana-core v1.6
 @freezed
 class GetSignaturesForAddressOptions with _$GetSignaturesForAddressOptions {
+  /// [limit] maximum transaction signatures to return (between 1 and 1,000, default: 1,000).
+  /// [before] start searching backwards from this transaction signature.
+  /// If not provided the search starts from the top of the highest max
+  /// confirmed block.
+  /// [until] search until this transaction signature, if found before limit
+  /// reached.
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetSignaturesForAddressOptions({
-    @absentIfNull int? limit,
-    @absentIfNull String? before,
-    @absentIfNull String? until,
-    @absentIfNull Commitment? commitment,
+    @JsonKey(includeIfNull: false) int? limit,
+    @JsonKey(includeIfNull: false) String? before,
+    @JsonKey(includeIfNull: false) String? until,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
   }) = _GetSignaturesForAddressOptions;
 
   factory GetSignaturesForAddressOptions.fromJson(Map<String, dynamic> data) =>
       _$GetSignaturesForAddressOptionsFromJson(data);
 }
 
+/// Configuration object of [RPCClient.getProgramAccounts()].
 @freezed
 class GetProgramAccountsOptions with _$GetProgramAccountsOptions {
   /// [encoding] encoding for Account data
-  ///
-  /// [dataSlice] limit the returned account data;
-  ///
-  /// [filter] filter results using various [filter objects](https://docs.solana.com/developing/clients/jsonrpc-api#filters);
+  /// [dataSlice] limit the returned account data; see [DataSlice]
+  /// [filter] filter results using various [filter objects][filter objects link];
   /// account must meet all filter criteria to be included in results
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [filter objects link]: https://docs.solana.com/developing/clients/jsonrpc-api#filters
   const factory GetProgramAccountsOptions({
-    @absentIfNull Commitment? commitment,
-    @absentIfNull Encoding? encoding,
-    @absentIfNull DataSlice? dataSlice,
-    @absentIfNull List<Filter>? filter,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) Encoding? encoding,
+    @JsonKey(includeIfNull: false) DataSlice? dataSlice,
+    @JsonKey(includeIfNull: false) List<Filter>? filter,
   }) = _GetProgramAccountsOptions;
 
   factory GetProgramAccountsOptions.fromJson(Map<String, dynamic> data) =>
       _$GetProgramAccountsOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getLeaderSchedule()].
 @freezed
 class GetLeaderScheduleOptions with _$GetLeaderScheduleOptions {
-  /// Configure a `getLeaderSchedule()` rpc call.
-  ///
   /// [identity] Only return results for this validator identity (base-58 encoded)
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetLeaderScheduleOptions({
-    @absentIfNull Commitment? commitment,
-    @absentIfNull String? identity,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) String? identity,
   }) = _GetLeaderScheduleOptions;
 
   factory GetLeaderScheduleOptions.fromJson(Map<String, dynamic> data) =>
       _$GetLeaderScheduleOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getLargestAccounts()].
 @freezed
 class GetLargestAccountsOptions with _$GetLargestAccountsOptions {
-  /// Options used to configure the [RPCClient.getLargestAccounts()] method.
-  ///
   /// [filter] results by account type; currently supported:
-  /// [CirculationStatus.circulating]|[CirculationStatus.nonCirculating]
+  /// - [CirculationStatus.circulating]
+  /// - [CirculationStatus.nonCirculating]
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetLargestAccountsOptions({
-    @absentIfNull Commitment? commitment,
-    @absentIfNull CirculationStatus? filter,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) CirculationStatus? filter,
   }) = _GetLargestAccountsOptions;
 
   factory GetLargestAccountsOptions.fromJson(Map<String, dynamic> data) =>
       _$GetLargestAccountsOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getConfirmedSignaturesForAddress2()]
 @freezed
 class GetConfirmedSignaturesForAddress2Options
     with _$GetConfirmedSignaturesForAddress2Options {
+  /// [limit] maximum transaction signatures to return (between 1 and 1,000, default: 1,000).
+  /// [before] start searching backwards from this transaction signature.
+  /// If not provided the search starts from the top of the highest max
+  /// confirmed block.
+  /// [until] search until this transaction signature, if found before limit
+  /// reached.
+  ///
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetConfirmedSignaturesForAddress2Options({
     int? limit,
     String? before,
@@ -297,89 +408,103 @@ class GetConfirmedSignaturesForAddress2Options
       _$GetConfirmedSignaturesForAddress2OptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getBlocProductionOptions()]
 @freezed
 class GetBlockProductionOptions with _$GetBlockProductionOptions {
+  /// [range] Slot range to return block production for. If parameter not
+  /// provided, defaults to current epoch; see [Range] for details.
+  /// [identity] Only return results for this validator identity (base-58 encoded)
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory GetBlockProductionOptions({
-    @absentIfNull Commitment? commitment,
-    @absentIfNull Range? range,
-    @absentIfNull String? identity,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) Range? range,
+    @JsonKey(includeIfNull: false) String? identity,
   }) = _GetBlockProductionOptions;
 
   factory GetBlockProductionOptions.fromJson(Map<String, dynamic> data) =>
       _$GetBlockProductionOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getBlock()]
 @freezed
 class GetBlockOptions with _$GetBlockOptions {
-  /// Object used to configure getting blocks via some of the RPC methods.
-  ///
   /// [encoding] for each return transaction
   /// [transactionDetails]  level of transaction detail to return, either "full",
   /// "signatures", or "none". If parameter not provided, the default detail level is "full".
   /// [rewards] whether to populate the rewards array. If parameter not provided,
   /// the default includes rewards.
-  ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   const factory GetBlockOptions({
-    @absentIfNull Encoding? encoding,
-    @absentIfNull TransactionDetailLevel? transactionDetails,
-    @absentIfNull bool? rewards,
-    @absentIfNull Commitment? commitment,
+    @JsonKey(includeIfNull: false) Encoding? encoding,
+    @JsonKey(includeIfNull: false) TransactionDetailLevel? transactionDetails,
+    @JsonKey(includeIfNull: false) bool? rewards,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
   }) = _GetBlockOptions;
 
   factory GetBlockOptions.fromJson(Map<String, dynamic> data) =>
       _$GetBlockOptionsFromJson(data);
 }
 
+/// Configuration object used to retrieve account information.
+///
+/// This object is used in different methods
 @freezed
 class GetAccountInfoOptions with _$GetAccountInfoOptions {
-  /// Build an object to be passed as the options for the [RPCClient.getAccountInfo()]
-  /// method.
-  ///
   /// [encoding] encoding for Account data
-  ///
-  /// [dataSlice] limit the returned account data;
+  /// [dataSlice] limit the returned account data; See [DataSlice].
   /// only available for "base58", "base64" or "base64+zstd" encodings.
-  ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   const factory GetAccountInfoOptions({
-    @absentIfNull Commitment? commitment,
-    @absentIfNull Encoding? encoding,
-    @absentIfNull DataSlice? dataSlice,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
+    @JsonKey(includeIfNull: false) Encoding? encoding,
+    @JsonKey(includeIfNull: false) DataSlice? dataSlice,
   }) = _GetAccountOptions;
 
   factory GetAccountInfoOptions.fromJson(Map<String, dynamic> data) =>
       _$GetAccountInfoOptionsFromJson(data);
 }
 
+/// Limit the returned account data
+///
+/// **NOTE**: used with [GetAccountInfoOptions]
 @freezed
 class DataSlice with _$DataSlice {
   const factory DataSlice({
-    @absentIfNull int? offset,
-    @absentIfNull int? length,
+    @JsonKey(includeIfNull: false) int? offset,
+    @JsonKey(includeIfNull: false) int? length,
   }) = _DataSlice;
 
   factory DataSlice.fromJson(Map<String, dynamic> data) =>
       _$DataSliceFromJson(data);
 }
 
+/// An object that is used to set the commitment value in some RPC methods
 @freezed
 class CommitmentObject with _$CommitmentObject {
+  /// For the [commitment] parameter see [Commitment][commitment link];
+  /// [Commitment.processed] is not supported. If parameter not provided,
+  /// the default is [Commitment.finalized].
+  ///
+  /// [commitment link]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   const factory CommitmentObject({
-    @absentIfNull Commitment? commitment,
+    @JsonKey(includeIfNull: false) Commitment? commitment,
   }) = _CommitmentObject;
 
   factory CommitmentObject.fromJson(Map<String, dynamic> data) =>
       _$CommitmentObjectFromJson(data);
 }
 
+/// An account
 @freezed
 class Account with _$Account {
+  /// [lamports] the number of lamports in balance
+  /// [owner] public key of the owner
+  /// [data] the data stored in it
+  /// [executable] whether it is executable account
+  /// [rentEpoch] the epoch at which will next owe rent
   const factory Account({
     required int lamports,
     required String owner,
@@ -392,14 +517,28 @@ class Account with _$Account {
       _$AccountFromJson(data);
 }
 
+/// A block object
 @freezed
 class Block with _$Block {
+  /// [blockhash] the blockhash of this block, as base-58 encoded string
+  /// [previousBlockhash] the blockhash of this block's parent, as base-58
+  /// encoded string; if the parent block is not available due to ledger
+  /// cleanup, this field will return "11111111111111111111111111111111"
+  /// [parentSlot] the slot index of this block's parent
+  /// [transactions] present if "full" transaction details are requested;
+  /// an array of [Transaction]
+  /// [signatures] present if "signatures" are requested for transaction
+  /// details; an array of signatures strings, corresponding to the transaction
+  /// order in the block
+  /// [rewards] present if rewards are requested; an array of [Reward]
+  /// [blockTime] estimated production time, as Unix timestamp
+  /// (seconds since the Unix epoch). null if not available
+  /// [blockHeight] the number of blocks beneath this block
   const factory Block({
     required String blockhash,
     required String previousBlockhash,
     required int parentSlot,
     required List<Transaction> transactions,
-    required Meta? meta,
     required List<String> signatures,
     required List<Reward> rewards,
     required int? blockTime,
@@ -409,8 +548,27 @@ class Block with _$Block {
   factory Block.fromJson(Map<String, dynamic> data) => _$BlockFromJson(data);
 }
 
+/// Transaction status metadata
 @freezed
 class Meta with _$Meta {
+  /// [err]  Error if transaction failed, null if transaction succeeded;
+  /// See [TransactionError definitions][errors link].
+  /// [fee] fee this transaction was charged.
+  /// [preBalances] array of account balances before the transaction was processed
+  /// [postBalances] array of account balances after the transaction was processed
+  /// [innerInstructions] List of [inner instructions][inner instructions link]
+  /// or omitted if inner instruction recording was not yet enabled during this
+  /// transaction.
+  /// [preTokenBalances] an array of [token balances][token balances link]
+  /// from before the instruction was processed
+  /// [postTokenBalances] an array of [token balances][token balances link]
+  /// from after the instruction was processed
+  /// [logMessages] array of string log messages or omitted if log message recording
+  /// was not yet enabled during this transaction
+  ///
+  /// [errors link]: https://github.com/solana-labs/solana/blob/master/sdk/src/transaction.rs#L24
+  /// [inner instructions link]: https://docs.solana.com/developing/clients/jsonrpc-api#inner-instructions-structure
+  /// [token balances link]: https://docs.solana.com/developing/clients/jsonrpc-api#token-balances-structure
   const factory Meta({
     required Map<String, dynamic>? err,
     required int fee,
@@ -425,8 +583,16 @@ class Meta with _$Meta {
   factory Meta.fromJson(Map<String, dynamic> data) => _$MetaFromJson(data);
 }
 
+/// A reward
 @freezed
 class Reward with _$Reward {
+  /// [pubkey] The public key, as base-58 encoded string, of the account that
+  /// received the reward
+  /// [lamports] number of reward lamports credited or debited by the account
+  /// [postBalance] account balance in lamports after the reward was applied
+  /// [rewardType] type of reward; See [RewardType]
+  /// [commission] vote account commission when the reward was credited, only
+  /// present for voting and staking rewards
   const factory Reward({
     required String pubkey,
     required int lamports,
@@ -602,10 +768,29 @@ class Range with _$Range {
   factory Range.fromJson(Map<String, dynamic> data) => _$RangeFromJson(data);
 }
 
+class ByIdentityValue {
+  const ByIdentityValue({
+    required this.leaderSlots,
+    required this.blocksProduced,
+  });
+
+  factory ByIdentityValue.fromJson(List<int> data) => ByIdentityValue(
+        leaderSlots: data[0],
+        blocksProduced: data[1],
+      );
+
+  final int leaderSlots;
+  final int blocksProduced;
+
+  Map<String, dynamic> toJson() {
+    throw UnimplementedError('this is never used');
+  }
+}
+
 @freezed
 class BlockProduction with _$BlockProduction {
   const factory BlockProduction({
-    required Map<String, ValidatorIdentity> byIdentity,
+    required Map<String, ByIdentityValue> byIdentity,
     required Range range,
   }) = _BlockProduction;
 
@@ -615,9 +800,6 @@ class BlockProduction with _$BlockProduction {
 
 @freezed
 class BlockCommitment with _$BlockCommitment {
-  ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
   const factory BlockCommitment({
     required List<int>? commitment,
     required int totalStake,
