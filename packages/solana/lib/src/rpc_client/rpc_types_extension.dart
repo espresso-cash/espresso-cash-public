@@ -1,4 +1,4 @@
-import 'package:solana/solana.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
 
 extension CommitmentValue on Commitment {
   String get value => _describeEnum(this);
