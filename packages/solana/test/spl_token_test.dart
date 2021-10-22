@@ -8,12 +8,16 @@ import 'airdrop.dart';
 import 'config.dart';
 
 void main() {
-  group('Test spl tokens', () {
-    final RPCClient client = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
+  group('Test spl tokens', () async {
+    late final RPCClient client;
     late final String newTokenMint;
     late final Ed25519HDKeyPair owner;
 
     setUpAll(() async {
+      client = await RPCClient.connect(
+        rpcUrl: devnetRpcUrl,
+        websocketUrl: devnetWebsocketUrl,
+      );
       owner = await Ed25519HDKeyPair.random();
       await airdrop(client, owner, sol: 100);
     });
@@ -177,7 +181,7 @@ void main() {
 
       final signature = await client.signAndSendTransaction(
         message,
-        [
+        <Ed25519HDKeyPair>[
           feePayer,
           owner,
         ],
@@ -259,7 +263,10 @@ void main() {
       ];
       final message = Message(instructions: instructions);
 
-      final signature = await client.signAndSendTransaction(message, [owner]);
+      final signature = await client.signAndSendTransaction(
+        message,
+        <Ed25519HDKeyPair>[owner],
+      );
       await client.waitForSignatureStatus(signature, TxStatus.finalized);
     }, timeout: const Timeout(Duration(minutes: 2)));
   });

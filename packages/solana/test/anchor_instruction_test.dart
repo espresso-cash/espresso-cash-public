@@ -14,9 +14,13 @@ import 'config.dart';
 void main() {
   late final Ed25519HDKeyPair payer;
   late final Ed25519HDKeyPair updater;
-  final client = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
+  late final RPCClient client;
 
   setUpAll(() async {
+    client = await RPCClient.connect(
+      rpcUrl: devnetRpcUrl,
+      websocketUrl: devnetWebsocketUrl,
+    );
     payer = await Ed25519HDKeyPair.random();
     updater = await Ed25519HDKeyPair.random();
 
@@ -35,7 +39,7 @@ void main() {
     final message = Message(instructions: instructions);
     final signature = await client.signAndSendTransaction(
       message,
-      [payer],
+      <Ed25519HDKeyPair>[payer],
     );
     await client.waitForSignatureStatus(signature, TxStatus.finalized);
 
@@ -69,7 +73,7 @@ void main() {
     final message = Message(instructions: instructions);
     final signature = await client.signAndSendTransaction(
       message,
-      [
+      <Ed25519HDKeyPair>[
         payer,
         updater,
       ],
@@ -103,7 +107,7 @@ void main() {
     final message = Message(instructions: instructions);
     final signature = await client.signAndSendTransaction(
       message,
-      [payer],
+      <Ed25519HDKeyPair>[payer],
     );
     await client.waitForSignatureStatus(signature, TxStatus.finalized);
 

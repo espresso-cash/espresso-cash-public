@@ -707,12 +707,10 @@ class _$SendTransactionOptionsTearOff {
   const _$SendTransactionOptionsTearOff();
 
   _SendTransactionOptions call(
-      {@absentIfNull Encoding? encoding,
-      @absentIfNull Commitment? commitment,
+      {@absentIfNull Commitment? commitment,
       @absentIfNull bool? skipPreflight,
       @absentIfNull int? maxRetries}) {
     return _SendTransactionOptions(
-      encoding: encoding,
       commitment: commitment,
       skipPreflight: skipPreflight,
       maxRetries: maxRetries,
@@ -729,8 +727,6 @@ const $SendTransactionOptions = _$SendTransactionOptionsTearOff();
 
 /// @nodoc
 mixin _$SendTransactionOptions {
-  @absentIfNull
-  Encoding? get encoding => throw _privateConstructorUsedError;
   @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
   @absentIfNull
@@ -750,8 +746,7 @@ abstract class $SendTransactionOptionsCopyWith<$Res> {
           $Res Function(SendTransactionOptions) then) =
       _$SendTransactionOptionsCopyWithImpl<$Res>;
   $Res call(
-      {@absentIfNull Encoding? encoding,
-      @absentIfNull Commitment? commitment,
+      {@absentIfNull Commitment? commitment,
       @absentIfNull bool? skipPreflight,
       @absentIfNull int? maxRetries});
 }
@@ -767,16 +762,11 @@ class _$SendTransactionOptionsCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? encoding = freezed,
     Object? commitment = freezed,
     Object? skipPreflight = freezed,
     Object? maxRetries = freezed,
   }) {
     return _then(_value.copyWith(
-      encoding: encoding == freezed
-          ? _value.encoding
-          : encoding // ignore: cast_nullable_to_non_nullable
-              as Encoding?,
       commitment: commitment == freezed
           ? _value.commitment
           : commitment // ignore: cast_nullable_to_non_nullable
@@ -801,8 +791,7 @@ abstract class _$SendTransactionOptionsCopyWith<$Res>
       __$SendTransactionOptionsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@absentIfNull Encoding? encoding,
-      @absentIfNull Commitment? commitment,
+      {@absentIfNull Commitment? commitment,
       @absentIfNull bool? skipPreflight,
       @absentIfNull int? maxRetries});
 }
@@ -820,16 +809,11 @@ class __$SendTransactionOptionsCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? encoding = freezed,
     Object? commitment = freezed,
     Object? skipPreflight = freezed,
     Object? maxRetries = freezed,
   }) {
     return _then(_SendTransactionOptions(
-      encoding: encoding == freezed
-          ? _value.encoding
-          : encoding // ignore: cast_nullable_to_non_nullable
-              as Encoding?,
       commitment: commitment == freezed
           ? _value.commitment
           : commitment // ignore: cast_nullable_to_non_nullable
@@ -850,17 +834,13 @@ class __$SendTransactionOptionsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_SendTransactionOptions implements _SendTransactionOptions {
   const _$_SendTransactionOptions(
-      {@absentIfNull this.encoding,
-      @absentIfNull this.commitment,
+      {@absentIfNull this.commitment,
       @absentIfNull this.skipPreflight,
       @absentIfNull this.maxRetries});
 
   factory _$_SendTransactionOptions.fromJson(Map<String, dynamic> json) =>
       _$$_SendTransactionOptionsFromJson(json);
 
-  @override
-  @absentIfNull
-  final Encoding? encoding;
   @override
   @absentIfNull
   final Commitment? commitment;
@@ -873,16 +853,13 @@ class _$_SendTransactionOptions implements _SendTransactionOptions {
 
   @override
   String toString() {
-    return 'SendTransactionOptions(encoding: $encoding, commitment: $commitment, skipPreflight: $skipPreflight, maxRetries: $maxRetries)';
+    return 'SendTransactionOptions(commitment: $commitment, skipPreflight: $skipPreflight, maxRetries: $maxRetries)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _SendTransactionOptions &&
-            (identical(other.encoding, encoding) ||
-                const DeepCollectionEquality()
-                    .equals(other.encoding, encoding)) &&
             (identical(other.commitment, commitment) ||
                 const DeepCollectionEquality()
                     .equals(other.commitment, commitment)) &&
@@ -897,7 +874,6 @@ class _$_SendTransactionOptions implements _SendTransactionOptions {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(encoding) ^
       const DeepCollectionEquality().hash(commitment) ^
       const DeepCollectionEquality().hash(skipPreflight) ^
       const DeepCollectionEquality().hash(maxRetries);
@@ -916,17 +892,13 @@ class _$_SendTransactionOptions implements _SendTransactionOptions {
 
 abstract class _SendTransactionOptions implements SendTransactionOptions {
   const factory _SendTransactionOptions(
-      {@absentIfNull Encoding? encoding,
-      @absentIfNull Commitment? commitment,
+      {@absentIfNull Commitment? commitment,
       @absentIfNull bool? skipPreflight,
       @absentIfNull int? maxRetries}) = _$_SendTransactionOptions;
 
   factory _SendTransactionOptions.fromJson(Map<String, dynamic> json) =
       _$_SendTransactionOptions.fromJson;
 
-  @override
-  @absentIfNull
-  Encoding? get encoding => throw _privateConstructorUsedError;
   @override
   @absentIfNull
   Commitment? get commitment => throw _privateConstructorUsedError;
@@ -2362,14 +2334,12 @@ class _$GetProgramAccountsOptionsTearOff {
       {@absentIfNull Commitment? commitment,
       @absentIfNull Encoding? encoding,
       @absentIfNull DataSlice? dataSlice,
-      @absentIfNull List<Filter>? filter,
-      @absentIfNull bool? withContext}) {
+      @absentIfNull List<Filter>? filter}) {
     return _GetProgramAccountsOptions(
       commitment: commitment,
       encoding: encoding,
       dataSlice: dataSlice,
       filter: filter,
-      withContext: withContext,
     );
   }
 
@@ -2391,8 +2361,6 @@ mixin _$GetProgramAccountsOptions {
   DataSlice? get dataSlice => throw _privateConstructorUsedError;
   @absentIfNull
   List<Filter>? get filter => throw _privateConstructorUsedError;
-  @absentIfNull
-  bool? get withContext => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2409,8 +2377,7 @@ abstract class $GetProgramAccountsOptionsCopyWith<$Res> {
       {@absentIfNull Commitment? commitment,
       @absentIfNull Encoding? encoding,
       @absentIfNull DataSlice? dataSlice,
-      @absentIfNull List<Filter>? filter,
-      @absentIfNull bool? withContext});
+      @absentIfNull List<Filter>? filter});
 
   $DataSliceCopyWith<$Res>? get dataSlice;
 }
@@ -2430,7 +2397,6 @@ class _$GetProgramAccountsOptionsCopyWithImpl<$Res>
     Object? encoding = freezed,
     Object? dataSlice = freezed,
     Object? filter = freezed,
-    Object? withContext = freezed,
   }) {
     return _then(_value.copyWith(
       commitment: commitment == freezed
@@ -2449,10 +2415,6 @@ class _$GetProgramAccountsOptionsCopyWithImpl<$Res>
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as List<Filter>?,
-      withContext: withContext == freezed
-          ? _value.withContext
-          : withContext // ignore: cast_nullable_to_non_nullable
-              as bool?,
     ));
   }
 
@@ -2479,8 +2441,7 @@ abstract class _$GetProgramAccountsOptionsCopyWith<$Res>
       {@absentIfNull Commitment? commitment,
       @absentIfNull Encoding? encoding,
       @absentIfNull DataSlice? dataSlice,
-      @absentIfNull List<Filter>? filter,
-      @absentIfNull bool? withContext});
+      @absentIfNull List<Filter>? filter});
 
   @override
   $DataSliceCopyWith<$Res>? get dataSlice;
@@ -2504,7 +2465,6 @@ class __$GetProgramAccountsOptionsCopyWithImpl<$Res>
     Object? encoding = freezed,
     Object? dataSlice = freezed,
     Object? filter = freezed,
-    Object? withContext = freezed,
   }) {
     return _then(_GetProgramAccountsOptions(
       commitment: commitment == freezed
@@ -2523,10 +2483,6 @@ class __$GetProgramAccountsOptionsCopyWithImpl<$Res>
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as List<Filter>?,
-      withContext: withContext == freezed
-          ? _value.withContext
-          : withContext // ignore: cast_nullable_to_non_nullable
-              as bool?,
     ));
   }
 }
@@ -2538,8 +2494,7 @@ class _$_GetProgramAccountsOptions implements _GetProgramAccountsOptions {
       {@absentIfNull this.commitment,
       @absentIfNull this.encoding,
       @absentIfNull this.dataSlice,
-      @absentIfNull this.filter,
-      @absentIfNull this.withContext});
+      @absentIfNull this.filter});
 
   factory _$_GetProgramAccountsOptions.fromJson(Map<String, dynamic> json) =>
       _$$_GetProgramAccountsOptionsFromJson(json);
@@ -2556,13 +2511,10 @@ class _$_GetProgramAccountsOptions implements _GetProgramAccountsOptions {
   @override
   @absentIfNull
   final List<Filter>? filter;
-  @override
-  @absentIfNull
-  final bool? withContext;
 
   @override
   String toString() {
-    return 'GetProgramAccountsOptions(commitment: $commitment, encoding: $encoding, dataSlice: $dataSlice, filter: $filter, withContext: $withContext)';
+    return 'GetProgramAccountsOptions(commitment: $commitment, encoding: $encoding, dataSlice: $dataSlice, filter: $filter)';
   }
 
   @override
@@ -2579,10 +2531,7 @@ class _$_GetProgramAccountsOptions implements _GetProgramAccountsOptions {
                 const DeepCollectionEquality()
                     .equals(other.dataSlice, dataSlice)) &&
             (identical(other.filter, filter) ||
-                const DeepCollectionEquality().equals(other.filter, filter)) &&
-            (identical(other.withContext, withContext) ||
-                const DeepCollectionEquality()
-                    .equals(other.withContext, withContext)));
+                const DeepCollectionEquality().equals(other.filter, filter)));
   }
 
   @override
@@ -2591,8 +2540,7 @@ class _$_GetProgramAccountsOptions implements _GetProgramAccountsOptions {
       const DeepCollectionEquality().hash(commitment) ^
       const DeepCollectionEquality().hash(encoding) ^
       const DeepCollectionEquality().hash(dataSlice) ^
-      const DeepCollectionEquality().hash(filter) ^
-      const DeepCollectionEquality().hash(withContext);
+      const DeepCollectionEquality().hash(filter);
 
   @JsonKey(ignore: true)
   @override
@@ -2612,8 +2560,7 @@ abstract class _GetProgramAccountsOptions implements GetProgramAccountsOptions {
       {@absentIfNull Commitment? commitment,
       @absentIfNull Encoding? encoding,
       @absentIfNull DataSlice? dataSlice,
-      @absentIfNull List<Filter>? filter,
-      @absentIfNull bool? withContext}) = _$_GetProgramAccountsOptions;
+      @absentIfNull List<Filter>? filter}) = _$_GetProgramAccountsOptions;
 
   factory _GetProgramAccountsOptions.fromJson(Map<String, dynamic> json) =
       _$_GetProgramAccountsOptions.fromJson;
@@ -2630,9 +2577,6 @@ abstract class _GetProgramAccountsOptions implements GetProgramAccountsOptions {
   @override
   @absentIfNull
   List<Filter>? get filter => throw _privateConstructorUsedError;
-  @override
-  @absentIfNull
-  bool? get withContext => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$GetProgramAccountsOptionsCopyWith<_GetProgramAccountsOptions>

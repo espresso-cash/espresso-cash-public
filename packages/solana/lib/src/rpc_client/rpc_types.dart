@@ -61,8 +61,10 @@ typedef TxStatus = Commitment;
 
 typedef ValidatorIdentity = List<int>;
 
+/// Configuration object for [RPCClient.getConfirmedTransaction()]
 @freezed
 class GetConfirmedTransactionOptions with _$GetConfirmedTransactionOptions {
+  /// [encoding] Encoding for the returned transactions
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
@@ -88,6 +90,7 @@ class SimulateTransactionAccounts with _$SimulateTransactionAccounts {
 
 @freezed
 class SimulateTransactionOptions with _$SimulateTransactionOptions {
+  /// Build a configuration object for [RPCClient.simulateTransaction()]
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
@@ -105,11 +108,11 @@ class SimulateTransactionOptions with _$SimulateTransactionOptions {
 
 @freezed
 class SendTransactionOptions with _$SendTransactionOptions {
+  /// Build a configuration object for [RPCClient.sendTransaction()]
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
   const factory SendTransactionOptions({
-    @absentIfNull Encoding? encoding,
     @absentIfNull Commitment? commitment,
     @absentIfNull bool? skipPreflight,
     @absentIfNull int? maxRetries,
@@ -121,6 +124,7 @@ class SendTransactionOptions with _$SendTransactionOptions {
 
 @freezed
 class GetVoteAccountsOptions with _$GetVoteAccountsOptions {
+  /// Build a configuration object for [RPCClient.getVoteAccounts()]
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
@@ -137,6 +141,7 @@ class GetVoteAccountsOptions with _$GetVoteAccountsOptions {
 
 @freezed
 class GetTransactionOptions with _$GetTransactionOptions {
+  /// Build a configuration object for [RPCClient.getTransaction()]
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
@@ -162,6 +167,7 @@ class MintOrProgramId with _$MintOrProgramId {
 
 @freezed
 class GetSupplyOptions with _$GetSupplyOptions {
+  /// Build a configuration object for [RPCClient.getSupply()]
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
@@ -176,6 +182,7 @@ class GetSupplyOptions with _$GetSupplyOptions {
 
 @freezed
 class GetStakeActivationOptions with _$GetStakeActivationOptions {
+  /// Build a configuration object for [RPCClient.getStakeActivation()]
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
@@ -188,8 +195,12 @@ class GetStakeActivationOptions with _$GetStakeActivationOptions {
       _$GetStakeActivationOptionsFromJson(data);
 }
 
+/// Configuration object for [RPCClient.getStakeActivation()]
 @freezed
 class GetSignatureStatusesOptions with _$GetSignatureStatusesOptions {
+  /// Build a configuration object for [RPCClient.getStakeActivation()]
+  ///
+  /// [searchTransactionHistory]
   const factory GetSignatureStatusesOptions({
     @absentIfNull bool? searchTransactionHistory,
   }) = _GetSignatureStatusesOptions;
@@ -216,6 +227,12 @@ class GetSignaturesForAddressOptions with _$GetSignaturesForAddressOptions {
 
 @freezed
 class GetProgramAccountsOptions with _$GetProgramAccountsOptions {
+  /// [encoding] encoding for Account data
+  ///
+  /// [dataSlice] limit the returned account data;
+  ///
+  /// [filter] filter results using various [filter objects](https://docs.solana.com/developing/clients/jsonrpc-api#filters);
+  /// account must meet all filter criteria to be included in results
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
@@ -224,7 +241,6 @@ class GetProgramAccountsOptions with _$GetProgramAccountsOptions {
     @absentIfNull Encoding? encoding,
     @absentIfNull DataSlice? dataSlice,
     @absentIfNull List<Filter>? filter,
-    @absentIfNull bool? withContext,
   }) = _GetProgramAccountsOptions;
 
   factory GetProgramAccountsOptions.fromJson(Map<String, dynamic> data) =>
@@ -233,6 +249,9 @@ class GetProgramAccountsOptions with _$GetProgramAccountsOptions {
 
 @freezed
 class GetLeaderScheduleOptions with _$GetLeaderScheduleOptions {
+  /// Configure a `getLeaderSchedule()` rpc call.
+  ///
+  /// [identity] Only return results for this validator identity (base-58 encoded)
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
@@ -322,6 +341,7 @@ class GetAccountInfoOptions with _$GetAccountInfoOptions {
   /// method.
   ///
   /// [encoding] encoding for Account data
+  ///
   /// [dataSlice] limit the returned account data;
   /// only available for "base58", "base64" or "base64+zstd" encodings.
   ///

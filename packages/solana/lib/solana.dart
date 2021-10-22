@@ -11,7 +11,6 @@ export 'src/exceptions/transaction_exception.dart';
 export 'src/memo_program/memo_program.dart';
 export 'src/parsed_message/parsed_message.dart';
 export 'src/rpc_client/rpc_client.dart';
-export 'src/rpc_client/rpc_client_extension.dart';
 export 'src/rpc_client/rpc_types.dart' hide Instruction;
 export 'src/spl_token/associated_account.dart';
 export 'src/spl_token/spl_token.dart';

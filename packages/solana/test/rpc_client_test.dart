@@ -13,12 +13,16 @@ const int _transferredAmount = 0x1000;
 
 void main() {
   group('SolanaClient testsuite', () {
-    final RPCClient rpcClient = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
+    late final RPCClient rpcClient;
     late Ed25519HDKeyPair destination;
     late Ed25519HDKeyPair source;
     int currentBalance = 0;
 
     setUpAll(() async {
+      rpcClient = await RPCClient.connect(
+        rpcUrl: devnetRpcUrl,
+        websocketUrl: devnetWebsocketUrl,
+      );
       destination = await Ed25519HDKeyPair.fromMnemonic(
         generateMnemonic(),
       ); // generateMnemonic());
@@ -107,7 +111,6 @@ void main() {
       );
       final String signature = await rpcClient.sendTransaction(
         transaction: signedTx.encode(),
-        options: const SendTransactionOptions(encoding: Encoding.base64),
       );
       expect(signature, signedTx.signatures.first.toBase58());
       await expectLater(
@@ -136,7 +139,6 @@ void main() {
       );
       final String signature = await rpcClient.sendTransaction(
         transaction: signedTx.encode(),
-        options: const SendTransactionOptions(encoding: Encoding.base64),
       );
       expect(signature, isNot(null));
 
@@ -158,8 +160,11 @@ void main() {
     });
   });
 
-  group('Test commitment', () {
-    final RPCClient solanaClient = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
+  group('Test commitment', () async {
+    final RPCClient solanaClient = await RPCClient.connect(
+      rpcUrl: devnetRpcUrl,
+      websocketUrl: devnetWebsocketUrl,
+    );
     late Ed25519HDKeyPair wallet;
 
     setUp(() async {

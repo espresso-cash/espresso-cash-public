@@ -20,7 +20,10 @@ void main() {
 
   setUpAll(() async {
     final signer = await Ed25519HDKeyPair.random();
-    rpcClient = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
+    rpcClient = await RPCClient.connect(
+      rpcUrl: devnetRpcUrl,
+      websocketUrl: devnetWebsocketUrl,
+    );
     source = Wallet(signer: signer, rpcClient: rpcClient);
     destination =
         Wallet(signer: await Ed25519HDKeyPair.random(), rpcClient: rpcClient);
