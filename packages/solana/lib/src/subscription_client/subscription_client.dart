@@ -254,15 +254,15 @@ class SubscriptionClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Stream<OptionalError> signatureSubscribe(
     String signature, {
-    Commitment? commitment,
+    Commitment? status,
   }) =>
       _subscribe<OptionalError>(
         'signature',
         params: <dynamic>[
           signature,
-          if (commitment != null)
+          if (status != null)
             <String, String>{
-              'commitment': commitment.value,
+              'commitment': status.value,
             },
         ],
         singleShot: true,

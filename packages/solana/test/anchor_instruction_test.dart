@@ -14,7 +14,7 @@ import 'config.dart';
 void main() {
   late final Ed25519HDKeyPair payer;
   late final Ed25519HDKeyPair updater;
-  final client = RPCClient(devnetRpcUrl);
+  final client = RPCClient(devnetRpcUrl, devnetWebsocketUrl);
 
   setUpAll(() async {
     payer = await Ed25519HDKeyPair.random();
