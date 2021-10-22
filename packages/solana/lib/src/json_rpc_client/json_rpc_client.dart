@@ -32,8 +32,9 @@ class JsonRpcClient {
             }
           })
           // Remove nulls because it is of our interest that these fields
-          // are omitted when null. JsonSerializable is already correctly
-          // configured for that
+          // are omitted when null. JsonSerializable fields is already correctly
+          // configured for that, so types that are JsonSerializable will
+          // automatically skip null
           .where((dynamic p) => p != null)
           .toList(growable: false);
     }
