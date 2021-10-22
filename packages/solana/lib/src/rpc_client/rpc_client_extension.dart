@@ -13,27 +13,25 @@ extension Convenience on RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionSignature> signAndSendTransaction(
+  Future<String> signAndSendTransaction(
     Message message,
-    List<Ed25519HDKeyPair> signers,
-  ) async {
+    List<Ed25519HDKeyPair> signers, {
+    Commitment? commitment,
+  }) async {
     final recentBlockhash = await getRecentBlockhash();
     final signedTx = await signTransaction(recentBlockhash, message, signers);
 
-    return sendTransaction(signedTx.encode());
+    return sendTransaction(
+      transaction: signedTx.encode(),
+      options: SendTransactionOptions(commitment: commitment),
+    );
   }
 
   /// This is just a helper function that allows the caller
   /// to wait for the transaction with signature [signature] to
   /// be in a desired [desiredStatus].
-  ///
-  /// Optionally a [timeout] can be specified and given that the state
-  /// did not change to or past [desiredStatus] the method will
-  /// throw an error.
-  ///
-  /// Note: the default [timeout] is 30 seconds.
   Future<void> waitForSignatureStatus(
-    TransactionSignature signature,
+    String signature,
     TxStatus desiredStatus,
   ) async {
     // Simply, if the returned result did not error out it means the desiredStatus
@@ -53,7 +51,7 @@ extension Convenience on RPCClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Iterable<TransactionResponse>> getTransactionsList(
+  Future<Iterable<TransactionDetails>> getTransactionsList(
     String address, {
     int limit = 10,
     Commitment? commitment,
@@ -61,13 +59,21 @@ extension Convenience on RPCClient {
     // FIXME: this must be replaced soon
     // ignore: deprecated_member_use_from_same_package
     final signatures = await getConfirmedSignaturesForAddress2(
-      address,
-      limit: limit,
-      commitment: commitment,
+      pubKey: address,
+      options: GetConfirmedSignaturesForAddress2Options(
+        limit: limit,
+        commitment: commitment,
+      ),
     );
     final transactions = await Future.wait(
       signatures.map(
-        (s) => getConfirmedTransaction(s.signature, commitment: commitment),
+        // ignore: deprecated_member_use_from_same_package
+        (s) => getConfirmedTransaction(
+          signature: s.signature,
+          options: GetConfirmedTransactionOptions(
+            commitment: commitment,
+          ),
+        ),
       ),
     );
 

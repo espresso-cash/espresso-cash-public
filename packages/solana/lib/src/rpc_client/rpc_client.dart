@@ -1,27 +1,47 @@
 import 'dart:async';
 
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/dto/response.dart';
 import 'package:solana/src/dto/rpc_response.dart';
+import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/json_rpc_client/json_rpc_client.dart';
 import 'package:solana/src/rpc_client/rpc_types.dart';
+import 'package:solana/src/subscription_client/subscription_client.dart';
+import 'package:solana/src/utils.dart';
+
+part 'rpc_client_extension.dart';
 
 /// Solana rpc api client
 class RPCClient {
-  /// Build an rpc api client to communicate with the solana node [rpcUrl].
-  RPCClient(String rpcUrl) : _client = JsonRpcClient(rpcUrl);
+  RPCClient._(this._rpcClient, this._subscriptionClient);
 
-  final JsonRpcClient _client;
+  final JsonRpcClient _rpcClient;
+  final SubscriptionClient _subscriptionClient;
+
+  /// Connect to a solana node. Use [rpcUrl] to specify where to send rpc requests
+  /// and [websocketUrl] for the subscriptions api.
+  ///
+  /// These urls, in principle, need not to be on the same node. But it would be
+  /// considered good practice if they actually are.
+  static Future<RPCClient> connect({
+    required String rpcUrl,
+    required String websocketUrl,
+  }) async =>
+      RPCClient._(
+        JsonRpcClient(rpcUrl),
+        await SubscriptionClient.connect(websocketUrl),
+      );
 
   /// Returns all information associated with the account of
   /// provided [pubKey].
   ///
-  /// Optionally you can pass an [options] parameter to configure
-  /// the result and query
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetAccountInfoOptions] for details.
   Future<Account?> getAccountInfo({
     required String pubKey,
     GetAccountInfoOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getAccountInfo',
       params: <dynamic>[pubKey, options],
     );
@@ -49,11 +69,13 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  ///
+  /// Check the [CommitmentObject] for details.
   Future<int> getBalance({
     required String pubKey,
     CommitmentObject? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getBalance',
       params: <dynamic>[pubKey, commitment],
     );
@@ -71,15 +93,20 @@ class RPCClient {
   }
 
   /// Returns identity and transaction information about a
-  /// confirmed block in the ledger at [slot]
+  /// confirmed block in the ledger
   ///
-  /// Optionally you can pass an [options] parameter to configure
-  /// the result and query
+  /// [slot] slot
+  ///
+  /// NEW: This method is only available in solana-core v1.7 or newer.
+  /// Please use [RPCClient.getConfirmedBlock()] for solana-core v1.6
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetBlockOptions] for details.
   Future<Block?> getBlock({
     required int slot,
     GetBlockOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getBlock',
       params: <dynamic>[slot, options],
     );
@@ -102,8 +129,12 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
-  Future<int> getBlockHeight({CommitmentObject? commitment}) async {
-    final data = await _client.request(
+  ///
+  /// Check the [CommitmentObject] for details.
+  Future<int> getBlockHeight({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _rpcClient.request(
       'getBlockHeight',
       params: <dynamic>[commitment],
     );
@@ -119,12 +150,12 @@ class RPCClient {
   /// Returns recent block production information from the
   /// current or previous epoch.
   ///
-  /// Optionally you can pass an [options] parameter to configure
-  /// the result and query
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetBlockProductionOptions] for details.
   Future<BlockProduction> getBlockProduction({
     GetBlockProductionOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getBlockProduction',
       params: <dynamic>[options],
     );
@@ -143,8 +174,10 @@ class RPCClient {
   }
 
   /// Returns commitment for particular [block]
-  Future<BlockCommitment?> getBlockCommitment({required int block}) async {
-    final data = await _client.request(
+  Future<BlockCommitment?> getBlockCommitment({
+    required int block,
+  }) async {
+    final data = await _rpcClient.request(
       'getBlockCommitment',
       params: <dynamic>[block],
     );
@@ -175,7 +208,7 @@ class RPCClient {
     int? endSlot,
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getBlocks',
       params: <dynamic>[
         startSlot,
@@ -202,7 +235,7 @@ class RPCClient {
     required int limit,
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getBlocksWithLimit',
       params: <dynamic>[
         startSlot,
@@ -220,8 +253,10 @@ class RPCClient {
   }
 
   /// Returns the estimated production time of a [block].
-  Future<int?> getBlockTime({required int block}) async {
-    final data = await _client.request(
+  Future<int?> getBlockTime({
+    required int block,
+  }) async {
+    final data = await _rpcClient.request(
       'getBlockTime',
       params: <dynamic>[block],
     );
@@ -243,7 +278,7 @@ class RPCClient {
   /// Returns information about all the nodes participating in
   /// the cluster
   Future<List<ClusterNode>> getClusterNodes() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getClusterNodes',
     );
 
@@ -262,8 +297,12 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
-  Future<EpochInfo> getEpochInfo({CommitmentObject? commitment}) async {
-    final data = await _client.request(
+  ///
+  /// Check the [CommitmentObject] for details.
+  Future<EpochInfo> getEpochInfo({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _rpcClient.request(
       'getEpochInfo',
       params: <dynamic>[commitment],
     );
@@ -279,7 +318,7 @@ class RPCClient {
   /// Returns epoch schedule information from this cluster's
   /// genesis config
   Future<EpochSchedule> getEpochSchedule() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getEpochSchedule',
     );
 
@@ -296,11 +335,13 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  ///
+  /// Check the [CommitmentObject] for details.
   Future<FeeCalculator?> getFeeCalculatorForBlockhash({
     required String blockhash,
     CommitmentObject? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getFeeCalculatorForBlockhash',
       params: <dynamic>[blockhash, commitment],
     );
@@ -321,7 +362,7 @@ class RPCClient {
 
   /// Returns the fee rate governor information from the root bank
   Future<FeeRateGovernor> getFeeRateGovernor() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getFeeRateGovernor',
     );
 
@@ -340,8 +381,12 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
-  Future<Fees> getFees({CommitmentObject? commitment}) async {
-    final data = await _client.request(
+  ///
+  /// Check the [CommitmentObject] for details.
+  Future<Fees> getFees({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _rpcClient.request(
       'getFees',
       params: <dynamic>[commitment],
     );
@@ -361,7 +406,7 @@ class RPCClient {
   /// Returns the slot of the lowest confirmed block that has not
   /// been purged from the ledger
   Future<int> getFirstAvailableBlock() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getFirstAvailableBlock',
     );
 
@@ -375,7 +420,7 @@ class RPCClient {
 
   /// Returns the genesis hash
   Future<String> getGenesisHash() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getGenesisHash',
     );
 
@@ -395,7 +440,7 @@ class RPCClient {
   /// known validator, otherwise an error is returned. "ok" is
   /// s always returned if no known validators are provided.
   Future<String> getHealth() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getHealth',
     );
 
@@ -409,7 +454,7 @@ class RPCClient {
 
   /// Returns the identity pubkey for the current node
   Future<Identity> getIdentity() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getIdentity',
     );
 
@@ -425,10 +470,12 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  ///
+  /// Check the [CommitmentObject] for details.
   Future<InflationGovernor> getInflationGovernor({
     CommitmentObject? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getInflationGovernor',
       params: <dynamic>[commitment],
     );
@@ -444,7 +491,7 @@ class RPCClient {
 
   /// Returns the specific inflation values for the current epoch
   Future<InflationRate> getInflationRate() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getInflationRate',
     );
 
@@ -461,7 +508,7 @@ class RPCClient {
   Future<List<InflationReward>> getInflationReward({
     required List<String> addresses,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getInflationReward',
       params: <dynamic>[addresses],
     );
@@ -480,12 +527,12 @@ class RPCClient {
   /// Returns the 20 largest accounts, by lamport balance
   /// (results may be cached up to two hours)
   ///
-  /// Optionally you can pass an [options] parameter to configure
-  /// the result and query
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetLargestAccountsOptions] for details.
   Future<List<LargeAccount>> getLargestAccounts({
     GetLargestAccountsOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getLargestAccounts',
       params: <dynamic>[options],
     );
@@ -505,12 +552,17 @@ class RPCClient {
     return rpcResponse.value;
   }
 
-  /// Returns the leader schedule for an epoch
+  /// Returns the leader schedule for the epoch that corresponds to the
+  /// provided [slot]. If unspecified, the leader schedule for the current
+  /// epoch is fetched.
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetLeaderScheduleOptions] for details.
   Future<LeaderSchedule?> getLeaderSchedule({
     int? slot,
     GetLeaderScheduleOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getLeaderSchedule',
       params: <dynamic>[slot, options],
     );
@@ -530,8 +582,10 @@ class RPCClient {
   }
 
   /// Get the max slot seen from retransmit stage.
-  Future<int> getMaxRetransmitSlot({required int slot}) async {
-    final data = await _client.request(
+  Future<int> getMaxRetransmitSlot({
+    required int slot,
+  }) async {
+    final data = await _rpcClient.request(
       'getMaxRetransmitSlot',
       params: <dynamic>[slot],
     );
@@ -546,7 +600,7 @@ class RPCClient {
 
   /// Get the max slot seen from after shred insert.
   Future<int> getMaxShredInsertSlot() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getMaxShredInsertSlot',
     );
 
@@ -561,13 +615,17 @@ class RPCClient {
   /// Returns minimum balance required to make account rent
   /// exempt.
   ///
+  /// [accountDataLength] Number of bytes to pay rent for
+  ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  ///
+  /// Check the [CommitmentObject] for details.
   Future<int> getMinimumBalanceForRentExemption({
     required int accountDataLength,
     CommitmentObject? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getMinimumBalanceForRentExemption',
       params: <dynamic>[accountDataLength, commitment],
     );
@@ -580,12 +638,15 @@ class RPCClient {
     return response.result;
   }
 
-  /// Returns the account information for a list of Public keys
+  /// Returns the account information for a list of [pubKeys]
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetAccountInfoOptions] for details.
   Future<List<Account>> getMultipleAccounts({
     required List<String> pubKeys,
     GetAccountInfoOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getMultipleAccounts',
       params: <dynamic>[pubKeys, options],
     );
@@ -605,15 +666,15 @@ class RPCClient {
     return rpcResponse.value;
   }
 
-  /// Returns all accounts owned by the provided program Pubkey
+  /// Returns all accounts owned by the provided program [pubKey]
   ///
-  /// Optionally you can pass an [options] parameter to configure
-  /// the result and query
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetProgramAccountsOptions] for details.
   Future<List<ProgramAccount>> getProgramAccounts({
     required String pubKey,
     GetProgramAccountsOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getProgramAccounts',
       params: <dynamic>[pubKey, options],
     );
@@ -635,10 +696,12 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  ///
+  /// Check the [CommitmentObject] for details.
   Future<RecentBlockhash> getRecentBlockhash({
     CommitmentObject? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getRecentBlockhash',
       params: <dynamic>[commitment],
     );
@@ -660,10 +723,12 @@ class RPCClient {
   /// slot order. Performance samples are taken every 60 seconds
   /// s and include the number of transactions and slots that
   /// occur in a given time window.
+  ///
+  /// [limit] number of samples to return (maximum 720)
   Future<List<PerfSample>> getRecentPerformanceSamples({
     int? limit,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getRecentPerformanceSamples',
       params: <dynamic>[limit],
     );
@@ -681,7 +746,7 @@ class RPCClient {
 
   /// Returns the highest slot that the node has a snapshot for
   Future<int> getSnapshotSlot() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getSnapshotSlot',
     );
 
@@ -694,15 +759,18 @@ class RPCClient {
   }
 
   /// Returns confirmed signatures for transactions involving an
-  /// address backwards in time from the provided signature or
-  /// r most recent confirmed block
+  /// [address] backwards in time from the provided signature or
+  /// most recent confirmed block
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetSignaturesForAddressOptions] for details.
   Future<List<TransactionSignatureInformation>> getSignaturesForAddress({
-    required String pubKey,
+    required String address,
     GetSignaturesForAddressOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getSignaturesForAddress',
-      params: <dynamic>[pubKey, options],
+      params: <dynamic>[address, options],
     );
 
     final response = Response<List<TransactionSignatureInformation>>.fromJson(
@@ -718,14 +786,17 @@ class RPCClient {
 
   /// Returns the statuses of a list of signatures. Unless the
   /// searchTransactionHistory configuration parameter is
-  /// s included, this method only searches the recent status
+  /// included, this method only searches the recent status
   /// cache of signatures, which retains statuses for all active
-  /// e slots plus MAX_RECENT_BLOCKHASHES rooted slots.
+  /// slots plus MAX_RECENT_BLOCKHASHES rooted slots.
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetSignatureStatusesOptions] for details.
   Future<List<SignatureStatus?>> getSignatureStatuses({
     required List<String> signatures,
     GetSignatureStatusesOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getSignatureStatuses',
       params: <dynamic>[signatures, options],
     );
@@ -753,8 +824,12 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
-  Future<int> getSlot({CommitmentObject? commitment}) async {
-    final data = await _client.request(
+  ///
+  /// Check the [CommitmentObject] for details.
+  Future<int> getSlot({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _rpcClient.request(
       'getSlot',
       params: <dynamic>[commitment],
     );
@@ -771,8 +846,12 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
-  Future<String> getSlotLeader({CommitmentObject? commitment}) async {
-    final data = await _client.request(
+  ///
+  /// Check the [CommitmentObject] for details.
+  Future<String> getSlotLeader({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _rpcClient.request(
       'getSlotLeader',
       params: <dynamic>[commitment],
     );
@@ -785,12 +864,13 @@ class RPCClient {
     return response.result;
   }
 
-  /// Returns the slot leaders for a given slot range
+  /// Returns the slot leaders for a given slot range starting at [startSlot] and
+  /// of at least [limit] slots.
   Future<List<String>> getSlotLeaders({
     required int startSlot,
     required int limit,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getSlotLeaders',
       params: <dynamic>[startSlot, limit],
     );
@@ -805,12 +885,16 @@ class RPCClient {
     return response.result;
   }
 
-  /// Returns epoch activation information for a stake account
+  /// Returns epoch activation information for a stake account with public key
+  /// [pubKey]
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetStakeActivationOptions] for details.
   Future<StakeActivation> getStakeActivation({
     required String pubKey,
     GetStakeActivationOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getStakeActivation',
       params: <dynamic>[pubKey, options],
     );
@@ -824,10 +908,13 @@ class RPCClient {
   }
 
   /// Returns information about the current supply.
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetSupplyOptions] for details.
   Future<Supply> getSupply({
     GetSupplyOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getSupply',
       params: <dynamic>[options],
     );
@@ -844,11 +931,13 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  ///
+  /// Check the [CommitmentObject] for details.
   Future<TokenAmount> getTokenAccountBalance({
     required String pubKey,
     CommitmentObject? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getTokenAccountBalance',
       params: <dynamic>[pubKey, commitment],
     );
@@ -867,14 +956,14 @@ class RPCClient {
 
   /// Returns all SPL Token accounts by approved Delegate.
   ///
-  /// Optionally you can pass an [options] parameter to configure
-  /// the result and query
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetAccountInfoOptions] for details.
   Future<List<ProgramAccount>> getTokenAccountsByDelegate({
     required String pubKey,
     required MintOrProgramId mintOrProgramId,
     GetAccountInfoOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getTokenAccountsByDelegate',
       params: <dynamic>[pubKey, mintOrProgramId, options],
     );
@@ -896,14 +985,14 @@ class RPCClient {
 
   /// Returns all SPL Token accounts by token owner.
   ///
-  /// Optionally you can pass an [options] parameter to configure
-  /// the result and query
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetAccountInfoOptions] for details.
   Future<List<ProgramAccount>> getTokenAccountsByOwner({
     required String pubKey,
     required MintOrProgramId mintOrProgramId,
     GetAccountInfoOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getTokenAccountsByOwner',
       params: <dynamic>[pubKey, mintOrProgramId, options],
     );
@@ -928,11 +1017,13 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  ///
+  /// Check the [CommitmentObject] for details.
   Future<List<ProgramAccount>> getTokenLargestAccounts({
     required String mint,
     CommitmentObject? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getTokenLargestAccounts',
       params: <dynamic>[mint, commitment],
     );
@@ -956,11 +1047,13 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  ///
+  /// Check the [CommitmentObject] for details.
   Future<TokenAmount> getTokenSupply({
     required String mint,
     CommitmentObject? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getTokenSupply',
       params: <dynamic>[mint, commitment],
     );
@@ -978,11 +1071,14 @@ class RPCClient {
   }
 
   /// Returns transaction details for a confirmed transaction
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetTransactionOptions] for details.
   Future<TransactionDetails?> getTransaction({
     required String signature,
     GetTransactionOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getTransaction',
       params: <dynamic>[signature, options],
     );
@@ -1005,8 +1101,12 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
-  Future<int> getTransactionCount({CommitmentObject? commitment}) async {
-    final data = await _client.request(
+  ///
+  /// Check the [CommitmentObject] for details.
+  Future<int> getTransactionCount({
+    CommitmentObject? commitment,
+  }) async {
+    final data = await _rpcClient.request(
       'getTransactionCount',
       params: <dynamic>[commitment],
     );
@@ -1021,7 +1121,7 @@ class RPCClient {
 
   /// Returns the current solana versions running on the node
   Future<SolanaVersion> getVersion() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getVersion',
     );
 
@@ -1035,10 +1135,13 @@ class RPCClient {
 
   /// Returns the account info and associated stake for all the
   /// voting accounts in the current bank.
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetVoteAccountsOptions] for details.
   Future<VoteAccounts> getVoteAccounts({
     GetVoteAccountsOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getVoteAccounts',
       params: <dynamic>[options],
     );
@@ -1055,7 +1158,7 @@ class RPCClient {
   /// in its ledger. This value may increase over time if the
   /// e node is configured to purge older ledger data
   Future<int> minimumLedgerSlot() async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'minimumLedgerSlot',
     );
 
@@ -1071,12 +1174,14 @@ class RPCClient {
   ///
   /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
   /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  ///
+  /// Check the [CommitmentObject] for details.
   Future<String> requestAirdrop({
     required String pubKey,
     required int lamports,
     CommitmentObject? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'requestAirdrop',
       params: <dynamic>[pubKey, lamports, commitment],
     );
@@ -1089,7 +1194,7 @@ class RPCClient {
     return response.result;
   }
 
-  /// Submits a signed transaction to the cluster for processing.
+  /// Submits a signed [transaction] to the cluster for processing.
   ///
   /// This method does not alter the transaction in any way; it
   /// relays the transaction created by clients to the node
@@ -1124,15 +1229,27 @@ class RPCClient {
   /// (transaction id). This identifier can be easily extracted
   /// from the transaction data before submission.
   ///
-  /// Optionally you can pass an [options] parameter to configure
-  /// the result and query
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [SendTransactionOptions] for details.
   Future<String> sendTransaction({
     required String transaction,
     SendTransactionOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'sendTransaction',
-      params: <dynamic>[transaction, options],
+      params: <dynamic>[
+        transaction,
+        if (options != null)
+          <String, dynamic>{
+            'encoding': 'base64',
+            if (options.commitment != null) 'commitment': options.commitment,
+            if (options.skipPreflight != null)
+              'skipPreflight': options.skipPreflight,
+            if (options.maxRetries != null) 'maxRetries': options.maxRetries,
+          }
+        else
+          <String, dynamic>{'encoding': 'base64'},
+      ],
     );
 
     final response = Response<String>.fromJson(
@@ -1145,13 +1262,13 @@ class RPCClient {
 
   /// Simulate sending a transaction
   ///
-  /// Optionally you can pass an [options] parameter to configure
-  /// the result and query
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [SimulateTransactionOptions] for details.
   Future<TransactionStatus> simulateTransaction({
     required String transaction,
     SimulateTransactionOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'simulateTransaction',
       params: <dynamic>[transaction, options],
     );
@@ -1170,13 +1287,16 @@ class RPCClient {
   }
 
   /// Returns identity and transaction information about a
-  /// confirmed block in the ledger
+  /// confirmed block in the ledger for a given [slot]
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetBlockOptions] for details.
   @deprecated
   Future<Block> getConfirmedBlock({
     required int slot,
     GetBlockOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getConfirmedBlock',
       params: <dynamic>[slot, options],
     );
@@ -1199,7 +1319,7 @@ class RPCClient {
     int? endSlot,
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getConfirmedBlocks',
       params: <dynamic>[
         startSlot,
@@ -1227,7 +1347,7 @@ class RPCClient {
     required int limit,
     Commitment? commitment,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getConfirmedBlocksWithLimit',
       params: <dynamic>[
         startSlot,
@@ -1248,15 +1368,15 @@ class RPCClient {
   /// address backwards in time from the provided signature or
   /// most recent confirmed block
   ///
-  /// For the [commitment] parameter see [Commitment](https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment);
-  /// "processed" is not supported. If parameter not provided, the default is "finalized".
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetConfirmedSignaturesForAddress2Options] for details.
   @deprecated
   Future<List<TransactionSignatureInformation>>
       getConfirmedSignaturesForAddress2({
     required String pubKey,
     GetConfirmedSignaturesForAddress2Options? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getConfirmedSignaturesForAddress2',
       params: <dynamic>[pubKey, options],
     );
@@ -1272,16 +1392,19 @@ class RPCClient {
     return response.result;
   }
 
-  /// Returns transaction details for a confirmed transaction
+  /// Returns transaction details for a confirmed transaction with [signature]
   ///
   /// Optionally you can pass an [options] parameter to configure
   /// the result and query
+  ///
+  /// Optionally use the [options] parameter to configure the call.
+  /// Check the [GetConfirmedTransactionOptions] for details.
   @deprecated
   Future<TransactionDetails?> getConfirmedTransaction({
     required String signature,
     GetConfirmedTransactionOptions? options,
   }) async {
-    final data = await _client.request(
+    final data = await _rpcClient.request(
       'getConfirmedTransaction',
       params: <dynamic>[signature, options],
     );

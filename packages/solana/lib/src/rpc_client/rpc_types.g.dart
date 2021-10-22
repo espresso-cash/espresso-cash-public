@@ -135,7 +135,6 @@ Map<String, dynamic> _$$_SimulateTransactionOptionsToJson(
 _$_SendTransactionOptions _$$_SendTransactionOptionsFromJson(
         Map<String, dynamic> json) =>
     _$_SendTransactionOptions(
-      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']),
       commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
       skipPreflight: json['skipPreflight'] as bool?,
       maxRetries: json['maxRetries'] as int?,
@@ -151,7 +150,6 @@ Map<String, dynamic> _$$_SendTransactionOptionsToJson(
     }
   }
 
-  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('skipPreflight', instance.skipPreflight);
   writeNotNull('maxRetries', instance.maxRetries);
@@ -327,7 +325,6 @@ _$_GetProgramAccountsOptions _$$_GetProgramAccountsOptionsFromJson(
       filter: (json['filter'] as List<dynamic>?)
           ?.map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      withContext: json['withContext'] as bool?,
     );
 
 Map<String, dynamic> _$$_GetProgramAccountsOptionsToJson(
@@ -344,7 +341,6 @@ Map<String, dynamic> _$$_GetProgramAccountsOptionsToJson(
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('dataSlice', instance.dataSlice);
   writeNotNull('filter', instance.filter);
-  writeNotNull('withContext', instance.withContext);
   return val;
 }
 
