@@ -1,7 +1,10 @@
 import 'package:solana/solana.dart';
 
 Future<void> example() async {
-  final rpcClient = RPCClient(_rpcClientUrl, _websocketClientUrl);
+  final rpcClient = await RPCClient.connect(
+    rpcUrl: _rpcUrl,
+    websocketUrl: _websocketUrl,
+  );
 
   // Create a wallet
   final source = Wallet(
@@ -53,7 +56,7 @@ Future<void> example() async {
   // the first signer in the following call.
   final signature = await rpcClient.signAndSendTransaction(
     message,
-    [
+    <Ed25519HDKeyPair>[
       feePayer.signer,
       source.signer,
     ],
@@ -69,7 +72,7 @@ Future<void> example() async {
   print('fee payer: ${feePayer.address}');
 }
 
-const _rpcClientUrl = 'https://api.devnet.solana.com';
-const _websocketClientUrl = 'wss://api.devnet.solana.com';
+const _rpcUrl = 'https://api.devnet.solana.com';
+const _websocketUrl = 'wss://api.devnet.solana.com';
 // USDT token mint from (https://github.com/solana-labs/token-list/blob/main/src/tokens/solana.tokenlist.json);
 const _tokenMint = 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB';

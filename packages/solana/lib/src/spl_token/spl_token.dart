@@ -3,7 +3,6 @@ import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
-import 'package:solana/src/rpc_client/rpc_client_extension.dart';
 import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/token_program/token_program.dart';
 import 'package:solana/src/utils.dart';
@@ -199,7 +198,7 @@ class SplToken {
     );
   }
 
-  /// Mint [destination] with [amount] tokens. Requires writable [Token].
+  /// Mint [destination] with [amount] tokens. Requires writable `SplToken`
   Future<void> mintTo({
     required String destination,
     required int amount,

@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert' hide Encoding;
 
 import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/buffer.dart';
