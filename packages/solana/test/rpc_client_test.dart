@@ -91,10 +91,7 @@ void main() {
         recentBlockhash: recentBlockhash.blockhash,
       );
       final TransactionStatus transferResult =
-          await rpcClient.simulateTransaction(
-        transaction: signedTx.encode(),
-        options: const SimulateTransactionOptions(encoding: Encoding.base64),
-      );
+          await rpcClient.simulateTransaction(transaction: signedTx.encode());
       expect(transferResult.err, null);
     });
 
@@ -160,12 +157,16 @@ void main() {
     });
   });
 
-  group('Test commitment', () async {
-    final RPCClient solanaClient = await RPCClient.connect(
-      rpcUrl: devnetRpcUrl,
-      websocketUrl: devnetWebsocketUrl,
-    );
+  group('Test commitment', () {
+    late final RPCClient solanaClient;
     late Ed25519HDKeyPair wallet;
+
+    setUpAll(() async {
+      solanaClient = await RPCClient.connect(
+        rpcUrl: devnetRpcUrl,
+        websocketUrl: devnetWebsocketUrl,
+      );
+    });
 
     setUp(() async {
       wallet = await Ed25519HDKeyPair.fromMnemonic(generateMnemonic());

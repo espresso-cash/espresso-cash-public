@@ -7,4 +7,3 @@ analyzer:
 linter:
   rules:
       - package_api_docs
-      - comment_references

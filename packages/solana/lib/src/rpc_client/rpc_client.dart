@@ -1242,7 +1242,8 @@ class RPCClient {
         if (options != null)
           <String, dynamic>{
             'encoding': 'base64',
-            if (options.commitment != null) 'commitment': options.commitment,
+            if (options.commitment != null)
+              'commitment': options.commitment!.value,
             if (options.skipPreflight != null)
               'skipPreflight': options.skipPreflight,
             if (options.maxRetries != null) 'maxRetries': options.maxRetries,
@@ -1268,9 +1269,30 @@ class RPCClient {
     required String transaction,
     SimulateTransactionOptions? options,
   }) async {
+    if (options?.replaceRecentBlockhash != null && options?.sigVerify != null) {
+      throw const FormatException(
+          'cannot specify "replaceRecentBlockhash" and "sigVerify" at the same time');
+    }
+
     final data = await _rpcClient.request(
       'simulateTransaction',
-      params: <dynamic>[transaction, options],
+      params: <dynamic>[
+        transaction,
+        if (options != null)
+          <String, dynamic>{
+            'encoding': 'base64',
+            if (options.commitment != null)
+              'commitment': options.commitment!.value,
+            if (options.sigVerify != null) 'sigVerify': options.sigVerify,
+            if (options.accounts != null) 'accounts': options.accounts,
+            if (options.replaceRecentBlockhash != null)
+              'replaceRecentBlockhash': options.replaceRecentBlockhash,
+          }
+        else
+          <String, dynamic>{
+            'encoding': 'base64',
+          },
+      ],
     );
 
     final response = Response<RpcResponse<TransactionStatus>>.fromJson(
