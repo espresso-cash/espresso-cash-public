@@ -80,7 +80,7 @@ class SplToken {
     required String destination,
     required int amount,
     required Ed25519HDKeyPair owner,
-    Commitment commitment = TxStatus.finalized,
+    Commitment commitment = ConfirmationStatus.finalized,
   }) async {
     final associatedRecipientAccount = await getAssociatedAccount(destination);
     final associatedSenderAccount = await getAssociatedAccount(source);
