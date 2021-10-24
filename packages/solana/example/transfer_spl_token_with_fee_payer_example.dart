@@ -1,7 +1,7 @@
 import 'package:solana/solana.dart';
 
 Future<void> example() async {
-  final rpcClient = await RPCClient.connect(
+  final rpcClient = RPCClient(
     rpcUrl: _rpcClientUrl,
     websocketUrl: _websocketClientUrl,
   );

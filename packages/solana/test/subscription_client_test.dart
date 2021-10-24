@@ -13,7 +13,7 @@ void main() {
     const originalLamports = 10 * lamportsPerSol;
     final sender = await Ed25519HDKeyPair.random();
     final recipient = await Ed25519HDKeyPair.random();
-    final rpcClient = await RPCClient.connect(
+    final rpcClient = RPCClient(
       rpcUrl: devnetRpcUrl,
       websocketUrl: devnetWebsocketUrl,
     );
@@ -22,7 +22,7 @@ void main() {
       lamports: originalLamports,
     );
 
-    final client = await SubscriptionClient.connect(devnetWebsocketUrl);
+    final client = SubscriptionClient(devnetWebsocketUrl);
     final OptionalError result =
         await client.signatureSubscribe(signature).firstWhere((_) => true);
 

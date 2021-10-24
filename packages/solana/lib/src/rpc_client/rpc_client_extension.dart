@@ -32,7 +32,7 @@ extension Convenience on RPCClient {
   /// be in a desired [desiredStatus].
   Future<void> waitForSignatureStatus(
     String signature,
-    TxStatus desiredStatus,
+    ConfirmationStatus desiredStatus,
   ) async {
     // Simply, if the returned result did not error out it means the desiredStatus
     // was fulfilled
@@ -60,7 +60,7 @@ extension Convenience on RPCClient {
     // ignore: deprecated_member_use_from_same_package
     final signatures = await getConfirmedSignaturesForAddress2(
       pubKey: address,
-      options: GetConfirmedSignaturesForAddress2Options(
+      options: GetSignaturesForAddressOptions(
         limit: limit,
         commitment: commitment,
       ),
