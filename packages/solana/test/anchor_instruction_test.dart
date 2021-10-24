@@ -17,10 +17,8 @@ void main() {
   late final RPCClient client;
 
   setUpAll(() async {
-    client = await RPCClient.connect(
-      rpcUrl: devnetRpcUrl,
-      websocketUrl: devnetWebsocketUrl,
-    );
+    client = RPCClient(rpcUrl: devnetRpcUrl, websocketUrl: devnetWebsocketUrl);
+
     payer = await Ed25519HDKeyPair.random();
     updater = await Ed25519HDKeyPair.random();
 
@@ -41,7 +39,10 @@ void main() {
       message,
       <Ed25519HDKeyPair>[payer],
     );
-    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+    await client.waitForSignatureStatus(
+      signature,
+      ConfirmationStatus.finalized,
+    );
 
     expect(signature, isNotNull);
   }, skip: true);
@@ -78,7 +79,10 @@ void main() {
         updater,
       ],
     );
-    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+    await client.waitForSignatureStatus(
+      signature,
+      ConfirmationStatus.finalized,
+    );
 
     final account = await client.getAccountInfo(pubKey: updater.address);
     expect(account, isNotNull);
@@ -109,7 +113,10 @@ void main() {
       message,
       <Ed25519HDKeyPair>[payer],
     );
-    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+    await client.waitForSignatureStatus(
+      signature,
+      ConfirmationStatus.finalized,
+    );
 
     final discriminator = await computeDiscriminator('account', 'MyAccount');
     final account = await client.getAccountInfo(pubKey: updater.address);

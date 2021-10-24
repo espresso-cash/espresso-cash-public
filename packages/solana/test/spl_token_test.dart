@@ -14,7 +14,7 @@ void main() {
     late final Ed25519HDKeyPair owner;
 
     setUpAll(() async {
-      client = await RPCClient.connect(
+      client = RPCClient(
         rpcUrl: devnetRpcUrl,
         websocketUrl: devnetWebsocketUrl,
       );
@@ -186,7 +186,10 @@ void main() {
           owner,
         ],
       );
-      await client.waitForSignatureStatus(signature, TxStatus.finalized);
+      await client.waitForSignatureStatus(
+        signature,
+        ConfirmationStatus.finalized,
+      );
 
       expect(signature, isNot(null));
     }, timeout: const Timeout(Duration(minutes: 2)));
@@ -267,7 +270,10 @@ void main() {
         message,
         <Ed25519HDKeyPair>[owner],
       );
-      await client.waitForSignatureStatus(signature, TxStatus.finalized);
+      await client.waitForSignatureStatus(
+        signature,
+        ConfirmationStatus.finalized,
+      );
     }, timeout: const Timeout(Duration(minutes: 2)));
   });
 }

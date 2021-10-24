@@ -18,23 +18,24 @@ class NotificationMessage
   const factory NotificationMessage.unsupported() = _UnsupportedNotification;
 
   const factory NotificationMessage.accountNotification({
-    required NotificationParams<Account> params,
+    @NotificationParamsCoverter() required NotificationParams<Account> params,
   }) = AccountNotification;
 
   const factory NotificationMessage.logsNotification({
-    required NotificationParams<Logs> params,
+    @NotificationParamsCoverter() required NotificationParams<Logs> params,
   }) = LogsNotification;
 
   const factory NotificationMessage.programNotification({
-    required NotificationParams<dynamic> params,
+    @NotificationParamsCoverter() required NotificationParams<dynamic> params,
   }) = ProgramNotification;
 
   const factory NotificationMessage.signatureNotification({
-    required NotificationParams<OptionalError> params,
+    @NotificationParamsCoverter()
+        required NotificationParams<OptionalError> params,
   }) = SignatureNotification;
 
   const factory NotificationMessage.slotNotification({
-    required NotificationParams<Slot> params,
+    @NotificationParamsCoverter() required NotificationParams<Slot> params,
   }) = SlotNotification;
 
   factory NotificationMessage.fromJson(Map<String, dynamic> json) =>

@@ -1,67 +1,82 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/src/dto/parsed_spl_token_account_data.dart';
+import 'package:solana/src/base58/decode.dart';
+
+// import 'package:solana/src/dto/parsed_spl_token_account_data.dart';
 
 part 'account_data.freezed.dart';
 
 @freezed
 class AccountData with _$AccountData {
-  const factory AccountData.fromBytes(List<int> bytes) = BinaryAccountData;
+  const factory AccountData.binary(List<int> bytes) = BinaryAccountData;
 
-  const factory AccountData.fromString(String string) = StringAccountData;
+  const factory AccountData.parsed(Map<String, dynamic> parsed) =
+      ParsedAccountData;
 
   const factory AccountData.empty() = EmptyAccountData;
-
-  const factory AccountData.splToken(ParsedSplTokenAccountData parsed) =
-      SplTokenAccountData;
-
-  const factory AccountData.generic(Map<String, dynamic> data) =
-      GenericAccountData;
 }
 
 class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
   const AccountDataConverter();
 
-  @override
-  AccountData? fromJson(dynamic data) {
-    if (data == null) {
-      return null;
-    } else if (data is String) {
-      if (data == '') {
-        return const AccountData.empty();
-      }
-      return AccountData.fromBytes(base64Decode(data));
-    } else if (data is List) {
-      if (data.length != 2) {
-        throw const FormatException(
-            'unexpected array of strings, cannot be account data');
-      }
-      if (data.last != 'base64') {
-        throw FormatException('unexpected encoding "${data.last}"');
-      }
-      final dynamic base64String = data.first;
-      if (base64String is! String) {
+  AccountData _fromEncodedData(List<String> data) {
+    final dynamic encoded = data.first;
+    final dynamic encoding = data.last;
+    if (encoded is! String) {
+      throw const FormatException('encoded data is not of type String');
+    }
+
+    if (encoding is! String) {
+      throw const FormatException('encoding is not of type String');
+    }
+
+    if (encoding == 'base64') {
+      if (encoded is! String) {
         throw FormatException('unexpected data "${data.first}"');
       }
-      return AccountData.fromBytes(base64Decode(base64String));
-    } else if (data is Map<String, dynamic>) {
-      switch (data['program']) {
-        // TODO(IA): add other program data
-        case 'spl-token':
-          return AccountData.splToken(ParsedSplTokenAccountData.fromJson(
-            data['parsed'] as Map<String, dynamic>,
-          ));
-        default:
-          return AccountData.generic(data);
+
+      if (encoded.isEmpty) {
+        return const AccountData.empty();
       }
+
+      return AccountData.binary(base58decode(encoded));
+    } else if (encoding == 'base58') {
+      if (encoded is! String) {
+        throw FormatException('unexpected data "${data.first}"');
+      }
+
+      if (encoding.isEmpty) {
+        return const AccountData.empty();
+      }
+
+      return AccountData.binary(base64Decode(encoded));
     } else {
-      throw const FormatException('cannot decode account data');
+      throw FormatException('unknown encoding $encoding');
     }
   }
 
   @override
-  Map<String, dynamic> toJson(AccountData? object) {
-    throw UnsupportedError('converting this object to json is not supported');
+  AccountData? fromJson(dynamic data) {
+    if (data == null) {
+      return null;
+    } else if (data is List<String>) {
+      if (data.length != 2) {
+        throw const FormatException(
+          'expected an array of 2 elements [data, encoding]',
+        );
+      }
+
+      return _fromEncodedData(data);
+    } else if (data is Map<String, dynamic>) {
+      return AccountData.parsed(data);
+    } else {
+      throw const FormatException('account data is in unknown format');
+    }
+  }
+
+  @override
+  dynamic toJson(AccountData? object) {
+    throw UnsupportedError('converting account data to json is not supported');
   }
 }

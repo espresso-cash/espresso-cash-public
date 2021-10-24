@@ -19,19 +19,36 @@ import 'package:solana/src/subscription_client/subscription_manager.dart';
 
 /// Provides a websocket based connection to Solana.
 class SubscriptionClient {
-  SubscriptionClient._(this._webSocket)
+  SubscriptionClient(this._url)
       : _unattachedSubscriptionManagers = <int, SubscriptionManager>{},
-        _attachedSubscriptionManagers = <int, SubscriptionManager>{} {
-    _subscription = _webSocket.listen(_dispatchMessage);
-  }
+        _attachedSubscriptionManagers = <int, SubscriptionManager>{};
 
-  final WebSocket _webSocket;
+  final String _url;
+
   final Map<int, SubscriptionManager> _unattachedSubscriptionManagers;
   final Map<int, SubscriptionManager> _attachedSubscriptionManagers;
 
   late final StreamSubscription<dynamic> _subscription;
+  WebSocket? _websocket;
 
   int _lastRequestId = 1;
+
+  Future<void> _ensureConnected() async {
+    final currentWebsocket = _websocket;
+    // Because dart has no concurrent threads, this is safe
+    if (currentWebsocket != null) {
+      return;
+    }
+    // Connect the websocket now
+    _websocket = await WebSocket.connect(_url);
+
+    // Make sure that the instance member is not overwritten before
+    // attempting to access it
+    final connectedWebsocket = _websocket;
+    if (connectedWebsocket != null) {
+      _subscription = connectedWebsocket.listen(_dispatchMessage);
+    }
+  }
 
   void _dispatchMessage(dynamic data) {
     if (data is String) {
@@ -86,7 +103,13 @@ class SubscriptionClient {
     }
   }
 
-  void _sendRequest(int id, String method, List<dynamic>? params) {
+  Future<void> _sendRequest(
+    int id,
+    String method,
+    List<dynamic>? params,
+  ) async {
+    await _ensureConnected();
+
     final payload = json.encode(<String, dynamic>{
       'jsonrpc': '2.0',
       'id': id,
@@ -94,7 +117,7 @@ class SubscriptionClient {
       if (params != null) 'params': params,
     });
 
-    _webSocket.add(payload);
+    _websocket!.add(payload);
   }
 
   void _createSubscription(int id, String method, List<dynamic>? params) {
@@ -141,13 +164,10 @@ class SubscriptionClient {
     return subscriptionManager.stream;
   }
 
-  /// Connect to the websocket at [url] node.
-  static Future<SubscriptionClient> connect(String url) async =>
-      SubscriptionClient._(await WebSocket.connect(url));
-
   /// Dispose this object and cancel any existing subscription.
   void dispose() {
     _subscription.cancel();
+    _websocket?.close();
   }
 
   /// Subscribe to an account with [address] to receive notifications when the
