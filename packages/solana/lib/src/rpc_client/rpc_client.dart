@@ -1177,7 +1177,7 @@ class RPCClient {
       'getConfirmedTransaction',
       params: <dynamic>[
         signature,
-        options?.toJson(),
+        options.toJson(),
       ],
     );
 
