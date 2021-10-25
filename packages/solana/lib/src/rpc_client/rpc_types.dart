@@ -8,6 +8,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/dto/by_identity_value.dart';
+import 'package:solana/src/parsed_message/parsed_message.dart';
 
 part 'rpc_types.g.dart';
 
@@ -98,19 +99,15 @@ typedef ConfirmationStatus = Commitment;
 
 /// Configuration object for
 /// [RPCClient.getConfirmedTransaction()]
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createFactory: false, includeIfNull: false)
 class GetConfirmedTransactionOptions {
   const GetConfirmedTransactionOptions({
-    this.encoding,
     this.commitment,
   });
 
-  factory GetConfirmedTransactionOptions.fromJson(Map<String, dynamic> json) =>
-      _$GetConfirmedTransactionOptionsFromJson(json);
-
   Map<String, dynamic> toJson() => _$GetConfirmedTransactionOptionsToJson(this);
 
-  final Encoding? encoding;
+  String get encoding => 'jsonParsed';
 
   final Commitment? commitment;
 }
@@ -797,7 +794,7 @@ class Transaction {
   final List<String> signatures;
 
   /// Defines the content of the transaction.
-  final TransactionMessage message;
+  final ParsedMessage message;
 }
 
 /// Details of a transaction

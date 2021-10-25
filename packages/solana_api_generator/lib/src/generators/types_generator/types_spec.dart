@@ -42,6 +42,7 @@ class TypesSpec {
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/dto/by_identity_value.dart';
+import 'package:solana/src/parsed_message/parsed_message.dart';
 
 part '${_buildStep.part("g")}';
 

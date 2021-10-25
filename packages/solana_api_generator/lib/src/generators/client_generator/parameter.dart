@@ -13,6 +13,9 @@ class Parameter with _$Parameter {
     required String? url,
     @JsonKey(name: 'is_optional') required bool isOptional,
     @JsonKey(name: 'default_value') required dynamic defaultValue,
+    @Default(false)
+    @JsonKey(name: 'with_default_parameter')
+        bool withDefaultParameter,
   }) = _Parameter;
 
   factory Parameter.fromJson(Map<String, dynamic> data) =>
@@ -33,7 +36,7 @@ class Parameter with _$Parameter {
     final parsedType = parseType(type);
     final requiredMarker = isRequired ? 'required ' : '';
 
-    if (!isOptional && !_isPrimitive) {
+    if (withDefaultParameter) {
       return '$parsedType $name = const $parsedType()';
     } else {
       return '$requiredMarker$parsedType$nullableMarker $name';
