@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana_api_generator/src/generators/client_generator/primitive.dart';
 import 'package:solana_api_generator/src/parse_type.dart';
+import 'package:solana_api_generator/src/utils/is_primitive_type.dart';
 
 part 'result.freezed.dart';
 part 'result.g.dart';
@@ -26,10 +28,7 @@ class Result with _$Result {
 
   bool get _isPrimitive {
     final parsedType = parseType(type);
-    return parsedType == 'int' ||
-        parsedType == 'String' ||
-        parsedType.startsWith('List<') ||
-        parsedType.startsWith('Map<');
+    return isPrimitiveType(parsedType);
   }
 
   @override
@@ -41,8 +40,12 @@ class Result with _$Result {
           } else {
             final nullCheck = _nullCheckCode(nullable, 'value');
             return '''
-              final value = _extractValueFromWrappedResponse(response);
+              final dynamic value = _extractValueFromWrappedResponse(response);
               $nullCheck
+              
+              if (value is! Map<String, dynamic>) {
+                throw InvalidResultValueException(value);
+              }
 
               return $parsedType.fromJson(value);
           ''';
@@ -56,7 +59,7 @@ class Result with _$Result {
             final nullCheck = _nullCheckCode(nullable, 'result');
 
             return '''
-            final result = _extractResultFromResponse(response);
+            final dynamic result = _extractResultFromResponse(response);
             $nullCheck
             
             if (result is! Map<String, dynamic>) {
@@ -73,20 +76,28 @@ class Result with _$Result {
 extension on SimpleResult {
   String get primitive {
     final parsedType = parseType(type);
-    final optionalMarker = nullable ? '?' : '';
-    return '''
-      return _extractResultFromResponse(response) as $parsedType$optionalMarker;
-    ''';
+    final primitive = Primitive.fromTypeName(parsedType);
+
+    final code = primitive.toCode(
+      extractor: '_extractResultFromResponse',
+      nullable: nullable,
+    );
+
+    return 'return $code;';
   }
 }
 
 extension on WrappedResult {
   String get primitive {
     final parsedType = parseType(type);
-    final optionalMarker = nullable ? '?' : '';
-    return '''
-      return _extractValueFromWrappedResponse(response) as $parsedType$optionalMarker;
-  ''';
+    final primitive = Primitive.fromTypeName(parsedType);
+
+    final code = primitive.toCode(
+      extractor: '_extractValueFromWrappedResponse',
+      nullable: nullable,
+    );
+
+    return 'return $code;';
   }
 }
 

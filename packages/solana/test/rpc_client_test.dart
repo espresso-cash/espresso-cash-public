@@ -70,6 +70,9 @@ void main() {
     test('Get all the account information of an account', () async {
       final Account? accountInfo = await rpcClient.getAccountInfo(
         pubKey: source.address,
+        options: const GetAccountInfoOptions(
+          encoding: Encoding.jsonParsed,
+        ),
       );
       expect(accountInfo, isNotNull);
       expect(accountInfo?.lamports, currentBalance);

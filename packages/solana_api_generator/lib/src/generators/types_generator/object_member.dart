@@ -4,6 +4,7 @@ import 'package:solana_api_generator/src/utils/format_documentation.dart';
 
 part 'object_member.g.dart';
 
+/// An object member
 @JsonSerializable()
 class ObjectMember {
   ObjectMember({
@@ -20,6 +21,10 @@ class ObjectMember {
   factory ObjectMember.fromJson(Map<String, dynamic> data) =>
       _$ObjectMemberFromJson(data);
 
+  /// Generate code for a constant getter
+  ///
+  /// This is used for members that are inherently constant or for ones
+  /// that we want to only allow a single value.
   String? toConstantGetter() {
     if (constantValue == null) {
       return null;
@@ -28,15 +33,18 @@ class ObjectMember {
     }
   }
 
-  String? toFactoryParameter() {
+  /// Generates code for a class member declaration
+  String? toClassMemberDeclaration() {
     if (constantValue != null) {
       return null;
     } else {
+      // Append a '?' marker if the field can be made null or ommited
       final nullableMarker = nullable || isOptional ? '?' : '';
-      final requiredMarker = isOptional ? '' : 'required ';
-      late final String validName;
+      // Get the language specific type from the spec type
       final type = parseType(this.type);
+      // We could need some annotations
       final List<String> annotations = [];
+      late final String validName;
 
       // Type AccountData is special. It requires a custom json
       // converter because it can be present in different formats
@@ -48,25 +56,48 @@ class ObjectMember {
       if (name.isCamelCase) {
         validName = name;
       } else {
-        annotations.add('@JsonKey(name: \'$name\')');
         validName = name.toCamelCase();
+        // In case we've changed the casing, make the serializer
+        // correctly read the original field name
+        annotations.add('@JsonKey(name: \'$name\')');
       }
-      final annotation = annotations.isEmpty ? '' : '${annotations.join(' ')} ';
+      final annotationsValue =
+          annotations.isEmpty ? '' : '${annotations.join(' ')} ';
 
-      return '$annotation$requiredMarker$type$nullableMarker $validName';
+      return '''
+        $_documentation
+        ${annotationsValue}final $type$nullableMarker $validName;
+      ''';
     }
   }
 
-  String get documentation {
-    late final String validName;
-    if (name.isCamelCase) {
-      validName = name;
+  /// Generate code for a constructor parameter
+  String? toConstructorParameter() {
+    // Values having this set, are not meant to be used for constructing objects
+    if (constantValue != null) {
+      return null;
     } else {
-      validName = name.toCamelCase();
+      late final String validName;
+      // Required values need the 'required' keyword
+      final requiredMarker = isOptional ? '' : 'required ';
+      if (name.isCamelCase) {
+        validName = name;
+      } else {
+        validName = name.toCamelCase();
+      }
+
+      return '${requiredMarker}this.$validName';
+    }
+  }
+
+  /// Returns the documentation string
+  String get _documentation {
+    if (description.startsWith('@help/')) {
+      return '';
     }
 
     return formatDocumentation(
-      '- [$validName] ${description.replaceAll('\n', ' ')}',
+      '${description.replaceAll('\n', ' ')}',
     );
   }
 

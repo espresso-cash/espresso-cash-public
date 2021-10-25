@@ -19,8 +19,12 @@ class ClientBuilder extends Builder {
     final content = await buildStep.readAsString(buildStep.inputId);
     final clientSpec = ClientSpecs.fromJson(json.decode(content));
 
-    buildStep
-        .writeAsString(outfile, formatter.format(clientSpec.toString()))
-        .ignore();
+    try {
+      buildStep
+          .writeAsString(outfile, formatter.format(clientSpec.toString()))
+          .ignore();
+    } on Exception {
+      buildStep.writeAsString(outfile, clientSpec.toString()).ignore();
+    }
   }
 }

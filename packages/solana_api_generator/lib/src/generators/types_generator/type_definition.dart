@@ -46,28 +46,33 @@ extension on ObjectType {
   String get documentation {
     final description = this.description;
     if (description == null) {
+      // Warn if the description is missing
       print('object type $name has no description');
+      return '';
+    } else {
+      return formatDocumentation(description);
     }
-    return description != null ? formatDocumentation(description) : '';
   }
 
-  String get stringValue => '''$documentation
-  @freezed
-  @JsonSerializable(createFactory: false, includeIfNull: false)
-  class $name with _\$$name {
-    $constructorDocumentation
-    const factory $name(${fields.toFactoryParameters()}) = _$name;
+  String get stringValue {
+    final createFactory = !fields.hasConstantGetters();
+    final factory = createFactory
+        ? 'factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);'
+        : '';
 
-    factory $name.fromJson(Map<String, dynamic> data) => _\$${name}FromJson(data);
+    return '''$documentation
+  @JsonSerializable(createFactory: $createFactory, includeIfNull: false)
+  class $name {
+    const $name(${fields.toConstructorParameters()});
 
-    ${fields.hasConstantGetters() ? 'const $name._();' : ''}
+    $factory
+    
+    Map<String, dynamic> toJson() => _\$${name}ToJson(this);
 
     ${fields.constantGetters()}
+    
+    ${fields.toClassMemberList()}
   }''';
-
-  String get constructorDocumentation {
-    final fieldsDocumentation = fields.map((f) => f.documentation).join('\n');
-    return '$fieldsDocumentation';
   }
 }
 
@@ -98,13 +103,23 @@ extension on List<ObjectMember> {
 
   bool hasConstantGetters() => any((f) => f.constantValue != null);
 
-  String toFactoryParameters() {
+  String toConstructorParameters() {
     if (isEmpty) {
       return '';
     }
     final content =
-        map((f) => f.toFactoryParameter()).whereType<String>().join(',');
+        map((f) => f.toConstructorParameter()).whereType<String>().join(',');
 
     return '{$content,}';
+  }
+
+  String toClassMemberList() {
+    if (isEmpty) {
+      return '';
+    }
+
+    return map((f) => f.toClassMemberDeclaration())
+        .whereType<String>()
+        .join('\n');
   }
 }

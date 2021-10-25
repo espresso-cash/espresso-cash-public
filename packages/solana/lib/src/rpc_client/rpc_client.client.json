@@ -1110,7 +1110,7 @@
     },
     {
       "name": "sendTransaction",
-      "description": "Submits a signed transaction to the cluster for processing.\n\nThis method does not alter the transaction in any way; it relays the transaction created by clients to the node as-is.\n\nIf the node's rpc service receives the transaction, this method immediately succeeds, without waiting for any confirmations. A successful response from this method does not guarantee the transaction is processed or confirmed by the cluster.\n\nWhile the rpc service will reasonably retry to submit it, the transaction could be rejected if transaction's recent_blockhash expires before it lands.\n\nUse getSignatureStatuses to ensure a transaction is processed and confirmed.\n\nBefore submitting, the following preflight checks are performed:\n\nThe transaction signatures are verified\nThe transaction is simulated against the bank slot specified by the preflight commitment. On failure an error will be returned. Preflight checks may be disabled if desired. It is recommended to specify the same commitment and preflight commitment to avoid confusing behavior.\nThe returned signature is the first signature in the transaction, which is used to identify the transaction (transaction id). This identifier can be easily extracted from the transaction data before submission.",
+      "description": "Submits a signed transaction to the cluster for processing.\n\nThis method does not alter the transaction in any way; it relays the transaction created by clients to the node as-is.\n\nIf the node's rpc service receives the transaction, this method immediately succeeds, without waiting for any confirmations. A successful response from this method does not guarantee the transaction is processed or confirmed by the cluster.\n\nWhile the rpc service will reasonably retry to submit it, the transaction could be rejected if transaction's recent_blockhash expires before it lands.\n\nUse [RPCClient.getSignatureStatuses()] to ensure a transaction is processed and confirmed.\n\nBefore submitting, the following preflight checks are performed:\n\n- The transaction signatures are verified\n- The transaction is simulated against the bank slot specified by the preflight commitment. On failure an error will be returned. Preflight checks may be disabled if desired. It is recommended to specify the same commitment and preflight commitment to avoid confusing behavior.\n- The returned signature is the first signature in the transaction, which is used to identify the transaction (transaction id). This identifier can be easily extracted from the transaction data before submission.",
       "is_deprecated": false,
       "is_new": false,
       "parameters": [
@@ -1126,7 +1126,7 @@
           "name": "options",
           "description": "Configuration object containing the following field:",
           "url": null,
-          "is_optional": true
+          "is_optional": false
         }
       ],
       "result": {
@@ -1153,7 +1153,7 @@
           "name": "options",
           "description": "Configuration object containing the following fields:",
           "url": null,
-          "is_optional": true
+          "is_optional": false
         }
       ],
       "result": {

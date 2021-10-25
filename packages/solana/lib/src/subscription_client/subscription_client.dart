@@ -192,7 +192,7 @@ class SubscriptionClient {
           address,
           if (commitment != null)
             <String, String>{
-              'commitment': commitment.value,
+              'commitment': commitment.toJson(),
             },
         ],
       );
@@ -224,7 +224,7 @@ class SubscriptionClient {
           ),
           if (commitment != null)
             <String, String>{
-              'commitment': commitment.value,
+              'commitment': commitment.toJson(),
             },
         ],
       );
@@ -251,12 +251,12 @@ class SubscriptionClient {
         'program',
         params: <dynamic>[
           <String, String>{
-            'encoding': encoding.value,
+            'encoding': encoding.toJson(),
           },
           if (filters != null) ...filters,
           if (commitment != null)
             <String, String>{
-              'commitment': commitment.value,
+              'commitment': commitment.toJson(),
             },
         ],
       );
@@ -282,7 +282,7 @@ class SubscriptionClient {
           signature,
           if (status != null)
             <String, String>{
-              'commitment': status.value,
+              'commitment': status.toJson(),
             },
         ],
         singleShot: true,
