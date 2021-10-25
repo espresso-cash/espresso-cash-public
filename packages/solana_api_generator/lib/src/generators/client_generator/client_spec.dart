@@ -37,6 +37,7 @@ import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/json_rpc_client/json_rpc_client.dart';
 import 'package:solana/src/rpc_client/exceptions.dart';
 import 'package:solana/src/rpc_client/rpc_types.dart';
+import 'package:solana/src/rpc_client/rpc_types_extension.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:solana/src/utils.dart';
 
@@ -65,7 +66,7 @@ class RPCClient {
   }
   
   dynamic _extractValueFromWrappedResponse(dynamic response) {
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -76,6 +77,31 @@ class RPCClient {
    
     return result['value'];
   } 
+  
+  List<T> _convertList<T>(dynamic list, T Function(dynamic item) convert) {
+    if (list is! List<dynamic>) {
+      throw const FormatException('input object is not a list');
+    }
+    
+    return list.map(convert).toList(growable: false);
+  }
+  
+  Map<K, T> _convertMap<K, T>(
+    dynamic map, 
+    K Function(dynamic key) convertKey, 
+    T Function(dynamic value) convertValue,
+  ) {
+    if (map is! Map<dynamic, dynamic>) {
+      throw const FormatException('input object is not a map');
+    }
+
+    final result = <K, T>{};
+    for (final entry in map.entries) {
+      result[convertKey(entry.key)] = convertValue(entry.value);
+    }
+    
+    return result;
+  }
 }
 ''';
 

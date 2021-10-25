@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:solana/src/exceptions/http_exception.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
@@ -24,13 +23,6 @@ class JsonRpcClient {
     // If no parameters were specified, skip this field
     if (params != null) {
       request['params'] = params
-          .map<dynamic>((dynamic param) {
-            if (param is JsonSerializable) {
-              return param.toJson();
-            } else {
-              return param;
-            }
-          })
           // Remove nulls because it is of our interest that these fields
           // are omitted when null. JsonSerializable fields is already correctly
           // configured for that, so types that are JsonSerializable will

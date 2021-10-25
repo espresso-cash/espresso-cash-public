@@ -60,14 +60,22 @@ class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
   AccountData? fromJson(dynamic data) {
     if (data == null) {
       return null;
-    } else if (data is List<String>) {
+    } else if (data == '') {
+      return const AccountData.empty();
+    } else if (data is List<dynamic>) {
       if (data.length != 2) {
         throw const FormatException(
           'expected an array of 2 elements [data, encoding]',
         );
       }
 
-      return _fromEncodedData(data);
+      final asStrings = data.whereType<String>().toList(growable: false);
+      if (asStrings.length != 2) {
+        throw const FormatException(
+            'array has two elements but of incompatible types');
+      }
+
+      return _fromEncodedData(asStrings);
     } else if (data is Map<String, dynamic>) {
       return AccountData.parsed(data);
     } else {

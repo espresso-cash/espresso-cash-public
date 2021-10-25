@@ -1,25 +1,65 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/dto/logs.dart';
+import 'package:solana/src/dto/slot.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/subscription_client/notification_result.dart';
+import 'package:solana/src/subscription_client/optional_error.dart';
 
+part 'notification_params.freezed.dart';
 part 'notification_params.g.dart';
 
-@JsonSerializable(genericArgumentFactories: true, createToJson: false)
-class NotificationParams<T> {
-  const NotificationParams({
-    required this.result,
-    required this.subscription,
-  });
+@freezed
+class NotificationParamsSignature with _$NotificationParamsSignature {
+  const factory NotificationParamsSignature({
+    required NotificationResult<OptionalError> result,
+    required int subscription,
+  }) = _NotificationParamsSignature;
 
-  factory NotificationParams.fromJson(
-    Map<String, dynamic> json,
-    T Function(Object? object) fromJsonT,
-  ) =>
-      _$NotificationParamsFromJson<T>(json, fromJsonT);
+  factory NotificationParamsSignature.fromJson(Map<String, dynamic> json) =>
+      _$NotificationParamsSignatureFromJson(json);
+}
 
-  final NotificationResult<T> result;
-  final int subscription;
+@freezed
+class NotificationParamsLogs with _$NotificationParamsLogs {
+  const factory NotificationParamsLogs({
+    required NotificationResult<Logs> result,
+    required int subscription,
+  }) = _NotificationParamsLogs;
 
-  Map<String, dynamic> toJson() {
-    throw UnsupportedError('it does not make sense to convert this to json');
-  }
+  factory NotificationParamsLogs.fromJson(Map<String, dynamic> json) =>
+      _$NotificationParamsLogsFromJson(json);
+}
+
+@freezed
+class NotificationParamsSlot with _$NotificationParamsSlot {
+  const factory NotificationParamsSlot({
+    required NotificationResult<Slot> result,
+    required int subscription,
+  }) = _NotificationParamsSlot;
+
+  factory NotificationParamsSlot.fromJson(Map<String, dynamic> json) =>
+      _$NotificationParamsSlotFromJson(json);
+}
+
+@freezed
+class NotificationParamsAccount with _$NotificationParamsAccount {
+  const factory NotificationParamsAccount({
+    required NotificationResult<Account> result,
+    required int subscription,
+  }) = _NotificationParamsAccount;
+
+  factory NotificationParamsAccount.fromJson(Map<String, dynamic> json) =>
+      _$NotificationParamsAccountFromJson(json);
+}
+
+@freezed
+class NotificationParamsGeneric with _$NotificationParamsGeneric {
+  const factory NotificationParamsGeneric({
+    required NotificationResult<Map<String, dynamic>> result,
+    required int subscription,
+  }) = _NotificationParamsGeneric;
+
+  factory NotificationParamsGeneric.fromJson(Map<String, dynamic> json) =>
+      _$NotificationParamsGenericFromJson(json);
 }

@@ -1,23 +1,23 @@
 import 'package:solana/src/rpc_client/rpc_types.dart';
 
 extension CommitmentValue on Commitment {
-  String get value => _describeEnum(this);
+  String toJson() => _describeEnum(this);
 }
 
 extension EncodingValue on Encoding {
-  String get value => _describeEnum(this);
+  String toJson() => _describeEnum(this);
 }
 
 extension RewardTypeValue on RewardType {
-  String get value => _describeEnum(this);
+  String toJson() => _describeEnum(this);
 }
 
 extension CirculationStatusValue on CirculationStatus {
-  String get value => _describeEnum(this);
+  String toJson() => _describeEnum(this);
 }
 
 extension StakeActivationStateValue on StakeActivationState {
-  String get value => _describeEnum(this);
+  String toJson() => _describeEnum(this);
 }
 
 // Copied almost verbatim from

@@ -20,7 +20,12 @@ class Parameter with _$Parameter {
 
   const Parameter._();
 
-  String asRequestParameter() => name;
+  String asRequestParameter() {
+    final isRequired = !isOptional && defaultValue == null;
+    final nullableMarker = !isRequired && isOptional ? '?' : '';
+
+    return _isPrimitive ? '$name' : '$name$nullableMarker.toJson()';
+  }
 
   String asMethodArgument() {
     final isRequired = !isOptional && defaultValue == null;
@@ -28,44 +33,21 @@ class Parameter with _$Parameter {
     final parsedType = parseType(type);
     final requiredMarker = isRequired ? 'required ' : '';
 
-    return '$requiredMarker$parsedType$nullableMarker $name';
+    if (!isOptional && !_isPrimitive) {
+      return '$parsedType $name = const $parsedType()';
+    } else {
+      return '$requiredMarker$parsedType$nullableMarker $name';
+    }
+  }
+
+  bool get _isPrimitive {
+    final parsedType = parseType(type);
+    return parsedType == 'int' ||
+        parsedType == 'String' ||
+        parsedType.startsWith('List<') ||
+        parsedType.startsWith('Map<');
   }
 
   @override
   String toString() => name;
-
-  /*String get defaultValueString {
-    if (defaultValue == null) {
-      return '';
-    } else if (defaultValue is bool) {
-      return ' = $defaultValue';
-    } else if (defaultValue is int) {
-      return ' = $defaultValue';
-    } else {
-      if (type == 'CommitmentObject') {
-        return ' = const CommitmentObject(commitment: Commitment.$defaultValue)';
-      } else if (type == 'Commitment') {
-        return ' = Commitment.$defaultValue';
-      } else if (type == 'Encoding') {
-        return ' = Encoding.$defaultValue';
-      } else {
-        throw ArgumentError('cannot use other types of default values $type');
-      }
-    }
-  }
-
-  bool get isEnumType {
-    switch (type) {
-      case 'StakeActivationState':
-      case 'Commitment':
-      case 'Encoding':
-      case 'RewardType':
-      case 'CirculationStatus':
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  bool get isNullable => defaultValue == null && isOptional;*/
 }
