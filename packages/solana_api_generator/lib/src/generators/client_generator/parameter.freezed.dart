@@ -26,8 +26,12 @@ class _$ParameterTearOff {
       required String name,
       required String description,
       required String? url,
-      @JsonKey(name: 'is_optional') required bool isOptional,
-      @JsonKey(name: 'default_value') required dynamic defaultValue}) {
+      @JsonKey(name: 'is_optional')
+          required bool isOptional,
+      @JsonKey(name: 'default_value')
+          required dynamic defaultValue,
+      @JsonKey(name: 'with_default_parameter')
+          bool withDefaultParameter = false}) {
     return _Parameter(
       type: type,
       name: name,
@@ -35,6 +39,7 @@ class _$ParameterTearOff {
       url: url,
       isOptional: isOptional,
       defaultValue: defaultValue,
+      withDefaultParameter: withDefaultParameter,
     );
   }
 
@@ -56,6 +61,8 @@ mixin _$Parameter {
   bool get isOptional => throw _privateConstructorUsedError;
   @JsonKey(name: 'default_value')
   dynamic get defaultValue => throw _privateConstructorUsedError;
+  @JsonKey(name: 'with_default_parameter')
+  bool get withDefaultParameter => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -73,7 +80,8 @@ abstract class $ParameterCopyWith<$Res> {
       String description,
       String? url,
       @JsonKey(name: 'is_optional') bool isOptional,
-      @JsonKey(name: 'default_value') dynamic defaultValue});
+      @JsonKey(name: 'default_value') dynamic defaultValue,
+      @JsonKey(name: 'with_default_parameter') bool withDefaultParameter});
 }
 
 /// @nodoc
@@ -92,6 +100,7 @@ class _$ParameterCopyWithImpl<$Res> implements $ParameterCopyWith<$Res> {
     Object? url = freezed,
     Object? isOptional = freezed,
     Object? defaultValue = freezed,
+    Object? withDefaultParameter = freezed,
   }) {
     return _then(_value.copyWith(
       type: type == freezed
@@ -118,6 +127,10 @@ class _$ParameterCopyWithImpl<$Res> implements $ParameterCopyWith<$Res> {
           ? _value.defaultValue
           : defaultValue // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      withDefaultParameter: withDefaultParameter == freezed
+          ? _value.withDefaultParameter
+          : withDefaultParameter // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -134,7 +147,8 @@ abstract class _$ParameterCopyWith<$Res> implements $ParameterCopyWith<$Res> {
       String description,
       String? url,
       @JsonKey(name: 'is_optional') bool isOptional,
-      @JsonKey(name: 'default_value') dynamic defaultValue});
+      @JsonKey(name: 'default_value') dynamic defaultValue,
+      @JsonKey(name: 'with_default_parameter') bool withDefaultParameter});
 }
 
 /// @nodoc
@@ -154,6 +168,7 @@ class __$ParameterCopyWithImpl<$Res> extends _$ParameterCopyWithImpl<$Res>
     Object? url = freezed,
     Object? isOptional = freezed,
     Object? defaultValue = freezed,
+    Object? withDefaultParameter = freezed,
   }) {
     return _then(_Parameter(
       type: type == freezed
@@ -180,6 +195,10 @@ class __$ParameterCopyWithImpl<$Res> extends _$ParameterCopyWithImpl<$Res>
           ? _value.defaultValue
           : defaultValue // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      withDefaultParameter: withDefaultParameter == freezed
+          ? _value.withDefaultParameter
+          : withDefaultParameter // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -192,8 +211,12 @@ class _$_Parameter extends _Parameter {
       required this.name,
       required this.description,
       required this.url,
-      @JsonKey(name: 'is_optional') required this.isOptional,
-      @JsonKey(name: 'default_value') required this.defaultValue})
+      @JsonKey(name: 'is_optional')
+          required this.isOptional,
+      @JsonKey(name: 'default_value')
+          required this.defaultValue,
+      @JsonKey(name: 'with_default_parameter')
+          this.withDefaultParameter = false})
       : super._();
 
   factory _$_Parameter.fromJson(Map<String, dynamic> json) =>
@@ -213,6 +236,9 @@ class _$_Parameter extends _Parameter {
   @override
   @JsonKey(name: 'default_value')
   final dynamic defaultValue;
+  @override
+  @JsonKey(name: 'with_default_parameter')
+  final bool withDefaultParameter;
 
   @override
   bool operator ==(dynamic other) {
@@ -232,7 +258,10 @@ class _$_Parameter extends _Parameter {
                     .equals(other.isOptional, isOptional)) &&
             (identical(other.defaultValue, defaultValue) ||
                 const DeepCollectionEquality()
-                    .equals(other.defaultValue, defaultValue)));
+                    .equals(other.defaultValue, defaultValue)) &&
+            (identical(other.withDefaultParameter, withDefaultParameter) ||
+                const DeepCollectionEquality()
+                    .equals(other.withDefaultParameter, withDefaultParameter)));
   }
 
   @override
@@ -243,7 +272,8 @@ class _$_Parameter extends _Parameter {
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(url) ^
       const DeepCollectionEquality().hash(isOptional) ^
-      const DeepCollectionEquality().hash(defaultValue);
+      const DeepCollectionEquality().hash(defaultValue) ^
+      const DeepCollectionEquality().hash(withDefaultParameter);
 
   @JsonKey(ignore: true)
   @override
@@ -263,7 +293,8 @@ abstract class _Parameter extends Parameter {
           required String description,
           required String? url,
           @JsonKey(name: 'is_optional') required bool isOptional,
-          @JsonKey(name: 'default_value') required dynamic defaultValue}) =
+          @JsonKey(name: 'default_value') required dynamic defaultValue,
+          @JsonKey(name: 'with_default_parameter') bool withDefaultParameter}) =
       _$_Parameter;
   const _Parameter._() : super._();
 
@@ -284,6 +315,9 @@ abstract class _Parameter extends Parameter {
   @override
   @JsonKey(name: 'default_value')
   dynamic get defaultValue => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'with_default_parameter')
+  bool get withDefaultParameter => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ParameterCopyWith<_Parameter> get copyWith =>

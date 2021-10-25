@@ -1,6 +1,9 @@
 import 'package:solana/solana.dart' show lamportsPerSol;
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
+import 'package:solana/src/parsed_message/parsed_instruction.dart';
+import 'package:solana/src/parsed_message/parsed_spl_token_instruction.dart';
+import 'package:solana/src/parsed_message/parsed_system_instruction.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
@@ -54,7 +57,7 @@ void main() {
   });
 
   test('Transfer SOL with memo', () async {
-    /*const memoText = 'Memo test string...';
+    const memoText = 'Memo test string...';
 
     final signature = await source.transferWithMemo(
       destination: destination.address,
@@ -66,15 +69,11 @@ void main() {
     // ignore: deprecated_member_use_from_same_package
     final result = await rpcClient.getConfirmedTransaction(
       signature: signature.toString(),
-      options: const GetConfirmedTransactionOptions(
-        encoding: Encoding.jsonParsed,
-      ),
     );
-    expect(result, isNotNull);
-    expect(result, isA<TransactionDetailsParsed>());
-    final transactionDetails = result as TransactionDetailsParsed;
+    expect(result, isA<TransactionDetails>());
+    final transactionDetails = result as TransactionDetails;
     final transaction = transactionDetails.transaction;
-    expect(transaction, isA<ParsedTransaction>());
+    expect(transaction, isA<Transaction>());
     expect(transaction.message, isNotNull);
     final txMessage = transaction.message;
     expect(txMessage.instructions, isNotNull);
@@ -90,7 +89,7 @@ void main() {
         equals(_lamportsTransferAmount));
     expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
     final memoInstruction = instructions[1] as ParsedInstructionMemo;
-    expect(memoInstruction.memo, equals(memoText));*/
+    expect(memoInstruction.memo, equals(memoText));
   });
 
   test('Get a token balance', () async {
@@ -159,7 +158,7 @@ void main() {
   }, timeout: const Timeout(Duration(minutes: 2)));
 
   test('Transfer SPL tokens with memo', () async {
-    /*final wallet = Wallet(
+    final wallet = Wallet(
       signer: await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
     );
@@ -181,15 +180,12 @@ void main() {
     // ignore: deprecated_member_use_from_same_package
     final result = await rpcClient.getConfirmedTransaction(
       signature: signature.toString(),
-      options: const GetConfirmedTransactionOptions(
-        encoding: Encoding.jsonParsed,
-      ),
     );
-    expect(result, isA<TransactionDetailsParsed>());
+    expect(result, isA<TransactionDetails>());
     expect(result, isNotNull);
-    final transactionDetails = result as TransactionDetailsParsed;
+    final transactionDetails = result as TransactionDetails;
     final transaction = transactionDetails.transaction;
-    expect(transaction, isA<ParsedTransaction>());
+    expect(transaction, isA<Transaction>());
     expect(transaction.message, isNotNull);
     expect(transaction.message, isNotNull);
     final txMessage = transaction.message;
@@ -210,7 +206,7 @@ void main() {
         isA<ParsedSplTokenTransferInformation>());
     expect(parsedSplTokenInstruction.info.amount, '40');
     final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
-    expect(tokenBalance.amount, equals('40'));*/
+    expect(tokenBalance.amount, equals('40'));
   }, timeout: const Timeout(Duration(minutes: 2)));
 }
 

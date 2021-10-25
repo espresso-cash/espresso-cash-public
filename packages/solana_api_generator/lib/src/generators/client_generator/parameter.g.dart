@@ -13,6 +13,7 @@ _$_Parameter _$$_ParameterFromJson(Map<String, dynamic> json) => _$_Parameter(
       url: json['url'] as String?,
       isOptional: json['is_optional'] as bool,
       defaultValue: json['default_value'],
+      withDefaultParameter: json['with_default_parameter'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_ParameterToJson(_$_Parameter instance) =>
@@ -23,4 +24,5 @@ Map<String, dynamic> _$$_ParameterToJson(_$_Parameter instance) =>
       'url': instance.url,
       'is_optional': instance.isOptional,
       'default_value': instance.defaultValue,
+      'with_default_parameter': instance.withDefaultParameter,
     };

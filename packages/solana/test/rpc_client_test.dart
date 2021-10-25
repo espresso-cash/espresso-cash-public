@@ -1,10 +1,12 @@
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/system_program/system_program.dart';
 import 'package:test/test.dart';
 
+import 'airdrop.dart';
 import 'config.dart';
 
 const int _transferredAmount = 0x1000;
@@ -218,7 +220,7 @@ void main() {
     });
 
     test('Get token accounts by owner', () async {
-      /*final accountKeyPair = await Ed25519HDKeyPair.random();
+      final accountKeyPair = await Ed25519HDKeyPair.random();
       final accountCreator = await Ed25519HDKeyPair.random();
 
       await airdrop(solanaClient, wallet, sol: 100);
@@ -246,11 +248,13 @@ void main() {
 
       expect(accounts.length, equals(1));
       expect(accounts.first.pubkey, equals(createdAccount.pubkey));
-      expect(accounts.first.account.data, isA<SplTokenAccountData>());
+      expect(accounts.first.account.data, isA<ParsedAccountData>());
 
-      final data = accounts.first.account.data as SplTokenAccountData;
-      expect(data.parsed.info.mint, equals(token.mint));
-      expect(data.parsed.info.owner, equals(createdAccount.account.owner));*/
+      final data = accounts.first.account.data as ParsedAccountData;
+      final accountData = data.jsonParsed as SplTokenAccountData;
+      expect(accountData.parsed.info.mint, equals(token.mint));
+      expect(
+          accountData.parsed.info.owner, equals(createdAccount.account.owner));
     }, timeout: const Timeout(Duration(minutes: 4)));
   });
 }

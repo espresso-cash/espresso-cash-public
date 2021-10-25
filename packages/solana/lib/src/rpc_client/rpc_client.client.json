@@ -1126,6 +1126,7 @@
           "name": "options",
           "description": "Configuration object containing the following field:",
           "url": null,
+          "with_default_parameter": true,
           "is_optional": false
         }
       ],
@@ -1153,6 +1154,7 @@
           "name": "options",
           "description": "Configuration object containing the following fields:",
           "url": null,
+          "with_default_parameter": true,
           "is_optional": false
         }
       ],
@@ -1335,6 +1337,7 @@
           "name": "options",
           "description": "Configuration object containing the following optional fields:",
           "url": null,
+          "with_default_parameter": true,
           "is_optional": true
         }
       ],
