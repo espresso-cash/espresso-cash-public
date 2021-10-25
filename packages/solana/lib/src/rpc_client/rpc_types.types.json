@@ -122,8 +122,8 @@
     {
       "fields": [
         {
-          "default_value": "base64",
-          "description": "@help/encoding",
+          "constant_value": "jsonParsed",
+          "description": "This value is fixed because parsing occurs internally in the library",
           "is_optional": true,
           "name": "encoding",
           "type": "Encoding"
@@ -809,7 +809,7 @@
         {
           "description": "Defines the content of the transaction.",
           "name": "message",
-          "type": "TransactionMessage"
+          "type": "ParsedMessage"
         }
       ],
       "name": "Transaction",

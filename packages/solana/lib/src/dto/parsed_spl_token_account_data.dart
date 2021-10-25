@@ -6,15 +6,15 @@ part 'parsed_spl_token_account_data.g.dart';
 @JsonSerializable()
 class ParsedSplTokenAccountData {
   const ParsedSplTokenAccountData({
-    required this.accountType,
     required this.info,
     required this.type,
+    required this.accountType,
   });
 
-  factory ParsedSplTokenAccountData.fromJson(Map<String, dynamic> data) =>
-      _$ParsedSplTokenAccountDataFromJson(data);
+  factory ParsedSplTokenAccountData.fromJson(Map<String, dynamic> json) =>
+      _$ParsedSplTokenAccountDataFromJson(json);
 
-  final String? accountType;
   final ParsedSplTokenAccountDataInfo info;
   final String type;
+  final String? accountType;
 }

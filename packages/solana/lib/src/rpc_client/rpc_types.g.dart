@@ -6,15 +6,40 @@ part of 'rpc_types.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetConfirmedTransactionOptions _$GetConfirmedTransactionOptionsFromJson(
-        Map<String, dynamic> json) =>
-    GetConfirmedTransactionOptions(
-      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']),
-      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
-    );
-
 Map<String, dynamic> _$GetConfirmedTransactionOptionsToJson(
     GetConfirmedTransactionOptions instance) {
+  final val = <String, dynamic>{
+    'encoding': instance.encoding,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  return val;
+}
+
+const _$CommitmentEnumMap = {
+  Commitment.processed: 'processed',
+  Commitment.confirmed: 'confirmed',
+  Commitment.finalized: 'finalized',
+};
+
+SimulateTransactionAccounts _$SimulateTransactionAccountsFromJson(
+        Map<String, dynamic> json) =>
+    SimulateTransactionAccounts(
+      accountEncoding:
+          _$enumDecodeNullable(_$EncodingEnumMap, json['accountEncoding']),
+      addresses: (json['addresses'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$SimulateTransactionAccountsToJson(
+    SimulateTransactionAccounts instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -23,8 +48,8 @@ Map<String, dynamic> _$GetConfirmedTransactionOptionsToJson(
     }
   }
 
-  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('accountEncoding', _$EncodingEnumMap[instance.accountEncoding]);
+  writeNotNull('addresses', instance.addresses);
   return val;
 }
 
@@ -69,37 +94,6 @@ const _$EncodingEnumMap = {
   Encoding.base64: 'base64',
   Encoding.jsonParsed: 'jsonParsed',
 };
-
-const _$CommitmentEnumMap = {
-  Commitment.processed: 'processed',
-  Commitment.confirmed: 'confirmed',
-  Commitment.finalized: 'finalized',
-};
-
-SimulateTransactionAccounts _$SimulateTransactionAccountsFromJson(
-        Map<String, dynamic> json) =>
-    SimulateTransactionAccounts(
-      accountEncoding:
-          _$enumDecodeNullable(_$EncodingEnumMap, json['accountEncoding']),
-      addresses: (json['addresses'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-    );
-
-Map<String, dynamic> _$SimulateTransactionAccountsToJson(
-    SimulateTransactionAccounts instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('accountEncoding', _$EncodingEnumMap[instance.accountEncoding]);
-  writeNotNull('addresses', instance.addresses);
-  return val;
-}
 
 Map<String, dynamic> _$SimulateTransactionOptionsToJson(
     SimulateTransactionOptions instance) {
@@ -669,8 +663,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
       signatures: (json['signatures'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      message:
-          TransactionMessage.fromJson(json['message'] as Map<String, dynamic>),
+      message: ParsedMessage.fromJson(json['message'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TransactionToJson(Transaction instance) =>

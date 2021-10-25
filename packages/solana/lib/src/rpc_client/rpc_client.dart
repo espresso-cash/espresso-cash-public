@@ -806,7 +806,7 @@ class RPCClient {
   /// Returns all SPL Token accounts by approved Delegate.
   Future<List<ProgramAccount>> getTokenAccountsByDelegate({
     required String pubKey,
-    MintOrProgramId mintOrProgramId = const MintOrProgramId(),
+    required MintOrProgramId mintOrProgramId,
     GetAccountInfoOptions? options,
   }) async {
     final response = await _client.request(
@@ -827,7 +827,7 @@ class RPCClient {
   /// Returns all SPL Token accounts by token owner.
   Future<List<ProgramAccount>> getTokenAccountsByOwner({
     required String pubKey,
-    MintOrProgramId mintOrProgramId = const MintOrProgramId(),
+    required MintOrProgramId mintOrProgramId,
     GetAccountInfoOptions? options,
   }) async {
     final response = await _client.request(
@@ -1170,7 +1170,8 @@ class RPCClient {
   /// Returns transaction details for a confirmed transaction
   Future<TransactionDetails?> getConfirmedTransaction({
     required String signature,
-    GetConfirmedTransactionOptions? options,
+    GetConfirmedTransactionOptions options =
+        const GetConfirmedTransactionOptions(),
   }) async {
     final response = await _client.request(
       'getConfirmedTransaction',

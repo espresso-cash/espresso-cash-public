@@ -2,19 +2,33 @@ import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/base58/decode.dart';
-
-// import 'package:solana/src/dto/parsed_spl_token_account_data.dart';
+import 'package:solana/src/dto/parsed_spl_token_account_data.dart';
 
 part 'account_data.freezed.dart';
+part 'account_data.g.dart';
 
 @freezed
 class AccountData with _$AccountData {
   const factory AccountData.binary(List<int> bytes) = BinaryAccountData;
 
-  const factory AccountData.parsed(Map<String, dynamic> parsed) =
+  const factory AccountData.jsonParsed(ParsedAccountDataParsed jsonParsed) =
       ParsedAccountData;
 
   const factory AccountData.empty() = EmptyAccountData;
+}
+
+@Freezed(unionKey: 'program', fallbackUnion: 'unsupported')
+class ParsedAccountDataParsed with _$ParsedAccountDataParsed {
+  @FreezedUnionValue('spl-token')
+  const factory ParsedAccountDataParsed.splToken(
+    ParsedSplTokenAccountData parsed,
+  ) = SplTokenAccountData;
+
+  const factory ParsedAccountDataParsed.unsupported() =
+      UnsupportedParsedAccountData;
+
+  factory ParsedAccountDataParsed.fromJson(Map<String, dynamic> json) =>
+      _$ParsedAccountDataParsedFromJson(json);
 }
 
 class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
@@ -77,7 +91,9 @@ class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
 
       return _fromEncodedData(asStrings);
     } else if (data is Map<String, dynamic>) {
-      return AccountData.parsed(data);
+      return AccountData.jsonParsed(
+        ParsedAccountDataParsed.fromJson(data),
+      );
     } else {
       throw const FormatException('account data is in unknown format');
     }
