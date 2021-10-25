@@ -39,11 +39,10 @@ class TypesSpec {
 /// generated from a specification file in json format.
 ///
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/dto/by_identity_value.dart';
 
-part '${_buildStep.part("freezed")}';
 part '${_buildStep.part("g")}';
 
 ${_types.join('\n')}

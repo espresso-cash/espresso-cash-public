@@ -5,11 +5,10 @@
 /// generated from a specification file in json format.
 ///
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/dto/by_identity_value.dart';
 
-part 'rpc_types.freezed.dart';
 part 'rpc_types.g.dart';
 
 enum RewardType {
@@ -99,1191 +98,1545 @@ typedef ConfirmationStatus = Commitment;
 
 /// Configuration object for
 /// [RPCClient.getConfirmedTransaction()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetConfirmedTransactionOptions with _$GetConfirmedTransactionOptions {
-  /// - [encoding] @help/encoding
-  /// - [commitment] @help/commitment
-  const factory GetConfirmedTransactionOptions({
-    Encoding? encoding,
-    Commitment? commitment,
-  }) = _GetConfirmedTransactionOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetConfirmedTransactionOptions {
+  const GetConfirmedTransactionOptions({
+    this.encoding,
+    this.commitment,
+  });
 
-  factory GetConfirmedTransactionOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetConfirmedTransactionOptionsFromJson(data);
+  factory GetConfirmedTransactionOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetConfirmedTransactionOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetConfirmedTransactionOptionsToJson(this);
+
+  final Encoding? encoding;
+
+  final Commitment? commitment;
 }
 
 /// Accounts for a transaction simulation
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class SimulateTransactionAccounts with _$SimulateTransactionAccounts {
-  /// - [accountEncoding] @help/encoding
-  /// - [addresses] An array of accounts to return, as base-58
-  /// encoded strings
-  const factory SimulateTransactionAccounts({
-    Encoding? accountEncoding,
-    List<String>? addresses,
-  }) = _SimulateTransactionAccounts;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class SimulateTransactionAccounts {
+  const SimulateTransactionAccounts({
+    this.accountEncoding,
+    this.addresses,
+  });
 
-  factory SimulateTransactionAccounts.fromJson(Map<String, dynamic> data) =>
-      _$SimulateTransactionAccountsFromJson(data);
+  factory SimulateTransactionAccounts.fromJson(Map<String, dynamic> json) =>
+      _$SimulateTransactionAccountsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SimulateTransactionAccountsToJson(this);
+
+  final Encoding? accountEncoding;
+
+  /// An array of accounts to return, as base-58 encoded strings
+  final List<String>? addresses;
 }
 
 /// Configuration object for [RPCClient.simulateTransaction()]
-@freezed
 @JsonSerializable(createFactory: false, includeIfNull: false)
-class SimulateTransactionOptions with _$SimulateTransactionOptions {
-  /// - [sigVerify] If true the transaction signatures will be
-  /// verified (default: false, conflicts with
-  /// [SimulateTransactionOptions.replaceRecentBlockhash])
-  /// - [encoding] Only [Encoding.base64] is acceptable
-  /// - [commitment] @help/commitment
-  /// - [replaceRecentBlockhash] if true the transaction recent
-  /// blockhash will be replaced with the most recent blockhash.
-  /// (default: false, conflicts with sigVerify)
-  /// - [accounts] Accounts configuration object containing the
-  /// following fields:
-  const factory SimulateTransactionOptions({
-    bool? sigVerify,
-    Commitment? commitment,
-    bool? replaceRecentBlockhash,
-    SimulateTransactionAccounts? accounts,
-  }) = _SimulateTransactionOptions;
+class SimulateTransactionOptions {
+  const SimulateTransactionOptions({
+    this.sigVerify,
+    this.commitment,
+    this.replaceRecentBlockhash,
+    this.accounts,
+  });
 
-  factory SimulateTransactionOptions.fromJson(Map<String, dynamic> data) =>
-      _$SimulateTransactionOptionsFromJson(data);
-
-  const SimulateTransactionOptions._();
+  Map<String, dynamic> toJson() => _$SimulateTransactionOptionsToJson(this);
 
   String get encoding => 'base64';
+
+  /// If true the transaction signatures will be verified
+  /// (default: false, conflicts with
+  /// [SimulateTransactionOptions.replaceRecentBlockhash])
+  final bool? sigVerify;
+
+  final Commitment? commitment;
+
+  /// if true the transaction recent blockhash will be replaced
+  /// with the most recent blockhash. (default: false, conflicts
+  /// with sigVerify)
+  final bool? replaceRecentBlockhash;
+
+  /// Accounts configuration object containing the following
+  /// fields:
+  final SimulateTransactionAccounts? accounts;
 }
 
 /// Configuration object for [RPCClient.sendTransaction()]
-@freezed
 @JsonSerializable(createFactory: false, includeIfNull: false)
-class SendTransactionOptions with _$SendTransactionOptions {
-  /// - [encoding] Only [Encoding.base64] is acceptable
-  /// - [commitment] @help/commitment
-  /// - [skipPreflight] If true, skip the preflight transaction
-  /// checks (default: false).
-  /// - [maxRetries] Maximum number of times for the RPC node to
-  /// retry sending the transaction to the leader. If this
-  /// parameter not provided, the RPC node will retry the
-  /// transaction until it is finalized or until the blockhash
-  /// expires.
-  const factory SendTransactionOptions({
-    Commitment? commitment,
-    bool? skipPreflight,
-    int? maxRetries,
-  }) = _SendTransactionOptions;
+class SendTransactionOptions {
+  const SendTransactionOptions({
+    this.commitment,
+    this.skipPreflight,
+    this.maxRetries,
+  });
 
-  factory SendTransactionOptions.fromJson(Map<String, dynamic> data) =>
-      _$SendTransactionOptionsFromJson(data);
-
-  const SendTransactionOptions._();
+  Map<String, dynamic> toJson() => _$SendTransactionOptionsToJson(this);
 
   String get encoding => 'base64';
+
+  final Commitment? commitment;
+
+  /// If true, skip the preflight transaction checks (default:
+  /// false).
+  final bool? skipPreflight;
+
+  /// Maximum number of times for the RPC node to retry sending
+  /// the transaction to the leader. If this parameter not
+  /// provided, the RPC node will retry the transaction until it
+  /// is finalized or until the blockhash expires.
+  final int? maxRetries;
 }
 
 /// Configuration object for [RPCClient.getVoteAccounts()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetVoteAccountsOptions with _$GetVoteAccountsOptions {
-  /// - [commitment] @help/commitment
-  /// - [votePubKey] Only return results for this validator vote
-  /// address (base-58 encoded)
-  /// - [keepUnstakedDelinquents] Do not filter out delinquent
-  /// validators with no stake
-  /// - [delinquentSlotDistance] Specify the number of slots
-  /// behind the tip that a validator must fall to be considered
-  /// delinquent. NOTE: For the sake of consistency between
-  /// ecosystem products, it is not recommended that this
-  /// argument be specified.
-  const factory GetVoteAccountsOptions({
-    Commitment? commitment,
-    String? votePubKey,
-    bool? keepUnstakedDelinquents,
-    int? delinquentSlotDistance,
-  }) = _GetVoteAccountsOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetVoteAccountsOptions {
+  const GetVoteAccountsOptions({
+    this.commitment,
+    this.votePubKey,
+    this.keepUnstakedDelinquents,
+    this.delinquentSlotDistance,
+  });
 
-  factory GetVoteAccountsOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetVoteAccountsOptionsFromJson(data);
+  factory GetVoteAccountsOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetVoteAccountsOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetVoteAccountsOptionsToJson(this);
+
+  final Commitment? commitment;
+
+  /// Only return results for this validator vote address
+  /// (base-58 encoded)
+  final String? votePubKey;
+
+  /// Do not filter out delinquent validators with no stake
+  final bool? keepUnstakedDelinquents;
+
+  /// Specify the number of slots behind the tip that a validator
+  /// must fall to be considered delinquent. NOTE: For the sake
+  /// of consistency between ecosystem products, it is not
+  /// recommended that this argument be specified.
+  final int? delinquentSlotDistance;
 }
 
 /// Configuration object for [RPCClient.getVoteAccounts()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetTransactionOptions with _$GetTransactionOptions {
-  /// - [encoding] @help/encoding
-  /// - [commitment] @help/commitment
-  const factory GetTransactionOptions({
-    Encoding? encoding,
-    Commitment? commitment,
-  }) = _GetTransactionOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetTransactionOptions {
+  const GetTransactionOptions({
+    this.encoding,
+    this.commitment,
+  });
 
-  factory GetTransactionOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetTransactionOptionsFromJson(data);
+  factory GetTransactionOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetTransactionOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetTransactionOptionsToJson(this);
+
+  final Encoding? encoding;
+
+  final Commitment? commitment;
 }
 
 /// Configuration object for [RPCClient.getVoteAccounts()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetSupplyOptions with _$GetSupplyOptions {
-  /// - [commitment] @help/commitment
-  /// - [excludeNonCirculatingAccountsList] exclude non
-  /// circulating accounts list from response
-  const factory GetSupplyOptions({
-    Commitment? commitment,
-    bool? excludeNonCirculatingAccountsList,
-  }) = _GetSupplyOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetSupplyOptions {
+  const GetSupplyOptions({
+    this.commitment,
+    this.excludeNonCirculatingAccountsList,
+  });
 
-  factory GetSupplyOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetSupplyOptionsFromJson(data);
+  factory GetSupplyOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetSupplyOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetSupplyOptionsToJson(this);
+
+  final Commitment? commitment;
+
+  /// exclude non circulating accounts list from response
+  final bool? excludeNonCirculatingAccountsList;
 }
 
 /// Configuration object for [RPCClient.getStakeActivation()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetStakeActivationOptions with _$GetStakeActivationOptions {
-  /// - [commitment] @help/commitment
-  /// - [epoch] epoch for which to calculate activation details.
-  /// If parameter not provided, defaults to current epoch.
-  const factory GetStakeActivationOptions({
-    Commitment? commitment,
-    int? epoch,
-  }) = _GetStakeActivationOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetStakeActivationOptions {
+  const GetStakeActivationOptions({
+    this.commitment,
+    this.epoch,
+  });
 
-  factory GetStakeActivationOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetStakeActivationOptionsFromJson(data);
+  factory GetStakeActivationOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetStakeActivationOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetStakeActivationOptionsToJson(this);
+
+  final Commitment? commitment;
+
+  /// epoch for which to calculate activation details. If
+  /// parameter not provided, defaults to current epoch.
+  final int? epoch;
 }
 
 /// Configuration object for [RPCClient.getStakeActivation()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetSignatureStatusesOptions with _$GetSignatureStatusesOptions {
-  /// - [searchTransactionHistory] If true, a Solana node will
-  /// search its ledger cache for any signatures not found in the
-  /// recent status cache
-  const factory GetSignatureStatusesOptions({
-    bool? searchTransactionHistory,
-  }) = _GetSignatureStatusesOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetSignatureStatusesOptions {
+  const GetSignatureStatusesOptions({
+    this.searchTransactionHistory,
+  });
 
-  factory GetSignatureStatusesOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetSignatureStatusesOptionsFromJson(data);
+  factory GetSignatureStatusesOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetSignatureStatusesOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetSignatureStatusesOptionsToJson(this);
+
+  /// If true, a Solana node will search its ledger cache for any
+  /// signatures not found in the recent status cache
+  final bool? searchTransactionHistory;
 }
 
 /// Configuration object for
 /// [RPCClient.getSignaturesForAddress()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetSignaturesForAddressOptions with _$GetSignaturesForAddressOptions {
-  /// - [limit] Maximum transaction signatures to return (between
-  /// 1 and 1,000, default: 1,000).
-  /// - [before] Start searching backwards from this transaction
-  /// signature. If not provided the search starts from the top
-  /// of the highest max confirmed block.
-  /// - [until] Search until this transaction signature, if found
-  /// before limit reached.
-  /// - [commitment] @help/commitment
-  const factory GetSignaturesForAddressOptions({
-    int? limit,
-    String? before,
-    String? until,
-    Commitment? commitment,
-  }) = _GetSignaturesForAddressOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetSignaturesForAddressOptions {
+  const GetSignaturesForAddressOptions({
+    this.limit,
+    this.before,
+    this.until,
+    this.commitment,
+  });
 
-  factory GetSignaturesForAddressOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetSignaturesForAddressOptionsFromJson(data);
+  factory GetSignaturesForAddressOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetSignaturesForAddressOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetSignaturesForAddressOptionsToJson(this);
+
+  /// Maximum transaction signatures to return (between 1 and
+  /// 1,000, default: 1,000).
+  final int? limit;
+
+  /// Start searching backwards from this transaction signature.
+  /// If not provided the search starts from the top of the
+  /// highest max confirmed block.
+  final String? before;
+
+  /// Search until this transaction signature, if found before
+  /// limit reached.
+  final String? until;
+
+  final Commitment? commitment;
 }
 
 /// Configuration object for [RPCClient.getProgramAccounts()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetProgramAccountsOptions with _$GetProgramAccountsOptions {
-  /// - [commitment] @help/commitment
-  /// - [encoding] @help/encoding
-  /// - [dataSlice] Limit the returned account data using the
-  /// provided offset: <usize> and length: <usize> fields; only
-  /// available for "base58""base64" or "base64+zstd" encodings.
-  /// - [filter] Filter results using various filter objects;
-  /// account must meet all filter criteria to be included in
-  /// results
-  const factory GetProgramAccountsOptions({
-    Commitment? commitment,
-    Encoding? encoding,
-    DataSlice? dataSlice,
-    List<Filter>? filter,
-  }) = _GetProgramAccountsOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetProgramAccountsOptions {
+  const GetProgramAccountsOptions({
+    this.commitment,
+    this.encoding,
+    this.dataSlice,
+    this.filter,
+  });
 
-  factory GetProgramAccountsOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetProgramAccountsOptionsFromJson(data);
+  factory GetProgramAccountsOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetProgramAccountsOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetProgramAccountsOptionsToJson(this);
+
+  final Commitment? commitment;
+
+  final Encoding? encoding;
+
+  /// Limit the returned account data using the provided offset:
+  /// <usize> and length: <usize> fields; only available for
+  /// "base58""base64" or "base64+zstd" encodings.
+  final DataSlice? dataSlice;
+
+  /// Filter results using various filter objects; account must
+  /// meet all filter criteria to be included in results
+  final List<Filter>? filter;
 }
 
 /// Configuration object for [RPCClient.getLeaderSchedule()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetLeaderScheduleOptions with _$GetLeaderScheduleOptions {
-  /// - [commitment] @help/commitment
-  /// - [identity] Only return results for this validator
-  /// identity (base-58 encoded)
-  const factory GetLeaderScheduleOptions({
-    Commitment? commitment,
-    String? identity,
-  }) = _GetLeaderScheduleOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetLeaderScheduleOptions {
+  const GetLeaderScheduleOptions({
+    this.commitment,
+    this.identity,
+  });
 
-  factory GetLeaderScheduleOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetLeaderScheduleOptionsFromJson(data);
+  factory GetLeaderScheduleOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetLeaderScheduleOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetLeaderScheduleOptionsToJson(this);
+
+  final Commitment? commitment;
+
+  /// Only return results for this validator identity (base-58
+  /// encoded)
+  final String? identity;
 }
 
 /// Configuration object for [RPCClient.getLargestAccounts()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetLargestAccountsOptions with _$GetLargestAccountsOptions {
-  /// - [commitment] @help/commitment
-  /// - [filter] filter results by account type; currently
-  /// supported: circulating|nonCirculating
-  const factory GetLargestAccountsOptions({
-    Commitment? commitment,
-    CirculationStatus? filter,
-  }) = _GetLargestAccountsOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetLargestAccountsOptions {
+  const GetLargestAccountsOptions({
+    this.commitment,
+    this.filter,
+  });
 
-  factory GetLargestAccountsOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetLargestAccountsOptionsFromJson(data);
+  factory GetLargestAccountsOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetLargestAccountsOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetLargestAccountsOptionsToJson(this);
+
+  final Commitment? commitment;
+
+  /// filter results by account type; currently supported:
+  /// circulating|nonCirculating
+  final CirculationStatus? filter;
 }
 
 /// Configuration object for [RPCClient.getBlockProduction()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetBlockProductionOptions with _$GetBlockProductionOptions {
-  /// - [commitment] @help/commitment
-  /// - [range] Slot range to return block production for. If
-  /// parameter not provided, defaults to current epoch.
-  /// - [identity] Only return results for this validator
-  /// identity (base-58 encoded)
-  const factory GetBlockProductionOptions({
-    Commitment? commitment,
-    Range? range,
-    String? identity,
-  }) = _GetBlockProductionOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetBlockProductionOptions {
+  const GetBlockProductionOptions({
+    this.commitment,
+    this.range,
+    this.identity,
+  });
 
-  factory GetBlockProductionOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetBlockProductionOptionsFromJson(data);
+  factory GetBlockProductionOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetBlockProductionOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetBlockProductionOptionsToJson(this);
+
+  final Commitment? commitment;
+
+  /// Slot range to return block production for. If parameter not
+  /// provided, defaults to current epoch.
+  final Range? range;
+
+  /// Only return results for this validator identity (base-58
+  /// encoded)
+  final String? identity;
 }
 
 /// Configuration object for [RPCClient.getBlock()]
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetBlockOptions with _$GetBlockOptions {
-  /// - [encoding] @help/encoding
-  /// - [transactionDetails] Level of transaction detail to
-  /// return.
-  /// - [rewards] Whether to populate the rewards array. If
-  /// parameter not provided, the default includes rewards.
-  /// - [commitment] @help/commitment
-  const factory GetBlockOptions({
-    Encoding? encoding,
-    TransactionDetailLevel? transactionDetails,
-    bool? rewards,
-    Commitment? commitment,
-  }) = _GetBlockOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetBlockOptions {
+  const GetBlockOptions({
+    this.encoding,
+    this.transactionDetails,
+    this.rewards,
+    this.commitment,
+  });
 
-  factory GetBlockOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetBlockOptionsFromJson(data);
+  factory GetBlockOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetBlockOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetBlockOptionsToJson(this);
+
+  final Encoding? encoding;
+
+  /// Level of transaction detail to return.
+  final TransactionDetailLevel? transactionDetails;
+
+  /// Whether to populate the rewards array. If parameter not
+  /// provided, the default includes rewards.
+  final bool? rewards;
+
+  final Commitment? commitment;
 }
 
 /// Configuration object for getting account information
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class GetAccountInfoOptions with _$GetAccountInfoOptions {
-  /// - [commitment] @help/commitment
-  /// - [encoding] @help/encoding
-  /// - [dataSlice] Limit the returned account data using the
-  /// provided offset: <usize> and length: <usize> fields; only
-  /// available for "base58""base64" or "base64+zstd" encodings.
-  const factory GetAccountInfoOptions({
-    Commitment? commitment,
-    Encoding? encoding,
-    DataSlice? dataSlice,
-  }) = _GetAccountInfoOptions;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class GetAccountInfoOptions {
+  const GetAccountInfoOptions({
+    this.commitment,
+    this.encoding,
+    this.dataSlice,
+  });
 
-  factory GetAccountInfoOptions.fromJson(Map<String, dynamic> data) =>
-      _$GetAccountInfoOptionsFromJson(data);
+  factory GetAccountInfoOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetAccountInfoOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetAccountInfoOptionsToJson(this);
+
+  final Commitment? commitment;
+
+  final Encoding? encoding;
+
+  /// Limit the returned account data using the provided offset:
+  /// <usize> and length: <usize> fields; only available for
+  /// "base58""base64" or "base64+zstd" encodings.
+  final DataSlice? dataSlice;
 }
 
 /// Either a mint or a program id
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class MintOrProgramId with _$MintOrProgramId {
-  /// - [mint] Pubkey of the specific token Mint to limit
-  /// accounts to, as base-58 encoded string; or
-  /// - [programId] Pubkey of the Token program ID that owns the
-  /// accounts, as base-58 encoded string
-  const factory MintOrProgramId({
-    String? mint,
-    String? programId,
-  }) = _MintOrProgramId;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class MintOrProgramId {
+  const MintOrProgramId({
+    this.mint,
+    this.programId,
+  });
 
-  factory MintOrProgramId.fromJson(Map<String, dynamic> data) =>
-      _$MintOrProgramIdFromJson(data);
+  factory MintOrProgramId.fromJson(Map<String, dynamic> json) =>
+      _$MintOrProgramIdFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MintOrProgramIdToJson(this);
+
+  /// Pubkey of the specific token Mint to limit accounts to, as
+  /// base-58 encoded string; or
+  final String? mint;
+
+  /// Pubkey of the Token program ID that owns the accounts, as
+  /// base-58 encoded string
+  final String? programId;
 }
 
 /// Data slice to limit the account data in a response
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class DataSlice with _$DataSlice {
-  /// - [offset] Start index for the data slice
-  /// - [length] Length of the data slice
-  const factory DataSlice({
-    int? offset,
-    int? length,
-  }) = _DataSlice;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class DataSlice {
+  const DataSlice({
+    this.offset,
+    this.length,
+  });
 
-  factory DataSlice.fromJson(Map<String, dynamic> data) =>
-      _$DataSliceFromJson(data);
+  factory DataSlice.fromJson(Map<String, dynamic> json) =>
+      _$DataSliceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DataSliceToJson(this);
+
+  /// Start index for the data slice
+  final int? offset;
+
+  /// Length of the data slice
+  final int? length;
 }
 
 /// Configuration of the commitment for some methods
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class CommitmentObject with _$CommitmentObject {
-  /// - [commitment] @help/commitment
-  const factory CommitmentObject({
-    required Commitment commitment,
-  }) = _CommitmentObject;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class CommitmentObject {
+  const CommitmentObject({
+    required this.commitment,
+  });
 
-  factory CommitmentObject.fromJson(Map<String, dynamic> data) =>
-      _$CommitmentObjectFromJson(data);
+  factory CommitmentObject.fromJson(Map<String, dynamic> json) =>
+      _$CommitmentObjectFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CommitmentObjectToJson(this);
+
+  final Commitment? commitment;
 }
 
 /// An account
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Account with _$Account {
-  /// - [lamports] Number of lamports assigned to this account,
-  /// as a u64
-  /// - [owner] base-58 encoded Pubkey of the program this
-  /// account has been assigned to
-  /// - [data] Data associated with the account, either as
-  /// encoded binary data or JSON format {<program>: <state>},
-  /// depending on encoding parameter
-  /// - [executable] Boolean indicating if the account contains a
-  /// program (and is strictly read-only)
-  /// - [rentEpoch] The epoch at which this account will next owe
-  /// rent, as u64
-  const factory Account({
-    required int lamports,
-    required String owner,
-    @AccountDataConverter() required AccountData? data,
-    required bool executable,
-    required int rentEpoch,
-  }) = _Account;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Account {
+  const Account({
+    required this.lamports,
+    required this.owner,
+    required this.data,
+    required this.executable,
+    required this.rentEpoch,
+  });
 
-  factory Account.fromJson(Map<String, dynamic> data) =>
-      _$AccountFromJson(data);
+  factory Account.fromJson(Map<String, dynamic> json) =>
+      _$AccountFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AccountToJson(this);
+
+  /// Number of lamports assigned to this account, as a u64
+  final int lamports;
+
+  /// base-58 encoded Pubkey of the program this account has been
+  /// assigned to
+  final String owner;
+
+  /// Data associated with the account, either as encoded binary
+  /// data or JSON format {<program>: <state>}, depending on
+  /// encoding parameter
+  @AccountDataConverter()
+  final AccountData? data;
+
+  /// Boolean indicating if the account contains a program (and
+  /// is strictly read-only)
+  final bool executable;
+
+  /// The epoch at which this account will next owe rent, as u64
+  final int rentEpoch;
 }
 
 /// A block
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Block with _$Block {
-  /// - [blockhash] The blockhash of this block, as base-58
-  /// encoded string
-  /// - [previousBlockhash] The blockhash of this block's parent,
-  /// as base-58 encoded string; if the parent block is not
-  /// available due to ledger cleanup, this field will return
-  /// "11111111111111111111111111111111"
-  /// - [parentSlot] The slot index of this block's parent
-  /// - [transactions] Present if [TransactionDetailLevel.full]
-  /// transaction details are requested; an array of
-  /// [Transaction] objects
-  /// - [meta] Transaction status metadata object
-  /// - [signatures] Present if
-  /// [TransactionDetailLevel.signatures] are requested for
-  /// transaction details; an array of signatures strings,
-  /// corresponding to the transaction order in the block.
-  /// - [rewards] Present if rewards are requested; an array of
-  /// [Reward] objects.
-  /// - [blockTime] Estimated production time, as Unix timestamp
-  /// (seconds since the Unix epoch). None if not available.
-  /// - [blockHeight] The number of blocks beneath this block
-  const factory Block({
-    required String blockhash,
-    required String previousBlockhash,
-    required int parentSlot,
-    required List<Transaction> transactions,
-    required Meta? meta,
-    required List<String> signatures,
-    required List<Reward> rewards,
-    required int? blockTime,
-    required int? blockHeight,
-  }) = _Block;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Block {
+  const Block({
+    required this.blockhash,
+    required this.previousBlockhash,
+    required this.parentSlot,
+    required this.transactions,
+    required this.meta,
+    required this.signatures,
+    required this.rewards,
+    required this.blockTime,
+    required this.blockHeight,
+  });
 
-  factory Block.fromJson(Map<String, dynamic> data) => _$BlockFromJson(data);
+  factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BlockToJson(this);
+
+  /// The blockhash of this block, as base-58 encoded string
+  final String blockhash;
+
+  /// The blockhash of this block's parent, as base-58 encoded
+  /// string; if the parent block is not available due to ledger
+  /// cleanup, this field will return
+  /// "11111111111111111111111111111111"
+  final String previousBlockhash;
+
+  /// The slot index of this block's parent
+  final int parentSlot;
+
+  /// Present if [TransactionDetailLevel.full] transaction
+  /// details are requested; an array of [Transaction] objects
+  final List<Transaction> transactions;
+
+  /// Transaction status metadata object
+  final Meta? meta;
+
+  /// Present if [TransactionDetailLevel.signatures] are
+  /// requested for transaction details; an array of signatures
+  /// strings, corresponding to the transaction order in the
+  /// block.
+  final List<String> signatures;
+
+  /// Present if rewards are requested; an array of [Reward]
+  /// objects.
+  final List<Reward> rewards;
+
+  /// Estimated production time, as Unix timestamp (seconds since
+  /// the Unix epoch). None if not available.
+  final int? blockTime;
+
+  /// The number of blocks beneath this block
+  final int? blockHeight;
 }
 
 /// Transaction state metadata
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Meta with _$Meta {
-  /// - [err] @help/errors
-  /// - [fee] Fee this transaction was charged, as u64 integer.
-  /// - [preBalances] Array of u64 account balances from before
-  /// the transaction was processed.
-  /// - [postBalances] Array of u64 account balances after the
-  /// transaction was processed.
-  /// - [innerInstructions] List of inner instructions or omitted
-  /// if inner instruction recording was not yet enabled during
-  /// this transaction.
-  /// - [preTokenBalances] List of token balances from before the
-  /// transaction was processed or omitted if token balance
-  /// recording was not yet enabled during this transaction.
-  /// - [postTokenBalances] List of token balances from after the
-  /// transaction was processed or omitted if token balance
-  /// recording was not yet enabled during this transaction.
-  /// - [logMessages] Array of string log messages or omitted if
-  /// log message recording was not yet enabled during this
-  /// transaction.
-  const factory Meta({
-    required Map<String, dynamic>? err,
-    required int fee,
-    required List<int> preBalances,
-    required List<int> postBalances,
-    required List<InnerInstruction> innerInstructions,
-    required List<TokenBalance> preTokenBalances,
-    required List<TokenBalance> postTokenBalances,
-    required List<String> logMessages,
-  }) = _Meta;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Meta {
+  const Meta({
+    required this.err,
+    required this.fee,
+    required this.preBalances,
+    required this.postBalances,
+    required this.innerInstructions,
+    required this.preTokenBalances,
+    required this.postTokenBalances,
+    required this.logMessages,
+  });
 
-  factory Meta.fromJson(Map<String, dynamic> data) => _$MetaFromJson(data);
+  factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MetaToJson(this);
+
+  final Map<String, dynamic>? err;
+
+  /// Fee this transaction was charged, as u64 integer.
+  final int fee;
+
+  /// Array of u64 account balances from before the transaction
+  /// was processed.
+  final List<int> preBalances;
+
+  /// Array of u64 account balances after the transaction was
+  /// processed.
+  final List<int> postBalances;
+
+  /// List of inner instructions or omitted if inner instruction
+  /// recording was not yet enabled during this transaction.
+  final List<InnerInstruction> innerInstructions;
+
+  /// List of token balances from before the transaction was
+  /// processed or omitted if token balance recording was not yet
+  /// enabled during this transaction.
+  final List<TokenBalance> preTokenBalances;
+
+  /// List of token balances from after the transaction was
+  /// processed or omitted if token balance recording was not yet
+  /// enabled during this transaction.
+  final List<TokenBalance> postTokenBalances;
+
+  /// Array of string log messages or omitted if log message
+  /// recording was not yet enabled during this transaction.
+  final List<String> logMessages;
 }
 
 /// A reward
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Reward with _$Reward {
-  /// - [pubkey] The public key, as base-58 encoded string, of
-  /// the account that received the reward.
-  /// - [lamports] Number of reward lamports credited or debited
-  /// by the account, as a i64.
-  /// - [postBalance] Account balance in lamports after the
-  /// reward was applied.
-  /// - [rewardType] Type of reward
-  /// - [commission] vote account commission when the reward was
-  /// credited, only present for voting and staking rewards
-  const factory Reward({
-    required String pubkey,
-    required int lamports,
-    required int postBalance,
-    required RewardType rewardType,
-    required int commission,
-  }) = _Reward;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Reward {
+  const Reward({
+    required this.pubkey,
+    required this.lamports,
+    required this.postBalance,
+    required this.rewardType,
+    required this.commission,
+  });
 
-  factory Reward.fromJson(Map<String, dynamic> data) => _$RewardFromJson(data);
+  factory Reward.fromJson(Map<String, dynamic> json) => _$RewardFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RewardToJson(this);
+
+  /// The public key, as base-58 encoded string, of the account
+  /// that received the reward.
+  final String pubkey;
+
+  /// Number of reward lamports credited or debited by the
+  /// account, as a i64.
+  final int lamports;
+
+  /// Account balance in lamports after the reward was applied.
+  final int postBalance;
+
+  /// Type of reward
+  final RewardType rewardType;
+
+  /// vote account commission when the reward was credited, only
+  /// present for voting and staking rewards
+  final int commission;
 }
 
 /// The header of a transaction message
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class TransactionMessageHeader with _$TransactionMessageHeader {
-  /// - [numRequiredSignatures] The total number of signatures
-  /// required to make the transaction valid. The signatures must
-  /// match the first numRequiredSignatures of
-  /// message.account_keys.
-  /// - [numReadonlySignedAccounts] The last
-  /// numReadonlySignedAccounts of the signed keys are read-only
-  /// accounts. Programs may process multiple transactions that
-  /// load read-only accounts within a single PoH entry, but are
-  /// not permitted to credit or debit lamports or modify account
-  /// data. Transactions targeting the same read-write account
-  /// are evaluated sequentially.
-  /// - [numReadonlyUnsignedAccounts] The last
-  /// numReadonlyUnsignedAccounts of the unsigned keys are
-  /// read-only accounts.
-  const factory TransactionMessageHeader({
-    required int numRequiredSignatures,
-    required int numReadonlySignedAccounts,
-    required int numReadonlyUnsignedAccounts,
-  }) = _TransactionMessageHeader;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class TransactionMessageHeader {
+  const TransactionMessageHeader({
+    required this.numRequiredSignatures,
+    required this.numReadonlySignedAccounts,
+    required this.numReadonlyUnsignedAccounts,
+  });
 
-  factory TransactionMessageHeader.fromJson(Map<String, dynamic> data) =>
-      _$TransactionMessageHeaderFromJson(data);
+  factory TransactionMessageHeader.fromJson(Map<String, dynamic> json) =>
+      _$TransactionMessageHeaderFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TransactionMessageHeaderToJson(this);
+
+  /// The total number of signatures required to make the
+  /// transaction valid. The signatures must match the first
+  /// numRequiredSignatures of message.account_keys.
+  final int numRequiredSignatures;
+
+  /// The last numReadonlySignedAccounts of the signed keys are
+  /// read-only accounts. Programs may process multiple
+  /// transactions that load read-only accounts within a single
+  /// PoH entry, but are not permitted to credit or debit
+  /// lamports or modify account data. Transactions targeting the
+  /// same read-write account are evaluated sequentially.
+  final int numReadonlySignedAccounts;
+
+  /// The last numReadonlyUnsignedAccounts of the unsigned keys
+  /// are read-only accounts.
+  final int numReadonlyUnsignedAccounts;
 }
 
 /// A transaction message
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class TransactionMessage with _$TransactionMessage {
-  /// - [accountKeys] List of base-58 encoded public keys used by
-  /// the transaction, including by the instructions and for
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class TransactionMessage {
+  const TransactionMessage({
+    required this.accountKeys,
+    required this.header,
+    required this.recentBlockhash,
+    required this.instructions,
+  });
+
+  factory TransactionMessage.fromJson(Map<String, dynamic> json) =>
+      _$TransactionMessageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TransactionMessageToJson(this);
+
+  /// List of base-58 encoded public keys used by the
+  /// transaction, including by the instructions and for
   /// signatures. The first message.header.numRequiredSignatures
   /// public keys must sign the transaction.
-  /// - [header] Details the account types and signatures
-  /// required by the transaction.
-  /// - [recentBlockhash] A base-58 encoded hash of a recent
-  /// block in the ledger used to prevent transaction duplication
-  /// and to give transactions lifetimes.
-  /// - [instructions] List of program instructions that will be
-  /// executed in sequence and committed in one atomic
-  /// transaction if all succeed.
-  const factory TransactionMessage({
-    required List<String> accountKeys,
-    required TransactionMessageHeader header,
-    required String recentBlockhash,
-    required List<Instruction> instructions,
-  }) = _TransactionMessage;
+  final List<String> accountKeys;
 
-  factory TransactionMessage.fromJson(Map<String, dynamic> data) =>
-      _$TransactionMessageFromJson(data);
+  /// Details the account types and signatures required by the
+  /// transaction.
+  final TransactionMessageHeader header;
+
+  /// A base-58 encoded hash of a recent block in the ledger used
+  /// to prevent transaction duplication and to give transactions
+  /// lifetimes.
+  final String recentBlockhash;
+
+  /// List of program instructions that will be executed in
+  /// sequence and committed in one atomic transaction if all
+  /// succeed.
+  final List<Instruction> instructions;
 }
 
 /// A transaction
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Transaction with _$Transaction {
-  /// - [signatures] A list of base-58 encoded signatures applied
-  /// to the transaction. The list is always of length
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Transaction {
+  const Transaction({
+    required this.signatures,
+    required this.message,
+  });
+
+  factory Transaction.fromJson(Map<String, dynamic> json) =>
+      _$TransactionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TransactionToJson(this);
+
+  /// A list of base-58 encoded signatures applied to the
+  /// transaction. The list is always of length
   /// message.header.numRequiredSignatures and not empty. The
   /// signature at index i corresponds to the public key at index
   /// i in message.account_keys. The first one is used as the
   /// transaction id.
-  /// - [message] Defines the content of the transaction.
-  const factory Transaction({
-    required List<String> signatures,
-    required TransactionMessage message,
-  }) = _Transaction;
+  final List<String> signatures;
 
-  factory Transaction.fromJson(Map<String, dynamic> data) =>
-      _$TransactionFromJson(data);
+  /// Defines the content of the transaction.
+  final TransactionMessage message;
 }
 
 /// Details of a transaction
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class TransactionDetails with _$TransactionDetails {
-  /// - [slot] the slot this transaction was processed in
-  /// - [transaction] Transaction object, either in JSON format
-  /// or encoded binary data, depending on encoding parameter
-  /// - [blockTime]
-  /// - [meta] transaction status metadata
-  const factory TransactionDetails({
-    required int slot,
-    required Transaction transaction,
-    required int? blockTime,
-    required Meta meta,
-  }) = _TransactionDetails;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class TransactionDetails {
+  const TransactionDetails({
+    required this.slot,
+    required this.transaction,
+    required this.blockTime,
+    required this.meta,
+  });
 
-  factory TransactionDetails.fromJson(Map<String, dynamic> data) =>
-      _$TransactionDetailsFromJson(data);
+  factory TransactionDetails.fromJson(Map<String, dynamic> json) =>
+      _$TransactionDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TransactionDetailsToJson(this);
+
+  /// the slot this transaction was processed in
+  final int slot;
+
+  /// Transaction object, either in JSON format or encoded binary
+  /// data, depending on encoding parameter
+  final Transaction transaction;
+
+  ///
+  final int? blockTime;
+
+  /// transaction status metadata
+  final Meta meta;
 }
 
 /// List of inner instructions or omitted if inner instruction
 /// recording was not yet enabled during this transaction
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class InnerInstruction with _$InnerInstruction {
-  /// - [index] Index of the transaction instruction from which
-  /// the inner instruction(s) originated
-  /// - [instruction] Ordered list of inner program instructions
-  /// that were invoked during a single transaction instruction.
-  const factory InnerInstruction({
-    required int index,
-    required List<Instruction> instruction,
-  }) = _InnerInstruction;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class InnerInstruction {
+  const InnerInstruction({
+    required this.index,
+    required this.instruction,
+  });
 
-  factory InnerInstruction.fromJson(Map<String, dynamic> data) =>
-      _$InnerInstructionFromJson(data);
+  factory InnerInstruction.fromJson(Map<String, dynamic> json) =>
+      _$InnerInstructionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InnerInstructionToJson(this);
+
+  /// Index of the transaction instruction from which the inner
+  /// instruction(s) originated
+  final int index;
+
+  /// Ordered list of inner program instructions that were
+  /// invoked during a single transaction instruction.
+  final List<Instruction> instruction;
 }
 
 /// An instruction in a transaction
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Instruction with _$Instruction {
-  /// - [programIdIndex] Index into the message.accountKeys array
-  /// indicating the program account that executes this
-  /// instruction.
-  /// - [accounts] List of ordered indices into the
-  /// message.accountKeys array indicating which accounts to pass
-  /// to the program.
-  /// - [data] The program input data encoded in a base-58 string.
-  const factory Instruction({
-    required int programIdIndex,
-    required List<int> accounts,
-    required String data,
-  }) = _Instruction;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Instruction {
+  const Instruction({
+    required this.programIdIndex,
+    required this.accounts,
+    required this.data,
+  });
 
-  factory Instruction.fromJson(Map<String, dynamic> data) =>
-      _$InstructionFromJson(data);
+  factory Instruction.fromJson(Map<String, dynamic> json) =>
+      _$InstructionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InstructionToJson(this);
+
+  /// Index into the message.accountKeys array indicating the
+  /// program account that executes this instruction.
+  final int programIdIndex;
+
+  /// List of ordered indices into the message.accountKeys array
+  /// indicating which accounts to pass to the program.
+  final List<int> accounts;
+
+  /// The program input data encoded in a base-58 string.
+  final String data;
 }
 
 /// The amount of a SPL token
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class TokenAmount with _$TokenAmount {
-  /// - [amount] Raw amount of tokens as a string, ignoring
-  /// decimals.
-  /// - [decimals] Number of decimals configured for token's mint.
-  /// - [uiAmountString] Token amount as a string, accounting for
-  /// decimals.
-  const factory TokenAmount({
-    required String amount,
-    required int decimals,
-    required String? uiAmountString,
-  }) = _TokenAmount;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class TokenAmount {
+  const TokenAmount({
+    required this.amount,
+    required this.decimals,
+    required this.uiAmountString,
+  });
 
-  factory TokenAmount.fromJson(Map<String, dynamic> data) =>
-      _$TokenAmountFromJson(data);
+  factory TokenAmount.fromJson(Map<String, dynamic> json) =>
+      _$TokenAmountFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TokenAmountToJson(this);
+
+  /// Raw amount of tokens as a string, ignoring decimals.
+  final String amount;
+
+  /// Number of decimals configured for token's mint.
+  final int decimals;
+
+  /// Token amount as a string, accounting for decimals.
+  final String? uiAmountString;
 }
 
 /// The balance of a SPL token account
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class TokenBalance with _$TokenBalance {
-  /// - [accountIndex] Index of the account in which the token
-  /// balance is provided for.
-  /// - [mint] Pubkey of the token's mint.
-  /// - [uiTokenAmount] Token balance
-  const factory TokenBalance({
-    required int accountIndex,
-    required String mint,
-    required TokenAmount uiTokenAmount,
-  }) = _TokenBalance;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class TokenBalance {
+  const TokenBalance({
+    required this.accountIndex,
+    required this.mint,
+    required this.uiTokenAmount,
+  });
 
-  factory TokenBalance.fromJson(Map<String, dynamic> data) =>
-      _$TokenBalanceFromJson(data);
+  factory TokenBalance.fromJson(Map<String, dynamic> json) =>
+      _$TokenBalanceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TokenBalanceToJson(this);
+
+  /// Index of the account in which the token balance is provided
+  /// for.
+  final int accountIndex;
+
+  /// Pubkey of the token's mint.
+  final String mint;
+
+  /// Token balance
+  final TokenAmount uiTokenAmount;
 }
 
 /// A node of a cluster
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class ClusterNode with _$ClusterNode {
-  /// - [pubkey] Node public key, as base-58 encoded string
-  /// - [gossip] Gossip network address for the node
-  /// - [tpu] TPU network address for the node
-  /// - [rpc] JSON RPC network address for the node, or null if
-  /// the JSON RPC service is not enabled
-  /// - [version] The software version of the node, or null if
-  /// the version information is not available
-  /// - [featureSet] The unique identifier of the node's feature
-  /// set
-  /// - [shredVersion] The shred version the node has been
-  /// configured to use
-  const factory ClusterNode({
-    required String pubkey,
-    required String gossip,
-    required String tpu,
-    required String? rpc,
-    required String? version,
-    required int? featureSet,
-    required int? shredVersion,
-  }) = _ClusterNode;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class ClusterNode {
+  const ClusterNode({
+    required this.pubkey,
+    required this.gossip,
+    required this.tpu,
+    required this.rpc,
+    required this.version,
+    required this.featureSet,
+    required this.shredVersion,
+  });
 
-  factory ClusterNode.fromJson(Map<String, dynamic> data) =>
-      _$ClusterNodeFromJson(data);
+  factory ClusterNode.fromJson(Map<String, dynamic> json) =>
+      _$ClusterNodeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ClusterNodeToJson(this);
+
+  /// Node public key, as base-58 encoded string
+  final String pubkey;
+
+  /// Gossip network address for the node
+  final String gossip;
+
+  /// TPU network address for the node
+  final String tpu;
+
+  /// JSON RPC network address for the node, or null if the JSON
+  /// RPC service is not enabled
+  final String? rpc;
+
+  /// The software version of the node, or null if the version
+  /// information is not available
+  final String? version;
+
+  /// The unique identifier of the node's feature set
+  final int? featureSet;
+
+  /// The shred version the node has been configured to use
+  final int? shredVersion;
 }
 
 /// Information about an epoch
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class EpochInfo with _$EpochInfo {
-  /// - [absoluteSlot] The current slot
-  /// - [blockHeight] The current block height
-  /// - [epoch] The current epoch
-  /// - [slotIndex] The current slot relative to the start of the
-  /// current epoch
-  /// - [slotsInEpoch] The number of slots in this epoch
-  const factory EpochInfo({
-    required int absoluteSlot,
-    required int blockHeight,
-    required int epoch,
-    required int slotIndex,
-    required int slotsInEpoch,
-  }) = _EpochInfo;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class EpochInfo {
+  const EpochInfo({
+    required this.absoluteSlot,
+    required this.blockHeight,
+    required this.epoch,
+    required this.slotIndex,
+    required this.slotsInEpoch,
+  });
 
-  factory EpochInfo.fromJson(Map<String, dynamic> data) =>
-      _$EpochInfoFromJson(data);
+  factory EpochInfo.fromJson(Map<String, dynamic> json) =>
+      _$EpochInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EpochInfoToJson(this);
+
+  /// The current slot
+  final int absoluteSlot;
+
+  /// The current block height
+  final int blockHeight;
+
+  /// The current epoch
+  final int epoch;
+
+  /// The current slot relative to the start of the current epoch
+  final int slotIndex;
+
+  /// The number of slots in this epoch
+  final int slotsInEpoch;
 }
 
 /// A fee calculator
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class FeeCalculator with _$FeeCalculator {
-  /// - [lamportsPerSignature] number of lamports per signature
-  /// in a transaction
-  const factory FeeCalculator({
-    required int lamportsPerSignature,
-  }) = _FeeCalculator;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class FeeCalculator {
+  const FeeCalculator({
+    required this.lamportsPerSignature,
+  });
 
-  factory FeeCalculator.fromJson(Map<String, dynamic> data) =>
-      _$FeeCalculatorFromJson(data);
+  factory FeeCalculator.fromJson(Map<String, dynamic> json) =>
+      _$FeeCalculatorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FeeCalculatorToJson(this);
+
+  /// number of lamports per signature in a transaction
+  final int lamportsPerSignature;
 }
 
 /// A range of bytes
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Range with _$Range {
-  /// - [firstSlot] first slot of the block production
-  /// information (inclusive)
-  /// - [lastSlot] last slot of block production information
-  /// (inclusive)
-  const factory Range({
-    required int firstSlot,
-    required int lastSlot,
-  }) = _Range;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Range {
+  const Range({
+    required this.firstSlot,
+    required this.lastSlot,
+  });
 
-  factory Range.fromJson(Map<String, dynamic> data) => _$RangeFromJson(data);
+  factory Range.fromJson(Map<String, dynamic> json) => _$RangeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RangeToJson(this);
+
+  /// first slot of the block production information (inclusive)
+  final int firstSlot;
+
+  /// last slot of block production information (inclusive)
+  final int lastSlot;
 }
 
 /// A block production
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class BlockProduction with _$BlockProduction {
-  /// - [byIdentity] A dictionary of validator identities, as
-  /// base-58 encoded strings. Value is a two element array
-  /// containing the number of leader slots and the number of
-  /// blocks produced.
-  /// - [range] Block production slot range
-  const factory BlockProduction({
-    required Map<String, ByIdentityValue> byIdentity,
-    required Range range,
-  }) = _BlockProduction;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class BlockProduction {
+  const BlockProduction({
+    required this.byIdentity,
+    required this.range,
+  });
 
-  factory BlockProduction.fromJson(Map<String, dynamic> data) =>
-      _$BlockProductionFromJson(data);
+  factory BlockProduction.fromJson(Map<String, dynamic> json) =>
+      _$BlockProductionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BlockProductionToJson(this);
+
+  /// A dictionary of validator identities, as base-58 encoded
+  /// strings. Value is a two element array containing the number
+  /// of leader slots and the number of blocks produced.
+  final Map<String, ByIdentityValue> byIdentity;
+
+  /// Block production slot range
+  final Range range;
 }
 
 /// The commitment of a bloc
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class BlockCommitment with _$BlockCommitment {
-  /// - [commitment] Commitment, array of u64 integers logging
-  /// the amount of cluster stake in lamports that has voted on
-  /// the block at each depth from 0 to MAX_LOCKOUT_HISTORY + 1.
-  /// - [totalStake] Total active stake, in lamports, of the
-  /// current epoch.
-  const factory BlockCommitment({
-    required List<int>? commitment,
-    required int totalStake,
-  }) = _BlockCommitment;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class BlockCommitment {
+  const BlockCommitment({
+    required this.commitment,
+    required this.totalStake,
+  });
 
-  factory BlockCommitment.fromJson(Map<String, dynamic> data) =>
-      _$BlockCommitmentFromJson(data);
+  factory BlockCommitment.fromJson(Map<String, dynamic> json) =>
+      _$BlockCommitmentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BlockCommitmentToJson(this);
+
+  /// Commitment, array of u64 integers logging the amount of
+  /// cluster stake in lamports that has voted on the block at
+  /// each depth from 0 to MAX_LOCKOUT_HISTORY + 1.
+  final List<int>? commitment;
+
+  /// Total active stake, in lamports, of the current epoch.
+  final int totalStake;
 }
 
 /// An epoch schedule
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class EpochSchedule with _$EpochSchedule {
-  /// - [slotsPerEpoch] The maximum number of slots in each epoch.
-  /// - [leaderScheduleSlotOffset] The number of slots before
-  /// beginning of an epoch to calculate a leader schedule for
-  /// that epoch.
-  /// - [warmup] Whether epochs start short and grow.
-  /// - [firstNormalEpoch] First normal-length epoch,
-  /// log2(slotsPerEpoch) - log2(MINIMUM_SLOTS_PER_EPOCH).
-  /// - [firstNormalSlot] MINIMUM_SLOTS_PER_EPOCH *
-  /// (2.pow(firstNormalEpoch) - 1).
-  const factory EpochSchedule({
-    required int slotsPerEpoch,
-    required int leaderScheduleSlotOffset,
-    required bool warmup,
-    required int firstNormalEpoch,
-    required int firstNormalSlot,
-  }) = _EpochSchedule;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class EpochSchedule {
+  const EpochSchedule({
+    required this.slotsPerEpoch,
+    required this.leaderScheduleSlotOffset,
+    required this.warmup,
+    required this.firstNormalEpoch,
+    required this.firstNormalSlot,
+  });
 
-  factory EpochSchedule.fromJson(Map<String, dynamic> data) =>
-      _$EpochScheduleFromJson(data);
+  factory EpochSchedule.fromJson(Map<String, dynamic> json) =>
+      _$EpochScheduleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EpochScheduleToJson(this);
+
+  /// The maximum number of slots in each epoch.
+  final int slotsPerEpoch;
+
+  /// The number of slots before beginning of an epoch to
+  /// calculate a leader schedule for that epoch.
+  final int leaderScheduleSlotOffset;
+
+  /// Whether epochs start short and grow.
+  final bool warmup;
+
+  /// First normal-length epoch, log2(slotsPerEpoch) -
+  /// log2(MINIMUM_SLOTS_PER_EPOCH).
+  final int firstNormalEpoch;
+
+  /// MINIMUM_SLOTS_PER_EPOCH * (2.pow(firstNormalEpoch) - 1).
+  final int firstNormalSlot;
 }
 
 /// The value of a fee rate governor
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class FeeRateGovernorValue with _$FeeRateGovernorValue {
-  /// - [burnPercent] Percentage of fees collected to be
-  /// destroyed.
-  /// - [maxLamportsPerSignature] Largest value
-  /// lamportsPerSignature can attain for the next slot.
-  /// - [minLamportsPerSignature] Smallest value
-  /// lamportsPerSignature can attain for the next slot.
-  /// - [targetLamportsPerSignature] Desired fee rate for the
-  /// cluster.
-  /// - [targetSignaturesPerSlot] Desired signature rate for the
-  /// cluster.
-  const factory FeeRateGovernorValue({
-    required int burnPercent,
-    required int maxLamportsPerSignature,
-    required int minLamportsPerSignature,
-    required int targetLamportsPerSignature,
-    required int targetSignaturesPerSlot,
-  }) = _FeeRateGovernorValue;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class FeeRateGovernorValue {
+  const FeeRateGovernorValue({
+    required this.burnPercent,
+    required this.maxLamportsPerSignature,
+    required this.minLamportsPerSignature,
+    required this.targetLamportsPerSignature,
+    required this.targetSignaturesPerSlot,
+  });
 
-  factory FeeRateGovernorValue.fromJson(Map<String, dynamic> data) =>
-      _$FeeRateGovernorValueFromJson(data);
+  factory FeeRateGovernorValue.fromJson(Map<String, dynamic> json) =>
+      _$FeeRateGovernorValueFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FeeRateGovernorValueToJson(this);
+
+  /// Percentage of fees collected to be destroyed.
+  final int burnPercent;
+
+  /// Largest value lamportsPerSignature can attain for the next
+  /// slot.
+  final int maxLamportsPerSignature;
+
+  /// Smallest value lamportsPerSignature can attain for the next
+  /// slot.
+  final int minLamportsPerSignature;
+
+  /// Desired fee rate for the cluster.
+  final int targetLamportsPerSignature;
+
+  /// Desired signature rate for the cluster.
+  final int targetSignaturesPerSlot;
 }
 
 /// A fee rate governor
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class FeeRateGovernor with _$FeeRateGovernor {
-  /// - [feeRateGovernor] Fee rate governor
-  const factory FeeRateGovernor({
-    required FeeRateGovernorValue feeRateGovernor,
-  }) = _FeeRateGovernor;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class FeeRateGovernor {
+  const FeeRateGovernor({
+    required this.feeRateGovernor,
+  });
 
-  factory FeeRateGovernor.fromJson(Map<String, dynamic> data) =>
-      _$FeeRateGovernorFromJson(data);
+  factory FeeRateGovernor.fromJson(Map<String, dynamic> json) =>
+      _$FeeRateGovernorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FeeRateGovernorToJson(this);
+
+  /// Fee rate governor
+  final FeeRateGovernorValue feeRateGovernor;
 }
 
 /// A fee description object
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Fees with _$Fees {
-  /// - [blockhash] Hash as base-58 encoded string
-  /// - [feeCalculator] [FeeCalculator] object, the fee schedule
-  /// for this block hash
-  /// - [lastValidBlockHeight] Last block height at which a
-  /// [blockhash] will be valid
-  const factory Fees({
-    required String blockhash,
-    required FeeCalculator feeCalculator,
-    required int lastValidBlockHeight,
-  }) = _Fees;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Fees {
+  const Fees({
+    required this.blockhash,
+    required this.feeCalculator,
+    required this.lastValidBlockHeight,
+  });
 
-  factory Fees.fromJson(Map<String, dynamic> data) => _$FeesFromJson(data);
+  factory Fees.fromJson(Map<String, dynamic> json) => _$FeesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FeesToJson(this);
+
+  /// Hash as base-58 encoded string
+  final String blockhash;
+
+  /// [FeeCalculator] object, the fee schedule for this block hash
+  final FeeCalculator feeCalculator;
+
+  /// Last block height at which a [blockhash] will be valid
+  final int lastValidBlockHeight;
 }
 
 /// An identity (or a public key)
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Identity with _$Identity {
-  /// - [identity] the identity pubkey of the current node (as a
-  /// base-58 encoded string)
-  const factory Identity({
-    required String identity,
-  }) = _Identity;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Identity {
+  const Identity({
+    required this.identity,
+  });
 
-  factory Identity.fromJson(Map<String, dynamic> data) =>
-      _$IdentityFromJson(data);
+  factory Identity.fromJson(Map<String, dynamic> json) =>
+      _$IdentityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IdentityToJson(this);
+
+  /// the identity pubkey of the current node (as a base-58
+  /// encoded string)
+  final String identity;
 }
 
 /// An inflation governor
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class InflationGovernor with _$InflationGovernor {
-  /// - [initial] The initial inflation percentage from time 0.
-  /// - [terminal] Terminal inflation percentage.
-  /// - [taper] Rate per year at which inflation is
-  /// lowered.\nRate reduction is derived using the target slot
-  /// time in genesis config.
-  /// - [foundation] Percentage of total inflation allocated to
-  /// the foundation.
-  /// - [foundationTerm] Duration of foundation pool inflation in
-  /// years.
-  const factory InflationGovernor({
-    required double initial,
-    required double terminal,
-    required double taper,
-    required double foundation,
-    required double foundationTerm,
-  }) = _InflationGovernor;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class InflationGovernor {
+  const InflationGovernor({
+    required this.initial,
+    required this.terminal,
+    required this.taper,
+    required this.foundation,
+    required this.foundationTerm,
+  });
 
-  factory InflationGovernor.fromJson(Map<String, dynamic> data) =>
-      _$InflationGovernorFromJson(data);
+  factory InflationGovernor.fromJson(Map<String, dynamic> json) =>
+      _$InflationGovernorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InflationGovernorToJson(this);
+
+  /// The initial inflation percentage from time 0.
+  final double initial;
+
+  /// Terminal inflation percentage.
+  final double terminal;
+
+  /// Rate per year at which inflation is lowered.\nRate
+  /// reduction is derived using the target slot time in genesis
+  /// config.
+  final double taper;
+
+  /// Percentage of total inflation allocated to the foundation.
+  final double foundation;
+
+  /// Duration of foundation pool inflation in years.
+  final double foundationTerm;
 }
 
 /// An inflation rate
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class InflationRate with _$InflationRate {
-  /// - [total] Total inflation.
-  /// - [validator] Inflation allocated to validators.
-  /// - [foundation] Inflation allocated to the foundation.
-  /// - [epoch] Epoch for which these values are valid.
-  const factory InflationRate({
-    required double total,
-    required double validator,
-    required double foundation,
-    required double epoch,
-  }) = _InflationRate;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class InflationRate {
+  const InflationRate({
+    required this.total,
+    required this.validator,
+    required this.foundation,
+    required this.epoch,
+  });
 
-  factory InflationRate.fromJson(Map<String, dynamic> data) =>
-      _$InflationRateFromJson(data);
+  factory InflationRate.fromJson(Map<String, dynamic> json) =>
+      _$InflationRateFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InflationRateToJson(this);
+
+  /// Total inflation.
+  final double total;
+
+  /// Inflation allocated to validators.
+  final double validator;
+
+  /// Inflation allocated to the foundation.
+  final double foundation;
+
+  /// Epoch for which these values are valid.
+  final double epoch;
 }
 
 /// An inflation reward
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class InflationReward with _$InflationReward {
-  /// - [epoch] Epoch for which reward occurred.
-  /// - [effectiveSlot] The slot in which the rewards are
-  /// effective.
-  /// - [amount] Reward amount in lamports.
-  /// - [postBalance] Post balance of the account in lamports.
-  /// - [commission] Vote account commission when the reward was
-  /// credited.
-  const factory InflationReward({
-    required int epoch,
-    required int effectiveSlot,
-    required int amount,
-    required int postBalance,
-    required int commission,
-  }) = _InflationReward;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class InflationReward {
+  const InflationReward({
+    required this.epoch,
+    required this.effectiveSlot,
+    required this.amount,
+    required this.postBalance,
+    required this.commission,
+  });
 
-  factory InflationReward.fromJson(Map<String, dynamic> data) =>
-      _$InflationRewardFromJson(data);
+  factory InflationReward.fromJson(Map<String, dynamic> json) =>
+      _$InflationRewardFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InflationRewardToJson(this);
+
+  /// Epoch for which reward occurred.
+  final int epoch;
+
+  /// The slot in which the rewards are effective.
+  final int effectiveSlot;
+
+  /// Reward amount in lamports.
+  final int amount;
+
+  /// Post balance of the account in lamports.
+  final int postBalance;
+
+  /// Vote account commission when the reward was credited.
+  final int commission;
 }
 
 /// A large account
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class LargeAccount with _$LargeAccount {
-  /// - [address] base-58 encoded address of the account
-  /// - [lamports] Number of lamports in the account, as a u64
-  const factory LargeAccount({
-    required String address,
-    required int lamports,
-  }) = _LargeAccount;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class LargeAccount {
+  const LargeAccount({
+    required this.address,
+    required this.lamports,
+  });
 
-  factory LargeAccount.fromJson(Map<String, dynamic> data) =>
-      _$LargeAccountFromJson(data);
+  factory LargeAccount.fromJson(Map<String, dynamic> json) =>
+      _$LargeAccountFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LargeAccountToJson(this);
+
+  /// base-58 encoded address of the account
+  final String address;
+
+  /// Number of lamports in the account, as a u64
+  final int lamports;
 }
 
 /// A parameters object for a filter of program data
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class FilterParams with _$FilterParams {
-  /// - [offset] Offset into program account data to start
-  /// comparison.
-  /// - [bytes] Data to match, as base-58 encoded string and
-  /// limited to less than 129 bytes.
-  const factory FilterParams({
-    required int offset,
-    required String bytes,
-  }) = _FilterParams;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class FilterParams {
+  const FilterParams({
+    required this.offset,
+    required this.bytes,
+  });
 
-  factory FilterParams.fromJson(Map<String, dynamic> data) =>
-      _$FilterParamsFromJson(data);
+  factory FilterParams.fromJson(Map<String, dynamic> json) =>
+      _$FilterParamsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FilterParamsToJson(this);
+
+  /// Offset into program account data to start comparison.
+  final int offset;
+
+  /// Data to match, as base-58 encoded string and limited to
+  /// less than 129 bytes.
+  final String bytes;
 }
 
 /// A filter of program data
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Filter with _$Filter {
-  /// - [memcmp] Compares a provided series of bytes with program
-  /// account data at a particular offset.
-  /// - [dataSize] Compares the program account data length with
-  /// the provided data size.
-  const factory Filter({
-    required FilterParams memcmp,
-    required int dataSize,
-  }) = _Filter;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Filter {
+  const Filter({
+    required this.memcmp,
+    required this.dataSize,
+  });
 
-  factory Filter.fromJson(Map<String, dynamic> data) => _$FilterFromJson(data);
+  factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FilterToJson(this);
+
+  /// Compares a provided series of bytes with program account
+  /// data at a particular offset.
+  final FilterParams memcmp;
+
+  /// Compares the program account data length with the provided
+  /// data size.
+  final int dataSize;
 }
 
 /// A program account
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class ProgramAccount with _$ProgramAccount {
-  /// - [account] The account information for this program
-  /// account.
-  /// - [pubkey] The account Pubkey as base-58 encoded string.
-  const factory ProgramAccount({
-    required Account account,
-    required String pubkey,
-  }) = _ProgramAccount;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class ProgramAccount {
+  const ProgramAccount({
+    required this.account,
+    required this.pubkey,
+  });
 
-  factory ProgramAccount.fromJson(Map<String, dynamic> data) =>
-      _$ProgramAccountFromJson(data);
+  factory ProgramAccount.fromJson(Map<String, dynamic> json) =>
+      _$ProgramAccountFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProgramAccountToJson(this);
+
+  /// The account information for this program account.
+  final Account account;
+
+  /// The account Pubkey as base-58 encoded string.
+  final String pubkey;
 }
 
 /// A recent blockhash
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class RecentBlockhash with _$RecentBlockhash {
-  /// - [blockhash] Hash as base-58 encoded string
-  /// - [feeCalculator] [FeeCalculator] object, the fee schedule
-  /// for this block hash
-  const factory RecentBlockhash({
-    required String blockhash,
-    required FeeCalculator feeCalculator,
-  }) = _RecentBlockhash;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class RecentBlockhash {
+  const RecentBlockhash({
+    required this.blockhash,
+    required this.feeCalculator,
+  });
 
-  factory RecentBlockhash.fromJson(Map<String, dynamic> data) =>
-      _$RecentBlockhashFromJson(data);
+  factory RecentBlockhash.fromJson(Map<String, dynamic> json) =>
+      _$RecentBlockhashFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RecentBlockhashToJson(this);
+
+  /// Hash as base-58 encoded string
+  final String blockhash;
+
+  /// [FeeCalculator] object, the fee schedule for this block hash
+  final FeeCalculator feeCalculator;
 }
 
 /// A performance sample
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class PerfSample with _$PerfSample {
-  /// - [slot] Slot in which sample was taken at.
-  /// - [numTransactions] Number of transactions in sample.
-  /// - [numSlots] Number of slots in sample.
-  /// - [samplePeriodSec] Number of seconds in a sample window.
-  const factory PerfSample({
-    required int slot,
-    required int numTransactions,
-    required int numSlots,
-    required int samplePeriodSec,
-  }) = _PerfSample;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class PerfSample {
+  const PerfSample({
+    required this.slot,
+    required this.numTransactions,
+    required this.numSlots,
+    required this.samplePeriodSec,
+  });
 
-  factory PerfSample.fromJson(Map<String, dynamic> data) =>
-      _$PerfSampleFromJson(data);
+  factory PerfSample.fromJson(Map<String, dynamic> json) =>
+      _$PerfSampleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PerfSampleToJson(this);
+
+  /// Slot in which sample was taken at.
+  final int slot;
+
+  /// Number of transactions in sample.
+  final int numTransactions;
+
+  /// Number of slots in sample.
+  final int numSlots;
+
+  /// Number of seconds in a sample window.
+  final int samplePeriodSec;
 }
 
 /// The information of a transaction signature
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class TransactionSignatureInformation with _$TransactionSignatureInformation {
-  /// - [signature] Transaction signature as base-58 encoded
-  /// string.
-  /// - [slot] The slot that contains the block with the
-  /// transaction.
-  /// - [err] @help/errors
-  /// - [memo] Memo associated with the transaction, null if no
-  /// memo is present.
-  /// - [blockTime] Estimated production time, as Unix timestamp
-  /// (seconds since the Unix epoch) of when transaction was
-  /// processed. null if not available.
-  const factory TransactionSignatureInformation({
-    required String signature,
-    required int slot,
-    required Map<String, dynamic>? err,
-    required String? memo,
-    required int? blockTime,
-  }) = _TransactionSignatureInformation;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class TransactionSignatureInformation {
+  const TransactionSignatureInformation({
+    required this.signature,
+    required this.slot,
+    required this.err,
+    required this.memo,
+    required this.blockTime,
+  });
 
-  factory TransactionSignatureInformation.fromJson(Map<String, dynamic> data) =>
-      _$TransactionSignatureInformationFromJson(data);
+  factory TransactionSignatureInformation.fromJson(Map<String, dynamic> json) =>
+      _$TransactionSignatureInformationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$TransactionSignatureInformationToJson(this);
+
+  /// Transaction signature as base-58 encoded string.
+  final String signature;
+
+  /// The slot that contains the block with the transaction.
+  final int slot;
+
+  final Map<String, dynamic>? err;
+
+  /// Memo associated with the transaction, null if no memo is
+  /// present.
+  final String? memo;
+
+  /// Estimated production time, as Unix timestamp (seconds since
+  /// the Unix epoch) of when transaction was processed. null if
+  /// not available.
+  final int? blockTime;
 }
 
 /// The status of a signature
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class SignatureStatus with _$SignatureStatus {
-  /// - [slot] The slot the transaction was processed.
-  /// - [confirmations] Number of blocks since signature
-  /// confirmation, null if rooted, as well as finalized.
-  /// - [err] @help/errors
-  /// - [confirmationStatus] The transaction's cluster
-  /// confirmation status; either [Commitment.processed],
-  /// [Commitment.confirmed], or [Commitment.finalized]. See
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class SignatureStatus {
+  const SignatureStatus({
+    required this.slot,
+    required this.confirmations,
+    required this.err,
+    required this.confirmationStatus,
+  });
+
+  factory SignatureStatus.fromJson(Map<String, dynamic> json) =>
+      _$SignatureStatusFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SignatureStatusToJson(this);
+
+  /// The slot the transaction was processed.
+  final int slot;
+
+  /// Number of blocks since signature confirmation, null if
+  /// rooted, as well as finalized.
+  final int? confirmations;
+
+  final Map<String, dynamic>? err;
+
+  /// The transaction's cluster confirmation status; either
+  /// [Commitment.processed], [Commitment.confirmed], or
+  /// [Commitment.finalized]. See
   /// [Commitment](@help/commitment/link) for more on optimistic
   /// confirmation.
-  const factory SignatureStatus({
-    required int slot,
-    required int? confirmations,
-    required Map<String, dynamic>? err,
-    required ConfirmationStatus confirmationStatus,
-  }) = _SignatureStatus;
-
-  factory SignatureStatus.fromJson(Map<String, dynamic> data) =>
-      _$SignatureStatusFromJson(data);
+  final ConfirmationStatus confirmationStatus;
 }
 
 /// A stake activation description
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class StakeActivation with _$StakeActivation {
-  /// - [state] Stake account's activation state
-  /// - [active] Stake active during the epoch.
-  /// - [inactive] Stake inactive during the epoch.
-  const factory StakeActivation({
-    required StakeActivationState state,
-    required int active,
-    required int inactive,
-  }) = _StakeActivation;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class StakeActivation {
+  const StakeActivation({
+    required this.state,
+    required this.active,
+    required this.inactive,
+  });
 
-  factory StakeActivation.fromJson(Map<String, dynamic> data) =>
-      _$StakeActivationFromJson(data);
+  factory StakeActivation.fromJson(Map<String, dynamic> json) =>
+      _$StakeActivationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StakeActivationToJson(this);
+
+  /// Stake account's activation state
+  final StakeActivationState state;
+
+  /// Stake active during the epoch.
+  final int active;
+
+  /// Stake inactive during the epoch.
+  final int inactive;
 }
 
 /// The total supply of tokens
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class Supply with _$Supply {
-  /// - [total] Total supply in lamports.
-  /// - [circulating] Circulating supply in lamports.
-  /// - [nonCirculating] Non-circulating supply in lamports.
-  /// - [nonCirculatingAccounts] An array of account addresses of
-  /// non-circulating accounts, as strings. If
-  /// [excludeNonCirculatingAccountsList] is enabled, the
-  /// returned array will be empty.
-  const factory Supply({
-    required int total,
-    required int circulating,
-    required int nonCirculating,
-    required List<String> nonCirculatingAccounts,
-  }) = _Supply;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class Supply {
+  const Supply({
+    required this.total,
+    required this.circulating,
+    required this.nonCirculating,
+    required this.nonCirculatingAccounts,
+  });
 
-  factory Supply.fromJson(Map<String, dynamic> data) => _$SupplyFromJson(data);
+  factory Supply.fromJson(Map<String, dynamic> json) => _$SupplyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SupplyToJson(this);
+
+  /// Total supply in lamports.
+  final int total;
+
+  /// Circulating supply in lamports.
+  final int circulating;
+
+  /// Non-circulating supply in lamports.
+  final int nonCirculating;
+
+  /// An array of account addresses of non-circulating accounts,
+  /// as strings. If [excludeNonCirculatingAccountsList] is
+  /// enabled, the returned array will be empty.
+  final List<String> nonCirculatingAccounts;
 }
 
 /// The solana version
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class SolanaVersion with _$SolanaVersion {
-  /// - [solanaCore] Software version of solana-core.
-  /// - [featureSet] Unique identifier of current feature set.
-  const factory SolanaVersion({
-    @JsonKey(name: 'solana-core') required String solanaCore,
-    @JsonKey(name: 'feature-set') required int featureSet,
-  }) = _SolanaVersion;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class SolanaVersion {
+  const SolanaVersion({
+    required this.solanaCore,
+    required this.featureSet,
+  });
 
-  factory SolanaVersion.fromJson(Map<String, dynamic> data) =>
-      _$SolanaVersionFromJson(data);
+  factory SolanaVersion.fromJson(Map<String, dynamic> json) =>
+      _$SolanaVersionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SolanaVersionToJson(this);
+
+  /// Software version of solana-core.
+  @JsonKey(name: 'solana-core')
+  final String solanaCore;
+
+  /// Unique identifier of current feature set.
+  @JsonKey(name: 'feature-set')
+  final int featureSet;
 }
 
 /// A list of vote accounts
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class VoteAccounts with _$VoteAccounts {
-  /// - [votePubkey] Vote account address, as base-58 encoded
-  /// string.
-  /// - [nodePubkey] Validator identity, as base-58 encoded
-  /// string.
-  /// - [activatedStake] The stake, in lamports, delegated to
-  /// this vote account and active in this epoch.
-  /// - [epochVoteAccount] Bool, whether the vote account is
-  /// staked for this epoch.
-  /// - [commission] Percentage (0-100) of rewards payout owed to
-  /// the vote account.
-  /// - [lastVote] Most recent slot voted on by this vote account.
-  /// - [epochCredits] History of how many credits earned by the
-  /// end of each epoch, as an array of arrays containing:
-  /// [epoch, credits, previousCredits].
-  const factory VoteAccounts({
-    required String votePubkey,
-    required String nodePubkey,
-    required int activatedStake,
-    required bool epochVoteAccount,
-    required int commission,
-    required int lastVote,
-    required List<int> epochCredits,
-  }) = _VoteAccounts;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class VoteAccounts {
+  const VoteAccounts({
+    required this.votePubkey,
+    required this.nodePubkey,
+    required this.activatedStake,
+    required this.epochVoteAccount,
+    required this.commission,
+    required this.lastVote,
+    required this.epochCredits,
+  });
 
-  factory VoteAccounts.fromJson(Map<String, dynamic> data) =>
-      _$VoteAccountsFromJson(data);
+  factory VoteAccounts.fromJson(Map<String, dynamic> json) =>
+      _$VoteAccountsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VoteAccountsToJson(this);
+
+  /// Vote account address, as base-58 encoded string.
+  final String votePubkey;
+
+  /// Validator identity, as base-58 encoded string.
+  final String nodePubkey;
+
+  /// The stake, in lamports, delegated to this vote account and
+  /// active in this epoch.
+  final int activatedStake;
+
+  /// Bool, whether the vote account is staked for this epoch.
+  final bool epochVoteAccount;
+
+  /// Percentage (0-100) of rewards payout owed to the vote
+  /// account.
+  final int commission;
+
+  /// Most recent slot voted on by this vote account.
+  final int lastVote;
+
+  /// History of how many credits earned by the end of each
+  /// epoch, as an array of arrays containing: [epoch, credits,
+  /// previousCredits].
+  final List<int> epochCredits;
 }
 
 /// The status of a transaction
-@freezed
-@JsonSerializable(createFactory: false, includeIfNull: false)
-class TransactionStatus with _$TransactionStatus {
-  /// - [err] @help/errors
-  /// - [logs] Array of log messages the transaction instructions
-  /// output during execution, null if simulation failed before
-  /// the transaction was able to execute (for example due to an
-  /// invalid blockhash or signature verification failure).
-  /// - [accounts] Array of [Account]s with the same length as
-  /// the [SimulateTransactionAccounts.addresses] array in the
-  /// request
-  const factory TransactionStatus({
-    required Map<String, dynamic>? err,
-    required List<String>? logs,
-    required List<Account>? accounts,
-  }) = _TransactionStatus;
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class TransactionStatus {
+  const TransactionStatus({
+    required this.err,
+    required this.logs,
+    required this.accounts,
+  });
 
-  factory TransactionStatus.fromJson(Map<String, dynamic> data) =>
-      _$TransactionStatusFromJson(data);
+  factory TransactionStatus.fromJson(Map<String, dynamic> json) =>
+      _$TransactionStatusFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TransactionStatusToJson(this);
+
+  final Map<String, dynamic>? err;
+
+  /// Array of log messages the transaction instructions output
+  /// during execution, null if simulation failed before the
+  /// transaction was able to execute (for example due to an
+  /// invalid blockhash or signature verification failure).
+  final List<String>? logs;
+
+  /// Array of [Account]s with the same length as the
+  /// [SimulateTransactionAccounts.addresses] array in the request
+  final List<Account>? accounts;
 }

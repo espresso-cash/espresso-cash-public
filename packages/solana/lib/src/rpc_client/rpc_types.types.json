@@ -570,6 +570,7 @@
         {
           "description": "@help/commitment",
           "name": "commitment",
+          "nullable": true,
           "type": "Commitment"
         }
       ],

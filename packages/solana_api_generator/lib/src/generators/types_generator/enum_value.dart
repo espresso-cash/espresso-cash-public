@@ -4,6 +4,7 @@ import 'package:solana_api_generator/src/utils/format_documentation.dart';
 part 'enum_value.freezed.dart';
 part 'enum_value.g.dart';
 
+/// Represents an enumeration in the spec file
 @freezed
 class EnumValue with _$EnumValue {
   const factory EnumValue({

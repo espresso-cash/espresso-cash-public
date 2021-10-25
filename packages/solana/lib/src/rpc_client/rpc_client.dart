@@ -12,6 +12,7 @@ import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/json_rpc_client/json_rpc_client.dart';
 import 'package:solana/src/rpc_client/exceptions.dart';
 import 'package:solana/src/rpc_client/rpc_types.dart';
+import 'package:solana/src/rpc_client/rpc_types_extension.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:solana/src/utils.dart';
 
@@ -39,13 +40,17 @@ class RPCClient {
       'getAccountInfo',
       params: <dynamic>[
         pubKey,
-        options,
+        options?.toJson(),
       ],
     );
 
-    final value = _extractValueFromWrappedResponse(response);
+    final dynamic value = _extractValueFromWrappedResponse(response);
     if (value == null) {
       return null;
+    }
+
+    if (value is! Map<String, dynamic>) {
+      throw InvalidResultValueException(value);
     }
 
     return Account.fromJson(value);
@@ -60,7 +65,7 @@ class RPCClient {
       'getBalance',
       params: <dynamic>[
         pubKey,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
@@ -77,11 +82,11 @@ class RPCClient {
       'getBlock',
       params: <dynamic>[
         slot,
-        options,
+        options?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       return null;
     }
@@ -100,7 +105,7 @@ class RPCClient {
     final response = await _client.request(
       'getBlockHeight',
       params: <dynamic>[
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
@@ -115,13 +120,17 @@ class RPCClient {
     final response = await _client.request(
       'getBlockProduction',
       params: <dynamic>[
-        options,
+        options?.toJson(),
       ],
     );
 
-    final value = _extractValueFromWrappedResponse(response);
+    final dynamic value = _extractValueFromWrappedResponse(response);
     if (value == null) {
       throw NullResponseException();
+    }
+
+    if (value is! Map<String, dynamic>) {
+      throw InvalidResultValueException(value);
     }
 
     return BlockProduction.fromJson(value);
@@ -138,7 +147,7 @@ class RPCClient {
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       return null;
     }
@@ -161,11 +170,14 @@ class RPCClient {
       params: <dynamic>[
         startSlot,
         endSlot,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    return _extractResultFromResponse(response) as List<int>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => item as int,
+    );
   }
 
   /// Returns a list of confirmed blocks starting at the given
@@ -180,11 +192,14 @@ class RPCClient {
       params: <dynamic>[
         startSlot,
         limit,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    return _extractResultFromResponse(response) as List<int>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => item as int,
+    );
   }
 
   /// Returns the estimated production time of a block.
@@ -209,7 +224,10 @@ class RPCClient {
       params: <dynamic>[],
     );
 
-    return _extractResultFromResponse(response) as List<ClusterNode>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => ClusterNode.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns information about the current epoch
@@ -219,11 +237,11 @@ class RPCClient {
     final response = await _client.request(
       'getEpochInfo',
       params: <dynamic>[
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -243,7 +261,7 @@ class RPCClient {
       params: <dynamic>[],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -265,11 +283,11 @@ class RPCClient {
       'getFeeCalculatorForBlockhash',
       params: <dynamic>[
         blockhash,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       return null;
     }
@@ -288,7 +306,7 @@ class RPCClient {
       params: <dynamic>[],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -310,13 +328,17 @@ class RPCClient {
     final response = await _client.request(
       'getFees',
       params: <dynamic>[
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    final value = _extractValueFromWrappedResponse(response);
+    final dynamic value = _extractValueFromWrappedResponse(response);
     if (value == null) {
       throw NullResponseException();
+    }
+
+    if (value is! Map<String, dynamic>) {
+      throw InvalidResultValueException(value);
     }
 
     return Fees.fromJson(value);
@@ -366,7 +388,7 @@ class RPCClient {
       params: <dynamic>[],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -385,11 +407,11 @@ class RPCClient {
     final response = await _client.request(
       'getInflationGovernor',
       params: <dynamic>[
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -408,7 +430,7 @@ class RPCClient {
       params: <dynamic>[],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -432,7 +454,10 @@ class RPCClient {
       ],
     );
 
-    return _extractResultFromResponse(response) as List<InflationReward>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => InflationReward.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns the 20 largest accounts, by lamport balance
@@ -443,11 +468,14 @@ class RPCClient {
     final response = await _client.request(
       'getLargestAccounts',
       params: <dynamic>[
-        options,
+        options?.toJson(),
       ],
     );
 
-    return _extractValueFromWrappedResponse(response) as List<LargeAccount>;
+    return _convertList(
+      _extractValueFromWrappedResponse(response),
+      (dynamic item) => LargeAccount.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns the leader schedule for an epoch
@@ -459,11 +487,18 @@ class RPCClient {
       'getLeaderSchedule',
       params: <dynamic>[
         slot,
-        options,
+        options?.toJson(),
       ],
     );
 
-    return _extractResultFromResponse(response) as Map<String, List<int>>?;
+    return _convertMap(
+      _extractResultFromResponse(response),
+      (dynamic key) => key as String,
+      (dynamic value) => _convertList(
+        response,
+        (dynamic item) => item as int,
+      ),
+    );
   }
 
   /// Get the max slot seen from retransmit stage.
@@ -500,7 +535,7 @@ class RPCClient {
       'getMinimumBalanceForRentExemption',
       params: <dynamic>[
         accountDataLength,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
@@ -516,11 +551,14 @@ class RPCClient {
       'getMultipleAccounts',
       params: <dynamic>[
         pubKeys,
-        options,
+        options?.toJson(),
       ],
     );
 
-    return _extractValueFromWrappedResponse(response) as List<Account>;
+    return _convertList(
+      _extractValueFromWrappedResponse(response),
+      (dynamic item) => Account.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns all accounts owned by the provided program Pubkey
@@ -534,11 +572,14 @@ class RPCClient {
       'getProgramAccounts',
       params: <dynamic>[
         pubKey,
-        options,
+        options?.toJson(),
       ],
     );
 
-    return _extractResultFromResponse(response) as List<ProgramAccount>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => ProgramAccount.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns a recent block hash from the ledger, and a fee
@@ -550,13 +591,17 @@ class RPCClient {
     final response = await _client.request(
       'getRecentBlockhash',
       params: <dynamic>[
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    final value = _extractValueFromWrappedResponse(response);
+    final dynamic value = _extractValueFromWrappedResponse(response);
     if (value == null) {
       throw NullResponseException();
+    }
+
+    if (value is! Map<String, dynamic>) {
+      throw InvalidResultValueException(value);
     }
 
     return RecentBlockhash.fromJson(value);
@@ -576,7 +621,10 @@ class RPCClient {
       ],
     );
 
-    return _extractResultFromResponse(response) as List<PerfSample>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => PerfSample.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns the highest slot that the node has a snapshot for
@@ -600,12 +648,15 @@ class RPCClient {
       'getSignaturesForAddress',
       params: <dynamic>[
         pubKey,
-        options,
+        options?.toJson(),
       ],
     );
 
-    return _extractResultFromResponse(response)
-        as List<TransactionSignatureInformation>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => TransactionSignatureInformation.fromJson(
+          item as Map<String, dynamic>),
+    );
   }
 
   /// Returns the statuses of a list of signatures. Unless the
@@ -621,11 +672,14 @@ class RPCClient {
       'getSignatureStatuses',
       params: <dynamic>[
         signatures,
-        options,
+        options?.toJson(),
       ],
     );
 
-    return _extractValueFromWrappedResponse(response) as List<SignatureStatus?>;
+    return _convertList(
+      _extractValueFromWrappedResponse(response),
+      (dynamic item) => SignatureStatus?.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns the slot that has reached the given or default
@@ -636,7 +690,7 @@ class RPCClient {
     final response = await _client.request(
       'getSlot',
       params: <dynamic>[
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
@@ -650,7 +704,7 @@ class RPCClient {
     final response = await _client.request(
       'getSlotLeader',
       params: <dynamic>[
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
@@ -670,7 +724,10 @@ class RPCClient {
       ],
     );
 
-    return _extractResultFromResponse(response) as List<String>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => item as String,
+    );
   }
 
   /// Returns epoch activation information for a stake account
@@ -682,11 +739,11 @@ class RPCClient {
       'getStakeActivation',
       params: <dynamic>[
         pubKey,
-        options,
+        options?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -705,11 +762,11 @@ class RPCClient {
     final response = await _client.request(
       'getSupply',
       params: <dynamic>[
-        options,
+        options?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -730,13 +787,17 @@ class RPCClient {
       'getTokenAccountBalance',
       params: <dynamic>[
         pubKey,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    final value = _extractValueFromWrappedResponse(response);
+    final dynamic value = _extractValueFromWrappedResponse(response);
     if (value == null) {
       throw NullResponseException();
+    }
+
+    if (value is! Map<String, dynamic>) {
+      throw InvalidResultValueException(value);
     }
 
     return TokenAmount.fromJson(value);
@@ -745,37 +806,43 @@ class RPCClient {
   /// Returns all SPL Token accounts by approved Delegate.
   Future<List<ProgramAccount>> getTokenAccountsByDelegate({
     required String pubKey,
-    required MintOrProgramId mintOrProgramId,
+    MintOrProgramId mintOrProgramId = const MintOrProgramId(),
     GetAccountInfoOptions? options,
   }) async {
     final response = await _client.request(
       'getTokenAccountsByDelegate',
       params: <dynamic>[
         pubKey,
-        mintOrProgramId,
-        options,
+        mintOrProgramId.toJson(),
+        options?.toJson(),
       ],
     );
 
-    return _extractValueFromWrappedResponse(response) as List<ProgramAccount>;
+    return _convertList(
+      _extractValueFromWrappedResponse(response),
+      (dynamic item) => ProgramAccount.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns all SPL Token accounts by token owner.
   Future<List<ProgramAccount>> getTokenAccountsByOwner({
     required String pubKey,
-    required MintOrProgramId mintOrProgramId,
+    MintOrProgramId mintOrProgramId = const MintOrProgramId(),
     GetAccountInfoOptions? options,
   }) async {
     final response = await _client.request(
       'getTokenAccountsByOwner',
       params: <dynamic>[
         pubKey,
-        mintOrProgramId,
-        options,
+        mintOrProgramId.toJson(),
+        options?.toJson(),
       ],
     );
 
-    return _extractValueFromWrappedResponse(response) as List<ProgramAccount>;
+    return _convertList(
+      _extractValueFromWrappedResponse(response),
+      (dynamic item) => ProgramAccount.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns the 20 largest accounts of a particular SPL Token
@@ -788,11 +855,14 @@ class RPCClient {
       'getTokenLargestAccounts',
       params: <dynamic>[
         pubKey,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    return _extractValueFromWrappedResponse(response) as List<ProgramAccount>;
+    return _convertList(
+      _extractValueFromWrappedResponse(response),
+      (dynamic item) => ProgramAccount.fromJson(item as Map<String, dynamic>),
+    );
   }
 
   /// Returns the total supply of an SPL Token type.
@@ -804,13 +874,17 @@ class RPCClient {
       'getTokenSupply',
       params: <dynamic>[
         mint,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    final value = _extractValueFromWrappedResponse(response);
+    final dynamic value = _extractValueFromWrappedResponse(response);
     if (value == null) {
       throw NullResponseException();
+    }
+
+    if (value is! Map<String, dynamic>) {
+      throw InvalidResultValueException(value);
     }
 
     return TokenAmount.fromJson(value);
@@ -825,11 +899,11 @@ class RPCClient {
       'getTransaction',
       params: <dynamic>[
         signature,
-        options,
+        options?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       return null;
     }
@@ -848,7 +922,7 @@ class RPCClient {
     final response = await _client.request(
       'getTransactionCount',
       params: <dynamic>[
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
@@ -862,7 +936,7 @@ class RPCClient {
       params: <dynamic>[],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -882,11 +956,11 @@ class RPCClient {
     final response = await _client.request(
       'getVoteAccounts',
       params: <dynamic>[
-        options,
+        options?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -921,7 +995,7 @@ class RPCClient {
       params: <dynamic>[
         pubKey,
         lamports,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
@@ -943,31 +1017,31 @@ class RPCClient {
   /// the transaction could be rejected if transaction's
   /// recent_blockhash expires before it lands.
   ///
-  /// Use getSignatureStatuses to ensure a transaction is
-  /// processed and confirmed.
+  /// Use [RPCClient.getSignatureStatuses()] to ensure a
+  /// transaction is processed and confirmed.
   ///
   /// Before submitting, the following preflight checks are
   /// performed:
   ///
-  /// The transaction signatures are verified
-  /// The transaction is simulated against the bank slot
+  /// - The transaction signatures are verified
+  /// - The transaction is simulated against the bank slot
   /// specified by the preflight commitment. On failure an error
   /// will be returned. Preflight checks may be disabled if
   /// desired. It is recommended to specify the same commitment
   /// and preflight commitment to avoid confusing behavior.
-  /// The returned signature is the first signature in the
+  /// - The returned signature is the first signature in the
   /// transaction, which is used to identify the transaction
   /// (transaction id). This identifier can be easily extracted
   /// from the transaction data before submission.
   Future<String> sendTransaction({
     required String transaction,
-    SendTransactionOptions? options,
+    SendTransactionOptions options = const SendTransactionOptions(),
   }) async {
     final response = await _client.request(
       'sendTransaction',
       params: <dynamic>[
         transaction,
-        options,
+        options.toJson(),
       ],
     );
 
@@ -977,19 +1051,23 @@ class RPCClient {
   /// Simulate sending a transaction
   Future<TransactionStatus> simulateTransaction({
     required String transaction,
-    SimulateTransactionOptions? options,
+    SimulateTransactionOptions options = const SimulateTransactionOptions(),
   }) async {
     final response = await _client.request(
       'simulateTransaction',
       params: <dynamic>[
         transaction,
-        options,
+        options.toJson(),
       ],
     );
 
-    final value = _extractValueFromWrappedResponse(response);
+    final dynamic value = _extractValueFromWrappedResponse(response);
     if (value == null) {
       throw NullResponseException();
+    }
+
+    if (value is! Map<String, dynamic>) {
+      throw InvalidResultValueException(value);
     }
 
     return TransactionStatus.fromJson(value);
@@ -1005,11 +1083,11 @@ class RPCClient {
       'getConfirmedBlock',
       params: <dynamic>[
         slot,
-        options,
+        options?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -1032,11 +1110,14 @@ class RPCClient {
       params: <dynamic>[
         startSlot,
         endSlot,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    return _extractResultFromResponse(response) as List<int>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => item as int,
+    );
   }
 
   /// Returns a list of confirmed blocks starting at the given
@@ -1051,11 +1132,14 @@ class RPCClient {
       params: <dynamic>[
         startSlot,
         limit,
-        commitment,
+        commitment?.toJson(),
       ],
     );
 
-    return _extractResultFromResponse(response) as List<int>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => item as int,
+    );
   }
 
   /// Returns confirmed signatures for transactions involving an
@@ -1072,12 +1156,15 @@ class RPCClient {
       'getConfirmedSignaturesForAddress2',
       params: <dynamic>[
         pubKey,
-        options,
+        options?.toJson(),
       ],
     );
 
-    return _extractResultFromResponse(response)
-        as List<TransactionSignatureInformation>;
+    return _convertList(
+      _extractResultFromResponse(response),
+      (dynamic item) => TransactionSignatureInformation.fromJson(
+          item as Map<String, dynamic>),
+    );
   }
 
   /// Returns transaction details for a confirmed transaction
@@ -1089,11 +1176,11 @@ class RPCClient {
       'getConfirmedTransaction',
       params: <dynamic>[
         signature,
-        options,
+        options?.toJson(),
       ],
     );
 
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       return null;
     }
@@ -1114,7 +1201,7 @@ class RPCClient {
   }
 
   dynamic _extractValueFromWrappedResponse(dynamic response) {
-    final result = _extractResultFromResponse(response);
+    final dynamic result = _extractResultFromResponse(response);
     if (result == null) {
       throw NullResponseException();
     }
@@ -1125,5 +1212,30 @@ class RPCClient {
     }
 
     return result['value'];
+  }
+
+  List<T> _convertList<T>(dynamic list, T Function(dynamic item) convert) {
+    if (list is! List<dynamic>) {
+      throw const FormatException('input object is not a list');
+    }
+
+    return list.map(convert).toList(growable: false);
+  }
+
+  Map<K, T> _convertMap<K, T>(
+    dynamic map,
+    K Function(dynamic key) convertKey,
+    T Function(dynamic value) convertValue,
+  ) {
+    if (map is! Map<dynamic, dynamic>) {
+      throw const FormatException('input object is not a map');
+    }
+
+    final result = <K, T>{};
+    for (final entry in map.entries) {
+      result[convertKey(entry.key)] = convertValue(entry.value);
+    }
+
+    return result;
   }
 }

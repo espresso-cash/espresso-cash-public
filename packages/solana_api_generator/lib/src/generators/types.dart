@@ -20,8 +20,12 @@ class TypesBuilder extends Builder {
     final typesSpec = TypesSpec.create(buildStep, json.decode(content));
     final outfile = buildStep.allowedOutputs.elementAt(0);
 
-    buildStep
-        .writeAsString(outfile, formatter.format(typesSpec.toString()))
-        .ignore();
+    try {
+      buildStep
+          .writeAsString(outfile, formatter.format(typesSpec.toString()))
+          .ignore();
+    } on Exception {
+      buildStep.writeAsString(outfile, typesSpec.toString()).ignore();
+    }
   }
 }
