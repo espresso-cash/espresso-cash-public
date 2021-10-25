@@ -25,7 +25,8 @@ class Parameter with _$Parameter {
 
   String asRequestParameter() {
     final isRequired = !isOptional && defaultValue == null;
-    final nullableMarker = !isRequired && isOptional ? '?' : '';
+    final nullableMarker =
+        !isRequired && isOptional && !withDefaultParameter ? '?' : '';
 
     return _isPrimitive ? '$name' : '$name$nullableMarker.toJson()';
   }
