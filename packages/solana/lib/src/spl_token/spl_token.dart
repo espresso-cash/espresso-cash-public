@@ -61,7 +61,7 @@ class SplToken {
   ) async {
     final accounts = await _rpcClient.getTokenAccountsByOwner(
       pubKey: owner,
-      mintOrProgramId: MintOrProgramId(
+      filter: TokenAccountsFilter(
         mint: mint,
       ),
       options: const GetAccountInfoOptions(

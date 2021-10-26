@@ -130,6 +130,6 @@ Future<String> _createProgramAddress({
   if (isPointOnEd25519Curve(data)) {
     throw const FormatException('failed to create address with provided seeds');
   } else {
-    return base58encode(data);
+    return base58Encode(data);
   }
 }

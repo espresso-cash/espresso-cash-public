@@ -10,13 +10,17 @@ class ByIdentityValue {
   });
 
   factory ByIdentityValue.fromJson(dynamic data) {
-    if (data is! List<int>) {
+    if (data is! List<dynamic>) {
+      throw const FormatException('expected an array');
+    }
+    final integers = data.whereType<int>().toList(growable: false);
+    if (integers.length != 2) {
       throw const FormatException('expected an array with two integers');
     }
 
     return ByIdentityValue(
-      leaderSlots: data[0],
-      blocksProduced: data[1],
+      leaderSlots: integers[0],
+      blocksProduced: integers[1],
     );
   }
 

@@ -72,6 +72,7 @@ extension Convenience on RPCClient {
           signature: s.signature,
           options: GetConfirmedTransactionOptions(
             commitment: commitment,
+            encoding: Encoding.jsonParsed,
           ),
         ),
       ),

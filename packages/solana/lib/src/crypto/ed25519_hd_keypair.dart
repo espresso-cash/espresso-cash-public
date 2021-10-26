@@ -19,7 +19,7 @@ class Ed25519HDKeyPair extends KeyPair {
         _publicKey = publicKey,
         // We pre-compute this in order to avoid doing it
         // over and over because it's needed often.
-        address = base58encode(publicKey);
+        address = base58Encode(publicKey);
 
   /// Construct a new [Ed25519HDKeyPair] from a [seed] and a derivation path [hdPath].
   static Future<Ed25519HDKeyPair> fromSeedWithHdPath({

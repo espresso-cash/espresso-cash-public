@@ -24,22 +24,23 @@ class Parameter with _$Parameter {
   const Parameter._();
 
   String asRequestParameter() {
-    final isRequired = !isOptional && defaultValue == null;
-    final nullableMarker =
-        !isRequired && isOptional && !withDefaultParameter ? '?' : '';
+    final nullableMarker = isOptional && !withDefaultParameter ? '?' : '';
 
+    // We have to convert to json (except primitive types) before
+    // passing the parameters to the [JsonRpcClient.request()] method
+    // because it uses the plain [json.encode()] and this will not
+    // encode our data types correctly.
     return _isPrimitive ? '$name' : '$name$nullableMarker.toJson()';
   }
 
   String asMethodArgument() {
-    final isRequired = !isOptional && defaultValue == null;
-    final nullableMarker = !isRequired && isOptional ? '?' : '';
     final parsedType = parseType(type);
-    final requiredMarker = isRequired ? 'required ' : '';
-
     if (withDefaultParameter) {
       return '$parsedType $name = const $parsedType()';
     } else {
+      final nullableMarker = isOptional ? '?' : '';
+      final requiredMarker = isOptional ? '' : 'required ';
+
       return '$requiredMarker$parsedType$nullableMarker $name';
     }
   }

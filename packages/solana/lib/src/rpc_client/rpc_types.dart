@@ -8,6 +8,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/dto/by_identity_value.dart';
+import 'package:solana/src/dto/epoch_credits.dart';
 import 'package:solana/src/parsed_message/parsed_message.dart';
 
 part 'rpc_types.g.dart';
@@ -58,6 +59,12 @@ enum Encoding {
   /// found, the field falls back to [Encoding.base64] encoding,
   /// detectable when the data field type is [string]
   jsonParsed,
+
+  /// Binary data encoded as base58.
+  ///
+  /// Base58 is limited to [AccountData] data of less than 129
+  /// bytes.
+  base58,
 }
 
 enum Commitment {
@@ -99,15 +106,21 @@ typedef ConfirmationStatus = Commitment;
 
 /// Configuration object for
 /// [RPCClient.getConfirmedTransaction()]
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(createFactory: true, includeIfNull: false)
 class GetConfirmedTransactionOptions {
   const GetConfirmedTransactionOptions({
+    this.encoding,
     this.commitment,
   });
 
+  factory GetConfirmedTransactionOptions.fromJson(Map<String, dynamic> json) =>
+      _$GetConfirmedTransactionOptionsFromJson(json);
+
   Map<String, dynamic> toJson() => _$GetConfirmedTransactionOptionsToJson(this);
 
-  String get encoding => 'jsonParsed';
+  /// This value is fixed because parsing occurs internally in
+  /// the library
+  final Encoding? encoding;
 
   final Commitment? commitment;
 }
@@ -241,7 +254,7 @@ class GetTransactionOptions {
 @JsonSerializable(createFactory: true, includeIfNull: false)
 class GetSupplyOptions {
   const GetSupplyOptions({
-    this.commitment,
+    required this.commitment,
     this.excludeNonCirculatingAccountsList,
   });
 
@@ -250,7 +263,7 @@ class GetSupplyOptions {
 
   Map<String, dynamic> toJson() => _$GetSupplyOptionsToJson(this);
 
-  final Commitment? commitment;
+  final Commitment commitment;
 
   /// exclude non circulating accounts list from response
   final bool? excludeNonCirculatingAccountsList;
@@ -472,16 +485,16 @@ class GetAccountInfoOptions {
 
 /// Either a mint or a program id
 @JsonSerializable(createFactory: true, includeIfNull: false)
-class MintOrProgramId {
-  const MintOrProgramId({
+class TokenAccountsFilter {
+  const TokenAccountsFilter({
     this.mint,
     this.programId,
   });
 
-  factory MintOrProgramId.fromJson(Map<String, dynamic> json) =>
-      _$MintOrProgramIdFromJson(json);
+  factory TokenAccountsFilter.fromJson(Map<String, dynamic> json) =>
+      _$TokenAccountsFilterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MintOrProgramIdToJson(this);
+  Map<String, dynamic> toJson() => _$TokenAccountsFilterToJson(this);
 
   /// Pubkey of the specific token Mint to limit accounts to, as
   /// base-58 encoded string; or
@@ -514,15 +527,15 @@ class DataSlice {
 
 /// Configuration of the commitment for some methods
 @JsonSerializable(createFactory: true, includeIfNull: false)
-class CommitmentObject {
-  const CommitmentObject({
+class CommitmentConfig {
+  const CommitmentConfig({
     required this.commitment,
   });
 
-  factory CommitmentObject.fromJson(Map<String, dynamic> json) =>
-      _$CommitmentObjectFromJson(json);
+  factory CommitmentConfig.fromJson(Map<String, dynamic> json) =>
+      _$CommitmentConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CommitmentObjectToJson(this);
+  Map<String, dynamic> toJson() => _$CommitmentConfigToJson(this);
 
   final Commitment? commitment;
 }
@@ -553,7 +566,6 @@ class Account {
   /// Data associated with the account, either as encoded binary
   /// data or JSON format {<program>: <state>}, depending on
   /// encoding parameter
-  @AccountDataConverter()
   final AccountData? data;
 
   /// Boolean indicating if the account contains a program (and
@@ -1377,6 +1389,22 @@ class ProgramAccount {
   final String pubkey;
 }
 
+/// The fee calculator for a blockhash
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class FeeCalculatorForBlockhash {
+  const FeeCalculatorForBlockhash({
+    required this.feeCalculator,
+  });
+
+  factory FeeCalculatorForBlockhash.fromJson(Map<String, dynamic> json) =>
+      _$FeeCalculatorForBlockhashFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FeeCalculatorForBlockhashToJson(this);
+
+  /// [FeeCalculator] object, the fee schedule for this block hash
+  final FeeCalculator feeCalculator;
+}
+
 /// A recent blockhash
 @JsonSerializable(createFactory: true, includeIfNull: false)
 class RecentBlockhash {
@@ -1567,10 +1595,30 @@ class SolanaVersion {
   final int featureSet;
 }
 
-/// A list of vote accounts
+/// Result of calling [RPCClient.getVoteAccounts()]
 @JsonSerializable(createFactory: true, includeIfNull: false)
 class VoteAccounts {
   const VoteAccounts({
+    required this.current,
+    required this.delinquent,
+  });
+
+  factory VoteAccounts.fromJson(Map<String, dynamic> json) =>
+      _$VoteAccountsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VoteAccountsToJson(this);
+
+  /// Current vote account
+  final List<VoteAccount> current;
+
+  /// Delinquent vote account
+  final List<VoteAccount> delinquent;
+}
+
+/// A list of vote accounts
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class VoteAccount {
+  const VoteAccount({
     required this.votePubkey,
     required this.nodePubkey,
     required this.activatedStake,
@@ -1580,10 +1628,10 @@ class VoteAccounts {
     required this.epochCredits,
   });
 
-  factory VoteAccounts.fromJson(Map<String, dynamic> json) =>
-      _$VoteAccountsFromJson(json);
+  factory VoteAccount.fromJson(Map<String, dynamic> json) =>
+      _$VoteAccountFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VoteAccountsToJson(this);
+  Map<String, dynamic> toJson() => _$VoteAccountToJson(this);
 
   /// Vote account address, as base-58 encoded string.
   final String votePubkey;
@@ -1608,7 +1656,7 @@ class VoteAccounts {
   /// History of how many credits earned by the end of each
   /// epoch, as an array of arrays containing: [epoch, credits,
   /// previousCredits].
-  final List<int> epochCredits;
+  final List<EpochCredits> epochCredits;
 }
 
 /// The status of a transaction
