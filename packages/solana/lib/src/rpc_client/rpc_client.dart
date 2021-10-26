@@ -59,7 +59,7 @@ class RPCClient {
   /// Returns the balance of the account of provided Pubkey
   Future<int> getBalance({
     required String pubKey,
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getBalance',
@@ -100,7 +100,7 @@ class RPCClient {
 
   /// Returns the current block height of the node
   Future<int> getBlockHeight({
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getBlockHeight',
@@ -163,7 +163,7 @@ class RPCClient {
   Future<List<int>> getBlocks({
     required int startSlot,
     int? endSlot,
-    Commitment? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getBlocks',
@@ -185,7 +185,7 @@ class RPCClient {
   Future<List<int>> getBlocksWithLimit({
     required int startSlot,
     required int limit,
-    Commitment? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getBlocksWithLimit',
@@ -232,7 +232,7 @@ class RPCClient {
 
   /// Returns information about the current epoch
   Future<EpochInfo> getEpochInfo({
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getEpochInfo',
@@ -275,9 +275,9 @@ class RPCClient {
 
   /// Returns the fee calculator associated with the query
   /// blockhash, or null if the blockhash has expired
-  Future<FeeCalculator?> getFeeCalculatorForBlockhash({
+  Future<FeeCalculatorForBlockhash?> getFeeCalculatorForBlockhash({
     required String blockhash,
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getFeeCalculatorForBlockhash',
@@ -287,16 +287,16 @@ class RPCClient {
       ],
     );
 
-    final dynamic result = _extractResultFromResponse(response);
-    if (result == null) {
+    final dynamic value = _extractValueFromWrappedResponse(response);
+    if (value == null) {
       return null;
     }
 
-    if (result is! Map<String, dynamic>) {
-      throw const FormatException('expecting result to be map and it is not');
+    if (value is! Map<String, dynamic>) {
+      throw InvalidResultValueException(value);
     }
 
-    return FeeCalculator.fromJson(result);
+    return FeeCalculatorForBlockhash.fromJson(value);
   }
 
   /// Returns the fee rate governor information from the root bank
@@ -323,7 +323,7 @@ class RPCClient {
   /// transaction using it, and the last slot in which the
   /// blockhash will be valid.
   Future<Fees> getFees({
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getFees',
@@ -402,7 +402,7 @@ class RPCClient {
 
   /// Returns the current inflation governor
   Future<InflationGovernor> getInflationGovernor({
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getInflationGovernor',
@@ -495,21 +495,17 @@ class RPCClient {
       _extractResultFromResponse(response),
       (dynamic key) => key as String,
       (dynamic value) => _convertList(
-        response,
+        value,
         (dynamic item) => item as int,
       ),
     );
   }
 
   /// Get the max slot seen from retransmit stage.
-  Future<int> getMaxRetransmitSlot({
-    required int slot,
-  }) async {
+  Future<int> getMaxRetransmitSlot() async {
     final response = await _client.request(
       'getMaxRetransmitSlot',
-      params: <dynamic>[
-        slot,
-      ],
+      params: <dynamic>[],
     );
 
     return _extractResultFromResponse(response) as int;
@@ -529,7 +525,7 @@ class RPCClient {
   /// exempt.
   Future<int> getMinimumBalanceForRentExemption({
     required int accountDataLength,
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getMinimumBalanceForRentExemption',
@@ -586,7 +582,7 @@ class RPCClient {
   /// schedule that can be used to compute the cost of submitting
   /// a transaction using it.
   Future<RecentBlockhash> getRecentBlockhash({
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getRecentBlockhash',
@@ -685,7 +681,7 @@ class RPCClient {
   /// Returns the slot that has reached the given or default
   /// commitment level
   Future<int> getSlot({
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getSlot',
@@ -699,7 +695,7 @@ class RPCClient {
 
   /// Returns the current slot leader
   Future<String> getSlotLeader({
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getSlotLeader',
@@ -766,22 +762,22 @@ class RPCClient {
       ],
     );
 
-    final dynamic result = _extractResultFromResponse(response);
-    if (result == null) {
+    final dynamic value = _extractValueFromWrappedResponse(response);
+    if (value == null) {
       throw NullResponseException();
     }
 
-    if (result is! Map<String, dynamic>) {
-      throw const FormatException('expecting result to be map and it is not');
+    if (value is! Map<String, dynamic>) {
+      throw InvalidResultValueException(value);
     }
 
-    return Supply.fromJson(result);
+    return Supply.fromJson(value);
   }
 
   /// Returns the token balance of an SPL Token account.
   Future<TokenAmount> getTokenAccountBalance({
     required String pubKey,
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getTokenAccountBalance',
@@ -806,14 +802,14 @@ class RPCClient {
   /// Returns all SPL Token accounts by approved Delegate.
   Future<List<ProgramAccount>> getTokenAccountsByDelegate({
     required String pubKey,
-    required MintOrProgramId mintOrProgramId,
+    required TokenAccountsFilter filter,
     GetAccountInfoOptions? options,
   }) async {
     final response = await _client.request(
       'getTokenAccountsByDelegate',
       params: <dynamic>[
         pubKey,
-        mintOrProgramId.toJson(),
+        filter.toJson(),
         options?.toJson(),
       ],
     );
@@ -827,14 +823,14 @@ class RPCClient {
   /// Returns all SPL Token accounts by token owner.
   Future<List<ProgramAccount>> getTokenAccountsByOwner({
     required String pubKey,
-    required MintOrProgramId mintOrProgramId,
+    required TokenAccountsFilter filter,
     GetAccountInfoOptions? options,
   }) async {
     final response = await _client.request(
       'getTokenAccountsByOwner',
       params: <dynamic>[
         pubKey,
-        mintOrProgramId.toJson(),
+        filter.toJson(),
         options?.toJson(),
       ],
     );
@@ -849,7 +845,7 @@ class RPCClient {
   /// type.
   Future<List<ProgramAccount>> getTokenLargestAccounts({
     required String pubKey,
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getTokenLargestAccounts',
@@ -868,7 +864,7 @@ class RPCClient {
   /// Returns the total supply of an SPL Token type.
   Future<TokenAmount> getTokenSupply({
     required String mint,
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getTokenSupply',
@@ -917,7 +913,7 @@ class RPCClient {
 
   /// Returns the current Transaction count from the ledger
   Future<int> getTransactionCount({
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'getTransactionCount',
@@ -988,7 +984,7 @@ class RPCClient {
   Future<String> requestAirdrop({
     required String pubKey,
     required int lamports,
-    CommitmentObject? commitment,
+    CommitmentConfig? commitment,
   }) async {
     final response = await _client.request(
       'requestAirdrop',
@@ -1170,8 +1166,7 @@ class RPCClient {
   /// Returns transaction details for a confirmed transaction
   Future<TransactionDetails?> getConfirmedTransaction({
     required String signature,
-    GetConfirmedTransactionOptions options =
-        const GetConfirmedTransactionOptions(),
+    required GetConfirmedTransactionOptions options,
   }) async {
     final response = await _client.request(
       'getConfirmedTransaction',

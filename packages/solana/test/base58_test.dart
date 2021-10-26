@@ -9,7 +9,7 @@ void main() {
       final source = hex.decode(item[0]);
       final target = item[1];
 
-      expect(base58encode(source), target);
+      expect(base58Encode(source), target);
     }
   });
 
@@ -18,7 +18,7 @@ void main() {
       final source = item[1];
       final target = item[0];
 
-      expect(hex.encode(base58decode(source).toList()), target);
+      expect(hex.encode(base58Decode(source).toList()), target);
     }
   });
 }

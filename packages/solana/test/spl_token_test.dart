@@ -56,7 +56,7 @@ void main() {
       );
       Iterable<ProgramAccount> accounts = await client.getTokenAccountsByOwner(
         pubKey: owner.address,
-        mintOrProgramId: MintOrProgramId(mint: token.mint),
+        filter: TokenAccountsFilter(mint: token.mint),
         options: const GetAccountInfoOptions(
           encoding: Encoding.jsonParsed,
         ),
@@ -71,7 +71,7 @@ void main() {
 
       accounts = await client.getTokenAccountsByOwner(
         pubKey: owner.address,
-        mintOrProgramId: MintOrProgramId(mint: token.mint),
+        filter: TokenAccountsFilter(mint: token.mint),
         options: const GetAccountInfoOptions(
           encoding: Encoding.jsonParsed,
         ),
@@ -92,7 +92,7 @@ void main() {
       );
       final accounts = await client.getTokenAccountsByOwner(
         pubKey: owner.address,
-        mintOrProgramId: MintOrProgramId(mint: token.mint),
+        filter: TokenAccountsFilter(mint: token.mint),
         options: const GetAccountInfoOptions(
           encoding: Encoding.jsonParsed,
         ),

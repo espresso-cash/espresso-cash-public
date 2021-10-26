@@ -99,7 +99,7 @@ class Wallet {
     final signature = await _rpcClient.requestAirdrop(
       pubKey: address,
       lamports: lamports,
-      commitment: CommitmentObject(commitment: commitment),
+      commitment: CommitmentConfig(commitment: commitment),
     );
     await _rpcClient.waitForSignatureStatus(signature, commitment);
 
@@ -207,7 +207,7 @@ class Wallet {
     try {
       accounts = await _rpcClient.getTokenAccountsByOwner(
         pubKey: address,
-        mintOrProgramId: MintOrProgramId(mint: token.mint),
+        filter: TokenAccountsFilter(mint: token.mint),
         options: const GetAccountInfoOptions(
           encoding: Encoding.jsonParsed,
         ),
@@ -244,7 +244,7 @@ class Wallet {
         pubKey: await getAssociatedTokenAccountAddress(
           mint: mint,
         ),
-        commitment: CommitmentObject(commitment: commitment),
+        commitment: CommitmentConfig(commitment: commitment),
       );
 
   /// Get the balance in lamports for this wallet's account
@@ -258,7 +258,7 @@ class Wallet {
   }) =>
       _rpcClient.getBalance(
         pubKey: address,
-        commitment: CommitmentObject(commitment: commitment),
+        commitment: CommitmentConfig(commitment: commitment),
       );
 
   /// The address associated to this wallet

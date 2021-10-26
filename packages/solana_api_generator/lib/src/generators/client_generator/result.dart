@@ -6,21 +6,14 @@ import 'package:solana_api_generator/src/utils/is_primitive_type.dart';
 part 'result.freezed.dart';
 part 'result.g.dart';
 
-@Freezed(unionKey: 'kind')
+@freezed
 class Result with _$Result {
-  @FreezedUnionValue('wrapped')
-  const factory Result.wrapped({
+  const factory Result({
     required String type,
     required String description,
+    @Default(false) bool wrapped,
     @Default(false) bool nullable,
-  }) = WrappedResult;
-
-  @FreezedUnionValue('simple')
-  const factory Result.simple({
-    required String type,
-    required String description,
-    @Default(false) bool nullable,
-  }) = SimpleResult;
+  }) = _Result;
 
   factory Result.fromJson(Map<String, dynamic> data) => _$ResultFromJson(data);
 
@@ -31,15 +24,30 @@ class Result with _$Result {
     return isPrimitiveType(parsedType);
   }
 
+  String get _primitiveCode {
+    final parsedType = parseType(type);
+    final primitive = Primitive.fromTypeName(parsedType);
+
+    final code = primitive.toCode(
+      extractor: wrapped
+          ? '_extractValueFromWrappedResponse'
+          : '_extractResultFromResponse',
+      variableName: 'response',
+      nullable: nullable,
+    );
+
+    return 'return $code;';
+  }
+
   @override
-  String toString() => map(
-        wrapped: (result) {
-          final parsedType = parseType(type);
-          if (_isPrimitive) {
-            return result.primitive;
-          } else {
-            final nullCheck = _nullCheckCode(nullable, 'value');
-            return '''
+  String toString() {
+    if (wrapped) {
+      final parsedType = parseType(type);
+      if (_isPrimitive) {
+        return _primitiveCode;
+      } else {
+        final nullCheck = _nullCheckCode(nullable, 'value');
+        return '''
               final dynamic value = _extractValueFromWrappedResponse(response);
               $nullCheck
               
@@ -49,16 +57,15 @@ class Result with _$Result {
 
               return $parsedType.fromJson(value);
           ''';
-          }
-        },
-        simple: (result) {
-          final parsedType = parseType(type);
-          if (_isPrimitive) {
-            return result.primitive;
-          } else {
-            final nullCheck = _nullCheckCode(nullable, 'result');
+      }
+    } else {
+      final parsedType = parseType(type);
+      if (_isPrimitive) {
+        return _primitiveCode;
+      } else {
+        final nullCheck = _nullCheckCode(nullable, 'result');
 
-            return '''
+        return '''
             final dynamic result = _extractResultFromResponse(response);
             $nullCheck
             
@@ -68,36 +75,8 @@ class Result with _$Result {
 
             return $parsedType.fromJson(result);
           ''';
-          }
-        },
-      );
-}
-
-extension on SimpleResult {
-  String get primitive {
-    final parsedType = parseType(type);
-    final primitive = Primitive.fromTypeName(parsedType);
-
-    final code = primitive.toCode(
-      extractor: '_extractResultFromResponse',
-      nullable: nullable,
-    );
-
-    return 'return $code;';
-  }
-}
-
-extension on WrappedResult {
-  String get primitive {
-    final parsedType = parseType(type);
-    final primitive = Primitive.fromTypeName(parsedType);
-
-    final code = primitive.toCode(
-      extractor: '_extractValueFromWrappedResponse',
-      nullable: nullable,
-    );
-
-    return 'return $code;';
+      }
+    }
   }
 }
 

@@ -6,40 +6,15 @@ part of 'rpc_types.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$GetConfirmedTransactionOptionsToJson(
-    GetConfirmedTransactionOptions instance) {
-  final val = <String, dynamic>{
-    'encoding': instance.encoding,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  return val;
-}
-
-const _$CommitmentEnumMap = {
-  Commitment.processed: 'processed',
-  Commitment.confirmed: 'confirmed',
-  Commitment.finalized: 'finalized',
-};
-
-SimulateTransactionAccounts _$SimulateTransactionAccountsFromJson(
+GetConfirmedTransactionOptions _$GetConfirmedTransactionOptionsFromJson(
         Map<String, dynamic> json) =>
-    SimulateTransactionAccounts(
-      accountEncoding:
-          _$enumDecodeNullable(_$EncodingEnumMap, json['accountEncoding']),
-      addresses: (json['addresses'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+    GetConfirmedTransactionOptions(
+      encoding: _$enumDecodeNullable(_$EncodingEnumMap, json['encoding']),
+      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
     );
 
-Map<String, dynamic> _$SimulateTransactionAccountsToJson(
-    SimulateTransactionAccounts instance) {
+Map<String, dynamic> _$GetConfirmedTransactionOptionsToJson(
+    GetConfirmedTransactionOptions instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -48,8 +23,8 @@ Map<String, dynamic> _$SimulateTransactionAccountsToJson(
     }
   }
 
-  writeNotNull('accountEncoding', _$EncodingEnumMap[instance.accountEncoding]);
-  writeNotNull('addresses', instance.addresses);
+  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   return val;
 }
 
@@ -93,7 +68,39 @@ K? _$enumDecodeNullable<K, V>(
 const _$EncodingEnumMap = {
   Encoding.base64: 'base64',
   Encoding.jsonParsed: 'jsonParsed',
+  Encoding.base58: 'base58',
 };
+
+const _$CommitmentEnumMap = {
+  Commitment.processed: 'processed',
+  Commitment.confirmed: 'confirmed',
+  Commitment.finalized: 'finalized',
+};
+
+SimulateTransactionAccounts _$SimulateTransactionAccountsFromJson(
+        Map<String, dynamic> json) =>
+    SimulateTransactionAccounts(
+      accountEncoding:
+          _$enumDecodeNullable(_$EncodingEnumMap, json['accountEncoding']),
+      addresses: (json['addresses'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$SimulateTransactionAccountsToJson(
+    SimulateTransactionAccounts instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('accountEncoding', _$EncodingEnumMap[instance.accountEncoding]);
+  writeNotNull('addresses', instance.addresses);
+  return val;
+}
 
 Map<String, dynamic> _$SimulateTransactionOptionsToJson(
     SimulateTransactionOptions instance) {
@@ -182,13 +189,15 @@ Map<String, dynamic> _$GetTransactionOptionsToJson(
 
 GetSupplyOptions _$GetSupplyOptionsFromJson(Map<String, dynamic> json) =>
     GetSupplyOptions(
-      commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
+      commitment: _$enumDecode(_$CommitmentEnumMap, json['commitment']),
       excludeNonCirculatingAccountsList:
           json['excludeNonCirculatingAccountsList'] as bool?,
     );
 
 Map<String, dynamic> _$GetSupplyOptionsToJson(GetSupplyOptions instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'commitment': _$CommitmentEnumMap[instance.commitment],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -196,7 +205,6 @@ Map<String, dynamic> _$GetSupplyOptionsToJson(GetSupplyOptions instance) {
     }
   }
 
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('excludeNonCirculatingAccountsList',
       instance.excludeNonCirculatingAccountsList);
   return val;
@@ -433,13 +441,13 @@ Map<String, dynamic> _$GetAccountInfoOptionsToJson(
   return val;
 }
 
-MintOrProgramId _$MintOrProgramIdFromJson(Map<String, dynamic> json) =>
-    MintOrProgramId(
+TokenAccountsFilter _$TokenAccountsFilterFromJson(Map<String, dynamic> json) =>
+    TokenAccountsFilter(
       mint: json['mint'] as String?,
       programId: json['programId'] as String?,
     );
 
-Map<String, dynamic> _$MintOrProgramIdToJson(MintOrProgramId instance) {
+Map<String, dynamic> _$TokenAccountsFilterToJson(TokenAccountsFilter instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -472,12 +480,12 @@ Map<String, dynamic> _$DataSliceToJson(DataSlice instance) {
   return val;
 }
 
-CommitmentObject _$CommitmentObjectFromJson(Map<String, dynamic> json) =>
-    CommitmentObject(
+CommitmentConfig _$CommitmentConfigFromJson(Map<String, dynamic> json) =>
+    CommitmentConfig(
       commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
     );
 
-Map<String, dynamic> _$CommitmentObjectToJson(CommitmentObject instance) {
+Map<String, dynamic> _$CommitmentConfigToJson(CommitmentConfig instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -493,7 +501,7 @@ Map<String, dynamic> _$CommitmentObjectToJson(CommitmentObject instance) {
 Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       lamports: json['lamports'] as int,
       owner: json['owner'] as String,
-      data: const AccountDataConverter().fromJson(json['data']),
+      data: json['data'] == null ? null : AccountData.fromJson(json['data']),
       executable: json['executable'] as bool,
       rentEpoch: json['rentEpoch'] as int,
     );
@@ -510,7 +518,7 @@ Map<String, dynamic> _$AccountToJson(Account instance) {
     }
   }
 
-  writeNotNull('data', const AccountDataConverter().toJson(instance.data));
+  writeNotNull('data', instance.data);
   val['executable'] = instance.executable;
   val['rentEpoch'] = instance.rentEpoch;
   return val;
@@ -1029,6 +1037,19 @@ Map<String, dynamic> _$ProgramAccountToJson(ProgramAccount instance) =>
       'pubkey': instance.pubkey,
     };
 
+FeeCalculatorForBlockhash _$FeeCalculatorForBlockhashFromJson(
+        Map<String, dynamic> json) =>
+    FeeCalculatorForBlockhash(
+      feeCalculator:
+          FeeCalculator.fromJson(json['feeCalculator'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$FeeCalculatorForBlockhashToJson(
+        FeeCalculatorForBlockhash instance) =>
+    <String, dynamic>{
+      'feeCalculator': instance.feeCalculator,
+    };
+
 RecentBlockhash _$RecentBlockhashFromJson(Map<String, dynamic> json) =>
     RecentBlockhash(
       blockhash: json['blockhash'] as String,
@@ -1162,17 +1183,33 @@ Map<String, dynamic> _$SolanaVersionToJson(SolanaVersion instance) =>
     };
 
 VoteAccounts _$VoteAccountsFromJson(Map<String, dynamic> json) => VoteAccounts(
+      current: (json['current'] as List<dynamic>)
+          .map((e) => VoteAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      delinquent: (json['delinquent'] as List<dynamic>)
+          .map((e) => VoteAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$VoteAccountsToJson(VoteAccounts instance) =>
+    <String, dynamic>{
+      'current': instance.current,
+      'delinquent': instance.delinquent,
+    };
+
+VoteAccount _$VoteAccountFromJson(Map<String, dynamic> json) => VoteAccount(
       votePubkey: json['votePubkey'] as String,
       nodePubkey: json['nodePubkey'] as String,
       activatedStake: json['activatedStake'] as int,
       epochVoteAccount: json['epochVoteAccount'] as bool,
       commission: json['commission'] as int,
       lastVote: json['lastVote'] as int,
-      epochCredits:
-          (json['epochCredits'] as List<dynamic>).map((e) => e as int).toList(),
+      epochCredits: (json['epochCredits'] as List<dynamic>)
+          .map((e) => EpochCredits.fromJson(e))
+          .toList(),
     );
 
-Map<String, dynamic> _$VoteAccountsToJson(VoteAccounts instance) =>
+Map<String, dynamic> _$VoteAccountToJson(VoteAccount instance) =>
     <String, dynamic>{
       'votePubkey': instance.votePubkey,
       'nodePubkey': instance.nodePubkey,

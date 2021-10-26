@@ -6,30 +6,16 @@ part of 'result.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$WrappedResult _$$WrappedResultFromJson(Map<String, dynamic> json) =>
-    _$WrappedResult(
+_$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       type: json['type'] as String,
       description: json['description'] as String,
+      wrapped: json['wrapped'] as bool? ?? false,
       nullable: json['nullable'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$WrappedResultToJson(_$WrappedResult instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'type': instance.type,
       'description': instance.description,
-      'nullable': instance.nullable,
-    };
-
-_$SimpleResult _$$SimpleResultFromJson(Map<String, dynamic> json) =>
-    _$SimpleResult(
-      type: json['type'] as String,
-      description: json['description'] as String,
-      nullable: json['nullable'] as bool? ?? false,
-    );
-
-Map<String, dynamic> _$$SimpleResultToJson(_$SimpleResult instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-      'description': instance.description,
+      'wrapped': instance.wrapped,
       'nullable': instance.nullable,
     };

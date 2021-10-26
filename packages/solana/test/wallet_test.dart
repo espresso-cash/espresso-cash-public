@@ -69,6 +69,9 @@ void main() {
     // ignore: deprecated_member_use_from_same_package
     final result = await rpcClient.getConfirmedTransaction(
       signature: signature.toString(),
+      options: const GetConfirmedTransactionOptions(
+        encoding: Encoding.jsonParsed,
+      ),
     );
     expect(result, isA<TransactionDetails>());
     final transactionDetails = result as TransactionDetails;
@@ -180,6 +183,9 @@ void main() {
     // ignore: deprecated_member_use_from_same_package
     final result = await rpcClient.getConfirmedTransaction(
       signature: signature.toString(),
+      options: const GetConfirmedTransactionOptions(
+        encoding: Encoding.jsonParsed,
+      ),
     );
     expect(result, isA<TransactionDetails>());
     expect(result, isNotNull);
