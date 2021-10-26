@@ -62,6 +62,7 @@ class Primitive {
 
   String toCode({
     required String extractor,
+    required String variableName,
     bool nullable = false,
   }) {
     final optionalMarker = nullable ? '?' : '';
@@ -78,6 +79,7 @@ class Primitive {
       default:
         convertValue = primitive.toCode(
           extractor: '',
+          variableName: 'value',
           nullable: false,
         );
     }
@@ -86,21 +88,21 @@ class Primitive {
       case _PrimitiveType.list:
         return '''
           _convertList(
-            ${extractor == '' ? 'response' : '$extractor(response)'}, 
+            ${extractor == '' ? variableName : '$extractor($variableName)'}, 
             (dynamic item) => $convertValue,
           )
         ''';
       case _PrimitiveType.map:
         return '''
           _convertMap(
-            ${extractor == '' ? 'response' : '$extractor(response)'}, 
+            ${extractor == '' ? variableName : '$extractor($variableName)'}, 
             (dynamic key) => key as String,
             (dynamic value) => $convertValue,
           )
         ''';
       case _PrimitiveType.pod:
         return '''
-          ${extractor == '' ? 'response' : '$extractor(response)'} as $valueType$optionalMarker
+          ${extractor == '' ? variableName : '$extractor($variableName)'} as $valueType$optionalMarker
         ''';
       case _PrimitiveType.notPrimitive:
         throw UnsupportedError(

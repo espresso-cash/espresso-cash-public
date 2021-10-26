@@ -6,7 +6,7 @@ part 'reverse_map.dart';
 ///
 // Note: Taken from https://github.com/bitcoin/bitcoin/blob/master/src/base58.cpp
 //       and adapted to the dart language
-List<int> base58decode(String base58String) {
+List<int> base58Decode(String base58String) {
   final trimmed = base58String.trim();
   if (trimmed.isEmpty) return [];
 

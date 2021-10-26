@@ -14,40 +14,22 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Result _$ResultFromJson(Map<String, dynamic> json) {
-  switch (json['kind'] as String?) {
-    case 'wrapped':
-      return WrappedResult.fromJson(json);
-    case 'simple':
-      return SimpleResult.fromJson(json);
-
-    default:
-      throw CheckedFromJsonException(
-          json, 'kind', 'Result', 'Invalid union type "${json['kind']}"!');
-  }
+  return _Result.fromJson(json);
 }
 
 /// @nodoc
 class _$ResultTearOff {
   const _$ResultTearOff();
 
-  WrappedResult wrapped(
+  _Result call(
       {required String type,
       required String description,
+      bool wrapped = false,
       bool nullable = false}) {
-    return WrappedResult(
+    return _Result(
       type: type,
       description: description,
-      nullable: nullable,
-    );
-  }
-
-  SimpleResult simple(
-      {required String type,
-      required String description,
-      bool nullable = false}) {
-    return SimpleResult(
-      type: type,
-      description: description,
+      wrapped: wrapped,
       nullable: nullable,
     );
   }
@@ -64,48 +46,9 @@ const $Result = _$ResultTearOff();
 mixin _$Result {
   String get type => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  bool get wrapped => throw _privateConstructorUsedError;
   bool get nullable => throw _privateConstructorUsedError;
 
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String type, String description, bool nullable)
-        wrapped,
-    required TResult Function(String type, String description, bool nullable)
-        simple,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String type, String description, bool nullable)? wrapped,
-    TResult Function(String type, String description, bool nullable)? simple,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String type, String description, bool nullable)? wrapped,
-    TResult Function(String type, String description, bool nullable)? simple,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(WrappedResult value) wrapped,
-    required TResult Function(SimpleResult value) simple,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(WrappedResult value)? wrapped,
-    TResult Function(SimpleResult value)? simple,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(WrappedResult value)? wrapped,
-    TResult Function(SimpleResult value)? simple,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ResultCopyWith<Result> get copyWith => throw _privateConstructorUsedError;
@@ -115,7 +58,7 @@ mixin _$Result {
 abstract class $ResultCopyWith<$Res> {
   factory $ResultCopyWith(Result value, $Res Function(Result) then) =
       _$ResultCopyWithImpl<$Res>;
-  $Res call({String type, String description, bool nullable});
+  $Res call({String type, String description, bool wrapped, bool nullable});
 }
 
 /// @nodoc
@@ -130,6 +73,7 @@ class _$ResultCopyWithImpl<$Res> implements $ResultCopyWith<$Res> {
   $Res call({
     Object? type = freezed,
     Object? description = freezed,
+    Object? wrapped = freezed,
     Object? nullable = freezed,
   }) {
     return _then(_value.copyWith(
@@ -141,6 +85,10 @@ class _$ResultCopyWithImpl<$Res> implements $ResultCopyWith<$Res> {
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      wrapped: wrapped == freezed
+          ? _value.wrapped
+          : wrapped // ignore: cast_nullable_to_non_nullable
+              as bool,
       nullable: nullable == freezed
           ? _value.nullable
           : nullable // ignore: cast_nullable_to_non_nullable
@@ -150,31 +98,30 @@ class _$ResultCopyWithImpl<$Res> implements $ResultCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $WrappedResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
-  factory $WrappedResultCopyWith(
-          WrappedResult value, $Res Function(WrappedResult) then) =
-      _$WrappedResultCopyWithImpl<$Res>;
+abstract class _$ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
+  factory _$ResultCopyWith(_Result value, $Res Function(_Result) then) =
+      __$ResultCopyWithImpl<$Res>;
   @override
-  $Res call({String type, String description, bool nullable});
+  $Res call({String type, String description, bool wrapped, bool nullable});
 }
 
 /// @nodoc
-class _$WrappedResultCopyWithImpl<$Res> extends _$ResultCopyWithImpl<$Res>
-    implements $WrappedResultCopyWith<$Res> {
-  _$WrappedResultCopyWithImpl(
-      WrappedResult _value, $Res Function(WrappedResult) _then)
-      : super(_value, (v) => _then(v as WrappedResult));
+class __$ResultCopyWithImpl<$Res> extends _$ResultCopyWithImpl<$Res>
+    implements _$ResultCopyWith<$Res> {
+  __$ResultCopyWithImpl(_Result _value, $Res Function(_Result) _then)
+      : super(_value, (v) => _then(v as _Result));
 
   @override
-  WrappedResult get _value => super._value as WrappedResult;
+  _Result get _value => super._value as _Result;
 
   @override
   $Res call({
     Object? type = freezed,
     Object? description = freezed,
+    Object? wrapped = freezed,
     Object? nullable = freezed,
   }) {
-    return _then(WrappedResult(
+    return _then(_Result(
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -183,6 +130,10 @@ class _$WrappedResultCopyWithImpl<$Res> extends _$ResultCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      wrapped: wrapped == freezed
+          ? _value.wrapped
+          : wrapped // ignore: cast_nullable_to_non_nullable
+              as bool,
       nullable: nullable == freezed
           ? _value.nullable
           : nullable // ignore: cast_nullable_to_non_nullable
@@ -193,14 +144,16 @@ class _$WrappedResultCopyWithImpl<$Res> extends _$ResultCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-@FreezedUnionValue('wrapped')
-class _$WrappedResult extends WrappedResult {
-  const _$WrappedResult(
-      {required this.type, required this.description, this.nullable = false})
+class _$_Result extends _Result {
+  const _$_Result(
+      {required this.type,
+      required this.description,
+      this.wrapped = false,
+      this.nullable = false})
       : super._();
 
-  factory _$WrappedResult.fromJson(Map<String, dynamic> json) =>
-      _$$WrappedResultFromJson(json);
+  factory _$_Result.fromJson(Map<String, dynamic> json) =>
+      _$$_ResultFromJson(json);
 
   @override
   final String type;
@@ -208,17 +161,23 @@ class _$WrappedResult extends WrappedResult {
   final String description;
   @JsonKey(defaultValue: false)
   @override
+  final bool wrapped;
+  @JsonKey(defaultValue: false)
+  @override
   final bool nullable;
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is WrappedResult &&
+        (other is _Result &&
             (identical(other.type, type) ||
                 const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
                     .equals(other.description, description)) &&
+            (identical(other.wrapped, wrapped) ||
+                const DeepCollectionEquality()
+                    .equals(other.wrapped, wrapped)) &&
             (identical(other.nullable, nullable) ||
                 const DeepCollectionEquality()
                     .equals(other.nullable, nullable)));
@@ -229,280 +188,39 @@ class _$WrappedResult extends WrappedResult {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(wrapped) ^
       const DeepCollectionEquality().hash(nullable);
 
   @JsonKey(ignore: true)
   @override
-  $WrappedResultCopyWith<WrappedResult> get copyWith =>
-      _$WrappedResultCopyWithImpl<WrappedResult>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String type, String description, bool nullable)
-        wrapped,
-    required TResult Function(String type, String description, bool nullable)
-        simple,
-  }) {
-    return wrapped(type, description, nullable);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String type, String description, bool nullable)? wrapped,
-    TResult Function(String type, String description, bool nullable)? simple,
-  }) {
-    return wrapped?.call(type, description, nullable);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String type, String description, bool nullable)? wrapped,
-    TResult Function(String type, String description, bool nullable)? simple,
-    required TResult orElse(),
-  }) {
-    if (wrapped != null) {
-      return wrapped(type, description, nullable);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(WrappedResult value) wrapped,
-    required TResult Function(SimpleResult value) simple,
-  }) {
-    return wrapped(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(WrappedResult value)? wrapped,
-    TResult Function(SimpleResult value)? simple,
-  }) {
-    return wrapped?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(WrappedResult value)? wrapped,
-    TResult Function(SimpleResult value)? simple,
-    required TResult orElse(),
-  }) {
-    if (wrapped != null) {
-      return wrapped(this);
-    }
-    return orElse();
-  }
+  _$ResultCopyWith<_Result> get copyWith =>
+      __$ResultCopyWithImpl<_Result>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$WrappedResultToJson(this)..['kind'] = 'wrapped';
+    return _$$_ResultToJson(this);
   }
 }
 
-abstract class WrappedResult extends Result {
-  const factory WrappedResult(
+abstract class _Result extends Result {
+  const factory _Result(
       {required String type,
       required String description,
-      bool nullable}) = _$WrappedResult;
-  const WrappedResult._() : super._();
+      bool wrapped,
+      bool nullable}) = _$_Result;
+  const _Result._() : super._();
 
-  factory WrappedResult.fromJson(Map<String, dynamic> json) =
-      _$WrappedResult.fromJson;
+  factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
 
   @override
   String get type => throw _privateConstructorUsedError;
   @override
   String get description => throw _privateConstructorUsedError;
   @override
-  bool get nullable => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(ignore: true)
-  $WrappedResultCopyWith<WrappedResult> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SimpleResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
-  factory $SimpleResultCopyWith(
-          SimpleResult value, $Res Function(SimpleResult) then) =
-      _$SimpleResultCopyWithImpl<$Res>;
-  @override
-  $Res call({String type, String description, bool nullable});
-}
-
-/// @nodoc
-class _$SimpleResultCopyWithImpl<$Res> extends _$ResultCopyWithImpl<$Res>
-    implements $SimpleResultCopyWith<$Res> {
-  _$SimpleResultCopyWithImpl(
-      SimpleResult _value, $Res Function(SimpleResult) _then)
-      : super(_value, (v) => _then(v as SimpleResult));
-
-  @override
-  SimpleResult get _value => super._value as SimpleResult;
-
-  @override
-  $Res call({
-    Object? type = freezed,
-    Object? description = freezed,
-    Object? nullable = freezed,
-  }) {
-    return _then(SimpleResult(
-      type: type == freezed
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: description == freezed
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      nullable: nullable == freezed
-          ? _value.nullable
-          : nullable // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-@FreezedUnionValue('simple')
-class _$SimpleResult extends SimpleResult {
-  const _$SimpleResult(
-      {required this.type, required this.description, this.nullable = false})
-      : super._();
-
-  factory _$SimpleResult.fromJson(Map<String, dynamic> json) =>
-      _$$SimpleResultFromJson(json);
-
-  @override
-  final String type;
-  @override
-  final String description;
-  @JsonKey(defaultValue: false)
-  @override
-  final bool nullable;
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is SimpleResult &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
-            (identical(other.nullable, nullable) ||
-                const DeepCollectionEquality()
-                    .equals(other.nullable, nullable)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(nullable);
-
-  @JsonKey(ignore: true)
-  @override
-  $SimpleResultCopyWith<SimpleResult> get copyWith =>
-      _$SimpleResultCopyWithImpl<SimpleResult>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String type, String description, bool nullable)
-        wrapped,
-    required TResult Function(String type, String description, bool nullable)
-        simple,
-  }) {
-    return simple(type, description, nullable);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String type, String description, bool nullable)? wrapped,
-    TResult Function(String type, String description, bool nullable)? simple,
-  }) {
-    return simple?.call(type, description, nullable);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String type, String description, bool nullable)? wrapped,
-    TResult Function(String type, String description, bool nullable)? simple,
-    required TResult orElse(),
-  }) {
-    if (simple != null) {
-      return simple(type, description, nullable);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(WrappedResult value) wrapped,
-    required TResult Function(SimpleResult value) simple,
-  }) {
-    return simple(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(WrappedResult value)? wrapped,
-    TResult Function(SimpleResult value)? simple,
-  }) {
-    return simple?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(WrappedResult value)? wrapped,
-    TResult Function(SimpleResult value)? simple,
-    required TResult orElse(),
-  }) {
-    if (simple != null) {
-      return simple(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SimpleResultToJson(this)..['kind'] = 'simple';
-  }
-}
-
-abstract class SimpleResult extends Result {
-  const factory SimpleResult(
-      {required String type,
-      required String description,
-      bool nullable}) = _$SimpleResult;
-  const SimpleResult._() : super._();
-
-  factory SimpleResult.fromJson(Map<String, dynamic> json) =
-      _$SimpleResult.fromJson;
-
-  @override
-  String get type => throw _privateConstructorUsedError;
-  @override
-  String get description => throw _privateConstructorUsedError;
+  bool get wrapped => throw _privateConstructorUsedError;
   @override
   bool get nullable => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  $SimpleResultCopyWith<SimpleResult> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$ResultCopyWith<_Result> get copyWith => throw _privateConstructorUsedError;
 }

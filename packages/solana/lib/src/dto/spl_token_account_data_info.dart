@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc_client/rpc_types.dart';
 
-part 'parsed_spl_token_account_data_info.g.dart';
+part 'spl_token_account_data_info.g.dart';
 
 @JsonSerializable()
-class ParsedSplTokenAccountDataInfo {
-  const ParsedSplTokenAccountDataInfo({
+class SplTokenAccountDataInfo {
+  const SplTokenAccountDataInfo({
     required this.tokenAmount,
     required this.state,
     required this.isNative,
@@ -15,8 +15,8 @@ class ParsedSplTokenAccountDataInfo {
     this.delegateAmount,
   });
 
-  factory ParsedSplTokenAccountDataInfo.fromJson(Map<String, dynamic> json) =>
-      _$ParsedSplTokenAccountDataInfoFromJson(json);
+  factory SplTokenAccountDataInfo.fromJson(Map<String, dynamic> json) =>
+      _$SplTokenAccountDataInfoFromJson(json);
 
   final TokenAmount tokenAmount;
   final String state;

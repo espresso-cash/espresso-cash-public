@@ -1,40 +1,24 @@
 import 'dart:convert';
 
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/base58/decode.dart';
-import 'package:solana/src/dto/parsed_spl_token_account_data.dart';
+import 'package:solana/src/dto/binary_account_data.dart';
+import 'package:solana/src/dto/empty_account_data.dart';
+import 'package:solana/src/dto/parsed_account_data.dart';
 
-part 'account_data.freezed.dart';
-part 'account_data.g.dart';
-
-@freezed
-class AccountData with _$AccountData {
+abstract class AccountData {
   const factory AccountData.binary(List<int> bytes) = BinaryAccountData;
 
-  const factory AccountData.jsonParsed(ParsedAccountDataParsed jsonParsed) =
-      ParsedAccountData;
-
   const factory AccountData.empty() = EmptyAccountData;
-}
 
-@Freezed(unionKey: 'program', fallbackUnion: 'unsupported')
-class ParsedAccountDataParsed with _$ParsedAccountDataParsed {
-  @FreezedUnionValue('spl-token')
-  const factory ParsedAccountDataParsed.splToken(
-    ParsedSplTokenAccountData parsed,
-  ) = SplTokenAccountData;
+  factory AccountData._fromBase64String(String base64String) {
+    // We need to normalize because the padding bytes are not
+    // included
+    final normalized = base64.normalize(base64String);
 
-  const factory ParsedAccountDataParsed.unsupported() =
-      UnsupportedParsedAccountData;
+    return AccountData.binary(base64.decode(normalized));
+  }
 
-  factory ParsedAccountDataParsed.fromJson(Map<String, dynamic> json) =>
-      _$ParsedAccountDataParsedFromJson(json);
-}
-
-class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
-  const AccountDataConverter();
-
-  AccountData _fromEncodedData(List<String> data) {
+  factory AccountData._fromEncodedData(List<String> data) {
     final dynamic encoded = data.first;
     final dynamic encoding = data.last;
     if (encoded is! String) {
@@ -54,7 +38,7 @@ class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
         return const AccountData.empty();
       }
 
-      return AccountData.binary(base58decode(encoded));
+      return AccountData._fromBase64String(encoded);
     } else if (encoding == 'base58') {
       if (encoded is! String) {
         throw FormatException('unexpected data "${data.first}"');
@@ -64,18 +48,15 @@ class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
         return const AccountData.empty();
       }
 
-      return AccountData.binary(base64Decode(encoded));
+      return AccountData.binary(base58Decode(encoded));
     } else {
       throw FormatException('unknown encoding $encoding');
     }
   }
 
-  @override
-  AccountData? fromJson(dynamic data) {
+  factory AccountData.fromJson(dynamic data) {
     if (data == null) {
-      return null;
-    } else if (data == '') {
-      return const AccountData.empty();
+      throw const FormatException('unexpected null account data');
     } else if (data is List<dynamic>) {
       if (data.length != 2) {
         throw const FormatException(
@@ -89,18 +70,18 @@ class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
             'array has two elements but of incompatible types');
       }
 
-      return _fromEncodedData(asStrings);
+      return AccountData._fromEncodedData(asStrings);
     } else if (data is Map<String, dynamic>) {
-      return AccountData.jsonParsed(
-        ParsedAccountDataParsed.fromJson(data),
-      );
+      // In this case this is more convenient than a redirecting factory
+      return ParsedAccountData.fromJson(data);
+    } else if (data is String) {
+      return AccountData._fromBase64String(data);
     } else {
       throw const FormatException('account data is in unknown format');
     }
   }
 
-  @override
-  dynamic toJson(AccountData? object) {
+  Map<String, dynamic> toJson() {
     throw UnsupportedError('converting account data to json is not supported');
   }
 }

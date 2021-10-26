@@ -38,20 +38,13 @@ class ObjectMember {
     if (constantValue != null) {
       return null;
     } else {
-      // Append a '?' marker if the field can be made null or ommited
+      // Append a '?' marker if the field can be made null or omitted
       final nullableMarker = nullable || isOptional ? '?' : '';
       // Get the language specific type from the spec type
       final type = parseType(this.type);
       // We could need some annotations
       final List<String> annotations = [];
       late final String validName;
-
-      // Type AccountData is special. It requires a custom json
-      // converter because it can be present in different formats
-      // some of which are not even json.
-      if (type == 'AccountData') {
-        annotations.add('@AccountDataConverter()');
-      }
 
       if (name.isCamelCase) {
         validName = name;
