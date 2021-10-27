@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart'
@@ -32,6 +33,17 @@ class Ed25519HDKeyPair extends KeyPair {
     return Ed25519HDKeyPair._(
       keyData: _keyData,
       publicKey: await ED25519_HD_KEY.getPublicKey(_keyData.key, false),
+    );
+  }
+
+  static Future<Ed25519HDKeyPair> fromPrivateKeyBytes({
+    required Uint8List privateKey,
+  }) async {
+    final KeyData _keyData = _RawKeyData(privateKey);
+
+    return Ed25519HDKeyPair._(
+      keyData: _keyData,
+      publicKey: await ED25519_HD_KEY.getPublicKey(privateKey, false),
     );
   }
 
@@ -123,4 +135,16 @@ class Ed25519HDKeyPair extends KeyPair {
   final KeyData _keyData;
   final List<int> _publicKey;
   final String address;
+}
+
+class _RawKeyData implements KeyData {
+  const _RawKeyData(this._privateKey);
+
+  final Uint8List _privateKey;
+
+  @override
+  List<int> get chainCode => throw UnimplementedError();
+
+  @override
+  List<int> get key => _privateKey;
 }
