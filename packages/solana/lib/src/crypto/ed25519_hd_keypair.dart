@@ -13,9 +13,9 @@ import 'package:solana/src/encoder/signed_tx.dart';
 /// Signs solana transactions using the ed25519 elliptic curve
 class Ed25519HDKeyPair extends KeyPair {
   Ed25519HDKeyPair._({
-    required KeyData keyData,
+    required List<int> privateKey,
     required List<int> publicKey,
-  })  : _keyData = keyData,
+  })  : _privateKey = privateKey,
         _publicKey = publicKey,
         // We pre-compute this in order to avoid doing it
         // over and over because it's needed often.
@@ -27,22 +27,20 @@ class Ed25519HDKeyPair extends KeyPair {
     required String hdPath,
   }) async {
     final KeyData _keyData = await ED25519_HD_KEY.derivePath(hdPath, seed);
+
     return Ed25519HDKeyPair._(
-      keyData: _keyData,
+      privateKey: _keyData.key,
       publicKey: await ED25519_HD_KEY.getPublicKey(_keyData.key, false),
     );
   }
 
   static Future<Ed25519HDKeyPair> fromPrivateKeyBytes({
     required List<int> privateKey,
-  }) async {
-    final KeyData _keyData = _RawKeyData(privateKey);
-
-    return Ed25519HDKeyPair._(
-      keyData: _keyData,
-      publicKey: await ED25519_HD_KEY.getPublicKey(privateKey, false),
-    );
-  }
+  }) async =>
+      Ed25519HDKeyPair._(
+        privateKey: privateKey,
+        publicKey: await ED25519_HD_KEY.getPublicKey(privateKey, false),
+      );
 
   /// Generate a new random [Ed25519HDKeyPair]
   static Future<Ed25519HDKeyPair> random() async {
@@ -105,7 +103,7 @@ class Ed25519HDKeyPair extends KeyPair {
 
   @override
   Future<SimpleKeyPairData> extract() async => SimpleKeyPairData(
-        _keyData.key,
+        _privateKey,
         publicKey: await extractPublicKey(),
         type: KeyPairType.ed25519,
       );
@@ -129,21 +127,9 @@ class Ed25519HDKeyPair extends KeyPair {
   /// The address or public key of this wallet
   static final _ed25519 = Ed25519();
 
-  final KeyData _keyData;
+  final List<int> _privateKey;
   final List<int> _publicKey;
   final String address;
-}
-
-class _RawKeyData implements KeyData {
-  const _RawKeyData(this._privateKey);
-
-  final List<int> _privateKey;
-
-  @override
-  List<int> get chainCode => throw UnimplementedError();
-
-  @override
-  List<int> get key => _privateKey;
 }
 
 final _random = Random.secure();
