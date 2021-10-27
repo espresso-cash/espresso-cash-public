@@ -56,11 +56,11 @@ extension Convenience on RPCClient {
         } else if (status.confirmationStatus!.index >= desiredStatus.index) {
           completer.complete();
         } else {
-          await Future<void>.delayed(const Duration(seconds: 5));
+          await Future<void>.delayed(const Duration(milliseconds: 2500));
           return check();
         }
       } else {
-        await Future<void>.delayed(const Duration(seconds: 5));
+        await Future<void>.delayed(const Duration(milliseconds: 2500));
         return check();
       }
     }
