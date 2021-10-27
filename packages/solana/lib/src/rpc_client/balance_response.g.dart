@@ -8,6 +8,6 @@ part of 'balance_response.dart';
 
 BalanceResponse _$BalanceResponseFromJson(Map<String, dynamic> json) =>
     BalanceResponse(
-      ValueResponse.fromJson(
+      ValueResponse<int>.fromJson(
           json['result'] as Map<String, dynamic>, (value) => value as int),
     );

@@ -13,6 +13,13 @@ class ParsedSystemInstruction with _$ParsedSystemInstruction {
     required String type,
   }) = ParsedSystemTransferInstruction;
 
+  /// Transfer instruction data for a transfer of [info.lamports]
+  /// from [info.source] to [info.destination]
+  const factory ParsedSystemInstruction.transferChecked({
+    required ParsedSystemTransferInformation info,
+    required String type,
+  }) = ParsedSystemTransferCheckedInstruction;
+
   /// Instructions that we haven't implemented yet
   const factory ParsedSystemInstruction.unsupported({
     required String type,

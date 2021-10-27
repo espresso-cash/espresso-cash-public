@@ -17,9 +17,8 @@ Map<String, dynamic> _$$_UnsupportedNotificationToJson(
 _$AccountNotification _$$AccountNotificationFromJson(
         Map<String, dynamic> json) =>
     _$AccountNotification(
-      params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>,
-          (value) => Account.fromJson(value as Map<String, dynamic>)),
+      params: NotificationParamsAccount.fromJson(
+          json['params'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$AccountNotificationToJson(
@@ -30,9 +29,8 @@ Map<String, dynamic> _$$AccountNotificationToJson(
 
 _$LogsNotification _$$LogsNotificationFromJson(Map<String, dynamic> json) =>
     _$LogsNotification(
-      params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>,
-          (value) => Logs.fromJson(value as Map<String, dynamic>)),
+      params: NotificationParamsLogs.fromJson(
+          json['params'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$LogsNotificationToJson(_$LogsNotification instance) =>
@@ -43,8 +41,8 @@ Map<String, dynamic> _$$LogsNotificationToJson(_$LogsNotification instance) =>
 _$ProgramNotification _$$ProgramNotificationFromJson(
         Map<String, dynamic> json) =>
     _$ProgramNotification(
-      params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>, (value) => value),
+      params: NotificationParamsGeneric.fromJson(
+          json['params'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ProgramNotificationToJson(
@@ -56,9 +54,8 @@ Map<String, dynamic> _$$ProgramNotificationToJson(
 _$SignatureNotification _$$SignatureNotificationFromJson(
         Map<String, dynamic> json) =>
     _$SignatureNotification(
-      params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>,
-          (value) => OptionalError.fromJson(value as Map<String, dynamic>)),
+      params: NotificationParamsSignature.fromJson(
+          json['params'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$SignatureNotificationToJson(
@@ -69,9 +66,8 @@ Map<String, dynamic> _$$SignatureNotificationToJson(
 
 _$SlotNotification _$$SlotNotificationFromJson(Map<String, dynamic> json) =>
     _$SlotNotification(
-      params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>,
-          (value) => Slot.fromJson(value as Map<String, dynamic>)),
+      params: NotificationParamsSlot.fromJson(
+          json['params'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$SlotNotificationToJson(_$SlotNotification instance) =>
