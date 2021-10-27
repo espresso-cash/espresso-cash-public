@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:convert/convert.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:test/test.dart';
 
@@ -12,6 +15,34 @@ void main() {
           change: item.key,
         );
         expect(signer.address, equals(item.value));
+      }
+    }
+  });
+
+  test('Creating a keypair directly from private key bytes works', () async {
+    // Test with a bunch different random keys
+    for (var i = 0; i < 20; i++) {
+      final randomKeyPair = await Ed25519HDKeyPair.random();
+      final simpleKeyPairData = await randomKeyPair.extract();
+      final testKeyPair = await Ed25519HDKeyPair.fromPrivateKeyBytes(
+        privateKey: simpleKeyPairData.bytes,
+      );
+
+      expect(randomKeyPair.address, equals(testKeyPair.address));
+
+      // Sign a bunch of random messages to check that it works
+      for (var j = 0; j < 20; ++j) {
+        final random = (int _) => _random.nextInt(256);
+        // Create the seed
+        final List<int> testBytes = List<int>.generate(100, random);
+        // Signatures are identical with both key pairs
+        final signature1 = await randomKeyPair.sign(testBytes);
+        final signature2 = await testKeyPair.sign(testBytes);
+
+        expect(
+          hex.encode(signature1.toList(growable: false)),
+          equals(hex.encode(signature2.toList(growable: false))),
+        );
       }
     }
   });
@@ -69,3 +100,5 @@ const _testCases = {
     5: 'Av4QAMBwZKt5bNnfT2mVc8VhWzE2z4JoWW36CsprwRHP',
   },
 };
+
+final _random = Random.secure();

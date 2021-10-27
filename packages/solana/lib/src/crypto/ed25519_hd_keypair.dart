@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart'
@@ -10,8 +9,6 @@ import 'package:solana/src/base58/encode.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/encoder/signature.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
-
-final _random = Random.secure();
 
 /// Signs solana transactions using the ed25519 elliptic curve
 class Ed25519HDKeyPair extends KeyPair {
@@ -37,7 +34,7 @@ class Ed25519HDKeyPair extends KeyPair {
   }
 
   static Future<Ed25519HDKeyPair> fromPrivateKeyBytes({
-    required Uint8List privateKey,
+    required List<int> privateKey,
   }) async {
     final KeyData _keyData = _RawKeyData(privateKey);
 
@@ -140,7 +137,7 @@ class Ed25519HDKeyPair extends KeyPair {
 class _RawKeyData implements KeyData {
   const _RawKeyData(this._privateKey);
 
-  final Uint8List _privateKey;
+  final List<int> _privateKey;
 
   @override
   List<int> get chainCode => throw UnimplementedError();
@@ -148,3 +145,5 @@ class _RawKeyData implements KeyData {
   @override
   List<int> get key => _privateKey;
 }
+
+final _random = Random.secure();
