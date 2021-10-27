@@ -18,6 +18,8 @@ ParsedSystemInstruction _$ParsedSystemInstructionFromJson(
   switch (json['type'] as String?) {
     case 'transfer':
       return ParsedSystemTransferInstruction.fromJson(json);
+    case 'transferChecked':
+      return ParsedSystemTransferCheckedInstruction.fromJson(json);
 
     default:
       return ParsedSystemUnsupportedInstruction.fromJson(json);
@@ -31,6 +33,14 @@ class _$ParsedSystemInstructionTearOff {
   ParsedSystemTransferInstruction transfer(
       {required ParsedSystemTransferInformation info, required String type}) {
     return ParsedSystemTransferInstruction(
+      info: info,
+      type: type,
+    );
+  }
+
+  ParsedSystemTransferCheckedInstruction transferChecked(
+      {required ParsedSystemTransferInformation info, required String type}) {
+    return ParsedSystemTransferCheckedInstruction(
       info: info,
       type: type,
     );
@@ -58,6 +68,8 @@ mixin _$ParsedSystemInstruction {
   TResult when<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInformation info, String type)
         transfer,
+    required TResult Function(ParsedSystemTransferInformation info, String type)
+        transferChecked,
     required TResult Function(String type) unsupported,
   }) =>
       throw _privateConstructorUsedError;
@@ -65,6 +77,8 @@ mixin _$ParsedSystemInstruction {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInformation info, String type)?
         transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transferChecked,
     TResult Function(String type)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
@@ -72,6 +86,8 @@ mixin _$ParsedSystemInstruction {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInformation info, String type)?
         transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transferChecked,
     TResult Function(String type)? unsupported,
     required TResult orElse(),
   }) =>
@@ -79,6 +95,8 @@ mixin _$ParsedSystemInstruction {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInstruction value) transfer,
+    required TResult Function(ParsedSystemTransferCheckedInstruction value)
+        transferChecked,
     required TResult Function(ParsedSystemUnsupportedInstruction value)
         unsupported,
   }) =>
@@ -86,12 +104,16 @@ mixin _$ParsedSystemInstruction {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+        transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+        transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) =>
@@ -231,6 +253,8 @@ class _$ParsedSystemTransferInstruction
   TResult when<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInformation info, String type)
         transfer,
+    required TResult Function(ParsedSystemTransferInformation info, String type)
+        transferChecked,
     required TResult Function(String type) unsupported,
   }) {
     return transfer(info, type);
@@ -241,6 +265,8 @@ class _$ParsedSystemTransferInstruction
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInformation info, String type)?
         transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transferChecked,
     TResult Function(String type)? unsupported,
   }) {
     return transfer?.call(info, type);
@@ -251,6 +277,8 @@ class _$ParsedSystemTransferInstruction
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInformation info, String type)?
         transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transferChecked,
     TResult Function(String type)? unsupported,
     required TResult orElse(),
   }) {
@@ -264,6 +292,8 @@ class _$ParsedSystemTransferInstruction
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInstruction value) transfer,
+    required TResult Function(ParsedSystemTransferCheckedInstruction value)
+        transferChecked,
     required TResult Function(ParsedSystemUnsupportedInstruction value)
         unsupported,
   }) {
@@ -274,6 +304,8 @@ class _$ParsedSystemTransferInstruction
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+        transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) {
     return transfer?.call(this);
@@ -283,6 +315,8 @@ class _$ParsedSystemTransferInstruction
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+        transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) {
@@ -315,6 +349,208 @@ abstract class ParsedSystemTransferInstruction
   @override
   @JsonKey(ignore: true)
   $ParsedSystemTransferInstructionCopyWith<ParsedSystemTransferInstruction>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ParsedSystemTransferCheckedInstructionCopyWith<$Res>
+    implements $ParsedSystemInstructionCopyWith<$Res> {
+  factory $ParsedSystemTransferCheckedInstructionCopyWith(
+          ParsedSystemTransferCheckedInstruction value,
+          $Res Function(ParsedSystemTransferCheckedInstruction) then) =
+      _$ParsedSystemTransferCheckedInstructionCopyWithImpl<$Res>;
+  @override
+  $Res call({ParsedSystemTransferInformation info, String type});
+
+  $ParsedSystemTransferInformationCopyWith<$Res> get info;
+}
+
+/// @nodoc
+class _$ParsedSystemTransferCheckedInstructionCopyWithImpl<$Res>
+    extends _$ParsedSystemInstructionCopyWithImpl<$Res>
+    implements $ParsedSystemTransferCheckedInstructionCopyWith<$Res> {
+  _$ParsedSystemTransferCheckedInstructionCopyWithImpl(
+      ParsedSystemTransferCheckedInstruction _value,
+      $Res Function(ParsedSystemTransferCheckedInstruction) _then)
+      : super(
+            _value, (v) => _then(v as ParsedSystemTransferCheckedInstruction));
+
+  @override
+  ParsedSystemTransferCheckedInstruction get _value =>
+      super._value as ParsedSystemTransferCheckedInstruction;
+
+  @override
+  $Res call({
+    Object? info = freezed,
+    Object? type = freezed,
+  }) {
+    return _then(ParsedSystemTransferCheckedInstruction(
+      info: info == freezed
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as ParsedSystemTransferInformation,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+
+  @override
+  $ParsedSystemTransferInformationCopyWith<$Res> get info {
+    return $ParsedSystemTransferInformationCopyWith<$Res>(_value.info, (value) {
+      return _then(_value.copyWith(info: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ParsedSystemTransferCheckedInstruction
+    implements ParsedSystemTransferCheckedInstruction {
+  const _$ParsedSystemTransferCheckedInstruction(
+      {required this.info, required this.type});
+
+  factory _$ParsedSystemTransferCheckedInstruction.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ParsedSystemTransferCheckedInstructionFromJson(json);
+
+  @override
+  final ParsedSystemTransferInformation info;
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'ParsedSystemInstruction.transferChecked(info: $info, type: $type)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ParsedSystemTransferCheckedInstruction &&
+            (identical(other.info, info) ||
+                const DeepCollectionEquality().equals(other.info, info)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(info) ^
+      const DeepCollectionEquality().hash(type);
+
+  @JsonKey(ignore: true)
+  @override
+  $ParsedSystemTransferCheckedInstructionCopyWith<
+          ParsedSystemTransferCheckedInstruction>
+      get copyWith => _$ParsedSystemTransferCheckedInstructionCopyWithImpl<
+          ParsedSystemTransferCheckedInstruction>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ParsedSystemTransferInformation info, String type)
+        transfer,
+    required TResult Function(ParsedSystemTransferInformation info, String type)
+        transferChecked,
+    required TResult Function(String type) unsupported,
+  }) {
+    return transferChecked(info, type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transferChecked,
+    TResult Function(String type)? unsupported,
+  }) {
+    return transferChecked?.call(info, type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transferChecked,
+    TResult Function(String type)? unsupported,
+    required TResult orElse(),
+  }) {
+    if (transferChecked != null) {
+      return transferChecked(info, type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ParsedSystemTransferInstruction value) transfer,
+    required TResult Function(ParsedSystemTransferCheckedInstruction value)
+        transferChecked,
+    required TResult Function(ParsedSystemUnsupportedInstruction value)
+        unsupported,
+  }) {
+    return transferChecked(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+        transferChecked,
+    TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
+  }) {
+    return transferChecked?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+        transferChecked,
+    TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
+    required TResult orElse(),
+  }) {
+    if (transferChecked != null) {
+      return transferChecked(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ParsedSystemTransferCheckedInstructionToJson(this)
+      ..['type'] = 'transferChecked';
+  }
+}
+
+abstract class ParsedSystemTransferCheckedInstruction
+    implements ParsedSystemInstruction {
+  const factory ParsedSystemTransferCheckedInstruction(
+      {required ParsedSystemTransferInformation info,
+      required String type}) = _$ParsedSystemTransferCheckedInstruction;
+
+  factory ParsedSystemTransferCheckedInstruction.fromJson(
+          Map<String, dynamic> json) =
+      _$ParsedSystemTransferCheckedInstruction.fromJson;
+
+  ParsedSystemTransferInformation get info =>
+      throw _privateConstructorUsedError;
+  @override
+  String get type => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  $ParsedSystemTransferCheckedInstructionCopyWith<
+          ParsedSystemTransferCheckedInstruction>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -397,6 +633,8 @@ class _$ParsedSystemUnsupportedInstruction
   TResult when<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInformation info, String type)
         transfer,
+    required TResult Function(ParsedSystemTransferInformation info, String type)
+        transferChecked,
     required TResult Function(String type) unsupported,
   }) {
     return unsupported(type);
@@ -407,6 +645,8 @@ class _$ParsedSystemUnsupportedInstruction
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInformation info, String type)?
         transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transferChecked,
     TResult Function(String type)? unsupported,
   }) {
     return unsupported?.call(type);
@@ -417,6 +657,8 @@ class _$ParsedSystemUnsupportedInstruction
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInformation info, String type)?
         transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)?
+        transferChecked,
     TResult Function(String type)? unsupported,
     required TResult orElse(),
   }) {
@@ -430,6 +672,8 @@ class _$ParsedSystemUnsupportedInstruction
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInstruction value) transfer,
+    required TResult Function(ParsedSystemTransferCheckedInstruction value)
+        transferChecked,
     required TResult Function(ParsedSystemUnsupportedInstruction value)
         unsupported,
   }) {
@@ -440,6 +684,8 @@ class _$ParsedSystemUnsupportedInstruction
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+        transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) {
     return unsupported?.call(this);
@@ -449,6 +695,8 @@ class _$ParsedSystemUnsupportedInstruction
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+        transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) {
