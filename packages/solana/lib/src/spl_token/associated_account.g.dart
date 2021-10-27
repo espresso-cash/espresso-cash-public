@@ -16,7 +16,7 @@ AssociatedTokenAccount _$AssociatedTokenAccountFromJson(
 AssociatedTokenAccountResponse _$AssociatedTokenAccountResponseFromJson(
         Map<String, dynamic> json) =>
     AssociatedTokenAccountResponse(
-      ValueResponse.fromJson(
+      ValueResponse<List<AssociatedTokenAccount>>.fromJson(
           json['result'] as Map<String, dynamic>,
           (value) => (value as List<dynamic>)
               .map((e) =>
