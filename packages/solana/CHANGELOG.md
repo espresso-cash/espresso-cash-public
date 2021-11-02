@@ -1,3 +1,7 @@
+## 0.13.3
+
+ - **FEAT**: Export `base58encode` (#106).
+
 ## 0.13.2
 
  - **REFACTOR**: Update the polling timeout for `waitForSignatureStatus()` (#101).
