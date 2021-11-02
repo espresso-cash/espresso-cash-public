@@ -1,4 +1,5 @@
 export 'src/associated_token_account_program/associated_token_account_program.dart';
+export 'src/base58/encode.dart';
 export 'src/crypto/ed25519_hd_keypair.dart';
 export 'src/dto/account.dart';
 export 'src/dto/blockhash.dart';
