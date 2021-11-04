@@ -55,7 +55,7 @@ _$_ParsedSplTokenTransferInformation
         _$_ParsedSplTokenTransferInformation(
           amount: json['amount'] as String,
           authority: json['authority'] as String,
-          mint: json['mint'] as String,
+          mint: json['mint'] as String?,
           source: json['source'] as String,
           destination: json['destination'] as String,
         );
@@ -77,7 +77,7 @@ _$_ParsedSplTokenTransferCheckedInformation
           tokenAmount:
               TokenAmount.fromJson(json['tokenAmount'] as Map<String, dynamic>),
           authority: json['authority'] as String,
-          mint: json['mint'] as String,
+          mint: json['mint'] as String?,
           source: json['source'] as String,
           destination: json['destination'] as String,
         );

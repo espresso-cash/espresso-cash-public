@@ -762,7 +762,7 @@ class _$ParsedSplTokenTransferInformationTearOff {
   _ParsedSplTokenTransferInformation call(
       {required String amount,
       required String authority,
-      required String mint,
+      required String? mint,
       required String source,
       required String destination}) {
     return _ParsedSplTokenTransferInformation(
@@ -787,7 +787,7 @@ const $ParsedSplTokenTransferInformation =
 mixin _$ParsedSplTokenTransferInformation {
   String get amount => throw _privateConstructorUsedError;
   String get authority => throw _privateConstructorUsedError;
-  String get mint => throw _privateConstructorUsedError;
+  String? get mint => throw _privateConstructorUsedError;
   String get source => throw _privateConstructorUsedError;
   String get destination => throw _privateConstructorUsedError;
 
@@ -806,7 +806,7 @@ abstract class $ParsedSplTokenTransferInformationCopyWith<$Res> {
   $Res call(
       {String amount,
       String authority,
-      String mint,
+      String? mint,
       String source,
       String destination});
 }
@@ -840,7 +840,7 @@ class _$ParsedSplTokenTransferInformationCopyWithImpl<$Res>
       mint: mint == freezed
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       source: source == freezed
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
@@ -864,7 +864,7 @@ abstract class _$ParsedSplTokenTransferInformationCopyWith<$Res>
   $Res call(
       {String amount,
       String authority,
-      String mint,
+      String? mint,
       String source,
       String destination});
 }
@@ -902,7 +902,7 @@ class __$ParsedSplTokenTransferInformationCopyWithImpl<$Res>
       mint: mint == freezed
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       source: source == freezed
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
@@ -935,7 +935,7 @@ class _$_ParsedSplTokenTransferInformation
   @override
   final String authority;
   @override
-  final String mint;
+  final String? mint;
   @override
   final String source;
   @override
@@ -991,7 +991,7 @@ abstract class _ParsedSplTokenTransferInformation
   const factory _ParsedSplTokenTransferInformation(
       {required String amount,
       required String authority,
-      required String mint,
+      required String? mint,
       required String source,
       required String destination}) = _$_ParsedSplTokenTransferInformation;
 
@@ -1004,7 +1004,7 @@ abstract class _ParsedSplTokenTransferInformation
   @override
   String get authority => throw _privateConstructorUsedError;
   @override
-  String get mint => throw _privateConstructorUsedError;
+  String? get mint => throw _privateConstructorUsedError;
   @override
   String get source => throw _privateConstructorUsedError;
   @override
@@ -1029,7 +1029,7 @@ class _$ParsedSplTokenTransferCheckedInformationTearOff {
   _ParsedSplTokenTransferCheckedInformation call(
       {required TokenAmount tokenAmount,
       required String authority,
-      required String mint,
+      required String? mint,
       required String source,
       required String destination}) {
     return _ParsedSplTokenTransferCheckedInformation(
@@ -1054,7 +1054,7 @@ const $ParsedSplTokenTransferCheckedInformation =
 mixin _$ParsedSplTokenTransferCheckedInformation {
   TokenAmount get tokenAmount => throw _privateConstructorUsedError;
   String get authority => throw _privateConstructorUsedError;
-  String get mint => throw _privateConstructorUsedError;
+  String? get mint => throw _privateConstructorUsedError;
   String get source => throw _privateConstructorUsedError;
   String get destination => throw _privateConstructorUsedError;
 
@@ -1074,7 +1074,7 @@ abstract class $ParsedSplTokenTransferCheckedInformationCopyWith<$Res> {
   $Res call(
       {TokenAmount tokenAmount,
       String authority,
-      String mint,
+      String? mint,
       String source,
       String destination});
 }
@@ -1109,7 +1109,7 @@ class _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
       mint: mint == freezed
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       source: source == freezed
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
@@ -1133,7 +1133,7 @@ abstract class _$ParsedSplTokenTransferCheckedInformationCopyWith<$Res>
   $Res call(
       {TokenAmount tokenAmount,
       String authority,
-      String mint,
+      String? mint,
       String source,
       String destination});
 }
@@ -1172,7 +1172,7 @@ class __$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
       mint: mint == freezed
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       source: source == freezed
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
@@ -1205,7 +1205,7 @@ class _$_ParsedSplTokenTransferCheckedInformation
   @override
   final String authority;
   @override
-  final String mint;
+  final String? mint;
   @override
   final String source;
   @override
@@ -1262,7 +1262,7 @@ abstract class _ParsedSplTokenTransferCheckedInformation
   const factory _ParsedSplTokenTransferCheckedInformation(
           {required TokenAmount tokenAmount,
           required String authority,
-          required String mint,
+          required String? mint,
           required String source,
           required String destination}) =
       _$_ParsedSplTokenTransferCheckedInformation;
@@ -1276,7 +1276,7 @@ abstract class _ParsedSplTokenTransferCheckedInformation
   @override
   String get authority => throw _privateConstructorUsedError;
   @override
-  String get mint => throw _privateConstructorUsedError;
+  String? get mint => throw _privateConstructorUsedError;
   @override
   String get source => throw _privateConstructorUsedError;
   @override
