@@ -1,3 +1,7 @@
+## 0.13.3+1
+
+ - **FIX**: Add missing `mint` value to the SPL tokens transfer info (#108).
+
 ## 0.13.3
 
  - **FEAT**: Export `base58encode` (#106).
