@@ -22,7 +22,6 @@ Map<String, dynamic> _$TokenAmountToJson(TokenAmount instance) =>
 TokenBalanceResponse _$TokenBalanceResponseFromJson(
         Map<String, dynamic> json) =>
     TokenBalanceResponse(
-      ValueResponse<TokenAmount>.fromJson(
-          json['result'] as Map<String, dynamic>,
+      ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
           (value) => TokenAmount.fromJson(value as Map<String, dynamic>)),
     );

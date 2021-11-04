@@ -36,6 +36,7 @@ class ParsedSplTokenTransferInformation
   const factory ParsedSplTokenTransferInformation({
     required String amount,
     required String authority,
+    required String? mint,
     required String source,
     required String destination,
   }) = _ParsedSplTokenTransferInformation;
@@ -53,7 +54,8 @@ class ParsedSplTokenTransferCheckedInformation
     with _$ParsedSplTokenTransferCheckedInformation {
   const factory ParsedSplTokenTransferCheckedInformation({
     required TokenAmount tokenAmount,
-    required String? authority,
+    required String authority,
+    required String? mint,
     required String source,
     required String destination,
   }) = _ParsedSplTokenTransferCheckedInformation;

@@ -8,6 +8,6 @@ part of 'account_info_response.dart';
 
 AccountInfoResponse _$AccountInfoResponseFromJson(Map<String, dynamic> json) =>
     AccountInfoResponse(
-      ValueResponse<Account>.fromJson(json['result'] as Map<String, dynamic>,
+      ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
           (value) => Account.fromJson(value as Map<String, dynamic>)),
     );
