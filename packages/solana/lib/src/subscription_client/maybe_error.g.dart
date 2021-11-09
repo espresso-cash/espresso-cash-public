@@ -1,12 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'optional_error.dart';
+part of 'maybe_error.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-OptionalError _$OptionalErrorFromJson(Map<String, dynamic> json) =>
-    OptionalError(
+MaybeError _$MaybeErrorFromJson(Map<String, dynamic> json) => MaybeError(
       err: json['err'],
     );
