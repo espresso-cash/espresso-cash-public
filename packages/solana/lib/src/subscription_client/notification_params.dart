@@ -9,57 +9,17 @@ import 'package:solana/src/subscription_client/optional_error.dart';
 part 'notification_params.freezed.dart';
 part 'notification_params.g.dart';
 
-@freezed
-class NotificationParamsSignature with _$NotificationParamsSignature {
-  const factory NotificationParamsSignature({
-    required NotificationResult<OptionalError> result,
-    required int subscription,
-  }) = _NotificationParamsSignature;
+@JsonSerializable(genericArgumentFactories: true)
+class NotificationParams<T> {
+  const NotificationParams({
+    required this.result,
+    required this.subscription,
+  });
 
-  factory NotificationParamsSignature.fromJson(Map<String, dynamic> json) =>
-      _$NotificationParamsSignatureFromJson(json);
-}
+  factory NotificationParams.fromJson(
+          Map<String, dynamic> json, T Function(Object? data) fromJsonT) =>
+      _$NotificationParamsFromJson(json, fromJsonT);
 
-@freezed
-class NotificationParamsLogs with _$NotificationParamsLogs {
-  const factory NotificationParamsLogs({
-    required NotificationResult<Logs> result,
-    required int subscription,
-  }) = _NotificationParamsLogs;
-
-  factory NotificationParamsLogs.fromJson(Map<String, dynamic> json) =>
-      _$NotificationParamsLogsFromJson(json);
-}
-
-@freezed
-class NotificationParamsSlot with _$NotificationParamsSlot {
-  const factory NotificationParamsSlot({
-    required NotificationResult<Slot> result,
-    required int subscription,
-  }) = _NotificationParamsSlot;
-
-  factory NotificationParamsSlot.fromJson(Map<String, dynamic> json) =>
-      _$NotificationParamsSlotFromJson(json);
-}
-
-@freezed
-class NotificationParamsAccount with _$NotificationParamsAccount {
-  const factory NotificationParamsAccount({
-    required NotificationResult<Account> result,
-    required int subscription,
-  }) = _NotificationParamsAccount;
-
-  factory NotificationParamsAccount.fromJson(Map<String, dynamic> json) =>
-      _$NotificationParamsAccountFromJson(json);
-}
-
-@freezed
-class NotificationParamsGeneric with _$NotificationParamsGeneric {
-  const factory NotificationParamsGeneric({
-    required NotificationResult<Map<String, dynamic>> result,
-    required int subscription,
-  }) = _NotificationParamsGeneric;
-
-  factory NotificationParamsGeneric.fromJson(Map<String, dynamic> json) =>
-      _$NotificationParamsGenericFromJson(json);
+  final NotificationResult<T> result;
+  final int subscription;
 }

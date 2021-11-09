@@ -1,3 +1,20 @@
+## 0.13.3+1
+
+ - **FIX**: Add missing `mint` value to the SPL tokens transfer info (#108).
+
+## 0.13.3
+
+ - **FEAT**: Export `base58encode` (#106).
+
+## 0.13.2
+
+ - **REFACTOR**: Update the polling timeout for `waitForSignatureStatus()` (#101).
+ - **REFACTOR**: Organize some commonly used types (#88).
+ - **FIX**: Allow program as null for unsupported instruction (#83).
+ - **FEAT**: Add Ed25519HDKeyPair from private key bytes constructor (#99).
+ - **FEAT**: Add support for checked transfer SPL and SOL (#98).
+ - **FEAT**: Implement subscription API (#89).
+
 ## 0.13.1
 
  - **FEAT**: Export SignedTx (#78).

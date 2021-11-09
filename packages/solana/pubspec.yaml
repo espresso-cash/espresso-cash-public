@@ -1,5 +1,5 @@
 name: solana
-version: 0.13.1
+version: 0.13.3+1
 repository: https://github.com/cryptoplease/cryptoplease-dart
 description: >-
   Simple library to interact with the Solana blockchain

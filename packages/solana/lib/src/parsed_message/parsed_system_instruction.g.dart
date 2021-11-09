@@ -21,6 +21,22 @@ Map<String, dynamic> _$$ParsedSystemTransferInstructionToJson(
       'type': instance.type,
     };
 
+_$ParsedSystemTransferCheckedInstruction
+    _$$ParsedSystemTransferCheckedInstructionFromJson(
+            Map<String, dynamic> json) =>
+        _$ParsedSystemTransferCheckedInstruction(
+          info: ParsedSystemTransferInformation.fromJson(
+              json['info'] as Map<String, dynamic>),
+          type: json['type'] as String,
+        );
+
+Map<String, dynamic> _$$ParsedSystemTransferCheckedInstructionToJson(
+        _$ParsedSystemTransferCheckedInstruction instance) =>
+    <String, dynamic>{
+      'info': instance.info,
+      'type': instance.type,
+    };
+
 _$ParsedSystemUnsupportedInstruction
     _$$ParsedSystemUnsupportedInstructionFromJson(Map<String, dynamic> json) =>
         _$ParsedSystemUnsupportedInstruction(
