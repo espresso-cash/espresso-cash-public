@@ -8,18 +8,24 @@ part of 'notification_message.dart';
 
 _$_UnsupportedNotification _$$_UnsupportedNotificationFromJson(
         Map<String, dynamic> json) =>
-    _$_UnsupportedNotification();
+    _$_UnsupportedNotification(
+      params: NotificationParams.fromJson(
+          json['params'] as Map<String, dynamic>, (value) => value),
+    );
 
 Map<String, dynamic> _$$_UnsupportedNotificationToJson(
         _$_UnsupportedNotification instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{
+      'params': instance.params,
+    };
 
 _$AccountNotification _$$AccountNotificationFromJson(
         Map<String, dynamic> json) =>
     _$AccountNotification(
       params: NotificationParams.fromJson(
           json['params'] as Map<String, dynamic>,
-          (value) => Account.fromJson(value as Map<String, dynamic>)),
+          (value) => NotificationResult.fromJson(value as Map<String, dynamic>,
+              (value) => Account.fromJson(value as Map<String, dynamic>))),
     );
 
 Map<String, dynamic> _$$AccountNotificationToJson(
@@ -32,7 +38,8 @@ _$LogsNotification _$$LogsNotificationFromJson(Map<String, dynamic> json) =>
     _$LogsNotification(
       params: NotificationParams.fromJson(
           json['params'] as Map<String, dynamic>,
-          (value) => Logs.fromJson(value as Map<String, dynamic>)),
+          (value) => NotificationResult.fromJson(value as Map<String, dynamic>,
+              (value) => Logs.fromJson(value as Map<String, dynamic>))),
     );
 
 Map<String, dynamic> _$$LogsNotificationToJson(_$LogsNotification instance) =>
@@ -44,7 +51,11 @@ _$ProgramNotification _$$ProgramNotificationFromJson(
         Map<String, dynamic> json) =>
     _$ProgramNotification(
       params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>, (value) => value),
+          json['params'] as Map<String, dynamic>,
+          (value) => NotificationResult.fromJson(
+              value as Map<String, dynamic>,
+              (value) =>
+                  ProgramAccount.fromJson(value as Map<String, dynamic>))),
     );
 
 Map<String, dynamic> _$$ProgramNotificationToJson(
@@ -58,7 +69,8 @@ _$SignatureNotification _$$SignatureNotificationFromJson(
     _$SignatureNotification(
       params: NotificationParams.fromJson(
           json['params'] as Map<String, dynamic>,
-          (value) => MaybeError.fromJson(value as Map<String, dynamic>)),
+          (value) => NotificationResult.fromJson(value as Map<String, dynamic>,
+              (value) => MaybeError.fromJson(value as Map<String, dynamic>))),
     );
 
 Map<String, dynamic> _$$SignatureNotificationToJson(
