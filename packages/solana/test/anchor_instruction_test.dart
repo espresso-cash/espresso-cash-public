@@ -5,6 +5,7 @@ import 'package:solana/src/anchor/instruction.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/message.dart';
+import 'package:solana/src/solana_client/solana_client.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
@@ -14,10 +15,13 @@ import 'config.dart';
 void main() {
   late final Ed25519HDKeyPair payer;
   late final Ed25519HDKeyPair updater;
-  late final RPCClient client;
+  late final SolanaClient client;
 
   setUpAll(() async {
-    client = RPCClient(rpcUrl: devnetRpcUrl, websocketUrl: devnetWebsocketUrl);
+    client = SolanaClient(
+      rpcUrl: devnetRpcUrl,
+      websocketUrl: devnetWebsocketUrl,
+    );
 
     payer = await Ed25519HDKeyPair.random();
     updater = await Ed25519HDKeyPair.random();

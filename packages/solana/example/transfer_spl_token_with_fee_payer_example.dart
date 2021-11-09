@@ -1,14 +1,15 @@
 import 'package:solana/solana.dart';
+import 'package:solana/src/solana_client/solana_client.dart';
 
 Future<void> example() async {
-  final rpcClient = RPCClient(
+  final client = SolanaClient(
     rpcUrl: _rpcClientUrl,
     websocketUrl: _websocketClientUrl,
   );
   // Create a wallet
   final source = Wallet(
     signer: await Ed25519HDKeyPair.random(),
-    rpcClient: rpcClient,
+    client: client,
   );
 
   // Because this is an example, let's put some lamports into the source
@@ -18,7 +19,7 @@ Future<void> example() async {
   // Final Destination (so funny :D)
   final destination = Wallet(
     signer: await Ed25519HDKeyPair.random(),
-    rpcClient: rpcClient,
+    client: client,
   );
 
   // Both the sender, and recipient must have an associated token account
@@ -44,7 +45,7 @@ Future<void> example() async {
 
   // To confirm that it worked let's see if there's any balance
   // in the recipients wallet
-  final balance = await rpcClient.getTokenAccountBalance(
+  final balance = await client.getTokenAccountBalance(
     pubKey:
         await destination.getAssociatedTokenAccountAddress(mint: _tokenMint),
   );

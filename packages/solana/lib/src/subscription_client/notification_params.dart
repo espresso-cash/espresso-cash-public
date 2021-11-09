@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/subscription_client/notification_result.dart';
 
 part 'notification_params.g.dart';
 
@@ -15,6 +14,6 @@ class NotificationParams<T> {
           Map<String, dynamic> json, T Function(Object? data) fromJsonT) =>
       _$NotificationParamsFromJson(json, fromJsonT);
 
-  final NotificationResult<T> result;
+  final T result;
   final int subscription;
 }

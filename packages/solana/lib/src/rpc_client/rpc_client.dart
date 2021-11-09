@@ -7,28 +7,17 @@
 
 import 'dart:async';
 
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/json_rpc_client/json_rpc_client.dart';
 import 'package:solana/src/rpc_client/exceptions.dart';
 import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/rpc_client/rpc_types_extension.dart';
-import 'package:solana/src/subscription_client/subscription_client.dart';
-import 'package:solana/src/utils.dart';
-
-part 'rpc_client_extension.dart';
 
 /// Solana rpc api client
 class RPCClient {
   /// Build an rpc api client to communicate with the solana node [rpcUrl].
-  RPCClient({
-    required String rpcUrl,
-    required String websocketUrl,
-  })  : _client = JsonRpcClient(rpcUrl),
-        _subscriptionClient = SubscriptionClient(websocketUrl);
+  RPCClient(String rpcUrl) : _client = JsonRpcClient(rpcUrl);
 
   final JsonRpcClient _client;
-  final SubscriptionClient _subscriptionClient;
 
   /// Returns all information associated with the account of
   /// provided Pubkey

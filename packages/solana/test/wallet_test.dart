@@ -4,8 +4,8 @@ import 'package:solana/src/exceptions/no_associated_token_account_exception.dart
 import 'package:solana/src/parsed_message/parsed_instruction.dart';
 import 'package:solana/src/parsed_message/parsed_spl_token_instruction.dart';
 import 'package:solana/src/parsed_message/parsed_system_instruction.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/rpc_client/rpc_types.dart';
+import 'package:solana/src/solana_client/solana_client.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/wallet.dart';
 import 'package:test/test.dart';
@@ -13,23 +13,23 @@ import 'package:test/test.dart';
 import 'config.dart';
 
 void main() {
-  late final RPCClient rpcClient;
+  late final SolanaClient client;
   late final Wallet source;
   late final Wallet destination;
   late SplToken token;
 
   setUpAll(() async {
     final signer = await Ed25519HDKeyPair.random();
-    rpcClient = RPCClient(
+    client = SolanaClient(
       rpcUrl: devnetRpcUrl,
       websocketUrl: devnetWebsocketUrl,
     );
-    source = Wallet(signer: signer, rpcClient: rpcClient);
+    source = Wallet(signer: signer, client: client);
     destination =
-        Wallet(signer: await Ed25519HDKeyPair.random(), rpcClient: rpcClient);
+        Wallet(signer: await Ed25519HDKeyPair.random(), client: client);
     // Add tokens to the sender
     await source.requestAirdrop(lamports: 100 * lamportsPerSol);
-    token = await rpcClient.initializeMint(
+    token = await client.initializeMint(
       owner: signer,
       decimals: 2,
     );
@@ -67,7 +67,7 @@ void main() {
     expect(signature, isNotNull);
 
     // ignore: deprecated_member_use_from_same_package
-    final result = await rpcClient.getConfirmedTransaction(
+    final result = await client.getConfirmedTransaction(
       signature: signature.toString(),
       options: const GetConfirmedTransactionOptions(
         encoding: Encoding.jsonParsed,
@@ -98,7 +98,7 @@ void main() {
   test('Get a token balance', () async {
     final wallet = Wallet(
       signer: await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
+      client: client,
     );
     expect(
       await wallet.hasAssociatedTokenAccount(mint: token.mint),
@@ -128,7 +128,7 @@ void main() {
       () async {
     final wallet = Wallet(
       signer: await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
+      client: client,
     );
     expect(
       source.transferSplToken(
@@ -143,7 +143,7 @@ void main() {
   test('Transfer SPL tokens successfully', () async {
     final wallet = Wallet(
       signer: await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
+      client: client,
     );
     await wallet.createAssociatedTokenAccount(
       mint: token.mint,
@@ -163,7 +163,7 @@ void main() {
   test('Transfer SPL tokens with memo', () async {
     final wallet = Wallet(
       signer: await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
+      client: client,
     );
     // Create the associated account for the recipient
     await wallet.createAssociatedTokenAccount(
@@ -181,7 +181,7 @@ void main() {
     expect(signature, isNotNull);
 
     // ignore: deprecated_member_use_from_same_package
-    final result = await rpcClient.getConfirmedTransaction(
+    final result = await client.getConfirmedTransaction(
       signature: signature.toString(),
       options: const GetConfirmedTransactionOptions(
         encoding: Encoding.jsonParsed,

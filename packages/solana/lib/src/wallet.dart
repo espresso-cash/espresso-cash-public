@@ -1,16 +1,17 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/token_program/token_program.dart';
+
+import 'solana_client/solana_client.dart';
 
 /// Convenient object for common operations
 class Wallet {
   Wallet({
     required this.signer,
-    required RPCClient rpcClient,
-  }) : _rpcClient = rpcClient;
+    required SolanaClient client,
+  }) : _client = client;
 
   Future<String> _genericTransfer({
     required String source,
@@ -32,9 +33,8 @@ class Wallet {
       instructions: instructions,
     );
 
-    final signature =
-        await _rpcClient.signAndSendTransaction(message, [signer]);
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    final signature = await _client.signAndSendTransaction(message, [signer]);
+    await _client.waitForSignatureStatus(signature, commitment);
 
     return signature;
   }
@@ -96,12 +96,12 @@ class Wallet {
     required int lamports,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final signature = await _rpcClient.requestAirdrop(
+    final signature = await _client.requestAirdrop(
       pubKey: address,
       lamports: lamports,
       commitment: CommitmentConfig(commitment: commitment),
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    await _client.waitForSignatureStatus(signature, commitment);
 
     return signature;
   }
@@ -119,7 +119,7 @@ class Wallet {
     required int amount,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await SplToken.readonly(mint: mint, rpcClient: _client);
 
     return token.transfer(
       source: address,
@@ -144,7 +144,7 @@ class Wallet {
     required String memo,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await SplToken.readonly(mint: mint, rpcClient: _client);
     final source = await token.computeAssociatedAddress(owner: address);
 
     final message = Message(
@@ -162,11 +162,11 @@ class Wallet {
       ],
     );
 
-    final signature = await _rpcClient.signAndSendTransaction(
+    final signature = await _client.signAndSendTransaction(
       message,
       [signer],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    await _client.waitForSignatureStatus(signature, commitment);
 
     return signature;
   }
@@ -186,7 +186,7 @@ class Wallet {
     Commitment? commitment,
     Wallet? funder,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await SplToken.readonly(mint: mint, rpcClient: _client);
     final associatedTokenAccount = await token.createAssociatedAccount(
       owner: address,
       funder: funder?.signer ?? signer,
@@ -200,12 +200,12 @@ class Wallet {
     required String mint,
   }) async {
     Iterable<ProgramAccount> accounts;
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await SplToken.readonly(mint: mint, rpcClient: _client);
     final associatedTokenAddress = await token.computeAssociatedAddress(
       owner: address,
     );
     try {
-      accounts = await _rpcClient.getTokenAccountsByOwner(
+      accounts = await _client.getTokenAccountsByOwner(
         pubKey: address,
         filter: TokenAccountsFilter(mint: token.mint),
         options: const GetAccountInfoOptions(
@@ -226,7 +226,7 @@ class Wallet {
   Future<String> getAssociatedTokenAccountAddress({
     required String mint,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await SplToken.readonly(mint: mint, rpcClient: _client);
     return token.computeAssociatedAddress(owner: address);
   }
 
@@ -240,7 +240,7 @@ class Wallet {
     required String mint,
     Commitment commitment = Commitment.finalized,
   }) async =>
-      _rpcClient.getTokenAccountBalance(
+      _client.getTokenAccountBalance(
         pubKey: await getAssociatedTokenAccountAddress(
           mint: mint,
         ),
@@ -256,7 +256,7 @@ class Wallet {
   Future<int> getLamports({
     Commitment commitment = Commitment.finalized,
   }) =>
-      _rpcClient.getBalance(
+      _client.getBalance(
         pubKey: address,
         commitment: CommitmentConfig(commitment: commitment),
       );
@@ -268,5 +268,5 @@ class Wallet {
   /// because it can be needed in some places.
   final Ed25519HDKeyPair signer;
 
-  final RPCClient _rpcClient;
+  final SolanaClient _client;
 }
