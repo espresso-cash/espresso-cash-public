@@ -1,7 +1,7 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
-import 'package:solana/src/subscription_client/optional_error.dart';
+import 'package:solana/src/subscription_client/maybe_error.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:test/test.dart';
 
@@ -23,7 +23,7 @@ void main() {
     );
 
     final client = SubscriptionClient(devnetWebsocketUrl);
-    final OptionalError result =
+    final MaybeError result =
         await client.signatureSubscribe(signature).firstWhere((_) => true);
 
     expect(result.err, isNull);
