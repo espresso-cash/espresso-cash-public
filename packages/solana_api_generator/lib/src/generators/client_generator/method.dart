@@ -14,6 +14,7 @@ class Method with _$Method {
     required String description,
     @Default(false) @JsonKey(name: 'is_deprecated') bool isDeprecated,
     @Default(false) @JsonKey(name: 'is_new') bool isNew,
+    required String? replacement,
     required Result result,
     List<Parameter>? parameters,
   }) = _Method;
@@ -26,13 +27,32 @@ class Method with _$Method {
 
   bool get resultIsNullable => result.nullable;
 
+  String get status {
+    if (isDeprecated) {
+      return '''
+      
+      ///
+      /// **DEPRECATED**: Please use $replacement instead for solana-core v1.7 
+      /// or newer
+      @deprecated''';
+    } else if (isNew) {
+      return '''
+      
+      ///
+      /// **NEW**: This method is only available in solana-core v1.7 or newer
+      /// Please use $replacement instead for solana-core v1.6''';
+    } else {
+      return '';
+    }
+  }
+
   String get resultType => result.type;
 
   String get returnType =>
       parseType(result.type) + (resultIsNullable ? '?' : '');
 
   @override
-  String toString() => '''$documentation
+  String toString() => '''$documentation$status
     Future<$returnType> $name(${parameters?.asMethodArguments() ?? ''}) async {
       final response = await _client.request(
         '$name',

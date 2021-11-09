@@ -26,6 +26,7 @@ class _$MethodTearOff {
       required String description,
       @JsonKey(name: 'is_deprecated') bool isDeprecated = false,
       @JsonKey(name: 'is_new') bool isNew = false,
+      required String? replacement,
       required Result result,
       List<Parameter>? parameters}) {
     return _Method(
@@ -33,6 +34,7 @@ class _$MethodTearOff {
       description: description,
       isDeprecated: isDeprecated,
       isNew: isNew,
+      replacement: replacement,
       result: result,
       parameters: parameters,
     );
@@ -54,6 +56,7 @@ mixin _$Method {
   bool get isDeprecated => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_new')
   bool get isNew => throw _privateConstructorUsedError;
+  String? get replacement => throw _privateConstructorUsedError;
   Result get result => throw _privateConstructorUsedError;
   List<Parameter>? get parameters => throw _privateConstructorUsedError;
 
@@ -71,6 +74,7 @@ abstract class $MethodCopyWith<$Res> {
       String description,
       @JsonKey(name: 'is_deprecated') bool isDeprecated,
       @JsonKey(name: 'is_new') bool isNew,
+      String? replacement,
       Result result,
       List<Parameter>? parameters});
 
@@ -91,6 +95,7 @@ class _$MethodCopyWithImpl<$Res> implements $MethodCopyWith<$Res> {
     Object? description = freezed,
     Object? isDeprecated = freezed,
     Object? isNew = freezed,
+    Object? replacement = freezed,
     Object? result = freezed,
     Object? parameters = freezed,
   }) {
@@ -111,6 +116,10 @@ class _$MethodCopyWithImpl<$Res> implements $MethodCopyWith<$Res> {
           ? _value.isNew
           : isNew // ignore: cast_nullable_to_non_nullable
               as bool,
+      replacement: replacement == freezed
+          ? _value.replacement
+          : replacement // ignore: cast_nullable_to_non_nullable
+              as String?,
       result: result == freezed
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
@@ -140,6 +149,7 @@ abstract class _$MethodCopyWith<$Res> implements $MethodCopyWith<$Res> {
       String description,
       @JsonKey(name: 'is_deprecated') bool isDeprecated,
       @JsonKey(name: 'is_new') bool isNew,
+      String? replacement,
       Result result,
       List<Parameter>? parameters});
 
@@ -162,6 +172,7 @@ class __$MethodCopyWithImpl<$Res> extends _$MethodCopyWithImpl<$Res>
     Object? description = freezed,
     Object? isDeprecated = freezed,
     Object? isNew = freezed,
+    Object? replacement = freezed,
     Object? result = freezed,
     Object? parameters = freezed,
   }) {
@@ -182,6 +193,10 @@ class __$MethodCopyWithImpl<$Res> extends _$MethodCopyWithImpl<$Res>
           ? _value.isNew
           : isNew // ignore: cast_nullable_to_non_nullable
               as bool,
+      replacement: replacement == freezed
+          ? _value.replacement
+          : replacement // ignore: cast_nullable_to_non_nullable
+              as String?,
       result: result == freezed
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
@@ -202,6 +217,7 @@ class _$_Method extends _Method {
       required this.description,
       @JsonKey(name: 'is_deprecated') this.isDeprecated = false,
       @JsonKey(name: 'is_new') this.isNew = false,
+      required this.replacement,
       required this.result,
       this.parameters})
       : super._();
@@ -219,6 +235,8 @@ class _$_Method extends _Method {
   @override
   @JsonKey(name: 'is_new')
   final bool isNew;
+  @override
+  final String? replacement;
   @override
   final Result result;
   @override
@@ -238,6 +256,9 @@ class _$_Method extends _Method {
                     .equals(other.isDeprecated, isDeprecated)) &&
             (identical(other.isNew, isNew) ||
                 const DeepCollectionEquality().equals(other.isNew, isNew)) &&
+            (identical(other.replacement, replacement) ||
+                const DeepCollectionEquality()
+                    .equals(other.replacement, replacement)) &&
             (identical(other.result, result) ||
                 const DeepCollectionEquality().equals(other.result, result)) &&
             (identical(other.parameters, parameters) ||
@@ -252,6 +273,7 @@ class _$_Method extends _Method {
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(isDeprecated) ^
       const DeepCollectionEquality().hash(isNew) ^
+      const DeepCollectionEquality().hash(replacement) ^
       const DeepCollectionEquality().hash(result) ^
       const DeepCollectionEquality().hash(parameters);
 
@@ -272,6 +294,7 @@ abstract class _Method extends Method {
       required String description,
       @JsonKey(name: 'is_deprecated') bool isDeprecated,
       @JsonKey(name: 'is_new') bool isNew,
+      required String? replacement,
       required Result result,
       List<Parameter>? parameters}) = _$_Method;
   const _Method._() : super._();
@@ -288,6 +311,8 @@ abstract class _Method extends Method {
   @override
   @JsonKey(name: 'is_new')
   bool get isNew => throw _privateConstructorUsedError;
+  @override
+  String? get replacement => throw _privateConstructorUsedError;
   @override
   Result get result => throw _privateConstructorUsedError;
   @override

@@ -63,6 +63,9 @@ class RPCClient {
 
   /// Returns identity and transaction information about a
   /// confirmed block in the ledger
+  ///
+  /// **NEW**: This method is only available in solana-core v1.7 or newer
+  /// Please use [RPCClient.getConfirmedBlock()] instead for solana-core v1.6
   Future<Block?> getBlock({
     required int slot,
     GetBlockOptions? options,
@@ -149,6 +152,9 @@ class RPCClient {
   }
 
   /// Returns a list of confirmed blocks between two slots
+  ///
+  /// **NEW**: This method is only available in solana-core v1.7 or newer
+  /// Please use [RPCClient.getConfirmedBlocks()] instead for solana-core v1.6
   Future<List<int>> getBlocks({
     required int startSlot,
     int? endSlot,
@@ -171,6 +177,9 @@ class RPCClient {
 
   /// Returns a list of confirmed blocks starting at the given
   /// slot
+  ///
+  /// **NEW**: This method is only available in solana-core v1.7 or newer
+  /// Please use [RPCClient.getConfirmedBlocksWithLimit()] instead for solana-core v1.6
   Future<List<int>> getBlocksWithLimit({
     required int startSlot,
     required int limit,
@@ -625,6 +634,9 @@ class RPCClient {
   /// Returns confirmed signatures for transactions involving an
   /// address backwards in time from the provided signature or
   /// most recent confirmed block
+  ///
+  /// **NEW**: This method is only available in solana-core v1.7 or newer
+  /// Please use [RPCClient.getSignaturesForAddress2()] instead for solana-core v1.6
   Future<List<TransactionSignatureInformation>> getSignaturesForAddress({
     required String pubKey,
     GetSignaturesForAddressOptions? options,
@@ -876,6 +888,9 @@ class RPCClient {
   }
 
   /// Returns transaction details for a confirmed transaction
+  ///
+  /// **NEW**: This method is only available in solana-core v1.7 or newer
+  /// Please use [RPCClient.getTransaction()] instead for solana-core v1.6
   Future<TransactionDetails?> getTransaction({
     required String signature,
     GetTransactionOptions? options,
@@ -1060,6 +1075,10 @@ class RPCClient {
 
   /// Returns identity and transaction information about a
   /// confirmed block in the ledger
+  ///
+  /// **DEPRECATED**: Please use [RPCClient.getBlock()] instead for solana-core v1.7
+  /// or newer
+  @deprecated
   Future<Block> getConfirmedBlock({
     required int slot,
     GetBlockOptions? options,
@@ -1085,6 +1104,10 @@ class RPCClient {
   }
 
   /// Returns a list of confirmed blocks between two slots
+  ///
+  /// **DEPRECATED**: Please use [RPCClient.getBlocks()] instead for solana-core v1.7
+  /// or newer
+  @deprecated
   Future<List<int>> getConfirmedBlocks({
     required int startSlot,
     int? endSlot,
@@ -1107,6 +1130,10 @@ class RPCClient {
 
   /// Returns a list of confirmed blocks starting at the given
   /// slot
+  ///
+  /// **DEPRECATED**: Please use [RPCClient.getBlocksWithLimit()] instead for solana-core v1.7
+  /// or newer
+  @deprecated
   Future<List<int>> getConfirmedBlocksWithLimit({
     required int startSlot,
     required int limit,
@@ -1132,6 +1159,10 @@ class RPCClient {
   /// most recent confirmed block
   ///
   ///
+  ///
+  /// **DEPRECATED**: Please use [RPCClient.getSignaturesForAddress()] instead for solana-core v1.7
+  /// or newer
+  @deprecated
   Future<List<TransactionSignatureInformation>>
       getConfirmedSignaturesForAddress2({
     required String pubKey,
@@ -1153,6 +1184,10 @@ class RPCClient {
   }
 
   /// Returns transaction details for a confirmed transaction
+  ///
+  /// **DEPRECATED**: Please use [RPCClient.getTransaction()] instead for solana-core v1.7
+  /// or newer
+  @deprecated
   Future<TransactionDetails?> getConfirmedTransaction({
     required String signature,
     required GetConfirmedTransactionOptions options,

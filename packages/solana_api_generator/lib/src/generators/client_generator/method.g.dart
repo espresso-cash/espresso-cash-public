@@ -11,6 +11,7 @@ _$_Method _$$_MethodFromJson(Map<String, dynamic> json) => _$_Method(
       description: json['description'] as String,
       isDeprecated: json['is_deprecated'] as bool? ?? false,
       isNew: json['is_new'] as bool? ?? false,
+      replacement: json['replacement'] as String?,
       result: Result.fromJson(json['result'] as Map<String, dynamic>),
       parameters: (json['parameters'] as List<dynamic>?)
           ?.map((e) => Parameter.fromJson(e as Map<String, dynamic>))
@@ -22,6 +23,7 @@ Map<String, dynamic> _$$_MethodToJson(_$_Method instance) => <String, dynamic>{
       'description': instance.description,
       'is_deprecated': instance.isDeprecated,
       'is_new': instance.isNew,
+      'replacement': instance.replacement,
       'result': instance.result,
       'parameters': instance.parameters,
     };
