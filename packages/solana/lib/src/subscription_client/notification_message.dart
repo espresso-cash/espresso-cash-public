@@ -5,6 +5,7 @@ import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/subscription_client/abstract_message.dart';
 import 'package:solana/src/subscription_client/maybe_error.dart';
 import 'package:solana/src/subscription_client/notification_params.dart';
+import 'package:solana/src/subscription_client/notification_result.dart';
 
 part 'notification_message.freezed.dart';
 part 'notification_message.g.dart';
@@ -15,22 +16,24 @@ class NotificationMessage
     implements SubscriptionMessage {
   const NotificationMessage._();
 
-  const factory NotificationMessage.unsupported() = _UnsupportedNotification;
+  const factory NotificationMessage.unsupported({
+    required NotificationParams<dynamic> params,
+  }) = _UnsupportedNotification;
 
   const factory NotificationMessage.accountNotification({
-    required NotificationParams<Account> params,
+    required NotificationParams<NotificationResult<Account>> params,
   }) = AccountNotification;
 
   const factory NotificationMessage.logsNotification({
-    required NotificationParams<Logs> params,
+    required NotificationParams<NotificationResult<Logs>> params,
   }) = LogsNotification;
 
   const factory NotificationMessage.programNotification({
-    required NotificationParams<dynamic> params,
+    required NotificationParams<NotificationResult<ProgramAccount>> params,
   }) = ProgramNotification;
 
   const factory NotificationMessage.signatureNotification({
-    required NotificationParams<MaybeError> params,
+    required NotificationParams<NotificationResult<MaybeError>> params,
   }) = SignatureNotification;
 
   const factory NotificationMessage.slotNotification({
@@ -47,8 +50,8 @@ class NotificationMessage
         logsNotification: (params) => params.result.value,
         programNotification: (params) => params.result.value,
         signatureNotification: (params) => params.result.value,
-        slotNotification: (params) => params.result.value,
-        unsupported: () => null,
+        slotNotification: (params) => params.result,
+        unsupported: (params) => params.result,
       );
 
   int get subscription => when(
@@ -57,6 +60,6 @@ class NotificationMessage
         programNotification: (params) => params.subscription,
         signatureNotification: (params) => params.subscription,
         slotNotification: (params) => params.subscription,
-        unsupported: () => -1,
+        unsupported: (params) => params.subscription,
       );
 }

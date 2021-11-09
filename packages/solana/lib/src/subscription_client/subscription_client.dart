@@ -29,25 +29,33 @@ class SubscriptionClient {
   final Map<int, SubscriptionManager> _attachedSubscriptionManagers;
 
   late final StreamSubscription<dynamic> _subscription;
-  WebSocket? _websocket;
+  Future<WebSocket>? _websocket;
 
   int _lastRequestId = 1;
 
-  Future<void> _ensureConnected() async {
-    final currentWebsocket = _websocket;
-    // Because dart has no concurrent threads, this is safe
-    if (currentWebsocket != null) {
-      return;
+  Future<WebSocket> _getWebSocket() async {
+    final websocketFuture = _websocket;
+    if (websocketFuture != null) {
+      return websocketFuture;
     }
+    final completer = Completer<WebSocket>();
+    // This is instantly initialized, now calling this method
+    // again will immediately return the future object.
+    //
+    // This guarantees 2 things. First the connection is only established once
+    // and then second, the late final _subscription variable will not be
+    // initialized more than once.
+    _websocket = completer.future;
     // Connect the websocket now
-    _websocket = await WebSocket.connect(_url);
-
+    final websocket = await WebSocket.connect(_url);
     // Make sure that the instance member is not overwritten before
     // attempting to access it
-    final connectedWebsocket = _websocket;
-    if (connectedWebsocket != null) {
-      _subscription = connectedWebsocket.listen(_dispatchMessage);
-    }
+    _subscription = websocket.listen(_dispatchMessage);
+    // Complete the completer so that any caller that is still waiting
+    // gets its value
+    completer.complete(websocket);
+    // Return it now
+    return websocket;
   }
 
   void _dispatchMessage(dynamic data) {
@@ -108,7 +116,8 @@ class SubscriptionClient {
     String method,
     List<dynamic>? params,
   ) async {
-    await _ensureConnected();
+    // ignore: close_sinks
+    final websocket = await _getWebSocket();
 
     final payload = json.encode(<String, dynamic>{
       'jsonrpc': '2.0',
@@ -117,7 +126,7 @@ class SubscriptionClient {
       if (params != null) 'params': params,
     });
 
-    _websocket!.add(payload);
+    websocket.add(payload);
   }
 
   void _createSubscription(int id, String method, List<dynamic>? params) {
@@ -167,7 +176,8 @@ class SubscriptionClient {
   /// Dispose this object and cancel any existing subscription.
   void dispose() {
     _subscription.cancel();
-    _websocket?.close();
+    // Close the websocket sink now
+    _websocket?.then<void>((w) => w.close());
   }
 
   /// Subscribe to an account with [address] to receive notifications when the

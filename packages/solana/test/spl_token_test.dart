@@ -1,6 +1,7 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
+import 'package:solana/src/solana_client/solana_client.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:test/test.dart';
 
@@ -9,12 +10,12 @@ import 'config.dart';
 
 void main() {
   group('Test spl tokens', () {
-    late final RPCClient client;
+    late final SolanaClient client;
     late final String newTokenMint;
     late final Ed25519HDKeyPair owner;
 
     setUpAll(() async {
-      client = RPCClient(
+      client = SolanaClient(
         rpcUrl: devnetRpcUrl,
         websocketUrl: devnetWebsocketUrl,
       );
