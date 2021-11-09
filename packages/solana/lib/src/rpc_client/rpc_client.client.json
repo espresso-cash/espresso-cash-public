@@ -59,6 +59,7 @@
       "name": "getBlock",
       "description": "Returns identity and transaction information about a confirmed block in the ledger",
       "is_deprecated": false,
+      "replacement": "[RPCClient.getConfirmedBlock()]",
       "is_new": true,
       "parameters": [
         {
@@ -148,6 +149,7 @@
       "name": "getBlocks",
       "description": "Returns a list of confirmed blocks between two slots",
       "is_deprecated": false,
+      "replacement": "[RPCClient.getConfirmedBlocks()]",
       "is_new": true,
       "parameters": [
         {
@@ -182,6 +184,7 @@
       "name": "getBlocksWithLimit",
       "description": "Returns a list of confirmed blocks starting at the given slot",
       "is_deprecated": false,
+      "replacement": "[RPCClient.getConfirmedBlocksWithLimit()]",
       "is_new": true,
       "parameters": [
         {
@@ -644,6 +647,7 @@
       "name": "getSignaturesForAddress",
       "description": "Returns confirmed signatures for transactions involving an address backwards in time from the provided signature or most recent confirmed block",
       "is_deprecated": false,
+      "replacement": "[RPCClient.getSignaturesForAddress2()]",
       "is_new": true,
       "parameters": [
         {
@@ -961,6 +965,7 @@
       "name": "getTransaction",
       "description": "Returns transaction details for a confirmed transaction",
       "is_deprecated": false,
+      "replacement": "[RPCClient.getTransaction()]",
       "is_new": true,
       "parameters": [
         {
@@ -1142,6 +1147,7 @@
       "name": "getConfirmedBlock",
       "description": "Returns identity and transaction information about a confirmed block in the ledger",
       "is_deprecated": true,
+      "replacement": "[RPCClient.getBlock()]",
       "is_new": false,
       "parameters": [
         {
@@ -1169,6 +1175,7 @@
       "name": "getConfirmedBlocks",
       "description": "Returns a list of confirmed blocks between two slots",
       "is_deprecated": true,
+      "replacement": "[RPCClient.getBlocks()]",
       "is_new": false,
       "parameters": [
         {
@@ -1203,6 +1210,7 @@
       "name": "getConfirmedBlocksWithLimit",
       "description": "Returns a list of confirmed blocks starting at the given slot",
       "is_deprecated": true,
+      "replacement": "[RPCClient.getBlocksWithLimit()]",
       "is_new": false,
       "parameters": [
         {
@@ -1237,6 +1245,7 @@
       "name": "getConfirmedSignaturesForAddress2",
       "description": "Returns confirmed signatures for transactions involving an address backwards in time from the provided signature or most recent confirmed block\n\n",
       "is_deprecated": true,
+      "replacement": "[RPCClient.getSignaturesForAddress()]",
       "is_new": false,
       "parameters": [
         {
@@ -1293,6 +1302,7 @@
     {
       "name": "getConfirmedTransaction",
       "description": "Returns transaction details for a confirmed transaction",
+      "replacement": "[RPCClient.getTransaction()]",
       "is_deprecated": true,
       "is_new": false,
       "parameters": [

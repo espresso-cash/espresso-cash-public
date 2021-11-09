@@ -142,8 +142,6 @@
       ],
       "name": "GetConfirmedTransactionOptions",
       "description": "Configuration object for [RPCClient.getConfirmedTransaction()]",
-      "deprecated": true,
-      "replacement": "getTransaction",
       "type": "object"
     },
     {
@@ -188,7 +186,7 @@
         },
         {
           "default_value": false,
-          "description": "if true the transaction recent blockhash will be replaced with the most recent blockhash.\n(default: false, conflicts with sigVerify)",
+          "description": "If true the transaction recent blockhash will be replaced with the most recent blockhash.\n(default: false, conflicts with sigVerify)",
           "is_optional": true,
           "name": "replaceRecentBlockhash",
           "type": "bool"
