@@ -40,33 +40,35 @@ class _$NotificationMessageTearOff {
   }
 
   AccountNotification accountNotification(
-      {required NotificationParamsAccount params}) {
+      {required NotificationParams<Account> params}) {
     return AccountNotification(
       params: params,
     );
   }
 
-  LogsNotification logsNotification({required NotificationParamsLogs params}) {
+  LogsNotification logsNotification(
+      {required NotificationParams<Logs> params}) {
     return LogsNotification(
       params: params,
     );
   }
 
   ProgramNotification programNotification(
-      {required NotificationParamsGeneric params}) {
+      {required NotificationParams<dynamic> params}) {
     return ProgramNotification(
       params: params,
     );
   }
 
   SignatureNotification signatureNotification(
-      {required NotificationParamsSignature params}) {
+      {required NotificationParams<MaybeError> params}) {
     return SignatureNotification(
       params: params,
     );
   }
 
-  SlotNotification slotNotification({required NotificationParamsSlot params}) {
+  SlotNotification slotNotification(
+      {required NotificationParams<Slot> params}) {
     return SlotNotification(
       params: params,
     );
@@ -85,34 +87,36 @@ mixin _$NotificationMessage {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unsupported,
-    required TResult Function(NotificationParamsAccount params)
+    required TResult Function(NotificationParams<Account> params)
         accountNotification,
-    required TResult Function(NotificationParamsLogs params) logsNotification,
-    required TResult Function(NotificationParamsGeneric params)
+    required TResult Function(NotificationParams<Logs> params) logsNotification,
+    required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParamsSignature params)
+    required TResult Function(NotificationParams<MaybeError> params)
         signatureNotification,
-    required TResult Function(NotificationParamsSlot params) slotNotification,
+    required TResult Function(NotificationParams<Slot> params) slotNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -213,14 +217,14 @@ class _$_UnsupportedNotification extends _UnsupportedNotification {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unsupported,
-    required TResult Function(NotificationParamsAccount params)
+    required TResult Function(NotificationParams<Account> params)
         accountNotification,
-    required TResult Function(NotificationParamsLogs params) logsNotification,
-    required TResult Function(NotificationParamsGeneric params)
+    required TResult Function(NotificationParams<Logs> params) logsNotification,
+    required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParamsSignature params)
+    required TResult Function(NotificationParams<MaybeError> params)
         signatureNotification,
-    required TResult Function(NotificationParamsSlot params) slotNotification,
+    required TResult Function(NotificationParams<Slot> params) slotNotification,
   }) {
     return unsupported();
   }
@@ -229,11 +233,12 @@ class _$_UnsupportedNotification extends _UnsupportedNotification {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
   }) {
     return unsupported?.call();
   }
@@ -242,11 +247,12 @@ class _$_UnsupportedNotification extends _UnsupportedNotification {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
     required TResult orElse(),
   }) {
     if (unsupported != null) {
@@ -318,9 +324,7 @@ abstract class $AccountNotificationCopyWith<$Res> {
   factory $AccountNotificationCopyWith(
           AccountNotification value, $Res Function(AccountNotification) then) =
       _$AccountNotificationCopyWithImpl<$Res>;
-  $Res call({NotificationParamsAccount params});
-
-  $NotificationParamsAccountCopyWith<$Res> get params;
+  $Res call({NotificationParams<Account> params});
 }
 
 /// @nodoc
@@ -342,15 +346,8 @@ class _$AccountNotificationCopyWithImpl<$Res>
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
-              as NotificationParamsAccount,
+              as NotificationParams<Account>,
     ));
-  }
-
-  @override
-  $NotificationParamsAccountCopyWith<$Res> get params {
-    return $NotificationParamsAccountCopyWith<$Res>(_value.params, (value) {
-      return _then(_value.copyWith(params: value));
-    });
   }
 }
 
@@ -363,7 +360,7 @@ class _$AccountNotification extends AccountNotification {
       _$$AccountNotificationFromJson(json);
 
   @override
-  final NotificationParamsAccount params;
+  final NotificationParams<Account> params;
 
   @override
   String toString() {
@@ -391,14 +388,14 @@ class _$AccountNotification extends AccountNotification {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unsupported,
-    required TResult Function(NotificationParamsAccount params)
+    required TResult Function(NotificationParams<Account> params)
         accountNotification,
-    required TResult Function(NotificationParamsLogs params) logsNotification,
-    required TResult Function(NotificationParamsGeneric params)
+    required TResult Function(NotificationParams<Logs> params) logsNotification,
+    required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParamsSignature params)
+    required TResult Function(NotificationParams<MaybeError> params)
         signatureNotification,
-    required TResult Function(NotificationParamsSlot params) slotNotification,
+    required TResult Function(NotificationParams<Slot> params) slotNotification,
   }) {
     return accountNotification(params);
   }
@@ -407,11 +404,12 @@ class _$AccountNotification extends AccountNotification {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
   }) {
     return accountNotification?.call(params);
   }
@@ -420,11 +418,12 @@ class _$AccountNotification extends AccountNotification {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
     required TResult orElse(),
   }) {
     if (accountNotification != null) {
@@ -486,13 +485,13 @@ class _$AccountNotification extends AccountNotification {
 
 abstract class AccountNotification extends NotificationMessage {
   const factory AccountNotification(
-      {required NotificationParamsAccount params}) = _$AccountNotification;
+      {required NotificationParams<Account> params}) = _$AccountNotification;
   const AccountNotification._() : super._();
 
   factory AccountNotification.fromJson(Map<String, dynamic> json) =
       _$AccountNotification.fromJson;
 
-  NotificationParamsAccount get params => throw _privateConstructorUsedError;
+  NotificationParams<Account> get params => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AccountNotificationCopyWith<AccountNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -503,9 +502,7 @@ abstract class $LogsNotificationCopyWith<$Res> {
   factory $LogsNotificationCopyWith(
           LogsNotification value, $Res Function(LogsNotification) then) =
       _$LogsNotificationCopyWithImpl<$Res>;
-  $Res call({NotificationParamsLogs params});
-
-  $NotificationParamsLogsCopyWith<$Res> get params;
+  $Res call({NotificationParams<Logs> params});
 }
 
 /// @nodoc
@@ -527,15 +524,8 @@ class _$LogsNotificationCopyWithImpl<$Res>
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
-              as NotificationParamsLogs,
+              as NotificationParams<Logs>,
     ));
-  }
-
-  @override
-  $NotificationParamsLogsCopyWith<$Res> get params {
-    return $NotificationParamsLogsCopyWith<$Res>(_value.params, (value) {
-      return _then(_value.copyWith(params: value));
-    });
   }
 }
 
@@ -548,7 +538,7 @@ class _$LogsNotification extends LogsNotification {
       _$$LogsNotificationFromJson(json);
 
   @override
-  final NotificationParamsLogs params;
+  final NotificationParams<Logs> params;
 
   @override
   String toString() {
@@ -576,14 +566,14 @@ class _$LogsNotification extends LogsNotification {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unsupported,
-    required TResult Function(NotificationParamsAccount params)
+    required TResult Function(NotificationParams<Account> params)
         accountNotification,
-    required TResult Function(NotificationParamsLogs params) logsNotification,
-    required TResult Function(NotificationParamsGeneric params)
+    required TResult Function(NotificationParams<Logs> params) logsNotification,
+    required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParamsSignature params)
+    required TResult Function(NotificationParams<MaybeError> params)
         signatureNotification,
-    required TResult Function(NotificationParamsSlot params) slotNotification,
+    required TResult Function(NotificationParams<Slot> params) slotNotification,
   }) {
     return logsNotification(params);
   }
@@ -592,11 +582,12 @@ class _$LogsNotification extends LogsNotification {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
   }) {
     return logsNotification?.call(params);
   }
@@ -605,11 +596,12 @@ class _$LogsNotification extends LogsNotification {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
     required TResult orElse(),
   }) {
     if (logsNotification != null) {
@@ -669,14 +661,14 @@ class _$LogsNotification extends LogsNotification {
 }
 
 abstract class LogsNotification extends NotificationMessage {
-  const factory LogsNotification({required NotificationParamsLogs params}) =
+  const factory LogsNotification({required NotificationParams<Logs> params}) =
       _$LogsNotification;
   const LogsNotification._() : super._();
 
   factory LogsNotification.fromJson(Map<String, dynamic> json) =
       _$LogsNotification.fromJson;
 
-  NotificationParamsLogs get params => throw _privateConstructorUsedError;
+  NotificationParams<Logs> get params => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $LogsNotificationCopyWith<LogsNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -687,9 +679,7 @@ abstract class $ProgramNotificationCopyWith<$Res> {
   factory $ProgramNotificationCopyWith(
           ProgramNotification value, $Res Function(ProgramNotification) then) =
       _$ProgramNotificationCopyWithImpl<$Res>;
-  $Res call({NotificationParamsGeneric params});
-
-  $NotificationParamsGenericCopyWith<$Res> get params;
+  $Res call({NotificationParams<dynamic> params});
 }
 
 /// @nodoc
@@ -711,15 +701,8 @@ class _$ProgramNotificationCopyWithImpl<$Res>
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
-              as NotificationParamsGeneric,
+              as NotificationParams<dynamic>,
     ));
-  }
-
-  @override
-  $NotificationParamsGenericCopyWith<$Res> get params {
-    return $NotificationParamsGenericCopyWith<$Res>(_value.params, (value) {
-      return _then(_value.copyWith(params: value));
-    });
   }
 }
 
@@ -732,7 +715,7 @@ class _$ProgramNotification extends ProgramNotification {
       _$$ProgramNotificationFromJson(json);
 
   @override
-  final NotificationParamsGeneric params;
+  final NotificationParams<dynamic> params;
 
   @override
   String toString() {
@@ -760,14 +743,14 @@ class _$ProgramNotification extends ProgramNotification {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unsupported,
-    required TResult Function(NotificationParamsAccount params)
+    required TResult Function(NotificationParams<Account> params)
         accountNotification,
-    required TResult Function(NotificationParamsLogs params) logsNotification,
-    required TResult Function(NotificationParamsGeneric params)
+    required TResult Function(NotificationParams<Logs> params) logsNotification,
+    required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParamsSignature params)
+    required TResult Function(NotificationParams<MaybeError> params)
         signatureNotification,
-    required TResult Function(NotificationParamsSlot params) slotNotification,
+    required TResult Function(NotificationParams<Slot> params) slotNotification,
   }) {
     return programNotification(params);
   }
@@ -776,11 +759,12 @@ class _$ProgramNotification extends ProgramNotification {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
   }) {
     return programNotification?.call(params);
   }
@@ -789,11 +773,12 @@ class _$ProgramNotification extends ProgramNotification {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
     required TResult orElse(),
   }) {
     if (programNotification != null) {
@@ -855,13 +840,13 @@ class _$ProgramNotification extends ProgramNotification {
 
 abstract class ProgramNotification extends NotificationMessage {
   const factory ProgramNotification(
-      {required NotificationParamsGeneric params}) = _$ProgramNotification;
+      {required NotificationParams<dynamic> params}) = _$ProgramNotification;
   const ProgramNotification._() : super._();
 
   factory ProgramNotification.fromJson(Map<String, dynamic> json) =
       _$ProgramNotification.fromJson;
 
-  NotificationParamsGeneric get params => throw _privateConstructorUsedError;
+  NotificationParams<dynamic> get params => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ProgramNotificationCopyWith<ProgramNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -872,9 +857,7 @@ abstract class $SignatureNotificationCopyWith<$Res> {
   factory $SignatureNotificationCopyWith(SignatureNotification value,
           $Res Function(SignatureNotification) then) =
       _$SignatureNotificationCopyWithImpl<$Res>;
-  $Res call({NotificationParamsSignature params});
-
-  $NotificationParamsSignatureCopyWith<$Res> get params;
+  $Res call({NotificationParams<MaybeError> params});
 }
 
 /// @nodoc
@@ -896,15 +879,8 @@ class _$SignatureNotificationCopyWithImpl<$Res>
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
-              as NotificationParamsSignature,
+              as NotificationParams<MaybeError>,
     ));
-  }
-
-  @override
-  $NotificationParamsSignatureCopyWith<$Res> get params {
-    return $NotificationParamsSignatureCopyWith<$Res>(_value.params, (value) {
-      return _then(_value.copyWith(params: value));
-    });
   }
 }
 
@@ -917,7 +893,7 @@ class _$SignatureNotification extends SignatureNotification {
       _$$SignatureNotificationFromJson(json);
 
   @override
-  final NotificationParamsSignature params;
+  final NotificationParams<MaybeError> params;
 
   @override
   String toString() {
@@ -946,14 +922,14 @@ class _$SignatureNotification extends SignatureNotification {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unsupported,
-    required TResult Function(NotificationParamsAccount params)
+    required TResult Function(NotificationParams<Account> params)
         accountNotification,
-    required TResult Function(NotificationParamsLogs params) logsNotification,
-    required TResult Function(NotificationParamsGeneric params)
+    required TResult Function(NotificationParams<Logs> params) logsNotification,
+    required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParamsSignature params)
+    required TResult Function(NotificationParams<MaybeError> params)
         signatureNotification,
-    required TResult Function(NotificationParamsSlot params) slotNotification,
+    required TResult Function(NotificationParams<Slot> params) slotNotification,
   }) {
     return signatureNotification(params);
   }
@@ -962,11 +938,12 @@ class _$SignatureNotification extends SignatureNotification {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
   }) {
     return signatureNotification?.call(params);
   }
@@ -975,11 +952,12 @@ class _$SignatureNotification extends SignatureNotification {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
     required TResult orElse(),
   }) {
     if (signatureNotification != null) {
@@ -1041,13 +1019,15 @@ class _$SignatureNotification extends SignatureNotification {
 
 abstract class SignatureNotification extends NotificationMessage {
   const factory SignatureNotification(
-      {required NotificationParamsSignature params}) = _$SignatureNotification;
+          {required NotificationParams<MaybeError> params}) =
+      _$SignatureNotification;
   const SignatureNotification._() : super._();
 
   factory SignatureNotification.fromJson(Map<String, dynamic> json) =
       _$SignatureNotification.fromJson;
 
-  NotificationParamsSignature get params => throw _privateConstructorUsedError;
+  NotificationParams<MaybeError> get params =>
+      throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SignatureNotificationCopyWith<SignatureNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1058,9 +1038,7 @@ abstract class $SlotNotificationCopyWith<$Res> {
   factory $SlotNotificationCopyWith(
           SlotNotification value, $Res Function(SlotNotification) then) =
       _$SlotNotificationCopyWithImpl<$Res>;
-  $Res call({NotificationParamsSlot params});
-
-  $NotificationParamsSlotCopyWith<$Res> get params;
+  $Res call({NotificationParams<Slot> params});
 }
 
 /// @nodoc
@@ -1082,15 +1060,8 @@ class _$SlotNotificationCopyWithImpl<$Res>
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
-              as NotificationParamsSlot,
+              as NotificationParams<Slot>,
     ));
-  }
-
-  @override
-  $NotificationParamsSlotCopyWith<$Res> get params {
-    return $NotificationParamsSlotCopyWith<$Res>(_value.params, (value) {
-      return _then(_value.copyWith(params: value));
-    });
   }
 }
 
@@ -1103,7 +1074,7 @@ class _$SlotNotification extends SlotNotification {
       _$$SlotNotificationFromJson(json);
 
   @override
-  final NotificationParamsSlot params;
+  final NotificationParams<Slot> params;
 
   @override
   String toString() {
@@ -1131,14 +1102,14 @@ class _$SlotNotification extends SlotNotification {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unsupported,
-    required TResult Function(NotificationParamsAccount params)
+    required TResult Function(NotificationParams<Account> params)
         accountNotification,
-    required TResult Function(NotificationParamsLogs params) logsNotification,
-    required TResult Function(NotificationParamsGeneric params)
+    required TResult Function(NotificationParams<Logs> params) logsNotification,
+    required TResult Function(NotificationParams<dynamic> params)
         programNotification,
-    required TResult Function(NotificationParamsSignature params)
+    required TResult Function(NotificationParams<MaybeError> params)
         signatureNotification,
-    required TResult Function(NotificationParamsSlot params) slotNotification,
+    required TResult Function(NotificationParams<Slot> params) slotNotification,
   }) {
     return slotNotification(params);
   }
@@ -1147,11 +1118,12 @@ class _$SlotNotification extends SlotNotification {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
   }) {
     return slotNotification?.call(params);
   }
@@ -1160,11 +1132,12 @@ class _$SlotNotification extends SlotNotification {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unsupported,
-    TResult Function(NotificationParamsAccount params)? accountNotification,
-    TResult Function(NotificationParamsLogs params)? logsNotification,
-    TResult Function(NotificationParamsGeneric params)? programNotification,
-    TResult Function(NotificationParamsSignature params)? signatureNotification,
-    TResult Function(NotificationParamsSlot params)? slotNotification,
+    TResult Function(NotificationParams<Account> params)? accountNotification,
+    TResult Function(NotificationParams<Logs> params)? logsNotification,
+    TResult Function(NotificationParams<dynamic> params)? programNotification,
+    TResult Function(NotificationParams<MaybeError> params)?
+        signatureNotification,
+    TResult Function(NotificationParams<Slot> params)? slotNotification,
     required TResult orElse(),
   }) {
     if (slotNotification != null) {
@@ -1224,14 +1197,14 @@ class _$SlotNotification extends SlotNotification {
 }
 
 abstract class SlotNotification extends NotificationMessage {
-  const factory SlotNotification({required NotificationParamsSlot params}) =
+  const factory SlotNotification({required NotificationParams<Slot> params}) =
       _$SlotNotification;
   const SlotNotification._() : super._();
 
   factory SlotNotification.fromJson(Map<String, dynamic> json) =
       _$SlotNotification.fromJson;
 
-  NotificationParamsSlot get params => throw _privateConstructorUsedError;
+  NotificationParams<Slot> get params => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SlotNotificationCopyWith<SlotNotification> get copyWith =>
       throw _privateConstructorUsedError;

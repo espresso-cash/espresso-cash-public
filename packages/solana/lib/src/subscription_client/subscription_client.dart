@@ -11,8 +11,8 @@ import 'package:solana/src/rpc_client/rpc_types_extension.dart';
 import 'package:solana/src/subscription_client/abstract_message.dart';
 import 'package:solana/src/subscription_client/error_message.dart';
 import 'package:solana/src/subscription_client/logs_filter.dart';
+import 'package:solana/src/subscription_client/maybe_error.dart';
 import 'package:solana/src/subscription_client/notification_message.dart';
-import 'package:solana/src/subscription_client/optional_error.dart';
 import 'package:solana/src/subscription_client/subscribed_message.dart';
 import 'package:solana/src/subscription_client/subscription_client_exception.dart';
 import 'package:solana/src/subscription_client/subscription_manager.dart';
@@ -272,11 +272,11 @@ class SubscriptionClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Stream<OptionalError> signatureSubscribe(
+  Stream<MaybeError> signatureSubscribe(
     String signature, {
     Commitment? status,
   }) =>
-      _subscribe<OptionalError>(
+      _subscribe<MaybeError>(
         'signature',
         params: <dynamic>[
           signature,

@@ -1,5 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/src/dto/logs.dart';
+import 'package:solana/src/dto/slot.dart';
+import 'package:solana/src/rpc_client/rpc_types.dart';
 import 'package:solana/src/subscription_client/abstract_message.dart';
+import 'package:solana/src/subscription_client/maybe_error.dart';
 import 'package:solana/src/subscription_client/notification_params.dart';
 
 part 'notification_message.freezed.dart';
@@ -14,23 +18,23 @@ class NotificationMessage
   const factory NotificationMessage.unsupported() = _UnsupportedNotification;
 
   const factory NotificationMessage.accountNotification({
-    required NotificationParamsAccount params,
+    required NotificationParams<Account> params,
   }) = AccountNotification;
 
   const factory NotificationMessage.logsNotification({
-    required NotificationParamsLogs params,
+    required NotificationParams<Logs> params,
   }) = LogsNotification;
 
   const factory NotificationMessage.programNotification({
-    required NotificationParamsGeneric params,
+    required NotificationParams<dynamic> params,
   }) = ProgramNotification;
 
   const factory NotificationMessage.signatureNotification({
-    required NotificationParamsSignature params,
+    required NotificationParams<MaybeError> params,
   }) = SignatureNotification;
 
   const factory NotificationMessage.slotNotification({
-    required NotificationParamsSlot params,
+    required NotificationParams<Slot> params,
   }) = SlotNotification;
 
   factory NotificationMessage.fromJson(Map<String, dynamic> data) =>
