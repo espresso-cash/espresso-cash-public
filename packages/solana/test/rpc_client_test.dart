@@ -409,7 +409,8 @@ void main() {
 
     test('call to getGenesisHash() succeeds', () async {
       final genesisHash = await client.getGenesisHash();
-      expect(genesisHash, isValidAddress);
+      // TODO(IA): could check if it is a valid base58 string
+      expect(genesisHash, isNotNull);
     });
 
     test('call to getHealth() succeeds', () async {
@@ -455,7 +456,7 @@ void main() {
       );
 
       expect(blocks.length, greaterThan(0));
-    });
+    }, skip: 'New method not available in v1.6');
 
     test('call to getBlocks() succeeds with commitment and end slot', () async {
       final blocks = await client.getBlocks(
@@ -467,7 +468,7 @@ void main() {
       );
 
       expect(blocks.length, greaterThan(0));
-    });
+    }, skip: 'New method not available in v1.6');
 
     test('call to getBlocksWithLimit() succeeds', () async {
       final blocks = await client.getBlocksWithLimit(
@@ -476,7 +477,7 @@ void main() {
       );
 
       expect(blocks.length, equals(100));
-    });
+    }, skip: 'New method not available in v1.6');
 
     test('call to getBlockTime() succeeds', () async {
       final blockTime = await client.getBlockTime(
@@ -580,7 +581,7 @@ void main() {
           expect(signatures[0].slot, greaterThan(0));
         }
       }
-    });
+    }, skip: 'New method not available in v1.6');
 
     test('call to getSignaturesForAddress() succeeds with limit', () async {
       final largestAccounts = await client.getLargestAccounts();
@@ -599,11 +600,11 @@ void main() {
           expect(signatures[0].slot, greaterThan(0));
         }
       }
-    });
+    }, skip: 'New method not available in v1.6');
 
     test('call to getSlotLeader() succeeds', () async {
       final slotLeader = await client.getSlotLeader();
-      expect(slotLeader, isValidAddress);
+      expect(slotLeader, _validAddressMatcher);
     });
 
     test('call to getSlotLeaders() succeeds', () async {
@@ -747,4 +748,18 @@ Future<String> _createAccount(SolanaClient client, int size) async {
   );
 
   return accountKeyPair.address;
+}
+
+const Matcher _validAddressMatcher = _AddressMatcher();
+
+class _AddressMatcher extends Matcher {
+  const _AddressMatcher();
+
+  @override
+  Description describe(Description description) =>
+      description.add('is valid address');
+
+  @override
+  bool matches(covariant String item, Map<dynamic, dynamic> matchState) =>
+      isValidAddress(item);
 }
