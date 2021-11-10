@@ -652,7 +652,7 @@ void main() {
 
     test('call to minimumLedgerSlot() succeeds', () async {
       final minimumLedgerSlot = await client.minimumLedgerSlot();
-      expect(minimumLedgerSlot, greaterThan(0));
+      expect(minimumLedgerSlot, greaterThanOrEqualTo(0));
     });
 
     test(
