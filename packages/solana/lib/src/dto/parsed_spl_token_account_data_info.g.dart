@@ -9,13 +9,17 @@ part of 'parsed_spl_token_account_data_info.dart';
 ParsedSplTokenAccountDataInfo _$ParsedSplTokenAccountDataInfoFromJson(
         Map<String, dynamic> json) =>
     ParsedSplTokenAccountDataInfo(
-      tokenAmount: json['tokenAmount'],
+      tokenAmount:
+          TokenAmount.fromJson(json['tokenAmount'] as Map<String, dynamic>),
       state: json['state'] as String,
       isNative: json['isNative'] as bool,
       mint: json['mint'] as String,
       owner: json['owner'] as String,
       delegate: json['delegate'] as String?,
-      delegateAmount: json['delegateAmount'],
+      delegateAmount: json['delegateAmount'] == null
+          ? null
+          : TokenAmount.fromJson(
+              json['delegateAmount'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ParsedSplTokenAccountDataInfoToJson(

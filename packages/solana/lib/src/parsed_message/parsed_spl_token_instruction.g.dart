@@ -74,7 +74,8 @@ _$_ParsedSplTokenTransferCheckedInformation
     _$$_ParsedSplTokenTransferCheckedInformationFromJson(
             Map<String, dynamic> json) =>
         _$_ParsedSplTokenTransferCheckedInformation(
-          tokenAmount: json['tokenAmount'],
+          tokenAmount:
+              TokenAmount.fromJson(json['tokenAmount'] as Map<String, dynamic>),
           authority: json['authority'] as String,
           mint: json['mint'] as String?,
           source: json['source'] as String,

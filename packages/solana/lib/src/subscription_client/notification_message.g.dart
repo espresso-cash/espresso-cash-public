@@ -18,7 +18,8 @@ _$AccountNotification _$$AccountNotificationFromJson(
         Map<String, dynamic> json) =>
     _$AccountNotification(
       params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>, (value) => value),
+          json['params'] as Map<String, dynamic>,
+          (value) => Account.fromJson(value as Map<String, dynamic>)),
     );
 
 Map<String, dynamic> _$$AccountNotificationToJson(
