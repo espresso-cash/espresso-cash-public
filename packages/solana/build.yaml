@@ -1,0 +1,37 @@
+targets:
+  $default:
+    builders:
+      solana|solana_rpc_types:
+        enabled: true
+      solana|solana_rpc_client:
+        enabled: true
+
+builders:
+  solana_rpc_types:
+    import: "package:solana_api_generator/solana_api_generator.dart"
+    builder_factories:
+      - "rpcTypes"
+    build_extensions:
+      ".types.json":
+        - ".dart"
+    auto_apply: "dependents"
+    build_to: "source"
+    applies_builders:
+      - "source_gen|combining_builder"
+    runs_before:
+      - "freezed"
+      - "solana_rpc_client"
+
+  solana_rpc_client:
+    import: "package:solana_api_generator/solana_api_generator.dart"
+    builder_factories:
+      - "rpcClient"
+    build_extensions:
+      ".client.json":
+        - ".dart"
+    auto_apply: "dependents"
+    build_to: "source"
+    applies_builders:
+      - "source_gen|combining_builder"
+    runs_before:
+      - "freezed"
