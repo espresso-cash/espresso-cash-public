@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/src/rpc_client/rpc_types.dart';
+import 'package:solana/src/spl_token/token_amount.dart';
 
 part 'parsed_spl_token_instruction.freezed.dart';
 part 'parsed_spl_token_instruction.g.dart';

@@ -77,7 +77,7 @@ class Buffer extends ByteArray {
           (concatenated, buffer) => concatenated.followedBy(buffer),
         );
 
-  Buffer.fromBase58(String base58String) : _data = base58Decode(base58String);
+  Buffer.fromBase58(String base58String) : _data = base58decode(base58String);
 
   final Iterable<int> _data;
 

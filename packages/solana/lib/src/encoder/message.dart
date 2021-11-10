@@ -32,7 +32,7 @@ class Message {
             'accounts': instruction.accounts
                 .map((a) => accountsIndexesMap[a.pubKey]!)
                 .toList(growable: false),
-            'data': base58Encode(instruction.data.toList(growable: false))
+            'data': base58encode(instruction.data.toList(growable: false))
           },
         )
         .toList(growable: false);

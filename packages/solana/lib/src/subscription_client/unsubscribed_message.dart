@@ -13,6 +13,6 @@ class UnsubscribedMessage implements SubscriptionMessage {
   factory UnsubscribedMessage.fromJson(Map<String, dynamic> json) =>
       _$UnsubscribedMessageFromJson(json);
 
-  final bool result;
+  final int result;
   final int id;
 }

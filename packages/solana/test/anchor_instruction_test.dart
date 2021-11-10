@@ -5,7 +5,6 @@ import 'package:solana/src/anchor/instruction.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/solana_client/solana_client.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
@@ -15,14 +14,9 @@ import 'config.dart';
 void main() {
   late final Ed25519HDKeyPair payer;
   late final Ed25519HDKeyPair updater;
-  late final SolanaClient client;
+  final client = RPCClient(devnetRpcUrl);
 
   setUpAll(() async {
-    client = SolanaClient(
-      rpcUrl: devnetRpcUrl,
-      websocketUrl: devnetWebsocketUrl,
-    );
-
     payer = await Ed25519HDKeyPair.random();
     updater = await Ed25519HDKeyPair.random();
 
@@ -41,12 +35,9 @@ void main() {
     final message = Message(instructions: instructions);
     final signature = await client.signAndSendTransaction(
       message,
-      <Ed25519HDKeyPair>[payer],
+      [payer],
     );
-    await client.waitForSignatureStatus(
-      signature,
-      ConfirmationStatus.finalized,
-    );
+    await client.waitForSignatureStatus(signature, TxStatus.finalized);
 
     expect(signature, isNotNull);
   }, skip: true);
@@ -54,8 +45,7 @@ void main() {
   test('Call basic-1 initialize method', () async {
     // 8 bytes for the discriminator and 8 bytes for the data
     const space = 16;
-    final rent = await client.getMinimumBalanceForRentExemption(
-        accountDataLength: space);
+    final rent = await client.getMinimumBalanceForRentExemption(space);
     final instructions = [
       SystemInstruction.createAccount(
         rent: rent,
@@ -78,19 +68,16 @@ void main() {
     final message = Message(instructions: instructions);
     final signature = await client.signAndSendTransaction(
       message,
-      <Ed25519HDKeyPair>[
+      [
         payer,
         updater,
       ],
     );
-    await client.waitForSignatureStatus(
-      signature,
-      ConfirmationStatus.finalized,
-    );
+    await client.waitForSignatureStatus(signature, TxStatus.finalized);
 
-    final account = await client.getAccountInfo(pubKey: updater.address);
+    final account = await client.getAccountInfo(updater.address);
     expect(account, isNotNull);
-    final rawData = account?.data;
+    final rawData = account!.data;
     expect(rawData, isNotNull);
     final data = Basic1DataAccount.fromAccountData(rawData!);
     final discriminator = await computeDiscriminator('account', 'MyAccount');
@@ -115,17 +102,14 @@ void main() {
     final message = Message(instructions: instructions);
     final signature = await client.signAndSendTransaction(
       message,
-      <Ed25519HDKeyPair>[payer],
+      [payer],
     );
-    await client.waitForSignatureStatus(
-      signature,
-      ConfirmationStatus.finalized,
-    );
+    await client.waitForSignatureStatus(signature, TxStatus.finalized);
 
     final discriminator = await computeDiscriminator('account', 'MyAccount');
-    final account = await client.getAccountInfo(pubKey: updater.address);
+    final account = await client.getAccountInfo(updater.address);
     expect(account, isNotNull);
-    final rawData = account?.data;
+    final rawData = account!.data;
     expect(rawData, isNotNull);
     final dataAccount = Basic1DataAccount.fromAccountData(rawData!);
     expect(dataAccount.data, equals(25));

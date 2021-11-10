@@ -1,9 +1,9 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/solana_client/solana_client.dart';
+import 'package:solana/src/dto/commitment.dart';
 
 Future<void> airdrop(
-  SolanaClient client,
+  RPCClient client,
   Ed25519HDKeyPair wallet, {
   int? sol,
   int? lamports,
@@ -14,7 +14,7 @@ Future<void> airdrop(
     throw const FormatException('either specify "sol" or "lamports"');
   }
   final txSignature = await client.requestAirdrop(
-    pubKey: wallet.address,
+    address: wallet.address,
     lamports: amount,
   );
   await client.waitForSignatureStatus(txSignature, Commitment.finalized);

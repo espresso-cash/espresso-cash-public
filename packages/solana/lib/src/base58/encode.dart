@@ -4,7 +4,7 @@ part 'base58_alphabet.dart';
 //
 // Note: Taken from https://github.com/bitcoin/bitcoin/blob/master/src/base58.cpp
 //       and adapted to the dart language
-String base58Encode(List<int> bytes) {
+String base58encode(List<int> bytes) {
   String encoded = '';
   if (bytes.isEmpty) return encoded;
   final zeroes = bytes.takeWhile((v) => v == 0).length;

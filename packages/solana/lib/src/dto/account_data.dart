@@ -1,87 +1,67 @@
 import 'dart:convert';
 
-import 'package:solana/src/base58/decode.dart';
-import 'package:solana/src/dto/binary_account_data.dart';
-import 'package:solana/src/dto/empty_account_data.dart';
-import 'package:solana/src/dto/parsed_account_data.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/src/dto/parsed_spl_token_account_data.dart';
 
-abstract class AccountData {
-  const factory AccountData.binary(List<int> bytes) = BinaryAccountData;
+part 'account_data.freezed.dart';
+
+@freezed
+class AccountData with _$AccountData {
+  const factory AccountData.fromBytes(List<int> bytes) = BinaryAccountData;
+
+  const factory AccountData.fromString(String string) = StringAccountData;
 
   const factory AccountData.empty() = EmptyAccountData;
 
-  factory AccountData._fromBase64String(String base64String) {
-    // We need to normalize because the padding bytes are not
-    // included
-    final normalized = base64.normalize(base64String);
+  const factory AccountData.splToken(ParsedSplTokenAccountData parsed) =
+      SplTokenAccountData;
 
-    return AccountData.binary(base64.decode(normalized));
-  }
+  const factory AccountData.generic(Map<String, dynamic> data) =
+      GenericAccountData;
+}
 
-  factory AccountData._fromEncodedData(List<String> data) {
-    final dynamic encoded = data.first;
-    final dynamic encoding = data.last;
-    if (encoded is! String) {
-      throw const FormatException('encoded data is not of type String');
-    }
+class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
+  const AccountDataConverter();
 
-    if (encoding is! String) {
-      throw const FormatException('encoding is not of type String');
-    }
-
-    if (encoding == 'base64') {
-      if (encoded is! String) {
-        throw FormatException('unexpected data "${data.first}"');
-      }
-
-      if (encoded.isEmpty) {
-        return const AccountData.empty();
-      }
-
-      return AccountData._fromBase64String(encoded);
-    } else if (encoding == 'base58') {
-      if (encoded is! String) {
-        throw FormatException('unexpected data "${data.first}"');
-      }
-
-      if (encoding.isEmpty) {
-        return const AccountData.empty();
-      }
-
-      return AccountData.binary(base58Decode(encoded));
-    } else {
-      throw FormatException('unknown encoding $encoding');
-    }
-  }
-
-  factory AccountData.fromJson(dynamic data) {
+  @override
+  AccountData? fromJson(dynamic data) {
     if (data == null) {
-      throw const FormatException('unexpected null account data');
-    } else if (data is List<dynamic>) {
+      return null;
+    } else if (data is String) {
+      if (data == '') {
+        return const AccountData.empty();
+      }
+      return AccountData.fromBytes(base64Decode(data));
+    } else if (data is List) {
       if (data.length != 2) {
         throw const FormatException(
-          'expected an array of 2 elements [data, encoding]',
-        );
+            'unexpected array of strings, cannot be account data');
       }
-
-      final asStrings = data.whereType<String>().toList(growable: false);
-      if (asStrings.length != 2) {
-        throw const FormatException(
-            'array has two elements but of incompatible types');
+      if (data.last != 'base64') {
+        throw FormatException('unexpected encoding "${data.last}"');
       }
-
-      return AccountData._fromEncodedData(asStrings);
+      final dynamic base64String = data.first;
+      if (base64String is! String) {
+        throw FormatException('unexpected data "${data.first}"');
+      }
+      return AccountData.fromBytes(base64Decode(base64String));
     } else if (data is Map<String, dynamic>) {
-      // In this case this is more convenient than a redirecting factory
-      return ParsedAccountData.fromJson(data);
-    } else if (data is String) {
-      return AccountData._fromBase64String(data);
+      switch (data['program']) {
+        // TODO(IA): add other program data
+        case 'spl-token':
+          return AccountData.splToken(ParsedSplTokenAccountData.fromJson(
+            data['parsed'] as Map<String, dynamic>,
+          ));
+        default:
+          return AccountData.generic(data);
+      }
     } else {
-      throw const FormatException('account data is in unknown format');
+      throw const FormatException('cannot decode account data');
     }
   }
 
-  Map<String, dynamic> toJson() {
-    throw UnsupportedError('converting account data to json is not supported');
+  @override
+  Map<String, dynamic> toJson(AccountData? object) {
+    throw UnsupportedError('converting this object to json is not supported');
   }
 }

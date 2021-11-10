@@ -1,15 +1,11 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/solana_client/solana_client.dart';
 
 Future<void> example() async {
-  final client = SolanaClient(
-    rpcUrl: _rpcClientUrl,
-    websocketUrl: _websocketClientUrl,
-  );
+  final rpcClient = RPCClient(_rpcClientUrl);
   // Create a wallet
   final source = Wallet(
     signer: await Ed25519HDKeyPair.random(),
-    client: client,
+    rpcClient: rpcClient,
   );
 
   // Because this is an example, let's put some lamports into the source
@@ -19,7 +15,7 @@ Future<void> example() async {
   // Final Destination (so funny :D)
   final destination = Wallet(
     signer: await Ed25519HDKeyPair.random(),
-    client: client,
+    rpcClient: rpcClient,
   );
 
   // Both the sender, and recipient must have an associated token account
@@ -45,8 +41,8 @@ Future<void> example() async {
 
   // To confirm that it worked let's see if there's any balance
   // in the recipients wallet
-  final balance = await client.getTokenAccountBalance(
-    pubKey:
+  final balance = await rpcClient.getTokenAccountBalance(
+    associatedTokenAccountAddress:
         await destination.getAssociatedTokenAccountAddress(mint: _tokenMint),
   );
 
@@ -58,6 +54,5 @@ Future<void> example() async {
 }
 
 const _rpcClientUrl = 'https://api.devnet.solana.com';
-const _websocketClientUrl = 'wss://api.devnet.solana.com';
 // USDT token mint from (https://github.com/solana-labs/token-list/blob/main/src/tokens/solana.tokenlist.json);
 const _tokenMint = 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB';

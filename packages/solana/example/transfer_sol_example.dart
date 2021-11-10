@@ -1,15 +1,11 @@
 import 'package:solana/solana.dart';
-import 'package:solana/src/solana_client/solana_client.dart';
 
 Future<void> example() async {
-  final client = SolanaClient(
-    rpcUrl: _rpcClientUrl,
-    websocketUrl: _websocketClientUrl,
-  );
+  final rpcClient = RPCClient(_rpcClientUrl);
   // Create a wallet
   final source = Wallet(
     signer: await Ed25519HDKeyPair.random(),
-    client: client,
+    rpcClient: rpcClient,
   );
 
   // Because this is an example, let's put some lamports into the source
@@ -33,7 +29,7 @@ Future<void> example() async {
 
   // To confirm that it worked let's see if there's any balance
   // in the recipients wallet
-  final lamports = await client.getBalance(pubKey: destination.address);
+  final lamports = await rpcClient.getBalance(destination.address);
   if (lamports == 1) {
     print('Good, it worked.');
   } else {
@@ -42,4 +38,3 @@ Future<void> example() async {
 }
 
 const _rpcClientUrl = 'https://api.devnet.solana.com';
-const _websocketClientUrl = 'wss://api.devnet.solana.com';

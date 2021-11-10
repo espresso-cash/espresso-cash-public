@@ -11,7 +11,8 @@ NotificationParams<T> _$NotificationParamsFromJson<T>(
   T Function(Object? json) fromJsonT,
 ) =>
     NotificationParams<T>(
-      result: fromJsonT(json['result']),
+      result: NotificationResult.fromJson(
+          json['result'] as Map<String, dynamic>, (value) => fromJsonT(value)),
       subscription: json['subscription'] as int,
     );
 
@@ -20,6 +21,6 @@ Map<String, dynamic> _$NotificationParamsToJson<T>(
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
-      'result': toJsonT(instance.result),
+      'result': instance.result,
       'subscription': instance.subscription,
     };

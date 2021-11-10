@@ -1,17 +1,20 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'parsed_message_header.freezed.dart';
 part 'parsed_message_header.g.dart';
 
 /// The header of a [ParsedMessage]
-@freezed
-class ParsedMessageHeader with _$ParsedMessageHeader {
-  const factory ParsedMessageHeader({
-    required int numRequiredSignatures,
-    required int numReadonlySignedAccounts,
-    required int numReadonlyUnsignedAccounts,
-  }) = _ParsedMessageHeader;
+@JsonSerializable(createToJson: false)
+class ParsedMessageHeader {
+  ParsedMessageHeader({
+    required this.numRequiredSignatures,
+    required this.numReadonlySignedAccounts,
+    required this.numReadonlyUnsignedAccounts,
+  });
 
   factory ParsedMessageHeader.fromJson(Map<String, dynamic> json) =>
       _$ParsedMessageHeaderFromJson(json);
+
+  final int numRequiredSignatures;
+  final int numReadonlySignedAccounts;
+  final int numReadonlyUnsignedAccounts;
 }

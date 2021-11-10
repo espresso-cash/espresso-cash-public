@@ -1,9 +1,13 @@
 import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/dto/account.dart';
+import 'package:solana/src/dto/commitment.dart';
+import 'package:solana/src/dto/signature_status.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
-import 'package:solana/src/rpc_client/rpc_types.dart';
-import 'package:solana/src/solana_client/solana_client.dart';
+import 'package:solana/src/rpc_client/rpc_client.dart';
+import 'package:solana/src/rpc_client/transaction_signature.dart';
+import 'package:solana/src/spl_token/associated_account.dart';
 import 'package:solana/src/token_program/token_program.dart';
 import 'package:solana/src/utils.dart';
 
@@ -13,22 +17,23 @@ class SplToken {
     required this.mint,
     required this.supply,
     required this.decimals,
-    required SolanaClient client,
+    required RPCClient rpcClient,
     this.owner,
-  }) : _client = client;
+  }) : _rpcClient = rpcClient;
 
   /// Passing [owner] makes this a writeable token.
   static Future<SplToken> _withOptionalOwner({
     required String mint,
-    required SolanaClient client,
+    required RPCClient rpcClient,
     Ed25519HDKeyPair? owner,
   }) async {
     // TODO(IA): perhaps delay this or use a user provided token information
-    final supply = await client.getTokenSupply(mint: mint);
+    final supplyResponse = await rpcClient.getTokenSupply(mint);
+    final supplyValue = supplyResponse.value;
     return SplToken._(
-      decimals: supply.decimals,
-      supply: BigInt.parse(supply.amount),
-      client: client,
+      decimals: supplyValue.decimals,
+      supply: BigInt.parse(supplyValue.amount),
+      rpcClient: rpcClient,
       mint: mint,
       owner: owner,
     );
@@ -37,36 +42,31 @@ class SplToken {
   /// Create a read write account
   static Future<SplToken> readWrite({
     required String mint,
-    required SolanaClient rpcClient,
+    required RPCClient rpcClient,
     required Ed25519HDKeyPair owner,
   }) =>
       SplToken._withOptionalOwner(
         mint: mint,
-        client: rpcClient,
+        rpcClient: rpcClient,
         owner: owner,
       );
 
   /// Create a readonly account for [mint].
   static Future<SplToken> readonly({
     required String mint,
-    required SolanaClient rpcClient,
+    required RPCClient rpcClient,
   }) =>
       SplToken._withOptionalOwner(
         mint: mint,
-        client: rpcClient,
+        rpcClient: rpcClient,
       );
 
-  Future<ProgramAccount?> getAssociatedAccount(
+  Future<AssociatedTokenAccount?> getAssociatedAccount(
     String owner,
   ) async {
-    final accounts = await _client.getTokenAccountsByOwner(
-      pubKey: owner,
-      filter: TokenAccountsFilter(
-        mint: mint,
-      ),
-      options: const GetAccountInfoOptions(
-        encoding: Encoding.jsonParsed,
-      ),
+    final accounts = await _rpcClient.getTokenAccountsByOwner(
+      owner: owner,
+      mint: mint,
     );
     if (accounts.isEmpty) {
       return null;
@@ -75,12 +75,12 @@ class SplToken {
   }
 
   /// Transfer [amount] tokens owned by [owner] from [source] to [destination]
-  Future<String> transfer({
+  Future<TransactionSignature> transfer({
     required String source,
     required String destination,
     required int amount,
     required Ed25519HDKeyPair owner,
-    Commitment commitment = ConfirmationStatus.finalized,
+    Commitment commitment = TxStatus.finalized,
   }) async {
     final associatedRecipientAccount = await getAssociatedAccount(destination);
     final associatedSenderAccount = await getAssociatedAccount(source);
@@ -96,19 +96,19 @@ class SplToken {
     }
 
     final message = TokenProgram.transfer(
-      source: associatedSenderAccount.pubkey,
-      destination: associatedRecipientAccount.pubkey,
+      source: associatedSenderAccount.address,
+      destination: associatedRecipientAccount.address,
       owner: owner.address,
       amount: amount,
     );
 
-    final signature = await _client.signAndSendTransaction(
+    final signature = await _rpcClient.signAndSendTransaction(
       message,
       [
         owner,
       ],
     );
-    await _client.waitForSignatureStatus(signature, commitment);
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     return signature;
   }
@@ -120,9 +120,7 @@ class SplToken {
     Commitment commitment = Commitment.finalized,
   }) async {
     const space = TokenProgram.neededAccountSpace;
-    final rent = await _client.getMinimumBalanceForRentExemption(
-      accountDataLength: space,
-    );
+    final rent = await _rpcClient.getMinimumBalanceForRentExemption(space);
     final message = TokenProgram.createAccount(
       address: account.address,
       owner: creator.address,
@@ -130,14 +128,14 @@ class SplToken {
       rent: rent,
       space: space,
     );
-    final signature = await _client.signAndSendTransaction(
+    final signature = await _rpcClient.signAndSendTransaction(
       message,
       [
         creator,
         account,
       ],
     );
-    await _client.waitForSignatureStatus(signature, commitment);
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     // TODO(IA): need to check if it is executable and grab the rentEpoch
     return Account(
@@ -145,7 +143,6 @@ class SplToken {
       lamports: 0,
       executable: false,
       rentEpoch: 0,
-      data: null,
     );
   }
 
@@ -163,7 +160,7 @@ class SplToken {
       );
 
   /// Create the associated account for [owner] funded by [funder].
-  Future<ProgramAccount> createAssociatedAccount({
+  Future<AssociatedTokenAccount> createAssociatedAccount({
     required String owner,
     required Ed25519HDKeyPair funder,
     Commitment commitment = Commitment.finalized,
@@ -177,28 +174,27 @@ class SplToken {
       owner: owner,
       funder: funder.address,
     );
-    final signature = await _client.signAndSendTransaction(
+    final signature = await _rpcClient.signAndSendTransaction(
       message,
       [
         funder,
       ],
     );
-    await _client.waitForSignatureStatus(signature, commitment);
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
 
     // TODO(IA): populate rentEpoch correctly
-    return ProgramAccount(
-      pubkey: derivedAddress,
+    return AssociatedTokenAccount(
+      address: derivedAddress,
       account: Account(
         owner: owner,
         lamports: 0,
         executable: false,
         rentEpoch: 0,
-        data: null,
       ),
     );
   }
 
-  /// Mint [destination] with [amount] tokens. Requires writable `SplToken`
+  /// Mint [destination] with [amount] tokens. Requires writable [Token].
   Future<void> mintTo({
     required String destination,
     required int amount,
@@ -214,21 +210,21 @@ class SplToken {
       authority: owner.address,
       amount: amount,
     );
-    final signature = await _client.signAndSendTransaction(
+    final signature = await _rpcClient.signAndSendTransaction(
       message,
       [owner],
     );
-    await _client.waitForSignatureStatus(signature, commitment);
+    await _rpcClient.waitForSignatureStatus(signature, commitment);
   }
 
   final int decimals;
   final BigInt supply;
   final String mint;
   final Ed25519HDKeyPair? owner;
-  final SolanaClient _client;
+  final RPCClient _rpcClient;
 }
 
-extension TokenExt on SolanaClient {
+extension TokenExt on RPCClient {
   /// Create a new token owned by [owner] with [decimals] base 10 decimal digits.
   ///
   /// You can optionally specify a [mintAuthority] address. By default the [owner]
@@ -247,9 +243,7 @@ extension TokenExt on SolanaClient {
   }) async {
     const space = TokenProgram.neededMintAccountSpace;
     final mintWallet = await Ed25519HDKeyPair.random();
-    final rent = await getMinimumBalanceForRentExemption(
-      accountDataLength: space,
-    );
+    final rent = await getMinimumBalanceForRentExemption(space);
 
     final message = TokenProgram.initializeMint(
       mint: mintWallet.address,

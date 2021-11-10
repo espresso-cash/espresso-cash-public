@@ -2,61 +2,37 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:solana/src/dto/account.dart';
+import 'package:solana/src/dto/commitment.dart';
+import 'package:solana/src/dto/encoding.dart';
 import 'package:solana/src/dto/logs.dart';
 import 'package:solana/src/dto/program_filter.dart';
 import 'package:solana/src/dto/slot.dart';
 import 'package:solana/src/exceptions/bad_state_exception.dart';
-import 'package:solana/src/rpc_client/rpc_types.dart';
-import 'package:solana/src/rpc_client/rpc_types_extension.dart';
 import 'package:solana/src/subscription_client/abstract_message.dart';
 import 'package:solana/src/subscription_client/error_message.dart';
 import 'package:solana/src/subscription_client/logs_filter.dart';
-import 'package:solana/src/subscription_client/maybe_error.dart';
 import 'package:solana/src/subscription_client/notification_message.dart';
+import 'package:solana/src/subscription_client/optional_error.dart';
 import 'package:solana/src/subscription_client/subscribed_message.dart';
 import 'package:solana/src/subscription_client/subscription_client_exception.dart';
 import 'package:solana/src/subscription_client/subscription_manager.dart';
 
 /// Provides a websocket based connection to Solana.
 class SubscriptionClient {
-  SubscriptionClient(this._url)
+  SubscriptionClient._(this._webSocket)
       : _unattachedSubscriptionManagers = <int, SubscriptionManager>{},
-        _attachedSubscriptionManagers = <int, SubscriptionManager>{};
+        _attachedSubscriptionManagers = <int, SubscriptionManager>{} {
+    _subscription = _webSocket.listen(_dispatchMessage);
+  }
 
-  final String _url;
-
+  final WebSocket _webSocket;
   final Map<int, SubscriptionManager> _unattachedSubscriptionManagers;
   final Map<int, SubscriptionManager> _attachedSubscriptionManagers;
 
   late final StreamSubscription<dynamic> _subscription;
-  Future<WebSocket>? _websocket;
 
   int _lastRequestId = 1;
-
-  Future<WebSocket> _getWebSocket() async {
-    final websocketFuture = _websocket;
-    if (websocketFuture != null) {
-      return websocketFuture;
-    }
-    final completer = Completer<WebSocket>();
-    // This is instantly initialized, now calling this method
-    // again will immediately return the future object.
-    //
-    // This guarantees 2 things. First the connection is only established once
-    // and then second, the late final _subscription variable will not be
-    // initialized more than once.
-    _websocket = completer.future;
-    // Connect the websocket now
-    final websocket = await WebSocket.connect(_url);
-    // Make sure that the instance member is not overwritten before
-    // attempting to access it
-    _subscription = websocket.listen(_dispatchMessage);
-    // Complete the completer so that any caller that is still waiting
-    // gets its value
-    completer.complete(websocket);
-    // Return it now
-    return websocket;
-  }
 
   void _dispatchMessage(dynamic data) {
     if (data is String) {
@@ -111,14 +87,7 @@ class SubscriptionClient {
     }
   }
 
-  Future<void> _sendRequest(
-    int id,
-    String method,
-    List<dynamic>? params,
-  ) async {
-    // ignore: close_sinks
-    final websocket = await _getWebSocket();
-
+  void _sendRequest(int id, String method, List<dynamic>? params) {
     final payload = json.encode(<String, dynamic>{
       'jsonrpc': '2.0',
       'id': id,
@@ -126,7 +95,7 @@ class SubscriptionClient {
       if (params != null) 'params': params,
     });
 
-    websocket.add(payload);
+    _webSocket.add(payload);
   }
 
   void _createSubscription(int id, String method, List<dynamic>? params) {
@@ -173,11 +142,13 @@ class SubscriptionClient {
     return subscriptionManager.stream;
   }
 
+  /// Connect to the websocket at [url] node.
+  static Future<SubscriptionClient> connect(String url) async =>
+      SubscriptionClient._(await WebSocket.connect(url));
+
   /// Dispose this object and cancel any existing subscription.
   void dispose() {
     _subscription.cancel();
-    // Close the websocket sink now
-    _websocket?.then<void>((w) => w.close());
   }
 
   /// Subscribe to an account with [address] to receive notifications when the
@@ -202,7 +173,7 @@ class SubscriptionClient {
           address,
           if (commitment != null)
             <String, String>{
-              'commitment': commitment.toJson(),
+              'commitment': commitment.value,
             },
         ],
       );
@@ -234,7 +205,7 @@ class SubscriptionClient {
           ),
           if (commitment != null)
             <String, String>{
-              'commitment': commitment.toJson(),
+              'commitment': commitment.value,
             },
         ],
       );
@@ -261,12 +232,12 @@ class SubscriptionClient {
         'program',
         params: <dynamic>[
           <String, String>{
-            'encoding': encoding.toJson(),
+            'encoding': encoding.value,
           },
           if (filters != null) ...filters,
           if (commitment != null)
             <String, String>{
-              'commitment': commitment.toJson(),
+              'commitment': commitment.value,
             },
         ],
       );
@@ -282,17 +253,17 @@ class SubscriptionClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Stream<MaybeError> signatureSubscribe(
+  Stream<OptionalError> signatureSubscribe(
     String signature, {
-    Commitment? status,
+    Commitment? commitment,
   }) =>
-      _subscribe<MaybeError>(
+      _subscribe<OptionalError>(
         'signature',
         params: <dynamic>[
           signature,
-          if (status != null)
+          if (commitment != null)
             <String, String>{
-              'commitment': status.toJson(),
+              'commitment': commitment.value,
             },
         ],
         singleShot: true,

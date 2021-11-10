@@ -7,7 +7,7 @@ class Signature extends ByteArray {
 
   final ByteArray _data;
 
-  String toBase58() => base58Encode(_data.toList(growable: false));
+  String toBase58() => base58encode(_data.toList(growable: false));
 
   @override
   Iterator<int> get iterator => _data.iterator;
