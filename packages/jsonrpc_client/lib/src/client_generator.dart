@@ -28,6 +28,23 @@ class _${element.name} implements ${element.name} {
 
 ${methods.map(_generateConfig).join('\n\n')}
 
+Map<K, V> _fromJsonMap<K, V>(
+  dynamic map,
+  K Function(dynamic key) convertKey,
+  V Function(dynamic value) convertValue,
+) {
+  if (map is! Map<String, dynamic>) {
+    throw const FormatException('invalid input type is not map');
+  }
+
+  final result = <K, V>{};
+  for (final entry in map.entries) {
+    result[convertKey(entry.key)] = convertValue(entry.value);
+  }
+
+  return result;
+}
+
 List<T> _fromJsonArray<T>(dynamic array, T Function(dynamic) convert) {
   if (array is List<Map<String, dynamic>>) {
     return array.map(convert).toList(growable: false);
@@ -52,6 +69,7 @@ dynamic _unwrapAndGetResult(dynamic raw) {
 
   return result['value'];
 }
+
 ''';
   }
 
@@ -64,7 +82,7 @@ dynamic _unwrapAndGetResult(dynamic raw) {
     return '''
 @JsonSerializable(createFactory: false, includeIfNull: false)
 class ${name}Config {
-  ${name}Config(${fields.map((f) => 'this.${f.name}').join(', ')});
+  ${name}Config({${fields.map((f) => f.asFormalInitializer()).join(', ')}});
 
   ${fields.map((f) => f.asField()).join('\n')}
 
@@ -78,15 +96,17 @@ class ${name}Config {
         .where((p) => p.isPositional)
         .map((p) => p.toJson())
         .toList();
-    final isContexted = method.metadata.any(
-      (a) => a.toSource() == "@contexted",
+    final iswithContext = method.metadata.any(
+      (a) => a.toSource() == "@withContext",
     );
     final configParams = method.parameters.where((p) => p.isNamed);
     final String configParamsString;
     if (configParams.isNotEmpty) {
       final configName = method.name.firstUpper;
+      final parameters =
+          configParams.map((p) => '${p.name}: ${p.name}').join(', ');
       configParamsString = '''
-          ${configName}Config(${configParams.map((p) => p.name).join(', ')}).toJson()
+          ${configName}Config($parameters).toJson()
 ''';
     } else {
       configParamsString = '<String, dynamic>{}';
@@ -106,7 +126,7 @@ ${method.getDisplayString(withNullability: true)} async {
         if (config.isNotEmpty) config,
       ],
     );
-  final dynamic value = ${isContexted ? '_unwrapAndGetResult' : '_getResult'}(data);
+  final dynamic value = ${iswithContext ? '_unwrapAndGetResult' : '_getResult'}(data);
 
   return ${returnType.fromJson("value")};
 }
@@ -119,22 +139,33 @@ extension on String {
 }
 
 extension on DartType {
+  String convertFn() {
+    final name = getDisplayString(withNullability: true);
+    if (isDartCoreList) {
+      final type = (this as ParameterizedType).typeArguments.first;
+      return '(dynamic v) => _fromJsonArray(v, ${type.convertFn()})';
+    }
+    // We are not considering nested maps, because we don't need
+    // to
+    if (primitiveTypes.any((t) => t.isExactlyType(this))) {
+      return '(dynamic v) => v as $name';
+    } else {
+      return '(dynamic v) => $name.fromJson(v as Map<String, dynamic>)';
+    }
+  }
+
   String fromJson(String data) {
     final String genericFactory;
     if (this is ParameterizedType) {
       if (isDartCoreList) {
         final type = (this as ParameterizedType).typeArguments.first;
-        final typeName = type.getDisplayString(withNullability: true);
-        late final String fn;
-        if (primitiveTypes.any((t) => t.isExactlyType(type))) {
-          fn = '(dynamic v) => v as $typeName';
-        } else {
-          fn = '(dynamic v) => $typeName.fromJson(v as Map<String, dynamic>)';
-        }
+        return '_fromJsonArray($data, ${type.convertFn()})';
+      } else if (isDartCoreMap) {
+        final kType = (this as ParameterizedType).typeArguments.first;
+        final vType = (this as ParameterizedType).typeArguments.last;
 
-        return '_fromJsonArray($data, $fn)';
-      }
-      if ((this as ParameterizedType).typeArguments.isEmpty) {
+        return '_fromJsonMap($data, ${kType.convertFn()}, ${vType.convertFn()})';
+      } else if ((this as ParameterizedType).typeArguments.isEmpty) {
         genericFactory = '';
       } else {
         final type = (this as ParameterizedType).typeArguments.first;
@@ -166,14 +197,31 @@ extension on ParameterElement {
     return 'final $t $name;';
   }
 
+  String asFormalInitializer() {
+    if (isRequiredNamed) {
+      return 'required this.$name';
+    }
+
+    return 'this.$name';
+  }
+
   String toJson() {
     if (primitiveTypes.any((t) => t.isExactlyType(type))) {
       return name;
-    } else if (type.isDartCoreNum) {
+    } else if (isEnum()) {
       return '$name.value';
     } else {
-      '$name${type.nullSuffix}.toJson()';
+      return '$name${type.nullSuffix}.toJson()';
     }
+  }
+
+  bool isEnum() {
+    final element = type.element;
+    if (element is ClassElement) {
+      return element.isEnum;
+    }
+
+    return false;
   }
 }
 
