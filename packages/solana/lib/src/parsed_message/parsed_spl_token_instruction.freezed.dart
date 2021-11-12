@@ -1028,13 +1028,15 @@ class _$ParsedSplTokenTransferCheckedInformationTearOff {
 
   _ParsedSplTokenTransferCheckedInformation call(
       {required TokenAmount tokenAmount,
-      required String authority,
+      required String? authority,
+      required String? multisigAuthority,
       required String? mint,
       required String source,
       required String destination}) {
     return _ParsedSplTokenTransferCheckedInformation(
       tokenAmount: tokenAmount,
       authority: authority,
+      multisigAuthority: multisigAuthority,
       mint: mint,
       source: source,
       destination: destination,
@@ -1053,7 +1055,8 @@ const $ParsedSplTokenTransferCheckedInformation =
 /// @nodoc
 mixin _$ParsedSplTokenTransferCheckedInformation {
   TokenAmount get tokenAmount => throw _privateConstructorUsedError;
-  String get authority => throw _privateConstructorUsedError;
+  String? get authority => throw _privateConstructorUsedError;
+  String? get multisigAuthority => throw _privateConstructorUsedError;
   String? get mint => throw _privateConstructorUsedError;
   String get source => throw _privateConstructorUsedError;
   String get destination => throw _privateConstructorUsedError;
@@ -1073,7 +1076,8 @@ abstract class $ParsedSplTokenTransferCheckedInformationCopyWith<$Res> {
       _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>;
   $Res call(
       {TokenAmount tokenAmount,
-      String authority,
+      String? authority,
+      String? multisigAuthority,
       String? mint,
       String source,
       String destination});
@@ -1093,6 +1097,7 @@ class _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
   $Res call({
     Object? tokenAmount = freezed,
     Object? authority = freezed,
+    Object? multisigAuthority = freezed,
     Object? mint = freezed,
     Object? source = freezed,
     Object? destination = freezed,
@@ -1105,7 +1110,11 @@ class _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
       authority: authority == freezed
           ? _value.authority
           : authority // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      multisigAuthority: multisigAuthority == freezed
+          ? _value.multisigAuthority
+          : multisigAuthority // ignore: cast_nullable_to_non_nullable
+              as String?,
       mint: mint == freezed
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
@@ -1132,7 +1141,8 @@ abstract class _$ParsedSplTokenTransferCheckedInformationCopyWith<$Res>
   @override
   $Res call(
       {TokenAmount tokenAmount,
-      String authority,
+      String? authority,
+      String? multisigAuthority,
       String? mint,
       String source,
       String destination});
@@ -1156,6 +1166,7 @@ class __$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
   $Res call({
     Object? tokenAmount = freezed,
     Object? authority = freezed,
+    Object? multisigAuthority = freezed,
     Object? mint = freezed,
     Object? source = freezed,
     Object? destination = freezed,
@@ -1168,7 +1179,11 @@ class __$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
       authority: authority == freezed
           ? _value.authority
           : authority // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      multisigAuthority: multisigAuthority == freezed
+          ? _value.multisigAuthority
+          : multisigAuthority // ignore: cast_nullable_to_non_nullable
+              as String?,
       mint: mint == freezed
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
@@ -1192,6 +1207,7 @@ class _$_ParsedSplTokenTransferCheckedInformation
   const _$_ParsedSplTokenTransferCheckedInformation(
       {required this.tokenAmount,
       required this.authority,
+      required this.multisigAuthority,
       required this.mint,
       required this.source,
       required this.destination});
@@ -1203,7 +1219,9 @@ class _$_ParsedSplTokenTransferCheckedInformation
   @override
   final TokenAmount tokenAmount;
   @override
-  final String authority;
+  final String? authority;
+  @override
+  final String? multisigAuthority;
   @override
   final String? mint;
   @override
@@ -1213,7 +1231,7 @@ class _$_ParsedSplTokenTransferCheckedInformation
 
   @override
   String toString() {
-    return 'ParsedSplTokenTransferCheckedInformation(tokenAmount: $tokenAmount, authority: $authority, mint: $mint, source: $source, destination: $destination)';
+    return 'ParsedSplTokenTransferCheckedInformation(tokenAmount: $tokenAmount, authority: $authority, multisigAuthority: $multisigAuthority, mint: $mint, source: $source, destination: $destination)';
   }
 
   @override
@@ -1226,6 +1244,9 @@ class _$_ParsedSplTokenTransferCheckedInformation
             (identical(other.authority, authority) ||
                 const DeepCollectionEquality()
                     .equals(other.authority, authority)) &&
+            (identical(other.multisigAuthority, multisigAuthority) ||
+                const DeepCollectionEquality()
+                    .equals(other.multisigAuthority, multisigAuthority)) &&
             (identical(other.mint, mint) ||
                 const DeepCollectionEquality().equals(other.mint, mint)) &&
             (identical(other.source, source) ||
@@ -1240,6 +1261,7 @@ class _$_ParsedSplTokenTransferCheckedInformation
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(tokenAmount) ^
       const DeepCollectionEquality().hash(authority) ^
+      const DeepCollectionEquality().hash(multisigAuthority) ^
       const DeepCollectionEquality().hash(mint) ^
       const DeepCollectionEquality().hash(source) ^
       const DeepCollectionEquality().hash(destination);
@@ -1261,7 +1283,8 @@ abstract class _ParsedSplTokenTransferCheckedInformation
     implements ParsedSplTokenTransferCheckedInformation {
   const factory _ParsedSplTokenTransferCheckedInformation(
           {required TokenAmount tokenAmount,
-          required String authority,
+          required String? authority,
+          required String? multisigAuthority,
           required String? mint,
           required String source,
           required String destination}) =
@@ -1274,7 +1297,9 @@ abstract class _ParsedSplTokenTransferCheckedInformation
   @override
   TokenAmount get tokenAmount => throw _privateConstructorUsedError;
   @override
-  String get authority => throw _privateConstructorUsedError;
+  String? get authority => throw _privateConstructorUsedError;
+  @override
+  String? get multisigAuthority => throw _privateConstructorUsedError;
   @override
   String? get mint => throw _privateConstructorUsedError;
   @override
