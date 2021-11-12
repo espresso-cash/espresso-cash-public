@@ -22,7 +22,7 @@ ParsedSplTokenInstruction _$ParsedSplTokenInstructionFromJson(
       return ParsedSplTokenTransferCheckedInstruction.fromJson(json);
 
     default:
-      return ParsedSplTokenUnsupportedInstruction.fromJson(json);
+      return ParsedSplTokenGenericInstruction.fromJson(json);
   }
 }
 
@@ -47,8 +47,8 @@ class _$ParsedSplTokenInstructionTearOff {
     );
   }
 
-  ParsedSplTokenUnsupportedInstruction unsupported({required String type}) {
-    return ParsedSplTokenUnsupportedInstruction(
+  ParsedSplTokenGenericInstruction generic({required String type}) {
+    return ParsedSplTokenGenericInstruction(
       type: type,
     );
   }
@@ -73,7 +73,7 @@ mixin _$ParsedSplTokenInstruction {
     required TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)
         transferChecked,
-    required TResult Function(String type) unsupported,
+    required TResult Function(String type) generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -83,7 +83,7 @@ mixin _$ParsedSplTokenInstruction {
     TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(String type)? generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -93,7 +93,7 @@ mixin _$ParsedSplTokenInstruction {
     TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(String type)? generic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -102,8 +102,7 @@ mixin _$ParsedSplTokenInstruction {
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
     required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
         transferChecked,
-    required TResult Function(ParsedSplTokenUnsupportedInstruction value)
-        unsupported,
+    required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -111,7 +110,7 @@ mixin _$ParsedSplTokenInstruction {
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -119,7 +118,7 @@ mixin _$ParsedSplTokenInstruction {
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -263,7 +262,7 @@ class _$ParsedSplTokenTransferInstruction
     required TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)
         transferChecked,
-    required TResult Function(String type) unsupported,
+    required TResult Function(String type) generic,
   }) {
     return transfer(info, type);
   }
@@ -276,7 +275,7 @@ class _$ParsedSplTokenTransferInstruction
     TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(String type)? generic,
   }) {
     return transfer?.call(info, type);
   }
@@ -289,7 +288,7 @@ class _$ParsedSplTokenTransferInstruction
     TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(String type)? generic,
     required TResult orElse(),
   }) {
     if (transfer != null) {
@@ -304,8 +303,7 @@ class _$ParsedSplTokenTransferInstruction
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
     required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
         transferChecked,
-    required TResult Function(ParsedSplTokenUnsupportedInstruction value)
-        unsupported,
+    required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) {
     return transfer(this);
   }
@@ -316,7 +314,7 @@ class _$ParsedSplTokenTransferInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return transfer?.call(this);
   }
@@ -327,7 +325,7 @@ class _$ParsedSplTokenTransferInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) {
     if (transfer != null) {
@@ -468,7 +466,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
     required TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)
         transferChecked,
-    required TResult Function(String type) unsupported,
+    required TResult Function(String type) generic,
   }) {
     return transferChecked(info, type);
   }
@@ -481,7 +479,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
     TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(String type)? generic,
   }) {
     return transferChecked?.call(info, type);
   }
@@ -494,7 +492,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
     TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(String type)? generic,
     required TResult orElse(),
   }) {
     if (transferChecked != null) {
@@ -509,8 +507,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
     required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
         transferChecked,
-    required TResult Function(ParsedSplTokenUnsupportedInstruction value)
-        unsupported,
+    required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) {
     return transferChecked(this);
   }
@@ -521,7 +518,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return transferChecked?.call(this);
   }
@@ -532,7 +529,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) {
     if (transferChecked != null) {
@@ -570,34 +567,34 @@ abstract class ParsedSplTokenTransferCheckedInstruction
 }
 
 /// @nodoc
-abstract class $ParsedSplTokenUnsupportedInstructionCopyWith<$Res>
+abstract class $ParsedSplTokenGenericInstructionCopyWith<$Res>
     implements $ParsedSplTokenInstructionCopyWith<$Res> {
-  factory $ParsedSplTokenUnsupportedInstructionCopyWith(
-          ParsedSplTokenUnsupportedInstruction value,
-          $Res Function(ParsedSplTokenUnsupportedInstruction) then) =
-      _$ParsedSplTokenUnsupportedInstructionCopyWithImpl<$Res>;
+  factory $ParsedSplTokenGenericInstructionCopyWith(
+          ParsedSplTokenGenericInstruction value,
+          $Res Function(ParsedSplTokenGenericInstruction) then) =
+      _$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>;
   @override
   $Res call({String type});
 }
 
 /// @nodoc
-class _$ParsedSplTokenUnsupportedInstructionCopyWithImpl<$Res>
+class _$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>
     extends _$ParsedSplTokenInstructionCopyWithImpl<$Res>
-    implements $ParsedSplTokenUnsupportedInstructionCopyWith<$Res> {
-  _$ParsedSplTokenUnsupportedInstructionCopyWithImpl(
-      ParsedSplTokenUnsupportedInstruction _value,
-      $Res Function(ParsedSplTokenUnsupportedInstruction) _then)
-      : super(_value, (v) => _then(v as ParsedSplTokenUnsupportedInstruction));
+    implements $ParsedSplTokenGenericInstructionCopyWith<$Res> {
+  _$ParsedSplTokenGenericInstructionCopyWithImpl(
+      ParsedSplTokenGenericInstruction _value,
+      $Res Function(ParsedSplTokenGenericInstruction) _then)
+      : super(_value, (v) => _then(v as ParsedSplTokenGenericInstruction));
 
   @override
-  ParsedSplTokenUnsupportedInstruction get _value =>
-      super._value as ParsedSplTokenUnsupportedInstruction;
+  ParsedSplTokenGenericInstruction get _value =>
+      super._value as ParsedSplTokenGenericInstruction;
 
   @override
   $Res call({
     Object? type = freezed,
   }) {
-    return _then(ParsedSplTokenUnsupportedInstruction(
+    return _then(ParsedSplTokenGenericInstruction(
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -608,26 +605,26 @@ class _$ParsedSplTokenUnsupportedInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSplTokenUnsupportedInstruction
-    implements ParsedSplTokenUnsupportedInstruction {
-  const _$ParsedSplTokenUnsupportedInstruction({required this.type});
+class _$ParsedSplTokenGenericInstruction
+    implements ParsedSplTokenGenericInstruction {
+  const _$ParsedSplTokenGenericInstruction({required this.type});
 
-  factory _$ParsedSplTokenUnsupportedInstruction.fromJson(
+  factory _$ParsedSplTokenGenericInstruction.fromJson(
           Map<String, dynamic> json) =>
-      _$$ParsedSplTokenUnsupportedInstructionFromJson(json);
+      _$$ParsedSplTokenGenericInstructionFromJson(json);
 
   @override
   final String type;
 
   @override
   String toString() {
-    return 'ParsedSplTokenInstruction.unsupported(type: $type)';
+    return 'ParsedSplTokenInstruction.generic(type: $type)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedSplTokenUnsupportedInstruction &&
+        (other is ParsedSplTokenGenericInstruction &&
             (identical(other.type, type) ||
                 const DeepCollectionEquality().equals(other.type, type)));
   }
@@ -638,10 +635,9 @@ class _$ParsedSplTokenUnsupportedInstruction
 
   @JsonKey(ignore: true)
   @override
-  $ParsedSplTokenUnsupportedInstructionCopyWith<
-          ParsedSplTokenUnsupportedInstruction>
-      get copyWith => _$ParsedSplTokenUnsupportedInstructionCopyWithImpl<
-          ParsedSplTokenUnsupportedInstruction>(this, _$identity);
+  $ParsedSplTokenGenericInstructionCopyWith<ParsedSplTokenGenericInstruction>
+      get copyWith => _$ParsedSplTokenGenericInstructionCopyWithImpl<
+          ParsedSplTokenGenericInstruction>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -652,9 +648,9 @@ class _$ParsedSplTokenUnsupportedInstruction
     required TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)
         transferChecked,
-    required TResult Function(String type) unsupported,
+    required TResult Function(String type) generic,
   }) {
-    return unsupported(type);
+    return generic(type);
   }
 
   @override
@@ -665,9 +661,9 @@ class _$ParsedSplTokenUnsupportedInstruction
     TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(String type)? generic,
   }) {
-    return unsupported?.call(type);
+    return generic?.call(type);
   }
 
   @override
@@ -678,11 +674,11 @@ class _$ParsedSplTokenUnsupportedInstruction
     TResult Function(
             ParsedSplTokenTransferCheckedInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(String type)? generic,
     required TResult orElse(),
   }) {
-    if (unsupported != null) {
-      return unsupported(type);
+    if (generic != null) {
+      return generic(type);
     }
     return orElse();
   }
@@ -693,10 +689,9 @@ class _$ParsedSplTokenUnsupportedInstruction
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
     required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
         transferChecked,
-    required TResult Function(ParsedSplTokenUnsupportedInstruction value)
-        unsupported,
+    required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) {
-    return unsupported(this);
+    return generic(this);
   }
 
   @override
@@ -705,9 +700,9 @@ class _$ParsedSplTokenUnsupportedInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
-    return unsupported?.call(this);
+    return generic?.call(this);
   }
 
   @override
@@ -716,37 +711,35 @@ class _$ParsedSplTokenUnsupportedInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) {
-    if (unsupported != null) {
-      return unsupported(this);
+    if (generic != null) {
+      return generic(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenUnsupportedInstructionToJson(this)
-      ..['type'] = 'unsupported';
+    return _$$ParsedSplTokenGenericInstructionToJson(this)
+      ..['type'] = 'generic';
   }
 }
 
-abstract class ParsedSplTokenUnsupportedInstruction
+abstract class ParsedSplTokenGenericInstruction
     implements ParsedSplTokenInstruction {
-  const factory ParsedSplTokenUnsupportedInstruction({required String type}) =
-      _$ParsedSplTokenUnsupportedInstruction;
+  const factory ParsedSplTokenGenericInstruction({required String type}) =
+      _$ParsedSplTokenGenericInstruction;
 
-  factory ParsedSplTokenUnsupportedInstruction.fromJson(
-          Map<String, dynamic> json) =
-      _$ParsedSplTokenUnsupportedInstruction.fromJson;
+  factory ParsedSplTokenGenericInstruction.fromJson(Map<String, dynamic> json) =
+      _$ParsedSplTokenGenericInstruction.fromJson;
 
   @override
   String get type => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  $ParsedSplTokenUnsupportedInstructionCopyWith<
-          ParsedSplTokenUnsupportedInstruction>
+  $ParsedSplTokenGenericInstructionCopyWith<ParsedSplTokenGenericInstruction>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1028,13 +1021,15 @@ class _$ParsedSplTokenTransferCheckedInformationTearOff {
 
   _ParsedSplTokenTransferCheckedInformation call(
       {required TokenAmount tokenAmount,
-      required String authority,
+      required String? authority,
+      required String? multisigAuthority,
       required String? mint,
       required String source,
       required String destination}) {
     return _ParsedSplTokenTransferCheckedInformation(
       tokenAmount: tokenAmount,
       authority: authority,
+      multisigAuthority: multisigAuthority,
       mint: mint,
       source: source,
       destination: destination,
@@ -1053,7 +1048,8 @@ const $ParsedSplTokenTransferCheckedInformation =
 /// @nodoc
 mixin _$ParsedSplTokenTransferCheckedInformation {
   TokenAmount get tokenAmount => throw _privateConstructorUsedError;
-  String get authority => throw _privateConstructorUsedError;
+  String? get authority => throw _privateConstructorUsedError;
+  String? get multisigAuthority => throw _privateConstructorUsedError;
   String? get mint => throw _privateConstructorUsedError;
   String get source => throw _privateConstructorUsedError;
   String get destination => throw _privateConstructorUsedError;
@@ -1073,7 +1069,8 @@ abstract class $ParsedSplTokenTransferCheckedInformationCopyWith<$Res> {
       _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>;
   $Res call(
       {TokenAmount tokenAmount,
-      String authority,
+      String? authority,
+      String? multisigAuthority,
       String? mint,
       String source,
       String destination});
@@ -1093,6 +1090,7 @@ class _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
   $Res call({
     Object? tokenAmount = freezed,
     Object? authority = freezed,
+    Object? multisigAuthority = freezed,
     Object? mint = freezed,
     Object? source = freezed,
     Object? destination = freezed,
@@ -1105,7 +1103,11 @@ class _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
       authority: authority == freezed
           ? _value.authority
           : authority // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      multisigAuthority: multisigAuthority == freezed
+          ? _value.multisigAuthority
+          : multisigAuthority // ignore: cast_nullable_to_non_nullable
+              as String?,
       mint: mint == freezed
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
@@ -1132,7 +1134,8 @@ abstract class _$ParsedSplTokenTransferCheckedInformationCopyWith<$Res>
   @override
   $Res call(
       {TokenAmount tokenAmount,
-      String authority,
+      String? authority,
+      String? multisigAuthority,
       String? mint,
       String source,
       String destination});
@@ -1156,6 +1159,7 @@ class __$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
   $Res call({
     Object? tokenAmount = freezed,
     Object? authority = freezed,
+    Object? multisigAuthority = freezed,
     Object? mint = freezed,
     Object? source = freezed,
     Object? destination = freezed,
@@ -1168,7 +1172,11 @@ class __$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
       authority: authority == freezed
           ? _value.authority
           : authority // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      multisigAuthority: multisigAuthority == freezed
+          ? _value.multisigAuthority
+          : multisigAuthority // ignore: cast_nullable_to_non_nullable
+              as String?,
       mint: mint == freezed
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
@@ -1192,6 +1200,7 @@ class _$_ParsedSplTokenTransferCheckedInformation
   const _$_ParsedSplTokenTransferCheckedInformation(
       {required this.tokenAmount,
       required this.authority,
+      required this.multisigAuthority,
       required this.mint,
       required this.source,
       required this.destination});
@@ -1203,7 +1212,9 @@ class _$_ParsedSplTokenTransferCheckedInformation
   @override
   final TokenAmount tokenAmount;
   @override
-  final String authority;
+  final String? authority;
+  @override
+  final String? multisigAuthority;
   @override
   final String? mint;
   @override
@@ -1213,7 +1224,7 @@ class _$_ParsedSplTokenTransferCheckedInformation
 
   @override
   String toString() {
-    return 'ParsedSplTokenTransferCheckedInformation(tokenAmount: $tokenAmount, authority: $authority, mint: $mint, source: $source, destination: $destination)';
+    return 'ParsedSplTokenTransferCheckedInformation(tokenAmount: $tokenAmount, authority: $authority, multisigAuthority: $multisigAuthority, mint: $mint, source: $source, destination: $destination)';
   }
 
   @override
@@ -1226,6 +1237,9 @@ class _$_ParsedSplTokenTransferCheckedInformation
             (identical(other.authority, authority) ||
                 const DeepCollectionEquality()
                     .equals(other.authority, authority)) &&
+            (identical(other.multisigAuthority, multisigAuthority) ||
+                const DeepCollectionEquality()
+                    .equals(other.multisigAuthority, multisigAuthority)) &&
             (identical(other.mint, mint) ||
                 const DeepCollectionEquality().equals(other.mint, mint)) &&
             (identical(other.source, source) ||
@@ -1240,6 +1254,7 @@ class _$_ParsedSplTokenTransferCheckedInformation
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(tokenAmount) ^
       const DeepCollectionEquality().hash(authority) ^
+      const DeepCollectionEquality().hash(multisigAuthority) ^
       const DeepCollectionEquality().hash(mint) ^
       const DeepCollectionEquality().hash(source) ^
       const DeepCollectionEquality().hash(destination);
@@ -1261,7 +1276,8 @@ abstract class _ParsedSplTokenTransferCheckedInformation
     implements ParsedSplTokenTransferCheckedInformation {
   const factory _ParsedSplTokenTransferCheckedInformation(
           {required TokenAmount tokenAmount,
-          required String authority,
+          required String? authority,
+          required String? multisigAuthority,
           required String? mint,
           required String source,
           required String destination}) =
@@ -1274,7 +1290,9 @@ abstract class _ParsedSplTokenTransferCheckedInformation
   @override
   TokenAmount get tokenAmount => throw _privateConstructorUsedError;
   @override
-  String get authority => throw _privateConstructorUsedError;
+  String? get authority => throw _privateConstructorUsedError;
+  @override
+  String? get multisigAuthority => throw _privateConstructorUsedError;
   @override
   String? get mint => throw _privateConstructorUsedError;
   @override

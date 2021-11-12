@@ -6,7 +6,7 @@ part 'parsed_instruction.freezed.dart';
 part 'parsed_instruction.g.dart';
 
 /// An instruction which is part of a [ParsedMessage]
-@Freezed(unionKey: 'program', fallbackUnion: 'unsupported')
+@Freezed(unionKey: 'program', fallbackUnion: 'generic')
 class ParsedInstruction with _$ParsedInstruction {
   const factory ParsedInstruction.system({
     required String programId,
@@ -27,9 +27,9 @@ class ParsedInstruction with _$ParsedInstruction {
   }) = ParsedInstructionMemo;
 
   /// Any instruction that we are not currently supporting.
-  const factory ParsedInstruction.unsupported({
+  const factory ParsedInstruction.generic({
     String? program,
-  }) = ParsedInstructionUnsupported;
+  }) = ParsedInstructionGeneric;
 
   factory ParsedInstruction.fromJson(Map<String, dynamic> json) =>
       _$ParsedInstructionFromJson(json);

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/src/dto/meta.dart';
 import 'package:solana/src/spl_token/token_amount.dart';
 
 part 'parsed_spl_token_instruction.freezed.dart';
@@ -7,7 +8,7 @@ part 'parsed_spl_token_instruction.g.dart';
 /// An instruction of a [spl token] program
 ///
 /// [spl token]: https://spl.solana.com/token
-@Freezed(unionKey: 'type', fallbackUnion: 'unsupported')
+@Freezed(unionKey: 'type', fallbackUnion: 'generic')
 class ParsedSplTokenInstruction with _$ParsedSplTokenInstruction {
   const factory ParsedSplTokenInstruction.transfer({
     required ParsedSplTokenTransferInformation info,
@@ -19,9 +20,9 @@ class ParsedSplTokenInstruction with _$ParsedSplTokenInstruction {
     required String type,
   }) = ParsedSplTokenTransferCheckedInstruction;
 
-  const factory ParsedSplTokenInstruction.unsupported({
+  const factory ParsedSplTokenInstruction.generic({
     required String type,
-  }) = ParsedSplTokenUnsupportedInstruction;
+  }) = ParsedSplTokenGenericInstruction;
 
   factory ParsedSplTokenInstruction.fromJson(Map<String, dynamic> json) =>
       _$ParsedSplTokenInstructionFromJson(json);
@@ -54,7 +55,8 @@ class ParsedSplTokenTransferCheckedInformation
     with _$ParsedSplTokenTransferCheckedInformation {
   const factory ParsedSplTokenTransferCheckedInformation({
     required TokenAmount tokenAmount,
-    required String authority,
+    required String? authority,
+    required String? multisigAuthority,
     required String? mint,
     required String source,
     required String destination,

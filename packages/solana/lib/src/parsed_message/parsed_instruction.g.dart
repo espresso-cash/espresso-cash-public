@@ -46,14 +46,14 @@ Map<String, dynamic> _$$ParsedInstructionMemoToJson(
       'parsed': instance.memo,
     };
 
-_$ParsedInstructionUnsupported _$$ParsedInstructionUnsupportedFromJson(
+_$ParsedInstructionGeneric _$$ParsedInstructionGenericFromJson(
         Map<String, dynamic> json) =>
-    _$ParsedInstructionUnsupported(
+    _$ParsedInstructionGeneric(
       program: json['program'] as String?,
     );
 
-Map<String, dynamic> _$$ParsedInstructionUnsupportedToJson(
-        _$ParsedInstructionUnsupported instance) =>
+Map<String, dynamic> _$$ParsedInstructionGenericToJson(
+        _$ParsedInstructionGeneric instance) =>
     <String, dynamic>{
       'program': instance.program,
     };
