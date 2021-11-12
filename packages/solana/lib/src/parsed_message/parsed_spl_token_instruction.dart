@@ -54,7 +54,8 @@ class ParsedSplTokenTransferCheckedInformation
     with _$ParsedSplTokenTransferCheckedInformation {
   const factory ParsedSplTokenTransferCheckedInformation({
     required TokenAmount tokenAmount,
-    required String authority,
+    required String? authority,
+    required String? multisigAuthority,
     required String? mint,
     required String source,
     required String destination,
