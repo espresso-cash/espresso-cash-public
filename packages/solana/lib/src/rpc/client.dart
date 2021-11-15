@@ -18,9 +18,7 @@ abstract class RpcClient {
     Commitment? commitment,
   });
 
-  /// Returns the balance of the account of provided Pubkey.
-  ///
-  /// [account] – Pubkey of account to query, as base-58 encoded string
+  /// Returns the balance of the [account] of provided Pubkey.
   Future<RpcResponse<int>> getBalance(
     String account, {
     Commitment? commitment,
