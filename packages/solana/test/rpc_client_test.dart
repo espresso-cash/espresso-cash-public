@@ -5,6 +5,7 @@ import 'package:solana/src/dto/account.dart';
 import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/dto/blockhash.dart';
 import 'package:solana/src/dto/commitment.dart';
+import 'package:solana/src/rpc/client.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
 import 'package:solana/src/rpc_client/simulate_tx_result.dart';
 import 'package:solana/src/rpc_client/transaction_response.dart';
@@ -20,6 +21,8 @@ const int _transferredAmount = 0x1000;
 void main() {
   group('SolanaClient testsuite', () {
     final RPCClient rpcClient = RPCClient(devnetRpcUrl);
+    final newClient = RpcClient(devnetRpcUrl);
+
     late Ed25519HDKeyPair destination;
     late Ed25519HDKeyPair source;
     int currentBalance = 0;
@@ -35,10 +38,10 @@ void main() {
     });
 
     test('Call requestAirdrop and add SOL to an account works', () async {
-      const int addedBalance = 100 * lamportsPerSol;
-      final TransactionSignature signature = await rpcClient.requestAirdrop(
-        address: source.address,
-        lamports: addedBalance,
+      const int addedBalance = 5 * lamportsPerSol;
+      final TransactionSignature signature = await newClient.requestAirdrop(
+        source.address,
+        addedBalance,
       );
       expect(signature, isNot(null));
       await expectLater(
@@ -48,15 +51,15 @@ void main() {
         ),
         completes,
       );
-      final int balance = await rpcClient.getBalance(source.address);
+      final balance = await newClient.getBalance(source.address);
       // Update the global balance
       currentBalance += addedBalance;
       // Check that it matches
-      expect(balance, currentBalance);
+      expect(balance.value, currentBalance);
     });
 
     test('Read the recent blockhash', () async {
-      final Blockhash blockHash = await rpcClient.getRecentBlockhash();
+      final blockHash = (await newClient.getRecentBlockhash()).value;
       expect(blockHash, isNot(null));
       expect(blockHash.blockhash, isNot(null));
       expect(blockHash.blockhash, isNot(''));
@@ -65,24 +68,26 @@ void main() {
     });
 
     test('Read the balance of an account', () async {
-      final int balance = await rpcClient.getBalance(
+      final balance = await newClient.getBalance(
         source.address,
       );
-      expect(balance, currentBalance);
+      expect(balance.value, currentBalance);
     });
 
     test('Get all the account information of an account', () async {
-      final Account? accountInfo = await rpcClient.getAccountInfo(
+      final accountInfo = (await newClient.getAccountInfo(
         source.address,
-      );
+        encoding: 'jsonParsed',
+      ))
+          .value;
       expect(accountInfo, isNotNull);
-      expect(accountInfo?.lamports, currentBalance);
-      expect(accountInfo?.owner, SystemProgram.programId);
-      expect(accountInfo?.executable, false);
+      expect(accountInfo.lamports, currentBalance);
+      expect(accountInfo.owner, SystemProgram.programId);
+      expect(accountInfo.executable, false);
     });
 
     test('Simulate a transfer', () async {
-      final recentBlockhash = await rpcClient.getRecentBlockhash();
+      final recentBlockhash = (await newClient.getRecentBlockhash()).value;
       final message = SystemProgram.transfer(
         source: source.address,
         destination: destination.address,
@@ -98,7 +103,7 @@ void main() {
     });
 
     test('Transfer SOL', () async {
-      final recentBlockhash = await rpcClient.getRecentBlockhash();
+      final recentBlockhash = (await newClient.getRecentBlockhash()).value;
       final message = SystemProgram.transfer(
         source: source.address,
         destination: destination.address,
@@ -118,12 +123,12 @@ void main() {
         ),
         completes,
       );
-      final int balance = await rpcClient.getBalance(destination.address);
+      final balance = (await newClient.getBalance(destination.address)).value;
       expect(balance, greaterThan(0));
     });
 
     test('Transfer SOL to the same address', () async {
-      final recentBlockhash = await rpcClient.getRecentBlockhash();
+      final recentBlockhash = (await newClient.getRecentBlockhash()).value;
       final message = SystemProgram.transfer(
         source: source.address,
         destination: source.address,

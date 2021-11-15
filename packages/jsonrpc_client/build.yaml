@@ -1,0 +1,8 @@
+builders:
+  jsonrpc_client:
+    import: "package:jsonrpc_client/builder.dart"
+    builder_factories: ["clientBuilder"]
+    build_extensions: {".dart": [".rpc.dart"]}
+    auto_apply: dependents
+    build_to: source
+    runs_before: ["json_serializable|json_serializable"]
