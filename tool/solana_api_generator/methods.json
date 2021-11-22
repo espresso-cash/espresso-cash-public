@@ -1,0 +1,1332 @@
+{
+  "methods": [
+    {
+      "name": "getAccountInfo",
+      "description": "Returns all information associated with the account of provided Pubkey",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "Pubkey of account to query, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetAccountInfoOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional\nfields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "Account",
+        "nullable": true,
+        "description": "Account information associated with provided Pubkey or null if not found"
+      }
+    },
+    {
+      "name": "getBalance",
+      "description": "Returns the balance of the account of provided Pubkey",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "Pubkey of account to query, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "u64",
+        "description": "Number of lamports assigned to pubKey"
+      }
+    },
+    {
+      "name": "getBlock",
+      "description": "Returns identity and transaction information about a confirmed block in the ledger",
+      "is_deprecated": false,
+      "replacement": "[RPCClient.getConfirmedBlock()]",
+      "is_new": true,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "slot",
+          "description": "slot, as u64 integer",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetBlockOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "Block",
+        "nullable": true,
+        "description": "A Block object if block is confirmed, and null otherwise"
+      }
+    },
+    {
+      "name": "getBlockHeight",
+      "description": "Returns the current block height of the node",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "u64",
+        "description": "Current block height"
+      }
+    },
+    {
+      "name": "getBlockProduction",
+      "description": "Returns recent block production information from the current or previous epoch.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "GetBlockProductionOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "BlockProduction",
+        "description": "recent block production"
+      }
+    },
+    {
+      "name": "getBlockCommitment",
+      "description": "Returns commitment for particular block",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "block",
+          "description": "block, identified by Slot",
+          "url": null,
+          "is_optional": false
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "BlockCommitment",
+        "nullable": true,
+        "description": "Block commitment, or null if block is not found"
+      }
+    },
+    {
+      "name": "getBlocks",
+      "description": "Returns a list of confirmed blocks between two slots",
+      "is_deprecated": false,
+      "replacement": "[RPCClient.getConfirmedBlocks()]",
+      "is_new": true,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "startSlot",
+          "description": "start_slot, as u64 integer",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "u64",
+          "name": "endSlot",
+          "description": "end_slot, as u64 integer",
+          "url": null,
+          "is_optional": true
+        },
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]u64",
+        "description": "An array of u64 integers listing confirmed blocks between start_slot and either end_slot, if provided, or latest confirmed block, inclusive. Max range allowed is 500,000 slots"
+      }
+    },
+    {
+      "name": "getBlocksWithLimit",
+      "description": "Returns a list of confirmed blocks starting at the given slot",
+      "is_deprecated": false,
+      "replacement": "[RPCClient.getConfirmedBlocksWithLimit()]",
+      "is_new": true,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "startSlot",
+          "description": "start_slot, as u64 integer",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "u64",
+          "name": "limit",
+          "description": "limit, as u64 integer",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]u64",
+        "description": "The result field will be an array of u64 integers listing confirmed blocks starting at start_slot for up to limit blocks, inclusive."
+      }
+    },
+    {
+      "name": "getBlockTime",
+      "description": "Returns the estimated production time of a block.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "block",
+          "description": "block, identified by Slot",
+          "url": null,
+          "is_optional": false
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "i64",
+        "nullable": true,
+        "description": "estimated production time, as Unix timestamp (seconds since the Unix epoch)"
+      }
+    },
+    {
+      "name": "getClusterNodes",
+      "description": "Returns information about all the nodes participating in the cluster",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "[]ClusterNode",
+        "description": "Nodes participating in the cluster"
+      }
+    },
+    {
+      "name": "getEpochInfo",
+      "description": "Returns information about the current epoch",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "EpochInfo",
+        "description": "Current epoch information"
+      }
+    },
+    {
+      "name": "getEpochSchedule",
+      "description": "Returns epoch schedule information from this cluster's genesis config",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "EpochSchedule",
+        "description": "Cluster epoch information"
+      }
+    },
+    {
+      "name": "getFeeCalculatorForBlockhash",
+      "description": "Returns the fee calculator associated with the query blockhash, or null if the blockhash has expired",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "blockhash",
+          "description": "query blockhash as a Base58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "FeeCalculatorForBlockhash",
+        "nullable": true,
+        "description": "object describing the cluster fee rate at the queried blockhash"
+      }
+    },
+    {
+      "name": "getFeeRateGovernor",
+      "description": "Returns the fee rate governor information from the root bank",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "FeeRateGovernor",
+        "description": "Fee rate governor information"
+      }
+    },
+    {
+      "name": "getFees",
+      "description": "Returns a recent block hash from the ledger, a fee schedule that can be used to compute the cost of submitting a transaction using it, and the last slot in which the blockhash will be valid.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "Fees",
+        "description": "Recent block hash from the ledger"
+      }
+    },
+    {
+      "name": "getFirstAvailableBlock",
+      "description": "Returns the slot of the lowest confirmed block that has not been purged from the ledger",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "u64",
+        "description": "Slot of the lowest confirmed block"
+      }
+    },
+    {
+      "name": "getGenesisHash",
+      "description": "Returns the genesis hash",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "string",
+        "description": "Genesis hash"
+      }
+    },
+    {
+      "name": "getHealth",
+      "description": "Returns the current health of the node.\n\nIf one or more --known-validator arguments are provided to solana-validator, \"ok\" is returned when the node has within HEALTH_CHECK_SLOT_DISTANCE slots of the highest known validator, otherwise an error is returned. \"ok\" is always returned if no known validators are provided.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "string|object",
+        "description": "If the node is healthy: \"ok\" If the node is unhealthy, a JSON RPC error response is returned. The specifics of the error response are UNSTABLE and may change in the future"
+      }
+    },
+    {
+      "name": "getIdentity",
+      "description": "Returns the identity pubkey for the current node",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "Identity",
+        "description": "The identity pubkey of the current node (as a base-58 encoded string)"
+      }
+    },
+    {
+      "name": "getInflationGovernor",
+      "description": "Returns the current inflation governor",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "InflationGovernor",
+        "description": "Current inflation rate governor"
+      }
+    },
+    {
+      "name": "getInflationRate",
+      "description": "Returns the specific inflation values for the current epoch",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "InflationRate",
+        "description": "Inflation values for the current epoch"
+      }
+    },
+    {
+      "name": "getInflationReward",
+      "description": "Returns the inflation reward for a list of addresses for an epoch",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "[]string",
+          "name": "addresses",
+          "description": "An array of addresses to query, as base-58 encoded strings",
+          "url": null,
+          "is_optional": false
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]InflationReward",
+        "description": "Inflation reward for a list of addresses for an epoch"
+      }
+    },
+    {
+      "name": "getLargestAccounts",
+      "description": "Returns the 20 largest accounts, by lamport balance (results may be cached up to two hours)",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "GetLargestAccountsOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "[]LargeAccount",
+        "description": "List of the 20 largest accounts"
+      }
+    },
+    {
+      "name": "getLeaderSchedule",
+      "description": "Returns the leader schedule for an epoch",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "slot",
+          "description": "Fetch the leader schedule for the epoch that corresponds to the provided slot.\nIf unspecified, the leader schedule for the current epoch is fetched",
+          "url": null,
+          "is_optional": true
+        },
+        {
+          "type": "GetLeaderScheduleOptions",
+          "name": "options",
+          "description": "Configuration object containing the following field:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "map[string][]int",
+        "nullable": true,
+        "description": "The result field will be a dictionary of validator identities, as base-58 encoded strings, and their corresponding leader slot indices as values (indices are relative to the first slot in the requested epoch) or null if the requested epoch is not found"
+      }
+    },
+    {
+      "name": "getMaxRetransmitSlot",
+      "description": "Get the max slot seen from retransmit stage.",
+      "is_deprecated": false,
+      "is_new": false,
+      "result": {
+        "wrapped": false,
+        "type": "u64",
+        "description": "Max slot seen from retransmit stage."
+      }
+    },
+    {
+      "name": "getMaxShredInsertSlot",
+      "description": "Get the max slot seen from after shred insert.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "u64",
+        "description": "Max slot seen from after shred insert."
+      }
+    },
+    {
+      "name": "getMinimumBalanceForRentExemption",
+      "description": "Returns minimum balance required to make account rent exempt.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "usize",
+          "name": "accountDataLength",
+          "description": "account data length",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "u64",
+        "description": "Minimum lamports required in account\n"
+      }
+    },
+    {
+      "name": "getMultipleAccounts",
+      "description": "Returns the account information for a list of Public keys",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "[]string",
+          "name": "pubKeys",
+          "description": "An array of PubKeys to query, as base-58 encoded strings",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetAccountInfoOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "[]Account",
+        "description": "Account information for requested PubKeys"
+      }
+    },
+    {
+      "name": "getProgramAccounts",
+      "description": "Returns all accounts owned by the provided program Pubkey\n\n",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "Pubkey of program, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetProgramAccountsOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]ProgramAccount",
+        "description": "Program accounts matching the query. By default the result field will be an array of JSON objects."
+      }
+    },
+    {
+      "name": "getRecentBlockhash",
+      "description": "Returns a recent block hash from the ledger, and a fee schedule that can be used to compute the cost of submitting a transaction using it.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "RecentBlockhash",
+        "description": "Recent blockhash"
+      }
+    },
+    {
+      "name": "getRecentPerformanceSamples",
+      "description": "Returns a list of recent performance samples, in reverse slot order. Performance samples are taken every 60 seconds and include the number of transactions and slots that occur in a given time window.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "usize",
+          "name": "limit",
+          "description": "number of samples to return (maximum 720)",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]PerfSample",
+        "description": "Performance samples"
+      }
+    },
+    {
+      "name": "getSnapshotSlot",
+      "description": "Returns the highest slot that the node has a snapshot for",
+      "is_deprecated": false,
+      "is_new": false,
+      "result": {
+        "wrapped": false,
+        "type": "u64",
+        "description": "Snapshot slot"
+      }
+    },
+    {
+      "name": "getSignaturesForAddress",
+      "description": "Returns confirmed signatures for transactions involving an address backwards in time from the provided signature or most recent confirmed block",
+      "is_deprecated": false,
+      "replacement": "[RPCClient.getSignaturesForAddress2()]",
+      "is_new": true,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "account address as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetSignaturesForAddressOptions",
+          "name": "options",
+          "description": "Configuration object containing the following fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]TransactionSignatureInformation",
+        "description": "An array of transaction signature information, ordered from newest to oldest transaction"
+      }
+    },
+    {
+      "name": "getSignatureStatuses",
+      "description": "Returns the statuses of a list of signatures. Unless the searchTransactionHistory configuration parameter is included, this method only searches the recent status cache of signatures, which retains statuses for all active slots plus MAX_RECENT_BLOCKHASHES rooted slots.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "[]string",
+          "name": "signatures",
+          "description": "An array of transaction signatures to confirm, as base-58 encoded strings",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetSignatureStatusesOptions",
+          "name": "options",
+          "description": "Configuration object containing the following field:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "[]SignatureStatus?",
+        "description": "The status of the given signature, or null of the signature does not exist"
+      }
+    },
+    {
+      "name": "getSlot",
+      "description": "Returns the slot that has reached the given or default commitment level",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "u64",
+        "description": "Current slot"
+      }
+    },
+    {
+      "name": "getSlotLeader",
+      "description": "Returns the current slot leader",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "string",
+        "description": "Node identity Pubkey as base-58 encoded string"
+      }
+    },
+    {
+      "name": "getSlotLeaders",
+      "description": "Returns the slot leaders for a given slot range",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "startSlot",
+          "description": "Start slot, as u64 integer",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "u64",
+          "name": "limit",
+          "description": "Limit, as u64 integer",
+          "url": null,
+          "is_optional": false
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]string",
+        "description": "Node identity public keys as base-58 encoded strings"
+      }
+    },
+    {
+      "name": "getStakeActivation",
+      "description": "Returns epoch activation information for a stake account",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "Pubkey of stake account to query, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetStakeActivationOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "StakeActivation",
+        "description": "Epoch activation information for a stake account"
+      }
+    },
+    {
+      "name": "getSupply",
+      "description": "Returns information about the current supply.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "GetSupplyOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "Supply",
+        "description": "Information about the current supply"
+      }
+    },
+    {
+      "name": "getTokenAccountBalance",
+      "description": "Returns the token balance of an SPL Token account.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "Pubkey of Token account to query, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "TokenAmount",
+        "description": "Token balance for provided PubKey"
+      }
+    },
+    {
+      "name": "getTokenAccountsByDelegate",
+      "description": "Returns all SPL Token accounts by approved Delegate.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "Pubkey of account delegate to query, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "TokenAccountsFilter",
+          "name": "filter",
+          "description": "Either a mint or a programId",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetAccountInfoOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "[]ProgramAccount",
+        "description": "List of matching accounts"
+      }
+    },
+    {
+      "name": "getTokenAccountsByOwner",
+      "description": "Returns all SPL Token accounts by token owner.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "Pubkey of account owner to query, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "TokenAccountsFilter",
+          "name": "filter",
+          "description": "Either a mint or a programId",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetAccountInfoOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "[]ProgramAccount",
+        "description": "List of matching accounts"
+      }
+    },
+    {
+      "name": "getTokenLargestAccounts",
+      "description": "Returns the 20 largest accounts of a particular SPL Token type.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "Pubkey of token Mint to query, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "[]ProgramAccount",
+        "description": "List of matching accounts"
+      }
+    },
+    {
+      "name": "getTokenSupply",
+      "description": "Returns the total supply of an SPL Token type.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "mint",
+          "description": "Pubkey of token Mint to query, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "TokenAmount",
+        "description": "Total supply for the specified SPL token"
+      }
+    },
+    {
+      "name": "getTransaction",
+      "description": "Returns transaction details for a confirmed transaction",
+      "is_deprecated": false,
+      "replacement": "[RPCClient.getTransaction()]",
+      "is_new": true,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "signature",
+          "description": "transaction signature as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetTransactionOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "TransactionDetails",
+        "nullable": true,
+        "description": "Transaction details for a confirmed transaction or null if the transaction is not confirmed"
+      }
+    },
+    {
+      "name": "getTransactionCount",
+      "description": "Returns the current Transaction count from the ledger",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "u64",
+        "description": "count"
+      }
+    },
+    {
+      "name": "getVersion",
+      "description": "Returns the current solana versions running on the node",
+      "is_deprecated": false,
+      "is_new": false,
+      "result": {
+        "wrapped": false,
+        "type": "SolanaVersion",
+        "description": "Version of solana running on this node"
+      }
+    },
+    {
+      "name": "getVoteAccounts",
+      "description": "Returns the account info and associated stake for all the voting accounts in the current bank.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "GetVoteAccountsOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "VoteAccounts",
+        "description": ""
+      }
+    },
+    {
+      "name": "minimumLedgerSlot",
+      "description": "Returns the lowest slot that the node has information about in its ledger. This value may increase over time if the node is configured to purge older ledger data",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [],
+      "result": {
+        "wrapped": false,
+        "type": "u64",
+        "description": "Minimum ledger slot"
+      }
+    },
+    {
+      "name": "requestAirdrop",
+      "description": "Requests an airdrop of lamports to a Pubkey",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "Pubkey of account to receive lamports, as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "u64",
+          "name": "lamports",
+          "description": "lamports, as a u64",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "CommitmentConfig",
+          "name": "commitment",
+          "description": "Commitment (used for retrieving blockhash and verifying airdrop success)",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "string",
+        "description": "Transaction Signature of airdrop, as base-58 encoded string"
+      }
+    },
+    {
+      "name": "sendTransaction",
+      "description": "Submits a signed transaction to the cluster for processing.\n\nThis method does not alter the transaction in any way; it relays the transaction created by clients to the node as-is.\n\nIf the node's rpc service receives the transaction, this method immediately succeeds, without waiting for any confirmations. A successful response from this method does not guarantee the transaction is processed or confirmed by the cluster.\n\nWhile the rpc service will reasonably retry to submit it, the transaction could be rejected if transaction's recent_blockhash expires before it lands.\n\nUse [RPCClient.getSignatureStatuses()] to ensure a transaction is processed and confirmed.\n\nBefore submitting, the following preflight checks are performed:\n\n- The transaction signatures are verified\n- The transaction is simulated against the bank slot specified by the preflight commitment. On failure an error will be returned. Preflight checks may be disabled if desired. It is recommended to specify the same commitment and preflight commitment to avoid confusing behavior.\n- The returned signature is the first signature in the transaction, which is used to identify the transaction (transaction id). This identifier can be easily extracted from the transaction data before submission.",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "transaction",
+          "description": "fully-signed Transaction, as encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "SendTransactionOptions",
+          "name": "options",
+          "description": "Configuration object containing the following field:",
+          "url": null,
+          "with_default_parameter": true,
+          "is_optional": false
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "string",
+        "description": "First Transaction Signature embedded in the transaction, as base-58 encoded string (transaction id)"
+      }
+    },
+    {
+      "name": "simulateTransaction",
+      "description": "Simulate sending a transaction",
+      "is_deprecated": false,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "transaction",
+          "description": "Transaction, as an encoded string. The transaction must have a valid blockhash, but is not required to be signed.",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "SimulateTransactionOptions",
+          "name": "options",
+          "description": "Configuration object containing the following fields:",
+          "url": null,
+          "with_default_parameter": true,
+          "is_optional": false
+        }
+      ],
+      "result": {
+        "wrapped": true,
+        "type": "TransactionStatus",
+        "description": "Transaction status"
+      }
+    },
+    {
+      "name": "getConfirmedBlock",
+      "description": "Returns identity and transaction information about a confirmed block in the ledger",
+      "is_deprecated": true,
+      "replacement": "[RPCClient.getBlock()]",
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "slot",
+          "description": "slot, as u64 integer",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetBlockOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "Block",
+        "description": "Confirmed block object"
+      }
+    },
+    {
+      "name": "getConfirmedBlocks",
+      "description": "Returns a list of confirmed blocks between two slots",
+      "is_deprecated": true,
+      "replacement": "[RPCClient.getBlocks()]",
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "startSlot",
+          "description": "start_slot, as u64 integer",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "u64",
+          "name": "endSlot",
+          "description": "end_slot, as u64 integer",
+          "url": null,
+          "is_optional": true
+        },
+        {
+          "type": "Commitment",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]u64",
+        "description": "An array of u64 integers listing confirmed blocks between start_slot and either end_slot, if provided, or latest confirmed block, inclusive. Max range allowed is 500,000 slots."
+      }
+    },
+    {
+      "name": "getConfirmedBlocksWithLimit",
+      "description": "Returns a list of confirmed blocks starting at the given slot",
+      "is_deprecated": true,
+      "replacement": "[RPCClient.getBlocksWithLimit()]",
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "u64",
+          "name": "startSlot",
+          "description": "start_slot, as u64 integer",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "u64",
+          "name": "limit",
+          "description": "limit, as u64 integer",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "Commitment",
+          "name": "commitment",
+          "description": "@help/commitment",
+          "default_value": "finalized",
+          "is_optional": true
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]u64",
+        "description": "An array of u64 integers listing confirmed blocks starting at start_slot for up to limit blocks, inclusive."
+      }
+    },
+    {
+      "name": "getConfirmedSignaturesForAddress2",
+      "description": "Returns confirmed signatures for transactions involving an address backwards in time from the provided signature or most recent confirmed block\n\n",
+      "is_deprecated": true,
+      "replacement": "[RPCClient.getSignaturesForAddress()]",
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pubKey",
+          "description": "account address as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetSignaturesForAddressOptions",
+          "name": "options",
+          "description": "Configuration object containing the following fields:",
+          "url": null,
+          "is_optional": true,
+          "fields": [
+            {
+              "type": "int",
+              "name": "limit",
+              "description": "maximum transaction signatures to return (between 1 and 1,000, default: 1,000).",
+              "url": null,
+              "is_optional": true
+            },
+            {
+              "type": "string",
+              "name": "before",
+              "description": "start searching backwards from this transaction signature. If not provided the search starts from the top of the highest max confirmed block.",
+              "url": null,
+              "is_optional": true
+            },
+            {
+              "type": "string",
+              "name": "until",
+              "description": "search until this transaction signature, if found before limit reached.",
+              "url": null,
+              "is_optional": true
+            },
+            {
+              "type": "Commitment",
+              "name": "commitment",
+              "description": "@help/commitment",
+              "default_value": "finalized",
+              "is_optional": true
+            }
+          ]
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "[]TransactionSignatureInformation",
+        "description": "An array of transaction signature information, ordered from newest to oldest transaction"
+      }
+    },
+    {
+      "name": "getConfirmedTransaction",
+      "description": "Returns transaction details for a confirmed transaction",
+      "replacement": "[RPCClient.getTransaction()]",
+      "is_deprecated": true,
+      "is_new": false,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "signature",
+          "description": "transaction signature as base-58 encoded string",
+          "url": null,
+          "is_optional": false
+        },
+        {
+          "type": "GetConfirmedTransactionOptions",
+          "name": "options",
+          "description": "Configuration object containing the following optional fields:",
+          "url": null,
+          "is_optional": false
+        }
+      ],
+      "result": {
+        "wrapped": false,
+        "type": "TransactionDetails",
+        "nullable": true,
+        "description": "Transaction details for said signature or null of not found"
+      }
+    }
+  ]
+}

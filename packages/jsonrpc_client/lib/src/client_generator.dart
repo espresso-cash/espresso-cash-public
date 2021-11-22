@@ -27,6 +27,31 @@ class _${element.name} implements ${element.name} {
 }
 
 ${methods.map(_generateConfig).join('\n\n')}
+
+List<T> _fromJsonArray<T>(dynamic array, T Function(dynamic) convert) {
+  if (array is List<Map<String, dynamic>>) {
+    return array.map(convert).toList(growable: false);
+  } else {
+    throw const FormatException('invalid input type is not json array');
+  }
+}
+
+dynamic _getResult(dynamic raw) {
+  if (raw is! Map<String, dynamic>) {
+    throw const FormatException('expecting a map but got something else');
+  }
+
+  return raw['result'];
+}
+
+dynamic _unwrapAndGetResult(dynamic raw) {
+  final dynamic result = _getResult(raw);
+  if (result is! Map<String, dynamic>) {
+    throw const FormatException('expecting a map but got something else');
+  }
+
+  return result['value'];
+}
 ''';
   }
 
@@ -53,7 +78,9 @@ class ${name}Config {
         .where((p) => p.isPositional)
         .map((p) => p.toJson())
         .toList();
-
+    final isContexted = method.metadata.any(
+      (a) => a.toSource() == "@contexted",
+    );
     final configParams = method.parameters.where((p) => p.isNamed);
     final String configParamsString;
     if (configParams.isNotEmpty) {
@@ -69,6 +96,7 @@ class ${name}Config {
         (method.returnType as ParameterizedType).typeArguments.first;
 
     return '''
+@override
 ${method.getDisplayString(withNullability: true)} async {
   final config = $configParamsString;
   final data = await _client.request(
@@ -78,8 +106,9 @@ ${method.getDisplayString(withNullability: true)} async {
         if (config.isNotEmpty) config,
       ],
     );
+  final dynamic value = ${isContexted ? '_unwrapAndGetResult' : '_getResult'}(data);
 
-    return ${returnType.fromJson("data['result']")};
+  return ${returnType.fromJson("value")};
 }
 ''';
   }
@@ -93,6 +122,18 @@ extension on DartType {
   String fromJson(String data) {
     final String genericFactory;
     if (this is ParameterizedType) {
+      if (isDartCoreList) {
+        final type = (this as ParameterizedType).typeArguments.first;
+        final typeName = type.getDisplayString(withNullability: true);
+        late final String fn;
+        if (primitiveTypes.any((t) => t.isExactlyType(type))) {
+          fn = '(dynamic v) => v as $typeName';
+        } else {
+          fn = '(dynamic v) => $typeName.fromJson(v as Map<String, dynamic>)';
+        }
+
+        return '_fromJsonArray($data, $fn)';
+      }
       if ((this as ParameterizedType).typeArguments.isEmpty) {
         genericFactory = '';
       } else {
@@ -125,9 +166,15 @@ extension on ParameterElement {
     return 'final $t $name;';
   }
 
-  String toJson() => primitiveTypes.any((t) => t.isExactlyType(type))
-      ? name
-      : '$name${type.nullSuffix}.toJson()';
+  String toJson() {
+    if (primitiveTypes.any((t) => t.isExactlyType(type))) {
+      return name;
+    } else if (type.isDartCoreNum) {
+      return '$name.value';
+    } else {
+      '$name${type.nullSuffix}.toJson()';
+    }
+  }
 }
 
 final primitiveTypes = [

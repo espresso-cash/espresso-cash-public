@@ -2,7 +2,7 @@ import 'package:solana/src/associated_token_account_program/associated_token_acc
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/dto/account.dart';
 import 'package:solana/src/dto/commitment.dart';
-import 'package:solana/src/dto/signature_status.dart';
+import 'package:solana/src/dto/confirmation_status.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
 import 'package:solana/src/rpc_client/rpc_client.dart';
@@ -80,7 +80,7 @@ class SplToken {
     required String destination,
     required int amount,
     required Ed25519HDKeyPair owner,
-    Commitment commitment = TxStatus.finalized,
+    Commitment commitment = ConfirmationStatus.finalized,
   }) async {
     final associatedRecipientAccount = await getAssociatedAccount(destination);
     final associatedSenderAccount = await getAssociatedAccount(source);
@@ -143,6 +143,7 @@ class SplToken {
       lamports: 0,
       executable: false,
       rentEpoch: 0,
+      data: null,
     );
   }
 
@@ -190,6 +191,7 @@ class SplToken {
         lamports: 0,
         executable: false,
         rentEpoch: 0,
+        data: null,
       ),
     );
   }

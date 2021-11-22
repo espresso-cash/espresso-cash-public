@@ -37,7 +37,8 @@ void main() {
       message,
       [payer],
     );
-    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+    await client.waitForSignatureStatus(
+        signature, ConfirmationStatus.finalized);
 
     expect(signature, isNotNull);
   }, skip: true);
@@ -73,7 +74,8 @@ void main() {
         updater,
       ],
     );
-    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+    await client.waitForSignatureStatus(
+        signature, ConfirmationStatus.finalized);
 
     final account = await client.getAccountInfo(updater.address);
     expect(account, isNotNull);
@@ -104,7 +106,8 @@ void main() {
       message,
       [payer],
     );
-    await client.waitForSignatureStatus(signature, TxStatus.finalized);
+    await client.waitForSignatureStatus(
+        signature, ConfirmationStatus.finalized);
 
     final discriminator = await computeDiscriminator('account', 'MyAccount');
     final account = await client.getAccountInfo(updater.address);

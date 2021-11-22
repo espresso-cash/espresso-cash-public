@@ -4,6 +4,7 @@ import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/dto/account.dart';
 import 'package:solana/src/dto/blockhash.dart';
 import 'package:solana/src/dto/commitment.dart';
+import 'package:solana/src/dto/confirmation_status.dart';
 import 'package:solana/src/dto/signature_status.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/exceptions/transaction_exception.dart';
@@ -294,8 +295,9 @@ class RPCClient {
         }
       ],
     );
+    print(data);
 
-    return SignatureStatusesResponse.fromJson(data).result.value;
+    return [];
   }
 
   /// Get minimum balance for rent exemption to allocate [size] bytes

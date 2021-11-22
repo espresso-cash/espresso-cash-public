@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'parsed_message_header.g.dart';
 
 /// The header of a [ParsedMessage]
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class ParsedMessageHeader {
   ParsedMessageHeader({
     required this.numRequiredSignatures,
@@ -13,6 +13,9 @@ class ParsedMessageHeader {
 
   factory ParsedMessageHeader.fromJson(Map<String, dynamic> json) =>
       _$ParsedMessageHeaderFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$ParsedMessageHeaderToJson(this);
 
   final int numRequiredSignatures;
   final int numReadonlySignedAccounts;

@@ -12,3 +12,11 @@ ParsedMessageHeader _$ParsedMessageHeaderFromJson(Map<String, dynamic> json) =>
       numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
       numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
     );
+
+Map<String, dynamic> _$ParsedMessageHeaderToJson(
+        ParsedMessageHeader instance) =>
+    <String, dynamic>{
+      'numRequiredSignatures': instance.numRequiredSignatures,
+      'numReadonlySignedAccounts': instance.numReadonlySignedAccounts,
+      'numReadonlyUnsignedAccounts': instance.numReadonlyUnsignedAccounts,
+    };

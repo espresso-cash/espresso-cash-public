@@ -10,7 +10,7 @@ AssociatedTokenAccount _$AssociatedTokenAccountFromJson(
         Map<String, dynamic> json) =>
     AssociatedTokenAccount(
       address: json['pubkey'] as String,
-      account: Account.fromJson(json['account'] as Map<String, dynamic>),
+      account: json['account'],
     );
 
 AssociatedTokenAccountResponse _$AssociatedTokenAccountResponseFromJson(
