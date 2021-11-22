@@ -1,0 +1,1637 @@
+{
+  "@types": [
+    {
+      "name": "RewardType",
+      "type": "enum",
+      "description": "Types of rewards",
+      "values": [
+        {
+          "name": "fee",
+          "description": "Fee reward"
+        },
+        {
+          "name": "rent",
+          "description": "Rent reward"
+        },
+        {
+          "name": "staking",
+          "description": "Staking reward"
+        },
+        {
+          "name": "voting",
+          "description": "Voting reward"
+        }
+      ]
+    },
+    {
+      "name": "StakeActivationState",
+      "type": "enum",
+      "description": "Stake activation states",
+      "values": [
+        {
+          "name": "activating",
+          "description": "Stake is activating"
+        },
+        {
+          "name": "active",
+          "description": "Stake is active"
+        },
+        {
+          "name": "deactivating",
+          "description": "Stake is deactivating"
+        },
+        {
+          "name": "inactive",
+          "description": "Stake is inactive"
+        }
+      ]
+    },
+    {
+      "name": "CirculationStatus",
+      "type": "enum",
+      "description": "Circulation status",
+      "values": [
+        {
+          "name": "circulating",
+          "description": "Currently circulating"
+        },
+        {
+          "name": "nonCirculating",
+          "description": "Not currently circulating"
+        }
+      ]
+    },
+    {
+      "name": "Encoding",
+      "type": "enum",
+      "description": "Data encoding formats",
+      "values": [
+        {
+          "name": "base64",
+          "description": "Binary data encoded as base64"
+        },
+        {
+          "name": "jsonParsed",
+          "description": "Attempts to use program-specific state parsers to return more human-readable and explicit account state data. If [Encoding.jsonParsed] is requested but a parser cannot be found, the field falls back to [Encoding.base64] encoding, detectable when the data field type is [string]"
+        },
+        {
+          "name": "base58",
+          "description": "Binary data encoded as base58.\n\nBase58 is limited to [AccountData] data of less than 129 bytes."
+        }
+      ]
+    },
+    {
+      "name": "Commitment",
+      "type": "enum",
+      "description": "For preflight checks and transaction processing, Solana nodes choose which bank state to query based on a commitment requirement set by the client. The commitment describes how finalized a block is at that point in time. When querying the ledger state, it's recommended to use lower levels of commitment to report progress and higher levels to ensure the state will not be rolled back.\n\nIn descending order of commitment (most [Commitment.finalized] to least [Commitment.finalized]).\n\nFor processing many dependent transactions in series, it's recommended to use [Commitment.confirmed] commitment, which balances speed with rollback safety. For total safety, it's recommended to use [Commitment.finalized] commitment.",
+      "values": [
+        {
+          "name": "processed",
+          "description": "The node will query its most recent block. Note that the block may not be complete."
+        },
+        {
+          "name": "confirmed",
+          "description": "The node will query the most recent block that has been voted on by supermajority of the cluster.\n-It incorporates votes from gossip and replay.\n-It does not count votes on descendants of a block, only direct votes on that block.\n-This confirmation level also upholds \"optimistic confirmation\" guarantees in release 1.3 and onwards."
+        },
+        {
+          "name": "finalized",
+          "description": "The node will query the most recent block confirmed by supermajority of the cluster as having reached maximum lockout, meaning the cluster has recognized this block as finalized."
+        }
+      ]
+    },
+    {
+      "name": "TransactionDetailLevel",
+      "type": "enum",
+      "description": "Transaction detail level.\n\nIf parameter not provided, the default detail level is [Commitment.full].",
+      "values": [
+        {
+          "name": "none",
+          "description": "No details"
+        },
+        {
+          "name": "full",
+          "description": "Complete transaction details"
+        },
+        {
+          "name": "signatures",
+          "description": "Signatures only"
+        }
+      ]
+    },
+    {
+      "name": "ConfirmationStatus",
+      "description": "A convenient alias for the confirmation status. Values are the same as [Commitment] but semantically it's a different type.",
+      "type": "Commitment"
+    },
+    {
+      "fields": [
+        {
+          "default_value": "base64",
+          "description": "This value is fixed because parsing occurs internally in the library",
+          "is_optional": true,
+          "name": "encoding",
+          "type": "Encoding"
+        },
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        }
+      ],
+      "name": "GetConfirmedTransactionOptions",
+      "description": "Configuration object for [RPCClient.getConfirmedTransaction()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "@help/encoding",
+          "is_optional": true,
+          "name": "accountEncoding",
+          "type": "Encoding"
+        },
+        {
+          "description": "An array of accounts to return, as base-58 encoded strings",
+          "is_optional": true,
+          "name": "addresses",
+          "type": "[]string"
+        }
+      ],
+      "name": "SimulateTransactionAccounts",
+      "description": "Accounts for a transaction simulation",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "If true the transaction signatures will be verified (default: false, conflicts with [SimulateTransactionOptions.replaceRecentBlockhash])",
+          "is_optional": true,
+          "name": "sigVerify",
+          "type": "bool"
+        },
+        {
+          "constant_value": "base64",
+          "description": "Only [Encoding.base64] is acceptable",
+          "name": "encoding",
+          "type": "Encoding"
+        },
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "default_value": false,
+          "description": "If true the transaction recent blockhash will be replaced with the most recent blockhash.\n(default: false, conflicts with sigVerify)",
+          "is_optional": true,
+          "name": "replaceRecentBlockhash",
+          "type": "bool"
+        },
+        {
+          "description": "Accounts configuration object containing the following fields:",
+          "is_optional": true,
+          "name": "accounts",
+          "type": "SimulateTransactionAccounts"
+        }
+      ],
+      "name": "SimulateTransactionOptions",
+      "description": "Configuration object for [RPCClient.simulateTransaction()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "constant_value": "base64",
+          "description": "Only [Encoding.base64] is acceptable",
+          "name": "encoding",
+          "type": "Encoding"
+        },
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "default_value": false,
+          "description": "If true, skip the preflight transaction checks (default: false).",
+          "is_optional": true,
+          "name": "skipPreflight",
+          "type": "bool"
+        },
+        {
+          "description": "Maximum number of times for the RPC node to retry sending the transaction to the leader.\nIf this parameter not provided, the RPC node will retry the transaction until it is finalized or until the blockhash expires.",
+          "is_optional": true,
+          "name": "maxRetries",
+          "type": "usize"
+        }
+      ],
+      "name": "SendTransactionOptions",
+      "description": "Configuration object for [RPCClient.sendTransaction()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "description": "Only return results for this validator vote address (base-58 encoded)",
+          "is_optional": true,
+          "name": "votePubKey",
+          "type": "string"
+        },
+        {
+          "description": "Do not filter out delinquent validators with no stake",
+          "is_optional": true,
+          "name": "keepUnstakedDelinquents",
+          "type": "bool"
+        },
+        {
+          "description": "Specify the number of slots behind the tip that a validator must fall to be considered delinquent. NOTE: For the sake of consistency between ecosystem products, it is not recommended that this argument be specified.",
+          "is_optional": true,
+          "name": "delinquentSlotDistance",
+          "type": "u64"
+        }
+      ],
+      "name": "GetVoteAccountsOptions",
+      "description": "Configuration object for [RPCClient.getVoteAccounts()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "@help/encoding",
+          "is_optional": true,
+          "name": "encoding",
+          "type": "Encoding"
+        },
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        }
+      ],
+      "name": "GetTransactionOptions",
+      "description": "Configuration object for [RPCClient.getVoteAccounts()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": false,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "description": "exclude non circulating accounts list from response",
+          "is_optional": true,
+          "name": "excludeNonCirculatingAccountsList",
+          "type": "bool"
+        }
+      ],
+      "name": "GetSupplyOptions",
+      "description": "Configuration object for [RPCClient.getVoteAccounts()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "description": "epoch for which to calculate activation details. If parameter not provided, defaults to current epoch.",
+          "is_optional": true,
+          "name": "epoch",
+          "type": "u64"
+        }
+      ],
+      "name": "GetStakeActivationOptions",
+      "description": "Configuration object for [RPCClient.getStakeActivation()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "If true, a Solana node will search its ledger cache for any signatures not found in the recent status cache",
+          "is_optional": true,
+          "name": "searchTransactionHistory",
+          "type": "bool"
+        }
+      ],
+      "name": "GetSignatureStatusesOptions",
+      "description": "Configuration object for [RPCClient.getStakeActivation()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Maximum transaction signatures to return (between 1 and 1,000, default: 1,000).",
+          "is_optional": true,
+          "name": "limit",
+          "type": "int"
+        },
+        {
+          "description": "Start searching backwards from this transaction signature. If not provided the search starts from the top of the highest max confirmed block.",
+          "is_optional": true,
+          "name": "before",
+          "type": "string"
+        },
+        {
+          "description": "Search until this transaction signature, if found before limit reached.",
+          "is_optional": true,
+          "name": "until",
+          "type": "string"
+        },
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        }
+      ],
+      "name": "GetSignaturesForAddressOptions",
+      "description": "Configuration object for [RPCClient.getSignaturesForAddress()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "description": "@help/encoding",
+          "is_optional": true,
+          "name": "encoding",
+          "type": "Encoding"
+        },
+        {
+          "description": "Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for \"base58\"\"base64\" or \"base64+zstd\" encodings.",
+          "is_optional": true,
+          "name": "dataSlice",
+          "type": "DataSlice"
+        },
+        {
+          "description": "Filter results using various filter objects; account must meet all filter criteria to be included in results",
+          "is_optional": true,
+          "name": "filter",
+          "type": "[]Filter"
+        }
+      ],
+      "name": "GetProgramAccountsOptions",
+      "description": "Configuration object for [RPCClient.getProgramAccounts()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "description": "Only return results for this validator identity (base-58 encoded)",
+          "is_optional": true,
+          "name": "identity",
+          "type": "string"
+        }
+      ],
+      "name": "GetLeaderScheduleOptions",
+      "description": "Configuration object for [RPCClient.getLeaderSchedule()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "description": "filter results by account type; currently supported: circulating|nonCirculating",
+          "is_optional": true,
+          "name": "filter",
+          "type": "CirculationStatus"
+        }
+      ],
+      "name": "GetLargestAccountsOptions",
+      "description": "Configuration object for [RPCClient.getLargestAccounts()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "description": "Slot range to return block production for. If parameter not provided, defaults to current epoch.",
+          "is_optional": true,
+          "name": "range",
+          "type": "Range"
+        },
+        {
+          "description": "Only return results for this validator identity (base-58 encoded)",
+          "is_optional": true,
+          "name": "identity",
+          "type": "string"
+        }
+      ],
+      "name": "GetBlockProductionOptions",
+      "description": "Configuration object for [RPCClient.getBlockProduction()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "@help/encoding",
+          "is_optional": true,
+          "name": "encoding",
+          "type": "Encoding"
+        },
+        {
+          "description": "Level of transaction detail to return.",
+          "is_optional": true,
+          "name": "transactionDetails",
+          "type": "TransactionDetailLevel"
+        },
+        {
+          "default_value": false,
+          "description": "Whether to populate the rewards array. If parameter not provided, the default includes rewards.",
+          "is_optional": true,
+          "name": "rewards",
+          "type": "bool"
+        },
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        }
+      ],
+      "name": "GetBlockOptions",
+      "description": "Configuration object for [RPCClient.getBlock()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "default_value": "finalized",
+          "description": "@help/commitment",
+          "is_optional": true,
+          "name": "commitment",
+          "type": "Commitment"
+        },
+        {
+          "description": "@help/encoding",
+          "is_optional": true,
+          "name": "encoding",
+          "type": "Encoding"
+        },
+        {
+          "description": "Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for \"base58\"\"base64\" or \"base64+zstd\" encodings.",
+          "is_optional": true,
+          "name": "dataSlice",
+          "type": "DataSlice"
+        }
+      ],
+      "name": "GetAccountInfoOptions",
+      "description": "Configuration object for getting account information",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Pubkey of the specific token Mint to limit accounts to, as base-58 encoded string; or",
+          "is_optional": true,
+          "name": "mint",
+          "type": "string"
+        },
+        {
+          "description": "Pubkey of the Token program ID that owns the accounts, as base-58 encoded string",
+          "is_optional": true,
+          "name": "programId",
+          "type": "string"
+        }
+      ],
+      "name": "TokenAccountsFilter",
+      "description": "Either a mint or a program id",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Start index for the data slice",
+          "is_optional": true,
+          "name": "offset",
+          "type": "usize"
+        },
+        {
+          "description": "Length of the data slice",
+          "is_optional": true,
+          "name": "length",
+          "type": "usize"
+        }
+      ],
+      "name": "DataSlice",
+      "description": "Data slice to limit the account data in a response",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "@help/commitment",
+          "name": "commitment",
+          "nullable": true,
+          "type": "Commitment"
+        }
+      ],
+      "name": "CommitmentConfig",
+      "description": "Configuration of the commitment for some methods",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Number of lamports assigned to this account, as a u64",
+          "name": "lamports",
+          "type": "u64"
+        },
+        {
+          "description": "base-58 encoded Pubkey of the program this account has been assigned to",
+          "name": "owner",
+          "type": "string"
+        },
+        {
+          "description": "Data associated with the account, either as encoded binary data or JSON format {<program>: <state>}, depending on encoding parameter",
+          "name": "data",
+          "nullable": true,
+          "type": "AccountData"
+        },
+        {
+          "description": "Boolean indicating if the account contains a program (and is strictly read-only)",
+          "name": "executable",
+          "type": "boolean"
+        },
+        {
+          "description": "The epoch at which this account will next owe rent, as u64",
+          "name": "rentEpoch",
+          "type": "u64"
+        }
+      ],
+      "name": "Account",
+      "description": "An account",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "The blockhash of this block, as base-58 encoded string",
+          "name": "blockhash",
+          "type": "string"
+        },
+        {
+          "description": "The blockhash of this block's parent, as base-58 encoded string; if the parent block is not available due to ledger cleanup, this field will return \"11111111111111111111111111111111\"",
+          "name": "previousBlockhash",
+          "type": "string"
+        },
+        {
+          "description": "The slot index of this block's parent",
+          "name": "parentSlot",
+          "type": "u64"
+        },
+        {
+          "description": "Present if [TransactionDetailLevel.full] transaction details are requested; an array of [Transaction] objects",
+          "name": "transactions",
+          "type": "[]Transaction"
+        },
+        {
+          "description": "Transaction status metadata object",
+          "name": "meta",
+          "nullable": true,
+          "type": "Meta"
+        },
+        {
+          "description": "Present if [TransactionDetailLevel.signatures] are requested for transaction details; an array of signatures strings, corresponding to the transaction order in the block.",
+          "name": "signatures",
+          "type": "[]string"
+        },
+        {
+          "description": "Present if rewards are requested; an array of [Reward] objects.",
+          "name": "rewards",
+          "type": "[]Reward"
+        },
+        {
+          "description": "Estimated production time, as Unix timestamp (seconds since the Unix epoch). None if not available.",
+          "name": "blockTime",
+          "nullable": true,
+          "type": "i64"
+        },
+        {
+          "description": "The number of blocks beneath this block",
+          "name": "blockHeight",
+          "nullable": true,
+          "type": "u64"
+        }
+      ],
+      "name": "Block",
+      "description": "A block",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "@help/errors",
+          "name": "err",
+          "nullable": true,
+          "type": "object"
+        },
+        {
+          "description": "Fee this transaction was charged, as u64 integer.",
+          "name": "fee",
+          "type": "u64"
+        },
+        {
+          "description": "Array of u64 account balances from before the transaction was processed.",
+          "name": "preBalances",
+          "type": "[]u64"
+        },
+        {
+          "description": "Array of u64 account balances after the transaction was processed.",
+          "name": "postBalances",
+          "type": "[]u64"
+        },
+        {
+          "description": "List of inner instructions or omitted if inner instruction recording was not yet enabled during this transaction.",
+          "name": "innerInstructions",
+          "type": "[]InnerInstruction"
+        },
+        {
+          "description": "List of token balances from before the transaction was processed or omitted if token balance recording was not yet enabled during this transaction.",
+          "name": "preTokenBalances",
+          "type": "[]TokenBalance",
+          "undefinable": true
+        },
+        {
+          "description": "List of token balances from after the transaction was processed or omitted if token balance recording was not yet enabled during this transaction.",
+          "name": "postTokenBalances",
+          "type": "[]TokenBalance",
+          "undefinable": true
+        },
+        {
+          "description": "Array of string log messages or omitted if log message recording was not yet enabled during this transaction.",
+          "name": "logMessages",
+          "type": "[]string"
+        }
+      ],
+      "name": "Meta",
+      "description": "Transaction state metadata",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "The public key, as base-58 encoded string, of the account that received the reward.",
+          "name": "pubkey",
+          "type": "string"
+        },
+        {
+          "description": "Number of reward lamports credited or debited by the account, as a i64.",
+          "name": "lamports",
+          "type": "i64"
+        },
+        {
+          "description": "Account balance in lamports after the reward was applied.",
+          "name": "postBalance",
+          "type": "u64"
+        },
+        {
+          "description": "Type of reward",
+          "name": "rewardType",
+          "type": "RewardType",
+          "undefinable": true
+        },
+        {
+          "description": "vote account commission when the reward was credited, only present for voting and staking rewards",
+          "name": "commission",
+          "type": "u8",
+          "undefinable": true
+        }
+      ],
+      "name": "Reward",
+      "description": "A reward",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "The total number of signatures required to make the transaction valid. The signatures must match the first numRequiredSignatures of message.account_keys.",
+          "name": "numRequiredSignatures",
+          "type": "int"
+        },
+        {
+          "description": "The last numReadonlySignedAccounts of the signed keys are read-only accounts. Programs may process multiple transactions that load read-only accounts within a single PoH entry, but are not permitted to credit or debit lamports or modify account data. Transactions targeting the same read-write account are evaluated sequentially.",
+          "name": "numReadonlySignedAccounts",
+          "type": "int"
+        },
+        {
+          "description": "The last numReadonlyUnsignedAccounts of the unsigned keys are read-only accounts.",
+          "name": "numReadonlyUnsignedAccounts",
+          "type": "int"
+        }
+      ],
+      "name": "TransactionMessageHeader",
+      "description": "The header of a transaction message",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "List of base-58 encoded public keys used by the transaction, including by the instructions and for signatures. The first message.header.numRequiredSignatures public keys must sign the transaction.",
+          "name": "accountKeys",
+          "type": "[]string"
+        },
+        {
+          "description": "Details the account types and signatures required by the transaction.",
+          "name": "header",
+          "type": "TransactionMessageHeader"
+        },
+        {
+          "description": "A base-58 encoded hash of a recent block in the ledger used to prevent transaction duplication and to give transactions lifetimes.",
+          "name": "recentBlockhash",
+          "type": "string"
+        },
+        {
+          "description": "List of program instructions that will be executed in sequence and committed in one atomic transaction if all succeed.",
+          "name": "instructions",
+          "type": "[]Instruction"
+        }
+      ],
+      "name": "TransactionMessage",
+      "description": "A transaction message",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "A list of base-58 encoded signatures applied to the transaction. The list is always of length message.header.numRequiredSignatures and not empty. The signature at index i corresponds to the public key at index i in message.account_keys. The first one is used as the transaction id.",
+          "name": "signatures",
+          "type": "[]string"
+        },
+        {
+          "description": "Defines the content of the transaction.",
+          "name": "message",
+          "type": "ParsedMessage"
+        }
+      ],
+      "name": "Transaction",
+      "description": "A transaction",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "the slot this transaction was processed in",
+          "name": "slot",
+          "type": "u64"
+        },
+        {
+          "description": "Transaction object, either in JSON format or encoded binary data, depending on encoding parameter",
+          "name": "transaction",
+          "type": "Transaction"
+        },
+        {
+          "description": "",
+          "name": "blockTime",
+          "nullable": true,
+          "type": "i64"
+        },
+        {
+          "description": "transaction status metadata",
+          "name": "meta",
+          "type": "Meta"
+        }
+      ],
+      "name": "TransactionDetails",
+      "description": "Details of a transaction",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Index of the transaction instruction from which the inner instruction(s) originated",
+          "name": "index",
+          "type": "int"
+        },
+        {
+          "description": "Ordered list of inner program instructions that were invoked during a single transaction instruction.",
+          "name": "instruction",
+          "type": "[]Instruction"
+        }
+      ],
+      "name": "InnerInstruction",
+      "description": "List of inner instructions or omitted if inner instruction recording was not yet enabled during this transaction",
+      "links": [
+        {
+          "url": "https://docs.solana.com/developing/clients/jsonrpc-api#inner-instructions-structure",
+          "span": [
+            8,
+            26
+          ]
+        }
+      ],
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Index into the message.accountKeys array indicating the program account that executes this instruction.",
+          "name": "programIdIndex",
+          "type": "int"
+        },
+        {
+          "description": "List of ordered indices into the message.accountKeys array indicating which accounts to pass to the program.",
+          "name": "accounts",
+          "type": "[]int"
+        },
+        {
+          "description": "The program input data encoded in a base-58 string.",
+          "name": "data",
+          "type": "string"
+        }
+      ],
+      "name": "Instruction",
+      "description": "An instruction in a transaction",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Raw amount of tokens as a string, ignoring decimals.",
+          "name": "amount",
+          "type": "string"
+        },
+        {
+          "description": "Number of decimals configured for token's mint.",
+          "name": "decimals",
+          "type": "int"
+        },
+        {
+          "description": "Token amount as a string, accounting for decimals.",
+          "name": "uiAmountString",
+          "nullable": true,
+          "type": "string"
+        }
+      ],
+      "name": "TokenAmount",
+      "description": "The amount of a SPL token",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Index of the account in which the token balance is provided for.",
+          "name": "accountIndex",
+          "type": "int"
+        },
+        {
+          "description": "Pubkey of the token's mint.",
+          "name": "mint",
+          "type": "string"
+        },
+        {
+          "description": "Token balance",
+          "name": "uiTokenAmount",
+          "type": "TokenAmount"
+        }
+      ],
+      "name": "TokenBalance",
+      "description": "The balance of a SPL token account",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Node public key, as base-58 encoded string",
+          "name": "pubkey",
+          "type": "string"
+        },
+        {
+          "description": "Gossip network address for the node",
+          "name": "gossip",
+          "type": "string"
+        },
+        {
+          "description": "TPU network address for the node",
+          "name": "tpu",
+          "type": "string"
+        },
+        {
+          "description": "JSON RPC network address for the node, or null if the JSON RPC service is not enabled",
+          "name": "rpc",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "description": "The software version of the node, or null if the version information is not available",
+          "name": "version",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "description": "The unique identifier of the node's feature set",
+          "name": "featureSet",
+          "nullable": true,
+          "type": "int"
+        },
+        {
+          "description": "The shred version the node has been configured to use",
+          "name": "shredVersion",
+          "nullable": true,
+          "type": "int"
+        }
+      ],
+      "name": "ClusterNode",
+      "description": "A node of a cluster",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "The current slot",
+          "name": "absoluteSlot",
+          "type": "u64"
+        },
+        {
+          "description": "The current block height",
+          "name": "blockHeight",
+          "type": "u64"
+        },
+        {
+          "description": "The current epoch",
+          "name": "epoch",
+          "type": "u64"
+        },
+        {
+          "description": "The current slot relative to the start of the current epoch",
+          "name": "slotIndex",
+          "type": "u64"
+        },
+        {
+          "description": "The number of slots in this epoch",
+          "name": "slotsInEpoch",
+          "type": "u64"
+        }
+      ],
+      "name": "EpochInfo",
+      "description": "Information about an epoch",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "number of lamports per signature in a transaction",
+          "name": "lamportsPerSignature",
+          "type": "u64"
+        }
+      ],
+      "name": "FeeCalculator",
+      "description": "A fee calculator",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "first slot of the block production information (inclusive)",
+          "name": "firstSlot",
+          "type": "u64"
+        },
+        {
+          "description": "last slot of block production information (inclusive)",
+          "name": "lastSlot",
+          "type": "u64"
+        }
+      ],
+      "name": "Range",
+      "description": "A range of bytes",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "A dictionary of validator identities, as base-58 encoded strings. Value is a two element array containing the number of leader slots and the number of blocks produced.",
+          "name": "byIdentity",
+          "type": "map[string]ByIdentityValue"
+        },
+        {
+          "description": "Block production slot range",
+          "name": "range",
+          "type": "Range"
+        }
+      ],
+      "name": "BlockProduction",
+      "description": "A block production",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Commitment, array of u64 integers logging the amount of cluster stake in lamports that has voted on the block at each depth from 0 to MAX_LOCKOUT_HISTORY + 1.",
+          "name": "commitment",
+          "nullable": true,
+          "type": "[]u64"
+        },
+        {
+          "description": "Total active stake, in lamports, of the current epoch.",
+          "name": "totalStake",
+          "type": "u64"
+        }
+      ],
+      "name": "BlockCommitment",
+      "description": "The commitment of a bloc",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "The maximum number of slots in each epoch.",
+          "name": "slotsPerEpoch",
+          "type": "u64"
+        },
+        {
+          "description": "The number of slots before beginning of an epoch to calculate a leader schedule for that epoch.",
+          "name": "leaderScheduleSlotOffset",
+          "type": "u64"
+        },
+        {
+          "description": "Whether epochs start short and grow.",
+          "name": "warmup",
+          "type": "bool"
+        },
+        {
+          "description": "First normal-length epoch, log2(slotsPerEpoch) - log2(MINIMUM_SLOTS_PER_EPOCH).",
+          "name": "firstNormalEpoch",
+          "type": "u64"
+        },
+        {
+          "description": "MINIMUM_SLOTS_PER_EPOCH * (2.pow(firstNormalEpoch) - 1).",
+          "name": "firstNormalSlot",
+          "type": "u64"
+        }
+      ],
+      "name": "EpochSchedule",
+      "description": "An epoch schedule",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Percentage of fees collected to be destroyed.",
+          "name": "burnPercent",
+          "type": "u8"
+        },
+        {
+          "description": "Largest value lamportsPerSignature can attain for the next slot.",
+          "name": "maxLamportsPerSignature",
+          "type": "u64"
+        },
+        {
+          "description": "Smallest value lamportsPerSignature can attain for the next slot.",
+          "name": "minLamportsPerSignature",
+          "type": "u64"
+        },
+        {
+          "description": "Desired fee rate for the cluster.",
+          "name": "targetLamportsPerSignature",
+          "type": "u64"
+        },
+        {
+          "description": "Desired signature rate for the cluster.",
+          "name": "targetSignaturesPerSlot",
+          "type": "u64"
+        }
+      ],
+      "name": "FeeRateGovernorValue",
+      "description": "The value of a fee rate governor",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Fee rate governor",
+          "name": "feeRateGovernor",
+          "type": "FeeRateGovernorValue"
+        }
+      ],
+      "name": "FeeRateGovernor",
+      "description": "A fee rate governor",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Hash as base-58 encoded string",
+          "name": "blockhash",
+          "type": "string"
+        },
+        {
+          "description": "[FeeCalculator] object, the fee schedule for this block hash",
+          "name": "feeCalculator",
+          "type": "FeeCalculator"
+        },
+        {
+          "description": "Last block height at which a [blockhash] will be valid",
+          "name": "lastValidBlockHeight",
+          "type": "u64"
+        }
+      ],
+      "name": "Fees",
+      "description": "A fee description object",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "the identity pubkey of the current node (as a base-58 encoded string)",
+          "name": "identity",
+          "type": "string"
+        }
+      ],
+      "name": "Identity",
+      "description": "An identity (or a public key)",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "The initial inflation percentage from time 0.",
+          "name": "initial",
+          "type": "f64"
+        },
+        {
+          "description": "Terminal inflation percentage.",
+          "name": "terminal",
+          "type": "f64"
+        },
+        {
+          "description": "Rate per year at which inflation is lowered.\\nRate reduction is derived using the target slot time in genesis config.",
+          "name": "taper",
+          "type": "f64"
+        },
+        {
+          "description": "Percentage of total inflation allocated to the foundation.",
+          "name": "foundation",
+          "type": "f64"
+        },
+        {
+          "description": "Duration of foundation pool inflation in years.",
+          "name": "foundationTerm",
+          "type": "f64"
+        }
+      ],
+      "name": "InflationGovernor",
+      "description": "An inflation governor",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Total inflation.",
+          "name": "total",
+          "type": "f64"
+        },
+        {
+          "description": "Inflation allocated to validators.",
+          "name": "validator",
+          "type": "f64"
+        },
+        {
+          "description": "Inflation allocated to the foundation.",
+          "name": "foundation",
+          "type": "f64"
+        },
+        {
+          "description": "Epoch for which these values are valid.",
+          "name": "epoch",
+          "type": "f64"
+        }
+      ],
+      "name": "InflationRate",
+      "description": "An inflation rate",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Epoch for which reward occurred.",
+          "name": "epoch",
+          "type": "u64"
+        },
+        {
+          "description": "The slot in which the rewards are effective.",
+          "name": "effectiveSlot",
+          "type": "u64"
+        },
+        {
+          "description": "Reward amount in lamports.",
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "description": "Post balance of the account in lamports.",
+          "name": "postBalance",
+          "type": "u64"
+        },
+        {
+          "description": "Vote account commission when the reward was credited.",
+          "name": "commission",
+          "type": "u8",
+          "undefinable": true
+        }
+      ],
+      "name": "InflationReward",
+      "description": "An inflation reward",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "base-58 encoded address of the account",
+          "name": "address",
+          "type": "string"
+        },
+        {
+          "description": "Number of lamports in the account, as a u64",
+          "name": "lamports",
+          "type": "u64"
+        }
+      ],
+      "name": "LargeAccount",
+      "description": "A large account",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Offset into program account data to start comparison.",
+          "name": "offset",
+          "type": "u64"
+        },
+        {
+          "description": "Data to match, as base-58 encoded string and limited to less than 129 bytes.",
+          "name": "bytes",
+          "type": "string"
+        }
+      ],
+      "name": "FilterParams",
+      "description": "A parameters object for a filter of program data",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Compares a provided series of bytes with program account data at a particular offset.",
+          "name": "memcmp",
+          "type": "FilterParams",
+          "undefinable": true
+        },
+        {
+          "description": "Compares the program account data length with the provided data size.",
+          "name": "dataSize",
+          "type": "u64",
+          "undefinable": true
+        }
+      ],
+      "name": "Filter",
+      "description": "A filter of program data",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "The account information for this program account.",
+          "name": "account",
+          "type": "Account"
+        },
+        {
+          "description": "The account Pubkey as base-58 encoded string.",
+          "name": "pubkey",
+          "type": "string"
+        }
+      ],
+      "name": "ProgramAccount",
+      "description": "A program account",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "[FeeCalculator] object, the fee schedule for this block hash",
+          "name": "feeCalculator",
+          "type": "FeeCalculator"
+        }
+      ],
+      "name": "FeeCalculatorForBlockhash",
+      "description": "The fee calculator for a blockhash",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Hash as base-58 encoded string",
+          "name": "blockhash",
+          "type": "string"
+        },
+        {
+          "description": "[FeeCalculator] object, the fee schedule for this block hash",
+          "name": "feeCalculator",
+          "type": "FeeCalculator"
+        }
+      ],
+      "name": "RecentBlockhash",
+      "description": "A recent blockhash",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Slot in which sample was taken at.",
+          "name": "slot",
+          "type": "u64"
+        },
+        {
+          "description": "Number of transactions in sample.",
+          "name": "numTransactions",
+          "type": "u64"
+        },
+        {
+          "description": "Number of slots in sample.",
+          "name": "numSlots",
+          "type": "u64"
+        },
+        {
+          "description": "Number of seconds in a sample window.",
+          "name": "samplePeriodSec",
+          "type": "u16"
+        }
+      ],
+      "name": "PerfSample",
+      "description": "A performance sample",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Transaction signature as base-58 encoded string.",
+          "name": "signature",
+          "type": "string"
+        },
+        {
+          "description": "The slot that contains the block with the transaction.",
+          "name": "slot",
+          "type": "u64"
+        },
+        {
+          "description": "@help/errors",
+          "name": "err",
+          "nullable": true,
+          "type": "object"
+        },
+        {
+          "description": "Memo associated with the transaction, null if no memo is present.",
+          "name": "memo",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "description": "Estimated production time, as Unix timestamp (seconds since the Unix epoch) of when transaction was processed. null if not available.",
+          "name": "blockTime",
+          "nullable": true,
+          "type": "i64"
+        }
+      ],
+      "name": "TransactionSignatureInformation",
+      "description": "The information of a transaction signature",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "The slot the transaction was processed.",
+          "name": "slot",
+          "type": "u64"
+        },
+        {
+          "description": "Number of blocks since signature confirmation, null if rooted, as well as finalized.",
+          "name": "confirmations",
+          "nullable": true,
+          "type": "u64"
+        },
+        {
+          "description": "@help/errors",
+          "name": "err",
+          "nullable": true,
+          "type": "object"
+        },
+        {
+          "description": "The transaction's cluster confirmation status; either [Commitment.processed], [Commitment.confirmed], or [Commitment.finalized]. See [Commitment](@help/commitment/link) for more on optimistic confirmation.",
+          "name": "confirmationStatus",
+          "type": "ConfirmationStatus"
+        }
+      ],
+      "name": "SignatureStatus",
+      "description": "The status of a signature",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Stake account's activation state",
+          "name": "state",
+          "type": "StakeActivationState"
+        },
+        {
+          "description": "Stake active during the epoch.",
+          "name": "active",
+          "type": "u64"
+        },
+        {
+          "description": "Stake inactive during the epoch.",
+          "name": "inactive",
+          "type": "u64"
+        }
+      ],
+      "name": "StakeActivation",
+      "description": "A stake activation description",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Total supply in lamports.",
+          "name": "total",
+          "type": "u64"
+        },
+        {
+          "description": "Circulating supply in lamports.",
+          "name": "circulating",
+          "type": "u64"
+        },
+        {
+          "description": "Non-circulating supply in lamports.",
+          "name": "nonCirculating",
+          "type": "u64"
+        },
+        {
+          "description": "An array of account addresses of non-circulating accounts, as strings. If [excludeNonCirculatingAccountsList] is enabled, the returned array will be empty.",
+          "name": "nonCirculatingAccounts",
+          "type": "[]string"
+        }
+      ],
+      "name": "Supply",
+      "description": "The total supply of tokens",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Software version of solana-core.",
+          "name": "solana-core",
+          "type": "string"
+        },
+        {
+          "description": "Unique identifier of current feature set.",
+          "name": "feature-set",
+          "type": "int"
+        }
+      ],
+      "name": "SolanaVersion",
+      "description": "The solana version",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Current vote account",
+          "name": "current",
+          "type": "[]VoteAccount"
+        },
+        {
+          "description": "Delinquent vote account",
+          "name": "delinquent",
+          "type": "[]VoteAccount"
+        }
+      ],
+      "name": "VoteAccounts",
+      "description": "Result of calling [RPCClient.getVoteAccounts()]",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "Vote account address, as base-58 encoded string.",
+          "name": "votePubkey",
+          "type": "string"
+        },
+        {
+          "description": "Validator identity, as base-58 encoded string.",
+          "name": "nodePubkey",
+          "type": "string"
+        },
+        {
+          "description": "The stake, in lamports, delegated to this vote account and active in this epoch.",
+          "name": "activatedStake",
+          "type": "u64"
+        },
+        {
+          "description": "Bool, whether the vote account is staked for this epoch.",
+          "name": "epochVoteAccount",
+          "type": "bool"
+        },
+        {
+          "description": "Percentage (0-100) of rewards payout owed to the vote account.",
+          "name": "commission",
+          "type": "int"
+        },
+        {
+          "description": "Most recent slot voted on by this vote account.",
+          "name": "lastVote",
+          "type": "u64"
+        },
+        {
+          "description": "History of how many credits earned by the end of each epoch, as an array of arrays containing: [epoch, credits, previousCredits].",
+          "name": "epochCredits",
+          "type": "[]EpochCredits"
+        }
+      ],
+      "name": "VoteAccount",
+      "description": "A list of vote accounts",
+      "type": "object"
+    },
+    {
+      "fields": [
+        {
+          "description": "@help/errors",
+          "name": "err",
+          "nullable": true,
+          "type": "object"
+        },
+        {
+          "description": "Array of log messages the transaction instructions output during execution, null if simulation failed before the transaction was able to execute (for example due to an invalid blockhash or signature verification failure).",
+          "name": "logs",
+          "nullable": true,
+          "type": "[]string"
+        },
+        {
+          "description": "Array of [Account]s with the same length as the [SimulateTransactionAccounts.addresses] array in the request",
+          "name": "accounts",
+          "nullable": true,
+          "type": "[]Account"
+        }
+      ],
+      "name": "TransactionStatus",
+      "description": "The status of a transaction",
+      "type": "object"
+    }
+  ],
+  "@help": {
+    "errors": {
+      "link": {
+        "label": "TransactionError definitions",
+        "url": "https://github.com/solana-labs/solana/blob/master/sdk/src/transaction.rs#L24"
+      }
+    },
+    "commitment": {},
+    "encoding": {}
+  }
+}
