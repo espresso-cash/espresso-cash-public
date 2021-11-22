@@ -10,10 +10,27 @@ SignatureStatus _$SignatureStatusFromJson(Map<String, dynamic> json) =>
     SignatureStatus(
       slot: json['slot'] as int,
       confirmations: json['confirmations'] as int?,
-      err: json['err'],
+      err: json['err'] as Map<String, dynamic>?,
       confirmationStatus:
-          _$enumDecodeNullable(_$CommitmentEnumMap, json['confirmationStatus']),
+          _$enumDecode(_$CommitmentEnumMap, json['confirmationStatus']),
     );
+
+Map<String, dynamic> _$SignatureStatusToJson(SignatureStatus instance) {
+  final val = <String, dynamic>{
+    'slot': instance.slot,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('confirmations', instance.confirmations);
+  writeNotNull('err', instance.err);
+  val['confirmationStatus'] = _$CommitmentEnumMap[instance.confirmationStatus];
+  return val;
+}
 
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,
@@ -41,32 +58,8 @@ K _$enumDecode<K, V>(
   ).key;
 }
 
-K? _$enumDecodeNullable<K, V>(
-  Map<K, V> enumValues,
-  dynamic source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
-}
-
 const _$CommitmentEnumMap = {
   Commitment.processed: 'processed',
   Commitment.confirmed: 'confirmed',
   Commitment.finalized: 'finalized',
 };
-
-SignatureStatusesResponse _$SignatureStatusesResponseFromJson(
-        Map<String, dynamic> json) =>
-    SignatureStatusesResponse(
-      result: _SignatureStatusesResult.fromJson(
-          json['result'] as Map<String, dynamic>),
-    );
-
-_SignatureStatusesResult _$SignatureStatusesResultFromJson(
-        Map<String, dynamic> json) =>
-    _SignatureStatusesResult(
-      value: const _NullableListConverter().fromJson(json['value'] as List),
-    );

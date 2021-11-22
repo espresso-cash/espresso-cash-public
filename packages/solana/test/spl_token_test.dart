@@ -177,7 +177,8 @@ void main() {
           owner,
         ],
       );
-      await client.waitForSignatureStatus(signature, TxStatus.finalized);
+      await client.waitForSignatureStatus(
+          signature, ConfirmationStatus.finalized);
 
       expect(signature, isNot(null));
     }, timeout: const Timeout(Duration(minutes: 2)));
@@ -255,7 +256,8 @@ void main() {
       final message = Message(instructions: instructions);
 
       final signature = await client.signAndSendTransaction(message, [owner]);
-      await client.waitForSignatureStatus(signature, TxStatus.finalized);
+      await client.waitForSignatureStatus(
+          signature, ConfirmationStatus.finalized);
     }, timeout: const Timeout(Duration(minutes: 2)));
   });
 }

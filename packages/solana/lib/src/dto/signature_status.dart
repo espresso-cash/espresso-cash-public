@@ -1,72 +1,36 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/dto/commitment.dart';
+import 'package:solana/src/dto/confirmation_status.dart';
 
 part 'signature_status.g.dart';
 
-/// A type alias which makes [TxStatus] more semantically correct in some
-/// context.
-typedef TxStatus = Commitment;
-
-/// Response of the [`getSignatureStatuses`][get signature statuses] rpc method.
-///
-/// [get signature statuses]: https://docs.solana.com/developing/clients/jsonrpc-api#getsignaturestatuses
-@JsonSerializable(createToJson: false)
+/// The status of a signature
+@JsonSerializable(createFactory: true, includeIfNull: false)
 class SignatureStatus {
-  SignatureStatus({
+  const SignatureStatus({
     required this.slot,
-    this.confirmations,
-    this.err,
-    this.confirmationStatus,
+    required this.confirmations,
+    required this.err,
+    required this.confirmationStatus,
   });
 
   factory SignatureStatus.fromJson(Map<String, dynamic> json) =>
       _$SignatureStatusFromJson(json);
 
+  Map<String, dynamic> toJson() => _$SignatureStatusToJson(this);
+
+  /// The slot the transaction was processed.
   final int slot;
+
+  /// Number of blocks since signature confirmation, null if
+  /// rooted, as well as finalized.
   final int? confirmations;
-  final Object? err;
-  final TxStatus? confirmationStatus;
 
-  @override
-  String toString() => confirmationStatus.toString();
-}
+  final Map<String, dynamic>? err;
 
-@JsonSerializable(createToJson: false)
-class SignatureStatusesResponse {
-  SignatureStatusesResponse({required this.result});
-
-  factory SignatureStatusesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SignatureStatusesResponseFromJson(json);
-
-  final _SignatureStatusesResult result;
-}
-
-@JsonSerializable(createToJson: false)
-class _SignatureStatusesResult {
-  _SignatureStatusesResult({required this.value});
-
-  factory _SignatureStatusesResult.fromJson(Map<String, dynamic> json) =>
-      _$SignatureStatusesResultFromJson(json);
-
-  // This is just a workaround for
-  // https://github.com/google/json_serializable.dart/issues/956
-  @_NullableListConverter()
-  final List<SignatureStatus?> value;
-}
-
-// This is just a workaround for
-// https://github.com/google/json_serializable.dart/issues/956
-class _NullableListConverter
-    implements JsonConverter<List<SignatureStatus?>, List<dynamic>> {
-  const _NullableListConverter();
-
-  @override
-  List<SignatureStatus?> fromJson(List<dynamic> json) => json
-      .map((dynamic e) => e == null
-          ? null
-          : SignatureStatus.fromJson(e as Map<String, dynamic>))
-      .toList(growable: false);
-
-  @override
-  List<dynamic> toJson(List<SignatureStatus?> object) => object;
+  /// The transaction's cluster confirmation status; either
+  /// [Commitment.processed], [Commitment.confirmed], or
+  /// [Commitment.finalized]. See
+  /// [Commitment](@help/commitment/link) for more on optimistic
+  /// confirmation.
+  final ConfirmationStatus confirmationStatus;
 }

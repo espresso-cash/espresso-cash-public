@@ -55,29 +55,20 @@ extension on ObjectType {
     }
   }
 
-  String get imports => map(
-        enumType: (_) => '',
-        alias: (_) => '',
-        objectType: (_) {
-          final imports = fields
-              .map((field) {
-                final name = toSnakeCase(field.type);
+  String get imports {
+    final imports = [
+      'package:json_annotation/json_annotation.dart',
+      ...fields
+          .map((field) {
+            return _getImportFromTypeName(field.type);
+          })
+          .whereType<String>()
+          .toList(growable: false),
+    ]..sort((i, j) => i.compareTo(j));
+    final part = 'part \'${toSnakeCase(name)}.g.dart\';';
 
-                switch (field.type) {
-                  case 'string':
-                  case 'bool':
-                  case 'u64':
-                  case 'usize':
-                    return null;
-                  default:
-                    return 'import \'package:solana/src/dto/$name.dart\';';
-                }
-              })
-              .whereType<String>()
-              .toList(growable: false);
-          return imports.join('\n');
-        },
-      );
+    return 'import \'${imports.join('\';\nimport \'')}\';\n\n$part';
+  }
 
   String get stringValue {
     final createFactory = !fields.hasConstantGetters();
@@ -88,7 +79,7 @@ extension on ObjectType {
     return '''$imports
     
   $documentation
-  @JsonSerializable(createToJson: false, createFactory: $createFactory, includeIfNull: false,)
+  @JsonSerializable(createFactory: $createFactory, includeIfNull: false)
   class $name {
     const $name(${fields.toConstructorParameters()});
 
@@ -104,10 +95,15 @@ extension on ObjectType {
 }
 
 extension on AliasType {
-  String get stringValue => '''
+  String get stringValue {
+    final importPackage = _getImportFromTypeName(type);
+
+    return '''
+${importPackage == null ? '' : 'import \'$importPackage\';'}
 ${formatDocumentation(description)}
 typedef $name = ${parseType(type)};
 ''';
+  }
 }
 
 extension on EnumType {
@@ -148,5 +144,33 @@ extension on List<ObjectMember> {
     return map((f) => f.toClassMemberDeclaration())
         .whereType<String>()
         .join('\n');
+  }
+}
+
+String? _getImportFromTypeName(String typeName) {
+  late final String name;
+  if (typeName.startsWith('map[')) {
+    name = typeName.replaceFirst('map[string]', '');
+  } else if (typeName.startsWith('[]')) {
+    name = typeName.substring(2);
+  } else {
+    name = typeName;
+  }
+
+  switch (name) {
+    case 'string':
+    case 'bool':
+    case 'u8':
+    case 'u64':
+    case 'usize':
+    case 'int':
+    case 'f64':
+    case 'i64':
+    case 'u16':
+    case 'boolean':
+    case 'object':
+      return null;
+    default:
+      return 'package:solana/src/dto/${toSnakeCase(name)}.dart';
   }
 }

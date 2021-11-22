@@ -4,9 +4,10 @@ export 'src/crypto/ed25519_hd_keypair.dart';
 export 'src/dto/account.dart';
 export 'src/dto/blockhash.dart';
 export 'src/dto/commitment.dart' show Commitment;
+export 'src/dto/confirmation_status.dart' show ConfirmationStatus;
 export 'src/dto/fee_calculator.dart';
 export 'src/dto/meta.dart' show Meta;
-export 'src/dto/signature_status.dart' show SignatureStatus, TxStatus;
+export 'src/dto/signature_status.dart' show SignatureStatus;
 export 'src/dto/transaction.dart';
 export 'src/encoder/encoder.dart'
     show Instruction, Message, Buffer, AccountMeta, SignedTx;

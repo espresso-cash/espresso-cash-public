@@ -15,6 +15,7 @@ SimulateTxResult _$SimulateTxResultFromJson(Map<String, dynamic> json) =>
 SimulateTxResultResponse _$SimulateTxResultResponseFromJson(
         Map<String, dynamic> json) =>
     SimulateTxResultResponse(
-      ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
+      ValueResponse<SimulateTxResult>.fromJson(
+          json['result'] as Map<String, dynamic>,
           (value) => SimulateTxResult.fromJson(value as Map<String, dynamic>)),
     );

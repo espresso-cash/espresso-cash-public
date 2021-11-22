@@ -17,7 +17,7 @@ Map<String, dynamic> _$$_UnsupportedNotificationToJson(
 _$AccountNotification _$$AccountNotificationFromJson(
         Map<String, dynamic> json) =>
     _$AccountNotification(
-      params: NotificationParams.fromJson(
+      params: NotificationParams<Account>.fromJson(
           json['params'] as Map<String, dynamic>,
           (value) => Account.fromJson(value as Map<String, dynamic>)),
     );
@@ -30,7 +30,7 @@ Map<String, dynamic> _$$AccountNotificationToJson(
 
 _$LogsNotification _$$LogsNotificationFromJson(Map<String, dynamic> json) =>
     _$LogsNotification(
-      params: NotificationParams.fromJson(
+      params: NotificationParams<Logs>.fromJson(
           json['params'] as Map<String, dynamic>,
           (value) => Logs.fromJson(value as Map<String, dynamic>)),
     );
@@ -43,7 +43,7 @@ Map<String, dynamic> _$$LogsNotificationToJson(_$LogsNotification instance) =>
 _$ProgramNotification _$$ProgramNotificationFromJson(
         Map<String, dynamic> json) =>
     _$ProgramNotification(
-      params: NotificationParams.fromJson(
+      params: NotificationParams<dynamic>.fromJson(
           json['params'] as Map<String, dynamic>, (value) => value),
     );
 
@@ -56,7 +56,7 @@ Map<String, dynamic> _$$ProgramNotificationToJson(
 _$SignatureNotification _$$SignatureNotificationFromJson(
         Map<String, dynamic> json) =>
     _$SignatureNotification(
-      params: NotificationParams.fromJson(
+      params: NotificationParams<OptionalError>.fromJson(
           json['params'] as Map<String, dynamic>,
           (value) => OptionalError.fromJson(value as Map<String, dynamic>)),
     );
@@ -69,7 +69,7 @@ Map<String, dynamic> _$$SignatureNotificationToJson(
 
 _$SlotNotification _$$SlotNotificationFromJson(Map<String, dynamic> json) =>
     _$SlotNotification(
-      params: NotificationParams.fromJson(
+      params: NotificationParams<Slot>.fromJson(
           json['params'] as Map<String, dynamic>,
           (value) => Slot.fromJson(value as Map<String, dynamic>)),
     );

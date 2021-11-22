@@ -7,9 +7,27 @@ part of 'account.dart';
 // **************************************************************************
 
 Account _$AccountFromJson(Map<String, dynamic> json) => Account(
-      owner: json['owner'] as String,
       lamports: json['lamports'] as int,
+      owner: json['owner'] as String,
+      data: const AccountDataConverter().fromJson(json['data']),
       executable: json['executable'] as bool,
       rentEpoch: json['rentEpoch'] as int,
-      data: const AccountDataConverter().fromJson(json['data']),
     );
+
+Map<String, dynamic> _$AccountToJson(Account instance) {
+  final val = <String, dynamic>{
+    'lamports': instance.lamports,
+    'owner': instance.owner,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('data', const AccountDataConverter().toJson(instance.data));
+  val['executable'] = instance.executable;
+  val['rentEpoch'] = instance.rentEpoch;
+  return val;
+}

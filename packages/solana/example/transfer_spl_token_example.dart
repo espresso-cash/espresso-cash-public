@@ -58,7 +58,10 @@ Future<void> example() async {
       source.signer,
     ],
   );
-  await rpcClient.waitForSignatureStatus(signature, TxStatus.finalized);
+  await rpcClient.waitForSignatureStatus(
+    signature,
+    ConfirmationStatus.finalized,
+  );
 
   print('Transfer ($signature)');
   print('');

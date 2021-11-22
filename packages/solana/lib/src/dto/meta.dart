@@ -1,13 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/dto/inner_instruction.dart';
+import 'package:solana/src/dto/token_balance.dart';
+import 'package:solana/src/dto/token_balance.dart';
 
 part 'meta.g.dart';
 
-/// Metadata of a [TransactionResponse] object.
-@JsonSerializable(createToJson: false)
+/// Transaction state metadata
+@JsonSerializable(createFactory: true, includeIfNull: false)
 class Meta {
-  Meta({
-    this.err,
-    this.rewards,
+  const Meta({
+    required this.err,
     required this.fee,
     required this.preBalances,
     required this.postBalances,
@@ -19,31 +21,36 @@ class Meta {
 
   factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
 
-  final Object? err;
+  Map<String, dynamic> toJson() => _$MetaToJson(this);
+
+  final Map<String, dynamic>? err;
+
+  /// Fee this transaction was charged, as u64 integer.
   final int fee;
-  final List<dynamic> preBalances;
-  final List<dynamic> postBalances;
-  final List<dynamic> innerInstructions;
-  final List<dynamic> preTokenBalances;
-  final List<dynamic> postTokenBalances;
+
+  /// Array of u64 account balances from before the transaction
+  /// was processed.
+  final List<int> preBalances;
+
+  /// Array of u64 account balances after the transaction was
+  /// processed.
+  final List<int> postBalances;
+
+  /// List of inner instructions or omitted if inner instruction
+  /// recording was not yet enabled during this transaction.
+  final List<InnerInstruction> innerInstructions;
+
+  /// List of token balances from before the transaction was
+  /// processed or omitted if token balance recording was not yet
+  /// enabled during this transaction.
+  final List<TokenBalance> preTokenBalances;
+
+  /// List of token balances from after the transaction was
+  /// processed or omitted if token balance recording was not yet
+  /// enabled during this transaction.
+  final List<TokenBalance> postTokenBalances;
+
+  /// Array of string log messages or omitted if log message
+  /// recording was not yet enabled during this transaction.
   final List<String> logMessages;
-  final List<Reward>? rewards;
-}
-
-/// A [Reward] which is part of a [Meta] object.
-@JsonSerializable(createToJson: false)
-class Reward {
-  Reward({
-    required this.pubkey,
-    required this.lamports,
-    required this.postBalance,
-    required this.rewardType,
-  });
-
-  factory Reward.fromJson(Map<String, dynamic> json) => _$RewardFromJson(json);
-
-  final String pubkey;
-  final int lamports;
-  final int postBalance;
-  final String rewardType;
 }

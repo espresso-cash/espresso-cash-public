@@ -8,6 +8,6 @@ part of 'blockhash_response.dart';
 
 BlockhashResponse _$BlockhashResponseFromJson(Map<String, dynamic> json) =>
     BlockhashResponse(
-      ValueResponse.fromJson(json['result'] as Map<String, dynamic>,
+      ValueResponse<Blockhash>.fromJson(json['result'] as Map<String, dynamic>,
           (value) => Blockhash.fromJson(value as Map<String, dynamic>)),
     );

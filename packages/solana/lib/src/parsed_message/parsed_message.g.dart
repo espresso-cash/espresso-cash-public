@@ -20,3 +20,11 @@ ParsedMessage _$ParsedMessageFromJson(Map<String, dynamic> json) =>
           .map((e) => ParsedInstruction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+
+Map<String, dynamic> _$ParsedMessageToJson(ParsedMessage instance) =>
+    <String, dynamic>{
+      'accountKeys': instance.accountKeys,
+      'header': instance.header,
+      'recentBlockhash': instance.recentBlockhash,
+      'instructions': instance.instructions,
+    };

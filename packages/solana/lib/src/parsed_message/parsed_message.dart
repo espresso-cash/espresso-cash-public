@@ -10,7 +10,7 @@ export 'parsed_system_instruction.dart';
 part 'parsed_message.g.dart';
 
 /// A parsed message that is part of a [Transaction] object.
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class ParsedMessage {
   ParsedMessage({
     this.header,
@@ -21,6 +21,9 @@ class ParsedMessage {
 
   factory ParsedMessage.fromJson(Map<String, dynamic> json) =>
       _$ParsedMessageFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$ParsedMessageToJson(this);
 
   final List<AccountKey> accountKeys;
   final ParsedMessageHeader? header;

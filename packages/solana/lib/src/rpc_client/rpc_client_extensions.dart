@@ -34,7 +34,7 @@ extension Convenience on RPCClient {
   /// Note: the default [timeout] is 30 seconds.
   Future<void> waitForSignatureStatus(
     TransactionSignature signature,
-    TxStatus desiredStatus, {
+    ConfirmationStatus desiredStatus, {
     Duration timeout = const Duration(seconds: 30),
   }) async {
     final completer = Completer<void>();
