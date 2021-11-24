@@ -1,12 +1,17 @@
 import 'dart:async';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/gen/annotations.dart';
+import 'package:solana/src/helpers.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
-import 'package:solana/src/rpc_client/json_rpc_client.dart';
+import 'package:solana/src/rpc/helpers.dart';
+import 'package:solana/src/rpc/json_rpc_client.dart';
 
 part 'client.g.dart';
 part 'client.rpc.dart';
+part 'extension.dart';
 
 @SolanaRpcClient()
 abstract class RpcClient {
@@ -16,71 +21,52 @@ abstract class RpcClient {
   ///
   /// [pubKey] Pubkey of account to query, as base-58 encoded string
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [encoding]
   ///
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
   @withContext
-  Future<Account> getAccountInfo(
+  Future<Account?> getAccountInfo(
     String pubKey, {
-    required Commitment commitment,
-    required Encoding encoding,
-    required DataSlice dataSlice,
+    Commitment? commitment = Commitment.finalized,
+    Encoding? encoding,
+    DataSlice? dataSlice,
   });
 
   /// Returns the balance of the account of provided Pubkey
   ///
   /// [pubKey] Pubkey of account to query, as base-58 encoded string
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @withContext
   Future<int> getBalance(
     String pubKey, {
     Commitment? commitment,
   });
 
-  /// Returns identity and transaction information about a confirmed block in the
-  /// ledger
-  ///
-  /// [slot] slot, as u64 integer
-  ///
-  /// [encoding]
-  ///
-  /// [transactionDetails] Level of transaction detail to return.
-  ///
-  /// [rewards] Whether to populate the rewards array. If parameter not provided, the default
-  /// includes rewards.
-  ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<Block> getBlock(
-    int slot, {
-    required Encoding encoding,
-    required TransactionDetailLevel transactionDetails,
-    required bool rewards,
-    required Commitment commitment,
-  });
-
   /// Returns the current block height of the node
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<int> getBlockHeight({
     Commitment? commitment,
   });
 
   /// Returns recent block production information from the current or previous epoch.
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [range] Slot range to return block production for. If parameter not provided, defaults
   /// to current epoch.
@@ -88,59 +74,34 @@ abstract class RpcClient {
   /// [identity] Only return results for this validator identity (base-58 encoded)
   @withContext
   Future<BlockProduction> getBlockProduction({
-    required Commitment commitment,
-    required Range range,
-    required String identity,
+    Commitment? commitment = Commitment.finalized,
+    Range? range,
+    String? identity,
   });
 
   /// Returns commitment for particular block
   ///
   /// [block] block, identified by Slot
-  Future<BlockCommitment> getBlockCommitment(int block);
-
-  /// Returns a list of confirmed blocks between two slots
-  ///
-  /// [startSlot] start_slot, as u64 integer
-  ///
-  /// [endSlot] end_slot, as u64 integer
-  ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<List<int>> getBlocks(
-    int startSlot,
-    int endSlot, {
-    Commitment? commitment,
-  });
-
-  /// Returns a list of confirmed blocks starting at the given slot
-  ///
-  /// [startSlot] start_slot, as u64 integer
-  ///
-  /// [limit] limit, as u64 integer
-  ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<List<int>> getBlocksWithLimit(
-    int startSlot,
-    int limit, {
-    Commitment? commitment,
-  });
+  Future<BlockCommitment?> getBlockCommitment(
+    int block,
+  );
 
   /// Returns the estimated production time of a block.
   ///
   /// [block] block, identified by Slot
-  Future<int> getBlockTime(int block);
+  Future<int?> getBlockTime(
+    int block,
+  );
 
   /// Returns information about all the nodes participating in the cluster
   Future<List<ClusterNode>> getClusterNodes();
 
   /// Returns information about the current epoch
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<EpochInfo> getEpochInfo({
     Commitment? commitment,
   });
@@ -153,11 +114,12 @@ abstract class RpcClient {
   ///
   /// [blockhash] query blockhash as a Base58 encoded string
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @withContext
-  Future<FeeCalculatorForBlockhash> getFeeCalculatorForBlockhash(
+  Future<FeeCalculatorForBlockhash?> getFeeCalculatorForBlockhash(
     String blockhash, {
     Commitment? commitment,
   });
@@ -169,9 +131,10 @@ abstract class RpcClient {
   /// compute the cost of submitting a transaction using it, and the last slot in
   /// which the blockhash will be valid.
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @withContext
   Future<Fees> getFees({
     Commitment? commitment,
@@ -197,9 +160,10 @@ abstract class RpcClient {
 
   /// Returns the current inflation governor
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<InflationGovernor> getInflationGovernor({
     Commitment? commitment,
   });
@@ -210,20 +174,23 @@ abstract class RpcClient {
   /// Returns the inflation reward for a list of addresses for an epoch
   ///
   /// [addresses] An array of addresses to query, as base-58 encoded strings
-  Future<List<InflationReward>> getInflationReward(String addresses);
+  Future<List<InflationReward>> getInflationReward(
+    List<String> addresses,
+  );
 
   /// Returns the 20 largest accounts, by lamport balance (results may be cached up
   /// to two hours)
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [filter] filter results by account type; currently supported: circulating|nonCirculating
   @withContext
   Future<List<LargeAccount>> getLargestAccounts({
-    required Commitment commitment,
-    required CirculationStatus filter,
+    Commitment? commitment = Commitment.finalized,
+    CirculationStatus? filter,
   });
 
   /// Returns the leader schedule for an epoch
@@ -231,15 +198,16 @@ abstract class RpcClient {
   /// [slot] Fetch the leader schedule for the epoch that corresponds to the provided slot.
   /// If unspecified, the leader schedule for the current epoch is fetched
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [identity] Only return results for this validator identity (base-58 encoded)
-  Future<Map<String, List<int>>> getLeaderSchedule(
-    int slot, {
-    required Commitment commitment,
-    required String identity,
+  Future<Map<String, List<int>>?> getLeaderSchedule(
+    int? slot, {
+    Commitment? commitment = Commitment.finalized,
+    String? identity,
   });
 
   /// Get the max slot seen from retransmit stage.
@@ -252,9 +220,10 @@ abstract class RpcClient {
   ///
   /// [accountDataLength] account data length
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<int> getMinimumBalanceForRentExemption(
     int accountDataLength, {
     Commitment? commitment,
@@ -264,19 +233,20 @@ abstract class RpcClient {
   ///
   /// [pubKeys] An array of PubKeys to query, as base-58 encoded strings
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [encoding]
   ///
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
   @withContext
   Future<List<Account>> getMultipleAccounts(
-    String pubKeys, {
-    required Commitment commitment,
-    required Encoding encoding,
-    required DataSlice dataSlice,
+    List<String> pubKeys, {
+    Commitment? commitment = Commitment.finalized,
+    Encoding? encoding,
+    DataSlice? dataSlice,
   });
 
   /// Returns all accounts owned by the provided program Pubkey
@@ -285,9 +255,10 @@ abstract class RpcClient {
   ///
   /// [pubKey] Pubkey of program, as base-58 encoded string
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [encoding]
   ///
@@ -296,19 +267,20 @@ abstract class RpcClient {
   /// [filter] Filter results using various filter objects; account must meet all filter
   /// criteria to be included in results
   Future<List<ProgramAccount>> getProgramAccounts(
-    String pubKey, {
-    required Commitment commitment,
-    required Encoding encoding,
-    required DataSlice dataSlice,
-    required Filter filter,
+    List<String> pubKey, {
+    Commitment? commitment = Commitment.finalized,
+    Encoding? encoding,
+    DataSlice? dataSlice,
+    List<Filter>? filter,
   });
 
   /// Returns a recent block hash from the ledger, and a fee schedule that can be
   /// used to compute the cost of submitting a transaction using it.
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @withContext
   Future<RecentBlockhash> getRecentBlockhash({
     Commitment? commitment,
@@ -319,33 +291,12 @@ abstract class RpcClient {
   /// transactions and slots that occur in a given time window.
   ///
   /// [limit] number of samples to return (maximum 720)
-  Future<List<PerfSample>> getRecentPerformanceSamples(int limit);
+  Future<List<PerfSample>> getRecentPerformanceSamples(
+    int? limit,
+  );
 
   /// Returns the highest slot that the node has a snapshot for
   Future<int> getSnapshotSlot();
-
-  /// Returns confirmed signatures for transactions involving an address backwards in
-  /// time from the provided signature or most recent confirmed block
-  ///
-  /// [pubKey] account address as base-58 encoded string
-  ///
-  /// [limit] Maximum transaction signatures to return (between 1 and 1,000, default: 1,000).
-  ///
-  /// [before] Start searching backwards from this transaction signature. If not provided the
-  /// search starts from the top of the highest max confirmed block.
-  ///
-  /// [until] Search until this transaction signature, if found before limit reached.
-  ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<List<TransactionSignatureInformation>> getSignaturesForAddress(
-    String pubKey, {
-    required int limit,
-    required String before,
-    required String until,
-    required Commitment commitment,
-  });
 
   /// Returns the statuses of a list of signatures. Unless the
   /// searchTransactionHistory configuration parameter is included, this method only
@@ -358,24 +309,26 @@ abstract class RpcClient {
   /// found in the recent status cache
   @withContext
   Future<List<SignatureStatus?>> getSignatureStatuses(
-    String signatures, {
-    required bool searchTransactionHistory,
+    List<String> signatures, {
+    bool? searchTransactionHistory,
   });
 
   /// Returns the slot that has reached the given or default commitment level
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<int> getSlot({
     Commitment? commitment,
   });
 
   /// Returns the current slot leader
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<String> getSlotLeader({
     Commitment? commitment,
   });
@@ -385,44 +338,50 @@ abstract class RpcClient {
   /// [startSlot] Start slot, as u64 integer
   ///
   /// [limit] Limit, as u64 integer
-  Future<List<String>> getSlotLeaders(int startSlot, int limit);
+  Future<List<String>> getSlotLeaders(
+    int startSlot,
+    int limit,
+  );
 
   /// Returns epoch activation information for a stake account
   ///
   /// [pubKey] Pubkey of stake account to query, as base-58 encoded string
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [epoch] epoch for which to calculate activation details. If parameter not provided,
   /// defaults to current epoch.
   Future<StakeActivation> getStakeActivation(
     String pubKey, {
-    required Commitment commitment,
-    required int epoch,
+    Commitment? commitment = Commitment.finalized,
+    int? epoch,
   });
 
   /// Returns information about the current supply.
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [excludeNonCirculatingAccountsList] exclude non circulating accounts list from response
   @withContext
   Future<Supply> getSupply({
-    required Commitment commitment,
-    required bool excludeNonCirculatingAccountsList,
+    Commitment commitment = Commitment.finalized,
+    bool? excludeNonCirculatingAccountsList,
   });
 
   /// Returns the token balance of an SPL Token account.
   ///
   /// [pubKey] Pubkey of Token account to query, as base-58 encoded string
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @withContext
   Future<TokenAmount> getTokenAccountBalance(
     String pubKey, {
@@ -435,9 +394,10 @@ abstract class RpcClient {
   ///
   /// [filter] Either a mint or a programId
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [encoding]
   ///
@@ -446,9 +406,9 @@ abstract class RpcClient {
   Future<List<ProgramAccount>> getTokenAccountsByDelegate(
     String pubKey,
     TokenAccountsFilter filter, {
-    required Commitment commitment,
-    required Encoding encoding,
-    required DataSlice dataSlice,
+    Commitment? commitment = Commitment.finalized,
+    Encoding? encoding,
+    DataSlice? dataSlice,
   });
 
   /// Returns all SPL Token accounts by token owner.
@@ -457,9 +417,10 @@ abstract class RpcClient {
   ///
   /// [filter] Either a mint or a programId
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [encoding]
   ///
@@ -468,18 +429,19 @@ abstract class RpcClient {
   Future<List<ProgramAccount>> getTokenAccountsByOwner(
     String pubKey,
     TokenAccountsFilter filter, {
-    required Commitment commitment,
-    required Encoding encoding,
-    required DataSlice dataSlice,
+    Commitment? commitment = Commitment.finalized,
+    Encoding? encoding,
+    DataSlice? dataSlice,
   });
 
   /// Returns the 20 largest accounts of a particular SPL Token type.
   ///
   /// [pubKey] Pubkey of token Mint to query, as base-58 encoded string
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @withContext
   Future<List<ProgramAccount>> getTokenLargestAccounts(
     String pubKey, {
@@ -490,35 +452,22 @@ abstract class RpcClient {
   ///
   /// [mint] Pubkey of token Mint to query, as base-58 encoded string
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @withContext
   Future<TokenAmount> getTokenSupply(
     String mint, {
     Commitment? commitment,
   });
 
-  /// Returns transaction details for a confirmed transaction
-  ///
-  /// [signature] transaction signature as base-58 encoded string
-  ///
-  /// [encoding]
-  ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionDetails> getTransaction(
-    String signature, {
-    required Encoding encoding,
-    required Commitment commitment,
-  });
-
   /// Returns the current Transaction count from the ledger
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<int> getTransactionCount({
     Commitment? commitment,
   });
@@ -529,9 +478,10 @@ abstract class RpcClient {
   /// Returns the account info and associated stake for all the voting accounts in
   /// the current bank.
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [votePubKey] Only return results for this validator vote address (base-58 encoded)
   ///
@@ -541,10 +491,10 @@ abstract class RpcClient {
   /// considered delinquent. NOTE: For the sake of consistency between ecosystem
   /// products, it is not recommended that this argument be specified.
   Future<VoteAccounts> getVoteAccounts({
-    required Commitment commitment,
-    required String votePubKey,
-    required bool keepUnstakedDelinquents,
-    required int delinquentSlotDistance,
+    Commitment? commitment = Commitment.finalized,
+    String? votePubKey,
+    bool? keepUnstakedDelinquents,
+    int? delinquentSlotDistance,
   });
 
   /// Returns the lowest slot that the node has information about in its ledger. This
@@ -558,9 +508,10 @@ abstract class RpcClient {
   ///
   /// [lamports] lamports, as a u64
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<String> requestAirdrop(
     String pubKey,
     int lamports, {
@@ -598,9 +549,10 @@ abstract class RpcClient {
   ///
   /// [encoding] Only [Encoding.base64] is acceptable
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [skipPreflight] If true, skip the preflight transaction checks (default: false).
   ///
@@ -610,10 +562,10 @@ abstract class RpcClient {
   /// it is finalized or until the blockhash expires.
   Future<String> sendTransaction(
     String transaction, {
-    required Encoding encoding,
-    required Commitment commitment,
-    required bool skipPreflight,
-    required int maxRetries,
+    Encoding encoding = Encoding.base64,
+    Commitment? commitment = Commitment.finalized,
+    bool? skipPreflight = false,
+    int? maxRetries,
   });
 
   /// Simulate sending a transaction
@@ -626,9 +578,10 @@ abstract class RpcClient {
   ///
   /// [encoding] Only [Encoding.base64] is acceptable
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [replaceRecentBlockhash] If true the transaction recent blockhash will be replaced with the most recent
   /// blockhash.
@@ -638,11 +591,11 @@ abstract class RpcClient {
   @withContext
   Future<TransactionStatus> simulateTransaction(
     String transaction, {
-    required bool sigVerify,
-    required Encoding encoding,
-    required Commitment commitment,
-    required bool replaceRecentBlockhash,
-    required SimulateTransactionAccounts accounts,
+    bool? sigVerify,
+    Encoding encoding = Encoding.base64,
+    Commitment? commitment = Commitment.finalized,
+    bool? replaceRecentBlockhash = false,
+    SimulateTransactionAccounts? accounts,
   });
 
   /// Returns identity and transaction information about a confirmed block in the
@@ -657,15 +610,16 @@ abstract class RpcClient {
   /// [rewards] Whether to populate the rewards array. If parameter not provided, the default
   /// includes rewards.
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<Block> getConfirmedBlock(
     int slot, {
-    required Encoding encoding,
-    required TransactionDetailLevel transactionDetails,
-    required bool rewards,
-    required Commitment commitment,
+    Encoding? encoding,
+    TransactionDetailLevel? transactionDetails,
+    bool? rewards = false,
+    Commitment? commitment = Commitment.finalized,
   });
 
   /// Returns a list of confirmed blocks between two slots
@@ -674,11 +628,15 @@ abstract class RpcClient {
   ///
   /// [endSlot] end_slot, as u64 integer
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<List<int>> getConfirmedBlocks(
-      int startSlot, int endSlot, Commitment commitment);
+    int startSlot,
+    int? endSlot,
+    Commitment? commitment,
+  );
 
   /// Returns a list of confirmed blocks starting at the given slot
   ///
@@ -686,11 +644,15 @@ abstract class RpcClient {
   ///
   /// [limit] limit, as u64 integer
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<List<int>> getConfirmedBlocksWithLimit(
-      int startSlot, int limit, Commitment commitment);
+    int startSlot,
+    int limit,
+    Commitment? commitment,
+  );
 
   /// Returns confirmed signatures for transactions involving an address backwards in
   /// time from the provided signature or most recent confirmed block
@@ -706,16 +668,17 @@ abstract class RpcClient {
   ///
   /// [until] Search until this transaction signature, if found before limit reached.
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<List<TransactionSignatureInformation>>
       getConfirmedSignaturesForAddress2(
     String pubKey, {
-    required int limit,
-    required String before,
-    required String until,
-    required Commitment commitment,
+    int? limit,
+    String? before,
+    String? until,
+    Commitment? commitment = Commitment.finalized,
   });
 
   /// Returns transaction details for a confirmed transaction
@@ -724,12 +687,13 @@ abstract class RpcClient {
   ///
   /// [encoding] This value is fixed because parsing occurs internally in the library
   ///
-  /// [commitment] [Commitment][commitment] "processed" is not supported. If parameter not
-  /// provided, the default is "finalized".
-  /// [commitment]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionDetails> getConfirmedTransaction(
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<TransactionDetails?> getConfirmedTransaction(
     String signature, {
-    required Encoding encoding,
-    required Commitment commitment,
+    Encoding? encoding = Encoding.base64,
+    Commitment? commitment = Commitment.finalized,
   });
 }

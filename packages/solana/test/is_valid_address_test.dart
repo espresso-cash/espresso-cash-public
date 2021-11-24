@@ -1,4 +1,4 @@
-import 'package:solana/src/utils.dart';
+import 'package:solana/src/helpers.dart';
 import 'package:test/test.dart';
 
 void main() {

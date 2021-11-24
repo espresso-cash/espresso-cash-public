@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/dto/account_key.dart';
 import 'package:solana/src/parsed_message/parsed_instruction.dart';
 import 'package:solana/src/parsed_message/parsed_message_header.dart';
+import 'package:solana/src/rpc/dto/account_key.dart';
 
 export 'parsed_instruction.dart';
 export 'parsed_spl_token_instruction.dart';
@@ -22,7 +22,6 @@ class ParsedMessage {
   factory ParsedMessage.fromJson(Map<String, dynamic> json) =>
       _$ParsedMessageFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$ParsedMessageToJson(this);
 
   final List<AccountKey> accountKeys;

@@ -2,7 +2,8 @@ import 'dart:typed_data';
 
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/src/anchor/account.dart';
-import 'package:solana/src/dto/account_data.dart';
+import 'package:solana/src/rpc/dto/account_data.dart';
+import 'package:solana/src/rpc/dto/account_data/binary_account_data.dart';
 
 part 'basic1.g.dart';
 
@@ -24,7 +25,7 @@ class Basic1DataAccount implements AnchorAccount {
 
   factory Basic1DataAccount.fromAccountData(AccountData accountData) {
     if (accountData is BinaryAccountData) {
-      return Basic1DataAccount._fromBinary(accountData.bytes);
+      return Basic1DataAccount._fromBinary(accountData.data);
     } else {
       throw const FormatException('invalid account data found');
     }

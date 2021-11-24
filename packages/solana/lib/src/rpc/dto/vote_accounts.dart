@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/vote_account.dart';
-import 'package:solana/src/rpc/dto/vote_account.dart';
 
 part 'vote_accounts.g.dart';
 

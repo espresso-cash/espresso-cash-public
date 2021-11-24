@@ -1,15 +1,15 @@
+import 'package:solana/solana.dart';
 import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/dto/account.dart';
-import 'package:solana/src/dto/commitment.dart';
-import 'package:solana/src/dto/confirmation_status.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
-import 'package:solana/src/rpc_client/transaction_signature.dart';
-import 'package:solana/src/spl_token/associated_account.dart';
+import 'package:solana/src/rpc/client.dart';
+import 'package:solana/src/rpc/dto/account.dart';
+import 'package:solana/src/rpc/dto/commitment.dart';
+import 'package:solana/src/rpc/dto/confirmation_status.dart';
+import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:solana/src/token_program/token_program.dart';
-import 'package:solana/src/utils.dart';
+import 'package:solana/src/helpers.dart';
 
 /// Represents a SPL token program
 class SplToken {
@@ -17,23 +17,28 @@ class SplToken {
     required this.mint,
     required this.supply,
     required this.decimals,
-    required RPCClient rpcClient,
+    required RpcClient rpcClient,
+    required SubscriptionClient subscriptionClient,
     this.owner,
-  }) : _rpcClient = rpcClient;
+  })  : _rpcClient = rpcClient,
+        _subscriptionClient = subscriptionClient;
 
   /// Passing [owner] makes this a writeable token.
   static Future<SplToken> _withOptionalOwner({
     required String mint,
-    required RPCClient rpcClient,
+    required RpcClient rpcClient,
+    required SubscriptionClient subscriptionClient,
     Ed25519HDKeyPair? owner,
   }) async {
     // TODO(IA): perhaps delay this or use a user provided token information
     final supplyResponse = await rpcClient.getTokenSupply(mint);
-    final supplyValue = supplyResponse.value;
+    final supplyValue = supplyResponse;
+
     return SplToken._(
       decimals: supplyValue.decimals,
       supply: BigInt.parse(supplyValue.amount),
       rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
       mint: mint,
       owner: owner,
     );
@@ -42,31 +47,35 @@ class SplToken {
   /// Create a read write account
   static Future<SplToken> readWrite({
     required String mint,
-    required RPCClient rpcClient,
+    required RpcClient rpcClient,
+    required SubscriptionClient subscriptionClient,
     required Ed25519HDKeyPair owner,
   }) =>
       SplToken._withOptionalOwner(
         mint: mint,
         rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
         owner: owner,
       );
 
   /// Create a readonly account for [mint].
   static Future<SplToken> readonly({
     required String mint,
-    required RPCClient rpcClient,
+    required RpcClient rpcClient,
+    required SubscriptionClient subscriptionClient,
   }) =>
       SplToken._withOptionalOwner(
         mint: mint,
         rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
       );
 
-  Future<AssociatedTokenAccount?> getAssociatedAccount(
+  Future<ProgramAccount?> getAssociatedAccount(
     String owner,
   ) async {
     final accounts = await _rpcClient.getTokenAccountsByOwner(
-      owner: owner,
-      mint: mint,
+      owner,
+      TokenAccountsFilter(mint: mint),
     );
     if (accounts.isEmpty) {
       return null;
@@ -75,7 +84,7 @@ class SplToken {
   }
 
   /// Transfer [amount] tokens owned by [owner] from [source] to [destination]
-  Future<TransactionSignature> transfer({
+  Future<String> transfer({
     required String source,
     required String destination,
     required int amount,
@@ -96,8 +105,8 @@ class SplToken {
     }
 
     final message = TokenProgram.transfer(
-      source: associatedSenderAccount.address,
-      destination: associatedRecipientAccount.address,
+      source: associatedSenderAccount.pubkey,
+      destination: associatedRecipientAccount.pubkey,
       owner: owner.address,
       amount: amount,
     );
@@ -108,7 +117,10 @@ class SplToken {
         owner,
       ],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    await _subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
 
     return signature;
   }
@@ -135,7 +147,10 @@ class SplToken {
         account,
       ],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    await _subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
 
     // TODO(IA): need to check if it is executable and grab the rentEpoch
     return Account(
@@ -161,7 +176,7 @@ class SplToken {
       );
 
   /// Create the associated account for [owner] funded by [funder].
-  Future<AssociatedTokenAccount> createAssociatedAccount({
+  Future<ProgramAccount> createAssociatedAccount({
     required String owner,
     required Ed25519HDKeyPair funder,
     Commitment commitment = Commitment.finalized,
@@ -181,11 +196,14 @@ class SplToken {
         funder,
       ],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    await _subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
 
     // TODO(IA): populate rentEpoch correctly
-    return AssociatedTokenAccount(
-      address: derivedAddress,
+    return ProgramAccount(
+      pubkey: derivedAddress,
       account: Account(
         owner: owner,
         lamports: 0,
@@ -216,17 +234,21 @@ class SplToken {
       message,
       [owner],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    await _subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
   }
 
   final int decimals;
   final BigInt supply;
   final String mint;
   final Ed25519HDKeyPair? owner;
-  final RPCClient _rpcClient;
+  final RpcClient _rpcClient;
+  final SubscriptionClient _subscriptionClient;
 }
 
-extension TokenExt on RPCClient {
+extension TokenExt on RpcClient {
   /// Create a new token owned by [owner] with [decimals] base 10 decimal digits.
   ///
   /// You can optionally specify a [mintAuthority] address. By default the [owner]
@@ -239,6 +261,7 @@ extension TokenExt on RPCClient {
   Future<SplToken> initializeMint({
     required Ed25519HDKeyPair owner,
     required int decimals,
+    required SubscriptionClient subscriptionClient,
     String? mintAuthority,
     String? freezeAuthority,
     Commitment commitment = Commitment.finalized,
@@ -262,12 +285,16 @@ extension TokenExt on RPCClient {
         mintWallet,
       ],
     );
-    await waitForSignatureStatus(signature, commitment);
+    await subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
 
     return SplToken.readWrite(
       owner: owner,
       mint: mintWallet.address,
       rpcClient: this,
+      subscriptionClient: subscriptionClient,
     );
   }
 }

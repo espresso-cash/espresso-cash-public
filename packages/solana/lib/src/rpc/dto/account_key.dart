@@ -12,7 +12,6 @@ class AccountKey {
   factory AccountKey.fromJson(Map<String, dynamic> json) =>
       _$AccountKeyFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$AccountKeyToJson(this);
 
   final String pubkey;

@@ -1,41 +1,52 @@
 import 'package:solana/solana.dart' show lamportsPerSol;
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/dto/commitment.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
 import 'package:solana/src/parsed_message/parsed_instruction.dart';
 import 'package:solana/src/parsed_message/parsed_spl_token_instruction.dart';
 import 'package:solana/src/parsed_message/parsed_system_instruction.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
+import 'package:solana/src/rpc/dto/commitment.dart';
+import 'package:solana/src/rpc/rpc.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
+import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:solana/src/wallet.dart';
 import 'package:test/test.dart';
 
 import 'config.dart';
 
 void main() {
-  late final RPCClient rpcClient;
+  late final RpcClient rpcClient;
   late final Wallet source;
   late final Wallet destination;
+  late final SubscriptionClient subscriptionClient;
   late SplToken token;
 
   setUpAll(() async {
     final signer = await Ed25519HDKeyPair.random();
-    rpcClient = RPCClient(devnetRpcUrl);
-    source = Wallet(signer: signer, rpcClient: rpcClient);
-    destination =
-        Wallet(signer: await Ed25519HDKeyPair.random(), rpcClient: rpcClient);
+    subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+    rpcClient = RpcClient(devnetRpcUrl);
+    source = Wallet(
+      signer,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
+    );
+    destination = Wallet(
+      await Ed25519HDKeyPair.random(),
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
+    );
     // Add tokens to the sender
     await source.requestAirdrop(lamports: 100 * lamportsPerSol);
     token = await rpcClient.initializeMint(
       owner: signer,
       decimals: 2,
+      subscriptionClient: subscriptionClient,
     );
     final associatedAccount = await source.createAssociatedTokenAccount(
       mint: token.mint,
       funder: source,
     );
     await token.mintTo(
-      destination: associatedAccount.address,
+      destination: associatedAccount.pubkey,
       amount: _tokenMintAmount,
     );
   });
@@ -69,7 +80,7 @@ void main() {
     expect(result?.transaction, isNotNull);
     final transaction = result!.transaction;
     expect(transaction.message, isNotNull);
-    final txMessage = transaction.message!;
+    final txMessage = transaction.message;
     expect(txMessage.instructions, isNotNull);
     final instructions = txMessage.instructions;
     expect(instructions.length, equals(2));
@@ -88,8 +99,9 @@ void main() {
 
   test('Get a token balance', () async {
     final wallet = Wallet(
-      signer: await Ed25519HDKeyPair.random(),
+      await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
     expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
         completion(equals(false)));
@@ -113,8 +125,9 @@ void main() {
   test('Fails SPL transfer if recipient has no associated token account',
       () async {
     final wallet = Wallet(
-      signer: await Ed25519HDKeyPair.random(),
+      await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
     expect(
       source.transferSplToken(
@@ -128,8 +141,9 @@ void main() {
 
   test('Transfer SPL tokens successfully', () async {
     final wallet = Wallet(
-      signer: await Ed25519HDKeyPair.random(),
+      await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
     await wallet.createAssociatedTokenAccount(
       mint: token.mint,
@@ -148,8 +162,9 @@ void main() {
 
   test('Transfer SPL tokens with memo', () async {
     final wallet = Wallet(
-      signer: await Ed25519HDKeyPair.random(),
+      await Ed25519HDKeyPair.random(),
       rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
     // Create the associated account for the recipient
     await wallet.createAssociatedTokenAccount(
@@ -172,7 +187,7 @@ void main() {
     expect(result?.transaction, isNotNull);
     final transaction = result!.transaction;
     expect(transaction.message, isNotNull);
-    final txMessage = transaction.message!;
+    final txMessage = transaction.message;
     expect(txMessage.instructions, isNotNull);
     final instructions = txMessage.instructions;
     expect(instructions.length, equals(2));

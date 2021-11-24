@@ -29,7 +29,6 @@ class Account {
   /// Data associated with the account, either as encoded binary
   /// data or JSON format {<program>: <state>}, depending on
   /// encoding parameter
-  @AccountDataConverter()
   final AccountData? data;
 
   /// Boolean indicating if the account contains a program (and

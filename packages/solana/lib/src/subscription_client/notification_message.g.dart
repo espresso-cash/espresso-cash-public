@@ -18,7 +18,8 @@ _$AccountNotification _$$AccountNotificationFromJson(
         Map<String, dynamic> json) =>
     _$AccountNotification(
       params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>, (value) => value),
+          json['params'] as Map<String, dynamic>,
+          (value) => Account.fromJson(value as Map<String, dynamic>)),
     );
 
 Map<String, dynamic> _$$AccountNotificationToJson(
@@ -30,7 +31,8 @@ Map<String, dynamic> _$$AccountNotificationToJson(
 _$LogsNotification _$$LogsNotificationFromJson(Map<String, dynamic> json) =>
     _$LogsNotification(
       params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>, (value) => value),
+          json['params'] as Map<String, dynamic>,
+          (value) => Logs.fromJson(value as Map<String, dynamic>)),
     );
 
 Map<String, dynamic> _$$LogsNotificationToJson(_$LogsNotification instance) =>
@@ -68,7 +70,8 @@ Map<String, dynamic> _$$SignatureNotificationToJson(
 _$SlotNotification _$$SlotNotificationFromJson(Map<String, dynamic> json) =>
     _$SlotNotification(
       params: NotificationParams.fromJson(
-          json['params'] as Map<String, dynamic>, (value) => value),
+          json['params'] as Map<String, dynamic>,
+          (value) => Slot.fromJson(value as Map<String, dynamic>)),
     );
 
 Map<String, dynamic> _$$SlotNotificationToJson(_$SlotNotification instance) =>

@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/inner_instruction.dart';
 import 'package:solana/src/rpc/dto/token_balance.dart';
-import 'package:solana/src/rpc/dto/token_balance.dart';
 
 part 'meta.g.dart';
 

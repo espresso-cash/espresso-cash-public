@@ -15,3 +15,16 @@ enum Encoding {
   /// bytes.
   base58,
 }
+
+extension EncodingValue on Encoding {
+  String get value {
+    switch (this) {
+      case Encoding.jsonParsed:
+        return 'jsonParsed';
+      case Encoding.base64:
+        return 'base64';
+      case Encoding.base58:
+        return 'base58';
+    }
+  }
+}

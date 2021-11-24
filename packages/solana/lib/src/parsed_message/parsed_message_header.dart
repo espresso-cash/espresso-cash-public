@@ -14,7 +14,6 @@ class ParsedMessageHeader {
   factory ParsedMessageHeader.fromJson(Map<String, dynamic> json) =>
       _$ParsedMessageHeaderFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$ParsedMessageHeaderToJson(this);
 
   final int numRequiredSignatures;

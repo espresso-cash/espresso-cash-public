@@ -5,6 +5,7 @@ import 'package:solana/src/anchor/instruction.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/message.dart';
+import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
@@ -14,13 +15,15 @@ import 'config.dart';
 void main() {
   late final Ed25519HDKeyPair payer;
   late final Ed25519HDKeyPair updater;
-  final client = RPCClient(devnetRpcUrl);
+  late final SubscriptionClient subscriptionClient;
+  final rpcClient = RpcClient(devnetRpcUrl);
 
   setUpAll(() async {
+    subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
     payer = await Ed25519HDKeyPair.random();
     updater = await Ed25519HDKeyPair.random();
 
-    await airdrop(client, payer, sol: 10);
+    await airdrop(rpcClient, subscriptionClient, payer, sol: 10);
   });
 
   test('Call basic-0 initialize method', () async {
@@ -33,12 +36,14 @@ void main() {
       ),
     ];
     final message = Message(instructions: instructions);
-    final signature = await client.signAndSendTransaction(
+    final signature = await rpcClient.signAndSendTransaction(
       message,
       [payer],
     );
-    await client.waitForSignatureStatus(
-        signature, ConfirmationStatus.finalized);
+    await subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: ConfirmationStatus.finalized,
+    );
 
     expect(signature, isNotNull);
   }, skip: true);
@@ -46,7 +51,7 @@ void main() {
   test('Call basic-1 initialize method', () async {
     // 8 bytes for the discriminator and 8 bytes for the data
     const space = 16;
-    final rent = await client.getMinimumBalanceForRentExemption(space);
+    final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
     final instructions = [
       SystemInstruction.createAccount(
         rent: rent,
@@ -67,19 +72,21 @@ void main() {
       ),
     ];
     final message = Message(instructions: instructions);
-    final signature = await client.signAndSendTransaction(
+    final signature = await rpcClient.signAndSendTransaction(
       message,
       [
         payer,
         updater,
       ],
     );
-    await client.waitForSignatureStatus(
-        signature, ConfirmationStatus.finalized);
+    await subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: ConfirmationStatus.finalized,
+    );
 
-    final account = await client.getAccountInfo(updater.address);
+    final account = await rpcClient.getAccountInfo(updater.address);
     expect(account, isNotNull);
-    final rawData = account!.data;
+    final rawData = account?.data;
     expect(rawData, isNotNull);
     final data = Basic1DataAccount.fromAccountData(rawData!);
     final discriminator = await computeDiscriminator('account', 'MyAccount');
@@ -102,17 +109,19 @@ void main() {
     ];
 
     final message = Message(instructions: instructions);
-    final signature = await client.signAndSendTransaction(
+    final signature = await rpcClient.signAndSendTransaction(
       message,
       [payer],
     );
-    await client.waitForSignatureStatus(
-        signature, ConfirmationStatus.finalized);
+    await subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: ConfirmationStatus.finalized,
+    );
 
     final discriminator = await computeDiscriminator('account', 'MyAccount');
-    final account = await client.getAccountInfo(updater.address);
+    final account = await rpcClient.getAccountInfo(updater.address);
     expect(account, isNotNull);
-    final rawData = account!.data;
+    final rawData = account?.data;
     expect(rawData, isNotNull);
     final dataAccount = Basic1DataAccount.fromAccountData(rawData!);
     expect(dataAccount.data, equals(25));

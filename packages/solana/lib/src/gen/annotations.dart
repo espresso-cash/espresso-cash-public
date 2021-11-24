@@ -2,8 +2,14 @@ class SolanaRpcClient {
   const SolanaRpcClient();
 }
 
-class _withContextResult {
-  const _withContextResult();
+class _WithContextResult {
+  const _WithContextResult();
 }
 
-const withContext = _withContextResult();
+class Constant {
+  const Constant(this.value);
+
+  final dynamic value;
+}
+
+const withContext = _WithContextResult();

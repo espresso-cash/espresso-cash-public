@@ -28,48 +28,6 @@ class _${element.name} implements ${element.name} {
 
 ${methods.map(_generateConfig).join('\n\n')}
 
-Map<K, V> _fromJsonMap<K, V>(
-  dynamic map,
-  K Function(dynamic key) convertKey,
-  V Function(dynamic value) convertValue,
-) {
-  if (map is! Map<String, dynamic>) {
-    throw const FormatException('invalid input type is not map');
-  }
-
-  final result = <K, V>{};
-  for (final entry in map.entries) {
-    result[convertKey(entry.key)] = convertValue(entry.value);
-  }
-
-  return result;
-}
-
-List<T> _fromJsonArray<T>(dynamic array, T Function(dynamic) convert) {
-  if (array is List<Map<String, dynamic>>) {
-    return array.map(convert).toList(growable: false);
-  } else {
-    throw const FormatException('invalid input type is not json array');
-  }
-}
-
-dynamic _getResult(dynamic raw) {
-  if (raw is! Map<String, dynamic>) {
-    throw const FormatException('expecting a map but got something else');
-  }
-
-  return raw['result'];
-}
-
-dynamic _unwrapAndGetResult(dynamic raw) {
-  final dynamic result = _getResult(raw);
-  if (result is! Map<String, dynamic>) {
-    throw const FormatException('expecting a map but got something else');
-  }
-
-  return result['value'];
-}
-
 ''';
   }
 
@@ -82,7 +40,7 @@ dynamic _unwrapAndGetResult(dynamic raw) {
     return '''
 @JsonSerializable(createFactory: false, includeIfNull: false)
 class ${name}Config {
-  ${name}Config({${fields.map((f) => f.asFormalInitializer()).join(', ')}});
+  ${name}Config({${fields.map((f) => f.asFormalInitializer()).join(', ')},});
 
   ${fields.map((f) => f.asField()).join('\n')}
 
@@ -92,11 +50,14 @@ class ${name}Config {
   }
 
   String _generateMethod(MethodElement method) {
-    final params = method.parameters
-        .where((p) => p.isPositional)
-        .map((p) => p.toJson())
-        .toList();
-    final iswithContext = method.metadata.any(
+    final params = method.parameters.where((p) => p.isPositional).map((p) {
+      if (p.type.isNullableType) {
+        return 'if (${p.name} != null) ${p.toJson()}';
+      } else {
+        return p.toJson();
+      }
+    }).toList();
+    final isWithContext = method.metadata.any(
       (a) => a.toSource() == "@withContext",
     );
     final configParams = method.parameters.where((p) => p.isNamed);
@@ -114,19 +75,20 @@ class ${name}Config {
 
     final returnType =
         (method.returnType as ParameterizedType).typeArguments.first;
+    final readerFn = isWithContext ? 'unwrapAndGetResult' : 'getResult';
 
     return '''
 @override
 ${method.getDisplayString(withNullability: true)} async {
   final config = $configParamsString;
-  final data = await _client.request(
+  final response = await _client.request(
       '${method.name}',
       params: <dynamic>[
         ${params.join(', ')}${params.isEmpty ? '' : ','}
         if (config.isNotEmpty) config,
       ],
     );
-  final dynamic value = ${iswithContext ? '_unwrapAndGetResult' : '_getResult'}(data);
+  final dynamic value = $readerFn(response);
 
   return ${returnType.fromJson("value")};
 }
@@ -143,7 +105,7 @@ extension on DartType {
     final name = getDisplayString(withNullability: true);
     if (isDartCoreList) {
       final type = (this as ParameterizedType).typeArguments.first;
-      return '(dynamic v) => _fromJsonArray(v, ${type.convertFn()})';
+      return '(dynamic v) => fromJsonArray(v, ${type.convertFn()})';
     }
     // We are not considering nested maps, because we don't need
     // to
@@ -159,12 +121,12 @@ extension on DartType {
     if (this is ParameterizedType) {
       if (isDartCoreList) {
         final type = (this as ParameterizedType).typeArguments.first;
-        return '_fromJsonArray($data, ${type.convertFn()})';
+        return 'fromJsonArray($data, ${type.convertFn()})';
       } else if (isDartCoreMap) {
         final kType = (this as ParameterizedType).typeArguments.first;
         final vType = (this as ParameterizedType).typeArguments.last;
 
-        return '_fromJsonMap($data, ${kType.convertFn()}, ${vType.convertFn()})';
+        return 'fromJsonMap($data, ${kType.convertFn()}, ${vType.convertFn()})';
       } else if ((this as ParameterizedType).typeArguments.isEmpty) {
         genericFactory = '';
       } else {
@@ -198,11 +160,12 @@ extension on ParameterElement {
   }
 
   String asFormalInitializer() {
+    var defaultValue = hasDefaultValue ? ' = $defaultValueCode' : '';
     if (isRequiredNamed) {
-      return 'required this.$name';
+      return 'required this.$name$defaultValue';
     }
 
-    return 'this.$name';
+    return 'this.$name$defaultValue';
   }
 
   String toJson() {
@@ -210,8 +173,10 @@ extension on ParameterElement {
       return name;
     } else if (isEnum()) {
       return '$name.value';
-    } else {
+    } else if (!type.isDartCoreList) {
       return '$name${type.nullSuffix}.toJson()';
+    } else {
+      return '$name${type.nullSuffix}';
     }
   }
 
