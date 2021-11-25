@@ -1,4 +1,5 @@
 export 'src/associated_token_account_program/associated_token_account_program.dart';
+export 'src/base58/decode.dart';
 export 'src/base58/encode.dart';
 export 'src/crypto/ed25519_hd_keypair.dart';
 export 'src/dto/account.dart';
@@ -17,6 +18,7 @@ export 'src/exceptions/no_associated_token_account_exception.dart';
 export 'src/exceptions/transaction_exception.dart';
 export 'src/memo_program/memo_program.dart';
 export 'src/parsed_message/parsed_message.dart';
+export 'src/rpc_client/json_rpc_client.dart' show JsonRpcClient;
 export 'src/rpc_client/rpc_client.dart';
 export 'src/spl_token/associated_account.dart';
 export 'src/spl_token/spl_token.dart';

@@ -4,6 +4,7 @@ import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/dto/account.dart';
 import 'package:solana/src/dto/blockhash.dart';
 import 'package:solana/src/dto/commitment.dart';
+import 'package:solana/src/dto/signature.dart';
 import 'package:solana/src/dto/signature_status.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/exceptions/transaction_exception.dart';
@@ -273,6 +274,24 @@ class RPCClient {
     );
 
     return GetTokenSupplyResponse.fromJson(data).result;
+  }
+
+  Future<Iterable<GetSignatureItem>> getSignaturesForAddress({
+    required String address,
+    int? limit,
+    String? before,
+  }) async {
+    final jsonResponse = await client.request(
+      'getSignaturesForAddress',
+      params: <dynamic>[
+        address,
+        {
+          if (limit != null) 'limit': limit,
+          if (before != null) 'before': before,
+        },
+      ],
+    );
+    return GetSignatureResponse.fromJson(jsonResponse).result;
   }
 
   /// Returns Future that resolves to the statuses of a list of [signatures].
