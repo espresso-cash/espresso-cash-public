@@ -69,29 +69,32 @@ extension InstructionListExt on List<Instruction> {
   /// - sorts accounts according to [Account Addresses Format][1].
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
-  List<AccountMeta> getAccountsWithOptionalFeePayer(String feePayer) {
+  List<AccountMeta> getAccountsWithOptionalFeePayer(String? feePayer) {
     final accounts = expand<AccountMeta>(
-          (Instruction instruction) => [
+      (Instruction instruction) => [
         ...instruction.accounts,
 
         /// Append the instruction program id
         AccountMeta.readonly(pubKey: instruction.programId, isSigner: false),
       ],
     ).toList();
-    final index = accounts.indexWhere(
-          (AccountMeta account) => account.pubKey == feePayer,
-    );
-    if (index != -1) {
-      // If the account is already here, remove it as we are going
-      // to put it as the first element of the accounts array anyway
-      accounts.removeAt(index);
+
+    if (feePayer != null) {
+      final index = accounts.indexWhere(
+        (AccountMeta account) => account.pubKey == feePayer,
+      );
+      if (index != -1) {
+        // If the account is already here, remove it as we are going
+        // to put it as the first element of the accounts array anyway
+        accounts.removeAt(index);
+      }
+      // The fee payer must be the first account in they "keys" provided with
+      // the message object
+      accounts.insert(
+        0,
+        AccountMeta.writeable(pubKey: feePayer, isSigner: true),
+      );
     }
-    // The fee payer must be the first account in they "keys" provided with
-    // the message object
-    accounts.insert(
-      0,
-      AccountMeta.writeable(pubKey: feePayer, isSigner: true),
-    );
     return accounts.unique()..sort();
   }
 }
