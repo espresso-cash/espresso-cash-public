@@ -5,7 +5,7 @@ import 'package:solana/src/rpc/dto/transaction_message_header.dart';
 part 'transaction_message.g.dart';
 
 /// A transaction message
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class TransactionMessage {
   const TransactionMessage({
     required this.accountKeys,
@@ -16,8 +16,6 @@ class TransactionMessage {
 
   factory TransactionMessage.fromJson(Map<String, dynamic> json) =>
       _$TransactionMessageFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TransactionMessageToJson(this);
 
   /// List of base-58 encoded public keys used by the
   /// transaction, including by the instructions and for

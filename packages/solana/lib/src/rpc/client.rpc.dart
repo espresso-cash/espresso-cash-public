@@ -13,7 +13,7 @@ class _RpcClient implements RpcClient {
 
   @override
   Future<Account?> getAccountInfo(String pubKey,
-      {Commitment? commitment = Commitment.finalized,
+      {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
       DataSlice? dataSlice}) async {
     final config = GetAccountInfoConfig(
@@ -386,7 +386,7 @@ class _RpcClient implements RpcClient {
 
   @override
   Future<List<Account>> getMultipleAccounts(List<String> pubKeys,
-      {Commitment? commitment = Commitment.finalized,
+      {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
       DataSlice? dataSlice}) async {
     final config = GetMultipleAccountsConfig(
@@ -406,9 +406,9 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<ProgramAccount>> getProgramAccounts(List<String> pubKey,
+  Future<List<ProgramAccount>> getProgramAccounts(String pubKey,
       {Commitment? commitment = Commitment.finalized,
-      Encoding? encoding,
+      required Encoding encoding,
       DataSlice? dataSlice,
       List<Filter>? filter}) async {
     final config = GetProgramAccountsConfig(
@@ -594,7 +594,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<List<ProgramAccount>> getTokenAccountsByDelegate(
       String pubKey, TokenAccountsFilter filter,
-      {Commitment? commitment = Commitment.finalized,
+      {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
       DataSlice? dataSlice}) async {
     final config = GetTokenAccountsByDelegateConfig(
@@ -617,7 +617,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<List<ProgramAccount>> getTokenAccountsByOwner(
       String pubKey, TokenAccountsFilter filter,
-      {Commitment? commitment = Commitment.finalized,
+      {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
       DataSlice? dataSlice}) async {
     final config = GetTokenAccountsByOwnerConfig(
@@ -890,7 +890,7 @@ class _RpcClient implements RpcClient {
 
   @override
   Future<TransactionDetails?> getConfirmedTransaction(String signature,
-      {Encoding? encoding = Encoding.base64,
+      {Encoding? encoding = Encoding.jsonParsed,
       Commitment? commitment = Commitment.finalized}) async {
     final config = GetConfirmedTransactionConfig(
             encoding: encoding, commitment: commitment)
@@ -916,7 +916,7 @@ class GetAccountInfoConfig {
     this.dataSlice,
   });
 
-  final Commitment? commitment;
+  final Commitment commitment;
   final Encoding? encoding;
   final DataSlice? dataSlice;
 
@@ -1051,7 +1051,7 @@ class GetMultipleAccountsConfig {
     this.dataSlice,
   });
 
-  final Commitment? commitment;
+  final Commitment commitment;
   final Encoding? encoding;
   final DataSlice? dataSlice;
 
@@ -1062,13 +1062,13 @@ class GetMultipleAccountsConfig {
 class GetProgramAccountsConfig {
   GetProgramAccountsConfig({
     this.commitment = Commitment.finalized,
-    this.encoding,
+    required this.encoding,
     this.dataSlice,
     this.filter,
   });
 
   final Commitment? commitment;
-  final Encoding? encoding;
+  final Encoding encoding;
   final DataSlice? dataSlice;
   final List<Filter>? filter;
 
@@ -1164,7 +1164,7 @@ class GetTokenAccountsByDelegateConfig {
     this.dataSlice,
   });
 
-  final Commitment? commitment;
+  final Commitment commitment;
   final Encoding? encoding;
   final DataSlice? dataSlice;
 
@@ -1180,7 +1180,7 @@ class GetTokenAccountsByOwnerConfig {
     this.dataSlice,
   });
 
-  final Commitment? commitment;
+  final Commitment commitment;
   final Encoding? encoding;
   final DataSlice? dataSlice;
 
@@ -1322,7 +1322,7 @@ class GetConfirmedSignaturesForAddress2Config {
 @JsonSerializable(createFactory: false, includeIfNull: false)
 class GetConfirmedTransactionConfig {
   GetConfirmedTransactionConfig({
-    this.encoding = Encoding.base64,
+    this.encoding = Encoding.jsonParsed,
     this.commitment = Commitment.finalized,
   });
 

@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/parsed_message/parsed_message.dart';
+import 'package:solana/src/rpc/dto/message.dart';
 
 part 'transaction.g.dart';
 
 /// A transaction
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class Transaction {
   const Transaction({
     required this.signatures,
@@ -13,8 +13,6 @@ class Transaction {
 
   factory Transaction.fromJson(Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TransactionToJson(this);
 
   /// A list of base-58 encoded signatures applied to the
   /// transaction. The list is always of length
@@ -25,5 +23,5 @@ class Transaction {
   final List<String> signatures;
 
   /// Defines the content of the transaction.
-  final ParsedMessage message;
+  final Message message;
 }

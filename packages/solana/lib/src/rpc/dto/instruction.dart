@@ -1,20 +1,26 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'instruction.g.dart';
+import 'package:solana/src/rpc/dto/parsed_message/parsed_instruction.dart';
 
 /// An instruction in a transaction
-@JsonSerializable(createFactory: true, includeIfNull: false)
-class Instruction {
-  const Instruction({
+abstract class Instruction {
+  factory Instruction.fromJson(Map<String, dynamic> json) {
+    if (json["parsed"] != null) {
+      return ParsedInstruction.fromJson(json);
+    } else {
+      return BasicInstruction(
+        programIdIndex: json["programIdIndex"],
+        accounts: json["accounts"],
+        data: json["data"],
+      );
+    }
+  }
+}
+
+class BasicInstruction implements Instruction {
+  const BasicInstruction({
     required this.programIdIndex,
     required this.accounts,
     required this.data,
   });
-
-  factory Instruction.fromJson(Map<String, dynamic> json) =>
-      _$InstructionFromJson(json);
-
-  Map<String, dynamic> toJson() => _$InstructionToJson(this);
 
   /// Index into the message.accountKeys array indicating the
   /// program account that executes this instruction.

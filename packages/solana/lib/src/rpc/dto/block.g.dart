@@ -25,25 +25,3 @@ Block _$BlockFromJson(Map<String, dynamic> json) => Block(
       blockTime: json['blockTime'] as int?,
       blockHeight: json['blockHeight'] as int?,
     );
-
-Map<String, dynamic> _$BlockToJson(Block instance) {
-  final val = <String, dynamic>{
-    'blockhash': instance.blockhash,
-    'previousBlockhash': instance.previousBlockhash,
-    'parentSlot': instance.parentSlot,
-    'transactions': instance.transactions,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('meta', instance.meta);
-  val['signatures'] = instance.signatures;
-  val['rewards'] = instance.rewards;
-  writeNotNull('blockTime', instance.blockTime);
-  writeNotNull('blockHeight', instance.blockHeight);
-  return val;
-}

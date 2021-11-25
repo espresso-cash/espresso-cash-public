@@ -6,31 +6,19 @@ part of 'parsed_spl_token_account_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ParsedMintAccountData _$$ParsedMintAccountDataFromJson(
+ParsedSplTokenAccountData _$ParsedSplTokenAccountDataFromJson(
         Map<String, dynamic> json) =>
-    _$ParsedMintAccountData(
-      info: MintAccountDataInfo.fromJson(json['info'] as Map<String, dynamic>),
+    ParsedSplTokenAccountData(
       accountType: json['accountType'] as String?,
-    );
-
-Map<String, dynamic> _$$ParsedMintAccountDataToJson(
-        _$ParsedMintAccountData instance) =>
-    <String, dynamic>{
-      'info': instance.info,
-      'accountType': instance.accountType,
-    };
-
-_$SplTokenAccountData _$$SplTokenAccountDataFromJson(
-        Map<String, dynamic> json) =>
-    _$SplTokenAccountData(
-      info: SplTokenAccountDataInfo.fromJson(
+      info: ParsedSplTokenAccountDataInfo.fromJson(
           json['info'] as Map<String, dynamic>),
-      accountType: json['accountType'] as String?,
+      type: json['type'] as String,
     );
 
-Map<String, dynamic> _$$SplTokenAccountDataToJson(
-        _$SplTokenAccountData instance) =>
+Map<String, dynamic> _$ParsedSplTokenAccountDataToJson(
+        ParsedSplTokenAccountData instance) =>
     <String, dynamic>{
-      'info': instance.info,
       'accountType': instance.accountType,
+      'info': instance.info,
+      'type': instance.type,
     };

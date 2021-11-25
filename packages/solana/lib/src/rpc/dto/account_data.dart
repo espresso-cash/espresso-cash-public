@@ -29,25 +29,13 @@ abstract class AccountData {
       throw const FormatException('encoding is not of type String');
     }
 
+    if (encoding.isEmpty) {
+      return const AccountData.empty();
+    }
+
     if (encoding == 'base64') {
-      if (encoded is! String) {
-        throw FormatException('unexpected data "${data.first}"');
-      }
-
-      if (encoded.isEmpty) {
-        return const AccountData.empty();
-      }
-
       return AccountData._fromBase64String(encoded);
     } else if (encoding == 'base58') {
-      if (encoded is! String) {
-        throw FormatException('unexpected data "${data.first}"');
-      }
-
-      if (encoding.isEmpty) {
-        return const AccountData.empty();
-      }
-
       return AccountData.binary(base58decode(encoded));
     } else {
       throw FormatException('unknown encoding $encoding');

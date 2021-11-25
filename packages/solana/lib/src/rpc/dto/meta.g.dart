@@ -26,23 +26,3 @@ Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
           .map((e) => e as String)
           .toList(),
     );
-
-Map<String, dynamic> _$MetaToJson(Meta instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('err', instance.err);
-  val['fee'] = instance.fee;
-  val['preBalances'] = instance.preBalances;
-  val['postBalances'] = instance.postBalances;
-  val['innerInstructions'] = instance.innerInstructions;
-  val['preTokenBalances'] = instance.preTokenBalances;
-  val['postTokenBalances'] = instance.postTokenBalances;
-  val['logMessages'] = instance.logMessages;
-  return val;
-}

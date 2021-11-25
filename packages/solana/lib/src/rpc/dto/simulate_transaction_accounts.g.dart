@@ -72,4 +72,5 @@ const _$EncodingEnumMap = {
   Encoding.base64: 'base64',
   Encoding.jsonParsed: 'jsonParsed',
   Encoding.base58: 'base58',
+  Encoding.json: 'json',
 };

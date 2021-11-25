@@ -127,8 +127,6 @@ abstract class $SplTokenProgramAccountDataCopyWith<$Res> {
           $Res Function(SplTokenProgramAccountData) then) =
       _$SplTokenProgramAccountDataCopyWithImpl<$Res>;
   $Res call({ParsedSplTokenAccountData parsed});
-
-  $ParsedSplTokenAccountDataCopyWith<$Res> get parsed;
 }
 
 /// @nodoc
@@ -153,13 +151,6 @@ class _$SplTokenProgramAccountDataCopyWithImpl<$Res>
           : parsed // ignore: cast_nullable_to_non_nullable
               as ParsedSplTokenAccountData,
     ));
-  }
-
-  @override
-  $ParsedSplTokenAccountDataCopyWith<$Res> get parsed {
-    return $ParsedSplTokenAccountDataCopyWith<$Res>(_value.parsed, (value) {
-      return _then(_value.copyWith(parsed: value));
-    });
   }
 }
 

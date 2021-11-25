@@ -5,7 +5,7 @@ import 'package:solana/src/rpc/dto/token_balance.dart';
 part 'meta.g.dart';
 
 /// Transaction state metadata
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class Meta {
   const Meta({
     required this.err,
@@ -19,8 +19,6 @@ class Meta {
   });
 
   factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MetaToJson(this);
 
   final Map<String, dynamic>? err;
 

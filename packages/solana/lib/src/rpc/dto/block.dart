@@ -6,7 +6,7 @@ import 'package:solana/src/rpc/dto/transaction.dart';
 part 'block.g.dart';
 
 /// A block
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class Block {
   const Block({
     required this.blockhash,
@@ -21,8 +21,6 @@ class Block {
   });
 
   factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BlockToJson(this);
 
   /// The blockhash of this block, as base-58 encoded string
   final String blockhash;

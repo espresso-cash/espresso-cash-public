@@ -32,7 +32,7 @@ abstract class RpcClient {
   @withContext
   Future<Account?> getAccountInfo(
     String pubKey, {
-    Commitment? commitment = Commitment.finalized,
+    Commitment commitment = Commitment.finalized,
     Encoding? encoding,
     DataSlice? dataSlice,
   });
@@ -244,7 +244,7 @@ abstract class RpcClient {
   @withContext
   Future<List<Account>> getMultipleAccounts(
     List<String> pubKeys, {
-    Commitment? commitment = Commitment.finalized,
+    Commitment commitment = Commitment.finalized,
     Encoding? encoding,
     DataSlice? dataSlice,
   });
@@ -267,9 +267,9 @@ abstract class RpcClient {
   /// [filter] Filter results using various filter objects; account must meet all filter
   /// criteria to be included in results
   Future<List<ProgramAccount>> getProgramAccounts(
-    List<String> pubKey, {
+    String pubKey, {
     Commitment? commitment = Commitment.finalized,
-    Encoding? encoding,
+    required Encoding encoding,
     DataSlice? dataSlice,
     List<Filter>? filter,
   });
@@ -406,7 +406,7 @@ abstract class RpcClient {
   Future<List<ProgramAccount>> getTokenAccountsByDelegate(
     String pubKey,
     TokenAccountsFilter filter, {
-    Commitment? commitment = Commitment.finalized,
+    Commitment commitment = Commitment.finalized,
     Encoding? encoding,
     DataSlice? dataSlice,
   });
@@ -429,7 +429,7 @@ abstract class RpcClient {
   Future<List<ProgramAccount>> getTokenAccountsByOwner(
     String pubKey,
     TokenAccountsFilter filter, {
-    Commitment? commitment = Commitment.finalized,
+    Commitment commitment = Commitment.finalized,
     Encoding? encoding,
     DataSlice? dataSlice,
   });
@@ -693,7 +693,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TransactionDetails?> getConfirmedTransaction(
     String signature, {
-    Encoding? encoding = Encoding.base64,
+    Encoding? encoding = Encoding.jsonParsed,
     Commitment? commitment = Commitment.finalized,
   });
 }

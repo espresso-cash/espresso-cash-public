@@ -1,10 +1,10 @@
 import 'package:solana/solana.dart' show lamportsPerSol;
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
-import 'package:solana/src/parsed_message/parsed_instruction.dart';
-import 'package:solana/src/parsed_message/parsed_spl_token_instruction.dart';
-import 'package:solana/src/parsed_message/parsed_system_instruction.dart';
 import 'package:solana/src/rpc/dto/commitment.dart';
+import 'package:solana/src/rpc/dto/parsed_message/parsed_instruction.dart';
+import 'package:solana/src/rpc/dto/parsed_message/parsed_spl_token_instruction.dart';
+import 'package:solana/src/rpc/dto/parsed_message/parsed_system_instruction.dart';
 import 'package:solana/src/rpc/rpc.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
@@ -74,8 +74,10 @@ void main() {
     );
     expect(signature, isNotNull);
 
+    // FIXME: check that it actual is this type
     final result =
         await rpcClient.getConfirmedTransaction(signature.toString());
+
     expect(result, isNotNull);
     expect(result?.transaction, isNotNull);
     final transaction = result!.transaction;
@@ -181,8 +183,10 @@ void main() {
     );
     expect(signature, isNotNull);
 
+    // FIXME: check that this is of the correct type
     final result =
         await rpcClient.getConfirmedTransaction(signature.toString());
+
     expect(result, isNotNull);
     expect(result?.transaction, isNotNull);
     final transaction = result!.transaction;

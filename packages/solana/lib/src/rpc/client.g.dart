@@ -8,7 +8,9 @@ part of 'client.dart';
 
 Map<String, dynamic> _$GetAccountInfoConfigToJson(
     GetAccountInfoConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'commitment': _$CommitmentEnumMap[instance.commitment],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -16,7 +18,6 @@ Map<String, dynamic> _$GetAccountInfoConfigToJson(
     }
   }
 
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('dataSlice', instance.dataSlice);
   return val;
@@ -32,6 +33,7 @@ const _$EncodingEnumMap = {
   Encoding.base64: 'base64',
   Encoding.jsonParsed: 'jsonParsed',
   Encoding.base58: 'base58',
+  Encoding.json: 'json',
 };
 
 Map<String, dynamic> _$GetBalanceConfigToJson(GetBalanceConfig instance) {
@@ -182,7 +184,9 @@ Map<String, dynamic> _$GetMinimumBalanceForRentExemptionConfigToJson(
 
 Map<String, dynamic> _$GetMultipleAccountsConfigToJson(
     GetMultipleAccountsConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'commitment': _$CommitmentEnumMap[instance.commitment],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -190,7 +194,6 @@ Map<String, dynamic> _$GetMultipleAccountsConfigToJson(
     }
   }
 
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('dataSlice', instance.dataSlice);
   return val;
@@ -207,7 +210,7 @@ Map<String, dynamic> _$GetProgramAccountsConfigToJson(
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
+  val['encoding'] = _$EncodingEnumMap[instance.encoding];
   writeNotNull('dataSlice', instance.dataSlice);
   writeNotNull('filter', instance.filter);
   return val;
@@ -314,7 +317,9 @@ Map<String, dynamic> _$GetTokenAccountBalanceConfigToJson(
 
 Map<String, dynamic> _$GetTokenAccountsByDelegateConfigToJson(
     GetTokenAccountsByDelegateConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'commitment': _$CommitmentEnumMap[instance.commitment],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -322,7 +327,6 @@ Map<String, dynamic> _$GetTokenAccountsByDelegateConfigToJson(
     }
   }
 
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('dataSlice', instance.dataSlice);
   return val;
@@ -330,7 +334,9 @@ Map<String, dynamic> _$GetTokenAccountsByDelegateConfigToJson(
 
 Map<String, dynamic> _$GetTokenAccountsByOwnerConfigToJson(
     GetTokenAccountsByOwnerConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'commitment': _$CommitmentEnumMap[instance.commitment],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -338,7 +344,6 @@ Map<String, dynamic> _$GetTokenAccountsByOwnerConfigToJson(
     }
   }
 
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('dataSlice', instance.dataSlice);
   return val;

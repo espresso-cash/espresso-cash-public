@@ -1,4 +1,6 @@
 export 'account.dart';
+export 'account_data/parsed_spl_token_account_data.dart';
+export 'account_data/parsed_spl_token_account_data_info.dart';
 export 'account_data.dart';
 export 'account_key.dart';
 export 'block.dart';
@@ -31,8 +33,6 @@ export 'instruction.dart';
 export 'large_account.dart';
 export 'logs.dart';
 export 'meta.dart';
-export 'parsed_spl_token_account_data.dart';
-export 'parsed_spl_token_account_data_info.dart';
 export 'perf_sample.dart';
 export 'program_account.dart';
 export 'program_filter.dart';

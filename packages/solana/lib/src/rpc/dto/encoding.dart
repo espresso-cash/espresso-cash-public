@@ -14,6 +14,7 @@ enum Encoding {
   /// Base58 is limited to [AccountData] data of less than 129
   /// bytes.
   base58,
+  json,
 }
 
 extension EncodingValue on Encoding {
@@ -25,6 +26,8 @@ extension EncodingValue on Encoding {
         return 'base64';
       case Encoding.base58:
         return 'base58';
+      case Encoding.json:
+        return 'json';
     }
   }
 }

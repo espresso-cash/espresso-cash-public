@@ -18,11 +18,3 @@ TransactionMessage _$TransactionMessageFromJson(Map<String, dynamic> json) =>
           .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
-
-Map<String, dynamic> _$TransactionMessageToJson(TransactionMessage instance) =>
-    <String, dynamic>{
-      'accountKeys': instance.accountKeys,
-      'header': instance.header,
-      'recentBlockhash': instance.recentBlockhash,
-      'instructions': instance.instructions,
-    };

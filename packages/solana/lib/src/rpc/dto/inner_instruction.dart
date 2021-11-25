@@ -5,17 +5,15 @@ part 'inner_instruction.g.dart';
 
 /// List of inner instructions or omitted if inner instruction
 /// recording was not yet enabled during this transaction
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class InnerInstruction {
   const InnerInstruction({
     required this.index,
-    required this.instruction,
+    required this.instructions,
   });
 
   factory InnerInstruction.fromJson(Map<String, dynamic> json) =>
       _$InnerInstructionFromJson(json);
-
-  Map<String, dynamic> toJson() => _$InnerInstructionToJson(this);
 
   /// Index of the transaction instruction from which the inner
   /// instruction(s) originated
@@ -23,5 +21,5 @@ class InnerInstruction {
 
   /// Ordered list of inner program instructions that were
   /// invoked during a single transaction instruction.
-  final List<Instruction> instruction;
+  final List<Instruction> instructions;
 }
