@@ -11,6 +11,8 @@ export 'src/dto/signature_status.dart' show SignatureStatus, TxStatus;
 export 'src/dto/transaction.dart';
 export 'src/encoder/encoder.dart'
     show Instruction, Message, Buffer, AccountMeta, SignedTx;
+export 'src/encoder/extensions.dart';
+export 'src/encoder/signature.dart' show Signature;
 export 'src/exceptions/bad_state_exception.dart';
 export 'src/exceptions/http_exception.dart';
 export 'src/exceptions/json_rpc_exception.dart';
