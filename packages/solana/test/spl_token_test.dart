@@ -59,8 +59,7 @@ void main() {
         rpcClient: rpcClient,
         subscriptionClient: subscriptionClient,
       );
-      Iterable<ProgramAccount> accounts =
-          await rpcClient.getTokenAccountsByOwner(
+      List<ProgramAccount> accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
         TokenAccountsFilter(mint: token.mint),
       );

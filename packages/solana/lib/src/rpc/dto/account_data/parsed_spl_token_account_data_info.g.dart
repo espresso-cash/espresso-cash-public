@@ -6,6 +6,26 @@ part of 'parsed_spl_token_account_data_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+ParsedSplMintAccountDataInfo _$ParsedSplMintAccountDataInfoFromJson(
+        Map<String, dynamic> json) =>
+    ParsedSplMintAccountDataInfo(
+      decimals: json['decimals'] as int,
+      freezeAuthority: json['freezeAuthority'] as String?,
+      isInitialized: json['isInitialized'] as bool,
+      mintAuthority: json['mintAuthority'] as String?,
+      supply: json['supply'] as String,
+    );
+
+Map<String, dynamic> _$ParsedSplMintAccountDataInfoToJson(
+        ParsedSplMintAccountDataInfo instance) =>
+    <String, dynamic>{
+      'decimals': instance.decimals,
+      'freezeAuthority': instance.freezeAuthority,
+      'isInitialized': instance.isInitialized,
+      'mintAuthority': instance.mintAuthority,
+      'supply': instance.supply,
+    };
+
 ParsedSplTokenAccountDataInfo _$ParsedSplTokenAccountDataInfoFromJson(
         Map<String, dynamic> json) =>
     ParsedSplTokenAccountDataInfo(

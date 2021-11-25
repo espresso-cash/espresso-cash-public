@@ -29,7 +29,7 @@ ParsedAccountData _$ParsedAccountDataFromJson(Map<String, dynamic> json) {
 class _$ParsedAccountDataTearOff {
   const _$ParsedAccountDataTearOff();
 
-  SplTokenProgramAccountData splToken(ParsedSplTokenAccountData parsed) {
+  SplTokenProgramAccountData splToken(ParsedSplTokenProgramAccountData parsed) {
     return SplTokenProgramAccountData(
       parsed,
     );
@@ -59,21 +59,21 @@ const $ParsedAccountData = _$ParsedAccountDataTearOff();
 mixin _$ParsedAccountData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(ParsedSplTokenProgramAccountData parsed) splToken,
     required TResult Function(ParsedStakeAccountData parsed) stake,
     required TResult Function(Map<String, dynamic> parsed) unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(ParsedSplTokenProgramAccountData parsed)? splToken,
     TResult Function(ParsedStakeAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(ParsedSplTokenProgramAccountData parsed)? splToken,
     TResult Function(ParsedStakeAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
     required TResult orElse(),
@@ -126,7 +126,9 @@ abstract class $SplTokenProgramAccountDataCopyWith<$Res> {
   factory $SplTokenProgramAccountDataCopyWith(SplTokenProgramAccountData value,
           $Res Function(SplTokenProgramAccountData) then) =
       _$SplTokenProgramAccountDataCopyWithImpl<$Res>;
-  $Res call({ParsedSplTokenAccountData parsed});
+  $Res call({ParsedSplTokenProgramAccountData parsed});
+
+  $ParsedSplTokenProgramAccountDataCopyWith<$Res> get parsed;
 }
 
 /// @nodoc
@@ -149,8 +151,16 @@ class _$SplTokenProgramAccountDataCopyWithImpl<$Res>
       parsed == freezed
           ? _value.parsed
           : parsed // ignore: cast_nullable_to_non_nullable
-              as ParsedSplTokenAccountData,
+              as ParsedSplTokenProgramAccountData,
     ));
+  }
+
+  @override
+  $ParsedSplTokenProgramAccountDataCopyWith<$Res> get parsed {
+    return $ParsedSplTokenProgramAccountDataCopyWith<$Res>(_value.parsed,
+        (value) {
+      return _then(_value.copyWith(parsed: value));
+    });
   }
 }
 
@@ -164,7 +174,7 @@ class _$SplTokenProgramAccountData extends SplTokenProgramAccountData {
       _$$SplTokenProgramAccountDataFromJson(json);
 
   @override
-  final ParsedSplTokenAccountData parsed;
+  final ParsedSplTokenProgramAccountData parsed;
 
   @override
   String toString() {
@@ -193,7 +203,7 @@ class _$SplTokenProgramAccountData extends SplTokenProgramAccountData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(ParsedSplTokenProgramAccountData parsed) splToken,
     required TResult Function(ParsedStakeAccountData parsed) stake,
     required TResult Function(Map<String, dynamic> parsed) unsupported,
   }) {
@@ -203,7 +213,7 @@ class _$SplTokenProgramAccountData extends SplTokenProgramAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(ParsedSplTokenProgramAccountData parsed)? splToken,
     TResult Function(ParsedStakeAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
   }) {
@@ -213,7 +223,7 @@ class _$SplTokenProgramAccountData extends SplTokenProgramAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(ParsedSplTokenProgramAccountData parsed)? splToken,
     TResult Function(ParsedStakeAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
     required TResult orElse(),
@@ -265,14 +275,15 @@ class _$SplTokenProgramAccountData extends SplTokenProgramAccountData {
 }
 
 abstract class SplTokenProgramAccountData extends ParsedAccountData {
-  const factory SplTokenProgramAccountData(ParsedSplTokenAccountData parsed) =
-      _$SplTokenProgramAccountData;
+  const factory SplTokenProgramAccountData(
+      ParsedSplTokenProgramAccountData parsed) = _$SplTokenProgramAccountData;
   const SplTokenProgramAccountData._() : super._();
 
   factory SplTokenProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$SplTokenProgramAccountData.fromJson;
 
-  ParsedSplTokenAccountData get parsed => throw _privateConstructorUsedError;
+  ParsedSplTokenProgramAccountData get parsed =>
+      throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SplTokenProgramAccountDataCopyWith<SplTokenProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;
@@ -356,7 +367,7 @@ class _$StakeProgramAccountData extends StakeProgramAccountData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(ParsedSplTokenProgramAccountData parsed) splToken,
     required TResult Function(ParsedStakeAccountData parsed) stake,
     required TResult Function(Map<String, dynamic> parsed) unsupported,
   }) {
@@ -366,7 +377,7 @@ class _$StakeProgramAccountData extends StakeProgramAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(ParsedSplTokenProgramAccountData parsed)? splToken,
     TResult Function(ParsedStakeAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
   }) {
@@ -376,7 +387,7 @@ class _$StakeProgramAccountData extends StakeProgramAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(ParsedSplTokenProgramAccountData parsed)? splToken,
     TResult Function(ParsedStakeAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
     required TResult orElse(),
@@ -513,7 +524,7 @@ class _$UnsupportedProgramAccountData extends UnsupportedProgramAccountData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSplTokenAccountData parsed) splToken,
+    required TResult Function(ParsedSplTokenProgramAccountData parsed) splToken,
     required TResult Function(ParsedStakeAccountData parsed) stake,
     required TResult Function(Map<String, dynamic> parsed) unsupported,
   }) {
@@ -523,7 +534,7 @@ class _$UnsupportedProgramAccountData extends UnsupportedProgramAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(ParsedSplTokenProgramAccountData parsed)? splToken,
     TResult Function(ParsedStakeAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
   }) {
@@ -533,7 +544,7 @@ class _$UnsupportedProgramAccountData extends UnsupportedProgramAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountData parsed)? splToken,
+    TResult Function(ParsedSplTokenProgramAccountData parsed)? splToken,
     TResult Function(ParsedStakeAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
     required TResult orElse(),

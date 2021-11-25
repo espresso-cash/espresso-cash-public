@@ -9,7 +9,7 @@ part of 'parsed_account_data.dart';
 _$SplTokenProgramAccountData _$$SplTokenProgramAccountDataFromJson(
         Map<String, dynamic> json) =>
     _$SplTokenProgramAccountData(
-      ParsedSplTokenAccountData.fromJson(
+      ParsedSplTokenProgramAccountData.fromJson(
           json['parsed'] as Map<String, dynamic>),
     );
 
