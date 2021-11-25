@@ -116,8 +116,11 @@ void main() {
     expect(await wallet.getLamports(), equals(lamportsPerSol));
 
     await wallet.createAssociatedTokenAccount(mint: token.mint);
-    expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
-        completion(equals(true)));
+    final hasAssociatedTokenAccount = await wallet.hasAssociatedTokenAccount(
+      mint: token.mint,
+    );
+
+    expect(hasAssociatedTokenAccount, equals(true));
 
     final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
     expect(tokenBalance.decimals, equals(token.decimals));

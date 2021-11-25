@@ -2,6 +2,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/rpc/dto/commitment.dart';
+import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/rpc/dto/program_account.dart';
 import 'package:solana/src/rpc/dto/token_accounts_filter.dart';
 import 'package:solana/src/rpc/dto/token_amount.dart';
@@ -241,6 +242,7 @@ class Wallet {
       accounts = await _rpcClient.getTokenAccountsByOwner(
         address,
         TokenAccountsFilter(mint: token.mint),
+        encoding: Encoding.jsonParsed,
       );
     } on FormatException {
       accounts = [];

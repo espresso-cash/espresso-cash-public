@@ -1,6 +1,7 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
+import 'package:solana/src/rpc/dto/encoding.dart';
 import 'package:solana/src/rpc/dto/program_account.dart';
 import 'package:solana/src/rpc/dto/token_accounts_filter.dart';
 import 'package:solana/src/rpc/dto/token_amount.dart';
@@ -74,6 +75,7 @@ void main() {
       accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
         TokenAccountsFilter(mint: token.mint),
+        encoding: Encoding.jsonParsed,
       );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
@@ -93,6 +95,7 @@ void main() {
       final accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
         TokenAccountsFilter(mint: token.mint),
+        encoding: Encoding.jsonParsed,
       );
       await token.mintTo(
         destination: accounts.first.pubkey,
