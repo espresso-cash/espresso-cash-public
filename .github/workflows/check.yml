@@ -15,7 +15,7 @@ jobs:
       image: google/dart:latest
     services:
       solana:
-        image: ghcr.io/iharob/solana-test-validator:latest
+        image: ghcr.io/iharob/solana-test-validator:1.8.5
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
