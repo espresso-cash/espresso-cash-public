@@ -86,12 +86,11 @@ class Ed25519HDKeyPair extends KeyPair {
   /// Sign a solana program message
   Future<SignedTx> signMessage({
     required Message message,
-    // FIXME: should be string (no knowledge of these structures is needed here)
     required String recentBlockhash,
   }) async {
     final compiledMessage = message.compile(
       recentBlockhash: recentBlockhash,
-      feePayer: this,
+      feePayer: address,
     );
     final signature = await sign(compiledMessage.data);
 

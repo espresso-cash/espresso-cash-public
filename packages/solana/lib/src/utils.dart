@@ -82,7 +82,7 @@ Future<SignedTx> signTransaction(
 
   final CompiledMessage compiledMessage = message.compile(
     recentBlockhash: recentBlockhash.blockhash,
-    feePayer: signers.first,
+    feePayer: signers.first.address,
   );
 
   final int requiredSignaturesCount = compiledMessage.requiredSignatureCount;
