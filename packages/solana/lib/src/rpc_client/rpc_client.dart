@@ -133,7 +133,7 @@ class RPCClient {
     return GetProgramAccountsResponse.fromJson(data).result;
   }
 
-  Future<List<AccountData>> getMultipleAccounts(
+  Future<List<AccountData?>> getMultipleAccounts(
     List<String> addressList, {
     Commitment? commitment,
     String encoding = 'jsonParsed',

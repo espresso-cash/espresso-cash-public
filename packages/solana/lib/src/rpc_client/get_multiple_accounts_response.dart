@@ -7,8 +7,8 @@ part 'get_multiple_accounts_response.g.dart';
 
 @JsonSerializable(createToJson: false)
 class GetMultipleAccountsResponse
-    extends JsonRpcResponse<ValueResponse<List<AccountData>>> {
-  GetMultipleAccountsResponse(ValueResponse<List<AccountData>> result)
+    extends JsonRpcResponse<ValueResponse<List<AccountData?>>> {
+  GetMultipleAccountsResponse(ValueResponse<List<AccountData?>> result)
       : super(result: result);
 
   factory GetMultipleAccountsResponse.fromJson(Map<String, dynamic> json) =>
