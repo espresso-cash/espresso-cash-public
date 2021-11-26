@@ -118,14 +118,16 @@ class RPCClient {
     String address, {
     Commitment? commitment,
     String encoding = 'jsonParsed',
+    List? filters,
   }) async {
     final data = await client.request(
       'getProgramAccounts',
       params: <dynamic>[
         address,
-        <String, String>{
+        <String, dynamic>{
           'encoding': 'jsonParsed',
           if (commitment != null) 'commitment': commitment.value,
+          if (filters != null) 'filters': filters,
         }
       ],
     );
