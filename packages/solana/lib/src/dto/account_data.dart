@@ -5,6 +5,8 @@ import 'package:solana/src/dto/parsed_spl_token_account_data.dart';
 
 part 'account_data.freezed.dart';
 
+part 'account_data.g.dart';
+
 @freezed
 class AccountData with _$AccountData {
   const factory AccountData.fromBytes(List<int> bytes) = BinaryAccountData;
@@ -18,10 +20,26 @@ class AccountData with _$AccountData {
 
   const factory AccountData.generic(Map<String, dynamic> data) =
       GenericAccountData;
+
+  factory AccountData.fromJson(dynamic json) =>
+      const AccountDataConverter().fromJson(json);
 }
 
-class AccountDataConverter implements JsonConverter<AccountData?, dynamic> {
+class AccountDataConverter implements JsonConverter<AccountData, dynamic> {
   const AccountDataConverter();
+
+  @override
+  AccountData fromJson(dynamic data) =>
+      const NullableAccountDataConverter().fromJson(data)!;
+
+  @override
+  Map<String, dynamic> toJson(AccountData? object) =>
+      const NullableAccountDataConverter().toJson(object);
+}
+
+class NullableAccountDataConverter
+    implements JsonConverter<AccountData?, dynamic> {
+  const NullableAccountDataConverter();
 
   @override
   AccountData? fromJson(dynamic data) {

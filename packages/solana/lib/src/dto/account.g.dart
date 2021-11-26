@@ -11,5 +11,5 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       lamports: json['lamports'] as int,
       executable: json['executable'] as bool,
       rentEpoch: json['rentEpoch'] as int,
-      data: const AccountDataConverter().fromJson(json['data']),
+      data: const NullableAccountDataConverter().fromJson(json['data']),
     );

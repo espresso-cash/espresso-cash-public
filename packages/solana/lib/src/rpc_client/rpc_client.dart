@@ -2,16 +2,20 @@ import 'dart:async';
 
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/dto/account.dart';
+import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/dto/blockhash.dart';
 import 'package:solana/src/dto/commitment.dart';
 import 'package:solana/src/dto/signature_status.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/exceptions/transaction_exception.dart';
 import 'package:solana/src/rpc_client/account_info_response.dart';
+import 'package:solana/src/rpc_client/account_with_pubkey.dart';
 import 'package:solana/src/rpc_client/balance_response.dart';
 import 'package:solana/src/rpc_client/blockhash_response.dart';
 import 'package:solana/src/rpc_client/confirmed_signature.dart';
 import 'package:solana/src/rpc_client/confirmed_transaction_response.dart';
+import 'package:solana/src/rpc_client/get_multiple_accounts_response.dart';
+import 'package:solana/src/rpc_client/get_program_accounts_response.dart';
 import 'package:solana/src/rpc_client/get_transaction_response.dart';
 import 'package:solana/src/rpc_client/json_rpc_client.dart';
 import 'package:solana/src/rpc_client/minimum_balance_for_rent_exemption_response.dart';
@@ -93,6 +97,7 @@ class RPCClient {
   Future<Account?> getAccountInfo(
     String address, {
     Commitment? commitment,
+    String encoding = 'jsonParsed',
   }) async {
     final data = await client.request(
       'getAccountInfo',
@@ -106,6 +111,45 @@ class RPCClient {
     );
 
     return AccountInfoResponse.fromJson(data).result.value;
+  }
+
+  Future<List<AccountWithPubkey>> getProgramAccounts(
+    String address, {
+    Commitment? commitment,
+    String encoding = 'jsonParsed',
+  }) async {
+    final data = await client.request(
+      'getProgramAccounts',
+      params: <dynamic>[
+        address,
+        <String, String>{
+          'encoding': 'jsonParsed',
+          if (commitment != null) 'commitment': commitment.value,
+        }
+      ],
+    );
+
+    return GetProgramAccountsResponse.fromJson(data).result;
+  }
+
+  Future<List<AccountData>> getMultipleAccounts(
+    List<String> addressList, {
+    Commitment? commitment,
+    String encoding = 'jsonParsed',
+  }) async {
+    final data = await client.request(
+      'getMultipleAccounts',
+      params: <dynamic>[
+        addressList,
+        <String, String>{
+          'encoding': 'jsonParsed',
+          if (commitment != null) 'commitment': commitment.value,
+        }
+      ],
+    );
+
+    print('getMultipleAccounts : $data');
+    return GetMultipleAccountsResponse.fromJson(data).result.value;
   }
 
   /// Sends signed transaction [signedTx].

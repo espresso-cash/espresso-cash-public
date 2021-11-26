@@ -13,6 +13,25 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+AccountData _$AccountDataFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType'] as String?) {
+    case 'fromBytes':
+      return BinaryAccountData.fromJson(json);
+    case 'fromString':
+      return StringAccountData.fromJson(json);
+    case 'empty':
+      return EmptyAccountData.fromJson(json);
+    case 'splToken':
+      return SplTokenAccountData.fromJson(json);
+    case 'generic':
+      return GenericAccountData.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'AccountData',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
 /// @nodoc
 class _$AccountDataTearOff {
   const _$AccountDataTearOff();
@@ -43,6 +62,10 @@ class _$AccountDataTearOff {
     return GenericAccountData(
       data,
     );
+  }
+
+  AccountData fromJson(Map<String, Object> json) {
+    return AccountData.fromJson(json);
   }
 }
 
@@ -107,6 +130,7 @@ mixin _$AccountData {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -158,9 +182,12 @@ class _$BinaryAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$BinaryAccountData implements BinaryAccountData {
   const _$BinaryAccountData(this.bytes);
+
+  factory _$BinaryAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$BinaryAccountDataFromJson(json);
 
   @override
   final List<int> bytes;
@@ -266,10 +293,18 @@ class _$BinaryAccountData implements BinaryAccountData {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BinaryAccountDataToJson(this)..['runtimeType'] = 'fromBytes';
+  }
 }
 
 abstract class BinaryAccountData implements AccountData {
   const factory BinaryAccountData(List<int> bytes) = _$BinaryAccountData;
+
+  factory BinaryAccountData.fromJson(Map<String, dynamic> json) =
+      _$BinaryAccountData.fromJson;
 
   List<int> get bytes => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -310,9 +345,12 @@ class _$StringAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$StringAccountData implements StringAccountData {
   const _$StringAccountData(this.string);
+
+  factory _$StringAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$StringAccountDataFromJson(json);
 
   @override
   final String string;
@@ -418,10 +456,18 @@ class _$StringAccountData implements StringAccountData {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StringAccountDataToJson(this)..['runtimeType'] = 'fromString';
+  }
 }
 
 abstract class StringAccountData implements AccountData {
   const factory StringAccountData(String string) = _$StringAccountData;
+
+  factory StringAccountData.fromJson(Map<String, dynamic> json) =
+      _$StringAccountData.fromJson;
 
   String get string => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -449,9 +495,12 @@ class _$EmptyAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$EmptyAccountData implements EmptyAccountData {
   const _$EmptyAccountData();
+
+  factory _$EmptyAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$EmptyAccountDataFromJson(json);
 
   @override
   String toString() {
@@ -545,10 +594,18 @@ class _$EmptyAccountData implements EmptyAccountData {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$EmptyAccountDataToJson(this)..['runtimeType'] = 'empty';
+  }
 }
 
 abstract class EmptyAccountData implements AccountData {
   const factory EmptyAccountData() = _$EmptyAccountData;
+
+  factory EmptyAccountData.fromJson(Map<String, dynamic> json) =
+      _$EmptyAccountData.fromJson;
 }
 
 /// @nodoc
@@ -584,9 +641,12 @@ class _$SplTokenAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$SplTokenAccountData implements SplTokenAccountData {
   const _$SplTokenAccountData(this.parsed);
+
+  factory _$SplTokenAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$SplTokenAccountDataFromJson(json);
 
   @override
   final ParsedSplTokenAccountData parsed;
@@ -692,11 +752,19 @@ class _$SplTokenAccountData implements SplTokenAccountData {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SplTokenAccountDataToJson(this)..['runtimeType'] = 'splToken';
+  }
 }
 
 abstract class SplTokenAccountData implements AccountData {
   const factory SplTokenAccountData(ParsedSplTokenAccountData parsed) =
       _$SplTokenAccountData;
+
+  factory SplTokenAccountData.fromJson(Map<String, dynamic> json) =
+      _$SplTokenAccountData.fromJson;
 
   ParsedSplTokenAccountData get parsed => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -737,9 +805,12 @@ class _$GenericAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$GenericAccountData implements GenericAccountData {
   const _$GenericAccountData(this.data);
+
+  factory _$GenericAccountData.fromJson(Map<String, dynamic> json) =>
+      _$$GenericAccountDataFromJson(json);
 
   @override
   final Map<String, dynamic> data;
@@ -845,11 +916,19 @@ class _$GenericAccountData implements GenericAccountData {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GenericAccountDataToJson(this)..['runtimeType'] = 'generic';
+  }
 }
 
 abstract class GenericAccountData implements AccountData {
   const factory GenericAccountData(Map<String, dynamic> data) =
       _$GenericAccountData;
+
+  factory GenericAccountData.fromJson(Map<String, dynamic> json) =
+      _$GenericAccountData.fromJson;
 
   Map<String, dynamic> get data => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)

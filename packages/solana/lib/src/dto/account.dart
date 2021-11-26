@@ -25,6 +25,6 @@ class Account {
   final bool executable;
   final int rentEpoch;
 
-  @AccountDataConverter()
+  @NullableAccountDataConverter()
   final AccountData? data;
 }
