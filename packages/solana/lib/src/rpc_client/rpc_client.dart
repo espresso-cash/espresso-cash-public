@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/dto/account.dart';
-import 'package:solana/src/dto/account_data.dart';
 import 'package:solana/src/dto/blockhash.dart';
 import 'package:solana/src/dto/commitment.dart';
 import 'package:solana/src/dto/signature.dart';
@@ -135,7 +134,7 @@ class RPCClient {
     return GetProgramAccountsResponse.fromJson(data).result;
   }
 
-  Future<List<AccountData?>> getMultipleAccounts(
+  Future<List<Account?>> getMultipleAccounts(
     List<String> addressList, {
     Commitment? commitment,
     String encoding = 'jsonParsed',

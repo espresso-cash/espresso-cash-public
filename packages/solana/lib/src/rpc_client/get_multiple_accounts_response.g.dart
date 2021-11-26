@@ -12,6 +12,6 @@ GetMultipleAccountsResponse _$GetMultipleAccountsResponseFromJson(
       ValueResponse.fromJson(
           json['result'] as Map<String, dynamic>,
           (value) => (value as List<dynamic>)
-              .map((e) => AccountData.fromJson(e))
+              .map((e) => Account.fromJson(e as Map<String, dynamic>))
               .toList()),
     );
