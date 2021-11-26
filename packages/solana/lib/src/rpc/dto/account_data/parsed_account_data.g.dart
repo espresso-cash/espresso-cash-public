@@ -6,27 +6,27 @@ part of 'parsed_account_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SplTokenProgramAccountData _$$SplTokenProgramAccountDataFromJson(
+_$ParsedSplTokenProgramAccountData _$$ParsedSplTokenProgramAccountDataFromJson(
         Map<String, dynamic> json) =>
-    _$SplTokenProgramAccountData(
-      ParsedSplTokenProgramAccountData.fromJson(
+    _$ParsedSplTokenProgramAccountData(
+      SplTokenProgramAccountData.fromJson(
           json['parsed'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$SplTokenProgramAccountDataToJson(
-        _$SplTokenProgramAccountData instance) =>
+Map<String, dynamic> _$$ParsedSplTokenProgramAccountDataToJson(
+        _$ParsedSplTokenProgramAccountData instance) =>
     <String, dynamic>{
       'parsed': instance.parsed,
     };
 
-_$StakeProgramAccountData _$$StakeProgramAccountDataFromJson(
+_$ParsedStakeProgramAccountData _$$ParsedStakeProgramAccountDataFromJson(
         Map<String, dynamic> json) =>
-    _$StakeProgramAccountData(
-      ParsedStakeAccountData.fromJson(json['parsed'] as Map<String, dynamic>),
+    _$ParsedStakeProgramAccountData(
+      StakeProgramAccountData.fromJson(json['parsed'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$StakeProgramAccountDataToJson(
-        _$StakeProgramAccountData instance) =>
+Map<String, dynamic> _$$ParsedStakeProgramAccountDataToJson(
+        _$ParsedStakeProgramAccountData instance) =>
     <String, dynamic>{
       'parsed': instance.parsed,
     };

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/src/rpc/dto/account_data.dart';
-import 'package:solana/src/rpc/dto/account_data/parsed_spl_token_program_account_data.dart';
-import 'package:solana/src/rpc/dto/account_data/parsed_stake_account_data.dart';
+import 'package:solana/src/rpc/dto/account_data/account_data.dart';
+import 'package:solana/src/rpc/dto/account_data/spl_token_program/token_program_account_data.dart';
+import 'package:solana/src/rpc/dto/account_data/stake_program/stake_program_account_data.dart';
 
 part 'parsed_account_data.freezed.dart';
 part 'parsed_account_data.g.dart';
@@ -10,12 +10,12 @@ part 'parsed_account_data.g.dart';
 class ParsedAccountData with _$ParsedAccountData implements AccountData {
   @FreezedUnionValue('spl-token')
   const factory ParsedAccountData.splToken(
-    ParsedSplTokenProgramAccountData parsed,
-  ) = SplTokenProgramAccountData;
+    SplTokenProgramAccountData parsed,
+  ) = ParsedSplTokenProgramAccountData;
 
   const factory ParsedAccountData.stake(
-    ParsedStakeAccountData parsed,
-  ) = StakeProgramAccountData;
+    StakeProgramAccountData parsed,
+  ) = ParsedStakeProgramAccountData;
 
   const factory ParsedAccountData.unsupported(
     Map<String, dynamic> parsed,

@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'parsed_spl_token_program_account_data.dart';
+part of 'token_program_account_data.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,7 +13,7 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ParsedSplTokenProgramAccountData _$ParsedSplTokenProgramAccountDataFromJson(
+SplTokenProgramAccountData _$SplTokenProgramAccountDataFromJson(
     Map<String, dynamic> json) {
   switch (json['type'] as String?) {
     case 'account':
@@ -27,11 +27,11 @@ ParsedSplTokenProgramAccountData _$ParsedSplTokenProgramAccountDataFromJson(
 }
 
 /// @nodoc
-class _$ParsedSplTokenProgramAccountDataTearOff {
-  const _$ParsedSplTokenProgramAccountDataTearOff();
+class _$SplTokenProgramAccountDataTearOff {
+  const _$SplTokenProgramAccountDataTearOff();
 
   TokenAccountData account(
-      {required ParsedSplTokenAccountDataInfo info,
+      {required SplTokenAccountDataInfo info,
       required String type,
       String? accountType}) {
     return TokenAccountData(
@@ -42,7 +42,7 @@ class _$ParsedSplTokenProgramAccountDataTearOff {
   }
 
   MintAccountData mint(
-      {required ParsedSplMintAccountDataInfo info,
+      {required MintAccountDataInfo info,
       required String type,
       String? accountType}) {
     return MintAccountData(
@@ -58,48 +58,47 @@ class _$ParsedSplTokenProgramAccountDataTearOff {
     );
   }
 
-  ParsedSplTokenProgramAccountData fromJson(Map<String, Object> json) {
-    return ParsedSplTokenProgramAccountData.fromJson(json);
+  SplTokenProgramAccountData fromJson(Map<String, Object> json) {
+    return SplTokenProgramAccountData.fromJson(json);
   }
 }
 
 /// @nodoc
-const $ParsedSplTokenProgramAccountData =
-    _$ParsedSplTokenProgramAccountDataTearOff();
+const $SplTokenProgramAccountData = _$SplTokenProgramAccountDataTearOff();
 
 /// @nodoc
-mixin _$ParsedSplTokenProgramAccountData {
+mixin _$SplTokenProgramAccountData {
   String get type => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)
+    required TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)
         account,
     required TResult Function(
-            ParsedSplMintAccountDataInfo info, String type, String? accountType)
+            MintAccountDataInfo info, String type, String? accountType)
         mint,
     required TResult Function(String type) unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(ParsedSplMintAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            MintAccountDataInfo info, String type, String? accountType)?
         mint,
     TResult Function(String type)? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(ParsedSplMintAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            MintAccountDataInfo info, String type, String? accountType)?
         mint,
     TResult Function(String type)? unknown,
     required TResult orElse(),
@@ -129,27 +128,26 @@ mixin _$ParsedSplTokenProgramAccountData {
       throw _privateConstructorUsedError;
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ParsedSplTokenProgramAccountDataCopyWith<ParsedSplTokenProgramAccountData>
+  $SplTokenProgramAccountDataCopyWith<SplTokenProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ParsedSplTokenProgramAccountDataCopyWith<$Res> {
-  factory $ParsedSplTokenProgramAccountDataCopyWith(
-          ParsedSplTokenProgramAccountData value,
-          $Res Function(ParsedSplTokenProgramAccountData) then) =
-      _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>;
+abstract class $SplTokenProgramAccountDataCopyWith<$Res> {
+  factory $SplTokenProgramAccountDataCopyWith(SplTokenProgramAccountData value,
+          $Res Function(SplTokenProgramAccountData) then) =
+      _$SplTokenProgramAccountDataCopyWithImpl<$Res>;
   $Res call({String type});
 }
 
 /// @nodoc
-class _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
-    implements $ParsedSplTokenProgramAccountDataCopyWith<$Res> {
-  _$ParsedSplTokenProgramAccountDataCopyWithImpl(this._value, this._then);
+class _$SplTokenProgramAccountDataCopyWithImpl<$Res>
+    implements $SplTokenProgramAccountDataCopyWith<$Res> {
+  _$SplTokenProgramAccountDataCopyWithImpl(this._value, this._then);
 
-  final ParsedSplTokenProgramAccountData _value;
+  final SplTokenProgramAccountData _value;
   // ignore: unused_field
-  final $Res Function(ParsedSplTokenProgramAccountData) _then;
+  final $Res Function(SplTokenProgramAccountData) _then;
 
   @override
   $Res call({
@@ -166,18 +164,17 @@ class _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 abstract class $TokenAccountDataCopyWith<$Res>
-    implements $ParsedSplTokenProgramAccountDataCopyWith<$Res> {
+    implements $SplTokenProgramAccountDataCopyWith<$Res> {
   factory $TokenAccountDataCopyWith(
           TokenAccountData value, $Res Function(TokenAccountData) then) =
       _$TokenAccountDataCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {ParsedSplTokenAccountDataInfo info, String type, String? accountType});
+  $Res call({SplTokenAccountDataInfo info, String type, String? accountType});
 }
 
 /// @nodoc
 class _$TokenAccountDataCopyWithImpl<$Res>
-    extends _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res>
     implements $TokenAccountDataCopyWith<$Res> {
   _$TokenAccountDataCopyWithImpl(
       TokenAccountData _value, $Res Function(TokenAccountData) _then)
@@ -196,7 +193,7 @@ class _$TokenAccountDataCopyWithImpl<$Res>
       info: info == freezed
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
-              as ParsedSplTokenAccountDataInfo,
+              as SplTokenAccountDataInfo,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -219,7 +216,7 @@ class _$TokenAccountData implements TokenAccountData {
       _$$TokenAccountDataFromJson(json);
 
   @override
-  final ParsedSplTokenAccountDataInfo info;
+  final SplTokenAccountDataInfo info;
   @override
   final String type;
   @override
@@ -227,7 +224,7 @@ class _$TokenAccountData implements TokenAccountData {
 
   @override
   String toString() {
-    return 'ParsedSplTokenProgramAccountData.account(info: $info, type: $type, accountType: $accountType)';
+    return 'SplTokenProgramAccountData.account(info: $info, type: $type, accountType: $accountType)';
   }
 
   @override
@@ -258,11 +255,11 @@ class _$TokenAccountData implements TokenAccountData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)
+    required TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)
         account,
     required TResult Function(
-            ParsedSplMintAccountDataInfo info, String type, String? accountType)
+            MintAccountDataInfo info, String type, String? accountType)
         mint,
     required TResult Function(String type) unknown,
   }) {
@@ -272,11 +269,11 @@ class _$TokenAccountData implements TokenAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(ParsedSplMintAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            MintAccountDataInfo info, String type, String? accountType)?
         mint,
     TResult Function(String type)? unknown,
   }) {
@@ -286,11 +283,11 @@ class _$TokenAccountData implements TokenAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(ParsedSplMintAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            MintAccountDataInfo info, String type, String? accountType)?
         mint,
     TResult Function(String type)? unknown,
     required TResult orElse(),
@@ -341,16 +338,16 @@ class _$TokenAccountData implements TokenAccountData {
   }
 }
 
-abstract class TokenAccountData implements ParsedSplTokenProgramAccountData {
+abstract class TokenAccountData implements SplTokenProgramAccountData {
   const factory TokenAccountData(
-      {required ParsedSplTokenAccountDataInfo info,
+      {required SplTokenAccountDataInfo info,
       required String type,
       String? accountType}) = _$TokenAccountData;
 
   factory TokenAccountData.fromJson(Map<String, dynamic> json) =
       _$TokenAccountData.fromJson;
 
-  ParsedSplTokenAccountDataInfo get info => throw _privateConstructorUsedError;
+  SplTokenAccountDataInfo get info => throw _privateConstructorUsedError;
   @override
   String get type => throw _privateConstructorUsedError;
   String? get accountType => throw _privateConstructorUsedError;
@@ -362,18 +359,17 @@ abstract class TokenAccountData implements ParsedSplTokenProgramAccountData {
 
 /// @nodoc
 abstract class $MintAccountDataCopyWith<$Res>
-    implements $ParsedSplTokenProgramAccountDataCopyWith<$Res> {
+    implements $SplTokenProgramAccountDataCopyWith<$Res> {
   factory $MintAccountDataCopyWith(
           MintAccountData value, $Res Function(MintAccountData) then) =
       _$MintAccountDataCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {ParsedSplMintAccountDataInfo info, String type, String? accountType});
+  $Res call({MintAccountDataInfo info, String type, String? accountType});
 }
 
 /// @nodoc
 class _$MintAccountDataCopyWithImpl<$Res>
-    extends _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res>
     implements $MintAccountDataCopyWith<$Res> {
   _$MintAccountDataCopyWithImpl(
       MintAccountData _value, $Res Function(MintAccountData) _then)
@@ -392,7 +388,7 @@ class _$MintAccountDataCopyWithImpl<$Res>
       info: info == freezed
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
-              as ParsedSplMintAccountDataInfo,
+              as MintAccountDataInfo,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -415,7 +411,7 @@ class _$MintAccountData implements MintAccountData {
       _$$MintAccountDataFromJson(json);
 
   @override
-  final ParsedSplMintAccountDataInfo info;
+  final MintAccountDataInfo info;
   @override
   final String type;
   @override
@@ -423,7 +419,7 @@ class _$MintAccountData implements MintAccountData {
 
   @override
   String toString() {
-    return 'ParsedSplTokenProgramAccountData.mint(info: $info, type: $type, accountType: $accountType)';
+    return 'SplTokenProgramAccountData.mint(info: $info, type: $type, accountType: $accountType)';
   }
 
   @override
@@ -454,11 +450,11 @@ class _$MintAccountData implements MintAccountData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)
+    required TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)
         account,
     required TResult Function(
-            ParsedSplMintAccountDataInfo info, String type, String? accountType)
+            MintAccountDataInfo info, String type, String? accountType)
         mint,
     required TResult Function(String type) unknown,
   }) {
@@ -468,11 +464,11 @@ class _$MintAccountData implements MintAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(ParsedSplMintAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            MintAccountDataInfo info, String type, String? accountType)?
         mint,
     TResult Function(String type)? unknown,
   }) {
@@ -482,11 +478,11 @@ class _$MintAccountData implements MintAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(ParsedSplMintAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            MintAccountDataInfo info, String type, String? accountType)?
         mint,
     TResult Function(String type)? unknown,
     required TResult orElse(),
@@ -537,16 +533,16 @@ class _$MintAccountData implements MintAccountData {
   }
 }
 
-abstract class MintAccountData implements ParsedSplTokenProgramAccountData {
+abstract class MintAccountData implements SplTokenProgramAccountData {
   const factory MintAccountData(
-      {required ParsedSplMintAccountDataInfo info,
+      {required MintAccountDataInfo info,
       required String type,
       String? accountType}) = _$MintAccountData;
 
   factory MintAccountData.fromJson(Map<String, dynamic> json) =
       _$MintAccountData.fromJson;
 
-  ParsedSplMintAccountDataInfo get info => throw _privateConstructorUsedError;
+  MintAccountDataInfo get info => throw _privateConstructorUsedError;
   @override
   String get type => throw _privateConstructorUsedError;
   String? get accountType => throw _privateConstructorUsedError;
@@ -558,7 +554,7 @@ abstract class MintAccountData implements ParsedSplTokenProgramAccountData {
 
 /// @nodoc
 abstract class $UnknownAccountDataCopyWith<$Res>
-    implements $ParsedSplTokenProgramAccountDataCopyWith<$Res> {
+    implements $SplTokenProgramAccountDataCopyWith<$Res> {
   factory $UnknownAccountDataCopyWith(
           UnknownAccountData value, $Res Function(UnknownAccountData) then) =
       _$UnknownAccountDataCopyWithImpl<$Res>;
@@ -568,7 +564,7 @@ abstract class $UnknownAccountDataCopyWith<$Res>
 
 /// @nodoc
 class _$UnknownAccountDataCopyWithImpl<$Res>
-    extends _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res>
     implements $UnknownAccountDataCopyWith<$Res> {
   _$UnknownAccountDataCopyWithImpl(
       UnknownAccountData _value, $Res Function(UnknownAccountData) _then)
@@ -603,7 +599,7 @@ class _$UnknownAccountData implements UnknownAccountData {
 
   @override
   String toString() {
-    return 'ParsedSplTokenProgramAccountData.unknown(type: $type)';
+    return 'SplTokenProgramAccountData.unknown(type: $type)';
   }
 
   @override
@@ -626,11 +622,11 @@ class _$UnknownAccountData implements UnknownAccountData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)
+    required TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)
         account,
     required TResult Function(
-            ParsedSplMintAccountDataInfo info, String type, String? accountType)
+            MintAccountDataInfo info, String type, String? accountType)
         mint,
     required TResult Function(String type) unknown,
   }) {
@@ -640,11 +636,11 @@ class _$UnknownAccountData implements UnknownAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(ParsedSplMintAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            MintAccountDataInfo info, String type, String? accountType)?
         mint,
     TResult Function(String type)? unknown,
   }) {
@@ -654,11 +650,11 @@ class _$UnknownAccountData implements UnknownAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(ParsedSplMintAccountDataInfo info, String type,
-            String? accountType)?
+    TResult Function(
+            MintAccountDataInfo info, String type, String? accountType)?
         mint,
     TResult Function(String type)? unknown,
     required TResult orElse(),
@@ -709,7 +705,7 @@ class _$UnknownAccountData implements UnknownAccountData {
   }
 }
 
-abstract class UnknownAccountData implements ParsedSplTokenProgramAccountData {
+abstract class UnknownAccountData implements SplTokenProgramAccountData {
   const factory UnknownAccountData({required String type}) =
       _$UnknownAccountData;
 

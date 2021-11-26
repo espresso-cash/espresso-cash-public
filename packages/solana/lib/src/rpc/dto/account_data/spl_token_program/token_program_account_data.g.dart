@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'parsed_spl_token_program_account_data.dart';
+part of 'token_program_account_data.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -8,7 +8,7 @@ part of 'parsed_spl_token_program_account_data.dart';
 
 _$TokenAccountData _$$TokenAccountDataFromJson(Map<String, dynamic> json) =>
     _$TokenAccountData(
-      info: ParsedSplTokenAccountDataInfo.fromJson(
+      info: SplTokenAccountDataInfo.fromJson(
           json['info'] as Map<String, dynamic>),
       type: json['type'] as String,
       accountType: json['accountType'] as String?,
@@ -23,8 +23,7 @@ Map<String, dynamic> _$$TokenAccountDataToJson(_$TokenAccountData instance) =>
 
 _$MintAccountData _$$MintAccountDataFromJson(Map<String, dynamic> json) =>
     _$MintAccountData(
-      info: ParsedSplMintAccountDataInfo.fromJson(
-          json['info'] as Map<String, dynamic>),
+      info: MintAccountDataInfo.fromJson(json['info'] as Map<String, dynamic>),
       type: json['type'] as String,
       accountType: json['accountType'] as String?,
     );

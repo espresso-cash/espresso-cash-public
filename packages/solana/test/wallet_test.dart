@@ -5,6 +5,7 @@ import 'package:solana/src/rpc/dto/commitment.dart';
 import 'package:solana/src/rpc/dto/parsed_message/parsed_instruction.dart';
 import 'package:solana/src/rpc/dto/parsed_message/parsed_spl_token_instruction.dart';
 import 'package:solana/src/rpc/dto/parsed_message/parsed_system_instruction.dart';
+import 'package:solana/src/rpc/dto/parsed_message/spl_token_transfer_info.dart';
 import 'package:solana/src/rpc/rpc.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
@@ -208,8 +209,7 @@ void main() {
     final parsedSplTokenInstruction =
         splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
     expect(parsedSplTokenInstruction.type, equals('transfer'));
-    expect(parsedSplTokenInstruction.info,
-        isA<ParsedSplTokenTransferInformation>());
+    expect(parsedSplTokenInstruction.info, isA<SplTokenTransferInfo>());
     expect(parsedSplTokenInstruction.info.amount, '40');
     final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
     expect(tokenBalance.amount, equals('40'));

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/rpc/dto/account_data.dart';
+import 'package:solana/src/rpc/dto/account_data/account_data.dart';
 
 part 'account.g.dart';
 

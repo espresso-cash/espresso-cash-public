@@ -1,34 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'parsed_spl_token_account_data_info.dart';
+part of 'token_account_data_info.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ParsedSplMintAccountDataInfo _$ParsedSplMintAccountDataInfoFromJson(
+SplTokenAccountDataInfo _$SplTokenAccountDataInfoFromJson(
         Map<String, dynamic> json) =>
-    ParsedSplMintAccountDataInfo(
-      decimals: json['decimals'] as int,
-      freezeAuthority: json['freezeAuthority'] as String?,
-      isInitialized: json['isInitialized'] as bool,
-      mintAuthority: json['mintAuthority'] as String?,
-      supply: json['supply'] as String,
-    );
-
-Map<String, dynamic> _$ParsedSplMintAccountDataInfoToJson(
-        ParsedSplMintAccountDataInfo instance) =>
-    <String, dynamic>{
-      'decimals': instance.decimals,
-      'freezeAuthority': instance.freezeAuthority,
-      'isInitialized': instance.isInitialized,
-      'mintAuthority': instance.mintAuthority,
-      'supply': instance.supply,
-    };
-
-ParsedSplTokenAccountDataInfo _$ParsedSplTokenAccountDataInfoFromJson(
-        Map<String, dynamic> json) =>
-    ParsedSplTokenAccountDataInfo(
+    SplTokenAccountDataInfo(
       tokenAmount:
           TokenAmount.fromJson(json['tokenAmount'] as Map<String, dynamic>),
       state: json['state'] as String,
@@ -42,8 +22,8 @@ ParsedSplTokenAccountDataInfo _$ParsedSplTokenAccountDataInfoFromJson(
               json['delegateAmount'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ParsedSplTokenAccountDataInfoToJson(
-        ParsedSplTokenAccountDataInfo instance) =>
+Map<String, dynamic> _$SplTokenAccountDataInfoToJson(
+        SplTokenAccountDataInfo instance) =>
     <String, dynamic>{
       'tokenAmount': instance.tokenAmount,
       'state': instance.state,

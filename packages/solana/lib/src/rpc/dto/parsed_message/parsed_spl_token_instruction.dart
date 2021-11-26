@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/src/rpc/dto/token_amount.dart';
+import 'package:solana/src/rpc/dto/parsed_message/spl_token_transfer_checked_info.dart';
+import 'package:solana/src/rpc/dto/parsed_message/spl_token_transfer_info.dart';
 
 part 'parsed_spl_token_instruction.freezed.dart';
 part 'parsed_spl_token_instruction.g.dart';
@@ -7,61 +8,23 @@ part 'parsed_spl_token_instruction.g.dart';
 /// An instruction of a [spl token] program
 ///
 /// [spl token]: https://spl.solana.com/token
-@Freezed(unionKey: 'type', fallbackUnion: 'unsupported')
+@Freezed(unionKey: 'type', fallbackUnion: 'generic')
 class ParsedSplTokenInstruction with _$ParsedSplTokenInstruction {
   const factory ParsedSplTokenInstruction.transfer({
-    required ParsedSplTokenTransferInformation info,
+    required SplTokenTransferInfo info,
     required String type,
   }) = ParsedSplTokenTransferInstruction;
 
   const factory ParsedSplTokenInstruction.transferChecked({
-    required ParsedSplTokenTransferCheckedInformation info,
+    required SplTokenTransferCheckedInfo info,
     required String type,
   }) = ParsedSplTokenTransferCheckedInstruction;
 
-  const factory ParsedSplTokenInstruction.unsupported({
+  const factory ParsedSplTokenInstruction.generic({
+    required dynamic info,
     required String type,
-  }) = ParsedSplTokenUnsupportedInstruction;
+  }) = ParsedSplTokenGenericInstruction;
 
   factory ParsedSplTokenInstruction.fromJson(Map<String, dynamic> json) =>
       _$ParsedSplTokenInstructionFromJson(json);
-}
-
-/// Information about a [spl token] transfer
-///
-/// [spl token]: https://spl.solana.com/token
-@freezed
-class ParsedSplTokenTransferInformation
-    with _$ParsedSplTokenTransferInformation {
-  const factory ParsedSplTokenTransferInformation({
-    required String amount,
-    required String authority,
-    required String? mint,
-    required String source,
-    required String destination,
-  }) = _ParsedSplTokenTransferInformation;
-
-  factory ParsedSplTokenTransferInformation.fromJson(
-          Map<String, dynamic> json) =>
-      _$ParsedSplTokenTransferInformationFromJson(json);
-}
-
-/// Information about a [spl token] transfer
-///
-/// [spl token]: https://spl.solana.com/token
-@freezed
-class ParsedSplTokenTransferCheckedInformation
-    with _$ParsedSplTokenTransferCheckedInformation {
-  const factory ParsedSplTokenTransferCheckedInformation({
-    required TokenAmount tokenAmount,
-    required String authority,
-    required String? mint,
-    required String source,
-    required String destination,
-  }) = _ParsedSplTokenTransferCheckedInformation;
-
-  factory ParsedSplTokenTransferCheckedInformation.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$ParsedSplTokenTransferCheckedInformationFromJson(json);
 }

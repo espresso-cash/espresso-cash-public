@@ -22,7 +22,7 @@ ParsedSplTokenInstruction _$ParsedSplTokenInstructionFromJson(
       return ParsedSplTokenTransferCheckedInstruction.fromJson(json);
 
     default:
-      return ParsedSplTokenUnsupportedInstruction.fromJson(json);
+      return ParsedSplTokenGenericInstruction.fromJson(json);
   }
 }
 
@@ -31,7 +31,7 @@ class _$ParsedSplTokenInstructionTearOff {
   const _$ParsedSplTokenInstructionTearOff();
 
   ParsedSplTokenTransferInstruction transfer(
-      {required ParsedSplTokenTransferInformation info, required String type}) {
+      {required SplTokenTransferInfo info, required String type}) {
     return ParsedSplTokenTransferInstruction(
       info: info,
       type: type,
@@ -39,16 +39,17 @@ class _$ParsedSplTokenInstructionTearOff {
   }
 
   ParsedSplTokenTransferCheckedInstruction transferChecked(
-      {required ParsedSplTokenTransferCheckedInformation info,
-      required String type}) {
+      {required SplTokenTransferCheckedInfo info, required String type}) {
     return ParsedSplTokenTransferCheckedInstruction(
       info: info,
       type: type,
     );
   }
 
-  ParsedSplTokenUnsupportedInstruction unsupported({required String type}) {
-    return ParsedSplTokenUnsupportedInstruction(
+  ParsedSplTokenGenericInstruction generic(
+      {required dynamic info, required String type}) {
+    return ParsedSplTokenGenericInstruction(
+      info: info,
       type: type,
     );
   }
@@ -67,33 +68,26 @@ mixin _$ParsedSplTokenInstruction {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            ParsedSplTokenTransferInformation info, String type)
-        transfer,
-    required TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)
+    required TResult Function(SplTokenTransferInfo info, String type) transfer,
+    required TResult Function(SplTokenTransferCheckedInfo info, String type)
         transferChecked,
-    required TResult Function(String type) unsupported,
+    required TResult Function(dynamic info, String type) generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInformation info, String type)?
-        transfer,
-    TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)?
+    TResult Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(dynamic info, String type)? generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInformation info, String type)?
-        transfer,
-    TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)?
+    TResult Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(dynamic info, String type)? generic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -102,8 +96,7 @@ mixin _$ParsedSplTokenInstruction {
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
     required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
         transferChecked,
-    required TResult Function(ParsedSplTokenUnsupportedInstruction value)
-        unsupported,
+    required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -111,7 +104,7 @@ mixin _$ParsedSplTokenInstruction {
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -119,7 +112,7 @@ mixin _$ParsedSplTokenInstruction {
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -167,9 +160,7 @@ abstract class $ParsedSplTokenTransferInstructionCopyWith<$Res>
           $Res Function(ParsedSplTokenTransferInstruction) then) =
       _$ParsedSplTokenTransferInstructionCopyWithImpl<$Res>;
   @override
-  $Res call({ParsedSplTokenTransferInformation info, String type});
-
-  $ParsedSplTokenTransferInformationCopyWith<$Res> get info;
+  $Res call({SplTokenTransferInfo info, String type});
 }
 
 /// @nodoc
@@ -194,20 +185,12 @@ class _$ParsedSplTokenTransferInstructionCopyWithImpl<$Res>
       info: info == freezed
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
-              as ParsedSplTokenTransferInformation,
+              as SplTokenTransferInfo,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
     ));
-  }
-
-  @override
-  $ParsedSplTokenTransferInformationCopyWith<$Res> get info {
-    return $ParsedSplTokenTransferInformationCopyWith<$Res>(_value.info,
-        (value) {
-      return _then(_value.copyWith(info: value));
-    });
   }
 }
 
@@ -223,7 +206,7 @@ class _$ParsedSplTokenTransferInstruction
       _$$ParsedSplTokenTransferInstructionFromJson(json);
 
   @override
-  final ParsedSplTokenTransferInformation info;
+  final SplTokenTransferInfo info;
   @override
   final String type;
 
@@ -257,13 +240,10 @@ class _$ParsedSplTokenTransferInstruction
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            ParsedSplTokenTransferInformation info, String type)
-        transfer,
-    required TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)
+    required TResult Function(SplTokenTransferInfo info, String type) transfer,
+    required TResult Function(SplTokenTransferCheckedInfo info, String type)
         transferChecked,
-    required TResult Function(String type) unsupported,
+    required TResult Function(dynamic info, String type) generic,
   }) {
     return transfer(info, type);
   }
@@ -271,12 +251,10 @@ class _$ParsedSplTokenTransferInstruction
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInformation info, String type)?
-        transfer,
-    TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)?
+    TResult Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(dynamic info, String type)? generic,
   }) {
     return transfer?.call(info, type);
   }
@@ -284,12 +262,10 @@ class _$ParsedSplTokenTransferInstruction
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInformation info, String type)?
-        transfer,
-    TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)?
+    TResult Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(dynamic info, String type)? generic,
     required TResult orElse(),
   }) {
     if (transfer != null) {
@@ -304,8 +280,7 @@ class _$ParsedSplTokenTransferInstruction
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
     required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
         transferChecked,
-    required TResult Function(ParsedSplTokenUnsupportedInstruction value)
-        unsupported,
+    required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) {
     return transfer(this);
   }
@@ -316,7 +291,7 @@ class _$ParsedSplTokenTransferInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return transfer?.call(this);
   }
@@ -327,7 +302,7 @@ class _$ParsedSplTokenTransferInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) {
     if (transfer != null) {
@@ -346,14 +321,13 @@ class _$ParsedSplTokenTransferInstruction
 abstract class ParsedSplTokenTransferInstruction
     implements ParsedSplTokenInstruction {
   const factory ParsedSplTokenTransferInstruction(
-      {required ParsedSplTokenTransferInformation info,
+      {required SplTokenTransferInfo info,
       required String type}) = _$ParsedSplTokenTransferInstruction;
 
   factory ParsedSplTokenTransferInstruction.fromJson(
       Map<String, dynamic> json) = _$ParsedSplTokenTransferInstruction.fromJson;
 
-  ParsedSplTokenTransferInformation get info =>
-      throw _privateConstructorUsedError;
+  SplTokenTransferInfo get info => throw _privateConstructorUsedError;
   @override
   String get type => throw _privateConstructorUsedError;
   @override
@@ -370,9 +344,7 @@ abstract class $ParsedSplTokenTransferCheckedInstructionCopyWith<$Res>
           $Res Function(ParsedSplTokenTransferCheckedInstruction) then) =
       _$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<$Res>;
   @override
-  $Res call({ParsedSplTokenTransferCheckedInformation info, String type});
-
-  $ParsedSplTokenTransferCheckedInformationCopyWith<$Res> get info;
+  $Res call({SplTokenTransferCheckedInfo info, String type});
 }
 
 /// @nodoc
@@ -398,20 +370,12 @@ class _$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<$Res>
       info: info == freezed
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
-              as ParsedSplTokenTransferCheckedInformation,
+              as SplTokenTransferCheckedInfo,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
     ));
-  }
-
-  @override
-  $ParsedSplTokenTransferCheckedInformationCopyWith<$Res> get info {
-    return $ParsedSplTokenTransferCheckedInformationCopyWith<$Res>(_value.info,
-        (value) {
-      return _then(_value.copyWith(info: value));
-    });
   }
 }
 
@@ -427,7 +391,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
       _$$ParsedSplTokenTransferCheckedInstructionFromJson(json);
 
   @override
-  final ParsedSplTokenTransferCheckedInformation info;
+  final SplTokenTransferCheckedInfo info;
   @override
   final String type;
 
@@ -462,13 +426,10 @@ class _$ParsedSplTokenTransferCheckedInstruction
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            ParsedSplTokenTransferInformation info, String type)
-        transfer,
-    required TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)
+    required TResult Function(SplTokenTransferInfo info, String type) transfer,
+    required TResult Function(SplTokenTransferCheckedInfo info, String type)
         transferChecked,
-    required TResult Function(String type) unsupported,
+    required TResult Function(dynamic info, String type) generic,
   }) {
     return transferChecked(info, type);
   }
@@ -476,12 +437,10 @@ class _$ParsedSplTokenTransferCheckedInstruction
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInformation info, String type)?
-        transfer,
-    TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)?
+    TResult Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(dynamic info, String type)? generic,
   }) {
     return transferChecked?.call(info, type);
   }
@@ -489,12 +448,10 @@ class _$ParsedSplTokenTransferCheckedInstruction
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInformation info, String type)?
-        transfer,
-    TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)?
+    TResult Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(dynamic info, String type)? generic,
     required TResult orElse(),
   }) {
     if (transferChecked != null) {
@@ -509,8 +466,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
     required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
         transferChecked,
-    required TResult Function(ParsedSplTokenUnsupportedInstruction value)
-        unsupported,
+    required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) {
     return transferChecked(this);
   }
@@ -521,7 +477,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return transferChecked?.call(this);
   }
@@ -532,7 +488,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) {
     if (transferChecked != null) {
@@ -551,15 +507,14 @@ class _$ParsedSplTokenTransferCheckedInstruction
 abstract class ParsedSplTokenTransferCheckedInstruction
     implements ParsedSplTokenInstruction {
   const factory ParsedSplTokenTransferCheckedInstruction(
-      {required ParsedSplTokenTransferCheckedInformation info,
+      {required SplTokenTransferCheckedInfo info,
       required String type}) = _$ParsedSplTokenTransferCheckedInstruction;
 
   factory ParsedSplTokenTransferCheckedInstruction.fromJson(
           Map<String, dynamic> json) =
       _$ParsedSplTokenTransferCheckedInstruction.fromJson;
 
-  ParsedSplTokenTransferCheckedInformation get info =>
-      throw _privateConstructorUsedError;
+  SplTokenTransferCheckedInfo get info => throw _privateConstructorUsedError;
   @override
   String get type => throw _privateConstructorUsedError;
   @override
@@ -570,34 +525,39 @@ abstract class ParsedSplTokenTransferCheckedInstruction
 }
 
 /// @nodoc
-abstract class $ParsedSplTokenUnsupportedInstructionCopyWith<$Res>
+abstract class $ParsedSplTokenGenericInstructionCopyWith<$Res>
     implements $ParsedSplTokenInstructionCopyWith<$Res> {
-  factory $ParsedSplTokenUnsupportedInstructionCopyWith(
-          ParsedSplTokenUnsupportedInstruction value,
-          $Res Function(ParsedSplTokenUnsupportedInstruction) then) =
-      _$ParsedSplTokenUnsupportedInstructionCopyWithImpl<$Res>;
+  factory $ParsedSplTokenGenericInstructionCopyWith(
+          ParsedSplTokenGenericInstruction value,
+          $Res Function(ParsedSplTokenGenericInstruction) then) =
+      _$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>;
   @override
-  $Res call({String type});
+  $Res call({dynamic info, String type});
 }
 
 /// @nodoc
-class _$ParsedSplTokenUnsupportedInstructionCopyWithImpl<$Res>
+class _$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>
     extends _$ParsedSplTokenInstructionCopyWithImpl<$Res>
-    implements $ParsedSplTokenUnsupportedInstructionCopyWith<$Res> {
-  _$ParsedSplTokenUnsupportedInstructionCopyWithImpl(
-      ParsedSplTokenUnsupportedInstruction _value,
-      $Res Function(ParsedSplTokenUnsupportedInstruction) _then)
-      : super(_value, (v) => _then(v as ParsedSplTokenUnsupportedInstruction));
+    implements $ParsedSplTokenGenericInstructionCopyWith<$Res> {
+  _$ParsedSplTokenGenericInstructionCopyWithImpl(
+      ParsedSplTokenGenericInstruction _value,
+      $Res Function(ParsedSplTokenGenericInstruction) _then)
+      : super(_value, (v) => _then(v as ParsedSplTokenGenericInstruction));
 
   @override
-  ParsedSplTokenUnsupportedInstruction get _value =>
-      super._value as ParsedSplTokenUnsupportedInstruction;
+  ParsedSplTokenGenericInstruction get _value =>
+      super._value as ParsedSplTokenGenericInstruction;
 
   @override
   $Res call({
+    Object? info = freezed,
     Object? type = freezed,
   }) {
-    return _then(ParsedSplTokenUnsupportedInstruction(
+    return _then(ParsedSplTokenGenericInstruction(
+      info: info == freezed
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -608,81 +568,80 @@ class _$ParsedSplTokenUnsupportedInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSplTokenUnsupportedInstruction
-    implements ParsedSplTokenUnsupportedInstruction {
-  const _$ParsedSplTokenUnsupportedInstruction({required this.type});
+class _$ParsedSplTokenGenericInstruction
+    implements ParsedSplTokenGenericInstruction {
+  const _$ParsedSplTokenGenericInstruction(
+      {required this.info, required this.type});
 
-  factory _$ParsedSplTokenUnsupportedInstruction.fromJson(
+  factory _$ParsedSplTokenGenericInstruction.fromJson(
           Map<String, dynamic> json) =>
-      _$$ParsedSplTokenUnsupportedInstructionFromJson(json);
+      _$$ParsedSplTokenGenericInstructionFromJson(json);
 
+  @override
+  final dynamic info;
   @override
   final String type;
 
   @override
   String toString() {
-    return 'ParsedSplTokenInstruction.unsupported(type: $type)';
+    return 'ParsedSplTokenInstruction.generic(info: $info, type: $type)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedSplTokenUnsupportedInstruction &&
+        (other is ParsedSplTokenGenericInstruction &&
+            (identical(other.info, info) ||
+                const DeepCollectionEquality().equals(other.info, info)) &&
             (identical(other.type, type) ||
                 const DeepCollectionEquality().equals(other.type, type)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(type);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(info) ^
+      const DeepCollectionEquality().hash(type);
 
   @JsonKey(ignore: true)
   @override
-  $ParsedSplTokenUnsupportedInstructionCopyWith<
-          ParsedSplTokenUnsupportedInstruction>
-      get copyWith => _$ParsedSplTokenUnsupportedInstructionCopyWithImpl<
-          ParsedSplTokenUnsupportedInstruction>(this, _$identity);
+  $ParsedSplTokenGenericInstructionCopyWith<ParsedSplTokenGenericInstruction>
+      get copyWith => _$ParsedSplTokenGenericInstructionCopyWithImpl<
+          ParsedSplTokenGenericInstruction>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            ParsedSplTokenTransferInformation info, String type)
-        transfer,
-    required TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)
+    required TResult Function(SplTokenTransferInfo info, String type) transfer,
+    required TResult Function(SplTokenTransferCheckedInfo info, String type)
         transferChecked,
-    required TResult Function(String type) unsupported,
+    required TResult Function(dynamic info, String type) generic,
   }) {
-    return unsupported(type);
+    return generic(info, type);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInformation info, String type)?
-        transfer,
-    TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)?
+    TResult Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(dynamic info, String type)? generic,
   }) {
-    return unsupported?.call(type);
+    return generic?.call(info, type);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInformation info, String type)?
-        transfer,
-    TResult Function(
-            ParsedSplTokenTransferCheckedInformation info, String type)?
+    TResult Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult Function(dynamic info, String type)? generic,
     required TResult orElse(),
   }) {
-    if (unsupported != null) {
-      return unsupported(type);
+    if (generic != null) {
+      return generic(info, type);
     }
     return orElse();
   }
@@ -693,10 +652,9 @@ class _$ParsedSplTokenUnsupportedInstruction
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
     required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
         transferChecked,
-    required TResult Function(ParsedSplTokenUnsupportedInstruction value)
-        unsupported,
+    required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) {
-    return unsupported(this);
+    return generic(this);
   }
 
   @override
@@ -705,9 +663,9 @@ class _$ParsedSplTokenUnsupportedInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
-    return unsupported?.call(this);
+    return generic?.call(this);
   }
 
   @override
@@ -716,574 +674,36 @@ class _$ParsedSplTokenUnsupportedInstruction
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
     TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenUnsupportedInstruction value)? unsupported,
+    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) {
-    if (unsupported != null) {
-      return unsupported(this);
+    if (generic != null) {
+      return generic(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenUnsupportedInstructionToJson(this)
-      ..['type'] = 'unsupported';
+    return _$$ParsedSplTokenGenericInstructionToJson(this)
+      ..['type'] = 'generic';
   }
 }
 
-abstract class ParsedSplTokenUnsupportedInstruction
+abstract class ParsedSplTokenGenericInstruction
     implements ParsedSplTokenInstruction {
-  const factory ParsedSplTokenUnsupportedInstruction({required String type}) =
-      _$ParsedSplTokenUnsupportedInstruction;
+  const factory ParsedSplTokenGenericInstruction(
+      {required dynamic info,
+      required String type}) = _$ParsedSplTokenGenericInstruction;
 
-  factory ParsedSplTokenUnsupportedInstruction.fromJson(
-          Map<String, dynamic> json) =
-      _$ParsedSplTokenUnsupportedInstruction.fromJson;
+  factory ParsedSplTokenGenericInstruction.fromJson(Map<String, dynamic> json) =
+      _$ParsedSplTokenGenericInstruction.fromJson;
 
+  dynamic get info => throw _privateConstructorUsedError;
   @override
   String get type => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  $ParsedSplTokenUnsupportedInstructionCopyWith<
-          ParsedSplTokenUnsupportedInstruction>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-ParsedSplTokenTransferInformation _$ParsedSplTokenTransferInformationFromJson(
-    Map<String, dynamic> json) {
-  return _ParsedSplTokenTransferInformation.fromJson(json);
-}
-
-/// @nodoc
-class _$ParsedSplTokenTransferInformationTearOff {
-  const _$ParsedSplTokenTransferInformationTearOff();
-
-  _ParsedSplTokenTransferInformation call(
-      {required String amount,
-      required String authority,
-      required String? mint,
-      required String source,
-      required String destination}) {
-    return _ParsedSplTokenTransferInformation(
-      amount: amount,
-      authority: authority,
-      mint: mint,
-      source: source,
-      destination: destination,
-    );
-  }
-
-  ParsedSplTokenTransferInformation fromJson(Map<String, Object> json) {
-    return ParsedSplTokenTransferInformation.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $ParsedSplTokenTransferInformation =
-    _$ParsedSplTokenTransferInformationTearOff();
-
-/// @nodoc
-mixin _$ParsedSplTokenTransferInformation {
-  String get amount => throw _privateConstructorUsedError;
-  String get authority => throw _privateConstructorUsedError;
-  String? get mint => throw _privateConstructorUsedError;
-  String get source => throw _privateConstructorUsedError;
-  String get destination => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ParsedSplTokenTransferInformationCopyWith<ParsedSplTokenTransferInformation>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ParsedSplTokenTransferInformationCopyWith<$Res> {
-  factory $ParsedSplTokenTransferInformationCopyWith(
-          ParsedSplTokenTransferInformation value,
-          $Res Function(ParsedSplTokenTransferInformation) then) =
-      _$ParsedSplTokenTransferInformationCopyWithImpl<$Res>;
-  $Res call(
-      {String amount,
-      String authority,
-      String? mint,
-      String source,
-      String destination});
-}
-
-/// @nodoc
-class _$ParsedSplTokenTransferInformationCopyWithImpl<$Res>
-    implements $ParsedSplTokenTransferInformationCopyWith<$Res> {
-  _$ParsedSplTokenTransferInformationCopyWithImpl(this._value, this._then);
-
-  final ParsedSplTokenTransferInformation _value;
-  // ignore: unused_field
-  final $Res Function(ParsedSplTokenTransferInformation) _then;
-
-  @override
-  $Res call({
-    Object? amount = freezed,
-    Object? authority = freezed,
-    Object? mint = freezed,
-    Object? source = freezed,
-    Object? destination = freezed,
-  }) {
-    return _then(_value.copyWith(
-      amount: amount == freezed
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      authority: authority == freezed
-          ? _value.authority
-          : authority // ignore: cast_nullable_to_non_nullable
-              as String,
-      mint: mint == freezed
-          ? _value.mint
-          : mint // ignore: cast_nullable_to_non_nullable
-              as String?,
-      source: source == freezed
-          ? _value.source
-          : source // ignore: cast_nullable_to_non_nullable
-              as String,
-      destination: destination == freezed
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-abstract class _$ParsedSplTokenTransferInformationCopyWith<$Res>
-    implements $ParsedSplTokenTransferInformationCopyWith<$Res> {
-  factory _$ParsedSplTokenTransferInformationCopyWith(
-          _ParsedSplTokenTransferInformation value,
-          $Res Function(_ParsedSplTokenTransferInformation) then) =
-      __$ParsedSplTokenTransferInformationCopyWithImpl<$Res>;
-  @override
-  $Res call(
-      {String amount,
-      String authority,
-      String? mint,
-      String source,
-      String destination});
-}
-
-/// @nodoc
-class __$ParsedSplTokenTransferInformationCopyWithImpl<$Res>
-    extends _$ParsedSplTokenTransferInformationCopyWithImpl<$Res>
-    implements _$ParsedSplTokenTransferInformationCopyWith<$Res> {
-  __$ParsedSplTokenTransferInformationCopyWithImpl(
-      _ParsedSplTokenTransferInformation _value,
-      $Res Function(_ParsedSplTokenTransferInformation) _then)
-      : super(_value, (v) => _then(v as _ParsedSplTokenTransferInformation));
-
-  @override
-  _ParsedSplTokenTransferInformation get _value =>
-      super._value as _ParsedSplTokenTransferInformation;
-
-  @override
-  $Res call({
-    Object? amount = freezed,
-    Object? authority = freezed,
-    Object? mint = freezed,
-    Object? source = freezed,
-    Object? destination = freezed,
-  }) {
-    return _then(_ParsedSplTokenTransferInformation(
-      amount: amount == freezed
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      authority: authority == freezed
-          ? _value.authority
-          : authority // ignore: cast_nullable_to_non_nullable
-              as String,
-      mint: mint == freezed
-          ? _value.mint
-          : mint // ignore: cast_nullable_to_non_nullable
-              as String?,
-      source: source == freezed
-          ? _value.source
-          : source // ignore: cast_nullable_to_non_nullable
-              as String,
-      destination: destination == freezed
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_ParsedSplTokenTransferInformation
-    implements _ParsedSplTokenTransferInformation {
-  const _$_ParsedSplTokenTransferInformation(
-      {required this.amount,
-      required this.authority,
-      required this.mint,
-      required this.source,
-      required this.destination});
-
-  factory _$_ParsedSplTokenTransferInformation.fromJson(
-          Map<String, dynamic> json) =>
-      _$$_ParsedSplTokenTransferInformationFromJson(json);
-
-  @override
-  final String amount;
-  @override
-  final String authority;
-  @override
-  final String? mint;
-  @override
-  final String source;
-  @override
-  final String destination;
-
-  @override
-  String toString() {
-    return 'ParsedSplTokenTransferInformation(amount: $amount, authority: $authority, mint: $mint, source: $source, destination: $destination)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is _ParsedSplTokenTransferInformation &&
-            (identical(other.amount, amount) ||
-                const DeepCollectionEquality().equals(other.amount, amount)) &&
-            (identical(other.authority, authority) ||
-                const DeepCollectionEquality()
-                    .equals(other.authority, authority)) &&
-            (identical(other.mint, mint) ||
-                const DeepCollectionEquality().equals(other.mint, mint)) &&
-            (identical(other.source, source) ||
-                const DeepCollectionEquality().equals(other.source, source)) &&
-            (identical(other.destination, destination) ||
-                const DeepCollectionEquality()
-                    .equals(other.destination, destination)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(amount) ^
-      const DeepCollectionEquality().hash(authority) ^
-      const DeepCollectionEquality().hash(mint) ^
-      const DeepCollectionEquality().hash(source) ^
-      const DeepCollectionEquality().hash(destination);
-
-  @JsonKey(ignore: true)
-  @override
-  _$ParsedSplTokenTransferInformationCopyWith<
-          _ParsedSplTokenTransferInformation>
-      get copyWith => __$ParsedSplTokenTransferInformationCopyWithImpl<
-          _ParsedSplTokenTransferInformation>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ParsedSplTokenTransferInformationToJson(this);
-  }
-}
-
-abstract class _ParsedSplTokenTransferInformation
-    implements ParsedSplTokenTransferInformation {
-  const factory _ParsedSplTokenTransferInformation(
-      {required String amount,
-      required String authority,
-      required String? mint,
-      required String source,
-      required String destination}) = _$_ParsedSplTokenTransferInformation;
-
-  factory _ParsedSplTokenTransferInformation.fromJson(
-          Map<String, dynamic> json) =
-      _$_ParsedSplTokenTransferInformation.fromJson;
-
-  @override
-  String get amount => throw _privateConstructorUsedError;
-  @override
-  String get authority => throw _privateConstructorUsedError;
-  @override
-  String? get mint => throw _privateConstructorUsedError;
-  @override
-  String get source => throw _privateConstructorUsedError;
-  @override
-  String get destination => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(ignore: true)
-  _$ParsedSplTokenTransferInformationCopyWith<
-          _ParsedSplTokenTransferInformation>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-ParsedSplTokenTransferCheckedInformation
-    _$ParsedSplTokenTransferCheckedInformationFromJson(
-        Map<String, dynamic> json) {
-  return _ParsedSplTokenTransferCheckedInformation.fromJson(json);
-}
-
-/// @nodoc
-class _$ParsedSplTokenTransferCheckedInformationTearOff {
-  const _$ParsedSplTokenTransferCheckedInformationTearOff();
-
-  _ParsedSplTokenTransferCheckedInformation call(
-      {required TokenAmount tokenAmount,
-      required String authority,
-      required String? mint,
-      required String source,
-      required String destination}) {
-    return _ParsedSplTokenTransferCheckedInformation(
-      tokenAmount: tokenAmount,
-      authority: authority,
-      mint: mint,
-      source: source,
-      destination: destination,
-    );
-  }
-
-  ParsedSplTokenTransferCheckedInformation fromJson(Map<String, Object> json) {
-    return ParsedSplTokenTransferCheckedInformation.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $ParsedSplTokenTransferCheckedInformation =
-    _$ParsedSplTokenTransferCheckedInformationTearOff();
-
-/// @nodoc
-mixin _$ParsedSplTokenTransferCheckedInformation {
-  TokenAmount get tokenAmount => throw _privateConstructorUsedError;
-  String get authority => throw _privateConstructorUsedError;
-  String? get mint => throw _privateConstructorUsedError;
-  String get source => throw _privateConstructorUsedError;
-  String get destination => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ParsedSplTokenTransferCheckedInformationCopyWith<
-          ParsedSplTokenTransferCheckedInformation>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ParsedSplTokenTransferCheckedInformationCopyWith<$Res> {
-  factory $ParsedSplTokenTransferCheckedInformationCopyWith(
-          ParsedSplTokenTransferCheckedInformation value,
-          $Res Function(ParsedSplTokenTransferCheckedInformation) then) =
-      _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>;
-  $Res call(
-      {TokenAmount tokenAmount,
-      String authority,
-      String? mint,
-      String source,
-      String destination});
-}
-
-/// @nodoc
-class _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
-    implements $ParsedSplTokenTransferCheckedInformationCopyWith<$Res> {
-  _$ParsedSplTokenTransferCheckedInformationCopyWithImpl(
-      this._value, this._then);
-
-  final ParsedSplTokenTransferCheckedInformation _value;
-  // ignore: unused_field
-  final $Res Function(ParsedSplTokenTransferCheckedInformation) _then;
-
-  @override
-  $Res call({
-    Object? tokenAmount = freezed,
-    Object? authority = freezed,
-    Object? mint = freezed,
-    Object? source = freezed,
-    Object? destination = freezed,
-  }) {
-    return _then(_value.copyWith(
-      tokenAmount: tokenAmount == freezed
-          ? _value.tokenAmount
-          : tokenAmount // ignore: cast_nullable_to_non_nullable
-              as TokenAmount,
-      authority: authority == freezed
-          ? _value.authority
-          : authority // ignore: cast_nullable_to_non_nullable
-              as String,
-      mint: mint == freezed
-          ? _value.mint
-          : mint // ignore: cast_nullable_to_non_nullable
-              as String?,
-      source: source == freezed
-          ? _value.source
-          : source // ignore: cast_nullable_to_non_nullable
-              as String,
-      destination: destination == freezed
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-abstract class _$ParsedSplTokenTransferCheckedInformationCopyWith<$Res>
-    implements $ParsedSplTokenTransferCheckedInformationCopyWith<$Res> {
-  factory _$ParsedSplTokenTransferCheckedInformationCopyWith(
-          _ParsedSplTokenTransferCheckedInformation value,
-          $Res Function(_ParsedSplTokenTransferCheckedInformation) then) =
-      __$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>;
-  @override
-  $Res call(
-      {TokenAmount tokenAmount,
-      String authority,
-      String? mint,
-      String source,
-      String destination});
-}
-
-/// @nodoc
-class __$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
-    extends _$ParsedSplTokenTransferCheckedInformationCopyWithImpl<$Res>
-    implements _$ParsedSplTokenTransferCheckedInformationCopyWith<$Res> {
-  __$ParsedSplTokenTransferCheckedInformationCopyWithImpl(
-      _ParsedSplTokenTransferCheckedInformation _value,
-      $Res Function(_ParsedSplTokenTransferCheckedInformation) _then)
-      : super(_value,
-            (v) => _then(v as _ParsedSplTokenTransferCheckedInformation));
-
-  @override
-  _ParsedSplTokenTransferCheckedInformation get _value =>
-      super._value as _ParsedSplTokenTransferCheckedInformation;
-
-  @override
-  $Res call({
-    Object? tokenAmount = freezed,
-    Object? authority = freezed,
-    Object? mint = freezed,
-    Object? source = freezed,
-    Object? destination = freezed,
-  }) {
-    return _then(_ParsedSplTokenTransferCheckedInformation(
-      tokenAmount: tokenAmount == freezed
-          ? _value.tokenAmount
-          : tokenAmount // ignore: cast_nullable_to_non_nullable
-              as TokenAmount,
-      authority: authority == freezed
-          ? _value.authority
-          : authority // ignore: cast_nullable_to_non_nullable
-              as String,
-      mint: mint == freezed
-          ? _value.mint
-          : mint // ignore: cast_nullable_to_non_nullable
-              as String?,
-      source: source == freezed
-          ? _value.source
-          : source // ignore: cast_nullable_to_non_nullable
-              as String,
-      destination: destination == freezed
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_ParsedSplTokenTransferCheckedInformation
-    implements _ParsedSplTokenTransferCheckedInformation {
-  const _$_ParsedSplTokenTransferCheckedInformation(
-      {required this.tokenAmount,
-      required this.authority,
-      required this.mint,
-      required this.source,
-      required this.destination});
-
-  factory _$_ParsedSplTokenTransferCheckedInformation.fromJson(
-          Map<String, dynamic> json) =>
-      _$$_ParsedSplTokenTransferCheckedInformationFromJson(json);
-
-  @override
-  final TokenAmount tokenAmount;
-  @override
-  final String authority;
-  @override
-  final String? mint;
-  @override
-  final String source;
-  @override
-  final String destination;
-
-  @override
-  String toString() {
-    return 'ParsedSplTokenTransferCheckedInformation(tokenAmount: $tokenAmount, authority: $authority, mint: $mint, source: $source, destination: $destination)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is _ParsedSplTokenTransferCheckedInformation &&
-            (identical(other.tokenAmount, tokenAmount) ||
-                const DeepCollectionEquality()
-                    .equals(other.tokenAmount, tokenAmount)) &&
-            (identical(other.authority, authority) ||
-                const DeepCollectionEquality()
-                    .equals(other.authority, authority)) &&
-            (identical(other.mint, mint) ||
-                const DeepCollectionEquality().equals(other.mint, mint)) &&
-            (identical(other.source, source) ||
-                const DeepCollectionEquality().equals(other.source, source)) &&
-            (identical(other.destination, destination) ||
-                const DeepCollectionEquality()
-                    .equals(other.destination, destination)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(tokenAmount) ^
-      const DeepCollectionEquality().hash(authority) ^
-      const DeepCollectionEquality().hash(mint) ^
-      const DeepCollectionEquality().hash(source) ^
-      const DeepCollectionEquality().hash(destination);
-
-  @JsonKey(ignore: true)
-  @override
-  _$ParsedSplTokenTransferCheckedInformationCopyWith<
-          _ParsedSplTokenTransferCheckedInformation>
-      get copyWith => __$ParsedSplTokenTransferCheckedInformationCopyWithImpl<
-          _ParsedSplTokenTransferCheckedInformation>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ParsedSplTokenTransferCheckedInformationToJson(this);
-  }
-}
-
-abstract class _ParsedSplTokenTransferCheckedInformation
-    implements ParsedSplTokenTransferCheckedInformation {
-  const factory _ParsedSplTokenTransferCheckedInformation(
-          {required TokenAmount tokenAmount,
-          required String authority,
-          required String? mint,
-          required String source,
-          required String destination}) =
-      _$_ParsedSplTokenTransferCheckedInformation;
-
-  factory _ParsedSplTokenTransferCheckedInformation.fromJson(
-          Map<String, dynamic> json) =
-      _$_ParsedSplTokenTransferCheckedInformation.fromJson;
-
-  @override
-  TokenAmount get tokenAmount => throw _privateConstructorUsedError;
-  @override
-  String get authority => throw _privateConstructorUsedError;
-  @override
-  String? get mint => throw _privateConstructorUsedError;
-  @override
-  String get source => throw _privateConstructorUsedError;
-  @override
-  String get destination => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(ignore: true)
-  _$ParsedSplTokenTransferCheckedInformationCopyWith<
-          _ParsedSplTokenTransferCheckedInformation>
+  $ParsedSplTokenGenericInstructionCopyWith<ParsedSplTokenGenericInstruction>
       get copyWith => throw _privateConstructorUsedError;
 }

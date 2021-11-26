@@ -2,6 +2,7 @@ import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/rpc/dto/account_data/parsed_account_data.dart';
+import 'package:solana/src/rpc/dto/account_data/spl_token_program/token_program_account_data.dart';
 import 'package:solana/src/rpc/dto/circulation_status.dart';
 import 'package:solana/src/rpc/dto/encoding.dart';
 import 'package:solana/src/rpc/dto/recent_blockhash.dart';
@@ -255,10 +256,10 @@ void main() {
       expect(accounts.first.account.data, isA<ParsedAccountData>());
 
       final data = accounts.first.account.data as ParsedAccountData;
-      final programData = data as SplTokenProgramAccountData;
-      final parsed = programData.parsed;
-      // expect(parsed.info.mint, equals(token.mint));
-      // expect(parsed.info.owner, equals(createdAccount.account.owner));
+      final programData = data as ParsedSplTokenProgramAccountData;
+      final parsed = programData.parsed as TokenAccountData;
+      expect(parsed.info.mint, equals(token.mint));
+      expect(parsed.info.owner, equals(createdAccount.account.owner));
       expect(parsed, isNotNull);
     }, timeout: const Timeout(Duration(minutes: 4)));
   });
@@ -574,7 +575,7 @@ void main() {
         encoding: Encoding.jsonParsed,
       );
       final stakeAccountIndex =
-          accounts.indexWhere((a) => a.data is StakeProgramAccountData);
+          accounts.indexWhere((a) => a.data is ParsedStakeProgramAccountData);
       if (stakeAccountIndex == -1) {
         fail('cannot find a staking account');
       }
