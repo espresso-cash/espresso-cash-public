@@ -151,7 +151,6 @@ class RPCClient {
       ],
     );
 
-    print('getMultipleAccounts : $data');
     return GetMultipleAccountsResponse.fromJson(data).result.value;
   }
 
