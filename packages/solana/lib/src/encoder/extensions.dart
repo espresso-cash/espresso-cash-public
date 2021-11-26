@@ -69,7 +69,9 @@ extension InstructionListExt on List<Instruction> {
   /// - sorts accounts according to [Account Addresses Format][1].
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
-  List<AccountMeta> getAccountsWithOptionalFeePayer(String? feePayer) {
+  List<AccountMeta> getAccountsWithOptionalFeePayer(
+    String? feePayer,
+  ) {
     final accounts = expand<AccountMeta>(
       (Instruction instruction) => [
         ...instruction.accounts,
