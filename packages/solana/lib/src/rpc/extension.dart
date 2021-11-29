@@ -22,14 +22,14 @@ extension Convenience on RpcClient {
     int limit = 10,
     Commitment? commitment,
   }) async {
-    final signatures = await getConfirmedSignaturesForAddress2(
+    final signatures = await getSignaturesForAddress(
       address,
       limit: limit,
       commitment: commitment,
     );
     final transactions = await Future.wait(
       signatures.map(
-        (s) => getConfirmedTransaction(
+        (s) => getTransaction(
           s.signature,
           commitment: commitment,
           encoding: Encoding.jsonParsed,

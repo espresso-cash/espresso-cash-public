@@ -76,8 +76,10 @@ void main() {
     expect(signature, isNotNull);
 
     // FIXME: check that it actual is this type
-    final result =
-        await rpcClient.getConfirmedTransaction(signature.toString());
+    final result = await rpcClient.getTransaction(
+      signature.toString(),
+      encoding: Encoding.jsonParsed,
+    );
 
     expect(result, isNotNull);
     expect(result?.transaction, isNotNull);
@@ -188,8 +190,10 @@ void main() {
     expect(signature, isNotNull);
 
     // FIXME: check that this is of the correct type
-    final result =
-        await rpcClient.getConfirmedTransaction(signature.toString());
+    final result = await rpcClient.getTransaction(
+      signature.toString(),
+      encoding: Encoding.jsonParsed,
+    );
 
     expect(result, isNotNull);
     expect(result?.transaction, isNotNull);

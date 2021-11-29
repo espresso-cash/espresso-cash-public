@@ -1,7 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/account_key.dart';
+import 'package:solana/src/rpc/dto/message.dart';
+import 'package:solana/src/rpc/dto/parsed_message/header.dart';
 import 'package:solana/src/rpc/dto/parsed_message/parsed_instruction.dart';
-import 'package:solana/src/rpc/dto/parsed_message/parsed_message_header.dart';
 
 export 'parsed_instruction.dart';
 export 'parsed_spl_token_instruction.dart';
@@ -10,22 +11,20 @@ export 'parsed_system_instruction.dart';
 part 'parsed_message.g.dart';
 
 /// A parsed message that is part of a [Transaction] object.
-@JsonSerializable()
-class ParsedMessage {
+@JsonSerializable(createToJson: false)
+class ParsedMessage implements Message {
   ParsedMessage({
-    this.header,
     required this.accountKeys,
     required this.recentBlockhash,
     required this.instructions,
+    required this.header,
   });
 
   factory ParsedMessage.fromJson(Map<String, dynamic> json) =>
       _$ParsedMessageFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParsedMessageToJson(this);
-
   final List<AccountKey> accountKeys;
-  final ParsedMessageHeader? header;
+  final Header? header;
   final String recentBlockhash;
   final List<ParsedInstruction> instructions;
 }
