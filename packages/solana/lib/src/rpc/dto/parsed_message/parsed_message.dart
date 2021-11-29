@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/account_key.dart';
+import 'package:solana/src/rpc/dto/instruction.dart';
 import 'package:solana/src/rpc/dto/message.dart';
 import 'package:solana/src/rpc/dto/parsed_message/header.dart';
-import 'package:solana/src/rpc/dto/parsed_message/parsed_instruction.dart';
 
 export 'parsed_instruction.dart';
 export 'parsed_spl_token_instruction.dart';
@@ -26,5 +26,5 @@ class ParsedMessage implements Message {
   final List<AccountKey> accountKeys;
   final Header? header;
   final String recentBlockhash;
-  final List<ParsedInstruction> instructions;
+  final List<Instruction> instructions;
 }

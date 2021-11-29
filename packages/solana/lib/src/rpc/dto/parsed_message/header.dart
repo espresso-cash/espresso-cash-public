@@ -10,8 +10,8 @@ class Header {
     if (json is List) {
       return Header(
         numRequiredSignatures: json[0] as int,
-        numReadonlySignedAccounts: json[2] as int,
         numReadonlyUnsignedAccounts: json[1] as int,
+        numReadonlySignedAccounts: json[2] as int,
       );
     } else {
       return Header(
