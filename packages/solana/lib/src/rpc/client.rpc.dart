@@ -28,7 +28,9 @@ class _RpcClient implements RpcClient {
     );
     final dynamic value = unwrapAndGetResult(response);
 
-    return Account?.fromJson(value as Map<String, dynamic>);
+    return (value == null)
+        ? null
+        : Account.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -91,7 +93,9 @@ class _RpcClient implements RpcClient {
     );
     final dynamic value = getResult(response);
 
-    return BlockCommitment?.fromJson(value as Map<String, dynamic>);
+    return (value == null)
+        ? null
+        : BlockCommitment.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -106,7 +110,7 @@ class _RpcClient implements RpcClient {
     );
     final dynamic value = getResult(response);
 
-    return value as int?;
+    return (value == null) ? null : value as int?;
   }
 
   @override
@@ -167,7 +171,9 @@ class _RpcClient implements RpcClient {
     );
     final dynamic value = unwrapAndGetResult(response);
 
-    return FeeCalculatorForBlockhash?.fromJson(value as Map<String, dynamic>);
+    return (value == null)
+        ? null
+        : FeeCalculatorForBlockhash.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -334,8 +340,10 @@ class _RpcClient implements RpcClient {
     );
     final dynamic value = getResult(response);
 
-    return fromJsonMap(value, (dynamic v) => v as String,
-        (dynamic v) => fromJsonArray(v, (dynamic v) => v as int));
+    return (value == null)
+        ? null
+        : fromJsonMap(value, (dynamic v) => v as String,
+            (dynamic v) => fromJsonArray(v, (dynamic v) => v as int));
   }
 
   @override
@@ -489,8 +497,11 @@ class _RpcClient implements RpcClient {
     );
     final dynamic value = unwrapAndGetResult(response);
 
-    return fromJsonArray(value,
-        (dynamic v) => SignatureStatus?.fromJson(v as Map<String, dynamic>));
+    return fromJsonArray(
+        value,
+        (dynamic v) => (v == null)
+            ? null
+            : SignatureStatus.fromJson(v as Map<String, dynamic>));
   }
 
   @override
@@ -904,7 +915,9 @@ class _RpcClient implements RpcClient {
     );
     final dynamic value = getResult(response);
 
-    return TransactionDetails?.fromJson(value as Map<String, dynamic>);
+    return (value == null)
+        ? null
+        : TransactionDetails.fromJson(value as Map<String, dynamic>);
   }
 }
 
