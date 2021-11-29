@@ -393,7 +393,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<Account>> getMultipleAccounts(List<String> pubKeys,
+  Future<List<Account?>> getMultipleAccounts(List<String> pubKeys,
       {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
       DataSlice? dataSlice}) async {
@@ -410,7 +410,9 @@ class _RpcClient implements RpcClient {
     final dynamic value = unwrapAndGetResult(response);
 
     return fromJsonArray(
-        value, (dynamic v) => Account.fromJson(v as Map<String, dynamic>));
+        value,
+        (dynamic v) =>
+            (v == null) ? null : Account.fromJson(v as Map<String, dynamic>));
   }
 
   @override
