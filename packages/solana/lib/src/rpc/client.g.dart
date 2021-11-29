@@ -212,7 +212,7 @@ Map<String, dynamic> _$GetProgramAccountsConfigToJson(
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   val['encoding'] = _$EncodingEnumMap[instance.encoding];
   writeNotNull('dataSlice', instance.dataSlice);
-  writeNotNull('filter', instance.filter);
+  writeNotNull('filters', instance.filters);
   return val;
 }
 

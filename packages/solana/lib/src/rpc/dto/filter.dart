@@ -1,25 +1,70 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/rpc/dto/filter_params.dart';
 
 part 'filter.g.dart';
 
-/// A filter of program data
+abstract class Filter {
+  const Filter();
+
+  factory Filter.dataSize(int dataSize) => DataSizeFilter(dataSize);
+
+  factory Filter.memcmp({required int offset, required String bytes}) =>
+      MemcmpFilter.of(offset: offset, bytes: bytes);
+
+  Map<String, dynamic> toJson();
+}
+
+/// Compares the program account data length with the provided
+/// data size.
 @JsonSerializable(createFactory: true, includeIfNull: false)
-class Filter {
-  const Filter({
-    required this.memcmp,
-    required this.dataSize,
+class DataSizeFilter extends Filter {
+  final int dataSize;
+
+  const DataSizeFilter(this.dataSize);
+
+  factory DataSizeFilter.fromJson(Map<String, dynamic> json) =>
+      _$DataSizeFilterFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$DataSizeFilterToJson(this);
+}
+
+/// Compares the program account data length with the provided
+/// data size.
+@JsonSerializable(
+    createFactory: true, includeIfNull: false, explicitToJson: true)
+class MemcmpFilter extends Filter {
+  final MemcmpFilterValue memcmp;
+
+  const MemcmpFilter(this.memcmp);
+
+  factory MemcmpFilter.fromJson(Map<String, dynamic> json) =>
+      _$MemcmpFilterFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$MemcmpFilterToJson(this);
+
+  MemcmpFilter.of({
+    required int offset,
+    required String bytes,
+  }) : this(MemcmpFilterValue(offset: offset, bytes: bytes));
+}
+
+@JsonSerializable(createFactory: true, includeIfNull: false)
+class MemcmpFilterValue {
+  const MemcmpFilterValue({
+    required this.offset,
+    required this.bytes,
   });
 
-  factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
+  factory MemcmpFilterValue.fromJson(Map<String, dynamic> json) =>
+      _$MemcmpFilterValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() => _$MemcmpFilterValueToJson(this);
 
-  /// Compares a provided series of bytes with program account
-  /// data at a particular offset.
-  final FilterParams memcmp;
+  /// Offset into program account data to start comparison.
+  final int offset;
 
-  /// Compares the program account data length with the provided
-  /// data size.
-  final int dataSize;
+  /// Data to match, as base-58 encoded string and limited to
+  /// less than 129 bytes.
+  final String bytes;
 }

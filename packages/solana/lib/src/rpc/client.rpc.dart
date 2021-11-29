@@ -420,12 +420,12 @@ class _RpcClient implements RpcClient {
       {Commitment? commitment = Commitment.finalized,
       required Encoding encoding,
       DataSlice? dataSlice,
-      List<Filter>? filter}) async {
+      List<Filter>? filters}) async {
     final config = GetProgramAccountsConfig(
             commitment: commitment,
             encoding: encoding,
             dataSlice: dataSlice,
-            filter: filter)
+            filters: filters)
         .toJson();
     final response = await _client.request(
       'getProgramAccounts',
@@ -1079,13 +1079,13 @@ class GetProgramAccountsConfig {
     this.commitment = Commitment.finalized,
     required this.encoding,
     this.dataSlice,
-    this.filter,
+    this.filters,
   });
 
   final Commitment? commitment;
   final Encoding encoding;
   final DataSlice? dataSlice;
-  final List<Filter>? filter;
+  final List<Filter>? filters;
 
   Map<String, dynamic> toJson() => _$GetProgramAccountsConfigToJson(this);
 }
