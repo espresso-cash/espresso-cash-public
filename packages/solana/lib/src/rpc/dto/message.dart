@@ -1,24 +1,30 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/account_key.dart';
 import 'package:solana/src/rpc/dto/instruction.dart';
+import 'package:solana/src/rpc/dto/parsed_message/header.dart';
+import 'package:solana/src/rpc/dto/parsed_message/parsed_message.dart';
+import 'package:solana/src/rpc/dto/raw_message.dart';
 
-part 'message.g.dart';
+abstract class Message {
+  factory Message.fromJson(Map<String, dynamic> json) {
+    final dynamic accountKeysJson = json['accountKeys'];
+    if (accountKeysJson == null) {
+      throw const FormatException('cannot find account keys in provided json');
+    }
 
-/// A parsed message that is part of a [Transaction] object.
-@JsonSerializable(createToJson: false)
-class Message {
-  Message({
-    required this.accountKeys,
-    required this.recentBlockhash,
-    required this.instructions,
-    this.header,
-  });
+    if (accountKeysJson is! List) {
+      throw const FormatException('invalid type for `accountKeys`');
+    }
 
-  factory Message.fromJson(Map<String, dynamic> json) =>
-      _$MessageFromJson(json);
+    final accountKeys = accountKeysJson.map((k) => AccountKey.fromJson(k));
+    if (accountKeys.every((k) => k is ParsedAccountKey)) {
+      return ParsedMessage.fromJson(json);
+    } else {
+      return RawMessage.fromJson(json);
+    }
+  }
 
-  final List<AccountKey> accountKeys;
-  final List<int>? header;
-  final String recentBlockhash;
-  final List<Instruction> instructions;
+  abstract final List<AccountKey> accountKeys;
+  abstract final Header? header;
+  abstract final String recentBlockhash;
+  abstract final List<Instruction> instructions;
 }

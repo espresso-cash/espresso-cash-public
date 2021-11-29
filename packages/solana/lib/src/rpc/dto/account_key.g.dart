@@ -6,11 +6,12 @@ part of 'account_key.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AccountKey _$AccountKeyFromJson(Map<String, dynamic> json) => AccountKey(
+ParsedAccountKey _$ParsedAccountKeyFromJson(Map<String, dynamic> json) =>
+    ParsedAccountKey(
       pubkey: json['pubkey'] as String,
     );
 
-Map<String, dynamic> _$AccountKeyToJson(AccountKey instance) =>
+Map<String, dynamic> _$ParsedAccountKeyToJson(ParsedAccountKey instance) =>
     <String, dynamic>{
       'pubkey': instance.pubkey,
     };

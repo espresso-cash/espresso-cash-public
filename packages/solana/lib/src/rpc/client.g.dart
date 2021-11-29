@@ -49,6 +49,29 @@ Map<String, dynamic> _$GetBalanceConfigToJson(GetBalanceConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$GetBlockConfigToJson(GetBlockConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
+  writeNotNull('transactionDetails',
+      _$TransactionDetailLevelEnumMap[instance.transactionDetails]);
+  writeNotNull('rewards', instance.rewards);
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  return val;
+}
+
+const _$TransactionDetailLevelEnumMap = {
+  TransactionDetailLevel.none: 'none',
+  TransactionDetailLevel.full: 'full',
+  TransactionDetailLevel.signatures: 'signatures',
+};
+
 Map<String, dynamic> _$GetBlockHeightConfigToJson(
     GetBlockHeightConfig instance) {
   final val = <String, dynamic>{};
@@ -76,6 +99,33 @@ Map<String, dynamic> _$GetBlockProductionConfigToJson(
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('range', instance.range);
   writeNotNull('identity', instance.identity);
+  return val;
+}
+
+Map<String, dynamic> _$GetBlocksConfigToJson(GetBlocksConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  return val;
+}
+
+Map<String, dynamic> _$GetBlocksWithLimitConfigToJson(
+    GetBlocksWithLimitConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   return val;
 }
 
@@ -230,6 +280,23 @@ Map<String, dynamic> _$GetRecentBlockhashConfigToJson(
   return val;
 }
 
+Map<String, dynamic> _$GetSignaturesForAddressConfigToJson(
+    GetSignaturesForAddressConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('limit', instance.limit);
+  writeNotNull('before', instance.before);
+  writeNotNull('until', instance.until);
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  return val;
+}
+
 Map<String, dynamic> _$GetSignatureStatusesConfigToJson(
     GetSignatureStatusesConfig instance) {
   final val = <String, dynamic>{};
@@ -377,6 +444,21 @@ Map<String, dynamic> _$GetTokenSupplyConfigToJson(
   return val;
 }
 
+Map<String, dynamic> _$GetTransactionConfigToJson(
+    GetTransactionConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  return val;
+}
+
 Map<String, dynamic> _$GetTransactionCountConfigToJson(
     GetTransactionCountConfig instance) {
   final val = <String, dynamic>{};
@@ -475,12 +557,6 @@ Map<String, dynamic> _$GetConfirmedBlockConfigToJson(
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   return val;
 }
-
-const _$TransactionDetailLevelEnumMap = {
-  TransactionDetailLevel.none: 'none',
-  TransactionDetailLevel.full: 'full',
-  TransactionDetailLevel.signatures: 'signatures',
-};
 
 Map<String, dynamic> _$GetConfirmedSignaturesForAddress2ConfigToJson(
     GetConfirmedSignaturesForAddress2Config instance) {

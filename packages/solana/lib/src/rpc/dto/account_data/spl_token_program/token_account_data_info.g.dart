@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'parsed_spl_token_account_data_info.dart';
+part of 'token_account_data_info.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ParsedSplTokenAccountDataInfo _$ParsedSplTokenAccountDataInfoFromJson(
+SplTokenAccountDataInfo _$SplTokenAccountDataInfoFromJson(
         Map<String, dynamic> json) =>
-    ParsedSplTokenAccountDataInfo(
+    SplTokenAccountDataInfo(
       tokenAmount:
           TokenAmount.fromJson(json['tokenAmount'] as Map<String, dynamic>),
       state: json['state'] as String,
@@ -22,8 +22,8 @@ ParsedSplTokenAccountDataInfo _$ParsedSplTokenAccountDataInfoFromJson(
               json['delegateAmount'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ParsedSplTokenAccountDataInfoToJson(
-        ParsedSplTokenAccountDataInfo instance) =>
+Map<String, dynamic> _$SplTokenAccountDataInfoToJson(
+        SplTokenAccountDataInfo instance) =>
     <String, dynamic>{
       'tokenAmount': instance.tokenAmount,
       'state': instance.state,

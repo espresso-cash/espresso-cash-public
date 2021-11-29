@@ -5,6 +5,7 @@ import 'package:solana/src/rpc/dto/commitment.dart';
 import 'package:solana/src/rpc/dto/parsed_message/parsed_instruction.dart';
 import 'package:solana/src/rpc/dto/parsed_message/parsed_spl_token_instruction.dart';
 import 'package:solana/src/rpc/dto/parsed_message/parsed_system_instruction.dart';
+import 'package:solana/src/rpc/dto/parsed_message/spl_token_transfer_info.dart';
 import 'package:solana/src/rpc/rpc.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
@@ -75,8 +76,10 @@ void main() {
     expect(signature, isNotNull);
 
     // FIXME: check that it actual is this type
-    final result =
-        await rpcClient.getConfirmedTransaction(signature.toString());
+    final result = await rpcClient.getTransaction(
+      signature.toString(),
+      encoding: Encoding.jsonParsed,
+    );
 
     expect(result, isNotNull);
     expect(result?.transaction, isNotNull);
@@ -116,8 +119,11 @@ void main() {
     expect(await wallet.getLamports(), equals(lamportsPerSol));
 
     await wallet.createAssociatedTokenAccount(mint: token.mint);
-    expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
-        completion(equals(true)));
+    final hasAssociatedTokenAccount = await wallet.hasAssociatedTokenAccount(
+      mint: token.mint,
+    );
+
+    expect(hasAssociatedTokenAccount, equals(true));
 
     final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
     expect(tokenBalance.decimals, equals(token.decimals));
@@ -184,8 +190,10 @@ void main() {
     expect(signature, isNotNull);
 
     // FIXME: check that this is of the correct type
-    final result =
-        await rpcClient.getConfirmedTransaction(signature.toString());
+    final result = await rpcClient.getTransaction(
+      signature.toString(),
+      encoding: Encoding.jsonParsed,
+    );
 
     expect(result, isNotNull);
     expect(result?.transaction, isNotNull);
@@ -205,8 +213,7 @@ void main() {
     final parsedSplTokenInstruction =
         splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
     expect(parsedSplTokenInstruction.type, equals('transfer'));
-    expect(parsedSplTokenInstruction.info,
-        isA<ParsedSplTokenTransferInformation>());
+    expect(parsedSplTokenInstruction.info, isA<SplTokenTransferInfo>());
     expect(parsedSplTokenInstruction.info.amount, '40');
     final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
     expect(tokenBalance.amount, equals('40'));

@@ -2,6 +2,7 @@ import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/rpc/dto/account_data/parsed_account_data.dart';
+import 'package:solana/src/rpc/dto/account_data/spl_token_program/token_program_account_data.dart';
 import 'package:solana/src/rpc/dto/circulation_status.dart';
 import 'package:solana/src/rpc/dto/encoding.dart';
 import 'package:solana/src/rpc/dto/recent_blockhash.dart';
@@ -19,7 +20,7 @@ import 'config.dart';
 const int _transferredAmount = 0x1000;
 
 void main() {
-  group('SolanaClient testsuite', () {
+  group('RpcClient testsuite', () {
     late final RpcClient rpcClient;
     late final SubscriptionClient subscriptionClient;
     late Ed25519HDKeyPair destination;
@@ -255,20 +256,25 @@ void main() {
       expect(accounts.first.account.data, isA<ParsedAccountData>());
 
       final data = accounts.first.account.data as ParsedAccountData;
-      final programData = data as SplTokenProgramAccountData;
-      final parsed = programData.parsed;
+      final programData = data as ParsedSplTokenProgramAccountData;
+      final parsed = programData.parsed as TokenAccountData;
       expect(parsed.info.mint, equals(token.mint));
       expect(parsed.info.owner, equals(createdAccount.account.owner));
+      expect(parsed, isNotNull);
     }, timeout: const Timeout(Duration(minutes: 4)));
   });
 
   group('Test informational methods', () {
     late final SubscriptionClient subscriptionClient;
     late final RpcClient rpcClient;
+    late final Ed25519HDKeyPair sampleSigner;
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
       subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      sampleSigner = await Ed25519HDKeyPair.random();
+
+      airdrop(rpcClient, subscriptionClient, sampleSigner, sol: 10);
     });
 
     test('Call to getVersion() succeeds and parses the response correctly',
@@ -311,21 +317,16 @@ void main() {
       expect(supply.nonCirculatingAccounts.length, greaterThan(0));
     });
 
-    test(
-      'Call to getSupply() succeeds excluding circulating accounts list',
-      () async {
-        final supply = await rpcClient.getSupply(
-          commitment: Commitment.confirmed,
-          excludeNonCirculatingAccountsList: true,
-        );
+    test('Call to getSupply() succeeds excluding circulating accounts list',
+        () async {
+      final supply = await rpcClient.getSupply(
+        commitment: Commitment.confirmed,
+        excludeNonCirculatingAccountsList: true,
+      );
 
-        expect(
-            supply.total, equals(supply.circulating + supply.nonCirculating));
-        expect(supply.nonCirculatingAccounts.length, equals(0));
-      },
-      skip: 'It seems there is a bug in solana-core < v1.7 and it is including '
-          'the non circulating accounts regardless of the flag',
-    );
+      expect(supply.total, equals(supply.circulating + supply.nonCirculating));
+      expect(supply.nonCirculatingAccounts.length, equals(0));
+    });
 
     test('Call to getLeaderSchedule() succeeds with default parameters',
         () async {
@@ -434,13 +435,12 @@ void main() {
     });
 
     test('Call to getInflationReward() succeeds', () async {
-      final largestAccounts = await rpcClient.getLargestAccounts();
       final inflationReward = await rpcClient.getInflationReward(
-        largestAccounts.map((l) => l.address).toList(growable: false),
+        [sampleSigner.address],
       );
 
       expect(inflationReward.length, greaterThan(0));
-    }, skip: 'Fails because a block was cleaned up in the test validator');
+    }, skip: 'Needs too many slots to correctly work');
 
     test('Call to getClusterNodes() succeeds', () async {
       final clusterNodes = await rpcClient.getClusterNodes();
@@ -532,15 +532,19 @@ void main() {
       expect(programAccounts.length, greaterThan(0));
     });
 
-    test('Call to getProgramAccounts() with base58 encoding succeeds',
-        () async {
-      final programAccounts = await rpcClient.getProgramAccounts(
-        TokenProgram.programId,
-        encoding: Encoding.base58,
-      );
+    test(
+      'Call to getProgramAccounts() with base58 encoding succeeds',
+      () async {
+        final programAccounts = await rpcClient.getProgramAccounts(
+          TokenProgram.programId,
+          encoding: Encoding.base58,
+        );
 
-      expect(programAccounts.length, greaterThan(0));
-    });
+        expect(programAccounts.length, greaterThan(0));
+      },
+      skip:
+          'We cannot guess the size of the account, so we cannot test this for now',
+    );
 
     test('Call to getProgramAccounts() with base64 encoding succeeds',
         () async {

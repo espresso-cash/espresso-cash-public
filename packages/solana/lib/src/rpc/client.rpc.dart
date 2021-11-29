@@ -49,6 +49,30 @@ class _RpcClient implements RpcClient {
   }
 
   @override
+  Future<Block?> getBlock(int slot,
+      {Encoding? encoding,
+      TransactionDetailLevel? transactionDetails,
+      bool? rewards = false,
+      Commitment? commitment = Commitment.finalized}) async {
+    final config = GetBlockConfig(
+            encoding: encoding,
+            transactionDetails: transactionDetails,
+            rewards: rewards,
+            commitment: commitment)
+        .toJson();
+    final response = await _client.request(
+      'getBlock',
+      params: <dynamic>[
+        slot,
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = getResult(response);
+
+    return Block?.fromJson(value as Map<String, dynamic>);
+  }
+
+  @override
   Future<int> getBlockHeight({Commitment? commitment}) async {
     final config = GetBlockHeightConfig(commitment: commitment).toJson();
     final response = await _client.request(
@@ -96,6 +120,40 @@ class _RpcClient implements RpcClient {
     return (value == null)
         ? null
         : BlockCommitment.fromJson(value as Map<String, dynamic>);
+  }
+
+  @override
+  Future<List<int>> getBlocks(int startSlot, int? endSlot,
+      {Commitment? commitment}) async {
+    final config = GetBlocksConfig(commitment: commitment).toJson();
+    final response = await _client.request(
+      'getBlocks',
+      params: <dynamic>[
+        startSlot,
+        if (endSlot != null) endSlot,
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = getResult(response);
+
+    return fromJsonArray(value, (dynamic v) => v as int);
+  }
+
+  @override
+  Future<List<int>> getBlocksWithLimit(int startSlot, int limit,
+      {Commitment? commitment}) async {
+    final config = GetBlocksWithLimitConfig(commitment: commitment).toJson();
+    final response = await _client.request(
+      'getBlocksWithLimit',
+      params: <dynamic>[
+        startSlot,
+        limit,
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = getResult(response);
+
+    return fromJsonArray(value, (dynamic v) => v as int);
   }
 
   @override
@@ -485,6 +543,31 @@ class _RpcClient implements RpcClient {
   }
 
   @override
+  Future<List<TransactionSignatureInformation>> getSignaturesForAddress(
+      String pubKey,
+      {int? limit,
+      String? before,
+      String? until,
+      Commitment? commitment = Commitment.finalized}) async {
+    final config = GetSignaturesForAddressConfig(
+            limit: limit, before: before, until: until, commitment: commitment)
+        .toJson();
+    final response = await _client.request(
+      'getSignaturesForAddress',
+      params: <dynamic>[
+        pubKey,
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = getResult(response);
+
+    return fromJsonArray(
+        value,
+        (dynamic v) => TransactionSignatureInformation.fromJson(
+            v as Map<String, dynamic>));
+  }
+
+  @override
   Future<List<SignatureStatus?>> getSignatureStatuses(List<String> signatures,
       {bool? searchTransactionHistory}) async {
     final config = GetSignatureStatusesConfig(
@@ -682,6 +765,25 @@ class _RpcClient implements RpcClient {
     final dynamic value = unwrapAndGetResult(response);
 
     return TokenAmount.fromJson(value as Map<String, dynamic>);
+  }
+
+  @override
+  Future<TransactionDetails?> getTransaction(String signature,
+      {Encoding? encoding,
+      Commitment? commitment = Commitment.finalized}) async {
+    final config =
+        GetTransactionConfig(encoding: encoding, commitment: commitment)
+            .toJson();
+    final response = await _client.request(
+      'getTransaction',
+      params: <dynamic>[
+        signature,
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = getResult(response);
+
+    return TransactionDetails?.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -903,7 +1005,7 @@ class _RpcClient implements RpcClient {
 
   @override
   Future<TransactionDetails?> getConfirmedTransaction(String signature,
-      {Encoding? encoding = Encoding.jsonParsed,
+      {Encoding? encoding = Encoding.base64,
       Commitment? commitment = Commitment.finalized}) async {
     final config = GetConfirmedTransactionConfig(
             encoding: encoding, commitment: commitment)
@@ -950,6 +1052,23 @@ class GetBalanceConfig {
 }
 
 @JsonSerializable(createFactory: false, includeIfNull: false)
+class GetBlockConfig {
+  GetBlockConfig({
+    this.encoding,
+    this.transactionDetails,
+    this.rewards = false,
+    this.commitment = Commitment.finalized,
+  });
+
+  final Encoding? encoding;
+  final TransactionDetailLevel? transactionDetails;
+  final bool? rewards;
+  final Commitment? commitment;
+
+  Map<String, dynamic> toJson() => _$GetBlockConfigToJson(this);
+}
+
+@JsonSerializable(createFactory: false, includeIfNull: false)
 class GetBlockHeightConfig {
   GetBlockHeightConfig({
     this.commitment,
@@ -973,6 +1092,28 @@ class GetBlockProductionConfig {
   final String? identity;
 
   Map<String, dynamic> toJson() => _$GetBlockProductionConfigToJson(this);
+}
+
+@JsonSerializable(createFactory: false, includeIfNull: false)
+class GetBlocksConfig {
+  GetBlocksConfig({
+    this.commitment,
+  });
+
+  final Commitment? commitment;
+
+  Map<String, dynamic> toJson() => _$GetBlocksConfigToJson(this);
+}
+
+@JsonSerializable(createFactory: false, includeIfNull: false)
+class GetBlocksWithLimitConfig {
+  GetBlocksWithLimitConfig({
+    this.commitment,
+  });
+
+  final Commitment? commitment;
+
+  Map<String, dynamic> toJson() => _$GetBlocksWithLimitConfigToJson(this);
 }
 
 @JsonSerializable(createFactory: false, includeIfNull: false)
@@ -1102,6 +1243,23 @@ class GetRecentBlockhashConfig {
 }
 
 @JsonSerializable(createFactory: false, includeIfNull: false)
+class GetSignaturesForAddressConfig {
+  GetSignaturesForAddressConfig({
+    this.limit,
+    this.before,
+    this.until,
+    this.commitment = Commitment.finalized,
+  });
+
+  final int? limit;
+  final String? before;
+  final String? until;
+  final Commitment? commitment;
+
+  Map<String, dynamic> toJson() => _$GetSignaturesForAddressConfigToJson(this);
+}
+
+@JsonSerializable(createFactory: false, includeIfNull: false)
 class GetSignatureStatusesConfig {
   GetSignatureStatusesConfig({
     this.searchTransactionHistory,
@@ -1225,6 +1383,19 @@ class GetTokenSupplyConfig {
 }
 
 @JsonSerializable(createFactory: false, includeIfNull: false)
+class GetTransactionConfig {
+  GetTransactionConfig({
+    this.encoding,
+    this.commitment = Commitment.finalized,
+  });
+
+  final Encoding? encoding;
+  final Commitment? commitment;
+
+  Map<String, dynamic> toJson() => _$GetTransactionConfigToJson(this);
+}
+
+@JsonSerializable(createFactory: false, includeIfNull: false)
 class GetTransactionCountConfig {
   GetTransactionCountConfig({
     this.commitment,
@@ -1337,7 +1508,7 @@ class GetConfirmedSignaturesForAddress2Config {
 @JsonSerializable(createFactory: false, includeIfNull: false)
 class GetConfirmedTransactionConfig {
   GetConfirmedTransactionConfig({
-    this.encoding = Encoding.jsonParsed,
+    this.encoding = Encoding.base64,
     this.commitment = Commitment.finalized,
   });
 

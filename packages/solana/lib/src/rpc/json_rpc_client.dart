@@ -11,7 +11,8 @@ class JsonRpcClient {
   int lastId = 1;
 
   /// Calls the [method] jsonrpc-2.0 method with [params] parameters
-  Future<Map<String, dynamic>> request(String method, {
+  Future<Map<String, dynamic>> request(
+    String method, {
     List<dynamic>? params,
   }) async {
     final request = <String, dynamic>{
