@@ -34,7 +34,7 @@ ${methods.map(_generateConfig).join('\n\n')}
     final fields = method.parameters.where((p) => p.isNamed);
     if (fields.isEmpty) return '';
 
-    final name = method.name.firstUpper;
+    final name = method.name.capitalized;
 
     return '''
 @JsonSerializable(createFactory: false, includeIfNull: false)
@@ -62,7 +62,7 @@ class ${name}Config {
     final configParams = method.parameters.where((p) => p.isNamed);
     final String configParamsString;
     if (configParams.isNotEmpty) {
-      final configName = method.name.firstUpper;
+      final configName = method.name.capitalized;
       final parameters =
           configParams.map((p) => '${p.name}: ${p.name}').join(', ');
       configParamsString = '''
@@ -96,36 +96,31 @@ ${method.getDisplayString(withNullability: true)} async {
 }
 
 extension on String {
-  String get firstUpper => '${this[0].toUpperCase()}${substring(1)}';
+  String get capitalized => '${this[0].toUpperCase()}${substring(1)}';
 }
 
 extension on DartType {
   String convertFn() {
+    final String definition;
+    final nullCheck = isNullableType ? '(v == null) ? null : ' : '';
     final name = getDisplayString(withNullability: false);
-    final isNullable = getDisplayString(withNullability: true).endsWith('?');
-    final nullCheck = isNullable ? '(v == null) ? null : ' : '';
+
     if (isDartCoreList) {
       final type = (this as ParameterizedType).typeArguments.first;
-      if (isNullable) {
-        return '(dynamic v) => (v == null) ? null : fromJsonArray(v, ${type.convertFn()})';
-      } else {
-        return '(dynamic v) => fromJsonArray(v, ${type.convertFn()})';
-      }
+      definition = '${nullCheck}fromJsonArray(v, ${type.convertFn()})';
+    } else if (isPrimitive) {
+      definition = '${nullCheck}v as $name';
+    } else {
+      definition = '$nullCheck$name.fromJson(v as Map<String, dynamic>)';
     }
 
-    // We are not considering nested maps, because we don't need
-    // to
-    if (primitiveTypes.any((t) => t.isExactlyType(this))) {
-      return '(dynamic v) => ${nullCheck}v as $name';
-    } else {
-      return '(dynamic v) => $nullCheck$name.fromJson(v as Map<String, dynamic>)';
-    }
+    return '(dynamic v) => $definition';
   }
 
   String fromJson(String data) {
     final String genericFactory;
     final typeIsPrimitive = isPrimitive;
-    final typeName = getDisplayString(withNullability: typeIsPrimitive);
+    final typeName = getDisplayString(withNullability: true);
     final nullCheck = isNullableType ? '(value == null) ? null : ' : '';
     if (this is ParameterizedType) {
       if (isDartCoreList) {
@@ -187,7 +182,7 @@ extension on ParameterElement {
   }
 
   String toJson() {
-    if (primitiveTypes.any((t) => t.isExactlyType(type))) {
+    if (type.isPrimitive) {
       return name;
     } else if (isEnum()) {
       return '$name.value';
@@ -207,8 +202,3 @@ extension on ParameterElement {
     return false;
   }
 }
-
-final primitiveTypes = [
-  String,
-  int,
-].map((t) => TypeChecker.fromRuntime(t));

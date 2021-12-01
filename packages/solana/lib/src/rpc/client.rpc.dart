@@ -30,7 +30,7 @@ class _RpcClient implements RpcClient {
 
     return (value == null)
         ? null
-        : Account.fromJson(value as Map<String, dynamic>);
+        : Account?.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -71,7 +71,7 @@ class _RpcClient implements RpcClient {
 
     return (value == null)
         ? null
-        : Block.fromJson(value as Map<String, dynamic>);
+        : Block?.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -121,7 +121,7 @@ class _RpcClient implements RpcClient {
 
     return (value == null)
         ? null
-        : BlockCommitment.fromJson(value as Map<String, dynamic>);
+        : BlockCommitment?.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -233,7 +233,7 @@ class _RpcClient implements RpcClient {
 
     return (value == null)
         ? null
-        : FeeCalculatorForBlockhash.fromJson(value as Map<String, dynamic>);
+        : FeeCalculatorForBlockhash?.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -785,7 +785,7 @@ class _RpcClient implements RpcClient {
 
     return (value == null)
         ? null
-        : TransactionDetails.fromJson(value as Map<String, dynamic>);
+        : TransactionDetails?.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -1023,7 +1023,7 @@ class _RpcClient implements RpcClient {
 
     return (value == null)
         ? null
-        : TransactionDetails.fromJson(value as Map<String, dynamic>);
+        : TransactionDetails?.fromJson(value as Map<String, dynamic>);
   }
 }
 
