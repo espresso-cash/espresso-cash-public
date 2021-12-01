@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'account_key.dart';
+part of 'parsed_account_key.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
