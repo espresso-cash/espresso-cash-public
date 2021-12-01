@@ -298,7 +298,7 @@ abstract class RpcClient {
   ///
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
   @withContext
-  Future<List<Account>> getMultipleAccounts(
+  Future<List<Account?>> getMultipleAccounts(
     List<String> pubKeys, {
     Commitment commitment = Commitment.finalized,
     Encoding? encoding,
@@ -327,7 +327,7 @@ abstract class RpcClient {
     Commitment? commitment = Commitment.finalized,
     required Encoding encoding,
     DataSlice? dataSlice,
-    List<Filter>? filter,
+    List<Filter>? filters,
   });
 
   /// Returns a recent block hash from the ledger, and a fee schedule that can be

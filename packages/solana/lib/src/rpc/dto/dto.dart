@@ -23,7 +23,6 @@ export 'fee_rate_governor.dart';
 export 'fee_rate_governor_value.dart';
 export 'fees.dart';
 export 'filter.dart';
-export 'filter_params.dart';
 export 'identity.dart';
 export 'inflation_governor.dart';
 export 'inflation_rate.dart';

@@ -2,6 +2,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
+
 // ignore: implementation_imports
 import 'package:solana/src/gen/annotations.dart';
 import 'package:source_gen/source_gen.dart';
@@ -77,6 +78,7 @@ class ${name}Config {
         (method.returnType as ParameterizedType).typeArguments.first;
     final readerFn = isWithContext ? 'unwrapAndGetResult' : 'getResult';
 
+    final returnTypeFromJsonStr = returnType.fromJson("value");
     return '''
 @override
 ${method.getDisplayString(withNullability: true)} async {
@@ -90,7 +92,7 @@ ${method.getDisplayString(withNullability: true)} async {
     );
   final dynamic value = $readerFn(response);
 
-  return ${returnType.fromJson("value")};
+  return ${(returnType.isNullableType) ? '(value == null) ? null : $returnTypeFromJsonStr' : returnTypeFromJsonStr};
 }
 ''';
   }
@@ -102,17 +104,30 @@ extension on String {
 
 extension on DartType {
   String convertFn() {
-    final name = getDisplayString(withNullability: true);
+    final name = getDisplayString(withNullability: false);
+    final isNullable = getDisplayString(withNullability: true).endsWith('?');
     if (isDartCoreList) {
       final type = (this as ParameterizedType).typeArguments.first;
-      return '(dynamic v) => fromJsonArray(v, ${type.convertFn()})';
+      if (isNullable) {
+        return '(dynamic v) => (v == null) ? null : fromJsonArray(v, ${type.convertFn()})';
+      } else {
+        return '(dynamic v) => fromJsonArray(v, ${type.convertFn()})';
+      }
     }
     // We are not considering nested maps, because we don't need
     // to
-    if (primitiveTypes.any((t) => t.isExactlyType(this))) {
-      return '(dynamic v) => v as $name';
+    if (isNullable) {
+      if (primitiveTypes.any((t) => t.isExactlyType(this))) {
+        return '(dynamic v) => (v == null) ? null : v as $name';
+      } else {
+        return '(dynamic v) => (v == null) ? null : $name.fromJson(v as Map<String, dynamic>)';
+      }
     } else {
-      return '(dynamic v) => $name.fromJson(v as Map<String, dynamic>)';
+      if (primitiveTypes.any((t) => t.isExactlyType(this))) {
+        return '(dynamic v) => v as $name';
+      } else {
+        return '(dynamic v) => $name.fromJson(v as Map<String, dynamic>)';
+      }
     }
   }
 
@@ -144,7 +159,7 @@ extension on DartType {
 
     return primitiveTypes.any((t) => t.isExactlyType(this))
         ? '$data as ${getDisplayString(withNullability: true)}'
-        : '${getDisplayString(withNullability: true)}.fromJson(${fromJsonParameters.join(', ')})';
+        : '${getDisplayString(withNullability: false)}.fromJson(${fromJsonParameters.join(', ')})';
   }
 
   String get nullSuffix => isNullableType ? '?' : '';
