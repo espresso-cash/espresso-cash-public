@@ -575,7 +575,7 @@ void main() {
         encoding: Encoding.jsonParsed,
       );
       final stakeAccountIndex =
-          accounts.indexWhere((a) => a?.data is StakeProgramAccountData);
+          accounts.indexWhere((a) => a?.data is ParsedStakeProgramAccountData);
       if (stakeAccountIndex == -1) {
         fail('cannot find a staking account');
       }

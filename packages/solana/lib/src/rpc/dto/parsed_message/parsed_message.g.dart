@@ -13,7 +13,7 @@ ParsedMessage _$ParsedMessageFromJson(Map<String, dynamic> json) =>
           .toList(),
       recentBlockhash: json['recentBlockhash'] as String,
       instructions: (json['instructions'] as List<dynamic>)
-          .map((e) => ParsedInstruction.fromJson(e as Map<String, dynamic>))
+          .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
           .toList(),
       header: json['header'] == null ? null : Header.fromJson(json['header']),
     );
