@@ -1,0 +1,8 @@
+name: jsonrpc_client_annotation
+version: 0.1.0
+repository: https://github.com/cryptoplease/cryptoplease-dart
+description: >-
+  Annotation used to generate a json rpc client
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"

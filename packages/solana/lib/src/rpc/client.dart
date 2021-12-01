@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:jsonrpc_client_annotation/jsonrpc_client_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/gen/annotations.dart';
 import 'package:solana/src/helpers.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/rpc/helpers.dart';

@@ -13,8 +13,8 @@ dependencies:
   build: ^2.1.1
   http: ^0.13.4
   source_gen: ^1.1.1
-  solana: 
-    path: ../solana
+  jsonrpc_client_annotation:
+    path: ../jsonrpc_client_annotation
 
 dev_dependencies:
   lints: ^1.0.0
