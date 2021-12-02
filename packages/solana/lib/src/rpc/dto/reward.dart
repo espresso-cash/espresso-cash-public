@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/reward_type.dart';
 part 'reward.g.dart';
 
 /// A reward
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class Reward {
   const Reward({
     required this.pubkey,
@@ -15,8 +15,6 @@ class Reward {
   });
 
   factory Reward.fromJson(Map<String, dynamic> json) => _$RewardFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RewardToJson(this);
 
   /// The public key, as base-58 encoded string, of the account
   /// that received the reward.

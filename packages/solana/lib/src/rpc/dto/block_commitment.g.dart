@@ -12,17 +12,3 @@ BlockCommitment _$BlockCommitmentFromJson(Map<String, dynamic> json) =>
           (json['commitment'] as List<dynamic>?)?.map((e) => e as int).toList(),
       totalStake: json['totalStake'] as int,
     );
-
-Map<String, dynamic> _$BlockCommitmentToJson(BlockCommitment instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('commitment', instance.commitment);
-  val['totalStake'] = instance.totalStake;
-  return val;
-}

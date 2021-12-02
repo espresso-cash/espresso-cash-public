@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'fee_rate_governor_value.g.dart';
 
 /// The value of a fee rate governor
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class FeeRateGovernorValue {
   const FeeRateGovernorValue({
     required this.burnPercent,
@@ -15,8 +15,6 @@ class FeeRateGovernorValue {
 
   factory FeeRateGovernorValue.fromJson(Map<String, dynamic> json) =>
       _$FeeRateGovernorValueFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FeeRateGovernorValueToJson(this);
 
   /// Percentage of fees collected to be destroyed.
   final int burnPercent;

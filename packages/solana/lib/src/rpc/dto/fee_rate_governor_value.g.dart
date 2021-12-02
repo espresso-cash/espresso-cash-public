@@ -15,13 +15,3 @@ FeeRateGovernorValue _$FeeRateGovernorValueFromJson(
       targetLamportsPerSignature: json['targetLamportsPerSignature'] as int,
       targetSignaturesPerSlot: json['targetSignaturesPerSlot'] as int,
     );
-
-Map<String, dynamic> _$FeeRateGovernorValueToJson(
-        FeeRateGovernorValue instance) =>
-    <String, dynamic>{
-      'burnPercent': instance.burnPercent,
-      'maxLamportsPerSignature': instance.maxLamportsPerSignature,
-      'minLamportsPerSignature': instance.minLamportsPerSignature,
-      'targetLamportsPerSignature': instance.targetLamportsPerSignature,
-      'targetSignaturesPerSlot': instance.targetSignaturesPerSlot,
-    };

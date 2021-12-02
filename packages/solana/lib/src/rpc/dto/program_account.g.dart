@@ -11,9 +11,3 @@ ProgramAccount _$ProgramAccountFromJson(Map<String, dynamic> json) =>
       account: Account.fromJson(json['account'] as Map<String, dynamic>),
       pubkey: json['pubkey'] as String,
     );
-
-Map<String, dynamic> _$ProgramAccountToJson(ProgramAccount instance) =>
-    <String, dynamic>{
-      'account': instance.account,
-      'pubkey': instance.pubkey,
-    };

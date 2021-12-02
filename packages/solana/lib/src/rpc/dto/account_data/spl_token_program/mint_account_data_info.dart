@@ -15,6 +15,8 @@ class MintAccountDataInfo {
   factory MintAccountDataInfo.fromJson(Map<String, dynamic> json) =>
       _$MintAccountDataInfoFromJson(json);
 
+  Map<String, dynamic> toJson() => _$MintAccountDataInfoToJson(this);
+
   final String? mintAuthority;
   final String? freezedAuthority;
   final bool isInitialized;

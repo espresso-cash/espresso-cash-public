@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/account_data/account_data.dart';
 part 'account.g.dart';
 
 /// An account
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class Account {
   const Account({
     required this.lamports,
@@ -16,8 +16,6 @@ class Account {
 
   factory Account.fromJson(Map<String, dynamic> json) =>
       _$AccountFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AccountToJson(this);
 
   /// Number of lamports assigned to this account, as a u64
   final int lamports;

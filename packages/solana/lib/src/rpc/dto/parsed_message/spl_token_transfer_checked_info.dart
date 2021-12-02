@@ -21,8 +21,6 @@ class SplTokenTransferCheckedInfo {
   ) =>
       _$SplTokenTransferCheckedInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SplTokenTransferCheckedInfoToJson(this);
-
   final TokenAmount tokenAmount;
   final String authority;
   final String? mint;

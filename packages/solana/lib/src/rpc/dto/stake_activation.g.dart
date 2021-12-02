@@ -13,13 +13,6 @@ StakeActivation _$StakeActivationFromJson(Map<String, dynamic> json) =>
       inactive: json['inactive'] as int,
     );
 
-Map<String, dynamic> _$StakeActivationToJson(StakeActivation instance) =>
-    <String, dynamic>{
-      'state': _$StakeActivationStateEnumMap[instance.state],
-      'active': instance.active,
-      'inactive': instance.inactive,
-    };
-
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,
   Object? source, {

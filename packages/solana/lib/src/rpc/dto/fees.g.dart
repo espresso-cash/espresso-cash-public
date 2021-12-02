@@ -12,9 +12,3 @@ Fees _$FeesFromJson(Map<String, dynamic> json) => Fees(
           FeeCalculator.fromJson(json['feeCalculator'] as Map<String, dynamic>),
       lastValidBlockHeight: json['lastValidBlockHeight'] as int,
     );
-
-Map<String, dynamic> _$FeesToJson(Fees instance) => <String, dynamic>{
-      'blockhash': instance.blockhash,
-      'feeCalculator': instance.feeCalculator,
-      'lastValidBlockHeight': instance.lastValidBlockHeight,
-    };

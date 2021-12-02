@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/vote_account.dart';
 part 'vote_accounts.g.dart';
 
 /// Result of calling [RPCClient.getVoteAccounts()]
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class VoteAccounts {
   const VoteAccounts({
     required this.current,
@@ -13,8 +13,6 @@ class VoteAccounts {
 
   factory VoteAccounts.fromJson(Map<String, dynamic> json) =>
       _$VoteAccountsFromJson(json);
-
-  Map<String, dynamic> toJson() => _$VoteAccountsToJson(this);
 
   /// Current vote account
   final List<VoteAccount> current;

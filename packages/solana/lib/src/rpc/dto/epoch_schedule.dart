@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'epoch_schedule.g.dart';
 
 /// An epoch schedule
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class EpochSchedule {
   const EpochSchedule({
     required this.slotsPerEpoch,
@@ -15,8 +15,6 @@ class EpochSchedule {
 
   factory EpochSchedule.fromJson(Map<String, dynamic> json) =>
       _$EpochScheduleFromJson(json);
-
-  Map<String, dynamic> toJson() => _$EpochScheduleToJson(this);
 
   /// The maximum number of slots in each epoch.
   final int slotsPerEpoch;

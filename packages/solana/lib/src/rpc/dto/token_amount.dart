@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'token_amount.g.dart';
 
 /// The amount of a SPL token
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable()
 class TokenAmount {
   const TokenAmount({
     required this.amount,

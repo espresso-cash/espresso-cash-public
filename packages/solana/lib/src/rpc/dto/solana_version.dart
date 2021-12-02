@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'solana_version.g.dart';
 
 /// The solana version
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class SolanaVersion {
   const SolanaVersion({
     required this.solanaCore,
@@ -12,8 +12,6 @@ class SolanaVersion {
 
   factory SolanaVersion.fromJson(Map<String, dynamic> json) =>
       _$SolanaVersionFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SolanaVersionToJson(this);
 
   /// Software version of solana-core.
   @JsonKey(name: 'solana-core')

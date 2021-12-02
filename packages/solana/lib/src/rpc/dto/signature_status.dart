@@ -5,7 +5,7 @@ import 'package:solana/src/rpc/dto/confirmation_status.dart';
 part 'signature_status.g.dart';
 
 /// The status of a signature
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class SignatureStatus {
   const SignatureStatus({
     required this.slot,
@@ -16,8 +16,6 @@ class SignatureStatus {
 
   factory SignatureStatus.fromJson(Map<String, dynamic> json) =>
       _$SignatureStatusFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SignatureStatusToJson(this);
 
   /// The slot the transaction was processed.
   final int slot;

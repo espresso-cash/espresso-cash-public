@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'cluster_node.g.dart';
 
 /// A node of a cluster
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class ClusterNode {
   const ClusterNode({
     required this.pubkey,
@@ -17,8 +17,6 @@ class ClusterNode {
 
   factory ClusterNode.fromJson(Map<String, dynamic> json) =>
       _$ClusterNodeFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ClusterNodeToJson(this);
 
   /// Node public key, as base-58 encoded string
   final String pubkey;

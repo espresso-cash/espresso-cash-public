@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/token_amount.dart';
 part 'token_balance.g.dart';
 
 /// The balance of a SPL token account
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class TokenBalance {
   const TokenBalance({
     required this.accountIndex,
@@ -14,8 +14,6 @@ class TokenBalance {
 
   factory TokenBalance.fromJson(Map<String, dynamic> json) =>
       _$TokenBalanceFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TokenBalanceToJson(this);
 
   /// Index of the account in which the token balance is provided
   /// for.

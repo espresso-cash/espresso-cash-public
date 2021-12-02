@@ -15,23 +15,6 @@ SignatureStatus _$SignatureStatusFromJson(Map<String, dynamic> json) =>
           _$enumDecode(_$CommitmentEnumMap, json['confirmationStatus']),
     );
 
-Map<String, dynamic> _$SignatureStatusToJson(SignatureStatus instance) {
-  final val = <String, dynamic>{
-    'slot': instance.slot,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('confirmations', instance.confirmations);
-  writeNotNull('err', instance.err);
-  val['confirmationStatus'] = _$CommitmentEnumMap[instance.confirmationStatus];
-  return val;
-}
-
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,
   Object? source, {

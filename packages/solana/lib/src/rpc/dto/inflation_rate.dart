@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'inflation_rate.g.dart';
 
 /// An inflation rate
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class InflationRate {
   const InflationRate({
     required this.total,
@@ -14,8 +14,6 @@ class InflationRate {
 
   factory InflationRate.fromJson(Map<String, dynamic> json) =>
       _$InflationRateFromJson(json);
-
-  Map<String, dynamic> toJson() => _$InflationRateToJson(this);
 
   /// Total inflation.
   final double total;

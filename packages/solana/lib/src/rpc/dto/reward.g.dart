@@ -14,14 +14,6 @@ Reward _$RewardFromJson(Map<String, dynamic> json) => Reward(
       commission: json['commission'] as int,
     );
 
-Map<String, dynamic> _$RewardToJson(Reward instance) => <String, dynamic>{
-      'pubkey': instance.pubkey,
-      'lamports': instance.lamports,
-      'postBalance': instance.postBalance,
-      'rewardType': _$RewardTypeEnumMap[instance.rewardType],
-      'commission': instance.commission,
-    };
-
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,
   Object? source, {

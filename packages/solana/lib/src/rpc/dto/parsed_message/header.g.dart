@@ -1,14 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'transaction_message_header.dart';
+part of 'header.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TransactionMessageHeader _$TransactionMessageHeaderFromJson(
-        Map<String, dynamic> json) =>
-    TransactionMessageHeader(
+Header _$HeaderFromJson(Map<String, dynamic> json) => Header(
       numRequiredSignatures: json['numRequiredSignatures'] as int,
       numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
       numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,

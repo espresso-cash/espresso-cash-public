@@ -3,7 +3,7 @@ import 'package:solana/src/rpc/dto/token_amount.dart';
 
 part 'token_account_data_info.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class SplTokenAccountDataInfo {
   const SplTokenAccountDataInfo({
     required this.tokenAmount,

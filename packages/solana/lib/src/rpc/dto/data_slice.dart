@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'data_slice.g.dart';
 
 /// Data slice to limit the account data in a response
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(includeIfNull: false)
 class DataSlice {
   const DataSlice({
     this.offset,

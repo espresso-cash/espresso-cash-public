@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'transaction_message_header.g.dart';
 
 /// The header of a transaction message
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class TransactionMessageHeader {
   const TransactionMessageHeader({
     required this.numRequiredSignatures,
@@ -13,8 +13,6 @@ class TransactionMessageHeader {
 
   factory TransactionMessageHeader.fromJson(Map<String, dynamic> json) =>
       _$TransactionMessageHeaderFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TransactionMessageHeaderToJson(this);
 
   /// The total number of signatures required to make the
   /// transaction valid. The signatures must match the first

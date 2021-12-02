@@ -14,18 +14,3 @@ TransactionStatus _$TransactionStatusFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Account.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
-
-Map<String, dynamic> _$TransactionStatusToJson(TransactionStatus instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('err', instance.err);
-  writeNotNull('logs', instance.logs);
-  writeNotNull('accounts', instance.accounts);
-  return val;
-}

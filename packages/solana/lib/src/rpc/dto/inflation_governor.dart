@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'inflation_governor.g.dart';
 
 /// An inflation governor
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class InflationGovernor {
   const InflationGovernor({
     required this.initial,
@@ -15,8 +15,6 @@ class InflationGovernor {
 
   factory InflationGovernor.fromJson(Map<String, dynamic> json) =>
       _$InflationGovernorFromJson(json);
-
-  Map<String, dynamic> toJson() => _$InflationGovernorToJson(this);
 
   /// The initial inflation percentage from time 0.
   final double initial;

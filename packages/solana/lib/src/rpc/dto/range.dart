@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'range.g.dart';
 
 /// A range of bytes
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(includeIfNull: false)
 class Range {
   const Range({
     required this.firstSlot,
@@ -14,9 +14,9 @@ class Range {
 
   Map<String, dynamic> toJson() => _$RangeToJson(this);
 
-  /// first slot of the block production information (inclusive)
+  /// First slot of the block production information (inclusive)
   final int firstSlot;
 
-  /// last slot of block production information (inclusive)
+  /// Last slot of block production information (inclusive)
   final int lastSlot;
 }

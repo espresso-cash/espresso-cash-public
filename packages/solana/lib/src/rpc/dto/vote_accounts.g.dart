@@ -14,9 +14,3 @@ VoteAccounts _$VoteAccountsFromJson(Map<String, dynamic> json) => VoteAccounts(
           .map((e) => VoteAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
-
-Map<String, dynamic> _$VoteAccountsToJson(VoteAccounts instance) =>
-    <String, dynamic>{
-      'current': instance.current,
-      'delinquent': instance.delinquent,
-    };

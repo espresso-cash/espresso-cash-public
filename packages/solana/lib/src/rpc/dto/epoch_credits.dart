@@ -26,10 +26,6 @@ class EpochCredits {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    throw UnsupportedError('converting this to json is not useful');
-  }
-
   final int epoch;
   final int credits;
   final int previousCredits;

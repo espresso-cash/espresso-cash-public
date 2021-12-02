@@ -18,7 +18,7 @@ abstract class AccountData {
     return AccountData.binary(base64.decode(normalized));
   }
 
-  factory AccountData._fromEncodedData(List<String> data) {
+  factory AccountData._fromEncodedData(Iterable<String> data) {
     final dynamic encoded = data.first;
     final dynamic encoding = data.last;
     if (encoded is! String) {
@@ -44,6 +44,7 @@ abstract class AccountData {
 
   factory AccountData.fromJson(dynamic data) {
     if (data == null) {
+      // Null data should be handled by making the data field nullable
       throw const FormatException('unexpected null account data');
     } else if (data is List<dynamic>) {
       if (data.length != 2) {
@@ -52,13 +53,13 @@ abstract class AccountData {
         );
       }
 
-      final asStrings = data.whereType<String>().toList(growable: false);
-      if (asStrings.length != 2) {
+      final elements = data.whereType<String>();
+      if (elements.length != 2) {
         throw const FormatException(
             'array has two elements but of incompatible types');
       }
 
-      return AccountData._fromEncodedData(asStrings);
+      return AccountData._fromEncodedData(elements);
     } else if (data is Map<String, dynamic>) {
       // In this case this is more convenient than a redirecting factory
       return ParsedAccountData.fromJson(data);
@@ -67,9 +68,5 @@ abstract class AccountData {
     } else {
       throw const FormatException('account data is in unknown format');
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    throw UnsupportedError('converting account data to json is not supported');
   }
 }

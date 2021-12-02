@@ -24,10 +24,6 @@ class ByIdentityValue {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    throw UnsupportedError('converting this object to json is not supported');
-  }
-
   final int leaderSlots;
   final int blocksProduced;
 }

@@ -1,4 +1,8 @@
-/// The header of a [ParsedMessage]
+import 'package:json_annotation/json_annotation.dart';
+
+part 'header.g.dart';
+
+@JsonSerializable(createToJson: false)
 class Header {
   Header({
     required this.numRequiredSignatures,
@@ -14,11 +18,7 @@ class Header {
         numReadonlySignedAccounts: json[2] as int,
       );
     } else {
-      return Header(
-        numRequiredSignatures: json['numRequiredSignatures'] as int,
-        numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
-        numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
-      );
+      return _$HeaderFromJson(json);
     }
   }
 

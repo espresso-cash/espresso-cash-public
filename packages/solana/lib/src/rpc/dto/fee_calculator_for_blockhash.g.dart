@@ -12,9 +12,3 @@ FeeCalculatorForBlockhash _$FeeCalculatorForBlockhashFromJson(
       feeCalculator:
           FeeCalculator.fromJson(json['feeCalculator'] as Map<String, dynamic>),
     );
-
-Map<String, dynamic> _$FeeCalculatorForBlockhashToJson(
-        FeeCalculatorForBlockhash instance) =>
-    <String, dynamic>{
-      'feeCalculator': instance.feeCalculator,
-    };

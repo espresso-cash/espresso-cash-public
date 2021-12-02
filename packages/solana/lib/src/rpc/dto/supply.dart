@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'supply.g.dart';
 
 /// The total supply of tokens
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class Supply {
   const Supply({
     required this.total,
@@ -13,8 +13,6 @@ class Supply {
   });
 
   factory Supply.fromJson(Map<String, dynamic> json) => _$SupplyFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SupplyToJson(this);
 
   /// Total supply in lamports.
   final int total;

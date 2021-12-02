@@ -12,9 +12,3 @@ RecentBlockhash _$RecentBlockhashFromJson(Map<String, dynamic> json) =>
       feeCalculator:
           FeeCalculator.fromJson(json['feeCalculator'] as Map<String, dynamic>),
     );
-
-Map<String, dynamic> _$RecentBlockhashToJson(RecentBlockhash instance) =>
-    <String, dynamic>{
-      'blockhash': instance.blockhash,
-      'feeCalculator': instance.feeCalculator,
-    };

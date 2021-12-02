@@ -27,8 +27,4 @@ class SplTokenProgramAccountData with _$SplTokenProgramAccountData {
     Map<String, dynamic> data,
   ) =>
       _$SplTokenProgramAccountDataFromJson(data);
-
-  Map<String, dynamic> toJson() {
-    throw const FormatException('not serializable');
-  }
 }

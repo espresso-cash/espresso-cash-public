@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/fee_calculator.dart';
 part 'fees.g.dart';
 
 /// A fee description object
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class Fees {
   const Fees({
     required this.blockhash,
@@ -13,8 +13,6 @@ class Fees {
   });
 
   factory Fees.fromJson(Map<String, dynamic> json) => _$FeesFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FeesToJson(this);
 
   /// Hash as base-58 encoded string
   final String blockhash;

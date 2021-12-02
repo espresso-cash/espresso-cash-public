@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/account.dart';
 part 'program_account.g.dart';
 
 /// A program account
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class ProgramAccount {
   const ProgramAccount({
     required this.account,
@@ -13,8 +13,6 @@ class ProgramAccount {
 
   factory ProgramAccount.fromJson(Map<String, dynamic> json) =>
       _$ProgramAccountFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ProgramAccountToJson(this);
 
   /// The account information for this program account.
   final Account account;

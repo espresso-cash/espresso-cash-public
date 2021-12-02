@@ -12,18 +12,9 @@ TokenAmount _$TokenAmountFromJson(Map<String, dynamic> json) => TokenAmount(
       uiAmountString: json['uiAmountString'] as String?,
     );
 
-Map<String, dynamic> _$TokenAmountToJson(TokenAmount instance) {
-  final val = <String, dynamic>{
-    'amount': instance.amount,
-    'decimals': instance.decimals,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('uiAmountString', instance.uiAmountString);
-  return val;
-}
+Map<String, dynamic> _$TokenAmountToJson(TokenAmount instance) =>
+    <String, dynamic>{
+      'amount': instance.amount,
+      'decimals': instance.decimals,
+      'uiAmountString': instance.uiAmountString,
+    };

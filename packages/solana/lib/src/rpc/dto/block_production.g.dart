@@ -13,9 +13,3 @@ BlockProduction _$BlockProductionFromJson(Map<String, dynamic> json) =>
       ),
       range: Range.fromJson(json['range'] as Map<String, dynamic>),
     );
-
-Map<String, dynamic> _$BlockProductionToJson(BlockProduction instance) =>
-    <String, dynamic>{
-      'byIdentity': instance.byIdentity,
-      'range': instance.range,
-    };

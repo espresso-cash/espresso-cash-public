@@ -14,10 +14,3 @@ Supply _$SupplyFromJson(Map<String, dynamic> json) => Supply(
           .map((e) => e as String)
           .toList(),
     );
-
-Map<String, dynamic> _$SupplyToJson(Supply instance) => <String, dynamic>{
-      'total': instance.total,
-      'circulating': instance.circulating,
-      'nonCirculating': instance.nonCirculating,
-      'nonCirculatingAccounts': instance.nonCirculatingAccounts,
-    };

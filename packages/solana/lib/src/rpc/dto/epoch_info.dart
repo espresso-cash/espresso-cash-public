@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'epoch_info.g.dart';
 
 /// Information about an epoch
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class EpochInfo {
   const EpochInfo({
     required this.absoluteSlot,
@@ -15,8 +15,6 @@ class EpochInfo {
 
   factory EpochInfo.fromJson(Map<String, dynamic> json) =>
       _$EpochInfoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$EpochInfoToJson(this);
 
   /// The current slot
   final int absoluteSlot;

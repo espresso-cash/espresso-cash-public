@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'token_accounts_filter.g.dart';
 
 /// Either a mint or a program id
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(includeIfNull: false)
 class TokenAccountsFilter {
   const TokenAccountsFilter({
     this.mint,

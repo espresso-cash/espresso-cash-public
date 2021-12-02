@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'block_commitment.g.dart';
 
 /// The commitment of a bloc
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class BlockCommitment {
   const BlockCommitment({
     required this.commitment,
@@ -12,8 +12,6 @@ class BlockCommitment {
 
   factory BlockCommitment.fromJson(Map<String, dynamic> json) =>
       _$BlockCommitmentFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BlockCommitmentToJson(this);
 
   /// Commitment, array of u64 integers logging the amount of
   /// cluster stake in lamports that has voted on the block at

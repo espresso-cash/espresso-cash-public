@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/encoding.dart';
 part 'simulate_transaction_accounts.g.dart';
 
 /// Accounts for a transaction simulation
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(includeIfNull: false)
 class SimulateTransactionAccounts {
   const SimulateTransactionAccounts({
     this.accountEncoding,
@@ -14,10 +14,10 @@ class SimulateTransactionAccounts {
   factory SimulateTransactionAccounts.fromJson(Map<String, dynamic> json) =>
       _$SimulateTransactionAccountsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SimulateTransactionAccountsToJson(this);
-
   final Encoding? accountEncoding;
 
   /// An array of accounts to return, as base-58 encoded strings
   final List<String>? addresses;
+
+  Map<String, dynamic> toJson() => _$SimulateTransactionAccountsToJson(this);
 }

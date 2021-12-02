@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'transaction_signature_information.g.dart';
 
 /// The information of a transaction signature
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class TransactionSignatureInformation {
   const TransactionSignatureInformation({
     required this.signature,
@@ -15,9 +15,6 @@ class TransactionSignatureInformation {
 
   factory TransactionSignatureInformation.fromJson(Map<String, dynamic> json) =>
       _$TransactionSignatureInformationFromJson(json);
-
-  Map<String, dynamic> toJson() =>
-      _$TransactionSignatureInformationToJson(this);
 
   /// Transaction signature as base-58 encoded string.
   final String signature;

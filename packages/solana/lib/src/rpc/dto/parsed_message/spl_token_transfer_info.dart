@@ -18,8 +18,6 @@ class SplTokenTransferInfo {
   factory SplTokenTransferInfo.fromJson(Map<String, dynamic> json) =>
       _$SplTokenTransferInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SplTokenTransferInfoToJson(this);
-
   final String amount;
   final String authority;
   final String? mint;

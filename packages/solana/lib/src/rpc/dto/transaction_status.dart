@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/account.dart';
 part 'transaction_status.g.dart';
 
 /// The status of a transaction
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class TransactionStatus {
   const TransactionStatus({
     required this.err,
@@ -14,8 +14,6 @@ class TransactionStatus {
 
   factory TransactionStatus.fromJson(Map<String, dynamic> json) =>
       _$TransactionStatusFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TransactionStatusToJson(this);
 
   final Map<String, dynamic>? err;
 

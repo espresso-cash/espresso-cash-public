@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/epoch_credits.dart';
 part 'vote_account.g.dart';
 
 /// A list of vote accounts
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class VoteAccount {
   const VoteAccount({
     required this.votePubkey,
@@ -18,8 +18,6 @@ class VoteAccount {
 
   factory VoteAccount.fromJson(Map<String, dynamic> json) =>
       _$VoteAccountFromJson(json);
-
-  Map<String, dynamic> toJson() => _$VoteAccountToJson(this);
 
   /// Vote account address, as base-58 encoded string.
   final String votePubkey;

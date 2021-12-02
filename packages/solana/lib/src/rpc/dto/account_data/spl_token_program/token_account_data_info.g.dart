@@ -23,13 +23,22 @@ SplTokenAccountDataInfo _$SplTokenAccountDataInfoFromJson(
     );
 
 Map<String, dynamic> _$SplTokenAccountDataInfoToJson(
-        SplTokenAccountDataInfo instance) =>
-    <String, dynamic>{
-      'tokenAmount': instance.tokenAmount,
-      'state': instance.state,
-      'isNative': instance.isNative,
-      'mint': instance.mint,
-      'owner': instance.owner,
-      'delegate': instance.delegate,
-      'delegateAmount': instance.delegateAmount,
-    };
+    SplTokenAccountDataInfo instance) {
+  final val = <String, dynamic>{
+    'tokenAmount': instance.tokenAmount,
+    'state': instance.state,
+    'isNative': instance.isNative,
+    'mint': instance.mint,
+    'owner': instance.owner,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('delegate', instance.delegate);
+  writeNotNull('delegateAmount', instance.delegateAmount);
+  return val;
+}

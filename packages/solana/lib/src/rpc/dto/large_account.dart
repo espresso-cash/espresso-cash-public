@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'large_account.g.dart';
 
 /// A large account
-@JsonSerializable(createFactory: true, includeIfNull: false)
+@JsonSerializable(createToJson: false)
 class LargeAccount {
   const LargeAccount({
     required this.address,
@@ -12,8 +12,6 @@ class LargeAccount {
 
   factory LargeAccount.fromJson(Map<String, dynamic> json) =>
       _$LargeAccountFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LargeAccountToJson(this);
 
   /// base-58 encoded address of the account
   final String address;
