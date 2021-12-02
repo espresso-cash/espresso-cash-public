@@ -23,12 +23,4 @@ class ParsedAccountData with _$ParsedAccountData implements AccountData {
 
   factory ParsedAccountData.fromJson(Map<String, dynamic> json) =>
       _$ParsedAccountDataFromJson(json);
-
-  const ParsedAccountData._();
-
-  dynamic get info => map<dynamic>(
-        splToken: (parsed) => parsed.info,
-        stake: (parsed) => parsed.info,
-        unsupported: (parsed) => parsed,
-      );
 }

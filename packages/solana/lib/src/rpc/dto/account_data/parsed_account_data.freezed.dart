@@ -169,8 +169,8 @@ class _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
 @JsonSerializable()
 @FreezedUnionValue('spl-token')
 class _$ParsedSplTokenProgramAccountData
-    extends ParsedSplTokenProgramAccountData {
-  const _$ParsedSplTokenProgramAccountData(this.parsed) : super._();
+    implements ParsedSplTokenProgramAccountData {
+  const _$ParsedSplTokenProgramAccountData(this.parsed);
 
   factory _$ParsedSplTokenProgramAccountData.fromJson(
           Map<String, dynamic> json) =>
@@ -277,10 +277,9 @@ class _$ParsedSplTokenProgramAccountData
   }
 }
 
-abstract class ParsedSplTokenProgramAccountData extends ParsedAccountData {
+abstract class ParsedSplTokenProgramAccountData implements ParsedAccountData {
   const factory ParsedSplTokenProgramAccountData(
       SplTokenProgramAccountData parsed) = _$ParsedSplTokenProgramAccountData;
-  const ParsedSplTokenProgramAccountData._() : super._();
 
   factory ParsedSplTokenProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedSplTokenProgramAccountData.fromJson;
@@ -337,8 +336,8 @@ class _$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedStakeProgramAccountData extends ParsedStakeProgramAccountData {
-  const _$ParsedStakeProgramAccountData(this.parsed) : super._();
+class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
+  const _$ParsedStakeProgramAccountData(this.parsed);
 
   factory _$ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =>
       _$$ParsedStakeProgramAccountDataFromJson(json);
@@ -443,10 +442,9 @@ class _$ParsedStakeProgramAccountData extends ParsedStakeProgramAccountData {
   }
 }
 
-abstract class ParsedStakeProgramAccountData extends ParsedAccountData {
+abstract class ParsedStakeProgramAccountData implements ParsedAccountData {
   const factory ParsedStakeProgramAccountData(StakeProgramAccountData parsed) =
       _$ParsedStakeProgramAccountData;
-  const ParsedStakeProgramAccountData._() : super._();
 
   factory ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedStakeProgramAccountData.fromJson;
@@ -494,8 +492,8 @@ class _$UnsupportedProgramAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnsupportedProgramAccountData extends UnsupportedProgramAccountData {
-  const _$UnsupportedProgramAccountData(this.parsed) : super._();
+class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
+  const _$UnsupportedProgramAccountData(this.parsed);
 
   factory _$UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =>
       _$$UnsupportedProgramAccountDataFromJson(json);
@@ -601,10 +599,9 @@ class _$UnsupportedProgramAccountData extends UnsupportedProgramAccountData {
   }
 }
 
-abstract class UnsupportedProgramAccountData extends ParsedAccountData {
+abstract class UnsupportedProgramAccountData implements ParsedAccountData {
   const factory UnsupportedProgramAccountData(Map<String, dynamic> parsed) =
       _$UnsupportedProgramAccountData;
-  const UnsupportedProgramAccountData._() : super._();
 
   factory UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$UnsupportedProgramAccountData.fromJson;
