@@ -56,9 +56,8 @@ class ${name}Config {
         return p.toJson();
       }
     }).toList();
-    final isWithContext = method.metadata.any(
-      (a) => a.toSource() == "@withContext",
-    );
+    final isWithContext =
+        TypeChecker.fromRuntime(WithContextResult).hasAnnotationOf(method);
     final configParams = method.parameters.where((p) => p.isNamed);
     final String configParamsString;
     if (configParams.isNotEmpty) {
@@ -117,40 +116,62 @@ extension on DartType {
     return '(dynamic v) => $definition';
   }
 
-  String fromJson(String data) {
-    final String genericFactory;
-    final typeIsPrimitive = isPrimitive;
-    final typeName = getDisplayString(withNullability: true);
-    final nullCheck = isNullableType ? '(value == null) ? null : ' : '';
-    if (this is ParameterizedType) {
-      if (isDartCoreList) {
-        final type = (this as ParameterizedType).typeArguments.first;
-        return 'fromJsonArray($data, ${type.convertFn()})';
-      } else if (isDartCoreMap) {
-        final kType = (this as ParameterizedType).typeArguments.first;
-        final vType = (this as ParameterizedType).typeArguments.last;
+  String _listFromJson(String data) {
+    final type = (this as ParameterizedType).typeArguments.first;
+    return 'fromJsonArray($data, ${type.convertFn()})';
+  }
 
-        return 'fromJsonMap($data, ${kType.convertFn()}, ${vType.convertFn()})';
-      } else if ((this as ParameterizedType).typeArguments.isEmpty) {
-        genericFactory = '';
-      } else {
-        final type = (this as ParameterizedType).typeArguments.first;
-        genericFactory = '(json) => ${type.fromJson('json')}';
-      }
-      final fromJsonParameters = [
-        '$data as Map<String, dynamic>',
-        if (genericFactory.isNotEmpty) genericFactory,
-      ];
+  String _mapFromJson(String data) {
+    final kType = (this as ParameterizedType).typeArguments.first;
+    final vType = (this as ParameterizedType).typeArguments.last;
 
-      if (typeIsPrimitive) {
-        return '$nullCheck$data as $typeName';
-      }
+    return 'fromJsonMap($data, ${kType.convertFn()}, ${vType.convertFn()})';
+  }
 
-      return '$nullCheck$typeName.fromJson(${fromJsonParameters.join(', ')})';
+  List<String> _parameterizedTypeFromJsonParameters(
+    ParameterizedType parameterizedType,
+    String data,
+  ) {
+    final typeArguments = parameterizedType.typeArguments;
+    if (typeArguments.isEmpty) {
+      return ['$data as Map<String, dynamic>'];
     } else {
-      return '$nullCheck$data as $typeName';
+      return [
+        '$data as Map<String, dynamic>',
+        '(json) => ${typeArguments.first.fromJson('json')}',
+      ];
     }
   }
+
+  String _parameterizedTypeFromJson(
+    ParameterizedType parameterizedType,
+    String data,
+  ) {
+    final typeName = getDisplayString(withNullability: false);
+
+    if (isPrimitive) {
+      return '$_nullCheck$data as $typeName';
+    } else if (isDartCoreList) {
+      return _listFromJson(data);
+    } else if (isDartCoreMap) {
+      return _mapFromJson(data);
+    } else {
+      final parameters =
+          _parameterizedTypeFromJsonParameters(parameterizedType, data);
+      return '$_nullCheck$typeName.fromJson(${parameters.join(', ')})';
+    }
+  }
+
+  String fromJson(String data) {
+    if (this is ParameterizedType) {
+      return _parameterizedTypeFromJson(this as ParameterizedType, data);
+    } else {
+      final typeName = getDisplayString(withNullability: false);
+      return '$_nullCheck$data as $typeName';
+    }
+  }
+
+  String get _nullCheck => isNullableType ? '(value == null) ? null : ' : '';
 
   bool get isPrimitive =>
       isDartCoreSymbol ||
