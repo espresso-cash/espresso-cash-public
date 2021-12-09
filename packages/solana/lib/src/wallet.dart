@@ -1,22 +1,25 @@
 import 'package:solana/solana.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/dto/commitment.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/rpc_client/rpc_client.dart';
-import 'package:solana/src/rpc_client/transaction_signature.dart';
-import 'package:solana/src/spl_token/associated_account.dart';
+import 'package:solana/src/rpc/dto/commitment.dart';
+import 'package:solana/src/rpc/dto/dto.dart';
+import 'package:solana/src/rpc/dto/program_account.dart';
+import 'package:solana/src/rpc/dto/token_accounts_filter.dart';
+import 'package:solana/src/rpc/dto/token_amount.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
-import 'package:solana/src/spl_token/token_amount.dart';
+import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:solana/src/token_program/token_program.dart';
 
 /// Convenient object for common operations
 class Wallet {
-  Wallet({
-    required this.signer,
-    required RPCClient rpcClient,
-  }) : _rpcClient = rpcClient;
+  Wallet(
+    this.signer, {
+    required RpcClient rpcClient,
+    required SubscriptionClient subscriptionClient,
+  })  : _rpcClient = rpcClient,
+        _subscriptionClient = subscriptionClient;
 
-  Future<TransactionSignature> _genericTransfer({
+  Future<String> _genericTransfer({
     required String source,
     required String destination,
     required int lamports,
@@ -40,7 +43,10 @@ class Wallet {
       message,
       [signer],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    await _subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
 
     return signature;
   }
@@ -52,7 +58,7 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionSignature> transfer({
+  Future<String> transfer({
     required String destination,
     required int lamports,
     Commitment commitment = Commitment.finalized,
@@ -78,7 +84,7 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionSignature> transferWithMemo({
+  Future<String> transferWithMemo({
     required String destination,
     required int lamports,
     required String memo,
@@ -98,16 +104,19 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionSignature> requestAirdrop({
+  Future<String> requestAirdrop({
     required int lamports,
     Commitment commitment = Commitment.finalized,
   }) async {
     final signature = await _rpcClient.requestAirdrop(
-      address: address,
-      lamports: lamports,
+      address,
+      lamports,
       commitment: commitment,
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    await _subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
 
     return signature;
   }
@@ -119,13 +128,17 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionSignature>? transferSplToken({
+  Future<String>? transferSplToken({
     required String mint,
     required String destination,
     required int amount,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await SplToken.readonly(
+      mint: mint,
+      rpcClient: _rpcClient,
+      subscriptionClient: _subscriptionClient,
+    );
 
     return token.transfer(
       source: address,
@@ -143,14 +156,18 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionSignature>? transferSplTokenWithMemo({
+  Future<String>? transferSplTokenWithMemo({
     required String mint,
     required String destination,
     required int amount,
     required String memo,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await SplToken.readonly(
+      mint: mint,
+      rpcClient: _rpcClient,
+      subscriptionClient: _subscriptionClient,
+    );
     final source = await token.computeAssociatedAddress(owner: address);
 
     final message = Message(
@@ -172,7 +189,10 @@ class Wallet {
       message,
       [signer],
     );
-    await _rpcClient.waitForSignatureStatus(signature, commitment);
+    await _subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
 
     return signature;
   }
@@ -187,12 +207,16 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<AssociatedTokenAccount> createAssociatedTokenAccount({
+  Future<ProgramAccount> createAssociatedTokenAccount({
     required String mint,
     Commitment? commitment,
     Wallet? funder,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await SplToken.readonly(
+      mint: mint,
+      rpcClient: _rpcClient,
+      subscriptionClient: _subscriptionClient,
+    );
     final associatedTokenAccount = await token.createAssociatedAccount(
       owner: address,
       funder: funder?.signer ?? signer,
@@ -205,30 +229,39 @@ class Wallet {
   Future<bool> hasAssociatedTokenAccount({
     required String mint,
   }) async {
-    Iterable<AssociatedTokenAccount> accounts;
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    Iterable<ProgramAccount> accounts;
+    final token = await SplToken.readonly(
+      mint: mint,
+      rpcClient: _rpcClient,
+      subscriptionClient: _subscriptionClient,
+    );
     final associatedTokenAddress = await token.computeAssociatedAddress(
       owner: address,
     );
     try {
       accounts = await _rpcClient.getTokenAccountsByOwner(
-        owner: address,
-        mint: token.mint,
+        address,
+        TokenAccountsFilter(mint: token.mint),
+        encoding: Encoding.jsonParsed,
       );
     } on FormatException {
       accounts = [];
     }
-    return accounts.any((a) => a.address == associatedTokenAddress);
+    return accounts.any((a) => a.pubkey == associatedTokenAddress);
   }
 
   /// Get the account associated to the SPL token [mint] for this wallet.
   ///
   /// Note: this method always returns the address because it is computed
   /// when the [Wallet.loadToken()] method is called
-  Future<String> getAssociatedTokenAccountAddress({
+  Future<String> getProgramAccountAddress({
     required String mint,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await SplToken.readonly(
+      mint: mint,
+      rpcClient: _rpcClient,
+      subscriptionClient: _subscriptionClient,
+    );
     return token.computeAssociatedAddress(owner: address);
   }
 
@@ -243,7 +276,7 @@ class Wallet {
     Commitment? commitment,
   }) async =>
       _rpcClient.getTokenAccountBalance(
-        associatedTokenAccountAddress: await getAssociatedTokenAccountAddress(
+        await getProgramAccountAddress(
           mint: mint,
         ),
         commitment: commitment,
@@ -265,5 +298,7 @@ class Wallet {
   /// because it can be needed in some places.
   final Ed25519HDKeyPair signer;
 
-  final RPCClient _rpcClient;
+  final RpcClient _rpcClient;
+
+  final SubscriptionClient _subscriptionClient;
 }

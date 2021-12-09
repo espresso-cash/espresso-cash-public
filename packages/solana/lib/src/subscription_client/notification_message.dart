@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/src/dto/account.dart';
-import 'package:solana/src/dto/logs.dart';
-import 'package:solana/src/dto/slot.dart';
+import 'package:solana/src/rpc/dto/account.dart';
+import 'package:solana/src/rpc/dto/logs.dart';
+import 'package:solana/src/rpc/dto/slot.dart';
 import 'package:solana/src/subscription_client/abstract_message.dart';
 import 'package:solana/src/subscription_client/notification_params.dart';
 import 'package:solana/src/subscription_client/optional_error.dart';

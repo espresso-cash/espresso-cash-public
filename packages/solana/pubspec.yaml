@@ -22,5 +22,9 @@ dev_dependencies:
   build_runner: ^2.1.1
   freezed: ^0.14.5
   json_serializable: ^5.0.0
+  jsonrpc_client:
+    path: ../jsonrpc_client
+  jsonrpc_client_annotation:
+    path: ../jsonrpc_client_annotation
   mews_pedantic: ^0.2.1
   test: ^1.17.11
