@@ -17,6 +17,8 @@ part 'extension.dart';
 abstract class RpcClient {
   factory RpcClient(String url) => _RpcClient(url);
 
+  factory RpcClient.forClient(JsonRpcClient client) => _RpcClient.forClient(client);
+
   /// Returns all information associated with the account of provided Pubkey
   ///
   /// [pubKey] Pubkey of account to query, as base-58 encoded string

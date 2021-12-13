@@ -4,22 +4,31 @@ import 'package:http/http.dart' as http;
 import 'package:solana/src/exceptions/http_exception.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
 
+typedef MiddlewareFunction = Future<Map<String, dynamic>> Function(
+    Map<String, dynamic> params);
+
 class JsonRpcClient {
-  JsonRpcClient(this._url);
+  JsonRpcClient(this._url, {this.middlewares = const []});
 
   final String _url;
   int lastId = 1;
 
+  final List<MiddlewareFunction> middlewares;
+
   /// Calls the [method] jsonrpc-2.0 method with [params] parameters
   Future<Map<String, dynamic>> request(
-    String method, {
-    List<dynamic>? params,
-  }) async {
-    final request = <String, dynamic>{
+      String method, {
+        List<dynamic>? params,
+      }) async {
+    var request = <String, dynamic>{
       'jsonrpc': '2.0',
       'id': (lastId++).toString(),
       'method': method,
     };
+    for (final middleware in middlewares) {
+      request = await middleware(request);
+    }
+
     // If no parameters were specified, skip this field
     if (params != null) request['params'] = params;
     // Perform the POST request

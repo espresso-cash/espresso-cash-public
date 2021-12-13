@@ -9,6 +9,8 @@ part of 'client.dart';
 class _RpcClient implements RpcClient {
   _RpcClient(String url) : _client = JsonRpcClient(url);
 
+  _RpcClient.forClient(this._client);
+
   final JsonRpcClient _client;
 
   @override

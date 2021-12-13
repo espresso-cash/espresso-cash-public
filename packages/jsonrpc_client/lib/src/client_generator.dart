@@ -20,6 +20,8 @@ class ClientGenerator extends GeneratorForAnnotation<SolanaRpcClient> {
 class _${element.name} implements ${element.name} {
   _${element.name}(String url) : _client = JsonRpcClient(url);
   
+  _${element.name}.forClient(this._client);
+  
   final JsonRpcClient _client;
   
   ${methods.map(_generateMethod).join('\n')}
