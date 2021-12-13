@@ -91,7 +91,7 @@ class Ed25519HDKeyPair extends KeyPair {
   }) async {
     final compiledMessage = message.compile(
       recentBlockhash: recentBlockhash,
-      feePayer: this,
+      feePayer: address,
     );
     final signature = await sign(compiledMessage.data);
 

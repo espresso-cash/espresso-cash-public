@@ -23,5 +23,15 @@ export 'src/spl_token/spl_token.dart';
 export 'src/system_program/system_program.dart';
 export 'src/token_program/token_program.dart';
 export 'src/wallet.dart';
+export 'src/rpc/dto/encoding.dart';
+export 'src/rpc/dto/token_amount.dart';
+export 'src/rpc/dto/filter.dart';
+export 'src/rpc/dto/token_accounts_filter.dart';
+export 'src/rpc/dto/transaction_details.dart';
+export 'src/rpc/dto/account_data/spl_token_program/token_program_account_data.dart';
+export 'src/rpc/dto/account_data/spl_token_program/token_account_data_info.dart';
+export 'src/rpc/dto/account_data/parsed_account_data.dart';
+export 'src/rpc/dto/account_data/binary_account_data.dart';
+export 'src/base58/decode.dart';
 
 const int lamportsPerSol = 1000000000;
