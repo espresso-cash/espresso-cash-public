@@ -327,7 +327,7 @@ abstract class RpcClient {
     Commitment? commitment = Commitment.finalized,
     required Encoding encoding,
     DataSlice? dataSlice,
-    List<Filter>? filters,
+    List<ProgramDataFilter>? filters,
   });
 
   /// Returns a recent block hash from the ledger, and a fee schedule that can be

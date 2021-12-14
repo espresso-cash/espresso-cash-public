@@ -37,7 +37,7 @@ ${methods.map(_generateConfig).join('\n\n')}
     final name = method.name.capitalized;
 
     return '''
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(createFactory: false, includeIfNull: false, explicitToJson: true)
 class ${name}Config {
   ${name}Config({${fields.map((f) => f.asFormalInitializer()).join(', ')},});
 
