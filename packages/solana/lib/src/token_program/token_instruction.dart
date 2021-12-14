@@ -24,9 +24,9 @@ class TokenInstruction extends Instruction {
   /// The [freezeAuthority] is optional and can be used to specify a the
   /// freeze authority for this token.
   factory TokenInstruction.initializeMint({
+    required int decimals,
     required String mint,
     required String mintAuthority,
-    required int decimals,
     String? freezeAuthority,
   }) =>
       TokenInstruction._(
