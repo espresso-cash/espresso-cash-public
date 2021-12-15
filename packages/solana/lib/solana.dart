@@ -1,5 +1,6 @@
 export 'src/associated_token_account_program/associated_token_account_program.dart';
 export 'src/base58/encode.dart';
+export 'src/constants.dart';
 export 'src/crypto/ed25519_hd_keypair.dart';
 export 'src/encoder/encoder.dart'
     show Instruction, Message, Buffer, AccountMeta, SignedTx;
@@ -23,5 +24,3 @@ export 'src/spl_token/spl_token.dart';
 export 'src/system_program/system_program.dart';
 export 'src/token_program/token_program.dart';
 export 'src/wallet.dart';
-
-const int lamportsPerSol = 1000000000;
