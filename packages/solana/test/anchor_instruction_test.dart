@@ -59,7 +59,7 @@ void main() {
       SystemInstruction.createAccount(
         lamports: rent,
         owner: _basic1,
-        address: updater.address,
+        pubKey: updater.address,
         creator: payer.address,
         space: space,
       ),
