@@ -31,7 +31,7 @@ class SystemProgram extends Message {
       SystemProgram._(
         instructions: [
           SystemInstruction.createAccount(
-            address: pubKey,
+            pubKey: pubKey,
             creator: creator,
             lamports: lamports,
             space: space,
@@ -65,7 +65,191 @@ class SystemProgram extends Message {
         ],
       );
 
+  factory SystemProgram.createAccountWithSeed({
+    required String creator,
+    required String pubKey,
+    required String base,
+    required String seed,
+    required int lamports,
+    required int space,
+    required String owner,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.createAccountWithSeed(
+            creator: creator,
+            pubKey: pubKey,
+            base: base,
+            seed: seed,
+            lamports: lamports,
+            space: space,
+            owner: owner,
+          )
+        ],
+      );
+
+  factory SystemProgram.advanceNonceAccount({
+    required String noncePubKey,
+    required String authorizedPubKey,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.advanceNonceAccount(
+            noncePubKey: noncePubKey,
+            authorizedPubKey: authorizedPubKey,
+          )
+        ],
+      );
+
+  factory SystemProgram.withdrawNonceAccount({
+    required String noncePubKey,
+    required String authorizedPubKey,
+    required String toPubKey,
+    required int lamports,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.withdrawNonceAccount(
+            noncePubKey: noncePubKey,
+            authorizedPubKey: authorizedPubKey,
+            toPubKey: toPubKey,
+            lamports: lamports,
+          )
+        ],
+      );
+
+  factory SystemProgram.createNonceAccount({
+    required String creator,
+    required String noncePubKey,
+    required String authority,
+    required int lamports,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.createAccount(
+            creator: creator,
+            pubKey: noncePubKey,
+            lamports: lamports,
+            space: _nonceAccountSize,
+            owner: SystemProgram.programId,
+          ),
+          SystemInstruction.initializeNonceAccount(
+            noncePubKey: noncePubKey,
+            authority: authority,
+          )
+        ],
+      );
+
+  factory SystemProgram.createNonceAccountWithSeed({
+    required String creator,
+    required String noncePubKey,
+    required String base,
+    required String seed,
+    required String authority,
+    required int lamports,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.createAccountWithSeed(
+            creator: creator,
+            pubKey: noncePubKey,
+            lamports: lamports,
+            space: _nonceAccountSize,
+            seed: seed,
+            base: base,
+            owner: SystemProgram.programId,
+          ),
+          SystemInstruction.initializeNonceAccount(
+            noncePubKey: noncePubKey,
+            authority: authority,
+          )
+        ],
+      );
+
+  factory SystemProgram.authorizeNonceAccount({
+    required String noncePubKey,
+    required String authorizedPubKey,
+    required String newAuthority,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.authorizeNonceAccount(
+            noncePubKey: noncePubKey,
+            authorizedPubKey: authorizedPubKey,
+            newAuthority: newAuthority,
+          )
+        ],
+      );
+
+  factory SystemProgram.allocate({
+    required String pubKey,
+    required int space,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.allocate(pubKey: pubKey, space: space),
+        ],
+      );
+
+  factory SystemProgram.allocateWithSeed({
+    required String pubKey,
+    required int space,
+    required String base,
+    required String seed,
+    required String owner,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.allocateWithSeed(
+            pubKey: pubKey,
+            base: base,
+            seed: seed,
+            space: space,
+            owner: owner,
+          )
+        ],
+      );
+
+  factory SystemProgram.assignWithSeed({
+    required String pubKey,
+    required String base,
+    required String seed,
+    required String owner,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.assignWithSeed(
+            pubKey: pubKey,
+            base: base,
+            seed: seed,
+            owner: owner,
+          )
+        ],
+      );
+
+  factory SystemProgram.transferWithSeed({
+    required String source,
+    required String base,
+    required String seed,
+    required String destination,
+    required int lamports,
+    required String owner,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.transferWithSeed(
+            source: source,
+            base: base,
+            seed: seed,
+            owner: owner,
+            destination: destination,
+            lamports: lamports,
+          )
+        ],
+      );
+
   static const programId = '11111111111111111111111111111111';
+
   static const createAccountInstructionIndex = [0, 0, 0, 0];
   static const assignInstructionIndex = [1, 0, 0, 0];
   static const transferInstructionIndex = [2, 0, 0, 0];
@@ -78,4 +262,13 @@ class SystemProgram extends Message {
   static const allocateWithSeedInstructionIndex = [9, 0, 0, 0];
   static const assignWithSeedInstructionIndex = [10, 0, 0, 0];
   static const transferWithSeedInstructionIndex = [11, 0, 0, 0];
+
+  // Note: in the rust sdk this is computed dynamically.
+  //
+  // Currently the object has 3 fields
+  //
+  // - Authority (PubKey) 32 bytes
+  // - Blockhash 32 bytes
+  // - FeeCalculator (lamportsPerSol int64) (8 bytes)
+  static const _nonceAccountSize = 72;
 }
