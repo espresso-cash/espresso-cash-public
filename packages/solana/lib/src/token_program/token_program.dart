@@ -32,8 +32,8 @@ class TokenProgram extends Message {
       TokenProgram._(
         instructions: [
           SystemInstruction.createAccount(
-            pubKey: mint,
-            fromPubKey: mintAuthority,
+            address: mint,
+            creator: mintAuthority,
             lamports: rent,
             space: space,
             owner: TokenProgram.programId,
@@ -70,8 +70,8 @@ class TokenProgram extends Message {
       TokenProgram._(
         instructions: [
           SystemInstruction.createAccount(
-            pubKey: address,
-            fromPubKey: owner,
+            address: address,
+            creator: owner,
             lamports: rent,
             space: space,
             owner: TokenProgram.programId,
