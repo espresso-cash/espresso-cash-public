@@ -9,8 +9,47 @@ class SystemProgram extends Message {
     required List<Instruction> instructions,
   }) : super(instructions: instructions);
 
-  /// Construct a transfer message to send [lamports] SOL tokens from [source]
-  /// to [destination].
+  /// Create account.
+  ///
+  /// Create a program account for [owner] owned by [creator] and with
+  /// [pubKey] public key.
+  ///
+  /// For the [rent] you must call [RPCClient.getMinimumBalanceForRentExemption()]
+  /// and provide the [space] you want to allocate for the account.
+  ///
+  /// The account will be linked to the [owner] program.
+  ///
+  /// If [pubKey] is the [creator]'s address, and the owner has tokens this will
+  /// fail because the account would already exist.
+  factory SystemProgram.createAccount({
+    required String pubKey,
+    required String creator,
+    required int lamports,
+    required int space,
+    required String owner,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.createAccount(
+            address: pubKey,
+            creator: creator,
+            lamports: lamports,
+            space: space,
+            owner: owner,
+          ),
+        ],
+      );
+
+  /// Assign [pubKey] to [owner]
+  factory SystemProgram.assign({
+    required String pubKey,
+    required String owner,
+  }) =>
+      SystemProgram._(instructions: [
+        SystemInstruction.assign(pubKey: pubKey, owner: owner),
+      ]);
+
+  /// Transfer [lamports] SOL tokens from [source] to [destination].
   factory SystemProgram.transfer({
     required String source,
     required String destination,
@@ -26,36 +65,17 @@ class SystemProgram extends Message {
         ],
       );
 
-  /// Construct a create account message.
-  ///
-  /// The [address] is the public key of the new account
-  /// [owner] as its owner. The [owner] is the funder of the account.
-  ///
-  /// For the [rent] you must call [RPCClient.getMinimumBalanceForRentExemption()]
-  /// and proved the [space] you want to allocate for the account.
-  ///
-  /// The account will be linked to the [programId] program.
-  ///
-  /// If [address] is the [owner]'s address, and the owner has tokens this will
-  /// fail because the account would already exist.
-  factory SystemProgram.createAccount({
-    required String address,
-    required String owner,
-    required int rent,
-    required int space,
-    required String programId,
-  }) =>
-      SystemProgram._(instructions: [
-        SystemInstruction.createAccount(
-          address: address,
-          owner: owner,
-          rent: rent,
-          space: space,
-          programId: programId,
-        ),
-      ]);
-
   static const programId = '11111111111111111111111111111111';
   static const createAccountInstructionIndex = [0, 0, 0, 0];
+  static const assignInstructionIndex = [1, 0, 0, 0];
   static const transferInstructionIndex = [2, 0, 0, 0];
+  static const createAccountWithSeedInstructionIndex = [3, 0, 0, 0];
+  static const advanceNonceAccountInstructionIndex = [4, 0, 0, 0];
+  static const withdrawNonceAccountInstructionIndex = [5, 0, 0, 0];
+  static const initializeNonceAccountInstructionIndex = [6, 0, 0, 0];
+  static const authorizeNonceAccountInstructionIndex = [7, 0, 0, 0];
+  static const allocateInstructionIndex = [8, 0, 0, 0];
+  static const allocateWithSeedInstructionIndex = [9, 0, 0, 0];
+  static const assignWithSeedInstructionIndex = [10, 0, 0, 0];
+  static const transferWithSeedInstructionIndex = [11, 0, 0, 0];
 }
