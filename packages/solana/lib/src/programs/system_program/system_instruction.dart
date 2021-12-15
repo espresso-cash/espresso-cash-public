@@ -23,7 +23,7 @@ class SystemInstruction extends Instruction {
 
   /// Create account.
   ///
-  /// The [pubKey] is the public key of the new account
+  /// The [address] is the public key of the new account
   /// [owner] as its owner. The [owner] is the funder of the account.
   ///
   /// For the [lamports] you must call [RPCClient.getMinimumBalanceForRentExemption()]
@@ -31,19 +31,19 @@ class SystemInstruction extends Instruction {
   ///
   /// The account will be linked to the [programId] program.
   ///
-  /// If [pubKey] is the [owner]'s address, and the owner has tokens this will
+  /// If [address] is the [owner]'s address, and the owner has tokens this will
   /// fail because the account would already exist.
   factory SystemInstruction.createAccount({
-    required String fromPubKey,
-    required String pubKey,
+    required String creator,
+    required String address,
     required int lamports,
     required int space,
     required String owner,
   }) =>
       SystemInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: fromPubKey, isSigner: true),
-          AccountMeta.writeable(pubKey: pubKey, isSigner: true),
+          AccountMeta.writeable(pubKey: creator, isSigner: true),
+          AccountMeta.writeable(pubKey: address, isSigner: true),
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.createAccountInstructionIndex,
@@ -91,9 +91,9 @@ class SystemInstruction extends Instruction {
 
   /// Create a new account at an address derived from a [base] pubkey and [seed]
   factory SystemInstruction.createAccountWithSeed({
-    required String fromPubKey,
-    required String pubKey,
-    required String? base,
+    required String creator,
+    required String address,
+    required String base,
     required String seed,
     required int lamports,
     required int space,
@@ -101,15 +101,13 @@ class SystemInstruction extends Instruction {
   }) =>
       SystemInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: fromPubKey, isSigner: true),
-          AccountMeta.writeable(pubKey: pubKey, isSigner: false),
-          if (base != null) AccountMeta.readonly(pubKey: base, isSigner: true),
+          AccountMeta.writeable(pubKey: creator, isSigner: true),
+          AccountMeta.writeable(pubKey: address, isSigner: true),
+          AccountMeta.readonly(pubKey: base, isSigner: false),
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.createAccountWithSeedInstructionIndex,
-          base != null
-              ? Buffer.fromBase58(base)
-              : Buffer.fromBase58(fromPubKey),
+          Buffer.fromBase58(base),
           Buffer.fromString(seed),
           Buffer.fromUint64(lamports),
           Buffer.fromUint64(space),
@@ -204,7 +202,7 @@ class SystemInstruction extends Instruction {
       );
 
   factory SystemInstruction.allocateWithSeed({
-    required String pubKey,
+    required String address,
     required String base,
     required String seed,
     required int space,
@@ -212,7 +210,7 @@ class SystemInstruction extends Instruction {
   }) =>
       SystemInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: pubKey, isSigner: false),
+          AccountMeta.writeable(pubKey: address, isSigner: false),
           AccountMeta.writeable(pubKey: base, isSigner: true),
         ],
         data: Buffer.fromConcatenatedByteArrays([
@@ -225,19 +223,18 @@ class SystemInstruction extends Instruction {
       );
 
   factory SystemInstruction.assignWithSeed({
-    required String pubKey,
+    required String address,
     required String base,
     required String seed,
     required String owner,
   }) =>
       SystemInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: pubKey, isSigner: false),
+          AccountMeta.writeable(pubKey: address, isSigner: false),
           AccountMeta.readonly(pubKey: base, isSigner: true),
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.assignWithSeedInstructionIndex,
-          Buffer.fromBase58(base),
           Buffer.fromString(seed),
           Buffer.fromBase58(owner),
         ]),
