@@ -1,6 +1,7 @@
 library utilities;
 
 import 'package:cryptography/cryptography.dart' hide Signature;
+import 'package:solana/src/base58/decode.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';
 import 'package:solana/src/encoder/encoder.dart';
@@ -113,6 +114,21 @@ Iterable<int> _flatten(Iterable<int> concatenated, Iterable<int> current) =>
 Future<List<int>> _computeHash(List<int> source) async {
   final hash = await _sha256.hash(source);
   return hash.bytes;
+}
+
+Future<String> newPubKeyWithSeed({
+  required String base,
+  required String seed,
+  required String programId,
+}) async {
+  final buffer = Buffer.fromConcatenatedByteArrays([
+    base58decode(base),
+    seed.codeUnits,
+    base58decode(programId),
+  ]).toList(growable: false);
+  final hash = (await _computeHash(buffer));
+
+  return base58encode(hash);
 }
 
 Future<String> _createProgramAddress({

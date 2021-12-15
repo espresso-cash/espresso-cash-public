@@ -130,7 +130,7 @@ class SystemProgram extends Message {
             creator: creator,
             pubKey: noncePubKey,
             lamports: lamports,
-            space: _nonceAccountSize,
+            space: nonceAccountSize,
             owner: SystemProgram.programId,
           ),
           SystemInstruction.initializeNonceAccount(
@@ -154,7 +154,7 @@ class SystemProgram extends Message {
             creator: creator,
             pubKey: noncePubKey,
             lamports: lamports,
-            space: _nonceAccountSize,
+            space: nonceAccountSize,
             seed: seed,
             base: base,
             owner: SystemProgram.programId,
@@ -268,7 +268,7 @@ class SystemProgram extends Message {
   // Currently the object has 3 fields
   //
   // - Authority (PubKey) 32 bytes
-  // - Blockhash 32 bytes
+  // - Blockhash 40 bytes
   // - FeeCalculator (lamportsPerSol int64) (8 bytes)
-  static const _nonceAccountSize = 72;
+  static const nonceAccountSize = 80;
 }
