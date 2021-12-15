@@ -131,6 +131,21 @@ Future<List<int>> _computeHash(List<int> source) async {
   return hash.bytes;
 }
 
+Future<String> newPubKeyWithSeed({
+  required String base,
+  required String seed,
+  required String programId,
+}) async {
+  final buffer = Buffer.fromConcatenatedByteArrays([
+    base58decode(base),
+    seed.codeUnits,
+    base58decode(programId),
+  ]).toList(growable: false);
+  final hash = (await _computeHash(buffer));
+
+  return base58encode(hash);
+}
+
 Future<String> _createProgramAddress({
   required Iterable<int> seeds,
   required Iterable<int> programId,
