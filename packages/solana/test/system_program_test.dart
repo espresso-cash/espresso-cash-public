@@ -12,29 +12,29 @@ import 'config.dart';
 void main() {
   late final RpcClient rpcClient;
   late final SubscriptionClient subscriptionClient;
-  late final Ed25519HDKeyPair creatorKey;
+  late final Ed25519HDKeyPair fromKey;
 
   setUpAll(() async {
     rpcClient = RpcClient(devnetRpcUrl);
     subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
-    creatorKey = await Ed25519HDKeyPair.random();
-    await airdrop(rpcClient, subscriptionClient, creatorKey, sol: 10);
+    fromKey = await Ed25519HDKeyPair.random();
+
+    await airdrop(rpcClient, subscriptionClient, fromKey, sol: 10);
   });
 
   test('Create account succeeds', () async {
     final accountKey = await Ed25519HDKeyPair.random();
-    final lamports = await rpcClient.getMinimumBalanceForRentExemption(16);
     final program = SystemProgram.createAccount(
       pubKey: accountKey.address,
-      creator: creatorKey.address,
-      lamports: lamports,
+      fromPubKey: fromKey.address,
+      lamports: 0,
       owner: SystemProgram.programId,
-      space: 16,
+      space: 0,
     );
 
     final future = rpcClient.signAndSendTransaction(
       program,
-      [creatorKey, accountKey],
+      [fromKey, accountKey],
     );
 
     expect(future, completes);
@@ -42,27 +42,27 @@ void main() {
 
   test('Create account with seed succeeds', () async {
     final accountKey = await Ed25519HDKeyPair.random();
-    final lamports = await rpcClient.getMinimumBalanceForRentExemption(16);
     final programId = SystemProgram.programId;
     final base = accountKey.address;
     final seed = '1234';
-    final program = SystemProgram.createAccountWithSeed(
-      creator: creatorKey.address,
-      pubKey: await newPubKeyWithSeed(
-        base: base,
-        seed: seed,
-        programId: programId,
-      ),
-      seed: seed,
+    final pubKey = await newPubKeyWithSeed(
       base: base,
-      lamports: lamports,
+      seed: seed,
+      programId: programId,
+    );
+    final program = SystemProgram.createAccountWithSeed(
+      fromPubKey: fromKey.address,
+      pubKey: pubKey,
+      base: base,
+      seed: seed,
+      lamports: 0,
+      space: 0,
       owner: programId,
-      space: 16,
     );
 
     final future = rpcClient.signAndSendTransaction(
       program,
-      [creatorKey, accountKey],
+      [fromKey, accountKey],
     );
 
     expect(future, completes);
@@ -75,7 +75,7 @@ void main() {
       SystemProgram.nonceAccountSize,
     );
     final program = SystemProgram.createNonceAccount(
-      creator: creatorKey.address,
+      fromPubKey: fromKey.address,
       noncePubKey: nonceKey.address,
       authority: authorized.address,
       lamports: lamports,
@@ -86,7 +86,7 @@ void main() {
     expect(instruction.programId, equals(SystemProgram.programId));
     final accounts = instruction.accounts;
     expect(
-      accounts.firstWhere((a) => a.pubKey == creatorKey.address),
+      accounts.firstWhere((a) => a.pubKey == fromKey.address),
       isNotNull,
     );
     expect(
@@ -95,7 +95,7 @@ void main() {
     );
     final future = rpcClient.signAndSendTransaction(
       program,
-      [creatorKey, nonceKey],
+      [fromKey, nonceKey],
     );
 
     expect(future, completes);
@@ -108,14 +108,14 @@ void main() {
       SystemProgram.nonceAccountSize,
     );
     final program = SystemProgram.createNonceAccount(
-      creator: creatorKey.address,
+      fromPubKey: fromKey.address,
       noncePubKey: nonceKey.address,
       authority: authorized.address,
       lamports: lamports - 1,
     );
     final future = rpcClient.signAndSendTransaction(
       program,
-      [creatorKey, nonceKey],
+      [fromKey, nonceKey],
     );
 
     expect(future, throwsA(isA<JsonRpcException>()));

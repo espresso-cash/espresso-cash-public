@@ -11,7 +11,7 @@ class SystemProgram extends Message {
 
   /// Create account.
   ///
-  /// Create a program account for [owner] owned by [creator] and with
+  /// Create a program account for [owner] owned by [fromPubKey] and with
   /// [pubKey] public key.
   ///
   /// For the [rent] you must call [RPCClient.getMinimumBalanceForRentExemption()]
@@ -19,11 +19,11 @@ class SystemProgram extends Message {
   ///
   /// The account will be linked to the [owner] program.
   ///
-  /// If [pubKey] is the [creator]'s address, and the owner has tokens this will
+  /// If [pubKey] is the [fromPubKey]'s address, and the owner has tokens this will
   /// fail because the account would already exist.
   factory SystemProgram.createAccount({
     required String pubKey,
-    required String creator,
+    required String fromPubKey,
     required int lamports,
     required int space,
     required String owner,
@@ -32,7 +32,7 @@ class SystemProgram extends Message {
         instructions: [
           SystemInstruction.createAccount(
             pubKey: pubKey,
-            creator: creator,
+            fromPubKey: fromPubKey,
             lamports: lamports,
             space: space,
             owner: owner,
@@ -66,9 +66,9 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.createAccountWithSeed({
-    required String creator,
+    required String fromPubKey,
     required String pubKey,
-    required String base,
+    required String? base,
     required String seed,
     required int lamports,
     required int space,
@@ -77,7 +77,7 @@ class SystemProgram extends Message {
       SystemProgram._(
         instructions: [
           SystemInstruction.createAccountWithSeed(
-            creator: creator,
+            fromPubKey: fromPubKey,
             pubKey: pubKey,
             base: base,
             seed: seed,
@@ -119,7 +119,7 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.createNonceAccount({
-    required String creator,
+    required String fromPubKey,
     required String noncePubKey,
     required String authority,
     required int lamports,
@@ -127,7 +127,7 @@ class SystemProgram extends Message {
       SystemProgram._(
         instructions: [
           SystemInstruction.createAccount(
-            creator: creator,
+            fromPubKey: fromPubKey,
             pubKey: noncePubKey,
             lamports: lamports,
             space: nonceAccountSize,
@@ -141,7 +141,7 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.createNonceAccountWithSeed({
-    required String creator,
+    required String fromPubKey,
     required String noncePubKey,
     required String base,
     required String seed,
@@ -151,7 +151,7 @@ class SystemProgram extends Message {
       SystemProgram._(
         instructions: [
           SystemInstruction.createAccountWithSeed(
-            creator: creator,
+            fromPubKey: fromPubKey,
             pubKey: noncePubKey,
             lamports: lamports,
             space: nonceAccountSize,

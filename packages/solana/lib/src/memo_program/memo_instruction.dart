@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/instruction.dart';
@@ -27,7 +29,7 @@ class MemoInstruction extends Instruction {
 
     return MemoInstruction._(
       accounts: accounts,
-      data: Buffer.fromString(memo),
+      data: Buffer.fromIterable(utf8.encode(memo)),
     );
   }
 
