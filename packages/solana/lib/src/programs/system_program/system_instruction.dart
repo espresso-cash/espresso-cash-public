@@ -34,7 +34,7 @@ class SystemInstruction extends Instruction {
   /// If [pubKey] is the [owner]'s address, and the owner has tokens this will
   /// fail because the account would already exist.
   factory SystemInstruction.createAccount({
-    required String creator,
+    required String fromPubKey,
     required String pubKey,
     required int lamports,
     required int space,
@@ -42,7 +42,7 @@ class SystemInstruction extends Instruction {
   }) =>
       SystemInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: creator, isSigner: true),
+          AccountMeta.writeable(pubKey: fromPubKey, isSigner: true),
           AccountMeta.writeable(pubKey: pubKey, isSigner: true),
         ],
         data: Buffer.fromConcatenatedByteArrays([
@@ -91,9 +91,9 @@ class SystemInstruction extends Instruction {
 
   /// Create a new account at an address derived from a [base] pubkey and [seed]
   factory SystemInstruction.createAccountWithSeed({
-    required String creator,
+    required String fromPubKey,
     required String pubKey,
-    required String base,
+    required String? base,
     required String seed,
     required int lamports,
     required int space,
@@ -101,13 +101,15 @@ class SystemInstruction extends Instruction {
   }) =>
       SystemInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: creator, isSigner: true),
-          AccountMeta.writeable(pubKey: pubKey, isSigner: true),
-          AccountMeta.readonly(pubKey: base, isSigner: false),
+          AccountMeta.writeable(pubKey: fromPubKey, isSigner: true),
+          AccountMeta.writeable(pubKey: pubKey, isSigner: false),
+          if (base != null) AccountMeta.readonly(pubKey: base, isSigner: true),
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.createAccountWithSeedInstructionIndex,
-          Buffer.fromBase58(base),
+          base != null
+              ? Buffer.fromBase58(base)
+              : Buffer.fromBase58(fromPubKey),
           Buffer.fromString(seed),
           Buffer.fromUint64(lamports),
           Buffer.fromUint64(space),
