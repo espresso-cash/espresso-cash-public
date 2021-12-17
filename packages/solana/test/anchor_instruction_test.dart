@@ -60,7 +60,7 @@ void main() {
         lamports: rent,
         owner: _basic1,
         pubKey: updater.address,
-        creator: payer.address,
+        fromPubKey: payer.address,
         space: space,
       ),
       await AnchorInstruction.forMethod(

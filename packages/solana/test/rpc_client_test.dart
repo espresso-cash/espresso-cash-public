@@ -746,7 +746,7 @@ Future<String> _createAccount(
   await airdrop(rpcClient, subscriptionClient, source, sol: 10);
 
   final program = SystemProgram.createAccount(
-    creator: source.address,
+    fromPubKey: source.address,
     owner: SystemProgram.programId,
     pubKey: accountKeyPair.address,
     lamports: await rpcClient.getMinimumBalanceForRentExemption(
