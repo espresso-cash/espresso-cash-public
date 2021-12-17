@@ -53,7 +53,7 @@ void main() {
     'Can derive a public key from another public key and a seed',
     () async {
       _withSeedKeyDerivationData.forEach((key, value) async {
-        final derived = await newPubKeyWithSeed(
+        final derived = await computePubKeyWithSeed(
           base: key,
           seed: value['seed'] as String,
           programId: SystemProgram.programId,

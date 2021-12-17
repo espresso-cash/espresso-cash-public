@@ -116,7 +116,7 @@ Future<List<int>> _computeHash(List<int> source) async {
   return hash.bytes;
 }
 
-Future<String> newPubKeyWithSeed({
+Future<String> computePubKeyWithSeed({
   required String base,
   required String seed,
   required String programId,

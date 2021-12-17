@@ -237,6 +237,7 @@ class SystemInstruction extends Instruction {
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.assignWithSeedInstructionIndex,
+          Buffer.fromBase58(base),
           Buffer.fromString(seed),
           Buffer.fromBase58(owner),
         ]),
