@@ -46,17 +46,16 @@ void main() {
   test('Create account with seed', () async {
     final accountKey = await Ed25519HDKeyPair.random();
     final programId = SystemProgram.programId;
-    final base = accountKey.address;
     final seed = '1234';
     final derivedAddress = await computePubKeyWithSeed(
-      base: base,
+      base: accountKey.address,
       seed: seed,
       programId: programId,
     );
     final program = SystemProgram.createAccountWithSeed(
       fromPubKey: fromKey.address,
       pubKey: derivedAddress,
-      base: base,
+      base: accountKey.address,
       seed: seed,
       lamports: 0,
       space: 0,
