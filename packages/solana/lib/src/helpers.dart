@@ -55,16 +55,6 @@ Future<String> findProgramAddress({
   throw const FormatException('cannot find program address with these seeds');
 }
 
-/// Create a program address for [programId] and [seeds]
-Future<String> createProgramAddress({
-  required Iterable<Iterable<int>> seeds,
-  required String programId,
-}) async {
-  final programIdBytes = Buffer.fromBase58(programId);
-  final flatSeeds = seeds.fold(<int>[], _flatten);
-  return _createProgramAddress(seeds: flatSeeds, programId: programIdBytes);
-}
-
 // Returns whether the point [data] is on the ed25519 curve.
 bool isPointOnEd25519Curve(Iterable<int> data) {
   if (data.length != 32) {
