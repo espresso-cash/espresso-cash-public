@@ -4,7 +4,6 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart'
     show Ed25519, KeyPair, KeyPairType, SimpleKeyPairData, SimplePublicKey;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
-import 'package:solana/solana.dart';
 import 'package:solana/src/base58/encode.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/encoder/signature.dart';

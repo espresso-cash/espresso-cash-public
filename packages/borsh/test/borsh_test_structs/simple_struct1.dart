@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:borsh_annotation/borsh_annotation.dart';
-import 'package:borsh_annotation/src/struct.dart';
 
 part 'simple_struct1.g.dart';
 
