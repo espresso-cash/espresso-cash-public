@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:solana/src/exceptions/bad_state_exception.dart';
 import 'package:solana/src/rpc/dto/account.dart';
@@ -18,6 +17,7 @@ import 'package:solana/src/subscription_client/optional_error.dart';
 import 'package:solana/src/subscription_client/subscribed_message.dart';
 import 'package:solana/src/subscription_client/subscription_client_exception.dart';
 import 'package:solana/src/subscription_client/subscription_manager.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 part 'extension.dart';
 
@@ -26,10 +26,10 @@ class SubscriptionClient {
   SubscriptionClient._(this._webSocket)
       : _unattachedSubscriptionManagers = <int, SubscriptionManager>{},
         _attachedSubscriptionManagers = <int, SubscriptionManager>{} {
-    _subscription = _webSocket.listen(_dispatchMessage);
+    _subscription = _webSocket.stream.listen(_dispatchMessage);
   }
 
-  final WebSocket _webSocket;
+  final WebSocketChannel _webSocket;
   final Map<int, SubscriptionManager> _unattachedSubscriptionManagers;
   final Map<int, SubscriptionManager> _attachedSubscriptionManagers;
 
@@ -38,6 +38,7 @@ class SubscriptionClient {
   int _lastRequestId = 1;
 
   void _dispatchMessage(dynamic data) {
+    print('_dispatchMessage : data=$data');
     if (data is String) {
       final parsed = json.decode(data) as Map<String, dynamic>;
       final message = SubscriptionMessage.fromJson(parsed);
@@ -97,8 +98,7 @@ class SubscriptionClient {
       'method': method,
       if (params != null) 'params': params,
     });
-
-    _webSocket.add(payload);
+    _webSocket.sink.add(payload);
   }
 
   void _createSubscription(int id, String method, List<dynamic>? params) {
@@ -146,8 +146,9 @@ class SubscriptionClient {
   }
 
   /// Connect to the websocket at [url] node.
-  static Future<SubscriptionClient> connect(String url) async =>
-      SubscriptionClient._(await WebSocket.connect(url));
+  static Future<SubscriptionClient> connect(String url) async {
+    return SubscriptionClient._(WebSocketChannel.connect(Uri.parse(url)));
+  }
 
   /// Dispose this object and cancel any existing subscription.
   void dispose() {
