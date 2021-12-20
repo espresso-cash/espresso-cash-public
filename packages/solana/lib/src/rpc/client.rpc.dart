@@ -478,7 +478,7 @@ class _RpcClient implements RpcClient {
       {Commitment? commitment = Commitment.finalized,
       required Encoding encoding,
       DataSlice? dataSlice,
-      List<Filter>? filters}) async {
+      List<ProgramDataFilter>? filters}) async {
     final config = GetProgramAccountsConfig(
             commitment: commitment,
             encoding: encoding,
@@ -1027,7 +1027,8 @@ class _RpcClient implements RpcClient {
   }
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetAccountInfoConfig {
   GetAccountInfoConfig({
     this.commitment = Commitment.finalized,
@@ -1042,7 +1043,8 @@ class GetAccountInfoConfig {
   Map<String, dynamic> toJson() => _$GetAccountInfoConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetBalanceConfig {
   GetBalanceConfig({
     this.commitment,
@@ -1053,7 +1055,8 @@ class GetBalanceConfig {
   Map<String, dynamic> toJson() => _$GetBalanceConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetBlockConfig {
   GetBlockConfig({
     this.encoding,
@@ -1070,7 +1073,8 @@ class GetBlockConfig {
   Map<String, dynamic> toJson() => _$GetBlockConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetBlockHeightConfig {
   GetBlockHeightConfig({
     this.commitment,
@@ -1081,7 +1085,8 @@ class GetBlockHeightConfig {
   Map<String, dynamic> toJson() => _$GetBlockHeightConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetBlockProductionConfig {
   GetBlockProductionConfig({
     this.commitment = Commitment.finalized,
@@ -1096,7 +1101,8 @@ class GetBlockProductionConfig {
   Map<String, dynamic> toJson() => _$GetBlockProductionConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetBlocksConfig {
   GetBlocksConfig({
     this.commitment,
@@ -1107,7 +1113,8 @@ class GetBlocksConfig {
   Map<String, dynamic> toJson() => _$GetBlocksConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetBlocksWithLimitConfig {
   GetBlocksWithLimitConfig({
     this.commitment,
@@ -1118,7 +1125,8 @@ class GetBlocksWithLimitConfig {
   Map<String, dynamic> toJson() => _$GetBlocksWithLimitConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetEpochInfoConfig {
   GetEpochInfoConfig({
     this.commitment,
@@ -1129,7 +1137,8 @@ class GetEpochInfoConfig {
   Map<String, dynamic> toJson() => _$GetEpochInfoConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetFeeCalculatorForBlockhashConfig {
   GetFeeCalculatorForBlockhashConfig({
     this.commitment,
@@ -1141,7 +1150,8 @@ class GetFeeCalculatorForBlockhashConfig {
       _$GetFeeCalculatorForBlockhashConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetFeesConfig {
   GetFeesConfig({
     this.commitment,
@@ -1152,7 +1162,8 @@ class GetFeesConfig {
   Map<String, dynamic> toJson() => _$GetFeesConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetInflationGovernorConfig {
   GetInflationGovernorConfig({
     this.commitment,
@@ -1163,7 +1174,8 @@ class GetInflationGovernorConfig {
   Map<String, dynamic> toJson() => _$GetInflationGovernorConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetLargestAccountsConfig {
   GetLargestAccountsConfig({
     this.commitment = Commitment.finalized,
@@ -1176,7 +1188,8 @@ class GetLargestAccountsConfig {
   Map<String, dynamic> toJson() => _$GetLargestAccountsConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetLeaderScheduleConfig {
   GetLeaderScheduleConfig({
     this.commitment = Commitment.finalized,
@@ -1189,7 +1202,8 @@ class GetLeaderScheduleConfig {
   Map<String, dynamic> toJson() => _$GetLeaderScheduleConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetMinimumBalanceForRentExemptionConfig {
   GetMinimumBalanceForRentExemptionConfig({
     this.commitment,
@@ -1201,7 +1215,8 @@ class GetMinimumBalanceForRentExemptionConfig {
       _$GetMinimumBalanceForRentExemptionConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetMultipleAccountsConfig {
   GetMultipleAccountsConfig({
     this.commitment = Commitment.finalized,
@@ -1216,7 +1231,8 @@ class GetMultipleAccountsConfig {
   Map<String, dynamic> toJson() => _$GetMultipleAccountsConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetProgramAccountsConfig {
   GetProgramAccountsConfig({
     this.commitment = Commitment.finalized,
@@ -1228,12 +1244,13 @@ class GetProgramAccountsConfig {
   final Commitment? commitment;
   final Encoding encoding;
   final DataSlice? dataSlice;
-  final List<Filter>? filters;
+  final List<ProgramDataFilter>? filters;
 
   Map<String, dynamic> toJson() => _$GetProgramAccountsConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetRecentBlockhashConfig {
   GetRecentBlockhashConfig({
     this.commitment,
@@ -1244,7 +1261,8 @@ class GetRecentBlockhashConfig {
   Map<String, dynamic> toJson() => _$GetRecentBlockhashConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetSignaturesForAddressConfig {
   GetSignaturesForAddressConfig({
     this.limit,
@@ -1261,7 +1279,8 @@ class GetSignaturesForAddressConfig {
   Map<String, dynamic> toJson() => _$GetSignaturesForAddressConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetSignatureStatusesConfig {
   GetSignatureStatusesConfig({
     this.searchTransactionHistory,
@@ -1272,7 +1291,8 @@ class GetSignatureStatusesConfig {
   Map<String, dynamic> toJson() => _$GetSignatureStatusesConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetSlotConfig {
   GetSlotConfig({
     this.commitment,
@@ -1283,7 +1303,8 @@ class GetSlotConfig {
   Map<String, dynamic> toJson() => _$GetSlotConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetSlotLeaderConfig {
   GetSlotLeaderConfig({
     this.commitment,
@@ -1294,7 +1315,8 @@ class GetSlotLeaderConfig {
   Map<String, dynamic> toJson() => _$GetSlotLeaderConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetStakeActivationConfig {
   GetStakeActivationConfig({
     this.commitment = Commitment.finalized,
@@ -1307,7 +1329,8 @@ class GetStakeActivationConfig {
   Map<String, dynamic> toJson() => _$GetStakeActivationConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetSupplyConfig {
   GetSupplyConfig({
     this.commitment = Commitment.finalized,
@@ -1320,7 +1343,8 @@ class GetSupplyConfig {
   Map<String, dynamic> toJson() => _$GetSupplyConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetTokenAccountBalanceConfig {
   GetTokenAccountBalanceConfig({
     this.commitment,
@@ -1331,7 +1355,8 @@ class GetTokenAccountBalanceConfig {
   Map<String, dynamic> toJson() => _$GetTokenAccountBalanceConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetTokenAccountsByDelegateConfig {
   GetTokenAccountsByDelegateConfig({
     this.commitment = Commitment.finalized,
@@ -1347,7 +1372,8 @@ class GetTokenAccountsByDelegateConfig {
       _$GetTokenAccountsByDelegateConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetTokenAccountsByOwnerConfig {
   GetTokenAccountsByOwnerConfig({
     this.commitment = Commitment.finalized,
@@ -1362,7 +1388,8 @@ class GetTokenAccountsByOwnerConfig {
   Map<String, dynamic> toJson() => _$GetTokenAccountsByOwnerConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetTokenLargestAccountsConfig {
   GetTokenLargestAccountsConfig({
     this.commitment,
@@ -1373,7 +1400,8 @@ class GetTokenLargestAccountsConfig {
   Map<String, dynamic> toJson() => _$GetTokenLargestAccountsConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetTokenSupplyConfig {
   GetTokenSupplyConfig({
     this.commitment,
@@ -1384,7 +1412,8 @@ class GetTokenSupplyConfig {
   Map<String, dynamic> toJson() => _$GetTokenSupplyConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetTransactionConfig {
   GetTransactionConfig({
     this.encoding,
@@ -1397,7 +1426,8 @@ class GetTransactionConfig {
   Map<String, dynamic> toJson() => _$GetTransactionConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetTransactionCountConfig {
   GetTransactionCountConfig({
     this.commitment,
@@ -1408,7 +1438,8 @@ class GetTransactionCountConfig {
   Map<String, dynamic> toJson() => _$GetTransactionCountConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetVoteAccountsConfig {
   GetVoteAccountsConfig({
     this.commitment = Commitment.finalized,
@@ -1425,7 +1456,8 @@ class GetVoteAccountsConfig {
   Map<String, dynamic> toJson() => _$GetVoteAccountsConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class RequestAirdropConfig {
   RequestAirdropConfig({
     this.commitment,
@@ -1436,7 +1468,8 @@ class RequestAirdropConfig {
   Map<String, dynamic> toJson() => _$RequestAirdropConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class SendTransactionConfig {
   SendTransactionConfig({
     this.encoding = Encoding.base64,
@@ -1453,7 +1486,8 @@ class SendTransactionConfig {
   Map<String, dynamic> toJson() => _$SendTransactionConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class SimulateTransactionConfig {
   SimulateTransactionConfig({
     this.sigVerify,
@@ -1472,7 +1506,8 @@ class SimulateTransactionConfig {
   Map<String, dynamic> toJson() => _$SimulateTransactionConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetConfirmedBlockConfig {
   GetConfirmedBlockConfig({
     this.encoding,
@@ -1489,7 +1524,8 @@ class GetConfirmedBlockConfig {
   Map<String, dynamic> toJson() => _$GetConfirmedBlockConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetConfirmedSignaturesForAddress2Config {
   GetConfirmedSignaturesForAddress2Config({
     this.limit,
@@ -1507,7 +1543,8 @@ class GetConfirmedSignaturesForAddress2Config {
       _$GetConfirmedSignaturesForAddress2ConfigToJson(this);
 }
 
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetConfirmedTransactionConfig {
   GetConfirmedTransactionConfig({
     this.encoding = Encoding.base64,
