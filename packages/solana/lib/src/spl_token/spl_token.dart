@@ -77,7 +77,7 @@ class SplToken {
   ) async {
     final accounts = await _rpcClient.getTokenAccountsByOwner(
       owner,
-      TokenAccountsFilter(mint: mint),
+      TokenAccountsFilter.byMint(mint),
       encoding: Encoding.jsonParsed,
     );
     if (accounts.isEmpty) {
