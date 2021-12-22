@@ -3,6 +3,7 @@ import 'package:solana/src/rpc/dto/account_key.dart';
 import 'package:solana/src/rpc/dto/instruction.dart';
 import 'package:solana/src/rpc/dto/message.dart';
 import 'package:solana/src/rpc/dto/parsed_message/header.dart';
+import 'package:solana/src/rpc/dto/parsed_message/parsed_instruction.dart';
 
 export 'header.dart';
 export 'parsed_instruction.dart';

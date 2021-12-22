@@ -19,6 +19,7 @@ export 'src/rpc/dto/account_data/stake_program/stake_program.dart';
 export 'src/rpc/dto/blockhash.dart';
 export 'src/rpc/dto/commitment.dart' show Commitment;
 export 'src/rpc/dto/confirmation_status.dart' show ConfirmationStatus;
+export 'src/rpc/dto/encoding.dart';
 export 'src/rpc/dto/fee_calculator.dart';
 export 'src/rpc/dto/meta.dart' show Meta;
 export 'src/rpc/dto/parsed_message/parsed_message.dart';
