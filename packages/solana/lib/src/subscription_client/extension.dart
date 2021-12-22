@@ -1,6 +1,6 @@
 part of 'subscription_client.dart';
 
-extension SubscriptionClientConvenienceMethods on SubscriptionClient {
+extension SubscriptionClientExt on SubscriptionClient {
   Future<void> waitForSignatureStatus(
     String signature, {
     required ConfirmationStatus status,

@@ -1,6 +1,6 @@
 part of 'client.dart';
 
-extension RpcClientConvenienceMethods on RpcClient {
+extension RpcClientExt on RpcClient {
   Future<String> signAndSendTransaction(
     Message message,
     List<Ed25519HDKeyPair> signers,
