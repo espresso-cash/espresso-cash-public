@@ -1,6 +1,7 @@
 library utilities;
 
 import 'package:cryptography/cryptography.dart' hide Signature;
+import 'package:solana/src/base58/decode.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';
 import 'package:solana/src/encoder/encoder.dart';
@@ -21,6 +22,21 @@ bool isValidAddress(String address) {
     );
   }
   return isPointOnEd25519Curve(data);
+}
+
+Future<String> computePubKeyWithSeed({
+  required String base,
+  required String seed,
+  required String programId,
+}) async {
+  final buffer = Buffer.fromConcatenatedByteArrays([
+    base58decode(base),
+    seed.codeUnits,
+    base58decode(programId),
+  ]).toList(growable: false);
+  final hash = (await _computeHash(buffer));
+
+  return base58encode(hash);
 }
 
 /// Find a program address for [programId] and [seeds]

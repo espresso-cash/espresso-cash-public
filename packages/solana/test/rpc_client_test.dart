@@ -5,7 +5,6 @@ import 'package:solana/src/encoder/signed_tx.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
 import 'package:solana/src/helpers.dart';
 import 'package:solana/src/rpc/client.dart';
-import 'package:solana/src/rpc/dto/account_data/parsed_account_data.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
@@ -244,9 +243,7 @@ void main() {
 
       final accounts = await rpcClient.getTokenAccountsByOwner(
         accountKeyPair.address,
-        const TokenAccountsFilter(
-          programId: TokenProgram.programId,
-        ),
+        const TokenAccountsFilter.byProgramId(TokenProgram.programId),
         encoding: Encoding.jsonParsed,
       );
 

@@ -69,7 +69,7 @@ void main() {
       );
       List<ProgramAccount> accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
-        TokenAccountsFilter(mint: token.mint),
+        TokenAccountsFilter.byMint(token.mint),
       );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
@@ -81,7 +81,7 @@ void main() {
 
       accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
-        TokenAccountsFilter(mint: token.mint),
+        TokenAccountsFilter.byMint(token.mint),
         encoding: Encoding.jsonParsed,
       );
       expect(accounts, isNot(null));
@@ -101,7 +101,7 @@ void main() {
       );
       final accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
-        TokenAccountsFilter(mint: token.mint),
+        TokenAccountsFilter.byMint(token.mint),
         encoding: Encoding.jsonParsed,
       );
       await token.mintTo(

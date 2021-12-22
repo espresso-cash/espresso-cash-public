@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/rpc/dto/account_data/account_data.dart';
-import 'package:solana/src/rpc/dto/account_data/spl_token_program/token_program_account_data.dart';
-import 'package:solana/src/rpc/dto/account_data/stake_program/stake_program_account_data.dart';
 
 part 'parsed_account_data.freezed.dart';
 part 'parsed_account_data.g.dart';
