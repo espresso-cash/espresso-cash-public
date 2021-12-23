@@ -29,6 +29,7 @@ export 'src/rpc/dto/signature_status.dart' show SignatureStatus;
 export 'src/rpc/dto/token_accounts_filter.dart';
 export 'src/rpc/dto/transaction_details.dart';
 export 'src/spl_token/spl_token.dart';
+export 'src/subscription_client/optional_error.dart';
 export 'src/subscription_client/subscription_client.dart';
 export 'src/system_program/system_program.dart';
 export 'src/token_program/token_program.dart';
