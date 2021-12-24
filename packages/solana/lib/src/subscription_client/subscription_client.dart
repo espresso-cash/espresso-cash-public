@@ -15,7 +15,6 @@ import 'package:solana/src/subscription_client/notification_message.dart';
 import 'package:solana/src/subscription_client/optional_error.dart';
 import 'package:solana/src/subscription_client/subscribed_message.dart';
 import 'package:solana/src/subscription_client/subscription_client_exception.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 part 'extension.dart';
@@ -23,7 +22,7 @@ part 'extension.dart';
 /// Provides a websocket based connection to Solana.
 class SubscriptionClient {
   SubscriptionClient(Uri _uri) {
-    final channel = IOWebSocketChannel.connect(_uri);
+    final channel = WebSocketChannel.connect(_uri);
     _sink = channel.sink;
     _stream = channel.stream.asBroadcastStream();
   }
