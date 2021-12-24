@@ -30,15 +30,15 @@ class SubscriptionClient {
 
   SubscriptionClient.fromUrl(String url) : this(Uri.parse(url));
 
-  Stream<SubscriptionMessage> rawMessages() => _stream.map(_parse);
+  /// Subscribe to all incoming messages.
+  Stream<SubscriptionMessage> allMessages() => _stream.map(_parse);
 
   /// Subscribe to an account with [address] to receive notifications when the
   /// lamports or data for a given account public key changes.
   ///
   /// Returns a [Stream] that can be used to listen for events. By cancelling the
-  /// subscription returned by the `Stream.listen()` method of this stream you
-  /// can send the _unsubscribe_ JSON RPC message to cancel the subscription cleanly
-  /// from Solana.
+  /// subscription returned by the `Stream.listen()` method of this stream
+  /// client will automatically send `accountUnsubscribe` message;
   ///
   /// For [commitment] parameter description [see this document][1].
   ///
@@ -63,9 +63,8 @@ class SubscriptionClient {
   /// Subscribe to transaction logging.
   ///
   /// Returns a [Stream] that can be used to listen for events. By cancelling the
-  /// subscription returned by the `Stream.listen()` method of this stream you
-  /// can send the _unsubscribe_ JSON RPC message to cancel the subscription cleanly
-  /// from Solana.
+  /// subscription returned by the `Stream.listen()` method of this stream
+  /// client will automatically send `logsUnsubscribe` message;
   ///
   /// For [commitment] parameter description [see this document][1].
   ///
@@ -97,9 +96,8 @@ class SubscriptionClient {
   /// for a given account owned by the program changes.
   ///
   /// Returns a [Stream] that can be used to listen for events. By cancelling the
-  /// subscription returned by the `Stream.listen()` method of this stream you
-  /// can send the _unsubscribe_ JSON RPC message to cancel the subscription cleanly
-  /// from Solana.
+  /// subscription returned by the `Stream.listen()` method of this stream
+  /// client will automatically send `programUnsubscribe` message;
   ///
   /// For [commitment] parameter description [see this document][1].
   ///
@@ -130,8 +128,9 @@ class SubscriptionClient {
   /// transaction is confirmed On signatureNotification, the subscription is
   /// automatically cancelled.
   ///
-  /// Returns a [Stream] that can be used to listen for events. There is no need
-  /// to manually cancel this subscription and such action has no effect.
+  /// Returns a [Stream] that can be used to listen for events. By cancelling
+  /// subscription returned by the `Stream.listen()` method of this stream
+  /// client will automatically send `signatureUnsubscribe` message;
   ///
   /// For [commitment] parameter description [see this document][1].
   ///
@@ -158,8 +157,8 @@ class SubscriptionClient {
   /// validator.
   ///
   /// Returns a [Stream] that can be used to listen for events. By cancelling the
-  /// subscription returned by the `Stream.listen()` method of this stream you
-  /// can send the _unsubscribe_ JSON RPC message to cancel the subscription cleanly
+  /// subscription returned by the `Stream.listen()` method of this stream
+  /// client will automatically send `slotUnsubscribe` message;
   /// from Solana.
   ///
   /// For [commitment] parameter description [see this document][1].
@@ -173,8 +172,8 @@ class SubscriptionClient {
   /// validator.
   ///
   /// Returns a [Stream] that can be used to listen for events. By cancelling the
-  /// subscription returned by the `Stream.listen()` method of this stream you
-  /// can send the _unsubscribe_ JSON RPC message to cancel the subscription cleanly
+  /// subscription returned by the `Stream.listen()` method of this stream
+  /// client will automatically send `rootUnsubscribe` message;
   /// from Solana.
   ///
   /// For [commitment] parameter description [see this document][1].
@@ -235,10 +234,9 @@ class SubscriptionClient {
 
         final id = subscriptionId;
         if (id == null) return;
-        final unsubscribeRequestId = _requestId++;
 
         _sendRequest(
-          unsubscribeRequestId,
+          _requestId++,
           '${method}Unsubscribe',
           <int>[id],
         );

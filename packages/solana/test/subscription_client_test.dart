@@ -24,7 +24,8 @@ void main() {
     final subscriptionClient =
         await SubscriptionClient.fromUrl(devnetWebsocketUrl);
 
-    await subscriptionClient.signatureSubscribe(signature).first;
+    final result = await subscriptionClient.signatureSubscribe(signature).first;
+    expect(result.err, isNull);
 
     // System program
     final accountStream = subscriptionClient.accountSubscribe(sender.address);
