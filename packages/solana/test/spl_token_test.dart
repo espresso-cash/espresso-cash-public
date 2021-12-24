@@ -27,7 +27,7 @@ void main() {
     late final Ed25519HDKeyPair owner;
 
     setUpAll(() async {
-      subscriptionClient = await SubscriptionClient.fromUrl(devnetWebsocketUrl);
+      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
       owner = await Ed25519HDKeyPair.random();
       await airdrop(rpcClient, subscriptionClient, owner, sol: 100);
     });

@@ -22,7 +22,7 @@ void main() {
     );
 
     final subscriptionClient =
-        await SubscriptionClient.fromUrl(devnetWebsocketUrl);
+        await SubscriptionClient.connect(devnetWebsocketUrl);
 
     final result = await subscriptionClient.signatureSubscribe(signature).first;
     expect(result.err, isNull);

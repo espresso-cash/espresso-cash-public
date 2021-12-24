@@ -28,7 +28,7 @@ class SubscriptionClient {
     _stream = channel.stream.asBroadcastStream();
   }
 
-  SubscriptionClient.fromUrl(String url) : this(Uri.parse(url));
+  SubscriptionClient.connect(String url) : this(Uri.parse(url));
 
   /// Subscribe to all incoming messages.
   Stream<SubscriptionMessage> allMessages() => _stream.map(_parse);

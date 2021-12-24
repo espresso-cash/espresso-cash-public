@@ -22,7 +22,7 @@ void main() {
 
   setUpAll(() async {
     final signer = await Ed25519HDKeyPair.random();
-    subscriptionClient = await SubscriptionClient.fromUrl(devnetWebsocketUrl);
+    subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
     rpcClient = RpcClient(devnetRpcUrl);
     source = Wallet(
       signer,
