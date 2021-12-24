@@ -239,7 +239,7 @@ class Wallet {
     try {
       accounts = await _rpcClient.getTokenAccountsByOwner(
         address,
-        TokenAccountsFilter(mint: token.mint),
+        TokenAccountsFilter.byMint(token.mint),
         encoding: Encoding.jsonParsed,
       );
     } on FormatException {

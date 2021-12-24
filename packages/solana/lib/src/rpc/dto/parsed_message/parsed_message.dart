@@ -4,9 +4,12 @@ import 'package:solana/src/rpc/dto/instruction.dart';
 import 'package:solana/src/rpc/dto/message.dart';
 import 'package:solana/src/rpc/dto/parsed_message/header.dart';
 
+export 'header.dart';
 export 'parsed_instruction.dart';
 export 'parsed_spl_token_instruction.dart';
 export 'parsed_system_instruction.dart';
+export 'spl_token_transfer_checked_info.dart';
+export 'spl_token_transfer_info.dart';
 
 part 'parsed_message.g.dart';
 

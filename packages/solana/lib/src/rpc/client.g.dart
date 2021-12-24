@@ -19,7 +19,7 @@ Map<String, dynamic> _$GetAccountInfoConfigToJson(
   }
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
-  writeNotNull('dataSlice', instance.dataSlice);
+  writeNotNull('dataSlice', instance.dataSlice?.toJson());
   return val;
 }
 
@@ -97,7 +97,7 @@ Map<String, dynamic> _$GetBlockProductionConfigToJson(
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  writeNotNull('range', instance.range);
+  writeNotNull('range', instance.range?.toJson());
   writeNotNull('identity', instance.identity);
   return val;
 }
@@ -245,7 +245,7 @@ Map<String, dynamic> _$GetMultipleAccountsConfigToJson(
   }
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
-  writeNotNull('dataSlice', instance.dataSlice);
+  writeNotNull('dataSlice', instance.dataSlice?.toJson());
   return val;
 }
 
@@ -261,8 +261,8 @@ Map<String, dynamic> _$GetProgramAccountsConfigToJson(
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   val['encoding'] = _$EncodingEnumMap[instance.encoding];
-  writeNotNull('dataSlice', instance.dataSlice);
-  writeNotNull('filters', instance.filters);
+  writeNotNull('dataSlice', instance.dataSlice?.toJson());
+  writeNotNull('filters', instance.filters?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -395,7 +395,7 @@ Map<String, dynamic> _$GetTokenAccountsByDelegateConfigToJson(
   }
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
-  writeNotNull('dataSlice', instance.dataSlice);
+  writeNotNull('dataSlice', instance.dataSlice?.toJson());
   return val;
 }
 
@@ -412,7 +412,7 @@ Map<String, dynamic> _$GetTokenAccountsByOwnerConfigToJson(
   }
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
-  writeNotNull('dataSlice', instance.dataSlice);
+  writeNotNull('dataSlice', instance.dataSlice?.toJson());
   return val;
 }
 
@@ -536,7 +536,7 @@ Map<String, dynamic> _$SimulateTransactionConfigToJson(
   val['encoding'] = _$EncodingEnumMap[instance.encoding];
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('replaceRecentBlockhash', instance.replaceRecentBlockhash);
-  writeNotNull('accounts', instance.accounts);
+  writeNotNull('accounts', instance.accounts?.toJson());
   return val;
 }
 

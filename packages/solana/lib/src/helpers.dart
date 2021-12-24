@@ -24,6 +24,21 @@ bool isValidAddress(String address) {
   return isPointOnEd25519Curve(data);
 }
 
+Future<String> computePubKeyWithSeed({
+  required String base,
+  required String seed,
+  required String programId,
+}) async {
+  final buffer = Buffer.fromConcatenatedByteArrays([
+    base58decode(base),
+    seed.codeUnits,
+    base58decode(programId),
+  ]).toList(growable: false);
+  final hash = (await _computeHash(buffer));
+
+  return base58encode(hash);
+}
+
 /// Find a program address for [programId] and [seeds]
 Future<String> findProgramAddress({
   required Iterable<Iterable<int>> seeds,

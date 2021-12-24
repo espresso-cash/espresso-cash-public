@@ -1,3 +1,13 @@
+## 0.14.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Export optional error object (#132).
+ - **FIX**: Program account data filter serialization (#125).
+ - **CHORE**: Upgrade to newest dart version (#126).
+ - **BREAKING** **FIX**: Add missing imports and fix program accounts filter (#131).
+ - **BREAKING** **FEAT**: Complete RPC client implementation using a generator (#118).
+
 ## 0.13.3+1
 
  - **FIX**: Add missing `mint` value to the SPL tokens transfer info (#108).

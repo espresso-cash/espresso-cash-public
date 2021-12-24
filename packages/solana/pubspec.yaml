@@ -1,5 +1,5 @@
 name: solana
-version: 0.13.3+1
+version: 0.14.0
 repository: https://github.com/cryptoplease/cryptoplease-dart
 description: >-
   Simple library to interact with the Solana blockchain
@@ -24,7 +24,5 @@ dev_dependencies:
   json_serializable: ^5.0.0
   jsonrpc_client:
     path: ../jsonrpc_client
-  jsonrpc_client_annotation:
-    path: ../jsonrpc_client_annotation
   mews_pedantic: ^0.2.1
   test: ^1.17.11
