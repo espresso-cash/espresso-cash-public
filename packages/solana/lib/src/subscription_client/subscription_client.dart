@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:solana/src/exceptions/bad_state_exception.dart';
 import 'package:solana/src/rpc/dto/account.dart';
 import 'package:solana/src/rpc/dto/commitment.dart';
 import 'package:solana/src/rpc/dto/confirmation_status.dart';
@@ -17,80 +15,91 @@ import 'package:solana/src/subscription_client/notification_message.dart';
 import 'package:solana/src/subscription_client/optional_error.dart';
 import 'package:solana/src/subscription_client/subscribed_message.dart';
 import 'package:solana/src/subscription_client/subscription_client_exception.dart';
-import 'package:solana/src/subscription_client/subscription_manager.dart';
+import 'package:web_socket_channel/io.dart';
 
 part 'extension.dart';
 
 /// Provides a websocket based connection to Solana.
 class SubscriptionClient {
-  SubscriptionClient._(this._webSocket)
-      : _unattachedSubscriptionManagers = <int, SubscriptionManager>{},
-        _attachedSubscriptionManagers = <int, SubscriptionManager>{} {
-    _subscription = _webSocket.listen(_dispatchMessage);
-  }
+  SubscriptionClient(this._uri);
 
-  final WebSocket _webSocket;
-  final Map<int, SubscriptionManager> _unattachedSubscriptionManagers;
-  final Map<int, SubscriptionManager> _attachedSubscriptionManagers;
+  SubscriptionClient.fromUrl(String url) : this(Uri.parse(url));
 
   late final StreamSubscription<dynamic> _subscription;
 
-  int _lastRequestId = 1;
+  final Uri _uri;
 
-  void _dispatchMessage(dynamic data) {
-    if (data is String) {
-      final parsed = json.decode(data) as Map<String, dynamic>;
-      final message = SubscriptionMessage.fromJson(parsed);
-      if (message is SubscribedMessage) {
-        _attachSubscriptionManager(message.id, message.result);
-      } else if (message is ErrorMessage) {
-        _destroySubscriptionManager(message);
-      } else if (message is NotificationMessage) {
-        _deliverMessageToTargetStream(message);
-      }
-    } else {
-      throw FormatException(
-        'unexpected type received through the websocket ${data.runtimeType}',
+  static int _requestId = 1;
+
+  Stream<T> _subscribe<T>(
+    String method, {
+    List<dynamic>? params,
+    bool singleShot = false,
+  }) {
+    final channel = IOWebSocketChannel.connect(_uri);
+    final controller = StreamController<T>();
+
+    final requestId = _requestId++;
+    int? subscriptionId;
+
+    controller.onListen = () {
+      channel.stream.listen(
+        (event) {
+          print('↓ $event');
+          if (event is String) {
+            final parsed = json.decode(event) as Map<String, dynamic>;
+            final message = SubscriptionMessage.fromJson(parsed);
+
+            if (message is SubscribedMessage) {
+              if (message.id != requestId) return;
+
+              subscriptionId = message.result;
+            } else if (message is ErrorMessage) {
+              if (message.id != requestId) return;
+
+              controller.addError(SubscriptionClientException(message.error));
+            } else if (message is NotificationMessage) {
+              if (message.subscription != subscriptionId) return;
+
+              if (singleShot) subscriptionId = null;
+
+              controller.add(message.value);
+            }
+          } else {
+            throw FormatException(
+              'unexpected type received through the websocket ${event.runtimeType}',
+            );
+          }
+        },
+        onError: controller.addError,
+        onDone: controller.close,
       );
-    }
-  }
+    };
 
-  void _destroySubscriptionManager(ErrorMessage message) {
-    final id = message.id;
-    final subscriptionManager = _unattachedSubscriptionManagers.remove(id);
-    if (subscriptionManager == null) {
-      // This is an error received after the subscription should have been
-      // cancelled. Which means, it was not really cancelled.
-    } else {
-      subscriptionManager.addError(SubscriptionClientException(message.error));
-    }
-  }
+    controller.onCancel = () {
+      final id = subscriptionId;
+      if (id == null) return;
+      final unsubscribeRequestId = _requestId++;
 
-  void _deliverMessageToTargetStream(NotificationMessage message) {
-    final id = message.subscription;
-    final subscriptionManager = _attachedSubscriptionManagers[id];
-    if (subscriptionManager == null) {
-      throw BadStateException(
-        'received a message for subscription $id, but it was not found',
+      _sendRequest(
+        channel,
+        unsubscribeRequestId,
+        '${method}Unsubscribe',
+        <int>[id],
       );
-    } else {
-      subscriptionManager.add(message.value);
-    }
+    };
+
+    _sendRequest(channel, requestId, '${method}Subscribe', params);
+
+    return controller.stream;
   }
 
-  void _attachSubscriptionManager(int requestId, int subscriptionId) {
-    final subscriptionManager = _unattachedSubscriptionManagers.remove(
-      requestId,
-    );
-    if (subscriptionManager == null) {
-      throw const BadStateException('cannot attach subscription manager');
-    } else {
-      _attachedSubscriptionManagers[subscriptionId] = subscriptionManager;
-      subscriptionManager.subscriptionId = subscriptionId;
-    }
-  }
-
-  void _sendRequest(int id, String method, List<dynamic>? params) {
+  void _sendRequest(
+    IOWebSocketChannel channel,
+    int id,
+    String method,
+    List<dynamic>? params,
+  ) {
     final payload = json.encode(<String, dynamic>{
       'jsonrpc': '2.0',
       'id': id,
@@ -98,56 +107,10 @@ class SubscriptionClient {
       if (params != null) 'params': params,
     });
 
-    _webSocket.add(payload);
+    print('↑ $payload');
+
+    channel.sink.add(payload);
   }
-
-  void _createSubscription(int id, String method, List<dynamic>? params) {
-    _sendRequest(id, '${method}Subscribe', params);
-  }
-
-  void _cancelSubscription(String method, int id) {
-    final subscriptionManager = _attachedSubscriptionManagers.remove(id);
-    // This would most certainly mean that something went wrong or unexpectedly
-    // we throwing an exception seems appropriate
-    if (subscriptionManager == null) {
-      throw const BadStateException(
-        'tried to cancel a non existing subscription',
-      );
-    }
-    // Single shot subscriptions are cancelled without sending the
-    // unsubscribe request. So we check that this is not a single shot
-    // subscription before sending the unsubscribe request.
-    if (subscriptionManager.isSingleShot == false) {
-      _sendRequest(_lastRequestId++, '${method}Unsubscribe', <int>[id]);
-    }
-  }
-
-  Stream<T> _subscribe<T>(
-    String method, {
-    List<dynamic>? params,
-    bool singleShot = false,
-  }) {
-    late final SubscriptionManager<T> subscriptionManager;
-    final requestId = _lastRequestId++;
-
-    subscriptionManager = SubscriptionManager<T>(
-      onListen: () {
-        _createSubscription(requestId, method, params);
-      },
-      onCancel: (int subscriptionId) {
-        _cancelSubscription(method, subscriptionId);
-      },
-      singleShot: singleShot,
-    );
-
-    _unattachedSubscriptionManagers[requestId] = subscriptionManager;
-
-    return subscriptionManager.stream;
-  }
-
-  /// Connect to the websocket at [url] node.
-  static Future<SubscriptionClient> connect(String url) async =>
-      SubscriptionClient._(await WebSocket.connect(url));
 
   /// Dispose this object and cancel any existing subscription.
   void dispose() {
@@ -256,11 +219,11 @@ class SubscriptionClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Stream<OptionalError> signatureSubscribe(
+  Stream<void> signatureSubscribe(
     String signature, {
     Commitment? commitment,
   }) =>
-      _subscribe<OptionalError>(
+      _subscribe<void>(
         'signature',
         params: <dynamic>[
           signature,

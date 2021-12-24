@@ -22,7 +22,7 @@ void main() {
   final rpcClient = RpcClient(devnetRpcUrl);
 
   setUpAll(() async {
-    subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+    subscriptionClient = await SubscriptionClient.fromUrl(devnetWebsocketUrl);
     payer = await Ed25519HDKeyPair.random();
     updater = await Ed25519HDKeyPair.random();
 

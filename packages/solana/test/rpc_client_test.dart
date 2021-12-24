@@ -27,7 +27,7 @@ void main() {
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
-      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      subscriptionClient = await SubscriptionClient.fromUrl(devnetWebsocketUrl);
       destination = await Ed25519HDKeyPair.fromMnemonic(
         generateMnemonic(),
       ); // generateMnemonic());
@@ -170,7 +170,7 @@ void main() {
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
-      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      subscriptionClient = await SubscriptionClient.fromUrl(devnetWebsocketUrl);
     });
 
     setUp(() async {
@@ -267,7 +267,7 @@ void main() {
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
-      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      subscriptionClient = await SubscriptionClient.fromUrl(devnetWebsocketUrl);
       sampleSigner = await Ed25519HDKeyPair.random();
 
       airdrop(rpcClient, subscriptionClient, sampleSigner, sol: 10);
