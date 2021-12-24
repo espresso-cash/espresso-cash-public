@@ -11,9 +11,3 @@ SubscribedMessage _$SubscribedMessageFromJson(Map<String, dynamic> json) =>
       result: json['result'] as int,
       id: json['id'] as int,
     );
-
-Map<String, dynamic> _$SubscribedMessageToJson(SubscribedMessage instance) =>
-    <String, dynamic>{
-      'result': instance.result,
-      'id': instance.id,
-    };
