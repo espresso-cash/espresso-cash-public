@@ -23,6 +23,7 @@ void main() {
 
     final subscriptionClient =
         await SubscriptionClient.fromUrl(devnetWebsocketUrl);
+
     await subscriptionClient.signatureSubscribe(signature).first;
 
     // System program
