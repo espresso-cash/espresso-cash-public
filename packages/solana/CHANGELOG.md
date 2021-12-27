@@ -1,3 +1,9 @@
+## 0.15.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **REFACTOR**: Update SubscriptionClient (#133).
+
 ## 0.14.0
 
 > Note: This release has breaking changes.
