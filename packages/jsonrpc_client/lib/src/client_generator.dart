@@ -2,7 +2,8 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
-import 'package:jsonrpc_client_annotation/jsonrpc_client_annotation.dart';
+// ignore: implementation_imports
+import 'package:solana/src/rpc/rpc_client_annotation.dart';
 import 'package:source_gen/source_gen.dart';
 
 class ClientGenerator extends GeneratorForAnnotation<SolanaRpcClient> {
@@ -37,7 +38,7 @@ ${methods.map(_generateConfig).join('\n\n')}
     final name = method.name.capitalized;
 
     return '''
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(createFactory: false, includeIfNull: false, explicitToJson: true)
 class ${name}Config {
   ${name}Config({${fields.map((f) => f.asFormalInitializer()).join(', ')},});
 

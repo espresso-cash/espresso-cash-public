@@ -1,12 +1,19 @@
-import 'package:solana/solana.dart';
+import 'package:solana/src/constants.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/exceptions/no_associated_token_account_exception.dart';
+import 'package:solana/src/memo_program/memo_instruction.dart';
+import 'package:solana/src/rpc/client.dart';
+import 'package:solana/src/rpc/dto/confirmation_status.dart';
 import 'package:solana/src/rpc/dto/encoding.dart';
 import 'package:solana/src/rpc/dto/program_account.dart';
 import 'package:solana/src/rpc/dto/token_accounts_filter.dart';
 import 'package:solana/src/rpc/dto/token_amount.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
+import 'package:solana/src/system_program/system_instruction.dart';
+import 'package:solana/src/token_program/token_program.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
@@ -62,7 +69,7 @@ void main() {
       );
       List<ProgramAccount> accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
-        TokenAccountsFilter(mint: token.mint),
+        TokenAccountsFilter.byMint(token.mint),
       );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
@@ -74,7 +81,7 @@ void main() {
 
       accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
-        TokenAccountsFilter(mint: token.mint),
+        TokenAccountsFilter.byMint(token.mint),
         encoding: Encoding.jsonParsed,
       );
       expect(accounts, isNot(null));
@@ -94,7 +101,7 @@ void main() {
       );
       final accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
-        TokenAccountsFilter(mint: token.mint),
+        TokenAccountsFilter.byMint(token.mint),
         encoding: Encoding.jsonParsed,
       );
       await token.mintTo(

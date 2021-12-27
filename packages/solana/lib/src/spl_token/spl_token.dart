@@ -1,4 +1,3 @@
-import 'package:solana/solana.dart';
 import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/buffer.dart';
@@ -78,7 +77,7 @@ class SplToken {
   ) async {
     final accounts = await _rpcClient.getTokenAccountsByOwner(
       owner,
-      TokenAccountsFilter(mint: mint),
+      TokenAccountsFilter.byMint(mint),
       encoding: Encoding.jsonParsed,
     );
     if (accounts.isEmpty) {

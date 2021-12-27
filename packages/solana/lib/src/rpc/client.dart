@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:jsonrpc_client_annotation/jsonrpc_client_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/helpers.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/rpc/helpers.dart';
 import 'package:solana/src/rpc/json_rpc_client.dart';
+import 'package:solana/src/rpc/rpc_client_annotation.dart';
 
 part 'client.g.dart';
 part 'client.rpc.dart';
@@ -327,7 +327,7 @@ abstract class RpcClient {
     Commitment? commitment = Commitment.finalized,
     required Encoding encoding,
     DataSlice? dataSlice,
-    List<Filter>? filters,
+    List<ProgramDataFilter>? filters,
   });
 
   /// Returns a recent block hash from the ledger, and a fee schedule that can be

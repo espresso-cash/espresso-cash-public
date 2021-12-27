@@ -9,9 +9,9 @@ part 'signature_status.g.dart';
 class SignatureStatus {
   const SignatureStatus({
     required this.slot,
-    required this.confirmations,
-    required this.err,
     required this.confirmationStatus,
+    this.confirmations,
+    this.err,
   });
 
   factory SignatureStatus.fromJson(Map<String, dynamic> json) =>
