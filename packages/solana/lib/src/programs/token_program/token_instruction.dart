@@ -4,6 +4,13 @@ import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/token_program/token_program.dart';
 
+enum AuthorityType {
+  mintTokens,
+  freezeAccount,
+  accountOwner,
+  closeAccount,
+}
+
 /// A spl token program instruction.
 class TokenInstruction extends Instruction {
   const TokenInstruction._({
@@ -155,6 +162,8 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.setAuthority({
     required String mintOrAccount,
     required String currentAuthority,
+    required AuthorityType authorityType,
+    required String newAuthority,
     List<String> signers = const <String>[],
   }) =>
       TokenInstruction._(
@@ -168,7 +177,11 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: TokenProgram.revokeInstructionIndex,
+        data: Buffer.fromConcatenatedByteArrays([
+          TokenProgram.setAuthorityInstructionIndex,
+          Buffer.fromUint8(authorityType.value),
+          Buffer.fromBase58(newAuthority),
+        ]),
       );
 
   /// Mint the [destination] account with [amount] tokens of the [mint] token.
@@ -319,6 +332,7 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.approveChecked({
     required int amount,
     required int decimals,
+    required String mint,
     required String source,
     required String delegate,
     required String sourceOwner,
@@ -327,6 +341,7 @@ class TokenInstruction extends Instruction {
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: source, isSigner: false),
+          AccountMeta.readonly(pubKey: mint, isSigner: false),
           AccountMeta.readonly(pubKey: delegate, isSigner: false),
           AccountMeta.readonly(
             pubKey: sourceOwner,
@@ -484,4 +499,19 @@ class TokenInstruction extends Instruction {
           ],
         ),
       );
+}
+
+extension on AuthorityType {
+  int get value {
+    switch (this) {
+      case AuthorityType.mintTokens:
+        return 0;
+      case AuthorityType.freezeAccount:
+        return 1;
+      case AuthorityType.accountOwner:
+        return 2;
+      case AuthorityType.closeAccount:
+        return 3;
+    }
+  }
 }

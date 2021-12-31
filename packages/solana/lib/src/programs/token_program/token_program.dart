@@ -192,6 +192,7 @@ class TokenProgram extends Message {
     required int amount,
     required int decimals,
     required String source,
+    required String mint,
     required String delegate,
     required String sourceOwner,
     List<String> signers = const <String>[],
@@ -202,6 +203,7 @@ class TokenProgram extends Message {
             amount: amount,
             decimals: decimals,
             source: source,
+            mint: mint,
             delegate: delegate,
             sourceOwner: sourceOwner,
             signers: signers,
@@ -282,6 +284,36 @@ class TokenProgram extends Message {
           ),
         ],
       );
+
+  factory TokenProgram.setAuthority({
+    required String mintOrAccount,
+    required String currentAuthority,
+    required AuthorityType authorityType,
+    required String newAuthority,
+    List<String> signers = const <String>[],
+  }) =>
+      TokenProgram._(
+        instructions: [
+          TokenInstruction.setAuthority(
+            mintOrAccount: mintOrAccount,
+            currentAuthority: currentAuthority,
+            authorityType: authorityType,
+            newAuthority: newAuthority,
+            signers: signers,
+          ),
+        ],
+      );
+
+  factory TokenProgram.revoke({
+    required String source,
+    required String sourceOwner,
+  }) =>
+      TokenProgram._(instructions: [
+        TokenInstruction.revoke(
+          source: source,
+          sourceOwner: sourceOwner,
+        ),
+      ]);
 
   static const programId = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
 
