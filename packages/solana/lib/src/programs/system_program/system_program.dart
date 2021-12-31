@@ -1,8 +1,8 @@
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/system_program/system_instruction.dart';
+import 'package:solana/src/programs/system_program/system_instruction.dart';
 
-export 'package:solana/src/system_program/system_instruction.dart';
+export 'package:solana/src/programs/system_program/system_instruction.dart';
 
 class SystemProgram extends Message {
   const SystemProgram._({

@@ -1,12 +1,12 @@
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/memo_program/memo_instruction.dart';
+import 'package:solana/src/programs/memo_program/memo_instruction.dart';
+import 'package:solana/src/programs/system_program/system_instruction.dart';
+import 'package:solana/src/programs/token_program/token_program.dart';
 import 'package:solana/src/rpc/client.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
-import 'package:solana/src/system_program/system_instruction.dart';
-import 'package:solana/src/token_program/token_program.dart';
 
 /// Convenient object for common operations
 class Wallet {
