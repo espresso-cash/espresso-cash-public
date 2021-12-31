@@ -1,9 +1,9 @@
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/system_program/system_program.dart';
-import 'package:solana/src/token_program/token_instruction.dart';
+import 'package:solana/src/programs/system_program/system_program.dart';
+import 'package:solana/src/programs/token_program/token_instruction.dart';
 
-export 'package:solana/src/token_program/token_instruction.dart';
+export 'package:solana/src/programs/token_program/token_instruction.dart';
 
 /// Construct token programs conveniently
 class TokenProgram extends Message {
