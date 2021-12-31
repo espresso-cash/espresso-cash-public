@@ -4,12 +4,12 @@ import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
 import 'package:solana/src/helpers.dart';
+import 'package:solana/src/programs/system_program/system_program.dart';
+import 'package:solana/src/programs/token_program/token_program.dart';
 import 'package:solana/src/rpc/client.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
-import 'package:solana/src/system_program/system_program.dart';
-import 'package:solana/src/token_program/token_program.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
