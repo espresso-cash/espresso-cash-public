@@ -78,7 +78,7 @@ class TokenProgram extends Message {
           ),
           TokenInstruction.initializeAccount(
             mint: mint,
-            address: address,
+            pubKey: address,
             owner: owner,
           ),
         ],
@@ -107,6 +107,25 @@ class TokenProgram extends Message {
         ],
       );
 
+  factory TokenProgram.mintToChecked({
+    required String mint,
+    required String destination,
+    required String authority,
+    required int amount,
+    required int decimals,
+  }) =>
+      TokenProgram._(
+        instructions: [
+          TokenInstruction.mintToChecked(
+            mint: mint,
+            destination: destination,
+            authority: authority,
+            amount: amount,
+            decimals: decimals,
+          ),
+        ],
+      );
+
   /// Construct a program to transfer [amount] tokens owned by [owner]
   /// from the associated token address [source] to the associated token address
   /// [destination].
@@ -129,13 +148,165 @@ class TokenProgram extends Message {
         ],
       );
 
+  factory TokenProgram.transferChecked({
+    required String mint,
+    required String source,
+    required String destination,
+    required String owner,
+    required int amount,
+    required int decimals,
+  }) =>
+      TokenProgram._(
+        instructions: [
+          TokenInstruction.transferChecked(
+            source: source,
+            mint: mint,
+            destination: destination,
+            owner: owner,
+            amount: amount,
+            decimals: decimals,
+          )
+        ],
+      );
+
+  factory TokenProgram.approve({
+    required int amount,
+    required String source,
+    required String delegate,
+    required String sourceOwner,
+    List<String> signers = const <String>[],
+  }) =>
+      TokenProgram._(
+        instructions: [
+          TokenInstruction.approve(
+            amount: amount,
+            source: source,
+            delegate: delegate,
+            sourceOwner: sourceOwner,
+            signers: signers,
+          )
+        ],
+      );
+
+  factory TokenProgram.approveChecked({
+    required int amount,
+    required int decimals,
+    required String source,
+    required String delegate,
+    required String sourceOwner,
+    List<String> signers = const <String>[],
+  }) =>
+      TokenProgram._(
+        instructions: [
+          TokenInstruction.approveChecked(
+            amount: amount,
+            decimals: decimals,
+            source: source,
+            delegate: delegate,
+            sourceOwner: sourceOwner,
+            signers: signers,
+          )
+        ],
+      );
+
+  factory TokenProgram.burn({
+    required int amount,
+    required String accountToBurnFrom,
+    required String mint,
+    required String owner,
+    List<String> signers = const <String>[],
+  }) =>
+      TokenProgram._(
+        instructions: [
+          TokenInstruction.burn(
+            amount: amount,
+            signers: signers,
+            mint: mint,
+            accountToBurnFrom: accountToBurnFrom,
+            owner: owner,
+          )
+        ],
+      );
+
+  factory TokenProgram.burnChecked({
+    required int amount,
+    required int decimals,
+    required String accountToBurnFrom,
+    required String mint,
+    required String owner,
+    List<String> signers = const <String>[],
+  }) =>
+      TokenProgram._(
+        instructions: [
+          TokenInstruction.burnChecked(
+            amount: amount,
+            decimals: decimals,
+            signers: signers,
+            mint: mint,
+            accountToBurnFrom: accountToBurnFrom,
+            owner: owner,
+          )
+        ],
+      );
+
+  factory TokenProgram.freezeAccount({
+    required String accountToFreeze,
+    required String mint,
+    required String freezeAuthority,
+    List<String> signers = const <String>[],
+  }) =>
+      TokenProgram._(
+        instructions: [
+          TokenInstruction.freezeAccount(
+            accountToFreeze: accountToFreeze,
+            mint: mint,
+            freezeAuthority: freezeAuthority,
+            signers: signers,
+          ),
+        ],
+      );
+
+  factory TokenProgram.thawAccount({
+    required String accountToFreeze,
+    required String mint,
+    required String freezeAuthority,
+    List<String> signers = const <String>[],
+  }) =>
+      TokenProgram._(
+        instructions: [
+          TokenInstruction.thawAccount(
+            accountToFreeze: accountToFreeze,
+            mint: mint,
+            freezeAuthority: freezeAuthority,
+            signers: signers,
+          ),
+        ],
+      );
+
   static const programId = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
 
   // Instruction indexes
   static const initializeMintInstructionIndex = [0];
   static const initializeAccountInstructionIndex = [1];
+  static const initializeMultisigInstructionIndex = [2];
   static const transferInstructionIndex = [3];
+  static const approveInstructionIndex = [4];
+  static const revokeInstructionIndex = [5];
+  static const setAuthorityInstructionIndex = [6];
   static const mintToInstructionIndex = [7];
+  static const burnInstructionIndex = [8];
+  static const closeAccountInstructionIndex = [9];
+  static const freezeAccountInstructionIndex = [10];
+  static const thawAccountInstructionIndex = [11];
+  static const transferCheckedInstructionIndex = [12];
+  static const approveCheckedInstructionIndex = [13];
+  static const mintToCheckedInstructionIndex = [14];
+  static const burnCheckedInstructionIndex = [15];
+  static const initializeAccount2InstructionIndex = [16];
+  static const syncNativeInstructionIndex = [17];
+  static const initializeAccount3InstructionIndex = [18];
+  static const initializeMultisig2InstructionIndex = [19];
+  static const initializeMint2InstructionIndex = [20];
 
   // This is computed by adding the bytes in the following
   // structure
