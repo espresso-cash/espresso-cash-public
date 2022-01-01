@@ -573,7 +573,7 @@ void main() {
 
       expect(slotLeaders.length, lessThanOrEqualTo(4));
       expect(slotLeaders.every(isValidAddress), equals(true));
-    });
+    }, skip: 'Leader schedule for epoch 0 is unavailable');
 
     test('Call to getStakeActivation() succeeds', () async {
       final largestAccounts = await rpcClient.getLargestAccounts();

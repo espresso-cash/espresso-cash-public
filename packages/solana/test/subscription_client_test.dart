@@ -28,7 +28,10 @@ void main() {
     expect(result.err, isNull);
 
     // System program
-    final accountStream = subscriptionClient.accountSubscribe(sender.address);
+    final accountStream = subscriptionClient.accountSubscribe(
+      sender.address,
+      commitment: Commitment.confirmed,
+    );
 
     // Now send some tokens
     final wallet = Wallet(
