@@ -89,14 +89,14 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.advanceNonceAccount({
-    required String noncePubKey,
+    required String nonceAuthorityPubKey,
     required String authorizedPubKey,
   }) =>
       SystemProgram._(
         instructions: [
           SystemInstruction.advanceNonceAccount(
-            noncePubKey: noncePubKey,
-            authorizedPubKey: authorizedPubKey,
+            noncePubKey: nonceAuthorityPubKey,
+            nonceAuthorityPubKey: authorizedPubKey,
           )
         ],
       );
@@ -121,7 +121,7 @@ class SystemProgram extends Message {
   factory SystemProgram.createNonceAccount({
     required String fromPubKey,
     required String noncePubKey,
-    required String authority,
+    required String noceAuthorityPubKey,
     required int lamports,
   }) =>
       SystemProgram._(
@@ -135,7 +135,7 @@ class SystemProgram extends Message {
           ),
           SystemInstruction.initializeNonceAccount(
             noncePubKey: noncePubKey,
-            authority: authority,
+            authority: noceAuthorityPubKey,
           )
         ],
       );

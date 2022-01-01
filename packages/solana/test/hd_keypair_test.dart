@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:convert/convert.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/helpers.dart';
-import 'package:solana/src/system_program/system_program.dart';
+import 'package:solana/src/programs/system_program/system_program.dart';
 import 'package:test/test.dart';
 
 void main() {

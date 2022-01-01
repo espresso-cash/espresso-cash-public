@@ -117,7 +117,7 @@ class SystemInstruction extends Instruction {
 
   factory SystemInstruction.advanceNonceAccount({
     required String noncePubKey,
-    required String authorizedPubKey,
+    required String nonceAuthorityPubKey,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -126,11 +126,9 @@ class SystemInstruction extends Instruction {
             pubKey: Sysvar.recentBlockHashes,
             isSigner: false,
           ),
-          AccountMeta.writeable(pubKey: authorizedPubKey, isSigner: true),
+          AccountMeta.writeable(pubKey: nonceAuthorityPubKey, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
-          SystemProgram.advanceNonceAccountInstructionIndex,
-        ]),
+        data: SystemProgram.advanceNonceAccountInstructionIndex,
       );
 
   factory SystemInstruction.withdrawNonceAccount({
