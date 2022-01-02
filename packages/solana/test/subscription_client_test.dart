@@ -31,15 +31,12 @@ void main() {
     final accountStream = subscriptionClient.accountSubscribe(sender.address);
 
     // Now send some tokens
-    final wallet = Wallet(
-      sender,
-      rpcClient: rpcClient,
-      subscriptionClient: subscriptionClient,
-    );
-    await wallet.transfer(
+    await sender.transfer(
       destination: recipient.address,
       commitment: Commitment.confirmed,
       lamports: lamportsPerSol ~/ 2,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
 
     final account = await accountStream.firstWhere(

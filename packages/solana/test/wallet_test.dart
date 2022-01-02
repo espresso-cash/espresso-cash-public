@@ -21,56 +21,63 @@ void main() {
   late SplToken token;
 
   setUpAll(() async {
-    final signer = await Ed25519HDKeyPair.random();
+    source = await Ed25519HDKeyPair.random();
     subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
     rpcClient = RpcClient(devnetRpcUrl);
-    source = Wallet(
-      signer,
-      rpcClient: rpcClient,
-      subscriptionClient: subscriptionClient,
-    );
-    destination = Wallet(
-      await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
-      subscriptionClient: subscriptionClient,
-    );
+    destination = await Ed25519HDKeyPair.random();
     // Add tokens to the sender
-    await source.requestAirdrop(lamports: 100 * lamportsPerSol);
+    await source.requestAirdrop(
+      lamports: 100 * lamportsPerSol,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
+    );
     token = await rpcClient.initializeMint(
-      owner: signer,
+      owner: source,
       decimals: 2,
       subscriptionClient: subscriptionClient,
+      rpcClient: rpcClient,
     );
     final associatedAccount = await source.createAssociatedTokenAccount(
       mint: token.mint,
       funder: source,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
     await token.mintTo(
       destination: associatedAccount.pubkey,
       amount: _tokenMintAmount,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
   });
 
   test('Get wallet lamports', () async {
-    expect(await source.getLamports(), greaterThan(0));
+    expect(await source.getLamports(rpcClient: rpcClient), greaterThan(0));
   });
 
   test('Transfer SOL', () async {
     final signature = await source.transfer(
       destination: destination.address,
       lamports: lamportsPerSol,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
     expect(signature, isNotNull);
-    expect(await destination.getLamports(), equals(lamportsPerSol));
+    expect(
+      await destination.getLamports(rpcClient: rpcClient),
+      equals(lamportsPerSol),
+    );
   });
 
   test('Transfer SOL with memo', () async {
     const memoText = 'Memo test string...';
 
-    final signature = await source.transferWithMemo(
+    final signature = await source.transfer(
       destination: destination.address,
       lamports: _lamportsTransferAmount,
       memo: memoText,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
     expect(signature, isNotNull);
 
@@ -101,122 +108,152 @@ void main() {
     expect(memoInstruction.memo, equals(memoText));
   });
 
-  test('Get a token balance', () async {
-    final wallet = Wallet(
-      await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
-      subscriptionClient: subscriptionClient,
-    );
-    expect(wallet.hasAssociatedTokenAccount(mint: token.mint),
-        completion(equals(false)));
+  test(
+    'Get a token balance',
+    () async {
+      final wallet = await Ed25519HDKeyPair.random();
+      expect(
+        wallet.hasAssociatedTokenAccount(
+            mint: token.mint, rpcClient: rpcClient),
+        completion(equals(false)),
+      );
 
-    final signature = await wallet.requestAirdrop(
-      lamports: lamportsPerSol,
-      commitment: Commitment.finalized,
-    );
-    expect(signature, isNotNull);
-    expect(await wallet.getLamports(), equals(lamportsPerSol));
+      final signature = await wallet.requestAirdrop(
+        lamports: lamportsPerSol,
+        commitment: Commitment.finalized,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
+      );
+      expect(signature, isNotNull);
+      expect(
+        await wallet.getLamports(rpcClient: rpcClient),
+        equals(lamportsPerSol),
+      );
 
-    await wallet.createAssociatedTokenAccount(mint: token.mint);
-    final hasAssociatedTokenAccount = await wallet.hasAssociatedTokenAccount(
-      mint: token.mint,
-    );
-
-    expect(hasAssociatedTokenAccount, equals(true));
-
-    final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
-    expect(tokenBalance.decimals, equals(token.decimals));
-    expect(tokenBalance.amount, equals('0'));
-  }, timeout: const Timeout(Duration(minutes: 2)));
-
-  test('Fails SPL transfer if recipient has no associated token account',
-      () async {
-    final wallet = Wallet(
-      await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
-      subscriptionClient: subscriptionClient,
-    );
-    expect(
-      source.transferSplToken(
-        destination: wallet.address,
-        amount: 100,
+      await wallet.createAssociatedTokenAccount(
         mint: token.mint,
-      ),
-      throwsA(isA<NoAssociatedTokenAccountException>()),
-    );
-  });
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
+      );
+      final hasAssociatedTokenAccount = await wallet.hasAssociatedTokenAccount(
+        mint: token.mint,
+        rpcClient: rpcClient,
+      );
 
-  test('Transfer SPL tokens successfully', () async {
-    final wallet = Wallet(
-      await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
-      subscriptionClient: subscriptionClient,
-    );
-    await wallet.createAssociatedTokenAccount(
-      mint: token.mint,
-      funder: source,
-    );
-    final signature = await source.transferSplToken(
-      destination: wallet.address,
-      amount: 40,
-      mint: token.mint,
-    );
-    expect(signature, isNotNull);
+      expect(hasAssociatedTokenAccount, equals(true));
 
-    final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
-    expect(tokenBalance.amount, equals('40'));
-  }, timeout: const Timeout(Duration(minutes: 2)));
+      final tokenBalance = await wallet.getTokenBalance(
+        mint: token.mint,
+        rpcClient: rpcClient,
+      );
+      expect(tokenBalance.decimals, equals(token.decimals));
+      expect(tokenBalance.amount, equals('0'));
+    },
+    timeout: const Timeout(Duration(minutes: 2)),
+  );
 
-  test('Transfer SPL tokens with memo', () async {
-    final wallet = Wallet(
-      await Ed25519HDKeyPair.random(),
-      rpcClient: rpcClient,
-      subscriptionClient: subscriptionClient,
-    );
-    // Create the associated account for the recipient
-    await wallet.createAssociatedTokenAccount(
-      mint: token.mint,
-      funder: source,
-    );
-    const memoText = 'Memo test string...';
+  test(
+    'Fails SPL transfer if recipient has no associated token account',
+    () async {
+      final wallet = await Ed25519HDKeyPair.random();
+      expect(
+        source.transferSplToken(
+          destination: wallet.address,
+          amount: 100,
+          mint: token.mint,
+          rpcClient: rpcClient,
+          subscriptionClient: subscriptionClient,
+        ),
+        throwsA(isA<NoAssociatedTokenAccountException>()),
+      );
+    },
+  );
 
-    final signature = await source.transferSplTokenWithMemo(
-      mint: token.mint,
-      destination: wallet.address,
-      amount: 40,
-      memo: memoText,
-    );
-    expect(signature, isNotNull);
+  test(
+    'Transfer SPL tokens successfully',
+    () async {
+      final wallet = await Ed25519HDKeyPair.random();
+      await wallet.createAssociatedTokenAccount(
+        mint: token.mint,
+        funder: source,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
+      );
+      final signature = await source.transferSplToken(
+        destination: wallet.address,
+        amount: 40,
+        mint: token.mint,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
+      );
+      expect(signature, isNotNull);
 
-    // FIXME: check that this is of the correct type
-    final result = await rpcClient.getTransaction(
-      signature.toString(),
-      encoding: Encoding.jsonParsed,
-    );
+      final tokenBalance = await wallet.getTokenBalance(
+        mint: token.mint,
+        rpcClient: rpcClient,
+      );
+      expect(tokenBalance.amount, equals('40'));
+    },
+    timeout: const Timeout(Duration(minutes: 2)),
+  );
 
-    expect(result, isNotNull);
-    expect(result?.transaction, isNotNull);
-    final transaction = result!.transaction;
-    expect(transaction.message, isNotNull);
-    final txMessage = transaction.message;
-    expect(txMessage.instructions, isNotNull);
-    final instructions = txMessage.instructions;
-    expect(instructions.length, equals(2));
-    expect(instructions[0], const TypeMatcher<ParsedInstructionSplToken>());
-    expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
-    final memoInstruction = instructions[1] as ParsedInstructionMemo;
-    expect(memoInstruction.memo, equals(memoText));
-    final splTokenInstruction = instructions[0] as ParsedInstructionSplToken;
-    expect(
-        splTokenInstruction.parsed, isA<ParsedSplTokenTransferInstruction>());
-    final parsedSplTokenInstruction =
-        splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
-    expect(parsedSplTokenInstruction.type, equals('transfer'));
-    expect(parsedSplTokenInstruction.info, isA<SplTokenTransferInfo>());
-    expect(parsedSplTokenInstruction.info.amount, '40');
-    final tokenBalance = await wallet.getTokenBalance(mint: token.mint);
-    expect(tokenBalance.amount, equals('40'));
-  }, timeout: const Timeout(Duration(minutes: 2)));
+  test(
+    'Transfer SPL tokens with memo',
+    () async {
+      final wallet = await Ed25519HDKeyPair.random();
+      // Create the associated account for the recipient
+      await wallet.createAssociatedTokenAccount(
+        mint: token.mint,
+        funder: source,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
+      );
+      const memoText = 'Memo test string...';
+
+      final signature = await source.transferSplToken(
+        mint: token.mint,
+        destination: wallet.address,
+        amount: 40,
+        memo: memoText,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
+      );
+      expect(signature, isNotNull);
+
+      // FIXME: check that this is of the correct type
+      final result = await rpcClient.getTransaction(
+        signature.toString(),
+        encoding: Encoding.jsonParsed,
+      );
+
+      expect(result, isNotNull);
+      expect(result?.transaction, isNotNull);
+      final transaction = result!.transaction;
+      expect(transaction.message, isNotNull);
+      final txMessage = transaction.message;
+      expect(txMessage.instructions, isNotNull);
+      final instructions = txMessage.instructions;
+      expect(instructions.length, equals(2));
+      expect(instructions[0], const TypeMatcher<ParsedInstructionSplToken>());
+      expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
+      final memoInstruction = instructions[1] as ParsedInstructionMemo;
+      expect(memoInstruction.memo, equals(memoText));
+      final splTokenInstruction = instructions[0] as ParsedInstructionSplToken;
+      expect(
+          splTokenInstruction.parsed, isA<ParsedSplTokenTransferInstruction>());
+      final parsedSplTokenInstruction =
+          splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
+      expect(parsedSplTokenInstruction.type, equals('transfer'));
+      expect(parsedSplTokenInstruction.info, isA<SplTokenTransferInfo>());
+      expect(parsedSplTokenInstruction.info.amount, '40');
+      final tokenBalance = await wallet.getTokenBalance(
+        mint: token.mint,
+        rpcClient: rpcClient,
+      );
+      expect(tokenBalance.amount, equals('40'));
+    },
+    timeout: const Timeout(Duration(minutes: 2)),
+  );
 }
 
 const _tokenMintAmount = 1000;
