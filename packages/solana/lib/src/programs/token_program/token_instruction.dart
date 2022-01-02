@@ -179,7 +179,7 @@ class TokenInstruction extends Instruction {
         ],
         data: Buffer.fromConcatenatedByteArrays([
           TokenProgram.setAuthorityInstructionIndex,
-          Buffer.fromUint8(authorityType.value),
+          Buffer.fromUint32(authorityType.value),
           Buffer.fromBase58(newAuthority),
         ]),
       );

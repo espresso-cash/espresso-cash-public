@@ -15,6 +15,7 @@ void main() {
   late final Ed25519HDKeyPair mintAuthority;
   late final Ed25519HDKeyPair tokensHolder;
   late final Ed25519HDKeyPair randomRecipient;
+  late final Ed25519HDKeyPair newAuthority;
 
   final rpcClient = RpcClient(devnetRpcUrl);
   final subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
@@ -25,6 +26,7 @@ void main() {
     mintAuthority = await Ed25519HDKeyPair.random();
     tokensHolder = await Ed25519HDKeyPair.random();
     randomRecipient = await Ed25519HDKeyPair.random();
+    newAuthority = await Ed25519HDKeyPair.random();
 
     final signature = await rpcClient.requestAirdrop(
       mintAuthority.address,
@@ -162,6 +164,18 @@ void main() {
     );
   });
 
+  test('Revoke', () async {
+    expect(
+      sendMessage(
+          TokenProgram.revoke(
+            source: tokensHolder.address,
+            sourceOwner: mintAuthority.address,
+          ),
+          [mintAuthority]),
+      completes,
+    );
+  });
+
   test('Approve Checked', () async {
     expect(
       sendMessage(
@@ -236,32 +250,19 @@ void main() {
     );
   });
 
-  test('Revoke', () async {
-    expect(
-      sendMessage(
-          TokenProgram.revoke(
-            source: randomRecipient.address,
-            sourceOwner: tokensHolder.address,
-          ),
-          [mintAuthority, tokensHolder]),
-      completes,
-    );
-  });
-
   test('Set Authority', () async {
-    final newAuthority = await Ed25519HDKeyPair.random();
     expect(
       sendMessage(
           TokenProgram.setAuthority(
             mintOrAccount: mint.address,
+            authorityType: AuthorityType.mintTokens,
             currentAuthority: mintAuthority.address,
             newAuthority: newAuthority.address,
-            authorityType: AuthorityType.mintTokens,
           ),
           [mintAuthority]),
       completes,
     );
-  }, skip: true);
+  });
 }
 
 Future<void> _sendMessage({
