@@ -2,22 +2,17 @@ import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/programs/memo_program/memo_instruction.dart';
 import 'package:solana/src/programs/system_program/system_instruction.dart';
-import 'package:solana/src/programs/token_program/token_program.dart';
 import 'package:solana/src/rpc/client.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/spl_token/spl_token.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
 
-/// Convenient object for common operations
-class Wallet {
-  Wallet(
-    this.signer, {
+typedef Wallet = Ed25519HDKeyPair;
+
+extension WalletExt on Wallet {
+  Future<String> _genericTransfer({
     required RpcClient rpcClient,
     required SubscriptionClient subscriptionClient,
-  })  : _rpcClient = rpcClient,
-        _subscriptionClient = subscriptionClient;
-
-  Future<String> _genericTransfer({
     required String source,
     required String destination,
     required int lamports,
@@ -37,36 +32,17 @@ class Wallet {
       instructions: instructions,
     );
 
-    final signature = await _rpcClient.signAndSendTransaction(
+    final signature = await rpcClient.signAndSendTransaction(
       message,
-      [signer],
+      [this],
     );
-    await _subscriptionClient.waitForSignatureStatus(
+    await subscriptionClient.waitForSignatureStatus(
       signature,
       status: commitment,
     );
 
     return signature;
   }
-
-  /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
-  /// to [destination].
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<String> transfer({
-    required String destination,
-    required int lamports,
-    Commitment commitment = Commitment.finalized,
-  }) =>
-      _genericTransfer(
-        source: address,
-        destination: destination,
-        lamports: lamports,
-        commitment: commitment,
-      );
 
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
   /// to [destination].
@@ -82,13 +58,17 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<String> transferWithMemo({
+  Future<String> transfer({
+    required RpcClient rpcClient,
+    required SubscriptionClient subscriptionClient,
     required String destination,
     required int lamports,
-    required String memo,
+    String? memo,
     Commitment commitment = Commitment.finalized,
   }) =>
       _genericTransfer(
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
         source: address,
         destination: destination,
         lamports: lamports,
@@ -103,15 +83,17 @@ class Wallet {
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<String> requestAirdrop({
+    required RpcClient rpcClient,
+    required SubscriptionClient subscriptionClient,
     required int lamports,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final signature = await _rpcClient.requestAirdrop(
+    final signature = await rpcClient.requestAirdrop(
       address,
       lamports,
       commitment: commitment,
     );
-    await _subscriptionClient.waitForSignatureStatus(
+    await subscriptionClient.waitForSignatureStatus(
       signature,
       status: commitment,
     );
@@ -120,79 +102,36 @@ class Wallet {
   }
 
   /// Transfers [amount] SPL token with [mint] from this wallet to the
-  /// [destination] address.
+  /// [destination] address with an optional [memo].
   ///
   /// For [commitment] parameter description [see this document][see this document]
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<String>? transferSplToken({
+  Future<String> transferSplToken({
+    required RpcClient rpcClient,
+    required SubscriptionClient subscriptionClient,
     required String mint,
     required String destination,
     required int amount,
+    String? memo,
     Commitment commitment = Commitment.finalized,
   }) async {
     final token = await SplToken.readonly(
       mint: mint,
-      rpcClient: _rpcClient,
-      subscriptionClient: _subscriptionClient,
+      rpcClient: rpcClient,
     );
 
     return token.transfer(
       source: address,
       amount: amount,
       destination: destination,
-      owner: signer,
+      owner: this,
       commitment: commitment,
+      memo: memo,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
-  }
-
-  /// Transfers [amount] SPL token with [mint] from this wallet to the
-  /// [destination] address with a [memo].
-  ///
-  /// For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<String>? transferSplTokenWithMemo({
-    required String mint,
-    required String destination,
-    required int amount,
-    required String memo,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final token = await SplToken.readonly(
-      mint: mint,
-      rpcClient: _rpcClient,
-      subscriptionClient: _subscriptionClient,
-    );
-    final source = await token.computeAssociatedAddress(owner: address);
-
-    final message = Message(
-      instructions: [
-        TokenInstruction.transfer(
-          source: source,
-          destination: await token.computeAssociatedAddress(owner: destination),
-          amount: amount,
-          owner: address,
-        ),
-        MemoInstruction(
-          signers: [address],
-          memo: memo,
-        ),
-      ],
-    );
-
-    final signature = await _rpcClient.signAndSendTransaction(
-      message,
-      [signer],
-    );
-    await _subscriptionClient.waitForSignatureStatus(
-      signature,
-      status: commitment,
-    );
-
-    return signature;
   }
 
   /// Create the account associated to the SPL token [mint] for this wallet.
@@ -206,18 +145,18 @@ class Wallet {
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<ProgramAccount> createAssociatedTokenAccount({
+    required RpcClient rpcClient,
+    required SubscriptionClient subscriptionClient,
     required String mint,
     Commitment? commitment,
     Wallet? funder,
   }) async {
-    final token = await SplToken.readonly(
-      mint: mint,
-      rpcClient: _rpcClient,
-      subscriptionClient: _subscriptionClient,
-    );
+    final token = await SplToken.readonly(mint: mint, rpcClient: rpcClient);
     final associatedTokenAccount = await token.createAssociatedAccount(
       owner: address,
-      funder: funder?.signer ?? signer,
+      funder: funder ?? this,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
 
     return associatedTokenAccount;
@@ -225,19 +164,19 @@ class Wallet {
 
   /// Whether this wallet has an associated token account for the SPL token [mint].
   Future<bool> hasAssociatedTokenAccount({
+    required RpcClient rpcClient,
     required String mint,
   }) async {
     Iterable<ProgramAccount> accounts;
     final token = await SplToken.readonly(
       mint: mint,
-      rpcClient: _rpcClient,
-      subscriptionClient: _subscriptionClient,
+      rpcClient: rpcClient,
     );
     final associatedTokenAddress = await token.computeAssociatedAddress(
       owner: address,
     );
     try {
-      accounts = await _rpcClient.getTokenAccountsByOwner(
+      accounts = await rpcClient.getTokenAccountsByOwner(
         address,
         TokenAccountsFilter.byMint(token.mint),
         encoding: Encoding.jsonParsed,
@@ -253,13 +192,10 @@ class Wallet {
   /// Note: this method always returns the address because it is computed
   /// when the [Wallet.loadToken()] method is called
   Future<String> getProgramAccountAddress({
+    required RpcClient rpcClient,
     required String mint,
   }) async {
-    final token = await SplToken.readonly(
-      mint: mint,
-      rpcClient: _rpcClient,
-      subscriptionClient: _subscriptionClient,
-    );
+    final token = await SplToken.readonly(mint: mint, rpcClient: rpcClient);
     return token.computeAssociatedAddress(owner: address);
   }
 
@@ -270,13 +206,12 @@ class Wallet {
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TokenAmount> getTokenBalance({
+    required RpcClient rpcClient,
     required String mint,
     Commitment? commitment,
   }) async =>
-      _rpcClient.getTokenAccountBalance(
-        await getProgramAccountAddress(
-          mint: mint,
-        ),
+      rpcClient.getTokenAccountBalance(
+        await getProgramAccountAddress(rpcClient: rpcClient, mint: mint),
         commitment: commitment,
       );
 
@@ -286,17 +221,9 @@ class Wallet {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<int> getLamports({Commitment? commitment}) =>
-      _rpcClient.getBalance(address, commitment: commitment);
-
-  /// The address associated to this wallet
-  String get address => signer.address;
-
-  /// The [signer] associated to this wallet. This is exported
-  /// because it can be needed in some places.
-  final Ed25519HDKeyPair signer;
-
-  final RpcClient _rpcClient;
-
-  final SubscriptionClient _subscriptionClient;
+  Future<int> getLamports({
+    required RpcClient rpcClient,
+    Commitment? commitment,
+  }) =>
+      rpcClient.getBalance(address, commitment: commitment);
 }
