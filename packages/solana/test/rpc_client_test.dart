@@ -233,11 +233,14 @@ void main() {
         owner: wallet,
         subscriptionClient: subscriptionClient,
         decimals: 8,
+        rpcClient: rpcClient,
       );
 
       final createdAccount = await token.createAssociatedAccount(
         owner: accountKeyPair.address,
         funder: accountCreator,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
       );
       expect(createdAccount, isNotNull);
 
@@ -818,6 +821,7 @@ Future<SplToken> _createToken({
     decimals: 2,
     owner: tokenMintAuthority,
     subscriptionClient: subscriptionClient,
+    rpcClient: rpcClient,
   );
   // Now lets create an account to store the supply. All SPL token transfer
   // must be done to an associated token account which belongs to the specific
@@ -827,19 +831,30 @@ Future<SplToken> _createToken({
   final supplyAccount = await splToken.createAssociatedAccount(
     owner: tokenMintAuthority.address,
     funder: tokenMintAuthority,
+    rpcClient: rpcClient,
+    subscriptionClient: subscriptionClient,
   );
   // Now we have a spl token, let's add the supply to it
   await splToken.mintTo(
     destination: supplyAccount.pubkey,
     amount: supply,
+    rpcClient: rpcClient,
+    subscriptionClient: subscriptionClient,
   );
 
   // We must check if the recipient has an associated token account, if not
   // we have to create it
-  if (await splToken.getAssociatedAccount(transferSomeToAddress) == null) {
+
+  final associatedAccount = await splToken.getAssociatedAccount(
+    transferSomeToAddress,
+    rpcClient: rpcClient,
+  );
+  if (associatedAccount == null) {
     await splToken.createAssociatedAccount(
       owner: transferSomeToAddress,
       funder: tokenMintAuthority,
+      rpcClient: rpcClient,
+      subscriptionClient: subscriptionClient,
     );
   }
 
@@ -850,6 +865,8 @@ Future<SplToken> _createToken({
     destination: transferSomeToAddress,
     amount: transferSomeToAmount,
     owner: tokenMintAuthority,
+    rpcClient: rpcClient,
+    subscriptionClient: subscriptionClient,
   );
 
   return splToken;

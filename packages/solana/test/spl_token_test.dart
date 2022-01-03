@@ -37,6 +37,7 @@ void main() {
         owner: owner,
         subscriptionClient: subscriptionClient,
         decimals: 2,
+        rpcClient: rpcClient,
       );
 
       expect(token.supply, equals(BigInt.zero));
@@ -52,11 +53,12 @@ void main() {
       final token = await SplToken.readonly(
         mint: newTokenMint,
         rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
       );
       await token.createAccount(
         account: account,
         creator: creator,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
       );
     }, timeout: const Timeout(Duration(minutes: 2)));
 
@@ -65,7 +67,6 @@ void main() {
         owner: owner,
         mint: newTokenMint,
         rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
       );
       List<ProgramAccount> accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
@@ -77,6 +78,8 @@ void main() {
       final newAccount = await token.createAssociatedAccount(
         owner: owner.address,
         funder: owner,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
       );
 
       accounts = await rpcClient.getTokenAccountsByOwner(
@@ -97,7 +100,6 @@ void main() {
         owner: owner,
         mint: newTokenMint,
         rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
       );
       final accounts = await rpcClient.getTokenAccountsByOwner(
         owner.address,
@@ -107,13 +109,14 @@ void main() {
       await token.mintTo(
         destination: accounts.first.pubkey,
         amount: _totalSupply,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
       );
       // Reload it
       token = await SplToken.readWrite(
         owner: owner,
         mint: newTokenMint,
         rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
       );
 
       expect(token.supply, equals(BigInt.from(_totalSupply)));
@@ -134,12 +137,13 @@ void main() {
         owner: owner,
         mint: newTokenMint,
         rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
       );
       // The account does not exist, so create it
       final account = await token.createAssociatedAccount(
         owner: recipient.address,
         funder: owner,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
       );
       expect(account, isA<ProgramAccount>());
       // Send to the newly created account
@@ -148,6 +152,8 @@ void main() {
         destination: recipient.address,
         amount: 100,
         owner: owner,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
       );
 
       expect(signature, isNot(null));
@@ -159,7 +165,6 @@ void main() {
         owner: owner,
         mint: newTokenMint,
         rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
       );
       final feePayer = await Ed25519HDKeyPair.random();
       // Add some tokens to pay for fees
@@ -169,14 +174,21 @@ void main() {
       final account = await token.createAssociatedAccount(
         owner: recipient.address,
         funder: owner,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
       );
       // A sender must have the appropriate associated account, in case they
       // don't it's an error and we should throw an exception.
-      final sourceAssociatedTokenAddress =
-          await token.getAssociatedAccount(owner.address);
+      final sourceAssociatedTokenAddress = await token.getAssociatedAccount(
+        owner.address,
+        rpcClient: rpcClient,
+      );
       // A recipient needs an associated account as well
       final destinationAssociatedTokenAddress =
-          await token.getAssociatedAccount(recipient.address);
+          await token.getAssociatedAccount(
+        recipient.address,
+        rpcClient: rpcClient,
+      );
       expect(sourceAssociatedTokenAddress, isNotNull);
       expect(destinationAssociatedTokenAddress, isNotNull);
 
@@ -212,7 +224,6 @@ void main() {
         owner: owner,
         mint: newTokenMint,
         rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
       );
       // Send to the newly created account
       expect(
@@ -221,6 +232,8 @@ void main() {
           destination: recipient.address,
           amount: 100,
           owner: owner,
+          rpcClient: rpcClient,
+          subscriptionClient: subscriptionClient,
         ),
         throwsA(isA<NoAssociatedTokenAccountException>()),
       );
@@ -234,7 +247,6 @@ void main() {
         owner: owner,
         mint: newTokenMint,
         rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
       );
       // Send to the newly created account
       expect(
@@ -243,6 +255,8 @@ void main() {
           destination: owner.address,
           amount: 100,
           owner: owner,
+          rpcClient: rpcClient,
+          subscriptionClient: subscriptionClient,
         ),
         throwsA(isA<NoAssociatedTokenAccountException>()),
       );
@@ -253,13 +267,14 @@ void main() {
       final token = await SplToken.readonly(
         mint: newTokenMint,
         rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
       );
       final associatedSourceAddress =
           await token.computeAssociatedAddress(owner: owner.address);
       final destinationAccount = await token.createAccount(
         account: destination,
         creator: owner,
+        rpcClient: rpcClient,
+        subscriptionClient: subscriptionClient,
       );
 
       final instructions = <Instruction>[

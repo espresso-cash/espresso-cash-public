@@ -1,5 +1,6 @@
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message.dart';
+import 'package:solana/src/programs/memo_program/memo_instruction.dart';
 import 'package:solana/src/programs/system_program/system_program.dart';
 import 'package:solana/src/programs/token_program/token_instruction.dart';
 
@@ -136,6 +137,7 @@ class TokenProgram extends Message {
     required String destination,
     required String owner,
     required int amount,
+    String? memo,
   }) =>
       TokenProgram._(
         instructions: [
@@ -144,7 +146,8 @@ class TokenProgram extends Message {
             destination: destination,
             owner: owner,
             amount: amount,
-          )
+          ),
+          if (memo != null) MemoInstruction(signers: [owner], memo: memo),
         ],
       );
 
