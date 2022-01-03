@@ -33,11 +33,11 @@ class TokenProgram extends Message {
       TokenProgram._(
         instructions: [
           SystemInstruction.createAccount(
-            address: mint,
-            owner: mintAuthority,
-            rent: rent,
+            pubKey: mint,
+            fromPubKey: mintAuthority,
+            lamports: rent,
             space: space,
-            programId: TokenProgram.programId,
+            owner: TokenProgram.programId,
           ),
           TokenInstruction.initializeMint(
             mint: mint,
@@ -71,11 +71,11 @@ class TokenProgram extends Message {
       TokenProgram._(
         instructions: [
           SystemInstruction.createAccount(
-            address: address,
-            owner: owner,
-            rent: rent,
+            pubKey: address,
+            fromPubKey: owner,
+            lamports: rent,
             space: space,
-            programId: TokenProgram.programId,
+            owner: TokenProgram.programId,
           ),
           TokenInstruction.initializeAccount(
             mint: mint,
