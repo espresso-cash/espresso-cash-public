@@ -47,7 +47,7 @@ class StakeProgram extends Message {
   static const authorizeCheckedWithSeedInstructionIndex = [11, 0, 0, 0];
   static const setLockupChecked = [12, 0, 0, 0];
 
-  // This is the maximum size that a stake account can use (200 bytes)
+  // This is the maximum size that a stake account can use (192 bytes)
   // Meta                                (120 bytes)
   //   rent_exempt_reserve uint64        (  8 bytes)
   //   authorized          Authorized    ( 64 bytes)
@@ -65,5 +65,5 @@ class StakeProgram extends Message {
   //     activation_epoch     Epoch   ( 8 bytes)
   //     deactivation_epoch   Epoch   ( 8 bytes)
   //     warmup_cooldown_rate float64 ( 8 bytes)
-  static const neededAccountSpace = 192;
+  static const neededAccountSpace = 200;
 }

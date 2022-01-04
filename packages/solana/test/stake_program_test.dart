@@ -35,6 +35,7 @@ void main() {
   });
 
   test('Create Account', () async {
+    final stakeAmount = 10 * lamportsPerSol;
     final ownerKey = await _createFundedKey(rpcClient, subscriptionClient);
     final stakeAccountKey = await Ed25519HDKeyPair.random();
     final rent = await rpcClient
@@ -46,7 +47,7 @@ void main() {
         staker: stakeAccountKey.address,
         withdrawer: stakeAccountKey.address,
       ),
-      lamports: rent,
+      lamports: rent + stakeAmount,
     );
 
     expect(
@@ -60,11 +61,10 @@ Future<Ed25519HDKeyPair> _createFundedKey(
   RpcClient rpcClient,
   SubscriptionClient subscriptionClient,
 ) async {
-  final keyPair = await Ed25519HDKeyPair.fromMnemonic(
-      'code miracle artefact fun ketchup sign sunny define pluck wear recycle meadow');
+  final keyPair = await Ed25519HDKeyPair.random();
   final signature = await rpcClient.requestAirdrop(
     keyPair.address,
-    10 * lamportsPerSol,
+    100 * lamportsPerSol,
   );
   await subscriptionClient.waitForSignatureStatus(
     signature,
