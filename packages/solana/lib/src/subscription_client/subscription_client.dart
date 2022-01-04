@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:solana/src/rpc/dto/account.dart';
 import 'package:solana/src/rpc/dto/commitment.dart';
-import 'package:solana/src/rpc/dto/confirmation_status.dart';
 import 'package:solana/src/rpc/dto/encoding.dart';
 import 'package:solana/src/rpc/dto/logs.dart';
 import 'package:solana/src/rpc/dto/program_filter.dart';
@@ -16,8 +15,6 @@ import 'package:solana/src/subscription_client/optional_error.dart';
 import 'package:solana/src/subscription_client/subscribed_message.dart';
 import 'package:solana/src/subscription_client/subscription_client_exception.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-
-part 'extension.dart';
 
 /// Provides a websocket based connection to Solana.
 class SubscriptionClient {

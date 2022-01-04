@@ -3,10 +3,15 @@ part of 'client.dart';
 extension RpcClientExt on RpcClient {
   Future<String> signAndSendTransaction(
     Message message,
-    List<Ed25519HDKeyPair> signers,
-  ) async {
+    List<Ed25519HDKeyPair> signers, {
+    FutureOr<void> Function(Signature)? onSigned,
+  }) async {
     final recentBlockhash = await getRecentBlockhash();
     final signedTx = await signTransaction(recentBlockhash, message, signers);
+
+    if (onSigned != null) {
+      await onSigned(signedTx.signatures.first);
+    }
 
     return sendTransaction(signedTx.encode());
   }
