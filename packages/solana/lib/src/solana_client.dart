@@ -3,10 +3,10 @@ import 'package:solana/src/rpc/rpc.dart';
 
 class SolanaClient {
   SolanaClient({required Uri rpcUrl, required Uri websocketUrl})
-      : _rpcClient = RpcClient(rpcUrl.toString()),
+      : rpcClient = RpcClient(rpcUrl.toString()),
         _websocketUrl = websocketUrl;
 
-  final RpcClient _rpcClient;
+  final RpcClient rpcClient;
   final Uri _websocketUrl;
 
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
@@ -50,7 +50,7 @@ class SolanaClient {
     required int lamports,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final signature = await _rpcClient.requestAirdrop(
+    final signature = await rpcClient.requestAirdrop(
       address,
       lamports,
       commitment: commitment,
@@ -61,6 +61,70 @@ class SolanaClient {
     );
 
     return signature;
+  }
+
+  /// Create a new token owned by [owner] with [decimals] base 10 decimal digits.
+  ///
+  /// You can optionally specify a [mintAuthority] address. By default the [owner]
+  /// address will be used as the _Mint Authority_.
+  ///
+  /// Also optional, you can specify a [freezeAuthority]. By default the
+  /// [freezeAuthority] is not set.
+  ///
+  /// Finally, you can also send the transaction with optional [commitment].
+  Future<SplToken> initializeMint({
+    required Ed25519HDKeyPair owner,
+    required int decimals,
+    String? mintAuthority,
+    String? freezeAuthority,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    const space = TokenProgram.neededMintAccountSpace;
+    final mintWallet = await Ed25519HDKeyPair.random();
+    final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
+
+    final message = TokenProgram.initializeMint(
+      mint: mintWallet.address,
+      mintAuthority: mintAuthority ?? owner.address,
+      freezeAuthority: freezeAuthority,
+      rent: rent,
+      space: space,
+      decimals: decimals,
+    );
+    final signature = await rpcClient.signAndSendTransaction(
+      message,
+      [owner, mintWallet],
+    );
+    await _createSubscriptionClient().waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
+
+    return readWrite(owner: owner, mint: mintWallet.address);
+  }
+
+  /// Mint [destination] with [amount] tokens. Requires writable [Token].
+  Future<void> mintTo({
+    required String destination,
+    required int amount,
+    required String mint,
+    required Wallet owner,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final message = TokenProgram.mintTo(
+      mint: mint,
+      destination: destination,
+      authority: owner.address,
+      amount: amount,
+    );
+    final signature = await rpcClient.signAndSendTransaction(
+      message,
+      [owner],
+    );
+    await _createSubscriptionClient().waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
   }
 
   /// Transfers [amount] SPL token with [mint] from this wallet to the
@@ -78,20 +142,104 @@ class SolanaClient {
     String? memo,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final token = await SplToken.readonly(
+    final associatedRecipientAccount = await getAssociatedAccount(
+      owner: destination,
       mint: mint,
-      rpcClient: _rpcClient,
+    );
+    final associatedSenderAccount = await getAssociatedAccount(
+      owner: source.address,
+      mint: mint,
+    );
+    // Throw an appropriate exception if the sender has no associated
+    // token account
+    if (associatedSenderAccount == null) {
+      throw NoAssociatedTokenAccountException(source.address, mint);
+    }
+    // Also throw an adequate exception if the recipient has no associated
+    // token account
+    if (associatedRecipientAccount == null) {
+      throw NoAssociatedTokenAccountException(destination, mint);
+    }
+
+    final message = TokenProgram.transfer(
+      source: associatedSenderAccount.pubkey,
+      destination: associatedRecipientAccount.pubkey,
+      owner: source.address,
+      amount: amount,
+      memo: memo,
     );
 
-    return token.transfer(
-      source: source.address,
-      amount: amount,
-      destination: destination,
-      owner: source,
-      commitment: commitment,
-      memo: memo,
-      rpcClient: _rpcClient,
-      subscriptionClient: _createSubscriptionClient(),
+    final signature = await rpcClient.signAndSendTransaction(
+      message,
+      [source],
+    );
+    await _createSubscriptionClient().waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
+
+    return signature;
+  }
+
+  Future<ProgramAccount?> getAssociatedAccount({
+    required String owner,
+    required String mint,
+  }) async {
+    final accounts = await rpcClient.getTokenAccountsByOwner(
+      owner,
+      TokenAccountsFilter.byMint(mint),
+      encoding: Encoding.jsonParsed,
+    );
+    if (accounts.isEmpty) {
+      return null;
+    }
+    return accounts.first;
+  }
+
+  Future<void> waitForSignatureStatus(
+    String signature, {
+    required ConfirmationStatus status,
+  }) async =>
+      _createSubscriptionClient().waitForSignatureStatus(
+        signature,
+        status: status,
+      );
+
+  /// Create an account for [account]
+  Future<Account> createAccount({
+    required String mint,
+    required Wallet account,
+    required Wallet creator,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    const space = TokenProgram.neededAccountSpace;
+    final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
+    final message = TokenProgram.createAccount(
+      address: account.address,
+      owner: creator.address,
+      mint: mint,
+      rent: rent,
+      space: space,
+    );
+    final signature = await rpcClient.signAndSendTransaction(
+      message,
+      [
+        creator,
+        account,
+      ],
+    );
+    await _createSubscriptionClient().waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
+
+    // TODO(IA): need to check if it is executable and grab the rentEpoch
+    return Account(
+      owner: account.address,
+      lamports: 0,
+      executable: false,
+      rentEpoch: 0,
+      data: null,
     );
   }
 
@@ -106,20 +254,43 @@ class SolanaClient {
   ///
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<ProgramAccount> createAssociatedTokenAccount({
-    required Wallet owner,
+    String? owner,
     required String mint,
-    Commitment? commitment,
-    Wallet? funder,
+    Commitment commitment = Commitment.finalized,
+    required Wallet funder,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
-    final associatedTokenAccount = await token.createAssociatedAccount(
-      owner: owner.address,
-      funder: funder ?? owner,
-      rpcClient: _rpcClient,
-      subscriptionClient: _createSubscriptionClient(),
+    final effectiveOwner = owner ?? funder.address;
+
+    final token = await readonly(mint: mint);
+    final derivedAddress = await token.computeAssociatedAddress(
+      owner: effectiveOwner,
+    );
+    final message = AssociatedTokenAccountProgram(
+      mint: mint,
+      address: derivedAddress,
+      owner: effectiveOwner,
+      funder: funder.address,
+    );
+    final signature = await rpcClient.signAndSendTransaction(
+      message,
+      [funder],
+    );
+    await _createSubscriptionClient().waitForSignatureStatus(
+      signature,
+      status: commitment,
     );
 
-    return associatedTokenAccount;
+    // TODO(IA): populate rentEpoch correctly
+    return ProgramAccount(
+      pubkey: derivedAddress,
+      account: Account(
+        owner: effectiveOwner,
+        lamports: 0,
+        executable: false,
+        rentEpoch: 0,
+        data: null,
+      ),
+    );
   }
 
   /// Whether this wallet has an associated token account for the SPL token [mint].
@@ -128,15 +299,12 @@ class SolanaClient {
     required String mint,
   }) async {
     Iterable<ProgramAccount> accounts;
-    final token = await SplToken.readonly(
-      mint: mint,
-      rpcClient: _rpcClient,
-    );
+    final token = await readonly(mint: mint);
     final associatedTokenAddress = await token.computeAssociatedAddress(
       owner: owner,
     );
     try {
-      accounts = await _rpcClient.getTokenAccountsByOwner(
+      accounts = await rpcClient.getTokenAccountsByOwner(
         owner,
         TokenAccountsFilter.byMint(token.mint),
         encoding: Encoding.jsonParsed,
@@ -155,7 +323,7 @@ class SolanaClient {
     required String owner,
     required String mint,
   }) async {
-    final token = await SplToken.readonly(mint: mint, rpcClient: _rpcClient);
+    final token = await readonly(mint: mint);
     return token.computeAssociatedAddress(owner: owner);
   }
 
@@ -170,7 +338,7 @@ class SolanaClient {
     required String mint,
     Commitment? commitment,
   }) async =>
-      _rpcClient.getTokenAccountBalance(
+      rpcClient.getTokenAccountBalance(
         await getProgramAccountAddress(owner: owner, mint: mint),
         commitment: commitment,
       );
@@ -185,10 +353,37 @@ class SolanaClient {
     required String address,
     Commitment? commitment,
   }) =>
-      _rpcClient.getBalance(address, commitment: commitment);
+      rpcClient.getBalance(address, commitment: commitment);
+
+  /// Create a read write account
+  Future<SplToken> readWrite({
+    required String mint,
+    required Ed25519HDKeyPair owner,
+  }) =>
+      _withOptionalOwner(mint: mint, owner: owner);
+
+  /// Create a readonly account for [mint].
+  Future<SplToken> readonly({required String mint}) =>
+      _withOptionalOwner(mint: mint);
 
   SubscriptionClient _createSubscriptionClient() =>
       SubscriptionClient(_websocketUrl);
+
+  /// Passing [owner] makes this a writeable token.
+  Future<SplToken> _withOptionalOwner({
+    required String mint,
+    Ed25519HDKeyPair? owner,
+  }) async {
+    // TODO(IA): perhaps delay this or use a user provided token information
+    final supplyValue = await rpcClient.getTokenSupply(mint);
+
+    return SplToken(
+      decimals: supplyValue.decimals,
+      supply: BigInt.parse(supplyValue.amount),
+      mint: mint,
+      owner: owner,
+    );
+  }
 
   Future<String> _genericTransfer({
     required String source,
@@ -211,7 +406,7 @@ class SolanaClient {
       instructions: instructions,
     );
 
-    final signature = await _rpcClient.signAndSendTransaction(
+    final signature = await rpcClient.signAndSendTransaction(
       message,
       [signer],
     );
