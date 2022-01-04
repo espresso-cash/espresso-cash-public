@@ -57,10 +57,10 @@ void main() {
     final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
     final instructions = [
       SystemInstruction.createAccount(
-        rent: rent,
-        programId: _basic1,
-        address: updater.address,
-        owner: payer.address,
+        lamports: rent,
+        owner: _basic1,
+        pubKey: updater.address,
+        fromPubKey: payer.address,
         space: space,
       ),
       await AnchorInstruction.forMethod(
