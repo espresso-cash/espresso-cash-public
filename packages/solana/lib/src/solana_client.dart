@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:solana/solana.dart';
+import 'package:solana/src/encoder/signature.dart';
 import 'package:solana/src/rpc/rpc.dart';
 
 class SolanaClient {
@@ -37,6 +40,7 @@ class SolanaClient {
     required String destination,
     required int lamports,
     String? memo,
+    FutureOr<void> Function(Signature)? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
     final instructions = [
@@ -55,6 +59,7 @@ class SolanaClient {
     final signature = await rpcClient.signAndSendTransaction(
       message,
       [source],
+      onSigned: onSigned,
     );
     await _createSubscriptionClient().waitForSignatureStatus(
       signature,
