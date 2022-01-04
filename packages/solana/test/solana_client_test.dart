@@ -26,7 +26,7 @@ void main() {
       mint: token.mint,
       funder: source,
     );
-    await solanaClient.mintTo(
+    await solanaClient.transferMint(
       destination: associatedAccount.pubkey,
       amount: _tokenMintAmount,
       mint: token.mint,

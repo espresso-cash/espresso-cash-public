@@ -834,7 +834,7 @@ Future<SplToken> _createToken({
     mint: splToken.mint,
   );
   // Now we have a spl token, let's add the supply to it
-  await solanaClient.mintTo(
+  await solanaClient.transferMint(
     destination: supplyAccount.pubkey,
     amount: supply,
     mint: splToken.mint,
@@ -844,7 +844,7 @@ Future<SplToken> _createToken({
   // We must check if the recipient has an associated token account, if not
   // we have to create it
 
-  final associatedAccount = await solanaClient.getAssociatedAccount(
+  final associatedAccount = await solanaClient.getAssociatedTokenAccount(
     mint: splToken.mint,
     owner: transferSomeToAddress,
   );

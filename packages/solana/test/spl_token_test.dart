@@ -77,14 +77,14 @@ void main() {
         TokenAccountsFilter.byMint(newTokenMint),
         encoding: Encoding.jsonParsed,
       );
-      await solanaClient.mintTo(
+      await solanaClient.transferMint(
         destination: accounts.first.pubkey,
         amount: _totalSupply,
         mint: newTokenMint,
         owner: owner,
       );
 
-      final token = await solanaClient.readWrite(
+      final token = await solanaClient.createReadWriteToken(
         owner: owner,
         mint: newTokenMint,
       );
@@ -138,13 +138,13 @@ void main() {
       // A sender must have the appropriate associated account, in case they
       // don't it's an error and we should throw an exception.
       final sourceAssociatedTokenAddress =
-          await solanaClient.getAssociatedAccount(
+          await solanaClient.getAssociatedTokenAccount(
         mint: newTokenMint,
         owner: owner.address,
       );
       // A recipient needs an associated account as well
       final destinationAssociatedTokenAddress =
-          await solanaClient.getAssociatedAccount(
+          await solanaClient.getAssociatedTokenAccount(
         mint: newTokenMint,
         owner: recipient.address,
       );
@@ -206,7 +206,7 @@ void main() {
 
     test('Send transfer instruction in an existing transaction', () async {
       final destination = await Ed25519HDKeyPair.random();
-      final token = await solanaClient.readonly(
+      final token = await solanaClient.createReadonlyToken(
         mint: newTokenMint,
       );
       final associatedSourceAddress =

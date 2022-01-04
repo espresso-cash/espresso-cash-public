@@ -9,6 +9,27 @@ class SolanaClient {
   final RpcClient rpcClient;
   final Uri _websocketUrl;
 
+  Future<void> waitForSignatureStatus(
+    String signature, {
+    required ConfirmationStatus status,
+  }) async =>
+      _createSubscriptionClient().waitForSignatureStatus(
+        signature,
+        status: status,
+      );
+
+  /// Get the balance in lamports for this wallet's account
+  ///
+  /// For [commitment] parameter description [see this document][1]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<int> getLamports({
+    required String address,
+    Commitment? commitment,
+  }) =>
+      rpcClient.getBalance(address, commitment: commitment);
+
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
   /// to [destination].
   ///
@@ -73,7 +94,7 @@ class SolanaClient {
   ///
   /// Finally, you can also send the transaction with optional [commitment].
   Future<SplToken> initializeMint({
-    required Ed25519HDKeyPair owner,
+    required Wallet owner,
     required int decimals,
     String? mintAuthority,
     String? freezeAuthority,
@@ -100,11 +121,11 @@ class SolanaClient {
       status: commitment,
     );
 
-    return readWrite(owner: owner, mint: mintWallet.address);
+    return createReadWriteToken(owner: owner, mint: mintWallet.address);
   }
 
   /// Mint [destination] with [amount] tokens. Requires writable [Token].
-  Future<void> mintTo({
+  Future<void> transferMint({
     required String destination,
     required int amount,
     required String mint,
@@ -142,11 +163,11 @@ class SolanaClient {
     String? memo,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final associatedRecipientAccount = await getAssociatedAccount(
+    final associatedRecipientAccount = await getAssociatedTokenAccount(
       owner: destination,
       mint: mint,
     );
-    final associatedSenderAccount = await getAssociatedAccount(
+    final associatedSenderAccount = await getAssociatedTokenAccount(
       owner: source.address,
       mint: mint,
     );
@@ -181,7 +202,7 @@ class SolanaClient {
     return signature;
   }
 
-  Future<ProgramAccount?> getAssociatedAccount({
+  Future<ProgramAccount?> getAssociatedTokenAccount({
     required String owner,
     required String mint,
   }) async {
@@ -196,16 +217,7 @@ class SolanaClient {
     return accounts.first;
   }
 
-  Future<void> waitForSignatureStatus(
-    String signature, {
-    required ConfirmationStatus status,
-  }) async =>
-      _createSubscriptionClient().waitForSignatureStatus(
-        signature,
-        status: status,
-      );
-
-  /// Create an account for [account]
+  /// Create an account for [account].
   Future<Account> createAccount({
     required String mint,
     required Wallet account,
@@ -223,10 +235,7 @@ class SolanaClient {
     );
     final signature = await rpcClient.signAndSendTransaction(
       message,
-      [
-        creator,
-        account,
-      ],
+      [creator, account],
     );
     await _createSubscriptionClient().waitForSignatureStatus(
       signature,
@@ -256,12 +265,12 @@ class SolanaClient {
   Future<ProgramAccount> createAssociatedTokenAccount({
     String? owner,
     required String mint,
-    Commitment commitment = Commitment.finalized,
     required Wallet funder,
+    Commitment commitment = Commitment.finalized,
   }) async {
     final effectiveOwner = owner ?? funder.address;
 
-    final token = await readonly(mint: mint);
+    final token = await createReadonlyToken(mint: mint);
     final derivedAddress = await token.computeAssociatedAddress(
       owner: effectiveOwner,
     );
@@ -299,7 +308,7 @@ class SolanaClient {
     required String mint,
   }) async {
     Iterable<ProgramAccount> accounts;
-    final token = await readonly(mint: mint);
+    final token = await createReadonlyToken(mint: mint);
     final associatedTokenAddress = await token.computeAssociatedAddress(
       owner: owner,
     );
@@ -323,7 +332,7 @@ class SolanaClient {
     required String owner,
     required String mint,
   }) async {
-    final token = await readonly(mint: mint);
+    final token = await createReadonlyToken(mint: mint);
     return token.computeAssociatedAddress(owner: owner);
   }
 
@@ -343,27 +352,15 @@ class SolanaClient {
         commitment: commitment,
       );
 
-  /// Get the balance in lamports for this wallet's account
-  ///
-  /// For [commitment] parameter description [see this document][1]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<int> getLamports({
-    required String address,
-    Commitment? commitment,
-  }) =>
-      rpcClient.getBalance(address, commitment: commitment);
-
-  /// Create a read write account
-  Future<SplToken> readWrite({
+  /// Create a read write account.
+  Future<SplToken> createReadWriteToken({
     required String mint,
-    required Ed25519HDKeyPair owner,
+    required Wallet owner,
   }) =>
       _withOptionalOwner(mint: mint, owner: owner);
 
   /// Create a readonly account for [mint].
-  Future<SplToken> readonly({required String mint}) =>
+  Future<SplToken> createReadonlyToken({required String mint}) =>
       _withOptionalOwner(mint: mint);
 
   SubscriptionClient _createSubscriptionClient() =>
@@ -372,7 +369,7 @@ class SolanaClient {
   /// Passing [owner] makes this a writeable token.
   Future<SplToken> _withOptionalOwner({
     required String mint,
-    Ed25519HDKeyPair? owner,
+    Wallet? owner,
   }) async {
     // TODO(IA): perhaps delay this or use a user provided token information
     final supplyValue = await rpcClient.getTokenSupply(mint);
