@@ -1,3 +1,11 @@
+## 0.16.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: Create programs directory to keep all programs (#140).
+ - **FEAT**: System program instructions (#127).
+ - **BREAKING** **REFACTOR**: Update Wallet (#143).
+
 ## 0.15.0
 
 > Note: This release has breaking changes.

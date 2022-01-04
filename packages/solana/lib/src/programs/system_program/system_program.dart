@@ -9,8 +9,47 @@ class SystemProgram extends Message {
     required List<Instruction> instructions,
   }) : super(instructions: instructions);
 
-  /// Construct a transfer message to send [lamports] SOL tokens from [source]
-  /// to [destination].
+  /// Create account.
+  ///
+  /// Create a program account for [owner] owned by [fromPubKey] and with
+  /// [pubKey] public key.
+  ///
+  /// For the [rent] you must call [RPCClient.getMinimumBalanceForRentExemption()]
+  /// and provide the [space] you want to allocate for the account.
+  ///
+  /// The account will be linked to the [owner] program.
+  ///
+  /// If [pubKey] is the [fromPubKey]'s address, and the owner has tokens this will
+  /// fail because the account would already exist.
+  factory SystemProgram.createAccount({
+    required String pubKey,
+    required String fromPubKey,
+    required int lamports,
+    required int space,
+    required String owner,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.createAccount(
+            pubKey: pubKey,
+            fromPubKey: fromPubKey,
+            lamports: lamports,
+            space: space,
+            owner: owner,
+          ),
+        ],
+      );
+
+  /// Assign [pubKey] to [owner]
+  factory SystemProgram.assign({
+    required String pubKey,
+    required String owner,
+  }) =>
+      SystemProgram._(instructions: [
+        SystemInstruction.assign(pubKey: pubKey, owner: owner),
+      ]);
+
+  /// Transfer [lamports] SOL tokens from [source] to [destination].
   factory SystemProgram.transfer({
     required String source,
     required String destination,
@@ -26,36 +65,210 @@ class SystemProgram extends Message {
         ],
       );
 
-  /// Construct a create account message.
-  ///
-  /// The [address] is the public key of the new account
-  /// [owner] as its owner. The [owner] is the funder of the account.
-  ///
-  /// For the [rent] you must call [RPCClient.getMinimumBalanceForRentExemption()]
-  /// and proved the [space] you want to allocate for the account.
-  ///
-  /// The account will be linked to the [programId] program.
-  ///
-  /// If [address] is the [owner]'s address, and the owner has tokens this will
-  /// fail because the account would already exist.
-  factory SystemProgram.createAccount({
-    required String address,
-    required String owner,
-    required int rent,
+  factory SystemProgram.createAccountWithSeed({
+    required String fromPubKey,
+    required String pubKey,
+    required String base,
+    required String seed,
+    required int lamports,
     required int space,
-    required String programId,
+    required String owner,
   }) =>
-      SystemProgram._(instructions: [
-        SystemInstruction.createAccount(
-          address: address,
-          owner: owner,
-          rent: rent,
-          space: space,
-          programId: programId,
-        ),
-      ]);
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.createAccountWithSeed(
+            fromPubKey: fromPubKey,
+            pubKey: pubKey,
+            base: base,
+            seed: seed,
+            lamports: lamports,
+            space: space,
+            owner: owner,
+          )
+        ],
+      );
+
+  factory SystemProgram.advanceNonceAccount({
+    required String nonceAuthorityPubKey,
+    required String authorizedPubKey,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.advanceNonceAccount(
+            noncePubKey: nonceAuthorityPubKey,
+            nonceAuthorityPubKey: authorizedPubKey,
+          )
+        ],
+      );
+
+  factory SystemProgram.withdrawNonceAccount({
+    required String noncePubKey,
+    required String authorizedPubKey,
+    required String toPubKey,
+    required int lamports,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.withdrawNonceAccount(
+            noncePubKey: noncePubKey,
+            authorizedPubKey: authorizedPubKey,
+            toPubKey: toPubKey,
+            lamports: lamports,
+          )
+        ],
+      );
+
+  factory SystemProgram.createNonceAccount({
+    required String fromPubKey,
+    required String noncePubKey,
+    required String noceAuthorityPubKey,
+    required int lamports,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.createAccount(
+            fromPubKey: fromPubKey,
+            pubKey: noncePubKey,
+            lamports: lamports,
+            space: nonceAccountSize,
+            owner: SystemProgram.programId,
+          ),
+          SystemInstruction.initializeNonceAccount(
+            noncePubKey: noncePubKey,
+            authority: noceAuthorityPubKey,
+          )
+        ],
+      );
+
+  factory SystemProgram.createNonceAccountWithSeed({
+    required String fromPubKey,
+    required String noncePubKey,
+    required String base,
+    required String seed,
+    required String authority,
+    required int lamports,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.createAccountWithSeed(
+            fromPubKey: fromPubKey,
+            pubKey: noncePubKey,
+            lamports: lamports,
+            space: nonceAccountSize,
+            seed: seed,
+            base: base,
+            owner: SystemProgram.programId,
+          ),
+          SystemInstruction.initializeNonceAccount(
+            noncePubKey: noncePubKey,
+            authority: authority,
+          )
+        ],
+      );
+
+  factory SystemProgram.authorizeNonceAccount({
+    required String noncePubKey,
+    required String authorizedPubKey,
+    required String newAuthority,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.authorizeNonceAccount(
+            noncePubKey: noncePubKey,
+            authorizedPubKey: authorizedPubKey,
+            newAuthority: newAuthority,
+          )
+        ],
+      );
+
+  factory SystemProgram.allocate({
+    required String pubKey,
+    required int space,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.allocate(pubKey: pubKey, space: space),
+        ],
+      );
+
+  factory SystemProgram.allocateWithSeed({
+    required String pubKey,
+    required int space,
+    required String base,
+    required String seed,
+    required String owner,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.allocateWithSeed(
+            pubKey: pubKey,
+            base: base,
+            seed: seed,
+            space: space,
+            owner: owner,
+          )
+        ],
+      );
+
+  factory SystemProgram.assignWithSeed({
+    required String pubKey,
+    required String base,
+    required String seed,
+    required String owner,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.assignWithSeed(
+            pubKey: pubKey,
+            base: base,
+            seed: seed,
+            owner: owner,
+          )
+        ],
+      );
+
+  factory SystemProgram.transferWithSeed({
+    required String source,
+    required String base,
+    required String seed,
+    required String destination,
+    required int lamports,
+    required String owner,
+  }) =>
+      SystemProgram._(
+        instructions: [
+          SystemInstruction.transferWithSeed(
+            source: source,
+            base: base,
+            seed: seed,
+            owner: owner,
+            destination: destination,
+            lamports: lamports,
+          )
+        ],
+      );
 
   static const programId = '11111111111111111111111111111111';
+
   static const createAccountInstructionIndex = [0, 0, 0, 0];
+  static const assignInstructionIndex = [1, 0, 0, 0];
   static const transferInstructionIndex = [2, 0, 0, 0];
+  static const createAccountWithSeedInstructionIndex = [3, 0, 0, 0];
+  static const advanceNonceAccountInstructionIndex = [4, 0, 0, 0];
+  static const withdrawNonceAccountInstructionIndex = [5, 0, 0, 0];
+  static const initializeNonceAccountInstructionIndex = [6, 0, 0, 0];
+  static const authorizeNonceAccountInstructionIndex = [7, 0, 0, 0];
+  static const allocateInstructionIndex = [8, 0, 0, 0];
+  static const allocateWithSeedInstructionIndex = [9, 0, 0, 0];
+  static const assignWithSeedInstructionIndex = [10, 0, 0, 0];
+  static const transferWithSeedInstructionIndex = [11, 0, 0, 0];
+
+  // Note: in the rust sdk this is computed dynamically.
+  //
+  // Currently the object has 3 fields
+  //
+  // - Authority (PubKey) 32 bytes
+  // - Blockhash (32 + 8) bytes
+  // - FeeCalculator (lamportsPerSol int64) (8 bytes)
+  static const nonceAccountSize = 80;
 }
