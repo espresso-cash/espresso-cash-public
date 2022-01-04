@@ -34,4 +34,5 @@ export 'src/solana_client.dart';
 export 'src/spl_token/spl_token.dart';
 export 'src/subscription_client/optional_error.dart';
 export 'src/subscription_client/subscription_client.dart';
+export 'src/subscription_client/subscription_client_ext.dart';
 export 'src/wallet.dart';

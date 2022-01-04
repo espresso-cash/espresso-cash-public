@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:solana/src/rpc/dto/account.dart';
 import 'package:solana/src/rpc/dto/commitment.dart';
-import 'package:solana/src/rpc/dto/confirmation_status.dart';
 import 'package:solana/src/rpc/dto/encoding.dart';
 import 'package:solana/src/rpc/dto/logs.dart';
 import 'package:solana/src/rpc/dto/program_filter.dart';
@@ -29,20 +28,6 @@ class SubscriptionClient {
 
   /// Subscribe to all incoming messages.
   Stream<SubscriptionMessage> allMessages() => _stream.map(_parse);
-
-  /// Waits for transation with [signature] to reach [status].
-  /// Throws exception if transaction failed.
-  Future<void> waitForSignatureStatus(
-    String signature, {
-    required ConfirmationStatus status,
-  }) async {
-    final result = await signatureSubscribe(
-      signature,
-      commitment: status,
-    ).first;
-
-    if (result.err != null) throw Exception(result.err);
-  }
 
   /// Subscribe to an account with [address] to receive notifications when the
   /// lamports or data for a given account public key changes.
