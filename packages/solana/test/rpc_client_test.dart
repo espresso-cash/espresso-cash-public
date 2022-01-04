@@ -69,9 +69,7 @@ void main() {
     });
 
     test('Read the balance of an account', () async {
-      final int balance = await rpcClient.getBalance(
-        source.address,
-      );
+      final int balance = await rpcClient.getBalance(source.address);
       expect(balance, currentBalance);
     });
 

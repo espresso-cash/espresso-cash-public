@@ -17,8 +17,6 @@ import 'package:solana/src/subscription_client/subscribed_message.dart';
 import 'package:solana/src/subscription_client/subscription_client_exception.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-part 'extension.dart';
-
 /// Provides a websocket based connection to Solana.
 class SubscriptionClient {
   SubscriptionClient(Uri _uri) {
@@ -31,6 +29,20 @@ class SubscriptionClient {
 
   /// Subscribe to all incoming messages.
   Stream<SubscriptionMessage> allMessages() => _stream.map(_parse);
+
+  /// Waits for transation with [signature] to reach [status].
+  /// Throws exception if transaction failed.
+  Future<void> waitForSignatureStatus(
+    String signature, {
+    required ConfirmationStatus status,
+  }) async {
+    final result = await signatureSubscribe(
+      signature,
+      commitment: status,
+    ).first;
+
+    if (result.err != null) throw Exception(result.err);
+  }
 
   /// Subscribe to an account with [address] to receive notifications when the
   /// lamports or data for a given account public key changes.

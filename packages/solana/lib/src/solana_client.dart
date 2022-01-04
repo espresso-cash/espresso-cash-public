@@ -18,18 +18,6 @@ class SolanaClient {
         status: status,
       );
 
-  /// Get the balance in lamports for this wallet's account
-  ///
-  /// For [commitment] parameter description [see this document][1]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<int> getLamports({
-    required String address,
-    Commitment? commitment,
-  }) =>
-      rpcClient.getBalance(address, commitment: commitment);
-
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
   /// to [destination].
   ///
@@ -50,15 +38,31 @@ class SolanaClient {
     required int lamports,
     String? memo,
     Commitment commitment = Commitment.finalized,
-  }) =>
-      _genericTransfer(
+  }) async {
+    final instructions = [
+      SystemInstruction.transfer(
         source: source.address,
-        signer: source,
         destination: destination,
         lamports: lamports,
-        memo: memo,
-        commitment: commitment,
-      );
+      ),
+      if (memo != null) MemoInstruction(signers: [source.address], memo: memo),
+    ];
+
+    final message = Message(
+      instructions: instructions,
+    );
+
+    final signature = await rpcClient.signAndSendTransaction(
+      message,
+      [source],
+    );
+    await _createSubscriptionClient().waitForSignatureStatus(
+      signature,
+      status: commitment,
+    );
+
+    return signature;
+  }
 
   /// Request airdrop for [amount] to this wallet's account.
   ///
@@ -218,7 +222,7 @@ class SolanaClient {
   }
 
   /// Create an account for [account].
-  Future<Account> createAccount({
+  Future<Account> createTokenAccount({
     required String mint,
     required Wallet account,
     required Wallet creator,
@@ -380,38 +384,5 @@ class SolanaClient {
       mint: mint,
       owner: owner,
     );
-  }
-
-  Future<String> _genericTransfer({
-    required String source,
-    required String destination,
-    required int lamports,
-    required Commitment commitment,
-    required Wallet signer,
-    String? memo,
-  }) async {
-    final instructions = [
-      SystemInstruction.transfer(
-        source: source,
-        destination: destination,
-        lamports: lamports,
-      ),
-      if (memo != null) MemoInstruction(signers: [source], memo: memo),
-    ];
-
-    final message = Message(
-      instructions: instructions,
-    );
-
-    final signature = await rpcClient.signAndSendTransaction(
-      message,
-      [signer],
-    );
-    await _createSubscriptionClient().waitForSignatureStatus(
-      signature,
-      status: commitment,
-    );
-
-    return signature;
   }
 }

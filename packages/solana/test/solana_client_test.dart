@@ -36,7 +36,7 @@ void main() {
 
   test('Get wallet lamports', () async {
     expect(
-      await solanaClient.getLamports(address: source.address),
+      await solanaClient.rpcClient.getBalance(source.address),
       greaterThan(0),
     );
   });
@@ -49,7 +49,7 @@ void main() {
     );
     expect(signature, isNotNull);
     expect(
-      await solanaClient.getLamports(address: destination.address),
+      await solanaClient.rpcClient.getBalance(destination.address),
       equals(lamportsPerSol),
     );
   });
@@ -111,7 +111,7 @@ void main() {
       );
       expect(signature, isNotNull);
       expect(
-        await solanaClient.getLamports(address: wallet.address),
+        await solanaClient.rpcClient.getBalance(wallet.address),
         equals(lamportsPerSol),
       );
 
