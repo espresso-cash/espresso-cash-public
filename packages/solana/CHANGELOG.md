@@ -1,3 +1,9 @@
+## 0.17.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Add SolanaClient (#144).
+
 ## 0.16.0
 
 > Note: This release has breaking changes.

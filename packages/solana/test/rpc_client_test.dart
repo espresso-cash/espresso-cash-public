@@ -1,15 +1,6 @@
 import 'package:bip39/bip39.dart';
-import 'package:solana/src/constants.dart';
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/encoder/signed_tx.dart';
-import 'package:solana/src/exceptions/json_rpc_exception.dart';
-import 'package:solana/src/helpers.dart';
-import 'package:solana/src/programs/system_program/system_program.dart';
-import 'package:solana/src/programs/token_program/token_program.dart';
-import 'package:solana/src/rpc/client.dart';
+import 'package:solana/solana.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
-import 'package:solana/src/spl_token/spl_token.dart';
-import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
@@ -68,9 +59,7 @@ void main() {
     });
 
     test('Read the balance of an account', () async {
-      final int balance = await rpcClient.getBalance(
-        source.address,
-      );
+      final int balance = await rpcClient.getBalance(source.address);
       expect(balance, currentBalance);
     });
 
@@ -228,19 +217,20 @@ void main() {
 
       await airdrop(rpcClient, subscriptionClient, wallet, sol: 100);
       await airdrop(rpcClient, subscriptionClient, accountCreator, sol: 100);
-
-      final token = await rpcClient.initializeMint(
-        owner: wallet,
-        subscriptionClient: subscriptionClient,
-        decimals: 8,
-        rpcClient: rpcClient,
+      final solanaClient = SolanaClient(
+        rpcUrl: Uri.parse(devnetRpcUrl),
+        websocketUrl: Uri.parse(devnetWebsocketUrl),
       );
 
-      final createdAccount = await token.createAssociatedAccount(
+      final token = await solanaClient.initializeMint(
+        owner: wallet,
+        decimals: 8,
+      );
+
+      final createdAccount = await solanaClient.createAssociatedTokenAccount(
         owner: accountKeyPair.address,
         funder: accountCreator,
-        rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
+        mint: token.mint,
       );
       expect(createdAccount, isNotNull);
 
@@ -816,57 +806,51 @@ Future<SplToken> _createToken({
     signature,
     status: Commitment.finalized,
   );
+  final solanaClient = createTestSolanaClient();
   // Now we have SOL to create the token
-  final splToken = await rpcClient.initializeMint(
+  final splToken = await solanaClient.initializeMint(
     decimals: 2,
     owner: tokenMintAuthority,
-    subscriptionClient: subscriptionClient,
-    rpcClient: rpcClient,
   );
   // Now lets create an account to store the supply. All SPL token transfer
   // must be done to an associated token account which belongs to the specific
   // token
   //
   // The mint authority will also, own the total supply of the token
-  final supplyAccount = await splToken.createAssociatedAccount(
-    owner: tokenMintAuthority.address,
+  final supplyAccount = await solanaClient.createAssociatedTokenAccount(
     funder: tokenMintAuthority,
-    rpcClient: rpcClient,
-    subscriptionClient: subscriptionClient,
+    mint: splToken.mint,
   );
   // Now we have a spl token, let's add the supply to it
-  await splToken.mintTo(
+  await solanaClient.transferMint(
     destination: supplyAccount.pubkey,
     amount: supply,
-    rpcClient: rpcClient,
-    subscriptionClient: subscriptionClient,
+    mint: splToken.mint,
+    owner: tokenMintAuthority,
   );
 
   // We must check if the recipient has an associated token account, if not
   // we have to create it
 
-  final associatedAccount = await splToken.getAssociatedAccount(
-    transferSomeToAddress,
-    rpcClient: rpcClient,
+  final associatedAccount = await solanaClient.getAssociatedTokenAccount(
+    mint: splToken.mint,
+    owner: transferSomeToAddress,
   );
   if (associatedAccount == null) {
-    await splToken.createAssociatedAccount(
+    await solanaClient.createAssociatedTokenAccount(
       owner: transferSomeToAddress,
       funder: tokenMintAuthority,
-      rpcClient: rpcClient,
-      subscriptionClient: subscriptionClient,
+      mint: splToken.mint,
     );
   }
 
   // And finally transfer them from the supply account to the destination account,
   // this is similar to what a faucet does
-  await splToken.transfer(
-    source: tokenMintAuthority.address,
+  await solanaClient.transferSplToken(
+    source: tokenMintAuthority,
     destination: transferSomeToAddress,
     amount: transferSomeToAmount,
-    owner: tokenMintAuthority,
-    rpcClient: rpcClient,
-    subscriptionClient: subscriptionClient,
+    mint: splToken.mint,
   );
 
   return splToken;
