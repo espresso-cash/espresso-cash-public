@@ -1,8 +1,4 @@
-import 'package:solana/src/constants.dart';
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/rpc/client.dart';
-import 'package:solana/src/rpc/dto/commitment.dart';
-import 'package:solana/src/subscription_client/subscription_client.dart';
+import 'package:solana/solana.dart';
 
 Future<void> airdrop(
   RpcClient client,
