@@ -5,6 +5,7 @@ import 'package:solana/src/programs/token_program/token_program.dart';
 import 'package:solana/src/rpc/client.dart';
 import 'package:solana/src/rpc/dto/confirmation_status.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
+import 'package:solana/src/subscription_client/subscription_client_ext.dart';
 import 'package:test/test.dart';
 
 import 'config.dart';
