@@ -16,7 +16,7 @@ jobs:
     services:
       solana:
         image: solanalabs/solana:v1.8.11
-        options: --entrypoint="/usr/bin/solana-test-validator -r"
+        options: --entrypoint="solana-test-validator -r"
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
