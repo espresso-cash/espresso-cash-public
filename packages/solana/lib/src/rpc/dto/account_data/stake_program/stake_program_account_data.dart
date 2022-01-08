@@ -10,7 +10,7 @@ class StakeProgramAccountData with _$StakeProgramAccountData {
     required StakeDelegatedAccountInfo info,
   }) = StakeProgramDelegatedAccountData;
 
-  const factory StakeProgramAccountData.unknown(Map<String, dynamic> data) =
+  const factory StakeProgramAccountData.unknown(Map<String, dynamic>? data) =
       StakeProgramUnknownAccountData;
 
   factory StakeProgramAccountData.fromJson(Map<String, dynamic> json) =>

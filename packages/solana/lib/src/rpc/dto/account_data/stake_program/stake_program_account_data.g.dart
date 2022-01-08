@@ -22,7 +22,7 @@ Map<String, dynamic> _$$StakeProgramDelegatedAccountDataToJson(
 _$StakeProgramUnknownAccountData _$$StakeProgramUnknownAccountDataFromJson(
         Map<String, dynamic> json) =>
     _$StakeProgramUnknownAccountData(
-      json['data'] as Map<String, dynamic>,
+      json['data'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$$StakeProgramUnknownAccountDataToJson(
