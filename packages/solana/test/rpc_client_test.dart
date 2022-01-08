@@ -39,7 +39,7 @@ void main() {
       );
 
       currentBalance =
-      await _createTokenAccount(rpcClient, subscriptionClient, source);
+          await _createTokenAccount(rpcClient, subscriptionClient, source);
     });
 
     test('Call requestAirdrop and add SOL to an account works', () async {
@@ -97,7 +97,7 @@ void main() {
         recentBlockhash: recentBlockhash.blockhash,
       );
       final TransactionStatus transferResult =
-      await rpcClient.simulateTransaction(
+          await rpcClient.simulateTransaction(
         signedTx.encode(),
       );
       expect(transferResult.err, null);
@@ -278,13 +278,13 @@ void main() {
     });
 
     test('Call to getVersion() succeeds and parses the response correctly',
-            () async {
-          final version = await rpcClient.getVersion();
+        () async {
+      final version = await rpcClient.getVersion();
 
-          expect(version.solanaCore, isNotNull);
-          expect(version.solanaCore.codeUnitAt(0), equals(49));
-          expect(version.solanaCore.codeUnitAt(1), equals(46));
-        });
+      expect(version.solanaCore, isNotNull);
+      expect(version.solanaCore.codeUnitAt(0), equals(49));
+      expect(version.solanaCore.codeUnitAt(1), equals(46));
+    });
 
     test('Call to getSnapshotSlot() succeeds', () async {
       final snapshotSlot = await rpcClient.getSnapshotSlot();
@@ -300,48 +300,46 @@ void main() {
 
     test('Call to getSupply() succeeds with default parameters', () async {
       final supply =
-      await rpcClient.getSupply(commitment: Commitment.finalized);
+          await rpcClient.getSupply(commitment: Commitment.finalized);
 
       expect(supply.total, equals(supply.circulating + supply.nonCirculating));
       expect(supply.nonCirculatingAccounts.length, greaterThan(0));
     });
 
     test('Call to getSupply() succeeds with circulating accounts list',
-            () async {
-          final supply = await rpcClient.getSupply(
-            commitment: Commitment.finalized,
-            excludeNonCirculatingAccountsList: false,
-          );
+        () async {
+      final supply = await rpcClient.getSupply(
+        commitment: Commitment.finalized,
+        excludeNonCirculatingAccountsList: false,
+      );
 
-          expect(
-              supply.total, equals(supply.circulating + supply.nonCirculating));
-          expect(supply.nonCirculatingAccounts.length, greaterThan(0));
-        });
+      expect(supply.total, equals(supply.circulating + supply.nonCirculating));
+      expect(supply.nonCirculatingAccounts.length, greaterThan(0));
+    });
 
     test('Call to getSupply() succeeds excluding circulating accounts list',
-            () async {
-          final supply = await rpcClient.getSupply(
-            commitment: Commitment.confirmed,
-            excludeNonCirculatingAccountsList: true,
-          );
+        () async {
+      final supply = await rpcClient.getSupply(
+        commitment: Commitment.confirmed,
+        excludeNonCirculatingAccountsList: true,
+      );
 
-          expect(
-              supply.total, equals(supply.circulating + supply.nonCirculating));
-          expect(supply.nonCirculatingAccounts.length, equals(0));
-        });
+      expect(supply.total, equals(supply.circulating + supply.nonCirculating));
+      expect(supply.nonCirculatingAccounts.length, equals(0));
+    });
 
     test('Call to getLeaderSchedule() succeeds with default parameters',
-            () async {
-          // FIXME: should not need the parameter (fix the generator)
-          final leaderSchedule = await rpcClient.getLeaderSchedule(null);
-          expect(leaderSchedule, isNotNull);
-        });
+        () async {
+      // FIXME: should not need the parameter (fix the generator)
+      final leaderSchedule = await rpcClient.getLeaderSchedule(null);
+      expect(leaderSchedule, isNotNull);
+    });
 
     test('Call to getLargerAccounts() succeeds with default parameters',
-            () async {
-          final largestAccounts = await rpcClient.getLargestAccounts();
-          expect(largestAccounts.length, equals(20));
-        });
+        () async {
+      final largestAccounts = await rpcClient.getLargestAccounts();
+      expect(largestAccounts.length, equals(20));
+    });
 
     test('Call to getLargerAccounts() succeeds with commitment', () async {
       final largestAccounts = await rpcClient.getLargestAccounts(
@@ -351,57 +349,57 @@ void main() {
     });
 
     test('Call to getLargerAccounts() succeeds with filter: circulating',
-            () async {
-          final largestAccounts = await rpcClient.getLargestAccounts(
-            filter: CirculationStatus.circulating,
-          );
-          expect(largestAccounts.length, equals(20));
-        });
+        () async {
+      final largestAccounts = await rpcClient.getLargestAccounts(
+        filter: CirculationStatus.circulating,
+      );
+      expect(largestAccounts.length, equals(20));
+    });
 
     test('Call to getLargerAccounts() succeeds with filter: non-circulating',
-            () async {
-          final largestAccounts = await rpcClient.getLargestAccounts(
-            filter: CirculationStatus.nonCirculating,
-          );
-          expect(largestAccounts.length, equals(0));
-        });
+        () async {
+      final largestAccounts = await rpcClient.getLargestAccounts(
+        filter: CirculationStatus.nonCirculating,
+      );
+      expect(largestAccounts.length, equals(0));
+    });
 
     test('Call to getMultipleAccounts() succeeds with jsonParsed encoding',
-            () async {
-          final largestAccounts = await rpcClient.getLargestAccounts();
+        () async {
+      final largestAccounts = await rpcClient.getLargestAccounts();
 
-          final accounts = await rpcClient.getMultipleAccounts(
-            largestAccounts.map((l) => l.address).toList(),
-            encoding: Encoding.jsonParsed,
-          );
+      final accounts = await rpcClient.getMultipleAccounts(
+        largestAccounts.map((l) => l.address).toList(),
+        encoding: Encoding.jsonParsed,
+      );
 
-          expect(accounts.length, equals(largestAccounts.length));
-        });
+      expect(accounts.length, equals(largestAccounts.length));
+    });
 
     test('Call to getMultipleAccounts() succeeds with base64 encoding',
-            () async {
-          final largestAccounts = await rpcClient.getLargestAccounts();
+        () async {
+      final largestAccounts = await rpcClient.getLargestAccounts();
 
-          final accounts = await rpcClient.getMultipleAccounts(
-            largestAccounts.map((l) => l.address).toList(),
-            encoding: Encoding.base64,
-          );
+      final accounts = await rpcClient.getMultipleAccounts(
+        largestAccounts.map((l) => l.address).toList(),
+        encoding: Encoding.base64,
+      );
 
-          expect(accounts.length, equals(largestAccounts.length));
-        });
+      expect(accounts.length, equals(largestAccounts.length));
+    });
 
     test('Call to getMultipleAccounts() succeeds with base58 encoding',
-            () async {
-          final largestAccounts = await rpcClient.getLargestAccounts();
+        () async {
+      final largestAccounts = await rpcClient.getLargestAccounts();
 
-          final future = rpcClient.getMultipleAccounts(
-            largestAccounts.map((l) => l.address).toList(),
-            encoding: Encoding.base58,
-          );
+      final future = rpcClient.getMultipleAccounts(
+        largestAccounts.map((l) => l.address).toList(),
+        encoding: Encoding.base58,
+      );
 
-          // It throws because some accounts are too large for base58
-          expect(future, throwsA(isA<JsonRpcException>()));
-        });
+      // It throws because some accounts are too large for base58
+      expect(future, throwsA(isA<JsonRpcException>()));
+    });
 
     test('Call to getBlockProduction() succeeds', () async {
       final blockProduction = await rpcClient.getBlockProduction();
@@ -520,23 +518,23 @@ void main() {
 
     test('Call to getMinimumBalanceForRentExemption() succeeds', () async {
       final maxRetransmitSlot =
-      await rpcClient.getMinimumBalanceForRentExemption(302);
+          await rpcClient.getMinimumBalanceForRentExemption(302);
       expect(maxRetransmitSlot, isA<int>());
     });
 
     test('Call to getProgramAccounts() with jsonParsed encoding succeeds',
-            () async {
-          final programAccounts = await rpcClient.getProgramAccounts(
-            TokenProgram.programId,
-            encoding: Encoding.jsonParsed,
-          );
+        () async {
+      final programAccounts = await rpcClient.getProgramAccounts(
+        TokenProgram.programId,
+        encoding: Encoding.jsonParsed,
+      );
 
-          expect(programAccounts.length, greaterThan(0));
-        });
+      expect(programAccounts.length, greaterThan(0));
+    });
 
     test(
       'Call to getProgramAccounts() with base58 encoding succeeds',
-          () async {
+      () async {
         final programAccounts = await rpcClient.getProgramAccounts(
           TokenProgram.programId,
           encoding: Encoding.base58,
@@ -545,18 +543,18 @@ void main() {
         expect(programAccounts.length, greaterThan(0));
       },
       skip:
-      'We cannot guess the size of the account, so we cannot test this for now',
+          'We cannot guess the size of the account, so we cannot test this for now',
     );
 
     test('Call to getProgramAccounts() with base64 encoding succeeds',
-            () async {
-          final programAccounts = await rpcClient.getProgramAccounts(
-            TokenProgram.programId,
-            encoding: Encoding.base64,
-          );
+        () async {
+      final programAccounts = await rpcClient.getProgramAccounts(
+        TokenProgram.programId,
+        encoding: Encoding.base64,
+      );
 
-          expect(programAccounts.length, greaterThan(0));
-        });
+      expect(programAccounts.length, greaterThan(0));
+    });
 
     test('Call to getProgramAccounts() with memcmp filter succeeds', () async {
       final programAccounts = await rpcClient.getProgramAccounts(
@@ -569,15 +567,15 @@ void main() {
     });
 
     test('Call to getProgramAccounts() with dataSize filter succeeds',
-            () async {
-          final programAccounts = await rpcClient.getProgramAccounts(
-            TokenProgram.programId,
-            encoding: Encoding.jsonParsed,
-            filters: [ProgramDataFilter.dataSize(10)],
-          );
+        () async {
+      final programAccounts = await rpcClient.getProgramAccounts(
+        TokenProgram.programId,
+        encoding: Encoding.jsonParsed,
+        filters: [ProgramDataFilter.dataSize(10)],
+      );
 
-          expect(programAccounts.length, equals(0));
-        });
+      expect(programAccounts.length, equals(0));
+    });
 
     test('Call to getSlotLeader() succeeds', () async {
       final slotLeader = await rpcClient.getSlotLeader();
@@ -598,7 +596,7 @@ void main() {
         encoding: Encoding.jsonParsed,
       );
       final stakeAccountIndex =
-      accounts.indexWhere((a) => a?.data is ParsedStakeProgramAccountData);
+          accounts.indexWhere((a) => a?.data is ParsedStakeProgramAccountData);
       if (stakeAccountIndex == -1) {
         fail('cannot find a staking account');
       }
@@ -629,36 +627,36 @@ void main() {
 
     test(
         'Call to getAccountInfo() succeeds with base58 works for the right data size',
-            () async {
-          final accountAddress = await _createAccount(
-            rpcClient,
-            subscriptionClient,
-            128,
-          );
+        () async {
+      final accountAddress = await _createAccount(
+        rpcClient,
+        subscriptionClient,
+        128,
+      );
 
-          final account = await rpcClient.getAccountInfo(
-            accountAddress,
-            encoding: Encoding.base58,
-          );
+      final account = await rpcClient.getAccountInfo(
+        accountAddress,
+        encoding: Encoding.base58,
+      );
 
-          expect(account, isNotNull);
-        });
+      expect(account, isNotNull);
+    });
 
     test('Call to getAccountInfo() succeeds with base58 throws for large data',
-            () async {
-          final accountAddress = await _createAccount(
-            rpcClient,
-            subscriptionClient,
-            130,
-          );
+        () async {
+      final accountAddress = await _createAccount(
+        rpcClient,
+        subscriptionClient,
+        130,
+      );
 
-          final future = rpcClient.getAccountInfo(
-            accountAddress,
-            encoding: Encoding.base58,
-          );
+      final future = rpcClient.getAccountInfo(
+        accountAddress,
+        encoding: Encoding.base58,
+      );
 
-          expect(future, throwsA(isA<JsonRpcException>()));
-        });
+      expect(future, throwsA(isA<JsonRpcException>()));
+    });
 
     test('Call to getAccountInfo() succeeds with base64 encoding', () async {
       final accountAddress = await _createAccount(
@@ -677,9 +675,11 @@ void main() {
   });
 }
 
-Future<int> _createTokenAccount(RpcClient rpcClient,
-    SubscriptionClient subscriptionClient,
-    Ed25519HDKeyPair source,) async {
+Future<int> _createTokenAccount(
+  RpcClient rpcClient,
+  SubscriptionClient subscriptionClient,
+  Ed25519HDKeyPair source,
+) async {
   final accountKeyPair = await Ed25519HDKeyPair.fromMnemonic(
     generateMnemonic(),
     account: 0,
@@ -732,9 +732,11 @@ Future<int> _createTokenAccount(RpcClient rpcClient,
   return 10 * lamportsPerSol - rent - 2 * fee;
 }
 
-Future<String> _createAccount(RpcClient rpcClient,
-    SubscriptionClient subscriptionClient,
-    int size,) async {
+Future<String> _createAccount(
+  RpcClient rpcClient,
+  SubscriptionClient subscriptionClient,
+  int size,
+) async {
   final source = await Ed25519HDKeyPair.fromMnemonic(
     generateMnemonic(),
     account: 0,
