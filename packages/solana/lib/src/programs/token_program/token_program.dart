@@ -139,6 +139,7 @@ class TokenProgram extends Message {
   static const initializeAccountInstructionIndex = [1];
   static const transferInstructionIndex = [3];
   static const mintToInstructionIndex = [7];
+  static const closeAccountAddressInstructionIndex = [9];
 
   // This is computed by adding the bytes in the following
   // structure
