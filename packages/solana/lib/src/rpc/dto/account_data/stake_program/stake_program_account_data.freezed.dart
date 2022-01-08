@@ -18,6 +18,8 @@ StakeProgramAccountData _$StakeProgramAccountDataFromJson(
   switch (json['type'] as String?) {
     case 'delegated':
       return StakeProgramDelegatedAccountData.fromJson(json);
+    case 'initialize':
+      return StakeProgramInitializedAccountData.fromJson(json);
 
     default:
       return StakeProgramUnknownAccountData.fromJson(json);
@@ -35,9 +37,16 @@ class _$StakeProgramAccountDataTearOff {
     );
   }
 
-  StakeProgramUnknownAccountData unknown(Map<String, dynamic> data) {
+  StakeProgramInitializedAccountData initialize(
+      {required StakeInitializedAccountInfo info}) {
+    return StakeProgramInitializedAccountData(
+      info: info,
+    );
+  }
+
+  StakeProgramUnknownAccountData unknown(Map<String, dynamic> info) {
     return StakeProgramUnknownAccountData(
-      data,
+      info,
     );
   }
 
@@ -54,37 +63,44 @@ mixin _$StakeProgramAccountData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(StakeDelegatedAccountInfo info) delegated,
-    required TResult Function(Map<String, dynamic> data) unknown,
+    required TResult Function(StakeInitializedAccountInfo info) initialize,
+    required TResult Function(Map<String, dynamic> info) unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(Map<String, dynamic> data)? unknown,
+    TResult Function(StakeInitializedAccountInfo info)? initialize,
+    TResult Function(Map<String, dynamic> info)? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(Map<String, dynamic> data)? unknown,
+    TResult Function(StakeInitializedAccountInfo info)? initialize,
+    TResult Function(Map<String, dynamic> info)? unknown,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(StakeProgramDelegatedAccountData value) delegated,
+    required TResult Function(StakeProgramInitializedAccountData value)
+        initialize,
     required TResult Function(StakeProgramUnknownAccountData value) unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult Function(StakeProgramInitializedAccountData value)? initialize,
     TResult Function(StakeProgramUnknownAccountData value)? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult Function(StakeProgramInitializedAccountData value)? initialize,
     TResult Function(StakeProgramUnknownAccountData value)? unknown,
     required TResult orElse(),
   }) =>
@@ -184,7 +200,8 @@ class _$StakeProgramDelegatedAccountData
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(StakeDelegatedAccountInfo info) delegated,
-    required TResult Function(Map<String, dynamic> data) unknown,
+    required TResult Function(StakeInitializedAccountInfo info) initialize,
+    required TResult Function(Map<String, dynamic> info) unknown,
   }) {
     return delegated(info);
   }
@@ -193,7 +210,8 @@ class _$StakeProgramDelegatedAccountData
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(Map<String, dynamic> data)? unknown,
+    TResult Function(StakeInitializedAccountInfo info)? initialize,
+    TResult Function(Map<String, dynamic> info)? unknown,
   }) {
     return delegated?.call(info);
   }
@@ -202,7 +220,8 @@ class _$StakeProgramDelegatedAccountData
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(Map<String, dynamic> data)? unknown,
+    TResult Function(StakeInitializedAccountInfo info)? initialize,
+    TResult Function(Map<String, dynamic> info)? unknown,
     required TResult orElse(),
   }) {
     if (delegated != null) {
@@ -215,6 +234,8 @@ class _$StakeProgramDelegatedAccountData
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(StakeProgramDelegatedAccountData value) delegated,
+    required TResult Function(StakeProgramInitializedAccountData value)
+        initialize,
     required TResult Function(StakeProgramUnknownAccountData value) unknown,
   }) {
     return delegated(this);
@@ -224,6 +245,7 @@ class _$StakeProgramDelegatedAccountData
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult Function(StakeProgramInitializedAccountData value)? initialize,
     TResult Function(StakeProgramUnknownAccountData value)? unknown,
   }) {
     return delegated?.call(this);
@@ -233,6 +255,7 @@ class _$StakeProgramDelegatedAccountData
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult Function(StakeProgramInitializedAccountData value)? initialize,
     TResult Function(StakeProgramUnknownAccountData value)? unknown,
     required TResult orElse(),
   }) {
@@ -265,12 +288,177 @@ abstract class StakeProgramDelegatedAccountData
 }
 
 /// @nodoc
+abstract class $StakeProgramInitializedAccountDataCopyWith<$Res> {
+  factory $StakeProgramInitializedAccountDataCopyWith(
+          StakeProgramInitializedAccountData value,
+          $Res Function(StakeProgramInitializedAccountData) then) =
+      _$StakeProgramInitializedAccountDataCopyWithImpl<$Res>;
+  $Res call({StakeInitializedAccountInfo info});
+}
+
+/// @nodoc
+class _$StakeProgramInitializedAccountDataCopyWithImpl<$Res>
+    extends _$StakeProgramAccountDataCopyWithImpl<$Res>
+    implements $StakeProgramInitializedAccountDataCopyWith<$Res> {
+  _$StakeProgramInitializedAccountDataCopyWithImpl(
+      StakeProgramInitializedAccountData _value,
+      $Res Function(StakeProgramInitializedAccountData) _then)
+      : super(_value, (v) => _then(v as StakeProgramInitializedAccountData));
+
+  @override
+  StakeProgramInitializedAccountData get _value =>
+      super._value as StakeProgramInitializedAccountData;
+
+  @override
+  $Res call({
+    Object? info = freezed,
+  }) {
+    return _then(StakeProgramInitializedAccountData(
+      info: info == freezed
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as StakeInitializedAccountInfo,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StakeProgramInitializedAccountData
+    implements StakeProgramInitializedAccountData {
+  const _$StakeProgramInitializedAccountData({required this.info});
+
+  factory _$StakeProgramInitializedAccountData.fromJson(
+          Map<String, dynamic> json) =>
+      _$$StakeProgramInitializedAccountDataFromJson(json);
+
+  @override
+  final StakeInitializedAccountInfo info;
+
+  @override
+  String toString() {
+    return 'StakeProgramAccountData.initialize(info: $info)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is StakeProgramInitializedAccountData &&
+            (identical(other.info, info) ||
+                const DeepCollectionEquality().equals(other.info, info)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(info);
+
+  @JsonKey(ignore: true)
+  @override
+  $StakeProgramInitializedAccountDataCopyWith<
+          StakeProgramInitializedAccountData>
+      get copyWith => _$StakeProgramInitializedAccountDataCopyWithImpl<
+          StakeProgramInitializedAccountData>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(StakeDelegatedAccountInfo info) delegated,
+    required TResult Function(StakeInitializedAccountInfo info) initialize,
+    required TResult Function(Map<String, dynamic> info) unknown,
+  }) {
+    return initialize(info);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(StakeDelegatedAccountInfo info)? delegated,
+    TResult Function(StakeInitializedAccountInfo info)? initialize,
+    TResult Function(Map<String, dynamic> info)? unknown,
+  }) {
+    return initialize?.call(info);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(StakeDelegatedAccountInfo info)? delegated,
+    TResult Function(StakeInitializedAccountInfo info)? initialize,
+    TResult Function(Map<String, dynamic> info)? unknown,
+    required TResult orElse(),
+  }) {
+    if (initialize != null) {
+      return initialize(info);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(StakeProgramDelegatedAccountData value) delegated,
+    required TResult Function(StakeProgramInitializedAccountData value)
+        initialize,
+    required TResult Function(StakeProgramUnknownAccountData value) unknown,
+  }) {
+    return initialize(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult Function(StakeProgramInitializedAccountData value)? initialize,
+    TResult Function(StakeProgramUnknownAccountData value)? unknown,
+  }) {
+    return initialize?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult Function(StakeProgramInitializedAccountData value)? initialize,
+    TResult Function(StakeProgramUnknownAccountData value)? unknown,
+    required TResult orElse(),
+  }) {
+    if (initialize != null) {
+      return initialize(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StakeProgramInitializedAccountDataToJson(this)
+      ..['type'] = 'initialize';
+  }
+}
+
+abstract class StakeProgramInitializedAccountData
+    implements StakeProgramAccountData {
+  const factory StakeProgramInitializedAccountData(
+          {required StakeInitializedAccountInfo info}) =
+      _$StakeProgramInitializedAccountData;
+
+  factory StakeProgramInitializedAccountData.fromJson(
+          Map<String, dynamic> json) =
+      _$StakeProgramInitializedAccountData.fromJson;
+
+  StakeInitializedAccountInfo get info => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $StakeProgramInitializedAccountDataCopyWith<
+          StakeProgramInitializedAccountData>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 abstract class $StakeProgramUnknownAccountDataCopyWith<$Res> {
   factory $StakeProgramUnknownAccountDataCopyWith(
           StakeProgramUnknownAccountData value,
           $Res Function(StakeProgramUnknownAccountData) then) =
       _$StakeProgramUnknownAccountDataCopyWithImpl<$Res>;
-  $Res call({Map<String, dynamic> data});
+  $Res call({Map<String, dynamic> info});
 }
 
 /// @nodoc
@@ -288,12 +476,12 @@ class _$StakeProgramUnknownAccountDataCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? data = freezed,
+    Object? info = freezed,
   }) {
     return _then(StakeProgramUnknownAccountData(
-      data == freezed
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
+      info == freezed
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
   }
@@ -303,31 +491,31 @@ class _$StakeProgramUnknownAccountDataCopyWithImpl<$Res>
 @JsonSerializable()
 class _$StakeProgramUnknownAccountData
     implements StakeProgramUnknownAccountData {
-  const _$StakeProgramUnknownAccountData(this.data);
+  const _$StakeProgramUnknownAccountData(this.info);
 
   factory _$StakeProgramUnknownAccountData.fromJson(
           Map<String, dynamic> json) =>
       _$$StakeProgramUnknownAccountDataFromJson(json);
 
   @override
-  final Map<String, dynamic> data;
+  final Map<String, dynamic> info;
 
   @override
   String toString() {
-    return 'StakeProgramAccountData.unknown(data: $data)';
+    return 'StakeProgramAccountData.unknown(info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is StakeProgramUnknownAccountData &&
-            (identical(other.data, data) ||
-                const DeepCollectionEquality().equals(other.data, data)));
+            (identical(other.info, info) ||
+                const DeepCollectionEquality().equals(other.info, info)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(data);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(info);
 
   @JsonKey(ignore: true)
   @override
@@ -339,29 +527,32 @@ class _$StakeProgramUnknownAccountData
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(StakeDelegatedAccountInfo info) delegated,
-    required TResult Function(Map<String, dynamic> data) unknown,
+    required TResult Function(StakeInitializedAccountInfo info) initialize,
+    required TResult Function(Map<String, dynamic> info) unknown,
   }) {
-    return unknown(data);
+    return unknown(info);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(Map<String, dynamic> data)? unknown,
+    TResult Function(StakeInitializedAccountInfo info)? initialize,
+    TResult Function(Map<String, dynamic> info)? unknown,
   }) {
-    return unknown?.call(data);
+    return unknown?.call(info);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(Map<String, dynamic> data)? unknown,
+    TResult Function(StakeInitializedAccountInfo info)? initialize,
+    TResult Function(Map<String, dynamic> info)? unknown,
     required TResult orElse(),
   }) {
     if (unknown != null) {
-      return unknown(data);
+      return unknown(info);
     }
     return orElse();
   }
@@ -370,6 +561,8 @@ class _$StakeProgramUnknownAccountData
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(StakeProgramDelegatedAccountData value) delegated,
+    required TResult Function(StakeProgramInitializedAccountData value)
+        initialize,
     required TResult Function(StakeProgramUnknownAccountData value) unknown,
   }) {
     return unknown(this);
@@ -379,6 +572,7 @@ class _$StakeProgramUnknownAccountData
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult Function(StakeProgramInitializedAccountData value)? initialize,
     TResult Function(StakeProgramUnknownAccountData value)? unknown,
   }) {
     return unknown?.call(this);
@@ -388,6 +582,7 @@ class _$StakeProgramUnknownAccountData
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult Function(StakeProgramInitializedAccountData value)? initialize,
     TResult Function(StakeProgramUnknownAccountData value)? unknown,
     required TResult orElse(),
   }) {
@@ -405,13 +600,13 @@ class _$StakeProgramUnknownAccountData
 
 abstract class StakeProgramUnknownAccountData
     implements StakeProgramAccountData {
-  const factory StakeProgramUnknownAccountData(Map<String, dynamic> data) =
+  const factory StakeProgramUnknownAccountData(Map<String, dynamic> info) =
       _$StakeProgramUnknownAccountData;
 
   factory StakeProgramUnknownAccountData.fromJson(Map<String, dynamic> json) =
       _$StakeProgramUnknownAccountData.fromJson;
 
-  Map<String, dynamic> get data => throw _privateConstructorUsedError;
+  Map<String, dynamic> get info => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $StakeProgramUnknownAccountDataCopyWith<StakeProgramUnknownAccountData>
       get copyWith => throw _privateConstructorUsedError;
