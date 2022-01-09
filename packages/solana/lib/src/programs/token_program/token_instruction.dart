@@ -122,7 +122,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: owner, isSigner: true),
         ],
         data: Buffer.fromConcatenatedByteArrays([
-          TokenProgram.closeAccountAddressInstructionIndex,
+          TokenProgram.closeTokenAccountAddressInstructionIndex,
         ]),
       );
 }
