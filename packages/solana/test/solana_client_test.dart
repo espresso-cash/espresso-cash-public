@@ -234,6 +234,29 @@ void main() {
     },
     timeout: const Timeout(Duration(minutes: 2)),
   );
+
+  test(
+    'Close token account address',
+    () async {
+      final wallet = await Ed25519HDKeyPair.random();
+      await solanaClient.rpcClient.requestAirdrop(wallet.address, 100 * lamportsPerSol);
+      var tokenAccountAddress = await solanaClient.createAssociatedTokenAccount(
+        mint: token.mint,
+        funder: source,
+        owner: wallet.address,
+      );
+      
+      expect(tokenAccountAddress, isNotNull);
+
+      final message = Message(instructions: [
+        TokenInstruction.closeAccount(associatedTokenAccountAddress: tokenAccountAddress.pubkey, owner: wallet.address)
+      ]);
+      var send = await solanaClient.rpcClient.signAndSendTransaction(message, [wallet]);
+  
+      expect(send, isNotNull);
+    },
+    timeout: const Timeout(Duration(minutes: 2)),
+  );
 }
 
 const _tokenMintAmount = 1000;

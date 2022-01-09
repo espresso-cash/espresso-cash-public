@@ -113,13 +113,14 @@ class TokenInstruction extends Instruction {
 
   ///Closes token account address for owner (account address must be empty).
   factory TokenInstruction.closeAccount({
-    required String associatedAccountAddress,
+    required String associatedTokenAccountAddress,
     required String owner,
   }) =>
       TokenInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: associatedAccountAddress, isSigner: false),
+          AccountMeta.writeable(pubKey: associatedTokenAccountAddress, isSigner: false),
           AccountMeta.writeable(pubKey: owner, isSigner: true),
+          AccountMeta.writeable(pubKey: owner, isSigner: true)
         ],
         data: Buffer.fromConcatenatedByteArrays([
           TokenProgram.closeTokenAccountAddressInstructionIndex,
