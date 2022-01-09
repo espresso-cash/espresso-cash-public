@@ -9,7 +9,8 @@ scripts:
       melos run get \
       && melos run format \
       && melos run analyze \
-      && melos run test --no-select
+      && melos run test --no-select \
+      && melos run coverage --no-select
 
   get: melos exec -- dart pub get
 
@@ -20,7 +21,17 @@ scripts:
   analyze: melos exec -- dart analyze --fatal-infos .
 
   test: 
-    run: melos exec -- dart pub run test
+    run: melos exec -- dart run test --coverage=coverage
     select-package:
       dir-exists:
         - test
+
+  coverage: 
+    run: |
+      melos exec --scope="solana" -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov \
+        --report-on=lib \
+        --packages=.packages \
+      && melos exec --scope="solana" -- "remove_from_coverage -f coverage/coverage.lcov -r '\.(g|freezed)\.dart$'"
+    select-package:
+      dir-exists:
+        - test    
