@@ -19,14 +19,27 @@ Map<String, dynamic> _$$StakeProgramDelegatedAccountDataToJson(
       'info': instance.info,
     };
 
+_$StakeProgramInitializedAccountData
+    _$$StakeProgramInitializedAccountDataFromJson(Map<String, dynamic> json) =>
+        _$StakeProgramInitializedAccountData(
+          info: StakeInitializedAccountInfo.fromJson(
+              json['info'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$StakeProgramInitializedAccountDataToJson(
+        _$StakeProgramInitializedAccountData instance) =>
+    <String, dynamic>{
+      'info': instance.info,
+    };
+
 _$StakeProgramUnknownAccountData _$$StakeProgramUnknownAccountDataFromJson(
         Map<String, dynamic> json) =>
     _$StakeProgramUnknownAccountData(
-      json['data'] as Map<String, dynamic>?,
+      json['info'] as Map<String, dynamic>,
     );
 
 Map<String, dynamic> _$$StakeProgramUnknownAccountDataToJson(
         _$StakeProgramUnknownAccountData instance) =>
     <String, dynamic>{
-      'data': instance.data,
+      'info': instance.info,
     };

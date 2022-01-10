@@ -20,5 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-      - run: dart pub global activate melos
+      - run: dart pub global activate melos && dart pub global activate remove_from_coverage
       - run: melos run check_master
+      - uses: codecov/codecov-action@v2

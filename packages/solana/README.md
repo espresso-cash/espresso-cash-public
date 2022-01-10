@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/cryptoplease/cryptoplease-dart/branch/master/graph/badge.svg?token=8UF2LVQMS7)](https://codecov.io/gh/cryptoplease/cryptoplease-dart)
+
 # Dart library for Solana
 
 This is the Solana library for dart using the [JSON RPC API](https://docs.solana.com/apps/jsonrpc-api)
