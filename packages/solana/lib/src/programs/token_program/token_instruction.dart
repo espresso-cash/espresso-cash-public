@@ -118,7 +118,8 @@ class TokenInstruction extends Instruction {
   }) =>
       TokenInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: associatedTokenAccountAddress, isSigner: false),
+          AccountMeta.writeable(
+              pubKey: associatedTokenAccountAddress, isSigner: false),
           AccountMeta.writeable(pubKey: owner, isSigner: true),
           AccountMeta.writeable(pubKey: owner, isSigner: true)
         ],
