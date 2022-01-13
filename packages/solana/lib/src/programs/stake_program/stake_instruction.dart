@@ -5,6 +5,8 @@ import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/stake_program/stake_program.dart';
 import 'package:solana/src/programs/stake_program/state.dart';
+import 'package:solana/src/rpc/dto/account_data/stake_program/authorized.dart';
+import 'package:solana/src/rpc/dto/account_data/stake_program/lockup.dart';
 
 class StakeInstruction extends Instruction {
   StakeInstruction._({

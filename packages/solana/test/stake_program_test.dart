@@ -6,6 +6,7 @@ import 'package:solana/src/programs/stake_program/stake_program.dart';
 import 'package:solana/src/programs/stake_program/state.dart';
 import 'package:solana/src/programs/system_program/system_program.dart';
 import 'package:solana/src/rpc/client.dart';
+import 'package:solana/src/rpc/dto/account_data/stake_program/stake_program.dart';
 import 'package:solana/src/rpc/dto/confirmation_status.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
 import 'package:solana/src/subscription_client/subscription_client_ext.dart';
