@@ -12,6 +12,8 @@ export 'src/exceptions/transaction_exception.dart';
 export 'src/helpers.dart';
 export 'src/programs/memo_program/memo_program.dart';
 export 'src/programs/system_program/system_program.dart';
+export 'src/programs/token_program/token_instruction.dart';
+export 'src/programs/token_program/token_program.dart';
 export 'src/programs/token_program/token_program.dart';
 export 'src/rpc/client.dart';
 export 'src/rpc/dto/account.dart';
