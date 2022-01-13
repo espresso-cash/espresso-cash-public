@@ -35,7 +35,7 @@ void main() {
       );
 
       final account = await accountStream.firstWhere(
-        (Account data) => true,
+        (Account data) => data.lamports < originalLamports,
       );
 
       expect(account.lamports, lessThan(originalLamports));
