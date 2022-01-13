@@ -1,3 +1,5 @@
+[![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square)](https://github.com/invertase/melos)
+
 Cryptoplease Dart Packages
 
 This is a collection of packages necessary to build Solana enabled applications in dart or flutter.
