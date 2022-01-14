@@ -16,7 +16,11 @@ part 'extension.dart';
 
 @SolanaRpcClient()
 abstract class RpcClient {
-  factory RpcClient(String url) => _RpcClient(url);
+  factory RpcClient(
+    String url, {
+    Duration timeout = const Duration(seconds: 30),
+  }) =>
+      _RpcClient(url, JsonRpcClient(url, timeout: timeout));
 
   /// Returns all information associated with the account of provided Pubkey
   ///

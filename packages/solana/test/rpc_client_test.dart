@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bip39/bip39.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
@@ -9,6 +11,17 @@ import 'config.dart';
 const int _transferredAmount = 0x1000;
 
 void main() {
+  test('throws exception on timeout', () async {
+    final client = RpcClient(
+      devnetRpcUrl,
+      timeout: const Duration(milliseconds: 1),
+    );
+    expect(
+      () => client.getTransactionCount(),
+      throwsA(isA<TimeoutException>()),
+    );
+  });
+
   group('RpcClient testsuite', () {
     late final RpcClient rpcClient;
     late final SubscriptionClient subscriptionClient;
