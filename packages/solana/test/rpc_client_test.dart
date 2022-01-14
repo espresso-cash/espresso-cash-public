@@ -14,7 +14,7 @@ void main() {
   test('throws exception on timeout', () async {
     final client = RpcClient(
       devnetRpcUrl,
-      timeout: const Duration(milliseconds: 1),
+      timeout: const Duration(milliseconds: 0),
     );
     expect(
       () => client.getTransactionCount(),
