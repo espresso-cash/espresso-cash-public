@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -5,10 +6,14 @@ import 'package:solana/src/exceptions/http_exception.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
 
 class JsonRpcClient {
-  JsonRpcClient(this._url);
+  JsonRpcClient(
+    this._url, {
+    required Duration timeout,
+  }) : _timeout = timeout;
 
   final String _url;
-  int lastId = 1;
+  final Duration _timeout;
+  int _lastId = 1;
 
   /// Calls the [method] jsonrpc-2.0 method with [params] parameters
   Future<Map<String, dynamic>> request(
@@ -17,18 +22,25 @@ class JsonRpcClient {
   }) async {
     final request = <String, dynamic>{
       'jsonrpc': '2.0',
-      'id': (lastId++).toString(),
+      'id': (_lastId++).toString(),
       'method': method,
     };
     // If no parameters were specified, skip this field
     if (params != null) request['params'] = params;
     // Perform the POST request
-    final http.Response response = await http.post(
+    final http.Response response = await http
+        .post(
       Uri.parse(_url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: json.encode(request),
+    )
+        .timeout(
+      _timeout,
+      onTimeout: () {
+        throw TimeoutException('Timeout while calling $method');
+      },
     );
 
     // Handle the response
