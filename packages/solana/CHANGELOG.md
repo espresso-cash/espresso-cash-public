@@ -1,3 +1,10 @@
+## 0.17.1
+
+ - **FIX**: Add initialized account to StakeAccountData union (#151).
+ - **FEAT**: Add rpc client timeout (#157).
+ - **FEAT**: Stake program instructions (#149).
+ - **FEAT**: SPL Token program instructions (#142).
+
 ## 0.17.0
 
 > Note: This release has breaking changes.
