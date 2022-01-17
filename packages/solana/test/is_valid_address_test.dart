@@ -5,14 +5,14 @@ void main() {
   test('Throws for invalid base58 characters', () {
     expect(
       () => isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpdSl'),
-      throwsFormatException,
+      equals(false),
     );
   });
 
   test('Throws for invalid length', () {
     expect(
       () => isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpd'),
-      throwsFormatException,
+      equals(false),
     );
   });
 
