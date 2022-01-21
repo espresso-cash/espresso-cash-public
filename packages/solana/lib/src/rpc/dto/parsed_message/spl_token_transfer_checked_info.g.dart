@@ -11,8 +11,6 @@ SplTokenTransferCheckedInfo _$SplTokenTransferCheckedInfoFromJson(
     SplTokenTransferCheckedInfo(
       tokenAmount:
           TokenAmount.fromJson(json['tokenAmount'] as Map<String, dynamic>),
-      authority: json['authority'] as String,
-      mint: json['mint'] as String?,
       source: json['source'] as String,
       destination: json['destination'] as String,
     );
@@ -21,8 +19,6 @@ Map<String, dynamic> _$SplTokenTransferCheckedInfoToJson(
         SplTokenTransferCheckedInfo instance) =>
     <String, dynamic>{
       'tokenAmount': instance.tokenAmount,
-      'authority': instance.authority,
-      'mint': instance.mint,
       'source': instance.source,
       'destination': instance.destination,
     };
