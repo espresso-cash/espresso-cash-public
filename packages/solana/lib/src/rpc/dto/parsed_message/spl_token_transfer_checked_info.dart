@@ -10,8 +10,6 @@ part 'spl_token_transfer_checked_info.g.dart';
 class SplTokenTransferCheckedInfo {
   const SplTokenTransferCheckedInfo({
     required this.tokenAmount,
-    required this.authority,
-    required this.mint,
     required this.source,
     required this.destination,
   });
@@ -22,8 +20,6 @@ class SplTokenTransferCheckedInfo {
       _$SplTokenTransferCheckedInfoFromJson(json);
 
   final TokenAmount tokenAmount;
-  final String authority;
-  final String? mint;
   final String source;
   final String destination;
 }
