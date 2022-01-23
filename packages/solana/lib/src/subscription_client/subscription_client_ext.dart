@@ -7,11 +7,14 @@ extension SubscriptionClientExt on SubscriptionClient {
   Future<void> waitForSignatureStatus(
     String signature, {
     required ConfirmationStatus status,
+    Duration? timeout,
   }) async {
-    final result = await signatureSubscribe(
+    final future = signatureSubscribe(
       signature,
       commitment: status,
     ).first;
+
+    final result = await (timeout == null ? future : future.timeout(timeout));
 
     if (result.err != null) throw Exception(result.err);
   }

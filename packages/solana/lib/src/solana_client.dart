@@ -5,20 +5,31 @@ import 'package:solana/src/encoder/signature.dart';
 import 'package:solana/src/rpc/rpc.dart';
 
 class SolanaClient {
-  SolanaClient({required Uri rpcUrl, required Uri websocketUrl})
-      : rpcClient = RpcClient(rpcUrl.toString()),
+  SolanaClient({
+    required Uri rpcUrl,
+    required Uri websocketUrl,
+    Duration timeout = const Duration(seconds: 30),
+  })  : rpcClient = RpcClient(rpcUrl.toString(), timeout: timeout),
+        _timeout = timeout,
         _websocketUrl = websocketUrl;
 
   final RpcClient rpcClient;
   final Uri _websocketUrl;
+  final Duration _timeout;
 
+  /// Waits for transation with [signature] to reach [status].
+  /// Throws exception if transaction failed.
+  ///
+  /// If [timeout] is null then timeout from [SolanaClient] is used.
   Future<void> waitForSignatureStatus(
     String signature, {
     required ConfirmationStatus status,
+    Duration? timeout,
   }) async =>
       _createSubscriptionClient().waitForSignatureStatus(
         signature,
         status: status,
+        timeout: timeout ?? _timeout,
       );
 
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
@@ -61,7 +72,7 @@ class SolanaClient {
       [source],
       onSigned: onSigned,
     );
-    await _createSubscriptionClient().waitForSignatureStatus(
+    await waitForSignatureStatus(
       signature,
       status: commitment,
     );
@@ -85,7 +96,7 @@ class SolanaClient {
       lamports,
       commitment: commitment,
     );
-    await _createSubscriptionClient().waitForSignatureStatus(
+    await waitForSignatureStatus(
       signature,
       status: commitment,
     );
@@ -125,7 +136,7 @@ class SolanaClient {
       message,
       [owner, mintWallet],
     );
-    await _createSubscriptionClient().waitForSignatureStatus(
+    await waitForSignatureStatus(
       signature,
       status: commitment,
     );
@@ -151,7 +162,7 @@ class SolanaClient {
       message,
       [owner],
     );
-    await _createSubscriptionClient().waitForSignatureStatus(
+    await waitForSignatureStatus(
       signature,
       status: commitment,
     );
@@ -203,7 +214,7 @@ class SolanaClient {
       message,
       [source],
     );
-    await _createSubscriptionClient().waitForSignatureStatus(
+    await waitForSignatureStatus(
       signature,
       status: commitment,
     );
@@ -246,7 +257,7 @@ class SolanaClient {
       message,
       [creator, account],
     );
-    await _createSubscriptionClient().waitForSignatureStatus(
+    await waitForSignatureStatus(
       signature,
       status: commitment,
     );
@@ -293,7 +304,7 @@ class SolanaClient {
       message,
       [funder],
     );
-    await _createSubscriptionClient().waitForSignatureStatus(
+    await waitForSignatureStatus(
       signature,
       status: commitment,
     );
