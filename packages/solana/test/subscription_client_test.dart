@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
@@ -42,4 +44,16 @@ void main() {
     },
     timeout: Timeout(Duration(minutes: 1)),
   );
+
+  test('waitForSignatureStatus throws Exception on timout', () async {
+    final client = await SubscriptionClient.connect(devnetWebsocketUrl);
+    expect(
+      () => client.waitForSignatureStatus(
+        '3mx8XfKKwJHk3r5gezhedyzZTaDYgyA31jWp7DTfvifRJkouaA7kWwcReP1XRCvyAXeAgsUWQrTQffhR8rWHHCvN',
+        status: ConfirmationStatus.finalized,
+        timeout: Duration.zero,
+      ),
+      throwsA(isA<TimeoutException>()),
+    );
+  });
 }
