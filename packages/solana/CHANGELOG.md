@@ -1,3 +1,9 @@
+## 0.17.2
+
+ - **FIX**: Remove mint and authority from spl transfer info (#160).
+ - **FIX**: isValidAddress should not throw (#158).
+ - **FEAT**: Add timeout to waitForSignatureStatus (#161).
+
 ## 0.17.1
 
  - **FIX**: Add initialized account to StakeAccountData union (#151).
