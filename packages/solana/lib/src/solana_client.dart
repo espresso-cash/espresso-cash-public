@@ -25,12 +25,19 @@ class SolanaClient {
     String signature, {
     required ConfirmationStatus status,
     Duration? timeout,
-  }) async =>
-      _createSubscriptionClient().waitForSignatureStatus(
+  }) async {
+    final subscriptionClient = _createSubscriptionClient();
+
+    try {
+      await subscriptionClient.waitForSignatureStatus(
         signature,
         status: status,
         timeout: timeout ?? _timeout,
       );
+    } finally {
+      subscriptionClient.close();
+    }
+  }
 
   /// Creates a solana transfer message to send [lamports] SOL tokens from [source]
   /// to [destination].
