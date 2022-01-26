@@ -1,3 +1,7 @@
+## 0.17.2+2
+
+ - **FIX**: Check for connection before sending request (#166).
+
 ## 0.17.2+1
 
  - **FIX**: Close subscription clients after using them (#165).
