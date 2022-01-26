@@ -182,6 +182,7 @@ class SubscriptionClient {
   /// Dispose this object and cancel any existing subscription.
   void close() {
     _sink.close();
+    _isClosed = true;
   }
 
   static int _requestId = 1;
@@ -189,11 +190,17 @@ class SubscriptionClient {
   late final WebSocketSink _sink;
   late final Stream<dynamic> _stream;
 
+  bool _isClosed = false;
+
   Stream<T> _subscribe<T>(
     String method, {
     List<dynamic>? params,
     bool singleShot = false,
   }) {
+    if (_isClosed) {
+      throw StateError('Subscribe should not be called after close.');
+    }
+
     final controller = StreamController<T>();
 
     controller.onListen = () {
@@ -261,6 +268,11 @@ class SubscriptionClient {
     String method,
     List<dynamic>? params,
   ) {
+    // If connection is already closed, ignore the request.
+    // Otherwise, it will try to send unsubscription request when
+    // the client just closes the connection instead of unsubscribing.
+    if (_isClosed) return;
+
     final payload = json.encode(<String, dynamic>{
       'jsonrpc': '2.0',
       'id': id,
