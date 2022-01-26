@@ -1,3 +1,7 @@
+## 0.17.2+1
+
+ - **FIX**: Close subscription clients after using them (#165).
+
 ## 0.17.2
 
  - **FIX**: Remove mint and authority from spl transfer info (#160).
