@@ -32,23 +32,21 @@ extension RpcClientExt on RpcClient {
       limit: limit,
       commitment: commitment,
     );
-    /*final transactions = await Future.wait(
-      signatures.map(
-        (s) => getTransaction(
-          s.signature,
-          commitment: commitment,
-          encoding: Encoding.jsonParsed,
-        ),
-      ),
-    );*/
 
-    // We are sure that no transaction in this list is `null` because
-    // we have queried the signatures so they surely exist
     return _getTransactionsInBulk(
       signatures.where((s) => s.err == null).map((s) => s.signature),
     );
   }
 
+  /// This method sends a `getTransaction` jsonrpc-2.0 request or rather,
+  /// many of them in a single call. It also gets all the responses simultaneously
+  /// and is of course much faster and efficient than requesting each signature
+  /// separately.
+  ///
+  /// Ideally, we should have the ability to do this with all the RPC methods.
+  ///
+  /// Although I don't immediately see why that would be useful, it is a feature
+  /// of the Json RPC api.
   Future<Iterable<TransactionDetails>> _getTransactionsInBulk(
     Iterable<String> signatures, {
     Commitment? commitment,
@@ -67,8 +65,8 @@ extension RpcClientExt on RpcClient {
     );
     final Iterable<dynamic> transactions = response.map(getResult);
 
-    return transactions.where((t) => t != null).map(
-          (t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
-        );
+    return transactions.map(
+      (t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
+    );
   }
 }

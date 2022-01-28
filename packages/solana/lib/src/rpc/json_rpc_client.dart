@@ -20,15 +20,17 @@ class JsonRpcClient {
     String method,
     List<List<dynamic>> params,
   ) async {
-    final requests = params.map(
-      (p) => _JsonRpcRequest(
-        method: method,
-        params: p,
-        id: (_lastId++).toString(),
-      ),
-    );
+    final requests = params
+        .map(
+          (p) => _JsonRpcRequest.single(
+            method: method,
+            params: p,
+            id: (_lastId++).toString(),
+          ),
+        )
+        .toList(growable: false);
 
-    final response = await _sendRequests(requests.toList(growable: false));
+    final response = await _postRequest(_JsonRpcRequest.bulk(requests));
     if (response is _JsonRpcArrayResponse) {
       final elements = response.array;
       return elements
@@ -44,13 +46,13 @@ class JsonRpcClient {
     String method, {
     List<dynamic>? params,
   }) async {
-    final request = _JsonRpcRequest(
+    final request = _JsonRpcRequest.single(
       id: (_lastId++).toString(),
       method: method,
       params: params,
     );
 
-    final response = await _sendRequests([request]);
+    final response = await _postRequest(request);
     if (response is _JsonRpcObjectResponse) {
       return response.data;
     } else {
@@ -62,14 +64,10 @@ class JsonRpcClient {
     throw TimeoutException('request timed out');
   }
 
-  Future<_JsonRpcResponse> _sendRequests(
-    List<_JsonRpcRequest> requests,
+  Future<_JsonRpcResponse> _postRequest(
+    _JsonRpcRequest request,
   ) async {
-    final encodedRequests =
-        requests.map((r) => r.toJson()).toList(growable: false);
-    final body = encodedRequests.length == 1
-        ? json.encode(encodedRequests.first)
-        : json.encode(encodedRequests);
+    final body = json.encode(request.toJson());
     // Perform the POST request
     final http.Response response = await http
         .post(Uri.parse(_url), headers: _defaultHeaders, body: body)
@@ -83,8 +81,33 @@ class JsonRpcClient {
   }
 }
 
-class _JsonRpcRequest {
-  _JsonRpcRequest({
+abstract class _JsonRpcRequest {
+  const factory _JsonRpcRequest.single({
+    required String id,
+    required String method,
+    List<dynamic>? params,
+  }) = _JsonRpcSingleRequest;
+
+  const factory _JsonRpcRequest.bulk(
+    List<_JsonRpcRequest> list,
+  ) = _JsonRpcBulkRequest;
+
+  dynamic toJson();
+}
+
+class _JsonRpcBulkRequest implements _JsonRpcRequest {
+  const _JsonRpcBulkRequest(this.list);
+
+  List<dynamic> toJson() => list
+      .whereType<_JsonRpcRequest>()
+      .map((i) => i.toJson())
+      .toList(growable: false);
+
+  final List<_JsonRpcRequest> list;
+}
+
+class _JsonRpcSingleRequest implements _JsonRpcRequest {
+  const _JsonRpcSingleRequest({
     required this.id,
     required this.method,
     this.params,
@@ -101,7 +124,7 @@ class _JsonRpcRequest {
 
   final String id;
   final String method;
-  List<dynamic>? params;
+  final List<dynamic>? params;
 }
 
 abstract class _JsonRpcResponse {
