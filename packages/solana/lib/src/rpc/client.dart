@@ -22,6 +22,8 @@ abstract class RpcClient {
   }) =>
       _RpcClient(url, JsonRpcClient(url, timeout: timeout));
 
+  abstract final JsonRpcClient jsonRpcClient;
+
   /// Returns all information associated with the account of provided Pubkey
   ///
   /// [pubKey] Pubkey of account to query, as base-58 encoded string

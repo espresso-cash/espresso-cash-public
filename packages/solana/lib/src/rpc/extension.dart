@@ -32,7 +32,7 @@ extension RpcClientExt on RpcClient {
       limit: limit,
       commitment: commitment,
     );
-    final transactions = await Future.wait(
+    /*final transactions = await Future.wait(
       signatures.map(
         (s) => getTransaction(
           s.signature,
@@ -40,10 +40,35 @@ extension RpcClientExt on RpcClient {
           encoding: Encoding.jsonParsed,
         ),
       ),
-    );
+    );*/
 
     // We are sure that no transaction in this list is `null` because
     // we have queried the signatures so they surely exist
-    return transactions.whereType();
+    return _getTransactionsInBulk(
+      signatures.where((s) => s.err == null).map((s) => s.signature),
+    );
+  }
+
+  Future<Iterable<TransactionDetails>> _getTransactionsInBulk(
+    Iterable<String> signatures, {
+    Commitment? commitment,
+  }) async {
+    final response = await jsonRpcClient.bulkRequest(
+      'getTransaction',
+      signatures
+          .map((signature) => <dynamic>[
+                signature,
+                GetTransactionConfig(
+                  encoding: Encoding.jsonParsed,
+                  commitment: commitment,
+                ).toJson(),
+              ])
+          .toList(growable: false),
+    );
+    final Iterable<dynamic> transactions = response.map(getResult);
+
+    return transactions.where((t) => t != null).map(
+          (t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
+        );
   }
 }

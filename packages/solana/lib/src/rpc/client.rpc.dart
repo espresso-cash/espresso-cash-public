@@ -7,9 +7,9 @@ part of 'client.dart';
 // **************************************************************************
 
 class _RpcClient implements RpcClient {
-  _RpcClient(String url, this._client);
+  _RpcClient(String url, this.jsonRpcClient);
 
-  final JsonRpcClient _client;
+  final JsonRpcClient jsonRpcClient;
 
   @override
   Future<Account?> getAccountInfo(String pubKey,
@@ -19,7 +19,7 @@ class _RpcClient implements RpcClient {
     final config = GetAccountInfoConfig(
             commitment: commitment, encoding: encoding, dataSlice: dataSlice)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getAccountInfo',
       params: <dynamic>[
         pubKey,
@@ -36,7 +36,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> getBalance(String pubKey, {Commitment? commitment}) async {
     final config = GetBalanceConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getBalance',
       params: <dynamic>[
         pubKey,
@@ -60,7 +60,7 @@ class _RpcClient implements RpcClient {
             rewards: rewards,
             commitment: commitment)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getBlock',
       params: <dynamic>[
         slot,
@@ -77,7 +77,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> getBlockHeight({Commitment? commitment}) async {
     final config = GetBlockHeightConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getBlockHeight',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -96,7 +96,7 @@ class _RpcClient implements RpcClient {
     final config = GetBlockProductionConfig(
             commitment: commitment, range: range, identity: identity)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getBlockProduction',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -110,7 +110,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<BlockCommitment?> getBlockCommitment(int block) async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getBlockCommitment',
       params: <dynamic>[
         block,
@@ -128,7 +128,7 @@ class _RpcClient implements RpcClient {
   Future<List<int>> getBlocks(int startSlot, int? endSlot,
       {Commitment? commitment}) async {
     final config = GetBlocksConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getBlocks',
       params: <dynamic>[
         startSlot,
@@ -145,7 +145,7 @@ class _RpcClient implements RpcClient {
   Future<List<int>> getBlocksWithLimit(int startSlot, int limit,
       {Commitment? commitment}) async {
     final config = GetBlocksWithLimitConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getBlocksWithLimit',
       params: <dynamic>[
         startSlot,
@@ -161,7 +161,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int?> getBlockTime(int block) async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getBlockTime',
       params: <dynamic>[
         block,
@@ -176,7 +176,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<List<ClusterNode>> getClusterNodes() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getClusterNodes',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -191,7 +191,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<EpochInfo> getEpochInfo({Commitment? commitment}) async {
     final config = GetEpochInfoConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getEpochInfo',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -205,7 +205,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<EpochSchedule> getEpochSchedule() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getEpochSchedule',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -222,7 +222,7 @@ class _RpcClient implements RpcClient {
       {Commitment? commitment}) async {
     final config =
         GetFeeCalculatorForBlockhashConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getFeeCalculatorForBlockhash',
       params: <dynamic>[
         blockhash,
@@ -239,7 +239,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<FeeRateGovernor> getFeeRateGovernor() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getFeeRateGovernor',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -253,7 +253,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<Fees> getFees({Commitment? commitment}) async {
     final config = GetFeesConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getFees',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -267,7 +267,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> getFirstAvailableBlock() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getFirstAvailableBlock',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -281,7 +281,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<String> getGenesisHash() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getGenesisHash',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -295,7 +295,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<String> getHealth() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getHealth',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -309,7 +309,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<Identity> getIdentity() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getIdentity',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -324,7 +324,7 @@ class _RpcClient implements RpcClient {
   Future<InflationGovernor> getInflationGovernor(
       {Commitment? commitment}) async {
     final config = GetInflationGovernorConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getInflationGovernor',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -338,7 +338,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<InflationRate> getInflationRate() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getInflationRate',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -353,7 +353,7 @@ class _RpcClient implements RpcClient {
   Future<List<InflationReward>> getInflationReward(
       List<String> addresses) async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getInflationReward',
       params: <dynamic>[
         addresses,
@@ -373,7 +373,7 @@ class _RpcClient implements RpcClient {
     final config =
         GetLargestAccountsConfig(commitment: commitment, filter: filter)
             .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getLargestAccounts',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -391,7 +391,7 @@ class _RpcClient implements RpcClient {
     final config =
         GetLeaderScheduleConfig(commitment: commitment, identity: identity)
             .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getLeaderSchedule',
       params: <dynamic>[
         if (slot != null) slot,
@@ -407,7 +407,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> getMaxRetransmitSlot() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getMaxRetransmitSlot',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -421,7 +421,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> getMaxShredInsertSlot() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getMaxShredInsertSlot',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -438,7 +438,7 @@ class _RpcClient implements RpcClient {
     final config =
         GetMinimumBalanceForRentExemptionConfig(commitment: commitment)
             .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getMinimumBalanceForRentExemption',
       params: <dynamic>[
         accountDataLength,
@@ -458,7 +458,7 @@ class _RpcClient implements RpcClient {
     final config = GetMultipleAccountsConfig(
             commitment: commitment, encoding: encoding, dataSlice: dataSlice)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getMultipleAccounts',
       params: <dynamic>[
         pubKeys,
@@ -485,7 +485,7 @@ class _RpcClient implements RpcClient {
             dataSlice: dataSlice,
             filters: filters)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getProgramAccounts',
       params: <dynamic>[
         pubKey,
@@ -501,7 +501,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<RecentBlockhash> getRecentBlockhash({Commitment? commitment}) async {
     final config = GetRecentBlockhashConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getRecentBlockhash',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -515,7 +515,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<List<PerfSample>> getRecentPerformanceSamples(int? limit) async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getRecentPerformanceSamples',
       params: <dynamic>[
         if (limit != null) limit,
@@ -531,7 +531,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> getSnapshotSlot() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getSnapshotSlot',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -552,7 +552,7 @@ class _RpcClient implements RpcClient {
     final config = GetSignaturesForAddressConfig(
             limit: limit, before: before, until: until, commitment: commitment)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getSignaturesForAddress',
       params: <dynamic>[
         pubKey,
@@ -573,7 +573,7 @@ class _RpcClient implements RpcClient {
     final config = GetSignatureStatusesConfig(
             searchTransactionHistory: searchTransactionHistory)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getSignatureStatuses',
       params: <dynamic>[
         signatures,
@@ -592,7 +592,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> getSlot({Commitment? commitment}) async {
     final config = GetSlotConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getSlot',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -606,7 +606,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<String> getSlotLeader({Commitment? commitment}) async {
     final config = GetSlotLeaderConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getSlotLeader',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -620,7 +620,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<List<String>> getSlotLeaders(int startSlot, int limit) async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getSlotLeaders',
       params: <dynamic>[
         startSlot,
@@ -638,7 +638,7 @@ class _RpcClient implements RpcClient {
       {Commitment? commitment = Commitment.finalized, int? epoch}) async {
     final config =
         GetStakeActivationConfig(commitment: commitment, epoch: epoch).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getStakeActivation',
       params: <dynamic>[
         pubKey,
@@ -659,7 +659,7 @@ class _RpcClient implements RpcClient {
             excludeNonCirculatingAccountsList:
                 excludeNonCirculatingAccountsList)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getSupply',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -675,7 +675,7 @@ class _RpcClient implements RpcClient {
       {Commitment? commitment}) async {
     final config =
         GetTokenAccountBalanceConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getTokenAccountBalance',
       params: <dynamic>[
         pubKey,
@@ -696,7 +696,7 @@ class _RpcClient implements RpcClient {
     final config = GetTokenAccountsByDelegateConfig(
             commitment: commitment, encoding: encoding, dataSlice: dataSlice)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getTokenAccountsByDelegate',
       params: <dynamic>[
         pubKey,
@@ -719,7 +719,7 @@ class _RpcClient implements RpcClient {
     final config = GetTokenAccountsByOwnerConfig(
             commitment: commitment, encoding: encoding, dataSlice: dataSlice)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getTokenAccountsByOwner',
       params: <dynamic>[
         pubKey,
@@ -738,7 +738,7 @@ class _RpcClient implements RpcClient {
       {Commitment? commitment}) async {
     final config =
         GetTokenLargestAccountsConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getTokenLargestAccounts',
       params: <dynamic>[
         pubKey,
@@ -755,7 +755,7 @@ class _RpcClient implements RpcClient {
   Future<TokenAmount> getTokenSupply(String mint,
       {Commitment? commitment}) async {
     final config = GetTokenSupplyConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getTokenSupply',
       params: <dynamic>[
         mint,
@@ -774,7 +774,7 @@ class _RpcClient implements RpcClient {
     final config =
         GetTransactionConfig(encoding: encoding, commitment: commitment)
             .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getTransaction',
       params: <dynamic>[
         signature,
@@ -791,7 +791,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> getTransactionCount({Commitment? commitment}) async {
     final config = GetTransactionCountConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getTransactionCount',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -805,7 +805,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<SolanaVersion> getVersion() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getVersion',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -828,7 +828,7 @@ class _RpcClient implements RpcClient {
             keepUnstakedDelinquents: keepUnstakedDelinquents,
             delinquentSlotDistance: delinquentSlotDistance)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getVoteAccounts',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -842,7 +842,7 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> minimumLedgerSlot() async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'minimumLedgerSlot',
       params: <dynamic>[
         if (config.isNotEmpty) config,
@@ -857,7 +857,7 @@ class _RpcClient implements RpcClient {
   Future<String> requestAirdrop(String pubKey, int lamports,
       {Commitment? commitment}) async {
     final config = RequestAirdropConfig(commitment: commitment).toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'requestAirdrop',
       params: <dynamic>[
         pubKey,
@@ -882,7 +882,7 @@ class _RpcClient implements RpcClient {
             skipPreflight: skipPreflight,
             maxRetries: maxRetries)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'sendTransaction',
       params: <dynamic>[
         transaction,
@@ -908,7 +908,7 @@ class _RpcClient implements RpcClient {
             replaceRecentBlockhash: replaceRecentBlockhash,
             accounts: accounts)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'simulateTransaction',
       params: <dynamic>[
         transaction,
@@ -932,7 +932,7 @@ class _RpcClient implements RpcClient {
             rewards: rewards,
             commitment: commitment)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getConfirmedBlock',
       params: <dynamic>[
         slot,
@@ -948,7 +948,7 @@ class _RpcClient implements RpcClient {
   Future<List<int>> getConfirmedBlocks(
       int startSlot, int? endSlot, Commitment? commitment) async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getConfirmedBlocks',
       params: <dynamic>[
         startSlot,
@@ -966,7 +966,7 @@ class _RpcClient implements RpcClient {
   Future<List<int>> getConfirmedBlocksWithLimit(
       int startSlot, int limit, Commitment? commitment) async {
     final config = <String, dynamic>{};
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getConfirmedBlocksWithLimit',
       params: <dynamic>[
         startSlot,
@@ -990,7 +990,7 @@ class _RpcClient implements RpcClient {
     final config = GetConfirmedSignaturesForAddress2Config(
             limit: limit, before: before, until: until, commitment: commitment)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getConfirmedSignaturesForAddress2',
       params: <dynamic>[
         pubKey,
@@ -1012,7 +1012,7 @@ class _RpcClient implements RpcClient {
     final config = GetConfirmedTransactionConfig(
             encoding: encoding, commitment: commitment)
         .toJson();
-    final response = await _client.request(
+    final response = await jsonRpcClient.request(
       'getConfirmedTransaction',
       params: <dynamic>[
         signature,
