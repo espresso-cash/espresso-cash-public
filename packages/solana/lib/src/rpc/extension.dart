@@ -33,31 +33,32 @@ extension RpcClientExt on RpcClient {
       commitment: commitment,
     );
 
-    return _getTransactionsInBulk(
-      signatures.where((s) => s.err == null).map((s) => s.signature),
+    return getMultipleTransactions(
+      signatures,
+      commitment: commitment,
+      encoding: Encoding.jsonParsed,
     );
   }
 
-  /// This method sends a `getTransaction` jsonrpc-2.0 request or rather,
-  /// many of them in a single call. It also gets all the responses simultaneously
-  /// and is of course much faster and efficient than requesting each signature
-  /// separately.
+  /// Get multiple transactions in 1 call.
   ///
-  /// Ideally, we should have the ability to do this with all the RPC methods.
+  /// Gets one transaction for each signature in the [signatures] list.
   ///
-  /// Although I don't immediately see why that would be useful, it is a feature
-  /// of the Json RPC api.
-  Future<Iterable<TransactionDetails>> _getTransactionsInBulk(
-    Iterable<String> signatures, {
+  /// The [encoding] and [commitment] parameters are "passed as is"
+  /// to the internal call to [RpcClient.getTransaction()]
+  Future<List<TransactionDetails>> getMultipleTransactions(
+    List<TransactionSignatureInformation> signatures, {
     Commitment? commitment,
+    Encoding? encoding,
   }) async {
-    final response = await jsonRpcClient.bulkRequest(
+    final response = await _jsonRpcClient.bulkRequest(
       'getTransaction',
       signatures
-          .map((signature) => <dynamic>[
-                signature,
+          .where((s) => s.err == null)
+          .map((s) => <dynamic>[
+                s.signature,
                 GetTransactionConfig(
-                  encoding: Encoding.jsonParsed,
+                  encoding: encoding,
                   commitment: commitment,
                 ).toJson(),
               ])
@@ -65,8 +66,10 @@ extension RpcClientExt on RpcClient {
     );
     final Iterable<dynamic> transactions = response.map(getResult);
 
-    return transactions.map(
-      (t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
-    );
+    return transactions
+        .map(
+          (t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
+        )
+        .toList(growable: false);
   }
 }
