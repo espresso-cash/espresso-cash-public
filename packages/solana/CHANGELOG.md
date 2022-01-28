@@ -1,3 +1,13 @@
+## 0.18.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: Put associated token account program into programs directory (#164).
+ - **FEAT**: Add metaplex parsing support (#163).
+ - **FEAT**: Add the ability to request all transactions in 1 request (#167).
+ - **BREAKING** **REFACTOR**: Re-organize exports (#168).
+ - **BREAKING** **FEAT**: Use String feePayer instead of Keypair (#122).
+
 ## 0.17.2+2
 
  - **FIX**: Check for connection before sending request (#166).
