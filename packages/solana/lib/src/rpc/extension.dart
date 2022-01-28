@@ -54,7 +54,6 @@ extension RpcClientExt on RpcClient {
     final response = await _jsonRpcClient.bulkRequest(
       'getTransaction',
       signatures
-          .where((s) => s.err == null)
           .map((s) => <dynamic>[
                 s.signature,
                 GetTransactionConfig(

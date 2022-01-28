@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:solana/src/exceptions/http_exception.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
@@ -60,18 +59,21 @@ class JsonRpcClient {
     }
   }
 
-  static FutureOr<Response> _onTimeout() {
-    throw TimeoutException('request timed out');
-  }
-
   Future<_JsonRpcResponse> _postRequest(
     _JsonRpcRequest request,
   ) async {
     final body = json.encode(request.toJson());
     // Perform the POST request
-    final http.Response response = await http
-        .post(Uri.parse(_url), headers: _defaultHeaders, body: body)
-        .timeout(_timeout, onTimeout: JsonRpcClient._onTimeout);
+    final Response response = await post(
+      Uri.parse(_url),
+      headers: _defaultHeaders,
+      body: body,
+    ).timeout(
+      _timeout,
+      onTimeout: () {
+        throw TimeoutException('request timed out');
+      },
+    );
     // Handle the response
     if (response.statusCode == 200) {
       return _JsonRpcResponse._parse(json.decode(response.body));
