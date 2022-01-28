@@ -98,10 +98,7 @@ abstract class _JsonRpcRequest {
 class _JsonRpcBulkRequest implements _JsonRpcRequest {
   const _JsonRpcBulkRequest(this.list);
 
-  List<dynamic> toJson() => list
-      .whereType<_JsonRpcRequest>()
-      .map((i) => i.toJson())
-      .toList(growable: false);
+  List<dynamic> toJson() => list.map((i) => i.toJson()).toList(growable: false);
 
   final List<_JsonRpcRequest> list;
 }
