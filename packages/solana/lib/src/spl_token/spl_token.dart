@@ -1,7 +1,7 @@
-import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/helpers.dart';
+import 'package:solana/src/programs/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/programs/token_program/token_program.dart';
 
 /// Represents a SPL token program

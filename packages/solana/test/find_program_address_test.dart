@@ -1,6 +1,6 @@
-import 'package:solana/src/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/helpers.dart';
+import 'package:solana/src/programs/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/programs/token_program/token_program.dart';
 import 'package:test/test.dart';
 
