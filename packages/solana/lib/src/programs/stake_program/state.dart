@@ -1,5 +1,5 @@
-import 'package:solana/solana.dart';
 import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/encoder/encoder.dart';
 
 abstract class StakeAuthorize {
   const factory StakeAuthorize.staker(String pubKey) = StakerAuthority;

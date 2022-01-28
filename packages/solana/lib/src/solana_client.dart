@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:solana/solana.dart';
-import 'package:solana/src/encoder/signature.dart';
-import 'package:solana/src/rpc/rpc.dart';
+import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/rpc/dto/dto.dart';
 
 class SolanaClient {
   SolanaClient({

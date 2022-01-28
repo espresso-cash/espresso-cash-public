@@ -1,5 +1,4 @@
-import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/extensions.dart';
+import 'package:solana/encoder.dart';
 import 'package:test/test.dart';
 
 void main() {

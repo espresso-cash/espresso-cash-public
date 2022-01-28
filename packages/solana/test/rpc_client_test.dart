@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:bip39/bip39.dart';
+import 'package:solana/dto.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';

@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:solana/anchor.dart';
+import 'package:solana/dto.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/anchor/instruction.dart';
-import 'package:solana/src/encoder/constants.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
