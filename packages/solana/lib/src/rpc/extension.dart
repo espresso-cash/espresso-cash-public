@@ -32,18 +32,43 @@ extension RpcClientExt on RpcClient {
       limit: limit,
       commitment: commitment,
     );
-    final transactions = await Future.wait(
-      signatures.map(
-        (s) => getTransaction(
-          s.signature,
-          commitment: commitment,
-          encoding: Encoding.jsonParsed,
-        ),
-      ),
-    );
 
-    // We are sure that no transaction in this list is `null` because
-    // we have queried the signatures so they surely exist
-    return transactions.whereType();
+    return getMultipleTransactions(
+      signatures,
+      commitment: commitment,
+      encoding: Encoding.jsonParsed,
+    );
+  }
+
+  /// Get multiple transactions in 1 call.
+  ///
+  /// Gets one transaction for each signature in the [signatures] list.
+  ///
+  /// The [encoding] and [commitment] parameters are "passed as is"
+  /// to the internal call to [RpcClient.getTransaction()]
+  Future<List<TransactionDetails>> getMultipleTransactions(
+    List<TransactionSignatureInformation> signatures, {
+    Commitment? commitment,
+    Encoding? encoding,
+  }) async {
+    final response = await _jsonRpcClient.bulkRequest(
+      'getTransaction',
+      signatures
+          .map((s) => <dynamic>[
+                s.signature,
+                GetTransactionConfig(
+                  encoding: encoding,
+                  commitment: commitment,
+                ).toJson(),
+              ])
+          .toList(growable: false),
+    );
+    final Iterable<dynamic> transactions = response.map(getResult);
+
+    return transactions
+        .map(
+          (t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
+        )
+        .toList(growable: false);
   }
 }

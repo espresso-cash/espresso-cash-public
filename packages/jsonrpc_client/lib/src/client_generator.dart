@@ -19,9 +19,10 @@ class ClientGenerator extends GeneratorForAnnotation<SolanaRpcClient> {
 
     return '''
 class _${element.name} implements ${element.name} {
-  _${element.name}(String url, this._client);
+  _${element.name}(String url, this._jsonRpcClient);
   
-  final JsonRpcClient _client;
+  @override
+  final JsonRpcClient _jsonRpcClient;
   
   ${methods.map(_generateMethod).join('\n')}
 }
@@ -80,7 +81,7 @@ class ${name}Config {
 @override
 ${method.getDisplayString(withNullability: true)} async {
   final config = $configParamsString;
-  final response = await _client.request(
+  final response = await _jsonRpcClient.request(
       '${method.name}',
       params: <dynamic>[
         ${params.join(', ')}${params.isEmpty ? '' : ','}
