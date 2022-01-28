@@ -31,6 +31,7 @@ export 'instruction.dart';
 export 'large_account.dart';
 export 'logs.dart';
 export 'meta.dart';
+export 'parsed_message/parsed_message.dart';
 export 'perf_sample.dart';
 export 'program_account.dart';
 export 'program_data_filter.dart';

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
+import 'package:solana/base58.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/metaplex/off_chain_metadata.dart';
 

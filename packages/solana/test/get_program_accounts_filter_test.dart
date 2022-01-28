@@ -1,4 +1,4 @@
-import 'package:solana/src/rpc/dto/dto.dart';
+import 'package:solana/dto.dart';
 import 'package:test/test.dart';
 
 void main() {

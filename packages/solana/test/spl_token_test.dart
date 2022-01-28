@@ -1,5 +1,6 @@
+import 'package:solana/dto.dart' hide Instruction;
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/rpc/dto/token_amount.dart';
 import 'package:test/test.dart';
 
 import 'config.dart';

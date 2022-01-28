@@ -1,3 +1,4 @@
+import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 Future<void> airdrop(
