@@ -22,7 +22,7 @@ class JsonRpcClient {
   ) async {
     final requests = params
         .map(
-          (p) => _JsonRpcRequest.single(
+          (p) => _JsonRpcSingleRequest(
             method: method,
             params: p,
             id: (_lastId++).toString(),
@@ -46,7 +46,7 @@ class JsonRpcClient {
     String method, {
     List<dynamic>? params,
   }) async {
-    final request = _JsonRpcRequest.single(
+    final request = _JsonRpcSingleRequest(
       id: (_lastId++).toString(),
       method: method,
       params: params,
@@ -82,14 +82,8 @@ class JsonRpcClient {
 }
 
 abstract class _JsonRpcRequest {
-  const factory _JsonRpcRequest.single({
-    required String id,
-    required String method,
-    List<dynamic>? params,
-  }) = _JsonRpcSingleRequest;
-
   const factory _JsonRpcRequest.bulk(
-    List<_JsonRpcRequest> list,
+    List<_JsonRpcSingleRequest> list,
   ) = _JsonRpcBulkRequest;
 
   dynamic toJson();
