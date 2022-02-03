@@ -85,7 +85,16 @@ class StakeProgram extends Message {
     required String configPubKey,
     required String authorityPubKey,
   }) =>
-      throw UnimplementedError();
+      StakeProgram._(
+        instructions: [
+          StakeInstruction.delegateStake(
+            stakePubKey: stakePubKey,
+            votePubKey: votePubKey,
+            configPubKey: configPubKey,
+            authorityPubKey: authorityPubKey,
+          )
+        ],
+      );
 
   factory StakeProgram.split({
     required String sourceStakePubKey,
