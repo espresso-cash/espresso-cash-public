@@ -28,13 +28,13 @@ Implements the following features,
 
 - Complete implementation of the [JSON RPC api](https://docs.solana.com/developing/clients/jsonrpc-api).
 - Complete implementation of a subscription client (using the JSON RPC subscription variant of the API).
-- Complete implementation of the following program
+- Complete implementation of the following programs
     - System Program
     - Token Program
     - Memo Program
     - Stake Program
     - Associated Token Account Program
-- Support for key generation using Hierarchical Deterministic derivation.
+- Support for key generation/importation using Hierarchical Deterministic derivation.
 - Support for importing keys by using a bip39 seed phrase.
 - Support for importing keys by using raw private key bytes.
 - Transaction encoding and signing.
