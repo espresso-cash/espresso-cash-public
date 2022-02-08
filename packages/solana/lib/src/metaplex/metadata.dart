@@ -22,8 +22,10 @@ class Metadata {
       return null;
     }
     final reader = _StructReader(bytes.buffer)..skip(1);
-    final mintAccount = base58encode(reader.nextBytes(32));
+    // This is performed in order for now, but it would be good to make
+    // it order independent
     final updateAuthority = base58encode(reader.nextBytes(32));
+    final mintAccount = base58encode(reader.nextBytes(32));
 
     final name = reader.nextString();
     final symbol = reader.nextString();
