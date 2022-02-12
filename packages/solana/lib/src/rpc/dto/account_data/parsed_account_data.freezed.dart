@@ -14,7 +14,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 ParsedAccountData _$ParsedAccountDataFromJson(Map<String, dynamic> json) {
-  switch (json['program'] as String?) {
+  switch (json['program']) {
     case 'spl-token':
       return ParsedSplTokenProgramAccountData.fromJson(json);
     case 'stake':
@@ -47,7 +47,7 @@ class _$ParsedAccountDataTearOff {
     );
   }
 
-  ParsedAccountData fromJson(Map<String, Object> json) {
+  ParsedAccountData fromJson(Map<String, Object?> json) {
     return ParsedAccountData.fromJson(json);
   }
 }
@@ -170,7 +170,8 @@ class _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
 @FreezedUnionValue('spl-token')
 class _$ParsedSplTokenProgramAccountData
     implements ParsedSplTokenProgramAccountData {
-  const _$ParsedSplTokenProgramAccountData(this.parsed);
+  const _$ParsedSplTokenProgramAccountData(this.parsed, {String? $type})
+      : $type = $type ?? 'spl-token';
 
   factory _$ParsedSplTokenProgramAccountData.fromJson(
           Map<String, dynamic> json) =>
@@ -178,6 +179,9 @@ class _$ParsedSplTokenProgramAccountData
 
   @override
   final SplTokenProgramAccountData parsed;
+
+  @JsonKey(name: 'program')
+  final String $type;
 
   @override
   String toString() {
@@ -187,14 +191,14 @@ class _$ParsedSplTokenProgramAccountData
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedSplTokenProgramAccountData &&
-            (identical(other.parsed, parsed) ||
-                const DeepCollectionEquality().equals(other.parsed, parsed)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedSplTokenProgramAccountData &&
+            const DeepCollectionEquality().equals(other.parsed, parsed));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(parsed);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(parsed));
 
   @JsonKey(ignore: true)
   @override
@@ -272,8 +276,7 @@ class _$ParsedSplTokenProgramAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenProgramAccountDataToJson(this)
-      ..['program'] = 'spl-token';
+    return _$$ParsedSplTokenProgramAccountDataToJson(this);
   }
 }
 
@@ -284,7 +287,7 @@ abstract class ParsedSplTokenProgramAccountData implements ParsedAccountData {
   factory ParsedSplTokenProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedSplTokenProgramAccountData.fromJson;
 
-  SplTokenProgramAccountData get parsed => throw _privateConstructorUsedError;
+  SplTokenProgramAccountData get parsed;
   @JsonKey(ignore: true)
   $ParsedSplTokenProgramAccountDataCopyWith<ParsedSplTokenProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;
@@ -337,13 +340,17 @@ class _$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
-  const _$ParsedStakeProgramAccountData(this.parsed);
+  const _$ParsedStakeProgramAccountData(this.parsed, {String? $type})
+      : $type = $type ?? 'stake';
 
   factory _$ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =>
       _$$ParsedStakeProgramAccountDataFromJson(json);
 
   @override
   final StakeProgramAccountData parsed;
+
+  @JsonKey(name: 'program')
+  final String $type;
 
   @override
   String toString() {
@@ -353,14 +360,14 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedStakeProgramAccountData &&
-            (identical(other.parsed, parsed) ||
-                const DeepCollectionEquality().equals(other.parsed, parsed)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedStakeProgramAccountData &&
+            const DeepCollectionEquality().equals(other.parsed, parsed));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(parsed);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(parsed));
 
   @JsonKey(ignore: true)
   @override
@@ -438,7 +445,7 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedStakeProgramAccountDataToJson(this)..['program'] = 'stake';
+    return _$$ParsedStakeProgramAccountDataToJson(this);
   }
 }
 
@@ -449,7 +456,7 @@ abstract class ParsedStakeProgramAccountData implements ParsedAccountData {
   factory ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedStakeProgramAccountData.fromJson;
 
-  StakeProgramAccountData get parsed => throw _privateConstructorUsedError;
+  StakeProgramAccountData get parsed;
   @JsonKey(ignore: true)
   $ParsedStakeProgramAccountDataCopyWith<ParsedStakeProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;
@@ -493,13 +500,17 @@ class _$UnsupportedProgramAccountDataCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
-  const _$UnsupportedProgramAccountData(this.parsed);
+  const _$UnsupportedProgramAccountData(this.parsed, {String? $type})
+      : $type = $type ?? 'unsupported';
 
   factory _$UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =>
       _$$UnsupportedProgramAccountDataFromJson(json);
 
   @override
   final Map<String, dynamic> parsed;
+
+  @JsonKey(name: 'program')
+  final String $type;
 
   @override
   String toString() {
@@ -509,14 +520,14 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is UnsupportedProgramAccountData &&
-            (identical(other.parsed, parsed) ||
-                const DeepCollectionEquality().equals(other.parsed, parsed)));
+        (other.runtimeType == runtimeType &&
+            other is UnsupportedProgramAccountData &&
+            const DeepCollectionEquality().equals(other.parsed, parsed));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(parsed);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(parsed));
 
   @JsonKey(ignore: true)
   @override
@@ -594,8 +605,7 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnsupportedProgramAccountDataToJson(this)
-      ..['program'] = 'unsupported';
+    return _$$UnsupportedProgramAccountDataToJson(this);
   }
 }
 
@@ -606,7 +616,7 @@ abstract class UnsupportedProgramAccountData implements ParsedAccountData {
   factory UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$UnsupportedProgramAccountData.fromJson;
 
-  Map<String, dynamic> get parsed => throw _privateConstructorUsedError;
+  Map<String, dynamic> get parsed;
   @JsonKey(ignore: true)
   $UnsupportedProgramAccountDataCopyWith<UnsupportedProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;

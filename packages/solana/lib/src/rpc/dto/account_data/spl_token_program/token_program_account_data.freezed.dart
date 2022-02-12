@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 SplTokenProgramAccountData _$SplTokenProgramAccountDataFromJson(
     Map<String, dynamic> json) {
-  switch (json['type'] as String?) {
+  switch (json['type']) {
     case 'account':
       return TokenAccountData.fromJson(json);
     case 'mint':
@@ -58,7 +58,7 @@ class _$SplTokenProgramAccountDataTearOff {
     );
   }
 
-  SplTokenProgramAccountData fromJson(Map<String, Object> json) {
+  SplTokenProgramAccountData fromJson(Map<String, Object?> json) {
     return SplTokenProgramAccountData.fromJson(json);
   }
 }
@@ -230,22 +230,20 @@ class _$TokenAccountData implements TokenAccountData {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is TokenAccountData &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.accountType, accountType) ||
-                const DeepCollectionEquality()
-                    .equals(other.accountType, accountType)));
+        (other.runtimeType == runtimeType &&
+            other is TokenAccountData &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.type, type) &&
+            const DeepCollectionEquality()
+                .equals(other.accountType, accountType));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(info) ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(accountType);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(type),
+      const DeepCollectionEquality().hash(accountType));
 
   @JsonKey(ignore: true)
   @override
@@ -334,7 +332,7 @@ class _$TokenAccountData implements TokenAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TokenAccountDataToJson(this)..['type'] = 'account';
+    return _$$TokenAccountDataToJson(this);
   }
 }
 
@@ -347,10 +345,10 @@ abstract class TokenAccountData implements SplTokenProgramAccountData {
   factory TokenAccountData.fromJson(Map<String, dynamic> json) =
       _$TokenAccountData.fromJson;
 
-  SplTokenAccountDataInfo get info => throw _privateConstructorUsedError;
+  SplTokenAccountDataInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
-  String? get accountType => throw _privateConstructorUsedError;
+  String get type;
+  String? get accountType;
   @override
   @JsonKey(ignore: true)
   $TokenAccountDataCopyWith<TokenAccountData> get copyWith =>
@@ -425,22 +423,20 @@ class _$MintAccountData implements MintAccountData {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is MintAccountData &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.accountType, accountType) ||
-                const DeepCollectionEquality()
-                    .equals(other.accountType, accountType)));
+        (other.runtimeType == runtimeType &&
+            other is MintAccountData &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.type, type) &&
+            const DeepCollectionEquality()
+                .equals(other.accountType, accountType));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(info) ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(accountType);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(type),
+      const DeepCollectionEquality().hash(accountType));
 
   @JsonKey(ignore: true)
   @override
@@ -529,7 +525,7 @@ class _$MintAccountData implements MintAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MintAccountDataToJson(this)..['type'] = 'mint';
+    return _$$MintAccountDataToJson(this);
   }
 }
 
@@ -542,10 +538,10 @@ abstract class MintAccountData implements SplTokenProgramAccountData {
   factory MintAccountData.fromJson(Map<String, dynamic> json) =
       _$MintAccountData.fromJson;
 
-  MintAccountDataInfo get info => throw _privateConstructorUsedError;
+  MintAccountDataInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
-  String? get accountType => throw _privateConstructorUsedError;
+  String get type;
+  String? get accountType;
   @override
   @JsonKey(ignore: true)
   $MintAccountDataCopyWith<MintAccountData> get copyWith =>
@@ -605,14 +601,14 @@ class _$UnknownAccountData implements UnknownAccountData {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is UnknownAccountData &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)));
+        (other.runtimeType == runtimeType &&
+            other is UnknownAccountData &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(type);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -701,7 +697,7 @@ class _$UnknownAccountData implements UnknownAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnknownAccountDataToJson(this)..['type'] = 'unknown';
+    return _$$UnknownAccountDataToJson(this);
   }
 }
 
@@ -713,7 +709,7 @@ abstract class UnknownAccountData implements SplTokenProgramAccountData {
       _$UnknownAccountData.fromJson;
 
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   $UnknownAccountDataCopyWith<UnknownAccountData> get copyWith =>

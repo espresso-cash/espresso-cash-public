@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 ParsedSplTokenInstruction _$ParsedSplTokenInstructionFromJson(
     Map<String, dynamic> json) {
-  switch (json['type'] as String?) {
+  switch (json['type']) {
     case 'transfer':
       return ParsedSplTokenTransferInstruction.fromJson(json);
     case 'transferChecked':
@@ -54,7 +54,7 @@ class _$ParsedSplTokenInstructionTearOff {
     );
   }
 
-  ParsedSplTokenInstruction fromJson(Map<String, Object> json) {
+  ParsedSplTokenInstruction fromJson(Map<String, Object?> json) {
     return ParsedSplTokenInstruction.fromJson(json);
   }
 }
@@ -218,18 +218,17 @@ class _$ParsedSplTokenTransferInstruction
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedSplTokenTransferInstruction &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedSplTokenTransferInstruction &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(info) ^
-      const DeepCollectionEquality().hash(type);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -313,8 +312,7 @@ class _$ParsedSplTokenTransferInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenTransferInstructionToJson(this)
-      ..['type'] = 'transfer';
+    return _$$ParsedSplTokenTransferInstructionToJson(this);
   }
 }
 
@@ -327,9 +325,9 @@ abstract class ParsedSplTokenTransferInstruction
   factory ParsedSplTokenTransferInstruction.fromJson(
       Map<String, dynamic> json) = _$ParsedSplTokenTransferInstruction.fromJson;
 
-  SplTokenTransferInfo get info => throw _privateConstructorUsedError;
+  SplTokenTransferInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   $ParsedSplTokenTransferInstructionCopyWith<ParsedSplTokenTransferInstruction>
@@ -403,18 +401,17 @@ class _$ParsedSplTokenTransferCheckedInstruction
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedSplTokenTransferCheckedInstruction &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedSplTokenTransferCheckedInstruction &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(info) ^
-      const DeepCollectionEquality().hash(type);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -499,8 +496,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenTransferCheckedInstructionToJson(this)
-      ..['type'] = 'transferChecked';
+    return _$$ParsedSplTokenTransferCheckedInstructionToJson(this);
   }
 }
 
@@ -514,9 +510,9 @@ abstract class ParsedSplTokenTransferCheckedInstruction
           Map<String, dynamic> json) =
       _$ParsedSplTokenTransferCheckedInstruction.fromJson;
 
-  SplTokenTransferCheckedInfo get info => throw _privateConstructorUsedError;
+  SplTokenTransferCheckedInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   $ParsedSplTokenTransferCheckedInstructionCopyWith<
@@ -590,18 +586,17 @@ class _$ParsedSplTokenGenericInstruction
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedSplTokenGenericInstruction &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedSplTokenGenericInstruction &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(info) ^
-      const DeepCollectionEquality().hash(type);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -685,8 +680,7 @@ class _$ParsedSplTokenGenericInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenGenericInstructionToJson(this)
-      ..['type'] = 'generic';
+    return _$$ParsedSplTokenGenericInstructionToJson(this);
   }
 }
 
@@ -699,9 +693,9 @@ abstract class ParsedSplTokenGenericInstruction
   factory ParsedSplTokenGenericInstruction.fromJson(Map<String, dynamic> json) =
       _$ParsedSplTokenGenericInstruction.fromJson;
 
-  dynamic get info => throw _privateConstructorUsedError;
+  dynamic get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   $ParsedSplTokenGenericInstructionCopyWith<ParsedSplTokenGenericInstruction>
