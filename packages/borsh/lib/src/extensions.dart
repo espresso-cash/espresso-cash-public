@@ -22,6 +22,8 @@ extension DartObjectExt on DartObject {
           return null;
         }
     }
+
+    return null;
   }
 }
 

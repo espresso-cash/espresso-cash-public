@@ -13,7 +13,7 @@ dependencies:
   convert: ^3.0.1
   cryptography: ^2.0.2
   ed25519_hd_key: ^2.1.0
-  freezed_annotation: ^0.14.2
+  freezed_annotation: ^1.0.0
   http: ^0.13.3
   json_annotation: ^4.0.1
   web_socket_channel: ^2.1.0
@@ -21,9 +21,9 @@ dependencies:
 dev_dependencies:
   borsh: ^0.2.0+1
   build_runner: ^2.1.1
-  freezed: ^0.14.5
-  json_serializable: ^5.0.0
+  freezed: ^1.0.0
+  json_serializable: ^6.0.0
   jsonrpc_client:
     path: ../jsonrpc_client
-  mews_pedantic: ^0.2.1
+  mews_pedantic: ^0.4.1
   test: ^1.17.11
