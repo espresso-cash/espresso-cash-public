@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 StakeProgramAccountData _$StakeProgramAccountDataFromJson(
     Map<String, dynamic> json) {
-  switch (json['type'] as String?) {
+  switch (json['type']) {
     case 'delegated':
       return StakeProgramDelegatedAccountData.fromJson(json);
     case 'initialize':
@@ -50,7 +50,7 @@ class _$StakeProgramAccountDataTearOff {
     );
   }
 
-  StakeProgramAccountData fromJson(Map<String, Object> json) {
+  StakeProgramAccountData fromJson(Map<String, Object?> json) {
     return StakeProgramAccountData.fromJson(json);
   }
 }
@@ -164,7 +164,8 @@ class _$StakeProgramDelegatedAccountDataCopyWithImpl<$Res>
 @JsonSerializable()
 class _$StakeProgramDelegatedAccountData
     implements StakeProgramDelegatedAccountData {
-  const _$StakeProgramDelegatedAccountData({required this.info});
+  const _$StakeProgramDelegatedAccountData({required this.info, String? $type})
+      : $type = $type ?? 'delegated';
 
   factory _$StakeProgramDelegatedAccountData.fromJson(
           Map<String, dynamic> json) =>
@@ -172,6 +173,9 @@ class _$StakeProgramDelegatedAccountData
 
   @override
   final StakeDelegatedAccountInfo info;
+
+  @JsonKey(name: 'type')
+  final String $type;
 
   @override
   String toString() {
@@ -181,14 +185,14 @@ class _$StakeProgramDelegatedAccountData
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is StakeProgramDelegatedAccountData &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)));
+        (other.runtimeType == runtimeType &&
+            other is StakeProgramDelegatedAccountData &&
+            const DeepCollectionEquality().equals(other.info, info));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(info);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(info));
 
   @JsonKey(ignore: true)
   @override
@@ -267,8 +271,7 @@ class _$StakeProgramDelegatedAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramDelegatedAccountDataToJson(this)
-      ..['type'] = 'delegated';
+    return _$$StakeProgramDelegatedAccountDataToJson(this);
   }
 }
 
@@ -281,7 +284,7 @@ abstract class StakeProgramDelegatedAccountData
   factory StakeProgramDelegatedAccountData.fromJson(Map<String, dynamic> json) =
       _$StakeProgramDelegatedAccountData.fromJson;
 
-  StakeDelegatedAccountInfo get info => throw _privateConstructorUsedError;
+  StakeDelegatedAccountInfo get info;
   @JsonKey(ignore: true)
   $StakeProgramDelegatedAccountDataCopyWith<StakeProgramDelegatedAccountData>
       get copyWith => throw _privateConstructorUsedError;
@@ -326,7 +329,9 @@ class _$StakeProgramInitializedAccountDataCopyWithImpl<$Res>
 @JsonSerializable()
 class _$StakeProgramInitializedAccountData
     implements StakeProgramInitializedAccountData {
-  const _$StakeProgramInitializedAccountData({required this.info});
+  const _$StakeProgramInitializedAccountData(
+      {required this.info, String? $type})
+      : $type = $type ?? 'initialize';
 
   factory _$StakeProgramInitializedAccountData.fromJson(
           Map<String, dynamic> json) =>
@@ -334,6 +339,9 @@ class _$StakeProgramInitializedAccountData
 
   @override
   final StakeInitializedAccountInfo info;
+
+  @JsonKey(name: 'type')
+  final String $type;
 
   @override
   String toString() {
@@ -343,14 +351,14 @@ class _$StakeProgramInitializedAccountData
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is StakeProgramInitializedAccountData &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)));
+        (other.runtimeType == runtimeType &&
+            other is StakeProgramInitializedAccountData &&
+            const DeepCollectionEquality().equals(other.info, info));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(info);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(info));
 
   @JsonKey(ignore: true)
   @override
@@ -430,8 +438,7 @@ class _$StakeProgramInitializedAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramInitializedAccountDataToJson(this)
-      ..['type'] = 'initialize';
+    return _$$StakeProgramInitializedAccountDataToJson(this);
   }
 }
 
@@ -445,7 +452,7 @@ abstract class StakeProgramInitializedAccountData
           Map<String, dynamic> json) =
       _$StakeProgramInitializedAccountData.fromJson;
 
-  StakeInitializedAccountInfo get info => throw _privateConstructorUsedError;
+  StakeInitializedAccountInfo get info;
   @JsonKey(ignore: true)
   $StakeProgramInitializedAccountDataCopyWith<
           StakeProgramInitializedAccountData>
@@ -491,7 +498,8 @@ class _$StakeProgramUnknownAccountDataCopyWithImpl<$Res>
 @JsonSerializable()
 class _$StakeProgramUnknownAccountData
     implements StakeProgramUnknownAccountData {
-  const _$StakeProgramUnknownAccountData(this.info);
+  const _$StakeProgramUnknownAccountData(this.info, {String? $type})
+      : $type = $type ?? 'unknown';
 
   factory _$StakeProgramUnknownAccountData.fromJson(
           Map<String, dynamic> json) =>
@@ -499,6 +507,9 @@ class _$StakeProgramUnknownAccountData
 
   @override
   final Map<String, dynamic> info;
+
+  @JsonKey(name: 'type')
+  final String $type;
 
   @override
   String toString() {
@@ -508,14 +519,14 @@ class _$StakeProgramUnknownAccountData
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is StakeProgramUnknownAccountData &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)));
+        (other.runtimeType == runtimeType &&
+            other is StakeProgramUnknownAccountData &&
+            const DeepCollectionEquality().equals(other.info, info));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(info);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(info));
 
   @JsonKey(ignore: true)
   @override
@@ -594,7 +605,7 @@ class _$StakeProgramUnknownAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramUnknownAccountDataToJson(this)..['type'] = 'unknown';
+    return _$$StakeProgramUnknownAccountDataToJson(this);
   }
 }
 
@@ -606,7 +617,7 @@ abstract class StakeProgramUnknownAccountData
   factory StakeProgramUnknownAccountData.fromJson(Map<String, dynamic> json) =
       _$StakeProgramUnknownAccountData.fromJson;
 
-  Map<String, dynamic> get info => throw _privateConstructorUsedError;
+  Map<String, dynamic> get info;
   @JsonKey(ignore: true)
   $StakeProgramUnknownAccountDataCopyWith<StakeProgramUnknownAccountData>
       get copyWith => throw _privateConstructorUsedError;

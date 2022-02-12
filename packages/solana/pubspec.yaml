@@ -15,7 +15,7 @@ dependencies:
   ed25519_hd_key: ^2.1.0
   freezed_annotation: ^1.0.0
   http: ^0.13.3
-  json_annotation: ^4.0.1
+  json_annotation: ^4.4.0
   web_socket_channel: ^2.1.0
 
 dev_dependencies:

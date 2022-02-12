@@ -12,6 +12,7 @@ _$ParsedInstructionSystem _$$ParsedInstructionSystemFromJson(
       programId: json['programId'] as String,
       parsed: ParsedSystemInstruction.fromJson(
           json['parsed'] as Map<String, dynamic>),
+      $type: json['program'] as String?,
     );
 
 Map<String, dynamic> _$$ParsedInstructionSystemToJson(
@@ -19,6 +20,7 @@ Map<String, dynamic> _$$ParsedInstructionSystemToJson(
     <String, dynamic>{
       'programId': instance.programId,
       'parsed': instance.parsed,
+      'program': instance.$type,
     };
 
 _$ParsedInstructionSplToken _$$ParsedInstructionSplTokenFromJson(
@@ -26,24 +28,28 @@ _$ParsedInstructionSplToken _$$ParsedInstructionSplTokenFromJson(
     _$ParsedInstructionSplToken(
       parsed: ParsedSplTokenInstruction.fromJson(
           json['parsed'] as Map<String, dynamic>),
+      $type: json['program'] as String?,
     );
 
 Map<String, dynamic> _$$ParsedInstructionSplTokenToJson(
         _$ParsedInstructionSplToken instance) =>
     <String, dynamic>{
       'parsed': instance.parsed,
+      'program': instance.$type,
     };
 
 _$ParsedInstructionMemo _$$ParsedInstructionMemoFromJson(
         Map<String, dynamic> json) =>
     _$ParsedInstructionMemo(
       memo: json['parsed'] as String?,
+      $type: json['program'] as String?,
     );
 
 Map<String, dynamic> _$$ParsedInstructionMemoToJson(
         _$ParsedInstructionMemo instance) =>
     <String, dynamic>{
       'parsed': instance.memo,
+      'program': instance.$type,
     };
 
 _$ParsedInstructionUnsupported _$$ParsedInstructionUnsupportedFromJson(

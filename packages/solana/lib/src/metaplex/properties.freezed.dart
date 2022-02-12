@@ -14,7 +14,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Properties _$PropertiesFromJson(Map<String, dynamic> json) {
-  switch (json['category'] as String?) {
+  switch (json['category']) {
     case 'video':
       return Video.fromJson(json);
     case 'image':
@@ -69,7 +69,7 @@ class _$PropertiesTearOff {
     );
   }
 
-  Properties fromJson(Map<String, Object> json) {
+  Properties fromJson(Map<String, Object?> json) {
     return Properties.fromJson(json);
   }
 }
@@ -179,10 +179,13 @@ class _$UnknownCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$Unknown implements Unknown {
-  const _$Unknown();
+  const _$Unknown({String? $type}) : $type = $type ?? 'unknown';
 
   factory _$Unknown.fromJson(Map<String, dynamic> json) =>
       _$$UnknownFromJson(json);
+
+  @JsonKey(name: 'category')
+  final String $type;
 
   @override
   String toString() {
@@ -191,7 +194,8 @@ class _$Unknown implements Unknown {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is Unknown);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is Unknown);
   }
 
   @override
@@ -285,7 +289,7 @@ class _$Unknown implements Unknown {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnknownToJson(this)..['category'] = 'unknown';
+    return _$$UnknownToJson(this);
   }
 }
 
@@ -327,12 +331,16 @@ class _$VideoCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$Video implements Video {
-  const _$Video({required this.files});
+  const _$Video({required this.files, String? $type})
+      : $type = $type ?? 'video';
 
   factory _$Video.fromJson(Map<String, dynamic> json) => _$$VideoFromJson(json);
 
   @override
   final List<File> files;
+
+  @JsonKey(name: 'category')
+  final String $type;
 
   @override
   String toString() {
@@ -342,14 +350,14 @@ class _$Video implements Video {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is Video &&
-            (identical(other.files, files) ||
-                const DeepCollectionEquality().equals(other.files, files)));
+        (other.runtimeType == runtimeType &&
+            other is Video &&
+            const DeepCollectionEquality().equals(other.files, files));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(files);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(files));
 
   @JsonKey(ignore: true)
   @override
@@ -444,7 +452,7 @@ class _$Video implements Video {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$VideoToJson(this)..['category'] = 'video';
+    return _$$VideoToJson(this);
   }
 }
 
@@ -453,7 +461,7 @@ abstract class Video implements Properties {
 
   factory Video.fromJson(Map<String, dynamic> json) = _$Video.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   $VideoCopyWith<Video> get copyWith => throw _privateConstructorUsedError;
 }
@@ -490,12 +498,16 @@ class _$ImageCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$Image implements Image {
-  const _$Image({required this.files});
+  const _$Image({required this.files, String? $type})
+      : $type = $type ?? 'image';
 
   factory _$Image.fromJson(Map<String, dynamic> json) => _$$ImageFromJson(json);
 
   @override
   final List<File> files;
+
+  @JsonKey(name: 'category')
+  final String $type;
 
   @override
   String toString() {
@@ -505,14 +517,14 @@ class _$Image implements Image {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is Image &&
-            (identical(other.files, files) ||
-                const DeepCollectionEquality().equals(other.files, files)));
+        (other.runtimeType == runtimeType &&
+            other is Image &&
+            const DeepCollectionEquality().equals(other.files, files));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(files);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(files));
 
   @JsonKey(ignore: true)
   @override
@@ -607,7 +619,7 @@ class _$Image implements Image {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ImageToJson(this)..['category'] = 'image';
+    return _$$ImageToJson(this);
   }
 }
 
@@ -616,7 +628,7 @@ abstract class Image implements Properties {
 
   factory Image.fromJson(Map<String, dynamic> json) = _$Image.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   $ImageCopyWith<Image> get copyWith => throw _privateConstructorUsedError;
 }
@@ -653,13 +665,16 @@ class _$Model3DCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$Model3D implements Model3D {
-  const _$Model3D({required this.files});
+  const _$Model3D({required this.files, String? $type}) : $type = $type ?? 'vr';
 
   factory _$Model3D.fromJson(Map<String, dynamic> json) =>
       _$$Model3DFromJson(json);
 
   @override
   final List<File> files;
+
+  @JsonKey(name: 'category')
+  final String $type;
 
   @override
   String toString() {
@@ -669,14 +684,14 @@ class _$Model3D implements Model3D {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is Model3D &&
-            (identical(other.files, files) ||
-                const DeepCollectionEquality().equals(other.files, files)));
+        (other.runtimeType == runtimeType &&
+            other is Model3D &&
+            const DeepCollectionEquality().equals(other.files, files));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(files);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(files));
 
   @JsonKey(ignore: true)
   @override
@@ -771,7 +786,7 @@ class _$Model3D implements Model3D {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$Model3DToJson(this)..['category'] = 'vr';
+    return _$$Model3DToJson(this);
   }
 }
 
@@ -780,7 +795,7 @@ abstract class Model3D implements Properties {
 
   factory Model3D.fromJson(Map<String, dynamic> json) = _$Model3D.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   $Model3DCopyWith<Model3D> get copyWith => throw _privateConstructorUsedError;
 }
@@ -817,12 +832,16 @@ class _$AudioCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$Audio implements Audio {
-  const _$Audio({required this.files});
+  const _$Audio({required this.files, String? $type})
+      : $type = $type ?? 'audio';
 
   factory _$Audio.fromJson(Map<String, dynamic> json) => _$$AudioFromJson(json);
 
   @override
   final List<File> files;
+
+  @JsonKey(name: 'category')
+  final String $type;
 
   @override
   String toString() {
@@ -832,14 +851,14 @@ class _$Audio implements Audio {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is Audio &&
-            (identical(other.files, files) ||
-                const DeepCollectionEquality().equals(other.files, files)));
+        (other.runtimeType == runtimeType &&
+            other is Audio &&
+            const DeepCollectionEquality().equals(other.files, files));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(files);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(files));
 
   @JsonKey(ignore: true)
   @override
@@ -934,7 +953,7 @@ class _$Audio implements Audio {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AudioToJson(this)..['category'] = 'audio';
+    return _$$AudioToJson(this);
   }
 }
 
@@ -943,7 +962,7 @@ abstract class Audio implements Properties {
 
   factory Audio.fromJson(Map<String, dynamic> json) = _$Audio.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   $AudioCopyWith<Audio> get copyWith => throw _privateConstructorUsedError;
 }
@@ -980,12 +999,15 @@ class _$HtmlCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$Html implements Html {
-  const _$Html({required this.files});
+  const _$Html({required this.files, String? $type}) : $type = $type ?? 'html';
 
   factory _$Html.fromJson(Map<String, dynamic> json) => _$$HtmlFromJson(json);
 
   @override
   final List<File> files;
+
+  @JsonKey(name: 'category')
+  final String $type;
 
   @override
   String toString() {
@@ -995,14 +1017,14 @@ class _$Html implements Html {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is Html &&
-            (identical(other.files, files) ||
-                const DeepCollectionEquality().equals(other.files, files)));
+        (other.runtimeType == runtimeType &&
+            other is Html &&
+            const DeepCollectionEquality().equals(other.files, files));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(files);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(files));
 
   @JsonKey(ignore: true)
   @override
@@ -1097,7 +1119,7 @@ class _$Html implements Html {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$HtmlToJson(this)..['category'] = 'html';
+    return _$$HtmlToJson(this);
   }
 }
 
@@ -1106,7 +1128,7 @@ abstract class Html implements Properties {
 
   factory Html.fromJson(Map<String, dynamic> json) = _$Html.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   $HtmlCopyWith<Html> get copyWith => throw _privateConstructorUsedError;
 }

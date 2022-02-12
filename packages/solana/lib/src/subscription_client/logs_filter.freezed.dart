@@ -129,7 +129,8 @@ class _$_LogsFilterAll implements _LogsFilterAll {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _LogsFilterAll);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _LogsFilterAll);
   }
 
   @override
@@ -239,7 +240,8 @@ class _$_LosgFilterAllWithVotes implements _LosgFilterAllWithVotes {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _LosgFilterAllWithVotes);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _LosgFilterAllWithVotes);
   }
 
   @override
@@ -366,14 +368,14 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _LogsFilterMentions &&
-            (identical(other.pubKeys, pubKeys) ||
-                const DeepCollectionEquality().equals(other.pubKeys, pubKeys)));
+        (other.runtimeType == runtimeType &&
+            other is _LogsFilterMentions &&
+            const DeepCollectionEquality().equals(other.pubKeys, pubKeys));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(pubKeys);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(pubKeys));
 
   @JsonKey(ignore: true)
   @override
@@ -453,7 +455,7 @@ abstract class _LogsFilterMentions implements LogsFilter {
   const factory _LogsFilterMentions(List<String> pubKeys) =
       _$_LogsFilterMentions;
 
-  List<String> get pubKeys => throw _privateConstructorUsedError;
+  List<String> get pubKeys;
   @JsonKey(ignore: true)
   _$LogsFilterMentionsCopyWith<_LogsFilterMentions> get copyWith =>
       throw _privateConstructorUsedError;
