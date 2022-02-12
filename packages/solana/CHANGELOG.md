@@ -1,3 +1,9 @@
+## 0.19.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **CHORE**: Update dependencies (#178).
+
 ## 0.18.0
 
 > Note: This release has breaking changes.
