@@ -208,7 +208,7 @@ class StakeProgram extends Message {
             base: base,
             authorityPubKey: authorityPubKey,
             authorizeWithSeedArgs: authorizeWithSeedArgs,
-            lockupAuthorityPubKey: 'location',
+            lockupAuthorityPubKey: lockupAuthorityPubKey,
           )
         ],
       );
