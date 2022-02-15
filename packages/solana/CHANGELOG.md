@@ -1,3 +1,7 @@
+## 0.19.0+1
+
+ - **FIX**: Fix stake instruction parameter (#179).
+
 ## 0.19.0
 
 > Note: This release has breaking changes.
