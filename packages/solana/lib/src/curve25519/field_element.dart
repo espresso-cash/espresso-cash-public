@@ -91,8 +91,8 @@ class FieldElement {
     BigInt.zero,
   ]);
   static final FieldElement one = FieldElement.fromConstList([
-    BigInt.zero,
     BigInt.one,
+    BigInt.zero,
     BigInt.zero,
     BigInt.zero,
     BigInt.zero,
