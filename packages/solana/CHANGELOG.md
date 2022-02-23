@@ -1,3 +1,11 @@
+## 0.20.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Use BigInt for curve25519 (#181).
+ - **DOCS**: Update readme (#172).
+ - **BREAKING** **FIX**: Remove unused exceptions (#182).
+
 ## 0.19.0+1
 
  - **FIX**: Fix stake instruction parameter (#179).
