@@ -71,14 +71,22 @@ extension InstructionListExt on List<Instruction> {
   List<AccountMeta> getAccountsWithOptionalFeePayer({
     String? feePayer,
   }) {
+    final programIds = <String>[];
     final accounts = expand<AccountMeta>(
-      (Instruction instruction) => [
-        ...instruction.accounts,
-
-        /// Append the instruction program id
-        AccountMeta.readonly(pubKey: instruction.programId, isSigner: false),
-      ],
+      (Instruction instruction) {
+        /// Store instruction programId
+        if (!programIds.contains(instruction.programId)) {
+          programIds.add(instruction.programId);
+        }
+        return instruction.accounts;
+      },
     ).toList();
+
+    /// Append programIds to accounts (at the end)
+    for (final programId in programIds) {
+      accounts.add(AccountMeta.readonly(pubKey: programId, isSigner: false));
+    }
+
     if (feePayer != null) {
       final index = accounts.indexWhere(
         (AccountMeta account) => account.pubKey == feePayer,
