@@ -20,9 +20,11 @@ class ConfirmScreen extends StatefulWidget {
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
   void _onSubmitted() {
-    context
-        .read<CreateOutgoingTransferBloc>()
-        .add(const CreateOutgoingTransferEvent.submitted());
+    context.read<CreateOutgoingTransferBloc>().add(
+          const CreateOutgoingTransferEvent.submitted(
+            OutgoingTransferTokenType.fungibleToken,
+          ),
+        );
   }
 
   @override

@@ -91,6 +91,7 @@ void main() {
       payment = await OutgoingTransfer.createSplitKeyTransfer(
         amount: lamportsPerSol ~/ 100,
         tokenAddress: Token.sol.address,
+        tokenType: OutgoingTransferTokenType.fungibleToken,
       );
 
       await solanaClient.transferLamports(

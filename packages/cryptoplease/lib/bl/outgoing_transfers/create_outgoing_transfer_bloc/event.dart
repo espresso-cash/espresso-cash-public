@@ -32,5 +32,7 @@ class CreateOutgoingTransferEvent with _$CreateOutgoingTransferEvent {
 
   const factory CreateOutgoingTransferEvent.cleared() = Cleared;
 
-  const factory CreateOutgoingTransferEvent.submitted() = Submitted;
+  const factory CreateOutgoingTransferEvent.submitted(
+    OutgoingTransferTokenType tokenType,
+  ) = Submitted;
 }

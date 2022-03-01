@@ -16,6 +16,8 @@ typedef OutgoingTransferId = String;
 
 enum OutgoingTransferType { splitKey, direct }
 
+enum OutgoingTransferTokenType { fungibleToken, nonFungibleToken }
+
 @freezed
 class OutgoingTransfer with _$OutgoingTransfer {
   const factory OutgoingTransfer.splitKey({
@@ -24,6 +26,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferState state,
+    required OutgoingTransferTokenType tokenType,
     required IList<int> privateKey,
     String? signature,
     Uri? firstLink,
@@ -36,6 +39,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferState state,
+    required OutgoingTransferTokenType tokenType,
     String? reference,
     String? memo,
     String? signature,
@@ -49,6 +53,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
   static Future<OutgoingTransferSplitKey> createSplitKeyTransfer({
     required int amount,
     required String tokenAddress,
+    required OutgoingTransferTokenType tokenType,
   }) async {
     final recipient = await createRandomKeyPair();
 
@@ -59,6 +64,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
       amount: amount,
       tokenAddress: tokenAddress,
       state: const OutgoingTransferState.draft(),
+      tokenType: tokenType,
     );
   }
 
@@ -66,6 +72,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required String recipientAddress,
     required int amount,
     required String tokenAddress,
+    required OutgoingTransferTokenType tokenType,
     String? memo,
     String? reference,
   }) =>
@@ -78,6 +85,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
         state: const OutgoingTransferState.draft(),
         memo: memo,
         reference: reference,
+        tokenType: tokenType,
       );
 
   String? get reference => this.map(

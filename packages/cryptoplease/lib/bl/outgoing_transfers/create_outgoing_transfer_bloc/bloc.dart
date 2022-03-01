@@ -91,7 +91,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         memoUpdated: (event) => _onMemoUpdated(event, emit),
         referenceUpdated: (event) => _onReferenceUpdated(event, emit),
         cleared: (_) => _onCleared(emit),
-        submitted: (_) => _onSubmitted(emit),
+        submitted: (event) => _onSubmitted(event, emit),
       );
 
   FiatAmount _toFiatAmount(CryptoAmount tokenAmount) {
@@ -230,7 +230,8 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     );
   }
 
-  Future<void> _onSubmitted(_Emitter emit) async => tryEitherAsync(
+  Future<void> _onSubmitted(Submitted event, _Emitter emit) async =>
+      tryEitherAsync(
         (bind) async {
           if (!state.flow.isInitial()) return;
 
@@ -238,21 +239,33 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
 
           emit(state.copyWith(flow: const Flow.processing()));
 
+          final int amount;
+          switch (event.tokenType) {
+            case OutgoingTransferTokenType.fungibleToken:
+              amount = state.tokenAmount.value;
+              break;
+            case OutgoingTransferTokenType.nonFungibleToken:
+              amount = 1;
+              break;
+          }
+
           final OutgoingTransfer payment;
           switch (state.transferType) {
             case OutgoingTransferType.splitKey:
               payment = await OutgoingTransfer.createSplitKeyTransfer(
-                amount: state.tokenAmount.value,
+                amount: amount,
                 tokenAddress: state.token.address,
+                tokenType: event.tokenType,
               );
               break;
             case OutgoingTransferType.direct:
               payment = OutgoingTransfer.createDirectTransfer(
                 recipientAddress: state.recipientAddress!,
-                amount: state.tokenAmount.value,
+                amount: amount,
                 tokenAddress: state.token.address,
                 memo: state.memo,
                 reference: state.reference,
+                tokenType: event.tokenType,
               );
               break;
           }
