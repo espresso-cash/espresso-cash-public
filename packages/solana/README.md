@@ -1,5 +1,6 @@
 [![Pub Version](https://img.shields.io/pub/v/solana)](https://pub.dev/packages/solana)
 [![codecov](https://codecov.io/gh/cryptoplease/cryptoplease-dart/branch/master/graph/badge.svg?token=8UF2LVQMS7)](https://codecov.io/gh/cryptoplease/cryptoplease-dart)
+[![Discord](https://img.shields.io/discord/943071824525262849?label=Discord)](https://discord.gg/wK6WX7974J)
 
 ### Dart library for Solana
 
@@ -47,6 +48,8 @@ All your contributions are welcome, no matter how tiny if it helps the community
 ### Further Help & Documentation
 
 We tried to document most of the important things, so please go to [pub.dev](https://pub.dev/documentation/solana/latest/) and browse the documentation if you need help. If you still don't find the answer, please feel free to ask us.
+
+Also, join our [Solana Dart developers](https://discord.gg/wK6WX7974J) Discord server.
 
 ## Testing
 
