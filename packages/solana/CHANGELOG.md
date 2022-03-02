@@ -1,3 +1,7 @@
+## 0.20.0+1
+
+ - **DOCS**: Add discord link.
+
 ## 0.20.0
 
 > Note: This release has breaking changes.
