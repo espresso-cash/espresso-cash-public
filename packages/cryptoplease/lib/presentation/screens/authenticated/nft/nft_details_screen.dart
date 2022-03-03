@@ -1,4 +1,7 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/metaplex.dart' hide Image;
@@ -7,6 +10,7 @@ class NftDetailsScreen extends StatelessWidget {
   const NftDetailsScreen({
     Key? key,
     required this.data,
+    required this.metadata,
   }) : super(key: key);
 
   @override
@@ -50,6 +54,19 @@ class NftDetailsScreen extends StatelessWidget {
                         ),
                         CpButton(
                           text: context.l10n.send,
+                          onPressed: () {
+                            // TODO(rhbrunetto): refactor this
+                            final token = SplToken.nft(
+                              address: metadata.mintAccount,
+                              name: data.name,
+                              decimals: 1,
+                              logoURI: data.image,
+                            );
+
+                            context.router.navigate(
+                              SendNftFlowRoute(nft: token),
+                            );
+                          },
                           width: 200,
                         ),
                         const SizedBox(height: 32),
@@ -135,4 +152,5 @@ class NftDetailsScreen extends StatelessWidget {
       );
 
   final OffChainMetadata data;
+  final Metadata metadata;
 }

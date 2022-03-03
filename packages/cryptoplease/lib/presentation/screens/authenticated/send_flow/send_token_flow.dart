@@ -9,13 +9,14 @@ import 'package:cryptoplease/bl/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
 import 'package:cryptoplease/presentation/routes.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/send_flow_router.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class SendFlowScreen extends StatefulWidget {
-  const SendFlowScreen({
+class SendTokenFlowScreen extends StatefulWidget {
+  const SendTokenFlowScreen({
     Key? key,
     this.initialToken,
   }) : super(key: key);
@@ -23,11 +24,10 @@ class SendFlowScreen extends StatefulWidget {
   final Token? initialToken;
 
   @override
-  State<SendFlowScreen> createState() => _SendFlowScreenState();
+  State<SendTokenFlowScreen> createState() => _State();
 }
 
-class _SendFlowScreenState extends State<SendFlowScreen>
-    implements SendFlowRouter {
+class _State extends State<SendTokenFlowScreen> implements SendFlowRouter {
   late final CreateOutgoingTransferBloc _bloc;
 
   @override
@@ -143,12 +143,4 @@ class _SendFlowScreenState extends State<SendFlowScreen>
           child: const AutoRouter(),
         ),
       );
-}
-
-abstract class SendFlowRouter {
-  void onDirectSelected();
-  void onQrCodeSelected();
-  void onSplitKeySelected();
-  void onAddressSubmitted();
-  void onAmountSubmitted();
 }

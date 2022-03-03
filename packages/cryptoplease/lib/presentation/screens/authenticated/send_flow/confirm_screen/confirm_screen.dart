@@ -4,8 +4,10 @@ import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/create_link_content.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/send_to_solana_address_content.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/fungible_token/token_create_link_content.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/fungible_token/send_token_to_solana_address_content.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/non_fungible_token/nft_create_link_content.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/non_fungible_token/send_nft_to_solana_address_content.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +22,9 @@ class ConfirmScreen extends StatefulWidget {
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
   void _onSubmitted() {
-    context.read<CreateOutgoingTransferBloc>().add(
-          const CreateOutgoingTransferEvent.submitted(
-            OutgoingTransferTokenType.fungibleToken,
-          ),
-        );
+    context
+        .read<CreateOutgoingTransferBloc>()
+        .add(const CreateOutgoingTransferEvent.submitted());
   }
 
   @override
@@ -55,22 +55,36 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               break;
           }
 
+          final isNft =
+              state.tokenType == OutgoingTransferTokenType.nonFungibleToken;
+
           final Widget content;
           switch (state.transferType) {
             case OutgoingTransferType.splitKey:
-              content = CreateLinkContent(
-                amount: tokenAmount,
-                fiatAmount: fiatAmount,
-                fee: formattedFee,
-              );
+              content = isNft
+                  ? NftCreateLinkContent(
+                      image: state.token.logoURI!,
+                      fee: formattedFee,
+                    )
+                  : TokenCreateLinkContent(
+                      amount: tokenAmount,
+                      fiatAmount: fiatAmount,
+                      fee: formattedFee,
+                    );
               break;
             case OutgoingTransferType.direct:
-              content = SendToSolanaAddressContent(
-                amount: tokenAmount,
-                fiatAmount: fiatAmount,
-                fee: formattedFee,
-                address: state.recipientAddress ?? '',
-              );
+              content = isNft
+                  ? SendNftToSolanaAddressContent(
+                      image: state.token.logoURI!,
+                      fee: formattedFee,
+                      address: state.recipientAddress ?? '',
+                    )
+                  : SendTokenToSolanaAddressContent(
+                      amount: tokenAmount,
+                      fiatAmount: fiatAmount,
+                      fee: formattedFee,
+                      address: state.recipientAddress ?? '',
+                    );
               break;
           }
 

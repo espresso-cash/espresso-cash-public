@@ -1,7 +1,7 @@
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/send_flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/send_flow_router.dart';
 import 'package:cryptoplease/presentation/utils.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';

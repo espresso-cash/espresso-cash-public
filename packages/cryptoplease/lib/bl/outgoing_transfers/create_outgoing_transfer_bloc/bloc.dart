@@ -35,6 +35,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         _conversionRatesRepository = conversionRatesRepository,
         super(
           _State(
+            tokenType: OutgoingTransferTokenType.fungibleToken,
             tokenAmount: const CryptoAmount(value: 0, currency: Currency.sol),
             fiatAmount: FiatAmount(value: 0, currency: userCurrency),
             availableTokens: IList(balances.keys),
@@ -91,7 +92,8 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         memoUpdated: (event) => _onMemoUpdated(event, emit),
         referenceUpdated: (event) => _onReferenceUpdated(event, emit),
         cleared: (_) => _onCleared(emit),
-        submitted: (event) => _onSubmitted(event, emit),
+        submitted: (_) => _onSubmitted(emit),
+        nftTransferCreated: (event) => _onNftTransferCreated(event, emit),
       );
 
   FiatAmount _toFiatAmount(CryptoAmount tokenAmount) {
@@ -128,6 +130,26 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     if (!state.flow.isInitial()) return;
 
     emit(state.copyWith(transferType: event.transferType));
+  }
+
+  Future<void> _onNftTransferCreated(
+    NftTransferCreated event,
+    _Emitter emit,
+  ) async {
+    final currency = CryptoCurrency(token: event.token);
+    final value = state.tokenAmount.decimal;
+    final newAmount = state.tokenAmount.copyWith(
+      currency: currency,
+      value: currency.decimalToInt(value),
+    );
+
+    emit(
+      state.copyWith(
+        tokenAmount: newAmount,
+        fiatAmount: _toFiatAmount(newAmount),
+        tokenType: OutgoingTransferTokenType.nonFungibleToken,
+      ),
+    );
   }
 
   Future<void> _onMaxRequested(_Emitter emit) async {
@@ -189,6 +211,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         availableTokens: IList(
           event.lock ? [event.token] : state.availableTokens,
         ),
+        tokenType: OutgoingTransferTokenType.fungibleToken,
       ),
     );
   }
@@ -222,6 +245,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
 
     emit(
       _State(
+        tokenType: OutgoingTransferTokenType.fungibleToken,
         tokenAmount: const CryptoAmount(value: 0, currency: Currency.sol),
         fiatAmount: state.fiatAmount.copyWith(value: 0),
         availableTokens: IList(_balances.keys),
@@ -230,8 +254,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     );
   }
 
-  Future<void> _onSubmitted(Submitted event, _Emitter emit) async =>
-      tryEitherAsync(
+  Future<void> _onSubmitted(_Emitter emit) async => tryEitherAsync(
         (bind) async {
           if (!state.flow.isInitial()) return;
 
@@ -240,7 +263,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
           emit(state.copyWith(flow: const Flow.processing()));
 
           final int amount;
-          switch (event.tokenType) {
+          switch (state.tokenType) {
             case OutgoingTransferTokenType.fungibleToken:
               amount = state.tokenAmount.value;
               break;
@@ -255,7 +278,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
               payment = await OutgoingTransfer.createSplitKeyTransfer(
                 amount: amount,
                 tokenAddress: state.token.address,
-                tokenType: event.tokenType,
+                tokenType: state.tokenType,
               );
               break;
             case OutgoingTransferType.direct:
@@ -265,7 +288,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 tokenAddress: state.token.address,
                 memo: state.memo,
                 reference: state.reference,
-                tokenType: event.tokenType,
+                tokenType: state.tokenType,
               );
               break;
           }

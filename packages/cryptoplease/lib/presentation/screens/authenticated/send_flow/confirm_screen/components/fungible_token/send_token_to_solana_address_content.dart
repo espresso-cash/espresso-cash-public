@@ -4,8 +4,8 @@ import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confir
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/list_item.dart';
 import 'package:flutter/widgets.dart';
 
-class SendToSolanaAddressContent extends StatelessWidget {
-  const SendToSolanaAddressContent({
+class SendTokenToSolanaAddressContent extends StatelessWidget {
+  const SendTokenToSolanaAddressContent({
     Key? key,
     required this.amount,
     required this.fee,

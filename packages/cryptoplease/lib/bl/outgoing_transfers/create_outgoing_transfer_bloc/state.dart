@@ -5,6 +5,7 @@ class CreateOutgoingTransferState with _$CreateOutgoingTransferState {
   const factory CreateOutgoingTransferState({
     required IList<Token> availableTokens,
     required OutgoingTransferType transferType,
+    required OutgoingTransferTokenType tokenType,
     required CryptoAmount tokenAmount,
     required FiatAmount fiatAmount,
     Amount? maxFee,

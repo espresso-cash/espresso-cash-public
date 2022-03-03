@@ -19,6 +19,9 @@ class CreateOutgoingTransferEvent with _$CreateOutgoingTransferEvent {
     @Default(false) bool lock,
   }) = TokenUpdated;
 
+  const factory CreateOutgoingTransferEvent.nftTransferCreated(SplToken token) =
+      NftTransferCreated;
+
   const factory CreateOutgoingTransferEvent.recipientUpdated(String address) =
       RecipientUpdated;
 
@@ -32,7 +35,5 @@ class CreateOutgoingTransferEvent with _$CreateOutgoingTransferEvent {
 
   const factory CreateOutgoingTransferEvent.cleared() = Cleared;
 
-  const factory CreateOutgoingTransferEvent.submitted(
-    OutgoingTransferTokenType tokenType,
-  ) = Submitted;
+  const factory CreateOutgoingTransferEvent.submitted() = Submitted;
 }

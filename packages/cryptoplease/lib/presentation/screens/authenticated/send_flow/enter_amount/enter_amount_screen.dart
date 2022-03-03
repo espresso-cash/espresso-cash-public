@@ -7,7 +7,7 @@ import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/enter_amount/component/token_fiat_switcher_input_widget.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/send_flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/send_flow_router.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';

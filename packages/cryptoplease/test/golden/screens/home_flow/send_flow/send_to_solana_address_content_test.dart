@@ -1,4 +1,4 @@
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/send_to_solana_address_content.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/fungible_token/send_token_to_solana_address_content.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils.dart';
@@ -7,7 +7,7 @@ void main() {
   testGoldensWidget(
     'Send to address with small amount',
     const _Wrapper(
-      child: SendToSolanaAddressContent(
+      child: SendTokenToSolanaAddressContent(
         amount: '1.25 SOL',
         fee: '0.01 SOL',
         address: 'GKvqsuNcnwWqPzzuhLmGi4rzzh55FhJtGizkhHaEJqiV',
@@ -19,7 +19,7 @@ void main() {
   testGoldensWidget(
     'Send to address with large amount',
     const _Wrapper(
-      child: SendToSolanaAddressContent(
+      child: SendTokenToSolanaAddressContent(
         amount: '1.284958673 SOL',
         fee: '0.01 SOL',
         address: 'GKvqsuNcnwWqPzzuhLmGi4rzzh55FhJtGizkhHaEJqiV',

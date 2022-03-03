@@ -98,6 +98,23 @@ class SplToken extends Token {
           tags: tags,
           extensions: extensions,
         );
+
+  factory SplToken.nft({
+    required String address,
+    required String name,
+    required int decimals,
+    required String logoURI,
+  }) =>
+      SplToken(
+        chainId: 0,
+        address: address,
+        symbol: '',
+        name: name,
+        decimals: decimals,
+        logoURI: logoURI,
+        tags: const <String>[],
+        extensions: null,
+      );
 }
 
 class NonFungibleToken extends SplToken {
