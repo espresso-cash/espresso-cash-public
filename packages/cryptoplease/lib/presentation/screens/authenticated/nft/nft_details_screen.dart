@@ -59,7 +59,6 @@ class NftDetailsScreen extends StatelessWidget {
                             final token = SplToken.nft(
                               address: metadata.mintAccount,
                               name: data.name,
-                              decimals: 1,
                               logoURI: data.image,
                             );
 

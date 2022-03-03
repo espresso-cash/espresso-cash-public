@@ -102,7 +102,6 @@ class SplToken extends Token {
   factory SplToken.nft({
     required String address,
     required String name,
-    required int decimals,
     required String logoURI,
   }) =>
       SplToken(
@@ -110,7 +109,7 @@ class SplToken extends Token {
         address: address,
         symbol: '',
         name: name,
-        decimals: decimals,
+        decimals: 1,
         logoURI: logoURI,
         tags: const <String>[],
         extensions: null,
