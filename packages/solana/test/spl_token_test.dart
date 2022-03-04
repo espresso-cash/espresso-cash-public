@@ -6,6 +6,45 @@ import 'package:test/test.dart';
 import 'config.dart';
 
 void main() {
+  group('Initialize tokens:', () {
+    late final Ed25519HDKeyPair owner;
+    late final SolanaClient solanaClient;
+
+    setUpAll(() async {
+      solanaClient = createTestSolanaClient();
+      owner = await Ed25519HDKeyPair.random();
+      await solanaClient.requestAirdrop(
+        lamports: lamportsPerSol,
+        address: owner.address,
+      );
+    });
+
+    test('Creates a new mint without freeze authority', () async {
+      final token = await solanaClient.initializeMint(
+        owner: owner,
+        decimals: 2,
+      );
+
+      expect(token.supply, BigInt.zero);
+      expect(token.decimals, 2);
+      expect(token.owner, owner);
+    });
+
+    test('Creates a new mint with freeze authority', () async {
+      final freezeAuthority = await Ed25519HDKeyPair.random();
+
+      final token = await solanaClient.initializeMint(
+        owner: owner,
+        freezeAuthority: freezeAuthority.address,
+        decimals: 2,
+      );
+
+      expect(token.supply, BigInt.zero);
+      expect(token.decimals, 2);
+      expect(token.owner, owner);
+    });
+  });
+
   group('SolanaClient for SPL tokens', () {
     late final String newTokenMint;
     late final Ed25519HDKeyPair owner;

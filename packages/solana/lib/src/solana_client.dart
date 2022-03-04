@@ -111,19 +111,15 @@ class SolanaClient {
     return signature;
   }
 
-  /// Create a new token owned by [owner] with [decimals] base 10 decimal digits.
+  /// Create a new token owned by [owner] with number of [decimals].
   ///
-  /// You can optionally specify a [mintAuthority] address. By default the [owner]
-  /// address will be used as the _Mint Authority_.
-  ///
-  /// Also optional, you can specify a [freezeAuthority]. By default the
+  /// Optionally, you can specify a [freezeAuthority]. By default the
   /// [freezeAuthority] is not set.
   ///
   /// Finally, you can also send the transaction with optional [commitment].
   Future<SplToken> initializeMint({
     required Wallet owner,
     required int decimals,
-    String? mintAuthority,
     String? freezeAuthority,
     Commitment commitment = Commitment.finalized,
   }) async {
@@ -133,7 +129,7 @@ class SolanaClient {
 
     final message = TokenProgram.initializeMint(
       mint: mintWallet.address,
-      mintAuthority: mintAuthority ?? owner.address,
+      mintAuthority: owner.address,
       freezeAuthority: freezeAuthority,
       rent: rent,
       space: space,
