@@ -1,4 +1,4 @@
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/fungible_token/send_token_to_solana_address_content.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/send_token_to_solana_address_content.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils.dart';

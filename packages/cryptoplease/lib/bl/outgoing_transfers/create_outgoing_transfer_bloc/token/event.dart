@@ -7,10 +7,12 @@ class FtCreateOutgoingTransferEvent with _$FtCreateOutgoingTransferEvent {
   ) = TypeUpdated;
 
   const factory FtCreateOutgoingTransferEvent.tokenAmountUpdated(
-      Decimal amount) = TokenAmountUpdated;
+    Decimal amount,
+  ) = TokenAmountUpdated;
 
   const factory FtCreateOutgoingTransferEvent.fiatAmountUpdated(
-      Decimal amount) = FiatAmountUpdated;
+    Decimal amount,
+  ) = FiatAmountUpdated;
 
   const factory FtCreateOutgoingTransferEvent.tokenUpdated(
     Token token, {
@@ -23,7 +25,8 @@ class FtCreateOutgoingTransferEvent with _$FtCreateOutgoingTransferEvent {
       RecipientUpdated;
 
   const factory FtCreateOutgoingTransferEvent.referenceUpdated(
-      String reference) = ReferenceUpdated;
+    String reference,
+  ) = ReferenceUpdated;
 
   const factory FtCreateOutgoingTransferEvent.memoUpdated(String memo) =
       MemoUpdated;

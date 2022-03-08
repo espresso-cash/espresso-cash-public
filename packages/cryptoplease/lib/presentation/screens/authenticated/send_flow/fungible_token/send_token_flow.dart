@@ -76,10 +76,12 @@ class _State extends State<SendTokenFlowScreen> implements SendFlowRouter {
         _bloc
           ..add(FtCreateOutgoingTransferEvent.recipientUpdated(r.recipient))
           ..add(
-              FtCreateOutgoingTransferEvent.tokenUpdated(r.token, lock: true));
+            FtCreateOutgoingTransferEvent.tokenUpdated(r.token, lock: true),
+          );
         if (r.reference != null) {
           _bloc.add(
-              FtCreateOutgoingTransferEvent.referenceUpdated(r.reference!));
+            FtCreateOutgoingTransferEvent.referenceUpdated(r.reference!),
+          );
         }
 
         final amount = r.amount;
@@ -101,7 +103,8 @@ class _State extends State<SendTokenFlowScreen> implements SendFlowRouter {
     _reset();
 
     const event = FtCreateOutgoingTransferEvent.typeUpdated(
-        OutgoingTransferType.splitKey);
+      OutgoingTransferType.splitKey,
+    );
     _bloc.add(event);
 
     context.router.navigate(const EnterAmountRoute());
