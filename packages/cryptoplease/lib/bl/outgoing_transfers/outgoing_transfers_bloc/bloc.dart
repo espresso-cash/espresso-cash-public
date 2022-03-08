@@ -26,7 +26,7 @@ typedef _Emitter = Emitter<_State>;
 /// This BLoC is responsible for actual sending of outgoing transfers
 /// and handling possible errors.
 ///
-/// For creating a transfer see `CreateOutgoingTransferBloc`.
+/// For creating a transfer see `FtCreateOutgoingTransferBloc`.
 class OutgoingTransfersBloc extends Bloc<_Event, _State> {
   OutgoingTransfersBloc({
     required OutgoingTransferRepository repository,

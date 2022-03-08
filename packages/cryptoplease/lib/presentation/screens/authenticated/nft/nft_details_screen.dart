@@ -55,11 +55,11 @@ class NftDetailsScreen extends StatelessWidget {
                         CpButton(
                           text: context.l10n.send,
                           onPressed: () {
-                            // TODO(rhbrunetto): refactor this
-                            final token = SplToken.nft(
+                            // FIXME(rhbrunetto): review it. Not correct.
+                            final token = NonFungibleToken(
                               address: metadata.mintAccount,
-                              name: data.name,
-                              logoURI: data.image,
+                              metadata: metadata,
+                              logo: data.image,
                             );
 
                             context.router.navigate(
