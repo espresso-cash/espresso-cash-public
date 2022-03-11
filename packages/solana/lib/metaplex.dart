@@ -1,1 +1,1 @@
-export 'src/metaplex/metaplex.dart';
+export 'src/metaplex/metaplex.dart' hide MetadataData;
