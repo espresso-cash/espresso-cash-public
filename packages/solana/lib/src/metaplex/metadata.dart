@@ -12,31 +12,25 @@ class Metadata {
     required this.symbol,
     required this.uri,
     required this.updateAuthority,
-    required this.mintAccount,
-    required this.isMutable,
+    required this.mint,
   });
 
-  static Future<Metadata?> fromBinary(List<int> sourceBytes) async {
+  factory Metadata.fromBinary(List<int> sourceBytes) {
     final bytes = Int8List.fromList(sourceBytes);
-    if (bytes.first != 0x04) {
-      return null;
-    }
     final reader = _StructReader(bytes.buffer)..skip(1);
-    final mintAccount = base58encode(reader.nextBytes(32));
     final updateAuthority = base58encode(reader.nextBytes(32));
+    final mint = base58encode(reader.nextBytes(32));
 
     final name = reader.nextString();
     final symbol = reader.nextString();
     final uri = reader.nextString();
-    final isMutable = reader.nextBool();
 
     return Metadata(
       name: name,
       symbol: symbol,
       uri: uri,
       updateAuthority: updateAuthority,
-      mintAccount: mintAccount,
-      isMutable: isMutable,
+      mint: mint,
     );
   }
 
@@ -55,8 +49,7 @@ class Metadata {
   final String symbol;
   final String uri;
   final String updateAuthority;
-  final String mintAccount;
-  final bool isMutable;
+  final String mint;
 }
 
 class _StructReader {
