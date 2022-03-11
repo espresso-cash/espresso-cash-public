@@ -1,3 +1,11 @@
+## 0.21.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Make ClusterNode fields nullable (#192).
+ - **FIX**: Remove mintAuthority from initializeMint (#190).
+ - **BREAKING** **FIX**: Metadata decoding (#194).
+
 ## 0.20.0+1
 
  - **DOCS**: Add discord link.
