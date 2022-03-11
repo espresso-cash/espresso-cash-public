@@ -71,27 +71,6 @@ class _StructReader {
     return utf8.decode(rawBytes.sublist(0, lastZero));
   }
 
-  bool nextBool() {
-    final value = _buffer.asByteData(_offset, 1).getInt8(0);
-    _offset += 1;
-
-    return value == 1;
-  }
-
-  int nextInt32() {
-    final value = _buffer.asByteData(_offset, 2).getInt16(0, Endian.little);
-    _offset += 2;
-
-    return value;
-  }
-
-  int nextInt16() {
-    final value = _buffer.asByteData(_offset, 4).getInt32(0, Endian.little);
-    _offset += 4;
-
-    return value;
-  }
-
   Uint8List nextBytes(int length) {
     final bytes = _buffer.asUint8List(_offset, length);
     _offset += length;
