@@ -55,9 +55,8 @@ class NftDetailsScreen extends StatelessWidget {
                         CpButton(
                           text: context.l10n.send,
                           onPressed: () {
-                            // FIXME(rhbrunetto): review it. Not correct.
                             final token = NonFungibleToken(
-                              address: metadata.mintAccount,
+                              address: metadata.mint,
                               metadata: metadata,
                               logo: data.image,
                             );
