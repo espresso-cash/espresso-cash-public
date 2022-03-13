@@ -15,6 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+abstract class FtSendFlowRouter implements SendFlowRouter {
+  void onAmountSubmitted();
+}
+
 class SendTokenFlowScreen extends StatefulWidget {
   const SendTokenFlowScreen({
     Key? key,
@@ -27,7 +31,7 @@ class SendTokenFlowScreen extends StatefulWidget {
   State<SendTokenFlowScreen> createState() => _State();
 }
 
-class _State extends State<SendTokenFlowScreen> implements SendFlowRouter {
+class _State extends State<SendTokenFlowScreen> implements FtSendFlowRouter {
   late final FtCreateOutgoingTransferBloc _bloc;
 
   @override

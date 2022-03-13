@@ -86,11 +86,6 @@ class _State extends State<SendNftFlowScreen> implements SendFlowRouter {
   }
 
   @override
-  void onAmountSubmitted() {
-    context.router.navigate(const ConfirmNonFungibleTokenRoute());
-  }
-
-  @override
   void dispose() {
     _bloc.close();
     super.dispose();

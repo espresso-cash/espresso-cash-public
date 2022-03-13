@@ -3,5 +3,4 @@ abstract class SendFlowRouter {
   void onQrCodeSelected();
   void onSplitKeySelected();
   void onAddressSubmitted();
-  void onAmountSubmitted();
 }

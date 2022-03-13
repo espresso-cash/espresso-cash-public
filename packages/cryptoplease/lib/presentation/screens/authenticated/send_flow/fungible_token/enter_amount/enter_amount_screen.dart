@@ -6,8 +6,8 @@ import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common/send_flow_router.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/token_fiat_switcher_input_widget.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/send_token_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +63,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
             ),
             insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
           ),
-          (_) => context.read<SendFlowRouter>().onAmountSubmitted(),
+          (_) => context.read<FtSendFlowRouter>().onAmountSubmitted(),
         );
   }
 
