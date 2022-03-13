@@ -40,6 +40,7 @@ class _ConfirmScreenState extends State<ConfirmNonFungibleTokenScreen> {
         builder: (context, state) {
           final locale = DeviceLocale.localeOf(context);
           final formattedFee = state.fee.format(locale);
+          final image = state.offChainMetadata?.image;
 
           final String nextButtonText;
           switch (state.transferType) {
@@ -55,13 +56,13 @@ class _ConfirmScreenState extends State<ConfirmNonFungibleTokenScreen> {
           switch (state.transferType) {
             case OutgoingTransferType.splitKey:
               content = NftCreateLinkContent(
-                image: state.token.logoURI!,
+                image: image,
                 fee: formattedFee,
               );
               break;
             case OutgoingTransferType.direct:
               content = SendNftToSolanaAddressContent(
-                image: state.token.logoURI!,
+                image: image,
                 fee: formattedFee,
                 address: state.recipientAddress ?? '',
               );

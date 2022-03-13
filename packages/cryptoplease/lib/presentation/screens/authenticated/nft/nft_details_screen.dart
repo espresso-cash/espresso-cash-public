@@ -58,11 +58,13 @@ class NftDetailsScreen extends StatelessWidget {
                             final token = NonFungibleToken(
                               address: metadata.mint,
                               metadata: metadata,
-                              logo: data.image,
                             );
 
                             context.router.navigate(
-                              SendNftFlowRoute(nft: token),
+                              SendNftFlowRoute(
+                                nft: token,
+                                offChainMetadata: data,
+                              ),
                             );
                           },
                           width: 200,

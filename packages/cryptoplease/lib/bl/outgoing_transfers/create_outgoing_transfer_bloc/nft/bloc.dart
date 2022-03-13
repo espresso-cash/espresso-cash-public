@@ -7,6 +7,7 @@ import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/metaplex.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';
@@ -80,6 +81,7 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     emit(
       state.copyWith(
         nft: event.token,
+        offChainMetadata: event.offChainMetadata,
       ),
     );
   }

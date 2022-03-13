@@ -5,6 +5,7 @@ class NftCreateOutgoingTransferState with _$NftCreateOutgoingTransferState {
   const factory NftCreateOutgoingTransferState({
     required OutgoingTransferType transferType,
     NonFungibleToken? nft,
+    OffChainMetadata? offChainMetadata,
     Amount? maxFee,
     String? recipientAddress,
     String? memo,

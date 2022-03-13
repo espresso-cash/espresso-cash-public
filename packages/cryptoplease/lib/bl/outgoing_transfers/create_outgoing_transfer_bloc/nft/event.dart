@@ -8,6 +8,7 @@ class NftCreateOutgoingTransferEvent with _$NftCreateOutgoingTransferEvent {
 
   const factory NftCreateOutgoingTransferEvent.nftTransferCreated(
     NonFungibleToken token,
+    OffChainMetadata offChainMetadata,
   ) = NftTransferCreated;
 
   const factory NftCreateOutgoingTransferEvent.recipientUpdated(

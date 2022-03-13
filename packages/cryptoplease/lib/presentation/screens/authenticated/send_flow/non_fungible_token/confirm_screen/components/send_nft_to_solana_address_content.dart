@@ -11,7 +11,7 @@ class SendNftToSolanaAddressContent extends StatelessWidget {
     required this.address,
   }) : super(key: key);
 
-  final String image;
+  final String? image;
   final String fee;
   final String address;
 
@@ -41,7 +41,9 @@ class SendNftToSolanaAddressContent extends StatelessWidget {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(16),
                     ),
-                    child: Image.network(image),
+                    child: image == null
+                        ? const SizedBox.shrink()
+                        : Image.network(image!),
                   ),
                 ),
               ),

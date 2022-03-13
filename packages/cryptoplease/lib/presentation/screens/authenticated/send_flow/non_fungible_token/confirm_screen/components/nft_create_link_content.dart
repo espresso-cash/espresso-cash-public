@@ -9,7 +9,7 @@ class NftCreateLinkContent extends StatelessWidget {
     required this.fee,
   }) : super(key: key);
 
-  final String image;
+  final String? image;
   final String fee;
 
   @override
@@ -41,7 +41,9 @@ class NftCreateLinkContent extends StatelessWidget {
                   borderRadius: const BorderRadius.all(
                     Radius.circular(16),
                   ),
-                  child: Image.network(image),
+                  child: image == null
+                      ? const SizedBox.shrink()
+                      : Image.network(image!),
                 ),
               ),
             ),

@@ -104,14 +104,12 @@ class NonFungibleToken extends SplToken {
   const NonFungibleToken({
     required String address,
     required this.metadata,
-    String? logo,
   }) : super(
           chainId: currentChainId,
           address: address,
           symbol: '',
           name: '',
           decimals: 0,
-          logoURI: logo,
           tags: const <String>[],
         );
 
