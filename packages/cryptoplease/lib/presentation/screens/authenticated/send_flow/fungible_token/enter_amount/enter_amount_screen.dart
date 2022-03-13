@@ -1,6 +1,6 @@
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/token/bloc.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';

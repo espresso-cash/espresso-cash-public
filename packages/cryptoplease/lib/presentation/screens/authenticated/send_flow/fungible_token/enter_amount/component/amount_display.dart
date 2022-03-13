@@ -1,6 +1,6 @@
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/token/bloc.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/token_list_dialog/token_list_dialog.dart';
 import 'package:flutter/material.dart';

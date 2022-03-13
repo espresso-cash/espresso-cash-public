@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/conversion_rates/repository.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/token/bloc.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
