@@ -1,5 +1,5 @@
 name: cryptoplease
-description: A proof of concept wallet for the CryptoPlease
+description: CryptoPlease mobile wallet for Solana
 publish_to: 'none'
 version: 1.30.0
 
