@@ -40,10 +40,10 @@ libs_check_formatting:
 	melos exec -c 1 --no-flutter -- dart format --set-exit-if-changed -o none .
 
 libs_analyze:
-	melos exec -c 1 --ignore="cryptoplease*" -- "dart analyze --fatal-infos ."
+	melos exec -c 1 --no-flutter -- "dart analyze --fatal-infos ."
 
 libs_test:
-	melos exec -c 1 --dir-exists="test" --ignore="cryptoplease*" -- "dart run test --coverage=coverage"
+	melos exec -c 1 --dir-exists="test" --no-flutter -- "dart run test --coverage=coverage"
 
 libs_coverage:
 	melos exec --scope="solana" -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib --packages=.packages
