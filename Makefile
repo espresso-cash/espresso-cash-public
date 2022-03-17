@@ -21,14 +21,14 @@ app_check_formatting:
 	melos exec -c 1 --flutter -- "make format"
 
 app_build:
-	melos exec -c 1 --depends-on="build_runner" --scope="cryptoplease*" -- "make build"
-	melos exec -c 1 --depends-on="drift_dev" --scope="cryptoplease*" -- "make generate_test_schemas"
+	melos exec -c 1 --depends-on="build_runner" --flutter -- "make build"
+	melos exec -c 1 --depends-on="drift_dev" --flutter -- "make generate_test_schemas"
 
 app_analyze:
-	melos exec -c 1 --scope="cryptoplease*" -- "make analyze"
+	melos exec -c 1 --flutter -- "make analyze"
 
 app_test: app_build
-	melos exec -c 1 --dir-exists="test" --scope="cryptoplease*" -- "make test"
+	melos exec -c 1 --dir-exists="test" --flutter -- "make test"
 
 app_test_solana:
 	melos exec -c 1 --scope="cryptoplease" -- "make test_solana"
