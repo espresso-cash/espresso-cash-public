@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg6222"
+   width="50"
+   height="50"
+   xmlns="http://www.w3.org/2000/svg">
+
+  <rect width="50" height="50" rx="25.5" transform="matrix(1 0 0 -1 0 50)" fill="#facf48"/>
+  <path
+          d="M-5 -5 l10 0 l0 -20"
+          fill="none"
+          stroke="white"
+          stroke-width="3"
+          transform="translate(15, 32.5) rotate(45)"/>
+</svg>

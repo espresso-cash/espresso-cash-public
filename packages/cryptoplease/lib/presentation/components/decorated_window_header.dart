@@ -1,0 +1,60 @@
+import 'package:cryptoplease/gen/assets.gen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+
+class DecoratedWindowHeader extends StatelessWidget {
+  const DecoratedWindowHeader({
+    Key? key,
+    this.title,
+    this.message,
+    this.hasLogo = true,
+    this.markdownMessage = false,
+  }) : super(key: key);
+
+  final String? title;
+  final String? message;
+  final bool hasLogo;
+  final bool markdownMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    final messageStyle =
+        Theme.of(context).textTheme.headline2?.copyWith(fontSize: 18);
+
+    return Column(
+      children: <Widget>[
+        if (hasLogo)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Assets.images.logoIcon.image(height: 96),
+          ),
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              title!,
+              textAlign: TextAlign.center,
+              style:
+                  Theme.of(context).textTheme.headline2?.copyWith(fontSize: 30),
+            ),
+          ),
+        if (message != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: markdownMessage
+                ? Markdown(
+                    data: message!,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    styleSheet: MarkdownStyleSheet(p: messageStyle),
+                  )
+                : Text(
+                    message!,
+                    textAlign: TextAlign.center,
+                    style: messageStyle,
+                  ),
+          ),
+      ],
+    );
+  }
+}

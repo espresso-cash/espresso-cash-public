@@ -1,0 +1,32 @@
+name: Build and push Flutter image
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Flutter version
+        required: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: cryptoplease/flutter
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: make flutter_image_build FLUTTER_VERSION=${{ github.event.inputs.version }}
+      - run: make flutter_image_deploy FLUTTER_VERSION=${{ github.event.inputs.version }}

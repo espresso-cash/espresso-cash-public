@@ -1,15 +1,21 @@
-name: Check PR to master
+name: Check PR (libs)
 
 on:
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - "packages/cryptoplease/**"
+      - "packages/cryptoplease_ui/**"
   push:
     branches:
       - master
+    paths-ignore:
+      - "packages/cryptoplease/**"
+      - "packages/cryptoplease_ui/**"
 
 jobs:
-  check:
+  check_pr_libs:
     runs-on: ubuntu-latest
     env:
       DEVNET_RPC_URL: "http://solana:8899"
@@ -24,5 +30,8 @@ jobs:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
       - run: dart pub global activate melos && dart pub global activate remove_from_coverage
-      - run: melos run check_master
+      - run: make libs_check_formatting
+      - run: make libs_analyze
+      - run: make libs_test
+      - run: make libs_coverage
       - uses: codecov/codecov-action@v2

@@ -1,0 +1,17 @@
+include: package:mews_pedantic/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - '**/*.reflectable.dart'
+    - '**/*.gr.dart'
+    - '**/*.i69n.dart'
+    - '**/*.mocks.dart'
+    - 'test/generated/**'
+    - 'lib/gen/**'
+
+  errors:
+    deprecated_member_use_from_same_package: ignore
+
+linter:
+  rules:
+    avoid_classes_with_only_static_members: false
