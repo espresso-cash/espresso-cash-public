@@ -21,15 +21,14 @@ jobs:
       DEVNET_RPC_URL: "http://solana:8899"
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
     container:
-      image: google/dart:latest
+      image: ghcr.io/cryptoplease/flutter:2.10.3
     services:
       solana:
         image: solanalabs/solana:v1.8.11
         options: --entrypoint="solana-test-validator"
     steps:
       - uses: actions/checkout@v2
-      - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-      - run: dart pub global activate melos && dart pub global activate remove_from_coverage
+      - run: dart pub global activate remove_from_coverage
       - run: make libs_check_formatting
       - run: make libs_analyze
       - run: make libs_test
