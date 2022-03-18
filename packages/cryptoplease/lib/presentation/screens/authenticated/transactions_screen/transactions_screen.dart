@@ -1,0 +1,99 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/bl/accounts/account.dart';
+import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/bl/transaction_item/transaction_item_bloc.dart';
+import 'package:cryptoplease/bl/transactions/transactions_bloc.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/components/custom_list_view.dart';
+import 'package:cryptoplease/presentation/routes.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/components/header_list_view.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/transactions_screen/components/crypto_balance_widget.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/transactions_screen/components/transaction_item.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solana/solana.dart';
+
+class TransactionsScreen extends StatefulWidget {
+  const TransactionsScreen({
+    Key? key,
+    required this.token,
+  }) : super(key: key);
+
+  final Token token;
+
+  @override
+  _TransactionsScreenState createState() => _TransactionsScreenState();
+}
+
+class _TransactionsScreenState extends State<TransactionsScreen> {
+  _TransactionsScreenState();
+
+  late final TransactionsBloc _transactionsBloc;
+
+  Future<void> _refresh() async {
+    _transactionsBloc.add(const TransactionsEvent.loadRequested());
+    await _transactionsBloc.stream
+        .map((s) => s.loadingState)
+        .where((s) => s is LoadingError || s is Success)
+        .first;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _transactionsBloc = TransactionsBloc(
+      solanaClient: context.read<SolanaClient>(),
+      account: context.read<MyAccount>(),
+      token: widget.token,
+    );
+    _transactionsBloc.add(const TransactionsEvent.loadRequested());
+  }
+
+  @override
+  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: Scaffold(
+          body: BlocBuilder<TransactionsBloc, TransactionsState>(
+            bloc: _transactionsBloc,
+            builder: (context, state) => HomeHeaderListWidget(
+              onRefresh: _refresh,
+              allowBackNavigation: true,
+              balanceWidget: CryptoBalanceWidget(token: widget.token),
+              onSendPressed: () => context.router
+                  .navigate(SendFlowRoute(initialToken: widget.token)),
+              onReceivePressed: () =>
+                  context.router.navigate(const ReceiveMoneyRoute()),
+              onAddFundsPressed: widget.token == Token.sol
+                  ? () => context.router.navigate(
+                        AddFundsRoute(wallet: context.read<MyAccount>().wallet),
+                      )
+                  : null,
+              child: CustomListView(
+                itemBuilder: (context, index) =>
+                    BlocProvider<TransactionItemBloc>(
+                  key: ValueKey(state.transactions[index].hash),
+                  create: (context) => TransactionItemBloc(
+                    account: context.read<MyAccount>(),
+                    solanaClient: context.read<SolanaClient>(),
+                  ),
+                  child: TransactionItem(
+                    transaction: state.transactions[index],
+                    token: widget.token,
+                  ),
+                ),
+                itemCount: state.transactions.length,
+                emptyWidget: Material(
+                  child: CpEmptyMessageWidget(
+                    message: state.loadingState is InProgress
+                        ? context.l10n.loading
+                        : context.l10n.noDataPullToRefresh,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+}
