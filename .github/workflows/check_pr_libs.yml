@@ -31,7 +31,6 @@ jobs:
         options: --entrypoint="solana-test-validator"
     steps:
       - uses: actions/checkout@v2
-      - run: dart pub global activate remove_from_coverage
       - run: make libs_check_formatting
       - run: make libs_analyze
       - run: make libs_test
