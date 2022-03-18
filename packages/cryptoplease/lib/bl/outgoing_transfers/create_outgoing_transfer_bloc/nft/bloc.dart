@@ -49,8 +49,14 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     final feeBalance =
         _balances[Token.sol] ?? Amount.zero(currency: Currency.sol);
 
-    if (feeBalance < state.fee) {
-      return Either.left(ValidationError.insufficientFee(state.fee));
+    final fee = state.fee;
+
+    if (fee == null) {
+      return const Either.left(ValidationError.invalidToken());
+    }
+
+    if (feeBalance < fee) {
+      return Either.left(ValidationError.insufficientFee(fee));
     }
 
     return const Either.right(null);
@@ -124,6 +130,10 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         (bind) async {
           if (!state.flow.isInitial()) return;
 
+          final address = state.token?.address;
+
+          if (address == null) return;
+
           bind(validate());
 
           emit(state.copyWith(flow: const Flow.processing()));
@@ -135,7 +145,7 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
             case OutgoingTransferType.splitKey:
               payment = await OutgoingTransfer.createSplitKeyTransfer(
                 amount: amount,
-                tokenAddress: state.token.address,
+                tokenAddress: address,
                 tokenType: OutgoingTransferTokenType.nonFungibleToken,
               );
               break;
@@ -143,7 +153,7 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
               payment = OutgoingTransfer.createDirectTransfer(
                 recipientAddress: state.recipientAddress!,
                 amount: amount,
-                tokenAddress: state.token.address,
+                tokenAddress: address,
                 memo: state.memo,
                 reference: state.reference,
                 tokenType: OutgoingTransferTokenType.nonFungibleToken,
@@ -170,4 +180,6 @@ class ValidationError with _$ValidationError implements Exception {
 
   const factory ValidationError.insufficientFee(Amount requiredFee) =
       InsufficientFee;
+
+  const factory ValidationError.invalidToken() = InvalidToken;
 }

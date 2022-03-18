@@ -16,10 +16,8 @@ class NftCreateOutgoingTransferState with _$NftCreateOutgoingTransferState {
 
   const NftCreateOutgoingTransferState._();
 
-  Amount get fee => calculateFee(
-        transferType,
-        nft!.address,
-      );
+  Amount? get fee =>
+      nft == null ? null : calculateFee(transferType, nft!.address);
 
-  Token get token => nft!;
+  Token? get token => nft;
 }

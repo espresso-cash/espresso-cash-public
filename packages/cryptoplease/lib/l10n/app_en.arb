@@ -341,5 +341,6 @@
   "privacyPolicy": "Privacy Policy",
   "viewTransaction": "View Transaction",
   "faq": "Frequently Asked Questions (FAQ)",
-  "sendUsEmail": "Send us an email"
+  "sendUsEmail": "Send us an email",
+  "invalidToken": "Invalid token"
 }

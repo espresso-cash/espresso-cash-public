@@ -39,7 +39,7 @@ class _ConfirmScreenState extends State<ConfirmNonFungibleTokenScreen> {
         ),
         builder: (context, state) {
           final locale = DeviceLocale.localeOf(context);
-          final formattedFee = state.fee.format(locale);
+          final formattedFee = state.fee?.format(locale) ?? '';
           final image = state.offChainMetadata?.image;
 
           final String nextButtonText;
