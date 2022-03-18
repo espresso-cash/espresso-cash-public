@@ -26,8 +26,9 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferState state,
-    required OutgoingTransferTokenType tokenType,
     required IList<int> privateKey,
+    @Default(OutgoingTransferTokenType.fungibleToken)
+        OutgoingTransferTokenType tokenType,
     String? signature,
     Uri? firstLink,
   }) = OutgoingTransferSplitKey;
@@ -39,7 +40,8 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferState state,
-    required OutgoingTransferTokenType tokenType,
+    @Default(OutgoingTransferTokenType.fungibleToken)
+        OutgoingTransferTokenType tokenType,
     String? reference,
     String? memo,
     String? signature,
