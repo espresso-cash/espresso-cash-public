@@ -61,7 +61,7 @@ class _SendFlowScreenState extends State<SendFlowScreen>
   }
 
   @override
-  Future<void> onQrCodeSelected({required bool shouldRedirect}) async {
+  Future<void> onQrCodeSelected() async {
     final request =
         await context.router.push<QrScannerRequest>(const QrScannerRoute());
 
@@ -70,7 +70,9 @@ class _SendFlowScreenState extends State<SendFlowScreen>
     request?.maybeMap(
       address: (r) {
         _bloc.add(CreateOutgoingTransferEvent.recipientUpdated(r.address));
-        if (shouldRedirect) {
+
+        final currentRoute = context.router.topMatch;
+        if (currentRoute.name == PickRecipientTypeRoute.name) {
           onAddressSubmitted();
         }
       },
@@ -149,7 +151,7 @@ class _SendFlowScreenState extends State<SendFlowScreen>
 
 abstract class SendFlowRouter {
   void onDirectSelected();
-  void onQrCodeSelected({required bool shouldRedirect});
+  void onQrCodeSelected();
   void onSplitKeySelected();
   void onAddressSubmitted();
   void onAmountSubmitted();

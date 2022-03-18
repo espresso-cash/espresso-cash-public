@@ -146,9 +146,8 @@ class _Content extends StatelessWidget {
                       CpButton(
                         text: context.l10n.scanQRCode,
                         size: CpButtonSize.micro,
-                        onPressed: () => context
-                            .read<SendFlowRouter>()
-                            .onQrCodeSelected(shouldRedirect: false),
+                        onPressed:
+                            context.read<SendFlowRouter>().onQrCodeSelected,
                       )
                     ],
                   )
