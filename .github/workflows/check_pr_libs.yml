@@ -15,7 +15,7 @@ on:
       - "packages/cryptoplease_ui/**"
 
 concurrency:
-  group: ${{ github.head_ref }}
+  group: ref-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
