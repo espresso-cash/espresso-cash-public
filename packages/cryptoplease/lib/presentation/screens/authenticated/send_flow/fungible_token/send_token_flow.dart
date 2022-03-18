@@ -61,7 +61,11 @@ class _State extends State<SendTokenFlowScreen> implements FtSendFlowRouter {
   void onDirectSelected() {
     _reset();
 
-    context.router.navigate(const EnterFungibleTokenAddressRoute());
+    context.router.navigate(
+      EnterAddressRoute(
+        initialAddress: _bloc.state.recipientAddress,
+      ),
+    );
   }
 
   @override
@@ -73,8 +77,10 @@ class _State extends State<SendTokenFlowScreen> implements FtSendFlowRouter {
 
     request?.maybeMap(
       address: (r) {
-        _bloc.add(FtCreateOutgoingTransferEvent.recipientUpdated(r.address));
-        onAddressSubmitted();
+        final address = r.address;
+        _bloc.add(FtCreateOutgoingTransferEvent.recipientUpdated(address));
+
+        onAddressSubmitted(address);
       },
       solanaPay: (r) {
         _bloc
@@ -95,7 +101,7 @@ class _State extends State<SendTokenFlowScreen> implements FtSendFlowRouter {
 
           onAmountSubmitted();
         } else {
-          onAddressSubmitted();
+          onAddressSubmitted(r.recipient);
         }
       },
       orElse: () {},
@@ -115,7 +121,9 @@ class _State extends State<SendTokenFlowScreen> implements FtSendFlowRouter {
   }
 
   @override
-  void onAddressSubmitted() {
+  void onAddressSubmitted(String address) {
+    _bloc.add(FtCreateOutgoingTransferEvent.recipientUpdated(address));
+
     context.router.navigate(const EnterAmountRoute());
   }
 

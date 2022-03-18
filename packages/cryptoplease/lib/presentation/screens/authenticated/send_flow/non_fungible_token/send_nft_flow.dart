@@ -57,7 +57,11 @@ class _State extends State<SendNftFlowScreen> implements SendFlowRouter {
   void onDirectSelected() {
     _reset();
 
-    context.router.navigate(const EnterNonFungibleTokenAddressRoute());
+    context.router.navigate(
+      EnterAddressRoute(
+        initialAddress: _bloc.state.recipientAddress,
+      ),
+    );
   }
 
   @override
@@ -69,8 +73,7 @@ class _State extends State<SendNftFlowScreen> implements SendFlowRouter {
 
     request?.maybeMap(
       address: (r) {
-        _bloc.add(NftCreateOutgoingTransferEvent.recipientUpdated(r.address));
-        onAddressSubmitted();
+        onAddressSubmitted(r.address);
       },
       orElse: () {},
     );
@@ -89,7 +92,9 @@ class _State extends State<SendNftFlowScreen> implements SendFlowRouter {
   }
 
   @override
-  void onAddressSubmitted() {
+  void onAddressSubmitted(String address) {
+    _bloc.add(NftCreateOutgoingTransferEvent.recipientUpdated(address));
+
     context.router.navigate(const ConfirmNonFungibleTokenRoute());
   }
 
