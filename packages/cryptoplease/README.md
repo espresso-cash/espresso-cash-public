@@ -1,6 +1,6 @@
 # Crypto Please
 
-[![E2E tests](https://github.com/cryptoplease/cryptoplease-dart/actions/workflows/e2e_tests.yml/badge.svg)](https://github.com/cryptoplease/crypto-please/actions/workflows/e2e_tests.yml)
+[![E2E tests](https://github.com/cryptoplease/cryptoplease-dart/actions/workflows/e2e_tests.yml/badge.svg)](https://github.com/cryptoplease/cryptoplease-dart/actions/workflows/e2e_tests.yml)
 
 [<img src="https://cdn.animaapp.com/projects/60f68843e4a8f4765ef9aee6/releases/62063634af75239eab619754/img/apple-appstore@2x.png" width="153">](https://apps.apple.com/us/app/crypto-please/id1559625715)
 [<img src="https://cdn.animaapp.com/projects/60f68843e4a8f4765ef9aee6/releases/62063634af75239eab619754/img/googleplay-store@2x.png" width="153">](https://play.google.com/store/apps/details?id=com.pleasecrypto.flutter)
