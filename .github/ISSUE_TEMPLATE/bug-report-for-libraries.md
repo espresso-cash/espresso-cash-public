@@ -2,7 +2,7 @@
 name: Bug report for libraries
 about: Create a report to help us improve
 title: ''
-labels: bug, solana-library
+labels: bug, library
 assignees: ''
 
 ---

@@ -2,7 +2,7 @@
 name: Feature request for libraries
 about: Suggest an idea for this project
 title: ''
-labels: solana-library
+labels: library
 assignees: ''
 
 ---
