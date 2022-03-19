@@ -4,15 +4,15 @@ on:
   pull_request:
     branches:
       - master
-    paths-ignore:
-      - "packages/cryptoplease/**"
-      - "packages/cryptoplease_ui/**"
+    paths:
+      - "packages/**"
+      - "!packages/cryptoplease/**"
+      - "!packages/cryptoplease_ui/**"
   push:
     branches:
       - master
-    paths-ignore:
-      - "packages/cryptoplease/**"
-      - "packages/cryptoplease_ui/**"
+    paths:
+      - "packages/solana/**"
 
 concurrency:
   group: ref-${{ github.head_ref }}
