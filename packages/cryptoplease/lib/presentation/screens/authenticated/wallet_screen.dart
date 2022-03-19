@@ -12,7 +12,6 @@ import 'package:cryptoplease/presentation/screens/authenticated/components/heade
 import 'package:cryptoplease/presentation/screens/authenticated/components/stablecoin_empty_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/total_balance_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/wallet_tab_bar.dart';
-import 'package:cryptoplease/presentation/snackbars.dart';
 import 'package:cryptoplease/presentation/watch_balance.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
@@ -144,18 +143,15 @@ class _WalletScreenState extends State<WalletScreen> {
       );
 }
 
-void _showFetchBalancesErrorToast(BuildContext context) {
-  showCustomSnackbar(
-    context,
-    message: context.l10n.cannotConnectToTheNetwork,
-    icon: Assets.icons.toastWarning.image(),
-  );
-}
+void _showFetchBalancesErrorToast(BuildContext context) => showCpSnackbar(
+      context,
+      message: context.l10n.cannotConnectToTheNetwork,
+      icon: Assets.icons.toastWarning.image(),
+    );
 
-void _showConversionRatesFetchErrorToast(BuildContext context) {
-  showCustomSnackbar(
-    context,
-    message: context.l10n.weWereUnableToFetchTokenPrice,
-    icon: Assets.icons.toastWarning.image(),
-  );
-}
+void _showConversionRatesFetchErrorToast(BuildContext context) =>
+    showCpSnackbar(
+      context,
+      message: context.l10n.weWereUnableToFetchTokenPrice,
+      icon: Assets.icons.toastWarning.image(),
+    );

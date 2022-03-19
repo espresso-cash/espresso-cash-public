@@ -3,7 +3,6 @@ import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/empty_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/nft/nft_item.dart';
-import 'package:cryptoplease/presentation/snackbars.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +40,7 @@ class _NftScreenState extends State<NftScreen> {
   Widget build(BuildContext context) =>
       BlocConsumer<NftCollectionBloc, NftCollectionState>(
         listener: (context, state) => state.processingState.maybeWhen(
-          error: (_) => showErrorSnackbar(
+          error: (_) => showCpErrorSnackbar(
             context,
             message: context.l10n.errorLoadingPullToRefresh,
           ),
