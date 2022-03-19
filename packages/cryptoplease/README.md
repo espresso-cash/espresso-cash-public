@@ -45,7 +45,7 @@ Everything related to UI + glue layer for other layers. As for "dependency injec
 ## Running
 
 1. Clone the project.
-2. run `make get_all build_all`.
+2. run `make app_get app_build`.
 3. Run the application.
 
 ## Tests
@@ -57,7 +57,7 @@ Everything related to UI + glue layer for other layers. As for "dependency injec
 2. Running solana-related integration tests (make sure that local solana instance is installed and running):
    ```sh
    # Ensure that SOLANA_RPC_URL and SOLANA_WEBSOCKET_URL environment variables are set
-   make test_solana
+   make app_test_solana
    ```
 3. Running E2E tests:
    ```sh
