@@ -5,7 +5,7 @@
 [<img src="https://cdn.animaapp.com/projects/60f68843e4a8f4765ef9aee6/releases/62063634af75239eab619754/img/apple-appstore@2x.png" width="153">](https://apps.apple.com/us/app/crypto-please/id1559625715)
 [<img src="https://cdn.animaapp.com/projects/60f68843e4a8f4765ef9aee6/releases/62063634af75239eab619754/img/googleplay-store@2x.png" width="153">](https://play.google.com/store/apps/details?id=com.pleasecrypto.flutter)
 
-Crypto Please Wallet is a the first crypto wallet that allows users to send crypto with just a link. You can send and receive any Solana tokens like SOL tokens and also SPL tokens. You can receive as well NFT! Our wallet is totally non-custodial which means that only you owns your funds. Crypto Please Wallet is available on all platforms.
+Crypto Please Wallet is a the first crypto wallet that allows users to send crypto with just a link. You can send and receive any Solana tokens like SOL tokens and also SPL tokens. You can receive NFT as well! Our wallet is totally non-custodial which means that only you own your funds. Crypto Please Wallet is available on all platforms.
 
 Other features include:
 - Send Crypto with just a link
@@ -24,7 +24,7 @@ All the states and events are immutable `freezed` classes.
 
 There are 2 packages related to the application: `cryptoplease` and `cryptoplease_ui`. The first one contains the main code of the app, the second one contains only business-logic-free UI components (think of it as UI-library).
 
-## `crpytoplease` package structure:
+## `cryptoplease` package structure:
 
 ### `bl`
 
