@@ -18,12 +18,17 @@ class NftItem extends StatelessWidget {
   Widget build(BuildContext context) => BlocProvider<NftMetadataBloc>(
         create: (_) =>
             NftMetadataBloc()..add(NftMetadataEvent.initialized(metadata)),
-        child: const _Content(),
+        child: _Content(metadata: metadata),
       );
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key}) : super(key: key);
+  const _Content({
+    Key? key,
+    required this.metadata,
+  }) : super(key: key);
+
+  final Metadata metadata;
 
   @override
   Widget build(BuildContext context) =>
@@ -46,7 +51,12 @@ class _Content extends StatelessWidget {
             // NOTE: vr are 3d models and we are currently
             //       only displaying an image.
             return InkWell(
-              onTap: () => context.router.navigate(NftDetailsRoute(data: data)),
+              onTap: () => context.router.navigate(
+                NftDetailsRoute(
+                  data: data,
+                  metadata: metadata,
+                ),
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,

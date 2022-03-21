@@ -62,7 +62,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
               allowBackNavigation: true,
               balanceWidget: CryptoBalanceWidget(token: widget.token),
               onSendPressed: () => context.router
-                  .navigate(SendFlowRoute(initialToken: widget.token)),
+                  .navigate(SendTokenFlowRoute(initialToken: widget.token)),
               onReceivePressed: () =>
                   context.router.navigate(const ReceiveMoneyRoute()),
               onAddFundsPressed: widget.token == Token.sol

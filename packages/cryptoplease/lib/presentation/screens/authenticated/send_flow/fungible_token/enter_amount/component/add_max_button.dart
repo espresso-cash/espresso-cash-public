@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/bloc.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class AddMaxButton extends StatelessWidget {
         text: 'MAX',
         variant: CpButtonVariant.light,
         onPressed: () => context
-            .read<CreateOutgoingTransferBloc>()
-            .add(const CreateOutgoingTransferEvent.maxRequested()),
+            .read<FtCreateOutgoingTransferBloc>()
+            .add(const FtCreateOutgoingTransferEvent.maxRequested()),
       );
 }

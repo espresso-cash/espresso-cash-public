@@ -113,7 +113,8 @@ class _WalletScreenState extends State<WalletScreen> {
             child: HomeHeaderListWidget(
               onRefresh: () => _onRefreshWithErrorHandling(context),
               balanceWidget: TotalBalanceWidget(balance: total),
-              onSendPressed: () => context.router.navigate(SendFlowRoute()),
+              onSendPressed: () =>
+                  context.router.navigate(SendTokenFlowRoute()),
               onReceivePressed: () =>
                   context.router.navigate(const ReceiveMoneyRoute()),
               onAddFundsPressed: () => context.router.navigate(

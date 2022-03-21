@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/pick_recipient_type/components/pick_recipient_type_button.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/send_flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common/pick_recipient_type/components/pick_recipient_type_button.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common/send_flow_router.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +30,7 @@ class _PickRecipientTypeScreenState extends State<PickRecipientTypeScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
-                  context.l10n.payTo,
+                  context.l10n.send,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline2?.copyWith(
                         color: CpColors.primaryTextColor,

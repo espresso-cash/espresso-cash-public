@@ -1,33 +1,33 @@
-import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/bloc.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/nft/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/create_link_content.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/send_to_solana_address_content.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/confirm_screen/components/nft_create_link_content.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/confirm_screen/components/send_nft_to_solana_address_content.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ConfirmScreen extends StatefulWidget {
-  const ConfirmScreen({Key? key}) : super(key: key);
+class ConfirmNonFungibleTokenScreen extends StatefulWidget {
+  const ConfirmNonFungibleTokenScreen({Key? key}) : super(key: key);
 
   @override
   _ConfirmScreenState createState() => _ConfirmScreenState();
 }
 
-class _ConfirmScreenState extends State<ConfirmScreen> {
+class _ConfirmScreenState extends State<ConfirmNonFungibleTokenScreen> {
   void _onSubmitted() {
     context
-        .read<CreateOutgoingTransferBloc>()
-        .add(const CreateOutgoingTransferEvent.submitted());
+        .read<NftCreateOutgoingTransferBloc>()
+        .add(const NftCreateOutgoingTransferEvent.submitted());
   }
 
   @override
-  Widget build(BuildContext context) =>
-      BlocConsumer<CreateOutgoingTransferBloc, CreateOutgoingTransferState>(
+  Widget build(BuildContext context) => BlocConsumer<
+          NftCreateOutgoingTransferBloc, NftCreateOutgoingTransferState>(
         listenWhen: (s1, s2) => s1.flow != s2.flow,
         listener: (context, state) => state.flow.maybeMap(
           failure: (s) => showErrorDialog(
@@ -39,9 +39,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
         ),
         builder: (context, state) {
           final locale = DeviceLocale.localeOf(context);
-          final tokenAmount = state.tokenAmount.format(locale);
-          final fiatAmount = state.fiatAmount.format(locale);
-          final formattedFee = state.fee.format(DeviceLocale.localeOf(context));
+          final formattedFee = state.fee?.format(locale) ?? '';
+          final image = state.offChainMetadata?.image;
 
           final String nextButtonText;
           switch (state.transferType) {
@@ -56,16 +55,14 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           final Widget content;
           switch (state.transferType) {
             case OutgoingTransferType.splitKey:
-              content = CreateLinkContent(
-                amount: tokenAmount,
-                fiatAmount: fiatAmount,
+              content = NftCreateLinkContent(
+                image: image,
                 fee: formattedFee,
               );
               break;
             case OutgoingTransferType.direct:
-              content = SendToSolanaAddressContent(
-                amount: tokenAmount,
-                fiatAmount: fiatAmount,
+              content = SendNftToSolanaAddressContent(
+                image: image,
                 fee: formattedFee,
                 address: state.recipientAddress ?? '',
               );

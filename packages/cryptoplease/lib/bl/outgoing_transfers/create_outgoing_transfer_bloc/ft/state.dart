@@ -1,8 +1,8 @@
 part of 'bloc.dart';
 
 @freezed
-class CreateOutgoingTransferState with _$CreateOutgoingTransferState {
-  const factory CreateOutgoingTransferState({
+class FtCreateOutgoingTransferState with _$FtCreateOutgoingTransferState {
+  const factory FtCreateOutgoingTransferState({
     required IList<Token> availableTokens,
     required OutgoingTransferType transferType,
     required CryptoAmount tokenAmount,
@@ -13,9 +13,9 @@ class CreateOutgoingTransferState with _$CreateOutgoingTransferState {
     String? reference,
     @Default(FlowInitial<Exception, OutgoingTransferId>())
         Flow<Exception, OutgoingTransferId> flow,
-  }) = _CreateOutgoingTransferState;
+  }) = _FtCreateOutgoingTransferState;
 
-  const CreateOutgoingTransferState._();
+  const FtCreateOutgoingTransferState._();
 
   Amount get fee => calculateFee(
         transferType,

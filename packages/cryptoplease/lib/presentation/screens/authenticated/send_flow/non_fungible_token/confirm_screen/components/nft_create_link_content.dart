@@ -1,19 +1,16 @@
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/amount_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/list_item.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/list_item.dart';
 import 'package:flutter/widgets.dart';
 
-class CreateLinkContent extends StatelessWidget {
-  const CreateLinkContent({
+class NftCreateLinkContent extends StatelessWidget {
+  const NftCreateLinkContent({
     Key? key,
-    required this.amount,
+    required this.image,
     required this.fee,
-    this.fiatAmount,
   }) : super(key: key);
 
-  final String amount;
+  final String? image;
   final String fee;
-  final String? fiatAmount;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -33,11 +30,24 @@ class CreateLinkContent extends StatelessWidget {
             context.l10n.itWillContain,
             style: _mediumTextStyle,
           ),
-          FittedBox(
-            child: AmountView(amount: amount),
+          SizedBox(
+            height: 244,
+            child: Center(
+              child: SizedBox(
+                width: 184,
+                height: 184,
+                child: ClipRRect(
+                  clipBehavior: Clip.antiAlias,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(16),
+                  ),
+                  child: image == null
+                      ? const SizedBox.shrink()
+                      : Image.network(image!),
+                ),
+              ),
+            ),
           ),
-          if (fiatAmount != null)
-            Text('≈ $fiatAmount', style: _mediumTextStyle),
           Expanded(
             child: ListView(
               children: [

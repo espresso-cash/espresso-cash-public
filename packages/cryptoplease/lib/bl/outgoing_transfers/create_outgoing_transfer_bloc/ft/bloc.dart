@@ -15,8 +15,8 @@ part 'bloc.freezed.dart';
 part 'event.dart';
 part 'state.dart';
 
-typedef _Event = CreateOutgoingTransferEvent;
-typedef _State = CreateOutgoingTransferState;
+typedef _Event = FtCreateOutgoingTransferEvent;
+typedef _State = FtCreateOutgoingTransferState;
 typedef _Emitter = Emitter<_State>;
 
 /// This BLoC is responsible for preparing necessary data for outgoing transfer
@@ -24,8 +24,8 @@ typedef _Emitter = Emitter<_State>;
 ///
 /// No actual sending is done within this BLoC, it only creates the transfer
 /// and stores it in the [OutgoingTransferRepository].
-class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
-  CreateOutgoingTransferBloc({
+class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
+  FtCreateOutgoingTransferBloc({
     required OutgoingTransferRepository repository,
     required Map<Token, Amount> balances,
     required ConversionRatesRepository conversionRatesRepository,
@@ -244,6 +244,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
               payment = await OutgoingTransfer.createSplitKeyTransfer(
                 amount: state.tokenAmount.value,
                 tokenAddress: state.token.address,
+                tokenType: OutgoingTransferTokenType.fungibleToken,
               );
               break;
             case OutgoingTransferType.direct:
@@ -253,6 +254,7 @@ class CreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 tokenAddress: state.token.address,
                 memo: state.memo,
                 reference: state.reference,
+                tokenType: OutgoingTransferTokenType.fungibleToken,
               );
               break;
           }

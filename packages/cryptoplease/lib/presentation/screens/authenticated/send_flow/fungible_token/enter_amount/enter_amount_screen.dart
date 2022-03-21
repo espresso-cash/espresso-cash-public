@@ -1,13 +1,13 @@
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/bloc.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/enter_amount/component/token_fiat_switcher_input_widget.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/send_flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/token_fiat_switcher_input_widget.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/send_token_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +55,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
   }
 
   void _onSubmitted() {
-    context.read<CreateOutgoingTransferBloc>().validate().fold(
+    context.read<FtCreateOutgoingTransferBloc>().validate().fold(
           (e) => e.map(
             insufficientFunds: (e) => _insufficientTokenDialog(
               balance: e.balance,
@@ -63,26 +63,26 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
             ),
             insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
           ),
-          (_) => context.read<SendFlowRouter>().onAmountSubmitted(),
+          (_) => context.read<FtSendFlowRouter>().onAmountSubmitted(),
         );
   }
 
   void _updateToken(Token token) {
-    final event = CreateOutgoingTransferEvent.tokenUpdated(token);
-    context.read<CreateOutgoingTransferBloc>().add(event);
+    final event = FtCreateOutgoingTransferEvent.tokenUpdated(token);
+    context.read<FtCreateOutgoingTransferBloc>().add(event);
   }
 
   void _updateTokenAmount(Decimal amount) => context
-      .read<CreateOutgoingTransferBloc>()
-      .add(CreateOutgoingTransferEvent.tokenAmountUpdated(amount));
+      .read<FtCreateOutgoingTransferBloc>()
+      .add(FtCreateOutgoingTransferEvent.tokenAmountUpdated(amount));
 
   void _updateFiatAmount(Decimal amount) => context
-      .read<CreateOutgoingTransferBloc>()
-      .add(CreateOutgoingTransferEvent.fiatAmountUpdated(amount));
+      .read<FtCreateOutgoingTransferBloc>()
+      .add(FtCreateOutgoingTransferEvent.fiatAmountUpdated(amount));
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<CreateOutgoingTransferBloc, CreateOutgoingTransferState>(
+      BlocBuilder<FtCreateOutgoingTransferBloc, FtCreateOutgoingTransferState>(
         builder: (context, state) => CpTheme.dark(
           child: Scaffold(
             appBar: CpAppBar(

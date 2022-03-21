@@ -1,22 +1,19 @@
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/profile/component/address_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/amount_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/list_item.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/list_item.dart';
 import 'package:flutter/widgets.dart';
 
-class SendToSolanaAddressContent extends StatelessWidget {
-  const SendToSolanaAddressContent({
+class SendNftToSolanaAddressContent extends StatelessWidget {
+  const SendNftToSolanaAddressContent({
     Key? key,
-    required this.amount,
+    required this.image,
     required this.fee,
     required this.address,
-    this.fiatAmount,
   }) : super(key: key);
 
-  final String amount;
+  final String? image;
   final String fee;
   final String address;
-  final String? fiatAmount;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -33,11 +30,24 @@ class SendToSolanaAddressContent extends StatelessWidget {
               context.l10n.youAreSending,
               style: _mediumTextStyle,
             ),
-            FittedBox(
-              child: AmountView(amount: amount),
+            SizedBox(
+              height: 244,
+              child: Center(
+                child: SizedBox(
+                  width: 184,
+                  height: 184,
+                  child: ClipRRect(
+                    clipBehavior: Clip.antiAlias,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(16),
+                    ),
+                    child: image == null
+                        ? const SizedBox.shrink()
+                        : Image.network(image!),
+                  ),
+                ),
+              ),
             ),
-            if (fiatAmount != null)
-              Text('≈ $fiatAmount', style: _mediumTextStyle),
             const SizedBox(height: 40),
             Text(context.l10n.to, style: _mediumTextStyle),
             AddressView(
