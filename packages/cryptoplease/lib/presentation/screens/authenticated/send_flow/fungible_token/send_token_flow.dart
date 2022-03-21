@@ -142,7 +142,11 @@ class _State extends State<SendTokenFlowScreen> implements FtSendFlowRouter {
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           BlocProvider.value(value: _bloc),
+          // Providing router twice, as some underlying common widgets
+          // can use it as SendFlowRouter, while specific FT widgets
+          // will look for FtSendFlowRouter.
           Provider<SendFlowRouter>.value(value: this),
+          Provider<FtSendFlowRouter>.value(value: this),
         ],
         child: BlocListener<FtCreateOutgoingTransferBloc,
             FtCreateOutgoingTransferState>(

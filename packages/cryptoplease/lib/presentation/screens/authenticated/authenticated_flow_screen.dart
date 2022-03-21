@@ -57,9 +57,9 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
             return MultiProvider(
               providers: [
                 Provider<MyAccount>.value(value: account),
-                _outgoingTransfersBlocProvider(account),
                 _airdropBlocProvider(account),
                 _nftCollectionBlocProvider(account),
+                _outgoingTransfersBlocProvider(account),
               ],
               child: Nested(
                 children: [
@@ -105,6 +105,7 @@ BlocProvider<OutgoingTransfersBloc> _outgoingTransfersBlocProvider(
         solanaClient: context.read<SolanaClient>(),
         account: account,
         balancesBloc: context.read<BalancesBloc>(),
+        nftCollectionBloc: context.read<NftCollectionBloc>(),
       ),
     );
 
