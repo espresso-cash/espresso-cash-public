@@ -62,7 +62,9 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
             fiatAmountString;
 
     return context.l10n.shareText(
-      amount,
+      widget.transfer.tokenType == OutgoingTransferTokenType.fungibleToken
+          ? amount
+          : 'NFT',
       _firstLink,
       buildSecondLink(widget.transfer.privateKey),
     );
