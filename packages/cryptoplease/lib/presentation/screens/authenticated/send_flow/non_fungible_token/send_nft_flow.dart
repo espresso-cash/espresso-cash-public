@@ -115,7 +115,7 @@ class _State extends State<SendNftFlowScreen> implements SendFlowRouter {
           listenWhen: (s1, s2) => s1.flow != s2.flow,
           listener: (context, state) => state.flow.maybeMap(
             success: (s) {
-              Navigator.of(context).pop();
+              context.router.popUntilRoot();
               context.router.navigate(OutgoingTransferFlowRoute(id: s.result));
               context
                   .read<OutgoingTransfersBloc>()
