@@ -40,15 +40,14 @@ class _NftImageState extends State<NftImage> {
           }
 
           final data = snapshot.data;
-          if (data != null) {
-            return _ItemImage(data: data, size: widget.size);
-          } else {
-            return SizedBox(
-              width: widget.size,
-              height: widget.size,
-              child: const Center(child: _loadingWidget),
-            );
-          }
+
+          return data != null
+              ? _ItemImage(data: data, size: widget.size)
+              : SizedBox(
+                  width: widget.size,
+                  height: widget.size,
+                  child: const Center(child: _loadingWidget),
+                );
         },
       );
 }
