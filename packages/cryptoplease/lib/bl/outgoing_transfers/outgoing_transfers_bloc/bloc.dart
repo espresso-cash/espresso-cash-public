@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
+import 'package:cryptoplease/bl/nft/nft_collection/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/solana_helpers.dart';
@@ -26,16 +27,18 @@ typedef _Emitter = Emitter<_State>;
 /// This BLoC is responsible for actual sending of outgoing transfers
 /// and handling possible errors.
 ///
-/// For creating a transfer see `CreateOutgoingTransferBloc`.
+/// For creating a transfer see `FtCreateOutgoingTransferBloc`.
 class OutgoingTransfersBloc extends Bloc<_Event, _State> {
   OutgoingTransfersBloc({
     required OutgoingTransferRepository repository,
     required SolanaClient solanaClient,
     required BalancesBloc balancesBloc,
+    required NftCollectionBloc nftCollectionBloc,
     required MyAccount account,
   })  : _repository = repository,
         _solanaClient = solanaClient,
         _balancesBloc = balancesBloc,
+        _nftCollectionBloc = nftCollectionBloc,
         _account = account,
         super(const OutgoingTransfersState()) {
     on<_Event>(_handler);
@@ -44,6 +47,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
   final OutgoingTransferRepository _repository;
   final SolanaClient _solanaClient;
   final BalancesBloc _balancesBloc;
+  final NftCollectionBloc _nftCollectionBloc;
   final MyAccount _account;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
@@ -123,7 +127,14 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       );
 
       await _repository.save(payment.toReady(signature));
-      _balancesBloc.add(BalancesEvent.requested(address: _account.address));
+      switch (payment.tokenType) {
+        case OutgoingTransferTokenType.fungibleToken:
+          _balancesBloc.add(BalancesEvent.requested(address: _account.address));
+          break;
+        case OutgoingTransferTokenType.nonFungibleToken:
+          _nftCollectionBloc.add(const NftCollectionEvent.updated());
+          break;
+      }
 
       return state.removeProcessing(payment.id);
     } on Exception catch (e) {

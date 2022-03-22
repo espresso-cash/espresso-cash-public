@@ -23,7 +23,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
     AutoRoute<void>(page: NftDetailsScreen),
     AutoRoute<void>(page: TransactionsScreen),
     AutoRoute<void>(page: TransactionDetailsScreen),
-    createPaymentFlowRoutes,
+    ...createPaymentFlowRoutes,
     AutoRoute<void>(page: OutgoingTransferFlowScreen),
     AutoRoute<void>(page: ReceiveMoneyScreen),
     AutoRoute<void>(page: AddFundsScreen),

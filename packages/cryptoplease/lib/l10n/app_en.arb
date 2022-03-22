@@ -13,6 +13,7 @@
   "solanaAddress": "To a solana address",
   "solanaAddressOfTheReceiver": "Solana address of the recipient",
   "payTo": "Send Crypto",
+  "sendNft": "Send NFT",
   "anyoneByCreatingUniqueCode": "With a link",
   "pickRecipientTypeLongText": "You can send money to anyone by email, whatsapp, signal, telegram... They don’t need to have a wallet or anything.",
   "confirmHeading": "Confirm",
@@ -340,5 +341,6 @@
   "privacyPolicy": "Privacy Policy",
   "viewTransaction": "View Transaction",
   "faq": "Frequently Asked Questions (FAQ)",
-  "sendUsEmail": "Send us an email"
+  "sendUsEmail": "Send us an email",
+  "invalidToken": "Invalid token"
 }

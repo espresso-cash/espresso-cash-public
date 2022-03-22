@@ -1,4 +1,7 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/metaplex.dart' hide Image;
@@ -7,6 +10,7 @@ class NftDetailsScreen extends StatelessWidget {
   const NftDetailsScreen({
     Key? key,
     required this.data,
+    required this.metadata,
   }) : super(key: key);
 
   @override
@@ -28,16 +32,17 @@ class NftDetailsScreen extends StatelessWidget {
             return Scaffold(
               appBar: CpAppBar(title: Text(data.name)),
               body: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverToBoxAdapter(
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 244,
-                          child: Center(
-                            child: SizedBox(
-                              width: 184,
-                              height: 184,
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.all(16.0),
+                          child: AspectRatio(
+                            aspectRatio: 1.0,
+                            child: Center(
                               child: ClipRRect(
                                 clipBehavior: Clip.antiAlias,
                                 borderRadius: const BorderRadius.all(
@@ -50,6 +55,19 @@ class NftDetailsScreen extends StatelessWidget {
                         ),
                         CpButton(
                           text: context.l10n.send,
+                          onPressed: () {
+                            final token = NonFungibleToken(
+                              address: metadata.mint,
+                              metadata: metadata,
+                            );
+
+                            context.router.navigate(
+                              SendNftFlowRoute(
+                                nft: token,
+                                offChainMetadata: data,
+                              ),
+                            );
+                          },
                           width: 200,
                         ),
                         const SizedBox(height: 32),
@@ -135,4 +153,5 @@ class NftDetailsScreen extends StatelessWidget {
       );
 
   final OffChainMetadata data;
+  final Metadata metadata;
 }

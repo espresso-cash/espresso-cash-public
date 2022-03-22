@@ -1,4 +1,4 @@
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/confirm_screen/components/create_link_content.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/token_create_link_content.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils.dart';
@@ -7,7 +7,7 @@ void main() {
   testGoldensWidget(
     'Create link with small amount',
     const _Wrapper(
-      child: CreateLinkContent(
+      child: TokenCreateLinkContent(
         amount: '1.25 SOL',
         fee: '0.01 SOL',
         fiatAmount: '123.45 USD',
@@ -18,7 +18,7 @@ void main() {
   testGoldensWidget(
     'Create link with large amount',
     const _Wrapper(
-      child: CreateLinkContent(
+      child: TokenCreateLinkContent(
         amount: '1.284958673 SOL',
         fee: '0.01 SOL',
         fiatAmount: '123.45 USD',
