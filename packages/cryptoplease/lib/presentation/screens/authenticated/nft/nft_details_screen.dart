@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/components/nft_image.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -37,19 +38,12 @@ class NftDetailsScreen extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: Column(
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
+                        Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: AspectRatio(
-                            aspectRatio: 1.0,
-                            child: Center(
-                              child: ClipRRect(
-                                clipBehavior: Clip.antiAlias,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(16),
-                                ),
-                                child: Image.network(data.image),
-                              ),
+                          child: LayoutBuilder(
+                            builder: (context, constraints) => NftImage(
+                              metadata: metadata,
+                              size: constraints.maxWidth,
                             ),
                           ),
                         ),
@@ -62,10 +56,7 @@ class NftDetailsScreen extends StatelessWidget {
                             );
 
                             context.router.navigate(
-                              SendNftFlowRoute(
-                                nft: token,
-                                offChainMetadata: data,
-                              ),
+                              SendNftFlowRoute(nft: token),
                             );
                           },
                           width: 200,

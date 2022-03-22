@@ -4,8 +4,7 @@ part of 'bloc.dart';
 class NftCreateOutgoingTransferState with _$NftCreateOutgoingTransferState {
   const factory NftCreateOutgoingTransferState({
     required OutgoingTransferType transferType,
-    NonFungibleToken? nft,
-    OffChainMetadata? offChainMetadata,
+    required NonFungibleToken nft,
     Amount? maxFee,
     String? recipientAddress,
     String? memo,
@@ -16,8 +15,5 @@ class NftCreateOutgoingTransferState with _$NftCreateOutgoingTransferState {
 
   const NftCreateOutgoingTransferState._();
 
-  Amount? get fee =>
-      nft == null ? null : calculateFee(transferType, nft!.address);
-
-  Token? get token => nft;
+  Amount get fee => calculateFee(transferType, nft.address);
 }

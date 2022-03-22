@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/nft/nft_metadata/bloc.dart';
 import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/components/nft_image.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +65,7 @@ class _Content extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: _ItemImage(data: data),
+                      child: NftImage(metadata: metadata, size: 90),
                     ),
                     Expanded(
                       child: Text(
@@ -85,47 +85,8 @@ class _Content extends StatelessWidget {
       );
 }
 
-class _ItemImage extends StatelessWidget {
-  const _ItemImage({Key? key, required this.data}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        clipBehavior: Clip.antiAlias,
-        child: Container(
-          decoration: const BoxDecoration(color: Color(0x40ffffff)),
-          width: _imageSize,
-          height: _imageSize,
-          child: data.properties.maybeMap(
-            image: (_) => Image.network(
-              data.image,
-              loadingBuilder: _loadingBuilder,
-              width: _imageSize,
-            ),
-            vr: (_) => Image.network(
-              data.image,
-              loadingBuilder: _loadingBuilder,
-              width: _imageSize,
-            ),
-            orElse: () => Center(child: Text(context.l10n.unsupportedNft)),
-          ),
-        ),
-      );
-
-  final OffChainMetadata data;
-}
-
 const _loadingWidget = FractionallySizedBox(
   widthFactor: 0.4,
   heightFactor: 0.4,
   child: CircularProgressIndicator(color: Color(0x80ffffff)),
 );
-
-Widget _loadingBuilder(
-  BuildContext _,
-  Widget child,
-  ImageChunkEvent? loadingProgress,
-) =>
-    loadingProgress == null ? child : _loadingWidget;
-
-const _imageSize = 90.0;

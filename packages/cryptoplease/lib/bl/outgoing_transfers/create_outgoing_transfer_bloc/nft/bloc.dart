@@ -7,7 +7,6 @@ import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/metaplex.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';
@@ -26,13 +25,10 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
   NftCreateOutgoingTransferBloc({
     required OutgoingTransferRepository repository,
     required Map<Token, Amount> balances,
+    required NonFungibleToken nft,
   })  : _repository = repository,
         _balances = balances,
-        super(
-          const _State(
-            transferType: OutgoingTransferType.direct,
-          ),
-        ) {
+        super(_State(transferType: OutgoingTransferType.direct, nft: nft)) {
     on<_Event>(_handler);
   }
 
@@ -51,10 +47,6 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
 
     final fee = state.fee;
 
-    if (fee == null) {
-      return const Either.left(ValidationError.invalidToken());
-    }
-
     if (feeBalance < fee) {
       return Either.left(ValidationError.insufficientFee(fee));
     }
@@ -69,27 +61,12 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         referenceUpdated: (event) => _onReferenceUpdated(event, emit),
         cleared: (_) => _onCleared(emit),
         submitted: (_) => _onSubmitted(emit),
-        nftTransferCreated: (event) => _onNftTransferCreated(event, emit),
       );
 
   Future<void> _onTypeUpdated(TypeUpdated event, _Emitter emit) async {
     if (!state.flow.isInitial()) return;
 
     emit(state.copyWith(transferType: event.transferType));
-  }
-
-  Future<void> _onNftTransferCreated(
-    NftTransferCreated event,
-    _Emitter emit,
-  ) async {
-    if (!state.flow.isInitial()) return;
-
-    emit(
-      state.copyWith(
-        nft: event.token,
-        offChainMetadata: event.offChainMetadata,
-      ),
-    );
   }
 
   Future<void> _onRecipientUpdated(
@@ -119,20 +96,14 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
   Future<void> _onCleared(_Emitter emit) async {
     if (!state.flow.isInitial()) return;
 
-    emit(
-      const _State(
-        transferType: OutgoingTransferType.direct,
-      ),
-    );
+    emit(_State(transferType: OutgoingTransferType.direct, nft: state.nft));
   }
 
   Future<void> _onSubmitted(_Emitter emit) async => tryEitherAsync(
         (bind) async {
           if (!state.flow.isInitial()) return;
 
-          final address = state.token?.address;
-
-          if (address == null) return;
+          final address = state.nft.address;
 
           bind(validate());
 
