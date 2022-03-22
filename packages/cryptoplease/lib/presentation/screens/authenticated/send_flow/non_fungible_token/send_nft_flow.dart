@@ -12,17 +12,14 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:solana/metaplex.dart';
 
 class SendNftFlowScreen extends StatefulWidget {
   const SendNftFlowScreen({
     Key? key,
     required this.nft,
-    required this.offChainMetadata,
   }) : super(key: key);
 
   final NonFungibleToken nft;
-  final OffChainMetadata offChainMetadata;
 
   @override
   State<SendNftFlowScreen> createState() => _State();
@@ -37,21 +34,13 @@ class _State extends State<SendNftFlowScreen> implements SendFlowRouter {
     _bloc = NftCreateOutgoingTransferBloc(
       repository: context.read<OutgoingTransferRepository>(),
       balances: context.read<BalancesBloc>().state.balances,
+      nft: widget.nft,
     );
 
     _reset();
   }
 
-  void _reset() {
-    _bloc
-      ..add(const NftCreateOutgoingTransferEvent.cleared())
-      ..add(
-        NftCreateOutgoingTransferEvent.nftTransferCreated(
-          widget.nft,
-          widget.offChainMetadata,
-        ),
-      );
-  }
+  void _reset() => _bloc.add(const NftCreateOutgoingTransferEvent.cleared());
 
   @override
   void onDirectSelected() {

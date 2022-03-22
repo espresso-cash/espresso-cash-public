@@ -1,24 +1,23 @@
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/components/nft_image.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/list_item.dart';
 import 'package:flutter/widgets.dart';
+import 'package:solana/metaplex.dart';
 
 class NftCreateLinkContent extends StatelessWidget {
   const NftCreateLinkContent({
     Key? key,
-    required this.image,
     required this.fee,
+    required this.metadata,
   }) : super(key: key);
 
-  final String? image;
   final String fee;
+  final Metadata metadata;
 
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          Text(
-            context.l10n.confirmationTitle,
-            style: _largeTextStyle,
-          ),
+          Text(context.l10n.confirmationTitle, style: _largeTextStyle),
           const SizedBox(height: 20),
           Text(
             context.l10n.youAreCreatingUniqueLink,
@@ -26,35 +25,15 @@ class NftCreateLinkContent extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 40),
-          Text(
-            context.l10n.itWillContain,
-            style: _mediumTextStyle,
-          ),
+          Text(context.l10n.itWillContain, style: _mediumTextStyle),
           SizedBox(
             height: 244,
-            child: Center(
-              child: SizedBox(
-                width: 184,
-                height: 184,
-                child: ClipRRect(
-                  clipBehavior: Clip.antiAlias,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(16),
-                  ),
-                  child: image == null
-                      ? const SizedBox.shrink()
-                      : Image.network(image!),
-                ),
-              ),
-            ),
+            child: Center(child: NftImage(metadata: metadata, size: 184)),
           ),
           Expanded(
             child: ListView(
               children: [
-                ListItem(
-                  label: context.l10n.labelFee,
-                  value: fee,
-                ),
+                ListItem(label: context.l10n.labelFee, value: fee),
               ],
             ),
           ),
