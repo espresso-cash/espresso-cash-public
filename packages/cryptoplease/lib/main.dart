@@ -3,6 +3,7 @@ import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
 import 'package:cryptoplease/bl/app_lock/app_lock_bloc.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/conversion_rates/repository.dart';
+import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/puzzle_reminder/puzzle_reminder_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
@@ -13,6 +14,7 @@ import 'package:cryptoplease/data/analytics/analytics_manager.dart';
 import 'package:cryptoplease/data/api/coingecko_client.dart';
 import 'package:cryptoplease/data/conversion_rates_repository.dart';
 import 'package:cryptoplease/data/db/db.dart';
+import 'package:cryptoplease/data/offchain_metadata_repository.dart';
 import 'package:cryptoplease/data/outgoing_transfer_repository.dart';
 import 'package:cryptoplease/data/split_key_payments_repository.dart';
 import 'package:cryptoplease/logging.dart';
@@ -71,6 +73,9 @@ Future<void> _start() async {
       final app = MultiProvider(
         providers: [
           Provider<AnalyticsManager>(create: (_) => FirebaseAnalyticsManager()),
+          Provider<OffchainMetadataRepository>(
+            create: (_) => OffchainMetadataRepositoryImpl(),
+          ),
           Provider<RpcClient>.value(value: solanaClient.rpcClient),
           Provider<SolanaClient>.value(value: solanaClient),
           ChangeNotifierProvider<ConversionRatesRepository>(

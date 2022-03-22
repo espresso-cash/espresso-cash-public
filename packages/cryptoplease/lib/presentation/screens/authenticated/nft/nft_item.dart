@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/nft/nft_metadata/bloc.dart';
+import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,8 @@ class NftItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider<NftMetadataBloc>(
         create: (_) =>
-            NftMetadataBloc()..add(NftMetadataEvent.initialized(metadata)),
+            NftMetadataBloc(context.read<OffchainMetadataRepository>())
+              ..add(NftMetadataEvent.initialized(metadata)),
         child: _Content(metadata: metadata),
       );
 }
@@ -52,10 +54,7 @@ class _Content extends StatelessWidget {
             //       only displaying an image.
             return InkWell(
               onTap: () => context.router.navigate(
-                NftDetailsRoute(
-                  data: data,
-                  metadata: metadata,
-                ),
+                NftDetailsRoute(data: data, metadata: metadata),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -70,7 +69,7 @@ class _Content extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        data.name,
+                        metadata.name,
                         style: Theme.of(context)
                             .textTheme
                             .headline2

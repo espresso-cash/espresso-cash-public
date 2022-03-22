@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
 import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/metaplex.dart';
@@ -9,9 +10,11 @@ part 'event.dart';
 part 'state.dart';
 
 class NftMetadataBloc extends Bloc<NftMetadataEvent, NftMetadataState> {
-  NftMetadataBloc() : super(const NftMetadataState()) {
+  NftMetadataBloc(this._repository) : super(const NftMetadataState()) {
     on<NftMetadataEvent>(_handler, transformer: sequential());
   }
+
+  final OffchainMetadataRepository _repository;
 
   EventHandler<NftMetadataEvent, NftMetadataState> get _handler =>
       (e, emit) => e.map(
@@ -25,7 +28,7 @@ class NftMetadataBloc extends Bloc<NftMetadataEvent, NftMetadataState> {
     final metadata = event.metadata;
 
     try {
-      final data = await metadata.getExternalJson();
+      final data = await _repository.getMetadata(metadata);
 
       emit(
         state.copyWith(
