@@ -17,33 +17,26 @@ class CustomListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget content;
-    if (itemCount == 0) {
-      final empty = CpTheme.light(child: emptyWidget);
-      content = SliverToBoxAdapter(child: empty);
-    } else {
-      content = SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) => Material(
-            color: Colors.white,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                itemBuilder(context, index),
-                Container(
-                  color: CpColors.listDividerColor,
-                  height: 1,
-                  margin: const EdgeInsets.symmetric(horizontal: 24),
-                ),
-              ],
+    final Widget content = itemCount == 0
+        ? SliverToBoxAdapter(child: emptyWidget)
+        : SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  itemBuilder(context, index),
+                  Container(
+                    color: CpColors.listDividerColor,
+                    height: 1,
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
+                  ),
+                ],
+              ),
+              childCount: itemCount,
             ),
-          ),
-          childCount: itemCount,
-        ),
-      );
-    }
+          );
 
-    return CpTheme.dark(
+    return CpTheme.light(
       child: Material(
         color: Colors.white,
         child: CustomScrollView(
@@ -57,7 +50,6 @@ class CustomListView extends StatelessWidget {
               content
             else
               SliverPadding(padding: padding!, sliver: content),
-            // SliverFil
           ],
         ),
       ),
