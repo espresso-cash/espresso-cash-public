@@ -1,6 +1,6 @@
 import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/elements/navigation_bar.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/elements/navigation_button.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/components/navigation_bar/navigation_bar.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/components/navigation_bar/navigation_button.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/nft/nft_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/notifications/notifications_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/profile/profile_screen.dart';
