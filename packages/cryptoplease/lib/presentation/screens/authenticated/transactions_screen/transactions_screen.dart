@@ -61,7 +61,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
               headerAppBar: const HomeScreenAppBar(),
               headerButtons: [
                 if (widget.token == Token.sol) const AddFundsButton(),
-                const SendButton(),
+                SendButton(token: widget.token),
                 const ReceiveButton(),
               ],
               headerContent: CryptoBalanceWidget(token: widget.token),

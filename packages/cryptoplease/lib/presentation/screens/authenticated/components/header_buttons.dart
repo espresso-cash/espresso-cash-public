@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
+import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/routes.dart';
@@ -22,13 +23,17 @@ class AddFundsButton extends StatelessWidget {
 }
 
 class SendButton extends StatelessWidget {
-  const SendButton({Key? key}) : super(key: key);
+  const SendButton({Key? key, this.token}) : super(key: key);
+
+  final Token? token;
 
   @override
   Widget build(BuildContext context) => HeaderedListButton(
         label: context.l10n.send,
         icon: SvgPicture.asset(Assets.icons.send.path),
-        onPressed: () => context.router.navigate(SendTokenFlowRoute()),
+        onPressed: () => context.router.navigate(
+          SendTokenFlowRoute(initialToken: token),
+        ),
       );
 }
 
