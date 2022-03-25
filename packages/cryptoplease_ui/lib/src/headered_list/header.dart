@@ -26,7 +26,7 @@ class HeaderedListHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SliverPersistentHeader(
         pinned: true,
-        delegate: _HomeHeaderDelegate(
+        delegate: _HeaderDelegate(
           stickyBottomHeader: stickyBottomHeader,
           minHeight: minHeight,
           appBarHeight: kToolbarHeight,
@@ -51,8 +51,8 @@ class HeaderedListHeader extends StatelessWidget {
       );
 }
 
-class _HomeHeaderDelegate extends SliverPersistentHeaderDelegate {
-  _HomeHeaderDelegate({
+class _HeaderDelegate extends SliverPersistentHeaderDelegate {
+  _HeaderDelegate({
     required this.backButton,
     required this.buttonsWidget,
     required this.appBarWidget,
