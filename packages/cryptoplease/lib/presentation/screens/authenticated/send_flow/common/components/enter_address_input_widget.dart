@@ -93,8 +93,8 @@ class EnterAddressInputWidget extends StatelessWidget {
                       CpButton(
                         text: context.l10n.scanQRCode,
                         size: CpButtonSize.micro,
-                        onPressed:
-                            context.read<FtSendFlowRouter>().onQrCodeSelected,
+                        onPressed: () =>
+                            context.read<FtSendFlowRouter>().onQrCodeSelected(),
                       )
                     ],
                   )

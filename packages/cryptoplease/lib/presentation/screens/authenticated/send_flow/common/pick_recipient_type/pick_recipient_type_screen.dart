@@ -53,7 +53,7 @@ class _PickRecipientTypeScreenState extends State<PickRecipientTypeScreen> {
               ),
               PickRecipientTypeButton(
                 text: context.l10n.byScanningQRCode,
-                onPressed: context.read<SendFlowRouter>().onQrCodeSelected,
+                onPressed: () => context.read<SendFlowRouter>().onQrCodeSelected(),
               ),
             ],
           ),
