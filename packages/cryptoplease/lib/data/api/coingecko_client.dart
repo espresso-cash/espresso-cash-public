@@ -1,5 +1,4 @@
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
@@ -51,8 +50,4 @@ class RateRequestDto with _$RateRequestDto {
 
   factory RateRequestDto.fromJson(Map<String, dynamic> json) =>
       _$RateRequestDtoFromJson(json);
-}
-
-extension PriceGetter on Map<String, PricesMapDto> {
-  PricesMapDto? from(Token token) => this[token.coingeckoId];
 }
