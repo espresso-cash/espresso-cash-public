@@ -1,4 +1,4 @@
-import 'package:cryptoplease/presentation/screens/authenticated/elements/navigation_button.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/components/navigation_bar/navigation_button.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
