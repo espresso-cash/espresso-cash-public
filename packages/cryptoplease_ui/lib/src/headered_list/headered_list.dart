@@ -1,28 +1,29 @@
-import 'package:cryptoplease/presentation/screens/authenticated/components/header.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease_ui/src/headered_list/header.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class HomeHeaderListWidget extends StatelessWidget {
-  const HomeHeaderListWidget({
+export 'button.dart';
+export 'content.dart';
+
+class CpHeaderedList extends StatelessWidget {
+  const CpHeaderedList({
     Key? key,
-    required this.balanceWidget,
     required this.child,
-    required this.onAddFundsPressed,
-    required this.onReceivePressed,
     required this.onRefresh,
-    required this.onSendPressed,
-    this.allowBackNavigation = false,
+    required this.headerButtons,
+    required this.headerContent,
+    required this.headerAppBar,
     this.stickyBottomHeader,
+    this.allowBackNavigation = false,
   }) : super(key: key);
 
   final AsyncCallback onRefresh;
-  final bool allowBackNavigation;
-  final VoidCallback? onAddFundsPressed;
-  final VoidCallback onReceivePressed;
-  final VoidCallback onSendPressed;
-  final Widget balanceWidget;
   final Widget child;
+  final List<Widget> headerButtons;
+  final Widget headerContent;
+  final Widget headerAppBar;
+  final bool allowBackNavigation;
   final PreferredSizeWidget? stickyBottomHeader;
 
   @override
@@ -45,14 +46,13 @@ class HomeHeaderListWidget extends StatelessWidget {
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                   context,
                 ),
-                sliver: HomeScreenHeader(
+                sliver: HeaderedListHeader(
+                  appBar: headerAppBar,
                   allowBackNavigation: allowBackNavigation,
-                  balanceWidget: balanceWidget,
-                  onAddFundsPressed: onAddFundsPressed,
-                  onReceivePressed: onReceivePressed,
-                  onSendPressed: onSendPressed,
                   stickyBottomHeader: stickyBottomHeader,
                   minHeight: minHeight,
+                  buttons: headerButtons,
+                  child: headerContent,
                 ),
               ),
             ],

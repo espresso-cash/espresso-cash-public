@@ -1,12 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/transaction_item/transaction_item_bloc.dart';
 import 'package:cryptoplease/bl/transactions/transactions_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/components/custom_list_view.dart';
-import 'package:cryptoplease/presentation/routes.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/components/header_list_view.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/components/app_bar.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/components/header_buttons.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transactions_screen/components/crypto_balance_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transactions_screen/components/transaction_item.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -57,20 +55,17 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         child: Scaffold(
           body: BlocBuilder<TransactionsBloc, TransactionsState>(
             bloc: _transactionsBloc,
-            builder: (context, state) => HomeHeaderListWidget(
+            builder: (context, state) => CpHeaderedList(
               onRefresh: _refresh,
               allowBackNavigation: true,
-              balanceWidget: CryptoBalanceWidget(token: widget.token),
-              onSendPressed: () => context.router
-                  .navigate(SendTokenFlowRoute(initialToken: widget.token)),
-              onReceivePressed: () =>
-                  context.router.navigate(const ReceiveMoneyRoute()),
-              onAddFundsPressed: widget.token == Token.sol
-                  ? () => context.router.navigate(
-                        AddFundsRoute(wallet: context.read<MyAccount>().wallet),
-                      )
-                  : null,
-              child: CustomListView(
+              headerAppBar: const HomeScreenAppBar(),
+              headerButtons: [
+                if (widget.token == Token.sol) const AddFundsButton(),
+                const SendButton(),
+                const ReceiveButton(),
+              ],
+              headerContent: CryptoBalanceWidget(token: widget.token),
+              child: CpHeaderedListContent(
                 itemBuilder: (context, index) =>
                     BlocProvider<TransactionItemBloc>(
                   key: ValueKey(state.transactions[index].hash),

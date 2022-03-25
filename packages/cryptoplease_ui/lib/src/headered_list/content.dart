@@ -1,8 +1,8 @@
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
-class CustomListView extends StatelessWidget {
-  const CustomListView({
+class CpHeaderedListContent extends StatelessWidget {
+  const CpHeaderedListContent({
     Key? key,
     required this.itemBuilder,
     required this.itemCount,
@@ -41,6 +41,11 @@ class CustomListView extends StatelessWidget {
         color: Colors.white,
         child: CustomScrollView(
           slivers: [
+            SliverOverlapInjector(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                context,
+              ),
+            ),
             if (padding == null)
               content
             else

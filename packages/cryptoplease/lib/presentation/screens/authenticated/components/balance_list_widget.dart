@@ -1,6 +1,5 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/components/custom_list_view.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/balance_item.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/elements/navigation_bar.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -19,7 +18,7 @@ class BalanceListWidget extends StatelessWidget {
   final Widget emptyWidget;
 
   @override
-  Widget build(BuildContext context) => CustomListView(
+  Widget build(BuildContext context) => CpHeaderedListContent(
         padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
         itemCount: tokens.length,
         itemBuilder: (context, index) => BalanceItem(

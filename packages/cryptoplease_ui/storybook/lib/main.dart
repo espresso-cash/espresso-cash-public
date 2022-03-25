@@ -7,6 +7,7 @@ import 'package:storybook/stories/bullet_item.dart';
 import 'package:storybook/stories/button.dart';
 import 'package:storybook/stories/content_padding.dart';
 import 'package:storybook/stories/empty_message_widget.dart';
+import 'package:storybook/stories/headered_list.dart';
 import 'package:storybook/stories/loader.dart';
 import 'package:storybook/stories/snackbar.dart';
 import 'package:storybook/stories/switch.dart';
@@ -53,6 +54,7 @@ class StorybookApp extends StatelessWidget {
           cpButton,
           cpContentPadding,
           cpEmptyMessageWidget,
+          cpHeaderedList,
           cpLoader,
           cpSnackbar,
           cpSwitch,
