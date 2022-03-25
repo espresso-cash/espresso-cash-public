@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/conversion_rates/conversion_rates_bloc.dart';
@@ -6,9 +5,9 @@ import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/routes.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/components/app_bar.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/balance_list_widget.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/components/header_list_view.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/components/header_buttons.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/stablecoin_empty_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/total_balance_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/wallet_tab_bar.dart';
@@ -110,16 +109,15 @@ class _WalletScreenState extends State<WalletScreen> {
 
           return DefaultTabController(
             length: 2,
-            child: HomeHeaderListWidget(
+            child: CpHeaderedList(
               onRefresh: () => _onRefreshWithErrorHandling(context),
-              balanceWidget: TotalBalanceWidget(balance: total),
-              onSendPressed: () =>
-                  context.router.navigate(SendTokenFlowRoute()),
-              onReceivePressed: () =>
-                  context.router.navigate(const ReceiveMoneyRoute()),
-              onAddFundsPressed: () => context.router.navigate(
-                AddFundsRoute(wallet: context.read<MyAccount>().wallet),
-              ),
+              headerAppBar: const HomeScreenAppBar(),
+              headerButtons: const [
+                AddFundsButton(),
+                SendButton(),
+                ReceiveButton(),
+              ],
+              headerContent: TotalBalanceWidget(balance: total),
               stickyBottomHeader: const WalletTabBar(),
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),

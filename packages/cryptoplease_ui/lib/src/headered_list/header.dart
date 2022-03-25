@@ -1,89 +1,70 @@
 import 'dart:math' as math;
 
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/components/app_bar.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/elements/header_round_button.dart';
+import 'package:cryptoplease_ui/src/app_bar.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreenHeader extends StatelessWidget {
-  const HomeScreenHeader({
+class HeaderedListHeader extends StatelessWidget {
+  const HeaderedListHeader({
     Key? key,
-    required this.onSendPressed,
-    required this.onReceivePressed,
-    required this.onAddFundsPressed,
-    required this.balanceWidget,
+    required this.child,
     this.stickyBottomHeader,
     this.allowBackNavigation = false,
     required this.minHeight,
+    required this.buttons,
+    required this.appBar,
   }) : super(key: key);
 
-  final VoidCallback onSendPressed;
-  final VoidCallback onReceivePressed;
-  final VoidCallback? onAddFundsPressed;
-  final Widget balanceWidget;
+  final Widget child;
   final bool allowBackNavigation;
   final PreferredSizeWidget? stickyBottomHeader;
   final double minHeight;
+  final List<Widget> buttons;
+  final Widget appBar;
 
   final _buttonRowHeight = 75.0;
 
   @override
   Widget build(BuildContext context) => SliverPersistentHeader(
         pinned: true,
-        delegate: _HomeHeaderDelegate(
+        delegate: _HeaderDelegate(
           stickyBottomHeader: stickyBottomHeader,
           minHeight: minHeight,
           appBarHeight: kToolbarHeight,
           buttonsHeight: _buttonRowHeight,
-          balanceWidget: balanceWidget,
+          child: child,
           backButton: allowBackNavigation
               ? BackButton(onPressed: Navigator.of(context).maybePop)
               : null,
-          appBarWidget: const HomeScreenAppBar(),
+          appBarWidget: CpAppBar(
+            automaticallyImplyLeading: false,
+            title: Center(child: appBar),
+          ),
           buttonsWidget: SizedBox(
             height: _buttonRowHeight,
             width: 300,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                if (onAddFundsPressed != null)
-                  HomeScreenHeaderRoundButton(
-                    label: context.l10n.addFunds,
-                    icon: Assets.icons.add,
-                    onPressed: onAddFundsPressed!,
-                  ),
-                HomeScreenHeaderRoundButton(
-                  label: context.l10n.send,
-                  icon: Assets.icons.send,
-                  onPressed: onSendPressed,
-                ),
-                HomeScreenHeaderRoundButton(
-                  label: context.l10n.receive,
-                  icon: Assets.icons.receive,
-                  onPressed: onReceivePressed,
-                ),
-              ],
+              children: buttons,
             ),
           ),
         ),
       );
 }
 
-class _HomeHeaderDelegate extends SliverPersistentHeaderDelegate {
-  _HomeHeaderDelegate({
+class _HeaderDelegate extends SliverPersistentHeaderDelegate {
+  _HeaderDelegate({
     required this.backButton,
-    required this.balanceWidget,
     required this.buttonsWidget,
     required this.appBarWidget,
     required this.minHeight,
     required this.buttonsHeight,
     required this.appBarHeight,
     required this.stickyBottomHeader,
+    required this.child,
   });
 
   final Widget? backButton;
-  final Widget balanceWidget;
+  final Widget child;
   final Widget appBarWidget;
   final Widget buttonsWidget;
   final double minHeight;
@@ -163,7 +144,7 @@ class _HomeHeaderDelegate extends SliverPersistentHeaderDelegate {
         child: Center(
           child: Transform.scale(
             scale: 1 - math.min(percent, 0.5),
-            child: balanceWidget,
+            child: child,
           ),
         ),
       );
