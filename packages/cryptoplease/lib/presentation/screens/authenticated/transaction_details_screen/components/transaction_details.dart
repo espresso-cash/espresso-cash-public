@@ -1,6 +1,6 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:cryptoplease/bl/transaction_details/transaction_details_bloc.dart';
 import 'package:cryptoplease/bl/transactions/create_transaction_link.dart';
+import 'package:cryptoplease/bl/transactions/details/transaction_details_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transaction_details_screen/components/instruction_details_item.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';

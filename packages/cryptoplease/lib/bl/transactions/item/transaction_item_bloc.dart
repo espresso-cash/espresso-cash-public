@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/tokens/token.dart' hide SplToken;
-import 'package:cryptoplease/bl/transactions/transactions_bloc.dart';
+import 'package:cryptoplease/bl/transactions/list/transactions_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart' show SolanaClient, SplToken;
 

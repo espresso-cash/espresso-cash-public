@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cryptoplease/bl/transaction_details/transaction_details_bloc.dart';
+import 'package:cryptoplease/bl/transactions/details/transaction_details_bloc.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/dto.dart' show ConfirmationStatus;
