@@ -1,5 +1,5 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:cryptoplease/bl/transaction_details/transaction_details_bloc.dart';
+import 'package:cryptoplease/bl/transactions/details/transaction_details_bloc.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transaction_details_screen/components/basic_transaction_information.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transaction_details_screen/components/transfer_instruction_details.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transaction_details_screen/dto/transfer_instruction_data.dart';
