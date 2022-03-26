@@ -1,36 +1,18 @@
 {
   "next": "Next",
-  "recoveryHeading": "Confirm Secret Recovery Phrase",
   "recoverySubHeading": "Your secret recovery phrase allows you to recover your wallet in case you delete the wallet or lose your phone.\n\nWrite down or copy these words in the right order and save them somewhere safe.",
   "yourRecoveryPhrase": "Your Secret Recovery Phrase",
   "yourRecoveryPhraseSub": "Please write down your secret recovery phrase and save it carefully in a secure location. This phrase is composed of 12 random generated words. You will not be able to recover your funds if you lose these words.",
   "yourFirstNamePlaceholder": "Type your name",
   "activitiesTitle": "Activities",
-  "balance": "Balance",
   "signOut": "Delete wallet",
   "signOutConfirmation": "Are you sure you want to delete the wallet?",
   "cancel": "Cancel",
   "solanaAddress": "To a solana address",
   "solanaAddressOfTheReceiver": "Solana address of the recipient",
-  "payTo": "Send Crypto",
-  "sendNft": "Send NFT",
   "anyoneByCreatingUniqueCode": "With a link",
   "pickRecipientTypeLongText": "You can send money to anyone by email, whatsapp, signal, telegram... They don’t need to have a wallet or anything.",
-  "confirmHeading": "Confirm",
-  "labelTo": "To:",
   "labelFee": "Network Fee:",
-  "labelMaxTotal": "Total:",
-  "placeholder": "Add a message (optional)",
-  "paymentSent": "Payment sent!",
-  "youHaveSent": "You have sent {count} to",
-  "@youHaveSent": {
-    "placeholders": {
-      "count": {
-        "type": "String"
-      }
-    }
-  },
-  "heading": "Get started",
   "signUp": "Create Wallet",
   "signIn": "Use Existing Wallet",
   "getStarted": "Get started",
@@ -38,52 +20,7 @@
   "linkSubtitle": "The recipient will need to click on the two links below to redeem the money.",
   "enterYourSecretWords": "Enter your secret recovery phrase",
   "toRestoreYourAccount": "To restore your wallet, please type the secret recovery phrase you have previously written down.",
-  "restore": "Restore",
-  "close": "Close",
   "shareLink": "Share payment links",
-  "paymentMessage": "{name} wants to send you",
-  "@paymentMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "paymentMessageRedeemed": "Incoming transfer of {amount} is pending",
-  "@paymentMessageRedeemed": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "paymentMessageCompleted": "Incoming transfer of {amount} is completed",
-  "@paymentMessageCompleted": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "redeem": "Redeem Now",
-  "paymentReceived": "For security reasons, to redeem them please complete the code that {name} sent you",
-  "@paymentReceived": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "codeInvalid": "Code is not valid",
-  "codeConfirmed": "We are waiting for {name}'s last approval before transferring you the money.",
-  "@codeConfirmed": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "submitButton": "Get",
   "shareText": "Hi!\n\nI've just sent you {amount}! To receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
   "@shareText": {
     "placeholders": {
@@ -105,50 +42,6 @@
   "copy": "Copy",
   "share": "Share",
   "emptyActivitiesMessage": "No activity yet!",
-  "cancelEscrow": "Cancel payment",
-  "confirmEscrow": "Verify Details",
-  "sendTransaction": "Send Transaction",
-  "escrowForegroundNotificationTitle": "Escrow code was entered",
-  "escrowForegroundNotificationBody": "Please confirm transaction",
-  "escrowNotificationTitle": "successfully entered the code.\nAmount to be sent: ",
-  "escrowNotificationInvalidCode": "Invalid code was entered",
-  "escrowNotificationWaitingCode": "Waiting for someone to claim it after typing the correct 4 digits pin-code",
-  "escrowNotificationReady": "Outgoing transfer of {amount} is pending",
-  "@escrowNotificationReady": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "escrowNotificationReadySubTitle": "Someone successfully typed the 4 digit codes to withdraw the transaction",
-  "escrowNotificationPending": "Outgoing transfer of {amount} is pending",
-  "@escrowNotificationPending": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "escrowNotificationReleased": "Outgoing transfer of {amount} is released",
-  "@escrowNotificationReleased": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "escrowNotificationReleasedSubTitle": "Money were successfully sent to recipient",
-  "escrowNotificationReverted": "Outgoing transfer of {amount} is reverted",
-  "@escrowNotificationReverted": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "escrowNotificationRevertedSubTitle": "Money were sent back to your account",
-  "escrowCancelWarning": "Are you sure you want to cancel this outgoing transaction?",
   "yes": "Yes",
   "no": "No",
   "send": "Send",
@@ -159,7 +52,6 @@
   "confirmationTitle": "CONFIRMATION",
   "youAreCreatingUniqueLink": "You're creating payment links to be redeemed by anyone",
   "itWillContain": "It will contain",
-  "moneyIsArrivingSoon": "Money is arriving soon",
   "ok": "OK",
   "backupPhraseSuccessMessage": "You successfully saved your secret recovery phrase in a safe place, keep it as private as you can.",
   "editProfile": "Profile",
@@ -171,14 +63,11 @@
   "received": "Received",
   "ago": "ago",
   "hereIsYourSolanaAddress": "Here is your Solana address",
-  "transactionNotFoundError": "Oops, this transaction was not found",
-  "badTransaction": "This transaction does not have any message or information",
   "from": "From",
   "to": "To",
   "amount": "Amount",
   "transfer": "Transfer",
   "transactionDetails": "Transaction Details",
-  "logs": "Logs",
   "insufficientFundsForFeeTitle": "Insufficient Funds for Fee",
   "insufficientFundsForFeeMessage": "You don't have enough SOL to pay for the network fee, you need at least {amount}.",
   "@insufficientFundsForFeeMessage": {
@@ -200,8 +89,6 @@
       }
     }
   },
-  "yourBetaTesterId": "Send Crypto With a Link",
-  "betaTesterIdMessage": "By becoming a beta tester, you will be able to send crypto to everyone by sharing a simple link. To test this awesome feature and to become a beta tester, follow our twitter account @cryptopleasecom and post a tweet with @cryptopleasecom to mention us and with your beta-tester ID below:",
   "save": "Save",
   "uploadPhoto": "Upload A Photo",
   "removePhoto": "Remove Photo",
@@ -209,18 +96,13 @@
   "cannotConnectToTheNetwork": "Cannot connect to the network!",
   "noDataPullToRefresh": "No data, pull to refresh.",
   "loading": "Loading...",
-  "cannotFetchYourBalances": "We were unable to fetch your balances",
   "retry": "Retry",
   "search": "Search",
-  "resetEscrowsButton": "Withdraw escrow funds",
-  "resetEscrowsConfirmation": "Are you sure you want to cancel all pending transactions?",
   "noEmailInCryptoTitle": "No email and password in Crypto!",
   "noEmailInCryptoParagraph": "In Crypto, you don't need an email and password to access your money.\n\nYou need a secret recovery phrase. This phrase is composed of random generated words which will be given to you now.\n\nWithout these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe!",
   "iUnderstand": "I Understand",
   "termsOfService": "Terms of Service",
   "failToLoadTerms": "Failed to load Terms of Service, something unexpected happened!",
-  "paymentWasReverted": "Payment was reverted",
-  "paymentWasReleased": "Payment was released",
   "protectYourWallet": "Protect Your Wallet",
   "protectYourWalletParagraph1": "Don't risk losing your funds. Protect your wallet by saving your secret recovery phrase in a place you trust.",
   "protectYourWalletParagraph2": "It's the only way to recover your wallet if you get locked out of the app or get a new device.",
@@ -232,13 +114,10 @@
   "tomorrow": "Tomorrow",
   "oneWeek": "In one week",
   "oneMonth": "In one month",
-  "never": "Never",
   "back": "Back",
   "unsupportedNft": "Unsupported Nft",
   "yourNfts": "YOUR COLLECTIBLES",
   "splitKeySecondLinkTitle": "Money is waiting for you",
-  "splitKeySecondLinkMessage": "To withdraw the money, for security reasons, please click on the second link in the message that you received. It starts with **cryptoplease://sk...**\n\nOr you can paste the link here if the link is not clickable:",
-  "splitKeyConfirmMessage": "Press next to complete the transaction and receive money.",
   "splitKeySecondLinkReadyTitle": "Receiving money",
   "splitKeySecondLinkMessage1": "Please ",
   "splitKeySecondLinkMessage2": "click now on the second link",
@@ -246,10 +125,8 @@
   "splitKeyTransactionError": "Failed to process the payment",
   "splitKeyTransactionErrorConsumed": "The money was already withdrawn",
   "splitKeySuccessMessage": "Payment completed",
-  "splitKeyAbortMessage": "I don't want to withdraw the money",
   "buy": "Buy",
   "errorLoadingPullToRefresh": "There was an error and we couldn't load your NFT collection, please pull to refresh",
-  "splitKeyOutgoingNotificationTitle": "Outgoing payment of {amount} with shareable links",
   "txFailed": "Failed {signature}",
   "@txFailed": {
     "placeholders": {
@@ -311,7 +188,6 @@
   "byScanningQRCode": "By scanning QR code",
   "scanQRTitle": "Scan a QR code",
   "scanQRCode": "Scan QR code",
-  "unknown": "Unknown",
   "type": "Type",
   "status": "Status",
   "date": "Date",
@@ -322,7 +198,6 @@
   "supportEmail":"support@cryptoplease.com",
   "supportSubtitle": "Do you still need help?\nWrite us an email, we will get back to you shortly.",
   "openEmailApp": "Open email app",
-  "cantLaunchEmail": "No email app available to launch",
   "cameraPermissionsTitle": "Camera Permissions",
   "cameraPermissionsContent": "We need access to your camera. Please provide the necessary permissions by going to your application settings.",
   "qrCodeScanErrorTitle": "Scan Failed",
@@ -341,6 +216,5 @@
   "privacyPolicy": "Privacy Policy",
   "viewTransaction": "View Transaction",
   "faq": "Frequently Asked Questions (FAQ)",
-  "sendUsEmail": "Send us an email",
-  "invalidToken": "Invalid token"
+  "sendUsEmail": "Send us an email"
 }
