@@ -1,7 +1,7 @@
 # Crypto Please
 
 [![E2E tests](https://github.com/cryptoplease/cryptoplease-dart/actions/workflows/e2e_tests.yml/badge.svg)](https://github.com/cryptoplease/cryptoplease-dart/actions/workflows/e2e_tests.yml)
-![Twitter Follow](https://img.shields.io/twitter/follow/cryptopleasecom?style=social)
+[![Twitter Follow](https://img.shields.io/twitter/follow/cryptopleasecom?style=social)](https://twitter.com/cryptopleasecom)
 [![Discord](https://img.shields.io/discord/943071824525262849?label=Discord)](https://discord.gg/wK6WX7974J)
 
 [<img src="https://cdn.animaapp.com/projects/60f68843e4a8f4765ef9aee6/releases/62063634af75239eab619754/img/apple-appstore@2x.png" width="153">](https://apps.apple.com/us/app/crypto-please/id1559625715)
