@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/notifications/notification.dart';
+import 'package:cryptoplease/bl/activities/activity.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
@@ -13,35 +13,35 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:provider/provider.dart';
 
-class NotificationList extends StatelessWidget {
-  const NotificationList({
+class ActivityList extends StatelessWidget {
+  const ActivityList({
     Key? key,
-    required this.notifications,
+    required this.activities,
   }) : super(key: key);
 
-  final IList<Notification> notifications;
+  final IList<Activity> activities;
 
   @override
   Widget build(BuildContext context) => ListView.builder(
-        itemBuilder: (context, i) => notifications[i].map(
+        itemBuilder: (context, i) => activities[i].map(
           outgoingTransfer: (n) => _SKOutgoingTile(transfer: n.transfer),
-          splitKeyIncoming: (n) => _SKIncomingTile(notification: n),
+          splitKeyIncoming: (n) => _SKIncomingTile(activitiy: n),
         ),
-        itemCount: notifications.length,
+        itemCount: activities.length,
       );
 }
 
 class _SKIncomingTile extends StatelessWidget {
   const _SKIncomingTile({
     Key? key,
-    required this.notification,
+    required this.activitiy,
   }) : super(key: key);
 
-  final SplitKeyIncomingNotification notification;
+  final SplitKeyIncomingActivity activitiy;
 
   void _onTap(BuildContext context) {
     final event = SplitKeyIncomingPaymentEvent.firstPartAdded(
-      firstPart: notification.firstPart,
+      firstPart: activitiy.firstPart,
     );
     context.read<SplitKeyIncomingPaymentBloc>().add(event);
   }

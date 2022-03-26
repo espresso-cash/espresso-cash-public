@@ -104,7 +104,7 @@
   "airdrop": "Airdrop",
   "copy": "Copy",
   "share": "Share",
-  "emptyNotificationsMessage": "No activity yet!",
+  "emptyActivitiesMessage": "No activity yet!",
   "cancelEscrow": "Cancel payment",
   "confirmEscrow": "Verify Details",
   "sendTransaction": "Send Transaction",

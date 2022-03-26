@@ -6,38 +6,37 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 
-part 'notification.freezed.dart';
+part 'activity.freezed.dart';
 
 @freezed
-class Notification with _$Notification {
-  factory Notification.splitKeyIncoming({
+class Activity with _$Activity {
+  factory Activity.splitKeyIncoming({
     required SplitKeyIncomingFirstPart firstPart,
-  }) = SplitKeyIncomingNotification;
+  }) = SplitKeyIncomingActivity;
 
-  factory Notification.outgoingTransfer(OutgoingTransfer transfer) =
-      OutgoingTransferNotification;
+  factory Activity.outgoingTransfer(OutgoingTransfer transfer) =
+      OutgoingTransferActivity;
 
-  const Notification._();
+  const Activity._();
 }
 
-Stream<IList<Notification>> watchNotifications({
+Stream<IList<Activity>> watchActivities({
   required OutgoingTransferRepository outgoingRepository,
   required SplitKeyIncomingRepository incomingRepository,
 }) {
   final outgoing = outgoingRepository
       .watchPayments()
-      .map((ps) => ps.map(Notification.outgoingTransfer));
+      .map((ps) => ps.map(Activity.outgoingTransfer));
 
   final incoming = incomingRepository.watch().map(
         (v) => v == null
-            ? <Notification>[]
-            : [Notification.splitKeyIncoming(firstPart: v)],
+            ? <Activity>[]
+            : [Activity.splitKeyIncoming(firstPart: v)],
       );
 
   return CombineLatestStream.combine2(
     incoming,
     outgoing,
-    (Iterable<Notification> i, Iterable<Notification> o) =>
-        [...i, ...o].toIList(),
+    (Iterable<Activity> i, Iterable<Activity> o) => [...i, ...o].toIList(),
   );
 }
