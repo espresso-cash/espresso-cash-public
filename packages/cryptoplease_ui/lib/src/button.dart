@@ -28,36 +28,26 @@ class CpButton extends StatelessWidget {
   final double? minWidth;
   final CpButtonSize size;
 
-  bool get _isDisabled => onPressed == null;
-
   Color get _backgroundColor {
-    final color = (() {
-      switch (variant) {
-        case CpButtonVariant.dark:
-          return CpColors.yellowColor;
-        case CpButtonVariant.inverted:
-          return CpColors.primaryTextColor;
-        case CpButtonVariant.light:
-          return CpColors.lightButtonBackgroundColor;
-        case CpButtonVariant.secondary:
-          return CpColors.lightGreyBackground;
-      }
-    })();
-
-    return _isDisabled ? color.withOpacity(0.25) : color;
+    switch (variant) {
+      case CpButtonVariant.dark:
+        return CpColors.yellowColor;
+      case CpButtonVariant.inverted:
+        return CpColors.primaryTextColor;
+      case CpButtonVariant.light:
+        return CpColors.lightButtonBackgroundColor;
+      case CpButtonVariant.secondary:
+        return CpColors.lightGreyBackground;
+    }
   }
 
   Color get _foregroundColor {
-    final color = (() {
-      switch (variant) {
-        case CpButtonVariant.inverted:
-          return CpColors.lightGreyBackground;
-        default:
-          return CpColors.primaryTextColor;
-      }
-    })();
-
-    return _isDisabled ? color.withOpacity(0.25) : color;
+    switch (variant) {
+      case CpButtonVariant.inverted:
+        return CpColors.lightGreyBackground;
+      default:
+        return CpColors.primaryTextColor;
+    }
   }
 
   @override
@@ -84,24 +74,29 @@ class CpButton extends StatelessWidget {
     final button = TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
+        animationDuration: Duration.zero,
         minimumSize:
             MaterialStateProperty.all(Size(minWidth ?? 100, size.height)),
         fixedSize: MaterialStateProperty.all(
           Size.fromHeight(size.height),
         ),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(size.borderRadius),
-          ),
-        ),
+        shape: MaterialStateProperty.all(const StadiumBorder()),
         alignment: size.alignment,
         overlayColor:
             MaterialStateProperty.all(CpColors.translucentYellowColor),
         padding: MaterialStateProperty.all(
           EdgeInsets.symmetric(horizontal: horizontalPadding),
         ),
-        backgroundColor: MaterialStateProperty.all(_backgroundColor),
-        foregroundColor: MaterialStateProperty.all(_foregroundColor),
+        backgroundColor: MaterialStateProperty.resolveWith(
+          (states) => states.contains(MaterialState.disabled)
+              ? _backgroundColor.withOpacity(_disabledOpacity)
+              : _backgroundColor,
+        ),
+        foregroundColor: MaterialStateProperty.resolveWith(
+          (states) => states.contains(MaterialState.disabled)
+              ? _foregroundColor.withOpacity(_disabledOpacity)
+              : _foregroundColor,
+        ),
         textStyle: MaterialStateProperty.all(textStyle),
       ),
       child: Text(size.uppercase ? text.toUpperCase() : text),
@@ -110,6 +105,8 @@ class CpButton extends StatelessWidget {
     return width != null ? SizedBox(width: width, child: button) : button;
   }
 }
+
+const _disabledOpacity = 0.25;
 
 extension on CpButtonSize {
   double get height {
@@ -131,19 +128,6 @@ extension on CpButtonSize {
         return true;
       default:
         return false;
-    }
-  }
-
-  double get borderRadius {
-    switch (this) {
-      case CpButtonSize.normal:
-        return 22;
-      case CpButtonSize.big:
-        return 30;
-      case CpButtonSize.small:
-        return 22;
-      case CpButtonSize.micro:
-        return 22;
     }
   }
 
