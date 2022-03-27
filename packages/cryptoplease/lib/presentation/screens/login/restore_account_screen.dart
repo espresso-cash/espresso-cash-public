@@ -4,7 +4,6 @@ import 'package:cryptoplease/presentation/components/onboarding_screen.dart';
 import 'package:cryptoplease/presentation/screens/login/mnemonic_input_formatter.dart';
 import 'package:cryptoplease/presentation/screens/sign_up/sign_up_flow_screen.dart';
 import 'package:cryptoplease/presentation/text_styles.dart';
-import 'package:cryptoplease/presentation/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,20 +26,18 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   }
 
   void _onTextChange() {
-    // This callback is called with debounce, so it can trigger after
-    // the component is disposed, so we need to check for [mounted].
-    if (!mounted) return;
+    final isValid = validateMnemonic(_controller.text.trim());
 
-    setState(() {
-      _mnemonicIsValid = validateMnemonic(_controller.text.trim());
-    });
+    if (isValid != _mnemonicIsValid) {
+      setState(() => _mnemonicIsValid = isValid);
+    }
   }
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
-    _controller.addListener(debounce(_onTextChange, 300));
+    _controller.addListener(_onTextChange);
   }
 
   @override
