@@ -1,7 +1,6 @@
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common/components/enter_address_input_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common/send_flow_router.dart';
-import 'package:cryptoplease/presentation/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
@@ -25,7 +24,7 @@ class _EnterAddressScreenState extends State<EnterAddressScreen> {
   @override
   void initState() {
     super.initState();
-    _controller.addListener(debounce(_onTextChange, 200));
+    _controller.addListener(_onTextChange);
 
     final initialAddress = widget.initialAddress;
     if (initialAddress != null) {
@@ -35,9 +34,10 @@ class _EnterAddressScreenState extends State<EnterAddressScreen> {
   }
 
   void _onTextChange() {
-    setState(() {
-      _isAddressValid = isValidAddress(_controller.text);
-    });
+    final isValid = isValidAddress(_controller.text);
+    if (isValid != _isAddressValid) {
+      setState(() => _isAddressValid = isValid);
+    }
   }
 
   @override
