@@ -11,8 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 
-class ReceiveMoneyScreen extends StatelessWidget {
-  const ReceiveMoneyScreen({Key? key}) : super(key: key);
+class ShareAddressScreen extends StatelessWidget {
+  const ShareAddressScreen({Key? key}) : super(key: key);
 
   static const double _margin = 24;
 
