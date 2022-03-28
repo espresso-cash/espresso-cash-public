@@ -1,5 +1,6 @@
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:storybook/stories/action_selector.dart';
 import 'package:storybook/stories/app_bar.dart';
 import 'package:storybook/stories/background_gradient.dart';
 import 'package:storybook/stories/bottom_button.dart';
@@ -47,6 +48,7 @@ class StorybookApp extends StatelessWidget {
           ),
         ),
         stories: [
+          cpActionSelector,
           cpAppBar,
           cpBackgroundGradient,
           cpBottomButton,
