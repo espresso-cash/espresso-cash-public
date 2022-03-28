@@ -1,9 +1,11 @@
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 final cpActionSelector = Story(
   name: 'CpActionSelector',
   builder: (context) => CpActionSelector(
+    appBarLeading: const BackButton(),
     header: 'Header',
     actions: [
       CpActionSelectorButton(
