@@ -77,10 +77,12 @@ class _State extends State<SendTokenFlowScreen> implements FtSendFlowRouter {
 
     request?.maybeMap(
       address: (r) {
-        final address = r.address;
-        _bloc.add(FtCreateOutgoingTransferEvent.recipientUpdated(address));
+        _bloc.add(FtCreateOutgoingTransferEvent.recipientUpdated(r.address));
 
-        onAddressSubmitted(address);
+        final currentRoute = context.router.topMatch;
+        if (currentRoute.name == PickRecipientTypeRoute.name) {
+          onAddressSubmitted(r.address);
+        }
       },
       solanaPay: (r) {
         _bloc
