@@ -220,5 +220,7 @@
   "receiveFlowTitle": "Request",
   "receiveFlowSolanaAddress": "By sharing your Solana address",
   "receiveFlowLinkTitle": "With a link",
-  "receiveFlowLinkDescription": "You can request money to anyone by email, whatsapp, signal, telegram."
+  "receiveFlowLinkDescription": "You can request money to anyone by email, whatsapp, signal, telegram.",
+  "receiveFlowPayerNameLabel": "Request to",
+  "receiveFlowPayerNamePlaceholder": "Name of the payer"
 }

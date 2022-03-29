@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,11 @@ class _ReceiveFlowScreenState extends State<ReceiveFlowScreen>
 
   @override
   void onLinkSelected() {
-    showCpSnackbar(context, message: 'Coming soon!');
+    if (isProd) {
+      showCpSnackbar(context, message: 'Coming soon!');
+    } else {
+      _router.currentContext!.navigateTo(const LinkRequestFlowRoute());
+    }
   }
 
   @override

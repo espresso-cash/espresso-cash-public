@@ -35,6 +35,7 @@ class DecoratedWindow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
