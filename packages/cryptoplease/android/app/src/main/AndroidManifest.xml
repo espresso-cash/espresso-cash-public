@@ -70,7 +70,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="cryptoplease" />
             </intent-filter>
-                
+
             <!-- Deprecated format -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
