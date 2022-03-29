@@ -216,5 +216,9 @@
   "privacyPolicy": "Privacy Policy",
   "viewTransaction": "View Transaction",
   "faq": "Frequently Asked Questions (FAQ)",
-  "sendUsEmail": "Send us an email"
+  "sendUsEmail": "Send us an email",
+  "receiveFlowTitle": "Request",
+  "receiveFlowSolanaAddress": "By sharing your Solana address",
+  "receiveFlowLinkTitle": "With a link",
+  "receiveFlowLinkDescription": "You can request money to anyone by email, whatsapp, signal, telegram."
 }

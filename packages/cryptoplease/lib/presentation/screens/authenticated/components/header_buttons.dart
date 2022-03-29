@@ -44,6 +44,6 @@ class ReceiveButton extends StatelessWidget {
   Widget build(BuildContext context) => HeaderedListButton(
         label: context.l10n.receive,
         icon: SvgPicture.asset(Assets.icons.receive.path),
-        onPressed: () => context.router.navigate(const ReceiveMoneyRoute()),
+        onPressed: () => context.router.navigate(const ReceiveFlowRoute()),
       );
 }
