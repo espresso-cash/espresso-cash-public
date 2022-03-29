@@ -1,3 +1,16 @@
+## 1.32.0
+
+ - **REFACTOR**: Simplify SplashScreen (#216).
+ - **REFACTOR**: Remove unused l10n keys.
+ - **REFACTOR**: Rename activities to notifications.
+ - **REFACTOR**: Restructure transactions (#207).
+ - **REFACTOR**: Restructure components (#206).
+ - **REFACTOR**: Extract CpHeaderedList (#205).
+ - **FIX**: Remove debounce (#214).
+ - **FEAT**: improve QR code scan flow on address input (#201).
+ - **FEAT**: Update NFT handling (#204).
+ - **DOCS**: Fix twitter link.
+
 ## 1.31.0
 
  - **REFACTOR**: Extract loadNftCollection (#199).
