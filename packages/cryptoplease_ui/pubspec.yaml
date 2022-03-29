@@ -1,0 +1,34 @@
+name: cryptoplease_ui
+description: A new flutter plugin project.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.15.0 <3.0.0"
+  flutter: ">=2.5.0"
+
+dependencies:
+  dfunc: ^0.7.2
+  flutter:
+    sdk: flutter
+  provider: ^6.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mews_pedantic: ^0.4.1-dev.3
+
+flutter:
+  fonts:
+    - family: DIN2014
+      fonts:
+        - asset: packages/cryptoplease_ui/fonts/DIN2014-Light.ttf
+          weight: 300
+        - asset: packages/cryptoplease_ui/fonts/DIN2014-Regular.ttf
+          weight: 400
+        - asset: packages/cryptoplease_ui/fonts/DIN2014-DemiBold.ttf
+          weight: 600
+        - asset: packages/cryptoplease_ui/fonts/DIN2014-Bold.ttf
+          weight: 700
+        - asset: packages/cryptoplease_ui/fonts/DIN2014-ExtraBold.ttf
+          weight: 900

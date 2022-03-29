@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 ParsedSystemInstruction _$ParsedSystemInstructionFromJson(
     Map<String, dynamic> json) {
-  switch (json['type'] as String?) {
+  switch (json['type']) {
     case 'transfer':
       return ParsedSystemTransferInstruction.fromJson(json);
     case 'transferChecked':
@@ -52,7 +52,7 @@ class _$ParsedSystemInstructionTearOff {
     );
   }
 
-  ParsedSystemInstruction fromJson(Map<String, Object> json) {
+  ParsedSystemInstruction fromJson(Map<String, Object?> json) {
     return ParsedSystemInstruction.fromJson(json);
   }
 }
@@ -229,18 +229,17 @@ class _$ParsedSystemTransferInstruction
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedSystemTransferInstruction &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedSystemTransferInstruction &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(info) ^
-      const DeepCollectionEquality().hash(type);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -328,8 +327,7 @@ class _$ParsedSystemTransferInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemTransferInstructionToJson(this)
-      ..['type'] = 'transfer';
+    return _$$ParsedSystemTransferInstructionToJson(this);
   }
 }
 
@@ -342,10 +340,9 @@ abstract class ParsedSystemTransferInstruction
   factory ParsedSystemTransferInstruction.fromJson(Map<String, dynamic> json) =
       _$ParsedSystemTransferInstruction.fromJson;
 
-  ParsedSystemTransferInformation get info =>
-      throw _privateConstructorUsedError;
+  ParsedSystemTransferInformation get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   $ParsedSystemTransferInstructionCopyWith<ParsedSystemTransferInstruction>
@@ -428,18 +425,17 @@ class _$ParsedSystemTransferCheckedInstruction
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedSystemTransferCheckedInstruction &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedSystemTransferCheckedInstruction &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(info) ^
-      const DeepCollectionEquality().hash(type);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -528,8 +524,7 @@ class _$ParsedSystemTransferCheckedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemTransferCheckedInstructionToJson(this)
-      ..['type'] = 'transferChecked';
+    return _$$ParsedSystemTransferCheckedInstructionToJson(this);
   }
 }
 
@@ -543,10 +538,9 @@ abstract class ParsedSystemTransferCheckedInstruction
           Map<String, dynamic> json) =
       _$ParsedSystemTransferCheckedInstruction.fromJson;
 
-  ParsedSystemTransferInformation get info =>
-      throw _privateConstructorUsedError;
+  ParsedSystemTransferInformation get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   $ParsedSystemTransferCheckedInstructionCopyWith<
@@ -612,14 +606,14 @@ class _$ParsedSystemUnsupportedInstruction
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedSystemUnsupportedInstruction &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedSystemUnsupportedInstruction &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(type);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -708,8 +702,7 @@ class _$ParsedSystemUnsupportedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemUnsupportedInstructionToJson(this)
-      ..['type'] = 'unsupported';
+    return _$$ParsedSystemUnsupportedInstructionToJson(this);
   }
 }
 
@@ -723,7 +716,7 @@ abstract class ParsedSystemUnsupportedInstruction
       _$ParsedSystemUnsupportedInstruction.fromJson;
 
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   $ParsedSystemUnsupportedInstructionCopyWith<
@@ -751,7 +744,7 @@ class _$ParsedSystemTransferInformationTearOff {
     );
   }
 
-  ParsedSystemTransferInformation fromJson(Map<String, Object> json) {
+  ParsedSystemTransferInformation fromJson(Map<String, Object?> json) {
     return ParsedSystemTransferInformation.fromJson(json);
   }
 }
@@ -888,23 +881,20 @@ class _$_ParsedSystemTransferInformation
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _ParsedSystemTransferInformation &&
-            (identical(other.lamports, lamports) ||
-                const DeepCollectionEquality()
-                    .equals(other.lamports, lamports)) &&
-            (identical(other.source, source) ||
-                const DeepCollectionEquality().equals(other.source, source)) &&
-            (identical(other.destination, destination) ||
-                const DeepCollectionEquality()
-                    .equals(other.destination, destination)));
+        (other.runtimeType == runtimeType &&
+            other is _ParsedSystemTransferInformation &&
+            const DeepCollectionEquality().equals(other.lamports, lamports) &&
+            const DeepCollectionEquality().equals(other.source, source) &&
+            const DeepCollectionEquality()
+                .equals(other.destination, destination));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(lamports) ^
-      const DeepCollectionEquality().hash(source) ^
-      const DeepCollectionEquality().hash(destination);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(lamports),
+      const DeepCollectionEquality().hash(source),
+      const DeepCollectionEquality().hash(destination));
 
   @JsonKey(ignore: true)
   @override
@@ -929,11 +919,11 @@ abstract class _ParsedSystemTransferInformation
       _$_ParsedSystemTransferInformation.fromJson;
 
   @override
-  int get lamports => throw _privateConstructorUsedError;
+  int get lamports;
   @override
-  String get source => throw _privateConstructorUsedError;
+  String get source;
   @override
-  String get destination => throw _privateConstructorUsedError;
+  String get destination;
   @override
   @JsonKey(ignore: true)
   _$ParsedSystemTransferInformationCopyWith<_ParsedSystemTransferInformation>

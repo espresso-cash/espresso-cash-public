@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>aps-environment</key>
+	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<!-- Support for cryptoplease.link protocol -->
+		<string>applinks:sol.cryptoplease.link</string>
+		<string>applinks:sol1.cryptoplease.link</string>
+		<string>applinks:sol2.cryptoplease.link</string>
+		
+		<!-- Support for requests -->
+		<string>applinks:request.cryptoplease.link</string>
+
+		<!-- Firebase deep link for installing the app -->
+		<string>applinks:cryptoplease.page.link</string>
+		
+		<!-- Deprecated format -->
+		<string>applinks:cryptoplease.github.io</string>
+	</array>
+</dict>
+</plist>

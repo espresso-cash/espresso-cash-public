@@ -22,10 +22,10 @@ class ClusterNode {
   final String pubkey;
 
   /// Gossip network address for the node
-  final String gossip;
+  final String? gossip;
 
   /// TPU network address for the node
-  final String tpu;
+  final String? tpu;
 
   /// JSON RPC network address for the node, or null if the JSON
   /// RPC service is not enabled

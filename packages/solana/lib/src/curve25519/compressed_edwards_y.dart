@@ -5,12 +5,12 @@ import 'package:solana/src/curve25519/field_element.dart';
 final _d = FieldElement([
   -10913610, 13857413, -15372611, 6949391, 114729, //
   -8787816, -6275908, -3247719, -18696448, -12055116,
-]);
+].map((e) => BigInt.from(e)).toList());
 
 class CompressedEdwardsY {
   CompressedEdwardsY(this._data);
 
-  final List<int> _data;
+  final List<BigInt> _data;
 
   EdwardsPoint decompress() {
     final y = FieldElement.fromByteArray(_data);

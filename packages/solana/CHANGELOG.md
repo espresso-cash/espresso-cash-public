@@ -1,3 +1,33 @@
+## 0.21.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Make ClusterNode fields nullable (#192).
+ - **FIX**: Remove mintAuthority from initializeMint (#190).
+ - **BREAKING** **FIX**: Metadata decoding (#194).
+
+## 0.20.0+1
+
+ - **DOCS**: Add discord link.
+
+## 0.20.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Use BigInt for curve25519 (#181).
+ - **DOCS**: Update readme (#172).
+ - **BREAKING** **FIX**: Remove unused exceptions (#182).
+
+## 0.19.0+1
+
+ - **FIX**: Fix stake instruction parameter (#179).
+
+## 0.19.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **CHORE**: Update dependencies (#178).
+
 ## 0.18.0
 
 > Note: This release has breaking changes.

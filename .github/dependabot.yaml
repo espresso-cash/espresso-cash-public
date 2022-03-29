@@ -1,0 +1,17 @@
+version: 2
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: "pub"
+    directory: "/packages/cryptoplease/"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "pub"
+    directory: "/packages/cryptoplease_ui/"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "pub"
+    directory: "/packages/solana/"
+    schedule:
+      interval: "monthly"

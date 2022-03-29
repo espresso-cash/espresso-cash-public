@@ -12,31 +12,25 @@ class Metadata {
     required this.symbol,
     required this.uri,
     required this.updateAuthority,
-    required this.mintAccount,
-    required this.isMutable,
+    required this.mint,
   });
 
-  static Future<Metadata?> fromBinary(List<int> sourceBytes) async {
+  factory Metadata.fromBinary(List<int> sourceBytes) {
     final bytes = Int8List.fromList(sourceBytes);
-    if (bytes.first != 0x04) {
-      return null;
-    }
     final reader = _StructReader(bytes.buffer)..skip(1);
-    final mintAccount = base58encode(reader.nextBytes(32));
     final updateAuthority = base58encode(reader.nextBytes(32));
+    final mint = base58encode(reader.nextBytes(32));
 
     final name = reader.nextString();
     final symbol = reader.nextString();
     final uri = reader.nextString();
-    final isMutable = reader.nextBool();
 
     return Metadata(
       name: name,
       symbol: symbol,
       uri: uri,
       updateAuthority: updateAuthority,
-      mintAccount: mintAccount,
-      isMutable: isMutable,
+      mint: mint,
     );
   }
 
@@ -55,8 +49,7 @@ class Metadata {
   final String symbol;
   final String uri;
   final String updateAuthority;
-  final String mintAccount;
-  final bool isMutable;
+  final String mint;
 }
 
 class _StructReader {
@@ -76,27 +69,6 @@ class _StructReader {
     }
 
     return utf8.decode(rawBytes.sublist(0, lastZero));
-  }
-
-  bool nextBool() {
-    final value = _buffer.asByteData(_offset, 1).getInt8(0);
-    _offset += 1;
-
-    return value == 1;
-  }
-
-  int nextInt32() {
-    final value = _buffer.asByteData(_offset, 2).getInt16(0, Endian.little);
-    _offset += 2;
-
-    return value;
-  }
-
-  int nextInt16() {
-    final value = _buffer.asByteData(_offset, 4).getInt32(0, Endian.little);
-    _offset += 4;
-
-    return value;
   }
 
   Uint8List nextBytes(int length) {

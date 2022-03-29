@@ -1,0 +1,41 @@
+name: Check PR (app)
+on:
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  check_pr_app:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    env:
+      SOLANA_RPC_URL: "http://solana:8899"
+      SOLANA_WEBSOCKET_URL: "ws://solana:8900"
+    container:
+      image: ghcr.io/cryptoplease/flutter:2.10.3
+    services:
+      solana:
+        image: solanalabs/solana:v1.8.11
+        options: --entrypoint="solana-test-validator"
+    steps:
+      - uses: actions/checkout@v2
+      - run: make app_get
+      - run: make app_check_formatting
+      - run: make app_build
+      - run: make app_analyze
+      - run: make app_test
+
+      - name: Store failure artifacts
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: golden-test-failure
+          path: "**/test/golden/**/failures/"
+      
+      - run: make app_test_solana

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/programs/stake_program/stake_instruction.dart';
@@ -219,7 +217,7 @@ class StakeProgram extends Message {
             base: base,
             authorityPubKey: authorityPubKey,
             authorizeWithSeedArgs: authorizeWithSeedArgs,
-            lockupAuthorityPubKey: HttpHeaders.locationHeader,
+            lockupAuthorityPubKey: lockupAuthorityPubKey,
           )
         ],
       );

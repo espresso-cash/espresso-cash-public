@@ -1,0 +1,44 @@
+name: Check PR (libs)
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "packages/**"
+      - "!packages/cryptoplease/**"
+      - "!packages/cryptoplease_ui/**"
+  push:
+    branches:
+      - master
+    paths:
+      - "packages/solana/**"
+
+concurrency:
+  group: ref-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  check_pr_libs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    env:
+      DEVNET_RPC_URL: "http://solana:8899"
+      DEVNET_WEBSOCKET_URL: "ws://solana:8900"
+    container:
+      image: ghcr.io/cryptoplease/flutter:2.10.3
+    services:
+      solana:
+        image: solanalabs/solana:v1.8.11
+        options: --entrypoint="solana-test-validator"
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+      - run: dart pub global activate remove_from_coverage
+      - run: make libs_check_formatting
+      - run: make libs_analyze
+      - run: make libs_test
+      - run: make libs_coverage
+      - uses: codecov/codecov-action@v2

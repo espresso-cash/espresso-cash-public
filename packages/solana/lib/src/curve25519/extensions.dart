@@ -1,7 +1,7 @@
-extension IntegerListExt on List<int> {
-  int bit(int offset) => (this[offset >> 3] >> (offset & 7)) & 1;
+extension IntegerListExt on List<BigInt> {
+  BigInt bit(int offset) => (this[offset >> 3] >> (offset & 7)) & BigInt.one;
 
-  bool compareAll(List<int> other) {
+  bool compareAll(List<BigInt> other) {
     if (length != other.length) {
       return false;
     }

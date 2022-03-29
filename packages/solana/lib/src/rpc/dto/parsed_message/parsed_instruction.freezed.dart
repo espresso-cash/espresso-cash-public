@@ -14,7 +14,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 ParsedInstruction _$ParsedInstructionFromJson(Map<String, dynamic> json) {
-  switch (json['program'] as String?) {
+  switch (json['program']) {
     case 'system':
       return ParsedInstructionSystem.fromJson(json);
     case 'spl-token':
@@ -58,7 +58,7 @@ class _$ParsedInstructionTearOff {
     );
   }
 
-  ParsedInstruction fromJson(Map<String, Object> json) {
+  ParsedInstruction fromJson(Map<String, Object?> json) {
     return ParsedInstruction.fromJson(json);
   }
 }
@@ -189,7 +189,8 @@ class _$ParsedInstructionSystemCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ParsedInstructionSystem implements ParsedInstructionSystem {
   const _$ParsedInstructionSystem(
-      {required this.programId, required this.parsed});
+      {required this.programId, required this.parsed, String? $type})
+      : $type = $type ?? 'system';
 
   factory _$ParsedInstructionSystem.fromJson(Map<String, dynamic> json) =>
       _$$ParsedInstructionSystemFromJson(json);
@@ -199,6 +200,9 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
   @override
   final ParsedSystemInstruction parsed;
 
+  @JsonKey(name: 'program')
+  final String $type;
+
   @override
   String toString() {
     return 'ParsedInstruction.system(programId: $programId, parsed: $parsed)';
@@ -207,19 +211,17 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedInstructionSystem &&
-            (identical(other.programId, programId) ||
-                const DeepCollectionEquality()
-                    .equals(other.programId, programId)) &&
-            (identical(other.parsed, parsed) ||
-                const DeepCollectionEquality().equals(other.parsed, parsed)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedInstructionSystem &&
+            const DeepCollectionEquality().equals(other.programId, programId) &&
+            const DeepCollectionEquality().equals(other.parsed, parsed));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(programId) ^
-      const DeepCollectionEquality().hash(parsed);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(programId),
+      const DeepCollectionEquality().hash(parsed));
 
   @JsonKey(ignore: true)
   @override
@@ -304,7 +306,7 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionSystemToJson(this)..['program'] = 'system';
+    return _$$ParsedInstructionSystemToJson(this);
   }
 }
 
@@ -316,8 +318,8 @@ abstract class ParsedInstructionSystem implements ParsedInstruction {
   factory ParsedInstructionSystem.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionSystem.fromJson;
 
-  String get programId => throw _privateConstructorUsedError;
-  ParsedSystemInstruction get parsed => throw _privateConstructorUsedError;
+  String get programId;
+  ParsedSystemInstruction get parsed;
   @JsonKey(ignore: true)
   $ParsedInstructionSystemCopyWith<ParsedInstructionSystem> get copyWith =>
       throw _privateConstructorUsedError;
@@ -369,13 +371,17 @@ class _$ParsedInstructionSplTokenCopyWithImpl<$Res>
 @JsonSerializable()
 @FreezedUnionValue('spl-token')
 class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
-  const _$ParsedInstructionSplToken({required this.parsed});
+  const _$ParsedInstructionSplToken({required this.parsed, String? $type})
+      : $type = $type ?? 'spl-token';
 
   factory _$ParsedInstructionSplToken.fromJson(Map<String, dynamic> json) =>
       _$$ParsedInstructionSplTokenFromJson(json);
 
   @override
   final ParsedSplTokenInstruction parsed;
+
+  @JsonKey(name: 'program')
+  final String $type;
 
   @override
   String toString() {
@@ -385,14 +391,14 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedInstructionSplToken &&
-            (identical(other.parsed, parsed) ||
-                const DeepCollectionEquality().equals(other.parsed, parsed)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedInstructionSplToken &&
+            const DeepCollectionEquality().equals(other.parsed, parsed));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(parsed);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(parsed));
 
   @JsonKey(ignore: true)
   @override
@@ -477,7 +483,7 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionSplTokenToJson(this)..['program'] = 'spl-token';
+    return _$$ParsedInstructionSplTokenToJson(this);
   }
 }
 
@@ -489,7 +495,7 @@ abstract class ParsedInstructionSplToken implements ParsedInstruction {
   factory ParsedInstructionSplToken.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionSplToken.fromJson;
 
-  ParsedSplTokenInstruction get parsed => throw _privateConstructorUsedError;
+  ParsedSplTokenInstruction get parsed;
   @JsonKey(ignore: true)
   $ParsedInstructionSplTokenCopyWith<ParsedInstructionSplToken> get copyWith =>
       throw _privateConstructorUsedError;
@@ -531,7 +537,9 @@ class _$ParsedInstructionMemoCopyWithImpl<$Res>
 @JsonSerializable()
 @FreezedUnionValue('spl-memo')
 class _$ParsedInstructionMemo implements ParsedInstructionMemo {
-  const _$ParsedInstructionMemo({@JsonKey(name: 'parsed') required this.memo});
+  const _$ParsedInstructionMemo(
+      {@JsonKey(name: 'parsed') required this.memo, String? $type})
+      : $type = $type ?? 'spl-memo';
 
   factory _$ParsedInstructionMemo.fromJson(Map<String, dynamic> json) =>
       _$$ParsedInstructionMemoFromJson(json);
@@ -541,6 +549,9 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
   @JsonKey(name: 'parsed')
   final String? memo;
 
+  @JsonKey(name: 'program')
+  final String $type;
+
   @override
   String toString() {
     return 'ParsedInstruction.memo(memo: $memo)';
@@ -549,14 +560,14 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedInstructionMemo &&
-            (identical(other.memo, memo) ||
-                const DeepCollectionEquality().equals(other.memo, memo)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedInstructionMemo &&
+            const DeepCollectionEquality().equals(other.memo, memo));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(memo);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(memo));
 
   @JsonKey(ignore: true)
   @override
@@ -641,7 +652,7 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionMemoToJson(this)..['program'] = 'spl-memo';
+    return _$$ParsedInstructionMemoToJson(this);
   }
 }
 
@@ -656,7 +667,7 @@ abstract class ParsedInstructionMemo implements ParsedInstruction {
 // This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
 // ignore: invalid_annotation_target
   @JsonKey(name: 'parsed')
-  String? get memo => throw _privateConstructorUsedError;
+  String? get memo;
   @JsonKey(ignore: true)
   $ParsedInstructionMemoCopyWith<ParsedInstructionMemo> get copyWith =>
       throw _privateConstructorUsedError;
@@ -716,14 +727,14 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ParsedInstructionUnsupported &&
-            (identical(other.program, program) ||
-                const DeepCollectionEquality().equals(other.program, program)));
+        (other.runtimeType == runtimeType &&
+            other is ParsedInstructionUnsupported &&
+            const DeepCollectionEquality().equals(other.program, program));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(program);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(program));
 
   @JsonKey(ignore: true)
   @override
@@ -808,8 +819,7 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionUnsupportedToJson(this)
-      ..['program'] = 'unsupported';
+    return _$$ParsedInstructionUnsupportedToJson(this);
   }
 }
 
@@ -820,7 +830,7 @@ abstract class ParsedInstructionUnsupported implements ParsedInstruction {
   factory ParsedInstructionUnsupported.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionUnsupported.fromJson;
 
-  String? get program => throw _privateConstructorUsedError;
+  String? get program;
   @JsonKey(ignore: true)
   $ParsedInstructionUnsupportedCopyWith<ParsedInstructionUnsupported>
       get copyWith => throw _privateConstructorUsedError;

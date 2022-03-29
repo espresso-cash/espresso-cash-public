@@ -1,0 +1,226 @@
+{
+  "next": "Next",
+  "recoverySubHeading": "Your secret recovery phrase allows you to recover your wallet in case you delete the wallet or lose your phone.\n\nWrite down or copy these words in the right order and save them somewhere safe.",
+  "yourRecoveryPhrase": "Your Secret Recovery Phrase",
+  "yourRecoveryPhraseSub": "Please write down your secret recovery phrase and save it carefully in a secure location. This phrase is composed of 12 random generated words. You will not be able to recover your funds if you lose these words.",
+  "yourFirstNamePlaceholder": "Type your name",
+  "activitiesTitle": "Activities",
+  "signOut": "Delete wallet",
+  "signOutConfirmation": "Are you sure you want to delete the wallet?",
+  "cancel": "Cancel",
+  "solanaAddress": "To a solana address",
+  "solanaAddressOfTheReceiver": "Solana address of the recipient",
+  "anyoneByCreatingUniqueCode": "With a link",
+  "pickRecipientTypeLongText": "You can send money to anyone by email, whatsapp, signal, telegram... They don’t need to have a wallet or anything.",
+  "labelFee": "Network Fee:",
+  "signUp": "Create Wallet",
+  "signIn": "Use Existing Wallet",
+  "getStarted": "Get started",
+  "linkCreated": "Links have been created!",
+  "linkSubtitle": "The recipient will need to click on the two links below to redeem the money.",
+  "enterYourSecretWords": "Enter your secret recovery phrase",
+  "toRestoreYourAccount": "To restore your wallet, please type the secret recovery phrase you have previously written down.",
+  "shareLink": "Share payment links",
+  "shareText": "Hi!\n\nI've just sent you {amount}! To receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
+  "@shareText": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "firstLink": {
+        "type": "Uri"
+      },
+      "secondLink": {
+        "type": "Uri"
+      }
+    }
+  },
+  "paste": "Paste",
+  "viewRecoveryPhrase": "View Secret Recovery Phrase",
+  "termsOfUse": "Terms of Use",
+  "airdrop": "Airdrop",
+  "copy": "Copy",
+  "share": "Share",
+  "emptyActivitiesMessage": "No activity yet!",
+  "yes": "Yes",
+  "no": "No",
+  "send": "Send",
+  "receive": "Receive",
+  "addFunds": "Add funds",
+  "create": "Create",
+  "youAreSending": "You're sending:",
+  "confirmationTitle": "CONFIRMATION",
+  "youAreCreatingUniqueLink": "You're creating payment links to be redeemed by anyone",
+  "itWillContain": "It will contain",
+  "ok": "OK",
+  "backupPhraseSuccessMessage": "You successfully saved your secret recovery phrase in a safe place, keep it as private as you can.",
+  "editProfile": "Profile",
+  "photoLibrary": "Photo Library",
+  "camera": "Camera",
+  "didYouWriteItDownCorrectly": "Did you write it down correctly?",
+  "completeThePuzzle": "Tap the words to put them next to each other in the correct order.",
+  "sent": "Sent",
+  "received": "Received",
+  "ago": "ago",
+  "hereIsYourSolanaAddress": "Here is your Solana address",
+  "from": "From",
+  "to": "To",
+  "amount": "Amount",
+  "transfer": "Transfer",
+  "transactionDetails": "Transaction Details",
+  "insufficientFundsForFeeTitle": "Insufficient Funds for Fee",
+  "insufficientFundsForFeeMessage": "You don't have enough SOL to pay for the network fee, you need at least {amount}.",
+  "@insufficientFundsForFeeMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "insufficientFundsTitle": "Insufficient Funds",
+  "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
+  "@insufficientFundsMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "save": "Save",
+  "uploadPhoto": "Upload A Photo",
+  "removePhoto": "Remove Photo",
+  "weWereUnableToFetchTokenPrice": "We were unable to fetch token prices.",
+  "cannotConnectToTheNetwork": "Cannot connect to the network!",
+  "noDataPullToRefresh": "No data, pull to refresh.",
+  "loading": "Loading...",
+  "retry": "Retry",
+  "search": "Search",
+  "noEmailInCryptoTitle": "No email and password in Crypto!",
+  "noEmailInCryptoParagraph": "In Crypto, you don't need an email and password to access your money.\n\nYou need a secret recovery phrase. This phrase is composed of random generated words which will be given to you now.\n\nWithout these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe!",
+  "iUnderstand": "I Understand",
+  "termsOfService": "Terms of Service",
+  "failToLoadTerms": "Failed to load Terms of Service, something unexpected happened!",
+  "protectYourWallet": "Protect Your Wallet",
+  "protectYourWalletParagraph1": "Don't risk losing your funds. Protect your wallet by saving your secret recovery phrase in a place you trust.",
+  "protectYourWalletParagraph2": "It's the only way to recover your wallet if you get locked out of the app or get a new device.",
+  "protectWallet": "Protect My Wallet",
+  "skipWalletProtection": "Skip wallet protection",
+  "iUnderstandIfLoseMySecret": "I understand that if I lose my secret recovery phrase I will not be able to access my wallet.",
+  "remindMeLater": "Remind me later",
+  "yesRemindMe": "Yes, remind me to protect my wallet",
+  "tomorrow": "Tomorrow",
+  "oneWeek": "In one week",
+  "oneMonth": "In one month",
+  "back": "Back",
+  "unsupportedNft": "Unsupported Nft",
+  "yourNfts": "YOUR COLLECTIBLES",
+  "splitKeySecondLinkTitle": "Money is waiting for you",
+  "splitKeySecondLinkReadyTitle": "Receiving money",
+  "splitKeySecondLinkMessage1": "Please ",
+  "splitKeySecondLinkMessage2": "click now on the second link",
+  "splitKeySecondLinkMessage3": " in the message you received.",
+  "splitKeyTransactionError": "Failed to process the payment",
+  "splitKeyTransactionErrorConsumed": "The money was already withdrawn",
+  "splitKeySuccessMessage": "Payment completed",
+  "buy": "Buy",
+  "errorLoadingPullToRefresh": "There was an error and we couldn't load your NFT collection, please pull to refresh",
+  "txFailed": "Failed {signature}",
+  "@txFailed": {
+    "placeholders": {
+      "signature": {
+        "type": "String"
+      }
+    }
+  },
+  "txSuccess": "Success {signature}",
+  "@txSuccess": {
+    "placeholders": {
+      "signature": {
+        "type": "String"
+      }
+    }
+  },
+  "splitKeyOutgoingSentNotificationTitle": "Sent {amount}",
+  "@splitKeyOutgoingSentNotificationTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitKeyOutgoingDraftNotificationTitle": "Draft {amount}",
+  "@splitKeyOutgoingDraftNotificationTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitKeyOutgoingNotificationSubtitle": "Shareable links",
+  "directOutgoingNotificationSubtitle": "Direct transfer",
+  "splitKeyIncomingNotificationTitle": "Money is waiting for you",
+  "splitKeyIncomingNotificationSubtitle": "Shareable links",
+  "splitKeyConfirmationDialogContent": "Are you sure you don't want to get the money available for you?",
+  "securitySectionTitle": "Security",
+  "profileSectionTitle": "Profile",
+  "aboutSectionTitle": "About",
+  "dangerZoneSectionTitle": "Danger Zone",
+  "help": "Help",
+  "followUsOnTwitter": "Follow us on Twitter",
+  "debugSectionTitle": "Debug",
+  "noNftsCollectedYet": "No collectibles",
+  "nftDescription": "Description",
+  "nftProperties": "Properties",
+  "buySol": "Buy SOL",
+  "buySolanaTokenMoonPay": "You can buy SOL via MoonPay, our third party provider",
+  "buySolFailedTitle": "Failed to launch MoonPay",
+  "tryAgainLater": "Please, try again later",
+  "buySolFailedMessage": "Please, try again later",
+  "appLock": "App Lock",
+  "enableSecurity": "Enable Security",
+  "enterPasscode": "Enter your passcode",
+  "reEnterPasscode": "Re-enter your passcode",
+  "incorrectPasscode": "Incorrect passcode. Retry again",
+  "copiedToClipboard": "Copied!",
+  "byScanningQRCode": "By scanning QR code",
+  "scanQRTitle": "Scan a QR code",
+  "scanQRCode": "Scan QR code",
+  "type": "Type",
+  "status": "Status",
+  "date": "Date",
+  "viewOnBlockExplorer": "View on block explorer",
+  "confirmed": "Confirmed",
+  "failed": "Failed",
+  "pending": "Pending",
+  "supportEmail":"support@cryptoplease.com",
+  "supportSubtitle": "Do you still need help?\nWrite us an email, we will get back to you shortly.",
+  "openEmailApp": "Open email app",
+  "cameraPermissionsTitle": "Camera Permissions",
+  "cameraPermissionsContent": "We need access to your camera. Please provide the necessary permissions by going to your application settings.",
+  "qrCodeScanErrorTitle": "Scan Failed",
+  "qrCodeScanErrorContent": "We were unable to understand this QR code. Please try again.",
+  "transactionFailed": "Transaction failed",
+  "crypto": "Crypto",
+  "stablecoin": "Stablecoin",
+  "stablecoinExplained": "Stablecoins are cryptocurrencies that mirror traditional currency or asset such as the dollar, euro.",
+  "theyWillAppearHere": "They will appear here",
+  "startSendingAndReceiving": "Start sending and receiving crypto using a simple & secure link.",
+  "fastOnboarding": "Fast onboarding.",
+  "supportAllDay": "24/7 Support.",
+  "byCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
+  "terms": "Terms",
+  "and": " and ",
+  "privacyPolicy": "Privacy Policy",
+  "viewTransaction": "View Transaction",
+  "faq": "Frequently Asked Questions (FAQ)",
+  "sendUsEmail": "Send us an email",
+  "receiveFlowTitle": "Request",
+  "receiveFlowSolanaAddress": "By sharing your Solana address",
+  "receiveFlowLinkTitle": "With a link",
+  "receiveFlowLinkDescription": "You can request money to anyone by email, whatsapp, signal, telegram.",
+  "receiveFlowPayerNameLabel": "Request to",
+  "receiveFlowPayerNamePlaceholder": "Name of the payer"
+}
