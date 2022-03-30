@@ -2,20 +2,22 @@ import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/presentation/components/token_fiat_input_widget/add_max_button.dart';
+import 'package:cryptoplease/presentation/components/token_fiat_input_widget/amount_display.dart';
+import 'package:cryptoplease/presentation/components/token_fiat_input_widget/converted_amount_view.dart';
+import 'package:cryptoplease/presentation/components/token_fiat_input_widget/enter_amount_keypad.dart';
+import 'package:cryptoplease/presentation/components/token_fiat_input_widget/switch_currency_button.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/add_max_button.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/amount_display.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/converted_amount_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/enter_amount_keypad.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/switch_currency_button.dart';
+
 import 'package:decimal/decimal.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 enum _AmountInputType { token, fiat }
 
-class TokenFiatSwitcherInputWidget extends StatefulWidget {
-  const TokenFiatSwitcherInputWidget({
+class TokenFiatInputWidget extends StatefulWidget {
+  const TokenFiatInputWidget({
     Key? key,
     required this.tokenAmount,
     required this.fiatAmount,
@@ -24,6 +26,8 @@ class TokenFiatSwitcherInputWidget extends StatefulWidget {
     required this.onTokenAmountChanged,
     required this.onFiatAmountChanged,
     required this.onTokenChanged,
+    required this.availableTokens,
+    this.onMaxRequested,
   }) : super(key: key);
 
   final Amount tokenAmount;
@@ -33,12 +37,14 @@ class TokenFiatSwitcherInputWidget extends StatefulWidget {
   final ValueSetter<Decimal> onTokenAmountChanged;
   final ValueSetter<Decimal> onFiatAmountChanged;
   final ValueSetter<Token> onTokenChanged;
+  final VoidCallback? onMaxRequested;
+  final IList<Token> availableTokens;
 
   @override
   _TokenFiatSwitcherInputState createState() => _TokenFiatSwitcherInputState();
 }
 
-class _TokenFiatSwitcherInputState extends State<TokenFiatSwitcherInputWidget> {
+class _TokenFiatSwitcherInputState extends State<TokenFiatInputWidget> {
   late final TextEditingController _controller;
   late _AmountInputType _inputType;
 
@@ -65,7 +71,7 @@ class _TokenFiatSwitcherInputState extends State<TokenFiatSwitcherInputWidget> {
   }
 
   @override
-  void didUpdateWidget(covariant TokenFiatSwitcherInputWidget oldWidget) {
+  void didUpdateWidget(covariant TokenFiatInputWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     final amount = _inputType == _AmountInputType.token
         ? widget.tokenAmount
@@ -116,60 +122,66 @@ class _TokenFiatSwitcherInputState extends State<TokenFiatSwitcherInputWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 64),
-                child: Column(
-                  children: [
-                    ValueListenableBuilder<TextEditingValue>(
-                      valueListenable: _controller,
-                      builder: (context, value, __) => AmountDisplay(
-                        value: value.text,
-                        onTokenChanged: _inputType == _AmountInputType.token
-                            ? widget.onTokenChanged
-                            : null,
-                        currency: _inputType == _AmountInputType.token
-                            ? widget.tokenAmount.currency
-                            : widget.currency,
-                      ),
+  Widget build(BuildContext context) {
+    final onMaxRequested = widget.onMaxRequested;
+
+    return Column(
+      children: [
+        Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 64),
+              child: Column(
+                children: [
+                  ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: _controller,
+                    builder: (context, value, _) => AmountDisplay(
+                      value: value.text,
+                      onTokenChanged: _inputType == _AmountInputType.token
+                          ? widget.onTokenChanged
+                          : null,
+                      currency: _inputType == _AmountInputType.token
+                          ? widget.tokenAmount.currency
+                          : widget.currency,
+                      availableTokens: widget.availableTokens,
                     ),
-                    const SizedBox(height: 8),
-                    if (widget.fiatAmount != null)
-                      ConvertedAmountView(
-                        amount: _inputType == _AmountInputType.token
-                            ? widget.fiatAmount
-                            : widget.tokenAmount,
-                      ),
+                  ),
+                  const SizedBox(height: 8),
+                  if (widget.fiatAmount != null)
+                    ConvertedAmountView(
+                      amount: _inputType == _AmountInputType.token
+                          ? widget.fiatAmount
+                          : widget.tokenAmount,
+                    ),
+                ],
+              ),
+            ),
+            if (widget.fiatAmount != null)
+              Positioned(
+                bottom: 0,
+                right: 16,
+                top: 24,
+                child: Flex(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  direction: Axis.vertical,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SwitchCurrencyButton(onTap: _onCurrencySwitch),
                   ],
                 ),
-              ),
-              if (widget.fiatAmount != null)
-                Positioned(
-                  bottom: 0,
-                  right: 16,
-                  top: 24,
-                  child: Flex(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    direction: Axis.vertical,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SwitchCurrencyButton(onTap: _onCurrencySwitch),
-                    ],
-                  ),
-                )
-            ],
-          ),
-          const SizedBox(height: 36),
-          AddMaxButton(token: widget.token),
-          EnterAmountKeypad(
-            controller: _controller,
-            maxDecimals: _maxDecimals,
-          ),
-        ],
-      );
+              )
+          ],
+        ),
+        const SizedBox(height: 36),
+        if (onMaxRequested != null)
+          AddMaxButton(token: widget.token, onPressed: onMaxRequested),
+        EnterAmountKeypad(
+          controller: _controller,
+          maxDecimals: _maxDecimals,
+        ),
+      ],
+    );
+  }
 }
 
 extension on String {

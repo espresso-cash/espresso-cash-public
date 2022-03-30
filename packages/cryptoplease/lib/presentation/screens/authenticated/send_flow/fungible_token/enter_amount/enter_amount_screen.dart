@@ -4,9 +4,9 @@ import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_fiat_input_widget.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/token_fiat_switcher_input_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/send_token_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
@@ -21,13 +21,7 @@ class EnterAmountScreen extends StatefulWidget {
 }
 
 class _EnterAmountScreenState extends State<EnterAmountScreen> {
-  late final Locale locale;
   final _switcherKey = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void _insufficientTokenDialog({
     required Amount balance,
@@ -37,9 +31,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
         context,
         title: context.l10n.insufficientFundsTitle,
         message: context.l10n.insufficientFundsMessage(
-          currentAmount.format(
-            DeviceLocale.localeOf(context),
-          ),
+          currentAmount.format(DeviceLocale.localeOf(context)),
           balance.format(DeviceLocale.localeOf(context)),
         ),
       );
@@ -91,7 +83,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                 text: context.l10n.next,
               ),
             ),
-            body: TokenFiatSwitcherInputWidget(
+            body: TokenFiatInputWidget(
               key: _switcherKey,
               tokenAmount: state.tokenAmount,
               fiatAmount: state.fiatAmount,
@@ -100,6 +92,10 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
               onFiatAmountChanged: _updateFiatAmount,
               onTokenChanged: _updateToken,
               currency: Currency.usd,
+              onMaxRequested: () => context
+                  .read<FtCreateOutgoingTransferBloc>()
+                  .add(const FtCreateOutgoingTransferEvent.maxRequested()),
+              availableTokens: state.availableTokens,
             ),
           ),
         ),

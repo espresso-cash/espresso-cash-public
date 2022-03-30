@@ -1,8 +1,8 @@
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/component/token_list_dialog/token_list_dialog.dart';
+import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_list_dialog/token_list_dialog.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +12,7 @@ class AmountDisplay extends StatelessWidget {
     required this.value,
     required this.currency,
     required this.onTokenChanged,
+    required this.availableTokens,
     this.style,
   }) : super(key: key);
 
@@ -19,17 +20,12 @@ class AmountDisplay extends StatelessWidget {
   final Currency currency;
   final String value;
   final TextStyle? style;
+  final IList<Token> availableTokens;
 
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<BalancesBloc, BalancesState>(
         builder: (context, state) {
-          final availableTokens = context
-              .watch<FtCreateOutgoingTransferBloc>()
-              .state
-              .availableTokens
-              .toList(growable: false);
-
           final defaultStyle = Theme.of(context).textTheme.headline2?.copyWith(
                 fontSize: 45,
               );
@@ -43,7 +39,8 @@ class AmountDisplay extends StatelessWidget {
           void _showTokensDialog() {
             final content = TokenListDialog(
               tokens: availableTokens
-                ..sort((t1, t2) => t1.symbol.compareTo(t2.symbol)),
+                  .sort((t1, t2) => t1.symbol.compareTo(t2.symbol))
+                  .toList(),
               onTokenSelected: onTokenChanged ?? (_) {},
             );
 
