@@ -104,3 +104,7 @@ extension AmountExt on Amount {
     return Amount.fromDecimal(value: value, currency: to);
   }
 }
+
+extension CryptoAmountExt on CryptoAmount {
+  Token get token => currency.token;
+}

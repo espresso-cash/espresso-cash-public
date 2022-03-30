@@ -87,7 +87,6 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
               key: _switcherKey,
               tokenAmount: state.tokenAmount,
               fiatAmount: state.fiatAmount,
-              token: state.token,
               onTokenAmountChanged: _updateTokenAmount,
               onFiatAmountChanged: _updateFiatAmount,
               onTokenChanged: _updateToken,

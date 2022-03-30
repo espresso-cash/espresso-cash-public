@@ -21,7 +21,6 @@ class TokenFiatInputWidget extends StatefulWidget {
     Key? key,
     required this.tokenAmount,
     required this.fiatAmount,
-    required this.token,
     required this.currency,
     required this.onTokenAmountChanged,
     required this.onFiatAmountChanged,
@@ -30,9 +29,8 @@ class TokenFiatInputWidget extends StatefulWidget {
     this.onMaxRequested,
   }) : super(key: key);
 
-  final Amount tokenAmount;
-  final Amount? fiatAmount;
-  final Token token;
+  final CryptoAmount tokenAmount;
+  final FiatAmount? fiatAmount;
   final Currency currency;
   final ValueSetter<Decimal> onTokenAmountChanged;
   final ValueSetter<Decimal> onFiatAmountChanged;
@@ -115,7 +113,7 @@ class _TokenFiatSwitcherInputState extends State<TokenFiatInputWidget> {
   int get _maxDecimals {
     switch (_inputType) {
       case _AmountInputType.token:
-        return widget.token.decimals;
+        return widget.tokenAmount.currency.decimals;
       case _AmountInputType.fiat:
         return widget.currency.decimals;
     }
@@ -174,7 +172,10 @@ class _TokenFiatSwitcherInputState extends State<TokenFiatInputWidget> {
         ),
         const SizedBox(height: 36),
         if (onMaxRequested != null)
-          AddMaxButton(token: widget.token, onPressed: onMaxRequested),
+          AddMaxButton(
+            token: widget.tokenAmount.token,
+            onPressed: onMaxRequested,
+          ),
         EnterAmountKeypad(
           controller: _controller,
           maxDecimals: _maxDecimals,

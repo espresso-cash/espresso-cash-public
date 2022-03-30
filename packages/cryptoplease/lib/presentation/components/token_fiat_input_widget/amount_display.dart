@@ -1,10 +1,9 @@
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_list_dialog/token_list_dialog.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AmountDisplay extends StatelessWidget {
   const AmountDisplay({
@@ -13,90 +12,81 @@ class AmountDisplay extends StatelessWidget {
     required this.currency,
     required this.onTokenChanged,
     required this.availableTokens,
-    this.style,
   }) : super(key: key);
 
   final ValueSetter<Token>? onTokenChanged;
   final Currency currency;
   final String value;
-  final TextStyle? style;
   final IList<Token> availableTokens;
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<BalancesBloc, BalancesState>(
-        builder: (context, state) {
-          final defaultStyle = Theme.of(context).textTheme.headline2?.copyWith(
-                fontSize: 45,
-              );
-          final disabledStyle = defaultStyle?.copyWith(
-            color: defaultStyle.color?.withOpacity(0.35),
-            fontSize: 45,
-          );
+  Widget build(BuildContext context) {
+    final defaultStyle = TextStyle(
+      fontSize: 45,
+      fontWeight: FontWeight.bold,
+      color: CpTheme.of(context).primaryTextColor,
+    );
 
-          final onTokenChanged = this.onTokenChanged;
+    void _showTokensDialog() => showDialog<void>(
+          context: context,
+          builder: (_) => TokenListDialog(
+            tokens: availableTokens
+                .sort((t1, t2) => t1.symbol.compareTo(t2.symbol))
+                .toList(),
+            onTokenSelected: onTokenChanged ?? (_) {},
+          ),
+        );
 
-          void _showTokensDialog() {
-            final content = TokenListDialog(
-              tokens: availableTokens
-                  .sort((t1, t2) => t1.symbol.compareTo(t2.symbol))
-                  .toList(),
-              onTokenSelected: onTokenChanged ?? (_) {},
-            );
+    final textStyle = value.isEmpty
+        ? defaultStyle.copyWith(color: defaultStyle.color?.withOpacity(0.35))
+        : defaultStyle;
 
-            showDialog<void>(context: context, builder: (_) => content);
-          }
+    final shouldShowSelector =
+        onTokenChanged != null && availableTokens.length > 1;
 
-          final textStyle =
-              style ?? (value.isEmpty ? disabledStyle : defaultStyle);
+    final currencySymbol = Text(currency.symbol, style: textStyle);
 
-          final shouldShowSelector =
-              onTokenChanged != null && availableTokens.length > 1;
+    return Container(
+      height: 64,
+      alignment: Alignment.center,
+      child: FittedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // If we are showing the dropdown icon, make the illusion that
+            // it is correctly centered
+            if (shouldShowSelector)
+              const SizedBox(width: _iconSize + _gapSize / 2),
 
-          final currencySymbol = Text(currency.symbol, style: textStyle);
-
-          return Container(
-            height: 64,
-            alignment: Alignment.center,
-            child: FittedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // If we are showing the dropdown icon, make the illusion that
-                  // it is correctly centered
-                  if (shouldShowSelector)
-                    const SizedBox(width: _iconSize + _gapSize / 2),
-
-                  Text(value.isEmpty ? '0' : value, style: textStyle),
-                  const SizedBox(width: _gapSize),
-                  if (shouldShowSelector)
-                    Material(
-                      child: Center(
-                        child: InkWell(
-                          onTap: _showTokensDialog,
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 8),
-                              currencySymbol,
-                              Icon(
-                                Icons.arrow_drop_down,
-                                color: textStyle?.color,
-                                size: _iconSize,
-                              ),
-                            ],
-                          ),
+            Text(value.isEmpty ? '0' : value, style: textStyle),
+            const SizedBox(width: _gapSize),
+            if (shouldShowSelector)
+              Material(
+                child: Center(
+                  child: InkWell(
+                    onTap: _showTokensDialog,
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 8),
+                        currencySymbol,
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: textStyle.color,
+                          size: _iconSize,
                         ),
-                      ),
-                    )
-                  else
-                    currencySymbol,
-                ],
-              ),
-            ),
-          );
-        },
-      );
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            else
+              currencySymbol,
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 const _iconSize = 32.0;
