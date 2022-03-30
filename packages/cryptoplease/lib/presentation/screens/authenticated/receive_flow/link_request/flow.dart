@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 abstract class LinkRequestFlowRouter {
   void onNameSubmitted(String name);
+
+  void onAmountSubmitted();
 }
 
 class LinkRequestFlowScreen extends StatefulWidget {
@@ -15,14 +18,19 @@ class LinkRequestFlowScreen extends StatefulWidget {
 
 class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen>
     implements LinkRequestFlowRouter {
-  final _router = GlobalKey<AutoRouterState>();
+  @override
+  void onNameSubmitted(String name) =>
+      context.navigateTo(const RequestAmountRoute());
 
   @override
-  void onNameSubmitted(String name) {}
+  void onAmountSubmitted() {
+    // TODO(KB): submit, then navigate to details
+    context.router.parent()?.pop();
+  }
 
   @override
   Widget build(BuildContext context) => Provider<LinkRequestFlowRouter>.value(
         value: this,
-        child: AutoRouter(key: _router),
+        child: const AutoRouter(),
       );
 }
