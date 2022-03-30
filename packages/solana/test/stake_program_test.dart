@@ -62,16 +62,16 @@ void main() {
     );
 
     final seed = 'seed';
-    final derivedPubKey = await computePubKeyWithSeed(
-      base: stakeKey.address,
+    final derivedPubKey = await Ed25519HDPublicKey.createWithSeed(
+      fromPublicKey: await stakeKey.extractPublicKey(),
       seed: seed,
-      programId: StakeProgram.programId,
+      programId: Ed25519HDPublicKey.fromBase58(StakeProgram.programId),
     );
     final stakeAmount = 50 * lamportsPerSol;
 
     program = StakeProgram.createAccountWithSeed(
       fromPubKey: fromKey.address,
-      stakePubKey: derivedPubKey,
+      stakePubKey: derivedPubKey.toBase58(),
       authorized: Authorized(
         withdrawer: withdrawer.address,
         staker: staker.address,

@@ -8,7 +8,7 @@ extension GetMetaplexMetadata on RpcClient {
   Future<Metadata?> getMetadata({
     required String mint,
   }) async {
-    final programAddress = await findProgramAddress(
+    final programAddress = await Ed25519HDPublicKey.findProgramAddress(
       seeds: [
         'metadata'.codeUnits,
         Buffer.fromBase58(metaplexMetadataProgramId),

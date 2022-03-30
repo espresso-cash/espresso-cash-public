@@ -69,14 +69,14 @@ void main() {
     final accountKey = await Ed25519HDKeyPair.random();
     final programId = SystemProgram.programId;
     final seed = '1234';
-    final derivedAddress = await computePubKeyWithSeed(
-      base: accountKey.address,
+    final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
+      fromPublicKey: await accountKey.extractPublicKey(),
       seed: seed,
-      programId: programId,
+      programId: Ed25519HDPublicKey.fromBase58(programId),
     );
     final program = SystemProgram.createAccountWithSeed(
       fromPubKey: fromKey.address,
-      pubKey: derivedAddress,
+      pubKey: derivedAddress.toBase58(),
       base: accountKey.address,
       seed: seed,
       lamports: 0,
@@ -184,13 +184,13 @@ void main() {
     final programId = SystemProgram.programId;
     final base = fromKey.address;
     final seed = '1234';
-    final derivedAddress = await computePubKeyWithSeed(
-      base: fromKey.address,
+    final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
+      fromPublicKey: await fromKey.extractPublicKey(),
       seed: seed,
-      programId: programId,
+      programId: Ed25519HDPublicKey.fromBase58(programId),
     );
     final signature = await rpcClient.requestAirdrop(
-      derivedAddress,
+      derivedAddress.toBase58(),
       2 * lamportsPerSol,
       commitment: Commitment.confirmed,
     );
@@ -199,7 +199,7 @@ void main() {
       status: ConfirmationStatus.finalized,
     );
     final program = SystemProgram.transferWithSeed(
-      source: derivedAddress,
+      source: derivedAddress.toBase58(),
       destination: recipient.address,
       lamports: lamports,
       base: base,
@@ -219,13 +219,13 @@ void main() {
     final recipient = await Ed25519HDKeyPair.random();
     final programId = SystemProgram.programId;
     final seed = '1234';
-    final derivedAddress = await computePubKeyWithSeed(
-      base: recipient.address,
+    final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
+      fromPublicKey: await recipient.extractPublicKey(),
       seed: seed,
-      programId: programId,
+      programId: Ed25519HDPublicKey.fromBase58(programId),
     );
     final program = SystemProgram.assignWithSeed(
-      pubKey: derivedAddress,
+      pubKey: derivedAddress.toBase58(),
       base: recipient.address,
       owner: programId,
       seed: seed,
@@ -256,13 +256,13 @@ void main() {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final programId = SystemProgram.programId;
     final seed = '1234';
-    final derivedAddress = await computePubKeyWithSeed(
-      base: fromKey.address,
+    final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
+      fromPublicKey: await fromKey.extractPublicKey(),
       seed: seed,
-      programId: programId,
+      programId: Ed25519HDPublicKey.fromBase58(programId),
     );
     final program = SystemProgram.allocateWithSeed(
-      pubKey: derivedAddress,
+      pubKey: derivedAddress.toBase58(),
       space: 100,
       base: fromKey.address,
       owner: programId,

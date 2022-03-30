@@ -51,10 +51,10 @@ void main() {
     'Can derive a public key from another public key and a seed',
     () async {
       _withSeedKeyDerivationData.forEach((key, value) async {
-        final derived = await computePubKeyWithSeed(
-          base: key,
+        final derived = await Ed25519HDPublicKey.createWithSeed(
+          fromPublicKey: Ed25519HDPublicKey.fromBase58(key),
           seed: value['seed'] as String,
-          programId: SystemProgram.programId,
+          programId: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
         );
 
         expect(derived, equals(value['result']));
