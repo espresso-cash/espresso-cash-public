@@ -1,6 +1,7 @@
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 class _NumericKey extends KeypadKey {
@@ -25,7 +26,10 @@ class _BackspaceKey extends KeypadKey {
   String get value => '<';
 
   @override
-  Widget build(BuildContext context) => Assets.icons.back.svg(height: 27);
+  Widget build(BuildContext context) => Assets.icons.back.svg(
+        height: 27,
+        color: CpTheme.of(context).primaryTextColor,
+      );
 }
 
 class _DecimalSeparatorKey extends KeypadKey {
