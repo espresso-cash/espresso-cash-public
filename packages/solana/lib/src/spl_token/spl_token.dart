@@ -13,21 +13,24 @@ class SplToken {
     this.owner,
   });
 
-  /// Compute and derive the associated token address of [owner]
-  Future<String> computeAssociatedAddress({
-    required String owner,
-  }) =>
-      findProgramAddress(
-        seeds: [
-          Buffer.fromBase58(owner),
-          Buffer.fromBase58(TokenProgram.programId),
-          Buffer.fromBase58(mint),
-        ],
-        programId: AssociatedTokenAccountProgram.programId,
-      );
-
   final int decimals;
   final BigInt supply;
   final String mint;
   final Ed25519HDKeyPair? owner;
 }
+
+/// Compute and derive the associated token address of [owner]
+Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
+  required Ed25519HDPublicKey owner,
+  required Ed25519HDPublicKey mint,
+}) =>
+    findProgramAddress(
+      seeds: [
+        owner.bytes,
+        Buffer.fromBase58(TokenProgram.programId),
+        mint.bytes
+      ],
+      programId: Ed25519HDPublicKey.fromBase58(
+        AssociatedTokenAccountProgram.programId,
+      ),
+    );

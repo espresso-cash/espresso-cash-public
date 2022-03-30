@@ -264,8 +264,10 @@ void main() {
         final token = await solanaClient.createReadonlyToken(
           mint: newTokenMint,
         );
-        final associatedSourceAddress =
-            await token.computeAssociatedAddress(owner: owner.address);
+        final associatedSourceAddress = await findAssociatedTokenAddress(
+          owner: Ed25519HDPublicKey.fromBase58(owner.address),
+          mint: Ed25519HDPublicKey.fromBase58(newTokenMint),
+        );
         final destinationAccount = await solanaClient.createTokenAccount(
           account: destination,
           creator: owner,
@@ -279,7 +281,7 @@ void main() {
             lamports: lamportsPerSol,
           ),
           TokenInstruction.transfer(
-            source: associatedSourceAddress,
+            source: associatedSourceAddress.toBase58(),
             destination: destinationAccount.owner,
             owner: owner.address,
             amount: 10,

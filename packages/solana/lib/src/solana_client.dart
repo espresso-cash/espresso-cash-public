@@ -293,13 +293,13 @@ class SolanaClient {
   }) async {
     final effectiveOwner = owner ?? funder.address;
 
-    final token = await createReadonlyToken(mint: mint);
-    final derivedAddress = await token.computeAssociatedAddress(
-      owner: effectiveOwner,
+    final derivedAddress = await findAssociatedTokenAddress(
+      owner: Ed25519HDPublicKey.fromBase58(effectiveOwner),
+      mint: Ed25519HDPublicKey.fromBase58(mint),
     );
     final message = AssociatedTokenAccountProgram(
       mint: mint,
-      address: derivedAddress,
+      address: derivedAddress.toBase58(),
       owner: effectiveOwner,
       funder: funder.address,
     );
@@ -314,7 +314,7 @@ class SolanaClient {
 
     // TODO(IA): populate rentEpoch correctly
     return ProgramAccount(
-      pubkey: derivedAddress,
+      pubkey: derivedAddress.toBase58(),
       account: Account(
         owner: effectiveOwner,
         lamports: 0,
@@ -331,14 +331,14 @@ class SolanaClient {
     required String mint,
   }) async {
     Iterable<ProgramAccount> accounts;
-    final token = await createReadonlyToken(mint: mint);
-    final associatedTokenAddress = await token.computeAssociatedAddress(
-      owner: owner,
+    final associatedTokenAddress = await findAssociatedTokenAddress(
+      owner: Ed25519HDPublicKey.fromBase58(owner),
+      mint: Ed25519HDPublicKey.fromBase58(mint),
     );
     try {
       accounts = await rpcClient.getTokenAccountsByOwner(
         owner,
-        TokenAccountsFilter.byMint(token.mint),
+        TokenAccountsFilter.byMint(mint),
         encoding: Encoding.jsonParsed,
       );
     } on FormatException {
@@ -355,8 +355,12 @@ class SolanaClient {
     required String owner,
     required String mint,
   }) async {
-    final token = await createReadonlyToken(mint: mint);
-    return token.computeAssociatedAddress(owner: owner);
+    final address = await findAssociatedTokenAddress(
+      owner: Ed25519HDPublicKey.fromBase58(owner),
+      mint: Ed25519HDPublicKey.fromBase58(mint),
+    );
+
+    return address.toBase58();
   }
 
   /// Get token [mint] balance for this wallet's account.

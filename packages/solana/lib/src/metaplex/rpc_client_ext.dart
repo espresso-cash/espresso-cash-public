@@ -1,7 +1,6 @@
+import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/buffer.dart';
-import 'package:solana/src/helpers.dart';
 import 'package:solana/src/metaplex/metaplex.dart';
-import 'package:solana/src/rpc/client.dart';
 import 'package:solana/src/rpc/dto/account_data/binary_account_data.dart';
 import 'package:solana/src/rpc/dto/encoding.dart';
 
@@ -15,10 +14,10 @@ extension GetMetaplexMetadata on RpcClient {
         Buffer.fromBase58(metaplexMetadataProgramId),
         Buffer.fromBase58(mint),
       ],
-      programId: metaplexMetadataProgramId,
+      programId: Ed25519HDPublicKey.fromBase58(metaplexMetadataProgramId),
     );
     final account = await getAccountInfo(
-      programAddress,
+      programAddress.toBase58(),
       encoding: Encoding.base64,
     );
     if (account == null) {

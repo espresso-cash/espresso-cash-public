@@ -11,7 +11,9 @@ void main() {
           Buffer.fromBase58(TokenProgram.programId),
           Buffer.fromBase58(_mint),
         ],
-        programId: AssociatedTokenAccountProgram.programId,
+        programId: Ed25519HDPublicKey.fromBase58(
+          AssociatedTokenAccountProgram.programId,
+        ),
       );
       expect(address, equals(entry.value));
     }

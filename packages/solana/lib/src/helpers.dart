@@ -40,10 +40,14 @@ Future<String> computePubKeyWithSeed({
   return base58encode(hash);
 }
 
-/// Find a program address for [programId] and [seeds]
-Future<String> findProgramAddress({
+/// Finds a valid program address.
+///
+/// Valid program addresses must fall off the ed25519 curve. This function
+/// iterates a nonce until it finds one that when combined with the seeds
+/// results in a valid program address.
+Future<Ed25519HDPublicKey> findProgramAddress({
   required Iterable<Iterable<int>> seeds,
-  required String programId,
+  required Ed25519HDPublicKey programId,
 }) async {
   if (seeds.length > _maxSeeds) {
     throw const FormatException('you can give me up to $_maxSeeds seeds');
@@ -52,14 +56,13 @@ Future<String> findProgramAddress({
   if (overflowingSeed.isNotEmpty) {
     throw const FormatException('one or more of the seeds provided is too big');
   }
-  final programIdBytes = Buffer.fromBase58(programId);
   final flatSeeds = seeds.fold(<int>[], _flatten);
   int bumpSeed = _maxBumpSeed;
   while (bumpSeed >= 0) {
     try {
-      return await _createProgramAddress(
+      return await createProgramAddress(
         seeds: [...flatSeeds, bumpSeed],
-        programId: programIdBytes,
+        programId: programId,
       );
     } on FormatException {
       bumpSeed -= 1;
@@ -134,18 +137,19 @@ Future<List<int>> _computeHash(List<int> source) async {
   return hash.bytes;
 }
 
-Future<String> _createProgramAddress({
+/// Derives a program address from seeds and a program ID.
+Future<Ed25519HDPublicKey> createProgramAddress({
   required Iterable<int> seeds,
-  required Iterable<int> programId,
+  required Ed25519HDPublicKey programId,
 }) async {
   final seedBytes = seeds
-      .followedBy(programId)
+      .followedBy(programId.bytes)
       .followedBy(_magicWord)
       .toList(growable: false);
   final data = await _computeHash(seedBytes);
   if (isPointOnEd25519Curve(data)) {
     throw const FormatException('failed to create address with provided seeds');
   } else {
-    return base58encode(data);
+    return Ed25519HDPublicKey(data);
   }
 }

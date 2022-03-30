@@ -1,9 +1,18 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart'
-    show Ed25519, KeyPair, KeyPairType, SimpleKeyPairData, SimplePublicKey;
+    show
+        Ed25519,
+        KeyPair,
+        KeyPairType,
+        PublicKey,
+        SimpleKeyPairData,
+        SimplePublicKey;
+import 'package:cryptography/src/cryptography/key_pair.dart';
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
+import 'package:solana/base58.dart';
 import 'package:solana/src/base58/encode.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/encoder/signature.dart';
@@ -101,16 +110,14 @@ class Ed25519HDKeyPair extends KeyPair {
   }
 
   @override
-  Future<SimpleKeyPairData> extract() async => SimpleKeyPairData(
+  Future<Ed25519HDKeyPairData> extract() async => Ed25519HDKeyPairData(
         _privateKey,
-        publicKey: await extractPublicKey(),
-        type: KeyPairType.ed25519,
+        publicKey: extractPublicKey(),
       );
 
   @override
-  Future<SimplePublicKey> extractPublicKey() => Future<SimplePublicKey>.value(
-        SimplePublicKey(_publicKey, type: KeyPairType.ed25519),
-      );
+  Future<Ed25519HDPublicKey> extractPublicKey() =>
+      Future<Ed25519HDPublicKey>.value(Ed25519HDPublicKey(_publicKey));
 
   /// Returns a Future that resolves to the result of signing
   /// [data] with the private key held internally by a given
@@ -132,3 +139,52 @@ class Ed25519HDKeyPair extends KeyPair {
 }
 
 final _random = Random.secure();
+
+class Ed25519HDKeyPairData implements KeyPairData {
+  Ed25519HDKeyPairData(
+    this.bytes, {
+    required FutureOr<Ed25519HDPublicKey> publicKey,
+  }) : _publicKey = publicKey;
+
+  final List<int> bytes;
+
+  final FutureOr<Ed25519HDPublicKey> _publicKey;
+
+  @override
+  Future<Ed25519HDKeyPairData> extract() => Future.value(this);
+
+  @override
+  Future<Ed25519HDPublicKey> extractPublicKey() async => _publicKey;
+
+  @override
+  KeyPairType<KeyPairData, PublicKey> get type => KeyPairType.ed25519;
+}
+
+class Ed25519HDPublicKey extends PublicKey {
+  Ed25519HDPublicKey(this.bytes);
+
+  factory Ed25519HDPublicKey.fromBase58(String data) {
+    final bytes = base58decode(data);
+    if (bytes.length != 32) {
+      throw ArgumentError.value(
+        data,
+        'data',
+        'Expected 32 bytes, got ${bytes.length}',
+      );
+    }
+
+    return Ed25519HDPublicKey(bytes);
+  }
+
+  final List<int> bytes;
+
+  String toBase58() => base58encode(bytes);
+
+  @override
+  KeyPairType<KeyPairData, PublicKey> get type => KeyPairType.ed25519;
+}
+
+extension SimplePublicKeyExt on SimplePublicKey {
+  /// Returns the base-58 representation of the public key.
+  String toBase58() => base58encode(bytes);
+}
