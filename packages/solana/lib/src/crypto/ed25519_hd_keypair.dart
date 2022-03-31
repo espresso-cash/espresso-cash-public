@@ -18,12 +18,8 @@ import 'package:solana/src/helpers.dart';
 class Ed25519HDKeyPair extends KeyPair {
   Ed25519HDKeyPair._({
     required List<int> privateKey,
-    required List<int> publicKey,
-  })  : _privateKey = privateKey,
-        _publicKey = publicKey,
-        // We pre-compute this in order to avoid doing it
-        // over and over because it's needed often.
-        address = base58encode(publicKey);
+    required this.publicKey,
+  }) : _privateKey = privateKey;
 
   /// Construct a new [Ed25519HDKeyPair] from a [seed] and a derivation path [hdPath].
   static Future<Ed25519HDKeyPair> fromSeedWithHdPath({
@@ -34,7 +30,9 @@ class Ed25519HDKeyPair extends KeyPair {
 
     return Ed25519HDKeyPair._(
       privateKey: _keyData.key,
-      publicKey: await ED25519_HD_KEY.getPublicKey(_keyData.key, false),
+      publicKey: Ed25519HDPublicKey(
+        await ED25519_HD_KEY.getPublicKey(_keyData.key, false),
+      ),
     );
   }
 
@@ -43,7 +41,9 @@ class Ed25519HDKeyPair extends KeyPair {
   }) async =>
       Ed25519HDKeyPair._(
         privateKey: privateKey,
-        publicKey: await ED25519_HD_KEY.getPublicKey(privateKey, false),
+        publicKey: Ed25519HDPublicKey(
+          await ED25519_HD_KEY.getPublicKey(privateKey, false),
+        ),
       );
 
   /// Generate a new random [Ed25519HDKeyPair]
@@ -95,7 +95,7 @@ class Ed25519HDKeyPair extends KeyPair {
   }) async {
     final compiledMessage = message.compile(
       recentBlockhash: recentBlockhash,
-      feePayer: await extractPublicKey(),
+      feePayer: publicKey,
     );
     final signature = await sign(compiledMessage.data);
 
@@ -108,12 +108,12 @@ class Ed25519HDKeyPair extends KeyPair {
   @override
   Future<Ed25519HDKeyPairData> extract() async => Ed25519HDKeyPairData(
         _privateKey,
-        publicKey: extractPublicKey(),
+        publicKey: publicKey,
       );
 
   @override
   Future<Ed25519HDPublicKey> extractPublicKey() =>
-      Future<Ed25519HDPublicKey>.value(Ed25519HDPublicKey(_publicKey));
+      Future<Ed25519HDPublicKey>.value(publicKey);
 
   /// Returns a Future that resolves to the result of signing
   /// [data] with the private key held internally by a given
@@ -130,8 +130,9 @@ class Ed25519HDKeyPair extends KeyPair {
   static final _ed25519 = Ed25519();
 
   final List<int> _privateKey;
-  final List<int> _publicKey;
-  final String address;
+  final Ed25519HDPublicKey publicKey;
+
+  String get address => publicKey.toBase58();
 }
 
 final _random = Random.secure();

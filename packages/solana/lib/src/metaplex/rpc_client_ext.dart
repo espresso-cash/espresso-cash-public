@@ -6,13 +6,13 @@ import 'package:solana/src/rpc/dto/encoding.dart';
 
 extension GetMetaplexMetadata on RpcClient {
   Future<Metadata?> getMetadata({
-    required String mint,
+    required Ed25519HDPublicKey mint,
   }) async {
     final programAddress = await Ed25519HDPublicKey.findProgramAddress(
       seeds: [
         'metadata'.codeUnits,
         Buffer.fromBase58(metaplexMetadataProgramId),
-        Buffer.fromBase58(mint),
+        mint.toBuffer(),
       ],
       programId: Ed25519HDPublicKey.fromBase58(metaplexMetadataProgramId),
     );

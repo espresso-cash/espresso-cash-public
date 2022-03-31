@@ -63,7 +63,7 @@ void main() {
 
     final seed = 'seed';
     final derivedPubKey = await Ed25519HDPublicKey.createWithSeed(
-      fromPublicKey: await stakeKey.extractPublicKey(),
+      fromPublicKey: stakeKey.publicKey,
       seed: seed,
       programId: Ed25519HDPublicKey.fromBase58(StakeProgram.programId),
     );

@@ -70,7 +70,7 @@ void main() {
     final programId = SystemProgram.programId;
     final seed = '1234';
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
-      fromPublicKey: await accountKey.extractPublicKey(),
+      fromPublicKey: accountKey.publicKey,
       seed: seed,
       programId: Ed25519HDPublicKey.fromBase58(programId),
     );
@@ -185,7 +185,7 @@ void main() {
     final base = fromKey.address;
     final seed = '1234';
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
-      fromPublicKey: await fromKey.extractPublicKey(),
+      fromPublicKey: fromKey.publicKey,
       seed: seed,
       programId: Ed25519HDPublicKey.fromBase58(programId),
     );
@@ -220,7 +220,7 @@ void main() {
     final programId = SystemProgram.programId;
     final seed = '1234';
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
-      fromPublicKey: await recipient.extractPublicKey(),
+      fromPublicKey: recipient.publicKey,
       seed: seed,
       programId: Ed25519HDPublicKey.fromBase58(programId),
     );
@@ -257,7 +257,7 @@ void main() {
     final programId = SystemProgram.programId;
     final seed = '1234';
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
-      fromPublicKey: await fromKey.extractPublicKey(),
+      fromPublicKey: fromKey.publicKey,
       seed: seed,
       programId: Ed25519HDPublicKey.fromBase58(programId),
     );

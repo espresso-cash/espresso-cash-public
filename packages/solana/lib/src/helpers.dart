@@ -50,7 +50,7 @@ Future<SignedTx> signTransaction(
 
   final CompiledMessage compiledMessage = message.compile(
     recentBlockhash: recentBlockhash.blockhash,
-    feePayer: await signers.first.extractPublicKey(),
+    feePayer: signers.first.publicKey,
   );
 
   final int requiredSignaturesCount = compiledMessage.requiredSignatureCount;

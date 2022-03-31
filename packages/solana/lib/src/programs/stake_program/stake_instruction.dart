@@ -484,10 +484,10 @@ class AuthorizeWithSeedArgs {
   ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
         stakeAuthorize.serialize(),
         Buffer.fromString(authoritySeed),
-        Buffer.fromBase58(authorityOwnerPubKey),
+        authorityOwnerPubKey.toBuffer()
       ]);
 
   final StakeAuthorize stakeAuthorize;
   final String authoritySeed;
-  final String authorityOwnerPubKey;
+  final Ed25519HDPublicKey authorityOwnerPubKey;
 }
