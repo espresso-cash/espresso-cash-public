@@ -18,7 +18,7 @@ class SplToken {
   final Ed25519HDKeyPair? owner;
 }
 
-/// Compute and derive the associated token address of [owner]
+/// Compute and derive the associated token address of [owner].
 Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
   required Ed25519HDPublicKey owner,
   required Ed25519HDPublicKey mint,

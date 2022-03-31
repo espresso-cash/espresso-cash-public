@@ -357,22 +357,6 @@ class SolanaClient {
     return accounts.any((a) => a.pubkey == associatedTokenAddress);
   }
 
-  /// Get the account associated to the SPL token [mint] for this wallet.
-  ///
-  /// Note: this method always returns the address because it is computed
-  /// when the [Wallet.loadToken()] method is called
-  Future<String> getProgramAccountAddress({
-    required String owner,
-    required String mint,
-  }) async {
-    final address = await findAssociatedTokenAddress(
-      owner: Ed25519HDPublicKey.fromBase58(owner),
-      mint: Ed25519HDPublicKey.fromBase58(mint),
-    );
-
-    return address.toBase58();
-  }
-
   /// Get token [mint] balance for this wallet's account.
   ///
   /// For [commitment] parameter description [see this document][1]
@@ -385,10 +369,7 @@ class SolanaClient {
     Commitment? commitment,
   }) async =>
       rpcClient.getTokenAccountBalance(
-        await getProgramAccountAddress(
-          owner: owner.toBase58(),
-          mint: mint.toBase58(),
-        ),
+        (await findAssociatedTokenAddress(owner: owner, mint: mint)).toBase58(),
         commitment: commitment,
       );
 
