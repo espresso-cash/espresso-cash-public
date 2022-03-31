@@ -55,7 +55,7 @@ class SolanaClient {
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<String> transferLamports({
     required Wallet source,
-    required String destination,
+    required Ed25519HDPublicKey destination,
     required int lamports,
     String? memo,
     FutureOr<void> Function(Signature)? onSigned,
@@ -63,11 +63,15 @@ class SolanaClient {
   }) async {
     final instructions = [
       SystemInstruction.transfer(
-        source: source.address,
+        source: await source.extractPublicKey(),
         destination: destination,
         lamports: lamports,
       ),
-      if (memo != null) MemoInstruction(signers: [source.address], memo: memo),
+      if (memo != null)
+        MemoInstruction(
+          signers: [await source.extractPublicKey()],
+          memo: memo,
+        ),
     ];
 
     final message = Message(
@@ -94,12 +98,12 @@ class SolanaClient {
   ///
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<String> requestAirdrop({
-    required String address,
+    required Ed25519HDPublicKey address,
     required int lamports,
     Commitment commitment = Commitment.finalized,
   }) async {
     final signature = await rpcClient.requestAirdrop(
-      address,
+      address.toBase58(),
       lamports,
       commitment: commitment,
     );
@@ -120,7 +124,7 @@ class SolanaClient {
   Future<SplToken> initializeMint({
     required Wallet owner,
     required int decimals,
-    String? freezeAuthority,
+    Ed25519HDPublicKey? freezeAuthority,
     Commitment commitment = Commitment.finalized,
   }) async {
     const space = TokenProgram.neededMintAccountSpace;
@@ -128,8 +132,8 @@ class SolanaClient {
     final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
 
     final message = TokenProgram.initializeMint(
-      mint: mintWallet.address,
-      mintAuthority: owner.address,
+      mint: await mintWallet.extractPublicKey(),
+      mintAuthority: await owner.extractPublicKey(),
       freezeAuthority: freezeAuthority,
       rent: rent,
       space: space,
@@ -149,16 +153,16 @@ class SolanaClient {
 
   /// Mint [destination] with [amount] tokens. Requires writable [Token].
   Future<void> transferMint({
-    required String destination,
+    required Ed25519HDPublicKey destination,
     required int amount,
-    required String mint,
+    required Ed25519HDPublicKey mint,
     required Wallet owner,
     Commitment commitment = Commitment.finalized,
   }) async {
     final message = TokenProgram.mintTo(
       mint: mint,
       destination: destination,
-      authority: owner.address,
+      authority: await owner.extractPublicKey(),
       amount: amount,
     );
     final signature = await rpcClient.signAndSendTransaction(
@@ -180,8 +184,8 @@ class SolanaClient {
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<String> transferSplToken({
     required Wallet source,
-    required String mint,
-    required String destination,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey destination,
     required int amount,
     String? memo,
     Commitment commitment = Commitment.finalized,
@@ -191,24 +195,28 @@ class SolanaClient {
       mint: mint,
     );
     final associatedSenderAccount = await getAssociatedTokenAccount(
-      owner: source.address,
+      owner: await source.extractPublicKey(),
       mint: mint,
     );
     // Throw an appropriate exception if the sender has no associated
     // token account
     if (associatedSenderAccount == null) {
-      throw NoAssociatedTokenAccountException(source.address, mint);
+      throw NoAssociatedTokenAccountException(source.address, mint.toBase58());
     }
     // Also throw an adequate exception if the recipient has no associated
     // token account
     if (associatedRecipientAccount == null) {
-      throw NoAssociatedTokenAccountException(destination, mint);
+      throw NoAssociatedTokenAccountException(
+        destination.toBase58(),
+        mint.toBase58(),
+      );
     }
 
     final message = TokenProgram.transfer(
-      source: associatedSenderAccount.pubkey,
-      destination: associatedRecipientAccount.pubkey,
-      owner: source.address,
+      source: Ed25519HDPublicKey.fromBase58(associatedSenderAccount.pubkey),
+      destination:
+          Ed25519HDPublicKey.fromBase58(associatedRecipientAccount.pubkey),
+      owner: await source.extractPublicKey(),
       amount: amount,
       memo: memo,
     );
@@ -226,12 +234,12 @@ class SolanaClient {
   }
 
   Future<ProgramAccount?> getAssociatedTokenAccount({
-    required String owner,
-    required String mint,
+    required Ed25519HDPublicKey owner,
+    required Ed25519HDPublicKey mint,
   }) async {
     final accounts = await rpcClient.getTokenAccountsByOwner(
-      owner,
-      TokenAccountsFilter.byMint(mint),
+      owner.toBase58(),
+      TokenAccountsFilter.byMint(mint.toBase58()),
       encoding: Encoding.jsonParsed,
     );
     if (accounts.isEmpty) {
@@ -242,7 +250,7 @@ class SolanaClient {
 
   /// Create an account for [account].
   Future<Account> createTokenAccount({
-    required String mint,
+    required Ed25519HDPublicKey mint,
     required Wallet account,
     required Wallet creator,
     Commitment commitment = Commitment.finalized,
@@ -250,8 +258,8 @@ class SolanaClient {
     const space = TokenProgram.neededAccountSpace;
     final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
     final message = TokenProgram.createAccount(
-      address: account.address,
-      owner: creator.address,
+      address: await account.extractPublicKey(),
+      owner: await creator.extractPublicKey(),
       mint: mint,
       rent: rent,
       space: space,
@@ -286,22 +294,22 @@ class SolanaClient {
   ///
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<ProgramAccount> createAssociatedTokenAccount({
-    String? owner,
-    required String mint,
+    Ed25519HDPublicKey? owner,
+    required Ed25519HDPublicKey mint,
     required Wallet funder,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final effectiveOwner = owner ?? funder.address;
+    final effectiveOwner = owner ?? await funder.extractPublicKey();
 
     final derivedAddress = await findAssociatedTokenAddress(
-      owner: Ed25519HDPublicKey.fromBase58(effectiveOwner),
-      mint: Ed25519HDPublicKey.fromBase58(mint),
+      owner: effectiveOwner,
+      mint: mint,
     );
     final message = AssociatedTokenAccountProgram(
       mint: mint,
-      address: derivedAddress.toBase58(),
+      address: derivedAddress,
       owner: effectiveOwner,
-      funder: funder.address,
+      funder: await funder.extractPublicKey(),
     );
     final signature = await rpcClient.signAndSendTransaction(
       message,
@@ -316,7 +324,7 @@ class SolanaClient {
     return ProgramAccount(
       pubkey: derivedAddress.toBase58(),
       account: Account(
-        owner: effectiveOwner,
+        owner: effectiveOwner.toBase58(),
         lamports: 0,
         executable: false,
         rentEpoch: 0,

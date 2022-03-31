@@ -1,3 +1,5 @@
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+
 /// Class that wraps addresses with information necessary for
 /// solana transactions to be encoded correctly
 class AccountMeta implements Comparable<AccountMeta> {
@@ -10,7 +12,7 @@ class AccountMeta implements Comparable<AccountMeta> {
   /// Constructs a writeable account that is not signer with [pubKey]
   /// public key. To make it a signing account set [isSigner] to true.
   factory AccountMeta.writeable({
-    required String pubKey,
+    required Ed25519HDPublicKey pubKey,
     required bool isSigner,
   }) =>
       AccountMeta(
@@ -22,7 +24,7 @@ class AccountMeta implements Comparable<AccountMeta> {
   /// Constructs a readonly account that is not signer has [pubKey]
   /// public key. To make it a signing account set [isSigner] to true.
   factory AccountMeta.readonly({
-    required String pubKey,
+    required Ed25519HDPublicKey pubKey,
     required bool isSigner,
   }) =>
       AccountMeta(
@@ -55,12 +57,12 @@ class AccountMeta implements Comparable<AccountMeta> {
     );
   }
 
-  final String pubKey;
+  final Ed25519HDPublicKey pubKey;
   final bool isWriteable;
   final bool isSigner;
 
   @override
-  String toString() => pubKey;
+  String toString() => pubKey.toBase58();
 
   /// Compare accounts according to the following rules
   ///

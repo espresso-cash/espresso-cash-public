@@ -1,3 +1,4 @@
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
@@ -20,10 +21,10 @@ class AssociatedTokenAccountInstruction extends Instruction {
   ///
   /// [associated token account]: https://spl.solana.com/associated-token-account
   factory AssociatedTokenAccountInstruction({
-    required String funder,
-    required String address,
-    required String owner,
-    required String mint,
+    required Ed25519HDPublicKey funder,
+    required Ed25519HDPublicKey address,
+    required Ed25519HDPublicKey owner,
+    required Ed25519HDPublicKey mint,
   }) =>
       AssociatedTokenAccountInstruction._(
         accounts: [
@@ -32,12 +33,17 @@ class AssociatedTokenAccountInstruction extends Instruction {
           AccountMeta.readonly(pubKey: owner, isSigner: false),
           AccountMeta.readonly(pubKey: mint, isSigner: false),
           AccountMeta.readonly(
-              pubKey: SystemProgram.programId, isSigner: false),
-          AccountMeta.readonly(
-            pubKey: TokenProgram.programId,
+            pubKey: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
             isSigner: false,
           ),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
+            isSigner: false,
+          ),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
         ],
       );
 

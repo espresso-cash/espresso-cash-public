@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:solana/src/base58/encode.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compiled_message.dart';
@@ -20,7 +21,7 @@ class Message {
 
   final List<Instruction> instructions;
 
-  String debug(String recentBlockhash, {String? feePayer}) {
+  String debug(String recentBlockhash, {Ed25519HDPublicKey? feePayer}) {
     final accounts =
         instructions.getAccountsWithOptionalFeePayer(feePayer: feePayer);
     final accountsIndexesMap = accounts.toIndexesMap();
@@ -63,7 +64,7 @@ class Message {
   /// and also verify that the number of signers is correct.
   CompiledMessage compile({
     required String recentBlockhash,
-    String? feePayer,
+    Ed25519HDPublicKey? feePayer,
   }) {
     final accounts =
         instructions.getAccountsWithOptionalFeePayer(feePayer: feePayer);

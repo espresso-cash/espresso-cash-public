@@ -1,3 +1,4 @@
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/programs/memo_program/memo_instruction.dart';
 
@@ -16,7 +17,7 @@ class MemoProgram extends Message {
   ///
   /// [memo limit](https://spl.solana.com/memo#compute-limits)
   MemoProgram({
-    required List<String> signers,
+    required List<Ed25519HDPublicKey> signers,
     required String memo,
   }) : super(
           instructions: [

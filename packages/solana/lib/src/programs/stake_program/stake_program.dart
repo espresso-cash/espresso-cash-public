@@ -1,3 +1,4 @@
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/programs/stake_program/stake_instruction.dart';
@@ -13,8 +14,8 @@ class StakeProgram extends Message {
   }) : super(instructions: instructions);
 
   factory StakeProgram.createAccount({
-    required String fromPubKey,
-    required String stakePubKey,
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey stakePubKey,
     required Authorized authorized,
     required int lamports,
     Lockup lockup = const Lockup.none(),
@@ -25,7 +26,7 @@ class StakeProgram extends Message {
           fromPubKey: fromPubKey,
           lamports: lamports,
           space: StakeProgram.neededAccountSpace,
-          owner: StakeProgram.programId,
+          owner: Ed25519HDPublicKey.fromBase58(StakeProgram.programId),
         ),
         StakeInstruction.initialize(
           stakePubKey: stakePubKey,
@@ -35,10 +36,10 @@ class StakeProgram extends Message {
       ]);
 
   factory StakeProgram.createAccountWithSeed({
-    required String fromPubKey,
-    required String stakePubKey,
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey stakePubKey,
     required Authorized authorized,
-    required String base,
+    required Ed25519HDPublicKey base,
     required String seed,
     required int lamports,
     Lockup lockup = const Lockup.none(),
@@ -49,7 +50,7 @@ class StakeProgram extends Message {
           pubKey: stakePubKey,
           lamports: lamports,
           space: StakeProgram.neededAccountSpace,
-          owner: StakeProgram.programId,
+          owner: Ed25519HDPublicKey.fromBase58(StakeProgram.programId),
           seed: seed,
           base: base,
         ),
@@ -61,10 +62,10 @@ class StakeProgram extends Message {
       ]);
 
   factory StakeProgram.authorize({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required StakeAuthorize stakeAuthorize,
-    String? lockupAuthorityPubKey,
+    Ed25519HDPublicKey? lockupAuthorityPubKey,
   }) =>
       StakeProgram._(
         instructions: [
@@ -78,10 +79,10 @@ class StakeProgram extends Message {
       );
 
   factory StakeProgram.delegateStake({
-    required String stakePubKey,
-    required String votePubKey,
-    required String configPubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey votePubKey,
+    required Ed25519HDPublicKey configPubKey,
+    required Ed25519HDPublicKey authorityPubKey,
   }) =>
       StakeProgram._(
         instructions: [
@@ -95,9 +96,9 @@ class StakeProgram extends Message {
       );
 
   factory StakeProgram.split({
-    required String sourceStakePubKey,
-    required String destinationStakePubKey,
-    required String stakeAuthorityPubKey,
+    required Ed25519HDPublicKey sourceStakePubKey,
+    required Ed25519HDPublicKey destinationStakePubKey,
+    required Ed25519HDPublicKey stakeAuthorityPubKey,
     required int lamports,
   }) =>
       StakeProgram._(
@@ -112,11 +113,11 @@ class StakeProgram extends Message {
       );
 
   factory StakeProgram.withdraw({
-    required String stakePubKey,
-    required String recipientPubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey recipientPubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required int lamports,
-    String? lockupAuthorityPubKey,
+    Ed25519HDPublicKey? lockupAuthorityPubKey,
   }) =>
       StakeProgram._(instructions: [
         StakeInstruction.withdraw(
@@ -129,8 +130,8 @@ class StakeProgram extends Message {
       ]);
 
   factory StakeProgram.deactivate({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
   }) =>
       StakeProgram._(
         instructions: [
@@ -142,8 +143,8 @@ class StakeProgram extends Message {
       );
 
   factory StakeProgram.setLockup({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required Lockup lockup,
   }) =>
       StakeProgram._(
@@ -157,9 +158,9 @@ class StakeProgram extends Message {
       );
 
   factory StakeProgram.merge({
-    required String destinationStakePubKey,
-    required String sourceStakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey destinationStakePubKey,
+    required Ed25519HDPublicKey sourceStakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
   }) =>
       StakeProgram._(instructions: [
         StakeInstruction.merge(
@@ -170,10 +171,10 @@ class StakeProgram extends Message {
       ]);
 
   factory StakeProgram.authorizeWithSeed({
-    required String stakePubKey,
-    required String authorityBasePubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityBasePubKey,
     required AuthorizeWithSeedArgs authorizeWithSeedArgs,
-    String? lockupAuthority,
+    Ed25519HDPublicKey? lockupAuthority,
   }) =>
       StakeProgram._(
         instructions: [
@@ -187,10 +188,10 @@ class StakeProgram extends Message {
       );
 
   factory StakeProgram.authorizeChecked({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required StakeAuthorize stakeAuthorize,
-    String? lockupAuthorityPubKey,
+    Ed25519HDPublicKey? lockupAuthorityPubKey,
   }) =>
       StakeProgram._(
         instructions: [
@@ -204,11 +205,11 @@ class StakeProgram extends Message {
       );
 
   factory StakeProgram.authorizeCheckedWithSeed({
-    required String stakePubKey,
-    required String base,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey base,
+    required Ed25519HDPublicKey authorityPubKey,
     required AuthorizeWithSeedArgs authorizeWithSeedArgs,
-    String? lockupAuthorityPubKey,
+    Ed25519HDPublicKey? lockupAuthorityPubKey,
   }) =>
       StakeProgram._(
         instructions: [
@@ -223,8 +224,8 @@ class StakeProgram extends Message {
       );
 
   factory StakeProgram.setLockupChecked({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required LockupCheckedArgs lockupCheckedArgs,
   }) =>
       StakeProgram._(

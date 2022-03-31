@@ -1,3 +1,4 @@
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/programs/memo_program/memo_instruction.dart';
@@ -23,12 +24,12 @@ class TokenProgram extends Message {
   /// The [freezeAuthority] is optional and can be used to specify a the
   /// freeze authority for this token.
   factory TokenProgram.initializeMint({
-    required String mint,
-    required String mintAuthority,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey mintAuthority,
     required int rent,
     required int space,
     required int decimals,
-    String? freezeAuthority,
+    Ed25519HDPublicKey? freezeAuthority,
   }) =>
       TokenProgram._(
         instructions: [
@@ -37,7 +38,7 @@ class TokenProgram extends Message {
             fromPubKey: mintAuthority,
             lamports: rent,
             space: space,
-            owner: TokenProgram.programId,
+            owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
           ),
           TokenInstruction.initializeMint(
             mint: mint,
@@ -62,9 +63,9 @@ class TokenProgram extends Message {
   ///
   /// This transaction must be signed by [owner] and [address].
   factory TokenProgram.createAccount({
-    required String mint,
-    required String address,
-    required String owner,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey address,
+    required Ed25519HDPublicKey owner,
     required int rent,
     required int space,
   }) =>
@@ -75,7 +76,7 @@ class TokenProgram extends Message {
             fromPubKey: owner,
             lamports: rent,
             space: space,
-            owner: TokenProgram.programId,
+            owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
           ),
           TokenInstruction.initializeAccount(
             mint: mint,
@@ -92,9 +93,9 @@ class TokenProgram extends Message {
   /// The [destination] account must exist and be linked with [mint]. You can create
   /// it by using [TokenProgram.createAccount].
   factory TokenProgram.mintTo({
-    required String mint,
-    required String destination,
-    required String authority,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey destination,
+    required Ed25519HDPublicKey authority,
     required int amount,
   }) =>
       TokenProgram._(
@@ -109,9 +110,9 @@ class TokenProgram extends Message {
       );
 
   factory TokenProgram.mintToChecked({
-    required String mint,
-    required String destination,
-    required String authority,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey destination,
+    required Ed25519HDPublicKey authority,
     required int amount,
     required int decimals,
   }) =>
@@ -133,9 +134,9 @@ class TokenProgram extends Message {
 
   /// Note that often the [owner] is the same account as [source].
   factory TokenProgram.transfer({
-    required String source,
-    required String destination,
-    required String owner,
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey destination,
+    required Ed25519HDPublicKey owner,
     required int amount,
     String? memo,
   }) =>
@@ -152,10 +153,10 @@ class TokenProgram extends Message {
       );
 
   factory TokenProgram.transferChecked({
-    required String mint,
-    required String source,
-    required String destination,
-    required String owner,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey destination,
+    required Ed25519HDPublicKey owner,
     required int amount,
     required int decimals,
   }) =>
@@ -174,10 +175,10 @@ class TokenProgram extends Message {
 
   factory TokenProgram.approve({
     required int amount,
-    required String source,
-    required String delegate,
-    required String sourceOwner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey delegate,
+    required Ed25519HDPublicKey sourceOwner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenProgram._(
         instructions: [
@@ -194,11 +195,11 @@ class TokenProgram extends Message {
   factory TokenProgram.approveChecked({
     required int amount,
     required int decimals,
-    required String source,
-    required String mint,
-    required String delegate,
-    required String sourceOwner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey delegate,
+    required Ed25519HDPublicKey sourceOwner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenProgram._(
         instructions: [
@@ -216,10 +217,10 @@ class TokenProgram extends Message {
 
   factory TokenProgram.burn({
     required int amount,
-    required String accountToBurnFrom,
-    required String mint,
-    required String owner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey accountToBurnFrom,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey owner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenProgram._(
         instructions: [
@@ -236,10 +237,10 @@ class TokenProgram extends Message {
   factory TokenProgram.burnChecked({
     required int amount,
     required int decimals,
-    required String accountToBurnFrom,
-    required String mint,
-    required String owner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey accountToBurnFrom,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey owner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenProgram._(
         instructions: [
@@ -255,10 +256,10 @@ class TokenProgram extends Message {
       );
 
   factory TokenProgram.freezeAccount({
-    required String accountToFreeze,
-    required String mint,
-    required String freezeAuthority,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey accountToFreeze,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey freezeAuthority,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenProgram._(
         instructions: [
@@ -272,10 +273,10 @@ class TokenProgram extends Message {
       );
 
   factory TokenProgram.thawAccount({
-    required String accountToFreeze,
-    required String mint,
-    required String freezeAuthority,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey accountToFreeze,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey freezeAuthority,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenProgram._(
         instructions: [
@@ -289,11 +290,11 @@ class TokenProgram extends Message {
       );
 
   factory TokenProgram.setAuthority({
-    required String mintOrAccount,
-    required String currentAuthority,
+    required Ed25519HDPublicKey mintOrAccount,
+    required Ed25519HDPublicKey currentAuthority,
     required AuthorityType authorityType,
-    required String newAuthority,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey newAuthority,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenProgram._(
         instructions: [
@@ -308,8 +309,8 @@ class TokenProgram extends Message {
       );
 
   factory TokenProgram.revoke({
-    required String source,
-    required String sourceOwner,
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey sourceOwner,
   }) =>
       TokenProgram._(instructions: [
         TokenInstruction.revoke(

@@ -1,4 +1,5 @@
 import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/constants.dart';
@@ -34,11 +35,11 @@ class SystemInstruction extends Instruction {
   /// If [pubKey] is the [owner]'s address, and the owner has tokens this will
   /// fail because the account would already exist.
   factory SystemInstruction.createAccount({
-    required String fromPubKey,
-    required String pubKey,
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey pubKey,
     required int lamports,
     required int space,
-    required String owner,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -49,7 +50,7 @@ class SystemInstruction extends Instruction {
           SystemProgram.createAccountInstructionIndex,
           Buffer.fromUint64(lamports),
           Buffer.fromUint64(space),
-          Buffer.fromBase58(owner),
+          owner.toBuffer(),
         ]),
       );
 
@@ -57,8 +58,8 @@ class SystemInstruction extends Instruction {
   ///
   /// Assign [pubKey] account to [owner] program
   factory SystemInstruction.assign({
-    required String pubKey,
-    required String owner,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -66,7 +67,7 @@ class SystemInstruction extends Instruction {
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.assignInstructionIndex,
-          Buffer.fromBase58(owner),
+          owner.toBuffer(),
         ]),
       );
 
@@ -74,8 +75,8 @@ class SystemInstruction extends Instruction {
   ///
   /// The instruction would send [lamports] from [source] to [destination].
   factory SystemInstruction.transfer({
-    required String source,
-    required String destination,
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey destination,
     required int lamports,
   }) =>
       SystemInstruction._(
@@ -91,13 +92,13 @@ class SystemInstruction extends Instruction {
 
   /// Create a new account at an address derived from a [base] pubkey and [seed]
   factory SystemInstruction.createAccountWithSeed({
-    required String fromPubKey,
-    required String pubKey,
-    required String base,
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey base,
     required String seed,
     required int lamports,
     required int space,
-    required String owner,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -107,23 +108,23 @@ class SystemInstruction extends Instruction {
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.createAccountWithSeedInstructionIndex,
-          Buffer.fromBase58(base),
+          base.toBuffer(),
           Buffer.fromString(seed),
           Buffer.fromUint64(lamports),
           Buffer.fromUint64(space),
-          Buffer.fromBase58(owner),
+          owner.toBuffer(),
         ]),
       );
 
   factory SystemInstruction.advanceNonceAccount({
-    required String noncePubKey,
-    required String nonceAuthorityPubKey,
+    required Ed25519HDPublicKey noncePubKey,
+    required Ed25519HDPublicKey nonceAuthorityPubKey,
   }) =>
       SystemInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: noncePubKey, isSigner: false),
           AccountMeta.writeable(
-            pubKey: Sysvar.recentBlockHashes,
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.recentBlockHashes),
             isSigner: false,
           ),
           AccountMeta.writeable(pubKey: nonceAuthorityPubKey, isSigner: true),
@@ -132,9 +133,9 @@ class SystemInstruction extends Instruction {
       );
 
   factory SystemInstruction.withdrawNonceAccount({
-    required String noncePubKey,
-    required String authorizedPubKey,
-    required String toPubKey,
+    required Ed25519HDPublicKey noncePubKey,
+    required Ed25519HDPublicKey authorizedPubKey,
+    required Ed25519HDPublicKey toPubKey,
     required int lamports,
   }) =>
       SystemInstruction._(
@@ -142,10 +143,13 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: noncePubKey, isSigner: false),
           AccountMeta.writeable(pubKey: toPubKey, isSigner: false),
           AccountMeta.readonly(
-            pubKey: Sysvar.recentBlockHashes,
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.recentBlockHashes),
             isSigner: false,
           ),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
           AccountMeta.readonly(pubKey: authorizedPubKey, isSigner: true),
         ],
         data: Buffer.fromConcatenatedByteArrays([
@@ -155,26 +159,31 @@ class SystemInstruction extends Instruction {
       );
 
   factory SystemInstruction.initializeNonceAccount({
-    required String noncePubKey,
-    required String authority,
+    required Ed25519HDPublicKey noncePubKey,
+    required Ed25519HDPublicKey authority,
   }) =>
       SystemInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: noncePubKey, isSigner: false),
           AccountMeta.readonly(
-              pubKey: Sysvar.recentBlockHashes, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.recentBlockHashes),
+            isSigner: false,
+          ),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.initializeNonceAccountInstructionIndex,
-          Buffer.fromBase58(authority),
+          authority.toBuffer(),
         ]),
       );
 
   factory SystemInstruction.authorizeNonceAccount({
-    required String noncePubKey,
-    required String authorizedPubKey,
-    required String newAuthority,
+    required Ed25519HDPublicKey noncePubKey,
+    required Ed25519HDPublicKey authorizedPubKey,
+    required Ed25519HDPublicKey newAuthority,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -183,12 +192,12 @@ class SystemInstruction extends Instruction {
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.authorizeNonceAccountInstructionIndex,
-          Buffer.fromBase58(newAuthority),
+          newAuthority.toBuffer(),
         ]),
       );
 
   factory SystemInstruction.allocate({
-    required String pubKey,
+    required Ed25519HDPublicKey pubKey,
     required int space,
   }) =>
       SystemInstruction._(
@@ -200,11 +209,11 @@ class SystemInstruction extends Instruction {
       );
 
   factory SystemInstruction.allocateWithSeed({
-    required String pubKey,
-    required String base,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey base,
     required String seed,
     required int space,
-    required String owner,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -213,18 +222,18 @@ class SystemInstruction extends Instruction {
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.allocateWithSeedInstructionIndex,
-          Buffer.fromBase58(base),
+          base.toBuffer(),
           Buffer.fromString(seed),
           Buffer.fromUint64(space),
-          Buffer.fromBase58(owner),
+          owner.toBuffer(),
         ]),
       );
 
   factory SystemInstruction.assignWithSeed({
-    required String pubKey,
-    required String base,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey base,
     required String seed,
-    required String owner,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -233,18 +242,18 @@ class SystemInstruction extends Instruction {
         ],
         data: Buffer.fromConcatenatedByteArrays([
           SystemProgram.assignWithSeedInstructionIndex,
-          Buffer.fromBase58(base),
+          base.toBuffer(),
           Buffer.fromString(seed),
-          Buffer.fromBase58(owner),
+          owner.toBuffer(),
         ]),
       );
 
   factory SystemInstruction.transferWithSeed({
-    required String source,
-    required String base,
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey base,
     required String seed,
-    required String owner,
-    required String destination,
+    required Ed25519HDPublicKey owner,
+    required Ed25519HDPublicKey destination,
     required int lamports,
   }) =>
       SystemInstruction._(
@@ -257,7 +266,7 @@ class SystemInstruction extends Instruction {
           SystemProgram.transferWithSeedInstructionIndex,
           Buffer.fromUint64(lamports),
           Buffer.fromString(seed),
-          Buffer.fromBase58(owner),
+          owner.toBuffer(),
         ]),
       );
 }

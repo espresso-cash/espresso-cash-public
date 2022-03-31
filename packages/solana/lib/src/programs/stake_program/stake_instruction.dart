@@ -1,4 +1,5 @@
 import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/constants.dart';
@@ -28,14 +29,17 @@ class StakeInstruction extends Instruction {
   ///   and withdrawer transactions.
   /// [lockup] carries information about withdrawal restrictions
   factory StakeInstruction.initialize({
-    required String stakePubKey,
+    required Ed25519HDPublicKey stakePubKey,
     required Authorized authorized,
     Lockup lockup = const Lockup.none(),
   }) =>
       StakeInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: stakePubKey, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
         ],
         data: Buffer.fromConcatenatedByteArrays([
           StakeProgram.initializeInstructionIndex,
@@ -53,15 +57,18 @@ class StakeInstruction extends Instruction {
   ///   3. [lockupAuthorityPubKey] Optional: `[SIGNER]` Lockup authority, if updating StakeAuthorize::Withdrawer before
   ///      lockup expiration
   factory StakeInstruction.authorize({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required StakeAuthorize stakeAuthorize,
-    String? lockupAuthorityPubKey,
+    Ed25519HDPublicKey? lockupAuthorityPubKey,
   }) =>
       StakeInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: stakePubKey, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.clock, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
+            isSigner: false,
+          ),
           AccountMeta.readonly(pubKey: authorityPubKey, isSigner: true),
           if (lockupAuthorityPubKey != null)
             AccountMeta.readonly(pubKey: lockupAuthorityPubKey, isSigner: true),
@@ -86,17 +93,23 @@ class StakeInstruction extends Instruction {
   ///   can be called multiple times, but re-delegation is delayed
   ///   by one epoch
   factory StakeInstruction.delegateStake({
-    required String stakePubKey,
-    required String votePubKey,
-    required String configPubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey votePubKey,
+    required Ed25519HDPublicKey configPubKey,
+    required Ed25519HDPublicKey authorityPubKey,
   }) =>
       StakeInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: stakePubKey, isSigner: false),
           AccountMeta.readonly(pubKey: votePubKey, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.clock, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.stakeHistory, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
+            isSigner: false,
+          ),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.stakeHistory),
+            isSigner: false,
+          ),
           AccountMeta.readonly(pubKey: configPubKey, isSigner: false),
           AccountMeta.readonly(pubKey: authorityPubKey, isSigner: true),
         ],
@@ -110,9 +123,9 @@ class StakeInstruction extends Instruction {
   ///   1. [destinationStakePubKey] `[WRITE]` Uninitialized stake account that will take the split-off amount
   ///   2. [stakeAuthorityPubKey] `[SIGNER]` Stake authority
   factory StakeInstruction.split({
-    required String sourceStakePubKey,
-    required String destinationStakePubKey,
-    required String stakeAuthorityPubKey,
+    required Ed25519HDPublicKey sourceStakePubKey,
+    required Ed25519HDPublicKey destinationStakePubKey,
+    required Ed25519HDPublicKey stakeAuthorityPubKey,
     required int lamports,
   }) =>
       StakeInstruction._(
@@ -143,18 +156,24 @@ class StakeInstruction extends Instruction {
   /// The u64 is the portion of the stake account balance to be withdrawn,
   ///    must be `<= StakeAccount.lamports - staked_lamports`.
   factory StakeInstruction.withdraw({
-    required String stakePubKey,
-    required String recipientPubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey recipientPubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required int lamports,
-    String? lockupAuthorityPubKey,
+    Ed25519HDPublicKey? lockupAuthorityPubKey,
   }) =>
       StakeInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: stakePubKey, isSigner: false),
           AccountMeta.writeable(pubKey: recipientPubKey, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.clock, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.stakeHistory, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
+            isSigner: false,
+          ),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.stakeHistory),
+            isSigner: false,
+          ),
           AccountMeta.readonly(
             pubKey: authorityPubKey,
             isSigner: true,
@@ -178,13 +197,16 @@ class StakeInstruction extends Instruction {
   ///   1. `[]` Clock sysvar
   ///   2. [authorityPubKey] `[SIGNER]` Stake authority
   factory StakeInstruction.deactivate({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
   }) =>
       StakeInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: stakePubKey, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.clock, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
+            isSigner: false,
+          ),
           AccountMeta.readonly(pubKey: authorityPubKey, isSigner: true),
         ],
         data: StakeProgram.deactivateInstructionIndex,
@@ -199,8 +221,8 @@ class StakeInstruction extends Instruction {
   ///   0. [stakePubKey] `[WRITE]` Initialized stake account
   ///   1. [authorityPubKey] `[SIGNER]` Lockup authority or withdraw authority
   factory StakeInstruction.setLockup({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required Lockup lockup,
   }) =>
       StakeInstruction._(
@@ -239,9 +261,9 @@ class StakeInstruction extends Instruction {
   ///   3. `[]` Stake history sysvar that carries stake warmup/cooldown history
   ///   4. [authorityPubKey] `[SIGNER]` Stake authority
   factory StakeInstruction.merge({
-    required String destinationStakePubKey,
-    required String sourceStakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey destinationStakePubKey,
+    required Ed25519HDPublicKey sourceStakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
   }) =>
       StakeInstruction._(
         accounts: [
@@ -250,8 +272,14 @@ class StakeInstruction extends Instruction {
             isSigner: false,
           ),
           AccountMeta.writeable(pubKey: sourceStakePubKey, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.clock, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.stakeHistory, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
+            isSigner: false,
+          ),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.stakeHistory),
+            isSigner: false,
+          ),
           AccountMeta.readonly(pubKey: authorityPubKey, isSigner: true),
         ],
         data: StakeProgram.mergeInstructionIndex,
@@ -266,16 +294,19 @@ class StakeInstruction extends Instruction {
   ///   3. Optional: `[SIGNER]` Lockup authority, if updating StakeAuthorize::Withdrawer before
   ///      lockup expiration
   factory StakeInstruction.authorizeWithSeed({
-    required String stakePubKey,
-    required String authorityBasePubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityBasePubKey,
     required AuthorizeWithSeedArgs args,
-    String? lockupAuthority,
+    Ed25519HDPublicKey? lockupAuthority,
   }) =>
       StakeInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: stakePubKey, isSigner: false),
           AccountMeta.readonly(pubKey: authorityBasePubKey, isSigner: true),
-          AccountMeta.readonly(pubKey: Sysvar.clock, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
+            isSigner: false,
+          ),
           if (lockupAuthority != null)
             AccountMeta.readonly(
               pubKey: lockupAuthority,
@@ -300,14 +331,17 @@ class StakeInstruction extends Instruction {
   ///   3. `[SIGNER]` The withdraw authority
   ///
   factory StakeInstruction.initializeChecked({
-    required String stakePubKey,
-    required String stakeAuthorityPubKey,
-    required String withdrawAuthorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey stakeAuthorityPubKey,
+    required Ed25519HDPublicKey withdrawAuthorityPubKey,
   }) =>
       StakeInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: stakePubKey, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
           AccountMeta.readonly(pubKey: stakeAuthorityPubKey, isSigner: false),
           AccountMeta.readonly(pubKey: withdrawAuthorityPubKey, isSigner: true),
         ],
@@ -327,15 +361,18 @@ class StakeInstruction extends Instruction {
   ///   4. Optional: `[SIGNER]` Lockup authority, if updating StakeAuthorize::Withdrawer before
   ///      lockup expiration
   factory StakeInstruction.authorizeChecked({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required StakeAuthorize stakeAuthorize,
-    String? lockupAuthorityPubKey,
+    Ed25519HDPublicKey? lockupAuthorityPubKey,
   }) =>
       StakeInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: stakePubKey, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.clock, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
+            isSigner: false,
+          ),
           AccountMeta.readonly(pubKey: authorityPubKey, isSigner: true),
           AccountMeta.readonly(pubKey: stakeAuthorize.pubKey, isSigner: true),
           if (lockupAuthorityPubKey != null)
@@ -363,17 +400,20 @@ class StakeInstruction extends Instruction {
   ///   4. Optional: `[SIGNER]` Lockup authority, if updating StakeAuthorize::Withdrawer before
   ///      lockup expiration
   factory StakeInstruction.authorizeCheckedWithSeed({
-    required String stakePubKey,
-    required String base,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey base,
+    required Ed25519HDPublicKey authorityPubKey,
     required AuthorizeWithSeedArgs authorizeWithSeedArgs,
-    String? lockupAuthorityPubKey,
+    Ed25519HDPublicKey? lockupAuthorityPubKey,
   }) =>
       StakeInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: stakePubKey, isSigner: false),
           AccountMeta.readonly(pubKey: base, isSigner: true),
-          AccountMeta.readonly(pubKey: Sysvar.clock, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
+            isSigner: false,
+          ),
           AccountMeta.readonly(
             pubKey: authorizeWithSeedArgs.stakeAuthorize.pubKey,
             isSigner: true,
@@ -403,8 +443,8 @@ class StakeInstruction extends Instruction {
   ///   1. `[SIGNER]` Lockup authority or withdraw authority
   ///   2. Optional: `[SIGNER]` New lockup authority
   factory StakeInstruction.setLockupChecked({
-    required String stakePubKey,
-    required String authorityPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Ed25519HDPublicKey authorityPubKey,
     required LockupCheckedArgs lockupCheckedArgs,
   }) =>
       StakeInstruction._(

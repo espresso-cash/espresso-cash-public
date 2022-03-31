@@ -1,3 +1,4 @@
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/programs/system_program/system_instruction.dart';
@@ -22,11 +23,11 @@ class SystemProgram extends Message {
   /// If [pubKey] is the [fromPubKey]'s address, and the owner has tokens this will
   /// fail because the account would already exist.
   factory SystemProgram.createAccount({
-    required String pubKey,
-    required String fromPubKey,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey fromPubKey,
     required int lamports,
     required int space,
-    required String owner,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemProgram._(
         instructions: [
@@ -42,8 +43,8 @@ class SystemProgram extends Message {
 
   /// Assign [pubKey] to [owner]
   factory SystemProgram.assign({
-    required String pubKey,
-    required String owner,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemProgram._(instructions: [
         SystemInstruction.assign(pubKey: pubKey, owner: owner),
@@ -51,8 +52,8 @@ class SystemProgram extends Message {
 
   /// Transfer [lamports] SOL tokens from [source] to [destination].
   factory SystemProgram.transfer({
-    required String source,
-    required String destination,
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey destination,
     required int lamports,
   }) =>
       SystemProgram._(
@@ -66,13 +67,13 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.createAccountWithSeed({
-    required String fromPubKey,
-    required String pubKey,
-    required String base,
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey base,
     required String seed,
     required int lamports,
     required int space,
-    required String owner,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemProgram._(
         instructions: [
@@ -89,8 +90,8 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.advanceNonceAccount({
-    required String nonceAuthorityPubKey,
-    required String authorizedPubKey,
+    required Ed25519HDPublicKey nonceAuthorityPubKey,
+    required Ed25519HDPublicKey authorizedPubKey,
   }) =>
       SystemProgram._(
         instructions: [
@@ -102,9 +103,9 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.withdrawNonceAccount({
-    required String noncePubKey,
-    required String authorizedPubKey,
-    required String toPubKey,
+    required Ed25519HDPublicKey noncePubKey,
+    required Ed25519HDPublicKey authorizedPubKey,
+    required Ed25519HDPublicKey toPubKey,
     required int lamports,
   }) =>
       SystemProgram._(
@@ -119,9 +120,9 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.createNonceAccount({
-    required String fromPubKey,
-    required String noncePubKey,
-    required String noceAuthorityPubKey,
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey noncePubKey,
+    required Ed25519HDPublicKey noceAuthorityPubKey,
     required int lamports,
   }) =>
       SystemProgram._(
@@ -131,7 +132,7 @@ class SystemProgram extends Message {
             pubKey: noncePubKey,
             lamports: lamports,
             space: nonceAccountSize,
-            owner: SystemProgram.programId,
+            owner: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
           ),
           SystemInstruction.initializeNonceAccount(
             noncePubKey: noncePubKey,
@@ -141,11 +142,11 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.createNonceAccountWithSeed({
-    required String fromPubKey,
-    required String noncePubKey,
-    required String base,
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey noncePubKey,
+    required Ed25519HDPublicKey base,
     required String seed,
-    required String authority,
+    required Ed25519HDPublicKey authority,
     required int lamports,
   }) =>
       SystemProgram._(
@@ -157,7 +158,7 @@ class SystemProgram extends Message {
             space: nonceAccountSize,
             seed: seed,
             base: base,
-            owner: SystemProgram.programId,
+            owner: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
           ),
           SystemInstruction.initializeNonceAccount(
             noncePubKey: noncePubKey,
@@ -167,9 +168,9 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.authorizeNonceAccount({
-    required String noncePubKey,
-    required String authorizedPubKey,
-    required String newAuthority,
+    required Ed25519HDPublicKey noncePubKey,
+    required Ed25519HDPublicKey authorizedPubKey,
+    required Ed25519HDPublicKey newAuthority,
   }) =>
       SystemProgram._(
         instructions: [
@@ -182,7 +183,7 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.allocate({
-    required String pubKey,
+    required Ed25519HDPublicKey pubKey,
     required int space,
   }) =>
       SystemProgram._(
@@ -192,11 +193,11 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.allocateWithSeed({
-    required String pubKey,
+    required Ed25519HDPublicKey pubKey,
     required int space,
-    required String base,
+    required Ed25519HDPublicKey base,
     required String seed,
-    required String owner,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemProgram._(
         instructions: [
@@ -211,10 +212,10 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.assignWithSeed({
-    required String pubKey,
-    required String base,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey base,
     required String seed,
-    required String owner,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemProgram._(
         instructions: [
@@ -228,12 +229,12 @@ class SystemProgram extends Message {
       );
 
   factory SystemProgram.transferWithSeed({
-    required String source,
-    required String base,
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey base,
     required String seed,
-    required String destination,
+    required Ed25519HDPublicKey destination,
     required int lamports,
-    required String owner,
+    required Ed25519HDPublicKey owner,
   }) =>
       SystemProgram._(
         instructions: [

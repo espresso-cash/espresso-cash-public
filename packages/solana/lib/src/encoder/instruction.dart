@@ -1,4 +1,5 @@
 import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
@@ -27,7 +28,7 @@ class Instruction {
   /// Compiles instruction according to the [instruction format][1].
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
-  ByteArray compile(Map<String, int> accountIndexesMap) {
+  ByteArray compile(Map<Ed25519HDPublicKey, int> accountIndexesMap) {
     final data = CompactArray.fromIterable(this.data);
 
     if (!accountIndexesMap.containsKey(programId)) {

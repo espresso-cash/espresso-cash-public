@@ -95,7 +95,7 @@ class Ed25519HDKeyPair extends KeyPair {
   }) async {
     final compiledMessage = message.compile(
       recentBlockhash: recentBlockhash,
-      feePayer: address,
+      feePayer: await extractPublicKey(),
     );
     final signature = await sign(compiledMessage.data);
 
@@ -241,6 +241,8 @@ class Ed25519HDPublicKey implements PublicKey {
   final List<int> bytes;
 
   String toBase58() => base58encode(bytes);
+
+  Buffer toBuffer() => Buffer.fromIterable(bytes);
 
   @override
   KeyPairType<KeyPairData, PublicKey> get type => KeyPairType.ed25519;

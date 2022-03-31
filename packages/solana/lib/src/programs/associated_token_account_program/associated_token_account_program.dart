@@ -1,3 +1,4 @@
+import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/programs/associated_token_account_program/associated_token_account_instruction.dart';
 
@@ -16,10 +17,10 @@ class AssociatedTokenAccountProgram extends Message {
   ///
   /// [associated token account]: https://spl.solana.com/associated-token-account
   AssociatedTokenAccountProgram({
-    required String funder,
-    required String address,
-    required String owner,
-    required String mint,
+    required Ed25519HDPublicKey funder,
+    required Ed25519HDPublicKey address,
+    required Ed25519HDPublicKey owner,
+    required Ed25519HDPublicKey mint,
   }) : super(
           instructions: [
             AssociatedTokenAccountInstruction(
