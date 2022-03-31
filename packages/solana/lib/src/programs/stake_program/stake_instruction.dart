@@ -6,6 +6,7 @@ import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/stake_program/stake_program.dart';
 import 'package:solana/src/programs/stake_program/state.dart';
+import 'package:solana/src/programs/system_program/system_instruction.dart';
 import 'package:solana/src/rpc/dto/account_data/stake_program/authorized.dart';
 import 'package:solana/src/rpc/dto/account_data/stake_program/lockup.dart';
 
@@ -457,6 +458,54 @@ class StakeInstruction extends Instruction {
           lockupCheckedArgs.serialize(),
         ]),
       );
+
+  static List<Instruction> createAndInitializeAccount({
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Authorized authorized,
+    required int lamports,
+    Lockup lockup = const Lockup.none(),
+  }) =>
+      [
+        SystemInstruction.createAccount(
+          pubKey: stakePubKey,
+          fromPubKey: fromPubKey,
+          lamports: lamports,
+          space: StakeProgram.neededAccountSpace,
+          owner: Ed25519HDPublicKey.fromBase58(StakeProgram.programId),
+        ),
+        StakeInstruction.initialize(
+          stakePubKey: stakePubKey,
+          authorized: authorized,
+          lockup: lockup,
+        ),
+      ];
+
+  static List<Instruction> createAndInitializeAccountWithSeed({
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey stakePubKey,
+    required Authorized authorized,
+    required Ed25519HDPublicKey base,
+    required String seed,
+    required int lamports,
+    Lockup lockup = const Lockup.none(),
+  }) =>
+      [
+        SystemInstruction.createAccountWithSeed(
+          fromPubKey: fromPubKey,
+          pubKey: stakePubKey,
+          lamports: lamports,
+          space: StakeProgram.neededAccountSpace,
+          owner: Ed25519HDPublicKey.fromBase58(StakeProgram.programId),
+          seed: seed,
+          base: base,
+        ),
+        StakeInstruction.initialize(
+          stakePubKey: stakePubKey,
+          authorized: authorized,
+          lockup: lockup,
+        ),
+      ];
 }
 
 class LockupCheckedArgs {

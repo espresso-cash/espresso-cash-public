@@ -1,32 +1,10 @@
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/programs/memo_program/memo_instruction.dart';
 
 export 'package:solana/src/programs/memo_program/memo_instruction.dart';
 
 /// The memo program from the SPL
-class MemoProgram extends Message {
-  /// Construct a [memo program][memo program] with [signers] and [memo].
-  ///
-  /// [memo program]: https://spl.solana.com/memo
-  ///
-  /// Please note that there's a limit on the length of the [memo] string, which
-  /// otherwise is an arbitrary string of utf-8 data.
-  ///
-  /// The limit as [specified in this document][memo limit] is 566 bytes.
-  ///
-  /// [memo limit](https://spl.solana.com/memo#compute-limits)
-  MemoProgram({
-    required List<Ed25519HDPublicKey> signers,
-    required String memo,
-  }) : super(
-          instructions: [
-            MemoInstruction(
-              signers: signers,
-              memo: memo,
-            )
-          ],
-        );
-
+abstract class MemoProgram {
   static const programId = 'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr';
+
+  static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);
 }

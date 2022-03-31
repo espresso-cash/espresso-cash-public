@@ -31,7 +31,7 @@ void main() {
 
       // Now send some tokens
       await createTestSolanaClient().transferLamports(
-        destination: recipient.address,
+        destination: recipient.publicKey,
         commitment: Commitment.confirmed,
         lamports: lamportsPerSol ~/ 2,
         source: sender,

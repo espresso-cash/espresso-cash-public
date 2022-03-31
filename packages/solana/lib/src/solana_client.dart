@@ -148,7 +148,7 @@ class SolanaClient {
       status: commitment,
     );
 
-    return createReadWriteToken(owner: owner, mint: mintWallet.address);
+    return createReadWriteToken(owner: owner, mint: mintWallet.publicKey);
   }
 
   /// Mint [destination] with [amount] tokens. Requires writable [Token].
@@ -310,14 +310,14 @@ class SolanaClient {
       owner: effectiveOwner,
       mint: mint,
     );
-    final message = AssociatedTokenAccountProgram(
+    final instruction = AssociatedTokenAccountInstruction.createAccount(
       mint: mint,
       address: derivedAddress,
       owner: effectiveOwner,
       funder: funder.publicKey,
     );
     final signature = await rpcClient.signAndSendTransaction(
-      message,
+      Message.only(instruction),
       [funder],
     );
     await waitForSignatureStatus(
@@ -340,18 +340,18 @@ class SolanaClient {
 
   /// Whether this wallet has an associated token account for the SPL token [mint].
   Future<bool> hasAssociatedTokenAccount({
-    required String owner,
-    required String mint,
+    required Ed25519HDPublicKey owner,
+    required Ed25519HDPublicKey mint,
   }) async {
     Iterable<ProgramAccount> accounts;
     final associatedTokenAddress = await findAssociatedTokenAddress(
-      owner: Ed25519HDPublicKey.fromBase58(owner),
-      mint: Ed25519HDPublicKey.fromBase58(mint),
+      owner: owner,
+      mint: mint,
     );
     try {
       accounts = await rpcClient.getTokenAccountsByOwner(
-        owner,
-        TokenAccountsFilter.byMint(mint),
+        owner.toBase58(),
+        TokenAccountsFilter.byMint(mint.toBase58()),
         encoding: Encoding.jsonParsed,
       );
     } on FormatException {
@@ -383,24 +383,27 @@ class SolanaClient {
   ///
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<TokenAmount> getTokenBalance({
-    required String owner,
-    required String mint,
+    required Ed25519HDPublicKey owner,
+    required Ed25519HDPublicKey mint,
     Commitment? commitment,
   }) async =>
       rpcClient.getTokenAccountBalance(
-        await getProgramAccountAddress(owner: owner, mint: mint),
+        await getProgramAccountAddress(
+          owner: owner.toBase58(),
+          mint: mint.toBase58(),
+        ),
         commitment: commitment,
       );
 
   /// Create a read write account.
   Future<SplToken> createReadWriteToken({
-    required String mint,
+    required Ed25519HDPublicKey mint,
     required Wallet owner,
   }) =>
       _withOptionalOwner(mint: mint, owner: owner);
 
   /// Create a readonly account for [mint].
-  Future<SplToken> createReadonlyToken({required String mint}) =>
+  Future<SplToken> createReadonlyToken({required Ed25519HDPublicKey mint}) =>
       _withOptionalOwner(mint: mint);
 
   SubscriptionClient _createSubscriptionClient() =>
@@ -408,11 +411,11 @@ class SolanaClient {
 
   /// Passing [owner] makes this a writeable token.
   Future<SplToken> _withOptionalOwner({
-    required String mint,
+    required Ed25519HDPublicKey mint,
     Wallet? owner,
   }) async {
     // TODO(IA): perhaps delay this or use a user provided token information
-    final supplyValue = await rpcClient.getTokenSupply(mint);
+    final supplyValue = await rpcClient.getTokenSupply(mint.toBase58());
 
     return SplToken(
       decimals: supplyValue.decimals,

@@ -18,9 +18,9 @@ void main() {
     final account = await Ed25519HDKeyPair.random();
     final staker = await Ed25519HDKeyPair.random();
     final withdrawer = await Ed25519HDKeyPair.random();
-    final program = StakeProgram.createAccount(
-      fromPubKey: fromKey.address,
-      stakePubKey: account.address,
+    final instructions = StakeInstruction.createAndInitializeAccount(
+      fromPubKey: fromKey.publicKey,
+      stakePubKey: account.publicKey,
       authorized: Authorized(
         staker: staker.address,
         withdrawer: withdrawer.address,
@@ -29,7 +29,7 @@ void main() {
     );
 
     final signature = await rpcClient.signAndSendTransaction(
-      program,
+      Message(instructions: instructions),
       [fromKey, account],
     );
     expect(
@@ -42,9 +42,6 @@ void main() {
   });
 
   test('Create Account: with seed', () async {
-    Message program;
-    String signature;
-
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final staker = await Ed25519HDKeyPair.random();
     final withdrawer = await Ed25519HDKeyPair.random();
@@ -52,7 +49,7 @@ void main() {
     final lamports = await rpcClient
         .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
 
-    signature = await rpcClient.requestAirdrop(
+    final signature = await rpcClient.requestAirdrop(
       fromKey.address,
       100 * lamportsPerSol,
     );
@@ -69,21 +66,21 @@ void main() {
     );
     final stakeAmount = 50 * lamportsPerSol;
 
-    program = StakeProgram.createAccountWithSeed(
-      fromPubKey: fromKey.address,
-      stakePubKey: derivedPubKey.toBase58(),
+    final instructions = StakeInstruction.createAndInitializeAccountWithSeed(
+      fromPubKey: fromKey.publicKey,
+      stakePubKey: derivedPubKey,
       authorized: Authorized(
         withdrawer: withdrawer.address,
         staker: staker.address,
       ),
-      base: stakeKey.address,
+      base: stakeKey.publicKey,
       seed: seed,
       lamports: lamports + stakeAmount,
     );
 
     expect(
       rpcClient.signAndSendTransaction(
-        program,
+        Message(instructions: instructions),
         [fromKey, stakeKey],
       ),
       completes,
@@ -95,16 +92,22 @@ void main() {
     final withdrawer = await Ed25519HDKeyPair.random();
     final account = await Ed25519HDKeyPair.random();
     final fromKey = await _newAccount(
-        rpcClient, subscriptionClient, staker, withdrawer, account);
-    final newStaker = await Ed25519HDKeyPair.random();
-    final program = StakeProgram.authorize(
-      stakePubKey: account.address,
-      authorityPubKey: staker.address,
-      stakeAuthorize: StakeAuthorize.staker(newStaker.address),
+      rpcClient,
+      subscriptionClient,
+      staker,
+      withdrawer,
+      account,
     );
+    final newStaker = await Ed25519HDKeyPair.random();
+    final instruction = StakeInstruction.authorize(
+      stakePubKey: account.publicKey,
+      authorityPubKey: staker.publicKey,
+      stakeAuthorize: StakeAuthorize.staker(newStaker.publicKey),
+    );
+
     expect(
       rpcClient.signAndSendTransaction(
-        program,
+        Message.only(instruction),
         [fromKey, staker],
       ),
       completes,
@@ -116,16 +119,22 @@ void main() {
     final withdrawer = await Ed25519HDKeyPair.random();
     final account = await Ed25519HDKeyPair.random();
     final fromKey = await _newAccount(
-        rpcClient, subscriptionClient, staker, withdrawer, account);
-    final newWithdrawer = await Ed25519HDKeyPair.random();
-    final program = StakeProgram.authorize(
-      stakePubKey: account.address,
-      authorityPubKey: withdrawer.address,
-      stakeAuthorize: StakeAuthorize.withdrawer(newWithdrawer.address),
+      rpcClient,
+      subscriptionClient,
+      staker,
+      withdrawer,
+      account,
     );
+    final newWithdrawer = await Ed25519HDKeyPair.random();
+    final instruction = StakeInstruction.authorize(
+      stakePubKey: account.publicKey,
+      authorityPubKey: withdrawer.publicKey,
+      stakeAuthorize: StakeAuthorize.withdrawer(newWithdrawer.publicKey),
+    );
+
     expect(
       rpcClient.signAndSendTransaction(
-        program,
+        Message.only(instruction),
         [fromKey, withdrawer],
       ),
       completes,
@@ -133,26 +142,29 @@ void main() {
   });
 
   test('Split', () async {
-    Message program;
-
     final staker = await Ed25519HDKeyPair.random();
     final withdrawer = await Ed25519HDKeyPair.random();
     final account = await Ed25519HDKeyPair.random();
     final fromKey = await _newAccount(
-        rpcClient, subscriptionClient, staker, withdrawer, account);
+      rpcClient,
+      subscriptionClient,
+      staker,
+      withdrawer,
+      account,
+    );
     final newAccount = await Ed25519HDKeyPair.random();
     final lamports = await rpcClient.getMinimumBalanceForRentExemption(
       StakeProgram.neededAccountSpace,
     );
-    program = SystemProgram.createAccount(
+    final instruction = SystemInstruction.createAccount(
       lamports: lamports,
-      pubKey: newAccount.address,
-      fromPubKey: fromKey.address,
-      owner: StakeProgram.programId,
+      pubKey: newAccount.publicKey,
+      fromPubKey: fromKey.publicKey,
+      owner: StakeProgram.id,
       space: StakeProgram.neededAccountSpace,
     );
     final signature = await rpcClient.signAndSendTransaction(
-      program,
+      Message.only(instruction),
       [fromKey, newAccount],
     );
     await subscriptionClient.waitForSignatureStatus(
@@ -160,15 +172,18 @@ void main() {
       status: ConfirmationStatus.finalized,
     );
 
-    program = StakeProgram.split(
+    final splitInstruction = StakeInstruction.split(
       lamports: 100,
-      destinationStakePubKey: newAccount.address,
-      sourceStakePubKey: account.address,
-      stakeAuthorityPubKey: staker.address,
+      destinationStakePubKey: newAccount.publicKey,
+      sourceStakePubKey: account.publicKey,
+      stakeAuthorityPubKey: staker.publicKey,
     );
 
     expect(
-      rpcClient.signAndSendTransaction(program, [fromKey, staker]),
+      rpcClient.signAndSendTransaction(
+        Message.only(splitInstruction),
+        [fromKey, staker],
+      ),
       completes,
     );
   }, timeout: const Timeout(Duration(minutes: 2)));
@@ -178,16 +193,24 @@ void main() {
     final withdrawer = await Ed25519HDKeyPair.random();
     final account = await Ed25519HDKeyPair.random();
     final fromKey = await _newAccount(
-        rpcClient, subscriptionClient, staker, withdrawer, account);
-    final program = StakeProgram.withdraw(
+      rpcClient,
+      subscriptionClient,
+      staker,
+      withdrawer,
+      account,
+    );
+    final instruction = StakeInstruction.withdraw(
       lamports: 100,
-      authorityPubKey: withdrawer.address,
-      stakePubKey: account.address,
-      recipientPubKey: fromKey.address,
+      authorityPubKey: withdrawer.publicKey,
+      stakePubKey: account.publicKey,
+      recipientPubKey: fromKey.publicKey,
     );
 
     expect(
-      rpcClient.signAndSendTransaction(program, [fromKey, withdrawer]),
+      rpcClient.signAndSendTransaction(
+        Message.only(instruction),
+        [fromKey, withdrawer],
+      ),
       completes,
     );
   });
@@ -198,7 +221,12 @@ void main() {
     final account1 = await Ed25519HDKeyPair.random();
     final account2 = await Ed25519HDKeyPair.random();
     final fromKey = await _newAccount(
-        rpcClient, subscriptionClient, staker, withdrawer, account1);
+      rpcClient,
+      subscriptionClient,
+      staker,
+      withdrawer,
+      account1,
+    );
     await _newAccount(
       rpcClient,
       subscriptionClient,
@@ -206,14 +234,17 @@ void main() {
       withdrawer,
       account2,
     );
-    final program = StakeProgram.merge(
-      authorityPubKey: staker.address,
-      sourceStakePubKey: account2.address,
-      destinationStakePubKey: account1.address,
+    final instruction = StakeInstruction.merge(
+      authorityPubKey: staker.publicKey,
+      sourceStakePubKey: account2.publicKey,
+      destinationStakePubKey: account1.publicKey,
     );
 
     expect(
-      rpcClient.signAndSendTransaction(program, [fromKey, staker]),
+      rpcClient.signAndSendTransaction(
+        Message.only(instruction),
+        [fromKey, staker],
+      ),
       completes,
     );
   }, timeout: const Timeout(Duration(minutes: 1)));
@@ -246,9 +277,9 @@ Future<Ed25519HDKeyPair> _newAccount(
   final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
   final rent = await rpcClient
       .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
-  final program = StakeProgram.createAccount(
-    fromPubKey: fromKey.address,
-    stakePubKey: stakeKey.address,
+  final instructions = StakeInstruction.createAndInitializeAccount(
+    fromPubKey: fromKey.publicKey,
+    stakePubKey: stakeKey.publicKey,
     authorized: Authorized(
       staker: staker.address,
       withdrawer: withdrawer.address,
@@ -257,7 +288,7 @@ Future<Ed25519HDKeyPair> _newAccount(
   );
 
   final signature = await rpcClient.signAndSendTransaction(
-    program,
+    Message(instructions: instructions),
     [fromKey, stakeKey],
   );
   await subscriptionClient.waitForSignatureStatus(

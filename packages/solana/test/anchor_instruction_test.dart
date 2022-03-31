@@ -53,9 +53,9 @@ void main() {
     final instructions = [
       SystemInstruction.createAccount(
         lamports: rent,
-        owner: _basic1,
-        pubKey: updater.address,
-        fromPubKey: payer.address,
+        owner: Ed25519HDPublicKey.fromBase58(_basic1),
+        pubKey: updater.publicKey,
+        fromPubKey: payer.publicKey,
         space: space,
       ),
       await AnchorInstruction.forMethod(
@@ -63,8 +63,11 @@ void main() {
         method: 'initialize',
         arguments: const Basic1Arguments(data: 100),
         accounts: <AccountMeta>[
-          AccountMeta.writeable(pubKey: updater.address, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
         ],
         namespace: 'global',
       ),
@@ -100,7 +103,7 @@ void main() {
         method: 'update',
         arguments: const Basic1Arguments(data: 25),
         accounts: <AccountMeta>[
-          AccountMeta.writeable(pubKey: updater.address, isSigner: false),
+          AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
         ],
         namespace: 'global',
       ),

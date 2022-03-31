@@ -20,7 +20,7 @@ class AssociatedTokenAccountInstruction extends Instruction {
   /// If the [address] does not match the derived address, this method will fail.
   ///
   /// [associated token account]: https://spl.solana.com/associated-token-account
-  factory AssociatedTokenAccountInstruction({
+  factory AssociatedTokenAccountInstruction.createAccount({
     required Ed25519HDPublicKey funder,
     required Ed25519HDPublicKey address,
     required Ed25519HDPublicKey owner,

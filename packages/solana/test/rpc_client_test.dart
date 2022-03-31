@@ -90,13 +90,13 @@ void main() {
 
     test('Simulate a transfer', () async {
       final recentBlockhash = await rpcClient.getRecentBlockhash();
-      final message = SystemProgram.transfer(
-        source: source.address,
-        destination: destination.address,
+      final instruction = SystemInstruction.transfer(
+        source: source.publicKey,
+        destination: destination.publicKey,
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await source.signMessage(
-        message: message,
+        message: Message.only(instruction),
         recentBlockhash: recentBlockhash.blockhash,
       );
       final TransactionStatus transferResult =
@@ -108,13 +108,13 @@ void main() {
 
     test('Transfer SOL', () async {
       final recentBlockhash = await rpcClient.getRecentBlockhash();
-      final message = SystemProgram.transfer(
-        source: source.address,
-        destination: destination.address,
+      final instruction = SystemInstruction.transfer(
+        source: source.publicKey,
+        destination: destination.publicKey,
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await source.signMessage(
-        message: message,
+        message: Message.only(instruction),
         recentBlockhash: recentBlockhash.blockhash,
       );
       final String signature = await rpcClient.sendTransaction(
@@ -134,13 +134,13 @@ void main() {
 
     test('Transfer SOL to the same address', () async {
       final recentBlockhash = await rpcClient.getRecentBlockhash();
-      final message = SystemProgram.transfer(
-        source: source.address,
-        destination: source.address,
+      final instruction = SystemInstruction.transfer(
+        source: source.publicKey,
+        destination: source.publicKey,
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await source.signMessage(
-        message: message,
+        message: Message.only(instruction),
         recentBlockhash: recentBlockhash.blockhash,
       );
       final String signature = await rpcClient.sendTransaction(
@@ -242,7 +242,7 @@ void main() {
       );
 
       final createdAccount = await solanaClient.createAssociatedTokenAccount(
-        owner: accountKeyPair.address,
+        owner: accountKeyPair.publicKey,
         funder: accountCreator,
         mint: token.mint,
       );
@@ -694,7 +694,7 @@ Future<int> _createTokenAccount(
     subscriptionClient: subscriptionClient,
     decimals: 2,
     supply: 100000000000000,
-    transferSomeToAddress: source.address,
+    transferSomeToAddress: source.publicKey,
     transferSomeToAmount: 1000,
   );
   final rent = await rpcClient.getMinimumBalanceForRentExemption(
@@ -702,10 +702,10 @@ Future<int> _createTokenAccount(
     commitment: Commitment.finalized,
   );
 
-  final program = TokenProgram.createAccount(
+  final instructions = TokenInstruction.createAndInitializeAccount(
     mint: token.mint,
-    owner: source.address,
-    address: accountKeyPair.address,
+    owner: source.publicKey,
+    address: accountKeyPair.publicKey,
     rent: rent,
     space: TokenProgram.neededAccountSpace,
   );
@@ -716,11 +716,8 @@ Future<int> _createTokenAccount(
 
   final signedTx = await signTransaction(
     recentBlockhash,
-    program,
-    [
-      source,
-      accountKeyPair,
-    ],
+    Message(instructions: instructions),
+    [source, accountKeyPair],
   );
   final signature = await rpcClient.sendTransaction(
     signedTx.encode(),
@@ -752,10 +749,10 @@ Future<String> _createAccount(
 
   await airdrop(rpcClient, subscriptionClient, source, sol: 10);
 
-  final program = SystemProgram.createAccount(
-    fromPubKey: source.address,
-    owner: SystemProgram.programId,
-    pubKey: accountKeyPair.address,
+  final instruction = SystemInstruction.createAccount(
+    fromPubKey: source.publicKey,
+    owner: SystemProgram.id,
+    pubKey: accountKeyPair.publicKey,
     lamports: await rpcClient.getMinimumBalanceForRentExemption(
       size,
       commitment: Commitment.finalized,
@@ -768,11 +765,8 @@ Future<String> _createAccount(
 
   final signedTx = await signTransaction(
     recentBlockhash,
-    program,
-    [
-      source,
-      accountKeyPair,
-    ],
+    Message.only(instruction),
+    [source, accountKeyPair],
   );
   final signature = await rpcClient.sendTransaction(
     signedTx.encode(),
@@ -805,7 +799,7 @@ Future<SplToken> _createToken({
   required SubscriptionClient subscriptionClient,
   required int decimals,
   required int supply,
-  required String transferSomeToAddress,
+  required Ed25519HDPublicKey transferSomeToAddress,
   required int transferSomeToAmount,
 }) async {
   // This is the authority that will create the token and be able to
@@ -837,7 +831,7 @@ Future<SplToken> _createToken({
   );
   // Now we have a spl token, let's add the supply to it
   await solanaClient.transferMint(
-    destination: supplyAccount.pubkey,
+    destination: Ed25519HDPublicKey.fromBase58(supplyAccount.pubkey),
     amount: supply,
     mint: splToken.mint,
     owner: tokenMintAuthority,

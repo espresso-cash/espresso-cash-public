@@ -17,7 +17,7 @@ void main() {
     // Add tokens to the sender
     await solanaClient.requestAirdrop(
       lamports: 100 * lamportsPerSol,
-      address: source.address,
+      address: source.publicKey,
     );
     token = await solanaClient.initializeMint(
       owner: source,
@@ -28,7 +28,7 @@ void main() {
       funder: source,
     );
     await solanaClient.transferMint(
-      destination: associatedAccount.pubkey,
+      destination: Ed25519HDPublicKey.fromBase58(associatedAccount.pubkey),
       amount: _tokenMintAmount,
       mint: token.mint,
       owner: source,
@@ -44,7 +44,7 @@ void main() {
 
   test('Transfer SOL', () async {
     final signature = await solanaClient.transferLamports(
-      destination: destination.address,
+      destination: destination.publicKey,
       lamports: lamportsPerSol,
       source: source,
     );
@@ -59,7 +59,7 @@ void main() {
     const memoText = 'Memo test string...';
 
     final signature = await solanaClient.transferLamports(
-      destination: destination.address,
+      destination: destination.publicKey,
       lamports: _lamportsTransferAmount,
       memo: memoText,
       source: source,
@@ -100,7 +100,7 @@ void main() {
       expect(
         solanaClient.hasAssociatedTokenAccount(
           mint: token.mint,
-          owner: wallet.address,
+          owner: wallet.publicKey,
         ),
         completion(equals(false)),
       );
@@ -108,7 +108,7 @@ void main() {
       final signature = await solanaClient.requestAirdrop(
         lamports: lamportsPerSol,
         commitment: Commitment.finalized,
-        address: wallet.address,
+        address: wallet.publicKey,
       );
       expect(signature, isNotNull);
       expect(
@@ -123,14 +123,14 @@ void main() {
       final hasAssociatedTokenAccount =
           await solanaClient.hasAssociatedTokenAccount(
         mint: token.mint,
-        owner: wallet.address,
+        owner: wallet.publicKey,
       );
 
       expect(hasAssociatedTokenAccount, equals(true));
 
       final tokenBalance = await solanaClient.getTokenBalance(
         mint: token.mint,
-        owner: wallet.address,
+        owner: wallet.publicKey,
       );
       expect(tokenBalance.decimals, equals(token.decimals));
       expect(tokenBalance.amount, equals('0'));
@@ -144,7 +144,7 @@ void main() {
       final wallet = await Ed25519HDKeyPair.random();
       expect(
         solanaClient.transferSplToken(
-          destination: wallet.address,
+          destination: wallet.publicKey,
           amount: 100,
           mint: token.mint,
           source: source,
@@ -161,10 +161,10 @@ void main() {
       await solanaClient.createAssociatedTokenAccount(
         mint: token.mint,
         funder: source,
-        owner: wallet.address,
+        owner: wallet.publicKey,
       );
       final signature = await solanaClient.transferSplToken(
-        destination: wallet.address,
+        destination: wallet.publicKey,
         amount: 40,
         mint: token.mint,
         source: source,
@@ -173,7 +173,7 @@ void main() {
 
       final tokenBalance = await solanaClient.getTokenBalance(
         mint: token.mint,
-        owner: wallet.address,
+        owner: wallet.publicKey,
       );
       expect(tokenBalance.amount, equals('40'));
     },
@@ -188,13 +188,13 @@ void main() {
       await solanaClient.createAssociatedTokenAccount(
         mint: token.mint,
         funder: source,
-        owner: wallet.address,
+        owner: wallet.publicKey,
       );
       const memoText = 'Memo test string...';
 
       final signature = await solanaClient.transferSplToken(
         mint: token.mint,
-        destination: wallet.address,
+        destination: wallet.publicKey,
         amount: 40,
         memo: memoText,
         source: source,
@@ -229,7 +229,7 @@ void main() {
       expect(parsedSplTokenInstruction.info.amount, '40');
       final tokenBalance = await solanaClient.getTokenBalance(
         mint: token.mint,
-        owner: wallet.address,
+        owner: wallet.publicKey,
       );
       expect(tokenBalance.amount, equals('40'));
     },

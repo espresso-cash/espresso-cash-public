@@ -81,4 +81,14 @@ class AccountMeta implements Comparable<AccountMeta> {
 
     return 0;
   }
+
+  @override
+  int get hashCode => Object.hash(pubKey, isWriteable, isSigner);
+
+  @override
+  operator ==(other) =>
+      other is AccountMeta &&
+      pubKey == other.pubKey &&
+      isWriteable == other.isWriteable &&
+      isSigner == other.isSigner;
 }

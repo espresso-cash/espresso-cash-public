@@ -1,5 +1,4 @@
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/programs/associated_token_account_program/associated_token_account_program.dart';
 import 'package:solana/src/programs/token_program/token_program.dart';
 
@@ -14,7 +13,7 @@ class SplToken {
 
   final int decimals;
   final BigInt supply;
-  final String mint;
+  final Ed25519HDPublicKey mint;
   final Ed25519HDKeyPair? owner;
 }
 
@@ -24,12 +23,6 @@ Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
   required Ed25519HDPublicKey mint,
 }) =>
     Ed25519HDPublicKey.findProgramAddress(
-      seeds: [
-        owner.bytes,
-        Buffer.fromBase58(TokenProgram.programId),
-        mint.bytes
-      ],
-      programId: Ed25519HDPublicKey.fromBase58(
-        AssociatedTokenAccountProgram.programId,
-      ),
+      seeds: [owner.bytes, TokenProgram.id.toBuffer(), mint.bytes],
+      programId: AssociatedTokenAccountProgram.id,
     );
