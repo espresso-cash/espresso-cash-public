@@ -3,6 +3,7 @@ import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/programs/system_program/system_instruction.dart';
 import 'package:solana/src/programs/token_program/token_program.dart';
 
 enum AuthorityType {
@@ -512,6 +513,73 @@ class TokenInstruction extends Instruction {
           ],
         ),
       );
+
+  /// Initialize a new spl token with address [mint], [decimals] decimal places,
+  /// and [mintAuthority] as the mint authority.
+  ///
+  /// You can use [RPCClient.getMinimumBalanceForRentExemption] to determine
+  /// [rent] for the required [space].
+  ///
+  /// The [freezeAuthority] is optional and can be used to specify a the freeze
+  /// authority for this token.
+  static List<Instruction> createAccountAndInitializeMint({
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey mintAuthority,
+    required int rent,
+    required int space,
+    required int decimals,
+    Ed25519HDPublicKey? freezeAuthority,
+  }) =>
+      [
+        SystemInstruction.createAccount(
+          pubKey: mint,
+          fromPubKey: mintAuthority,
+          lamports: rent,
+          space: space,
+          owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
+        ),
+        TokenInstruction.initializeMint(
+          mint: mint,
+          decimals: decimals,
+          mintAuthority: mintAuthority,
+          freezeAuthority: freezeAuthority,
+        ),
+      ];
+
+  /// Create an account with [address] and owned by [owner]. The [rent]
+  ///
+  /// You can use [RPCClient.getMinimumBalanceForRentExemption]
+  /// to determine [rent] for the required [space].
+  ///
+  /// This is a convenience method that would initialize the account and associate it
+  /// with [mint]. This method also issues a [SystemInstruction] to actually create
+  /// the account before linking it with the [mint].
+  ///
+  /// You must call this method and create an account before attempting to use it
+  /// in the [TokenProgram.mintTo] as destination.
+  ///
+  /// This transaction must be signed by [owner] and [address].
+  static List<Instruction> createAndInitializeAccount({
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey address,
+    required Ed25519HDPublicKey owner,
+    required int rent,
+    required int space,
+  }) =>
+      [
+        SystemInstruction.createAccount(
+          pubKey: address,
+          fromPubKey: owner,
+          lamports: rent,
+          space: space,
+          owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
+        ),
+        TokenInstruction.initializeAccount(
+          mint: mint,
+          pubKey: address,
+          owner: owner,
+        ),
+      ];
 }
 
 extension on AuthorityType {

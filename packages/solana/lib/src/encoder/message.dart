@@ -19,6 +19,9 @@ class Message {
     required this.instructions,
   }) : super();
 
+  Message.only(Instruction instruction)
+      : instructions = [instruction];
+
   final List<Instruction> instructions;
 
   String debug(String recentBlockhash, {Ed25519HDPublicKey? feePayer}) {

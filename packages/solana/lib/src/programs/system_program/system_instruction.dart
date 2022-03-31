@@ -269,4 +269,24 @@ class SystemInstruction extends Instruction {
           owner.toBuffer(),
         ]),
       );
+
+  static List<Instruction> createNonceAccount({
+    required Ed25519HDPublicKey fromPubKey,
+    required Ed25519HDPublicKey noncePubKey,
+    required Ed25519HDPublicKey noceAuthorityPubKey,
+    required int lamports,
+  }) =>
+      [
+        SystemInstruction.createAccount(
+          fromPubKey: fromPubKey,
+          pubKey: noncePubKey,
+          lamports: lamports,
+          space: SystemProgram.nonceAccountSize,
+          owner: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
+        ),
+        SystemInstruction.initializeNonceAccount(
+          noncePubKey: noncePubKey,
+          authority: noceAuthorityPubKey,
+        )
+      ];
 }

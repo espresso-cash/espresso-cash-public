@@ -50,15 +50,16 @@ void main() {
     final rent = await rpcClient
         .getMinimumBalanceForRentExemption(TokenProgram.neededMintAccountSpace);
     // Not throwing is sufficient as test, we need the mint to exist
+    final instructions = TokenInstruction.createAccountAndInitializeMint(
+      mint: mint.publicKey,
+      mintAuthority: mintAuthority.publicKey,
+      freezeAuthority: freezeAuthority.publicKey,
+      rent: rent,
+      space: TokenProgram.neededMintAccountSpace,
+      decimals: 5,
+    );
     await sendMessage(
-      TokenProgram.initializeMint(
-        mint: mint.address,
-        mintAuthority: mintAuthority.address,
-        freezeAuthority: freezeAuthority.address,
-        rent: rent,
-        space: TokenProgram.neededMintAccountSpace,
-        decimals: 5,
-      ),
+      Message(instructions: instructions),
       [mintAuthority, mint],
     );
   });
@@ -67,195 +68,188 @@ void main() {
     final rent = await rpcClient.getMinimumBalanceForRentExemption(
       TokenProgram.neededAccountSpace,
     );
+    final instructions = TokenInstruction.createAndInitializeAccount(
+      mint: mint.publicKey,
+      address: tokensHolder.publicKey,
+      owner: mintAuthority.publicKey,
+      rent: rent,
+      space: TokenProgram.neededAccountSpace,
+    );
 
     expect(
         sendMessage(
-          TokenProgram.createAccount(
-            mint: mint.address,
-            address: tokensHolder.address,
-            owner: mintAuthority.address,
-            rent: rent,
-            space: TokenProgram.neededAccountSpace,
-          ),
+          Message(instructions: instructions),
           [mintAuthority, tokensHolder],
         ),
         completes);
   });
 
   test('Mint To', () async {
+    final instruction = TokenInstruction.mintTo(
+      mint: mint.publicKey,
+      destination: tokensHolder.publicKey,
+      authority: mintAuthority.publicKey,
+      amount: 10000000000,
+    );
+
     expect(
-      sendMessage(
-        TokenProgram.mintTo(
-          mint: mint.address,
-          destination: tokensHolder.address,
-          authority: mintAuthority.address,
-          amount: 10000000000,
-        ),
-        [mintAuthority],
-      ),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });
 
   test('Mint To Checked', () async {
+    final instruction = TokenInstruction.mintToChecked(
+      mint: mint.publicKey,
+      destination: tokensHolder.publicKey,
+      authority: mintAuthority.publicKey,
+      amount: 10000000000,
+      decimals: 5,
+    );
+
     expect(
-      sendMessage(
-        TokenProgram.mintToChecked(
-          mint: mint.address,
-          destination: tokensHolder.address,
-          authority: mintAuthority.address,
-          amount: 10000000000,
-          decimals: 5,
-        ),
-        [mintAuthority],
-      ),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });
 
   test('Transfer', () async {
+    final instruction = TokenInstruction.transfer(
+      source: tokensHolder.publicKey,
+      destination: tokensHolder.publicKey,
+      owner: mintAuthority.publicKey,
+      amount: 100000,
+    );
+
     expect(
-      sendMessage(
-        TokenProgram.transfer(
-          source: tokensHolder.address,
-          destination: tokensHolder.address,
-          owner: mintAuthority.address,
-          amount: 100000,
-        ),
-        [mintAuthority],
-      ),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });
 
   test('Transfer Checked', () async {
+    final instruction = TokenInstruction.transferChecked(
+      source: tokensHolder.publicKey,
+      destination: tokensHolder.publicKey,
+      owner: mintAuthority.publicKey,
+      amount: 100000,
+      decimals: 5,
+      mint: mint.publicKey,
+    );
+
     expect(
-      sendMessage(
-        TokenProgram.transferChecked(
-          source: tokensHolder.address,
-          destination: tokensHolder.address,
-          owner: mintAuthority.address,
-          amount: 100000,
-          decimals: 5,
-          mint: mint.address,
-        ),
-        [mintAuthority],
-      ),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });
 
   test('Approve', () async {
+    final instruction = TokenInstruction.approve(
+      amount: 1000000,
+      source: tokensHolder.publicKey,
+      delegate: randomRecipient.publicKey,
+      sourceOwner: mintAuthority.publicKey,
+    );
+
     expect(
-      sendMessage(
-        TokenProgram.approve(
-          amount: 1000000,
-          source: tokensHolder.address,
-          delegate: randomRecipient.address,
-          sourceOwner: mintAuthority.address,
-        ),
-        [mintAuthority],
-      ),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });
 
   test('Revoke', () async {
+    final instruction = TokenInstruction.revoke(
+      source: tokensHolder.publicKey,
+      sourceOwner: mintAuthority.publicKey,
+    );
+
     expect(
-      sendMessage(
-          TokenProgram.revoke(
-            source: tokensHolder.address,
-            sourceOwner: mintAuthority.address,
-          ),
-          [mintAuthority]),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });
 
   test('Approve Checked', () async {
+    final instruction = TokenInstruction.approveChecked(
+      amount: 1000000,
+      decimals: 5,
+      source: tokensHolder.publicKey,
+      delegate: randomRecipient.publicKey,
+      sourceOwner: mintAuthority.publicKey,
+      mint: mint.publicKey,
+    );
+
     expect(
-      sendMessage(
-        TokenProgram.approveChecked(
-          amount: 1000000,
-          decimals: 5,
-          source: tokensHolder.address,
-          delegate: randomRecipient.address,
-          sourceOwner: mintAuthority.address,
-          mint: mint.address,
-        ),
-        [mintAuthority],
-      ),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });
 
   test('Burn', () async {
+    final instruction = TokenInstruction.burn(
+      amount: 100000,
+      accountToBurnFrom: tokensHolder.publicKey,
+      mint: mint.publicKey,
+      owner: mintAuthority.publicKey,
+    );
+
     expect(
-      sendMessage(
-        TokenProgram.burn(
-          amount: 100000,
-          accountToBurnFrom: tokensHolder.address,
-          mint: mint.address,
-          owner: mintAuthority.address,
-        ),
-        [mintAuthority],
-      ),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });
 
   test('Burn Checked', () async {
+    final instruction = TokenInstruction.burnChecked(
+      amount: 100000,
+      accountToBurnFrom: tokensHolder.publicKey,
+      mint: mint.publicKey,
+      owner: mintAuthority.publicKey,
+      decimals: 5,
+    );
+
     expect(
-      sendMessage(
-        TokenProgram.burnChecked(
-          amount: 100000,
-          accountToBurnFrom: tokensHolder.address,
-          mint: mint.address,
-          owner: mintAuthority.address,
-          decimals: 5,
-        ),
-        [mintAuthority],
-      ),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });
 
   test('Freeze Account', () async {
+    final instruction = TokenInstruction.freezeAccount(
+      accountToFreeze: tokensHolder.publicKey,
+      mint: mint.publicKey,
+      freezeAuthority: freezeAuthority.publicKey,
+    );
+
     expect(
-      sendMessage(
-          TokenProgram.freezeAccount(
-            accountToFreeze: tokensHolder.address,
-            mint: mint.address,
-            freezeAuthority: freezeAuthority.address,
-          ),
-          [mintAuthority, freezeAuthority]),
+      sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]),
       completes,
     );
   });
 
   test('Thaw Account', () async {
+    final instruction = TokenInstruction.thawAccount(
+      accountToFreeze: tokensHolder.publicKey,
+      mint: mint.publicKey,
+      freezeAuthority: freezeAuthority.publicKey,
+    );
+
     expect(
-      sendMessage(
-          TokenProgram.thawAccount(
-            accountToFreeze: tokensHolder.address,
-            mint: mint.address,
-            freezeAuthority: freezeAuthority.address,
-          ),
-          [mintAuthority, freezeAuthority]),
+      sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]),
       completes,
     );
   });
 
   test('Set Authority', () async {
+    final instruction = TokenInstruction.setAuthority(
+      mintOrAccount: mint.publicKey,
+      authorityType: AuthorityType.mintTokens,
+      currentAuthority: mintAuthority.publicKey,
+      newAuthority: newAuthority.publicKey,
+    );
+
     expect(
-      sendMessage(
-          TokenProgram.setAuthority(
-            mintOrAccount: mint.address,
-            authorityType: AuthorityType.mintTokens,
-            currentAuthority: mintAuthority.address,
-            newAuthority: newAuthority.address,
-          ),
-          [mintAuthority]),
+      sendMessage(Message.only(instruction), [mintAuthority]),
       completes,
     );
   });

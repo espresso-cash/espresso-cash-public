@@ -131,7 +131,7 @@ class SolanaClient {
     final mintWallet = await Ed25519HDKeyPair.random();
     final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
 
-    final message = TokenProgram.initializeMint(
+    final instructions = TokenInstruction.createAccountAndInitializeMint(
       mint: mintWallet.publicKey,
       mintAuthority: owner.publicKey,
       freezeAuthority: freezeAuthority,
@@ -140,7 +140,7 @@ class SolanaClient {
       decimals: decimals,
     );
     final signature = await rpcClient.signAndSendTransaction(
-      message,
+      Message(instructions: instructions),
       [owner, mintWallet],
     );
     await waitForSignatureStatus(
@@ -159,14 +159,14 @@ class SolanaClient {
     required Wallet owner,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final message = TokenProgram.mintTo(
+    final instruction = TokenInstruction.mintTo(
       mint: mint,
       destination: destination,
       authority: owner.publicKey,
       amount: amount,
     );
     final signature = await rpcClient.signAndSendTransaction(
-      message,
+      Message.only(instruction),
       [owner],
     );
     await waitForSignatureStatus(
@@ -212,17 +212,22 @@ class SolanaClient {
       );
     }
 
-    final message = TokenProgram.transfer(
+    final instruction = TokenInstruction.transfer(
       source: Ed25519HDPublicKey.fromBase58(associatedSenderAccount.pubkey),
       destination:
           Ed25519HDPublicKey.fromBase58(associatedRecipientAccount.pubkey),
       owner: source.publicKey,
       amount: amount,
-      memo: memo,
     );
 
     final signature = await rpcClient.signAndSendTransaction(
-      message,
+      Message(
+        instructions: [
+          instruction,
+          if (memo != null && memo.isNotEmpty)
+            MemoInstruction(signers: [source.publicKey], memo: memo),
+        ],
+      ),
       [source],
     );
     await waitForSignatureStatus(
@@ -257,7 +262,7 @@ class SolanaClient {
   }) async {
     const space = TokenProgram.neededAccountSpace;
     final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
-    final message = TokenProgram.createAccount(
+    final instructions = TokenInstruction.createAndInitializeAccount(
       address: account.publicKey,
       owner: creator.publicKey,
       mint: mint,
@@ -265,7 +270,7 @@ class SolanaClient {
       space: space,
     );
     final signature = await rpcClient.signAndSendTransaction(
-      message,
+      Message(instructions: instructions),
       [creator, account],
     );
     await waitForSignatureStatus(
