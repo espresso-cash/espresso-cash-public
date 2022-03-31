@@ -15,7 +15,7 @@ class StakeInstruction extends Instruction {
     required List<AccountMeta> accounts,
     required ByteArray data,
   }) : super(
-          programId: StakeProgram.programId,
+          programId: StakeProgram.id,
           accounts: accounts,
           data: data,
         );

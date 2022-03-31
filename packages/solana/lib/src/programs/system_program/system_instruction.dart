@@ -9,26 +9,27 @@ import 'package:solana/src/programs/system_program/system_program.dart';
 class SystemInstruction extends Instruction {
   /// Create a system program instruction with [data], for [accounts].
   ///
-  /// Since [accounts] is interpreted by the specific program that will
-  /// be called, then it's the responsibility of the caller to pass the
-  /// array correctly sorted, e.g., for a transfer program the `source` should
-  /// be before the `destination`
-  const SystemInstruction._({
+  /// Since [accounts] is interpreted by the specific program that will be
+  /// called, then it's the responsibility of the caller to pass the array
+  /// correctly sorted, e.g., for a transfer program the `source` should be
+  /// before the `destination`
+  SystemInstruction._({
     required List<AccountMeta> accounts,
     required ByteArray data,
   }) : super(
-          programId: SystemProgram.programId,
+          programId: SystemProgram.id,
           accounts: accounts,
           data: data,
         );
 
   /// Create account.
   ///
-  /// The [pubKey] is the public key of the new account
-  /// [owner] as its owner. The [owner] is the funder of the account.
+  /// The [pubKey] is the public key of the new account [owner] as its owner.
+  /// The [owner] is the funder of the account.
   ///
-  /// For the [lamports] you must call [RPCClient.getMinimumBalanceForRentExemption()]
-  /// and proved the [space] you want to allocate for the account.
+  /// For the [lamports] you must call
+  /// [RPCClient.getMinimumBalanceForRentExemption()] and proved the [space] you
+  /// want to allocate for the account.
   ///
   /// The account will be linked to the [programId] program.
   ///
@@ -56,7 +57,7 @@ class SystemInstruction extends Instruction {
 
   /// Assign account to a program.
   ///
-  /// Assign [pubKey] account to [owner] program
+  /// Assign [pubKey] account to [owner] program.
   factory SystemInstruction.assign({
     required Ed25519HDPublicKey pubKey,
     required Ed25519HDPublicKey owner,
@@ -71,7 +72,7 @@ class SystemInstruction extends Instruction {
         ]),
       );
 
-  /// Transfer lamports
+  /// Transfer lamports.
   ///
   /// The instruction would send [lamports] from [source] to [destination].
   factory SystemInstruction.transfer({
@@ -90,7 +91,8 @@ class SystemInstruction extends Instruction {
         ]),
       );
 
-  /// Create a new account at an address derived from a [base] pubkey and [seed]
+  /// Create a new account at an address derived from a [base] pubkey and
+  /// [seed].
   factory SystemInstruction.createAccountWithSeed({
     required Ed25519HDPublicKey fromPubKey,
     required Ed25519HDPublicKey pubKey,

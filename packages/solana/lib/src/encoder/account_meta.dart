@@ -1,7 +1,7 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
-/// Class that wraps addresses with information necessary for
-/// solana transactions to be encoded correctly
+/// Class that wraps addresses with information necessary for solana
+/// transactions to be encoded correctly.
 class AccountMeta implements Comparable<AccountMeta> {
   AccountMeta({
     required this.pubKey,
@@ -9,8 +9,8 @@ class AccountMeta implements Comparable<AccountMeta> {
     required this.isSigner,
   });
 
-  /// Constructs a writeable account that is not signer with [pubKey]
-  /// public key. To make it a signing account set [isSigner] to true.
+  /// Constructs a writeable account that is not signer with [pubKey] public
+  /// key. To make it a signing account set [isSigner] to true.
   factory AccountMeta.writeable({
     required Ed25519HDPublicKey pubKey,
     required bool isSigner,
@@ -21,8 +21,8 @@ class AccountMeta implements Comparable<AccountMeta> {
         isSigner: isSigner,
       );
 
-  /// Constructs a readonly account that is not signer has [pubKey]
-  /// public key. To make it a signing account set [isSigner] to true.
+  /// Constructs a readonly account that is not signer has [pubKey] public key.
+  /// To make it a signing account set [isSigner] to true.
   factory AccountMeta.readonly({
     required Ed25519HDPublicKey pubKey,
     required bool isSigner,
@@ -33,12 +33,10 @@ class AccountMeta implements Comparable<AccountMeta> {
         isSigner: isSigner,
       );
 
-  /// Merges a [this] with [other] by applying the following rules,
+  /// Merges a [this] with [other] by applying the following rules:
   ///
-  /// Resulting [AccountMeta] is,
-  ///
-  /// `writeable` if either [this] or [other] is writeable
-  /// `signer` if either [this] or [other] is signer.
+  /// Resulting [AccountMeta] is `writeable` if either [this] or [other] is
+  /// writeable `signer` if either [this] or [other] is signer.
   ///
   /// The [pubKey]s must match or it throws a [FormatException].
   ///
@@ -64,13 +62,12 @@ class AccountMeta implements Comparable<AccountMeta> {
   @override
   String toString() => pubKey.toBase58();
 
-  /// Compare accounts according to the following rules
+  /// Compare accounts according to the following rules.
   ///
-  /// Signer accounts go first, and within them writeable accounts
-  /// go first
+  /// Signer accounts go first, and within them writeable accounts go first.
   ///
-  /// Non-Signer accounts go after, and within them the writeable
-  /// accounts go first
+  /// Non-Signer accounts go after, and within them the writeable accounts go
+  /// first.
   @override
   int compareTo(AccountMeta other) {
     if (isSigner && !other.isSigner) return -1;

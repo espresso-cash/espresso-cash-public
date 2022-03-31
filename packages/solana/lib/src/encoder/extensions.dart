@@ -77,7 +77,7 @@ extension InstructionListExt on List<Instruction> {
 
         /// Append the instruction program id
         AccountMeta.readonly(
-          pubKey: Ed25519HDPublicKey.fromBase58(instruction.programId),
+          pubKey: instruction.programId,
           isSigner: false,
         ),
       ],

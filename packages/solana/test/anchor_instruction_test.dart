@@ -53,7 +53,7 @@ void main() {
     final instructions = [
       SystemInstruction.createAccount(
         lamports: rent,
-        owner: Ed25519HDPublicKey.fromBase58(_basic1),
+        owner: _basic1,
         pubKey: updater.publicKey,
         fromPubKey: payer.publicKey,
         space: space,
@@ -130,7 +130,11 @@ void main() {
   }, skip: true);
 }
 
-final _basic0 = Platform.environment['PROGRAM_ID_BASIC_0'] ??
-    '73JSEtceE6QVgN44rfYtfkB1HnMW3z1tQH1ek79CTQtX';
-final _basic1 = Platform.environment['PROGRAM_ID_BASIC_1'] ??
-    '6gYaFMp7H5iao1wDJ7q7BAaXjLJi1w6UvSrGH14oUv4n';
+final _basic0 = Ed25519HDPublicKey.fromBase58(
+  Platform.environment['PROGRAM_ID_BASIC_0'] ??
+      '73JSEtceE6QVgN44rfYtfkB1HnMW3z1tQH1ek79CTQtX',
+);
+final _basic1 = Ed25519HDPublicKey.fromBase58(
+  Platform.environment['PROGRAM_ID_BASIC_1'] ??
+      '6gYaFMp7H5iao1wDJ7q7BAaXjLJi1w6UvSrGH14oUv4n',
+);

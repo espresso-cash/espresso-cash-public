@@ -5,7 +5,7 @@ export 'package:solana/src/programs/system_program/system_instruction.dart';
 abstract class SystemProgram {
   static const programId = '11111111111111111111111111111111';
 
-  static final id = Ed25519HDPublicKey.fromBase58(programId);
+  static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);
 
   static const createAccountInstructionIndex = [0, 0, 0, 0];
   static const assignInstructionIndex = [1, 0, 0, 0];

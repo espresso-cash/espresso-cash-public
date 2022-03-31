@@ -1,8 +1,6 @@
-export 'src/constants.dart';
-export 'src/crypto/ed25519_hd_keypair.dart';
-export 'src/crypto/ed25519_hd_keypair_data.dart';
-export 'src/crypto/ed25519_hd_public_key.dart';
-export 'src/crypto/signature.dart';
+import 'package:solana/src/crypto/crypto.dart';
+
+export 'src/crypto/crypto.dart';
 export 'src/exceptions/http_exception.dart';
 export 'src/exceptions/json_rpc_exception.dart';
 export 'src/exceptions/no_associated_token_account_exception.dart';
@@ -23,8 +21,11 @@ export 'src/spl_token/spl_token.dart';
 export 'src/subscription_client/optional_error.dart';
 export 'src/subscription_client/subscription_client.dart';
 export 'src/subscription_client/subscription_client_ext.dart';
-export 'src/wallet.dart';
 
 /// The first signature in a transaction, which can be used to uniquely identify
 /// the transaction across the complete ledger.
 typedef TransactionId = String;
+
+typedef Wallet = Ed25519HDKeyPair;
+
+const int lamportsPerSol = 1000000000;

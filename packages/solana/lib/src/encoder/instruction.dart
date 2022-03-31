@@ -21,7 +21,7 @@ class Instruction {
     required this.data,
   }) : super();
 
-  final String programId;
+  final Ed25519HDPublicKey programId;
   final List<AccountMeta> accounts;
   final ByteArray data;
 

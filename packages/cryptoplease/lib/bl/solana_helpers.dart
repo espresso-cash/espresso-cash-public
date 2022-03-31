@@ -79,7 +79,7 @@ extension SolanaClientExt on SolanaClient {
               SystemProgram.transferInstructionIndex,
               Buffer.fromUint64(amount),
             ]),
-            programId: SystemProgram.programId,
+            programId: SystemProgram.id,
           ),
         ],
       );
@@ -124,7 +124,7 @@ extension SolanaClientExt on SolanaClient {
             SystemProgram.transferInstructionIndex,
             Buffer.fromUint64(additionalFee),
           ]),
-          programId: SystemProgram.programId,
+          programId: SystemProgram.id,
         );
 
     Instruction associatedAccountInstruction() =>
@@ -158,7 +158,7 @@ extension SolanaClientExt on SolanaClient {
             TokenProgram.transferInstructionIndex,
             Buffer.fromUint64(amount),
           ]),
-          programId: TokenProgram.programId,
+          programId: TokenProgram.id,
         ),
       ],
     );

@@ -15,11 +15,11 @@ enum AuthorityType {
 
 /// A spl token program instruction.
 class TokenInstruction extends Instruction {
-  const TokenInstruction._({
+  TokenInstruction._({
     required List<AccountMeta> accounts,
     required Iterable<int> data,
   }) : super(
-          programId: TokenProgram.programId,
+          programId: TokenProgram.id,
           accounts: accounts,
           data: data,
         );

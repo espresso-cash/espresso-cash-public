@@ -38,7 +38,7 @@ class MemoInstruction extends Instruction {
     required List<AccountMeta> accounts,
     required Buffer data,
   }) : super(
-          programId: MemoProgram.programId,
+          programId: MemoProgram.id,
           accounts: accounts,
           data: data,
         );

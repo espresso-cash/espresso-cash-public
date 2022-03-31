@@ -50,7 +50,7 @@ class AssociatedTokenAccountInstruction extends Instruction {
   AssociatedTokenAccountInstruction._({
     required List<AccountMeta> accounts,
   }) : super(
-          programId: AssociatedTokenAccountProgram.programId,
+          programId: AssociatedTokenAccountProgram.id,
           accounts: accounts,
           data: [],
         );
