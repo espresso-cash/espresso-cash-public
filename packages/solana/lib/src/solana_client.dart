@@ -68,10 +68,7 @@ class SolanaClient {
         lamports: lamports,
       ),
       if (memo != null)
-        MemoInstruction(
-          signers: [source.publicKey],
-          memo: memo,
-        ),
+        MemoInstruction(signers: [source.publicKey], memo: memo),
     ];
 
     final message = Message(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:solana/src/base58/encode.dart';
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compiled_message.dart';
@@ -9,18 +9,17 @@ import 'package:solana/src/encoder/extensions.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message_header.dart';
 
-/// This is an implementation of the [Message Format][message format].
+/// This is an implementation of the [Message Format][1].
 ///
-/// [message format]: https://docs.solana.com/developing/programming-model/transactions#message-format
+/// [1]: https://docs.solana.com/developing/programming-model/transactions#message-format
 class Message {
-  /// Construct a message to send with a transaction to execute
-  /// the provided [instructions].
+  /// Construct a message to send with a transaction to execute the provided
+  /// [instructions].
   const Message({
     required this.instructions,
   }) : super();
 
-  Message.only(Instruction instruction)
-      : instructions = [instruction];
+  Message.only(Instruction instruction) : instructions = [instruction];
 
   final List<Instruction> instructions;
 
@@ -56,15 +55,15 @@ class Message {
     );
   }
 
-  /// Compiles a message into the array of bytes that would be interpreted
-  /// by solana. The [recentBlockhash] is passed here as this is the final
-  /// step before sending the [Message].
+  /// Compiles a message into the array of bytes that would be interpreted by
+  /// solana. The [recentBlockhash] is passed here as this is the final step
+  /// before sending the [Message].
   ///
   /// If provided the [feePayer] can be added to the accounts if it's not
   /// present.
   ///
-  /// Returns a [CompiledMessage] that can be used to sign the transaction,
-  /// and also verify that the number of signers is correct.
+  /// Returns a [CompiledMessage] that can be used to sign the transaction, and
+  /// also verify that the number of signers is correct.
   CompiledMessage compile({
     required String recentBlockhash,
     Ed25519HDPublicKey? feePayer,

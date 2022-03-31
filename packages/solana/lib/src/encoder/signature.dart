@@ -1,5 +1,5 @@
 import 'package:cryptography/cryptography.dart' as crypto;
-import 'package:solana/src/base58/encode.dart';
+import 'package:solana/base58.dart';
 import 'package:solana/src/common/byte_array.dart';
 
 class Signature extends ByteArray {

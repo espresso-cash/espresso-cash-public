@@ -1,5 +1,5 @@
 import 'package:solana/src/common/byte_array.dart';
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';

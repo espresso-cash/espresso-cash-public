@@ -1,4 +1,5 @@
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';

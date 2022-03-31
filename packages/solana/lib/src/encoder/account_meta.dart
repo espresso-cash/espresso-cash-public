@@ -1,4 +1,4 @@
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
 /// Class that wraps addresses with information necessary for
 /// solana transactions to be encoded correctly

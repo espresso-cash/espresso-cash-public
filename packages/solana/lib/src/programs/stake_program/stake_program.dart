@@ -1,4 +1,4 @@
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
 abstract class StakeProgram {
   static const programId = 'Stake11111111111111111111111111111111111111';

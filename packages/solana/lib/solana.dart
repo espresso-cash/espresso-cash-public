@@ -1,5 +1,7 @@
 export 'src/constants.dart';
 export 'src/crypto/ed25519_hd_keypair.dart';
+export 'src/crypto/ed25519_hd_keypair_data.dart';
+export 'src/crypto/ed25519_hd_public_key.dart';
 export 'src/exceptions/http_exception.dart';
 export 'src/exceptions/json_rpc_exception.dart';
 export 'src/exceptions/no_associated_token_account_exception.dart';

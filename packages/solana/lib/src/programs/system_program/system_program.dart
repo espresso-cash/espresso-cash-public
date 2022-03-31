@@ -1,4 +1,4 @@
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
 export 'package:solana/src/programs/system_program/system_instruction.dart';
 
