@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:convert/convert.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
@@ -39,10 +38,7 @@ void main() {
         final signature1 = await randomKeyPair.sign(testBytes);
         final signature2 = await testKeyPair.sign(testBytes);
 
-        expect(
-          hex.encode(signature1.toList(growable: false)),
-          equals(hex.encode(signature2.toList(growable: false))),
-        );
+        expect(signature1, signature2);
       }
     }
   });
@@ -57,7 +53,7 @@ void main() {
           programId: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
         );
 
-        expect(derived, equals(value['result']));
+        expect(derived.toBase58(), value['result']);
       });
     },
   );

@@ -158,7 +158,7 @@ void main() {
     });
 
     test('List recent transactions', () async {
-      final txs = await rpcClient.getTransactionsList(source.address);
+      final txs = await rpcClient.getTransactionsList(source.publicKey);
       expect(txs, isNot(null));
 
       txs.forEach((TransactionDetails? tx) => expect(tx, isNot(null)));

@@ -7,5 +7,5 @@ export 'constants.dart';
 export 'extensions.dart';
 export 'instruction.dart';
 export 'message.dart';
-export 'signature.dart';
+export '../crypto/signature.dart';
 export 'signed_tx.dart';

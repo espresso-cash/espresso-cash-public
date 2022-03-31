@@ -1,7 +1,7 @@
 part of 'client.dart';
 
 extension RpcClientExt on RpcClient {
-  Future<String> signAndSendTransaction(
+  Future<TransactionId> signAndSendTransaction(
     Message message,
     List<Ed25519HDKeyPair> signers, {
     FutureOr<void> Function(Signature)? onSigned,
@@ -23,12 +23,12 @@ extension RpcClientExt on RpcClient {
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Future<Iterable<TransactionDetails>> getTransactionsList(
-    String address, {
+    Ed25519HDPublicKey address, {
     int limit = 10,
     Commitment? commitment,
   }) async {
     final signatures = await getSignaturesForAddress(
-      address,
+      address.toBase58(),
       limit: limit,
       commitment: commitment,
     );
@@ -66,9 +66,7 @@ extension RpcClientExt on RpcClient {
     final Iterable<dynamic> transactions = response.map(getResult);
 
     return transactions
-        .map(
-          (t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
-        )
+        .map((t) => TransactionDetails.fromJson(t as Map<String, dynamic>))
         .toList(growable: false);
   }
 }

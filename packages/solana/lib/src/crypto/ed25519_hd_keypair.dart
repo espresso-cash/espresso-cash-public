@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:cryptography/cryptography.dart' show Ed25519, KeyPair;
+import 'package:cryptography/cryptography.dart'
+    show Ed25519, KeyPair, KeyPairType, SimpleKeyPairData, SimplePublicKey;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair_data.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/encoder/signature.dart';
+import 'package:solana/src/crypto/signature.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
 
 /// Signs solana transactions using the ed25519 elliptic curve
@@ -113,8 +114,16 @@ class Ed25519HDKeyPair extends KeyPair {
   /// Returns a Future that resolves to the result of signing
   /// [data] with the private key held internally by a given
   /// instance
-  Future<Signature> sign(Iterable<int> data) async => Signature.from(
-        await _ed25519.sign(data.toList(growable: false), keyPair: this),
+  Future<Signature> sign(Iterable<int> data) async => await _ed25519.sign(
+        data.toList(growable: false),
+        keyPair: SimpleKeyPairData(
+          _privateKey,
+          publicKey: SimplePublicKey(
+            publicKey.bytes,
+            type: KeyPairType.ed25519,
+          ),
+          type: KeyPairType.ed25519,
+        ),
       );
 
   /// Build a derivation path with [account] and [change]

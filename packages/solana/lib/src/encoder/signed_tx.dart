@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
-import 'package:solana/src/encoder/signature.dart';
+import 'package:solana/src/crypto/signature.dart';
 
 /// Represents a signed transaction that consists of the transaction message and
 /// an array of signatures. The array of signatures must be populated following
@@ -24,7 +24,7 @@ class SignedTx extends ByteArray {
   Iterator<int> get iterator => _data.iterator;
 
   late final ByteArray _data = Buffer.fromConcatenatedByteArrays([
-    CompactArray.fromIterable(signatures),
+    CompactArray.fromIterable(signatures.map((e) => e.bytes)),
     messageBytes,
   ]);
 }

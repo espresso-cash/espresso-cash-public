@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/encoder/signature.dart';
-import 'package:solana/src/helpers.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/rpc/helpers.dart';
 import 'package:solana/src/rpc/json_rpc_client.dart';
@@ -615,7 +613,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<String> requestAirdrop(
+  Future<TransactionId> requestAirdrop(
     String pubKey,
     int lamports, {
     Commitment? commitment,
@@ -663,7 +661,7 @@ abstract class RpcClient {
   /// the leader.
   /// If this parameter not provided, the RPC node will retry the transaction until
   /// it is finalized or until the blockhash expires.
-  Future<String> sendTransaction(
+  Future<TransactionId> sendTransaction(
     String transaction, {
     Encoding encoding = Encoding.base64,
     Commitment? commitment = Commitment.finalized,
