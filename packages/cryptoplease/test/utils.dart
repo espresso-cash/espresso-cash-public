@@ -1,4 +1,3 @@
-import 'package:cryptoplease/bl/solana_helpers.dart';
 import 'package:cryptoplease/bl/tokens/token.dart' hide SplToken;
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
@@ -10,7 +9,7 @@ Future<SplToken> createNewToken({
   required SolanaClient solanaClient,
   required int decimals,
   required int supply,
-  required String transferSomeToAddress,
+  required Ed25519HDPublicKey transferSomeToAddress,
   required int transferSomeToAmount,
 }) async {
   // This is the authority that will create the token and be able to
@@ -18,7 +17,7 @@ Future<SplToken> createNewToken({
   final tokenMintAuthority = await Ed25519HDKeyPair.random();
   // Put some tokens in the authority wallet
   await solanaClient.requestAirdrop(
-    address: tokenMintAuthority.address,
+    address: tokenMintAuthority.publicKey,
     lamports: 5 * lamportsPerSol,
   );
 
@@ -33,13 +32,13 @@ Future<SplToken> createNewToken({
   //
   // The mint authority will also, own the total supply of the token
   final supplyAccount = await solanaClient.createAssociatedTokenAccount(
-    owner: tokenMintAuthority.address,
+    owner: tokenMintAuthority.publicKey,
     funder: tokenMintAuthority,
     mint: splToken.mint,
   );
   // Now we have a spl token, let's add the supply to it
   await solanaClient.transferMint(
-    destination: supplyAccount.pubkey,
+    destination: Ed25519HDPublicKey.fromBase58(supplyAccount.pubkey),
     amount: supply,
     mint: splToken.mint,
     owner: tokenMintAuthority,
@@ -80,36 +79,36 @@ extension SolanaClientExt on SolanaClient {
       TokenProgram.neededMintAccountSpace,
     );
 
-    final tokenOwnerAddress = await computeAssociatedTokenAccountAddress(
-      owner: mintAuthority.address,
-      mint: mint.address,
+    final tokenOwnerAddress = await findAssociatedTokenAddress(
+      owner: mintAuthority.publicKey,
+      mint: mint.publicKey,
     );
 
     final message = Message(
       instructions: [
         SystemInstruction.createAccount(
-          fromPubKey: mintAuthority.address,
-          pubKey: mint.address,
+          fromPubKey: mintAuthority.publicKey,
+          pubKey: mint.publicKey,
           lamports: mintRent,
           space: TokenProgram.neededMintAccountSpace,
-          owner: TokenProgram.programId,
+          owner: TokenProgram.id,
         ),
         TokenInstruction.initializeMint(
-          mint: mint.address,
-          mintAuthority: mintAuthority.address,
+          mint: mint.publicKey,
+          mintAuthority: mintAuthority.publicKey,
           decimals: _tokenDecimals,
         ),
-        AssociatedTokenAccountInstruction(
-          funder: mintAuthority.address,
+        AssociatedTokenAccountInstruction.createAccount(
+          funder: mintAuthority.publicKey,
           address: tokenOwnerAddress,
-          owner: mintAuthority.address,
-          mint: mint.address,
+          owner: mintAuthority.publicKey,
+          mint: mint.publicKey,
         ),
         TokenInstruction.mintTo(
           amount: 10000000,
-          mint: mint.address,
+          mint: mint.publicKey,
           destination: tokenOwnerAddress,
-          authority: mintAuthority.address,
+          authority: mintAuthority.publicKey,
         ),
       ],
     );
@@ -139,7 +138,7 @@ extension SolanaClientExt on SolanaClient {
   }
 
   Future<void> airdropSplTokens(
-    String recipient,
+    Ed25519HDPublicKey recipient,
     Token token, {
     required int amount,
   }) async {
@@ -148,27 +147,27 @@ extension SolanaClientExt on SolanaClient {
     );
 
     final recipientAssociatedTokenAccountAddress =
-        await computeAssociatedTokenAccountAddress(
+        await findAssociatedTokenAddress(
       owner: recipient,
-      mint: token.address,
+      mint: token.publicKey,
     );
 
     final message = Message(
       instructions: [
-        AssociatedTokenAccountInstruction(
-          funder: mintAuthority.address,
+        AssociatedTokenAccountInstruction.createAccount(
+          funder: mintAuthority.publicKey,
           address: recipientAssociatedTokenAccountAddress,
           owner: recipient,
-          mint: token.address,
+          mint: token.publicKey,
         ),
         TokenInstruction.transferChecked(
-          mint: token.address,
-          source: await computeAssociatedTokenAccountAddress(
-            owner: mintAuthority.address,
-            mint: token.address,
+          mint: token.publicKey,
+          source: await findAssociatedTokenAddress(
+            owner: mintAuthority.publicKey,
+            mint: token.publicKey,
           ),
           destination: recipientAssociatedTokenAccountAddress,
-          owner: mintAuthority.address,
+          owner: mintAuthority.publicKey,
           amount: amount,
           decimals: _tokenDecimals,
         ),

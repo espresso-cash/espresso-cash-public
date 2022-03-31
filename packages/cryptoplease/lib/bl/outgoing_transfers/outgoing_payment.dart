@@ -7,6 +7,7 @@ import 'package:cryptoplease/config.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
 part 'outgoing_payment.freezed.dart';
@@ -97,15 +98,15 @@ class OutgoingTransfer with _$OutgoingTransfer {
 
   String? get memo => this.map(splitKey: (_) => null, direct: (p) => p.memo);
 
-  Future<String> getRecipient() async => this.map(
+  Future<Ed25519HDPublicKey> getRecipient() async => this.map(
         splitKey: (p) async {
           final recipient = await createKeyPairFromPrivateKey(
             p.privateKey.unlock,
           );
 
-          return recipient.address;
+          return recipient.publicKey;
         },
-        direct: (p) => p.recipient,
+        direct: (p) => Ed25519HDPublicKey.fromBase58(p.recipient),
       );
 }
 

@@ -7,6 +7,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/dto.dart' show ConfirmationStatus;
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 void main() {
@@ -31,14 +32,14 @@ void main() {
         status: ConfirmationStatus.finalized,
       );
 
-      final message = SystemProgram.transfer(
-        source: senderWallet.address,
-        destination: testWallet.address,
+      final instruction = SystemInstruction.transfer(
+        source: senderWallet.publicKey,
+        destination: testWallet.publicKey,
         lamports: 500,
       );
 
       final signature = await solanaClient.rpcClient.signAndSendTransaction(
-        message,
+        Message.only(instruction),
         [senderWallet],
       );
       await solanaClient.waitForSignatureStatus(

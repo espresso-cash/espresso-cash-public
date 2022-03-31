@@ -3,6 +3,7 @@ import 'package:cryptoplease/config.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:solana/metaplex.dart';
+import 'package:solana/solana.dart';
 
 part 'token.g.dart';
 
@@ -47,6 +48,8 @@ class Token {
   String? get coingeckoId => extensions?.coingeckoId;
 
   bool get isStablecoin => tags?.contains('stablecoin') == true;
+
+  Ed25519HDPublicKey get publicKey => Ed25519HDPublicKey.fromBase58(address);
 
   @override
   String toString() => '$address: $chainId/$symbol/$name';

@@ -81,7 +81,7 @@ void main() {
 
       await solanaClient.requestAirdrop(
         lamports: lamportsPerSol,
-        address: sourceWallet.address,
+        address: sourceWallet.publicKey,
       );
     });
 
@@ -97,7 +97,7 @@ void main() {
       await solanaClient.transferLamports(
         destination:
             (await createKeyPairFromPrivateKey(payment.privateKey.unlock))
-                .address,
+                .publicKey,
         lamports: payment.amount,
         source: sourceWallet,
         commitment: Commitment.finalized,
