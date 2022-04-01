@@ -87,8 +87,8 @@ extension SolanaClientExt on SolanaClient {
     final message = Message(
       instructions: [
         SystemInstruction.createAccount(
-          fromPubKey: mintAuthority.publicKey,
-          pubKey: mint.publicKey,
+          fundingAccount: mintAuthority.publicKey,
+          newAccount: mint.publicKey,
           lamports: mintRent,
           space: TokenProgram.neededMintAccountSpace,
           owner: TokenProgram.id,

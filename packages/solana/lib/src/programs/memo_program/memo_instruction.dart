@@ -6,17 +6,17 @@ import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/memo_program/memo_program.dart';
 
-/// The memo instruction for the memo program
+/// The memo instruction for the memo program.
 class MemoInstruction extends Instruction {
-  /// Construct a memo instruction for the memo program with
-  /// [signers] as signers and [memo] as content.
+  /// Construct a memo instruction for the memo program with [signers] as
+  /// signers and [memo] as content.
   ///
   /// Please note that there's a limit on the length of the [memo] string, which
   /// otherwise is an arbitrary string of utf-8 data.
   ///
-  /// The limit as [specified in this document][memo limit] is 566 bytes.
+  /// The limit as [specified in this document][1] is 566 bytes.
   ///
-  /// [memo limit](https://spl.solana.com/memo#compute-limits)
+  /// [1](https://spl.solana.com/memo#compute-limits)
   factory MemoInstruction({
     required List<Ed25519HDPublicKey> signers,
     required String memo,

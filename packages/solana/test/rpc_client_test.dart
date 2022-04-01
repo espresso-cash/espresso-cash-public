@@ -85,8 +85,8 @@ void main() {
     test('Simulate a transfer', () async {
       final recentBlockhash = await rpcClient.getRecentBlockhash();
       final instruction = SystemInstruction.transfer(
-        source: source.publicKey,
-        destination: destination.publicKey,
+        fundingAccount: source.publicKey,
+        recipientAccount: destination.publicKey,
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await source.signMessage(
@@ -103,8 +103,8 @@ void main() {
     test('Transfer SOL', () async {
       final recentBlockhash = await rpcClient.getRecentBlockhash();
       final instruction = SystemInstruction.transfer(
-        source: source.publicKey,
-        destination: destination.publicKey,
+        fundingAccount: source.publicKey,
+        recipientAccount: destination.publicKey,
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await source.signMessage(
@@ -129,8 +129,8 @@ void main() {
     test('Transfer SOL to the same address', () async {
       final recentBlockhash = await rpcClient.getRecentBlockhash();
       final instruction = SystemInstruction.transfer(
-        source: source.publicKey,
-        destination: source.publicKey,
+        fundingAccount: source.publicKey,
+        recipientAccount: source.publicKey,
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await source.signMessage(
@@ -759,9 +759,9 @@ Future<String> _createAccount(
   await airdrop(rpcClient, subscriptionClient, source, sol: 10);
 
   final instruction = SystemInstruction.createAccount(
-    fromPubKey: source.publicKey,
+    fundingAccount: source.publicKey,
     owner: SystemProgram.id,
-    pubKey: accountKeyPair.publicKey,
+    newAccount: accountKeyPair.publicKey,
     lamports: await rpcClient.getMinimumBalanceForRentExemption(
       size,
       commitment: Commitment.finalized,

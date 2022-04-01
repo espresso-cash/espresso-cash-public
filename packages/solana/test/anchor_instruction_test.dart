@@ -60,8 +60,8 @@ void main() {
         SystemInstruction.createAccount(
           lamports: rent,
           owner: _basic1,
-          pubKey: updater.publicKey,
-          fromPubKey: payer.publicKey,
+          newAccount: updater.publicKey,
+          fundingAccount: payer.publicKey,
           space: space,
         ),
         await AnchorInstruction.forMethod(

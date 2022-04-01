@@ -19,8 +19,8 @@ void main() {
     final staker = await Ed25519HDKeyPair.random();
     final withdrawer = await Ed25519HDKeyPair.random();
     final instructions = StakeInstruction.createAndInitializeAccount(
-      fromPubKey: fromKey.publicKey,
-      stakePubKey: account.publicKey,
+      fundingAccount: fromKey.publicKey,
+      newAccount: account.publicKey,
       authorized: Authorized(
         staker: staker.address,
         withdrawer: withdrawer.address,
@@ -67,8 +67,8 @@ void main() {
     const stakeAmount = 50 * lamportsPerSol;
 
     final instructions = StakeInstruction.createAndInitializeAccountWithSeed(
-      fromPubKey: fromKey.publicKey,
-      stakePubKey: derivedPubKey,
+      fundingAccount: fromKey.publicKey,
+      newAccount: derivedPubKey,
       authorized: Authorized(
         withdrawer: withdrawer.address,
         staker: staker.address,
@@ -100,9 +100,9 @@ void main() {
     );
     final newStaker = await Ed25519HDKeyPair.random();
     final instruction = StakeInstruction.authorize(
-      stakePubKey: account.publicKey,
-      authorityPubKey: staker.publicKey,
-      stakeAuthorize: StakeAuthorize.staker(newStaker.publicKey),
+      stake: account.publicKey,
+      authority: staker.publicKey,
+      authorize: StakeAuthorize.staker(newStaker.publicKey),
     );
 
     expect(
@@ -127,9 +127,9 @@ void main() {
     );
     final newWithdrawer = await Ed25519HDKeyPair.random();
     final instruction = StakeInstruction.authorize(
-      stakePubKey: account.publicKey,
-      authorityPubKey: withdrawer.publicKey,
-      stakeAuthorize: StakeAuthorize.withdrawer(newWithdrawer.publicKey),
+      stake: account.publicKey,
+      authority: withdrawer.publicKey,
+      authorize: StakeAuthorize.withdrawer(newWithdrawer.publicKey),
     );
 
     expect(
@@ -160,8 +160,8 @@ void main() {
       );
       final instruction = SystemInstruction.createAccount(
         lamports: lamports,
-        pubKey: newAccount.publicKey,
-        fromPubKey: fromKey.publicKey,
+        newAccount: newAccount.publicKey,
+        fundingAccount: fromKey.publicKey,
         owner: StakeProgram.id,
         space: StakeProgram.neededAccountSpace,
       );
@@ -175,10 +175,10 @@ void main() {
       );
 
       final splitInstruction = StakeInstruction.split(
-        lamports: 100,
-        destinationStakePubKey: newAccount.publicKey,
-        sourceStakePubKey: account.publicKey,
-        stakeAuthorityPubKey: staker.publicKey,
+        amount: 100,
+        destinationStake: newAccount.publicKey,
+        sourceStake: account.publicKey,
+        authority: staker.publicKey,
       );
 
       expect(
@@ -205,9 +205,9 @@ void main() {
     );
     final instruction = StakeInstruction.withdraw(
       lamports: 100,
-      authorityPubKey: withdrawer.publicKey,
-      stakePubKey: account.publicKey,
-      recipientPubKey: fromKey.publicKey,
+      authority: withdrawer.publicKey,
+      stake: account.publicKey,
+      recipient: fromKey.publicKey,
     );
 
     expect(
@@ -241,9 +241,9 @@ void main() {
         account2,
       );
       final instruction = StakeInstruction.merge(
-        authorityPubKey: staker.publicKey,
-        sourceStakePubKey: account2.publicKey,
-        destinationStakePubKey: account1.publicKey,
+        authority: staker.publicKey,
+        sourceStake: account2.publicKey,
+        destinationStake: account1.publicKey,
       );
 
       expect(
@@ -286,8 +286,8 @@ Future<Ed25519HDKeyPair> _newAccount(
   final rent = await rpcClient
       .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
   final instructions = StakeInstruction.createAndInitializeAccount(
-    fromPubKey: fromKey.publicKey,
-    stakePubKey: stakeKey.publicKey,
+    fundingAccount: fromKey.publicKey,
+    newAccount: stakeKey.publicKey,
     authorized: Authorized(
       staker: staker.address,
       withdrawer: withdrawer.address,
