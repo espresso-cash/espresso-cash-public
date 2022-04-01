@@ -13,7 +13,7 @@ export 'spl_token_transfer_info.dart';
 
 part 'parsed_message.g.dart';
 
-/// A parsed message that is part of a [Transaction] object.
+/// A parsed message that is part of a Transaction object.
 @JsonSerializable(createToJson: false)
 class ParsedMessage implements Message {
   ParsedMessage({
@@ -26,8 +26,15 @@ class ParsedMessage implements Message {
   factory ParsedMessage.fromJson(Map<String, dynamic> json) =>
       _$ParsedMessageFromJson(json);
 
+  @override
   final List<AccountKey> accountKeys;
+
+  @override
   final Header? header;
+
+  @override
   final String recentBlockhash;
+
+  @override
   final List<Instruction> instructions;
 }

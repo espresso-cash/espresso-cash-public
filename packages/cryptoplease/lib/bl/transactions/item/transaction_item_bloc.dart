@@ -6,7 +6,8 @@ import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/tokens/token.dart' hide SplToken;
 import 'package:cryptoplease/bl/transactions/list/transactions_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/solana.dart' show SolanaClient, SplToken;
+import 'package:solana/solana.dart'
+    show Ed25519HDPublicKey, findAssociatedTokenAddress;
 
 part 'transaction_item_bloc.freezed.dart';
 part 'transaction_item_event.dart';
@@ -20,15 +21,12 @@ typedef _Emitter = Emitter<_State>;
 class TransactionItemBloc extends Bloc<_Event, _State> {
   TransactionItemBloc({
     required MyAccount account,
-    required SolanaClient solanaClient,
   })  : _account = account,
-        _solanaClient = solanaClient,
         super(const TransactionItemState()) {
     on<TransactionItemEvent>(_handler, transformer: sequential());
   }
 
   final MyAccount _account;
-  final SolanaClient _solanaClient;
 
   _EventHandler get _handler => (e, emit) => e.map(
         initialized: (e) => _onInitialized(e, emit),
@@ -41,7 +39,8 @@ class TransactionItemBloc extends Bloc<_Event, _State> {
     final transaction = event.transaction;
     final token = event.token;
     final address = await _getWalletAddress(token);
-    final transactionType = _getTransactionType(address, transaction);
+    final transactionType =
+        _getTransactionType(address.toBase58(), transaction);
     final transactionStatus = _getTransactionStatus(transaction);
 
     transaction.map(
@@ -95,15 +94,11 @@ class TransactionItemBloc extends Bloc<_Event, _State> {
         generic: (g) => TransactionType.unknown,
       );
 
-  Future<String> _getWalletAddress(Token token) async {
-    if (token.isSolana) {
-      return _account.address;
-    } else {
-      final SplToken splToken = await _solanaClient.createReadonlyToken(
-        mint: token.address,
-      );
-
-      return splToken.computeAssociatedAddress(owner: _account.address);
-    }
-  }
+  Future<Ed25519HDPublicKey> _getWalletAddress(Token token) async =>
+      token.isSolana
+          ? _account.publicKey
+          : await findAssociatedTokenAddress(
+              owner: _account.publicKey,
+              mint: Ed25519HDPublicKey.fromBase58(token.address),
+            );
 }

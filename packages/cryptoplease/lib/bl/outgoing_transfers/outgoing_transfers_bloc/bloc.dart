@@ -146,7 +146,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       _solanaClient.createTransfer(
         sender: _account.wallet,
         recipient: await payment.getRecipient(),
-        tokenAddress: payment.tokenAddress,
+        tokenAddress: Ed25519HDPublicKey.fromBase58(payment.tokenAddress),
         amount: payment.amount,
         additionalFee: payment.map(
           splitKey: (p) => p.tokenAddress == Token.sol.address
@@ -155,7 +155,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
           direct: always(0),
         ),
         memo: payment.memo,
-        reference: payment.reference,
+        reference: payment.reference?.let(Ed25519HDPublicKey.fromBase58),
       );
 }
 

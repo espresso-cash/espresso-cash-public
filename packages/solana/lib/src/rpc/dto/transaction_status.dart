@@ -17,13 +17,13 @@ class TransactionStatus {
 
   final Map<String, dynamic>? err;
 
-  /// Array of log messages the transaction instructions output
-  /// during execution, null if simulation failed before the
-  /// transaction was able to execute (for example due to an
-  /// invalid blockhash or signature verification failure).
+  /// Array of log messages the transaction instructions output during
+  /// execution, null if simulation failed before the transaction was able to
+  /// execute (for example due to an invalid blockhash or signature verification
+  /// failure).
   final List<String>? logs;
 
   /// Array of [Account]s with the same length as the
-  /// [SimulateTransactionAccounts.addresses] array in the request
+  /// `SimulateTransactionAccounts.addresses` array in the request.
   final List<Account>? accounts;
 }

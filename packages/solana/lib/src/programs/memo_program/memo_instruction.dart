@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/instruction.dart';
@@ -17,7 +18,7 @@ class MemoInstruction extends Instruction {
   ///
   /// [memo limit](https://spl.solana.com/memo#compute-limits)
   factory MemoInstruction({
-    required List<String> signers,
+    required List<Ed25519HDPublicKey> signers,
     required String memo,
   }) {
     if (memo.length > _memoSizeLimit) {
@@ -37,12 +38,12 @@ class MemoInstruction extends Instruction {
     required List<AccountMeta> accounts,
     required Buffer data,
   }) : super(
-          programId: MemoProgram.programId,
+          programId: MemoProgram.id,
           accounts: accounts,
           data: data,
         );
 
-  static AccountMeta _addressToAccount(String address) =>
+  static AccountMeta _addressToAccount(Ed25519HDPublicKey address) =>
       AccountMeta.writeable(pubKey: address, isSigner: true);
 }
 

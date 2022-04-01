@@ -32,11 +32,12 @@ class JsonRpcClient {
     final response = await _postRequest(_JsonRpcRequest.bulk(requests));
     if (response is _JsonRpcArrayResponse) {
       final elements = response.array;
+
       return elements
           .map((_JsonRpcObjectResponse item) => item.data)
           .toList(growable: false);
     } else {
-      throw FormatException('unexpected jsonrpc response type');
+      throw const FormatException('unexpected jsonrpc response type');
     }
   }
 
@@ -55,7 +56,7 @@ class JsonRpcClient {
     if (response is _JsonRpcObjectResponse) {
       return response.data;
     } else {
-      throw FormatException('unexpected jsonrpc response type');
+      throw const FormatException('unexpected jsonrpc response type');
     }
   }
 
@@ -94,7 +95,9 @@ abstract class _JsonRpcRequest {
 class _JsonRpcBulkRequest implements _JsonRpcRequest {
   const _JsonRpcBulkRequest(this.list);
 
-  List<dynamic> toJson() => list.map((i) => i.toJson()).toList(growable: false);
+  @override
+  List<dynamic> toJson() =>
+      list.map<dynamic>((i) => i.toJson()).toList(growable: false);
 
   final List<_JsonRpcRequest> list;
 }
@@ -106,14 +109,13 @@ class _JsonRpcSingleRequest implements _JsonRpcRequest {
     this.params,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'jsonrpc': '2.0',
-      'id': id,
-      'method': method,
-      if (params != null) 'params': params,
-    };
-  }
+  @override
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'jsonrpc': '2.0',
+        'id': id,
+        'method': method,
+        if (params != null) 'params': params,
+      };
 
   final String id;
   final String method;
@@ -136,7 +138,8 @@ abstract class _JsonRpcResponse {
     }
     if (!data.containsKey('result')) {
       throw const FormatException(
-          'object has no result field, invalid jsonrpc-2.0');
+        'object has no result field, invalid jsonrpc-2.0',
+      );
     }
 
     return _JsonRpcResponse._object(data);
@@ -145,18 +148,18 @@ abstract class _JsonRpcResponse {
   factory _JsonRpcResponse._parse(dynamic response) {
     if (response is List<dynamic>) {
       return _JsonRpcResponse._array(
-        response.map((r) {
+        response.map((dynamic r) {
           if (r is Map<String, dynamic>) {
             return _JsonRpcObjectResponse(r);
           } else {
-            throw FormatException('cannot parse the jsonrpc response');
+            throw const FormatException('cannot parse the jsonrpc response');
           }
         }).toList(growable: false),
       );
     } else if (response is Map<String, dynamic>) {
       return _JsonRpcResponse._fromObject(response);
     } else {
-      throw FormatException('cannot parse the jsonrpc response');
+      throw const FormatException('cannot parse the jsonrpc response');
     }
   }
 }

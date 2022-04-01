@@ -1,3 +1,4 @@
+// ignore_for_file: prefer-first
 class EpochCredits {
   const EpochCredits({
     required this.epoch,

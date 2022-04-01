@@ -19,6 +19,7 @@ class CompactArray extends ByteArray {
     if (mapped.isEmpty) {
       return const CompactArray.empty();
     }
+
     return CompactArray._fromLengthAndContent(length, mapped.reduce(_merge));
   }
 

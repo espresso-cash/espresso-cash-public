@@ -13,6 +13,7 @@ class CompactU16 extends ByteArray {
         data.add(currentByte | 0x80);
       }
     }
+
     return CompactU16._(data);
   }
 

@@ -3,6 +3,7 @@ import 'package:cryptoplease/bl/transactions/details/transaction_details_bloc.da
 import 'package:cryptoplease/config.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/dto.dart' show ConfirmationStatus;
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 void main() {
@@ -24,14 +25,14 @@ void main() {
         status: ConfirmationStatus.finalized,
       );
 
-      final message = SystemProgram.transfer(
-        source: senderWallet.address,
-        destination: testWallet.address,
+      final instruction = SystemInstruction.transfer(
+        source: senderWallet.publicKey,
+        destination: testWallet.publicKey,
         lamports: 500,
       );
 
       signature = await solanaClient.rpcClient.signAndSendTransaction(
-        message,
+        Message.only(instruction),
         [senderWallet],
       );
       await solanaClient.waitForSignatureStatus(

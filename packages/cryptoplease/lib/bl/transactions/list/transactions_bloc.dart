@@ -34,17 +34,13 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
             loadRequested: (_) => _onLoadRequested(emit),
           );
 
-  Future<String> _getAddressForCurrentToken() async {
-    if (_token == Token.sol) {
-      return _account.address;
-    } else {
-      final splToken = await _solanaClient.createReadonlyToken(
-        mint: _token.address,
-      );
-
-      return splToken.computeAssociatedAddress(owner: _account.address);
-    }
-  }
+  Future<Ed25519HDPublicKey> _getAddressForCurrentToken() async =>
+      _token == Token.sol
+          ? _account.publicKey
+          : await findAssociatedTokenAddress(
+              owner: _account.publicKey,
+              mint: Ed25519HDPublicKey.fromBase58(_token.address),
+            );
 
   Future<Iterable<Transaction>> _loadTransactions(
     TxTransformer transform,

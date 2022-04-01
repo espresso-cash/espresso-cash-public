@@ -6,7 +6,7 @@ import 'package:solana/src/rpc/dto/parsed_message/parsed_system_instruction.dart
 part 'parsed_instruction.freezed.dart';
 part 'parsed_instruction.g.dart';
 
-/// An instruction which is part of a [ParsedMessage]
+/// An instruction which is part of a `ParsedMessage`.
 @Freezed(unionKey: 'program', fallbackUnion: 'unsupported')
 class ParsedInstruction with _$ParsedInstruction implements Instruction {
   const factory ParsedInstruction.system({

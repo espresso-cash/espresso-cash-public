@@ -113,12 +113,12 @@ class _MainTokenAccount {
     SplTokenAccountDataInfo info,
     TokenList tokens,
   ) async {
-    final expectedPubKey = await computeAssociatedTokenAccountAddress(
-      owner: info.owner,
-      mint: info.mint,
+    final expectedPubKey = await findAssociatedTokenAddress(
+      owner: Ed25519HDPublicKey.fromBase58(info.owner),
+      mint: Ed25519HDPublicKey.fromBase58(info.mint),
     );
 
-    if (expectedPubKey != pubKey) return null;
+    if (expectedPubKey.toBase58() != pubKey) return null;
 
     final token = tokens.findTokenByMint(info.mint);
     if (token == null) {

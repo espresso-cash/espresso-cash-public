@@ -12,7 +12,9 @@ class NotificationParams<T> {
   });
 
   factory NotificationParams.fromJson(
-          Map<String, dynamic> json, T Function(Object? data) fromJsonT) =>
+    Map<String, dynamic> json,
+    T Function(Object? data) fromJsonT,
+  ) =>
       _$NotificationParamsFromJson(json, fromJsonT);
 
   final NotificationResult<T> result;

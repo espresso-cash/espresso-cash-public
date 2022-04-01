@@ -2,10 +2,12 @@ import 'package:solana/src/curve25519/edwards_point.dart';
 import 'package:solana/src/curve25519/extensions.dart';
 import 'package:solana/src/curve25519/field_element.dart';
 
-final _d = FieldElement([
-  -10913610, 13857413, -15372611, 6949391, 114729, //
-  -8787816, -6275908, -3247719, -18696448, -12055116,
-].map((e) => BigInt.from(e)).toList());
+final _d = FieldElement(
+  [
+    -10913610, 13857413, -15372611, 6949391, 114729, //
+    -8787816, -6275908, -3247719, -18696448, -12055116,
+  ].map((e) => BigInt.from(e)).toList(),
+);
 
 class CompressedEdwardsY {
   CompressedEdwardsY(this._data);
@@ -23,8 +25,9 @@ class CompressedEdwardsY {
     }
     final sqrtResult = sqrt.result;
     final isNegative = sqrtResult.isNegative();
-    final selector = isNegative && _data.bit(255) == 1 ? 1 : 0;
+    final selector = isNegative && _data.bit(255) == BigInt.one ? 1 : 0;
     final x = (-sqrt.result).select(sqrt.result, selector);
+
     return EdwardsPoint(x, y, FieldElement.one, x * y);
   }
 

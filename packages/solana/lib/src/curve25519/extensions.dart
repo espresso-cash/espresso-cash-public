@@ -10,6 +10,7 @@ extension IntegerListExt on List<BigInt> {
         return false;
       }
     }
+
     return true;
   }
 }

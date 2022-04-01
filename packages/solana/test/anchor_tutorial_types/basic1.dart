@@ -16,6 +16,7 @@ class Basic1DataAccount implements AnchorAccount {
     List<int> bytes,
   ) {
     final accountData = _AccountData.fromBorsh(bytes.sublist(8));
+
     return Basic1DataAccount._(
       discriminator: bytes.sublist(0, 8),
       data: accountData.data,

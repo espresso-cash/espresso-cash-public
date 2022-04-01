@@ -37,7 +37,7 @@ class AirdropBloc extends Bloc<AirdropEvent, AirdropState> {
 
     await tryEitherAsync((_) async {
       await _solanaClient.requestAirdrop(
-        address: _account.address,
+        address: _account.publicKey,
         lamports: lamportsPerSol,
       );
       // ignore: avoid_print

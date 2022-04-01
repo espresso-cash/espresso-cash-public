@@ -19,8 +19,7 @@ void main() {
         originalLamports,
       );
 
-      final subscriptionClient =
-          await SubscriptionClient.connect(devnetWebsocketUrl);
+      final subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
 
       final result =
           await subscriptionClient.signatureSubscribe(signature).first;
@@ -31,7 +30,7 @@ void main() {
 
       // Now send some tokens
       await createTestSolanaClient().transferLamports(
-        destination: recipient.address,
+        destination: recipient.publicKey,
         commitment: Commitment.confirmed,
         lamports: lamportsPerSol ~/ 2,
         source: sender,
@@ -43,11 +42,11 @@ void main() {
 
       expect(account.lamports, lessThan(originalLamports));
     },
-    timeout: Timeout(Duration(minutes: 1)),
+    timeout: const Timeout(Duration(minutes: 1)),
   );
 
   test('waitForSignatureStatus throws Exception on timout', () async {
-    final client = await SubscriptionClient.connect(devnetWebsocketUrl);
+    final client = SubscriptionClient.connect(devnetWebsocketUrl);
     expect(
       () => client.waitForSignatureStatus(
         '3mx8XfKKwJHk3r5gezhedyzZTaDYgyA31jWp7DTfvifRJkouaA7kWwcReP1XRCvyAXeAgsUWQrTQffhR8rWHHCvN',

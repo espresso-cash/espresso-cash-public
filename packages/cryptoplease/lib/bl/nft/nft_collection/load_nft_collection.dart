@@ -36,7 +36,8 @@ Future<Iterable<NonFungibleToken>> _extractNftsFromAccounts(
 
   final unfiltered = await Future.wait(
     nftMints.map((info) async {
-      final metadata = await client.rpcClient.getMetadata(mint: info.mint);
+      final metadata = await client.rpcClient
+          .getMetadata(mint: Ed25519HDPublicKey.fromBase58(info.mint));
 
       return metadata == null
           ? null

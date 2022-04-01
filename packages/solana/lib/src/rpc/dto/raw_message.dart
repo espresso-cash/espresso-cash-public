@@ -18,8 +18,15 @@ class RawMessage implements Message {
   factory RawMessage.fromJson(Map<String, dynamic> json) =>
       _$RawMessageFromJson(json);
 
+  @override
   final List<AccountKey> accountKeys;
+
+  @override
   final Header? header;
+
+  @override
   final String recentBlockhash;
+
+  @override
   final List<Instruction> instructions;
 }

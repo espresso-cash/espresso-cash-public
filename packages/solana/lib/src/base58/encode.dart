@@ -28,5 +28,6 @@ String base58encode(List<int> bytes) {
   for (final byte in finalBytes) {
     encoded = _base58Alphabet[byte] + encoded;
   }
+
   return '1' * zeroes + encoded;
 }

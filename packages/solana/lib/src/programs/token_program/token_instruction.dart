@@ -1,7 +1,9 @@
+import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/programs/system_program/system_instruction.dart';
 import 'package:solana/src/programs/token_program/token_program.dart';
 
 enum AuthorityType {
@@ -13,41 +15,45 @@ enum AuthorityType {
 
 /// A spl token program instruction.
 class TokenInstruction extends Instruction {
-  const TokenInstruction._({
+  TokenInstruction._({
     required List<AccountMeta> accounts,
     required Iterable<int> data,
   }) : super(
-          programId: TokenProgram.programId,
+          programId: TokenProgram.id,
           accounts: accounts,
           data: data,
         );
 
-  /// Construct an instruction to initialize a new spl token with address [mint],
-  /// [decimals] decimal places, and [mintAuthority] as the mint authority.
+  /// Construct an instruction to initialize a new spl token with address
+  /// [mint], [decimals] decimal places, and [mintAuthority] as the mint
+  /// authority.
   ///
-  /// You can use [RPCClient.getMinimumBalanceForRentExemption]
-  /// to determine [rent] for the required [space].
+  /// You can use `RPCClient.getMinimumBalanceForRentExemption` to determine
+  /// rent for the required space.
   ///
-  /// The [freezeAuthority] is optional and can be used to specify a the
-  /// freeze authority for this token.
+  /// The [freezeAuthority] is optional and can be used to specify a the freeze
+  /// authority for this token.
   factory TokenInstruction.initializeMint({
     required int decimals,
-    required String mint,
-    required String mintAuthority,
-    String? freezeAuthority,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey mintAuthority,
+    Ed25519HDPublicKey? freezeAuthority,
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: mint, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
         ],
         data: Buffer.fromConcatenatedByteArrays([
           TokenProgram.initializeMintInstructionIndex,
           Buffer.fromUint8(decimals),
-          Buffer.fromBase58(mintAuthority),
+          mintAuthority.toBuffer(),
           Buffer.fromUint8(freezeAuthority != null ? 1 : 0),
           if (freezeAuthority != null)
-            Buffer.fromBase58(freezeAuthority)
+            freezeAuthority.toBuffer()
           else
             List<int>.filled(32, 0),
         ]),
@@ -59,28 +65,34 @@ class TokenInstruction extends Instruction {
   /// The new account [pubKey] must be created using the corresponding system
   /// instruction.
   factory TokenInstruction.initializeAccount({
-    required String pubKey,
-    required String mint,
-    required String owner,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey owner,
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: pubKey, isSigner: true),
           AccountMeta.readonly(pubKey: mint, isSigner: false),
           AccountMeta.readonly(pubKey: owner, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
         ],
         data: TokenProgram.initializeAccountInstructionIndex,
       );
 
   factory TokenInstruction.initializeMultisig({
-    required String pubKey,
-    required List<String> signerPubKeys,
+    required Ed25519HDPublicKey pubKey,
+    required List<Ed25519HDPublicKey> signerPubKeys,
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: pubKey, isSigner: true),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
           ...signerPubKeys.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
@@ -93,10 +105,10 @@ class TokenInstruction extends Instruction {
 
   factory TokenInstruction.transfer({
     required int amount,
-    required String source,
-    required String destination,
-    required String owner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey destination,
+    required Ed25519HDPublicKey owner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
@@ -104,7 +116,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: destination, isSigner: false),
           AccountMeta.readonly(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -118,39 +130,39 @@ class TokenInstruction extends Instruction {
 
   factory TokenInstruction.approve({
     required int amount,
-    required String source,
-    required String delegate,
-    required String sourceOwner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey delegate,
+    required Ed25519HDPublicKey sourceOwner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
-          accounts: [
-            AccountMeta.writeable(pubKey: source, isSigner: false),
-            AccountMeta.readonly(pubKey: delegate, isSigner: false),
-            AccountMeta.readonly(
-              pubKey: sourceOwner,
-              isSigner: signers.length == 0,
-            ),
-            ...signers.map(
-              (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-            )
-          ],
-          data: Buffer.fromConcatenatedByteArrays([
-            TokenProgram.approveInstructionIndex,
-            Buffer.fromUint64(amount)
-          ]));
+        accounts: [
+          AccountMeta.writeable(pubKey: source, isSigner: false),
+          AccountMeta.readonly(pubKey: delegate, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: sourceOwner,
+            isSigner: signers.isEmpty,
+          ),
+          ...signers.map(
+            (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
+          )
+        ],
+        data: Buffer.fromConcatenatedByteArrays(
+          [TokenProgram.approveInstructionIndex, Buffer.fromUint64(amount)],
+        ),
+      );
 
   factory TokenInstruction.revoke({
-    required String source,
-    required String sourceOwner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey sourceOwner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: source, isSigner: false),
           AccountMeta.readonly(
             pubKey: sourceOwner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -160,18 +172,18 @@ class TokenInstruction extends Instruction {
       );
 
   factory TokenInstruction.setAuthority({
-    required String mintOrAccount,
-    required String currentAuthority,
+    required Ed25519HDPublicKey mintOrAccount,
+    required Ed25519HDPublicKey currentAuthority,
     required AuthorityType authorityType,
-    required String newAuthority,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey newAuthority,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: mintOrAccount, isSigner: false),
           AccountMeta.readonly(
             pubKey: currentAuthority,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -180,20 +192,20 @@ class TokenInstruction extends Instruction {
         data: Buffer.fromConcatenatedByteArrays([
           TokenProgram.setAuthorityInstructionIndex,
           Buffer.fromUint32(authorityType.value),
-          Buffer.fromBase58(newAuthority),
+          newAuthority.toBuffer(),
         ]),
       );
 
   /// Mint the [destination] account with [amount] tokens of the [mint] token.
   /// The [authority] is the mint authority of the token.
   ///
-  /// The [destination] account must exist and be linked with [mint]. You can create
-  /// it by using [TokenProgram.createAccount].
+  /// The [destination] account must exist and be linked with [mint]. You can
+  /// create it by using `TokenProgram.createAccount`.
   factory TokenInstruction.mintTo({
     required int amount,
-    required String mint,
-    required String destination,
-    required String authority,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey destination,
+    required Ed25519HDPublicKey authority,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -210,10 +222,10 @@ class TokenInstruction extends Instruction {
 
   factory TokenInstruction.burn({
     required int amount,
-    required String accountToBurnFrom,
-    required String mint,
-    required String owner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey accountToBurnFrom,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey owner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
@@ -221,7 +233,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -236,10 +248,10 @@ class TokenInstruction extends Instruction {
       );
 
   factory TokenInstruction.closeAccount({
-    required String accountToClose,
-    required String destination,
-    required String owner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey accountToClose,
+    required Ed25519HDPublicKey destination,
+    required Ed25519HDPublicKey owner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
@@ -247,7 +259,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: destination, isSigner: false),
           AccountMeta.writeable(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -257,10 +269,10 @@ class TokenInstruction extends Instruction {
       );
 
   factory TokenInstruction.freezeAccount({
-    required String accountToFreeze,
-    required String mint,
-    required String freezeAuthority,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey accountToFreeze,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey freezeAuthority,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
@@ -268,7 +280,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: freezeAuthority,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -278,10 +290,10 @@ class TokenInstruction extends Instruction {
       );
 
   factory TokenInstruction.thawAccount({
-    required String accountToFreeze,
-    required String mint,
-    required String freezeAuthority,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey accountToFreeze,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey freezeAuthority,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
@@ -289,7 +301,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: freezeAuthority,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -301,11 +313,11 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.transferChecked({
     required int amount,
     required int decimals,
-    required String source,
-    required String mint,
-    required String destination,
-    required String owner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey destination,
+    required Ed25519HDPublicKey owner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
@@ -314,7 +326,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: destination, isSigner: false),
           AccountMeta.readonly(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -332,11 +344,11 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.approveChecked({
     required int amount,
     required int decimals,
-    required String mint,
-    required String source,
-    required String delegate,
-    required String sourceOwner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey source,
+    required Ed25519HDPublicKey delegate,
+    required Ed25519HDPublicKey sourceOwner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
@@ -345,7 +357,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.readonly(pubKey: delegate, isSigner: false),
           AccountMeta.readonly(
             pubKey: sourceOwner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -363,9 +375,9 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.mintToChecked({
     required int amount,
     required int decimals,
-    required String mint,
-    required String destination,
-    required String authority,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey destination,
+    required Ed25519HDPublicKey authority,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -386,10 +398,10 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.burnChecked({
     required int amount,
     required int decimals,
-    required String accountToBurnFrom,
-    required String mint,
-    required String owner,
-    List<String> signers = const <String>[],
+    required Ed25519HDPublicKey accountToBurnFrom,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey owner,
+    List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
@@ -397,7 +409,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -413,26 +425,29 @@ class TokenInstruction extends Instruction {
       );
 
   factory TokenInstruction.initializeAccount2({
-    required String pubKey,
-    required String mint,
-    required String owner,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey owner,
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: pubKey, isSigner: true),
           AccountMeta.readonly(pubKey: mint, isSigner: false),
-          AccountMeta.readonly(pubKey: Sysvar.rent, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+            isSigner: false,
+          ),
         ],
         data: Buffer.fromConcatenatedByteArrays(
           [
             TokenProgram.initializeAccount2InstructionIndex,
-            Buffer.fromBase58(owner),
+            owner.toBuffer(),
           ],
         ),
       );
 
   factory TokenInstruction.syncNative({
-    required String nativeTokenAccount,
+    required Ed25519HDPublicKey nativeTokenAccount,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -442,9 +457,9 @@ class TokenInstruction extends Instruction {
       );
 
   factory TokenInstruction.initializeAccount3({
-    required String pubKey,
-    required String mint,
-    required String owner,
+    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey owner,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -454,14 +469,14 @@ class TokenInstruction extends Instruction {
         data: Buffer.fromConcatenatedByteArrays(
           [
             TokenProgram.initializeAccount3InstructionIndex,
-            Buffer.fromBase58(owner),
+            owner.toBuffer(),
           ],
         ),
       );
 
   factory TokenInstruction.initializeMultisig2({
-    required String pubKey,
-    required List<String> signerPubKeys,
+    required Ed25519HDPublicKey pubKey,
+    required List<Ed25519HDPublicKey> signerPubKeys,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -478,9 +493,9 @@ class TokenInstruction extends Instruction {
 
   factory TokenInstruction.initializeMint2({
     required int decimals,
-    required String mint,
-    required String mintAuthority,
-    String? freezeAuthority,
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey mintAuthority,
+    Ed25519HDPublicKey? freezeAuthority,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -490,15 +505,82 @@ class TokenInstruction extends Instruction {
           [
             TokenProgram.initializeMint2InstructionIndex,
             Buffer.fromUint8(decimals),
-            Buffer.fromBase58(mintAuthority),
+            mintAuthority.toBuffer(),
             Buffer.fromUint8(freezeAuthority != null ? 1 : 0),
             if (freezeAuthority != null)
-              Buffer.fromBase58(freezeAuthority)
+              freezeAuthority.toBuffer()
             else
               List<int>.filled(32, 0),
           ],
         ),
       );
+
+  /// Initialize a new spl token with address [mint], [decimals] decimal places,
+  /// and [mintAuthority] as the mint authority.
+  ///
+  /// You can use `RPCClient.getMinimumBalanceForRentExemption` to determine
+  /// [rent] for the required [space].
+  ///
+  /// The [freezeAuthority] is optional and can be used to specify a the freeze
+  /// authority for this token.
+  static List<Instruction> createAccountAndInitializeMint({
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey mintAuthority,
+    required int rent,
+    required int space,
+    required int decimals,
+    Ed25519HDPublicKey? freezeAuthority,
+  }) =>
+      [
+        SystemInstruction.createAccount(
+          pubKey: mint,
+          fromPubKey: mintAuthority,
+          lamports: rent,
+          space: space,
+          owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
+        ),
+        TokenInstruction.initializeMint(
+          mint: mint,
+          decimals: decimals,
+          mintAuthority: mintAuthority,
+          freezeAuthority: freezeAuthority,
+        ),
+      ];
+
+  /// Create an account with [address] and owned by [owner]. The [rent]
+  ///
+  /// You can use `RPCClient.getMinimumBalanceForRentExemption` to determine
+  /// [rent] for the required [space].
+  ///
+  /// This is a convenience method that would initialize the account and
+  /// associate it with [mint]. This method also issues a [SystemInstruction] to
+  /// actually create the account before linking it with the [mint].
+  ///
+  /// You must call this method and create an account before attempting to use
+  /// it in the `TokenProgram.mintTo` as destination.
+  ///
+  /// This transaction must be signed by [owner] and [address].
+  static List<Instruction> createAndInitializeAccount({
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey address,
+    required Ed25519HDPublicKey owner,
+    required int rent,
+    required int space,
+  }) =>
+      [
+        SystemInstruction.createAccount(
+          pubKey: address,
+          fromPubKey: owner,
+          lamports: rent,
+          space: space,
+          owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
+        ),
+        TokenInstruction.initializeAccount(
+          mint: mint,
+          pubKey: address,
+          owner: owner,
+        ),
+      ];
 }
 
 extension on AuthorityType {

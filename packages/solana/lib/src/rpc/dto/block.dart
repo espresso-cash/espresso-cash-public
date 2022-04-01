@@ -34,17 +34,16 @@ class Block {
   /// The slot index of this block's parent
   final int parentSlot;
 
-  /// Present if [TransactionDetailLevel.full] transaction
-  /// details are requested; an array of [Transaction] objects
+  /// Present if `TransactionDetailLevel.full` transaction details are
+  /// requested; an array of [Transaction] objects
   final List<Transaction> transactions;
 
   /// Transaction status metadata object
   final Meta? meta;
 
-  /// Present if [TransactionDetailLevel.signatures] are
-  /// requested for transaction details; an array of signatures
-  /// strings, corresponding to the transaction order in the
-  /// block.
+  /// Present if `TransactionDetailLevel.signatures` are requested for
+  /// transaction details; an array of signatures strings, corresponding to the
+  /// transaction order in the block.
   final List<String> signatures;
 
   /// Present if rewards are requested; an array of [Reward]

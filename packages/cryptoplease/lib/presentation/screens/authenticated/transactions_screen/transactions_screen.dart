@@ -71,7 +71,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   key: ValueKey(state.transactions[index].hash),
                   create: (context) => TransactionItemBloc(
                     account: context.read<MyAccount>(),
-                    solanaClient: context.read<SolanaClient>(),
                   ),
                   child: TransactionItem(
                     transaction: state.transactions[index],
