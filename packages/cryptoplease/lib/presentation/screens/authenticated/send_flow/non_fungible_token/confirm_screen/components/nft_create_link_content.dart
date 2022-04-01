@@ -1,6 +1,6 @@
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/nft_image.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/list_item.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/fee_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:solana/metaplex.dart';
 
@@ -8,10 +8,12 @@ class NftCreateLinkContent extends StatelessWidget {
   const NftCreateLinkContent({
     Key? key,
     required this.fee,
+    required this.fiatFee,
     required this.metadata,
   }) : super(key: key);
 
   final String fee;
+  final String? fiatFee;
   final Metadata metadata;
 
   @override
@@ -33,7 +35,10 @@ class NftCreateLinkContent extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                ListItem(label: context.l10n.labelFee, value: fee),
+                FeeView(
+                  formattedFee: fee,
+                  formattedFiatFee: fiatFee,
+                ),
               ],
             ),
           ),

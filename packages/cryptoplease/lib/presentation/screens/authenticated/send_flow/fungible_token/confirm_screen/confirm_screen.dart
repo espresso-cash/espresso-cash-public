@@ -1,7 +1,12 @@
+import 'package:cryptoplease/bl/amount.dart';
+import 'package:cryptoplease/bl/conversion_rates/repository.dart';
+import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
+import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/conversion_rates.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/send_token_to_solana_address_content.dart';
@@ -42,6 +47,13 @@ class _ConfirmScreenState extends State<ConfirmFungibleTokenScreen> {
           final tokenAmount = state.tokenAmount.format(locale);
           final fiatAmount = state.fiatAmount.format(locale);
           final formattedFee = state.fee.format(locale);
+          final fiatFee = context.convertToFiat(
+            amount: state.fee.value,
+            token: Token.sol,
+            fiatCurrency: Currency.usd,
+            fiatDecimals: state.fee.currency.decimals,
+          );
+          final formattedFiatFee = fiatFee?.format(locale);
 
           final String nextButtonText;
           switch (state.transferType) {
@@ -60,6 +72,7 @@ class _ConfirmScreenState extends State<ConfirmFungibleTokenScreen> {
                 amount: tokenAmount,
                 fiatAmount: fiatAmount,
                 fee: formattedFee,
+                fiatFee: formattedFiatFee,
               );
               break;
             case OutgoingTransferType.direct:
@@ -67,6 +80,7 @@ class _ConfirmScreenState extends State<ConfirmFungibleTokenScreen> {
                 amount: tokenAmount,
                 fiatAmount: fiatAmount,
                 fee: formattedFee,
+                fiatFee: formattedFiatFee,
                 address: state.recipientAddress ?? '',
               );
               break;

@@ -1,7 +1,7 @@
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/profile/component/address_view.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/amount_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/list_item.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/fee_view.dart';
 import 'package:flutter/widgets.dart';
 
 class SendTokenToSolanaAddressContent extends StatelessWidget {
@@ -11,12 +11,14 @@ class SendTokenToSolanaAddressContent extends StatelessWidget {
     required this.fee,
     required this.address,
     this.fiatAmount,
+    this.fiatFee,
   }) : super(key: key);
 
   final String amount;
   final String fee;
   final String address;
   final String? fiatAmount;
+  final String? fiatFee;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -50,10 +52,10 @@ class SendTokenToSolanaAddressContent extends StatelessWidget {
               width: null,
             ),
             const SizedBox(height: 40),
-            ListItem(
-              label: context.l10n.labelFee,
-              value: fee,
-            )
+            FeeView(
+              formattedFee: fee,
+              formattedFiatFee: fiatFee,
+            ),
           ],
         ),
       );

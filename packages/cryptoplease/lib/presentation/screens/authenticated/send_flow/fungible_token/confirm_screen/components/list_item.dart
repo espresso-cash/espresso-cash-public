@@ -32,6 +32,7 @@ class ListItem extends StatelessWidget {
             Text(
               value!,
               style: textStyle,
+              textAlign: TextAlign.center,
             )
           else
             child!,
