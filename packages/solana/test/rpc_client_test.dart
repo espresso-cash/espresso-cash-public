@@ -255,14 +255,14 @@ void main() {
       );
 
       expect(accounts.length, equals(1));
-      expect(accounts.first.pubkey, equals(createdAccount.pubkey));
+      expect(accounts.first.pubkey, createdAccount.pubkey);
       expect(accounts.first.account.data, isA<ParsedAccountData>());
 
       final data = accounts.first.account.data as ParsedAccountData;
       final programData = data as ParsedSplTokenProgramAccountData;
       final parsed = programData.parsed as TokenAccountData;
-      expect(parsed.info.mint, equals(token.mint));
-      expect(parsed.info.owner, equals(createdAccount.account.owner));
+      expect(parsed.info.mint, token.mint.toBase58());
+      expect(parsed.info.owner, createdAccount.account.owner);
       expect(parsed, isNotNull);
     }, timeout: const Timeout(Duration(minutes: 4)));
   });

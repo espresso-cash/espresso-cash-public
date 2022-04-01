@@ -354,7 +354,7 @@ class SolanaClient {
     } on FormatException {
       accounts = [];
     }
-    return accounts.any((a) => a.pubkey == associatedTokenAddress);
+    return accounts.any((a) => a.pubkey == associatedTokenAddress.toBase58());
   }
 
   /// Get token [mint] balance for this wallet's account.
