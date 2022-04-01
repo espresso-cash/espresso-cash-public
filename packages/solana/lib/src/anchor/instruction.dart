@@ -24,6 +24,7 @@ class AnchorInstruction extends Instruction {
     BorshStruct arguments = const EmptyBorshStruct(),
   }) async {
     final serializedArguments = arguments.toBorsh();
+
     return AnchorInstruction._(
       programId: programId,
       accounts: accounts,
@@ -40,6 +41,7 @@ final _sha256 = Sha256();
 extension on List<int> {
   Future<List<int>> addDiscriminator(String ns, String name) async {
     final discriminator = await computeDiscriminator(ns, name);
+
     return discriminator.followedBy(this).toList(growable: false);
   }
 }
@@ -48,5 +50,6 @@ Future<List<int>> computeDiscriminator(String namespace, String name) async {
   final identifier = '$namespace:$name';
   final hash = await _sha256.hash(identifier.codeUnits);
   final hashBytes = hash.bytes;
+
   return hashBytes.sublist(0, 8);
 }

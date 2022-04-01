@@ -13,14 +13,8 @@ const int _transferredAmount = 0x1000;
 
 void main() {
   test('throws exception on timeout', () async {
-    final client = RpcClient(
-      devnetRpcUrl,
-      timeout: const Duration(milliseconds: 0),
-    );
-    expect(
-      () => client.getTransactionCount(),
-      throwsA(isA<TimeoutException>()),
-    );
+    final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
+    expect(client.getTransactionCount, throwsA(isA<TimeoutException>()));
   });
 
   group('RpcClient testsuite', () {
@@ -32,7 +26,7 @@ void main() {
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
-      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
       destination = await Ed25519HDKeyPair.fromMnemonic(
         generateMnemonic(),
       ); // generateMnemonic());
@@ -161,7 +155,9 @@ void main() {
       final txs = await rpcClient.getTransactionsList(source.publicKey);
       expect(txs, isNot(null));
 
-      txs.forEach((TransactionDetails? tx) => expect(tx, isNot(null)));
+      for (final tx in txs) {
+        expect(tx, isNot(null));
+      }
       expect(txs.length, greaterThan(0));
     });
   });
@@ -173,7 +169,7 @@ void main() {
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
-      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
     });
 
     setUp(() async {
@@ -225,46 +221,50 @@ void main() {
       expect(balance, greaterThan(0));
     });
 
-    test('Get token accounts by owner', () async {
-      final accountKeyPair = await Ed25519HDKeyPair.random();
-      final accountCreator = await Ed25519HDKeyPair.random();
+    test(
+      'Get token accounts by owner',
+      () async {
+        final accountKeyPair = await Ed25519HDKeyPair.random();
+        final accountCreator = await Ed25519HDKeyPair.random();
 
-      await airdrop(rpcClient, subscriptionClient, wallet, sol: 100);
-      await airdrop(rpcClient, subscriptionClient, accountCreator, sol: 100);
-      final solanaClient = SolanaClient(
-        rpcUrl: Uri.parse(devnetRpcUrl),
-        websocketUrl: Uri.parse(devnetWebsocketUrl),
-      );
+        await airdrop(rpcClient, subscriptionClient, wallet, sol: 100);
+        await airdrop(rpcClient, subscriptionClient, accountCreator, sol: 100);
+        final solanaClient = SolanaClient(
+          rpcUrl: Uri.parse(devnetRpcUrl),
+          websocketUrl: Uri.parse(devnetWebsocketUrl),
+        );
 
-      final token = await solanaClient.initializeMint(
-        owner: wallet,
-        decimals: 8,
-      );
+        final token = await solanaClient.initializeMint(
+          owner: wallet,
+          decimals: 8,
+        );
 
-      final createdAccount = await solanaClient.createAssociatedTokenAccount(
-        owner: accountKeyPair.publicKey,
-        funder: accountCreator,
-        mint: token.mint,
-      );
-      expect(createdAccount, isNotNull);
+        final createdAccount = await solanaClient.createAssociatedTokenAccount(
+          owner: accountKeyPair.publicKey,
+          funder: accountCreator,
+          mint: token.mint,
+        );
+        expect(createdAccount, isNotNull);
 
-      final accounts = await rpcClient.getTokenAccountsByOwner(
-        accountKeyPair.address,
-        const TokenAccountsFilter.byProgramId(TokenProgram.programId),
-        encoding: Encoding.jsonParsed,
-      );
+        final accounts = await rpcClient.getTokenAccountsByOwner(
+          accountKeyPair.address,
+          const TokenAccountsFilter.byProgramId(TokenProgram.programId),
+          encoding: Encoding.jsonParsed,
+        );
 
-      expect(accounts.length, equals(1));
-      expect(accounts.first.pubkey, createdAccount.pubkey);
-      expect(accounts.first.account.data, isA<ParsedAccountData>());
+        expect(accounts.length, equals(1));
+        expect(accounts.first.pubkey, createdAccount.pubkey);
+        expect(accounts.first.account.data, isA<ParsedAccountData>());
 
-      final data = accounts.first.account.data as ParsedAccountData;
-      final programData = data as ParsedSplTokenProgramAccountData;
-      final parsed = programData.parsed as TokenAccountData;
-      expect(parsed.info.mint, token.mint.toBase58());
-      expect(parsed.info.owner, createdAccount.account.owner);
-      expect(parsed, isNotNull);
-    }, timeout: const Timeout(Duration(minutes: 4)));
+        final data = accounts.first.account.data as ParsedAccountData;
+        final programData = data as ParsedSplTokenProgramAccountData;
+        final parsed = programData.parsed as TokenAccountData;
+        expect(parsed.info.mint, token.mint.toBase58());
+        expect(parsed.info.owner, createdAccount.account.owner);
+        expect(parsed, isNotNull);
+      },
+      timeout: const Timeout(Duration(minutes: 4)),
+    );
   });
 
   group('Test informational methods', () {
@@ -274,10 +274,10 @@ void main() {
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
-      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
       sampleSigner = await Ed25519HDKeyPair.random();
 
-      airdrop(rpcClient, subscriptionClient, sampleSigner, sol: 10);
+      await airdrop(rpcClient, subscriptionClient, sampleSigner, sol: 10);
     });
 
     test('Call to getVersion() succeeds and parses the response correctly',
@@ -437,13 +437,17 @@ void main() {
       expect(inflationGovernor, isNotNull);
     });
 
-    test('Call to getInflationReward() succeeds', () async {
-      final inflationReward = await rpcClient.getInflationReward(
-        [sampleSigner.address],
-      );
+    test(
+      'Call to getInflationReward() succeeds',
+      () async {
+        final inflationReward = await rpcClient.getInflationReward(
+          [sampleSigner.address],
+        );
 
-      expect(inflationReward.length, greaterThan(0));
-    }, skip: 'Needs too many slots to correctly work');
+        expect(inflationReward.length, greaterThan(0));
+      },
+      skip: 'Needs too many slots to correctly work',
+    );
 
     test('Call to getClusterNodes() succeeds', () async {
       final clusterNodes = await rpcClient.getClusterNodes();
@@ -574,7 +578,7 @@ void main() {
       final programAccounts = await rpcClient.getProgramAccounts(
         TokenProgram.programId,
         encoding: Encoding.jsonParsed,
-        filters: [ProgramDataFilter.dataSize(10)],
+        filters: const [ProgramDataFilter.dataSize(10)],
       );
 
       expect(programAccounts.length, equals(0));
@@ -585,12 +589,16 @@ void main() {
       expect(slotLeader, _validAddressMatcher);
     });
 
-    test('Call to getSlotLeaders() succeeds', () async {
-      final slotLeaders = await rpcClient.getSlotLeaders(0, 4);
+    test(
+      'Call to getSlotLeaders() succeeds',
+      () async {
+        final slotLeaders = await rpcClient.getSlotLeaders(0, 4);
 
-      expect(slotLeaders.length, lessThanOrEqualTo(4));
-      expect(slotLeaders.every(isValidAddress), equals(true));
-    }, skip: 'Leader schedule for epoch 0 is unavailable');
+        expect(slotLeaders.length, lessThanOrEqualTo(4));
+        expect(slotLeaders.every(isValidAddress), equals(true));
+      },
+      skip: 'Leader schedule for epoch 0 is unavailable',
+    );
 
     test('Call to getStakeActivation() succeeds', () async {
       final largestAccounts = await rpcClient.getLargestAccounts();
@@ -729,6 +737,7 @@ Future<int> _createTokenAccount(
   );
 
   final fee = recentBlockhash.feeCalculator.lamportsPerSignature;
+
   return 10 * lamportsPerSol - rent - 2 * fee;
 }
 

@@ -15,6 +15,7 @@ bool isValidAddress(String address) {
     if (data.length != 32) {
       return false;
     }
+
     return isPointOnEd25519Curve(data);
   } on Exception {
     return false;
@@ -33,6 +34,7 @@ bool isPointOnEd25519Curve(Iterable<int> data) {
       data.map((e) => BigInt.from(e)).toList(),
     );
     final point = compressed.decompress();
+
     return !point.isSmallOrder();
   } on FormatException {
     return false;

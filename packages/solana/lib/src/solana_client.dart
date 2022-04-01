@@ -88,7 +88,7 @@ class SolanaClient {
     return signature;
   }
 
-  /// Request airdrop for [amount] to this wallet's account.
+  /// Request airdrop for [lamports] amount to this wallet's account.
   ///
   /// For [commitment] parameter description [see this document][1]
   /// [Commitment.processed] is not supported as [commitment].
@@ -148,7 +148,7 @@ class SolanaClient {
     return createReadWriteToken(owner: owner, mint: mintWallet.publicKey);
   }
 
-  /// Mint [destination] with [amount] tokens. Requires writable [Token].
+  /// Mint [destination] with [amount] tokens. Requires writable `Token`.
   Future<void> transferMint({
     required Ed25519HDPublicKey destination,
     required int amount,
@@ -247,6 +247,7 @@ class SolanaClient {
     if (accounts.isEmpty) {
       return null;
     }
+
     return accounts.first;
   }
 
@@ -354,6 +355,7 @@ class SolanaClient {
     } on FormatException {
       accounts = [];
     }
+
     return accounts.any((a) => a.pubkey == associatedTokenAddress.toBase58());
   }
 

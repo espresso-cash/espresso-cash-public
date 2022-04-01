@@ -33,10 +33,10 @@ class AccountMeta implements Comparable<AccountMeta> {
         isSigner: isSigner,
       );
 
-  /// Merges a [this] with [other] by applying the following rules:
+  /// Merges `this` with [other] by applying the following rules:
   ///
-  /// Resulting [AccountMeta] is `writeable` if either [this] or [other] is
-  /// writeable `signer` if either [this] or [other] is signer.
+  /// Resulting [AccountMeta] is `writeable` if either `this` or [other] is
+  /// writeable `signer` if either `this` or [other] is signer.
   ///
   /// The [pubKey]s must match or it throws a [FormatException].
   ///
@@ -83,7 +83,7 @@ class AccountMeta implements Comparable<AccountMeta> {
   int get hashCode => Object.hash(pubKey, isWriteable, isSigner);
 
   @override
-  operator ==(other) =>
+  bool operator ==(Object other) =>
       other is AccountMeta &&
       pubKey == other.pubKey &&
       isWriteable == other.isWriteable &&

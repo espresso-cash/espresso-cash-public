@@ -14,6 +14,7 @@ class Ed25519HDKeyPairData implements KeyPairData {
   final FutureOr<Ed25519HDPublicKey> _publicKey;
 
   @override
+  // ignore: use_to_and_as_if_applicable
   Future<Ed25519HDKeyPairData> extract() => Future.value(this);
 
   @override

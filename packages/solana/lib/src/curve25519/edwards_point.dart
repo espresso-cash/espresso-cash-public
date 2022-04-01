@@ -24,6 +24,7 @@ class EdwardsPoint {
     final s = y.toByteArray();
     final shift = x.isNegative() ? BigInt.one : BigInt.zero;
     s[31] |= shift << 7;
+
     return CompressedEdwardsY(s);
   }
 
@@ -39,6 +40,7 @@ class EdwardsPoint {
     for (int i = 0; i < k - 1; i++) {
       s = s.dbl().toProjective();
     }
+
     // Unroll last doubling so we can go directly to extended coordinates.
     return s.dbl().toExtended();
   }

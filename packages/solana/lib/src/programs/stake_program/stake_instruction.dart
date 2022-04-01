@@ -403,7 +403,6 @@ class StakeInstruction extends Instruction {
   factory StakeInstruction.authorizeCheckedWithSeed({
     required Ed25519HDPublicKey stakePubKey,
     required Ed25519HDPublicKey base,
-    required Ed25519HDPublicKey authorityPubKey,
     required AuthorizeWithSeedArgs authorizeWithSeedArgs,
     Ed25519HDPublicKey? lockupAuthorityPubKey,
   }) =>
@@ -515,8 +514,8 @@ class LockupCheckedArgs {
   });
 
   ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
-        Buffer.fromInt64(this.unixTimestamp),
-        Buffer.fromUint64(this.epoch),
+        Buffer.fromInt64(unixTimestamp),
+        Buffer.fromUint64(epoch),
       ]);
 
   final UnixTimestamp unixTimestamp;

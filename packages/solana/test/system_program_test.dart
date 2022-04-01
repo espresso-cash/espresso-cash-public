@@ -11,7 +11,7 @@ void main() {
 
   setUpAll(() async {
     rpcClient = RpcClient(devnetRpcUrl);
-    subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+    subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
   });
 
   test('Create account', () async {
@@ -51,7 +51,7 @@ void main() {
   test('Transfer', () async {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final recipient = await Ed25519HDKeyPair.random();
-    final lamports = lamportsPerSol;
+    const lamports = lamportsPerSol;
     final instruction = SystemInstruction.transfer(
       source: fromKey.publicKey,
       destination: recipient.publicKey,
@@ -68,7 +68,7 @@ void main() {
   test('Create account with seed', () async {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final accountKey = await Ed25519HDKeyPair.random();
-    final seed = '1234';
+    const seed = '1234';
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
       fromPublicKey: accountKey.publicKey,
       seed: seed,
@@ -168,7 +168,7 @@ void main() {
   test('Transfer with seed', () async {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final recipient = await Ed25519HDKeyPair.random();
-    final lamports = lamportsPerSol;
+    const lamports = lamportsPerSol;
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
       fromPublicKey: fromKey.publicKey,
       seed: '1234',
@@ -202,7 +202,7 @@ void main() {
   test('Assign with seed', () async {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final recipient = await Ed25519HDKeyPair.random();
-    final seed = '1234';
+    const seed = '1234';
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
       fromPublicKey: recipient.publicKey,
       seed: seed,
@@ -328,7 +328,7 @@ Future<Ed25519HDKeyPair> _createNonceAccount(
     SystemProgram.nonceAccountSize,
   );
 
-  var instructions = SystemInstruction.createNonceAccount(
+  final instructions = SystemInstruction.createNonceAccount(
     fromPubKey: nonceAuthority.publicKey,
     noncePubKey: nonceKey.publicKey,
     noceAuthorityPubKey: nonceAuthority.publicKey,

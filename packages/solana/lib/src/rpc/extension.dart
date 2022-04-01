@@ -54,19 +54,23 @@ extension RpcClientExt on RpcClient {
     final response = await _jsonRpcClient.bulkRequest(
       'getTransaction',
       signatures
-          .map((s) => <dynamic>[
-                s.signature,
-                GetTransactionConfig(
-                  encoding: encoding,
-                  commitment: commitment,
-                ).toJson(),
-              ])
+          .map(
+            (s) => <dynamic>[
+              s.signature,
+              GetTransactionConfig(
+                encoding: encoding,
+                commitment: commitment,
+              ).toJson(),
+            ],
+          )
           .toList(growable: false),
     );
-    final Iterable<dynamic> transactions = response.map(getResult);
+    final Iterable<dynamic> transactions = response.map<dynamic>(getResult);
 
     return transactions
-        .map((t) => TransactionDetails.fromJson(t as Map<String, dynamic>))
+        .map(
+          (dynamic t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
+        )
         .toList(growable: false);
   }
 }

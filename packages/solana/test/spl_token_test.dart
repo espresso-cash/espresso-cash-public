@@ -204,14 +204,15 @@ void main() {
         expect(account, isA<ProgramAccount>());
         // Send to the newly created account
         final instruction = TokenInstruction.transfer(
-            source: Ed25519HDPublicKey.fromBase58(
-              sourceAssociatedTokenAddress!.pubkey,
-            ),
-            destination: Ed25519HDPublicKey.fromBase58(
-              destinationAssociatedTokenAddress!.pubkey,
-            ),
-            amount: 100,
-            owner: owner.publicKey);
+          source: Ed25519HDPublicKey.fromBase58(
+            sourceAssociatedTokenAddress!.pubkey,
+          ),
+          destination: Ed25519HDPublicKey.fromBase58(
+            destinationAssociatedTokenAddress!.pubkey,
+          ),
+          amount: 100,
+          owner: owner.publicKey,
+        );
 
         final signature = await solanaClient.rpcClient.signAndSendTransaction(
           Message.only(instruction),

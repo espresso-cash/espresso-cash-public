@@ -8,11 +8,9 @@ class RawInstruction implements Instruction {
   });
 
   factory RawInstruction.fromJson(Map<String, dynamic> json) => RawInstruction(
-        programIdIndex: json["programIdIndex"],
-        accounts: (json["accounts"] as List<dynamic>)
-            .map((a) => a as int)
-            .toList(growable: false),
-        data: json["data"],
+        programIdIndex: json['programIdIndex'] as int,
+        accounts: (json['accounts'] as List<int>).toList(growable: false),
+        data: json['data'] as String,
       );
 
   /// Index into the message.accountKeys array indicating the

@@ -30,7 +30,7 @@ class Ed25519HDPublicKey implements PublicKey {
       seed.codeUnits,
       programId.bytes,
     ]).toList(growable: false);
-    final hash = (await _computeHash(buffer));
+    final hash = await _computeHash(buffer);
 
     return Ed25519HDPublicKey(hash);
   }
@@ -47,7 +47,8 @@ class Ed25519HDPublicKey implements PublicKey {
     final data = await _computeHash(seedBytes);
     if (isPointOnEd25519Curve(data)) {
       throw const FormatException(
-          'failed to create address with provided seeds');
+        'failed to create address with provided seeds',
+      );
     } else {
       return Ed25519HDPublicKey(data);
     }
@@ -68,7 +69,8 @@ class Ed25519HDPublicKey implements PublicKey {
     final overflowingSeed = seeds.where((s) => s.length > _maxSeedLength);
     if (overflowingSeed.isNotEmpty) {
       throw const FormatException(
-          'one or more of the seeds provided is too big');
+        'one or more of the seeds provided is too big',
+      );
     }
     final flatSeeds = seeds.fold(<int>[], _flatten);
     int bumpSeed = _maxBumpSeed;
@@ -99,7 +101,7 @@ class Ed25519HDPublicKey implements PublicKey {
   int get hashCode => const ListEquality<int>().hash(bytes);
 
   @override
-  bool operator ==(other) =>
+  bool operator ==(Object other) =>
       other is Ed25519HDPublicKey &&
       const ListEquality<int>().equals(bytes, other.bytes);
 }
@@ -115,5 +117,6 @@ Iterable<int> _flatten(Iterable<int> concatenated, Iterable<int> current) =>
 
 Future<List<int>> _computeHash(List<int> source) async {
   final hash = await _sha256.hash(source);
+
   return hash.bytes;
 }

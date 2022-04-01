@@ -36,6 +36,7 @@ abstract class ProgramDataFilter {
 class _DataSizeProgramDataFilter implements ProgramDataFilter {
   const _DataSizeProgramDataFilter(this.dataSize);
 
+  @override
   Map<String, dynamic> toJson() => _$DataSizeProgramDataFilterToJson(this);
 
   final int dataSize;
@@ -47,6 +48,7 @@ class _MemcmpProgramDataFilter implements ProgramDataFilter {
     required this.memcmp,
   });
 
+  @override
   Map<String, dynamic> toJson() => _$MemcmpProgramDataFilterToJson(this);
 
   final _Memcmp memcmp;
@@ -59,6 +61,7 @@ class _Memcmp implements ProgramDataFilter {
     required this.bytes,
   });
 
+  @override
   Map<String, dynamic> toJson() => _$MemcmpToJson(this);
 
   final int offset;

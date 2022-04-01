@@ -24,14 +24,15 @@ class TokenInstruction extends Instruction {
           data: data,
         );
 
-  /// Construct an instruction to initialize a new spl token with address [mint],
-  /// [decimals] decimal places, and [mintAuthority] as the mint authority.
+  /// Construct an instruction to initialize a new spl token with address
+  /// [mint], [decimals] decimal places, and [mintAuthority] as the mint
+  /// authority.
   ///
-  /// You can use [RPCClient.getMinimumBalanceForRentExemption]
-  /// to determine [rent] for the required [space].
+  /// You can use `RPCClient.getMinimumBalanceForRentExemption` to determine
+  /// rent for the required space.
   ///
-  /// The [freezeAuthority] is optional and can be used to specify a the
-  /// freeze authority for this token.
+  /// The [freezeAuthority] is optional and can be used to specify a the freeze
+  /// authority for this token.
   factory TokenInstruction.initializeMint({
     required int decimals,
     required Ed25519HDPublicKey mint,
@@ -115,7 +116,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: destination, isSigner: false),
           AccountMeta.readonly(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -135,21 +136,21 @@ class TokenInstruction extends Instruction {
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
-          accounts: [
-            AccountMeta.writeable(pubKey: source, isSigner: false),
-            AccountMeta.readonly(pubKey: delegate, isSigner: false),
-            AccountMeta.readonly(
-              pubKey: sourceOwner,
-              isSigner: signers.length == 0,
-            ),
-            ...signers.map(
-              (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-            )
-          ],
-          data: Buffer.fromConcatenatedByteArrays([
-            TokenProgram.approveInstructionIndex,
-            Buffer.fromUint64(amount)
-          ]));
+        accounts: [
+          AccountMeta.writeable(pubKey: source, isSigner: false),
+          AccountMeta.readonly(pubKey: delegate, isSigner: false),
+          AccountMeta.readonly(
+            pubKey: sourceOwner,
+            isSigner: signers.isEmpty,
+          ),
+          ...signers.map(
+            (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
+          )
+        ],
+        data: Buffer.fromConcatenatedByteArrays(
+          [TokenProgram.approveInstructionIndex, Buffer.fromUint64(amount)],
+        ),
+      );
 
   factory TokenInstruction.revoke({
     required Ed25519HDPublicKey source,
@@ -161,7 +162,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: source, isSigner: false),
           AccountMeta.readonly(
             pubKey: sourceOwner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -182,7 +183,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: mintOrAccount, isSigner: false),
           AccountMeta.readonly(
             pubKey: currentAuthority,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -198,8 +199,8 @@ class TokenInstruction extends Instruction {
   /// Mint the [destination] account with [amount] tokens of the [mint] token.
   /// The [authority] is the mint authority of the token.
   ///
-  /// The [destination] account must exist and be linked with [mint]. You can create
-  /// it by using [TokenProgram.createAccount].
+  /// The [destination] account must exist and be linked with [mint]. You can
+  /// create it by using `TokenProgram.createAccount`.
   factory TokenInstruction.mintTo({
     required int amount,
     required Ed25519HDPublicKey mint,
@@ -232,7 +233,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -258,7 +259,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: destination, isSigner: false),
           AccountMeta.writeable(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -279,7 +280,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: freezeAuthority,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -300,7 +301,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: freezeAuthority,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -325,7 +326,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: destination, isSigner: false),
           AccountMeta.readonly(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -356,7 +357,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.readonly(pubKey: delegate, isSigner: false),
           AccountMeta.readonly(
             pubKey: sourceOwner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -408,7 +409,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: owner,
-            isSigner: signers.length == 0,
+            isSigner: signers.isEmpty,
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
@@ -517,7 +518,7 @@ class TokenInstruction extends Instruction {
   /// Initialize a new spl token with address [mint], [decimals] decimal places,
   /// and [mintAuthority] as the mint authority.
   ///
-  /// You can use [RPCClient.getMinimumBalanceForRentExemption] to determine
+  /// You can use `RPCClient.getMinimumBalanceForRentExemption` to determine
   /// [rent] for the required [space].
   ///
   /// The [freezeAuthority] is optional and can be used to specify a the freeze
@@ -548,15 +549,15 @@ class TokenInstruction extends Instruction {
 
   /// Create an account with [address] and owned by [owner]. The [rent]
   ///
-  /// You can use [RPCClient.getMinimumBalanceForRentExemption]
-  /// to determine [rent] for the required [space].
+  /// You can use `RPCClient.getMinimumBalanceForRentExemption` to determine
+  /// [rent] for the required [space].
   ///
-  /// This is a convenience method that would initialize the account and associate it
-  /// with [mint]. This method also issues a [SystemInstruction] to actually create
-  /// the account before linking it with the [mint].
+  /// This is a convenience method that would initialize the account and
+  /// associate it with [mint]. This method also issues a [SystemInstruction] to
+  /// actually create the account before linking it with the [mint].
   ///
-  /// You must call this method and create an account before attempting to use it
-  /// in the [TokenProgram.mintTo] as destination.
+  /// You must call this method and create an account before attempting to use
+  /// it in the `TokenProgram.mintTo` as destination.
   ///
   /// This transaction must be signed by [owner] and [address].
   static List<Instruction> createAndInitializeAccount({

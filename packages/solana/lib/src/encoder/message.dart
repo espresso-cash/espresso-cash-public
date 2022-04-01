@@ -44,7 +44,7 @@ class Message {
     return encoder.convert(
       <String, dynamic>{
         'header': <String, dynamic>{
-          'numRequiredSignatures': header.elementAt(0),
+          'numRequiredSignatures': header.first,
           'numReadonlySignedAccounts': header.elementAt(1),
           'numReadonlyUnsignedAccounts': header.elementAt(2),
         },

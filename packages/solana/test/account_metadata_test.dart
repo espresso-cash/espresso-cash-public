@@ -10,7 +10,7 @@ void main() {
     final account4 = await Ed25519HDKeyPair.random();
     final account5 = await Ed25519HDKeyPair.random();
 
-    final _unsorted1 = [
+    final unsorted1 = [
       AccountMeta.readonly(pubKey: account1.publicKey, isSigner: false),
       AccountMeta.writeable(pubKey: account2.publicKey, isSigner: false),
       AccountMeta.writeable(pubKey: account3.publicKey, isSigner: true),
@@ -18,7 +18,7 @@ void main() {
       AccountMeta.readonly(pubKey: account5.publicKey, isSigner: true),
     ];
 
-    final _sorted1 = [
+    final sorted1 = [
       AccountMeta.writeable(pubKey: account3.publicKey, isSigner: true),
       AccountMeta.readonly(pubKey: account5.publicKey, isSigner: true),
       AccountMeta.writeable(pubKey: account2.publicKey, isSigner: false),
@@ -26,9 +26,9 @@ void main() {
       AccountMeta.readonly(pubKey: account1.publicKey, isSigner: false),
     ];
 
-    _unsorted1.sort();
-    expect(_unsorted1, _sorted1);
-    expect(_unsorted1.getNumSigners(), equals(2));
-    expect(_unsorted1.getNumReadonlySigners(), equals(1));
+    unsorted1.sort();
+    expect(unsorted1, sorted1);
+    expect(unsorted1.getNumSigners(), equals(2));
+    expect(unsorted1.getNumReadonlySigners(), equals(1));
   });
 }

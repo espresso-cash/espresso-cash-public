@@ -13,12 +13,12 @@ class Header {
   factory Header.fromJson(dynamic json) {
     if (json is List) {
       return Header(
-        numRequiredSignatures: json[0] as int,
+        numRequiredSignatures: json.first as int,
         numReadonlyUnsignedAccounts: json[1] as int,
         numReadonlySignedAccounts: json[2] as int,
       );
     } else {
-      return _$HeaderFromJson(json);
+      return _$HeaderFromJson(json as Map<String, dynamic>);
     }
   }
 

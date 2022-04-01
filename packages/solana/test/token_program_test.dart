@@ -35,7 +35,7 @@ void main() {
     );
   });
 
-  final sendMessage = (
+  Future<void> sendMessage(
     Message message,
     List<Ed25519HDKeyPair> signers,
   ) =>
@@ -77,11 +77,12 @@ void main() {
     );
 
     expect(
-        sendMessage(
-          Message(instructions: instructions),
-          [mintAuthority, tokensHolder],
-        ),
-        completes);
+      sendMessage(
+        Message(instructions: instructions),
+        [mintAuthority, tokensHolder],
+      ),
+      completes,
+    );
   });
 
   test('Mint To', () async {

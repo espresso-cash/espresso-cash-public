@@ -7,19 +7,21 @@ import 'package:solana/src/programs/system_program/system_program.dart';
 import 'package:solana/src/programs/token_program/token_program.dart';
 
 class AssociatedTokenAccountInstruction extends Instruction {
-  /// Create an instruction for the [associated token account] program.
+  /// Create an instruction for the [associated token account][1] program.
   ///
-  /// The account will be associated to [mint] and have the associated token account [address].
+  /// The account will be associated to [mint] and have the associated token
+  /// account [address].
   ///
   /// It will be owned by [owner] and funded by [funder].
   ///
-  /// The [address] can be derived using [SplToken.computeAssociatedAddress].
-  /// It is required here just to match the spl token program closely in terms of
+  /// The [address] can be derived using `SplToken.computeAssociatedAddress`. It
+  /// is required here just to match the spl token program closely in terms of
   /// its API.
   ///
-  /// If the [address] does not match the derived address, this method will fail.
+  /// If the [address] does not match the derived address, this method will
+  /// fail.
   ///
-  /// [associated token account]: https://spl.solana.com/associated-token-account
+  /// [1]: https://spl.solana.com/associated-token-account
   factory AssociatedTokenAccountInstruction.createAccount({
     required Ed25519HDPublicKey funder,
     required Ed25519HDPublicKey address,

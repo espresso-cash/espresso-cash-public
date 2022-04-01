@@ -1,6 +1,7 @@
+include: package:mews_pedantic/analysis_options.yaml
+
 analyzer:
   exclude:
-    - "**/*.g.dart"
-    - "**/*.freezed.dart"
+    - "**/*.rpc.dart"
   errors:
     invalid_annotation_target: ignore

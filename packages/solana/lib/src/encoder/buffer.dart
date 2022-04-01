@@ -48,6 +48,7 @@ class Buffer extends ByteArray {
       default:
         throw FormatException('invalid bit size $bitSize');
     }
+
     return Buffer._(Uint8List.view(data.buffer));
   }
 

@@ -4,14 +4,14 @@ import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 
-/// Taken from [here](https://spl.solana.com/memo#compute-limits)
+/// Taken from [here](https://spl.solana.com/memo#compute-limits).
 ///
-/// An instruction representation that can be converted to a [CompiledInstruction]
-/// and included into a message.
+/// An instruction representation that can be converted to a
+/// `CompiledInstruction` and included into a message.
 class Instruction {
-  /// Construct a generic instruction for the [programId] program
-  /// with [accounts]. These accounts will be interpreted by the
-  /// specific program with id [programId].
+  /// Construct a generic instruction for the [programId] program with
+  /// [accounts]. These accounts will be interpreted by the specific program
+  /// with id [programId].
   ///
   /// Some programs take specific [data]. You can provide raw 8bit bytes arrays
   /// with the [data] parameter.

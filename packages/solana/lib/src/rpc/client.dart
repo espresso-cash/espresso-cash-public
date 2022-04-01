@@ -310,22 +310,21 @@ abstract class RpcClient {
     DataSlice? dataSlice,
   });
 
-  /// Returns all accounts owned by the provided program Pubkey
-  ///
-  ///
+  /// Returns all accounts owned by the provided program [pubKey].
   ///
   /// [pubKey] Pubkey of program, as base-58 encoded string
   ///
-  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// For [commitment] parameter description [see this document][1].
   /// [Commitment.processed] is not supported as [commitment].
   ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [1]:
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
-  /// [encoding]
+  /// [dataSlice] Limit the returned account data using the provided offset:
+  /// <usize> and length: <usize> fields; only available for "base58""base64" or
+  /// "base64+zstd" encodings.
   ///
-  /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
-  ///
-  /// [filter] Filter results using various filter objects; account must meet all filter
+  /// Filter results using various [filters]; account must meet all filter
   /// criteria to be included in results
   Future<List<ProgramAccount>> getProgramAccounts(
     String pubKey, {
@@ -335,13 +334,15 @@ abstract class RpcClient {
     List<ProgramDataFilter>? filters,
   });
 
-  /// Returns a recent block hash from the ledger, and a fee schedule that can be
-  /// used to compute the cost of submitting a transaction using it.
+  /// Returns a recent block hash from the ledger, and a fee schedule that can
+  /// be used to compute the cost of submitting a transaction using it.
   ///
-  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [commitment] For [commitment] parameter description [see this document][1]
+  ///
   /// [Commitment.processed] is not supported as [commitment].
   ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [1]:
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @withContext
   Future<RecentBlockhash> getRecentBlockhash({
     Commitment? commitment,
@@ -671,22 +672,23 @@ abstract class RpcClient {
 
   /// Simulate sending a transaction
   ///
-  /// [transaction] Transaction, as an encoded string. The transaction must have a valid blockhash,
-  /// but is not required to be signed.
+  /// [transaction] Transaction, as an encoded string. The transaction must have
+  /// a valid blockhash, but is not required to be signed.
   ///
-  /// [sigVerify] If true the transaction signatures will be verified (default: false, conflicts
-  /// with [SimulateTransactionOptions.replaceRecentBlockhash])
+  /// [sigVerify] If true the transaction signatures will be verified (default:
+  /// false, conflicts with `SimulateTransactionOptions.replaceRecentBlockhash`)
   ///
   /// [encoding] Only [Encoding.base64] is acceptable
   ///
-  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [commitment] For [commitment] parameter description [see this document][1]
   /// [Commitment.processed] is not supported as [commitment].
   ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  /// [see this document]:
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
-  /// [replaceRecentBlockhash] If true the transaction recent blockhash will be replaced with the most recent
-  /// blockhash.
-  /// (default: false, conflicts with sigVerify)
+  /// [replaceRecentBlockhash] If true the transaction recent blockhash will be
+  /// replaced with the most recent blockhash. (default: false, conflicts with
+  /// sigVerify)
   ///
   /// [accounts] Accounts configuration object containing the following fields:
   @withContext
@@ -715,7 +717,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @deprecated
+  @Deprecated('Use getBlock instead')
   Future<Block> getConfirmedBlock(
     int slot, {
     Encoding? encoding,
@@ -730,11 +732,13 @@ abstract class RpcClient {
   ///
   /// [endSlot] end_slot, as u64 integer
   ///
-  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [commitment] For [commitment] parameter description [see this document][1]
+  ///
   /// [Commitment.processed] is not supported as [commitment].
   ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @deprecated
+  /// [1]:
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  @Deprecated('Use getBlocks instead')
   Future<List<int>> getConfirmedBlocks(
     int startSlot,
     int? endSlot,
@@ -747,11 +751,13 @@ abstract class RpcClient {
   ///
   /// [limit] limit, as u64 integer
   ///
-  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [commitment] For [commitment] parameter description [see this document][1]
+  ///
   /// [Commitment.processed] is not supported as [commitment].
   ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @deprecated
+  /// [1]:
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  @Deprecated('Use getBlocksWithLimit instead')
   Future<List<int>> getConfirmedBlocksWithLimit(
     int startSlot,
     int limit,
@@ -776,7 +782,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @deprecated
+  @Deprecated('Use getSignaturesForAddress instead')
   Future<List<TransactionSignatureInformation>>
       getConfirmedSignaturesForAddress2(
     String pubKey, {
@@ -796,7 +802,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @deprecated
+  @Deprecated('Use getTransaction instead')
   Future<TransactionDetails?> getConfirmedTransaction(
     String signature, {
     Encoding? encoding = Encoding.base64,

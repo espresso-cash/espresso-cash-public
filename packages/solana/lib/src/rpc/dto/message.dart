@@ -15,7 +15,8 @@ abstract class Message {
       throw const FormatException('invalid type for `accountKeys`');
     }
 
-    final accountKeys = accountKeysJson.map((k) => AccountKey.fromJson(k));
+    final accountKeys =
+        accountKeysJson.map((dynamic k) => AccountKey.fromJson(k));
     if (accountKeys.every((k) => k is ParsedAccountKey)) {
       return ParsedMessage.fromJson(json);
     } else {

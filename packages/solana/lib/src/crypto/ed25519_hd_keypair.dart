@@ -7,8 +7,8 @@ import 'package:cryptography/cryptography.dart'
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair_data.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
-import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/crypto/signature.dart';
+import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
 
 /// Signs solana transactions using the ed25519 elliptic curve
@@ -23,12 +23,12 @@ class Ed25519HDKeyPair extends KeyPair {
     required List<int> seed,
     required String hdPath,
   }) async {
-    final KeyData _keyData = await ED25519_HD_KEY.derivePath(hdPath, seed);
+    final KeyData keyData = await ED25519_HD_KEY.derivePath(hdPath, seed);
 
     return Ed25519HDKeyPair._(
-      privateKey: _keyData.key,
+      privateKey: keyData.key,
       publicKey: Ed25519HDPublicKey(
-        await ED25519_HD_KEY.getPublicKey(_keyData.key, false),
+        await ED25519_HD_KEY.getPublicKey(keyData.key, false),
       ),
     );
   }
@@ -45,10 +45,11 @@ class Ed25519HDKeyPair extends KeyPair {
 
   /// Generate a new random [Ed25519HDKeyPair]
   static Future<Ed25519HDKeyPair> random() async {
-    final random = (int _) => _random.nextInt(256);
+    int random(int _) => _random.nextInt(256);
+
     // Create the seed
     final List<int> seedBytes = List<int>.generate(32, random);
-    // final PublicKey publicKey = await keyPair.extractPublicKey();
+
     // Finally, create a new wallet
     return Ed25519HDKeyPair.fromSeedWithHdPath(
       seed: seedBytes,
@@ -78,6 +79,7 @@ class Ed25519HDKeyPair extends KeyPair {
     int change = 0,
   }) async {
     final List<int> seed = bip39.mnemonicToSeed(mnemonic);
+
     return Ed25519HDKeyPair.fromSeedWithHdPath(
       seed: seed,
       hdPath: _getHDPath(account, change),
@@ -114,7 +116,7 @@ class Ed25519HDKeyPair extends KeyPair {
   /// Returns a Future that resolves to the result of signing
   /// [data] with the private key held internally by a given
   /// instance
-  Future<Signature> sign(Iterable<int> data) async => await _ed25519.sign(
+  Future<Signature> sign(Iterable<int> data) async => _ed25519.sign(
         data.toList(growable: false),
         keyPair: SimpleKeyPairData(
           _privateKey,

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-first
+
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
@@ -80,14 +82,19 @@ void main() {
     expect(txMessage.instructions, isNotNull);
     final instructions = txMessage.instructions;
     expect(instructions.length, equals(2));
-    expect(instructions[0], const TypeMatcher<ParsedInstructionSystem>());
-    final parsedInstructionSystem = instructions[0] as ParsedInstructionSystem;
+    expect(instructions.first, const TypeMatcher<ParsedInstructionSystem>());
+    final parsedInstructionSystem =
+        instructions.first as ParsedInstructionSystem;
     expect(
-        parsedInstructionSystem.parsed, isA<ParsedSystemTransferInstruction>());
+      parsedInstructionSystem.parsed,
+      isA<ParsedSystemTransferInstruction>(),
+    );
     final parsedTransferInstruction =
         parsedInstructionSystem.parsed as ParsedSystemTransferInstruction;
-    expect(parsedTransferInstruction.info.lamports,
-        equals(_lamportsTransferAmount));
+    expect(
+      parsedTransferInstruction.info.lamports,
+      equals(_lamportsTransferAmount),
+    );
     expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
     final memoInstruction = instructions[1] as ParsedInstructionMemo;
     expect(memoInstruction.memo, equals(memoText));
@@ -221,7 +228,9 @@ void main() {
       expect(memoInstruction.memo, equals(memoText));
       final splTokenInstruction = instructions[0] as ParsedInstructionSplToken;
       expect(
-          splTokenInstruction.parsed, isA<ParsedSplTokenTransferInstruction>());
+        splTokenInstruction.parsed,
+        isA<ParsedSplTokenTransferInstruction>(),
+      );
       final parsedSplTokenInstruction =
           splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
       expect(parsedSplTokenInstruction.type, equals('transfer'));

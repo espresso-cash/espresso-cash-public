@@ -5,5 +5,6 @@ class RawAccountKey implements AccountKey {
     required this.pubkey,
   });
 
+  @override
   final String pubkey;
 }

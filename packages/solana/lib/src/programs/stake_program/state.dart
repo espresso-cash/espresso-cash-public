@@ -17,11 +17,13 @@ abstract class StakeAuthorize {
 class StakerAuthority implements StakeAuthorize {
   const StakerAuthority(this.pubKey) : type = 0;
 
+  @override
   ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
         pubKey.toBuffer(),
         Buffer.fromUint32(type),
       ]);
 
+  @override
   final Ed25519HDPublicKey pubKey;
   final int type;
 }
@@ -29,11 +31,13 @@ class StakerAuthority implements StakeAuthorize {
 class WithdrawerAuthority implements StakeAuthorize {
   const WithdrawerAuthority(this.pubKey) : type = 1;
 
+  @override
   ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
         pubKey.toBuffer(),
         Buffer.fromUint32(type),
       ]);
 
+  @override
   final Ed25519HDPublicKey pubKey;
   final int type;
 }

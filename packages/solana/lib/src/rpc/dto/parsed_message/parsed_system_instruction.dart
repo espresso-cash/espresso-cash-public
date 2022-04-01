@@ -3,24 +3,24 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'parsed_system_instruction.freezed.dart';
 part 'parsed_system_instruction.g.dart';
 
-/// An instruction that is part if a [ParsedInstruction]
+/// An instruction that is part if a `ParsedInstruction`
 @Freezed(unionKey: 'type', fallbackUnion: 'unsupported')
 class ParsedSystemInstruction with _$ParsedSystemInstruction {
-  /// Transfer instruction data for a transfer of [info.lamports]
-  /// from [info.source] to [info.destination]
+  /// Transfer instruction data for a transfer of `info.lamports` from
+  /// `info.source` to `info.destination`.
   const factory ParsedSystemInstruction.transfer({
     required ParsedSystemTransferInformation info,
     required String type,
   }) = ParsedSystemTransferInstruction;
 
-  /// Transfer instruction data for a transfer of [info.lamports]
-  /// from [info.source] to [info.destination]
+  /// Transfer instruction data for a transfer of `info.lamports` from
+  /// `info.source` to `info.destination`.
   const factory ParsedSystemInstruction.transferChecked({
     required ParsedSystemTransferInformation info,
     required String type,
   }) = ParsedSystemTransferCheckedInstruction;
 
-  /// Instructions that we haven't implemented yet
+  /// Instructions that we haven't implemented yet.
   const factory ParsedSystemInstruction.unsupported({
     required String type,
   }) = ParsedSystemUnsupportedInstruction;
