@@ -217,7 +217,7 @@ void main() {
 
   test('Freeze Account', () async {
     final instruction = TokenInstruction.freezeAccount(
-      accountToFreeze: tokensHolder.publicKey,
+      account: tokensHolder.publicKey,
       mint: mint.publicKey,
       freezeAuthority: freezeAuthority.publicKey,
     );
@@ -230,7 +230,7 @@ void main() {
 
   test('Thaw Account', () async {
     final instruction = TokenInstruction.thawAccount(
-      accountToFreeze: tokensHolder.publicKey,
+      account: tokensHolder.publicKey,
       mint: mint.publicKey,
       freezeAuthority: freezeAuthority.publicKey,
     );

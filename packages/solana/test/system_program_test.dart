@@ -18,8 +18,8 @@ void main() {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final accountKey = await Ed25519HDKeyPair.random();
     final instruction = SystemInstruction.createAccount(
-      pubKey: accountKey.publicKey,
-      fromPubKey: fromKey.publicKey,
+      newAccount: accountKey.publicKey,
+      fundingAccount: fromKey.publicKey,
       lamports: 0,
       owner: SystemProgram.id,
       space: 0,
@@ -37,7 +37,7 @@ void main() {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final recipient = await Ed25519HDKeyPair.random();
     final instruction = SystemInstruction.assign(
-      pubKey: fromKey.publicKey,
+      assignedAccount: fromKey.publicKey,
       owner: recipient.publicKey,
     );
     final future = rpcClient.signAndSendTransaction(
@@ -53,8 +53,8 @@ void main() {
     final recipient = await Ed25519HDKeyPair.random();
     const lamports = lamportsPerSol;
     final instruction = SystemInstruction.transfer(
-      source: fromKey.publicKey,
-      destination: recipient.publicKey,
+      fundingAccount: fromKey.publicKey,
+      recipientAccount: recipient.publicKey,
       lamports: lamports,
     );
     final future = rpcClient.signAndSendTransaction(
@@ -75,8 +75,8 @@ void main() {
       programId: SystemProgram.id,
     );
     final instruction = SystemInstruction.createAccountWithSeed(
-      fromPubKey: fromKey.publicKey,
-      pubKey: derivedAddress,
+      fundingAccount: fromKey.publicKey,
+      newAccount: derivedAddress,
       base: accountKey.publicKey,
       seed: seed,
       lamports: 0,
@@ -109,7 +109,7 @@ void main() {
       status: ConfirmationStatus.finalized,
     );
 
-    final instructions = SystemInstruction.createNonceAccount(
+    final instructions = SystemInstruction.createAndInitializeNonceAccount(
       fromPubKey: fromKey.publicKey,
       noncePubKey: nonceKey.publicKey,
       noceAuthorityPubKey: authorized.publicKey,
@@ -132,7 +132,7 @@ void main() {
       SystemProgram.nonceAccountSize,
     );
 
-    final instructions = SystemInstruction.createNonceAccount(
+    final instructions = SystemInstruction.createAndInitializeNonceAccount(
       fromPubKey: fromKey.publicKey,
       noncePubKey: nonceKey.publicKey,
       noceAuthorityPubKey: authorized.publicKey,
@@ -155,8 +155,8 @@ void main() {
     );
 
     final instruction = SystemInstruction.advanceNonceAccount(
-      noncePubKey: nonceKey.publicKey,
-      nonceAuthorityPubKey: fromKey.publicKey,
+      nonce: nonceKey.publicKey,
+      nonceAuthority: fromKey.publicKey,
     );
 
     expect(
@@ -184,8 +184,8 @@ void main() {
       status: ConfirmationStatus.finalized,
     );
     final instruction = SystemInstruction.transferWithSeed(
-      source: derivedAddress,
-      destination: recipient.publicKey,
+      fundingAccount: derivedAddress,
+      recipientAccount: recipient.publicKey,
       lamports: lamports,
       base: fromKey.publicKey,
       seed: '1234',
@@ -209,7 +209,7 @@ void main() {
       programId: SystemProgram.id,
     );
     final instruction = SystemInstruction.assignWithSeed(
-      pubKey: derivedAddress,
+      account: derivedAddress,
       base: recipient.publicKey,
       owner: SystemProgram.id,
       seed: seed,
@@ -225,7 +225,7 @@ void main() {
   test('Allocate', () async {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final instruction = SystemInstruction.allocate(
-      pubKey: fromKey.publicKey,
+      account: fromKey.publicKey,
       space: 100,
     );
     final future = rpcClient.signAndSendTransaction(
@@ -244,7 +244,7 @@ void main() {
       programId: SystemProgram.id,
     );
     final instruction = SystemInstruction.allocateWithSeed(
-      pubKey: derivedAddress,
+      account: derivedAddress,
       space: 100,
       base: fromKey.publicKey,
       owner: SystemProgram.id,
@@ -269,9 +269,9 @@ void main() {
     final toKey = await Ed25519HDKeyPair.random();
 
     final instruction = SystemInstruction.withdrawNonceAccount(
-      noncePubKey: nonceKey.publicKey,
-      authorizedPubKey: fromKey.publicKey,
-      toPubKey: toKey.publicKey,
+      nonce: nonceKey.publicKey,
+      nonceAuthority: fromKey.publicKey,
+      recipient: toKey.publicKey,
       lamports: 100,
     );
 
@@ -288,8 +288,8 @@ void main() {
     final newAuthority = await Ed25519HDKeyPair.random();
 
     final instruction = SystemInstruction.authorizeNonceAccount(
-      noncePubKey: nonceKey.publicKey,
-      authorizedPubKey: fromKey.publicKey,
+      nonce: nonceKey.publicKey,
+      nonceAuthority: fromKey.publicKey,
       newAuthority: newAuthority.publicKey,
     );
 
@@ -328,7 +328,7 @@ Future<Ed25519HDKeyPair> _createNonceAccount(
     SystemProgram.nonceAccountSize,
   );
 
-  final instructions = SystemInstruction.createNonceAccount(
+  final instructions = SystemInstruction.createAndInitializeNonceAccount(
     fromPubKey: nonceAuthority.publicKey,
     noncePubKey: nonceKey.publicKey,
     noceAuthorityPubKey: nonceAuthority.publicKey,

@@ -26,8 +26,8 @@ void main() {
       );
 
       final instruction = SystemInstruction.transfer(
-        source: senderWallet.publicKey,
-        destination: testWallet.publicKey,
+        fundingAccount: senderWallet.publicKey,
+        recipientAccount: testWallet.publicKey,
         lamports: 500,
       );
 

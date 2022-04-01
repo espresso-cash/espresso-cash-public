@@ -59,19 +59,20 @@ class TokenInstruction extends Instruction {
         ]),
       );
 
-  /// Construct an instruction to initialize a new account to hold tokens for
-  /// [mint].
+  /// Initializes a new [account] to hold tokens.
   ///
-  /// The new account [pubKey] must be created using the corresponding system
-  /// instruction.
+  /// If this account is associated with the native mint then the token balance
+  /// of the initialized account will be equal to the amount of SOL in the
+  /// account. If this account is associated with another mint, that mint must
+  /// be initialized before this command can succeed.
   factory TokenInstruction.initializeAccount({
-    required Ed25519HDPublicKey pubKey,
+    required Ed25519HDPublicKey account,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey owner,
   }) =>
       TokenInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: pubKey, isSigner: true),
+          AccountMeta.writeable(pubKey: account, isSigner: true),
           AccountMeta.readonly(pubKey: mint, isSigner: false),
           AccountMeta.readonly(pubKey: owner, isSigner: false),
           AccountMeta.readonly(
@@ -82,27 +83,37 @@ class TokenInstruction extends Instruction {
         data: TokenProgram.initializeAccountInstructionIndex,
       );
 
+  /// Initializes a multisignature [account] with N provided [signers].
+  ///
+  /// Multisignature accounts can be used in place of any single owner/delegate
+  /// accounts in any token instruction that require an owner/delegate to be
+  /// present.
   factory TokenInstruction.initializeMultisig({
-    required Ed25519HDPublicKey pubKey,
-    required List<Ed25519HDPublicKey> signerPubKeys,
+    required Ed25519HDPublicKey account,
+    required List<Ed25519HDPublicKey> signers,
   }) =>
       TokenInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: pubKey, isSigner: true),
+          AccountMeta.writeable(pubKey: account, isSigner: true),
           AccountMeta.readonly(
             pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
             isSigner: false,
           ),
-          ...signerPubKeys.map(
+          ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
         data: Buffer.fromConcatenatedByteArrays([
           TokenProgram.initializeMintInstructionIndex,
-          Buffer.fromUint8(signerPubKeys.length),
+          Buffer.fromUint8(signers.length),
         ]),
       );
 
+  /// Transfers tokens from one [source] account to [destination] either
+  /// directly or via a delegate.
+  ///
+  /// If this account is associated with the native mint then equal amounts of
+  /// SOL and Tokens will be transferred to the [destination] account.
   factory TokenInstruction.transfer({
     required int amount,
     required Ed25519HDPublicKey source,
@@ -128,6 +139,10 @@ class TokenInstruction extends Instruction {
         ]),
       );
 
+  /// Approves a [delegate].
+  ///
+  /// A delegate is given the authority over tokens on behalf of the account's
+  /// [sourceOwner].
   factory TokenInstruction.approve({
     required int amount,
     required Ed25519HDPublicKey source,
@@ -152,6 +167,7 @@ class TokenInstruction extends Instruction {
         ),
       );
 
+  /// Revokes the delegate's authority.
   factory TokenInstruction.revoke({
     required Ed25519HDPublicKey source,
     required Ed25519HDPublicKey sourceOwner,
@@ -171,6 +187,7 @@ class TokenInstruction extends Instruction {
         data: TokenProgram.revokeInstructionIndex,
       );
 
+  /// Sets a new authority of a mint or account.
   factory TokenInstruction.setAuthority({
     required Ed25519HDPublicKey mintOrAccount,
     required Ed25519HDPublicKey currentAuthority,
@@ -220,6 +237,10 @@ class TokenInstruction extends Instruction {
         ]),
       );
 
+  /// Burns tokens by removing them from an account.
+  ///
+  /// `Burn` does not support accounts associated with the native mint, use
+  /// `CloseAccount` instead.
   factory TokenInstruction.burn({
     required int amount,
     required Ed25519HDPublicKey accountToBurnFrom,
@@ -247,6 +268,9 @@ class TokenInstruction extends Instruction {
         ),
       );
 
+  /// Close an account by transferring all its SOL to the destination account.
+  ///
+  /// Non-native accounts may only be closed if its token amount is zero.
   factory TokenInstruction.closeAccount({
     required Ed25519HDPublicKey accountToClose,
     required Ed25519HDPublicKey destination,
@@ -268,15 +292,16 @@ class TokenInstruction extends Instruction {
         data: TokenProgram.closeAccountInstructionIndex,
       );
 
+  /// Freeze an Initialized [account] using the mint's [freezeAuthority].
   factory TokenInstruction.freezeAccount({
-    required Ed25519HDPublicKey accountToFreeze,
+    required Ed25519HDPublicKey account,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey freezeAuthority,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: accountToFreeze, isSigner: false),
+          AccountMeta.writeable(pubKey: account, isSigner: false),
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: freezeAuthority,
@@ -289,15 +314,16 @@ class TokenInstruction extends Instruction {
         data: TokenProgram.freezeAccountInstructionIndex,
       );
 
+  /// Thaw a Frozen [account] using the mint's [freezeAuthority].
   factory TokenInstruction.thawAccount({
-    required Ed25519HDPublicKey accountToFreeze,
+    required Ed25519HDPublicKey account,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey freezeAuthority,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: accountToFreeze, isSigner: false),
+          AccountMeta.writeable(pubKey: account, isSigner: false),
           AccountMeta.writeable(pubKey: mint, isSigner: false),
           AccountMeta.writeable(
             pubKey: freezeAuthority,
@@ -310,6 +336,13 @@ class TokenInstruction extends Instruction {
         data: TokenProgram.thawAccountInstructionIndex,
       );
 
+  /// Transfers tokens from one account to another either directly or via a
+  /// delegate.  If this account is associated with the native mint then equal
+  /// amounts of SOL and Tokens will be transferred to the destination account.
+  ///
+  /// This instruction differs from [TokenInstruction.transfer] in that the
+  /// token mint and decimals value is checked by the caller. This may be useful
+  /// when creating transactions offline or within a hardware wallet.
   factory TokenInstruction.transferChecked({
     required int amount,
     required int decimals,
@@ -341,6 +374,12 @@ class TokenInstruction extends Instruction {
         ),
       );
 
+  /// Approves a delegate. A delegate is given the authority over tokens on
+  /// behalf of the source account's owner.
+  ///
+  /// This instruction differs from [TokenInstruction.approve] in that the token
+  /// mint and decimals value is checked by the caller.  This may be useful when
+  /// creating transactions offline or within a hardware wallet.
   factory TokenInstruction.approveChecked({
     required int amount,
     required int decimals,
@@ -372,6 +411,11 @@ class TokenInstruction extends Instruction {
         ),
       );
 
+  /// Mints new tokens to an account. The native mint does not support minting.
+  ///
+  /// This instruction differs from [TokenInstruction.mintTo] in that the
+  /// decimals value is checked by the caller. This may be useful when creating
+  /// transactions offline or within a hardware wallet.
   factory TokenInstruction.mintToChecked({
     required int amount,
     required int decimals,
@@ -395,6 +439,14 @@ class TokenInstruction extends Instruction {
         ),
       );
 
+  /// Burns tokens by removing them from an account.
+  ///
+  /// [TokenInstruction.burnChecked] does not support accounts associated with
+  /// the native mint, use [TokenInstruction.closeAccount] instead.
+  ///
+  /// This instruction differs from [TokenInstruction.burn] in that the decimals
+  /// value is checked by the caller. This may be useful when creating
+  /// transactions offline or within a hardware wallet.
   factory TokenInstruction.burnChecked({
     required int amount,
     required int decimals,
@@ -424,6 +476,10 @@ class TokenInstruction extends Instruction {
         ),
       );
 
+  /// Like [TokenInstruction.initializeAccount], but the owner pubkey is passed
+  /// via instruction data rather than the accounts list. This variant may be
+  /// preferable when using Cross Program Invocation from an instruction that
+  /// does not need the owner's `AccountInfo` otherwise.
   factory TokenInstruction.initializeAccount2({
     required Ed25519HDPublicKey pubKey,
     required Ed25519HDPublicKey mint,
@@ -446,6 +502,11 @@ class TokenInstruction extends Instruction {
         ),
       );
 
+  /// Given a wrapped / native token account (a token account containing SOL)
+  /// updates its amount field based on the account's underlying `lamports`.
+  /// This is useful if a non-wrapped SOL account uses
+  /// [SystemInstruction.transfer] to move lamports to a wrapped token account,
+  /// and needs to have its token `amount` field updated.
   factory TokenInstruction.syncNative({
     required Ed25519HDPublicKey nativeTokenAccount,
   }) =>
@@ -456,6 +517,8 @@ class TokenInstruction extends Instruction {
         data: TokenProgram.syncNativeInstructionIndex,
       );
 
+  /// Like [TokenInstruction.initializeAccount2], but does not require the Rent
+  /// sysvar to be provided.
   factory TokenInstruction.initializeAccount3({
     required Ed25519HDPublicKey pubKey,
     required Ed25519HDPublicKey mint,
@@ -474,6 +537,8 @@ class TokenInstruction extends Instruction {
         ),
       );
 
+  /// Like [TokenInstruction.initializeMultisig], but does not require the Rent
+  /// sysvar to be provided.
   factory TokenInstruction.initializeMultisig2({
     required Ed25519HDPublicKey pubKey,
     required List<Ed25519HDPublicKey> signerPubKeys,
@@ -491,6 +556,8 @@ class TokenInstruction extends Instruction {
         ]),
       );
 
+  /// Like [TokenInstruction.initializeMint], but does not require the Rent
+  /// sysvar to be provided.
   factory TokenInstruction.initializeMint2({
     required int decimals,
     required Ed25519HDPublicKey mint,
@@ -533,8 +600,8 @@ class TokenInstruction extends Instruction {
   }) =>
       [
         SystemInstruction.createAccount(
-          pubKey: mint,
-          fromPubKey: mintAuthority,
+          newAccount: mint,
+          fundingAccount: mintAuthority,
           lamports: rent,
           space: space,
           owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
@@ -569,15 +636,15 @@ class TokenInstruction extends Instruction {
   }) =>
       [
         SystemInstruction.createAccount(
-          pubKey: address,
-          fromPubKey: owner,
+          newAccount: address,
+          fundingAccount: owner,
           lamports: rent,
           space: space,
           owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
         ),
         TokenInstruction.initializeAccount(
           mint: mint,
-          pubKey: address,
+          account: address,
           owner: owner,
         ),
       ];

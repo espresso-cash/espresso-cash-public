@@ -280,8 +280,8 @@ void main() {
 
         final instructions = <Instruction>[
           SystemInstruction.transfer(
-            source: owner.publicKey,
-            destination: destination.publicKey,
+            fundingAccount: owner.publicKey,
+            recipientAccount: destination.publicKey,
             lamports: lamportsPerSol,
           ),
           TokenInstruction.transfer(

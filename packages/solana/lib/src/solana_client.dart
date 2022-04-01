@@ -63,8 +63,8 @@ class SolanaClient {
   }) async {
     final instructions = [
       SystemInstruction.transfer(
-        source: source.publicKey,
-        destination: destination,
+        fundingAccount: source.publicKey,
+        recipientAccount: destination,
         lamports: lamports,
       ),
       if (memo != null)
