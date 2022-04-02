@@ -4,7 +4,6 @@ import 'package:bip39/bip39.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/programs/token_program/transactions.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
@@ -231,31 +230,20 @@ void main() {
         await airdrop(rpcClient, subscriptionClient, wallet, sol: 100);
         await airdrop(rpcClient, subscriptionClient, accountCreator, sol: 100);
 
-        final token = await Ed25519HDKeyPair.random();
-        final tx = await initializeMint(
-          client: rpcClient,
-          owner: wallet,
-          mint: token,
+        final solanaClient = createTestSolanaClient();
+
+        final token = await solanaClient.initializeMint(
+          mintAuthority: wallet,
           decimals: 8,
-        );
-        await sendAndWaitForStatus(
-          client: rpcClient,
-          subscriptionClient: subscriptionClient,
-          tx: tx,
         );
 
         final createdAccount = await findAssociatedTokenAddress(
           owner: accountCreator.publicKey,
-          mint: token.publicKey,
+          mint: token.address,
         );
-        final createAccountTx = await createAssociatedTokenAccount(
-          mint: token.publicKey,
+        await solanaClient.createAssociatedTokenAccount(
+          mint: token.address,
           funder: accountCreator,
-        );
-        await sendAndWaitForStatus(
-          client: rpcClient,
-          subscriptionClient: subscriptionClient,
-          tx: createAccountTx,
         );
 
         final accounts = await rpcClient.getTokenAccountsByOwner(
@@ -709,8 +697,6 @@ Future<int> _createTokenAccount(
   await airdrop(rpcClient, subscriptionClient, source, sol: 10);
 
   final token = await _createToken(
-    rpcClient: rpcClient,
-    subscriptionClient: subscriptionClient,
     decimals: 2,
     supply: 100000000000000,
     transferSomeToAddress: source.publicKey,
@@ -815,8 +801,6 @@ class _AddressMatcher extends Matcher {
 }
 
 Future<Mint> _createToken({
-  required RpcClient rpcClient,
-  required SubscriptionClient subscriptionClient,
   required int decimals,
   required int supply,
   required Ed25519HDPublicKey transferSomeToAddress,
@@ -825,30 +809,18 @@ Future<Mint> _createToken({
   // This is the authority that will create the token and be able to emit
   // currency.
   final tokenMintAuthority = await Ed25519HDKeyPair.random();
+  final client = createTestSolanaClient();
 
   // Put some tokens in the authority wallet.
-  final signature = await rpcClient.requestAirdrop(
-    tokenMintAuthority.address,
-    5 * lamportsPerSol,
+  await client.requestAirdrop(
+    address: tokenMintAuthority.publicKey,
+    lamports: 5 * lamportsPerSol,
   );
-  await subscriptionClient.waitForSignatureStatus(
-    signature,
-    status: Commitment.finalized,
-  );
-  final solanaClient = createTestSolanaClient();
 
   // Now we have SOL to create the token.
-  final splToken = await Ed25519HDKeyPair.random();
-  final tx = await initializeMint(
-    client: rpcClient,
-    owner: tokenMintAuthority,
-    mint: splToken,
+  final splToken = await client.initializeMint(
+    mintAuthority: tokenMintAuthority,
     decimals: decimals,
-  );
-  await sendAndWaitForStatus(
-    client: rpcClient,
-    subscriptionClient: subscriptionClient,
-    tx: tx,
   );
 
   // Now lets create an account to store the supply. All SPL token transfer must
@@ -857,58 +829,41 @@ Future<Mint> _createToken({
   // The mint authority will also, own the total supply of the token.
   final supplyAccount = await findAssociatedTokenAddress(
     owner: tokenMintAuthority.publicKey,
-    mint: splToken.publicKey,
+    mint: splToken.address,
   );
-  final createAccountTx = await createAssociatedTokenAccount(
-    mint: splToken.publicKey,
+  await client.createAssociatedTokenAccount(
+    mint: splToken.address,
     funder: tokenMintAuthority,
-  );
-  await sendAndWaitForStatus(
-    client: rpcClient,
-    subscriptionClient: subscriptionClient,
-    tx: createAccountTx,
   );
 
   // Now we have a spl token, let's add the supply to it.
-  final transferTx = await transferMint(
+  await client.mintTo(
+    authority: tokenMintAuthority,
     destination: supplyAccount,
     amount: supply,
-    mint: splToken.publicKey,
-    owner: tokenMintAuthority,
-  );
-  await sendAndWaitForStatus(
-    client: rpcClient,
-    subscriptionClient: subscriptionClient,
-    tx: transferTx,
+    mint: splToken.address,
   );
 
   // We must check if the recipient has an associated token account, if not we
   // have to create it.
-  final associatedAccount = await rpcClient.getAssociatedTokenAccount(
-    mint: splToken.publicKey,
-    owner: transferSomeToAddress,
-  );
-  if (associatedAccount == null) {
-    final createAccountTx = await createAssociatedTokenAccount(
-      mint: splToken.publicKey,
-      funder: tokenMintAuthority,
-      owner: transferSomeToAddress,
-    );
-    await sendAndWaitForStatus(
-      client: rpcClient,
-      subscriptionClient: subscriptionClient,
-      tx: createAccountTx,
-    );
-  }
+  await client.getAssociatedTokenAccount(
+        mint: splToken.address,
+        owner: transferSomeToAddress,
+      ) ??
+      await client.createAssociatedTokenAccount(
+        mint: splToken.address,
+        funder: tokenMintAuthority,
+        owner: transferSomeToAddress,
+      );
 
   // And finally transfer them from the supply account to the destination
   // account, this is similar to what a faucet does.
-  await solanaClient.transferSplToken(
-    source: tokenMintAuthority,
+  await client.transferSplToken(
+    owner: tokenMintAuthority,
     destination: transferSomeToAddress,
     amount: transferSomeToAmount,
-    mint: splToken.publicKey,
+    mint: splToken.address,
   );
 
-  return getMint(client: rpcClient, address: splToken.publicKey);
+  return client.getMint(address: splToken.address);
 }

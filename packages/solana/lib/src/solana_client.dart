@@ -46,7 +46,7 @@ class SolanaClient {
   /// To add additional data to the transaction you can use the [memo] field. It
   /// accepts an arbitrary string of utf-8 characters. As of now the maximum
   /// allowed length for the memo is 566 bytes of utf-8 data.
-  Future<void> transferLamports({
+  Future<TransactionId> transferLamports({
     required Ed25519HDKeyPair source,
     required Ed25519HDPublicKey destination,
     required int lamports,
@@ -70,14 +70,32 @@ class SolanaClient {
     );
   }
 
+  /// Whether this wallet has an associated token account for the SPL token
+  /// [mint].
+  Future<bool> hasAssociatedTokenAccount({
+    required Ed25519HDPublicKey owner,
+    required Ed25519HDPublicKey mint,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final account = await getAssociatedTokenAccount(
+      owner: owner,
+      mint: mint,
+      commitment: commitment,
+    );
+
+    return account != null;
+  }
+
   Future<ProgramAccount?> getAssociatedTokenAccount({
     required Ed25519HDPublicKey owner,
     required Ed25519HDPublicKey mint,
+    Commitment commitment = Commitment.finalized,
   }) async {
     final accounts = await rpcClient.getTokenAccountsByOwner(
       owner.toBase58(),
       TokenAccountsFilter.byMint(mint.toBase58()),
       encoding: Encoding.jsonParsed,
+      commitment: commitment,
     );
     if (accounts.isEmpty) return null;
 
@@ -129,11 +147,12 @@ class SolanaClient {
   /// Finally, you can also send the transaction with optional [commitment].
   Future<Mint> initializeMint({
     required Ed25519HDKeyPair mintAuthority,
-    required Ed25519HDKeyPair mint,
     required int decimals,
     Ed25519HDPublicKey? freezeAuthority,
     Commitment commitment = Commitment.finalized,
   }) async {
+    final mint = await Ed25519HDKeyPair.random();
+
     const space = TokenProgram.neededMintAccountSpace;
     final rent = await rpcClient.getMinimumBalanceForRentExemption(
       space,
@@ -161,22 +180,82 @@ class SolanaClient {
   }
 
   /// Mint [destination] with [amount] tokens.
-  Future<void> transferMint({
+  Future<TransactionId> mintTo({
+    required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey destination,
     required int amount,
-    required Ed25519HDPublicKey mint,
-    required Wallet owner,
+    required Ed25519HDKeyPair authority,
     Commitment commitment = Commitment.finalized,
   }) async {
     final instruction = TokenInstruction.mintTo(
       mint: mint,
       destination: destination,
-      authority: owner.publicKey,
+      authority: authority.publicKey,
       amount: amount,
     );
 
-    await _signSendWait(
+    return _signSendWait(
       message: Message.only(instruction),
+      signers: [authority],
+      commitment: commitment,
+    );
+  }
+
+  /// Transfers [amount] SPL token with [mint] from this wallet to the
+  /// [destination] address with an optional [memo].
+  ///
+  /// For [commitment] parameter description [see this document][1]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<TransactionId> transferSplToken({
+    required Ed25519HDPublicKey mint,
+    required Ed25519HDPublicKey destination,
+    required int amount,
+    required Wallet owner,
+    String? memo,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final associatedRecipientAccount = await getAssociatedTokenAccount(
+      owner: destination,
+      mint: mint,
+    );
+    final associatedSenderAccount = await getAssociatedTokenAccount(
+      owner: owner.publicKey,
+      mint: mint,
+    );
+    // Throw an appropriate exception if the sender has no associated
+    // token account
+    if (associatedSenderAccount == null) {
+      throw NoAssociatedTokenAccountException(owner.address, mint.toBase58());
+    }
+    // Also throw an adequate exception if the recipient has no associated
+    // token account
+    if (associatedRecipientAccount == null) {
+      throw NoAssociatedTokenAccountException(
+        destination.toBase58(),
+        mint.toBase58(),
+      );
+    }
+
+    final instruction = TokenInstruction.transfer(
+      source: Ed25519HDPublicKey.fromBase58(associatedSenderAccount.pubkey),
+      destination:
+          Ed25519HDPublicKey.fromBase58(associatedRecipientAccount.pubkey),
+      owner: owner.publicKey,
+      amount: amount,
+    );
+
+    final message = Message(
+      instructions: [
+        instruction,
+        if (memo != null && memo.isNotEmpty)
+          MemoInstruction(signers: [owner.publicKey], memo: memo),
+      ],
+    );
+
+    return _signSendWait(
+      message: message,
       signers: [owner],
       commitment: commitment,
     );
@@ -286,30 +365,23 @@ class SolanaClient {
     );
   }
 
-  /// Whether this wallet has an associated token account for the SPL token [mint].
-  Future<bool> hasAssociatedTokenAccount({
+  /// Get token [mint] balance for this wallet's account.
+  ///
+  /// For [commitment] parameter description [see this document][1]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<TokenAmount> getTokenBalance({
     required Ed25519HDPublicKey owner,
     required Ed25519HDPublicKey mint,
-  }) async {
-    Iterable<ProgramAccount> accounts;
-    final associatedTokenAddress = await findAssociatedTokenAddress(
-      owner: owner,
-      mint: mint,
-    );
-    try {
-      accounts = await rpcClient.getTokenAccountsByOwner(
-        owner.toBase58(),
-        TokenAccountsFilter.byMint(mint.toBase58()),
-        encoding: Encoding.jsonParsed,
+    Commitment commitment = Commitment.finalized,
+  }) async =>
+      rpcClient.getTokenAccountBalance(
+        (await findAssociatedTokenAddress(owner: owner, mint: mint)).toBase58(),
+        commitment: commitment,
       );
-    } on FormatException {
-      accounts = [];
-    }
 
-    return accounts.any((a) => a.pubkey == associatedTokenAddress.toBase58());
-  }
-
-  Future<void> _signSendWait({
+  Future<TransactionId> _signSendWait({
     required Message message,
     required List<Ed25519HDKeyPair> signers,
     required Commitment commitment,
@@ -324,7 +396,9 @@ class SolanaClient {
       commitment: commitment,
     );
 
-    return waitForSignatureStatus(signature, status: commitment);
+    await waitForSignatureStatus(signature, status: commitment);
+
+    return signature;
   }
 
   SubscriptionClient _createSubscriptionClient() =>

@@ -21,32 +21,32 @@ void main() {
 
     test('Creates a new mint without freeze authority', () async {
       final token = await solanaClient.initializeMint(
-        owner: owner,
+        mintAuthority: owner,
         decimals: 2,
       );
 
       expect(token.supply, BigInt.zero);
       expect(token.decimals, 2);
-      expect(token.owner, owner);
+      expect(token.mintAuthority, owner);
     });
 
     test('Creates a new mint with freeze authority', () async {
       final freezeAuthority = await Ed25519HDKeyPair.random();
 
       final token = await solanaClient.initializeMint(
-        owner: owner,
+        mintAuthority: owner,
         freezeAuthority: freezeAuthority.publicKey,
         decimals: 2,
       );
 
       expect(token.supply, BigInt.zero);
       expect(token.decimals, 2);
-      expect(token.owner, owner);
+      expect(token.mintAuthority, owner);
     });
   });
 
   group('SolanaClient for SPL tokens', () {
-    late final SplToken newToken;
+    late final Mint newToken;
     late final Ed25519HDKeyPair owner;
     late final SolanaClient solanaClient;
 
@@ -61,7 +61,7 @@ void main() {
 
     test('Create a new mint', () async {
       final token = await solanaClient.initializeMint(
-        owner: owner,
+        mintAuthority: owner,
         decimals: 2,
       );
 
@@ -83,7 +83,7 @@ void main() {
         await solanaClient.createTokenAccount(
           account: account,
           creator: creator,
-          mint: newToken.mint,
+          mint: newToken.address,
         );
       },
       timeout: const Timeout(Duration(minutes: 2)),
@@ -92,19 +92,19 @@ void main() {
     test('Create an associated token account', () async {
       var accounts = await solanaClient.rpcClient.getTokenAccountsByOwner(
         owner.address,
-        TokenAccountsFilter.byMint(newToken.mint.toBase58()),
+        TokenAccountsFilter.byMint(newToken.address.toBase58()),
       );
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
 
       final newAccount = await solanaClient.createAssociatedTokenAccount(
         funder: owner,
-        mint: newToken.mint,
+        mint: newToken.address,
       );
 
       accounts = await solanaClient.rpcClient.getTokenAccountsByOwner(
         owner.address,
-        TokenAccountsFilter.byMint(newToken.mint.toBase58()),
+        TokenAccountsFilter.byMint(newToken.address.toBase58()),
         encoding: Encoding.jsonParsed,
       );
       expect(accounts, isNot(null));
@@ -118,28 +118,22 @@ void main() {
     test('Mint the newly created token and account', () async {
       final accounts = await solanaClient.rpcClient.getTokenAccountsByOwner(
         owner.address,
-        TokenAccountsFilter.byMint(newToken.mint.toBase58()),
+        TokenAccountsFilter.byMint(newToken.address.toBase58()),
         encoding: Encoding.jsonParsed,
       );
-      await solanaClient.transferMint(
+      await solanaClient.mintTo(
         destination: Ed25519HDPublicKey.fromBase58(accounts.first.pubkey),
         amount: _totalSupply,
-        mint: newToken.mint,
-        owner: owner,
+        mint: newToken.address,
+        authority: owner,
       );
 
-      final token = await solanaClient.createReadWriteToken(
-        owner: owner,
-        mint: newToken.mint,
-      );
-
-      expect(token.supply, equals(BigInt.from(_totalSupply)));
-      expect(token.decimals, equals(2));
+      expect(newToken.supply, equals(BigInt.from(_totalSupply)));
     });
 
     test('Get spl_token supply', () async {
-      final TokenAmount tokenSupply =
-          await solanaClient.rpcClient.getTokenSupply(newToken.mint.toBase58());
+      final TokenAmount tokenSupply = await solanaClient.rpcClient
+          .getTokenSupply(newToken.address.toBase58());
 
       expect(int.parse(tokenSupply.amount), equals(_totalSupply));
     });
@@ -152,18 +146,20 @@ void main() {
         final account = await solanaClient.createAssociatedTokenAccount(
           owner: recipient.publicKey,
           funder: owner,
-          mint: newToken.mint,
+          mint: newToken.address,
         );
         expect(account, isA<ProgramAccount>());
         // Send to the newly created account
-        final signature = await solanaClient.transferSplToken(
-          source: owner,
+        await solanaClient.transferSplToken(
+          owner: owner,
           destination: recipient.publicKey,
           amount: 100,
-          mint: newToken.mint,
+          mint: newToken.address,
         );
+        final balance =
+            await solanaClient.rpcClient.getTokenAccountBalance(account.pubkey);
 
-        expect(signature, isNot(null));
+        expect(balance.amount, '100');
       },
       timeout: const Timeout(Duration(minutes: 2)),
     );
@@ -183,19 +179,19 @@ void main() {
         final account = await solanaClient.createAssociatedTokenAccount(
           owner: recipient.publicKey,
           funder: owner,
-          mint: newToken.mint,
+          mint: newToken.address,
         );
         // A sender must have the appropriate associated account, in case they
         // don't it's an error and we should throw an exception.
         final sourceAssociatedTokenAddress =
             await solanaClient.getAssociatedTokenAccount(
-          mint: newToken.mint,
+          mint: newToken.address,
           owner: owner.publicKey,
         );
         // A recipient needs an associated account as well
         final destinationAssociatedTokenAddress =
             await solanaClient.getAssociatedTokenAccount(
-          mint: newToken.mint,
+          mint: newToken.address,
           owner: recipient.publicKey,
         );
         expect(sourceAssociatedTokenAddress, isNotNull);
@@ -235,10 +231,10 @@ void main() {
       // Send to the newly created account
       expect(
         solanaClient.transferSplToken(
-          source: owner,
+          owner: owner,
           destination: recipient.publicKey,
           amount: 100,
-          mint: newToken.mint,
+          mint: newToken.address,
         ),
         throwsA(isA<NoAssociatedTokenAccountException>()),
       );
@@ -251,10 +247,10 @@ void main() {
         // Send to the newly created account
         expect(
           solanaClient.transferSplToken(
-            source: sender,
+            owner: sender,
             destination: owner.publicKey,
             amount: 100,
-            mint: newToken.mint,
+            mint: newToken.address,
           ),
           throwsA(isA<NoAssociatedTokenAccountException>()),
         );
@@ -265,17 +261,15 @@ void main() {
       'Send transfer instruction in an existing transaction',
       () async {
         final destination = await Ed25519HDKeyPair.random();
-        final token = await solanaClient.createReadonlyToken(
-          mint: newToken.mint,
-        );
+
         final associatedSourceAddress = await findAssociatedTokenAddress(
           owner: owner.publicKey,
-          mint: newToken.mint,
+          mint: newToken.address,
         );
         final destinationAccount = await solanaClient.createTokenAccount(
           account: destination,
           creator: owner,
-          mint: token.mint,
+          mint: newToken.address,
         );
 
         final instructions = <Instruction>[
