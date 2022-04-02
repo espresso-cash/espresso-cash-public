@@ -55,13 +55,6 @@ class Message {
     );
   }
 
-  List<Ed25519HDPublicKey> getSigners({Ed25519HDPublicKey? feePayer}) =>
-      instructions
-          .getAccountsWithOptionalFeePayer(feePayer: feePayer)
-          .where((a) => a.isSigner)
-          .map((a) => a.pubKey)
-          .toList(growable: false);
-
   /// Compiles a message into the array of bytes that would be interpreted by
   /// solana. The [recentBlockhash] is passed here as this is the final step
   /// before sending the [Message].
