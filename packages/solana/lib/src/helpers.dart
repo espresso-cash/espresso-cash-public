@@ -35,6 +35,16 @@ bool isPointOnEd25519Curve(Iterable<int> data) {
   }
 }
 
+/// Compute and derive the associated token address of [owner].
+Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
+  required Ed25519HDPublicKey owner,
+  required Ed25519HDPublicKey mint,
+}) =>
+    Ed25519HDPublicKey.findProgramAddress(
+      seeds: [owner.bytes, TokenProgram.id.toBuffer(), mint.bytes],
+      programId: AssociatedTokenAccountProgram.id,
+    );
+
 Future<SignedTx> signTransaction(
   RecentBlockhash recentBlockhash,
   Message message,
