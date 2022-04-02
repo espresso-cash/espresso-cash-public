@@ -1,0 +1,1 @@
+class TokenAccountNotFoundException implements Exception {}

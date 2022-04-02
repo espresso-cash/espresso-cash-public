@@ -124,28 +124,23 @@ class SolanaClient {
     Ed25519HDPublicKey? freezeAuthority,
     Commitment commitment = Commitment.finalized,
   }) async {
-    const space = TokenProgram.neededMintAccountSpace;
-    final mintWallet = await Ed25519HDKeyPair.random();
-    final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
+    final mint = await Ed25519HDKeyPair.random();
 
-    final instructions = TokenInstruction.createAccountAndInitializeMint(
-      mint: mintWallet.publicKey,
-      mintAuthority: owner.publicKey,
-      freezeAuthority: freezeAuthority,
-      rent: rent,
-      space: space,
+    final message = await createInitializeMintMessage(
+      client: rpcClient,
+      mintAuthority: owner,
+      mint: mint,
       decimals: decimals,
+      freezeAuthority: freezeAuthority,
+      commitment: commitment,
     );
     final signature = await rpcClient.signAndSendTransaction(
-      Message(instructions: instructions),
-      [owner, mintWallet],
+      message,
+      [owner, mint],
     );
-    await waitForSignatureStatus(
-      signature,
-      status: commitment,
-    );
+    await waitForSignatureStatus(signature, status: commitment);
 
-    return createReadWriteToken(owner: owner, mint: mintWallet.publicKey);
+    return createReadWriteToken(owner: owner, mint: mint.publicKey);
   }
 
   /// Mint [destination] with [amount] tokens. Requires writable `Token`.
