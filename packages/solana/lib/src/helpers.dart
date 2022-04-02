@@ -1,20 +1,14 @@
 library utilities;
 
-import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
+import 'package:solana/solana.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 
-typedef HashFunc = List<int> Function(List<int> m);
-
-/// Returns true if [address] is a valid ed25519 point encoded
-/// to base58.
+/// Returns true if [address] is a valid ed25519 point encoded to base58.
 bool isValidAddress(String address) {
   try {
     final data = Buffer.fromBase58(address);
-    if (data.length != 32) {
-      return false;
-    }
 
     return isPointOnEd25519Curve(data);
   } on Exception {

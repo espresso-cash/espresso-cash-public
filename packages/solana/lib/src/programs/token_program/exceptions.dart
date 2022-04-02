@@ -1,1 +1,3 @@
-class TokenAccountNotFoundException implements Exception {}
+class TokenAccountNotFoundException implements Exception {
+  const TokenAccountNotFoundException();
+}
