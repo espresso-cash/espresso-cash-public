@@ -27,7 +27,7 @@ void main() {
 
       expect(token.supply, BigInt.zero);
       expect(token.decimals, 2);
-      expect(token.mintAuthority, owner);
+      expect(token.mintAuthority, owner.publicKey);
     });
 
     test('Creates a new mint with freeze authority', () async {
@@ -41,7 +41,7 @@ void main() {
 
       expect(token.supply, BigInt.zero);
       expect(token.decimals, 2);
-      expect(token.mintAuthority, owner);
+      expect(token.mintAuthority, owner.publicKey);
     });
   });
 
@@ -128,10 +128,6 @@ void main() {
         authority: owner,
       );
 
-      expect(newToken.supply, equals(BigInt.from(_totalSupply)));
-    });
-
-    test('Get spl_token supply', () async {
       final TokenAmount tokenSupply = await solanaClient.rpcClient
           .getTokenSupply(newToken.address.toBase58());
 

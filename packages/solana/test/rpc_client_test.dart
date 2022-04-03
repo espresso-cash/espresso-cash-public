@@ -237,11 +237,8 @@ void main() {
           decimals: 8,
         );
 
-        final createdAccount = await findAssociatedTokenAddress(
-          owner: accountCreator.publicKey,
-          mint: token.address,
-        );
-        await solanaClient.createAssociatedTokenAccount(
+        final tokenAccount = await solanaClient.createAssociatedTokenAccount(
+          owner: accountKeyPair.publicKey,
           mint: token.address,
           funder: accountCreator,
         );
@@ -253,7 +250,7 @@ void main() {
         );
 
         expect(accounts.length, equals(1));
-        expect(accounts.first.pubkey, createdAccount);
+        expect(accounts.first.pubkey, tokenAccount.pubkey);
         expect(accounts.first.account.data, isA<ParsedAccountData>());
 
         final data = accounts.first.account.data as ParsedAccountData;
