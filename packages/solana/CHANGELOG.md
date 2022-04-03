@@ -1,3 +1,7 @@
+## 0.22.0-dev.2
+
+ - **REFACTOR**: Restructure SolanaClient (#230).
+
 ## 0.22.0-dev.1
 
 > Note: This release has breaking changes.

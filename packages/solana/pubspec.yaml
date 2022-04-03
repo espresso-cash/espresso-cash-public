@@ -1,5 +1,5 @@
 name: solana
-version: 0.22.0-dev.1
+version: 0.22.0-dev.2
 repository: https://github.com/cryptoplease/cryptoplease-dart
 description: >-
   Dart implementation of Solana JSON RPC API client.
