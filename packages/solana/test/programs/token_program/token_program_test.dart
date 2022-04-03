@@ -3,7 +3,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
-import 'config.dart';
+import '../../config.dart';
 
 void main() {
   late final Ed25519HDKeyPair mint;
@@ -38,13 +38,13 @@ void main() {
   Future<void> sendMessage(
     Message message,
     List<Ed25519HDKeyPair> signers,
-  ) =>
-      _sendMessage(
-        rpcClient: rpcClient,
-        subscriptionClient: subscriptionClient,
-        message: message,
-        signers: signers,
-      );
+  ) async {
+    final signature = await rpcClient.signAndSendTransaction(message, signers);
+    await subscriptionClient.waitForSignatureStatus(
+      signature,
+      status: ConfirmationStatus.finalized,
+    );
+  }
 
   test('Initialize Mint', () async {
     final rent = await rpcClient
@@ -254,17 +254,4 @@ void main() {
       completes,
     );
   });
-}
-
-Future<void> _sendMessage({
-  required RpcClient rpcClient,
-  required SubscriptionClient subscriptionClient,
-  required Message message,
-  required List<Ed25519HDKeyPair> signers,
-}) async {
-  final signature = await rpcClient.signAndSendTransaction(message, signers);
-  await subscriptionClient.waitForSignatureStatus(
-    signature,
-    status: ConfirmationStatus.finalized,
-  );
 }

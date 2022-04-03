@@ -1,74 +1,9 @@
-import 'package:cryptoplease/bl/tokens/token.dart' hide SplToken;
+import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import 'keys/keys.dart';
-
-Future<SplToken> createNewToken({
-  required SolanaClient solanaClient,
-  required int decimals,
-  required int supply,
-  required Ed25519HDPublicKey transferSomeToAddress,
-  required int transferSomeToAmount,
-}) async {
-  // This is the authority that will create the token and be able to
-  // emit currency
-  final tokenMintAuthority = await Ed25519HDKeyPair.random();
-  // Put some tokens in the authority wallet
-  await solanaClient.requestAirdrop(
-    address: tokenMintAuthority.publicKey,
-    lamports: 5 * lamportsPerSol,
-  );
-
-  // Now we have SOL to create the token
-  final splToken = await solanaClient.initializeMint(
-    decimals: 2,
-    owner: tokenMintAuthority,
-  );
-  // Now lets create an account to store the supply. All SPL token transfer
-  // must be done to an associated token account which belongs to the specific
-  // token
-  //
-  // The mint authority will also, own the total supply of the token
-  final supplyAccount = await solanaClient.createAssociatedTokenAccount(
-    owner: tokenMintAuthority.publicKey,
-    funder: tokenMintAuthority,
-    mint: splToken.mint,
-  );
-  // Now we have a spl token, let's add the supply to it
-  await solanaClient.transferMint(
-    destination: Ed25519HDPublicKey.fromBase58(supplyAccount.pubkey),
-    amount: supply,
-    mint: splToken.mint,
-    owner: tokenMintAuthority,
-  );
-
-  // We must check if the recipient has an associated token account, if not
-  // we have to create it
-  final associatedAccount = await solanaClient.getAssociatedTokenAccount(
-    owner: transferSomeToAddress,
-    mint: splToken.mint,
-  );
-  if (associatedAccount == null) {
-    await solanaClient.createAssociatedTokenAccount(
-      owner: transferSomeToAddress,
-      funder: tokenMintAuthority,
-      mint: splToken.mint,
-    );
-  }
-
-  // And finally transfer them from the supply account to the destination account,
-  // this is similar to what a faucet does
-  await solanaClient.transferSplToken(
-    source: tokenMintAuthority,
-    destination: transferSomeToAddress,
-    amount: transferSomeToAmount,
-    mint: splToken.mint,
-  );
-
-  return splToken;
-}
 
 extension SolanaClientExt on SolanaClient {
   Future<void> createToken(

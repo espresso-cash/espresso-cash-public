@@ -95,6 +95,9 @@ class Ed25519HDPublicKey implements PublicKey {
   Buffer toBuffer() => Buffer.fromIterable(bytes);
 
   @override
+  String toString() => toBase58();
+
+  @override
   KeyPairType<KeyPairData, PublicKey> get type => KeyPairType.ed25519;
 
   @override

@@ -10,7 +10,7 @@ void main() {
   late final SolanaClient solanaClient;
   late final Wallet source;
   late final Wallet destination;
-  late SplToken token;
+  late Mint token;
 
   setUpAll(() async {
     source = await Ed25519HDKeyPair.random();
@@ -22,18 +22,18 @@ void main() {
       address: source.publicKey,
     );
     token = await solanaClient.initializeMint(
-      owner: source,
+      mintAuthority: source,
       decimals: 2,
     );
     final associatedAccount = await solanaClient.createAssociatedTokenAccount(
-      mint: token.mint,
+      mint: token.address,
       funder: source,
     );
-    await solanaClient.transferMint(
+    await solanaClient.mintTo(
       destination: Ed25519HDPublicKey.fromBase58(associatedAccount.pubkey),
       amount: _tokenMintAmount,
-      mint: token.mint,
-      owner: source,
+      mint: token.address,
+      authority: source,
     );
   });
 
@@ -106,7 +106,7 @@ void main() {
       final wallet = await Ed25519HDKeyPair.random();
       expect(
         solanaClient.hasAssociatedTokenAccount(
-          mint: token.mint,
+          mint: token.address,
           owner: wallet.publicKey,
         ),
         completion(equals(false)),
@@ -124,19 +124,19 @@ void main() {
       );
 
       await solanaClient.createAssociatedTokenAccount(
-        mint: token.mint,
+        mint: token.address,
         funder: wallet,
       );
       final hasAssociatedTokenAccount =
           await solanaClient.hasAssociatedTokenAccount(
-        mint: token.mint,
+        mint: token.address,
         owner: wallet.publicKey,
       );
 
       expect(hasAssociatedTokenAccount, equals(true));
 
       final tokenBalance = await solanaClient.getTokenBalance(
-        mint: token.mint,
+        mint: token.address,
         owner: wallet.publicKey,
       );
       expect(tokenBalance.decimals, equals(token.decimals));
@@ -153,8 +153,8 @@ void main() {
         solanaClient.transferSplToken(
           destination: wallet.publicKey,
           amount: 100,
-          mint: token.mint,
-          source: source,
+          mint: token.address,
+          owner: source,
         ),
         throwsA(isA<NoAssociatedTokenAccountException>()),
       );
@@ -166,20 +166,20 @@ void main() {
     () async {
       final wallet = await Ed25519HDKeyPair.random();
       await solanaClient.createAssociatedTokenAccount(
-        mint: token.mint,
+        mint: token.address,
         funder: source,
         owner: wallet.publicKey,
       );
       final signature = await solanaClient.transferSplToken(
         destination: wallet.publicKey,
         amount: 40,
-        mint: token.mint,
-        source: source,
+        mint: token.address,
+        owner: source,
       );
       expect(signature, isNotNull);
 
       final tokenBalance = await solanaClient.getTokenBalance(
-        mint: token.mint,
+        mint: token.address,
         owner: wallet.publicKey,
       );
       expect(tokenBalance.amount, equals('40'));
@@ -193,18 +193,18 @@ void main() {
       final wallet = await Ed25519HDKeyPair.random();
       // Create the associated account for the recipient
       await solanaClient.createAssociatedTokenAccount(
-        mint: token.mint,
+        mint: token.address,
         funder: source,
         owner: wallet.publicKey,
       );
       const memoText = 'Memo test string...';
 
       final signature = await solanaClient.transferSplToken(
-        mint: token.mint,
+        mint: token.address,
         destination: wallet.publicKey,
         amount: 40,
         memo: memoText,
-        source: source,
+        owner: source,
       );
       expect(signature, isNotNull);
 
@@ -237,7 +237,7 @@ void main() {
       expect(parsedSplTokenInstruction.info, isA<SplTokenTransferInfo>());
       expect(parsedSplTokenInstruction.info.amount, '40');
       final tokenBalance = await solanaClient.getTokenBalance(
-        mint: token.mint,
+        mint: token.address,
         owner: wallet.publicKey,
       );
       expect(tokenBalance.amount, equals('40'));
