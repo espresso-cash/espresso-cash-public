@@ -4,7 +4,7 @@ import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/instruction.dart';
-import 'package:solana/src/programs/memo_program/memo_program.dart';
+import 'package:solana/src/programs/memo_program/program.dart';
 
 /// The memo instruction for the memo program.
 class MemoInstruction extends Instruction {

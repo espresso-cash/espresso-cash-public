@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/encoder/message.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/rpc/helpers.dart';
 import 'package:solana/src/rpc/json_rpc_client.dart';

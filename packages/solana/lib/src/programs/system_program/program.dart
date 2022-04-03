@@ -1,6 +1,7 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
-export 'package:solana/src/programs/system_program/system_instruction.dart';
+export 'instruction.dart';
+export 'solana_client_ext.dart';
 
 abstract class SystemProgram {
   static const programId = '11111111111111111111111111111111';

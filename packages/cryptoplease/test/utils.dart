@@ -1,6 +1,5 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:solana/dto.dart';
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import 'keys/keys.dart';

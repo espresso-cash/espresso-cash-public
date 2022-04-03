@@ -3,7 +3,6 @@ import 'package:cryptoplease/bl/transactions/details/transaction_details_bloc.da
 import 'package:cryptoplease/config.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/dto.dart' show ConfirmationStatus;
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 void main() {

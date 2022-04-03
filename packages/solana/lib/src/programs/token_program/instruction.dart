@@ -3,8 +3,8 @@ import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
-import 'package:solana/src/programs/system_program/system_instruction.dart';
-import 'package:solana/src/programs/token_program/token_program.dart';
+import 'package:solana/src/programs/system_program/instruction.dart';
+import 'package:solana/src/programs/token_program/program.dart';
 
 enum AuthorityType {
   mintTokens,
