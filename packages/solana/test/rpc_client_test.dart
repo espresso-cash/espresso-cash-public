@@ -256,7 +256,7 @@ void main() {
         final data = accounts.first.account.data as ParsedAccountData;
         final programData = data as ParsedSplTokenProgramAccountData;
         final parsed = programData.parsed as TokenAccountData;
-        expect(parsed.info.mint, token.address);
+        expect(parsed.info.mint, token.address.toBase58());
         expect(parsed, isNotNull);
       },
       timeout: const Timeout(Duration(minutes: 4)),
