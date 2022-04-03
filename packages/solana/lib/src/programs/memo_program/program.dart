@@ -1,6 +1,6 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
-export 'package:solana/src/programs/memo_program/memo_instruction.dart';
+export 'instruction.dart';
 
 /// The memo program from the SPL.
 abstract class MemoProgram {

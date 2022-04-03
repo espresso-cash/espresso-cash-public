@@ -1,9 +1,7 @@
 import 'dart:async';
 
+import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/encoder/encoder.dart';
-import 'package:solana/src/programs/token_program/raw_mint.dart';
-import 'package:solana/src/rpc/dto/dto.dart';
 
 class SolanaClient {
   SolanaClient({
@@ -17,6 +15,33 @@ class SolanaClient {
   final RpcClient rpcClient;
   final Uri _websocketUrl;
   final Duration _timeout;
+
+  /// Signs, sends and confirms a transaction.
+  ///
+  /// Use [onSigned] callback to do some action *after* transaction is signed,
+  /// but *before* it is sent.
+  Future<TransactionId> sendAndConfirmTransaction({
+    required Message message,
+    required List<Ed25519HDKeyPair> signers,
+    required SignatureCallback onSigned,
+    required Commitment commitment,
+  }) async {
+    final tx = await signTransaction(
+      await rpcClient.getRecentBlockhash(),
+      message,
+      signers,
+    );
+    await onSigned(tx.signatures.first.toBase58());
+
+    final signature = await rpcClient.sendTransaction(
+      tx.encode(),
+      commitment: commitment,
+    );
+
+    await waitForSignatureStatus(signature, status: commitment);
+
+    return signature;
+  }
 
   /// Waits for transation with [signature] to reach [status].
   /// Throws exception if transaction failed.
@@ -40,386 +65,10 @@ class SolanaClient {
     }
   }
 
-  /// Creates a solana transfer message to send [lamports] SOL tokens from
-  /// [source] to [destination].
-  ///
-  /// To add additional data to the transaction you can use the [memo] field. It
-  /// accepts an arbitrary string of utf-8 characters. As of now the maximum
-  /// allowed length for the memo is 566 bytes of utf-8 data.
-  Future<TransactionId> transferLamports({
-    required Ed25519HDKeyPair source,
-    required Ed25519HDPublicKey destination,
-    required int lamports,
-    String? memo,
-    SignatureCallback? onSigned,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final instructions = [
-      SystemInstruction.transfer(
-        fundingAccount: source.publicKey,
-        recipientAccount: destination,
-        lamports: lamports,
-      ),
-      if (memo != null)
-        MemoInstruction(signers: [source.publicKey], memo: memo),
-    ];
-
-    return _signSendWait(
-      message: Message(instructions: instructions),
-      signers: [source],
-      onSigned: onSigned ?? _emptyOnSigned,
-      commitment: commitment,
-    );
-  }
-
-  /// Whether this wallet has an associated token account for the SPL token
-  /// [mint].
-  Future<bool> hasAssociatedTokenAccount({
-    required Ed25519HDPublicKey owner,
-    required Ed25519HDPublicKey mint,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final account = await getAssociatedTokenAccount(
-      owner: owner,
-      mint: mint,
-      commitment: commitment,
-    );
-
-    return account != null;
-  }
-
-  Future<ProgramAccount?> getAssociatedTokenAccount({
-    required Ed25519HDPublicKey owner,
-    required Ed25519HDPublicKey mint,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final accounts = await rpcClient.getTokenAccountsByOwner(
-      owner.toBase58(),
-      TokenAccountsFilter.byMint(mint.toBase58()),
-      encoding: Encoding.jsonParsed,
-      commitment: commitment,
-    );
-    if (accounts.isEmpty) return null;
-
-    return accounts.first;
-  }
-
-  Future<Mint> getMint({
-    required Ed25519HDPublicKey address,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final info = await rpcClient.getAccountInfo(
-      address.toBase58(),
-      commitment: commitment,
-      encoding: Encoding.base64,
-    );
-
-    if (info == null) throw const TokenAccountNotFoundException();
-
-    final raw = RawMint.fromBorsh((info.data as BinaryAccountData).data);
-
-    return Mint(
-      address: address,
-      supply: BigInt.from(raw.supply),
-      decimals: raw.decimals,
-      isInitialized: raw.isInitialized == 1,
-      mintAuthority: raw.mintAuthorityOption == 0
-          ? null
-          : Ed25519HDPublicKey(raw.mintAuthority),
-      freezeAuthority: raw.freezeAuthorityOption == 0
-          ? null
-          : Ed25519HDPublicKey(raw.freezeAuthority),
-    );
-  }
-
-  /// Get the minimum lamport balance for a rent-exempt mint.
-  Future<int> getMinimumBalanceForMintRentExemption({
-    Commitment? commitment,
-  }) =>
-      rpcClient.getMinimumBalanceForRentExemption(
-        TokenProgram.neededMintAccountSpace,
-        commitment: commitment,
-      );
-
-  /// Create a new token owned by [mintAuthority] with number of [decimals].
-  ///
-  /// Optionally, you can specify a [freezeAuthority]. By default the
-  /// [freezeAuthority] is not set.
-  ///
-  /// Finally, you can also send the transaction with optional [commitment].
-  Future<Mint> initializeMint({
-    required Ed25519HDKeyPair mintAuthority,
-    required int decimals,
-    Ed25519HDPublicKey? freezeAuthority,
-    SignatureCallback? onSigned,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final mint = await Ed25519HDKeyPair.random();
-
-    const space = TokenProgram.neededMintAccountSpace;
-    final rent = await rpcClient.getMinimumBalanceForRentExemption(
-      space,
-      commitment: commitment,
-    );
-
-    final instructions = TokenInstruction.createAccountAndInitializeMint(
-      mint: mint.publicKey,
-      mintAuthority: mintAuthority.publicKey,
-      freezeAuthority: freezeAuthority,
-      rent: rent,
-      space: space,
-      decimals: decimals,
-    );
-
-    final message = Message(instructions: instructions);
-
-    await _signSendWait(
-      message: message,
-      signers: [mintAuthority, mint],
-      onSigned: onSigned ?? _emptyOnSigned,
-      commitment: commitment,
-    );
-
-    return getMint(address: mint.publicKey);
-  }
-
-  /// Mint [destination] with [amount] tokens.
-  Future<TransactionId> mintTo({
-    required Ed25519HDPublicKey mint,
-    required Ed25519HDPublicKey destination,
-    required int amount,
-    required Ed25519HDKeyPair authority,
-    SignatureCallback? onSigned,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final instruction = TokenInstruction.mintTo(
-      mint: mint,
-      destination: destination,
-      authority: authority.publicKey,
-      amount: amount,
-    );
-
-    return _signSendWait(
-      message: Message.only(instruction),
-      signers: [authority],
-      onSigned: onSigned ?? _emptyOnSigned,
-      commitment: commitment,
-    );
-  }
-
-  /// Transfers [amount] SPL token with [mint] from this wallet to the
-  /// [destination] address with an optional [memo].
-  ///
-  /// For [commitment] parameter description [see this document][1]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionId> transferSplToken({
-    required Ed25519HDPublicKey mint,
-    required Ed25519HDPublicKey destination,
-    required int amount,
-    required Wallet owner,
-    String? memo,
-    SignatureCallback? onSigned,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final associatedRecipientAccount = await getAssociatedTokenAccount(
-      owner: destination,
-      mint: mint,
-    );
-    final associatedSenderAccount = await getAssociatedTokenAccount(
-      owner: owner.publicKey,
-      mint: mint,
-    );
-    // Throw an appropriate exception if the sender has no associated
-    // token account
-    if (associatedSenderAccount == null) {
-      throw NoAssociatedTokenAccountException(owner.address, mint.toBase58());
-    }
-    // Also throw an adequate exception if the recipient has no associated
-    // token account
-    if (associatedRecipientAccount == null) {
-      throw NoAssociatedTokenAccountException(
-        destination.toBase58(),
-        mint.toBase58(),
-      );
-    }
-
-    final instruction = TokenInstruction.transfer(
-      source: Ed25519HDPublicKey.fromBase58(associatedSenderAccount.pubkey),
-      destination:
-          Ed25519HDPublicKey.fromBase58(associatedRecipientAccount.pubkey),
-      owner: owner.publicKey,
-      amount: amount,
-    );
-
-    final message = Message(
-      instructions: [
-        instruction,
-        if (memo != null && memo.isNotEmpty)
-          MemoInstruction(signers: [owner.publicKey], memo: memo),
-      ],
-    );
-
-    return _signSendWait(
-      message: message,
-      signers: [owner],
-      onSigned: onSigned ?? _emptyOnSigned,
-      commitment: commitment,
-    );
-  }
-
-  /// Create the account associated to the SPL token [mint] for this wallet.
-  ///
-  /// If you want to use another wallet as a funder use the [funder] parameter.
-  ///
-  /// Also adds the token to the wallet object.
-  ///
-  /// For [commitment] parameter description [see this document][1]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<ProgramAccount> createAssociatedTokenAccount({
-    Ed25519HDPublicKey? owner,
-    required Ed25519HDPublicKey mint,
-    required Wallet funder,
-    SignatureCallback? onSigned,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final effectiveOwner = owner ?? funder.publicKey;
-
-    final derivedAddress = await findAssociatedTokenAddress(
-      owner: effectiveOwner,
-      mint: mint,
-    );
-    final instruction = AssociatedTokenAccountInstruction.createAccount(
-      mint: mint,
-      address: derivedAddress,
-      owner: effectiveOwner,
-      funder: funder.publicKey,
-    );
-
-    await _signSendWait(
-      message: Message.only(instruction),
-      signers: [funder],
-      onSigned: onSigned ?? _emptyOnSigned,
-      commitment: commitment,
-    );
-
-    // TODO(IA): populate rentEpoch correctly
-    return ProgramAccount(
-      pubkey: derivedAddress.toBase58(),
-      account: Account(
-        owner: effectiveOwner.toBase58(),
-        lamports: 0,
-        executable: false,
-        rentEpoch: 0,
-        data: null,
-      ),
-    );
-  }
-
-  /// Request airdrop for [lamports] amount to this wallet's account.
-  ///
-  /// For [commitment] parameter description [see this document][1]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<String> requestAirdrop({
-    required Ed25519HDPublicKey address,
-    required int lamports,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final signature = await rpcClient.requestAirdrop(
-      address.toBase58(),
-      lamports,
-      commitment: commitment,
-    );
-    await waitForSignatureStatus(
-      signature,
-      status: commitment,
-    );
-
-    return signature;
-  }
-
-  /// Create an account for [account].
-  Future<Account> createTokenAccount({
-    required Ed25519HDPublicKey mint,
-    required Wallet account,
-    required Wallet creator,
-    SignatureCallback? onSigned,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    const space = TokenProgram.neededAccountSpace;
-    final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
-    final instructions = TokenInstruction.createAndInitializeAccount(
-      address: account.publicKey,
-      owner: creator.publicKey,
-      mint: mint,
-      rent: rent,
-      space: space,
-    );
-    await _signSendWait(
-      message: Message(instructions: instructions),
-      signers: [creator, account],
-      onSigned: onSigned ?? _emptyOnSigned,
-      commitment: commitment,
-    );
-
-    // TODO(IA): need to check if it is executable and grab the rentEpoch
-    return Account(
-      owner: account.address,
-      lamports: 0,
-      executable: false,
-      rentEpoch: 0,
-      data: null,
-    );
-  }
-
-  /// Get token [mint] balance for this wallet's account.
-  ///
-  /// For [commitment] parameter description [see this document][1]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TokenAmount> getTokenBalance({
-    required Ed25519HDPublicKey owner,
-    required Ed25519HDPublicKey mint,
-    Commitment commitment = Commitment.finalized,
-  }) async =>
-      rpcClient.getTokenAccountBalance(
-        (await findAssociatedTokenAddress(owner: owner, mint: mint)).toBase58(),
-        commitment: commitment,
-      );
-
-  Future<TransactionId> _signSendWait({
-    required Message message,
-    required List<Ed25519HDKeyPair> signers,
-    required SignatureCallback onSigned,
-    required Commitment commitment,
-  }) async {
-    final tx = await signTransaction(
-      await rpcClient.getRecentBlockhash(),
-      message,
-      signers,
-    );
-    await onSigned(tx.signatures.first.toBase58());
-
-    final signature = await rpcClient.sendTransaction(
-      tx.encode(),
-      commitment: commitment,
-    );
-
-    await waitForSignatureStatus(signature, status: commitment);
-
-    return signature;
-  }
-
   SubscriptionClient _createSubscriptionClient() =>
       SubscriptionClient(_websocketUrl);
 }
 
 typedef SignatureCallback = Future<void> Function(TransactionId transactionId);
 
-Future<void> _emptyOnSigned(TransactionId _) async {}
+Future<void> ignoreOnSigned(TransactionId _) async {}

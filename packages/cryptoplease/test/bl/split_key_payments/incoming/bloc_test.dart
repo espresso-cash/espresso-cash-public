@@ -8,7 +8,6 @@ import 'package:cryptoplease/bl/wallet/wallet.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 import 'repository.dart';

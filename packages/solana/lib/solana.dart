@@ -1,19 +1,15 @@
 import 'package:solana/src/crypto/crypto.dart';
 
+export 'dto.dart' show Commitment;
+export 'encoder.dart' show Message;
 export 'src/crypto/crypto.dart';
 export 'src/exceptions/exceptions.dart';
 export 'src/helpers.dart';
-export 'src/programs/associated_token_account_program/associated_token_account_instruction.dart';
-export 'src/programs/associated_token_account_program/associated_token_account_program.dart';
-export 'src/programs/memo_program/memo_program.dart';
-export 'src/programs/stake_program/stake_instruction.dart';
-export 'src/programs/stake_program/stake_program.dart';
-export 'src/programs/stake_program/state.dart';
-export 'src/programs/system_program/system_program.dart';
-export 'src/programs/token_program/exceptions.dart';
-export 'src/programs/token_program/mint.dart';
-export 'src/programs/token_program/token_instruction.dart';
-export 'src/programs/token_program/token_program.dart';
+export 'src/programs/associated_token_account_program/program.dart';
+export 'src/programs/memo_program/program.dart';
+export 'src/programs/stake_program/program.dart';
+export 'src/programs/system_program/program.dart';
+export 'src/programs/token_program/program.dart';
 export 'src/rpc/client.dart';
 export 'src/solana_client.dart';
 export 'src/subscription_client/optional_error.dart';

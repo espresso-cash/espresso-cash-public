@@ -1,6 +1,9 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
-export 'package:solana/src/programs/token_program/token_instruction.dart';
+export 'exceptions.dart';
+export 'instruction.dart';
+export 'mint.dart';
+export 'solana_client_ext.dart';
 
 /// Construct token programs conveniently
 abstract class TokenProgram {
