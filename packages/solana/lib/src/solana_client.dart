@@ -51,6 +51,7 @@ class SolanaClient {
     required Ed25519HDPublicKey destination,
     required int lamports,
     String? memo,
+    SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
     final instructions = [
@@ -66,6 +67,7 @@ class SolanaClient {
     return _signSendWait(
       message: Message(instructions: instructions),
       signers: [source],
+      onSigned: onSigned ?? _emptyOnSigned,
       commitment: commitment,
     );
   }
@@ -149,6 +151,7 @@ class SolanaClient {
     required Ed25519HDKeyPair mintAuthority,
     required int decimals,
     Ed25519HDPublicKey? freezeAuthority,
+    SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
     final mint = await Ed25519HDKeyPair.random();
@@ -173,6 +176,7 @@ class SolanaClient {
     await _signSendWait(
       message: message,
       signers: [mintAuthority, mint],
+      onSigned: onSigned ?? _emptyOnSigned,
       commitment: commitment,
     );
 
@@ -185,6 +189,7 @@ class SolanaClient {
     required Ed25519HDPublicKey destination,
     required int amount,
     required Ed25519HDKeyPair authority,
+    SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
     final instruction = TokenInstruction.mintTo(
@@ -197,6 +202,7 @@ class SolanaClient {
     return _signSendWait(
       message: Message.only(instruction),
       signers: [authority],
+      onSigned: onSigned ?? _emptyOnSigned,
       commitment: commitment,
     );
   }
@@ -214,6 +220,7 @@ class SolanaClient {
     required int amount,
     required Wallet owner,
     String? memo,
+    SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
     final associatedRecipientAccount = await getAssociatedTokenAccount(
@@ -257,6 +264,7 @@ class SolanaClient {
     return _signSendWait(
       message: message,
       signers: [owner],
+      onSigned: onSigned ?? _emptyOnSigned,
       commitment: commitment,
     );
   }
@@ -275,6 +283,7 @@ class SolanaClient {
     Ed25519HDPublicKey? owner,
     required Ed25519HDPublicKey mint,
     required Wallet funder,
+    SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
     final effectiveOwner = owner ?? funder.publicKey;
@@ -293,6 +302,7 @@ class SolanaClient {
     await _signSendWait(
       message: Message.only(instruction),
       signers: [funder],
+      onSigned: onSigned ?? _emptyOnSigned,
       commitment: commitment,
     );
 
@@ -338,6 +348,7 @@ class SolanaClient {
     required Ed25519HDPublicKey mint,
     required Wallet account,
     required Wallet creator,
+    SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
     const space = TokenProgram.neededAccountSpace;
@@ -352,6 +363,7 @@ class SolanaClient {
     await _signSendWait(
       message: Message(instructions: instructions),
       signers: [creator, account],
+      onSigned: onSigned ?? _emptyOnSigned,
       commitment: commitment,
     );
 
@@ -384,6 +396,7 @@ class SolanaClient {
   Future<TransactionId> _signSendWait({
     required Message message,
     required List<Ed25519HDKeyPair> signers,
+    required SignatureCallback onSigned,
     required Commitment commitment,
   }) async {
     final tx = await signTransaction(
@@ -391,6 +404,8 @@ class SolanaClient {
       message,
       signers,
     );
+    await onSigned(tx.signatures.first.toBase58());
+
     final signature = await rpcClient.sendTransaction(
       tx.encode(),
       commitment: commitment,
@@ -404,3 +419,7 @@ class SolanaClient {
   SubscriptionClient _createSubscriptionClient() =>
       SubscriptionClient(_websocketUrl);
 }
+
+typedef SignatureCallback = Future<void> Function(TransactionId transactionId);
+
+Future<void> _emptyOnSigned(TransactionId _) async {}
