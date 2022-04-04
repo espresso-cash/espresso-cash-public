@@ -9,7 +9,10 @@ class RawInstruction implements Instruction {
 
   factory RawInstruction.fromJson(Map<String, dynamic> json) => RawInstruction(
         programIdIndex: json['programIdIndex'] as int,
-        accounts: (json['accounts'] as List<int>).toList(growable: false),
+        accounts: List<int>.from(
+          json['accounts'] as List<dynamic>,
+          growable: false,
+        ),
         data: json['data'] as String,
       );
 
