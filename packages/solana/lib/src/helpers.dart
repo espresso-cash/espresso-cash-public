@@ -24,9 +24,7 @@ bool isPointOnEd25519Curve(Iterable<int> data) {
     );
   }
   try {
-    final compressed = CompressedEdwardsY(
-      data.map((e) => BigInt.from(e)).toList(),
-    );
+    final compressed = CompressedEdwardsY(data.map(BigInt.from).toList());
     final point = compressed.decompress();
 
     return !point.isSmallOrder();
