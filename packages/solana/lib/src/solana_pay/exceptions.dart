@@ -9,3 +9,9 @@ class ParseUrlException implements Exception {
 
   final String message;
 }
+
+class ValidateTransactionException implements Exception {
+  const ValidateTransactionException(this.message);
+
+  final String message;
+}

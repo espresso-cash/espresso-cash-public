@@ -11,6 +11,7 @@ environment:
 dependencies:
   bip39: ^1.0.6
   borsh_annotation: ^0.2.0+1
+  collection: ^1.16.0
   convert: ^3.0.1
   cryptography: ^2.0.2
   decimal: ^2.1.0

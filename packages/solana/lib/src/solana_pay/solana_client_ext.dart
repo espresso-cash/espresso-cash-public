@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
+import 'package:solana/dto.dart' show TransactionDetails;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/solana_pay/exceptions.dart';
@@ -157,5 +159,97 @@ extension SolanaClientSolanaPay on SolanaClient {
       onSigned: onSigned ?? ignoreOnSigned,
       commitment: commitment,
     );
+  }
+
+  /// Finds the oldest transaction signature referencing a given public key.
+  Future<TransactionId?> findSolanaPayTransaction({
+    required Ed25519HDPublicKey reference,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final signatures = await rpcClient.getSignaturesForAddress(
+      reference.toBase58(),
+      commitment: commitment,
+    );
+
+    if (signatures.isEmpty) return null;
+
+    // TODO(KB): Support cases when there are more than [limit] signatures.
+
+    return signatures.last.signature;
+  }
+
+  /// Validates that a given transaction signature corresponds with a
+  /// transaction containing a valid Solana Pay transfer.
+  Future<TransactionDetails> validateSolanaPayTransaction({
+    required TransactionId signature,
+    required Ed25519HDPublicKey recipient,
+    required Decimal amount,
+    Ed25519HDPublicKey? splToken,
+    Iterable<Ed25519HDPublicKey>? reference,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final response = await rpcClient.getTransaction(
+      signature,
+      commitment: commitment,
+    );
+
+    if (response == null) {
+      throw const ValidateTransactionException('Transaction not found.');
+    }
+
+    final meta = response.meta;
+    if (meta == null) {
+      throw const ValidateTransactionException('Missing meta.');
+    }
+
+    if (meta.err != null) {
+      throw const ValidateTransactionException('Transaction error.');
+    }
+
+    final Decimal preAmount, postAmount;
+    if (splToken == null) {
+      final accountIndex = response.transaction.message.accountKeys
+          .indexWhere((a) => a.pubkey == recipient.toBase58());
+      if (accountIndex == -1) {
+        throw const ValidateTransactionException('Recipient not found.');
+      }
+
+      preAmount = Decimal.fromInt(meta.preBalances[accountIndex])
+          .shift(-solDecimalPlaces);
+      postAmount = Decimal.fromInt(meta.postBalances[accountIndex])
+          .shift(-solDecimalPlaces);
+    } else {
+      final recipientATA =
+          await findAssociatedTokenAddress(owner: recipient, mint: splToken);
+      final accountIndex = response.transaction.message.accountKeys
+          .indexWhere((a) => a.pubkey == recipientATA.toBase58());
+      if (accountIndex == -1) {
+        throw const ValidateTransactionException('Recipient not found.');
+      }
+
+      final preBalance = meta.preTokenBalances
+          .firstWhereOrNull((a) => a.accountIndex == accountIndex);
+      final postBalance = meta.postTokenBalances
+          .firstWhereOrNull((a) => a.accountIndex == accountIndex);
+
+      preAmount =
+          Decimal.parse(preBalance?.uiTokenAmount.uiAmountString ?? '0');
+      postAmount =
+          Decimal.parse(postBalance?.uiTokenAmount.uiAmountString ?? '0');
+    }
+
+    if (postAmount - preAmount < amount) {
+      throw const ValidateTransactionException('Amount not transferred.');
+    }
+
+    if (reference != null) {
+      final keys =
+          response.transaction.message.accountKeys.map((e) => e.pubkey);
+      if (reference.any((e) => !keys.contains(e.toBase58()))) {
+        throw const ValidateTransactionException('Reference not found.');
+      }
+    }
+
+    return response;
   }
 }
