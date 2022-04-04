@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_catches_without_on_clauses
-
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
@@ -38,7 +36,7 @@ class SolanaPayRequest with _$SolanaPayRequest {
         throw const ParseUrlException('Recipient missing');
       }
       recipient = Ed25519HDPublicKey.fromBase58(uri.path);
-    } catch (_) {
+    } on Object {
       throw const ParseUrlException('Recipient invalid');
     }
 
@@ -49,7 +47,7 @@ class SolanaPayRequest with _$SolanaPayRequest {
     } else {
       try {
         amount = Decimal.parse(amountParam);
-      } catch (_) {
+      } on Object {
         throw const ParseUrlException('Amount invalid');
       }
     }
@@ -61,7 +59,7 @@ class SolanaPayRequest with _$SolanaPayRequest {
     } else {
       try {
         splToken = Ed25519HDPublicKey.fromBase58(splTokenParam);
-      } catch (_) {
+      } on Object {
         throw const ParseUrlException('Token invalid');
       }
     }
@@ -73,7 +71,7 @@ class SolanaPayRequest with _$SolanaPayRequest {
     } else {
       try {
         reference = referenceParam.map(Ed25519HDPublicKey.fromBase58);
-      } catch (_) {
+      } on Object {
         throw const ParseUrlException('Reference invalid');
       }
     }
