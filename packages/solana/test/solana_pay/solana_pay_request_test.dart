@@ -1,6 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:solana/solana.dart';
-import 'package:solana_pay/solana_pay.dart';
+import 'package:solana/solana_pay.dart';
 import 'package:test/test.dart';
 
 void main() {

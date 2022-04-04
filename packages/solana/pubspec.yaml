@@ -6,13 +6,14 @@ description: >-
   Provides convenient interface for the RPC methods.
 
 environment:
-  sdk: ">=2.13.0 <3.0.0"
+  sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
   bip39: ^1.0.6
   borsh_annotation: ^0.2.0+1
   convert: ^3.0.1
   cryptography: ^2.0.2
+  decimal: ^2.1.0
   ed25519_hd_key: ^2.1.0
   freezed_annotation: ^1.0.0
   http: ^0.13.3

@@ -1,8 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana_pay/src/constants.dart';
-import 'package:solana_pay/src/exceptions.dart';
+import 'package:solana/src/solana_pay/exceptions.dart';
 
 extension SolanaClientSolanaPay on SolanaClient {
   /// Creates, signs and sends Solana Pay transaction from [payer] to

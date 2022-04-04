@@ -3,8 +3,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
-import 'package:solana_pay/src/constants.dart';
-import 'package:solana_pay/src/exceptions.dart';
+import 'package:solana/src/solana_pay/constants.dart';
+import 'package:solana/src/solana_pay/exceptions.dart';
 
 part 'solana_pay_request.freezed.dart';
 
