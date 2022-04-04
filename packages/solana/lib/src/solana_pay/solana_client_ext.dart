@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
-import 'package:solana/dto.dart' show TransactionDetails;
+import 'package:solana/dto.dart' show Encoding, TransactionDetails;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/solana_pay/exceptions.dart';
@@ -190,6 +190,7 @@ extension SolanaClientSolanaPay on SolanaClient {
   }) async {
     final response = await rpcClient.getTransaction(
       signature,
+      encoding: Encoding.jsonParsed,
       commitment: commitment,
     );
 
