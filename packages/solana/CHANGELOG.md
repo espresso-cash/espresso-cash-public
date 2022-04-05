@@ -1,3 +1,7 @@
+## 0.22.0-dev.3
+
+ - **FEAT**: Add Solana Pay support (#232).
+
 ## 0.22.0-dev.2
 
  - **REFACTOR**: Restructure SolanaClient (#230).
