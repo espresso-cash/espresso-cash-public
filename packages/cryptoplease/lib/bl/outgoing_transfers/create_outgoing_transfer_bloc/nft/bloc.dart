@@ -5,8 +5,10 @@ import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/solana.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';
@@ -126,7 +128,8 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 amount: amount,
                 tokenAddress: address,
                 memo: state.memo,
-                reference: state.reference,
+                reference: state.reference
+                    ?.let((it) => IList([Ed25519HDPublicKey.fromBase58(it)])),
                 tokenType: OutgoingTransferTokenType.nonFungibleToken,
               );
               break;

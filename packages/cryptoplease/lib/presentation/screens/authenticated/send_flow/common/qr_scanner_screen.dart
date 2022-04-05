@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/qr_scanner/qr_scanner_bloc.dart';
-import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -16,7 +15,7 @@ class QrScannerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => QrScannerBloc(context.read<TokenList>()),
+        create: (context) => QrScannerBloc(),
         child: const _Content(),
       );
 }

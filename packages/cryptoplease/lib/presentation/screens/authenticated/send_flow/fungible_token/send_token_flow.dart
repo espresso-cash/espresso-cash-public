@@ -7,7 +7,9 @@ import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
+import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common/send_flow_router.dart';
 import 'package:dfunc/dfunc.dart';
@@ -85,25 +87,40 @@ class _State extends State<SendTokenFlowScreen> implements FtSendFlowRouter {
         }
       },
       solanaPay: (r) {
+        final request = r.request;
+        final token = request.splToken == null
+            ? Token.sol
+            : TokenList().findTokenByMint(request.splToken!.toBase58());
+
+        if (token == null) {
+          showErrorDialog(context, 'Token not found', Exception());
+
+          return;
+        }
+
         _bloc
-          ..add(FtCreateOutgoingTransferEvent.recipientUpdated(r.recipient))
           ..add(
-            FtCreateOutgoingTransferEvent.tokenUpdated(r.token, lock: true),
+            FtCreateOutgoingTransferEvent.recipientUpdated(
+              request.recipient.toBase58(),
+            ),
+          )
+          ..add(
+            FtCreateOutgoingTransferEvent.tokenUpdated(token, lock: true),
           );
-        if (r.reference != null) {
+        if (request.reference != null) {
           _bloc.add(
-            FtCreateOutgoingTransferEvent.referenceUpdated(r.reference!),
+            FtCreateOutgoingTransferEvent.referenceUpdated(request.reference!),
           );
         }
 
-        final amount = r.amount;
+        final amount = request.amount;
 
         if (amount != null) {
           _bloc.add(FtCreateOutgoingTransferEvent.tokenAmountUpdated(amount));
 
           onAmountSubmitted();
         } else {
-          onAddressSubmitted(r.recipient);
+          onAddressSubmitted(request.recipient.toBase58());
         }
       },
       orElse: () {},

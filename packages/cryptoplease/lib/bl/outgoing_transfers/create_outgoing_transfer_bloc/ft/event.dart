@@ -25,7 +25,7 @@ class FtCreateOutgoingTransferEvent with _$FtCreateOutgoingTransferEvent {
       RecipientUpdated;
 
   const factory FtCreateOutgoingTransferEvent.referenceUpdated(
-    String reference,
+    Iterable<Ed25519HDPublicKey> reference,
   ) = ReferenceUpdated;
 
   const factory FtCreateOutgoingTransferEvent.memoUpdated(String memo) =

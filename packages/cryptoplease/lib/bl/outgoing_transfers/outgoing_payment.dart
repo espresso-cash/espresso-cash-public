@@ -44,6 +44,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     @Default(OutgoingTransferTokenType.fungibleToken)
         OutgoingTransferTokenType tokenType,
     String? reference,
+    @Default(IListConst<String>([])) IList<String> references,
     String? memo,
     String? signature,
   }) = OutgoingTransferDirect;
@@ -77,7 +78,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required String tokenAddress,
     required OutgoingTransferTokenType tokenType,
     String? memo,
-    String? reference,
+    Iterable<Ed25519HDPublicKey>? reference,
   }) =>
       OutgoingTransferDirect(
         id: const Uuid().v4().toString(),
@@ -87,8 +88,14 @@ class OutgoingTransfer with _$OutgoingTransfer {
         tokenAddress: tokenAddress,
         state: const OutgoingTransferState.draft(),
         memo: memo,
-        reference: reference,
+        references: IList(reference?.map((e) => e.toBase58()) ?? []),
         tokenType: tokenType,
+      );
+
+  IList<String> get allReferences => this.map(
+        splitKey: (_) => const IListConst([]),
+        direct: (p) =>
+            {p.reference, ...p.references}.whereNotNull().toList().lock,
       );
 
   String? get reference => this.map(
