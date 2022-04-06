@@ -26,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,6 +73,9 @@ Future<void> _start() async {
 
       final app = MultiProvider(
         providers: [
+          Provider<JupiterAggregatorClient>(
+            create: (_) => JupiterAggregatorClient(),
+          ),
           Provider<AnalyticsManager>(create: (_) => FirebaseAnalyticsManager()),
           Provider<OffchainMetadataRepository>(
             create: (_) => OffchainMetadataRepositoryImpl(),
