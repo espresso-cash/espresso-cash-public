@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/nft/bloc.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/recipient_address.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
@@ -62,7 +63,12 @@ class _State extends State<SendNftFlowScreen> implements SendFlowRouter {
 
     request?.maybeMap(
       address: (r) {
-        onAddressSubmitted(r.address);
+        _bloc.add(NftCreateOutgoingTransferEvent.recipientUpdated(r.address));
+
+        final currentRoute = context.router.topMatch;
+        if (currentRoute.name == PickRecipientTypeRoute.name) {
+          onAddressSubmitted(r.address);
+        }
       },
       orElse: () {},
     );
@@ -98,6 +104,13 @@ class _State extends State<SendNftFlowScreen> implements SendFlowRouter {
         providers: [
           BlocProvider.value(value: _bloc),
           Provider<SendFlowRouter>.value(value: this),
+          ProxyProvider<NftCreateOutgoingTransferBloc, RecipientAddress>(
+            update: (_, bloc, __) => RecipientAddress(
+              bloc.state.recipientAddress,
+            ),
+            updateShouldNotify: (previous, current) =>
+                previous.address != current.address && current.address != null,
+          ),
         ],
         child: BlocListener<NftCreateOutgoingTransferBloc,
             NftCreateOutgoingTransferState>(
