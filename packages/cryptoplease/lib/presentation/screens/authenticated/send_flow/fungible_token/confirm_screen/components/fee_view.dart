@@ -20,10 +20,11 @@ class FeeView extends StatelessWidget {
           TextSpan(
             text: formattedFee,
             children: [
-              TextSpan(
-                text: '\n≈ $formattedFiatFee',
-                style: const TextStyle(fontSize: 15),
-              ),
+              if (formattedFiatFee != null)
+                TextSpan(
+                  text: '\n≈ $formattedFiatFee',
+                  style: const TextStyle(fontSize: 15),
+                ),
             ],
           ),
           style: const TextStyle(
