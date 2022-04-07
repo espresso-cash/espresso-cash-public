@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
@@ -7,11 +8,14 @@ import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_fiat_input_widget.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/send_token_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+abstract class AmountSetter {
+  void onAmountSet();
+}
 
 class EnterAmountScreen extends StatefulWidget {
   const EnterAmountScreen({Key? key}) : super(key: key);
@@ -55,7 +59,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
             ),
             insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
           ),
-          (_) => context.read<FtSendFlowRouter>().onAmountSubmitted(),
+          (_) => context.read<AmountSetter>().onAmountSet(),
         );
   }
 
@@ -78,6 +82,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
         builder: (context, state) => CpTheme.dark(
           child: Scaffold(
             appBar: CpAppBar(
+              leading: BackButton(onPressed: () => context.router.pop()),
               nextButton: CpButton(
                 onPressed: state.tokenAmount.value != 0 ? _onSubmitted : null,
                 text: context.l10n.next,

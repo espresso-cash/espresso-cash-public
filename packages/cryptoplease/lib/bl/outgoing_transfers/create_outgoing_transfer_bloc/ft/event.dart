@@ -14,12 +14,8 @@ class FtCreateOutgoingTransferEvent with _$FtCreateOutgoingTransferEvent {
     Decimal amount,
   ) = FiatAmountUpdated;
 
-  const factory FtCreateOutgoingTransferEvent.tokenUpdated(
-    Token token, {
-
-    /// If true, it will be the only available token.
-    @Default(false) bool lock,
-  }) = TokenUpdated;
+  const factory FtCreateOutgoingTransferEvent.tokenUpdated(Token token) =
+      TokenUpdated;
 
   const factory FtCreateOutgoingTransferEvent.recipientUpdated(String address) =
       RecipientUpdated;

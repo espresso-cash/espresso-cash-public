@@ -1,19 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common/send_flow_router.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PickRecipientTypeScreen extends StatefulWidget {
-  const PickRecipientTypeScreen({Key? key}) : super(key: key);
+class PickRecipientTypeScreen extends StatelessWidget {
+  const PickRecipientTypeScreen({
+    Key? key,
+    required this.onLinkSelected,
+    required this.onDirectSelected,
+    required this.onQrCodeSelected,
+  }) : super(key: key);
 
-  @override
-  _PickRecipientTypeScreenState createState() =>
-      _PickRecipientTypeScreenState();
-}
+  final VoidCallback onLinkSelected;
+  final VoidCallback onDirectSelected;
+  final VoidCallback onQrCodeSelected;
 
-class _PickRecipientTypeScreenState extends State<PickRecipientTypeScreen> {
   @override
   Widget build(BuildContext context) => CpActionSelector(
         appBarLeading: BackButton(onPressed: () => context.router.pop()),
@@ -22,16 +23,15 @@ class _PickRecipientTypeScreenState extends State<PickRecipientTypeScreen> {
           CpActionSelectorButton(
             text: context.l10n.anyoneByCreatingUniqueCode,
             help: context.l10n.pickRecipientTypeLongText,
-            onPressed: () =>
-                context.read<SendFlowRouter>().onSplitKeySelected(),
+            onPressed: onLinkSelected,
           ),
           CpActionSelectorButton(
             text: context.l10n.solanaAddress,
-            onPressed: () => context.read<SendFlowRouter>().onDirectSelected(),
+            onPressed: onDirectSelected,
           ),
           CpActionSelectorButton(
             text: context.l10n.byScanningQRCode,
-            onPressed: () => context.read<SendFlowRouter>().onQrCodeSelected(),
+            onPressed: onQrCodeSelected,
           ),
         ],
       );

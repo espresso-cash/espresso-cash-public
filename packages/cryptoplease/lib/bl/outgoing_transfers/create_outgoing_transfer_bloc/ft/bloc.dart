@@ -31,6 +31,8 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     required Map<Token, Amount> balances,
     required ConversionRatesRepository conversionRatesRepository,
     required FiatCurrency userCurrency,
+    required OutgoingTransferType transferType,
+    Token? initialToken,
   })  : _repository = repository,
         _balances = balances,
         _conversionRatesRepository = conversionRatesRepository,
@@ -38,8 +40,10 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
           _State(
             tokenAmount: const CryptoAmount(value: 0, currency: Currency.sol),
             fiatAmount: FiatAmount(value: 0, currency: userCurrency),
-            availableTokens: IList(balances.keys),
-            transferType: OutgoingTransferType.direct,
+            availableTokens: initialToken == null
+                ? IList(balances.keys)
+                : IList([initialToken]),
+            transferType: transferType,
           ),
         ) {
     on<_Event>(_handler);
@@ -187,9 +191,6 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
       state.copyWith(
         tokenAmount: newAmount,
         fiatAmount: _toFiatAmount(newAmount),
-        availableTokens: IList(
-          event.lock ? [event.token] : state.availableTokens,
-        ),
       ),
     );
   }
