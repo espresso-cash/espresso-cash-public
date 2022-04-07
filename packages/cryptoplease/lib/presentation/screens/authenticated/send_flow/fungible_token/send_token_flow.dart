@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/recipient_address.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
@@ -161,6 +162,13 @@ class _State extends State<SendTokenFlowScreen> implements FtSendFlowRouter {
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           BlocProvider.value(value: _bloc),
+          ProxyProvider<FtCreateOutgoingTransferBloc, RecipientAddress>(
+            update: (_, bloc, __) => RecipientAddress(
+              bloc.state.recipientAddress,
+            ),
+            updateShouldNotify: (previous, current) =>
+                previous.address != current.address && current.address != null,
+          ),
           // Providing router twice, as some underlying common widgets
           // can use it as SendFlowRouter, while specific FT widgets
           // will look for FtSendFlowRouter.
