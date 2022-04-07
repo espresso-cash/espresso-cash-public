@@ -2,10 +2,6 @@ part of 'bloc.dart';
 
 @freezed
 class NftCreateOutgoingTransferEvent with _$NftCreateOutgoingTransferEvent {
-  const factory NftCreateOutgoingTransferEvent.typeUpdated(
-    OutgoingTransferType transferType,
-  ) = TypeUpdated;
-
   const factory NftCreateOutgoingTransferEvent.recipientUpdated(
     String address,
   ) = RecipientUpdated;

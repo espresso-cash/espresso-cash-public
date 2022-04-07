@@ -13,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class LinkTransferFlowScreen extends StatefulWidget {
-  const LinkTransferFlowScreen({
+class FtLinkTransferFlowScreen extends StatefulWidget {
+  const FtLinkTransferFlowScreen({
     Key? key,
     required this.onComplete,
     this.token,
@@ -24,10 +24,11 @@ class LinkTransferFlowScreen extends StatefulWidget {
   final ValueSetter<OutgoingTransferId> onComplete;
 
   @override
-  State<LinkTransferFlowScreen> createState() => _LinkTransferFlowScreenState();
+  State<FtLinkTransferFlowScreen> createState() =>
+      _FtLinkTransferFlowScreenState();
 }
 
-class _LinkTransferFlowScreenState extends State<LinkTransferFlowScreen> {
+class _FtLinkTransferFlowScreenState extends State<FtLinkTransferFlowScreen> {
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => FtCreateOutgoingTransferBloc(
@@ -59,7 +60,7 @@ class _Content extends StatefulWidget {
 class _ContentState extends State<_Content> implements AmountSetter {
   @override
   void onAmountSet() {
-    context.router.navigate(const ConfirmFungibleTokenRoute());
+    context.router.navigate(const FtConfirmRoute());
   }
 
   @override

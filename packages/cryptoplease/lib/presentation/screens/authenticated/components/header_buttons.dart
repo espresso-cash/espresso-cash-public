@@ -32,7 +32,7 @@ class SendButton extends StatelessWidget {
   Widget build(BuildContext context) => HeaderedListButton(
         label: context.l10n.send,
         icon: SvgPicture.asset(Assets.icons.send.path),
-        onPressed: () => context.navigateToSendFungibleToken(token),
+        onPressed: () => context.navigateToSendFt(token),
       );
 }
 

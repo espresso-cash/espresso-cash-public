@@ -87,7 +87,6 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
   }
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
-        typeUpdated: (event) => _onTypeUpdated(event, emit),
         maxRequested: (_) => _onMaxRequested(emit),
         tokenAmountUpdated: (event) => _onAmountUpdated(event, emit),
         fiatAmountUpdated: (event) => _onFiatAmountUpdated(event, emit),
@@ -127,12 +126,6 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
       rate: inverted,
       to: state.tokenAmount.currency,
     ) as CryptoAmount;
-  }
-
-  Future<void> _onTypeUpdated(TypeUpdated event, _Emitter emit) async {
-    if (!state.flow.isInitial()) return;
-
-    emit(state.copyWith(transferType: event.transferType));
   }
 
   Future<void> _onMaxRequested(_Emitter emit) async {

@@ -8,33 +8,40 @@ import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungib
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/link_transfer_flow_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/confirm_screen/confirm_screen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/send_nft_flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/direct_transfer_flow_screen.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/link_transfer_flow_screen.dart';
 
 const createPaymentFlowRoutes = [
   AutoRoute<void>(page: PickRecipientTypeScreen),
   AutoRoute<QrScannerRequest>(page: QrScannerScreen),
   AutoRoute<void>(
-    page: DirectTransferFlowScreen,
+    page: FtDirectTransferFlowScreen,
     children: [
       AutoRoute<QrScannerRequest>(page: QrScannerScreen),
       AutoRoute<void>(page: EnterAddressScreen),
       AutoRoute<void>(page: EnterAmountScreen),
-      AutoRoute<void>(page: ConfirmFungibleTokenScreen),
+      AutoRoute<void>(page: FtConfirmScreen),
     ],
   ),
   AutoRoute<void>(
-    page: LinkTransferFlowScreen,
+    page: FtLinkTransferFlowScreen,
     children: [
       AutoRoute<void>(page: EnterAmountScreen),
-      AutoRoute<void>(page: ConfirmFungibleTokenScreen),
+      AutoRoute<void>(page: FtConfirmScreen),
     ],
   ),
   AutoRoute<void>(
-    page: SendNftFlowScreen,
+    page: NftDirectTransferFlowScreen,
     children: [
       AutoRoute<QrScannerRequest>(page: QrScannerScreen),
       AutoRoute<void>(page: EnterAddressScreen),
-      AutoRoute<void>(page: ConfirmNonFungibleTokenScreen),
+      AutoRoute<void>(page: NftConfirmScreen),
+    ],
+  ),
+  AutoRoute<void>(
+    page: NftLinkTransferFlowScreen,
+    children: [
+      AutoRoute<void>(page: NftConfirmScreen),
     ],
   ),
 ];

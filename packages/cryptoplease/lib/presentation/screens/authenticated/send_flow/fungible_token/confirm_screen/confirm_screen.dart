@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
@@ -11,14 +12,14 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ConfirmFungibleTokenScreen extends StatefulWidget {
-  const ConfirmFungibleTokenScreen({Key? key}) : super(key: key);
+class FtConfirmScreen extends StatefulWidget {
+  const FtConfirmScreen({Key? key}) : super(key: key);
 
   @override
   _ConfirmScreenState createState() => _ConfirmScreenState();
 }
 
-class _ConfirmScreenState extends State<ConfirmFungibleTokenScreen> {
+class _ConfirmScreenState extends State<FtConfirmScreen> {
   void _onSubmitted() {
     context
         .read<FtCreateOutgoingTransferBloc>()
@@ -77,6 +78,7 @@ class _ConfirmScreenState extends State<ConfirmFungibleTokenScreen> {
             child: Scaffold(
               appBar: CpAppBar(
                 hasBorder: false,
+                leading: BackButton(onPressed: () => context.router.pop()),
                 nextButton: CpButton(
                   onPressed: _onSubmitted,
                   text: nextButtonText,
