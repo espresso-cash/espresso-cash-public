@@ -14,6 +14,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:solana/solana.dart';
 
 class FtDirectTransferFlowScreen extends StatefulWidget {
   const FtDirectTransferFlowScreen({
@@ -22,12 +23,16 @@ class FtDirectTransferFlowScreen extends StatefulWidget {
     this.initialAddress,
     this.token,
     this.amount,
+    this.reference,
+    this.memo,
   }) : super(key: key);
 
   final Token? token;
   final String? initialAddress;
   final Decimal? amount;
   final ValueSetter<OutgoingTransferId> onComplete;
+  final Iterable<Ed25519HDPublicKey>? reference;
+  final String? memo;
 
   @override
   State<FtDirectTransferFlowScreen> createState() =>
@@ -45,6 +50,8 @@ class _FtDirectTransferFlowScreenState
           userCurrency: context.read<UserPreferences>().fiatCurrency,
           transferType: OutgoingTransferType.direct,
           initialToken: widget.token,
+          memo: widget.memo,
+          reference: widget.reference,
         ),
         child: BlocListener<FtCreateOutgoingTransferBloc,
             FtCreateOutgoingTransferState>(

@@ -10,17 +10,23 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:solana/solana.dart';
 
 extension SendFtFlowExt on BuildContext {
-  void navigateToSendFt(Token? token) => navigateTo(
+  void navigateToSendFt(
+    Token? token, {
+    String? memo,
+    Iterable<Ed25519HDPublicKey>? reference,
+  }) =>
+      navigateTo(
         PickRecipientTypeRoute(
-          onDirectSelected: () => _launchDirectTransfer(
-            onComplete: _onComplete,
+          onDirectSelected: () => navigateToDirectTransferFt(
+            onTransferCreated: navigateToOutgoingTransfer,
             token: token,
           ),
           onLinkSelected: () => _launchLinkTransfer(
             token: token,
-            onComplete: _onComplete,
+            onTransferCreated: navigateToOutgoingTransfer,
           ),
           onQrCodeSelected: () async {
             final request =
@@ -38,15 +44,17 @@ extension SendFtFlowExt on BuildContext {
                   return;
                 }
 
-                _launchDirectTransfer(
-                  onComplete: (_) => Navigator.of(this).pop(),
+                navigateToDirectTransferFt(
+                  onTransferCreated: (_) => Navigator.of(this).pop(),
                   token: token,
                   initialAddress: request.recipient.toBase58(),
                   amount: request.amount,
+                  memo: memo,
+                  reference: reference,
                 );
               },
-              address: (r) => _launchDirectTransfer(
-                onComplete: _onComplete,
+              address: (r) => navigateToDirectTransferFt(
+                onTransferCreated: navigateToOutgoingTransfer,
                 initialAddress: r.address,
                 token: token,
               ),
@@ -55,37 +63,44 @@ extension SendFtFlowExt on BuildContext {
         ),
       );
 
-  void _onComplete(OutgoingTransferId id) {
-    router
+  void navigateToOutgoingTransfer(
+    OutgoingTransferId id, {
+    GlobalKey<AutoRouterState>? routerKey,
+  }) {
+    (routerKey?.currentState?.controller ?? router)
       ..popUntilRoot()
       ..navigate(OutgoingTransferFlowRoute(id: id));
     read<OutgoingTransfersBloc>().add(OutgoingTransfersEvent.submitted(id));
   }
 
   void _launchLinkTransfer({
-    required ValueSetter<OutgoingTransferId> onComplete,
+    required ValueSetter<OutgoingTransferId> onTransferCreated,
     Token? token,
   }) =>
       navigateTo(
         FtLinkTransferFlowRoute(
-          onComplete: onComplete,
+          onComplete: onTransferCreated,
           token: token,
           children: const [EnterAmountRoute()],
         ),
       );
 
-  void _launchDirectTransfer({
-    required ValueSetter<OutgoingTransferId> onComplete,
+  void navigateToDirectTransferFt({
+    required ValueSetter<OutgoingTransferId> onTransferCreated,
     String? initialAddress,
     Token? token,
     Decimal? amount,
+    String? memo,
+    Iterable<Ed25519HDPublicKey>? reference,
   }) =>
       navigateTo(
         FtDirectTransferFlowRoute(
-          onComplete: onComplete,
+          onComplete: onTransferCreated,
           token: token,
           initialAddress: initialAddress,
           amount: amount,
+          memo: memo,
+          reference: reference,
           children: [
             if (initialAddress == null)
               EnterAddressRoute(initialAddress: null)

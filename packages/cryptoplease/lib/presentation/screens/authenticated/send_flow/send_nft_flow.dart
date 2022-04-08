@@ -13,12 +13,12 @@ extension SendNftFlowExt on BuildContext {
   void navigateToSendNft(NonFungibleToken token) => navigateTo(
         PickRecipientTypeRoute(
           onDirectSelected: () => _launchDirectTransfer(
-            onComplete: _onComplete,
+            onTransferCreated: _onComplete,
             token: token,
           ),
           onLinkSelected: () => _launchLinkTransfer(
             token: token,
-            onComplete: _onComplete,
+            onTransferCreated: _onComplete,
           ),
           onQrCodeSelected: () async {
             final request =
@@ -26,7 +26,7 @@ extension SendNftFlowExt on BuildContext {
             request?.map(
               solanaPay: ignore,
               address: (r) => _launchDirectTransfer(
-                onComplete: _onComplete,
+                onTransferCreated: _onComplete,
                 token: token,
                 initialAddress: r.address,
               ),
@@ -43,25 +43,25 @@ extension SendNftFlowExt on BuildContext {
   }
 
   void _launchLinkTransfer({
-    required ValueSetter<OutgoingTransferId> onComplete,
+    required ValueSetter<OutgoingTransferId> onTransferCreated,
     required NonFungibleToken token,
   }) =>
       navigateTo(
         NftLinkTransferFlowRoute(
-          onComplete: onComplete,
+          onComplete: onTransferCreated,
           nft: token,
           children: const [NftConfirmRoute()],
         ),
       );
 
   void _launchDirectTransfer({
-    required ValueSetter<OutgoingTransferId> onComplete,
+    required ValueSetter<OutgoingTransferId> onTransferCreated,
     required NonFungibleToken token,
     String? initialAddress,
   }) =>
       navigateTo(
         NftDirectTransferFlowRoute(
-          onComplete: onComplete,
+          onComplete: onTransferCreated,
           nft: token,
           initialAddress: initialAddress,
           children: [

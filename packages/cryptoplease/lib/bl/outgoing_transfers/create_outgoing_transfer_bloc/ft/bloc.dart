@@ -32,6 +32,8 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     required ConversionRatesRepository conversionRatesRepository,
     required FiatCurrency userCurrency,
     required OutgoingTransferType transferType,
+    String? memo,
+    Iterable<Ed25519HDPublicKey>? reference,
     Token? initialToken,
   })  : _repository = repository,
         _balances = balances,
@@ -44,6 +46,8 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 ? IList(balances.keys)
                 : IList([initialToken]),
             transferType: transferType,
+            memo: memo,
+            reference: reference,
           ),
         ) {
     on<_Event>(_handler);
