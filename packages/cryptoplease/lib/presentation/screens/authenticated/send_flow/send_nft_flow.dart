@@ -1,6 +1,10 @@
 part of 'send_flow.dart';
 
 extension SendNftFlowExt on BuildContext {
+  /// Navigates to the flow for sending a non-fungible token.
+  ///
+  /// It starts with the picking recipient type: direct transfer / link
+  /// transfer.
   void navigateToSendNft(NonFungibleToken token) => navigateTo(
         PickRecipientTypeRoute(
           onDirectSelected: () => _navigateToDirectTransferNft(
@@ -26,6 +30,9 @@ extension SendNftFlowExt on BuildContext {
         ),
       );
 
+  /// Navigate to the flow for sending a non-fungible token with a link.
+  ///
+  /// After the outgoing transfer is created, [onTransferCreated] is called.
   void _navigateToLinkTransferNft({
     required ValueSetter<OutgoingTransferId> onTransferCreated,
     required NonFungibleToken token,
@@ -38,6 +45,12 @@ extension SendNftFlowExt on BuildContext {
         ),
       );
 
+  /// Navigate to the flow for sending a non-fungible token by address.
+  ///
+  /// After the outgoing transfer is created, [onTransferCreated] is called.
+  ///
+  /// If non-null [initialAddress] is passed, address input screen will be
+  /// skipped.
   void _navigateToDirectTransferNft({
     required ValueSetter<OutgoingTransferId> onTransferCreated,
     required NonFungibleToken token,

@@ -10,6 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 extension SendFlowExt on BuildContext {
+  /// Navigates to the [OutgoingTransferFlowScreen].
+  ///
+  /// If [autoSubmit] is true, it also automatically submits the transfer (sends
+  /// the transaction).
   void navigateToOutgoingTransfer(
     OutgoingTransferId id, {
     GlobalKey<AutoRouterState>? routerKey,

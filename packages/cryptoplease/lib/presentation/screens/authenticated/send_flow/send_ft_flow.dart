@@ -1,6 +1,13 @@
 part of 'send_flow.dart';
 
 extension SendFtFlowExt on BuildContext {
+  /// Navigates to the flow for sending a fungible token.
+  ///
+  /// It starts with the picking recipient type: direct transfer / link
+  /// transfer.
+  ///
+  /// Passing non-null [token] will "lock" the token selector and prevent the
+  /// user from changing it.
   void navigateToSendFt(
     Token? token, {
     String? memo,
@@ -51,6 +58,12 @@ extension SendFtFlowExt on BuildContext {
         ),
       );
 
+  /// Navigate to the flow for sending a fungible token with a link.
+  ///
+  /// After the outgoing transfer is created, [onTransferCreated] is called.
+  ///
+  /// Passing non-null [token] will "lock" the token selector and prevent the
+  /// user from changing it.
   void _navigateToLinkTransferFt({
     required ValueSetter<OutgoingTransferId> onTransferCreated,
     Token? token,
@@ -63,6 +76,17 @@ extension SendFtFlowExt on BuildContext {
         ),
       );
 
+  /// Navigate to the flow for sending a fungible token by address.
+  ///
+  /// After the outgoing transfer is created, [onTransferCreated] is called.
+  ///
+  /// Passing non-null [token] will "lock" the token selector and prevent the
+  /// user from changing it.
+  ///
+  /// If non-null [initialAddress] is passed, address input screen will be
+  /// skipped.
+  ///
+  /// If non-null [amount] is passed, amount input screen will be skipped.
   void navigateToDirectTransferFt({
     required ValueSetter<OutgoingTransferId> onTransferCreated,
     String? initialAddress,
