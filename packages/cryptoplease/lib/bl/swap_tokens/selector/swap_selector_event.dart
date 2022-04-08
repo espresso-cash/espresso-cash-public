@@ -9,4 +9,10 @@ class SwapSelectorEvent with _$SwapSelectorEvent {
 
   const factory SwapSelectorEvent.outputSelected(Token outputToken) =
       SwapSelectorOutputEvent;
+
+  const factory SwapSelectorEvent.amountUpdated(Decimal decimal) =
+      SwapSelectorAmountEvent;
+
+  const factory SwapSelectorEvent.slippageUpdated(double slippage) =
+      SwapSelectorSlippageEvent;
 }
