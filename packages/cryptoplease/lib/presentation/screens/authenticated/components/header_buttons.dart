@@ -4,7 +4,7 @@ import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/routes.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/send_ft_flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/send_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

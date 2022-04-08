@@ -1,32 +1,23 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';
-import 'package:cryptoplease/bl/qr_scanner/qr_scanner_request.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:cryptoplease/presentation/routes.dart';
-import 'package:dfunc/dfunc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
+part of 'send_flow.dart';
 
 extension SendNftFlowExt on BuildContext {
   void navigateToSendNft(NonFungibleToken token) => navigateTo(
         PickRecipientTypeRoute(
-          onDirectSelected: () => _launchDirectTransfer(
-            onTransferCreated: _onComplete,
+          onDirectSelected: () => _navigateToDirectTransferNft(
+            onTransferCreated: navigateToOutgoingTransfer,
             token: token,
           ),
-          onLinkSelected: () => _launchLinkTransfer(
+          onLinkSelected: () => _navigateToLinkTransferNft(
             token: token,
-            onTransferCreated: _onComplete,
+            onTransferCreated: navigateToOutgoingTransfer,
           ),
           onQrCodeSelected: () async {
             final request =
                 await router.push<QrScannerRequest>(const QrScannerRoute());
             request?.map(
               solanaPay: ignore,
-              address: (r) => _launchDirectTransfer(
-                onTransferCreated: _onComplete,
+              address: (r) => _navigateToDirectTransferNft(
+                onTransferCreated: navigateToOutgoingTransfer,
                 token: token,
                 initialAddress: r.address,
               ),
@@ -35,14 +26,7 @@ extension SendNftFlowExt on BuildContext {
         ),
       );
 
-  void _onComplete(OutgoingTransferId id) {
-    router
-      ..popUntilRoot()
-      ..navigate(OutgoingTransferFlowRoute(id: id));
-    read<OutgoingTransfersBloc>().add(OutgoingTransfersEvent.submitted(id));
-  }
-
-  void _launchLinkTransfer({
+  void _navigateToLinkTransferNft({
     required ValueSetter<OutgoingTransferId> onTransferCreated,
     required NonFungibleToken token,
   }) =>
@@ -54,7 +38,7 @@ extension SendNftFlowExt on BuildContext {
         ),
       );
 
-  void _launchDirectTransfer({
+  void _navigateToDirectTransferNft({
     required ValueSetter<OutgoingTransferId> onTransferCreated,
     required NonFungibleToken token,
     String? initialAddress,
