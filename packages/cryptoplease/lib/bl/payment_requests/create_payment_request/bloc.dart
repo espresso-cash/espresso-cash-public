@@ -53,6 +53,9 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         payerNameUpdated: (event) => _onPayerNameUpdated(event, emit),
+        tokenAmountUpdated: (event) => _onAmountUpdated(event, emit),
+        fiatAmountUpdated: (event) => _onFiatAmountUpdated(event, emit),
+        tokenUpdated: (event) => _onTokenUpdated(event, emit),
         submitted: (event) => _onSubmitted(event, emit),
       );
 
@@ -62,6 +65,18 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   ) async {
     emit(state.copyWith(payerName: event.value));
   }
+
+  Future<void> _onAmountUpdated(
+    TokenAmountUpdated event,
+    _Emitter emit,
+  ) async {}
+
+  Future<void> _onFiatAmountUpdated(
+    FiatAmountUpdated event,
+    _Emitter emit,
+  ) async {}
+
+  Future<void> _onTokenUpdated(TokenUpdated event, _Emitter emit) async {}
 
   Future<void> _onSubmitted(Submitted event, _Emitter emit) async {
     if (state.payerName.isEmpty) throw StateError('Payer name is empty.');

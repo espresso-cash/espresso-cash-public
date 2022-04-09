@@ -25,7 +25,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
     AutoRoute<void>(page: TransactionDetailsScreen),
     ...createPaymentFlowRoutes,
     AutoRoute<void>(page: OutgoingTransferFlowScreen),
-    receiveFlowRoutes,
+    ...receiveFlowRoutes,
     AutoRoute<void>(page: AddFundsScreen),
     backupPhraseFlowRoutes,
     appLockSetupFlowRoutes,
