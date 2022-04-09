@@ -1,4 +1,5 @@
 import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/models.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
@@ -63,6 +64,11 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
     if (link == null) return;
     _tryProcessFirstLink(link);
     _tryProcessSecondLink(link);
+    _tryProcessSolanaPayLink(link);
+  }
+
+  void _tryProcessSolanaPayLink(Uri link) {
+    context.read<PendingRequestBloc>().add(PendingRequestEvent.linkAdded(link));
   }
 
   void _tryProcessFirstLink(Uri link) {

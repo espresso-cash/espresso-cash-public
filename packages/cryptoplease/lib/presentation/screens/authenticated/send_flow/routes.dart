@@ -4,30 +4,44 @@ import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common/pick_recipient_type_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/common/qr_scanner_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/confirm_screen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount/enter_amount_screen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/send_token_flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/direct_transfer_flow_screen.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/enter_amount_screen.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/link_transfer_flow_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/confirm_screen/confirm_screen.dart';
-
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/send_nft_flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/direct_transfer_flow_screen.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/link_transfer_flow_screen.dart';
 
 const createPaymentFlowRoutes = [
+  AutoRoute<void>(page: PickRecipientTypeScreen),
+  AutoRoute<QrScannerRequest>(page: QrScannerScreen),
   AutoRoute<void>(
-    page: SendTokenFlowScreen,
+    page: FtDirectTransferFlowScreen,
     children: [
-      AutoRoute<void>(path: '', page: PickRecipientTypeScreen),
       AutoRoute<QrScannerRequest>(page: QrScannerScreen),
       AutoRoute<void>(page: EnterAddressScreen),
       AutoRoute<void>(page: EnterAmountScreen),
-      AutoRoute<void>(page: ConfirmFungibleTokenScreen),
+      AutoRoute<void>(page: FtConfirmScreen),
     ],
   ),
   AutoRoute<void>(
-    page: SendNftFlowScreen,
+    page: FtLinkTransferFlowScreen,
     children: [
-      AutoRoute<void>(path: '', page: PickRecipientTypeScreen),
+      AutoRoute<void>(page: EnterAmountScreen),
+      AutoRoute<void>(page: FtConfirmScreen),
+    ],
+  ),
+  AutoRoute<void>(
+    page: NftDirectTransferFlowScreen,
+    children: [
       AutoRoute<QrScannerRequest>(page: QrScannerScreen),
       AutoRoute<void>(page: EnterAddressScreen),
-      AutoRoute<void>(page: ConfirmNonFungibleTokenScreen),
+      AutoRoute<void>(page: NftConfirmScreen),
+    ],
+  ),
+  AutoRoute<void>(
+    page: NftLinkTransferFlowScreen,
+    children: [
+      AutoRoute<void>(page: NftConfirmScreen),
     ],
   ),
 ];

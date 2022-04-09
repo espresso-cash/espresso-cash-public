@@ -10,7 +10,7 @@ class FtCreateOutgoingTransferState with _$FtCreateOutgoingTransferState {
     Amount? maxFee,
     String? recipientAddress,
     String? memo,
-    String? reference,
+    Iterable<Ed25519HDPublicKey>? reference,
     @Default(FlowInitial<Exception, OutgoingTransferId>())
         Flow<Exception, OutgoingTransferId> flow,
   }) = _FtCreateOutgoingTransferState;

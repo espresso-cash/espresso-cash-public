@@ -10,6 +10,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/solana.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';
@@ -30,6 +31,10 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     required Map<Token, Amount> balances,
     required ConversionRatesRepository conversionRatesRepository,
     required FiatCurrency userCurrency,
+    required OutgoingTransferType transferType,
+    String? memo,
+    Iterable<Ed25519HDPublicKey>? reference,
+    Token? initialToken,
   })  : _repository = repository,
         _balances = balances,
         _conversionRatesRepository = conversionRatesRepository,
@@ -37,8 +42,12 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
           _State(
             tokenAmount: const CryptoAmount(value: 0, currency: Currency.sol),
             fiatAmount: FiatAmount(value: 0, currency: userCurrency),
-            availableTokens: IList(balances.keys),
-            transferType: OutgoingTransferType.direct,
+            availableTokens: initialToken == null
+                ? IList(balances.keys)
+                : IList([initialToken]),
+            transferType: transferType,
+            memo: memo,
+            reference: reference,
           ),
         ) {
     on<_Event>(_handler);
@@ -82,7 +91,6 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
   }
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
-        typeUpdated: (event) => _onTypeUpdated(event, emit),
         maxRequested: (_) => _onMaxRequested(emit),
         tokenAmountUpdated: (event) => _onAmountUpdated(event, emit),
         fiatAmountUpdated: (event) => _onFiatAmountUpdated(event, emit),
@@ -122,12 +130,6 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
       rate: inverted,
       to: state.tokenAmount.currency,
     ) as CryptoAmount;
-  }
-
-  Future<void> _onTypeUpdated(TypeUpdated event, _Emitter emit) async {
-    if (!state.flow.isInitial()) return;
-
-    emit(state.copyWith(transferType: event.transferType));
   }
 
   Future<void> _onMaxRequested(_Emitter emit) async {
@@ -186,9 +188,6 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
       state.copyWith(
         tokenAmount: newAmount,
         fiatAmount: _toFiatAmount(newAmount),
-        availableTokens: IList(
-          event.lock ? [event.token] : state.availableTokens,
-        ),
       ),
     );
   }

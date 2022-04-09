@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/activities/activity.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
@@ -6,7 +5,7 @@ import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/presentation/routes.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -74,7 +73,7 @@ class _SKOutgoingTile extends StatelessWidget {
   final OutgoingTransfer transfer;
 
   void _onTap(BuildContext context) =>
-      context.router.navigate(OutgoingTransferFlowRoute(id: transfer.id));
+      context.navigateToOutgoingTransfer(transfer.id, autoSubmit: false);
 
   @override
   Widget build(BuildContext context) {

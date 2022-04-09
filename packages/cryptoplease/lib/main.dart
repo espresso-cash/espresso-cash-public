@@ -4,6 +4,7 @@ import 'package:cryptoplease/bl/app_lock/app_lock_bloc.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/puzzle_reminder/puzzle_reminder_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
@@ -119,6 +120,7 @@ Future<void> _start() async {
               balancesBloc: context.read<BalancesBloc>(),
             ),
           ),
+          BlocProvider(create: (_) => PendingRequestBloc())
         ],
         child: const DynamicLinksController(child: CryptopleaseApp()),
       );

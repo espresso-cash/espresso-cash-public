@@ -6,8 +6,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/src/solana_pay/exceptions.dart';
 
 extension SolanaClientSolanaPay on SolanaClient {
-  /// Creates, signs and sends Solana Pay transaction from [payer] to
-  /// [recipient].
+  /// Creates Solana Pay transaction from [payer] to [recipient].
   ///
   /// If [splToken] is null, the transaction will be in SOL.
   ///
@@ -17,14 +16,13 @@ extension SolanaClientSolanaPay on SolanaClient {
   ///
   /// [1]:https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#recipient
   /// [2]:https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#amount
-  Future<TransactionId> sendSolanaPay({
+  Future<Message> createSolanaPayMessage({
     required Ed25519HDKeyPair payer,
     required Ed25519HDPublicKey recipient,
     required Decimal amount,
     Ed25519HDPublicKey? splToken,
     Iterable<Ed25519HDPublicKey>? reference,
     String? memo,
-    SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
     // Check that the payer and recipient accounts exist.
@@ -146,20 +144,48 @@ extension SolanaClientSolanaPay on SolanaClient {
       );
     }
 
-    final message = Message(
+    return Message(
       instructions: [
         if (memo != null) MemoInstruction(signers: [], memo: memo),
         instruction,
       ],
     );
-
-    return sendAndConfirmTransaction(
-      message: message,
-      signers: [payer],
-      onSigned: onSigned ?? ignoreOnSigned,
-      commitment: commitment,
-    );
   }
+
+  /// Creates, signs and sends Solana Pay transaction from [payer] to
+  /// [recipient].
+  ///
+  /// If [splToken] is null, the transaction will be in SOL.
+  ///
+  /// Recipient is `recipient` in the [Solana Pay spec][1].
+  ///
+  /// Amount is `amount` in the [Solana Pay spec][2].
+  ///
+  /// [1]:https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#recipient
+  /// [2]:https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#amount
+  Future<TransactionId> sendSolanaPay({
+    required Ed25519HDKeyPair payer,
+    required Ed25519HDPublicKey recipient,
+    required Decimal amount,
+    Ed25519HDPublicKey? splToken,
+    Iterable<Ed25519HDPublicKey>? reference,
+    String? memo,
+    SignatureCallback? onSigned,
+    Commitment commitment = Commitment.finalized,
+  }) async =>
+      sendAndConfirmTransaction(
+        message: await createSolanaPayMessage(
+          payer: payer,
+          recipient: recipient,
+          amount: amount,
+          splToken: splToken,
+          reference: reference,
+          memo: memo,
+        ),
+        signers: [payer],
+        onSigned: onSigned ?? ignoreOnSigned,
+        commitment: commitment,
+      );
 
   /// Finds the oldest transaction signature referencing a given public key.
   Future<TransactionId?> findSolanaPayTransaction({

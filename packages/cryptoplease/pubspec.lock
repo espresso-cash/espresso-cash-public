@@ -247,7 +247,7 @@ packages:
     source: hosted
     version: "4.1.0"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       url: "https://pub.dartlang.org"
@@ -1237,7 +1237,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.21.0"
+    version: "0.22.0-dev.3"
   source_gen:
     dependency: transitive
     description:
