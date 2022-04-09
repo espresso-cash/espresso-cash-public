@@ -40,7 +40,12 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         _conversionRatesRepository = conversionRatesRepository,
         super(
           _State(
-            tokenAmount: const CryptoAmount(value: 0, currency: Currency.sol),
+            tokenAmount: initialToken == null
+                ? const CryptoAmount(value: 0, currency: Currency.sol)
+                : CryptoAmount(
+                    value: 0,
+                    currency: CryptoCurrency(token: initialToken),
+                  ),
             fiatAmount: FiatAmount(value: 0, currency: userCurrency),
             availableTokens: initialToken == null
                 ? IList(balances.keys)
