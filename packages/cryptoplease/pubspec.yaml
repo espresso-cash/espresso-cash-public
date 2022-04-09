@@ -22,7 +22,7 @@ dependencies:
   fast_immutable_collections: ^7.0.3
   firebase_analytics: ^9.1.2
   firebase_core: ^1.4.0
-  firebase_dynamic_links: ^2.0.7
+  firebase_dynamic_links: ">=2.0.7 <5.0.0"
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
