@@ -14,7 +14,7 @@ class DbPaymentRequestRepository implements PaymentRequestRepository {
   final MyDatabase db;
 
   @override
-  Stream<IList<String>> getAllIds() {
+  Stream<IList<Product2<String, DateTime>>> watchAllIds() {
     final query = db.selectOnly(db.paymentRequestRows)
       ..addColumns([db.paymentRequestRows.id, db.paymentRequestRows.created])
       ..orderBy([
@@ -26,14 +26,18 @@ class DbPaymentRequestRepository implements PaymentRequestRepository {
 
     return query.watch().map(
           (rows) => rows
-              .map((row) => row.read(db.paymentRequestRows.id))
-              .whereType<String>()
+              .map(
+                (row) => Product2(
+                  row.read(db.paymentRequestRows.id)!,
+                  row.read(db.paymentRequestRows.created)!,
+                ),
+              )
               .toIList(),
         );
   }
 
   @override
-  Stream<PaymentRequest> getById(String id) {
+  Stream<PaymentRequest> watchById(String id) {
     final query = db.select(db.paymentRequestRows)
       ..where((p) => p.id.equals(id));
 

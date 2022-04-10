@@ -52,7 +52,7 @@ class SolanaClient {
     required ConfirmationStatus status,
     Duration? timeout,
   }) async {
-    final subscriptionClient = _createSubscriptionClient();
+    final subscriptionClient = createSubscriptionClient();
 
     try {
       await subscriptionClient.waitForSignatureStatus(
@@ -65,7 +65,7 @@ class SolanaClient {
     }
   }
 
-  SubscriptionClient _createSubscriptionClient() =>
+  SubscriptionClient createSubscriptionClient() =>
       SubscriptionClient(_websocketUrl);
 }
 

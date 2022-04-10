@@ -3,7 +3,6 @@ import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/payment_requests/create_payment_request/bloc.dart';
-import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
@@ -13,7 +12,6 @@ import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/lin
 import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/link_request/request_amount_screen.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -98,19 +96,4 @@ class _ContentState extends State<_Content>
           buildWhen: (s1, s2) => s1.flow != s2.flow,
         ),
       );
-}
-
-class StubPaymentRequestRepository implements PaymentRequestRepository {
-  @override
-  Stream<IList<String>> getAllIds() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Stream<PaymentRequest> getById(String id) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> save(PaymentRequest payment) async {}
 }

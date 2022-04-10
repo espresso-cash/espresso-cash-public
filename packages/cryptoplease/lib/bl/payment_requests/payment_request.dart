@@ -1,3 +1,7 @@
+import 'package:cryptoplease/bl/amount.dart';
+import 'package:cryptoplease/bl/currency.dart';
+import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana_pay.dart';
 
@@ -22,4 +26,23 @@ extension SolanaPayRequestExt on SolanaPayRequest {
         scheme: 'https',
         host: 'solana.cryptoplease.link',
       );
+
+  CryptoAmount? cryptoAmount(TokenList tokenList) {
+    final amount = this.amount;
+    if (amount == null) return null;
+
+    final splToken = this.splToken;
+    final token = splToken == null
+        ? Token.sol
+        : tokenList.findTokenByMint(splToken.toBase58());
+
+    if (token == null) return null;
+
+    final currency = CryptoCurrency(token: token);
+
+    return CryptoAmount(
+      currency: currency,
+      value: currency.decimalToInt(amount),
+    );
+  }
 }
