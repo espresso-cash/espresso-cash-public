@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
+import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/payment_requests/create_payment_request/bloc.dart';
 import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
@@ -38,6 +39,7 @@ class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
           initialToken: widget.initialToken,
           // repository: context.read<PaymentRequestRepository>(),
           repository: StubPaymentRequestRepository(),
+          conversionRatesRepository: context.read<ConversionRatesRepository>(),
         ),
         child: const _Content(),
       );
@@ -84,6 +86,7 @@ class _ContentState extends State<_Content>
               error,
             ),
             success: (request) {
+              print(request);
               context.router.popUntilRoot();
               // TODO(KB): navigate to details
             },

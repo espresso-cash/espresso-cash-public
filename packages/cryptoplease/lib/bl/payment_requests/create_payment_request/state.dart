@@ -10,4 +10,8 @@ class CreatePaymentRequestState with _$CreatePaymentRequestState {
     @Default(Flow<Exception, PaymentRequest>.initial())
         Flow<Exception, PaymentRequest> flow,
   }) = _CreatePaymentRequestState;
+
+  const CreatePaymentRequestState._();
+
+  Token get token => tokenAmount.currency.token;
 }

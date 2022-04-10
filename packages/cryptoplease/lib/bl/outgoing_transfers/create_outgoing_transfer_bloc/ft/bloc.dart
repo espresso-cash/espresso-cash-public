@@ -107,35 +107,18 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         submitted: (_) => _onSubmitted(emit),
       );
 
-  FiatAmount _toFiatAmount(CryptoAmount tokenAmount) {
-    final rate = _conversionRatesRepository.readRate(
-      tokenAmount.currency,
-      to: state.fiatAmount.currency,
-    );
+  FiatAmount _toFiatAmount(CryptoAmount tokenAmount) =>
+      tokenAmount.toFiatAmount(
+        state.fiatAmount.currency,
+        ratesRepository: _conversionRatesRepository,
+      ) ??
+      state.fiatAmount.copyWith(value: 0);
 
-    if (rate == null) return state.fiatAmount.copyWith(value: 0);
-
-    return tokenAmount.convert(rate: rate, to: state.fiatAmount.currency)
-        as FiatAmount;
-  }
-
-  CryptoAmount? _toTokenAmount(FiatAmount fiatAmount) {
-    final rate = _conversionRatesRepository.readRate(
-      CryptoCurrency(token: state.token),
-      to: fiatAmount.currency,
-    );
-
-    if (rate == null) return null;
-
-    final inverted = rate.inverse.toDecimal(
-      scaleOnInfinitePrecision: state.token.decimals,
-    );
-
-    return fiatAmount.convert(
-      rate: inverted,
-      to: state.tokenAmount.currency,
-    ) as CryptoAmount;
-  }
+  CryptoAmount? _toTokenAmount(FiatAmount fiatAmount) =>
+      fiatAmount.toTokenAmount(
+        state.token,
+        ratesRepository: _conversionRatesRepository,
+      );
 
   Future<void> _onMaxRequested(_Emitter emit) async {
     if (!state.flow.isInitial()) return;
@@ -155,8 +138,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
   Future<void> _onAmountUpdated(TokenAmountUpdated event, _Emitter emit) async {
     if (!state.flow.isInitial()) return;
 
-    final tokenValue = state.tokenAmount.currency.decimalToInt(event.amount);
-    final tokenAmount = state.tokenAmount.copyWith(value: tokenValue);
+    final tokenAmount = state.tokenAmount.copyWithDecimal(event.amount);
     final fiatAmount = _toFiatAmount(tokenAmount);
 
     emit(state.copyWith(tokenAmount: tokenAmount, fiatAmount: fiatAmount));
@@ -168,8 +150,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
   ) async {
     if (!state.flow.isInitial()) return;
 
-    final fiatValue = state.fiatAmount.currency.decimalToInt(event.amount);
-    final fiatAmount = state.fiatAmount.copyWith(value: fiatValue);
+    final fiatAmount = state.fiatAmount.copyWithDecimal(event.amount);
     final tokenAmount = _toTokenAmount(fiatAmount);
 
     if (tokenAmount == null) return;

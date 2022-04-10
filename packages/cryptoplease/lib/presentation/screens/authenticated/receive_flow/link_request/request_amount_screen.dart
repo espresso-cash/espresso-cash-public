@@ -37,7 +37,7 @@ class _RequestAmountScreenState extends State<RequestAmountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<CreatePaymentRequestBloc>().state;
+    final state = context.watch<CreatePaymentRequestBloc>().state;
 
     return CpTheme.dark(
       child: Scaffold(

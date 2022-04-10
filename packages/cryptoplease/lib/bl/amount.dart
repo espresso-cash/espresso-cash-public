@@ -1,3 +1,4 @@
+import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:decimal/decimal.dart';
@@ -107,4 +108,42 @@ extension AmountExt on Amount {
 
 extension CryptoAmountExt on CryptoAmount {
   Token get token => currency.token;
+
+  FiatAmount? toFiatAmount(
+    FiatCurrency currency, {
+    required ConversionRatesRepository ratesRepository,
+  }) {
+    final rate = ratesRepository.readRate(this.currency, to: currency);
+
+    if (rate == null) return null;
+
+    return convert(rate: rate, to: currency) as FiatAmount;
+  }
+
+  CryptoAmount copyWithDecimal(Decimal decimal) =>
+      copyWith(value: currency.decimalToInt(decimal));
+}
+
+extension FiatAmountExt on FiatAmount {
+  CryptoAmount? toTokenAmount(
+    Token token, {
+    required ConversionRatesRepository ratesRepository,
+  }) {
+    final rate = ratesRepository.readRate(
+      CryptoCurrency(token: token),
+      to: currency,
+    );
+
+    if (rate == null) return null;
+
+    final inverted = rate.inverse.toDecimal(
+      scaleOnInfinitePrecision: token.decimals,
+    );
+
+    return convert(rate: inverted, to: CryptoCurrency(token: token))
+        as CryptoAmount;
+  }
+
+  FiatAmount copyWithDecimal(Decimal decimal) =>
+      copyWith(value: currency.decimalToInt(decimal));
 }

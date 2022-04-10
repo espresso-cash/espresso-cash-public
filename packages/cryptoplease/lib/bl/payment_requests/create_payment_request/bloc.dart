@@ -1,4 +1,5 @@
 import 'package:cryptoplease/bl/amount.dart';
+import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/flow.dart';
 import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
@@ -28,9 +29,11 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
     required Map<Token, Amount> balances,
     Token? initialToken,
     required PaymentRequestRepository repository,
+    required ConversionRatesRepository conversionRatesRepository,
     FirebaseDynamicLinks? dynamicLinks,
   })  : _dynamicLinks = dynamicLinks ?? FirebaseDynamicLinks.instance,
         _repository = repository,
+        _conversionRatesRepository = conversionRatesRepository,
         super(
           CreatePaymentRequestState(
             availableTokens: initialToken == null
@@ -50,6 +53,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
 
   final FirebaseDynamicLinks _dynamicLinks;
   final PaymentRequestRepository _repository;
+  final ConversionRatesRepository _conversionRatesRepository;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         payerNameUpdated: (event) => _onPayerNameUpdated(event, emit),
@@ -57,6 +61,19 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
         fiatAmountUpdated: (event) => _onFiatAmountUpdated(event, emit),
         tokenUpdated: (event) => _onTokenUpdated(event, emit),
         submitted: (event) => _onSubmitted(event, emit),
+      );
+
+  FiatAmount _toFiatAmount(CryptoAmount tokenAmount) =>
+      tokenAmount.toFiatAmount(
+        state.fiatAmount.currency,
+        ratesRepository: _conversionRatesRepository,
+      ) ??
+      state.fiatAmount.copyWith(value: 0);
+
+  CryptoAmount? _toTokenAmount(FiatAmount fiatAmount) =>
+      fiatAmount.toTokenAmount(
+        state.token,
+        ratesRepository: _conversionRatesRepository,
       );
 
   Future<void> _onPayerNameUpdated(
@@ -69,14 +86,48 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   Future<void> _onAmountUpdated(
     TokenAmountUpdated event,
     _Emitter emit,
-  ) async {}
+  ) async {
+    if (!state.flow.isInitial()) return;
+
+    final tokenAmount = state.tokenAmount.copyWithDecimal(event.amount);
+    final fiatAmount = _toFiatAmount(tokenAmount);
+
+    emit(state.copyWith(tokenAmount: tokenAmount, fiatAmount: fiatAmount));
+  }
 
   Future<void> _onFiatAmountUpdated(
     FiatAmountUpdated event,
     _Emitter emit,
-  ) async {}
+  ) async {
+    if (!state.flow.isInitial()) return;
 
-  Future<void> _onTokenUpdated(TokenUpdated event, _Emitter emit) async {}
+    final fiatAmount = state.fiatAmount.copyWithDecimal(event.amount);
+    final tokenAmount = _toTokenAmount(fiatAmount);
+
+    if (tokenAmount == null) return;
+
+    emit(state.copyWith(tokenAmount: tokenAmount, fiatAmount: fiatAmount));
+  }
+
+  Future<void> _onTokenUpdated(TokenUpdated event, _Emitter emit) async {
+    if (!state.flow.isInitial()) return;
+
+    if (!state.availableTokens.contains(event.token)) return;
+
+    final currency = CryptoCurrency(token: event.token);
+    final value = state.tokenAmount.decimal;
+    final newAmount = state.tokenAmount.copyWith(
+      currency: currency,
+      value: currency.decimalToInt(value),
+    );
+
+    emit(
+      state.copyWith(
+        tokenAmount: newAmount,
+        fiatAmount: _toFiatAmount(newAmount),
+      ),
+    );
+  }
 
   Future<void> _onSubmitted(Submitted event, _Emitter emit) async {
     if (state.payerName.isEmpty) throw StateError('Payer name is empty.');
@@ -93,11 +144,10 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
       splToken: token == Token.sol ? null : token.publicKey,
       reference: [reference],
     );
-    final String url = request.toUrl();
 
     final linkParams = DynamicLinkParameters(
       uriPrefix: 'https://cryptoplease.page.link',
-      link: Uri.parse(url),
+      link: request.toUniversalLink(),
       androidParameters: const AndroidParameters(
         packageName: 'com.pleasecrypto.flutter',
         minimumVersion: 104,

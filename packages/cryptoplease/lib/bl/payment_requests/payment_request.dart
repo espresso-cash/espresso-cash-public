@@ -16,3 +16,10 @@ class PaymentRequest with _$PaymentRequest {
 }
 
 enum PaymentRequestState { initial, completed, error }
+
+extension SolanaPayRequestExt on SolanaPayRequest {
+  Uri toUniversalLink() => Uri.parse(toUrl()).replace(
+        scheme: 'https',
+        host: 'solana.cryptoplease.link',
+      );
+}
