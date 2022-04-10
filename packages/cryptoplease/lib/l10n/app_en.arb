@@ -143,6 +143,40 @@
       }
     }
   },
+  "paymentRequestInitialNotificationTitle": "You requested {amount} from {payer}",
+  "@paymentRequestInitialNotificationTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "payer": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentRequestSuccessNotificationTitle": "{payer} paid your request of {amount}",
+  "@paymentRequestSuccessNotificationTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "payer": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} from {payer}",
+  "@paymentRequestFailureNotificationTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "payer": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentRequestNotificationSubtitle": "Payment request",
   "splitKeyOutgoingSentNotificationTitle": "Sent {amount}",
   "@splitKeyOutgoingSentNotificationTitle": {
     "placeholders": {
@@ -195,7 +229,7 @@
   "confirmed": "Confirmed",
   "failed": "Failed",
   "pending": "Pending",
-  "supportEmail":"support@cryptoplease.com",
+  "supportEmail": "support@cryptoplease.com",
   "supportSubtitle": "Do you still need help?\nWrite us an email, we will get back to you shortly.",
   "openEmailApp": "Open email app",
   "cameraPermissionsTitle": "Camera Permissions",
@@ -222,5 +256,18 @@
   "receiveFlowLinkTitle": "With a link",
   "receiveFlowLinkDescription": "You can request money to anyone by email, whatsapp, signal, telegram.",
   "receiveFlowPayerNameLabel": "Request to",
-  "receiveFlowPayerNamePlaceholder": "Name of the payer"
+  "receiveFlowPayerNamePlaceholder": "Name of the payer",
+  "sharePaymentRequestLinkTitle": "Request has been created!",
+  "sharePaymentRequestLinkDescription": "The recipient will need to click the link below to pay you.",
+  "sharePaymentRequestLinkMessage": "Hi!\n\nTo pay me {amount}, you just need to click on this link:\n\n{link}",
+  "@sharePaymentRequestLinkMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  }
 }

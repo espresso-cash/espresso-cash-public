@@ -55,14 +55,6 @@ class _TokenFiatSwitcherInputState extends State<TokenFiatInputWidget> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (widget.tokenAmount.value != 0) {
-      _refreshFromWidget(widget.tokenAmount);
-    }
-  }
-
-  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
