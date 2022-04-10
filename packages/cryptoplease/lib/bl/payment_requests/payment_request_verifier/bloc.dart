@@ -64,10 +64,11 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
         .flatMap((a) => solanaPayTransaction())
         .mergeWith([solanaPayTransaction()]).listen(
       (id) {
-        add(TxAdded(id));
         _txSubscription?.cancel();
+        add(TxAdded(id));
       },
       onError: (dynamic e) {
+        _txSubscription?.cancel();
         add(WaitingFailed(e is Exception ? e : Exception(e)));
       },
     );
