@@ -1,3 +1,7 @@
+## 1.33.1
+
+ - **FIX**: Enable receive flow for prod.
+
 ## 1.33.0
 
 > Note: This release has breaking changes.
