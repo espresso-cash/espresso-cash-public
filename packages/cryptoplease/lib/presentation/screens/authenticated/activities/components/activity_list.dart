@@ -4,12 +4,12 @@ import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
 import 'package:cryptoplease/bl/payment_requests/payment_request_verifier/bloc.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
-import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/outgoing_transfer_flow/outgoing_transfer_flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/link_details/flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -80,10 +80,8 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
           }
 
           String title() {
-            final formattedAmount = data.payRequest
-                    .cryptoAmount(TokenList())
-                    ?.format(DeviceLocale.localeOf(context)) ??
-                '';
+            final formattedAmount =
+                data.formattedAmount(DeviceLocale.localeOf(context));
 
             switch (data.state) {
               case PaymentRequestState.initial:
@@ -113,7 +111,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
             ),
             lazy: false,
             child: ListTile(
-              // onTap: () => _onTap(context),
+              onTap: () => context.navigateToPaymentRequest(data.id),
               leading: CircleAvatar(
                 radius: 25,
                 backgroundColor: CpColors.yellowColor,

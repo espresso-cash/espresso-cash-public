@@ -143,7 +143,7 @@
       }
     }
   },
-  "paymentRequestInitialNotificationTitle": "You request {amount} from {payer}",
+  "paymentRequestInitialNotificationTitle": "You requested {amount} from {payer}",
   "@paymentRequestInitialNotificationTitle": {
     "placeholders": {
       "amount": {
@@ -256,5 +256,18 @@
   "receiveFlowLinkTitle": "With a link",
   "receiveFlowLinkDescription": "You can request money to anyone by email, whatsapp, signal, telegram.",
   "receiveFlowPayerNameLabel": "Request to",
-  "receiveFlowPayerNamePlaceholder": "Name of the payer"
+  "receiveFlowPayerNamePlaceholder": "Name of the payer",
+  "sharePaymentRequestLinkTitle": "Request has been created!",
+  "sharePaymentRequestLinkDescription": "The recipient will need to click the link below to pay you.",
+  "sharePaymentRequestLinkMessage": "Hi!\n\nTo pay me {amount}, you just need to click on this link:\n\n{link}",
+  "@sharePaymentRequestLinkMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  }
 }

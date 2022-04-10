@@ -8,6 +8,7 @@ import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
+import 'package:cryptoplease/presentation/components/share_message_wrapper.dart';
 import 'package:cryptoplease/presentation/conversion_rates.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -29,7 +30,6 @@ class SplitKeyReadyScreen extends StatefulWidget {
 }
 
 class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
-  final _scrollController = ScrollController();
   Uri _firstLink = Uri();
 
   @override
@@ -82,36 +82,7 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
           direction: Axis.vertical,
           children: [
             Flexible(
-              child: Container(
-                margin: const EdgeInsets.all(24),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 4,
-                ),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                ),
-                child: CupertinoScrollbar(
-                  isAlwaysShown: true,
-                  radius: const Radius.circular(10),
-                  controller: _scrollController,
-                  child: SingleChildScrollView(
-                    controller: _scrollController,
-                    physics: const BouncingScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        _message,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: CpColors.primaryTextColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              child: ShareMessageWrapper(message: _message),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 24),
