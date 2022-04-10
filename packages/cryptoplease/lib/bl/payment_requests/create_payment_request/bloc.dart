@@ -150,7 +150,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
       link: request.toUniversalLink(),
       androidParameters: const AndroidParameters(
         packageName: 'com.pleasecrypto.flutter',
-        // minimumVersion: 104,
+        minimumVersion: 104,
       ),
       iosParameters: const IOSParameters(
         bundleId: 'com.pleasecrypto.flutter',
