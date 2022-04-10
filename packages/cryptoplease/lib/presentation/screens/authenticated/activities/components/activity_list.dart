@@ -93,8 +93,8 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                 );
               case PaymentRequestState.completed:
                 return context.l10n.paymentRequestSuccessNotificationTitle(
-                  data.payerName,
                   formattedAmount,
+                  data.payerName,
                 );
               case PaymentRequestState.error:
                 return context.l10n.paymentRequestFailureNotificationTitle(

@@ -51,7 +51,6 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
 
     final reference = _request.payRequest.reference?.firstOrNull;
     if (reference == null) return;
-    final ref = reference.toBase58();
 
     Stream<TransactionId> solanaPayTransaction() => _solanaClient
         .findSolanaPayTransaction(
@@ -61,9 +60,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
         .asStream()
         .whereType<TransactionId>();
 
-    _txSubscription = _solanaClient
-        .createSubscriptionClient()
-        .accountSubscribe(ref, commitment: Commitment.confirmed)
+    _txSubscription = Stream<void>.periodic(const Duration(seconds: 10))
         .flatMap((a) => solanaPayTransaction())
         .mergeWith([solanaPayTransaction()]).listen(
       (id) {
@@ -71,7 +68,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
         _txSubscription?.cancel();
       },
       onError: (dynamic e) {
-        if (e is Exception) add(WaitingFailed(e));
+        add(WaitingFailed(e is Exception ? e : Exception(e)));
       },
     );
   }
@@ -82,6 +79,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
         signature: id,
         recipient: _request.payRequest.recipient,
         amount: _request.payRequest.amount ?? Decimal.zero,
+        commitment: Commitment.confirmed,
       );
       await _repository
           .save(_request.copyWith(state: PaymentRequestState.completed));
