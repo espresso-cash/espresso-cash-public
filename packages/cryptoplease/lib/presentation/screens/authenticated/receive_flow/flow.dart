@@ -6,7 +6,7 @@ import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 extension ReceiveFlowExt on BuildContext {
-  void navigateToSendFlow({Token? token}) => navigateTo(
+  void navigateToReceiveFlow({Token? token}) => navigateTo(
         RequestTypeRoute(
           onLinkSelected: () {
             if (isProd) {
