@@ -8,6 +8,7 @@ import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/routes.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/link_details/flow.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/link_request/payer_name_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/link_request/request_amount_screen.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -83,9 +84,8 @@ class _ContentState extends State<_Content>
               error,
             ),
             success: (request) {
-              print(request);
               context.router.popUntilRoot();
-              // TODO(KB): navigate to details
+              context.navigateToPaymentRequest(request.id);
             },
             orElse: ignore,
           ),

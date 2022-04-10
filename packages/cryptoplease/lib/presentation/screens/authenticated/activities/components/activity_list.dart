@@ -71,7 +71,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                 backgroundColor: CpColors.yellowColor,
                 child: Assets.icons.incoming.svg(),
               ),
-              title: Text(widget.id, style: _titleStyle),
+              title: const Text('', style: _titleStyle),
               subtitle: Text(
                 context.l10n.paymentRequestNotificationSubtitle,
                 style: _subtitleStyle,
