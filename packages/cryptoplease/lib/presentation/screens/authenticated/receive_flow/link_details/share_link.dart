@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
 import 'package:cryptoplease/presentation/components/share_message_wrapper.dart';
@@ -16,8 +16,12 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<PaymentRequest>();
+    final formattedAmount =
+        request.payRequest.cryptoAmount(TokenList())?.formatWithFiat(context) ??
+            '';
+
     final message = context.l10n.sharePaymentRequestLinkMessage(
-      request.formattedAmount(DeviceLocale.localeOf(context)),
+      formattedAmount,
       request.dynamicLink,
     );
 
