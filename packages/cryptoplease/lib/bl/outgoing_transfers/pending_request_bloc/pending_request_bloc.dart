@@ -23,15 +23,7 @@ class PendingRequestBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _onAdded(PendingRequestLinkAdded event, _Emitter emit) async {
-    final link = event.link.scheme == 'https' &&
-            event.link.host == 'solana.cryptoplease.link'
-        ? Uri(
-            scheme: 'solana',
-            path: event.link.pathSegments.firstOrNull,
-            queryParameters: event.link.queryParameters,
-          )
-        : event.link;
-    final request = SolanaPayRequest.tryParse(link.toString());
+    final request = tryParseDeepLink(event.link);
     if (request == null) return;
 
     emit(state.copyWith(request: request));
@@ -40,4 +32,20 @@ class PendingRequestBloc extends Bloc<_Event, _State> {
   Future<void> _onConsumed(PendingRequestConsumed _, _Emitter emit) async {
     emit(state.copyWith(request: null));
   }
+}
+
+@visibleForTesting
+SolanaPayRequest? tryParseDeepLink(Uri link) {
+  final linkWithCorrectScheme = link.scheme == 'https' &&
+          (link.host == 'solana.cryptoplease.link' ||
+              link.host == 'sol.cryptoplease.link') &&
+          link.pathSegments.any((s) => s.isNotEmpty)
+      ? Uri(
+          scheme: 'solana',
+          path: link.pathSegments.firstOrNull,
+          queryParameters: link.queryParameters,
+        )
+      : link;
+
+  return SolanaPayRequest.tryParse(linkWithCorrectScheme.toString());
 }
