@@ -37,6 +37,7 @@ class _FtLinkTransferFlowScreenState extends State<FtLinkTransferFlowScreen> {
           conversionRatesRepository: context.read<ConversionRatesRepository>(),
           userCurrency: context.read<UserPreferences>().fiatCurrency,
           transferType: OutgoingTransferType.splitKey,
+          initialToken: widget.token,
         ),
         child: BlocListener<FtCreateOutgoingTransferBloc,
             FtCreateOutgoingTransferState>(
