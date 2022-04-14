@@ -19,7 +19,9 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
   static SplitKeyIncomingFirstPart? tryParse(Uri link) {
     final correctSchemeAndHost =
         link.scheme == 'cryptoplease-sol' && link.host == '1' ||
-            link.scheme == 'https' && link.host == 'sol.cryptoplease.link' ||
+            link.scheme == 'https' &&
+                link.host == 'sol.cryptoplease.link' &&
+                (link.path == '/' || link.path == '') ||
             link.scheme == 'https' && link.host == 'sol1.cryptoplease.link';
     if (!correctSchemeAndHost) return null;
 
