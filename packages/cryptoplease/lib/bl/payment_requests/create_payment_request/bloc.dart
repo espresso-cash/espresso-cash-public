@@ -7,7 +7,6 @@ import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
@@ -30,9 +29,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
     Token? initialToken,
     required PaymentRequestRepository repository,
     required ConversionRatesRepository conversionRatesRepository,
-    FirebaseDynamicLinks? dynamicLinks,
-  })  : _dynamicLinks = dynamicLinks ?? FirebaseDynamicLinks.instance,
-        _repository = repository,
+  })  : _repository = repository,
         _conversionRatesRepository = conversionRatesRepository,
         super(
           CreatePaymentRequestState(
@@ -51,7 +48,6 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
     on<_Event>(_eventHandler);
   }
 
-  final FirebaseDynamicLinks _dynamicLinks;
   final PaymentRequestRepository _repository;
   final ConversionRatesRepository _conversionRatesRepository;
 
