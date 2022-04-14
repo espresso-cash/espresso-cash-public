@@ -24,7 +24,7 @@ enum PaymentRequestState { initial, completed, error }
 extension SolanaPayRequestExt on SolanaPayRequest {
   Uri toUniversalLink() => Uri.parse(toUrl()).replace(
         scheme: 'https',
-        host: 'solana.cryptoplease.link',
+        host: 'sol.cryptoplease.link',
       );
 
   CryptoAmount? cryptoAmount(TokenList tokenList) {

@@ -145,33 +145,15 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
       reference: [reference],
     );
 
-    final linkParams = DynamicLinkParameters(
-      uriPrefix: 'https://cryptoplease.page.link',
-      link: request.toUniversalLink(),
-      androidParameters: const AndroidParameters(
-        packageName: 'com.pleasecrypto.flutter',
-        minimumVersion: 104,
-      ),
-      iosParameters: const IOSParameters(
-        bundleId: 'com.pleasecrypto.flutter',
-        minimumVersion: '1.33.0',
-      ),
+    final paymentRequest = PaymentRequest(
+      id: const Uuid().v4(),
+      created: DateTime.now(),
+      payerName: state.payerName,
+      payRequest: request,
+      dynamicLink: request.toUniversalLink().toString(),
+      state: PaymentRequestState.initial,
     );
-
-    try {
-      final dynamicLink = await _dynamicLinks.buildShortLink(linkParams);
-      final paymentRequest = PaymentRequest(
-        id: const Uuid().v4(),
-        created: DateTime.now(),
-        payerName: state.payerName,
-        payRequest: request,
-        dynamicLink: dynamicLink.shortUrl.toString(),
-        state: PaymentRequestState.initial,
-      );
-      await _repository.save(paymentRequest);
-      emit(state.copyWith(flow: Flow.success(paymentRequest)));
-    } on Exception catch (e) {
-      emit(state.copyWith(flow: Flow.failure(e)));
-    }
+    await _repository.save(paymentRequest);
+    emit(state.copyWith(flow: Flow.success(paymentRequest)));
   }
 }
