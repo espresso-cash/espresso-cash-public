@@ -1,3 +1,9 @@
+## 1.34.0
+
+ - **FIX**: Pass initial token for link transfer (#244).
+ - **FIX**: Show fiat amount in payment request message (#242).
+ - **FEAT**: Update solana pay links format (#243).
+
 ## 1.33.1
 
  - **FIX**: Enable receive flow for prod.
