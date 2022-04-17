@@ -22,6 +22,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
 
 class AuthenticatedFlowScreen extends StatefulWidget {
   const AuthenticatedFlowScreen({Key? key}) : super(key: key);
@@ -75,7 +76,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                       }
                     },
                   ),
-                  _pendingRequestListener(_homeRouterKey),
+                  _PendingRequestListener(routerKey: _homeRouterKey),
                   _balanceListener,
                 ],
                 child: AutoRouter(key: _homeRouterKey),
@@ -139,33 +140,62 @@ final _balanceListener = BlocListener<BalancesBloc, BalancesState>(
   ),
 );
 
+/// {@template _PendingRequestListener}
 /// Listens for the Solana Pay request from the deep link and launches the
 /// corresponding flow.
-SingleChildStatefulWidget _pendingRequestListener(
-  GlobalKey<AutoRouterState>? routerKey,
-) =>
-    BlocListener<PendingRequestBloc, PendingRequestState>(
-      listener: (context, state) {
-        final request = state.request;
-        if (request == null) return;
+/// {@endtemplate}
+class _PendingRequestListener extends SingleChildStatefulWidget {
+  /// {@macro _PendingRequestListener}
+  const _PendingRequestListener({
+    Key? key,
+    Widget? child,
+    required this.routerKey,
+  }) : super(key: key, child: child);
 
-        final token = request.token(TokenList());
-        if (token == null) return;
+  final GlobalKey<AutoRouterState> routerKey;
 
-        context.navigateToDirectTransferFt(
-          onTransferCreated: (id) => context.navigateToOutgoingTransfer(
-            id,
-            routerKey: routerKey,
-          ),
-          initialAddress: request.recipient.toBase58(),
-          token: token,
-          amount: request.amount,
-          memo: request.memo,
-          reference: request.reference,
-        );
-        context
-            .read<PendingRequestBloc>()
-            .add(const PendingRequestEvent.consumed());
-      },
-      listenWhen: (s1, s2) => s1.request != s2.request,
+  @override
+  State<_PendingRequestListener> createState() =>
+      _PendingRequestListenerState();
+}
+
+class _PendingRequestListenerState
+    extends SingleChildState<_PendingRequestListener> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _checkForPendingRequest(context.read<PendingRequestBloc>().state.request);
+    });
+  }
+
+  void _checkForPendingRequest(SolanaPayRequest? request) {
+    if (request == null) return;
+
+    final token = request.token(TokenList());
+    if (token == null) return;
+
+    context.navigateToDirectTransferFt(
+      onTransferCreated: (id) => context.navigateToOutgoingTransfer(
+        id,
+        routerKey: widget.routerKey,
+      ),
+      initialAddress: request.recipient.toBase58(),
+      token: token,
+      amount: request.amount,
+      memo: request.memo,
+      reference: request.reference,
     );
+    context
+        .read<PendingRequestBloc>()
+        .add(const PendingRequestEvent.consumed());
+  }
+
+  @override
+  Widget buildWithChild(BuildContext context, Widget? child) =>
+      BlocListener<PendingRequestBloc, PendingRequestState>(
+        listener: (context, state) => _checkForPendingRequest(state.request),
+        listenWhen: (s1, s2) => s1.request != s2.request,
+        child: child,
+      );
+}
