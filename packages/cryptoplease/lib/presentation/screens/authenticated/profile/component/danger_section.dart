@@ -15,6 +15,7 @@ class DangerSection extends StatelessWidget {
           context.read<SplitKeyIncomingRepository>().clear();
           context.read<AppLockBloc>().add(const AppLockEvent.logout());
           context.read<OutgoingTransferRepository>().clear();
+          context.read<PaymentRequestRepository>().clear();
         },
       );
 

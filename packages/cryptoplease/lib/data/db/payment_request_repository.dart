@@ -47,6 +47,9 @@ class DbPaymentRequestRepository implements PaymentRequestRepository {
   @override
   Future<void> save(PaymentRequest payment) =>
       db.into(db.paymentRequestRows).insertOnConflictUpdate(payment.toRow());
+
+  @override
+  Future<void> clear() => db.delete(db.paymentRequestRows).go();
 }
 
 extension on PaymentRequestRow {
