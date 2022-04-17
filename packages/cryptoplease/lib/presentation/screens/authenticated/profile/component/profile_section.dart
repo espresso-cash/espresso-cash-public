@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/bl/app_lock/app_lock_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
+import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/bl/puzzle_reminder/puzzle_reminder_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
 import 'package:cryptoplease/config.dart';

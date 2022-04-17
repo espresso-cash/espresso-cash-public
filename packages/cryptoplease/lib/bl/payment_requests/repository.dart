@@ -6,4 +6,5 @@ abstract class PaymentRequestRepository {
   Future<void> save(PaymentRequest payment);
   Stream<IList<Product2<String, DateTime>>> watchAllIds();
   Stream<PaymentRequest> watchById(String id);
+  Future<void> clear();
 }
