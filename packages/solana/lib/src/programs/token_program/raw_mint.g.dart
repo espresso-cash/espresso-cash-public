@@ -3,60 +3,77 @@
 part of 'raw_mint.dart';
 
 // **************************************************************************
-// Borsh Struct Generator
+// BorshSerializableGenerator
 // **************************************************************************
 
-RawMint _RawMintFromBorsh(List<int> _data) {
-  ByteData _view = ByteData.sublistView(Uint8List.fromList(_data));
-  int offset = 0;
+mixin _$RawMint {
+  int get mintAuthorityOption => throw UnimplementedError();
+  Ed25519HDPublicKey get mintAuthority => throw UnimplementedError();
+  BigInt get supply => throw UnimplementedError();
+  int get decimals => throw UnimplementedError();
+  bool get isInitialized => throw UnimplementedError();
+  int get freezeAuthorityOption => throw UnimplementedError();
+  Ed25519HDPublicKey get freezeAuthority => throw UnimplementedError();
 
-  final mintAuthorityOption = _view.readInteger(Borsh.u32, offset);
-  offset += 4;
+  Uint8List toBorsh() {
+    final writer = BinaryWriter();
 
-  final mintAuthority = _view.readFixedArray<int>(Borsh.u8, 32, offset);
-  offset += mintAuthority.length * 1;
+    const BU32().write(writer, mintAuthorityOption);
+    const BPublicKey().write(writer, mintAuthority);
+    const BU64().write(writer, supply);
+    const BU8().write(writer, decimals);
+    const BBool().write(writer, isInitialized);
+    const BU32().write(writer, freezeAuthorityOption);
+    const BPublicKey().write(writer, freezeAuthority);
 
-  final supply = _view.readInteger(Borsh.u64, offset);
-  offset += 8;
-
-  final decimals = _view.readInteger(Borsh.u8, offset);
-  offset += 1;
-
-  final isInitialized = _view.readInteger(Borsh.u8, offset);
-  offset += 1;
-
-  final freezeAuthorityOption = _view.readInteger(Borsh.u32, offset);
-  offset += 4;
-
-  final freezeAuthority = _view.readFixedArray<int>(Borsh.u8, 32, offset);
-  offset += freezeAuthority.length * 1;
-
-  return RawMint(
-    mintAuthorityOption: mintAuthorityOption,
-    mintAuthority: mintAuthority,
-    supply: supply,
-    decimals: decimals,
-    isInitialized: isInitialized,
-    freezeAuthorityOption: freezeAuthorityOption,
-    freezeAuthority: freezeAuthority,
-  );
+    return writer.toArray();
+  }
 }
 
-List<int> _RawMintToBorsh(RawMint s) {
-  int size = 0;
-  size += s.mintAuthority.length * 1;
-  size += s.freezeAuthority.length * 1;
-  size += 18;
+class _RawMint extends RawMint {
+  _RawMint({
+    required this.mintAuthorityOption,
+    required this.mintAuthority,
+    required this.supply,
+    required this.decimals,
+    required this.isInitialized,
+    required this.freezeAuthorityOption,
+    required this.freezeAuthority,
+  }) : super._();
 
-  final data = ByteData(size);
-  int offset = 0;
-  offset += data.writeInteger(Borsh.u32, offset, s.mintAuthorityOption);
-  offset += data.writeFixedArray<int>(Borsh.u8, offset, s.mintAuthority);
-  offset += data.writeInteger(Borsh.u64, offset, s.supply);
-  offset += data.writeInteger(Borsh.u8, offset, s.decimals);
-  offset += data.writeInteger(Borsh.u8, offset, s.isInitialized);
-  offset += data.writeInteger(Borsh.u32, offset, s.freezeAuthorityOption);
-  offset += data.writeFixedArray<int>(Borsh.u8, offset, s.freezeAuthority);
+  final int mintAuthorityOption;
+  final Ed25519HDPublicKey mintAuthority;
+  final BigInt supply;
+  final int decimals;
+  final bool isInitialized;
+  final int freezeAuthorityOption;
+  final Ed25519HDPublicKey freezeAuthority;
+}
 
-  return data.buffer.asUint8List();
+class BRawMint implements BType<RawMint> {
+  const BRawMint();
+
+  @override
+  void write(BinaryWriter writer, RawMint value) {
+    writer.writeStruct(value.toBorsh());
+  }
+
+  @override
+  RawMint read(BinaryReader reader) {
+    return RawMint(
+      mintAuthorityOption: const BU32().read(reader),
+      mintAuthority: const BPublicKey().read(reader),
+      supply: const BU64().read(reader),
+      decimals: const BU8().read(reader),
+      isInitialized: const BBool().read(reader),
+      freezeAuthorityOption: const BU32().read(reader),
+      freezeAuthority: const BPublicKey().read(reader),
+    );
+  }
+}
+
+RawMint _$RawMintFromBorsh(Uint8List data) {
+  final reader = BinaryReader(data.buffer.asByteData());
+
+  return const BRawMint().read(reader);
 }
