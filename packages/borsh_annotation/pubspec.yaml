@@ -6,3 +6,6 @@ description: >-
 
 environment:
   sdk: ">=2.13.0 <3.0.0"
+
+dev_dependencies:
+  mews_pedantic: ^0.4.1
