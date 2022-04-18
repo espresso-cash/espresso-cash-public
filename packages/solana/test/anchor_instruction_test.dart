@@ -67,7 +67,7 @@ void main() {
         await AnchorInstruction.forMethod(
           programId: _basic1,
           method: 'initialize',
-          arguments: const Basic1Arguments(data: 100),
+          arguments: Basic1Arguments(data: BigInt.from(100)).toBorsh().toList(),
           accounts: <AccountMeta>[
             AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
             AccountMeta.readonly(
@@ -111,7 +111,7 @@ void main() {
         await AnchorInstruction.forMethod(
           programId: _basic1,
           method: 'update',
-          arguments: const Basic1Arguments(data: 25),
+          arguments: Basic1Arguments(data: BigInt.from(25)).toBorsh().toList(),
           accounts: <AccountMeta>[
             AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
           ],

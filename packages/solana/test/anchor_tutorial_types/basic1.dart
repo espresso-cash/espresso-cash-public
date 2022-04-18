@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/anchor.dart';
 import 'package:solana/dto.dart';
@@ -15,11 +13,11 @@ class Basic1DataAccount implements AnchorAccount {
   factory Basic1DataAccount._fromBinary(
     List<int> bytes,
   ) {
-    final accountData = _AccountData.fromBorsh(bytes.sublist(8));
+    final accountData = _AccountData.fromBorsh(Uint8List.fromList(bytes));
 
     return Basic1DataAccount._(
       discriminator: bytes.sublist(0, 8),
-      data: accountData.data,
+      data: accountData.data.toInt(),
     );
   }
 
@@ -37,24 +35,26 @@ class Basic1DataAccount implements AnchorAccount {
   final int data;
 }
 
-@Struct(createToBorsh: false)
-class _AccountData {
-  _AccountData({required this.data});
+@BorshSerializable()
+class _AccountData with _$_AccountData {
+  factory _AccountData({
+    @BU64() required BigInt data,
+  }) = __AccountData;
 
-  factory _AccountData.fromBorsh(List<int> data) =>
-      __AccountDataFromBorsh(data);
+  _AccountData._();
 
-  @u64
-  final int data;
+  factory _AccountData.fromBorsh(Uint8List data) =>
+      _$_AccountDataFromBorsh(data);
 }
 
-@Struct(createFromBorsh: false)
-class Basic1Arguments extends BorshStruct {
-  const Basic1Arguments({required this.data});
+@BorshSerializable()
+class Basic1Arguments with _$Basic1Arguments {
+  factory Basic1Arguments({
+    @BU64() required BigInt data,
+  }) = _Basic1Arguments;
 
-  @override
-  List<int> toBorsh() => _Basic1ArgumentsToBorsh(this);
+  Basic1Arguments._();
 
-  @u64
-  final int data;
+  factory Basic1Arguments.fromBorsh(Uint8List data) =>
+      _$Basic1ArgumentsFromBorsh(data);
 }

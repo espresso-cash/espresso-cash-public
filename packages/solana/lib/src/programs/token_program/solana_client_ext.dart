@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/programs/token_program/raw_mint.dart';
@@ -18,19 +20,18 @@ extension SolanaClientTokenProgram on SolanaClient {
 
     if (info == null) throw const TokenAccountNotFoundException();
 
-    final raw = RawMint.fromBorsh((info.data as BinaryAccountData).data);
+    final raw = RawMint.fromBorsh(
+      Uint8List.fromList((info.data as BinaryAccountData).data),
+    );
 
     return Mint(
       address: address,
-      supply: BigInt.from(raw.supply),
+      supply: raw.supply,
       decimals: raw.decimals,
-      isInitialized: raw.isInitialized == 1,
-      mintAuthority: raw.mintAuthorityOption == 0
-          ? null
-          : Ed25519HDPublicKey(raw.mintAuthority),
-      freezeAuthority: raw.freezeAuthorityOption == 0
-          ? null
-          : Ed25519HDPublicKey(raw.freezeAuthority),
+      isInitialized: raw.isInitialized,
+      mintAuthority: raw.mintAuthorityOption == 0 ? null : raw.mintAuthority,
+      freezeAuthority:
+          raw.freezeAuthorityOption == 0 ? null : raw.freezeAuthority,
     );
   }
 
