@@ -1,1 +1,1 @@
-export 'package:borsh/src/extensions.dart';
+library borsh;
