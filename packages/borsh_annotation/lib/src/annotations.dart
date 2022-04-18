@@ -61,6 +61,18 @@ class BU32 extends BType<int> {
   int read(BinaryReader reader) => reader.readU32();
 }
 
+class BU64 extends BType<BigInt> {
+  const BU64();
+
+  @override
+  void write(BinaryWriter writer, BigInt value) {
+    writer.writeU64(value);
+  }
+
+  @override
+  BigInt read(BinaryReader reader) => reader.readU64();
+}
+
 class BFixedArray<T> extends BType<List<T>> {
   const BFixedArray(this.length, this.type);
 

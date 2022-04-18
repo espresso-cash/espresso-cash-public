@@ -35,6 +35,13 @@ class BinaryWriter {
     length += 4;
   }
 
+  void writeU64(BigInt value) {
+    _maybeResize();
+    // TODO(KB): won't work for big numbers, update implementation
+    buf.setUint64(length, value.toInt(), Endian.little);
+    length += 8;
+  }
+
   void _writeBuffer(Iterable<int> buffer) {
     final list = Uint8List.fromList([
       ...buf.buffer.asUint8List().take(length),

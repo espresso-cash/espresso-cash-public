@@ -28,6 +28,14 @@ class BinaryReader {
     return value;
   }
 
+  BigInt readU64() {
+    // TODO(KB): won't work for big numbers, update implementation
+    final value = buf.getUint64(offset, Endian.little);
+    offset += 8;
+
+    return BigInt.from(value);
+  }
+
   List<int> _readBuffer(int len) {
     if (offset + len > buf.lengthInBytes) {
       throw RangeError('Buffer overflow');
