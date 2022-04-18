@@ -1,3 +1,8 @@
+## 1.34.1
+
+ - **FIX**: Clear payment requests on log out (#247).
+ - **FIX**: Process initial pending request (#246).
+
 ## 1.34.0
 
  - **FIX**: Pass initial token for link transfer (#244).
