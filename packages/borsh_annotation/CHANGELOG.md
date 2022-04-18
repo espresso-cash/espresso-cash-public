@@ -1,3 +1,7 @@
+## 0.3.1
+
+ - **FEAT**: Add BU64.
+
 ## 0.3.0+1
 
  - **DOCS**: Update readme.
