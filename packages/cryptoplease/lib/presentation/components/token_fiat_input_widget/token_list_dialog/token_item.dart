@@ -7,15 +7,15 @@ class TokenItem extends StatelessWidget {
   const TokenItem({
     Key? key,
     required this.token,
-    required this.onSelected,
+    this.onSelected,
   }) : super(key: key);
 
-  final ValueSetter<Token> onSelected;
+  final ValueSetter<Token>? onSelected;
   final Token token;
 
   @override
   Widget build(BuildContext context) => ListTile(
-        onTap: () => onSelected(token),
+        onTap: onSelected == null ? null : () => onSelected!(token),
         leading: TokenIcon(token: token, size: 40),
         title: Text(
           token.symbol,
