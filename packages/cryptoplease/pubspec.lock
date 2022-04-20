@@ -105,7 +105,7 @@ packages:
       name: borsh_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0+1"
+    version: "0.3.1"
   build:
     dependency: transitive
     description:
@@ -1244,7 +1244,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.22.0-dev.3"
+    version: "0.22.0"
   source_gen:
     dependency: transitive
     description:

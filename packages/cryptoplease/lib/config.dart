@@ -45,5 +45,6 @@ const _devNetChainId = 103;
 
 /// Although this depends on the environment the only difference is
 /// PROD vs non-PROD
-const _solanaHost =
-    isProd ? 'cryptoplease.rpcpool.com' : 'cryptoplease.devnet.rpcpool.com';
+const _solanaHost = isProd
+    ? 'cryptoplease.rpcpool.com'
+    : 'cryptopl-cryptopl-adc0.devnet.rpcpool.com';
