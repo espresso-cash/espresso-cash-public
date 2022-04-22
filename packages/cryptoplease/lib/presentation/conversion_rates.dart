@@ -25,7 +25,6 @@ extension ConversionRates on BuildContext {
     required FiatCurrency fiatCurrency,
     required Token token,
     required int amount,
-    int? fiatDecimals,
   }) {
     final conversionRate = readConversionRate(from: token, to: fiatCurrency);
     if (conversionRate == null) {
@@ -34,11 +33,9 @@ extension ConversionRates on BuildContext {
 
     final tokenAmount = Amount.fromToken(value: amount, token: token);
 
-    fiatDecimals ??= fiatCurrency.decimals;
-
     return tokenAmount.convert(
       rate: conversionRate,
-      to: fiatCurrency.copyWith(decimals: fiatDecimals),
+      to: fiatCurrency,
     );
   }
 }

@@ -11,7 +11,7 @@ void main() {
         amount: '1.25 SOL',
         fee: '0.01 SOL',
         fiatAmount: '123.45 USD',
-        fiatFee: '0.0001 USD',
+        fiatFee: '< 0.01 USD',
       ),
     ),
   );
@@ -23,7 +23,7 @@ void main() {
         amount: '1.284958673 SOL',
         fee: '0.01 SOL',
         fiatAmount: '123.45 USD',
-        fiatFee: '0.0001 USD',
+        fiatFee: '< 0.01 USD',
       ),
     ),
   );

@@ -47,7 +47,6 @@ class _ConfirmScreenState extends State<ConfirmNonFungibleTokenScreen> {
             amount: state.fee.value,
             token: Token.sol,
             fiatCurrency: Currency.usd,
-            fiatDecimals: state.fee.currency.decimals,
           );
           final formattedFiatFee = fiatFee?.format(locale);
 
