@@ -14,13 +14,28 @@ class CompactU16 extends ByteArray {
       }
     }
 
-    return CompactU16._(data);
+    return CompactU16.raw(data);
   }
 
-  const CompactU16._(this._data);
-  static const zero = CompactU16._([0]);
+  const CompactU16.raw(this._data);
+
+  static const zero = CompactU16.raw([0]);
 
   final ByteArray _data;
+
+  int get value {
+    var len = 0;
+    var size = 0;
+    for (final elem in _data) {
+      len |= (elem & 0x7f) << (size * 7);
+      size += 1;
+      if ((elem & 0x80) == 0) {
+        break;
+      }
+    }
+
+    return len;
+  }
 
   @override
   Iterator<int> get iterator => _data.iterator;
