@@ -80,13 +80,12 @@ class Message {
     );
 
     return CompiledMessage(
-      data: Buffer.fromConcatenatedByteArrays([
+      Buffer.fromConcatenatedByteArrays([
         header,
         keys,
         Buffer.fromBase58(recentBlockhash),
         compiledInstructions,
       ]),
-      requiredSignatureCount: accounts.getNumSigners(),
     );
   }
 }
