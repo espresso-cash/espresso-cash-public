@@ -35,7 +35,7 @@ class Meta {
 
   /// List of inner instructions or omitted if inner instruction
   /// recording was not yet enabled during this transaction.
-  final List<InnerInstruction> innerInstructions;
+  final List<InnerInstruction>? innerInstructions;
 
   /// List of token balances from before the transaction was
   /// processed or omitted if token balance recording was not yet
@@ -49,5 +49,5 @@ class Meta {
 
   /// Array of string log messages or omitted if log message
   /// recording was not yet enabled during this transaction.
-  final List<String> logMessages;
+  final List<String>? logMessages;
 }
