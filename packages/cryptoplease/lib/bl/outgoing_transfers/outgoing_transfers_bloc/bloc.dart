@@ -153,7 +153,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
           direct: always(0),
         ),
         memo: payment.memo,
-        reference: payment.reference?.let(Ed25519HDPublicKey.fromBase58),
+        reference: payment.allReferences.map(Ed25519HDPublicKey.fromBase58),
       );
 }
 

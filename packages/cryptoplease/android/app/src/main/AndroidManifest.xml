@@ -48,7 +48,7 @@
                 <data android:host="sol2.cryptoplease.link" android:scheme="https" />
                 
                 <!-- Support for requests -->
-                <data android:host="request.cryptoplease.link" android:scheme="https" />
+                <data android:host="solana.cryptoplease.link" android:scheme="https" />
                 
                 <!-- Firebase deep link for installing the app -->
                 <data android:host="cryptoplease.page.link" android:scheme="https" />
@@ -68,8 +68,9 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="cryptoplease" />
+                <data android:scheme="solana" />
             </intent-filter>
+            
 
             <!-- Deprecated format -->
             <intent-filter android:autoVerify="true">
@@ -77,6 +78,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:host="cryptoplease.github.io" android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="cryptoplease" />
             </intent-filter>
             
         </activity>

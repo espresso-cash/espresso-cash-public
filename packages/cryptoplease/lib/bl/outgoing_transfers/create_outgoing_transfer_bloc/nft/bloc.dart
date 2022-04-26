@@ -5,8 +5,10 @@ import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/solana.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';
@@ -26,9 +28,10 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     required OutgoingTransferRepository repository,
     required Map<Token, Amount> balances,
     required NonFungibleToken nft,
+    required OutgoingTransferType transferType,
   })  : _repository = repository,
         _balances = balances,
-        super(_State(transferType: OutgoingTransferType.direct, nft: nft)) {
+        super(_State(transferType: transferType, nft: nft)) {
     on<_Event>(_handler);
   }
 
@@ -55,19 +58,12 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
   }
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
-        typeUpdated: (event) => _onTypeUpdated(event, emit),
         recipientUpdated: (event) => _onRecipientUpdated(event, emit),
         memoUpdated: (event) => _onMemoUpdated(event, emit),
         referenceUpdated: (event) => _onReferenceUpdated(event, emit),
         cleared: (_) => _onCleared(emit),
         submitted: (_) => _onSubmitted(emit),
       );
-
-  Future<void> _onTypeUpdated(TypeUpdated event, _Emitter emit) async {
-    if (!state.flow.isInitial()) return;
-
-    emit(state.copyWith(transferType: event.transferType));
-  }
 
   Future<void> _onRecipientUpdated(
     RecipientUpdated event,
@@ -126,7 +122,8 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 amount: amount,
                 tokenAddress: address,
                 memo: state.memo,
-                reference: state.reference,
+                reference: state.reference
+                    ?.let((it) => IList([Ed25519HDPublicKey.fromBase58(it)])),
                 tokenType: OutgoingTransferTokenType.nonFungibleToken,
               );
               break;

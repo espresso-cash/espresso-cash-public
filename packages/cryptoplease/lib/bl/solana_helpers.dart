@@ -2,9 +2,20 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
+
+extension SolanaPayRequestExt on SolanaPayRequest {
+  Token? token(TokenList tokenList) {
+    final splToken = this.splToken;
+    if (splToken == null) return Token.sol;
+
+    return tokenList.findTokenByMint(splToken.toBase58());
+  }
+}
 
 extension SolanaClientExt on SolanaClient {
   Future<Iterable<ProgramAccount>> getSplAccounts(String address) =>
@@ -35,7 +46,7 @@ extension SolanaClientExt on SolanaClient {
     required int amount,
     int additionalFee = 0,
     String? memo,
-    Ed25519HDPublicKey? reference,
+    Iterable<Ed25519HDPublicKey>? reference,
   }) =>
       tokenAddress == Token.sol.publicKey
           ? createSolTransfer(
@@ -60,7 +71,7 @@ extension SolanaClientExt on SolanaClient {
     required Ed25519HDPublicKey recipient,
     required int amount,
     String? memo,
-    Ed25519HDPublicKey? reference,
+    Iterable<Ed25519HDPublicKey>? reference,
   }) async =>
       Message(
         instructions: [
@@ -73,7 +84,9 @@ extension SolanaClientExt on SolanaClient {
               AccountMeta.writeable(pubKey: sender.publicKey, isSigner: false),
               AccountMeta.writeable(pubKey: recipient, isSigner: false),
               if (reference != null)
-                AccountMeta.readonly(pubKey: reference, isSigner: false),
+                ...reference.map(
+                  (r) => AccountMeta.readonly(pubKey: r, isSigner: false),
+                ),
             ],
             data: Buffer.fromConcatenatedByteArrays([
               SystemProgram.transferInstructionIndex,
@@ -91,7 +104,7 @@ extension SolanaClientExt on SolanaClient {
     required Ed25519HDPublicKey tokenAddress,
     required int additionalFee,
     String? memo,
-    Ed25519HDPublicKey? reference,
+    Iterable<Ed25519HDPublicKey>? reference,
   }) async {
     final associatedAddress = await findAssociatedTokenAddress(
       owner: solanaAddress,
@@ -152,7 +165,9 @@ extension SolanaClientExt on SolanaClient {
             AccountMeta.writeable(pubKey: associatedAddress, isSigner: false),
             AccountMeta.readonly(pubKey: sender.publicKey, isSigner: true),
             if (reference != null)
-              AccountMeta.readonly(pubKey: reference, isSigner: false),
+              ...reference.map(
+                (r) => AccountMeta.readonly(pubKey: r, isSigner: false),
+              ),
           ],
           data: Buffer.fromConcatenatedByteArrays([
             TokenProgram.transferInstructionIndex,

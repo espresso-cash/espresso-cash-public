@@ -1,3 +1,4 @@
+import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
 import 'package:cryptoplease/data/db/open_connection.dart';
 import 'package:drift/drift.dart';
 
@@ -12,9 +13,29 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 12;
+class PaymentRequestRows extends Table {
+  TextColumn get id => text()();
+  DateTimeColumn get created => dateTime()();
+  TextColumn get payerName => text()();
+  TextColumn get dynamicLink => text()();
+  IntColumn get state => intEnum<PaymentRequestState>()();
 
-@DriftDatabase(tables: [OutgoingTransferRows])
+  // SolanaPayRequest columns
+  TextColumn get recipient => text()();
+  TextColumn get amount => text().nullable()();
+  TextColumn get spltToken => text().nullable()();
+  TextColumn get reference => text().nullable()();
+  TextColumn get label => text().nullable()();
+  TextColumn get message => text().nullable()();
+  TextColumn get memo => text().nullable()();
+
+  @override
+  Set<Column<dynamic>>? get primaryKey => {id};
+}
+
+const int latestVersion = 13;
+
+@DriftDatabase(tables: [OutgoingTransferRows, PaymentRequestRows])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(openConnection());
 
@@ -30,6 +51,9 @@ class MyDatabase extends _$MyDatabase {
         onUpgrade: (Migrator m, int from, int to) async {
           if (from < 12) {
             await m.createTable(outgoingTransferRows);
+          }
+          if (from < 13) {
+            await m.createTable(paymentRequestRows);
           }
         },
       );

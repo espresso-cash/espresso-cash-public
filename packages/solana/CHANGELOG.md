@@ -1,3 +1,14 @@
+## 0.22.0
+
+ - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.
+
+## 0.22.0-dev.4
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: Update Solana pay support (#235).
+ - **BREAKING** **REFACTOR**: borsh 0.3.0.
+
 ## 0.22.0-dev.3
 
  - **FEAT**: Add Solana Pay support (#232).

@@ -12,7 +12,7 @@
 		<string>applinks:sol2.cryptoplease.link</string>
 		
 		<!-- Support for requests -->
-		<string>applinks:request.cryptoplease.link</string>
+		<string>applinks:solana.cryptoplease.link</string>
 
 		<!-- Firebase deep link for installing the app -->
 		<string>applinks:cryptoplease.page.link</string>

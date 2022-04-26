@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
+import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/models.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
@@ -12,8 +15,8 @@ import 'package:uni_links/uni_links.dart';
 /// or resumed from background) it will parse the link and add it to
 /// `LinkNotifier`.
 ///
-/// There's no logic for link processing here, it just tries to parse the
-/// deep link as link with payment data, and if succeeds, notifies listeners.
+/// There's no logic for link processing here, it just tries to parse the deep
+/// link as link with payment data, and if succeeds, notifies listeners.
 ///
 /// If listener accepted the link, should reset the current link with setting
 /// `LinkNotifier.value` to `null`.
@@ -36,19 +39,20 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
     _init();
   }
 
+  StreamSubscription<dynamic>? _subscription;
+
   Future<void> _init() async {
     final PendingDynamicLinkData? data =
         await FirebaseDynamicLinks.instance.getInitialLink();
     data?.link.also(_tryProcessSplitKeyFirstPart).also(_tryProcessLink);
 
-    FirebaseDynamicLinks.instance.onLink(
-      onSuccess: (PendingDynamicLinkData? dynamicLink) async {
-        if (dynamicLink == null) return;
+    _subscription = FirebaseDynamicLinks.instance.onLink
+        .listen((PendingDynamicLinkData? dynamicLink) async {
+      if (dynamicLink == null) return;
 
-        _tryProcessLink(dynamicLink.link);
-        _tryProcessSplitKeyFirstPart(dynamicLink.link);
-      },
-    );
+      _tryProcessLink(dynamicLink.link);
+      _tryProcessSplitKeyFirstPart(dynamicLink.link);
+    });
 
     final initialUri = await getInitialUri();
     _tryProcessSplitKeySecondPart(initialUri);
@@ -63,6 +67,11 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
     if (link == null) return;
     _tryProcessFirstLink(link);
     _tryProcessSecondLink(link);
+    _tryProcessSolanaPayLink(link);
+  }
+
+  void _tryProcessSolanaPayLink(Uri link) {
+    context.read<PendingRequestBloc>().add(PendingRequestEvent.linkAdded(link));
   }
 
   void _tryProcessFirstLink(Uri link) {
@@ -117,6 +126,12 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
       value: secondPart,
     );
     context.read<SplitKeyIncomingPaymentBloc>().add(event);
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
   }
 
   @override

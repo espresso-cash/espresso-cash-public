@@ -1,12 +1,21 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/constants.dart';
+import 'package:solana/src/encoder/compact_u16.dart';
 
-class CompiledMessage {
-  CompiledMessage({
-    required this.data,
-    required this.requiredSignatureCount,
-  });
+part 'compiled_message.freezed.dart';
 
-  final int requiredSignatureCount;
+@freezed
+class CompiledMessage with _$CompiledMessage {
+  const factory CompiledMessage(ByteArray data) = _CompiledMessage;
 
-  final ByteArray data;
+  factory CompiledMessage.fromSignedTransaction(ByteArray data) {
+    final signaturesCount = CompactU16.raw(data).value;
+
+    return CompiledMessage(data.skip(1 + signaturesCount * signatureLength));
+  }
+
+  const CompiledMessage._();
+
+  int get requiredSignatureCount => data.first;
 }

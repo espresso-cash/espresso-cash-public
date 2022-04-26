@@ -1,4 +1,3 @@
-import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:solana/src/crypto/crypto.dart';
@@ -21,16 +20,13 @@ class AnchorInstruction extends Instruction {
     required String method,
     required String namespace,
     required List<AccountMeta> accounts,
-    BorshStruct arguments = const EmptyBorshStruct(),
-  }) async {
-    final serializedArguments = arguments.toBorsh();
-
-    return AnchorInstruction._(
-      programId: programId,
-      accounts: accounts,
-      data: await serializedArguments.addDiscriminator(namespace, method),
-    );
-  }
+    List<int> arguments = const [],
+  }) async =>
+      AnchorInstruction._(
+        programId: programId,
+        accounts: accounts,
+        data: await arguments.addDiscriminator(namespace, method),
+      );
 
   @override
   String toString() => hex.encode(data.toList(growable: false));

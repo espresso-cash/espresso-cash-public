@@ -1,3 +1,15 @@
+## 0.3.0+1
+
+ - **DOCS**: Update readme.
+
+## 0.3.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: Add app packages (#196).
+ - **BREAKING** **REFACTOR**: Match borsh_annotation 0.3.0.
+ - **BREAKING** **CHORE**: Update dependencies (#178).
+
 ## 0.2.0+1
 
  - Update a dependency to the latest release.

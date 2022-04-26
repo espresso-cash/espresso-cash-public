@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/nft/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
@@ -11,14 +12,14 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ConfirmNonFungibleTokenScreen extends StatefulWidget {
-  const ConfirmNonFungibleTokenScreen({Key? key}) : super(key: key);
+class NftConfirmScreen extends StatefulWidget {
+  const NftConfirmScreen({Key? key}) : super(key: key);
 
   @override
   _ConfirmScreenState createState() => _ConfirmScreenState();
 }
 
-class _ConfirmScreenState extends State<ConfirmNonFungibleTokenScreen> {
+class _ConfirmScreenState extends State<NftConfirmScreen> {
   void _onSubmitted() {
     context
         .read<NftCreateOutgoingTransferBloc>()
@@ -73,6 +74,7 @@ class _ConfirmScreenState extends State<ConfirmNonFungibleTokenScreen> {
             child: Scaffold(
               appBar: CpAppBar(
                 hasBorder: false,
+                leading: BackButton(onPressed: () => context.router.pop()),
                 nextButton: CpButton(
                   onPressed: _onSubmitted,
                   text: nextButtonText,
