@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:cryptoplease/bl/amount.dart';
@@ -37,16 +36,7 @@ String _formatAmount({
     ..minimumFractionDigits = 2
     ..maximumFractionDigits = decimals;
 
-  final minimum = 1 / math.pow(10, decimals);
-  final currentValue = value.toDouble();
-
-  final String formatted;
-  if (currentValue < minimum) {
-    final minFormatted = formatter.format(minimum);
-    formatted = '< $minFormatted';
-  } else {
-    formatted = formatter.format(currentValue);
-  }
+  final formatted = formatter.format(value.toDouble());
 
   return skipSymbol ? formatted : '$formatted $symbol';
 }
