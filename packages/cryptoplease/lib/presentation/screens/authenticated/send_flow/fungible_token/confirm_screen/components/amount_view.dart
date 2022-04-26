@@ -1,23 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class AmountView extends StatelessWidget {
-//   const AmountView({
-//     Key? key,
-//     required this.amount,
-//   }) : super(key: key);
-
-//   final String amount;
-
-//   @override
-//   Widget build(BuildContext context) => Text(
-//         amount,
-//         style: const TextStyle(
-//           fontSize: 45,
-//           fontWeight: FontWeight.w600,
-//         ),
-//       );
-// }
-
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
@@ -89,8 +69,18 @@ class AmountView extends StatelessWidget {
     );
 
     final locale = DeviceLocale.localeOf(context);
-    final formattedConverted = convertedAmount?.format(locale);
+    var formattedConverted = convertedAmount?.format(locale);
     final formattedAmount = amount.format(locale);
+
+    if (convertedAmount != null) {
+      const minimumAmount = Amount.fiat(value: 1, currency: Currency.usd);
+      if (convertedAmount < minimumAmount) {
+        final formattedMinimum = minimumAmount.format(locale);
+        formattedConverted = '\n< $formattedMinimum';
+      } else {
+        formattedConverted = '\n≈ $formattedConverted';
+      }
+    }
 
     return ListItem(
       label: label,
@@ -101,7 +91,7 @@ class AmountView extends StatelessWidget {
           children: [
             if (formattedConverted != null)
               TextSpan(
-                text: '\n≈ $formattedConverted',
+                text: formattedConverted,
                 style: const TextStyle(fontSize: 15),
               ),
           ],
