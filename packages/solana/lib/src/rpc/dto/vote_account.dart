@@ -39,8 +39,7 @@ class VoteAccount {
   /// Most recent slot voted on by this vote account.
   final int lastVote;
 
-  /// History of how many credits earned by the end of each
-  /// epoch, as an array of arrays containing: [epoch, credits,
-  /// previousCredits].
+  /// History of how many credits earned by the end of each epoch, as an array
+  /// of arrays containing: epoch, credits, previousCredits.
   final List<EpochCredits> epochCredits;
 }

@@ -12,8 +12,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/dto.dart';
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 part 'bloc.freezed.dart';
@@ -146,7 +144,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       _solanaClient.createTransfer(
         sender: _account.wallet,
         recipient: await payment.getRecipient(),
-        tokenAddress: payment.tokenAddress,
+        tokenAddress: Ed25519HDPublicKey.fromBase58(payment.tokenAddress),
         amount: payment.amount,
         additionalFee: payment.map(
           splitKey: (p) => p.tokenAddress == Token.sol.address
@@ -155,7 +153,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
           direct: always(0),
         ),
         memo: payment.memo,
-        reference: payment.reference,
+        reference: payment.allReferences.map(Ed25519HDPublicKey.fromBase58),
       );
 }
 

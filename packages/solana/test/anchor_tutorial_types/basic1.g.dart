@@ -3,28 +3,89 @@
 part of 'basic1.dart';
 
 // **************************************************************************
-// Borsh Struct Generator
+// BorshSerializableGenerator
 // **************************************************************************
 
-_AccountData __AccountDataFromBorsh(List<int> _data) {
-  ByteData _view = ByteData.sublistView(Uint8List.fromList(_data));
-  int offset = 0;
+mixin _$_AccountData {
+  BigInt get data => throw UnimplementedError();
 
-  final data = _view.readInteger(Borsh.u64, offset);
-  offset += 8;
+  Uint8List toBorsh() {
+    final writer = BinaryWriter();
 
-  return _AccountData(
-    data: data,
-  );
+    const BU64().write(writer, data);
+
+    return writer.toArray();
+  }
 }
 
-List<int> _Basic1ArgumentsToBorsh(Basic1Arguments s) {
-  int size = 0;
-  size += 8;
+class __AccountData extends _AccountData {
+  __AccountData({
+    required this.data,
+  }) : super._();
 
-  final data = ByteData(size);
-  int offset = 0;
-  offset += data.writeInteger(Borsh.u64, offset, s.data);
+  final BigInt data;
+}
 
-  return data.buffer.asUint8List();
+class B_AccountData implements BType<_AccountData> {
+  const B_AccountData();
+
+  @override
+  void write(BinaryWriter writer, _AccountData value) {
+    writer.writeStruct(value.toBorsh());
+  }
+
+  @override
+  _AccountData read(BinaryReader reader) {
+    return _AccountData(
+      data: const BU64().read(reader),
+    );
+  }
+}
+
+_AccountData _$_AccountDataFromBorsh(Uint8List data) {
+  final reader = BinaryReader(data.buffer.asByteData());
+
+  return const B_AccountData().read(reader);
+}
+
+mixin _$Basic1Arguments {
+  BigInt get data => throw UnimplementedError();
+
+  Uint8List toBorsh() {
+    final writer = BinaryWriter();
+
+    const BU64().write(writer, data);
+
+    return writer.toArray();
+  }
+}
+
+class _Basic1Arguments extends Basic1Arguments {
+  _Basic1Arguments({
+    required this.data,
+  }) : super._();
+
+  final BigInt data;
+}
+
+class BBasic1Arguments implements BType<Basic1Arguments> {
+  const BBasic1Arguments();
+
+  @override
+  void write(BinaryWriter writer, Basic1Arguments value) {
+    writer.writeStruct(value.toBorsh());
+  }
+
+  @override
+  Basic1Arguments read(BinaryReader reader) {
+    return Basic1Arguments(
+      data: const BU64().read(reader),
+    );
+  }
+}
+
+Basic1Arguments _$Basic1ArgumentsFromBorsh(Uint8List data) {
+  final reader = BinaryReader(data.buffer.asByteData());
+
+  return const BBasic1Arguments().read(reader);
 }

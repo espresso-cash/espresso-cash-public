@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/link_request/flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+abstract class PayerNameSetter {
+  void onPayerNameSubmitted(String name);
+}
 
 class PayerNameScreen extends StatefulWidget {
   const PayerNameScreen({Key? key}) : super(key: key);
@@ -60,8 +63,8 @@ class _BottomButton extends StatelessWidget {
           onPressed: value.text.isEmpty
               ? null
               : () => context
-                  .read<LinkRequestFlowRouter>()
-                  .onNameSubmitted(value.text),
+                  .read<PayerNameSetter>()
+                  .onPayerNameSubmitted(value.text),
         ),
       );
 }

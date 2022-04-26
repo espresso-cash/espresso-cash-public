@@ -62,7 +62,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
               headerButtons: [
                 if (widget.token == Token.sol) const AddFundsButton(),
                 SendButton(token: widget.token),
-                const ReceiveButton(),
+                ReceiveButton(token: widget.token),
               ],
               headerContent: CryptoBalanceWidget(token: widget.token),
               child: CpHeaderedListContent(
@@ -71,7 +71,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   key: ValueKey(state.transactions[index].hash),
                   create: (context) => TransactionItemBloc(
                     account: context.read<MyAccount>(),
-                    solanaClient: context.read<SolanaClient>(),
                   ),
                   child: TransactionItem(
                     transaction: state.transactions[index],

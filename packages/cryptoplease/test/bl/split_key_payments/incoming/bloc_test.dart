@@ -8,7 +8,6 @@ import 'package:cryptoplease/bl/wallet/wallet.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 import 'repository.dart';
@@ -81,7 +80,7 @@ void main() {
 
       await solanaClient.requestAirdrop(
         lamports: lamportsPerSol,
-        address: sourceWallet.address,
+        address: sourceWallet.publicKey,
       );
     });
 
@@ -97,7 +96,7 @@ void main() {
       await solanaClient.transferLamports(
         destination:
             (await createKeyPairFromPrivateKey(payment.privateKey.unlock))
-                .address,
+                .publicKey,
         lamports: payment.amount,
         source: sourceWallet,
         commitment: Commitment.finalized,

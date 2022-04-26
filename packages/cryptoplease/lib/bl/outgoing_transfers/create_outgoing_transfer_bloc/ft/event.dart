@@ -2,10 +2,6 @@ part of 'bloc.dart';
 
 @freezed
 class FtCreateOutgoingTransferEvent with _$FtCreateOutgoingTransferEvent {
-  const factory FtCreateOutgoingTransferEvent.typeUpdated(
-    OutgoingTransferType transferType,
-  ) = TypeUpdated;
-
   const factory FtCreateOutgoingTransferEvent.tokenAmountUpdated(
     Decimal amount,
   ) = TokenAmountUpdated;
@@ -14,18 +10,14 @@ class FtCreateOutgoingTransferEvent with _$FtCreateOutgoingTransferEvent {
     Decimal amount,
   ) = FiatAmountUpdated;
 
-  const factory FtCreateOutgoingTransferEvent.tokenUpdated(
-    Token token, {
-
-    /// If true, it will be the only available token.
-    @Default(false) bool lock,
-  }) = TokenUpdated;
+  const factory FtCreateOutgoingTransferEvent.tokenUpdated(Token token) =
+      TokenUpdated;
 
   const factory FtCreateOutgoingTransferEvent.recipientUpdated(String address) =
       RecipientUpdated;
 
   const factory FtCreateOutgoingTransferEvent.referenceUpdated(
-    String reference,
+    Iterable<Ed25519HDPublicKey> reference,
   ) = ReferenceUpdated;
 
   const factory FtCreateOutgoingTransferEvent.memoUpdated(String memo) =

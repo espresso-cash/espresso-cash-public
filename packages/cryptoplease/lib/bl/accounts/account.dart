@@ -18,6 +18,8 @@ class MyAccount with _$MyAccount {
   const MyAccount._();
 
   String get address => wallet.address;
+
+  Ed25519HDPublicKey get publicKey => wallet.publicKey;
 }
 
 Future<String?> loadMnemonic(FlutterSecureStorage storage) =>

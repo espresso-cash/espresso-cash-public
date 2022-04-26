@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/presentation/screens/app_lock/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/add_funds_flow/add_funds_screen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/authenticated_flow_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/backup_phrase_flow/routes.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/flow.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/home_tabs_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/nft/nft_details_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/outgoing_transfer_flow/outgoing_transfer_flow.dart';
@@ -25,7 +25,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
     AutoRoute<void>(page: TransactionDetailsScreen),
     ...createPaymentFlowRoutes,
     AutoRoute<void>(page: OutgoingTransferFlowScreen),
-    receiveFlowRoutes,
+    ...receiveFlowRoutes,
     AutoRoute<void>(page: AddFundsScreen),
     backupPhraseFlowRoutes,
     appLockSetupFlowRoutes,

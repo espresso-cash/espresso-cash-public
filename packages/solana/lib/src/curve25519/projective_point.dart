@@ -24,6 +24,7 @@ class ProjectivePoint {
     final xPlusYSq = xPlusY.square();
     final yyPlusXX = yy + xx;
     final yyMinusXX = yy - xx;
+
     return CompletedPoint(
       xPlusYSq - yyPlusXX,
       yyPlusXX,

@@ -62,7 +62,8 @@ abstract class AccountData {
       final elements = data.whereType<String>();
       if (elements.length != 2) {
         throw const FormatException(
-            'array has two elements but of incompatible types');
+          'array has two elements but of incompatible types',
+        );
       }
 
       return AccountData._fromEncodedData(elements);

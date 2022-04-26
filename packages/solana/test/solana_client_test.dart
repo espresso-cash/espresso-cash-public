@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-first
+
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
@@ -8,7 +10,7 @@ void main() {
   late final SolanaClient solanaClient;
   late final Wallet source;
   late final Wallet destination;
-  late SplToken token;
+  late Mint token;
 
   setUpAll(() async {
     source = await Ed25519HDKeyPair.random();
@@ -17,21 +19,21 @@ void main() {
     // Add tokens to the sender
     await solanaClient.requestAirdrop(
       lamports: 100 * lamportsPerSol,
-      address: source.address,
+      address: source.publicKey,
     );
     token = await solanaClient.initializeMint(
-      owner: source,
+      mintAuthority: source,
       decimals: 2,
     );
     final associatedAccount = await solanaClient.createAssociatedTokenAccount(
-      mint: token.mint,
+      mint: token.address,
       funder: source,
     );
-    await solanaClient.transferMint(
-      destination: associatedAccount.pubkey,
+    await solanaClient.mintTo(
+      destination: Ed25519HDPublicKey.fromBase58(associatedAccount.pubkey),
       amount: _tokenMintAmount,
-      mint: token.mint,
-      owner: source,
+      mint: token.address,
+      authority: source,
     );
   });
 
@@ -44,7 +46,7 @@ void main() {
 
   test('Transfer SOL', () async {
     final signature = await solanaClient.transferLamports(
-      destination: destination.address,
+      destination: destination.publicKey,
       lamports: lamportsPerSol,
       source: source,
     );
@@ -59,7 +61,7 @@ void main() {
     const memoText = 'Memo test string...';
 
     final signature = await solanaClient.transferLamports(
-      destination: destination.address,
+      destination: destination.publicKey,
       lamports: _lamportsTransferAmount,
       memo: memoText,
       source: source,
@@ -80,14 +82,19 @@ void main() {
     expect(txMessage.instructions, isNotNull);
     final instructions = txMessage.instructions;
     expect(instructions.length, equals(2));
-    expect(instructions[0], const TypeMatcher<ParsedInstructionSystem>());
-    final parsedInstructionSystem = instructions[0] as ParsedInstructionSystem;
+    expect(instructions.first, const TypeMatcher<ParsedInstructionSystem>());
+    final parsedInstructionSystem =
+        instructions.first as ParsedInstructionSystem;
     expect(
-        parsedInstructionSystem.parsed, isA<ParsedSystemTransferInstruction>());
+      parsedInstructionSystem.parsed,
+      isA<ParsedSystemTransferInstruction>(),
+    );
     final parsedTransferInstruction =
         parsedInstructionSystem.parsed as ParsedSystemTransferInstruction;
-    expect(parsedTransferInstruction.info.lamports,
-        equals(_lamportsTransferAmount));
+    expect(
+      parsedTransferInstruction.info.lamports,
+      equals(_lamportsTransferAmount),
+    );
     expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
     final memoInstruction = instructions[1] as ParsedInstructionMemo;
     expect(memoInstruction.memo, equals(memoText));
@@ -99,8 +106,8 @@ void main() {
       final wallet = await Ed25519HDKeyPair.random();
       expect(
         solanaClient.hasAssociatedTokenAccount(
-          mint: token.mint,
-          owner: wallet.address,
+          mint: token.address,
+          owner: wallet.publicKey,
         ),
         completion(equals(false)),
       );
@@ -108,7 +115,7 @@ void main() {
       final signature = await solanaClient.requestAirdrop(
         lamports: lamportsPerSol,
         commitment: Commitment.finalized,
-        address: wallet.address,
+        address: wallet.publicKey,
       );
       expect(signature, isNotNull);
       expect(
@@ -117,20 +124,20 @@ void main() {
       );
 
       await solanaClient.createAssociatedTokenAccount(
-        mint: token.mint,
+        mint: token.address,
         funder: wallet,
       );
       final hasAssociatedTokenAccount =
           await solanaClient.hasAssociatedTokenAccount(
-        mint: token.mint,
-        owner: wallet.address,
+        mint: token.address,
+        owner: wallet.publicKey,
       );
 
       expect(hasAssociatedTokenAccount, equals(true));
 
       final tokenBalance = await solanaClient.getTokenBalance(
-        mint: token.mint,
-        owner: wallet.address,
+        mint: token.address,
+        owner: wallet.publicKey,
       );
       expect(tokenBalance.decimals, equals(token.decimals));
       expect(tokenBalance.amount, equals('0'));
@@ -144,10 +151,10 @@ void main() {
       final wallet = await Ed25519HDKeyPair.random();
       expect(
         solanaClient.transferSplToken(
-          destination: wallet.address,
+          destination: wallet.publicKey,
           amount: 100,
-          mint: token.mint,
-          source: source,
+          mint: token.address,
+          owner: source,
         ),
         throwsA(isA<NoAssociatedTokenAccountException>()),
       );
@@ -159,21 +166,21 @@ void main() {
     () async {
       final wallet = await Ed25519HDKeyPair.random();
       await solanaClient.createAssociatedTokenAccount(
-        mint: token.mint,
+        mint: token.address,
         funder: source,
-        owner: wallet.address,
+        owner: wallet.publicKey,
       );
       final signature = await solanaClient.transferSplToken(
-        destination: wallet.address,
+        destination: wallet.publicKey,
         amount: 40,
-        mint: token.mint,
-        source: source,
+        mint: token.address,
+        owner: source,
       );
       expect(signature, isNotNull);
 
       final tokenBalance = await solanaClient.getTokenBalance(
-        mint: token.mint,
-        owner: wallet.address,
+        mint: token.address,
+        owner: wallet.publicKey,
       );
       expect(tokenBalance.amount, equals('40'));
     },
@@ -186,18 +193,18 @@ void main() {
       final wallet = await Ed25519HDKeyPair.random();
       // Create the associated account for the recipient
       await solanaClient.createAssociatedTokenAccount(
-        mint: token.mint,
+        mint: token.address,
         funder: source,
-        owner: wallet.address,
+        owner: wallet.publicKey,
       );
       const memoText = 'Memo test string...';
 
       final signature = await solanaClient.transferSplToken(
-        mint: token.mint,
-        destination: wallet.address,
+        mint: token.address,
+        destination: wallet.publicKey,
         amount: 40,
         memo: memoText,
-        source: source,
+        owner: source,
       );
       expect(signature, isNotNull);
 
@@ -221,15 +228,17 @@ void main() {
       expect(memoInstruction.memo, equals(memoText));
       final splTokenInstruction = instructions[0] as ParsedInstructionSplToken;
       expect(
-          splTokenInstruction.parsed, isA<ParsedSplTokenTransferInstruction>());
+        splTokenInstruction.parsed,
+        isA<ParsedSplTokenTransferInstruction>(),
+      );
       final parsedSplTokenInstruction =
           splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
       expect(parsedSplTokenInstruction.type, equals('transfer'));
       expect(parsedSplTokenInstruction.info, isA<SplTokenTransferInfo>());
       expect(parsedSplTokenInstruction.info.amount, '40');
       final tokenBalance = await solanaClient.getTokenBalance(
-        mint: token.mint,
-        owner: wallet.address,
+        mint: token.address,
+        owner: wallet.publicKey,
       );
       expect(tokenBalance.amount, equals('40'));
     },

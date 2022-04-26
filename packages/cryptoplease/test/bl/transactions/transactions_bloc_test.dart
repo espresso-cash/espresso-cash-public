@@ -31,14 +31,14 @@ void main() {
         status: ConfirmationStatus.finalized,
       );
 
-      final message = SystemProgram.transfer(
-        source: senderWallet.address,
-        destination: testWallet.address,
+      final instruction = SystemInstruction.transfer(
+        fundingAccount: senderWallet.publicKey,
+        recipientAccount: testWallet.publicKey,
         lamports: 500,
       );
 
       final signature = await solanaClient.rpcClient.signAndSendTransaction(
-        message,
+        Message.only(instruction),
         [senderWallet],
       );
       await solanaClient.waitForSignatureStatus(

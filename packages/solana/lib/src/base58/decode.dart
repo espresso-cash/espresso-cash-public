@@ -30,6 +30,7 @@ List<int> base58decode(String base58String) {
     }
     length = i;
   }
+
   return List<int>.filled(zeroes, 0)
       .followedBy(bytes256.sublist(size - length))
       .toList(growable: false);

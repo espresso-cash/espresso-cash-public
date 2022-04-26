@@ -1,14 +1,16 @@
-import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
+import 'package:cryptoplease/bl/payment_requests/create_payment_request/bloc.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_fiat_input_widget.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/link_request/flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+abstract class RequestAmountSetter {
+  void onAmountSubmitted();
+}
 
 class RequestAmountScreen extends StatefulWidget {
   const RequestAmountScreen({Key? key}) : super(key: key);
@@ -18,48 +20,43 @@ class RequestAmountScreen extends StatefulWidget {
 }
 
 class _RequestAmountScreenState extends State<RequestAmountScreen> {
-  CryptoAmount _tokenAmount = const CryptoAmount(
-    currency: Currency.sol,
-    value: 0,
-  );
-  FiatAmount _fiatAmount = const FiatAmount(value: 0, currency: Currency.usd);
-  final _availableTokens = [Token.sol].lock;
-
   void _onSubmitted() =>
-      context.read<LinkRequestFlowRouter>().onAmountSubmitted();
+      context.read<RequestAmountSetter>().onAmountSubmitted();
 
-  void _updateTokenAmount(Decimal value) => setState(() {
-        _tokenAmount = _tokenAmount.copyWith(
-          value: _tokenAmount.currency.decimalToInt(value),
-        );
-      });
+  void _updateTokenAmount(Decimal value) => context
+      .read<CreatePaymentRequestBloc>()
+      .add(CreatePaymentRequestEvent.tokenAmountUpdated(value));
 
-  void _updateFiatAmount(Decimal value) => setState(() {
-        _fiatAmount = _fiatAmount.copyWith(
-          value: _fiatAmount.currency.decimalToInt(value),
-        );
-      });
+  void _updateFiatAmount(Decimal value) => context
+      .read<CreatePaymentRequestBloc>()
+      .add(CreatePaymentRequestEvent.fiatAmountUpdated(value));
 
-  void _updateToken(Token _) {}
+  void _updateToken(Token value) => context
+      .read<CreatePaymentRequestBloc>()
+      .add(CreatePaymentRequestEvent.tokenUpdated(value));
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
-        child: Scaffold(
-          appBar: CpAppBar(
-            nextButton: CpButton(
-              onPressed: _tokenAmount.value != 0 ? _onSubmitted : null,
-              text: context.l10n.next,
-            ),
-          ),
-          body: TokenFiatInputWidget(
-            tokenAmount: _tokenAmount,
-            fiatAmount: _fiatAmount,
-            onTokenAmountChanged: _updateTokenAmount,
-            onFiatAmountChanged: _updateFiatAmount,
-            onTokenChanged: _updateToken,
-            currency: Currency.usd,
-            availableTokens: _availableTokens,
+  Widget build(BuildContext context) {
+    final state = context.watch<CreatePaymentRequestBloc>().state;
+
+    return CpTheme.dark(
+      child: Scaffold(
+        appBar: CpAppBar(
+          nextButton: CpButton(
+            onPressed: state.tokenAmount.value != 0 ? _onSubmitted : null,
+            text: context.l10n.next,
           ),
         ),
-      );
+        body: TokenFiatInputWidget(
+          tokenAmount: state.tokenAmount,
+          fiatAmount: state.fiatAmount,
+          onTokenAmountChanged: _updateTokenAmount,
+          onFiatAmountChanged: _updateFiatAmount,
+          onTokenChanged: _updateToken,
+          currency: Currency.usd,
+          availableTokens: state.availableTokens,
+        ),
+      ),
+    );
+  }
 }

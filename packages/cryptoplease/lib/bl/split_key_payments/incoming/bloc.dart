@@ -160,8 +160,8 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
         // transfer all the money from SOL account of this temp wallet
         // to SOL account of the recipient (minus the transaction fee).
         remainder = await _solanaClient.hasAssociatedTokenAccount(
-          owner: recipient,
-          mint: tokenAddress,
+          owner: Ed25519HDPublicKey.fromBase58(recipient),
+          mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
         )
             ? solBalance - lamportsPerSignature
             : 0;
@@ -169,7 +169,7 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
 
       if (transferAmount <= 0) {
         final transactions = await _solanaClient.rpcClient.getTransactionsList(
-          wallet.address,
+          wallet.publicKey,
           limit: 1,
           commitment: Commitment.confirmed,
         );
@@ -183,15 +183,15 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
       final message = tokenAddress == Token.sol.address
           ? await _solanaClient.createSolTransfer(
               sender: wallet,
-              recipient: recipient,
+              recipient: Ed25519HDPublicKey.fromBase58(recipient),
               amount: transferAmount + remainder,
             )
           : await _solanaClient.createSplTransfer(
               sender: wallet,
-              solanaAddress: recipient,
+              solanaAddress: Ed25519HDPublicKey.fromBase58(recipient),
               additionalFee: remainder,
               amount: transferAmount,
-              tokenAddress: tokenAddress,
+              tokenAddress: Ed25519HDPublicKey.fromBase58(tokenAddress),
             );
       final signature = await _solanaClient.rpcClient
           .signAndSendTransaction(message, [wallet]);

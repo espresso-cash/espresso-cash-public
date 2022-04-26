@@ -18,8 +18,8 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 /// Provides a websocket based connection to Solana.
 class SubscriptionClient {
-  SubscriptionClient(Uri _uri) {
-    final channel = WebSocketChannel.connect(_uri);
+  SubscriptionClient(Uri uri) {
+    final channel = WebSocketChannel.connect(uri);
     _sink = channel.sink;
     _stream = channel.stream.asBroadcastStream();
   }
@@ -109,6 +109,7 @@ class SubscriptionClient {
       _subscribe<dynamic>(
         'program',
         params: <dynamic>[
+          programId,
           <String, String>{
             'encoding': encoding.value,
           },
@@ -156,12 +157,6 @@ class SubscriptionClient {
   /// subscription returned by the `Stream.listen()` method of this stream
   /// client will automatically send `slotUnsubscribe` message;
   /// from Solana.
-  ///
-  /// For [commitment] parameter description [see this document][1].
-  ///
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Stream<Slot> slotSubscribe() => _subscribe<Slot>('slot');
 
   /// Subscribe to receive notification anytime a new root is set by the
@@ -171,12 +166,6 @@ class SubscriptionClient {
   /// subscription returned by the `Stream.listen()` method of this stream
   /// client will automatically send `rootUnsubscribe` message;
   /// from Solana.
-  ///
-  /// For [commitment] parameter description [see this document][1].
-  ///
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   Stream<int> rootSubscribe() => _subscribe<int>('root');
 
   /// Dispose this object and cancel any existing subscription.
@@ -207,10 +196,10 @@ class SubscriptionClient {
       int? subscriptionId;
       final requestId = _requestId++;
 
-      late final StreamSubscription subscription;
+      late final StreamSubscription<dynamic> subscription;
 
       subscription = _stream.listen(
-        (event) {
+        (dynamic event) {
           final message = _parse(event);
           if (message is SubscribedMessage) {
             if (message.id != requestId) return;
@@ -225,7 +214,7 @@ class SubscriptionClient {
 
             if (singleShot) subscriptionId = null;
 
-            controller.add(message.value);
+            controller.add(message.value as T);
           }
         },
         onError: controller.addError,

@@ -30,18 +30,18 @@ void main() {
 
         account = MyAccount(firstName: 'Tester', wallet: wallet);
         await solanaClient.requestAirdrop(
-          address: wallet.address,
+          address: wallet.publicKey,
           lamports: initialAmount,
         );
 
         await solanaClient.createTokenAccount(
-          mint: token.address,
+          mint: token.publicKey,
           account: await Ed25519HDKeyPair.random(),
           creator: account.wallet,
         );
 
         await solanaClient.airdropSplTokens(
-          account.address,
+          account.publicKey,
           token,
           amount: 10000,
         );

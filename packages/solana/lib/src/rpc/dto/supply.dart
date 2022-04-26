@@ -23,8 +23,8 @@ class Supply {
   /// Non-circulating supply in lamports.
   final int nonCirculating;
 
-  /// An array of account addresses of non-circulating accounts,
-  /// as strings. If [excludeNonCirculatingAccountsList] is
-  /// enabled, the returned array will be empty.
+  /// An array of account addresses of non-circulating accounts, as strings. If
+  /// `excludeNonCirculatingAccountsList` is enabled, the returned array will be
+  /// empty.
   final List<String> nonCirculatingAccounts;
 }

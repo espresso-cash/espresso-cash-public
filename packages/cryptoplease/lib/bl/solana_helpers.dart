@@ -2,22 +2,20 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
 
-Future<String> computeAssociatedTokenAccountAddress({
-  required String owner,
-  required String mint,
-}) =>
-    findProgramAddress(
-      seeds: [
-        Buffer.fromBase58(owner),
-        Buffer.fromBase58(TokenProgram.programId),
-        Buffer.fromBase58(mint),
-      ],
-      programId: AssociatedTokenAccountProgram.programId,
-    );
+extension SolanaPayRequestExt on SolanaPayRequest {
+  Token? token(TokenList tokenList) {
+    final splToken = this.splToken;
+    if (splToken == null) return Token.sol;
+
+    return tokenList.findTokenByMint(splToken.toBase58());
+  }
+}
 
 extension SolanaClientExt on SolanaClient {
   Future<Iterable<ProgramAccount>> getSplAccounts(String address) =>
@@ -43,14 +41,14 @@ extension SolanaClientExt on SolanaClient {
   /// even if the transfer is of an SPL token.
   Future<Message> createTransfer({
     required Wallet sender,
-    required String recipient,
-    required String tokenAddress,
+    required Ed25519HDPublicKey recipient,
+    required Ed25519HDPublicKey tokenAddress,
     required int amount,
     int additionalFee = 0,
     String? memo,
-    String? reference,
+    Iterable<Ed25519HDPublicKey>? reference,
   }) =>
-      tokenAddress == Token.sol.address
+      tokenAddress == Token.sol.publicKey
           ? createSolTransfer(
               sender: sender,
               recipient: recipient,
@@ -70,43 +68,45 @@ extension SolanaClientExt on SolanaClient {
 
   Future<Message> createSolTransfer({
     required Wallet sender,
-    required String recipient,
+    required Ed25519HDPublicKey recipient,
     required int amount,
     String? memo,
-    String? reference,
+    Iterable<Ed25519HDPublicKey>? reference,
   }) async =>
       Message(
         instructions: [
           // We can skip memo, but also disallow empty memo which does not
           // make sense
           if (memo != null && memo.isNotEmpty)
-            MemoInstruction(signers: [sender.address], memo: memo),
+            MemoInstruction(signers: [sender.publicKey], memo: memo),
           Instruction(
             accounts: [
-              AccountMeta.writeable(pubKey: sender.address, isSigner: false),
+              AccountMeta.writeable(pubKey: sender.publicKey, isSigner: false),
               AccountMeta.writeable(pubKey: recipient, isSigner: false),
               if (reference != null)
-                AccountMeta.readonly(pubKey: reference, isSigner: false),
+                ...reference.map(
+                  (r) => AccountMeta.readonly(pubKey: r, isSigner: false),
+                ),
             ],
             data: Buffer.fromConcatenatedByteArrays([
               SystemProgram.transferInstructionIndex,
               Buffer.fromUint64(amount),
             ]),
-            programId: SystemProgram.programId,
+            programId: SystemProgram.id,
           ),
         ],
       );
 
   Future<Message> createSplTransfer({
     required Wallet sender,
-    required String solanaAddress,
+    required Ed25519HDPublicKey solanaAddress,
     required int amount,
-    required String tokenAddress,
+    required Ed25519HDPublicKey tokenAddress,
     required int additionalFee,
     String? memo,
-    String? reference,
+    Iterable<Ed25519HDPublicKey>? reference,
   }) async {
-    final associatedAddress = await getProgramAccountAddress(
+    final associatedAddress = await findAssociatedTokenAddress(
       owner: solanaAddress,
       mint: tokenAddress,
     );
@@ -117,7 +117,7 @@ extension SolanaClientExt on SolanaClient {
     );
 
     final associatedSender = await getAssociatedTokenAccount(
-      owner: sender.address,
+      owner: sender.publicKey,
       mint: tokenAddress,
     );
 
@@ -130,22 +130,22 @@ extension SolanaClientExt on SolanaClient {
 
     Instruction additionalFeeInstruction() => Instruction(
           accounts: [
-            AccountMeta.writeable(pubKey: sender.address, isSigner: false),
+            AccountMeta.writeable(pubKey: sender.publicKey, isSigner: false),
             AccountMeta.writeable(pubKey: solanaAddress, isSigner: false),
           ],
           data: Buffer.fromConcatenatedByteArrays([
             SystemProgram.transferInstructionIndex,
             Buffer.fromUint64(additionalFee),
           ]),
-          programId: SystemProgram.programId,
+          programId: SystemProgram.id,
         );
 
     Instruction associatedAccountInstruction() =>
-        AssociatedTokenAccountInstruction(
+        AssociatedTokenAccountInstruction.createAccount(
           mint: tokenAddress,
           address: associatedAddress,
           owner: solanaAddress,
-          funder: sender.address,
+          funder: sender.publicKey,
         );
 
     return Message(
@@ -153,25 +153,27 @@ extension SolanaClientExt on SolanaClient {
         // We can skip memo, but also disallow empty memo which does not
         // make sense
         if (memo != null && memo.isNotEmpty)
-          MemoInstruction(signers: [sender.address], memo: memo),
+          MemoInstruction(signers: [sender.publicKey], memo: memo),
         if (!hasAssociatedAccount) associatedAccountInstruction(),
         if (additionalFee > 0) additionalFeeInstruction(),
         Instruction(
           accounts: [
             AccountMeta.writeable(
-              pubKey: associatedSender.pubkey,
+              pubKey: Ed25519HDPublicKey.fromBase58(associatedSender.pubkey),
               isSigner: false,
             ),
             AccountMeta.writeable(pubKey: associatedAddress, isSigner: false),
-            AccountMeta.readonly(pubKey: sender.address, isSigner: true),
+            AccountMeta.readonly(pubKey: sender.publicKey, isSigner: true),
             if (reference != null)
-              AccountMeta.readonly(pubKey: reference, isSigner: false),
+              ...reference.map(
+                (r) => AccountMeta.readonly(pubKey: r, isSigner: false),
+              ),
           ],
           data: Buffer.fromConcatenatedByteArrays([
             TokenProgram.transferInstructionIndex,
             Buffer.fromUint64(amount),
           ]),
-          programId: TokenProgram.programId,
+          programId: TokenProgram.id,
         ),
       ],
     );

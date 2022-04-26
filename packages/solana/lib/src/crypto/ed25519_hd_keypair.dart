@@ -1,35 +1,35 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart'
     show Ed25519, KeyPair, KeyPairType, SimpleKeyPairData, SimplePublicKey;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
-import 'package:solana/src/base58/encode.dart';
+import 'package:solana/src/crypto/ed25519_hd_keypair_data.dart';
+import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
+import 'package:solana/src/crypto/signature.dart';
 import 'package:solana/src/encoder/message.dart';
-import 'package:solana/src/encoder/signature.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
 
 /// Signs solana transactions using the ed25519 elliptic curve
 class Ed25519HDKeyPair extends KeyPair {
   Ed25519HDKeyPair._({
     required List<int> privateKey,
-    required List<int> publicKey,
-  })  : _privateKey = privateKey,
-        _publicKey = publicKey,
-        // We pre-compute this in order to avoid doing it
-        // over and over because it's needed often.
-        address = base58encode(publicKey);
+    required this.publicKey,
+  }) : _privateKey = privateKey;
 
   /// Construct a new [Ed25519HDKeyPair] from a [seed] and a derivation path [hdPath].
   static Future<Ed25519HDKeyPair> fromSeedWithHdPath({
     required List<int> seed,
     required String hdPath,
   }) async {
-    final KeyData _keyData = await ED25519_HD_KEY.derivePath(hdPath, seed);
+    final KeyData keyData = await ED25519_HD_KEY.derivePath(hdPath, seed);
 
     return Ed25519HDKeyPair._(
-      privateKey: _keyData.key,
-      publicKey: await ED25519_HD_KEY.getPublicKey(_keyData.key, false),
+      privateKey: keyData.key,
+      publicKey: Ed25519HDPublicKey(
+        await ED25519_HD_KEY.getPublicKey(keyData.key, false),
+      ),
     );
   }
 
@@ -38,15 +38,18 @@ class Ed25519HDKeyPair extends KeyPair {
   }) async =>
       Ed25519HDKeyPair._(
         privateKey: privateKey,
-        publicKey: await ED25519_HD_KEY.getPublicKey(privateKey, false),
+        publicKey: Ed25519HDPublicKey(
+          await ED25519_HD_KEY.getPublicKey(privateKey, false),
+        ),
       );
 
   /// Generate a new random [Ed25519HDKeyPair]
   static Future<Ed25519HDKeyPair> random() async {
-    final random = (int _) => _random.nextInt(256);
+    int random(int _) => _random.nextInt(256);
+
     // Create the seed
     final List<int> seedBytes = List<int>.generate(32, random);
-    // final PublicKey publicKey = await keyPair.extractPublicKey();
+
     // Finally, create a new wallet
     return Ed25519HDKeyPair.fromSeedWithHdPath(
       seed: seedBytes,
@@ -76,6 +79,7 @@ class Ed25519HDKeyPair extends KeyPair {
     int change = 0,
   }) async {
     final List<int> seed = bip39.mnemonicToSeed(mnemonic);
+
     return Ed25519HDKeyPair.fromSeedWithHdPath(
       seed: seed,
       hdPath: _getHDPath(account, change),
@@ -85,12 +89,11 @@ class Ed25519HDKeyPair extends KeyPair {
   /// Sign a solana program message
   Future<SignedTx> signMessage({
     required Message message,
-    // FIXME: should be string (no knowledge of these structures is needed here)
     required String recentBlockhash,
   }) async {
     final compiledMessage = message.compile(
       recentBlockhash: recentBlockhash,
-      feePayer: address,
+      feePayer: publicKey,
     );
     final signature = await sign(compiledMessage.data);
 
@@ -101,22 +104,28 @@ class Ed25519HDKeyPair extends KeyPair {
   }
 
   @override
-  Future<SimpleKeyPairData> extract() async => SimpleKeyPairData(
+  Future<Ed25519HDKeyPairData> extract() async => Ed25519HDKeyPairData(
         _privateKey,
-        publicKey: await extractPublicKey(),
-        type: KeyPairType.ed25519,
+        publicKey: publicKey,
       );
 
   @override
-  Future<SimplePublicKey> extractPublicKey() => Future<SimplePublicKey>.value(
-        SimplePublicKey(_publicKey, type: KeyPairType.ed25519),
-      );
+  Future<Ed25519HDPublicKey> extractPublicKey() =>
+      Future<Ed25519HDPublicKey>.value(publicKey);
 
   /// Returns a Future that resolves to the result of signing
   /// [data] with the private key held internally by a given
   /// instance
-  Future<Signature> sign(Iterable<int> data) async => Signature.from(
-        await _ed25519.sign(data.toList(growable: false), keyPair: this),
+  Future<Signature> sign(Iterable<int> data) async => _ed25519.sign(
+        data.toList(growable: false),
+        keyPair: SimpleKeyPairData(
+          _privateKey,
+          publicKey: SimplePublicKey(
+            publicKey.bytes,
+            type: KeyPairType.ed25519,
+          ),
+          type: KeyPairType.ed25519,
+        ),
       );
 
   /// Build a derivation path with [account] and [change]
@@ -127,8 +136,9 @@ class Ed25519HDKeyPair extends KeyPair {
   static final _ed25519 = Ed25519();
 
   final List<int> _privateKey;
-  final List<int> _publicKey;
-  final String address;
+  final Ed25519HDPublicKey publicKey;
+
+  String get address => publicKey.toBase58();
 }
 
 final _random = Random.secure();

@@ -13,14 +13,8 @@ const int _transferredAmount = 0x1000;
 
 void main() {
   test('throws exception on timeout', () async {
-    final client = RpcClient(
-      devnetRpcUrl,
-      timeout: const Duration(milliseconds: 0),
-    );
-    expect(
-      () => client.getTransactionCount(),
-      throwsA(isA<TimeoutException>()),
-    );
+    final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
+    expect(client.getTransactionCount, throwsA(isA<TimeoutException>()));
   });
 
   group('RpcClient testsuite', () {
@@ -32,7 +26,7 @@ void main() {
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
-      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
       destination = await Ed25519HDKeyPair.fromMnemonic(
         generateMnemonic(),
       ); // generateMnemonic());
@@ -90,13 +84,13 @@ void main() {
 
     test('Simulate a transfer', () async {
       final recentBlockhash = await rpcClient.getRecentBlockhash();
-      final message = SystemProgram.transfer(
-        source: source.address,
-        destination: destination.address,
+      final instruction = SystemInstruction.transfer(
+        fundingAccount: source.publicKey,
+        recipientAccount: destination.publicKey,
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await source.signMessage(
-        message: message,
+        message: Message.only(instruction),
         recentBlockhash: recentBlockhash.blockhash,
       );
       final TransactionStatus transferResult =
@@ -108,13 +102,13 @@ void main() {
 
     test('Transfer SOL', () async {
       final recentBlockhash = await rpcClient.getRecentBlockhash();
-      final message = SystemProgram.transfer(
-        source: source.address,
-        destination: destination.address,
+      final instruction = SystemInstruction.transfer(
+        fundingAccount: source.publicKey,
+        recipientAccount: destination.publicKey,
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await source.signMessage(
-        message: message,
+        message: Message.only(instruction),
         recentBlockhash: recentBlockhash.blockhash,
       );
       final String signature = await rpcClient.sendTransaction(
@@ -134,13 +128,13 @@ void main() {
 
     test('Transfer SOL to the same address', () async {
       final recentBlockhash = await rpcClient.getRecentBlockhash();
-      final message = SystemProgram.transfer(
-        source: source.address,
-        destination: source.address,
+      final instruction = SystemInstruction.transfer(
+        fundingAccount: source.publicKey,
+        recipientAccount: source.publicKey,
         lamports: _transferredAmount,
       );
       final SignedTx signedTx = await source.signMessage(
-        message: message,
+        message: Message.only(instruction),
         recentBlockhash: recentBlockhash.blockhash,
       );
       final String signature = await rpcClient.sendTransaction(
@@ -158,10 +152,12 @@ void main() {
     });
 
     test('List recent transactions', () async {
-      final txs = await rpcClient.getTransactionsList(source.address);
+      final txs = await rpcClient.getTransactionsList(source.publicKey);
       expect(txs, isNot(null));
 
-      txs.forEach((TransactionDetails? tx) => expect(tx, isNot(null)));
+      for (final tx in txs) {
+        expect(tx, isNot(null));
+      }
       expect(txs.length, greaterThan(0));
     });
   });
@@ -173,7 +169,7 @@ void main() {
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
-      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
     });
 
     setUp(() async {
@@ -225,46 +221,46 @@ void main() {
       expect(balance, greaterThan(0));
     });
 
-    test('Get token accounts by owner', () async {
-      final accountKeyPair = await Ed25519HDKeyPair.random();
-      final accountCreator = await Ed25519HDKeyPair.random();
+    test(
+      'Get token accounts by owner',
+      () async {
+        final accountKeyPair = await Ed25519HDKeyPair.random();
+        final accountCreator = await Ed25519HDKeyPair.random();
 
-      await airdrop(rpcClient, subscriptionClient, wallet, sol: 100);
-      await airdrop(rpcClient, subscriptionClient, accountCreator, sol: 100);
-      final solanaClient = SolanaClient(
-        rpcUrl: Uri.parse(devnetRpcUrl),
-        websocketUrl: Uri.parse(devnetWebsocketUrl),
-      );
+        await airdrop(rpcClient, subscriptionClient, wallet, sol: 100);
+        await airdrop(rpcClient, subscriptionClient, accountCreator, sol: 100);
 
-      final token = await solanaClient.initializeMint(
-        owner: wallet,
-        decimals: 8,
-      );
+        final solanaClient = createTestSolanaClient();
 
-      final createdAccount = await solanaClient.createAssociatedTokenAccount(
-        owner: accountKeyPair.address,
-        funder: accountCreator,
-        mint: token.mint,
-      );
-      expect(createdAccount, isNotNull);
+        final token = await solanaClient.initializeMint(
+          mintAuthority: wallet,
+          decimals: 8,
+        );
 
-      final accounts = await rpcClient.getTokenAccountsByOwner(
-        accountKeyPair.address,
-        const TokenAccountsFilter.byProgramId(TokenProgram.programId),
-        encoding: Encoding.jsonParsed,
-      );
+        final tokenAccount = await solanaClient.createAssociatedTokenAccount(
+          owner: accountKeyPair.publicKey,
+          mint: token.address,
+          funder: accountCreator,
+        );
 
-      expect(accounts.length, equals(1));
-      expect(accounts.first.pubkey, equals(createdAccount.pubkey));
-      expect(accounts.first.account.data, isA<ParsedAccountData>());
+        final accounts = await rpcClient.getTokenAccountsByOwner(
+          accountKeyPair.address,
+          const TokenAccountsFilter.byProgramId(TokenProgram.programId),
+          encoding: Encoding.jsonParsed,
+        );
 
-      final data = accounts.first.account.data as ParsedAccountData;
-      final programData = data as ParsedSplTokenProgramAccountData;
-      final parsed = programData.parsed as TokenAccountData;
-      expect(parsed.info.mint, equals(token.mint));
-      expect(parsed.info.owner, equals(createdAccount.account.owner));
-      expect(parsed, isNotNull);
-    }, timeout: const Timeout(Duration(minutes: 4)));
+        expect(accounts.length, equals(1));
+        expect(accounts.first.pubkey, tokenAccount.pubkey);
+        expect(accounts.first.account.data, isA<ParsedAccountData>());
+
+        final data = accounts.first.account.data as ParsedAccountData;
+        final programData = data as ParsedSplTokenProgramAccountData;
+        final parsed = programData.parsed as TokenAccountData;
+        expect(parsed.info.mint, token.address.toBase58());
+        expect(parsed, isNotNull);
+      },
+      timeout: const Timeout(Duration(minutes: 4)),
+    );
   });
 
   group('Test informational methods', () {
@@ -274,10 +270,10 @@ void main() {
 
     setUpAll(() async {
       rpcClient = RpcClient(devnetRpcUrl);
-      subscriptionClient = await SubscriptionClient.connect(devnetWebsocketUrl);
+      subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
       sampleSigner = await Ed25519HDKeyPair.random();
 
-      airdrop(rpcClient, subscriptionClient, sampleSigner, sol: 10);
+      await airdrop(rpcClient, subscriptionClient, sampleSigner, sol: 10);
     });
 
     test('Call to getVersion() succeeds and parses the response correctly',
@@ -437,13 +433,17 @@ void main() {
       expect(inflationGovernor, isNotNull);
     });
 
-    test('Call to getInflationReward() succeeds', () async {
-      final inflationReward = await rpcClient.getInflationReward(
-        [sampleSigner.address],
-      );
+    test(
+      'Call to getInflationReward() succeeds',
+      () async {
+        final inflationReward = await rpcClient.getInflationReward(
+          [sampleSigner.address],
+        );
 
-      expect(inflationReward.length, greaterThan(0));
-    }, skip: 'Needs too many slots to correctly work');
+        expect(inflationReward.length, greaterThan(0));
+      },
+      skip: 'Needs too many slots to correctly work',
+    );
 
     test('Call to getClusterNodes() succeeds', () async {
       final clusterNodes = await rpcClient.getClusterNodes();
@@ -574,7 +574,7 @@ void main() {
       final programAccounts = await rpcClient.getProgramAccounts(
         TokenProgram.programId,
         encoding: Encoding.jsonParsed,
-        filters: [ProgramDataFilter.dataSize(10)],
+        filters: const [ProgramDataFilter.dataSize(10)],
       );
 
       expect(programAccounts.length, equals(0));
@@ -585,12 +585,16 @@ void main() {
       expect(slotLeader, _validAddressMatcher);
     });
 
-    test('Call to getSlotLeaders() succeeds', () async {
-      final slotLeaders = await rpcClient.getSlotLeaders(0, 4);
+    test(
+      'Call to getSlotLeaders() succeeds',
+      () async {
+        final slotLeaders = await rpcClient.getSlotLeaders(0, 4);
 
-      expect(slotLeaders.length, lessThanOrEqualTo(4));
-      expect(slotLeaders.every(isValidAddress), equals(true));
-    }, skip: 'Leader schedule for epoch 0 is unavailable');
+        expect(slotLeaders.length, lessThanOrEqualTo(4));
+        expect(slotLeaders.every(isValidAddress), equals(true));
+      },
+      skip: 'Leader schedule for epoch 0 is unavailable',
+    );
 
     test('Call to getStakeActivation() succeeds', () async {
       final largestAccounts = await rpcClient.getLargestAccounts();
@@ -690,11 +694,9 @@ Future<int> _createTokenAccount(
   await airdrop(rpcClient, subscriptionClient, source, sol: 10);
 
   final token = await _createToken(
-    rpcClient: rpcClient,
-    subscriptionClient: subscriptionClient,
     decimals: 2,
     supply: 100000000000000,
-    transferSomeToAddress: source.address,
+    transferSomeToAddress: source.publicKey,
     transferSomeToAmount: 1000,
   );
   final rent = await rpcClient.getMinimumBalanceForRentExemption(
@@ -702,10 +704,10 @@ Future<int> _createTokenAccount(
     commitment: Commitment.finalized,
   );
 
-  final program = TokenProgram.createAccount(
-    mint: token.mint,
-    owner: source.address,
-    address: accountKeyPair.address,
+  final instructions = TokenInstruction.createAndInitializeAccount(
+    mint: token.address,
+    owner: source.publicKey,
+    address: accountKeyPair.publicKey,
     rent: rent,
     space: TokenProgram.neededAccountSpace,
   );
@@ -716,11 +718,8 @@ Future<int> _createTokenAccount(
 
   final signedTx = await signTransaction(
     recentBlockhash,
-    program,
-    [
-      source,
-      accountKeyPair,
-    ],
+    Message(instructions: instructions),
+    [source, accountKeyPair],
   );
   final signature = await rpcClient.sendTransaction(
     signedTx.encode(),
@@ -732,6 +731,7 @@ Future<int> _createTokenAccount(
   );
 
   final fee = recentBlockhash.feeCalculator.lamportsPerSignature;
+
   return 10 * lamportsPerSol - rent - 2 * fee;
 }
 
@@ -752,10 +752,10 @@ Future<String> _createAccount(
 
   await airdrop(rpcClient, subscriptionClient, source, sol: 10);
 
-  final program = SystemProgram.createAccount(
-    fromPubKey: source.address,
-    owner: SystemProgram.programId,
-    pubKey: accountKeyPair.address,
+  final instruction = SystemInstruction.createAccount(
+    fundingAccount: source.publicKey,
+    owner: SystemProgram.id,
+    newAccount: accountKeyPair.publicKey,
     lamports: await rpcClient.getMinimumBalanceForRentExemption(
       size,
       commitment: Commitment.finalized,
@@ -768,11 +768,8 @@ Future<String> _createAccount(
 
   final signedTx = await signTransaction(
     recentBlockhash,
-    program,
-    [
-      source,
-      accountKeyPair,
-    ],
+    Message.only(instruction),
+    [source, accountKeyPair],
   );
   final signature = await rpcClient.sendTransaction(
     signedTx.encode(),
@@ -800,72 +797,70 @@ class _AddressMatcher extends Matcher {
       isValidAddress(item);
 }
 
-Future<SplToken> _createToken({
-  required RpcClient rpcClient,
-  required SubscriptionClient subscriptionClient,
+Future<Mint> _createToken({
   required int decimals,
   required int supply,
-  required String transferSomeToAddress,
+  required Ed25519HDPublicKey transferSomeToAddress,
   required int transferSomeToAmount,
 }) async {
-  // This is the authority that will create the token and be able to
-  // emit currency
+  // This is the authority that will create the token and be able to emit
+  // currency.
   final tokenMintAuthority = await Ed25519HDKeyPair.random();
-  // Put some tokens in the authority wallet
-  final signature = await rpcClient.requestAirdrop(
-    tokenMintAuthority.address,
-    5 * lamportsPerSol,
+  final client = createTestSolanaClient();
+
+  // Put some tokens in the authority wallet.
+  await client.requestAirdrop(
+    address: tokenMintAuthority.publicKey,
+    lamports: 5 * lamportsPerSol,
   );
-  await subscriptionClient.waitForSignatureStatus(
-    signature,
-    status: Commitment.finalized,
+
+  // Now we have SOL to create the token.
+  final splToken = await client.initializeMint(
+    mintAuthority: tokenMintAuthority,
+    decimals: decimals,
   );
-  final solanaClient = createTestSolanaClient();
-  // Now we have SOL to create the token
-  final splToken = await solanaClient.initializeMint(
-    decimals: 2,
-    owner: tokenMintAuthority,
-  );
-  // Now lets create an account to store the supply. All SPL token transfer
-  // must be done to an associated token account which belongs to the specific
-  // token
+
+  // Now lets create an account to store the supply. All SPL token transfer must
+  // be done to an associated token account which belongs to the specific token.
   //
-  // The mint authority will also, own the total supply of the token
-  final supplyAccount = await solanaClient.createAssociatedTokenAccount(
+  // The mint authority will also, own the total supply of the token.
+  final supplyAccount = await findAssociatedTokenAddress(
+    owner: tokenMintAuthority.publicKey,
+    mint: splToken.address,
+  );
+  await client.createAssociatedTokenAccount(
+    mint: splToken.address,
     funder: tokenMintAuthority,
-    mint: splToken.mint,
   );
-  // Now we have a spl token, let's add the supply to it
-  await solanaClient.transferMint(
-    destination: supplyAccount.pubkey,
+
+  // Now we have a spl token, let's add the supply to it.
+  await client.mintTo(
+    authority: tokenMintAuthority,
+    destination: supplyAccount,
     amount: supply,
-    mint: splToken.mint,
+    mint: splToken.address,
+  );
+
+  // We must check if the recipient has an associated token account, if not we
+  // have to create it.
+  await client.getAssociatedTokenAccount(
+        mint: splToken.address,
+        owner: transferSomeToAddress,
+      ) ??
+      await client.createAssociatedTokenAccount(
+        mint: splToken.address,
+        funder: tokenMintAuthority,
+        owner: transferSomeToAddress,
+      );
+
+  // And finally transfer them from the supply account to the destination
+  // account, this is similar to what a faucet does.
+  await client.transferSplToken(
     owner: tokenMintAuthority,
-  );
-
-  // We must check if the recipient has an associated token account, if not
-  // we have to create it
-
-  final associatedAccount = await solanaClient.getAssociatedTokenAccount(
-    mint: splToken.mint,
-    owner: transferSomeToAddress,
-  );
-  if (associatedAccount == null) {
-    await solanaClient.createAssociatedTokenAccount(
-      owner: transferSomeToAddress,
-      funder: tokenMintAuthority,
-      mint: splToken.mint,
-    );
-  }
-
-  // And finally transfer them from the supply account to the destination account,
-  // this is similar to what a faucet does
-  await solanaClient.transferSplToken(
-    source: tokenMintAuthority,
     destination: transferSomeToAddress,
     amount: transferSomeToAmount,
-    mint: splToken.mint,
+    mint: splToken.address,
   );
 
-  return splToken;
+  return client.getMint(address: splToken.address);
 }

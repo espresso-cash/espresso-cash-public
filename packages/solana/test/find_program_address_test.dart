@@ -3,29 +3,36 @@ import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Generate associated token account address', () async {
-    for (final entry in _map.entries) {
-      final address = await findProgramAddress(
+  for (final entry in _map.entries) {
+    test('Generates associated token account address for ${entry.key}',
+        () async {
+      final address = await Ed25519HDPublicKey.findProgramAddress(
         seeds: [
           Buffer.fromBase58(entry.key),
           Buffer.fromBase58(TokenProgram.programId),
           Buffer.fromBase58(_mint),
         ],
-        programId: AssociatedTokenAccountProgram.programId,
+        programId: Ed25519HDPublicKey.fromBase58(
+          AssociatedTokenAccountProgram.programId,
+        ),
       );
       expect(address, equals(entry.value));
-    }
-  });
+    });
+  }
 }
 
 const _mint = '3i4L7AYcwYQgdipuWCJhf4HgAfUDU21mQtrgxuwHqQwZ';
-const _map = <String, String>{
-  'PacBWUXCuMxQfK7XVNMSoyRYQCH1ZfmwfJPD6Uzi6pi':
-      '3MvNXdZK4GfNgTYCrbrj3q4yxJmRLzYqSrHf1LU87yK3',
-  '7vVcBLQwT1rmjiTXhhvmHKfiaCda2giGMeKchc2jwmBN':
-      'HJ9iwne7NoJbyENAjrCFuUu46fJgCGTUnHiqZUifiMb',
-  '3z99cfKQ2kvKxs79gJon7GeRZ3gtJWfmNG1NkZqFJKQs':
-      'DxEGGGc2YfohmGF8w1pudYDs72my4Qk1xFTy5WbAphSD',
-  '6pr7pCxXu9cF8oP2ARRhrkDj6ikw6QyJNAZ62gyQmwjZ':
-      'CLmiMYTeoqGQHmNu1jBYWtu3hcPr4u32aRWAPQCwCHjP',
+final _map = <String, Ed25519HDPublicKey>{
+  'PacBWUXCuMxQfK7XVNMSoyRYQCH1ZfmwfJPD6Uzi6pi': Ed25519HDPublicKey.fromBase58(
+    '3MvNXdZK4GfNgTYCrbrj3q4yxJmRLzYqSrHf1LU87yK3',
+  ),
+  '7vVcBLQwT1rmjiTXhhvmHKfiaCda2giGMeKchc2jwmBN': Ed25519HDPublicKey.fromBase58(
+    'HJ9iwne7NoJbyENAjrCFuUu46fJgCGTUnHiqZUifiMb',
+  ),
+  '3z99cfKQ2kvKxs79gJon7GeRZ3gtJWfmNG1NkZqFJKQs': Ed25519HDPublicKey.fromBase58(
+    'DxEGGGc2YfohmGF8w1pudYDs72my4Qk1xFTy5WbAphSD',
+  ),
+  '6pr7pCxXu9cF8oP2ARRhrkDj6ikw6QyJNAZ62gyQmwjZ': Ed25519HDPublicKey.fromBase58(
+    'CLmiMYTeoqGQHmNu1jBYWtu3hcPr4u32aRWAPQCwCHjP',
+  ),
 };

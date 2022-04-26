@@ -12,5 +12,6 @@ class ParsedAccountKey implements AccountKey {
   factory ParsedAccountKey.fromJson(Map<String, dynamic> json) =>
       _$ParsedAccountKeyFromJson(json);
 
+  @override
   final String pubkey;
 }

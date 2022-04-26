@@ -4,6 +4,8 @@ import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/routes.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/flow.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/send_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,19 +33,19 @@ class SendButton extends StatelessWidget {
   Widget build(BuildContext context) => HeaderedListButton(
         label: context.l10n.send,
         icon: SvgPicture.asset(Assets.icons.send.path),
-        onPressed: () => context.router.navigate(
-          SendTokenFlowRoute(initialToken: token),
-        ),
+        onPressed: () => context.navigateToSendFt(token),
       );
 }
 
 class ReceiveButton extends StatelessWidget {
-  const ReceiveButton({Key? key}) : super(key: key);
+  const ReceiveButton({Key? key, this.token}) : super(key: key);
+
+  final Token? token;
 
   @override
   Widget build(BuildContext context) => HeaderedListButton(
         label: context.l10n.receive,
         icon: SvgPicture.asset(Assets.icons.receive.path),
-        onPressed: () => context.router.navigate(const ReceiveFlowRoute()),
+        onPressed: () => context.navigateToReceiveFlow(token: token),
       );
 }

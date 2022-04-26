@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-first
+
 import 'package:solana/src/curve25519/extensions.dart';
 import 'package:solana/src/curve25519/sqrt_ratio_m1_result.dart';
 
@@ -109,6 +111,7 @@ class FieldElement {
     var result = input[offset] & BigInt.from(0xff);
     result |= (input[offset + 1] & BigInt.from(0xff)) << 8;
     result |= (input[offset + 2] & BigInt.from(0xff)) << 16;
+
     return result;
   }
 
@@ -117,6 +120,7 @@ class FieldElement {
     result |= (input[offset + 1] & BigInt.from(0xff)) << 8;
     result |= (input[offset + 2] & BigInt.from(0xff)) << 16;
     result |= input[offset + 3] << 24;
+
     return result & BigInt.from(0xffffffff);
   }
 
@@ -221,6 +225,7 @@ class FieldElement {
     s[29] = h9 >> 2;
     s[30] = h9 >> 10;
     s[31] = h9 >> 18;
+
     return s;
   }
 
@@ -233,6 +238,7 @@ class FieldElement {
       x &= BigInt.from(b);
       result[i] ^= x;
     }
+
     return FieldElement(result);
   }
 
@@ -240,7 +246,8 @@ class FieldElement {
 
   bool isNegative() {
     final s = toByteArray();
-    return s[0] & BigInt.one == 1;
+
+    return s[0] & BigInt.one == BigInt.one;
   }
 
   FieldElement operator +(FieldElement val) {
@@ -249,6 +256,7 @@ class FieldElement {
     for (int i = 0; i < 10; i++) {
       h[i] = _t[i] + g[i];
     }
+
     return FieldElement.fromConstList(h);
   }
 
@@ -258,6 +266,7 @@ class FieldElement {
     for (int i = 0; i < 10; i++) {
       h[i] = _t[i] - g[i];
     }
+
     return FieldElement.fromConstList(h);
   }
 
@@ -266,6 +275,7 @@ class FieldElement {
     for (int i = 0; i < 10; i++) {
       h[i] = -_t[i];
     }
+
     return FieldElement.fromConstList(h);
   }
 
@@ -534,6 +544,7 @@ class FieldElement {
     h[7] = h7;
     h[8] = h8;
     h[9] = h9;
+
     return FieldElement.fromConstList(h);
   }
 
@@ -683,6 +694,7 @@ class FieldElement {
     h[7] = h7;
     h[8] = h8;
     h[9] = h9;
+
     return FieldElement.fromConstList(h);
   }
 
@@ -842,6 +854,7 @@ class FieldElement {
     h[7] = h7;
     h[8] = h8;
     h[9] = h9;
+
     return FieldElement.fromConstList(h);
   }
 
@@ -923,6 +936,7 @@ class FieldElement {
     for (int i = 1; i < 5; ++i) {
       t1 = t1.square();
     }
+
     // 2^255 - 21
     return t1 * t0;
   }
@@ -1003,6 +1017,7 @@ class FieldElement {
     t0 = t0.square();
     // 2^252 - 2^2
     t0 = t0.square();
+
     // 2^252 - 3
     return this * t0;
   }
@@ -1021,6 +1036,7 @@ class FieldElement {
     // Choose the non-negative square root.
     r = r.abs();
     final wasSquare = correctSignSqrt | flippedSignSqrt != 0;
+
     return SqrtRatioM1Result(r, wasSquare: wasSquare);
   }
 
@@ -1034,6 +1050,7 @@ class FieldElement {
     }
     final b = toByteArray();
     final c = other.toByteArray();
+
     return b.compareAll(c);
   }
 

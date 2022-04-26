@@ -1,3 +1,39 @@
+## 0.22.0
+
+ - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.
+
+## 0.22.0-dev.4
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: Update Solana pay support (#235).
+ - **BREAKING** **REFACTOR**: borsh 0.3.0.
+
+## 0.22.0-dev.3
+
+ - **FEAT**: Add Solana Pay support (#232).
+
+## 0.22.0-dev.2
+
+ - **REFACTOR**: Restructure SolanaClient (#230).
+
+## 0.22.0-dev.1
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **REFACTOR**: Update tokens and client (#228).
+
+## 0.22.0-dev.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Add delgate stake to the stake program (#173).
+ - **FEAT**: Add app packages (#196).
+ - **DOCS**: Fix twitter link.
+ - **DOCS**: Add badges.
+ - **BREAKING** **REFACTOR**: Update parameters names in instructions (#227).
+ - **BREAKING** **REFACTOR**: Update types (#226).
+
 ## 0.21.0
 
 > Note: This release has breaking changes.
