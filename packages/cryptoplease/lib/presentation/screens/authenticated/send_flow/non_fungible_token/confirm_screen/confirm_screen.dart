@@ -1,12 +1,7 @@
-import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/nft/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/conversion_rates.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
-import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/confirm_screen/components/nft_create_link_content.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/confirm_screen/components/send_nft_to_solana_address_content.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -41,15 +36,6 @@ class _ConfirmScreenState extends State<ConfirmNonFungibleTokenScreen> {
           orElse: ignore,
         ),
         builder: (context, state) {
-          final locale = DeviceLocale.localeOf(context);
-          final formattedFee = state.fee.format(locale);
-          final fiatFee = context.convertToFiat(
-            amount: state.fee.value,
-            token: Token.sol,
-            fiatCurrency: Currency.usd,
-          );
-          final formattedFiatFee = fiatFee?.format(locale);
-
           final String nextButtonText;
           switch (state.transferType) {
             case OutgoingTransferType.splitKey:
@@ -64,15 +50,13 @@ class _ConfirmScreenState extends State<ConfirmNonFungibleTokenScreen> {
           switch (state.transferType) {
             case OutgoingTransferType.splitKey:
               content = NftCreateLinkContent(
-                fee: formattedFee,
-                fiatFee: formattedFiatFee,
+                fee: state.fee,
                 metadata: state.nft.metadata,
               );
               break;
             case OutgoingTransferType.direct:
               content = SendNftToSolanaAddressContent(
-                fee: formattedFee,
-                fiatFee: formattedFiatFee,
+                fee: state.fee,
                 address: state.recipientAddress ?? '',
                 metadata: state.nft.metadata,
               );

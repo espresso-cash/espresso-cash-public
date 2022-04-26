@@ -1,7 +1,8 @@
+import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/nft_image.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/profile/component/address_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/fee_view.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/amount_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:solana/metaplex.dart';
 
@@ -9,13 +10,11 @@ class SendNftToSolanaAddressContent extends StatelessWidget {
   const SendNftToSolanaAddressContent({
     Key? key,
     required this.fee,
-    required this.fiatFee,
     required this.address,
     required this.metadata,
   }) : super(key: key);
 
-  final String fee;
-  final String? fiatFee;
+  final Amount fee;
   final String address;
   final Metadata metadata;
 
@@ -44,9 +43,9 @@ class SendNftToSolanaAddressContent extends StatelessWidget {
               width: null,
             ),
             const SizedBox(height: 40),
-            FeeView(
-              formattedFee: fee,
-              formattedFiatFee: fiatFee,
+            AmountView.fee(
+              fee: fee,
+              label: context.l10n.labelFee,
             ),
           ],
         ),
