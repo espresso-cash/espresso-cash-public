@@ -1,3 +1,4 @@
+import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/constants.dart';
@@ -54,6 +55,6 @@ class AssociatedTokenAccountInstruction extends Instruction {
   }) : super(
           programId: AssociatedTokenAccountProgram.id,
           accounts: accounts,
-          data: [],
+          data: const ByteArray.empty(),
         );
 }

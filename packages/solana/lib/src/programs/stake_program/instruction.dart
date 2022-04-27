@@ -33,7 +33,7 @@ class StakeInstruction extends Instruction {
             isSigner: false,
           ),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.initializeInstructionIndex,
           authorized.serialize(),
           lockup.serialize(),
@@ -58,7 +58,7 @@ class StakeInstruction extends Instruction {
           if (lockupAuthority != null)
             AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.authorizeInstructionIndex,
           authorize.serialize(),
         ]),
@@ -95,7 +95,7 @@ class StakeInstruction extends Instruction {
     required Ed25519HDPublicKey sourceStake,
     required Ed25519HDPublicKey destinationStake,
     required Ed25519HDPublicKey authority,
-    required int amount,
+    required BigInt amount,
   }) =>
       StakeInstruction._(
         accounts: [
@@ -106,9 +106,9 @@ class StakeInstruction extends Instruction {
           ),
           AccountMeta.readonly(pubKey: authority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.splitInstructionIndex,
-          Buffer.fromUint64(amount),
+          ByteArray.u64(amount),
         ]),
       );
 
@@ -117,7 +117,7 @@ class StakeInstruction extends Instruction {
     required Ed25519HDPublicKey stake,
     required Ed25519HDPublicKey recipient,
     required Ed25519HDPublicKey authority,
-    required int lamports,
+    required BigInt lamports,
     Ed25519HDPublicKey? lockupAuthority,
   }) =>
       StakeInstruction._(
@@ -142,9 +142,9 @@ class StakeInstruction extends Instruction {
               isSigner: true,
             )
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.withdrawInstructionIndex,
-          Buffer.fromUint64(lamports),
+          ByteArray.u64(lamports),
         ]),
       );
 
@@ -179,7 +179,7 @@ class StakeInstruction extends Instruction {
           AccountMeta.writeable(pubKey: stake, isSigner: false),
           AccountMeta.readonly(pubKey: authority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.setLockupInstructionIndex,
           lockup.serialize(),
         ]),
@@ -250,7 +250,7 @@ class StakeInstruction extends Instruction {
               isSigner: true,
             ),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.authorizeWithSeedInstructionIndex,
           args.serialize(),
         ]),
@@ -300,7 +300,7 @@ class StakeInstruction extends Instruction {
           if (lockupAuthority != null)
             AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.authorizeCheckedInstructionIndex,
           stakeAuthorize.serialize(),
         ]),
@@ -332,7 +332,7 @@ class StakeInstruction extends Instruction {
           if (lockupAuthority != null)
             AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.authorizeCheckedInstructionIndex,
           authorizeWithSeedArgs.serialize(),
         ]),
@@ -355,7 +355,7 @@ class StakeInstruction extends Instruction {
           AccountMeta.writeable(pubKey: stake, isSigner: false),
           AccountMeta.writeable(pubKey: authority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.setLockupInstructionIndex,
           lockupCheckedArgs.serialize(),
         ]),
@@ -416,9 +416,9 @@ class LockupCheckedArgs {
     required this.epoch,
   });
 
-  ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
-        Buffer.fromInt64(unixTimestamp),
-        Buffer.fromUint64(epoch),
+  ByteArray serialize() => ByteArray.merge([
+        ByteArray.i64(unixTimestamp),
+        ByteArray.u64(epoch),
       ]);
 
   final UnixTimestamp unixTimestamp;

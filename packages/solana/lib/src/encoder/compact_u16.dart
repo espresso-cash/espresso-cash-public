@@ -1,6 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:solana/src/common/byte_array.dart';
 
-class CompactU16 extends ByteArray {
+class CompactU16 {
   factory CompactU16(int value) {
     final List<int> data = List<int>.empty(growable: true);
     int rawValue = value;
@@ -21,7 +23,7 @@ class CompactU16 extends ByteArray {
 
   static const zero = CompactU16.raw([0]);
 
-  final ByteArray _data;
+  final List<int> _data;
 
   int get value {
     var len = 0;
@@ -37,6 +39,5 @@ class CompactU16 extends ByteArray {
     return len;
   }
 
-  @override
-  Iterator<int> get iterator => _data.iterator;
+  ByteArray toByteArray() => ByteArray(Uint8List.fromList(_data));
 }

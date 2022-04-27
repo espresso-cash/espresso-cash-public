@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/src/base58/encode.dart';
+import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/compact_array.dart';
@@ -23,38 +25,6 @@ class Message {
 
   final List<Instruction> instructions;
 
-  String debug(String recentBlockhash, {Ed25519HDPublicKey? feePayer}) {
-    final accounts =
-        instructions.getAccountsWithOptionalFeePayer(feePayer: feePayer);
-    final accountsIndexesMap = accounts.toIndexesMap();
-    final header = MessageHeader.fromAccounts(accounts);
-    final compiledInstructions = instructions
-        .map(
-          (Instruction instruction) => <String, dynamic>{
-            'programIdIndex': accountsIndexesMap[instruction.programId]!,
-            'accounts': instruction.accounts
-                .map((a) => accountsIndexesMap[a.pubKey]!)
-                .toList(growable: false),
-            'data': base58encode(instruction.data.toList(growable: false))
-          },
-        )
-        .toList(growable: false);
-    const encoder = JsonEncoder.withIndent('  ');
-
-    return encoder.convert(
-      <String, dynamic>{
-        'header': <String, dynamic>{
-          'numRequiredSignatures': header.first,
-          'numReadonlySignedAccounts': header.elementAt(1),
-          'numReadonlyUnsignedAccounts': header.elementAt(2),
-        },
-        'accounts': accounts.map((a) => a.toString()).toList(growable: false),
-        'recentBlockhash': recentBlockhash,
-        'instructions': compiledInstructions,
-      },
-    );
-  }
-
   /// Compiles a message into the array of bytes that would be interpreted by
   /// solana. The [recentBlockhash] is passed here as this is the final step
   /// before sending the [Message].
@@ -70,21 +40,18 @@ class Message {
   }) {
     final accounts =
         instructions.getAccountsWithOptionalFeePayer(feePayer: feePayer);
-    final keys = CompactArray.fromIterable(
-      accounts.toSerializablePubKeys(),
-    );
+    final keys = accounts.map((e) => e.pubKey.toByteArray());
     final accountsIndexesMap = accounts.toIndexesMap();
     final header = MessageHeader.fromAccounts(accounts);
-    final compiledInstructions = CompactArray.fromIterable(
-      instructions.map((i) => i.compile(accountsIndexesMap)),
-    );
+    final compiledInstructions =
+        instructions.map((i) => i.compile(accountsIndexesMap));
 
     return CompiledMessage(
-      Buffer.fromConcatenatedByteArrays([
-        header,
-        keys,
-        Buffer.fromBase58(recentBlockhash),
-        compiledInstructions,
+      ByteArray.merge([
+        header.toByteArray(),
+        CompactArray(ByteArray.merge(keys)).toByteArray(),
+        ByteArray.fromBase58(recentBlockhash),
+        CompactArray(ByteArray.merge(compiledInstructions)).toByteArray(),
       ]),
     );
   }

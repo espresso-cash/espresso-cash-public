@@ -1,20 +1,19 @@
 import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/extensions.dart';
 
 /// The message header as described [Message Header Format][message header format]
 ///
 /// [message header format]: https://docs.solana.com/developing/programming-model/transactions#message-header-format
-class MessageHeader extends ByteArray {
+class MessageHeader {
   MessageHeader._({
     required int numRequiredSignatures,
     required int numReadonlySignedAccounts,
     required int numReadonlyUnsignedAccounts,
-  }) : _data = Buffer.fromConcatenatedByteArrays([
-          Buffer.fromUint8(numRequiredSignatures),
-          Buffer.fromUint8(numReadonlySignedAccounts),
-          Buffer.fromUint8(numReadonlyUnsignedAccounts),
+  }) : _data = ByteArray.merge([
+          ByteArray.u8(numRequiredSignatures),
+          ByteArray.u8(numReadonlySignedAccounts),
+          ByteArray.u8(numReadonlyUnsignedAccounts),
         ]);
 
   /// Constructs a message header by counting signers, and readonly accounts
@@ -28,6 +27,5 @@ class MessageHeader extends ByteArray {
 
   final ByteArray _data;
 
-  @override
-  Iterator<int> get iterator => _data.iterator;
+  ByteArray toByteArray() => _data;
 }

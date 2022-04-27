@@ -1,3 +1,4 @@
+import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/buffer.dart';
@@ -17,7 +18,7 @@ enum AuthorityType {
 class TokenInstruction extends Instruction {
   TokenInstruction._({
     required List<AccountMeta> accounts,
-    required Iterable<int> data,
+    required ByteArray data,
   }) : super(
           programId: TokenProgram.id,
           accounts: accounts,
@@ -55,7 +56,7 @@ class TokenInstruction extends Instruction {
           if (freezeAuthority != null)
             freezeAuthority.toBuffer()
           else
-            List<int>.filled(32, 0),
+            ByteArray(List<int>.filled(32, 0)),
         ]),
       );
 
@@ -577,7 +578,7 @@ class TokenInstruction extends Instruction {
             if (freezeAuthority != null)
               freezeAuthority.toBuffer()
             else
-              List<int>.filled(32, 0),
+              ByteArray(List<int>.filled(32, 0)),
           ],
         ),
       );

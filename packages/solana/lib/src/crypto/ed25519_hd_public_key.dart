@@ -1,6 +1,8 @@
+import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
+import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/helpers.dart';
 
@@ -25,10 +27,10 @@ class Ed25519HDPublicKey implements PublicKey {
     required String seed,
     required Ed25519HDPublicKey programId,
   }) async {
-    final buffer = Buffer.fromConcatenatedByteArrays([
-      fromPublicKey.bytes,
-      seed.codeUnits,
-      programId.bytes,
+    final buffer = ByteArray.merge([
+      fromPublicKey.toByteArray(),
+      ByteArray(Uint8List.fromList(seed.codeUnits)),
+      programId.toByteArray(),
     ]).toList(growable: false);
     final hash = await _computeHash(buffer);
 
@@ -92,7 +94,7 @@ class Ed25519HDPublicKey implements PublicKey {
 
   String toBase58() => base58encode(bytes);
 
-  Buffer toBuffer() => Buffer.fromIterable(bytes);
+  ByteArray toByteArray() => ByteArray(Uint8List.fromList(bytes));
 
   @override
   String toString() => toBase58();

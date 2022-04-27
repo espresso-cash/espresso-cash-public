@@ -11,8 +11,8 @@ void main() {
   for (final value in values.entries) {
     test('CompactU16 for ${value.key}', () {
       final compact = CompactU16(value.key);
-      final fromRaw = CompactU16.raw(compact);
-      expect(compact, value.value);
+      final fromRaw = CompactU16.raw(compact.toByteArray().toList());
+      expect(compact.toByteArray(), value.value);
       expect(fromRaw.value, value.key);
     });
   }
