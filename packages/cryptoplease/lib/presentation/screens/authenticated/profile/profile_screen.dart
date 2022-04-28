@@ -61,6 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
               child: Column(
                 children: const [
+                  SwapSection(),
                   SecuritySection(),
                   EditProfileSection(),
                   AboutSection(),

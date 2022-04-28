@@ -90,52 +90,61 @@ class _SwapTokenSelectorScreenState extends State<SwapTokenSelectorScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
-          bloc: swapTokenBloc,
-          builder: (context, state) => CpTheme.light(
-            child: SafeArea(
-              child: Column(
-                children: [
-                  AmountDisplay(
-                    value: _controller.text,
-                    currency: state.amount.currency,
-                    onTokenChanged: null,
-                    availableTokens: IList(),
-                  ),
-                  SlippageDropdown(
-                    currentSlippage: state.slippage,
-                    onSlippageChanged: (slippage) => swapTokenBloc.add(
-                      SwapSelectorEvent.slippageUpdated(slippage),
+  Widget build(BuildContext context) =>
+      BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
+        bloc: swapTokenBloc,
+        builder: (context, state) => CpTheme.light(
+          child: CpLoader(
+            isLoading: state.isLoading,
+            child: Scaffold(
+              appBar: CpAppBar(
+                leading: BackButton(
+                  onPressed: () => context.read<SwapTokenRouter>().closeFlow(),
+                ),
+              ),
+              body: SafeArea(
+                child: ListView(
+                  children: [
+                    AmountDisplay(
+                      value: _controller.text,
+                      currency: state.amount.currency,
+                      onTokenChanged: null,
+                      availableTokens: IList(),
                     ),
-                  ),
-                  const SizedBox.square(dimension: 16),
-                  TokenDropdown(
-                    key: _inputKey,
-                    availableTokens: state.inputTokens,
-                    selectedToken: state.selectedInput,
-                    onChanged: (token) => swapTokenBloc.add(
-                      SwapSelectorEvent.inputSelected(token),
+                    SlippageDropdown(
+                      currentSlippage: state.slippage,
+                      onSlippageChanged: (slippage) => swapTokenBloc.add(
+                        SwapSelectorEvent.slippageUpdated(slippage),
+                      ),
                     ),
-                  ),
-                  const SizedBox.square(dimension: 16),
-                  TokenDropdown(
-                    key: _outputKey,
-                    availableTokens: state.outputTokens,
-                    selectedToken: state.selectedOutput,
-                    onChanged: (token) => swapTokenBloc.add(
-                      SwapSelectorEvent.outputSelected(token),
+                    const SizedBox.square(dimension: 16),
+                    TokenDropdown(
+                      key: _inputKey,
+                      availableTokens: state.inputTokens,
+                      selectedToken: state.selectedInput,
+                      onChanged: (token) => swapTokenBloc.add(
+                        SwapSelectorEvent.inputSelected(token),
+                      ),
                     ),
-                  ),
-                  EnterAmountKeypad(
-                    controller: _controller,
-                    maxDecimals: state.selectedInput?.decimals ?? 0,
-                  ),
-                  CpButton(
-                    text: 'Confirm',
-                    onPressed: _onConfirm,
-                  ),
-                ],
+                    const SizedBox.square(dimension: 16),
+                    TokenDropdown(
+                      key: _outputKey,
+                      availableTokens: state.outputTokens,
+                      selectedToken: state.selectedOutput,
+                      onChanged: (token) => swapTokenBloc.add(
+                        SwapSelectorEvent.outputSelected(token),
+                      ),
+                    ),
+                    EnterAmountKeypad(
+                      controller: _controller,
+                      maxDecimals: state.selectedInput?.decimals ?? 0,
+                    ),
+                    CpButton(
+                      text: context.l10n.swapTokens,
+                      onPressed: state.amount.value == 0 ? null : _onConfirm,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

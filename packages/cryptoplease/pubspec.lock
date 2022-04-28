@@ -105,7 +105,7 @@ packages:
       name: borsh_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0+1"
+    version: "0.3.1"
   build:
     dependency: transitive
     description:
@@ -247,7 +247,7 @@ packages:
     source: hosted
     version: "4.1.0"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       url: "https://pub.dartlang.org"
@@ -378,14 +378,14 @@ packages:
       name: drift
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.0"
+    version: "1.5.0"
   drift_dev:
     dependency: "direct dev"
     description:
       name: drift_dev
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.0"
+    version: "1.5.2"
   ed25519_hd_key:
     dependency: transitive
     description:
@@ -469,7 +469,14 @@ packages:
       name: firebase_dynamic_links
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.11"
+    version: "4.2.0"
+  firebase_dynamic_links_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_dynamic_links_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.3"
   fixnum:
     dependency: transitive
     description:
@@ -1244,7 +1251,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.22.0-dev.3"
+    version: "0.22.0"
   source_gen:
     dependency: transitive
     description:
@@ -1314,7 +1321,7 @@ packages:
       name: sqlparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.20.0"
+    version: "0.21.0"
   stack_trace:
     dependency: transitive
     description:

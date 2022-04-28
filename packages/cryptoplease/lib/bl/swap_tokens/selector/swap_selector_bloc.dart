@@ -58,18 +58,23 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     emit(
       state.copyWith(isLoading: true),
     );
+    try {
+      _routeMap = await _jupiterClient.getIndexedRouteMap();
+      _jupiterTokens = _routeMap.mintKeys.map(_tokenList.findTokenByMint);
+      _mintToIndex = _routeMap.mintKeys.asMap().map((k, v) => MapEntry(v, k));
+      final inputTokens = _jupiterTokens.whereNotNull();
 
-    _routeMap = await _jupiterClient.getIndexedRouteMap();
-    _jupiterTokens = _routeMap.mintKeys.map(_tokenList.findTokenByMint);
-    _mintToIndex = _routeMap.mintKeys.asMap().map((k, v) => MapEntry(v, k));
-    final inputTokens = _jupiterTokens.whereNotNull();
-
-    emit(
-      state.copyWith(
-        inputTokens: inputTokens,
-        isLoading: false,
-      ),
-    );
+      emit(
+        state.copyWith(
+          inputTokens: inputTokens,
+          isLoading: false,
+        ),
+      );
+    } on Exception {
+      emit(
+        state.copyWith(isLoading: false),
+      );
+    }
   }
 
   Future<void> _onInputSelected(

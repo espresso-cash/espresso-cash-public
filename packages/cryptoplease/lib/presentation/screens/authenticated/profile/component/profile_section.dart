@@ -23,6 +23,7 @@ part 'debug_section.dart';
 part 'edit_profile_section.dart';
 part 'security_section.dart';
 part 'version_section.dart';
+part 'swap_section.dart';
 
 class ProfileSection extends StatelessWidget {
   const ProfileSection({

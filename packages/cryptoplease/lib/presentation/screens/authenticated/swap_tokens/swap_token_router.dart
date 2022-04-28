@@ -3,31 +3,29 @@ import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
 import 'package:cryptoplease/bl/swap_tokens/transaction/swap_transaction_bloc.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
-import 'package:dfunc/dfunc.dart';
+import 'package:cryptoplease/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:provider/provider.dart';
+import 'package:solana/solana.dart';
 
 abstract class SwapTokenRouter {
   void onConfirm();
+  void closeFlow();
 }
 
 class SwapTokenFlowScreen extends StatefulWidget {
-  const SwapTokenFlowScreen({
-    Key? key,
-    this.initialToken,
-  }) : super(key: key);
-
-  final Token? initialToken;
+  const SwapTokenFlowScreen({Key? key}) : super(key: key);
 
   @override
   State<SwapTokenFlowScreen> createState() => _State();
 }
 
 class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
+  final _routerKey = GlobalKey<AutoRouterState>();
+
   late final SwapSelectorBloc _selectorBloc;
   late final SwapTransactionBloc _transactionBloc;
 
@@ -45,6 +43,7 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
     _transactionBloc = SwapTransactionBloc(
       jupiterAggregatorClient: jupiterClient,
       myAccount: context.read<MyAccount>(),
+      solanaClient: context.read<SolanaClient>(),
     );
     _reset();
   }
@@ -57,6 +56,11 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
 
   void _reset() {
     _selectorBloc.add(const SwapSelectorEvent.load());
+  }
+
+  @override
+  void closeFlow() {
+    Navigator.of(context).pop();
   }
 
   @override
@@ -76,6 +80,9 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
         slippage: slippage,
       ),
     );
+
+    final router = _routerKey.currentState?.controller;
+    router?.push(const SwapTokenProcessRoute());
   }
 
   @override
@@ -85,17 +92,8 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
           BlocProvider.value(value: _transactionBloc),
           Provider<SwapTokenRouter>.value(value: this),
         ],
-        child: BlocListener<SwapTransactionBloc, SwapTransactionState>(
-          listener: (context, state) => state.flow.maybeMap(
-            success: (s) {
-              // TODO(rhbrunetto): map
-            },
-            failure: (f) {
-              // TODO(rhbrunetto): map
-            },
-            orElse: ignore,
-          ),
-          child: const AutoRouter(),
+        child: AutoRouter(
+          key: _routerKey,
         ),
       );
 }

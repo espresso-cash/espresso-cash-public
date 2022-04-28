@@ -269,5 +269,19 @@
         "type": "String"
       }
     }
+  },
+  "swapTokens": "Swap tokens",
+  "swapPreparing": "Retrieving routes to perform transaction",
+  "swapSetup": "Setting up",
+  "swapTransaction": "Swapping tokens",
+  "swapCleanup": "Cleaning up",
+  "swapSuccess": "Success!",
+  "swapFail": "Swap tokens failed: {reason}",
+  "@swapFail" : {
+    "placeholders" : {
+      "reason": {
+        "type": "String"
+      }
+    }
   }
 }
