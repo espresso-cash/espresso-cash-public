@@ -16,7 +16,7 @@ class Wrapper extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             debugShowCheckedModeBanner: false,
-            home: Center(child: child),
+            home: child,
           ),
         ),
       );

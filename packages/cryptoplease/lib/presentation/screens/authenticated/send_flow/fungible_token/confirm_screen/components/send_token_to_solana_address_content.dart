@@ -48,7 +48,6 @@ class SendTokenToSolanaAddressContent extends StatelessWidget {
             AmountView.fee(
               fee: fee,
               label: context.l10n.labelFee,
-              // formattedFiatFee: fiatFee,
             ),
           ],
         ),
