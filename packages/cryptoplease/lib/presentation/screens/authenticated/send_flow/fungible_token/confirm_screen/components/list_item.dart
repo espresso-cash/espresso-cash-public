@@ -8,7 +8,11 @@ class ListItem extends StatelessWidget {
     required this.labelStyle,
     this.value,
     this.child,
-  }) : super(key: key);
+  })  : assert(
+          child != null || value != null,
+          'Either child or valu should not be null',
+        ),
+        super(key: key);
 
   final String label;
   final String? value;
@@ -23,12 +27,10 @@ class ListItem extends StatelessWidget {
             Text(label, style: labelStyle),
             const SizedBox(height: 12),
             if (child == null)
-              Text(
-                value!,
-                style: labelStyle,
-                textAlign: TextAlign.center,
-              )
+              // ignore: avoid-non-null-assertion, cannot be null here
+              Text(value!, style: labelStyle, textAlign: TextAlign.center)
             else
+              // ignore: avoid-non-null-assertion, cannot be null here
               child!,
           ],
         ),
