@@ -53,6 +53,7 @@ class CpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = (() {
+      // ignore: avoid-non-null-assertion, the style should be there
       final style = Theme.of(context)
           .textTheme
           .button!
