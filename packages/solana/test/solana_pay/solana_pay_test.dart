@@ -45,6 +45,7 @@ void main() {
       final expectedTransactionId = await client.sendSolanaPay(
         payer: sender,
         recipient: request.recipient,
+        // ignore: avoid-non-null-assertion, cannot be null here
         amount: request.amount!,
         reference: request.reference,
         memo: request.memo,
@@ -58,8 +59,10 @@ void main() {
       expect(found, expectedTransactionId);
 
       await client.validateSolanaPayTransaction(
+        // ignore: avoid-non-null-assertion, cannot be null here
         signature: found!,
         recipient: recipient.publicKey,
+        // ignore: avoid-non-null-assertion, cannot be null here
         amount: request.amount!,
         commitment: Commitment.confirmed,
       );

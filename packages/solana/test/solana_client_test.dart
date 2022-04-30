@@ -76,6 +76,7 @@ void main() {
 
     expect(result, isNotNull);
     expect(result?.transaction, isNotNull);
+    // ignore: avoid-non-null-assertion, cannot be null here
     final transaction = result!.transaction;
     expect(transaction.message, isNotNull);
     final txMessage = transaction.message;
@@ -216,6 +217,7 @@ void main() {
 
       expect(result, isNotNull);
       expect(result?.transaction, isNotNull);
+      // ignore: avoid-non-null-assertion, cannot be null here
       final transaction = result!.transaction;
       expect(transaction.message, isNotNull);
       final txMessage = transaction.message;
