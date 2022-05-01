@@ -22,7 +22,8 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
             link.scheme == 'https' &&
                 link.host == 'sol.cryptoplease.link' &&
                 (link.path == '/' || link.path == '') ||
-            link.scheme == 'https' && link.host == 'sol1.cryptoplease.link';
+            link.scheme == 'https' && link.host == 'sol1.cryptoplease.link' ||
+            link.scheme == 'https' && link.host == 'solana1.cryptoplease.link';
     if (!correctSchemeAndHost) return null;
 
     final tokenAddress = link.queryParameters['token'] ?? Token.sol.address;
@@ -45,7 +46,8 @@ class SplitKeySecondLink with _$SplitKeySecondLink {
     final String? secondPart;
 
     if (uri.scheme == 'cryptoplease-sol' && uri.host == '2' ||
-        uri.scheme == 'https' && uri.host == 'sol2.cryptoplease.link') {
+        uri.scheme == 'https' && uri.host == 'sol2.cryptoplease.link' ||
+        uri.scheme == 'https' && uri.host == 'solana2.cryptoplease.link') {
       secondPart = uri.queryParameters['key'];
       if (secondPart == null) return null;
 
@@ -71,7 +73,7 @@ class SplitKeySecondLink with _$SplitKeySecondLink {
 
 Uri buildFirstLink(IList<int> privateKey, String tokenAddress) => Uri(
       scheme: 'https',
-      host: 'sol.cryptoplease.link',
+      host: 'solana1.cryptoplease.link',
       path: '/',
       queryParameters: <String, String>{
         'key': splitKey(privateKey).first,
@@ -83,7 +85,7 @@ Uri buildSecondLink(IList<int> privateKey) =>
     SplitKeySecondLink(key: splitKey(privateKey).last).uri;
 
 extension on SplitKeySecondLink {
-  Uri get uri => Uri.parse('https://sol2.cryptoplease.link/?key=$key');
+  Uri get uri => Uri.parse('https://solana2.cryptoplease.link/?key=$key');
 }
 
 @visibleForTesting

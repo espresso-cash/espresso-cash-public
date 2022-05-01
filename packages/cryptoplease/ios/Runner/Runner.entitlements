@@ -10,9 +10,12 @@
 		<string>applinks:sol.cryptoplease.link</string>
 		<string>applinks:sol1.cryptoplease.link</string>
 		<string>applinks:sol2.cryptoplease.link</string>
+		<string>applinks:solana1.cryptoplease.link</string>
+		<string>applinks:solana2.cryptoplease.link</string>
 		
 		<!-- Support for requests -->
 		<string>applinks:solana.cryptoplease.link</string>
+		<string>applinks:solanapay.cryptoplease.link</string>
 
 		<!-- Firebase deep link for installing the app -->
 		<string>applinks:cryptoplease.page.link</string>

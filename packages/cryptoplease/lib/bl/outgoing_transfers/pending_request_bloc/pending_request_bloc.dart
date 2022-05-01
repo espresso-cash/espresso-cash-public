@@ -38,7 +38,8 @@ class PendingRequestBloc extends Bloc<_Event, _State> {
 SolanaPayRequest? tryParseDeepLink(Uri link) {
   final linkWithCorrectScheme = link.scheme == 'https' &&
           (link.host == 'solana.cryptoplease.link' ||
-              link.host == 'sol.cryptoplease.link') &&
+              link.host == 'sol.cryptoplease.link' ||
+              link.host == 'solanapay.cryptoplease.link') &&
           link.pathSegments.any((s) => s.isNotEmpty)
       ? Uri(
           scheme: 'solana',

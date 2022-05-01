@@ -46,9 +46,12 @@
                 <data android:host="sol.cryptoplease.link" android:scheme="https" />
                 <data android:host="sol1.cryptoplease.link" android:scheme="https" />
                 <data android:host="sol2.cryptoplease.link" android:scheme="https" />
+                <data android:host="solana1.cryptoplease.link" android:scheme="https" />
+                <data android:host="solana2.cryptoplease.link" android:scheme="https" />
                 
                 <!-- Support for requests -->
                 <data android:host="solana.cryptoplease.link" android:scheme="https" />
+                <data android:host="solanapay.cryptoplease.link" android:scheme="https" />
                 
                 <!-- Firebase deep link for installing the app -->
                 <data android:host="cryptoplease.page.link" android:scheme="https" />
