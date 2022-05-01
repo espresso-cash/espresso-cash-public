@@ -1,0 +1,27 @@
+{
+  "hosting": [
+    {
+      "target": "main",
+      "appAssociation": "AUTO",
+      "rewrites": [
+        {
+          "source": "/**",
+          "dynamicLinks": true
+        }
+      ]
+    },
+    {
+      "target": "link",
+      "appAssociation": "NONE",
+      "rewrites": [
+        {
+          "source": "**",
+          "run": {
+            "serviceId": "cryptopleaselink",
+            "region": "europe-central2"
+          }
+        }
+      ]
+    }
+  ]
+}
