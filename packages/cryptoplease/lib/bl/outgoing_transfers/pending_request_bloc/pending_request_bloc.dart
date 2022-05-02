@@ -1,3 +1,4 @@
+import 'package:cryptoplease/config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana_pay.dart';
@@ -37,9 +38,9 @@ class PendingRequestBloc extends Bloc<_Event, _State> {
 @visibleForTesting
 SolanaPayRequest? tryParseDeepLink(Uri link) {
   final linkWithCorrectScheme = link.scheme == 'https' &&
-          (link.host == 'solana.cryptoplease.link' ||
-              link.host == 'sol.cryptoplease.link' ||
-              link.host == 'solanapay.cryptoplease.link') &&
+          (link.host == 'solana.$cpLinkDomain' ||
+              link.host == 'sol.$cpLinkDomain' ||
+              link.host == solanaPayHost) &&
           link.pathSegments.any((s) => s.isNotEmpty)
       ? Uri(
           scheme: 'solana',

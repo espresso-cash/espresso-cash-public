@@ -2,6 +2,7 @@ import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
+import 'package:cryptoplease/config.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana_pay.dart';
 
@@ -24,7 +25,7 @@ enum PaymentRequestState { initial, completed, error }
 extension SolanaPayRequestExt on SolanaPayRequest {
   Uri toUniversalLink() => Uri.parse(toUrl()).replace(
         scheme: 'https',
-        host: 'solanapay.cryptoplease.link',
+        host: solanaPayHost,
       );
 
   CryptoAmount? cryptoAmount(TokenList tokenList) {

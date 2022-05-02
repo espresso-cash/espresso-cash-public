@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cryptoplease/config.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +21,7 @@ class InstallLinkManager {
           .then((it) => it?.text ?? '')
           .then(Uri.tryParse);
 
-      if (uri != null && uri.host.endsWith('cryptoplease.link')) {
+      if (uri != null && uri.host.endsWith(cpLinkDomain)) {
         await Clipboard.setData(const ClipboardData(text: ''));
 
         return uri;
