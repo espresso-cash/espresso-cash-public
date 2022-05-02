@@ -1,3 +1,4 @@
+import 'package:cryptoplease_link/src/constants.dart';
 import 'package:cryptoplease_link/src/handlers/common_link_handler.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:shelf/shelf.dart';
@@ -7,10 +8,9 @@ Future<Response> Function(Request) createSolanaHandler({
 }) =>
     (Request request) async {
       final host = request.requestedUri.host;
-      if (host == 'solana1.cryptoplease.link' ||
-          host == 'solana2.cryptoplease.link') {
+      if (host == link1Host || host == link2Host) {
         return _solanaShareableHandler(request);
-      } else if (host == 'solanapay.cryptoplease.link') {
+      } else if (host == solanaPayHost) {
         return _solanaPayHandler(request, tokens);
       }
 
