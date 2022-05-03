@@ -11,9 +11,8 @@ void main() {
   const int stakeAmount = lamportsPerSol;
 
   test('Create Account', () async {
-    final rent = await rpcClient.getMinimumBalanceForRentExemption(
-      StakeProgram.neededAccountSpace.toInt(),
-    );
+    final rent = await rpcClient
+        .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final account = await Ed25519HDKeyPair.random();
     final staker = await Ed25519HDKeyPair.random();
@@ -156,9 +155,8 @@ void main() {
         account,
       );
       final newAccount = await Ed25519HDKeyPair.random();
-      final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-        StakeProgram.neededAccountSpace.toInt(),
-      );
+      final lamports = await rpcClient
+          .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
       final instruction = SystemInstruction.createAccount(
         lamports: lamports,
         newAccount: newAccount.publicKey,
@@ -176,8 +174,8 @@ void main() {
       );
 
       final splitInstruction = StakeInstruction.split(
-        destinationStake: newAccount.publicKey,
         amount: 100,
+        destinationStake: newAccount.publicKey,
         sourceStake: account.publicKey,
         authority: staker.publicKey,
       );

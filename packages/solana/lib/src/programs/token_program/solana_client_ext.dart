@@ -40,7 +40,7 @@ extension SolanaClientTokenProgram on SolanaClient {
     Commitment? commitment,
   }) =>
       rpcClient.getMinimumBalanceForRentExemption(
-        TokenProgram.neededMintAccountSpace.toInt(),
+        TokenProgram.neededMintAccountSpace,
         commitment: commitment,
       );
 

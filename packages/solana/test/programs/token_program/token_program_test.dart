@@ -46,9 +46,8 @@ void main() {
   }
 
   test('Initialize Mint', () async {
-    final rent = await rpcClient.getMinimumBalanceForRentExemption(
-      TokenProgram.neededMintAccountSpace.toInt(),
-    );
+    final rent = await rpcClient
+        .getMinimumBalanceForRentExemption(TokenProgram.neededMintAccountSpace);
     // Not throwing is sufficient as test, we need the mint to exist
     final instructions = TokenInstruction.createAccountAndInitializeMint(
       mint: mint.publicKey,

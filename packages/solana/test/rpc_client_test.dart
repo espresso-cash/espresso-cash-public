@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 import 'airdrop.dart';
 import 'config.dart';
 
-const _transferredAmount = 0x1000;
+const int _transferredAmount = 0x1000;
 
 void main() {
   test('throws exception on timeout', () async {
@@ -700,7 +700,7 @@ Future<int> _createTokenAccount(
     transferSomeToAmount: 1000,
   );
   final rent = await rpcClient.getMinimumBalanceForRentExemption(
-    TokenProgram.neededAccountSpace.toInt(),
+    TokenProgram.neededAccountSpace,
     commitment: Commitment.finalized,
   );
 
@@ -752,15 +752,14 @@ Future<String> _createAccount(
 
   await airdrop(rpcClient, subscriptionClient, source, sol: 10);
 
-  final minimumBalance = await rpcClient.getMinimumBalanceForRentExemption(
-    size,
-    commitment: Commitment.finalized,
-  );
   final instruction = SystemInstruction.createAccount(
     fundingAccount: source.publicKey,
     owner: SystemProgram.id,
     newAccount: accountKeyPair.publicKey,
-    lamports: minimumBalance,
+    lamports: await rpcClient.getMinimumBalanceForRentExemption(
+      size,
+      commitment: Commitment.finalized,
+    ),
     space: size,
   );
   final recentBlockhash = await rpcClient.getRecentBlockhash(
