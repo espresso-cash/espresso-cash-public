@@ -44,7 +44,7 @@ void main() {
         await solanaClient.airdropSplTokens(
           account.publicKey,
           token,
-          amount: BigInt.from(10000),
+          amount: 10000,
         );
       });
 

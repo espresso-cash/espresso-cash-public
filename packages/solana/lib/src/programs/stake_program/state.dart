@@ -41,5 +41,5 @@ class WithdrawerAuthority implements StakeAuthorize {
   final int type;
 }
 
-typedef Epoch = BigInt;
-typedef UnixTimestamp = BigInt;
+typedef Epoch = int;
+typedef UnixTimestamp = int;

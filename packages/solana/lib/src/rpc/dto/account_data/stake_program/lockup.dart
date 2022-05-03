@@ -13,9 +13,9 @@ class Lockup {
 
   factory Lockup.fromJson(Map<String, dynamic> json) => _$LockupFromJson(json);
 
-  Lockup.none()
-      : unixTimestamp = BigInt.zero,
-        epoch = BigInt.zero,
+  const Lockup.none()
+      : unixTimestamp = 0,
+        epoch = 0,
         custodian = '11111111111111111111111111111111';
 
   ByteArray serialize() => ByteArray.merge([
@@ -25,6 +25,6 @@ class Lockup {
       ]);
 
   final String custodian;
-  final BigInt epoch;
-  final BigInt unixTimestamp;
+  final int epoch;
+  final int unixTimestamp;
 }

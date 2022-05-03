@@ -42,5 +42,5 @@ abstract class StakeProgram {
   //     activation_epoch     Epoch   ( 8 bytes)
   //     deactivation_epoch   Epoch   ( 8 bytes)
   //     warmup_cooldown_rate float64 ( 8 bytes)
-  static final BigInt neededAccountSpace = BigInt.from(200);
+  static const neededAccountSpace = 200;
 }

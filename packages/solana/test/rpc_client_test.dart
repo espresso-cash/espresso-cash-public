@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 import 'airdrop.dart';
 import 'config.dart';
 
-final _transferredAmount = BigInt.from(0x1000);
+const _transferredAmount = 0x1000;
 
 void main() {
   test('throws exception on timeout', () async {
@@ -708,7 +708,7 @@ Future<int> _createTokenAccount(
     mint: token.address,
     owner: source.publicKey,
     address: accountKeyPair.publicKey,
-    rent: BigInt.from(rent),
+    rent: rent,
     space: TokenProgram.neededAccountSpace,
   );
 
@@ -760,8 +760,8 @@ Future<String> _createAccount(
     fundingAccount: source.publicKey,
     owner: SystemProgram.id,
     newAccount: accountKeyPair.publicKey,
-    lamports: BigInt.from(minimumBalance),
-    space: BigInt.from(size),
+    lamports: minimumBalance,
+    space: size,
   );
   final recentBlockhash = await rpcClient.getRecentBlockhash(
     commitment: Commitment.finalized,
@@ -838,7 +838,7 @@ Future<Mint> _createToken({
   await client.mintTo(
     authority: tokenMintAuthority,
     destination: supplyAccount,
-    amount: BigInt.from(supply),
+    amount: supply,
     mint: splToken.address,
   );
 
@@ -859,7 +859,7 @@ Future<Mint> _createToken({
   await client.transferSplToken(
     owner: tokenMintAuthority,
     destination: transferSomeToAddress,
-    amount: BigInt.from(transferSomeToAmount),
+    amount: transferSomeToAmount,
     mint: splToken.address,
   );
 

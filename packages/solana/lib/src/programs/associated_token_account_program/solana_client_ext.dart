@@ -92,14 +92,13 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
     SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final space = TokenProgram.neededAccountSpace;
-    final rent =
-        await rpcClient.getMinimumBalanceForRentExemption(space.toInt());
+    const space = TokenProgram.neededAccountSpace;
+    final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
     final instructions = TokenInstruction.createAndInitializeAccount(
       address: account.publicKey,
       owner: creator.publicKey,
       mint: mint,
-      rent: BigInt.from(rent),
+      rent: rent,
       space: space,
     );
     await sendAndConfirmTransaction(

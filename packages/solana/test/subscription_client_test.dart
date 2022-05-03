@@ -32,7 +32,7 @@ void main() {
       await createTestSolanaClient().transferLamports(
         destination: recipient.publicKey,
         commitment: Commitment.confirmed,
-        lamports: BigInt.from(lamportsPerSol ~/ 2),
+        lamports: lamportsPerSol ~/ 2,
         source: sender,
       );
 

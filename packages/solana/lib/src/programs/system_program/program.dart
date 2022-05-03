@@ -29,5 +29,5 @@ abstract class SystemProgram {
   // - Authority (PubKey) 32 bytes
   // - Blockhash (32 + 8) bytes
   // - FeeCalculator (lamportsPerSol int64) (8 bytes)
-  static final BigInt nonceAccountSize = BigInt.from(80);
+  static const nonceAccountSize = 80;
 }

@@ -43,8 +43,8 @@ extension SolanaClientExt on SolanaClient {
     required Wallet sender,
     required Ed25519HDPublicKey recipient,
     required Ed25519HDPublicKey tokenAddress,
-    required BigInt amount,
-    BigInt? additionalFee,
+    required int amount,
+    int additionalFee = 0,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
   }) =>
@@ -52,7 +52,7 @@ extension SolanaClientExt on SolanaClient {
           ? createSolTransfer(
               sender: sender,
               recipient: recipient,
-              amount: amount + (additionalFee ?? BigInt.zero),
+              amount: amount + additionalFee,
               memo: memo,
               reference: reference,
             )
@@ -61,7 +61,7 @@ extension SolanaClientExt on SolanaClient {
               solanaAddress: recipient,
               amount: amount,
               tokenAddress: tokenAddress,
-              additionalFee: additionalFee ?? BigInt.zero,
+              additionalFee: additionalFee,
               memo: memo,
               reference: reference,
             );
@@ -69,7 +69,7 @@ extension SolanaClientExt on SolanaClient {
   Future<Message> createSolTransfer({
     required Wallet sender,
     required Ed25519HDPublicKey recipient,
-    required BigInt amount,
+    required int amount,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
   }) async =>
@@ -100,9 +100,9 @@ extension SolanaClientExt on SolanaClient {
   Future<Message> createSplTransfer({
     required Wallet sender,
     required Ed25519HDPublicKey solanaAddress,
-    required BigInt amount,
+    required int amount,
     required Ed25519HDPublicKey tokenAddress,
-    required BigInt additionalFee,
+    required int additionalFee,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
   }) async {
@@ -155,7 +155,7 @@ extension SolanaClientExt on SolanaClient {
         if (memo != null && memo.isNotEmpty)
           MemoInstruction(signers: [sender.publicKey], memo: memo),
         if (!hasAssociatedAccount) associatedAccountInstruction(),
-        if (additionalFee > BigInt.zero) additionalFeeInstruction(),
+        if (additionalFee > 0) additionalFeeInstruction(),
         Instruction(
           accounts: [
             AccountMeta.writeable(

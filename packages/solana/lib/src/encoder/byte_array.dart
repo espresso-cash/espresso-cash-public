@@ -27,7 +27,7 @@ class ByteArray extends Iterable<int> {
       ByteArray(Uint8List.fromList(base58decode(base58String)));
 
   factory ByteArray.fromString(String string) => ByteArray.merge([
-        ByteArray.u64(BigInt.from(string.length)),
+        ByteArray.u64(string.length),
         ByteArray(utf8.encode(string)),
       ]);
 
@@ -49,9 +49,10 @@ class ByteArray extends Iterable<int> {
   factory ByteArray.u32(int value) =>
       ByteArray._fromByteData(ByteData(4)..setUint32(0, value));
 
-  factory ByteArray.i64(BigInt value) => encodeBigInt(value, 8);
+  factory ByteArray.i64(int value) => _encodeBigInt(BigInt.from(value), 8);
 
-  factory ByteArray.u64(BigInt value) => encodeBigIntAsUnsigned(value, 8);
+  factory ByteArray.u64(int value) =>
+      _encodeBigIntAsUnsigned(BigInt.from(value), 8);
 
   final List<int> _data;
 
@@ -59,7 +60,7 @@ class ByteArray extends Iterable<int> {
   Iterator<int> get iterator => _data.iterator;
 }
 
-ByteArray encodeBigInt(BigInt number, int s) {
+ByteArray _encodeBigInt(BigInt number, int s) {
   if (number == BigInt.zero) {
     return ByteArray(Uint8List.fromList([0]));
   }
@@ -73,7 +74,7 @@ ByteArray encodeBigInt(BigInt number, int s) {
   return ByteArray(result);
 }
 
-ByteArray encodeBigIntAsUnsigned(BigInt number, int s) {
+ByteArray _encodeBigIntAsUnsigned(BigInt number, int s) {
   if (number == BigInt.zero) {
     return ByteArray(Uint8List.fromList([0]));
   }
@@ -87,7 +88,8 @@ ByteArray encodeBigIntAsUnsigned(BigInt number, int s) {
   return ByteArray(result);
 }
 
-BigInt decodeBigInt(ByteArray bytes, {required bool isSigned}) {
+// ignore: unused_element, will need later
+BigInt _decodeBigInt(ByteArray bytes, {required bool isSigned}) {
   final list = bytes.toList();
 
   final negative =

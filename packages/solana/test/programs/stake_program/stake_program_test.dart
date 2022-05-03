@@ -25,7 +25,7 @@ void main() {
         staker: staker.address,
         withdrawer: withdrawer.address,
       ),
-      lamports: BigInt.from(rent + stakeAmount),
+      lamports: rent + stakeAmount,
     );
 
     final signature = await rpcClient.signAndSendTransaction(
@@ -76,7 +76,7 @@ void main() {
       ),
       base: stakeKey.publicKey,
       seed: seed,
-      lamports: BigInt.from(lamports + stakeAmount),
+      lamports: lamports + stakeAmount,
     );
 
     expect(
@@ -160,7 +160,7 @@ void main() {
         StakeProgram.neededAccountSpace.toInt(),
       );
       final instruction = SystemInstruction.createAccount(
-        lamports: BigInt.from(lamports),
+        lamports: lamports,
         newAccount: newAccount.publicKey,
         fundingAccount: fromKey.publicKey,
         owner: StakeProgram.id,
@@ -176,8 +176,8 @@ void main() {
       );
 
       final splitInstruction = StakeInstruction.split(
-        amount: BigInt.from(100),
         destinationStake: newAccount.publicKey,
+        amount: 100,
         sourceStake: account.publicKey,
         authority: staker.publicKey,
       );
@@ -205,7 +205,7 @@ void main() {
       account,
     );
     final instruction = StakeInstruction.withdraw(
-      lamports: BigInt.from(100),
+      lamports: 100,
       authority: withdrawer.publicKey,
       stake: account.publicKey,
       recipient: fromKey.publicKey,
@@ -284,9 +284,8 @@ Future<Ed25519HDKeyPair> _newAccount(
   Ed25519HDKeyPair stakeKey,
 ) async {
   final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
-  final rent = await rpcClient.getMinimumBalanceForRentExemption(
-    StakeProgram.neededAccountSpace.toInt(),
-  );
+  final rent = await rpcClient
+      .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
   final instructions = StakeInstruction.createAndInitializeAccount(
     fundingAccount: fromKey.publicKey,
     newAccount: stakeKey.publicKey,
@@ -294,7 +293,7 @@ Future<Ed25519HDKeyPair> _newAccount(
       staker: staker.address,
       withdrawer: withdrawer.address,
     ),
-    lamports: BigInt.from(rent + 50 * lamportsPerSol),
+    lamports: rent + 50 * lamportsPerSol,
   );
 
   final signature = await rpcClient.signAndSendTransaction(

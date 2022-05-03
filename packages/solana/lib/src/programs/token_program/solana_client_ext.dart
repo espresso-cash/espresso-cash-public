@@ -59,9 +59,9 @@ extension SolanaClientTokenProgram on SolanaClient {
   }) async {
     final mint = await Ed25519HDKeyPair.random();
 
-    final space = TokenProgram.neededMintAccountSpace;
+    const space = TokenProgram.neededMintAccountSpace;
     final rent = await rpcClient.getMinimumBalanceForRentExemption(
-      space.toInt(),
+      space,
       commitment: commitment,
     );
 
@@ -69,7 +69,7 @@ extension SolanaClientTokenProgram on SolanaClient {
       mint: mint.publicKey,
       mintAuthority: mintAuthority.publicKey,
       freezeAuthority: freezeAuthority,
-      rent: BigInt.from(rent),
+      rent: rent,
       space: space,
       decimals: decimals,
     );
@@ -90,7 +90,7 @@ extension SolanaClientTokenProgram on SolanaClient {
   Future<TransactionId> mintTo({
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey destination,
-    required BigInt amount,
+    required int amount,
     required Ed25519HDKeyPair authority,
     SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
@@ -120,7 +120,7 @@ extension SolanaClientTokenProgram on SolanaClient {
   Future<TransactionId> transferSplToken({
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey destination,
-    required BigInt amount,
+    required int amount,
     required Wallet owner,
     String? memo,
     SignatureCallback? onSigned,

@@ -115,7 +115,7 @@ class TokenInstruction extends Instruction {
   /// If this account is associated with the native mint then equal amounts of
   /// SOL and Tokens will be transferred to the [destination] account.
   factory TokenInstruction.transfer({
-    required BigInt amount,
+    required int amount,
     required Ed25519HDPublicKey source,
     required Ed25519HDPublicKey destination,
     required Ed25519HDPublicKey owner,
@@ -144,7 +144,7 @@ class TokenInstruction extends Instruction {
   /// A delegate is given the authority over tokens on behalf of the account's
   /// [sourceOwner].
   factory TokenInstruction.approve({
-    required BigInt amount,
+    required int amount,
     required Ed25519HDPublicKey source,
     required Ed25519HDPublicKey delegate,
     required Ed25519HDPublicKey sourceOwner,
@@ -222,7 +222,7 @@ class TokenInstruction extends Instruction {
   /// The [destination] account must exist and be linked with [mint]. You can
   /// create it by using `TokenProgram.createAccount`.
   factory TokenInstruction.mintTo({
-    required BigInt amount,
+    required int amount,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey destination,
     required Ed25519HDPublicKey authority,
@@ -245,7 +245,7 @@ class TokenInstruction extends Instruction {
   /// `Burn` does not support accounts associated with the native mint, use
   /// `CloseAccount` instead.
   factory TokenInstruction.burn({
-    required BigInt amount,
+    required int amount,
     required Ed25519HDPublicKey accountToBurnFrom,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey owner,
@@ -345,7 +345,7 @@ class TokenInstruction extends Instruction {
   /// token mint and decimals value is checked by the caller. This may be useful
   /// when creating transactions offline or within a hardware wallet.
   factory TokenInstruction.transferChecked({
-    required BigInt amount,
+    required int amount,
     required int decimals,
     required Ed25519HDPublicKey source,
     required Ed25519HDPublicKey mint,
@@ -380,7 +380,7 @@ class TokenInstruction extends Instruction {
   /// mint and decimals value is checked by the caller.  This may be useful when
   /// creating transactions offline or within a hardware wallet.
   factory TokenInstruction.approveChecked({
-    required BigInt amount,
+    required int amount,
     required int decimals,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey source,
@@ -416,7 +416,7 @@ class TokenInstruction extends Instruction {
   /// decimals value is checked by the caller. This may be useful when creating
   /// transactions offline or within a hardware wallet.
   factory TokenInstruction.mintToChecked({
-    required BigInt amount,
+    required int amount,
     required int decimals,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey destination,
@@ -445,7 +445,7 @@ class TokenInstruction extends Instruction {
   /// value is checked by the caller. This may be useful when creating
   /// transactions offline or within a hardware wallet.
   factory TokenInstruction.burnChecked({
-    required BigInt amount,
+    required int amount,
     required int decimals,
     required Ed25519HDPublicKey accountToBurnFrom,
     required Ed25519HDPublicKey mint,
@@ -582,8 +582,8 @@ class TokenInstruction extends Instruction {
   static List<Instruction> createAccountAndInitializeMint({
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey mintAuthority,
-    required BigInt rent,
-    required BigInt space,
+    required int rent,
+    required int space,
     required int decimals,
     Ed25519HDPublicKey? freezeAuthority,
   }) =>
@@ -620,8 +620,8 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey address,
     required Ed25519HDPublicKey owner,
-    required BigInt rent,
-    required BigInt space,
+    required int rent,
+    required int space,
   }) =>
       [
         SystemInstruction.createAccount(

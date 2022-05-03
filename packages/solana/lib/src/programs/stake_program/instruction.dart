@@ -22,7 +22,7 @@ class StakeInstruction extends Instruction {
   factory StakeInstruction.initialize({
     required Ed25519HDPublicKey stake,
     required Authorized authorized,
-    Lockup? lockup,
+    Lockup lockup = const Lockup.none(),
   }) =>
       StakeInstruction._(
         accounts: [
@@ -35,7 +35,7 @@ class StakeInstruction extends Instruction {
         data: ByteArray.merge([
           StakeProgram.initializeInstructionIndex,
           authorized.serialize(),
-          (lockup ?? Lockup.none()).serialize(),
+          lockup.serialize(),
         ]),
       );
 
@@ -94,7 +94,7 @@ class StakeInstruction extends Instruction {
     required Ed25519HDPublicKey sourceStake,
     required Ed25519HDPublicKey destinationStake,
     required Ed25519HDPublicKey authority,
-    required BigInt amount,
+    required int amount,
   }) =>
       StakeInstruction._(
         accounts: [
@@ -116,7 +116,7 @@ class StakeInstruction extends Instruction {
     required Ed25519HDPublicKey stake,
     required Ed25519HDPublicKey recipient,
     required Ed25519HDPublicKey authority,
-    required BigInt lamports,
+    required int lamports,
     Ed25519HDPublicKey? lockupAuthority,
   }) =>
       StakeInstruction._(
@@ -364,8 +364,8 @@ class StakeInstruction extends Instruction {
     required Ed25519HDPublicKey fundingAccount,
     required Ed25519HDPublicKey newAccount,
     required Authorized authorized,
-    required BigInt lamports,
-    Lockup? lockup,
+    required int lamports,
+    Lockup lockup = const Lockup.none(),
   }) =>
       [
         SystemInstruction.createAccount(
@@ -388,8 +388,8 @@ class StakeInstruction extends Instruction {
     required Authorized authorized,
     required Ed25519HDPublicKey base,
     required String seed,
-    required BigInt lamports,
-    Lockup? lockup,
+    required int lamports,
+    Lockup lockup = const Lockup.none(),
   }) =>
       [
         SystemInstruction.createAccountWithSeed(

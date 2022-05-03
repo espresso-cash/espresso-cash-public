@@ -27,8 +27,8 @@ class SystemInstruction extends Instruction {
   factory SystemInstruction.createAccount({
     required Ed25519HDPublicKey fundingAccount,
     required Ed25519HDPublicKey newAccount,
-    required BigInt lamports,
-    required BigInt space,
+    required int lamports,
+    required int space,
     required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
@@ -63,7 +63,7 @@ class SystemInstruction extends Instruction {
   factory SystemInstruction.transfer({
     required Ed25519HDPublicKey fundingAccount,
     required Ed25519HDPublicKey recipientAccount,
-    required BigInt lamports,
+    required int lamports,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -83,8 +83,8 @@ class SystemInstruction extends Instruction {
     required Ed25519HDPublicKey newAccount,
     required Ed25519HDPublicKey base,
     required String seed,
-    required BigInt lamports,
-    required BigInt space,
+    required int lamports,
+    required int space,
     required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
@@ -125,7 +125,7 @@ class SystemInstruction extends Instruction {
     required Ed25519HDPublicKey nonce,
     required Ed25519HDPublicKey nonceAuthority,
     required Ed25519HDPublicKey recipient,
-    required BigInt lamports,
+    required int lamports,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -191,7 +191,7 @@ class SystemInstruction extends Instruction {
   /// Allocate [space] in a (possibly new) [account] without funding.
   factory SystemInstruction.allocate({
     required Ed25519HDPublicKey account,
-    required BigInt space,
+    required int space,
   }) =>
       SystemInstruction._(
         accounts: [AccountMeta.writeable(pubKey: account, isSigner: true)],
@@ -207,7 +207,7 @@ class SystemInstruction extends Instruction {
     required Ed25519HDPublicKey account,
     required Ed25519HDPublicKey base,
     required String seed,
-    required BigInt space,
+    required int space,
     required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
@@ -251,7 +251,7 @@ class SystemInstruction extends Instruction {
     required String seed,
     required Ed25519HDPublicKey owner,
     required Ed25519HDPublicKey recipientAccount,
-    required BigInt lamports,
+    required int lamports,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -271,7 +271,7 @@ class SystemInstruction extends Instruction {
     required Ed25519HDPublicKey fromPubKey,
     required Ed25519HDPublicKey noncePubKey,
     required Ed25519HDPublicKey noceAuthorityPubKey,
-    required BigInt lamports,
+    required int lamports,
   }) =>
       [
         SystemInstruction.createAccount(

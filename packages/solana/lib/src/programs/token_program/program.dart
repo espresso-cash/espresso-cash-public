@@ -45,7 +45,7 @@ abstract class TokenProgram {
   // isInitialized:          byte ( 1 bytes)
   // freezeAuthorityOption: int32 ( 4 bytes)
   // freezeAuthority:      PubKey (32 bytes)
-  static final BigInt neededMintAccountSpace = BigInt.from(82);
+  static const neededMintAccountSpace = 82;
 
   // This is computed by adding the bytes in the following
   // structure
@@ -61,5 +61,5 @@ abstract class TokenProgram {
   // delegatedAmount:      uint64 ( 8 bytes)
   // closeAuthorityOption: uint32 ( 4 bytes)
   // closeAuthority:       PubKey (32 bytes)
-  static final BigInt neededAccountSpace = BigInt.from(165);
+  static const neededAccountSpace = 165;
 }

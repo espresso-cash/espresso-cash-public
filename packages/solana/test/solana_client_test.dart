@@ -47,7 +47,7 @@ void main() {
   test('Transfer SOL', () async {
     final signature = await solanaClient.transferLamports(
       destination: destination.publicKey,
-      lamports: BigInt.from(lamportsPerSol),
+      lamports: lamportsPerSol,
       source: source,
     );
     expect(signature, isNotNull);
@@ -153,7 +153,7 @@ void main() {
       expect(
         solanaClient.transferSplToken(
           destination: wallet.publicKey,
-          amount: BigInt.from(100),
+          amount: 100,
           mint: token.address,
           owner: source,
         ),
@@ -173,7 +173,7 @@ void main() {
       );
       final signature = await solanaClient.transferSplToken(
         destination: wallet.publicKey,
-        amount: BigInt.from(40),
+        amount: 40,
         mint: token.address,
         owner: source,
       );
@@ -203,7 +203,7 @@ void main() {
       final signature = await solanaClient.transferSplToken(
         mint: token.address,
         destination: wallet.publicKey,
-        amount: BigInt.from(40),
+        amount: 40,
         memo: memoText,
         owner: source,
       );
@@ -248,5 +248,5 @@ void main() {
   );
 }
 
-final _tokenMintAmount = BigInt.from(1000);
-final _lamportsTransferAmount = BigInt.from(5 * lamportsPerSol);
+const _tokenMintAmount = 1000;
+const _lamportsTransferAmount = 5 * lamportsPerSol;

@@ -54,7 +54,7 @@ void main() {
       mint: mint.publicKey,
       mintAuthority: mintAuthority.publicKey,
       freezeAuthority: freezeAuthority.publicKey,
-      rent: BigInt.from(rent),
+      rent: rent,
       space: TokenProgram.neededMintAccountSpace,
       decimals: 5,
     );
@@ -65,14 +65,13 @@ void main() {
   });
 
   test('Create Account', () async {
-    final rent = await rpcClient.getMinimumBalanceForRentExemption(
-      TokenProgram.neededAccountSpace.toInt(),
-    );
+    final rent = await rpcClient
+        .getMinimumBalanceForRentExemption(TokenProgram.neededAccountSpace);
     final instructions = TokenInstruction.createAndInitializeAccount(
       mint: mint.publicKey,
       address: tokensHolder.publicKey,
       owner: mintAuthority.publicKey,
-      rent: BigInt.from(rent),
+      rent: rent,
       space: TokenProgram.neededAccountSpace,
     );
 
@@ -90,7 +89,7 @@ void main() {
       mint: mint.publicKey,
       destination: tokensHolder.publicKey,
       authority: mintAuthority.publicKey,
-      amount: BigInt.from(10000000000),
+      amount: 10000000000,
     );
 
     expect(
@@ -104,7 +103,7 @@ void main() {
       mint: mint.publicKey,
       destination: tokensHolder.publicKey,
       authority: mintAuthority.publicKey,
-      amount: BigInt.from(10000000000),
+      amount: 10000000000,
       decimals: 5,
     );
 
@@ -119,7 +118,7 @@ void main() {
       source: tokensHolder.publicKey,
       destination: tokensHolder.publicKey,
       owner: mintAuthority.publicKey,
-      amount: BigInt.from(100000),
+      amount: 100000,
     );
 
     expect(
@@ -133,7 +132,7 @@ void main() {
       source: tokensHolder.publicKey,
       destination: tokensHolder.publicKey,
       owner: mintAuthority.publicKey,
-      amount: BigInt.from(100000),
+      amount: 100000,
       decimals: 5,
       mint: mint.publicKey,
     );
@@ -146,7 +145,7 @@ void main() {
 
   test('Approve', () async {
     final instruction = TokenInstruction.approve(
-      amount: BigInt.from(1000000),
+      amount: 1000000,
       source: tokensHolder.publicKey,
       delegate: randomRecipient.publicKey,
       sourceOwner: mintAuthority.publicKey,
@@ -172,7 +171,7 @@ void main() {
 
   test('Approve Checked', () async {
     final instruction = TokenInstruction.approveChecked(
-      amount: BigInt.from(1000000),
+      amount: 1000000,
       decimals: 5,
       source: tokensHolder.publicKey,
       delegate: randomRecipient.publicKey,
@@ -188,7 +187,7 @@ void main() {
 
   test('Burn', () async {
     final instruction = TokenInstruction.burn(
-      amount: BigInt.from(100000),
+      amount: 100000,
       accountToBurnFrom: tokensHolder.publicKey,
       mint: mint.publicKey,
       owner: mintAuthority.publicKey,
@@ -202,7 +201,7 @@ void main() {
 
   test('Burn Checked', () async {
     final instruction = TokenInstruction.burnChecked(
-      amount: BigInt.from(100000),
+      amount: 100000,
       accountToBurnFrom: tokensHolder.publicKey,
       mint: mint.publicKey,
       owner: mintAuthority.publicKey,

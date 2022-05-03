@@ -127,12 +127,12 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
         commitment: Commitment.confirmed,
       );
 
-      final BigInt transferAmount;
-      final BigInt remainder;
+      final int transferAmount;
+      final int remainder;
       if (tokenAddress == Token.sol.address) {
         // SOL payment, just transfer all the money minus transaction fee.
-        transferAmount = BigInt.from(solBalance - lamportsPerSignature);
-        remainder = BigInt.zero;
+        transferAmount = solBalance - lamportsPerSignature;
+        remainder = 0;
       } else {
         // SPL payment. Transfer all the money on SPL account and
         // all the money remaining on the SOL account (minus transaction fee).
@@ -154,7 +154,7 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
               tokenAccount.pubkey,
               commitment: Commitment.confirmed,
             )
-            .then((v) => BigInt.parse(v.amount));
+            .then((v) => int.parse(v.amount));
 
         // If recipient has already associated account, then we can
         // transfer all the money from SOL account of this temp wallet
@@ -163,11 +163,11 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
           owner: Ed25519HDPublicKey.fromBase58(recipient),
           mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
         )
-            ? BigInt.from(solBalance - lamportsPerSignature)
-            : BigInt.zero;
+            ? solBalance - lamportsPerSignature
+            : 0;
       }
 
-      if (transferAmount <= BigInt.zero) {
+      if (transferAmount <= 0) {
         final transactions = await _solanaClient.rpcClient.getTransactionsList(
           wallet.publicKey,
           limit: 1,

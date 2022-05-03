@@ -19,9 +19,9 @@ void main() {
     final instruction = SystemInstruction.createAccount(
       newAccount: accountKey.publicKey,
       fundingAccount: fromKey.publicKey,
-      lamports: BigInt.zero,
+      lamports: 0,
       owner: SystemProgram.id,
-      space: BigInt.zero,
+      space: 0,
     );
 
     final future = rpcClient.signAndSendTransaction(
@@ -54,7 +54,7 @@ void main() {
     final instruction = SystemInstruction.transfer(
       fundingAccount: fromKey.publicKey,
       recipientAccount: recipient.publicKey,
-      lamports: BigInt.from(lamports),
+      lamports: lamports,
     );
     final future = rpcClient.signAndSendTransaction(
       Message.only(instruction),
@@ -78,8 +78,8 @@ void main() {
       newAccount: derivedAddress,
       base: accountKey.publicKey,
       seed: seed,
-      lamports: BigInt.zero,
-      space: BigInt.zero,
+      lamports: 0,
+      space: 0,
       owner: SystemProgram.id,
     );
 
@@ -112,7 +112,7 @@ void main() {
       fromPubKey: fromKey.publicKey,
       noncePubKey: nonceKey.publicKey,
       noceAuthorityPubKey: authorized.publicKey,
-      lamports: BigInt.from(lamports),
+      lamports: lamports,
     );
 
     final future = rpcClient.signAndSendTransaction(
@@ -135,7 +135,7 @@ void main() {
       fromPubKey: fromKey.publicKey,
       noncePubKey: nonceKey.publicKey,
       noceAuthorityPubKey: authorized.publicKey,
-      lamports: BigInt.from(lamports - 1),
+      lamports: lamports - 1,
     );
     final future = rpcClient.signAndSendTransaction(
       Message(instructions: instructions),
@@ -185,7 +185,7 @@ void main() {
     final instruction = SystemInstruction.transferWithSeed(
       fundingAccount: derivedAddress,
       recipientAccount: recipient.publicKey,
-      lamports: BigInt.from(lamports),
+      lamports: lamports,
       base: fromKey.publicKey,
       seed: '1234',
       owner: SystemProgram.id,
@@ -225,7 +225,7 @@ void main() {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final instruction = SystemInstruction.allocate(
       account: fromKey.publicKey,
-      space: BigInt.from(100),
+      space: 100,
     );
     final future = rpcClient.signAndSendTransaction(
       Message.only(instruction),
@@ -244,7 +244,7 @@ void main() {
     );
     final instruction = SystemInstruction.allocateWithSeed(
       account: derivedAddress,
-      space: BigInt.from(100),
+      space: 100,
       base: fromKey.publicKey,
       owner: SystemProgram.id,
       seed: '1234',
@@ -271,7 +271,7 @@ void main() {
       nonce: nonceKey.publicKey,
       nonceAuthority: fromKey.publicKey,
       recipient: toKey.publicKey,
-      lamports: BigInt.from(100),
+      lamports: 100,
     );
 
     expect(
@@ -331,7 +331,7 @@ Future<Ed25519HDKeyPair> _createNonceAccount(
     fromPubKey: nonceAuthority.publicKey,
     noncePubKey: nonceKey.publicKey,
     noceAuthorityPubKey: nonceAuthority.publicKey,
-    lamports: BigInt.from(lamports + extraLamports),
+    lamports: lamports + extraLamports,
   );
   final signature = await rpcClient.signAndSendTransaction(
     Message(instructions: instructions),

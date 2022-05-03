@@ -10,7 +10,7 @@ extension SolanaClientSystemProgram on SolanaClient {
   Future<TransactionId> transferLamports({
     required Ed25519HDKeyPair source,
     required Ed25519HDPublicKey destination,
-    required BigInt lamports,
+    required int lamports,
     String? memo,
     SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
