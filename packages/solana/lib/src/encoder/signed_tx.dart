@@ -20,7 +20,7 @@ class SignedTx {
   String encode() => base64.encode(_data.toList());
 
   late final ByteArray _data = ByteArray.merge([
-    CompactArray(ByteArray.merge(signatures.map((e) => ByteArray(e.bytes))))
+    CompactArray.fromIterable(signatures.map((e) => ByteArray(e.bytes)))
         .toByteArray(),
     messageBytes,
   ]);

@@ -44,9 +44,9 @@ class Message {
     return CompiledMessage(
       ByteArray.merge([
         header.toByteArray(),
-        CompactArray(ByteArray.merge(keys)).toByteArray(),
+        CompactArray.fromIterable(keys).toByteArray(),
         ByteArray.fromBase58(recentBlockhash),
-        CompactArray(ByteArray.merge(compiledInstructions)).toByteArray(),
+        CompactArray.fromIterable(compiledInstructions).toByteArray(),
       ]),
     );
   }
