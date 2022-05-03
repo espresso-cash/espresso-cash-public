@@ -13,4 +13,7 @@ class SwapSelectorState with _$SwapSelectorState {
   }) = _SwapSelectorState;
 
   const SwapSelectorState._();
+
+  bool get canSwap =>
+      amount.value != 0 && selectedInput != null && selectedOutput != null;
 }

@@ -93,7 +93,7 @@ class _SwapTokenSelectorScreenState extends State<SwapTokenSelectorScreen> {
   Widget build(BuildContext context) =>
       BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
         bloc: swapTokenBloc,
-        builder: (context, state) => CpTheme.light(
+        builder: (context, state) => CpTheme.dark(
           child: CpLoader(
             isLoading: state.isLoading,
             child: Scaffold(
@@ -101,47 +101,64 @@ class _SwapTokenSelectorScreenState extends State<SwapTokenSelectorScreen> {
                 leading: BackButton(
                   onPressed: () => context.read<SwapTokenRouter>().closeFlow(),
                 ),
+                nextButton: SlippageDropdown(
+                  currentSlippage: state.slippage,
+                  onSlippageChanged: (slippage) => swapTokenBloc.add(
+                    SwapSelectorEvent.slippageUpdated(slippage),
+                  ),
+                ),
               ),
               body: SafeArea(
                 child: ListView(
                   children: [
-                    AmountDisplay(
-                      value: _controller.text,
-                      currency: state.amount.currency,
-                      onTokenChanged: null,
-                      availableTokens: IList(),
-                    ),
-                    SlippageDropdown(
-                      currentSlippage: state.slippage,
-                      onSlippageChanged: (slippage) => swapTokenBloc.add(
-                        SwapSelectorEvent.slippageUpdated(slippage),
-                      ),
-                    ),
-                    const SizedBox.square(dimension: 16),
-                    TokenDropdown(
-                      key: _inputKey,
-                      availableTokens: state.inputTokens,
-                      selectedToken: state.selectedInput,
-                      onChanged: (token) => swapTokenBloc.add(
-                        SwapSelectorEvent.inputSelected(token),
-                      ),
-                    ),
-                    const SizedBox.square(dimension: 16),
-                    TokenDropdown(
-                      key: _outputKey,
-                      availableTokens: state.outputTokens,
-                      selectedToken: state.selectedOutput,
-                      onChanged: (token) => swapTokenBloc.add(
-                        SwapSelectorEvent.outputSelected(token),
-                      ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: TokenDropdown(
+                                key: _inputKey,
+                                availableTokens: state.inputTokens,
+                                selectedToken: state.selectedInput,
+                                onChanged: (token) => swapTokenBloc.add(
+                                  SwapSelectorEvent.inputSelected(token),
+                                ),
+                              ),
+                            ),
+                            Text(context.l10n.to.toLowerCase()),
+                            Flexible(
+                              child: TokenDropdown(
+                                key: _outputKey,
+                                availableTokens: state.outputTokens,
+                                selectedToken: state.selectedOutput,
+                                onChanged: (token) => swapTokenBloc.add(
+                                  SwapSelectorEvent.outputSelected(token),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Flexible(
+                          child: AmountDisplay(
+                            value: _controller.text,
+                            currency: state.amount.currency,
+                            onTokenChanged: null,
+                            availableTokens: IList(),
+                          ),
+                        ),
+                      ],
                     ),
                     EnterAmountKeypad(
                       controller: _controller,
                       maxDecimals: state.selectedInput?.decimals ?? 0,
                     ),
-                    CpButton(
-                      text: context.l10n.swapTokens,
-                      onPressed: state.amount.value == 0 ? null : _onConfirm,
+                    CpContentPadding(
+                      child: CpButton(
+                        text: context.l10n.swapTokens,
+                        onPressed: state.canSwap ? _onConfirm : null,
+                      ),
                     ),
                   ],
                 ),

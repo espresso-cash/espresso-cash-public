@@ -270,6 +270,7 @@
       }
     }
   },
+  "slippage": "Slippage ",
   "swapTokens": "Swap tokens",
   "swapPreparing": "Retrieving routes to perform transaction",
   "swapSetup": "Setting up",

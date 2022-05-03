@@ -1,5 +1,5 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_list_dialog/token_item.dart';
+import 'package:cryptoplease/presentation/components/token_icon.dart';
 import 'package:flutter/material.dart';
 
 class TokenDropdown extends StatefulWidget {
@@ -33,15 +33,12 @@ class _TokenDropdownState extends State<TokenDropdown> {
   void didUpdateWidget(covariant TokenDropdown oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.availableTokens != widget.availableTokens) {
+      currentToken = null;
       tokenList = widget.availableTokens
           .map(
             (token) => DropdownMenuItem(
               value: token,
-              child: SizedBox(
-                height: 120,
-                width: 320,
-                child: TokenItem(token: token),
-              ),
+              child: _DropdownTokenWidget(token: token),
             ),
           )
           .toList();
@@ -57,14 +54,37 @@ class _TokenDropdownState extends State<TokenDropdown> {
 
   @override
   Widget build(BuildContext context) => Material(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: DropdownButton<Token>(
-            items: tokenList,
-            value: currentToken,
-            onChanged: _selectToken,
-            underline: const SizedBox.shrink(),
-          ),
+        child: DropdownButton<Token>(
+          items: tokenList,
+          value: currentToken,
+          onChanged: _selectToken,
+          underline: const SizedBox.shrink(),
         ),
+      );
+}
+
+class _DropdownTokenWidget extends StatelessWidget {
+  const _DropdownTokenWidget({
+    Key? key,
+    required this.token,
+  }) : super(key: key);
+
+  final Token token;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(width: 16),
+          TokenIcon(token: token, size: 24),
+          const SizedBox(width: 16),
+          Text(
+            token.symbol,
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ],
       );
 }
