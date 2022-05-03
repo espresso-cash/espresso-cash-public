@@ -39,9 +39,10 @@ extension SendFtFlowExt on BuildContext {
             request?.map(
               solanaPay: (r) {
                 final request = r.request;
-                final token = request.splToken == null
+                final splToken = request.splToken;
+                final token = splToken == null
                     ? Token.sol
-                    : TokenList().findTokenByMint(request.splToken!.toBase58());
+                    : TokenList().findTokenByMint(splToken.toBase58());
 
                 if (token == null) {
                   showErrorDialog(this, 'Token not found', Exception());

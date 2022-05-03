@@ -118,6 +118,7 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
               break;
             case OutgoingTransferType.direct:
               payment = OutgoingTransfer.createDirectTransfer(
+                // ignore: avoid-non-null-assertion, recipientAddress should be filled by this step
                 recipientAddress: state.recipientAddress!,
                 amount: amount,
                 tokenAddress: address,

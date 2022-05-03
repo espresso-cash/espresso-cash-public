@@ -36,6 +36,8 @@ class CpHeaderedListContent extends StatelessWidget {
             ),
           );
 
+    final padding = this.padding;
+
     return CpTheme.light(
       child: Material(
         color: Colors.white,
@@ -49,7 +51,7 @@ class CpHeaderedListContent extends StatelessWidget {
             if (padding == null)
               content
             else
-              SliverPadding(padding: padding!, sliver: content),
+              SliverPadding(padding: padding, sliver: content),
           ],
         ),
       ),

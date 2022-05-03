@@ -40,7 +40,7 @@ class AirdropBloc extends Bloc<AirdropEvent, AirdropState> {
         address: _account.publicKey,
         lamports: lamportsPerSol,
       );
-      // ignore: avoid_print
+      // ignore: avoid_print, used in debug only anyway
     }).doOnLeftAsync(print);
 
     emit(const AirdropState.none());

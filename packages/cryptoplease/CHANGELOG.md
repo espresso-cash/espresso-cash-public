@@ -1,3 +1,13 @@
+## 1.35.0
+
+ - **REFACTOR**: Extract link hosts as constants.
+ - **REFACTOR**: Bump mews_pedantic.
+ - **FIX**: change share text for request payment (#253).
+ - **FIX**: fix label receive to request (#249).
+ - **FEAT**: Add InstallLinkManager.
+ - **FEAT**: Support new links schemes.
+ - **FEAT**: add fee in dolar currency (#233).
+
 ## 1.34.1
 
  - **FIX**: Clear payment requests on log out (#247).

@@ -95,6 +95,7 @@ void main() {
       expect(account, isNotNull);
       final rawData = account?.data;
       expect(rawData, isNotNull);
+      // ignore: avoid-non-null-assertion, cannot be null here
       final data = Basic1DataAccount.fromAccountData(rawData!);
       final discriminator = await computeDiscriminator('account', 'MyAccount');
       expect(data.data, equals(100));
@@ -134,6 +135,7 @@ void main() {
       expect(account, isNotNull);
       final rawData = account?.data;
       expect(rawData, isNotNull);
+      // ignore: avoid-non-null-assertion, cannot be null here
       final dataAccount = Basic1DataAccount.fromAccountData(rawData!);
       expect(dataAccount.data, equals(25));
       expect(dataAccount.discriminator, equals(discriminator));

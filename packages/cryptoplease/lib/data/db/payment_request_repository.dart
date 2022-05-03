@@ -28,7 +28,9 @@ class DbPaymentRequestRepository implements PaymentRequestRepository {
           (rows) => rows
               .map(
                 (row) => Product2(
+                  // ignore: avoid-non-null-assertion, cannot be null here
                   row.read(db.paymentRequestRows.id)!,
+                  // ignore: avoid-non-null-assertion, cannot be null here
                   row.read(db.paymentRequestRows.created)!,
                 ),
               )
