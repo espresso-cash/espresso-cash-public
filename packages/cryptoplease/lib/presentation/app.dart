@@ -19,7 +19,7 @@ class CryptopleaseApp extends StatefulWidget {
 
 class _CryptopleaseAppState extends State<CryptopleaseApp>
     with
-        // ignore: prefer_mixin
+        // ignore: prefer_mixin, Flutter way
         WidgetsBindingObserver {
   final _router = AppRouter();
 
@@ -79,6 +79,7 @@ class _CryptopleaseAppState extends State<CryptopleaseApp>
           theme: context.watch<CpThemeData>().toMaterialTheme(),
           builder: (context, child) => Stack(
             children: [
+              // ignore: avoid-non-null-assertion, cannot be null here
               child!,
               if (isLocked) const AppLockScreen(),
             ],

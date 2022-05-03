@@ -12,3 +12,4 @@ analyzer:
 dart_code_metrics:
   rules-exclude:
     - "**/*.gr.dart"
+    - "**/generated_plugin_registrant.dart"

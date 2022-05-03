@@ -15,6 +15,7 @@ class SuccessContent extends StatelessWidget {
         .read<SplitKeyIncomingPaymentBloc>()
         .add(const SplitKeyIncomingPaymentEvent.cleared());
 
+    // ignore: avoid-non-null-assertion, cannot be null here
     final account = context.read<AccountsBloc>().state.account!;
     context
         .read<BalancesBloc>()

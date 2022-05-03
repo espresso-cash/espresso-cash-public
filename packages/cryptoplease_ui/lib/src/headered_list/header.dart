@@ -74,19 +74,21 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get maxExtent {
+    final stickyBottomHeader = this.stickyBottomHeader;
     if (stickyBottomHeader == null) {
       return _stackHeight;
     } else {
-      return _stackHeight + stickyBottomHeader!.preferredSize.height;
+      return _stackHeight + stickyBottomHeader.preferredSize.height;
     }
   }
 
   @override
   double get minExtent {
+    final stickyBottomHeader = this.stickyBottomHeader;
     if (stickyBottomHeader == null) {
       return minHeight;
     } else {
-      return minHeight + stickyBottomHeader!.preferredSize.height;
+      return minHeight + stickyBottomHeader.preferredSize.height;
     }
   }
 
@@ -103,6 +105,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     final bottomDisplacement = buttonsHeight +
         _buttonBottomOffset -
         (1 - bottomOpacity) * (buttonsHeight + _buttonBottomOffset);
+    final stickyBottomHeader = this.stickyBottomHeader;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -120,7 +123,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
             ),
           ),
         ),
-        if (stickyBottomHeader != null) stickyBottomHeader!
+        if (stickyBottomHeader != null) stickyBottomHeader
       ],
     );
   }
@@ -128,7 +131,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   Widget _buildBackButton() => Positioned(
         top: 4,
         left: 4,
-        child: backButton != null ? backButton! : const SizedBox.shrink(),
+        child: backButton ?? const SizedBox.shrink(),
       );
 
   Widget _buildAppBar(double top) => Positioned.fill(

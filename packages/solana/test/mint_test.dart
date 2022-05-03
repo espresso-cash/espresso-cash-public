@@ -197,9 +197,11 @@ void main() {
         // Send to the newly created account
         final instruction = TokenInstruction.transfer(
           source: Ed25519HDPublicKey.fromBase58(
+            // ignore: avoid-non-null-assertion, cannot be null here
             sourceAssociatedTokenAddress!.pubkey,
           ),
           destination: Ed25519HDPublicKey.fromBase58(
+            // ignore: avoid-non-null-assertion, cannot be null here
             destinationAssociatedTokenAddress!.pubkey,
           ),
           amount: 100,

@@ -103,14 +103,7 @@ extension on Token {
 }
 
 extension on List<Token> {
-  List<Token> filterByKeyword(String keyword) {
-    if (keyword.isEmpty) {
-      return this;
-    } else {
-      final result =
-          where((t) => t.symbolIncludes(keyword)).toList(growable: false);
-
-      return result;
-    }
-  }
+  List<Token> filterByKeyword(String keyword) => keyword.isEmpty
+      ? this
+      : where((t) => t.symbolIncludes(keyword)).toList(growable: false);
 }

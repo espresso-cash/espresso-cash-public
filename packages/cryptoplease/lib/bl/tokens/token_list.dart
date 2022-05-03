@@ -7,11 +7,11 @@ import 'package:meta/meta.dart' show visibleForTesting;
 
 part 'token_list.g.dart';
 
-// ignore: invalid_annotation_target
+// ignore: invalid_annotation_target, we need const here
 @JsonLiteral('solana.tokenlist.json', asConst: true)
 const Map<String, dynamic> _solanaTokenList = _$_solanaTokenListJsonLiteral;
 
-// ignore: invalid_annotation_target
+// ignore: invalid_annotation_target, we need const here
 @JsonLiteral('local.tokenlist.json', asConst: true)
 @visibleForTesting
 const Map<String, dynamic> localTokenList = _$localTokenListJsonLiteral;
@@ -26,10 +26,12 @@ class TokenList {
     Map<String, dynamic>? data,
   }) {
     if (_instance?.chainId == chainId) {
+      // ignore: avoid-non-null-assertion, cannot be null here
       return _instance!;
     }
     _instance = TokenList._(chainId: chainId, data: data ?? _fileContent);
 
+    // ignore: avoid-non-null-assertion, cannot be null here
     return _instance!;
   }
 

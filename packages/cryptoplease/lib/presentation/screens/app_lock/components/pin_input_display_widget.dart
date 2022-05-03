@@ -33,31 +33,35 @@ class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Flex(
-        direction: Axis.vertical,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (widget.message != null) ...[
-            Text(widget.message!, style: Theme.of(context).textTheme.subtitle2),
-            const SizedBox(height: 24),
-          ],
-          ValueListenableBuilder<TextEditingValue>(
-            valueListenable: controller,
-            builder: (context, value, _) => PinDisplay(
-              maxDigits: _maxDigits,
-              currentDigits: value.text.length,
-            ),
-          ),
+  Widget build(BuildContext context) {
+    final message = widget.message;
+
+    return Flex(
+      direction: Axis.vertical,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (message != null) ...[
+          Text(message, style: Theme.of(context).textTheme.subtitle2),
           const SizedBox(height: 24),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: PinKeypad(
-              maxDigits: _maxDigits,
-              controller: controller,
-            ),
-          ),
         ],
-      );
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: controller,
+          builder: (context, value, _) => PinDisplay(
+            maxDigits: _maxDigits,
+            currentDigits: value.text.length,
+          ),
+        ),
+        const SizedBox(height: 24),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: PinKeypad(
+            maxDigits: _maxDigits,
+            controller: controller,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 const _maxDigits = 6;

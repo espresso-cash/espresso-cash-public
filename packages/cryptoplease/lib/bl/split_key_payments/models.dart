@@ -1,4 +1,5 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/config.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
@@ -20,9 +21,10 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
     final correctSchemeAndHost =
         link.scheme == 'cryptoplease-sol' && link.host == '1' ||
             link.scheme == 'https' &&
-                link.host == 'sol.cryptoplease.link' &&
+                link.host == 'sol.$cpLinkDomain' &&
                 (link.path == '/' || link.path == '') ||
-            link.scheme == 'https' && link.host == 'sol1.cryptoplease.link';
+            link.scheme == 'https' && link.host == 'sol1.$cpLinkDomain' ||
+            link.scheme == 'https' && link.host == link1Host;
     if (!correctSchemeAndHost) return null;
 
     final tokenAddress = link.queryParameters['token'] ?? Token.sol.address;
@@ -45,7 +47,8 @@ class SplitKeySecondLink with _$SplitKeySecondLink {
     final String? secondPart;
 
     if (uri.scheme == 'cryptoplease-sol' && uri.host == '2' ||
-        uri.scheme == 'https' && uri.host == 'sol2.cryptoplease.link') {
+        uri.scheme == 'https' && uri.host == 'sol2.$cpLinkDomain' ||
+        uri.scheme == 'https' && uri.host == link2Host) {
       secondPart = uri.queryParameters['key'];
       if (secondPart == null) return null;
 
@@ -71,7 +74,7 @@ class SplitKeySecondLink with _$SplitKeySecondLink {
 
 Uri buildFirstLink(IList<int> privateKey, String tokenAddress) => Uri(
       scheme: 'https',
-      host: 'sol.cryptoplease.link',
+      host: link1Host,
       path: '/',
       queryParameters: <String, String>{
         'key': splitKey(privateKey).first,
@@ -83,7 +86,7 @@ Uri buildSecondLink(IList<int> privateKey) =>
     SplitKeySecondLink(key: splitKey(privateKey).last).uri;
 
 extension on SplitKeySecondLink {
-  Uri get uri => Uri.parse('https://sol2.cryptoplease.link/?key=$key');
+  Uri get uri => Uri.parse('https://$link2Host/?key=$key');
 }
 
 @visibleForTesting

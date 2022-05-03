@@ -6,18 +6,18 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('Builds first link', () {
     final link = buildFirstLink([1, 2, 3, 4].lock, Token.sol.address);
-    expect(link.toString(), 'https://sol.cryptoplease.link/?key=5T');
+    expect(link.toString(), 'https://solana1.cryptoplease.link/?key=5T');
   });
 
   test('Builds second link', () {
     final link = buildSecondLink([1, 2, 3, 4].lock);
-    expect(link.toString(), 'https://sol2.cryptoplease.link/?key=EK');
+    expect(link.toString(), 'https://solana2.cryptoplease.link/?key=EK');
   });
 
   test('Valid first link 1', () {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
-        Uri.parse('https://sol.cryptoplease.link?token=abc&key=123'),
+        Uri.parse('https://solana1.cryptoplease.link?token=abc&key=123'),
       ),
       const SplitKeyIncomingFirstPart(keyPart: '123', tokenAddress: 'abc'),
     );
@@ -26,7 +26,7 @@ void main() {
   test('Valid first link 2', () {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
-        Uri.parse('https://sol.cryptoplease.link?key=123'),
+        Uri.parse('https://solana1.cryptoplease.link?key=123'),
       ),
       SplitKeyIncomingFirstPart(
         keyPart: '123',
@@ -38,13 +38,43 @@ void main() {
   test('Valid first link 3', () {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
+        Uri.parse('https://solana1.cryptoplease.link/?token=abc&key=123'),
+      ),
+      const SplitKeyIncomingFirstPart(keyPart: '123', tokenAddress: 'abc'),
+    );
+  });
+
+  test('Valid first link 1 (old)', () {
+    expect(
+      SplitKeyIncomingFirstPart.tryParse(
+        Uri.parse('https://sol.cryptoplease.link?token=abc&key=123'),
+      ),
+      const SplitKeyIncomingFirstPart(keyPart: '123', tokenAddress: 'abc'),
+    );
+  });
+
+  test('Valid first link 2 (old)', () {
+    expect(
+      SplitKeyIncomingFirstPart.tryParse(
+        Uri.parse('https://sol.cryptoplease.link?key=123'),
+      ),
+      SplitKeyIncomingFirstPart(
+        keyPart: '123',
+        tokenAddress: Token.sol.address,
+      ),
+    );
+  });
+
+  test('Valid first link 3 (old)', () {
+    expect(
+      SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('cryptoplease-sol://1?token=abc&key=123'),
       ),
       const SplitKeyIncomingFirstPart(keyPart: '123', tokenAddress: 'abc'),
     );
   });
 
-  test('Valid first link 4', () {
+  test('Valid first link 4 (old)', () {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('https://sol.cryptoplease.link/?token=abc&key=123'),
@@ -53,7 +83,7 @@ void main() {
     );
   });
 
-  test('Valid first link 5', () {
+  test('Valid first link 5 (old)', () {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('cryptoplease-sol://1/?token=abc&key=123'),
@@ -74,13 +104,22 @@ void main() {
   test('Valid second link 1', () {
     expect(
       SplitKeySecondLink.tryParse(
+        Uri.parse('https://solana2.cryptoplease.link?key=123'),
+      ),
+      const SplitKeySecondLink(key: '123'),
+    );
+  });
+
+  test('Valid second link 1 (old)', () {
+    expect(
+      SplitKeySecondLink.tryParse(
         Uri.parse('cryptoplease://sk?second=123_a'),
       ),
       const SplitKeySecondLink(key: '123'),
     );
   });
 
-  test('Valid second link 2', () {
+  test('Valid second link 2 (old)', () {
     expect(
       SplitKeySecondLink.tryParse(
         Uri.parse('https://cryptoplease.github.io?data=123_a'),
@@ -89,7 +128,7 @@ void main() {
     );
   });
 
-  test('Valid second link 3', () {
+  test('Valid second link 3 (old)', () {
     expect(
       SplitKeySecondLink.tryParse(
         Uri.parse('https://sol2.cryptoplease.link?key=123'),
@@ -98,7 +137,7 @@ void main() {
     );
   });
 
-  test('Valid second link 4', () {
+  test('Valid second link 4 (old)', () {
     expect(
       SplitKeySecondLink.tryParse(
         Uri.parse('cryptoplease-sol://2?key=123'),
@@ -107,7 +146,7 @@ void main() {
     );
   });
 
-  test('Valid second link 5', () {
+  test('Valid second link 5 (old)', () {
     expect(
       SplitKeySecondLink.tryParse(
         Uri.parse('https://sol2.cryptoplease.link/?key=123'),
@@ -116,7 +155,7 @@ void main() {
     );
   });
 
-  test('Valid second link 6', () {
+  test('Valid second link 6 (old)', () {
     expect(
       SplitKeySecondLink.tryParse(
         Uri.parse('cryptoplease-sol://2/?key=123'),

@@ -16,6 +16,7 @@ void main() {
     rpcUrl: Uri.parse(solanaRpcUrl),
     websocketUrl: Uri.parse(solanaWebSocketUrl),
   );
+  // ignore: avoid-non-null-assertion, cannot be null here
   late final token = TokenList()
       .findTokenByMint('gfctksjBntn1EBqLYgmcPhQEf9uwPi5ds7Vs4fbsahp')!;
 

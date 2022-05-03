@@ -37,51 +37,55 @@ class CpTextField extends StatelessWidget {
   final CpTextFieldBorder border;
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: margin,
-        decoration: border == CpTextFieldBorder.stadium
-            ? ShapeDecoration(
-                color: backgroundColor,
-                shape: const StadiumBorder(),
-              )
-            : BoxDecoration(
-                color: backgroundColor,
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-              ),
-        child: CupertinoTextField(
-          enabled: !disabled,
-          decoration: const BoxDecoration(),
-          suffix: suffix,
-          padding: padding,
-          readOnly: readOnly,
-          textAlignVertical: TextAlignVertical.center,
-          controller: controller,
-          maxLines: 1,
-          cursorColor: CpColors.yellowColor,
-          style: TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: fontSize,
-            color: CpColors.primaryTextColor,
-            height: 1.2,
-          ),
-          placeholder: placeholder,
-          keyboardType: inputType,
-          keyboardAppearance: Theme.of(context).brightness,
-          placeholderStyle: TextStyle(color: placeholderColor),
-          prefix: prefix == null
-              ? null
-              : Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Text(
-                    prefix!,
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: fontSize,
-                      color: CpColors.primaryTextColor,
-                      height: 1.2,
-                    ),
+  Widget build(BuildContext context) {
+    final prefix = this.prefix;
+
+    return Container(
+      margin: margin,
+      decoration: border == CpTextFieldBorder.stadium
+          ? ShapeDecoration(
+              color: backgroundColor,
+              shape: const StadiumBorder(),
+            )
+          : BoxDecoration(
+              color: backgroundColor,
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+            ),
+      child: CupertinoTextField(
+        enabled: !disabled,
+        decoration: const BoxDecoration(),
+        suffix: suffix,
+        padding: padding,
+        readOnly: readOnly,
+        textAlignVertical: TextAlignVertical.center,
+        controller: controller,
+        maxLines: 1,
+        cursorColor: CpColors.yellowColor,
+        style: TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: fontSize,
+          color: CpColors.primaryTextColor,
+          height: 1.2,
+        ),
+        placeholder: placeholder,
+        keyboardType: inputType,
+        keyboardAppearance: Theme.of(context).brightness,
+        placeholderStyle: TextStyle(color: placeholderColor),
+        prefix: prefix == null
+            ? null
+            : Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  prefix,
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: fontSize,
+                    color: CpColors.primaryTextColor,
+                    height: 1.2,
                   ),
                 ),
-        ),
-      );
+              ),
+      ),
+    );
+  }
 }
