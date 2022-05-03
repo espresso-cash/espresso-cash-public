@@ -1,6 +1,4 @@
-import 'package:solana/src/common/byte_array.dart';
-import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/extensions.dart';
+import 'package:solana/encoder.dart';
 
 /// The message header as described [Message Header Format][message header format]
 ///

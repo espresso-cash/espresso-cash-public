@@ -47,7 +47,7 @@ Future<void> main() async {
       (token) => solanaClient.airdropSplTokens(
         accountKey.publicKey,
         token,
-        amount: 100000,
+        amount: BigInt.from(100000),
       ),
     ),
   );

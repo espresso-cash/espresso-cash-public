@@ -11,7 +11,7 @@ Future<void> main() async {
     SystemInstruction.transfer(
       fundingAccount: fundingAccount.publicKey,
       recipientAccount: recipientAccount.publicKey,
-      lamports: 1000,
+      lamports: BigInt.from(1000),
     ),
   );
 

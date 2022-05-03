@@ -1,10 +1,5 @@
-import 'dart:convert';
-
-import 'package:borsh_annotation/borsh_annotation.dart';
-import 'package:solana/src/base58/encode.dart';
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compiled_message.dart';
 import 'package:solana/src/encoder/extensions.dart';

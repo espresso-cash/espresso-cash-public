@@ -1,8 +1,8 @@
 import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/crypto.dart';
 import 'package:solana/src/encoder/account_meta.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/instruction.dart';
 
 class AnchorInstruction extends Instruction {

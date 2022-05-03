@@ -1,14 +1,14 @@
 library utilities;
 
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';
-import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 
 /// Returns true if [address] is a valid ed25519 point encoded to base58.
 bool isValidAddress(String address) {
   try {
-    final data = Buffer.fromBase58(address);
+    final data = ByteArray.fromBase58(address);
 
     return isPointOnEd25519Curve(data);
   } on Exception {
@@ -39,7 +39,7 @@ Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
   required Ed25519HDPublicKey mint,
 }) =>
     Ed25519HDPublicKey.findProgramAddress(
-      seeds: [owner.bytes, TokenProgram.id.toBuffer(), mint.bytes],
+      seeds: [owner.bytes, TokenProgram.id.toByteArray(), mint.bytes],
       programId: AssociatedTokenAccountProgram.id,
     );
 

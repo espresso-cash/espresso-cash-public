@@ -10,7 +10,7 @@ extension SolanaClientExt on SolanaClient {
     Ed25519HDKeyPair mint,
   ) async {
     final mintRent = await rpcClient.getMinimumBalanceForRentExemption(
-      TokenProgram.neededMintAccountSpace,
+      TokenProgram.neededMintAccountSpace.toInt(),
     );
 
     final tokenOwnerAddress = await findAssociatedTokenAddress(
@@ -23,7 +23,7 @@ extension SolanaClientExt on SolanaClient {
         SystemInstruction.createAccount(
           fundingAccount: mintAuthority.publicKey,
           newAccount: mint.publicKey,
-          lamports: mintRent,
+          lamports: BigInt.from(mintRent),
           space: TokenProgram.neededMintAccountSpace,
           owner: TokenProgram.id,
         ),
@@ -39,7 +39,7 @@ extension SolanaClientExt on SolanaClient {
           mint: mint.publicKey,
         ),
         TokenInstruction.mintTo(
-          amount: 10000000,
+          amount: BigInt.from(10000000),
           mint: mint.publicKey,
           destination: tokenOwnerAddress,
           authority: mintAuthority.publicKey,
@@ -74,7 +74,7 @@ extension SolanaClientExt on SolanaClient {
   Future<void> airdropSplTokens(
     Ed25519HDPublicKey recipient,
     Token token, {
-    required int amount,
+    required BigInt amount,
   }) async {
     final mintAuthority = await Ed25519HDKeyPair.fromPrivateKeyBytes(
       privateKey: mintAuthorityPrivateKey,

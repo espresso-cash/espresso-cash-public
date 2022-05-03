@@ -11,8 +11,9 @@ void main() {
   const int stakeAmount = lamportsPerSol;
 
   test('Create Account', () async {
-    final rent = await rpcClient
-        .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
+    final rent = await rpcClient.getMinimumBalanceForRentExemption(
+      StakeProgram.neededAccountSpace.toInt(),
+    );
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final account = await Ed25519HDKeyPair.random();
     final staker = await Ed25519HDKeyPair.random();
@@ -24,7 +25,7 @@ void main() {
         staker: staker.address,
         withdrawer: withdrawer.address,
       ),
-      lamports: rent + stakeAmount,
+      lamports: BigInt.from(rent + stakeAmount),
     );
 
     final signature = await rpcClient.signAndSendTransaction(
@@ -45,8 +46,9 @@ void main() {
     final staker = await Ed25519HDKeyPair.random();
     final withdrawer = await Ed25519HDKeyPair.random();
     final stakeKey = await Ed25519HDKeyPair.random();
-    final lamports = await rpcClient
-        .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
+    final lamports = await rpcClient.getMinimumBalanceForRentExemption(
+      StakeProgram.neededAccountSpace.toInt(),
+    );
 
     final signature = await rpcClient.requestAirdrop(
       fromKey.address,
@@ -74,7 +76,7 @@ void main() {
       ),
       base: stakeKey.publicKey,
       seed: seed,
-      lamports: lamports + stakeAmount,
+      lamports: BigInt.from(lamports + stakeAmount),
     );
 
     expect(
@@ -155,10 +157,10 @@ void main() {
       );
       final newAccount = await Ed25519HDKeyPair.random();
       final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-        StakeProgram.neededAccountSpace,
+        StakeProgram.neededAccountSpace.toInt(),
       );
       final instruction = SystemInstruction.createAccount(
-        lamports: lamports,
+        lamports: BigInt.from(lamports),
         newAccount: newAccount.publicKey,
         fundingAccount: fromKey.publicKey,
         owner: StakeProgram.id,
@@ -174,7 +176,7 @@ void main() {
       );
 
       final splitInstruction = StakeInstruction.split(
-        amount: 100,
+        amount: BigInt.from(100),
         destinationStake: newAccount.publicKey,
         sourceStake: account.publicKey,
         authority: staker.publicKey,
@@ -203,7 +205,7 @@ void main() {
       account,
     );
     final instruction = StakeInstruction.withdraw(
-      lamports: 100,
+      lamports: BigInt.from(100),
       authority: withdrawer.publicKey,
       stake: account.publicKey,
       recipient: fromKey.publicKey,
@@ -282,8 +284,9 @@ Future<Ed25519HDKeyPair> _newAccount(
   Ed25519HDKeyPair stakeKey,
 ) async {
   final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
-  final rent = await rpcClient
-      .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
+  final rent = await rpcClient.getMinimumBalanceForRentExemption(
+    StakeProgram.neededAccountSpace.toInt(),
+  );
   final instructions = StakeInstruction.createAndInitializeAccount(
     fundingAccount: fromKey.publicKey,
     newAccount: stakeKey.publicKey,
@@ -291,7 +294,7 @@ Future<Ed25519HDKeyPair> _newAccount(
       staker: staker.address,
       withdrawer: withdrawer.address,
     ),
-    lamports: rent + 50 * lamportsPerSol,
+    lamports: BigInt.from(rent + 50 * lamportsPerSol),
   );
 
   final signature = await rpcClient.signAndSendTransaction(

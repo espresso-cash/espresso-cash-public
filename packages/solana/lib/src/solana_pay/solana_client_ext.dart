@@ -67,10 +67,10 @@ extension SolanaClientSolanaPay on SolanaClient {
       }
 
       // Convert input decimal amount to integer lamports.
-      final lamports = amount.shift(solDecimalPlaces).toBigInt().toInt();
+      final lamports = amount.shift(solDecimalPlaces).toBigInt();
 
       // Check that the payer has enough lamports.
-      if (lamports > payerInfo.lamports) {
+      if (lamports > BigInt.from(payerInfo.lamports)) {
         throw const CreateTransactionException('Insufficient funds.');
       }
 
@@ -97,7 +97,7 @@ extension SolanaClientSolanaPay on SolanaClient {
 
       // Convert input decimal amount to integer tokens according to the mint
       // decimals.
-      final value = amount.shift(mint.decimals).toBigInt().toInt();
+      final value = amount.shift(mint.decimals).toBigInt();
 
       // Get the payer's ATA and check that the account exists and can send
       // tokens.
@@ -124,7 +124,7 @@ extension SolanaClientSolanaPay on SolanaClient {
       // TODO(KB): Check for initialized and not frozen
 
       // Check that the payer has enough tokens
-      if (value > payerAccount.account.lamports) {
+      if (value > BigInt.from(payerAccount.account.lamports)) {
         throw const CreateTransactionException('Insufficient funds.');
       }
 

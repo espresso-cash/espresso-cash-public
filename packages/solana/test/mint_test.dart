@@ -149,7 +149,7 @@ void main() {
         await solanaClient.transferSplToken(
           owner: owner,
           destination: recipient.publicKey,
-          amount: 100,
+          amount: BigInt.from(100),
           mint: newToken.address,
         );
         final balance =
@@ -204,7 +204,7 @@ void main() {
             // ignore: avoid-non-null-assertion, cannot be null here
             destinationAssociatedTokenAddress!.pubkey,
           ),
-          amount: 100,
+          amount: BigInt.from(100),
           owner: owner.publicKey,
         );
 
@@ -231,7 +231,7 @@ void main() {
         solanaClient.transferSplToken(
           owner: owner,
           destination: recipient.publicKey,
-          amount: 100,
+          amount: BigInt.from(100),
           mint: newToken.address,
         ),
         throwsA(isA<NoAssociatedTokenAccountException>()),
@@ -247,7 +247,7 @@ void main() {
           solanaClient.transferSplToken(
             owner: sender,
             destination: owner.publicKey,
-            amount: 100,
+            amount: BigInt.from(100),
             mint: newToken.address,
           ),
           throwsA(isA<NoAssociatedTokenAccountException>()),
@@ -274,14 +274,14 @@ void main() {
           SystemInstruction.transfer(
             fundingAccount: owner.publicKey,
             recipientAccount: destination.publicKey,
-            lamports: lamportsPerSol,
+            lamports: BigInt.from(lamportsPerSol),
           ),
           TokenInstruction.transfer(
             source: associatedSourceAddress,
             destination:
                 Ed25519HDPublicKey.fromBase58(destinationAccount.owner),
             owner: owner.publicKey,
-            amount: 10,
+            amount: BigInt.from(10),
           ),
           MemoInstruction(
             memo: 'Nice, it works with many more instructions too',
@@ -302,4 +302,4 @@ void main() {
   });
 }
 
-const _totalSupply = 1000000000000;
+final _totalSupply = BigInt.from(1000000000000);

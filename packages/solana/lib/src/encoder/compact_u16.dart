@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 
 class CompactU16 {
   factory CompactU16(int value) {

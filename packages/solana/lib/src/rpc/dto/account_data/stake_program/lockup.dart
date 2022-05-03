@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/common/byte_array.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 
 part 'lockup.g.dart';
 
@@ -14,18 +13,18 @@ class Lockup {
 
   factory Lockup.fromJson(Map<String, dynamic> json) => _$LockupFromJson(json);
 
-  const Lockup.none()
-      : unixTimestamp = 0,
-        epoch = 0,
+  Lockup.none()
+      : unixTimestamp = BigInt.zero,
+        epoch = BigInt.zero,
         custodian = '11111111111111111111111111111111';
 
-  ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
-        Buffer.fromInt64(unixTimestamp),
-        Buffer.fromUint64(epoch),
-        Buffer.fromBase58(custodian),
+  ByteArray serialize() => ByteArray.merge([
+        ByteArray.i64(unixTimestamp),
+        ByteArray.u64(epoch),
+        ByteArray.fromBase58(custodian),
       ]);
 
   final String custodian;
-  final int epoch;
-  final int unixTimestamp;
+  final BigInt epoch;
+  final BigInt unixTimestamp;
 }

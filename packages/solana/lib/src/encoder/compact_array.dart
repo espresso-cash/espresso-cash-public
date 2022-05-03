@@ -1,4 +1,4 @@
-import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/compact_u16.dart';
 
 class CompactArray {

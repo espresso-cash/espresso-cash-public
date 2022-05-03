@@ -1,7 +1,6 @@
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/stake_program/program.dart';
@@ -23,7 +22,7 @@ class StakeInstruction extends Instruction {
   factory StakeInstruction.initialize({
     required Ed25519HDPublicKey stake,
     required Authorized authorized,
-    Lockup lockup = const Lockup.none(),
+    Lockup? lockup,
   }) =>
       StakeInstruction._(
         accounts: [
@@ -36,7 +35,7 @@ class StakeInstruction extends Instruction {
         data: ByteArray.merge([
           StakeProgram.initializeInstructionIndex,
           authorized.serialize(),
-          lockup.serialize(),
+          (lockup ?? Lockup.none()).serialize(),
         ]),
       );
 
@@ -365,8 +364,8 @@ class StakeInstruction extends Instruction {
     required Ed25519HDPublicKey fundingAccount,
     required Ed25519HDPublicKey newAccount,
     required Authorized authorized,
-    required int lamports,
-    Lockup lockup = const Lockup.none(),
+    required BigInt lamports,
+    Lockup? lockup,
   }) =>
       [
         SystemInstruction.createAccount(
@@ -389,8 +388,8 @@ class StakeInstruction extends Instruction {
     required Authorized authorized,
     required Ed25519HDPublicKey base,
     required String seed,
-    required int lamports,
-    Lockup lockup = const Lockup.none(),
+    required BigInt lamports,
+    Lockup? lockup,
   }) =>
       [
         SystemInstruction.createAccountWithSeed(
@@ -432,10 +431,10 @@ class AuthorizeWithSeedArgs {
     required this.stakeAuthorize,
   });
 
-  ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
+  ByteArray serialize() => ByteArray.merge([
         stakeAuthorize.serialize(),
-        Buffer.fromString(authoritySeed),
-        authorityOwnerPubKey.toBuffer()
+        ByteArray.fromString(authoritySeed),
+        authorityOwnerPubKey.toByteArray(),
       ]);
 
   final StakeAuthorize stakeAuthorize;

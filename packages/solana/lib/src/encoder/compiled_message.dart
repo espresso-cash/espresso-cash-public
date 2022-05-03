@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/constants.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/compact_u16.dart';
 
 part 'compiled_message.freezed.dart';

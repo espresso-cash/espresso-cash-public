@@ -19,9 +19,9 @@ void main() {
     final instruction = SystemInstruction.createAccount(
       newAccount: accountKey.publicKey,
       fundingAccount: fromKey.publicKey,
-      lamports: 0,
+      lamports: BigInt.zero,
       owner: SystemProgram.id,
-      space: 0,
+      space: BigInt.zero,
     );
 
     final future = rpcClient.signAndSendTransaction(
@@ -54,7 +54,7 @@ void main() {
     final instruction = SystemInstruction.transfer(
       fundingAccount: fromKey.publicKey,
       recipientAccount: recipient.publicKey,
-      lamports: lamports,
+      lamports: BigInt.from(lamports),
     );
     final future = rpcClient.signAndSendTransaction(
       Message.only(instruction),
@@ -78,8 +78,8 @@ void main() {
       newAccount: derivedAddress,
       base: accountKey.publicKey,
       seed: seed,
-      lamports: 0,
-      space: 0,
+      lamports: BigInt.zero,
+      space: BigInt.zero,
       owner: SystemProgram.id,
     );
 
@@ -96,7 +96,7 @@ void main() {
     final nonceKey = await Ed25519HDKeyPair.random();
     final authorized = nonceKey;
     final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-      SystemProgram.nonceAccountSize,
+      SystemProgram.nonceAccountSize.toInt(),
     );
 
     final signature = await rpcClient.requestAirdrop(
@@ -112,7 +112,7 @@ void main() {
       fromPubKey: fromKey.publicKey,
       noncePubKey: nonceKey.publicKey,
       noceAuthorityPubKey: authorized.publicKey,
-      lamports: lamports,
+      lamports: BigInt.from(lamports),
     );
 
     final future = rpcClient.signAndSendTransaction(
@@ -128,14 +128,14 @@ void main() {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final authorized = fromKey;
     final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-      SystemProgram.nonceAccountSize,
+      SystemProgram.nonceAccountSize.toInt(),
     );
 
     final instructions = SystemInstruction.createAndInitializeNonceAccount(
       fromPubKey: fromKey.publicKey,
       noncePubKey: nonceKey.publicKey,
       noceAuthorityPubKey: authorized.publicKey,
-      lamports: lamports - 1,
+      lamports: BigInt.from(lamports - 1),
     );
     final future = rpcClient.signAndSendTransaction(
       Message(instructions: instructions),
@@ -185,7 +185,7 @@ void main() {
     final instruction = SystemInstruction.transferWithSeed(
       fundingAccount: derivedAddress,
       recipientAccount: recipient.publicKey,
-      lamports: lamports,
+      lamports: BigInt.from(lamports),
       base: fromKey.publicKey,
       seed: '1234',
       owner: SystemProgram.id,
@@ -225,7 +225,7 @@ void main() {
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final instruction = SystemInstruction.allocate(
       account: fromKey.publicKey,
-      space: 100,
+      space: BigInt.from(100),
     );
     final future = rpcClient.signAndSendTransaction(
       Message.only(instruction),
@@ -244,7 +244,7 @@ void main() {
     );
     final instruction = SystemInstruction.allocateWithSeed(
       account: derivedAddress,
-      space: 100,
+      space: BigInt.from(100),
       base: fromKey.publicKey,
       owner: SystemProgram.id,
       seed: '1234',
@@ -271,7 +271,7 @@ void main() {
       nonce: nonceKey.publicKey,
       nonceAuthority: fromKey.publicKey,
       recipient: toKey.publicKey,
-      lamports: 100,
+      lamports: BigInt.from(100),
     );
 
     expect(
@@ -324,14 +324,14 @@ Future<Ed25519HDKeyPair> _createNonceAccount(
 }) async {
   final nonceKey = await Ed25519HDKeyPair.random();
   final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-    SystemProgram.nonceAccountSize,
+    SystemProgram.nonceAccountSize.toInt(),
   );
 
   final instructions = SystemInstruction.createAndInitializeNonceAccount(
     fromPubKey: nonceAuthority.publicKey,
     noncePubKey: nonceKey.publicKey,
     noceAuthorityPubKey: nonceAuthority.publicKey,
-    lamports: lamports + extraLamports,
+    lamports: BigInt.from(lamports + extraLamports),
   );
   final signature = await rpcClient.signAndSendTransaction(
     Message(instructions: instructions),

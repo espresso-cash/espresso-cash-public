@@ -145,12 +145,12 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
         sender: _account.wallet,
         recipient: await payment.getRecipient(),
         tokenAddress: Ed25519HDPublicKey.fromBase58(payment.tokenAddress),
-        amount: payment.amount,
+        amount: BigInt.from(payment.amount),
         additionalFee: payment.map(
           splitKey: (p) => p.tokenAddress == Token.sol.address
-              ? lamportsPerSignature
-              : lamportsPerSignature + tokenProgramRent,
-          direct: always(0),
+              ? BigInt.from(lamportsPerSignature)
+              : BigInt.from(lamportsPerSignature + tokenProgramRent),
+          direct: always(BigInt.zero),
         ),
         memo: payment.memo,
         reference: payment.allReferences.map(Ed25519HDPublicKey.fromBase58),

@@ -4,7 +4,6 @@ import 'package:solana/anchor.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/common/byte_array.dart';
 import 'package:test/test.dart';
 
 import 'airdrop.dart';
@@ -59,11 +58,11 @@ void main() {
       final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
       final instructions = [
         SystemInstruction.createAccount(
-          lamports: rent,
+          lamports: BigInt.from(rent),
           owner: _basic1,
           newAccount: updater.publicKey,
           fundingAccount: payer.publicKey,
-          space: space,
+          space: BigInt.from(space),
         ),
         await AnchorInstruction.forMethod(
           programId: _basic1,

@@ -97,7 +97,7 @@ void main() {
         destination:
             (await createKeyPairFromPrivateKey(payment.privateKey.unlock))
                 .publicKey,
-        lamports: payment.amount,
+        lamports: BigInt.from(payment.amount),
         source: sourceWallet,
         commitment: Commitment.finalized,
       );

@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 import 'airdrop.dart';
 import 'config.dart';
 
-const int _transferredAmount = 0x1000;
+final _transferredAmount = BigInt.from(0x1000);
 
 void main() {
   test('throws exception on timeout', () async {
@@ -700,7 +700,7 @@ Future<int> _createTokenAccount(
     transferSomeToAmount: 1000,
   );
   final rent = await rpcClient.getMinimumBalanceForRentExemption(
-    TokenProgram.neededAccountSpace,
+    TokenProgram.neededAccountSpace.toInt(),
     commitment: Commitment.finalized,
   );
 
@@ -708,7 +708,7 @@ Future<int> _createTokenAccount(
     mint: token.address,
     owner: source.publicKey,
     address: accountKeyPair.publicKey,
-    rent: rent,
+    rent: BigInt.from(rent),
     space: TokenProgram.neededAccountSpace,
   );
 
@@ -752,15 +752,16 @@ Future<String> _createAccount(
 
   await airdrop(rpcClient, subscriptionClient, source, sol: 10);
 
+  final minimumBalance = await rpcClient.getMinimumBalanceForRentExemption(
+    size,
+    commitment: Commitment.finalized,
+  );
   final instruction = SystemInstruction.createAccount(
     fundingAccount: source.publicKey,
     owner: SystemProgram.id,
     newAccount: accountKeyPair.publicKey,
-    lamports: await rpcClient.getMinimumBalanceForRentExemption(
-      size,
-      commitment: Commitment.finalized,
-    ),
-    space: size,
+    lamports: BigInt.from(minimumBalance),
+    space: BigInt.from(size),
   );
   final recentBlockhash = await rpcClient.getRecentBlockhash(
     commitment: Commitment.finalized,
@@ -837,7 +838,7 @@ Future<Mint> _createToken({
   await client.mintTo(
     authority: tokenMintAuthority,
     destination: supplyAccount,
-    amount: supply,
+    amount: BigInt.from(supply),
     mint: splToken.address,
   );
 
@@ -858,7 +859,7 @@ Future<Mint> _createToken({
   await client.transferSplToken(
     owner: tokenMintAuthority,
     destination: transferSomeToAddress,
-    amount: transferSomeToAmount,
+    amount: BigInt.from(transferSomeToAmount),
     mint: splToken.address,
   );
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/signature.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 
 /// Represents a signed transaction that consists of the transaction message and

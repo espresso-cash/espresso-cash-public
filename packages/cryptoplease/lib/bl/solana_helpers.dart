@@ -43,8 +43,8 @@ extension SolanaClientExt on SolanaClient {
     required Wallet sender,
     required Ed25519HDPublicKey recipient,
     required Ed25519HDPublicKey tokenAddress,
-    required int amount,
-    int additionalFee = 0,
+    required BigInt amount,
+    BigInt? additionalFee,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
   }) =>
@@ -52,7 +52,7 @@ extension SolanaClientExt on SolanaClient {
           ? createSolTransfer(
               sender: sender,
               recipient: recipient,
-              amount: amount + additionalFee,
+              amount: amount + (additionalFee ?? BigInt.zero),
               memo: memo,
               reference: reference,
             )
@@ -61,7 +61,7 @@ extension SolanaClientExt on SolanaClient {
               solanaAddress: recipient,
               amount: amount,
               tokenAddress: tokenAddress,
-              additionalFee: additionalFee,
+              additionalFee: additionalFee ?? BigInt.zero,
               memo: memo,
               reference: reference,
             );
@@ -69,7 +69,7 @@ extension SolanaClientExt on SolanaClient {
   Future<Message> createSolTransfer({
     required Wallet sender,
     required Ed25519HDPublicKey recipient,
-    required int amount,
+    required BigInt amount,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
   }) async =>
@@ -88,9 +88,9 @@ extension SolanaClientExt on SolanaClient {
                   (r) => AccountMeta.readonly(pubKey: r, isSigner: false),
                 ),
             ],
-            data: Buffer.fromConcatenatedByteArrays([
+            data: ByteArray.merge([
               SystemProgram.transferInstructionIndex,
-              Buffer.fromUint64(amount),
+              ByteArray.u64(amount),
             ]),
             programId: SystemProgram.id,
           ),
@@ -100,9 +100,9 @@ extension SolanaClientExt on SolanaClient {
   Future<Message> createSplTransfer({
     required Wallet sender,
     required Ed25519HDPublicKey solanaAddress,
-    required int amount,
+    required BigInt amount,
     required Ed25519HDPublicKey tokenAddress,
-    required int additionalFee,
+    required BigInt additionalFee,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
   }) async {
@@ -133,9 +133,9 @@ extension SolanaClientExt on SolanaClient {
             AccountMeta.writeable(pubKey: sender.publicKey, isSigner: false),
             AccountMeta.writeable(pubKey: solanaAddress, isSigner: false),
           ],
-          data: Buffer.fromConcatenatedByteArrays([
+          data: ByteArray.merge([
             SystemProgram.transferInstructionIndex,
-            Buffer.fromUint64(additionalFee),
+            ByteArray.u64(additionalFee),
           ]),
           programId: SystemProgram.id,
         );
@@ -155,7 +155,7 @@ extension SolanaClientExt on SolanaClient {
         if (memo != null && memo.isNotEmpty)
           MemoInstruction(signers: [sender.publicKey], memo: memo),
         if (!hasAssociatedAccount) associatedAccountInstruction(),
-        if (additionalFee > 0) additionalFeeInstruction(),
+        if (additionalFee > BigInt.zero) additionalFeeInstruction(),
         Instruction(
           accounts: [
             AccountMeta.writeable(
@@ -169,9 +169,9 @@ extension SolanaClientExt on SolanaClient {
                 (r) => AccountMeta.readonly(pubKey: r, isSigner: false),
               ),
           ],
-          data: Buffer.fromConcatenatedByteArrays([
+          data: ByteArray.merge([
             TokenProgram.transferInstructionIndex,
-            Buffer.fromUint64(amount),
+            ByteArray.u64(amount),
           ]),
           programId: TokenProgram.id,
         ),

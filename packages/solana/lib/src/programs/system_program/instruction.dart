@@ -1,7 +1,6 @@
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/system_program/program.dart';
@@ -84,8 +83,8 @@ class SystemInstruction extends Instruction {
     required Ed25519HDPublicKey newAccount,
     required Ed25519HDPublicKey base,
     required String seed,
-    required int lamports,
-    required int space,
+    required BigInt lamports,
+    required BigInt space,
     required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
@@ -97,10 +96,10 @@ class SystemInstruction extends Instruction {
         data: ByteArray.merge([
           SystemProgram.createAccountWithSeedInstructionIndex,
           base.toByteArray(),
-          Buffer.fromString(seed),
-          Buffer.fromUint64(lamports),
-          Buffer.fromUint64(space),
-          owner.toBuffer(),
+          ByteArray.fromString(seed),
+          ByteArray.u64(lamports),
+          ByteArray.u64(space),
+          owner.toByteArray(),
         ]),
       );
 
@@ -126,7 +125,7 @@ class SystemInstruction extends Instruction {
     required Ed25519HDPublicKey nonce,
     required Ed25519HDPublicKey nonceAuthority,
     required Ed25519HDPublicKey recipient,
-    required int lamports,
+    required BigInt lamports,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -142,9 +141,9 @@ class SystemInstruction extends Instruction {
           ),
           AccountMeta.readonly(pubKey: nonceAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.withdrawNonceAccountInstructionIndex,
-          Buffer.fromUint64(lamports),
+          ByteArray.u64(lamports),
         ]),
       );
 
@@ -166,9 +165,9 @@ class SystemInstruction extends Instruction {
             isSigner: false,
           ),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.initializeNonceAccountInstructionIndex,
-          nonceAuthority.toBuffer(),
+          nonceAuthority.toByteArray(),
         ]),
       );
 
@@ -183,22 +182,22 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: nonce, isSigner: false),
           AccountMeta.readonly(pubKey: nonceAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.authorizeNonceAccountInstructionIndex,
-          newAuthority.toBuffer(),
+          newAuthority.toByteArray(),
         ]),
       );
 
   /// Allocate [space] in a (possibly new) [account] without funding.
   factory SystemInstruction.allocate({
     required Ed25519HDPublicKey account,
-    required int space,
+    required BigInt space,
   }) =>
       SystemInstruction._(
         accounts: [AccountMeta.writeable(pubKey: account, isSigner: true)],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.allocateInstructionIndex,
-          Buffer.fromUint64(space),
+          ByteArray.u64(space),
         ]),
       );
 
@@ -208,7 +207,7 @@ class SystemInstruction extends Instruction {
     required Ed25519HDPublicKey account,
     required Ed25519HDPublicKey base,
     required String seed,
-    required int space,
+    required BigInt space,
     required Ed25519HDPublicKey owner,
   }) =>
       SystemInstruction._(
@@ -216,12 +215,12 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: account, isSigner: false),
           AccountMeta.writeable(pubKey: base, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.allocateWithSeedInstructionIndex,
-          base.toBuffer(),
-          Buffer.fromString(seed),
-          Buffer.fromUint64(space),
-          owner.toBuffer(),
+          base.toByteArray(),
+          ByteArray.fromString(seed),
+          ByteArray.u64(space),
+          owner.toByteArray(),
         ]),
       );
 
@@ -237,11 +236,11 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: account, isSigner: false),
           AccountMeta.readonly(pubKey: base, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.assignWithSeedInstructionIndex,
-          base.toBuffer(),
-          Buffer.fromString(seed),
-          owner.toBuffer(),
+          base.toByteArray(),
+          ByteArray.fromString(seed),
+          owner.toByteArray(),
         ]),
       );
 
@@ -252,7 +251,7 @@ class SystemInstruction extends Instruction {
     required String seed,
     required Ed25519HDPublicKey owner,
     required Ed25519HDPublicKey recipientAccount,
-    required int lamports,
+    required BigInt lamports,
   }) =>
       SystemInstruction._(
         accounts: [
@@ -260,11 +259,11 @@ class SystemInstruction extends Instruction {
           AccountMeta.readonly(pubKey: base, isSigner: true),
           AccountMeta.writeable(pubKey: recipientAccount, isSigner: false),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.transferWithSeedInstructionIndex,
-          Buffer.fromUint64(lamports),
-          Buffer.fromString(seed),
-          owner.toBuffer(),
+          ByteArray.u64(lamports),
+          ByteArray.fromString(seed),
+          owner.toByteArray(),
         ]),
       );
 
@@ -272,7 +271,7 @@ class SystemInstruction extends Instruction {
     required Ed25519HDPublicKey fromPubKey,
     required Ed25519HDPublicKey noncePubKey,
     required Ed25519HDPublicKey noceAuthorityPubKey,
-    required int lamports,
+    required BigInt lamports,
   }) =>
       [
         SystemInstruction.createAccount(

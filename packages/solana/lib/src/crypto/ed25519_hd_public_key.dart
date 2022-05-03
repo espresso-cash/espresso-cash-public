@@ -2,7 +2,7 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
-import 'package:solana/src/common/byte_array.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/helpers.dart';
 

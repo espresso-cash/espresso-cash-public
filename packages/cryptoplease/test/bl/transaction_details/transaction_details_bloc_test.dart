@@ -27,7 +27,7 @@ void main() {
       final instruction = SystemInstruction.transfer(
         fundingAccount: senderWallet.publicKey,
         recipientAccount: testWallet.publicKey,
-        lamports: 500,
+        lamports: BigInt.from(500),
       );
 
       signature = await solanaClient.rpcClient.signAndSendTransaction(

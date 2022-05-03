@@ -1,5 +1,5 @@
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 
 export 'exceptions.dart';
 export 'instruction.dart';
@@ -45,7 +45,7 @@ abstract class TokenProgram {
   // isInitialized:          byte ( 1 bytes)
   // freezeAuthorityOption: int32 ( 4 bytes)
   // freezeAuthority:      PubKey (32 bytes)
-  static const neededMintAccountSpace = 82;
+  static final BigInt neededMintAccountSpace = BigInt.from(82);
 
   // This is computed by adding the bytes in the following
   // structure
@@ -61,5 +61,5 @@ abstract class TokenProgram {
   // delegatedAmount:      uint64 ( 8 bytes)
   // closeAuthorityOption: uint32 ( 4 bytes)
   // closeAuthority:       PubKey (32 bytes)
-  static const neededAccountSpace = 165;
+  static final BigInt neededAccountSpace = BigInt.from(165);
 }

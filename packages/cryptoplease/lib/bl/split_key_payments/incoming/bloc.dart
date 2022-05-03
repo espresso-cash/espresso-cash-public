@@ -127,12 +127,12 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
         commitment: Commitment.confirmed,
       );
 
-      final int transferAmount;
-      final int remainder;
+      final BigInt transferAmount;
+      final BigInt remainder;
       if (tokenAddress == Token.sol.address) {
         // SOL payment, just transfer all the money minus transaction fee.
-        transferAmount = solBalance - lamportsPerSignature;
-        remainder = 0;
+        transferAmount = BigInt.from(solBalance - lamportsPerSignature);
+        remainder = BigInt.zero;
       } else {
         // SPL payment. Transfer all the money on SPL account and
         // all the money remaining on the SOL account (minus transaction fee).
@@ -154,7 +154,7 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
               tokenAccount.pubkey,
               commitment: Commitment.confirmed,
             )
-            .then((v) => int.parse(v.amount));
+            .then((v) => BigInt.parse(v.amount));
 
         // If recipient has already associated account, then we can
         // transfer all the money from SOL account of this temp wallet
@@ -163,11 +163,11 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
           owner: Ed25519HDPublicKey.fromBase58(recipient),
           mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
         )
-            ? solBalance - lamportsPerSignature
-            : 0;
+            ? BigInt.from(solBalance - lamportsPerSignature)
+            : BigInt.zero;
       }
 
-      if (transferAmount <= 0) {
+      if (transferAmount <= BigInt.zero) {
         final transactions = await _solanaClient.rpcClient.getTransactionsList(
           wallet.publicKey,
           limit: 1,
@@ -214,8 +214,8 @@ Future<Wallet> walletFromParts({
   required String firstPart,
   required String secondPart,
 }) async {
-  final keyPart1 = Buffer.fromBase58(firstPart).toList();
-  final keyPart2 = Buffer.fromBase58(secondPart).toList();
+  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
+  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
 
   return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
 }
