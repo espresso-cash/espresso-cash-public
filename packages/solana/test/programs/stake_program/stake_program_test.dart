@@ -45,9 +45,8 @@ void main() {
     final staker = await Ed25519HDKeyPair.random();
     final withdrawer = await Ed25519HDKeyPair.random();
     final stakeKey = await Ed25519HDKeyPair.random();
-    final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-      StakeProgram.neededAccountSpace.toInt(),
-    );
+    final lamports = await rpcClient
+        .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
 
     final signature = await rpcClient.requestAirdrop(
       fromKey.address,

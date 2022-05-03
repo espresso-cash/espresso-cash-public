@@ -10,5 +10,4 @@ final devnetWebsocketUrl =
 SolanaClient createTestSolanaClient() => SolanaClient(
       rpcUrl: Uri.parse(devnetRpcUrl),
       websocketUrl: Uri.parse(devnetWebsocketUrl),
-      timeout: const Duration(minutes: 1),
     );
