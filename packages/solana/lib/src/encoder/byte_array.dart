@@ -62,7 +62,7 @@ class ByteArray extends Iterable<int> {
 
 ByteArray _encodeBigInt(BigInt number, int s) {
   if (number == BigInt.zero) {
-    return ByteArray(Uint8List.fromList([0]));
+    return ByteArray(List.filled(s, 0));
   }
 
   final result = Uint8List(s);
@@ -76,7 +76,7 @@ ByteArray _encodeBigInt(BigInt number, int s) {
 
 ByteArray _encodeBigIntAsUnsigned(BigInt number, int s) {
   if (number == BigInt.zero) {
-    return ByteArray(Uint8List.fromList([0]));
+    return ByteArray(List.filled(s, 0));
   }
 
   final result = Uint8List(s);

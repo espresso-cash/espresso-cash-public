@@ -94,7 +94,7 @@ class Ed25519HDPublicKey implements PublicKey {
 
   String toBase58() => base58encode(bytes);
 
-  ByteArray toByteArray() => ByteArray(Uint8List.fromList(bytes));
+  ByteArray toByteArray() => ByteArray(bytes);
 
   @override
   String toString() => toBase58();
