@@ -4,6 +4,8 @@ import 'package:solana/src/encoder/byte_array.dart';
 
 class CompactU16 {
   factory CompactU16(int value) {
+    if (value == 0) return zero;
+
     final List<int> data = List<int>.empty(growable: true);
     int rawValue = value;
     while (rawValue != 0) {

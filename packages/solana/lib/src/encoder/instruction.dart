@@ -29,12 +29,10 @@ class Instruction {
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
   ByteArray compile(Map<Ed25519HDPublicKey, int> accountIndexesMap) {
-    final data = CompactArray(this.data);
-
     if (!accountIndexesMap.containsKey(programId)) {
       throw const FormatException('programId not found in accountIndexesMap');
     }
-    final programIdIndex = ByteArray.i8(accountIndexesMap[programId]!);
+    final programIdIndex = ByteArray.u8(accountIndexesMap[programId]!);
     final accountIndexes = accounts.map((a) {
       if (!accountIndexesMap.containsKey(a.pubKey)) {
         throw const FormatException(
@@ -43,12 +41,12 @@ class Instruction {
       }
 
       return accountIndexesMap[a.pubKey]!;
-    }).toList();
+    });
 
     return ByteArray.merge([
       programIdIndex,
-      CompactArray(ByteArray(Uint8List.fromList(accountIndexes))).toByteArray(),
-      data.toByteArray(),
+      CompactArray(ByteArray(accountIndexes)).toByteArray(),
+      CompactArray(data).toByteArray(),
     ]);
   }
 }
