@@ -1,4 +1,3 @@
-import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/byte_array.dart';
