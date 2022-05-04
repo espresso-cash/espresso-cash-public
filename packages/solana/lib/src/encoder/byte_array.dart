@@ -38,16 +38,16 @@ class ByteArray extends Iterable<int> {
       ByteArray._fromByteData(ByteData(1)..setUint8(0, value));
 
   factory ByteArray.i16(int value) =>
-      ByteArray._fromByteData(ByteData(2)..setUint16(0, value));
+      ByteArray._fromByteData(ByteData(2)..setUint16(0, value, Endian.little));
 
   factory ByteArray.u16(int value) =>
-      ByteArray._fromByteData(ByteData(2)..setUint16(0, value));
+      ByteArray._fromByteData(ByteData(2)..setUint16(0, value, Endian.little));
 
   factory ByteArray.i32(int value) =>
-      ByteArray._fromByteData(ByteData(4)..setUint32(0, value));
+      ByteArray._fromByteData(ByteData(4)..setUint32(0, value, Endian.little));
 
   factory ByteArray.u32(int value) =>
-      ByteArray._fromByteData(ByteData(4)..setUint32(0, value));
+      ByteArray._fromByteData(ByteData(4)..setUint32(0, value, Endian.little));
 
   factory ByteArray.i64(int value) => _encodeBigInt(BigInt.from(value), 8);
 
