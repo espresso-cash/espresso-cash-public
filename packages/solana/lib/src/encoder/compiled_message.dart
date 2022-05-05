@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/constants.dart';
 import 'package:solana/src/encoder/byte_array.dart';
@@ -15,11 +13,7 @@ class CompiledMessage with _$CompiledMessage {
     final signaturesCount = CompactU16.raw(data.toList()).value;
 
     return CompiledMessage(
-      ByteArray(
-        Uint8List.fromList(
-          data.skip(1 + signaturesCount * signatureLength).toList(),
-        ),
-      ),
+      ByteArray(data.skip(1 + signaturesCount * signatureLength)),
     );
   }
 

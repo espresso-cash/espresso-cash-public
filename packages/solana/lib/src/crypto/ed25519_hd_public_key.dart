@@ -29,7 +29,7 @@ class Ed25519HDPublicKey implements PublicKey {
   }) async {
     final buffer = ByteArray.merge([
       fromPublicKey.toByteArray(),
-      ByteArray(Uint8List.fromList(seed.codeUnits)),
+      ByteArray(seed.codeUnits),
       programId.toByteArray(),
     ]).toList(growable: false);
     final hash = await _computeHash(buffer);
