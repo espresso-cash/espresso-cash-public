@@ -1,4 +1,3 @@
-import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
