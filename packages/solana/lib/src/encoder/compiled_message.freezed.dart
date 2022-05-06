@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$CompiledMessageTearOff {
   const _$CompiledMessageTearOff();
 
-  _CompiledMessage call(Iterable<int> data) {
+  _CompiledMessage call(ByteArray data) {
     return _CompiledMessage(
       data,
     );
@@ -29,7 +29,7 @@ const $CompiledMessage = _$CompiledMessageTearOff();
 
 /// @nodoc
 mixin _$CompiledMessage {
-  Iterable<int> get data => throw _privateConstructorUsedError;
+  ByteArray get data => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CompiledMessageCopyWith<CompiledMessage> get copyWith =>
@@ -41,7 +41,7 @@ abstract class $CompiledMessageCopyWith<$Res> {
   factory $CompiledMessageCopyWith(
           CompiledMessage value, $Res Function(CompiledMessage) then) =
       _$CompiledMessageCopyWithImpl<$Res>;
-  $Res call({Iterable<int> data});
+  $Res call({ByteArray data});
 }
 
 /// @nodoc
@@ -61,7 +61,7 @@ class _$CompiledMessageCopyWithImpl<$Res>
       data: data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Iterable<int>,
+              as ByteArray,
     ));
   }
 }
@@ -73,7 +73,7 @@ abstract class _$CompiledMessageCopyWith<$Res>
           _CompiledMessage value, $Res Function(_CompiledMessage) then) =
       __$CompiledMessageCopyWithImpl<$Res>;
   @override
-  $Res call({Iterable<int> data});
+  $Res call({ByteArray data});
 }
 
 /// @nodoc
@@ -95,7 +95,7 @@ class __$CompiledMessageCopyWithImpl<$Res>
       data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Iterable<int>,
+              as ByteArray,
     ));
   }
 }
@@ -106,7 +106,7 @@ class _$_CompiledMessage extends _CompiledMessage {
   const _$_CompiledMessage(this.data) : super._();
 
   @override
-  final Iterable<int> data;
+  final ByteArray data;
 
   @override
   String toString() {
@@ -132,11 +132,11 @@ class _$_CompiledMessage extends _CompiledMessage {
 }
 
 abstract class _CompiledMessage extends CompiledMessage {
-  const factory _CompiledMessage(Iterable<int> data) = _$_CompiledMessage;
+  const factory _CompiledMessage(ByteArray data) = _$_CompiledMessage;
   const _CompiledMessage._() : super._();
 
   @override
-  Iterable<int> get data;
+  ByteArray get data;
   @override
   @JsonKey(ignore: true)
   _$CompiledMessageCopyWith<_CompiledMessage> get copyWith =>

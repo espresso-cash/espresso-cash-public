@@ -1,12 +1,8 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
 import 'package:solana/src/encoder/instruction.dart';
 
 extension AccountMetaListExt on List<AccountMeta> {
-  // Convert account metas to encoder public keys
-  Iterable<Buffer> toSerializablePubKeys() => map((a) => a.pubKey.toBuffer());
-
   Map<Ed25519HDPublicKey, int> toIndexesMap() {
     final Map<Ed25519HDPublicKey, int> mapped = {};
 

@@ -2,7 +2,7 @@ library encoder;
 
 export '../crypto/signature.dart';
 export 'account_meta.dart';
-export 'buffer.dart';
+export 'byte_array.dart';
 export 'compiled_message.dart';
 export 'constants.dart';
 export 'extensions.dart';

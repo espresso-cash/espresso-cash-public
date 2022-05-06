@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/memo_program/program.dart';
 
@@ -30,13 +30,13 @@ class MemoInstruction extends Instruction {
 
     return MemoInstruction._(
       accounts: accounts,
-      data: Buffer.fromIterable(utf8.encode(memo)),
+      data: ByteArray(utf8.encode(memo)),
     );
   }
 
   MemoInstruction._({
     required List<AccountMeta> accounts,
-    required Buffer data,
+    required ByteArray data,
   }) : super(
           programId: MemoProgram.id,
           accounts: accounts,

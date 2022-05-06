@@ -88,9 +88,9 @@ extension SolanaClientExt on SolanaClient {
                   (r) => AccountMeta.readonly(pubKey: r, isSigner: false),
                 ),
             ],
-            data: Buffer.fromConcatenatedByteArrays([
+            data: ByteArray.merge([
               SystemProgram.transferInstructionIndex,
-              Buffer.fromUint64(amount),
+              ByteArray.u64(amount),
             ]),
             programId: SystemProgram.id,
           ),
@@ -133,9 +133,9 @@ extension SolanaClientExt on SolanaClient {
             AccountMeta.writeable(pubKey: sender.publicKey, isSigner: false),
             AccountMeta.writeable(pubKey: solanaAddress, isSigner: false),
           ],
-          data: Buffer.fromConcatenatedByteArrays([
+          data: ByteArray.merge([
             SystemProgram.transferInstructionIndex,
-            Buffer.fromUint64(additionalFee),
+            ByteArray.u64(additionalFee),
           ]),
           programId: SystemProgram.id,
         );
@@ -169,9 +169,9 @@ extension SolanaClientExt on SolanaClient {
                 (r) => AccountMeta.readonly(pubKey: r, isSigner: false),
               ),
           ],
-          data: Buffer.fromConcatenatedByteArrays([
+          data: ByteArray.merge([
             TokenProgram.transferInstructionIndex,
-            Buffer.fromUint64(amount),
+            ByteArray.u64(amount),
           ]),
           programId: TokenProgram.id,
         ),

@@ -95,9 +95,8 @@ void main() {
     final fromKey = await Ed25519HDKeyPair.random();
     final nonceKey = await Ed25519HDKeyPair.random();
     final authorized = nonceKey;
-    final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-      SystemProgram.nonceAccountSize,
-    );
+    final lamports = await rpcClient
+        .getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize);
 
     final signature = await rpcClient.requestAirdrop(
       fromKey.address,
@@ -127,9 +126,8 @@ void main() {
     final nonceKey = await Ed25519HDKeyPair.random();
     final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
     final authorized = fromKey;
-    final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-      SystemProgram.nonceAccountSize,
-    );
+    final lamports = await rpcClient
+        .getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize);
 
     final instructions = SystemInstruction.createAndInitializeNonceAccount(
       fromPubKey: fromKey.publicKey,
@@ -323,9 +321,8 @@ Future<Ed25519HDKeyPair> _createNonceAccount(
   int extraLamports = 0,
 }) async {
   final nonceKey = await Ed25519HDKeyPair.random();
-  final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-    SystemProgram.nonceAccountSize,
-  );
+  final lamports = await rpcClient
+      .getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize);
 
   final instructions = SystemInstruction.createAndInitializeNonceAccount(
     fromPubKey: nonceAuthority.publicKey,

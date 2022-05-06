@@ -1,4 +1,5 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 
 export 'exceptions.dart';
 export 'instruction.dart';
@@ -12,27 +13,27 @@ abstract class TokenProgram {
   static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);
 
   // Instruction indexes
-  static const initializeMintInstructionIndex = [0];
-  static const initializeAccountInstructionIndex = [1];
-  static const initializeMultisigInstructionIndex = [2];
-  static const transferInstructionIndex = [3];
-  static const approveInstructionIndex = [4];
-  static const revokeInstructionIndex = [5];
-  static const setAuthorityInstructionIndex = [6];
-  static const mintToInstructionIndex = [7];
-  static const burnInstructionIndex = [8];
-  static const closeAccountInstructionIndex = [9];
-  static const freezeAccountInstructionIndex = [10];
-  static const thawAccountInstructionIndex = [11];
-  static const transferCheckedInstructionIndex = [12];
-  static const approveCheckedInstructionIndex = [13];
-  static const mintToCheckedInstructionIndex = [14];
-  static const burnCheckedInstructionIndex = [15];
-  static const initializeAccount2InstructionIndex = [16];
-  static const syncNativeInstructionIndex = [17];
-  static const initializeAccount3InstructionIndex = [18];
-  static const initializeMultisig2InstructionIndex = [19];
-  static const initializeMint2InstructionIndex = [20];
+  static final initializeMintInstructionIndex = ByteArray([0]);
+  static final initializeAccountInstructionIndex = ByteArray([1]);
+  static final initializeMultisigInstructionIndex = ByteArray([2]);
+  static final transferInstructionIndex = ByteArray([3]);
+  static final approveInstructionIndex = ByteArray([4]);
+  static final revokeInstructionIndex = ByteArray([5]);
+  static final setAuthorityInstructionIndex = ByteArray([6]);
+  static final mintToInstructionIndex = ByteArray([7]);
+  static final burnInstructionIndex = ByteArray([8]);
+  static final closeAccountInstructionIndex = ByteArray([9]);
+  static final freezeAccountInstructionIndex = ByteArray([10]);
+  static final thawAccountInstructionIndex = ByteArray([11]);
+  static final transferCheckedInstructionIndex = ByteArray([12]);
+  static final approveCheckedInstructionIndex = ByteArray([13]);
+  static final mintToCheckedInstructionIndex = ByteArray([14]);
+  static final burnCheckedInstructionIndex = ByteArray([15]);
+  static final initializeAccount2InstructionIndex = ByteArray([16]);
+  static final syncNativeInstructionIndex = ByteArray([17]);
+  static final initializeAccount3InstructionIndex = ByteArray([18]);
+  static final initializeMultisig2InstructionIndex = ByteArray([19]);
+  static final initializeMint2InstructionIndex = ByteArray([20]);
 
   // This is computed by adding the bytes in the following
   // structure

@@ -1,7 +1,6 @@
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/system_program/program.dart';
@@ -37,11 +36,11 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: fundingAccount, isSigner: true),
           AccountMeta.writeable(pubKey: newAccount, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.createAccountInstructionIndex,
-          Buffer.fromUint64(lamports),
-          Buffer.fromUint64(space),
-          owner.toBuffer(),
+          ByteArray.u64(lamports),
+          ByteArray.u64(space),
+          owner.toByteArray(),
         ]),
       );
 
@@ -54,9 +53,9 @@ class SystemInstruction extends Instruction {
         accounts: [
           AccountMeta.writeable(pubKey: assignedAccount, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.assignInstructionIndex,
-          owner.toBuffer(),
+          owner.toByteArray(),
         ]),
       );
 
@@ -71,9 +70,9 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: fundingAccount, isSigner: true),
           AccountMeta.writeable(pubKey: recipientAccount, isSigner: false),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.transferInstructionIndex,
-          Buffer.fromInt64(lamports),
+          ByteArray.u64(lamports),
         ]),
       );
 
@@ -94,13 +93,13 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: newAccount, isSigner: false),
           AccountMeta.readonly(pubKey: base, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.createAccountWithSeedInstructionIndex,
-          base.toBuffer(),
-          Buffer.fromString(seed),
-          Buffer.fromUint64(lamports),
-          Buffer.fromUint64(space),
-          owner.toBuffer(),
+          base.toByteArray(),
+          ByteArray.fromString(seed),
+          ByteArray.u64(lamports),
+          ByteArray.u64(space),
+          owner.toByteArray(),
         ]),
       );
 
@@ -142,9 +141,9 @@ class SystemInstruction extends Instruction {
           ),
           AccountMeta.readonly(pubKey: nonceAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.withdrawNonceAccountInstructionIndex,
-          Buffer.fromUint64(lamports),
+          ByteArray.u64(lamports),
         ]),
       );
 
@@ -166,9 +165,9 @@ class SystemInstruction extends Instruction {
             isSigner: false,
           ),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.initializeNonceAccountInstructionIndex,
-          nonceAuthority.toBuffer(),
+          nonceAuthority.toByteArray(),
         ]),
       );
 
@@ -183,9 +182,9 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: nonce, isSigner: false),
           AccountMeta.readonly(pubKey: nonceAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.authorizeNonceAccountInstructionIndex,
-          newAuthority.toBuffer(),
+          newAuthority.toByteArray(),
         ]),
       );
 
@@ -196,9 +195,9 @@ class SystemInstruction extends Instruction {
   }) =>
       SystemInstruction._(
         accounts: [AccountMeta.writeable(pubKey: account, isSigner: true)],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.allocateInstructionIndex,
-          Buffer.fromUint64(space),
+          ByteArray.u64(space),
         ]),
       );
 
@@ -216,12 +215,12 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: account, isSigner: false),
           AccountMeta.writeable(pubKey: base, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.allocateWithSeedInstructionIndex,
-          base.toBuffer(),
-          Buffer.fromString(seed),
-          Buffer.fromUint64(space),
-          owner.toBuffer(),
+          base.toByteArray(),
+          ByteArray.fromString(seed),
+          ByteArray.u64(space),
+          owner.toByteArray(),
         ]),
       );
 
@@ -237,11 +236,11 @@ class SystemInstruction extends Instruction {
           AccountMeta.writeable(pubKey: account, isSigner: false),
           AccountMeta.readonly(pubKey: base, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.assignWithSeedInstructionIndex,
-          base.toBuffer(),
-          Buffer.fromString(seed),
-          owner.toBuffer(),
+          base.toByteArray(),
+          ByteArray.fromString(seed),
+          owner.toByteArray(),
         ]),
       );
 
@@ -260,11 +259,11 @@ class SystemInstruction extends Instruction {
           AccountMeta.readonly(pubKey: base, isSigner: true),
           AccountMeta.writeable(pubKey: recipientAccount, isSigner: false),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           SystemProgram.transferWithSeedInstructionIndex,
-          Buffer.fromUint64(lamports),
-          Buffer.fromString(seed),
-          owner.toBuffer(),
+          ByteArray.u64(lamports),
+          ByteArray.fromString(seed),
+          owner.toByteArray(),
         ]),
       );
 

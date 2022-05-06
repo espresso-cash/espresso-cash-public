@@ -67,7 +67,9 @@ void main() {
         await AnchorInstruction.forMethod(
           programId: _basic1,
           method: 'initialize',
-          arguments: Basic1Arguments(data: BigInt.from(100)).toBorsh().toList(),
+          arguments: ByteArray(
+            Basic1Arguments(data: BigInt.from(100)).toBorsh().toList(),
+          ),
           accounts: <AccountMeta>[
             AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
             AccountMeta.readonly(
@@ -112,7 +114,9 @@ void main() {
         await AnchorInstruction.forMethod(
           programId: _basic1,
           method: 'update',
-          arguments: Basic1Arguments(data: BigInt.from(25)).toBorsh().toList(),
+          arguments: ByteArray(
+            Basic1Arguments(data: BigInt.from(25)).toBorsh().toList(),
+          ),
           accounts: <AccountMeta>[
             AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
           ],

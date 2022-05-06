@@ -32,7 +32,8 @@ Future<void> main() async {
       signatures: [await fundingAccount.sign(compiledMessage.data)],
     );
 
-    final fromSigned = CompiledMessage.fromSignedTransaction(signedTx);
+    final fromSigned =
+        CompiledMessage.fromSignedTransaction(signedTx.toByteArray());
 
     expect(compiledMessage, fromSigned);
   });
