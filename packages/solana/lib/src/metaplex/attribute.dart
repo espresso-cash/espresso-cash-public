@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'attribute.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class Attribute {
   const Attribute({
     required this.traitType,

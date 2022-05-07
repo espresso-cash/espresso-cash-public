@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'collection.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Collection {
   const Collection({
     required this.name,

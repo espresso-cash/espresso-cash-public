@@ -5,7 +5,7 @@ import 'package:solana/src/metaplex/properties.dart';
 
 part 'off_chain_metadata.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class OffChainMetadata {
   const OffChainMetadata({
     required this.name,
