@@ -47,25 +47,22 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
           final data = snapshot.data;
           if (data == null) return const _Loader();
 
-          switch (data.state) {
-            case PaymentRequestState.initial:
-              return BlocProvider<PaymentRequestVerifierBloc>(
-                create: (context) => PaymentRequestVerifierBloc(
-                  solanaClient: context.read<SolanaClient>(),
-                  request: data,
-                  repository: context.read<PaymentRequestRepository>(),
-                ),
-                lazy: false,
-                child: Provider<PaymentRequest>.value(
-                  value: data,
-                  child: const AutoRouter(),
-                ),
-              );
-            case PaymentRequestState.completed:
-              return _Success(request: data);
-            case PaymentRequestState.error:
-              return _Failure(request: data);
-          }
+          return data.state.when(
+            initial: () => BlocProvider<PaymentRequestVerifierBloc>(
+              create: (context) => PaymentRequestVerifierBloc(
+                solanaClient: context.read<SolanaClient>(),
+                request: data,
+                repository: context.read<PaymentRequestRepository>(),
+              ),
+              lazy: false,
+              child: Provider<PaymentRequest>.value(
+                value: data,
+                child: const AutoRouter(),
+              ),
+            ),
+            completed: (_) => _Success(request: data),
+            failure: () => _Failure(request: data),
+          );
         },
       );
 }

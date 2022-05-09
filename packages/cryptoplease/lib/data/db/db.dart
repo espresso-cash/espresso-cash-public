@@ -1,4 +1,3 @@
-import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
 import 'package:cryptoplease/data/db/open_connection.dart';
 import 'package:drift/drift.dart';
 
@@ -13,12 +12,15 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
+enum PaymentRequestStateDto { initial, completed, error }
+
 class PaymentRequestRows extends Table {
   TextColumn get id => text()();
   DateTimeColumn get created => dateTime()();
   TextColumn get payerName => text()();
   TextColumn get dynamicLink => text()();
-  IntColumn get state => intEnum<PaymentRequestState>()();
+  IntColumn get state => intEnum<PaymentRequestStateDto>()();
+  TextColumn get transactionId => text().nullable()();
 
   // SolanaPayRequest columns
   TextColumn get recipient => text()();
@@ -33,7 +35,7 @@ class PaymentRequestRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 13;
+const int latestVersion = 14;
 
 @DriftDatabase(tables: [OutgoingTransferRows, PaymentRequestRows])
 class MyDatabase extends _$MyDatabase {
@@ -54,6 +56,12 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 13) {
             await m.createTable(paymentRequestRows);
+          }
+          if (from >= 13 && from < 14) {
+            await m.addColumn(
+              paymentRequestRows,
+              paymentRequestRows.transactionId,
+            );
           }
         },
       );

@@ -20,7 +20,14 @@ class PaymentRequest with _$PaymentRequest {
   }) = _PaymentRequest;
 }
 
-enum PaymentRequestState { initial, completed, error }
+@freezed
+class PaymentRequestState with _$PaymentRequestState {
+  const factory PaymentRequestState.initial() = PaymentRequestInitial;
+  const factory PaymentRequestState.completed({
+    required String transactionId,
+  }) = PaymentRequestCompleted;
+  const factory PaymentRequestState.failure() = PaymentRequestFailure;
+}
 
 extension SolanaPayRequestExt on SolanaPayRequest {
   Uri toUniversalLink() => Uri.parse(toUrl()).replace(

@@ -83,23 +83,23 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
             final formattedAmount =
                 data.formattedAmount(DeviceLocale.localeOf(context));
 
-            switch (data.state) {
-              case PaymentRequestState.initial:
-                return context.l10n.paymentRequestInitialNotificationTitle(
-                  formattedAmount,
-                  data.payerName,
-                );
-              case PaymentRequestState.completed:
-                return context.l10n.paymentRequestSuccessNotificationTitle(
-                  formattedAmount,
-                  data.payerName,
-                );
-              case PaymentRequestState.error:
-                return context.l10n.paymentRequestFailureNotificationTitle(
-                  formattedAmount,
-                  data.payerName,
-                );
-            }
+            return data.state.when(
+              initial: () =>
+                  context.l10n.paymentRequestInitialNotificationTitle(
+                formattedAmount,
+                data.payerName,
+              ),
+              completed: (_) =>
+                  context.l10n.paymentRequestSuccessNotificationTitle(
+                formattedAmount,
+                data.payerName,
+              ),
+              failure: () =>
+                  context.l10n.paymentRequestFailureNotificationTitle(
+                formattedAmount,
+                data.payerName,
+              ),
+            );
           }
 
           return BlocProvider<PaymentRequestVerifierBloc>(
