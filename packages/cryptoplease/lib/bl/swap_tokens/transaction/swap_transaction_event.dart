@@ -6,6 +6,6 @@ class SwapTransactionEvent with _$SwapTransactionEvent {
     required Token inputToken,
     required Token outputToken,
     required Amount amount,
-    required double slippage,
+    required Decimal slippage,
   }) = SwapEvent;
 }

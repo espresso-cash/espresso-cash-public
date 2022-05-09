@@ -1,8 +1,8 @@
 import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/bl/number_formatter.dart';
 import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/components/number_formatter.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/amount_display.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
@@ -91,11 +91,21 @@ class _SwapTokenSelectorScreenState extends State<SwapTokenSelectorScreen> {
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
+      BlocConsumer<SwapSelectorBloc, SwapSelectorState>(
         bloc: swapTokenBloc,
+        listener: (context, state) => state.processingState.whenOrNull(
+          error: (error) => showErrorDialog(
+            context,
+            context.l10n.errorLoadingTokens,
+            error,
+          ),
+        ),
         builder: (context, state) => CpTheme.dark(
           child: CpLoader(
-            isLoading: state.isLoading,
+            isLoading: state.processingState.maybeMap(
+              processing: (_) => true,
+              orElse: () => false,
+            ),
             child: Scaffold(
               appBar: CpAppBar(
                 leading: BackButton(
@@ -104,7 +114,9 @@ class _SwapTokenSelectorScreenState extends State<SwapTokenSelectorScreen> {
                 nextButton: SlippageDropdown(
                   currentSlippage: state.slippage,
                   onSlippageChanged: (slippage) => swapTokenBloc.add(
-                    SwapSelectorEvent.slippageUpdated(slippage),
+                    SwapSelectorEvent.slippageUpdated(
+                      slippage,
+                    ),
                   ),
                 ),
               ),

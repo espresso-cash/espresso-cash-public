@@ -4,6 +4,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -51,7 +52,7 @@ class SwapTransactionBloc
         amount: swapEvent.amount.value,
         inputMint: swapEvent.inputToken.address,
         outputMint: swapEvent.outputToken.address,
-        slippage: swapEvent.slippage,
+        slippage: swapEvent.slippage.toDouble(),
       );
 
       if (routes.isEmpty) {

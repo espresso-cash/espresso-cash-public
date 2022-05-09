@@ -55,7 +55,7 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
   }
 
   void _reset() {
-    _selectorBloc.add(const SwapSelectorEvent.load());
+    _selectorBloc.add(const SwapSelectorEvent.initialized());
   }
 
   @override

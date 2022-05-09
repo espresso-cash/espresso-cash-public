@@ -277,6 +277,7 @@
   "swapTransaction": "Swapping tokens",
   "swapCleanup": "Cleaning up",
   "swapSuccess": "Success!",
+  "errorLoadingTokens": "Error loading tokens for swapping",
   "swapFail": "Swap tokens failed: {reason}",
   "@swapFail" : {
     "placeholders" : {

@@ -2,6 +2,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
+import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:decimal/decimal.dart';
@@ -30,6 +31,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         super(
           SwapSelectorState(
             amount: Amount.zero(currency: Currency.sol),
+            slippage: Decimal.one,
           ),
         ) {
     on<_Event>(_eventHandler, transformer: sequential());
@@ -44,19 +46,19 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   late Map<String, int> _mintToIndex;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
-        load: (e) => _onLoad(e, emit),
+        initialized: (e) => _onInitialized(e, emit),
         inputSelected: (e) => _onInputSelected(e, emit),
         outputSelected: (e) => _onOutputSelected(e, emit),
         amountUpdated: (e) => _onAmountUpdated(e, emit),
         slippageUpdated: (e) => _onSlippageUpdated(e, emit),
       );
 
-  Future<void> _onLoad(
+  Future<void> _onInitialized(
     SwapSelectorLoadEvent _,
     _Emitter emit,
   ) async {
     emit(
-      state.copyWith(isLoading: true),
+      state.copyWith(processingState: const ProcessingState.processing()),
     );
     try {
       _routeMap = await _jupiterClient.getIndexedRouteMap();
@@ -67,12 +69,13 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       emit(
         state.copyWith(
           inputTokens: inputTokens,
-          isLoading: false,
         ),
       );
-    } on Exception {
+    } on Exception catch (e) {
       emit(
-        state.copyWith(isLoading: false),
+        state.copyWith(
+          processingState: ProcessingState.error(e),
+        ),
       );
     }
   }

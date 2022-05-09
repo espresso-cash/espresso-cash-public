@@ -1,18 +1,23 @@
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
-const _availableSlippages = [0.1, 0.5, 1.0];
-
 class SlippageDropdown extends StatelessWidget {
-  const SlippageDropdown({
+  SlippageDropdown({
     Key? key,
     required this.currentSlippage,
     required this.onSlippageChanged,
   }) : super(key: key);
 
-  final double currentSlippage;
-  final ValueSetter<double> onSlippageChanged;
+  final Decimal currentSlippage;
+  final ValueSetter<Decimal> onSlippageChanged;
+
+  final _availableSlippages = [
+    0.1,
+    0.5,
+    1.0,
+  ].map((v) => Decimal.parse(v.toString()));
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -29,7 +34,7 @@ class SlippageDropdown extends StatelessWidget {
                 ),
                 child: Material(
                   color: CpColors.strokeColor,
-                  child: DropdownButtonFormField<double>(
+                  child: DropdownButtonFormField<Decimal>(
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                       border: OutlineInputBorder(
