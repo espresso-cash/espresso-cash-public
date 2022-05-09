@@ -57,7 +57,7 @@ class MyDatabase extends _$MyDatabase {
           if (from < 13) {
             await m.createTable(paymentRequestRows);
           }
-          if (from < 14) {
+          if (from >= 13 && from < 14) {
             await m.addColumn(
               paymentRequestRows,
               paymentRequestRows.transactionId,
