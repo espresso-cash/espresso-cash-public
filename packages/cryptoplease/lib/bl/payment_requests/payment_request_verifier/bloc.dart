@@ -4,6 +4,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
@@ -47,7 +48,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
   Duration _currentBackoff = _minBackoff;
 
   Future<void> _waitForTx() async {
-    if (_request.state != PaymentRequestState.initial) return;
+    if (!_request.state.isInitial) return;
 
     final reference = _request.payRequest.reference?.firstOrNull;
     if (reference == null) return;
@@ -82,8 +83,8 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
         amount: _request.payRequest.amount ?? Decimal.zero,
         commitment: Commitment.confirmed,
       );
-      await _repository
-          .save(_request.copyWith(state: PaymentRequestState.completed));
+      final newState = PaymentRequestState.completed(transactionId: id);
+      await _repository.save(_request.copyWith(state: newState));
       add(const Succeeded());
     } on Exception catch (e) {
       add(VerificationFailed(e, transactionId: id));
@@ -120,7 +121,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
   ) async {
     if (event.error is ValidateTransactionException) {
       await _repository
-          .save(_request.copyWith(state: PaymentRequestState.error));
+          .save(_request.copyWith(state: const PaymentRequestState.failure()));
       emit(const Failure());
 
       return;
@@ -144,3 +145,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
 const _backoffStep = 2;
 const _minBackoff = Duration(seconds: 2);
 const _maxBackoff = Duration(minutes: 1);
+
+extension on PaymentRequestState {
+  bool get isInitial => maybeWhen(initial: T, orElse: F);
+}
