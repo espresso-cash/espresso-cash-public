@@ -3,6 +3,7 @@ import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
 import 'package:cryptoplease/bl/swap_tokens/transaction/swap_transaction_bloc.dart';
+import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 abstract class SwapTokenRouter {
+  void onSelectInputToken();
+  void onSelectOutputToken();
   void onConfirm();
   void closeFlow();
 }
@@ -61,6 +64,34 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
   @override
   void closeFlow() {
     Navigator.of(context).pop();
+  }
+
+  @override
+  Future<void> onSelectInputToken() async {
+    final availableInputs = _selectorBloc.state.inputTokens;
+    final router = _routerKey.currentState?.controller;
+    final token = await router?.push<Token>(
+      SwapTokenSelectorRoute(
+        availableTokens: availableInputs,
+      ),
+    );
+    if (token != null) {
+      _selectorBloc.add(SwapSelectorEvent.inputSelected(token));
+    }
+  }
+
+  @override
+  Future<void> onSelectOutputToken() async {
+    final availableOutputs = _selectorBloc.state.outputTokens;
+    final router = _routerKey.currentState?.controller;
+    final token = await router?.push<Token>(
+      SwapTokenSelectorRoute(
+        availableTokens: availableOutputs,
+      ),
+    );
+    if (token != null) {
+      _selectorBloc.add(SwapSelectorEvent.outputSelected(token));
+    }
   }
 
   @override

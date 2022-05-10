@@ -1,8 +1,8 @@
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/presentation/components/number_formatter.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/presentation/components/number_formatter.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/add_max_button.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/amount_display.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/converted_amount_view.dart';

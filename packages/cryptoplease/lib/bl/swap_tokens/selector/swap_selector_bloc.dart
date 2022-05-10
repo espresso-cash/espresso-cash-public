@@ -69,6 +69,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       emit(
         state.copyWith(
           inputTokens: inputTokens,
+          processingState: const ProcessingState.none(),
         ),
       );
     } on Exception catch (e) {

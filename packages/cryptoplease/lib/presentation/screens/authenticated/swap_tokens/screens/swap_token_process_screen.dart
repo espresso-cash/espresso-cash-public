@@ -10,11 +10,10 @@ class SwapTokenProcessScreen extends StatefulWidget {
   const SwapTokenProcessScreen({Key? key}) : super(key: key);
 
   @override
-  _SwapTokenSelectorScreenState createState() =>
-      _SwapTokenSelectorScreenState();
+  _SwapTokenOrderScreenState createState() => _SwapTokenOrderScreenState();
 }
 
-class _SwapTokenSelectorScreenState extends State<SwapTokenProcessScreen> {
+class _SwapTokenOrderScreenState extends State<SwapTokenProcessScreen> {
   late final SwapTransactionBloc swapTransactionBloc;
 
   @override
