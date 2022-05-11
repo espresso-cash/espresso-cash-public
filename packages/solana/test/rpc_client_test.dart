@@ -405,18 +405,22 @@ void main() {
       expect(blockProduction, isNotNull);
     });
 
-    test('Call to getTokenLargestAccounts succeeds', () async {
-      final wallet = await Ed25519HDKeyPair.random();
-      final token = await _createToken(
-        decimals: 0,
-        supply: 1,
-        transferSomeToAddress: wallet.publicKey,
-        transferSomeToAmount: 1,
-      );
-      final result =
-          await rpcClient.getTokenLargestAccounts(token.address.toBase58());
-      expect(result, isNotEmpty);
-    });
+    test(
+      'Call to getTokenLargestAccounts succeeds',
+      () async {
+        final wallet = await Ed25519HDKeyPair.random();
+        final token = await _createToken(
+          decimals: 0,
+          supply: 1,
+          transferSomeToAddress: wallet.publicKey,
+          transferSomeToAmount: 1,
+        );
+        final result =
+            await rpcClient.getTokenLargestAccounts(token.address.toBase58());
+        expect(result, isNotEmpty);
+      },
+      timeout: const Timeout(Duration(minutes: 3)),
+    );
 
     test('Call to getGenesisHash() succeeds', () async {
       final genesisHash = await rpcClient.getGenesisHash();
