@@ -1,3 +1,8 @@
+## 0.23.0+1
+
+ - **REFACTOR**: Remove unused code.
+ - **FIX**: getTokenLargestAccounts response (#270).
+
 ## 0.23.0
 
 > Note: This release has breaking changes.
