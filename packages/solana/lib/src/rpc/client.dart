@@ -528,7 +528,7 @@ abstract class RpcClient {
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @withContext
-  Future<List<ProgramAccount>> getTokenLargestAccounts(
+  Future<List<TokenLargestAccount>> getTokenLargestAccounts(
     String pubKey, {
     Commitment? commitment,
   });
