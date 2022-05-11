@@ -405,6 +405,19 @@ void main() {
       expect(blockProduction, isNotNull);
     });
 
+    test('Call to getTokenLargestAccounts succeeds', () async {
+      final wallet = await Ed25519HDKeyPair.random();
+      final token = await _createToken(
+        decimals: 0,
+        supply: 1,
+        transferSomeToAddress: wallet.publicKey,
+        transferSomeToAmount: 1,
+      );
+      final result =
+          await rpcClient.getTokenLargestAccounts(token.address.toBase58());
+      expect(result, isNotEmpty);
+    });
+
     test('Call to getGenesisHash() succeeds', () async {
       final genesisHash = await rpcClient.getGenesisHash();
       // TODO(IA): could check if it is a valid base58 string
@@ -811,7 +824,7 @@ Future<Mint> _createToken({
   // Put some tokens in the authority wallet.
   await client.requestAirdrop(
     address: tokenMintAuthority.publicKey,
-    lamports: 5 * lamportsPerSol,
+    lamports: lamportsPerSol,
   );
 
   // Now we have SOL to create the token.

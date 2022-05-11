@@ -50,6 +50,7 @@ export 'supply.dart';
 export 'token_accounts_filter.dart';
 export 'token_amount.dart';
 export 'token_balance.dart';
+export 'token_largest_account.dart';
 export 'transaction.dart';
 export 'transaction_detail_level.dart';
 export 'transaction_details.dart';

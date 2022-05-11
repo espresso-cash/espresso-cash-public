@@ -735,7 +735,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<ProgramAccount>> getTokenLargestAccounts(String pubKey,
+  Future<List<TokenLargestAccount>> getTokenLargestAccounts(String pubKey,
       {Commitment? commitment}) async {
     final config =
         GetTokenLargestAccountsConfig(commitment: commitment).toJson();
@@ -749,7 +749,7 @@ class _RpcClient implements RpcClient {
     final dynamic value = unwrapAndGetResult(response);
 
     return fromJsonArray(value,
-        (dynamic v) => ProgramAccount.fromJson(v as Map<String, dynamic>));
+        (dynamic v) => TokenLargestAccount.fromJson(v as Map<String, dynamic>));
   }
 
   @override
