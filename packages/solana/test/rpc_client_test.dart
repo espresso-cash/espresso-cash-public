@@ -824,7 +824,7 @@ Future<Mint> _createToken({
   // Put some tokens in the authority wallet.
   await client.requestAirdrop(
     address: tokenMintAuthority.publicKey,
-    lamports: lamportsPerSol,
+    lamports: 5 * lamportsPerSol,
   );
 
   // Now we have SOL to create the token.
