@@ -15,23 +15,23 @@ jobs:
       packages: read
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cryptoplease/flutter:2.10.3
+      image: ghcr.io/cryptoplease/flutter:3.0.0
     steps:
       - uses: actions/checkout@v2
-      
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - uses: actions/setup-java@v2
         with:
-          distribution: 'microsoft'
-          java-version: '11'
+          distribution: "microsoft"
+          java-version: "11"
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v0'
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v0"
         with:
           project_id: "cryptoplease-dev"
 
@@ -40,7 +40,7 @@ jobs:
 
       - run: make app_get
       - run: make app_build
-      
-      - name: 'Run E2E tests'
+
+      - name: "Run E2E tests"
         run: make firebase_e2e
         working-directory: packages/cryptoplease

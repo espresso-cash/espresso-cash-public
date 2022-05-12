@@ -18,7 +18,7 @@ jobs:
       SOLANA_RPC_URL: "http://solana:8899"
       SOLANA_WEBSOCKET_URL: "ws://solana:8900"
     container:
-      image: ghcr.io/cryptoplease/flutter:2.10.3
+      image: ghcr.io/cryptoplease/flutter:3.0.0
     services:
       solana:
         image: solanalabs/solana:v1.8.11
@@ -37,5 +37,5 @@ jobs:
         with:
           name: golden-test-failure
           path: "**/test/golden/**/failures/"
-      
+
       - run: make app_test_solana
