@@ -3,7 +3,7 @@ FROM ubuntu:latest
 USER root
 
 RUN apt-get update
-RUN apt-get install -y git curl unzip make libsqlite3-dev python
+RUN apt-get install -y git curl unzip make libsqlite3-dev python3
 
 ENV FLUTTER_HOME=/root/flutter
 ENV FLUTTER_ROOT=$FLUTTER_HOME
