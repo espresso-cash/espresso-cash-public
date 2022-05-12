@@ -14,7 +14,7 @@ class CryptopleaseApp extends StatefulWidget {
   const CryptopleaseApp({Key? key}) : super(key: key);
 
   @override
-  _CryptopleaseAppState createState() => _CryptopleaseAppState();
+  State<CryptopleaseApp> createState() => _CryptopleaseAppState();
 }
 
 class _CryptopleaseAppState extends State<CryptopleaseApp>
@@ -26,12 +26,12 @@ class _CryptopleaseAppState extends State<CryptopleaseApp>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

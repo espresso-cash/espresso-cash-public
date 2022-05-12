@@ -39,7 +39,7 @@ class TokenFiatInputWidget extends StatefulWidget {
   final IList<Token> availableTokens;
 
   @override
-  _TokenFiatSwitcherInputState createState() => _TokenFiatSwitcherInputState();
+  State<TokenFiatInputWidget> createState() => _TokenFiatSwitcherInputState();
 }
 
 class _TokenFiatSwitcherInputState extends State<TokenFiatInputWidget> {

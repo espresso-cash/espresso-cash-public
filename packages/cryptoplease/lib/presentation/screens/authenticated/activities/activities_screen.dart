@@ -14,7 +14,7 @@ class ActivitiesScreen extends StatefulWidget {
   const ActivitiesScreen({Key? key}) : super(key: key);
 
   @override
-  _ActivitiesState createState() => _ActivitiesState();
+  State<ActivitiesScreen> createState() => _ActivitiesState();
 }
 
 class _ActivitiesState extends State<ActivitiesScreen> {

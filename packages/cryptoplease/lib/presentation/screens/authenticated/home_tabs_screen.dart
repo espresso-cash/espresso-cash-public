@@ -12,7 +12,7 @@ class HomeTabsScreen extends StatefulWidget {
   const HomeTabsScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeTabsScreenState createState() => _HomeTabsScreenState();
+  State<HomeTabsScreen> createState() => _HomeTabsScreenState();
 }
 
 class _HomeTabsScreenState extends State<HomeTabsScreen> {

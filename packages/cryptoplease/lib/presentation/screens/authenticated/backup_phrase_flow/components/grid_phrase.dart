@@ -14,7 +14,7 @@ class GridPhrase extends StatefulWidget {
   final String correctPhrase;
 
   @override
-  _GridPhraseState createState() => _GridPhraseState();
+  State<GridPhrase> createState() => _GridPhraseState();
 }
 
 class _GridPhraseState extends State<GridPhrase> {

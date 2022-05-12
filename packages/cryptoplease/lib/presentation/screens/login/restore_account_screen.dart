@@ -11,7 +11,7 @@ class RestoreAccountScreen extends StatefulWidget {
   const RestoreAccountScreen({Key? key}) : super(key: key);
 
   @override
-  _RestoreAccountScreenState createState() => _RestoreAccountScreenState();
+  State<RestoreAccountScreen> createState() => _RestoreAccountScreenState();
 }
 
 class _RestoreAccountScreenState extends State<RestoreAccountScreen> {

@@ -10,7 +10,7 @@ class CreateRecoveryPhraseScreen extends StatefulWidget {
   const CreateRecoveryPhraseScreen({Key? key}) : super(key: key);
 
   @override
-  _CreateRecoveryPhraseScreenState createState() =>
+  State<CreateRecoveryPhraseScreen> createState() =>
       _CreateRecoveryPhraseScreenState();
 }
 

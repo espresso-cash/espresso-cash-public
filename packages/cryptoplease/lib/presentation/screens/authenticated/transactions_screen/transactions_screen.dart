@@ -22,7 +22,7 @@ class TransactionsScreen extends StatefulWidget {
   final Token token;
 
   @override
-  _TransactionsScreenState createState() => _TransactionsScreenState();
+  State<TransactionsScreen> createState() => _TransactionsScreenState();
 }
 
 class _TransactionsScreenState extends State<TransactionsScreen> {
