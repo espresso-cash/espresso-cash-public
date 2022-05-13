@@ -4,6 +4,7 @@ import 'package:cryptoplease/presentation/screens/authenticated/components/navig
 import 'package:cryptoplease/presentation/screens/authenticated/components/navigation_bar/navigation_button.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/nft/nft_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/profile/profile_screen.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_router.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +30,10 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
       _Page(widget: NftScreen(), overlayStyle: SystemUiOverlayStyle.light),
       _Page(
         widget: ActivitiesScreen(),
+        overlayStyle: SystemUiOverlayStyle.dark,
+      ),
+      _Page(
+        widget: SwapTokenFlowScreen(),
         overlayStyle: SystemUiOverlayStyle.dark,
       ),
       _Page(widget: ProfileScreen(), overlayStyle: SystemUiOverlayStyle.dark),
@@ -60,9 +65,14 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
               onPressed: () => _onBottomNavigatorItemTap(2),
             ),
             NavigationButton(
-              icon: Assets.icons.profile,
+              icon: Assets.icons.notifications,
               active: _currentPage == 3,
               onPressed: () => _onBottomNavigatorItemTap(3),
+            ),
+            NavigationButton(
+              icon: Assets.icons.profile,
+              active: _currentPage == 4,
+              onPressed: () => _onBottomNavigatorItemTap(4),
             ),
           ],
         ),

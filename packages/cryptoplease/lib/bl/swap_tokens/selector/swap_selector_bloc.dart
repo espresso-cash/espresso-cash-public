@@ -1,8 +1,8 @@
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/processing_state.dart';
+import 'package:cryptoplease/bl/swap_tokens/swap_exception.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:decimal/decimal.dart';
@@ -10,6 +10,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'swap_selector_bloc.freezed.dart';
 part 'swap_selector_event.dart';
@@ -30,11 +31,15 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         _balances = balances,
         super(
           SwapSelectorState(
-            amount: Amount.zero(currency: Currency.sol),
+            amount: const CryptoAmount(currency: Currency.sol, value: 0),
             slippage: Decimal.one,
           ),
         ) {
-    on<_Event>(_eventHandler, transformer: sequential());
+    on<_Event>(
+      _eventHandler,
+      transformer: (events, mapper) =>
+          events.debounceTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
   }
 
   final TokenList _tokenList;
@@ -51,6 +56,8 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         outputSelected: (e) => _onOutputSelected(e, emit),
         amountUpdated: (e) => _onAmountUpdated(e, emit),
         slippageUpdated: (e) => _onSlippageUpdated(e, emit),
+        swapInverted: (e) => _onSwapInverted(e, emit),
+        maxInputRequested: (_) => _onMaxInputRequested(emit),
       );
 
   Future<void> _onInitialized(
@@ -72,7 +79,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
           processingState: const ProcessingState.none(),
         ),
       );
-    } on Exception catch (e) {
+    } on SwapExcetion catch (e) {
       emit(
         state.copyWith(
           processingState: ProcessingState.error(e),
@@ -94,43 +101,52 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     emit(
       state.copyWith(
+        selectedOutput: null,
         outputTokens: outputTokens,
+        bestRoute: null,
         selectedInput: inputEvent.inputToken,
-        amount: Amount.crypto(
-          value: state.amount.value,
+        amount: state.amount.copyWith(
           currency: CryptoCurrency(token: inputEvent.inputToken),
         ),
-        selectedOutput: null,
       ),
     );
   }
 
-  void _onOutputSelected(
+  Future<void> _onOutputSelected(
     SwapSelectorOutputEvent outputEvent,
     _Emitter emit,
-  ) {
+  ) async {
+    final outputToken = outputEvent.outputToken;
+
     emit(
       state.copyWith(
-        selectedOutput: outputEvent.outputToken,
+        selectedOutput: outputToken,
+        bestRoute: null,
       ),
     );
+
+    await _onRouteRefreshed(emit);
   }
 
-  void _onSlippageUpdated(
+  Future<void> _onSlippageUpdated(
     SwapSelectorSlippageEvent slippageEvent,
     _Emitter emit,
-  ) {
+  ) async {
     emit(
       state.copyWith(
         slippage: slippageEvent.slippage,
       ),
     );
+
+    await _onRouteRefreshed(emit);
   }
 
-  void _onAmountUpdated(
+  Future<void> _onAmountUpdated(
     SwapSelectorAmountEvent amountEvent,
     _Emitter emit,
-  ) {
+  ) async {
+    if (amountEvent.decimal == state.amount.decimal) return;
+
     final tokenValue = state.amount.currency.decimalToInt(amountEvent.decimal);
     final tokenAmount = state.amount.copyWith(value: tokenValue);
 
@@ -139,14 +155,109 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         amount: tokenAmount,
       ),
     );
+
+    await _onRouteRefreshed(emit);
+  }
+
+  Future<void> _onSwapInverted(
+    SwapSelectorInvertEvent event,
+    _Emitter emit,
+  ) async {}
+
+  Future<void> _onMaxInputRequested(_Emitter emit) async {
+    final input = state.selectedInput;
+
+    if (input == null) return;
+
+    final entry = _balances.entries.firstWhere(
+      (entry) => entry.key.address == input.address,
+      orElse: () => MapEntry(
+        input,
+        CryptoAmount(
+          value: 10,
+          currency: CryptoCurrency(token: input),
+        ),
+      ),
+    );
+
+    final amount = entry.value.map(
+      crypto: identity,
+      fiat: (f) => CryptoAmount(
+        value: f.value,
+        currency: CryptoCurrency(token: input),
+      ),
+    );
+
+    emit(
+      state.copyWith(
+        amount: amount,
+      ),
+    );
+
+    await _onRouteRefreshed(emit);
+  }
+
+  Future<void> _onRouteRefreshed(
+    _Emitter emit,
+  ) async {
+    final selectedInput = state.selectedInput;
+    final selectedOutput = state.selectedOutput;
+    final amount = state.amount.value;
+
+    if (selectedInput == null || selectedOutput == null) return;
+
+    if (amount == 0) {
+      return emit(
+        state.copyWith(
+          bestRoute: null,
+        ),
+      );
+    }
+
+    try {
+      emit(
+        state.copyWith(
+          processingState: const ProcessingState.processing(),
+        ),
+      );
+
+      final routes = await _jupiterClient.getQuote(
+        amount: amount,
+        inputMint: selectedInput.address,
+        outputMint: selectedOutput.address,
+        slippage: state.slippage.toDouble(),
+      );
+
+      if (routes.isEmpty) {
+        throw const SwapExcetion(SwapFailReason.routeNotFound);
+      }
+
+      final route = routes.first;
+
+      emit(
+        state.copyWith(
+          bestRoute: route,
+          processingState: const ProcessingState.none(),
+        ),
+      );
+    } on SwapExcetion catch (e) {
+      emit(
+        state.copyWith(
+          processingState: ProcessingState.error(e),
+        ),
+      );
+    }
   }
 
   Either<ValidationError, void> validate() {
     final token = state.selectedInput;
     if (token == null) return const Either.right(null);
 
-    final userBalance = _balances[token] ??
-        Amount.zero(currency: Currency.crypto(token: token));
+    final entry = _balances.entries.firstWhereOrNull(
+      (entry) => entry.key.address == token.address,
+    );
+    final userBalance =
+        entry?.value ?? Amount.zero(currency: Currency.crypto(token: token));
 
     if (userBalance < state.amount) {
       return Either.left(
@@ -156,18 +267,6 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         ),
       );
     }
-
-    // TODO(rhbrunetto): calculate fee?
-
-    // var feeBalance =
-    //     _balances[Token.sol] ?? Amount.zero(currency: Currency.sol);
-    // if (token == Token.sol) {
-    //   feeBalance -= state.amount;
-    // }
-
-    // if (feeBalance < state.fee) {
-    //   return Either.left(ValidationError.insufficientFee(state.fee));
-    // }
 
     return const Either.right(null);
   }

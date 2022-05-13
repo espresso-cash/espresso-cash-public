@@ -15,4 +15,8 @@ class SwapSelectorEvent with _$SwapSelectorEvent {
 
   const factory SwapSelectorEvent.slippageUpdated(Decimal slippage) =
       SwapSelectorSlippageEvent;
+
+  const factory SwapSelectorEvent.maxInputRequested() = SwapSelectorMaxEvent;
+
+  const factory SwapSelectorEvent.swapInverted() = SwapSelectorInvertEvent;
 }

@@ -3,14 +3,16 @@ import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/number_formatter.dart';
-import 'package:cryptoplease/presentation/components/token_fiat_input_widget/amount_display.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/input_widgets/input_row_widget.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/invert_swap_button.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/slippage_dropdown.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_router.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,21 +24,20 @@ class SwapTokenOrderScreen extends StatefulWidget {
 }
 
 class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
-  final _inputKey = GlobalKey();
-  final _outputKey = GlobalKey();
-  final _controller = TextEditingController();
+  final _inputContoller = TextEditingController();
+  final _outputContoller = TextEditingController();
   late final SwapSelectorBloc swapTokenBloc;
 
   @override
   void initState() {
     super.initState();
     swapTokenBloc = context.read<SwapSelectorBloc>();
-    _controller.addListener(_onAmountUpdate);
+    _inputContoller.addListener(_onAmountUpdate);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _inputContoller.dispose();
     super.dispose();
   }
 
@@ -63,14 +64,14 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
     );
   }
 
+  Decimal get inputControllerAmount => _inputContoller.text.toDecimalOrZero(
+        DeviceLocale.localeOf(context),
+      );
+
   void _onAmountUpdate() {
     if (swapTokenBloc.state.selectedInput == null) return;
-
-    final value = _controller.text.toDecimalOrZero(
-      DeviceLocale.localeOf(context),
-    );
     swapTokenBloc.add(
-      SwapSelectorEvent.amountUpdated(value),
+      SwapSelectorEvent.amountUpdated(inputControllerAmount),
     );
   }
 
@@ -91,17 +92,25 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
   Widget build(BuildContext context) =>
       BlocConsumer<SwapSelectorBloc, SwapSelectorState>(
         bloc: swapTokenBloc,
-        listener: (context, state) => state.processingState.whenOrNull(
-          error: (error) => showErrorDialog(
-            context,
-            context.l10n.errorLoadingTokens,
-            error,
-          ),
-        ),
+        listener: (context, state) {
+          if (state.amount.decimal != inputControllerAmount) {
+            _inputContoller.text = state.amount.format(
+              DeviceLocale.localeOf(context),
+              skipSymbol: true,
+            );
+          }
+          state.processingState.whenOrNull(
+            error: (error) => showSwapErrorDialog(
+              context,
+              context.l10n.errorLoadingTokens,
+              error.reason,
+            ),
+          );
+        },
         builder: (context, state) => CpTheme.dark(
           child: CpLoader(
             isLoading: state.processingState.maybeMap(
-              processing: (_) => true,
+              processing: (_) => state.inputTokens.isEmpty,
               orElse: () => false,
             ),
             child: Scaffold(
@@ -109,50 +118,75 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                 leading: BackButton(
                   onPressed: () => context.read<SwapTokenRouter>().closeFlow(),
                 ),
-                nextButton: SlippageDropdown(
-                  currentSlippage: state.slippage,
-                  onSlippageChanged: (slippage) => swapTokenBloc.add(
-                    SwapSelectorEvent.slippageUpdated(
-                      slippage,
-                    ),
-                  ),
-                ),
+                title: Text(context.l10n.swapTokens),
               ),
               body: SafeArea(
                 child: ListView(
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => context
-                              .read<SwapTokenRouter>()
-                              .onSelectInputToken(),
-                          child: const Text('Input!'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => context
-                              .read<SwapTokenRouter>()
-                              .onSelectOutputToken(),
-                          child: const Text('Output!'),
-                        ),
-                        Flexible(
-                          child: AmountDisplay(
-                            value: _controller.text,
-                            currency: state.amount.currency,
-                            onTokenChanged: null,
-                            availableTokens: IList(),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Stack(
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              InputRowWidget(
+                                label: context.l10n.youPay,
+                                selectedToken: state.selectedInput,
+                                onSelectToken: () => context
+                                    .read<SwapTokenRouter>()
+                                    .onSelectInputToken(),
+                                amountController: _inputContoller,
+                                isEnabled: true,
+                                onMaxRequested: () => swapTokenBloc.add(
+                                  const SwapSelectorEvent.maxInputRequested(),
+                                ),
+                              ),
+                              const SizedBox(height: 32),
+                              InputRowWidget(
+                                label: context.l10n.youReceive,
+                                selectedToken: state.selectedOutput,
+                                onSelectToken: () => context
+                                    .read<SwapTokenRouter>()
+                                    .onSelectOutputToken(),
+                                // TODO: FIX
+                                amountController: _outputContoller
+                                  ..text = state.convertedAmount?.format(
+                                        DeviceLocale.localeOf(context),
+                                        skipSymbol: true,
+                                      ) ??
+                                      '',
+                                isEnabled: false,
+                              ),
+                            ],
                           ),
+                          Positioned.fill(
+                            top: 24,
+                            bottom: 0,
+                            child: InvertSwapButton(
+                              onTap: () {},
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 45,
+                      width: MediaQuery.of(context).size.width,
+                      child: SlippageDropdown(
+                        currentSlippage: state.slippage,
+                        onSlippageChanged: (slippage) => swapTokenBloc.add(
+                          SwapSelectorEvent.slippageUpdated(slippage),
                         ),
-                      ],
+                      ),
                     ),
                     EnterAmountKeypad(
-                      controller: _controller,
-                      maxDecimals: state.selectedInput?.decimals ?? 0,
+                      controller: _inputContoller,
+                      maxDecimals: state.selectedInput?.decimals ?? 2,
                     ),
                     CpContentPadding(
                       child: CpButton(
-                        text: context.l10n.swapTokens,
+                        text: context.l10n.reviewOrder,
                         onPressed: state.canSwap ? _onConfirm : null,
                       ),
                     ),

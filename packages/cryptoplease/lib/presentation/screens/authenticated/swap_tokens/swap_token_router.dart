@@ -98,17 +98,13 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
   void onConfirm() {
     final inputToken = _selectorBloc.state.selectedInput;
     final outputToken = _selectorBloc.state.selectedOutput;
-    final amount = _selectorBloc.state.amount;
-    final slippage = _selectorBloc.state.slippage;
+    final route = _selectorBloc.state.bestRoute;
 
-    if (inputToken == null || outputToken == null) return;
+    if (inputToken == null || outputToken == null || route == null) return;
 
     _transactionBloc.add(
       SwapTransactionEvent.swap(
-        inputToken: inputToken,
-        outputToken: outputToken,
-        amount: amount,
-        slippage: slippage,
+        jupiterRoute: route,
       ),
     );
 

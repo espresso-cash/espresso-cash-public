@@ -50,7 +50,16 @@ class _TextSearchFieldWidgetState extends State<TextSearchFieldWidget> {
         onSubmitted: _onSearch,
         decoration: InputDecoration(
           fillColor: Colors.black,
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(7)),
+            gapPadding: 0,
+            borderSide: BorderSide(color: CpColors.accentDarkBackground),
+          ),
           label: const Text('Search...'),
+          labelStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.normal,
+          ),
           prefixIcon: ValueListenableBuilder<TextEditingValue>(
             valueListenable: _searchController,
             builder: (context, value, widget) {

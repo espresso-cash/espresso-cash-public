@@ -1,13 +1,5 @@
 part of 'swap_transaction_bloc.dart';
 
-enum SwapFailReason {
-  routeNotFound,
-  setupFailed,
-  swapFailed,
-  cleanUpFailed,
-  unknown,
-}
-
 @freezed
 class SwapTransactionState with _$SwapTransactionState {
   const factory SwapTransactionState.idle() = _SwapIdle;

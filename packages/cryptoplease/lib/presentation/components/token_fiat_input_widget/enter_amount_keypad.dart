@@ -33,7 +33,12 @@ class EnterAmountKeypad extends StatelessWidget {
     String value = controller.text;
     if (key == '<') {
       if (value.isNotEmpty) {
-        value = value.substring(0, value.length - 1);
+        final start = controller.selection.start;
+        final end = controller.selection.end;
+        final offset = start == end ? 1 : 0;
+        final firstPart = value.substring(0, start - offset);
+        final secondPart = value.substring(end, value.length);
+        value = '$firstPart$secondPart';
       }
     } else if (key == '.') {
       // If we already have it, ignore it
@@ -61,7 +66,10 @@ class EnterAmountKeypad extends StatelessWidget {
         .let((v) => v.length);
 
     if (decimals <= maxDecimals) {
-      controller.text = value;
+      controller.value = controller.value.copyWith(
+        text: value,
+        selection: TextSelection.collapsed(offset: value.length),
+      );
     }
   }
 

@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
-import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:decimal/decimal.dart';
+import 'package:cryptoplease/bl/swap_tokens/swap_exception.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -48,29 +46,17 @@ class SwapTransactionBloc
     try {
       emit(const SwapTransactionState.preparing());
 
-      final routes = await _jupiterClient.getQuote(
-        amount: swapEvent.amount.value,
-        inputMint: swapEvent.inputToken.address,
-        outputMint: swapEvent.outputToken.address,
-        slippage: swapEvent.slippage.toDouble(),
-      );
-
-      if (routes.isEmpty) {
-        throw const _SwapExcetion(SwapFailReason.routeNotFound);
-      }
-
-      final route = routes.first;
       final publicKey = _myAccount.publicKey.toBase58();
 
       final transaction = await _jupiterClient.getSwapTransactions(
-        route: route,
+        route: swapEvent.jupiterRoute,
         userPublicKey: publicKey,
       );
 
       await _maybeExecuteTx(
         tx: transaction.setupTransaction,
         onSetup: () => emit(const SwapTransactionState.settingUp()),
-        onError: (e) => throw _SwapExcetion(
+        onError: (e) => throw SwapExcetion(
           SwapFailReason.setupFailed,
           exception: e,
         ),
@@ -79,7 +65,7 @@ class SwapTransactionBloc
       await _maybeExecuteTx(
         tx: transaction.swapTransaction,
         onSetup: () => emit(const SwapTransactionState.swapping()),
-        onError: (e) => throw _SwapExcetion(
+        onError: (e) => throw SwapExcetion(
           SwapFailReason.swapFailed,
           exception: e,
         ),
@@ -88,12 +74,12 @@ class SwapTransactionBloc
       await _maybeExecuteTx(
         tx: transaction.cleanupTransaction,
         onSetup: () => emit(const SwapTransactionState.cleaningUp()),
-        onError: (e) => throw _SwapExcetion(
+        onError: (e) => throw SwapExcetion(
           SwapFailReason.cleanUpFailed,
           exception: e,
         ),
       );
-    } on _SwapExcetion catch (e) {
+    } on SwapExcetion catch (e) {
       emit(
         SwapTransactionState.failed(e.reason, e.exception),
       );
@@ -133,14 +119,4 @@ class SwapTransactionBloc
       onError(e);
     }
   }
-}
-
-class _SwapExcetion implements Exception {
-  const _SwapExcetion(
-    this.reason, {
-    this.exception,
-  });
-
-  final SwapFailReason reason;
-  final Exception? exception;
 }

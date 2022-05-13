@@ -1,90 +1,72 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/presentation/components/token_icon.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
-class TokenDropdown extends StatefulWidget {
+class TokenDropdown extends StatelessWidget {
   const TokenDropdown({
     Key? key,
-    required this.availableTokens,
     required this.selectedToken,
-    required this.onChanged,
+    required this.onTap,
   }) : super(key: key);
 
-  final Iterable<Token> availableTokens;
   final Token? selectedToken;
-  final ValueSetter<Token> onChanged;
+  final VoidCallback onTap;
 
   @override
-  _TokenDropdownState createState() => _TokenDropdownState();
-}
-
-class _TokenDropdownState extends State<TokenDropdown> {
-  Token? currentToken;
-  late List<DropdownMenuItem<Token>> tokenList;
-
-  @override
-  void initState() {
-    super.initState();
-    tokenList = List.empty();
-    currentToken = widget.selectedToken;
-  }
-
-  @override
-  void didUpdateWidget(covariant TokenDropdown oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.availableTokens != widget.availableTokens) {
-      currentToken = null;
-      tokenList = widget.availableTokens
-          .map(
-            (token) => DropdownMenuItem(
-              value: token,
-              child: _DropdownTokenWidget(token: token),
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: onTap,
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            color: CpColors.darkBackground,
+            borderRadius: BorderRadius.all(
+              Radius.circular(7),
             ),
-          )
-          .toList();
-    }
-  }
-
-  void _selectToken(Token? token) {
-    if (token != null) {
-      setState(() => currentToken = token);
-      widget.onChanged(token);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) => Material(
-        child: DropdownButton<Token>(
-          items: tokenList,
-          value: currentToken,
-          onChanged: _selectToken,
-          underline: const SizedBox.shrink(),
+          ),
+          child: Row(
+            children: [
+              if (selectedToken != null) TokenMini(token: selectedToken!),
+              const Flexible(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Icon(Icons.expand_more),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       );
 }
 
-class _DropdownTokenWidget extends StatelessWidget {
-  const _DropdownTokenWidget({
+class TokenMini extends StatelessWidget {
+  const TokenMini({
     Key? key,
     required this.token,
+    this.onTap,
+    this.extensive = false,
   }) : super(key: key);
 
   final Token token;
+  final bool extensive;
+  final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(width: 16),
-          TokenIcon(token: token, size: 24),
-          const SizedBox(width: 16),
-          Text(
-            token.symbol,
-            textAlign: TextAlign.start,
-            style: const TextStyle(
-              fontSize: 18,
+  Widget build(BuildContext context) => InkWell(
+        onTap: onTap,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: TokenIcon(
+                size: 40,
+                token: token,
+              ),
             ),
-          ),
-        ],
+            Text(extensive ? token.name : token.symbol),
+          ],
+        ),
       );
 }
