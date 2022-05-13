@@ -16,9 +16,9 @@ class ShareAddressScreen extends StatelessWidget {
 
   static const double _margin = 24;
 
-  Future<void> _copyAddress(BuildContext context) async {
+  void _copyAddress(BuildContext context) {
     final account = context.read<MyAccount>();
-    await Clipboard.setData(ClipboardData(text: account.address));
+    Clipboard.setData(ClipboardData(text: account.address));
     showClipboardSnackbar(context);
   }
 

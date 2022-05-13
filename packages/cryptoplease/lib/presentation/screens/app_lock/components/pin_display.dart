@@ -11,7 +11,7 @@ class PinDisplay extends StatefulWidget {
   final int currentDigits;
 
   @override
-  _PinDisplayState createState() => _PinDisplayState();
+  State<PinDisplay> createState() => _PinDisplayState();
 }
 
 class _PinDisplayState extends State<PinDisplay> {

@@ -30,7 +30,7 @@ class DynamicLinksController extends StatefulWidget {
   final Widget child;
 
   @override
-  _DynamicLinksControllerState createState() => _DynamicLinksControllerState();
+  State<DynamicLinksController> createState() => _DynamicLinksControllerState();
 }
 
 class _DynamicLinksControllerState extends State<DynamicLinksController> {

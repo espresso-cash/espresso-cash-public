@@ -12,7 +12,7 @@ class CpLoader extends StatefulWidget {
   final bool isLoading;
 
   @override
-  _CpLoaderState createState() => _CpLoaderState();
+  State<CpLoader> createState() => _CpLoaderState();
 }
 
 class _CpLoaderState extends State<CpLoader> {

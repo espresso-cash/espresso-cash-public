@@ -14,7 +14,7 @@ class FtConfirmScreen extends StatefulWidget {
   const FtConfirmScreen({Key? key}) : super(key: key);
 
   @override
-  _ConfirmScreenState createState() => _ConfirmScreenState();
+  State<FtConfirmScreen> createState() => _ConfirmScreenState();
 }
 
 class _ConfirmScreenState extends State<FtConfirmScreen> {

@@ -50,8 +50,8 @@ class HelpBottomSheet extends StatelessWidget {
               children: [
                 CpButton(
                   text: context.l10n.copy,
-                  onPressed: () async {
-                    await Clipboard.setData(
+                  onPressed: () {
+                    Clipboard.setData(
                       ClipboardData(text: context.l10n.supportEmail),
                     );
                     showClipboardSnackbar(context);

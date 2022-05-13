@@ -15,7 +15,7 @@ class BackupConfirmPhraseScreen extends StatefulWidget {
   final String correctPhrase;
 
   @override
-  _BackupConfirmPhraseScreenState createState() =>
+  State<BackupConfirmPhraseScreen> createState() =>
       _BackupConfirmPhraseScreenState();
 }
 

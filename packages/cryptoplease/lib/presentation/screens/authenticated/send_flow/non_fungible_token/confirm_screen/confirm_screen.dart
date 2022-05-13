@@ -14,7 +14,7 @@ class NftConfirmScreen extends StatefulWidget {
   const NftConfirmScreen({Key? key}) : super(key: key);
 
   @override
-  _ConfirmScreenState createState() => _ConfirmScreenState();
+  State<NftConfirmScreen> createState() => _ConfirmScreenState();
 }
 
 class _ConfirmScreenState extends State<NftConfirmScreen> {

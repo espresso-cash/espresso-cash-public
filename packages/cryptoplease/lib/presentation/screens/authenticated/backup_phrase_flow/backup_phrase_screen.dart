@@ -12,7 +12,7 @@ class BackupPhraseScreen extends StatefulWidget {
   const BackupPhraseScreen({Key? key}) : super(key: key);
 
   @override
-  _BackupPhraseScreenState createState() => _BackupPhraseScreenState();
+  State<BackupPhraseScreen> createState() => _BackupPhraseScreenState();
 }
 
 class _BackupPhraseScreenState extends State<BackupPhraseScreen> {

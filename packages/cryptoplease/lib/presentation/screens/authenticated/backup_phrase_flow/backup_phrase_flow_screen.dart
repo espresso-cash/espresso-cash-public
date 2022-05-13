@@ -8,7 +8,7 @@ class BackupPhraseFlowScreen extends StatefulWidget {
   const BackupPhraseFlowScreen({Key? key}) : super(key: key);
 
   @override
-  _BackupPhraseFlowScreenState createState() => _BackupPhraseFlowScreenState();
+  State<BackupPhraseFlowScreen> createState() => _BackupPhraseFlowScreenState();
 }
 
 class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>

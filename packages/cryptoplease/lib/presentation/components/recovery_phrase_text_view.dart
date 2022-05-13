@@ -43,9 +43,9 @@ class RecoveryPhraseTextView extends StatelessWidget {
                   child: CpButton(
                     text: context.l10n.copy,
                     minWidth: 80,
-                    onPressed: () async {
+                    onPressed: () {
                       final data = ClipboardData(text: phrase);
-                      await Clipboard.setData(data);
+                      Clipboard.setData(data);
                       showClipboardSnackbar(context);
                     },
                   ),

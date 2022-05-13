@@ -21,7 +21,7 @@ class EnterAmountScreen extends StatefulWidget {
   const EnterAmountScreen({Key? key}) : super(key: key);
 
   @override
-  _EnterAmountScreenState createState() => _EnterAmountScreenState();
+  State<EnterAmountScreen> createState() => _EnterAmountScreenState();
 }
 
 class _EnterAmountScreenState extends State<EnterAmountScreen> {

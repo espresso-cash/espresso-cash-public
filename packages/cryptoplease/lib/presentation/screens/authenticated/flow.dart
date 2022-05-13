@@ -28,7 +28,7 @@ class AuthenticatedFlowScreen extends StatefulWidget {
   const AuthenticatedFlowScreen({Key? key}) : super(key: key);
 
   @override
-  _AuthenticatedFlowScreenState createState() =>
+  State<AuthenticatedFlowScreen> createState() =>
       _AuthenticatedFlowScreenState();
 }
 
@@ -164,7 +164,7 @@ class _PendingRequestListenerState
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkForPendingRequest(context.read<PendingRequestBloc>().state.request);
     });
   }
