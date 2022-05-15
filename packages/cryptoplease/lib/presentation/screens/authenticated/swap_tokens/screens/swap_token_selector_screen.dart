@@ -1,7 +1,6 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_list_dialog/token_item.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/text_search_field.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -53,9 +52,11 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
                     padding: const EdgeInsets.symmetric(
                       vertical: 8.0,
                     ),
-                    child: TextSearchFieldWidget(
+                    child: CpSearchTextField(
+                      label: context.l10n.search,
                       onClear: _onClear,
                       onSearch: _onSearch,
+                      variant: CpSearchTextVariant.dark,
                     ),
                   ),
                 ),

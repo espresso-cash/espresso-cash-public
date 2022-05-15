@@ -1,12 +1,15 @@
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease_ui/src/colors.dart';
 import 'package:flutter/material.dart';
 
-class TextSearchFieldWidget extends StatefulWidget {
-  const TextSearchFieldWidget({
+enum CpSearchTextVariant { dark, light }
+
+class CpSearchTextField extends StatefulWidget {
+  const CpSearchTextField({
     Key? key,
+    required this.label,
     required this.onClear,
     required this.onSearch,
+    this.variant = CpSearchTextVariant.light,
     this.submitOnChange = true,
     this.controller,
   }) : super(key: key);
@@ -14,15 +17,35 @@ class TextSearchFieldWidget extends StatefulWidget {
   final ValueSetter<String>? onSearch;
   final VoidCallback? onClear;
   final TextEditingController? controller;
+  final String label;
   final bool submitOnChange;
+  final CpSearchTextVariant variant;
 
   @override
-  _TextSearchFieldWidgetState createState() => _TextSearchFieldWidgetState();
+  _CpSearchTextFieldState createState() => _CpSearchTextFieldState();
 }
 
-class _TextSearchFieldWidgetState extends State<TextSearchFieldWidget> {
+class _CpSearchTextFieldState extends State<CpSearchTextField> {
   late final TextEditingController _searchController;
   late final FocusNode _focusNode;
+
+  Color get _borderColor {
+    switch (widget.variant) {
+      case CpSearchTextVariant.dark:
+        return CpColors.accentDarkBackground;
+      case CpSearchTextVariant.light:
+        return CpColors.primaryColor;
+    }
+  }
+
+  Color get _accentColor {
+    switch (widget.variant) {
+      case CpSearchTextVariant.dark:
+        return CpColors.lightGreyBackground;
+      case CpSearchTextVariant.light:
+        return CpColors.primaryTextColor;
+    }
+  }
 
   @override
   void initState() {
@@ -44,7 +67,7 @@ class _TextSearchFieldWidgetState extends State<TextSearchFieldWidget> {
 
   @override
   Widget build(BuildContext context) => TextField(
-        cursorColor: CpColors.lightGreyBackground,
+        cursorColor: _accentColor,
         controller: _searchController,
         focusNode: _focusNode,
         onChanged: widget.submitOnChange ? _onSearch : null,
@@ -52,12 +75,12 @@ class _TextSearchFieldWidgetState extends State<TextSearchFieldWidget> {
         style: const TextStyle(fontSize: 18),
         decoration: InputDecoration(
           fillColor: Colors.black,
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(7)),
+          border: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(7)),
             gapPadding: 0,
-            borderSide: BorderSide(color: CpColors.accentDarkBackground),
+            borderSide: BorderSide(color: _borderColor),
           ),
-          label: Text(context.l10n.search),
+          label: Text(widget.label),
           labelStyle: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.normal,
@@ -66,19 +89,19 @@ class _TextSearchFieldWidgetState extends State<TextSearchFieldWidget> {
             valueListenable: _searchController,
             builder: (context, value, widget) {
               if (value.text.isEmpty) {
-                return const Icon(
+                return Icon(
                   Icons.search,
-                  color: CpColors.lightGreyBackground,
+                  color: _accentColor,
                 );
               }
 
-              return widget!;
+              return widget ?? const SizedBox.shrink();
             },
             child: IconButton(
               onPressed: _onClear,
-              icon: const Icon(
+              icon: Icon(
                 Icons.close,
-                color: CpColors.lightGreyBackground,
+                color: _accentColor,
               ),
             ),
           ),
