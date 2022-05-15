@@ -11,7 +11,8 @@ class SwapSelectorState with _$SwapSelectorState {
     Token? selectedOutput,
     JupiterRoute? bestRoute,
     @Default(ProcessingState<SwapExcetion>.none())
-        ProcessingState<SwapExcetion> processingState,
+        ProcessingState<SwapExcetion> routeProcessingState,
+    @Default(ProcessingState.none()) ProcessingState tokenProcessingState,
   }) = _SwapSelectorState;
 
   const SwapSelectorState._();

@@ -1,4 +1,5 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/input_widgets/amount_input_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/token_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +11,19 @@ class InputRowWidget extends StatelessWidget {
     required this.selectedToken,
     required this.onSelectToken,
     required this.amountController,
-    required this.isEnabled,
+    required this.isInputEnabled,
     this.onMaxRequested,
+    this.isLoadingTokens = false,
+    this.isLoadingAmount = false,
   }) : super(key: key);
 
   final String label;
   final Token? selectedToken;
   final VoidCallback onSelectToken;
   final TextEditingController amountController;
-  final bool isEnabled;
+  final bool isInputEnabled;
+  final bool isLoadingTokens;
+  final bool isLoadingAmount;
   final VoidCallback? onMaxRequested;
 
   @override
@@ -36,6 +41,10 @@ class InputRowWidget extends StatelessWidget {
                   child: TokenDropdown(
                     selectedToken: selectedToken,
                     onTap: onSelectToken,
+                    isEnabled: !isLoadingTokens,
+                    suffixWidget: isLoadingTokens
+                        ? const _LoadingWidget()
+                        : const Icon(Icons.expand_more),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -43,12 +52,52 @@ class InputRowWidget extends StatelessWidget {
                   child: AmountInputWidget(
                     onMaxRequested: onMaxRequested,
                     amountController: amountController,
-                    isEnabled: isEnabled,
+                    isEnabled: isInputEnabled,
+                    suffixWidget: isLoadingAmount
+                        ? const _LoadingWidget()
+                        : onMaxRequested == null
+                            ? null
+                            : _MaxButton(onMaxRequested: onMaxRequested),
                   ),
                 ),
               ],
             ),
           ),
         ],
+      );
+}
+
+class _LoadingWidget extends StatelessWidget {
+  const _LoadingWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => const Center(
+        child: SizedBox.square(
+          dimension: 18,
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      );
+}
+
+class _MaxButton extends StatelessWidget {
+  const _MaxButton({
+    Key? key,
+    required this.onMaxRequested,
+  }) : super(key: key);
+
+  final VoidCallback? onMaxRequested;
+
+  @override
+  Widget build(BuildContext context) => TextButton(
+        onPressed: onMaxRequested,
+        child: Text(
+          context.l10n.max.toUpperCase(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
       );
 }

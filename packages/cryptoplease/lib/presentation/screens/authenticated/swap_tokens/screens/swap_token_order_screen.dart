@@ -9,7 +9,6 @@ import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/input_widgets/input_row_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/invert_swap_button.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/slippage_dropdown.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_router.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
@@ -99,17 +98,10 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
               skipSymbol: true,
             );
           }
-          state.processingState.whenOrNull(
-            error: (error) => showSwapErrorDialog(
-              context,
-              context.l10n.errorLoadingTokens,
-              error.reason,
-            ),
-          );
         },
         builder: (context, state) => CpTheme.dark(
           child: CpLoader(
-            isLoading: state.processingState.maybeMap(
+            isLoading: state.tokenProcessingState.maybeMap(
               processing: (_) => state.inputTokens.isEmpty,
               orElse: () => false,
             ),
@@ -137,7 +129,7 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                                     .read<SwapTokenRouter>()
                                     .onSelectInputToken(),
                                 amountController: _inputContoller,
-                                isEnabled: true,
+                                isInputEnabled: true,
                                 onMaxRequested: () => swapTokenBloc.add(
                                   const SwapSelectorEvent.maxInputRequested(),
                                 ),
@@ -149,6 +141,14 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                                 onSelectToken: () => context
                                     .read<SwapTokenRouter>()
                                     .onSelectOutputToken(),
+                                isLoadingTokens:
+                                    state.tokenProcessingState.maybeMap(
+                                  processing: (_) =>
+                                      state.outputTokens.isNotEmpty,
+                                  orElse: () => false,
+                                ),
+                                isLoadingAmount:
+                                    state.routeProcessingState.isProcessing,
                                 // TODO: FIX
                                 amountController: _outputContoller
                                   ..text = state.convertedAmount?.format(
@@ -156,7 +156,7 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                                         skipSymbol: true,
                                       ) ??
                                       '',
-                                isEnabled: false,
+                                isInputEnabled: false,
                               ),
                             ],
                           ),

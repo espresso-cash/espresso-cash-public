@@ -37,8 +37,17 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         ) {
     on<_Event>(
       _eventHandler,
-      transformer: (events, mapper) =>
-          events.debounceTime(const Duration(seconds: 1)).asyncExpand(mapper),
+      transformer: (events, mapper) {
+        final nonDebounceStream = events.where(
+          (event) => event is! SwapSelectorAmountEvent,
+        );
+        final debounceStream = events
+            .where((event) => event is SwapSelectorAmountEvent)
+            .debounceTime(const Duration(milliseconds: 300));
+
+        return MergeStream([nonDebounceStream, debounceStream])
+            .asyncExpand(mapper);
+      },
     );
   }
 
@@ -65,24 +74,26 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     _Emitter emit,
   ) async {
     emit(
-      state.copyWith(processingState: const ProcessingState.processing()),
+      state.copyWith(
+        tokenProcessingState: const ProcessingState.processing(),
+      ),
     );
     try {
       _routeMap = await _jupiterClient.getIndexedRouteMap();
       _jupiterTokens = _routeMap.mintKeys.map(_tokenList.findTokenByMint);
       _mintToIndex = _routeMap.mintKeys.asMap().map((k, v) => MapEntry(v, k));
-      final inputTokens = _jupiterTokens.whereNotNull();
+      final inputTokens = _jupiterTokens.whereNotNull().toList();
 
       emit(
         state.copyWith(
           inputTokens: inputTokens,
-          processingState: const ProcessingState.none(),
+          tokenProcessingState: const ProcessingState.none(),
         ),
       );
-    } on SwapExcetion catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          processingState: ProcessingState.error(e),
+          tokenProcessingState: ProcessingState.error(e),
         ),
       );
     }
@@ -92,22 +103,30 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     SwapSelectorInputEvent inputEvent,
     _Emitter emit,
   ) async {
+    emit(
+      state.copyWith(
+        selectedInput: inputEvent.inputToken,
+        tokenProcessingState: const ProcessingState.processing(),
+        selectedOutput: null,
+        bestRoute: null,
+        amount: state.amount.copyWith(
+          currency: CryptoCurrency(token: inputEvent.inputToken),
+        ),
+      ),
+    );
+
     final mint = inputEvent.inputToken.address;
     final index = _mintToIndex[mint].toString();
     final outputIndexes = _routeMap.indexedRouteMap[index]!;
     final outputTokens = outputIndexes
         .map((index) => _jupiterTokens.elementAt(index))
-        .whereNotNull();
+        .whereNotNull()
+        .toList();
 
     emit(
       state.copyWith(
-        selectedOutput: null,
         outputTokens: outputTokens,
-        bestRoute: null,
-        selectedInput: inputEvent.inputToken,
-        amount: state.amount.copyWith(
-          currency: CryptoCurrency(token: inputEvent.inputToken),
-        ),
+        tokenProcessingState: const ProcessingState.none(),
       ),
     );
   }
@@ -153,6 +172,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     emit(
       state.copyWith(
         amount: tokenAmount,
+        bestRoute: null,
       ),
     );
 
@@ -217,7 +237,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     try {
       emit(
         state.copyWith(
-          processingState: const ProcessingState.processing(),
+          routeProcessingState: const ProcessingState.processing(),
         ),
       );
 
@@ -237,13 +257,13 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       emit(
         state.copyWith(
           bestRoute: route,
-          processingState: const ProcessingState.none(),
+          routeProcessingState: const ProcessingState.none(),
         ),
       );
     } on SwapExcetion catch (e) {
       emit(
         state.copyWith(
-          processingState: ProcessingState.error(e),
+          routeProcessingState: ProcessingState.error(e),
         ),
       );
     }

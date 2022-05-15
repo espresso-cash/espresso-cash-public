@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/presentation/components/keypad_key.dart';
@@ -36,8 +38,10 @@ class EnterAmountKeypad extends StatelessWidget {
         final start = controller.selection.start;
         final end = controller.selection.end;
         final offset = start == end ? 1 : 0;
-        final firstPart = value.substring(0, start - offset);
-        final secondPart = value.substring(end, value.length);
+        final firstPartEnd = math.max(start - offset, 0);
+        final secondPartStart = math.max(end, 0);
+        final firstPart = value.substring(0, firstPartEnd);
+        final secondPart = value.substring(secondPartStart, value.length);
         value = '$firstPart$secondPart';
       }
     } else if (key == '.') {

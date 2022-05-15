@@ -5,7 +5,9 @@ import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
 import 'package:cryptoplease/bl/swap_tokens/transaction/swap_transaction_bloc.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/routes.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
@@ -119,8 +121,19 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
           BlocProvider.value(value: _transactionBloc),
           Provider<SwapTokenRouter>.value(value: this),
         ],
-        child: AutoRouter(
-          key: _routerKey,
+        child: BlocListener<SwapSelectorBloc, SwapSelectorState>(
+          listenWhen: (previous, current) =>
+              previous.routeProcessingState != current.routeProcessingState,
+          listener: (context, state) => state.routeProcessingState.whenOrNull(
+            error: (error) => showSwapErrorDialog(
+              context,
+              context.l10n.errorLoadingTokens,
+              error.reason,
+            ),
+          ),
+          child: AutoRouter(
+            key: _routerKey,
+          ),
         ),
       );
 }
