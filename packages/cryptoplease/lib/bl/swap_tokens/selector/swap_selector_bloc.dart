@@ -141,6 +141,8 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     SwapSelectorSlippageEvent slippageEvent,
     _Emitter emit,
   ) async {
+    if (slippageEvent.slippage == state.slippage) return;
+
     emit(
       state.copyWith(
         slippage: slippageEvent.slippage,
