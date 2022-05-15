@@ -1,3 +1,4 @@
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -48,6 +49,7 @@ class _TextSearchFieldWidgetState extends State<TextSearchFieldWidget> {
         focusNode: _focusNode,
         onChanged: widget.submitOnChange ? _onSearch : null,
         onSubmitted: _onSearch,
+        style: const TextStyle(fontSize: 18),
         decoration: InputDecoration(
           fillColor: Colors.black,
           border: const OutlineInputBorder(
@@ -55,7 +57,7 @@ class _TextSearchFieldWidgetState extends State<TextSearchFieldWidget> {
             gapPadding: 0,
             borderSide: BorderSide(color: CpColors.accentDarkBackground),
           ),
-          label: const Text('Search...'),
+          label: Text(context.l10n.search),
           labelStyle: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.normal,

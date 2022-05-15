@@ -29,7 +29,7 @@ class TokenDropdown extends StatelessWidget {
           ),
           child: Row(
             children: [
-              if (selectedToken != null) TokenMini(token: selectedToken!),
+              if (selectedToken != null) _TokenMini(token: selectedToken!),
               Flexible(
                 child: Align(
                   alignment: Alignment.centerRight,
@@ -45,8 +45,8 @@ class TokenDropdown extends StatelessWidget {
       );
 }
 
-class TokenMini extends StatelessWidget {
-  const TokenMini({
+class _TokenMini extends StatelessWidget {
+  const _TokenMini({
     Key? key,
     required this.token,
     this.onTap,
