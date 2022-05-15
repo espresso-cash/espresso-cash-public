@@ -138,9 +138,12 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                       ),
                     ),
                     Flexible(
-                      child: EnterAmountKeypad(
-                        controller: _inputController,
-                        maxDecimals: state.selectedInput?.decimals ?? 2,
+                      child: LayoutBuilder(
+                        builder: (context, ctrs) => EnterAmountKeypad(
+                          size: ctrs.maxHeight,
+                          controller: _inputController,
+                          maxDecimals: state.selectedInput?.decimals ?? 2,
+                        ),
                       ),
                     ),
                     Padding(

@@ -11,10 +11,12 @@ class EnterAmountKeypad extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.maxDecimals,
+    this.size,
   }) : super(key: key);
 
   final TextEditingController controller;
   final int maxDecimals;
+  final double? size;
 
   static const _keys = [
     KeypadKey.number(number: 1),
@@ -82,7 +84,7 @@ class EnterAmountKeypad extends StatelessWidget {
     final decimalSeparator =
         getDecimalSeparator(DeviceLocale.localeOf(context));
 
-    final size = MediaQuery.of(context).size.height / 2;
+    final size = this.size ?? MediaQuery.of(context).size.height / 2;
 
     return SizedBox(
       height: size,
