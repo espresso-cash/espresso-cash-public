@@ -29,11 +29,14 @@ class CustomColorSelectionHandle extends TextSelectionControls {
             );
 
   @override
-  Widget buildHandle(BuildContext context, TextSelectionHandleType type,
-          double textLineHeight,
-          [VoidCallback? onTap,
-          double? startGlyphHeight,
-          double? endGlyphHeight]) =>
+  Widget buildHandle(
+    BuildContext context,
+    TextSelectionHandleType type,
+    double textLineHeight, [
+    VoidCallback? onTap,
+    double? startGlyphHeight,
+    double? endGlyphHeight,
+  ]) =>
       _wrapWithThemeData(
         (BuildContext context) =>
             _controls.buildHandle(context, type, textLineHeight),

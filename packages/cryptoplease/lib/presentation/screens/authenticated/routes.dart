@@ -19,8 +19,11 @@ import 'package:cryptoplease/presentation/screens/legal/legal_document_view.dart
 const authenticatedFlowRoutes = AutoRoute<void>(
   page: AuthenticatedFlowScreen,
   children: [
-    AutoRoute<void>(path: '', page: HomeTabsScreen),
-    swapTokenRoutes,
+    AutoRoute<void>(
+      path: '',
+      page: HomeTabsScreen,
+      children: swapTokenRoutes,
+    ),
     puzzleReminderFlowRoutes,
     AutoRoute<void>(page: NftDetailsScreen),
     AutoRoute<void>(page: TransactionsScreen),

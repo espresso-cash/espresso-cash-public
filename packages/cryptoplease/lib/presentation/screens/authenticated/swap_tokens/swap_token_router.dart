@@ -29,10 +29,9 @@ class SwapTokenFlowScreen extends StatefulWidget {
 }
 
 class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
-  final _routerKey = GlobalKey<AutoRouterState>();
-
   late final SwapSelectorBloc _selectorBloc;
   late final SwapTransactionBloc _transactionBloc;
+  final routerKey = GlobalKey<AutoRouterState>();
 
   @override
   void initState() {
@@ -50,6 +49,8 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
       myAccount: context.read<MyAccount>(),
       solanaClient: context.read<SolanaClient>(),
     );
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) => reloadOrderScreen());
     _reset();
   }
 
@@ -63,16 +64,20 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
     _selectorBloc.add(const SwapSelectorEvent.initialized());
   }
 
+  void reloadOrderScreen() {
+    final router = routerKey.currentState?.controller;
+    router?.navigate(const SwapTokenOrderRoute());
+  }
+
   @override
   void closeFlow() {
-    Navigator.of(context).pop();
+    context.router.popUntilRoot();
   }
 
   @override
   Future<void> onSelectInputToken() async {
     final availableInputs = _selectorBloc.state.inputTokens;
-    final router = _routerKey.currentState?.controller;
-    final token = await router?.push<Token>(
+    final token = await context.router.push<Token>(
       SwapTokenSelectorRoute(
         availableTokens: availableInputs,
       ),
@@ -85,8 +90,7 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
   @override
   Future<void> onSelectOutputToken() async {
     final availableOutputs = _selectorBloc.state.outputTokens;
-    final router = _routerKey.currentState?.controller;
-    final token = await router?.push<Token>(
+    final token = await context.router.push<Token>(
       SwapTokenSelectorRoute(
         availableTokens: availableOutputs,
       ),
@@ -110,8 +114,7 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
       ),
     );
 
-    final router = _routerKey.currentState?.controller;
-    router?.push(const SwapTokenProcessRoute());
+    context.router.push(const SwapTokenProcessRoute());
   }
 
   @override
@@ -131,9 +134,7 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
               error.reason,
             ),
           ),
-          child: AutoRouter(
-            key: _routerKey,
-          ),
+          child: AutoRouter(key: routerKey),
         ),
       );
 }
