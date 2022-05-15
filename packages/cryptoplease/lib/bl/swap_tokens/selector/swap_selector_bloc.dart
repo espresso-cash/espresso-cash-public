@@ -15,6 +15,7 @@ import 'package:rxdart/rxdart.dart';
 part 'swap_selector_bloc.freezed.dart';
 part 'swap_selector_event.dart';
 part 'swap_selector_state.dart';
+part 'swap_selector_transformer.dart';
 
 typedef _Event = SwapSelectorEvent;
 typedef _State = SwapSelectorState;
@@ -37,17 +38,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         ) {
     on<_Event>(
       _eventHandler,
-      transformer: (events, mapper) {
-        final nonDebounceStream = events.where(
-          (event) => event is! SwapSelectorAmountEvent,
-        );
-        final debounceStream = events
-            .where((event) => event is SwapSelectorAmountEvent)
-            .debounceTime(const Duration(milliseconds: 300));
-
-        return MergeStream([nonDebounceStream, debounceStream])
-            .asyncExpand(mapper);
-      },
+      transformer: debounceAmountOnly(),
     );
   }
 
@@ -65,7 +56,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         outputSelected: (e) => _onOutputSelected(e, emit),
         amountUpdated: (e) => _onAmountUpdated(e, emit),
         slippageUpdated: (e) => _onSlippageUpdated(e, emit),
-        swapInverted: (e) => _onSwapInverted(e, emit),
+        swapInverted: (_) => _onSwapInverted(emit),
         maxInputRequested: (_) => _onMaxInputRequested(emit),
       );
 
@@ -74,10 +65,9 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     _Emitter emit,
   ) async {
     emit(
-      state.copyWith(
-        tokenProcessingState: const ProcessingState.processing(),
-      ),
+      state.invalidateRoute(),
     );
+
     try {
       _routeMap = await _jupiterClient.getIndexedRouteMap();
       _jupiterTokens = _routeMap.mintKeys.map(_tokenList.findTokenByMint);
@@ -106,9 +96,8 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     emit(
       state.copyWith(
         selectedInput: inputEvent.inputToken,
-        tokenProcessingState: const ProcessingState.processing(),
-        selectedOutput: null,
         bestRoute: null,
+        selectedOutput: null,
         amount: state.amount.copyWith(
           currency: CryptoCurrency(token: inputEvent.inputToken),
         ),
@@ -140,6 +129,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     emit(
       state.copyWith(
         selectedOutput: outputToken,
+        tokenProcessingState: const ProcessingState.none(),
         bestRoute: null,
       ),
     );
@@ -179,10 +169,40 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     await _onRouteRefreshed(emit);
   }
 
-  Future<void> _onSwapInverted(
-    SwapSelectorInvertEvent event,
-    _Emitter emit,
-  ) async {}
+  Future<void> _onSwapInverted(_Emitter emit) async {
+    if (state.selectedInput == null || state.selectedOutput == null) return;
+
+    emit(
+      state.invalidateRoute(),
+    );
+
+    final newInput = state.selectedOutput!;
+    final newOutput = state.selectedInput!;
+    final amount = CryptoAmount(
+      value: 0,
+      currency: CryptoCurrency(token: newInput),
+    );
+
+    final mint = newInput.address;
+    final index = _mintToIndex[mint].toString();
+    final outputIndexes = _routeMap.indexedRouteMap[index]!;
+    final outputTokens = outputIndexes
+        .map((index) => _jupiterTokens.elementAt(index))
+        .whereNotNull()
+        .toList();
+
+    emit(
+      state.copyWith(
+        selectedInput: newInput,
+        selectedOutput: newOutput,
+        amount: amount,
+        outputTokens: outputTokens,
+        tokenProcessingState: const ProcessingState.none(),
+      ),
+    );
+
+    await _onRouteRefreshed(emit);
+  }
 
   Future<void> _onMaxInputRequested(_Emitter emit) async {
     final input = state.selectedInput;
@@ -194,7 +214,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       orElse: () => MapEntry(
         input,
         CryptoAmount(
-          value: 10,
+          value: 0,
           currency: CryptoCurrency(token: input),
         ),
       ),
@@ -222,15 +242,13 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   ) async {
     final selectedInput = state.selectedInput;
     final selectedOutput = state.selectedOutput;
-    final amount = state.amount.value;
 
     if (selectedInput == null || selectedOutput == null) return;
 
+    final amount = state.amount.value;
     if (amount == 0) {
       return emit(
-        state.copyWith(
-          bestRoute: null,
-        ),
+        state.invalidateRoute(isProcessingNewRoute: false),
       );
     }
 
@@ -252,11 +270,9 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         throw const SwapExcetion(SwapFailReason.routeNotFound);
       }
 
-      final route = routes.first;
-
       emit(
         state.copyWith(
-          bestRoute: route,
+          bestRoute: routes.first,
           routeProcessingState: const ProcessingState.none(),
         ),
       );
@@ -290,4 +306,16 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     return const Either.right(null);
   }
+}
+
+extension on _State {
+  _State invalidateRoute({
+    bool isProcessingNewRoute = true,
+  }) =>
+      copyWith(
+        bestRoute: null,
+        tokenProcessingState: isProcessingNewRoute
+            ? const ProcessingState.processing()
+            : const ProcessingState.none(),
+      );
 }

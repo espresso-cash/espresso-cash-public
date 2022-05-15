@@ -98,6 +98,11 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
               skipSymbol: true,
             );
           }
+          final formattedOut = state.convertedAmount?.format(
+            DeviceLocale.localeOf(context),
+            skipSymbol: true,
+          );
+          _outputContoller.text = formattedOut ?? '';
         },
         builder: (context, state) => CpTheme.dark(
           child: CpLoader(
@@ -149,13 +154,7 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                                 ),
                                 isLoadingAmount:
                                     state.routeProcessingState.isProcessing,
-                                // TODO: FIX
-                                amountController: _outputContoller
-                                  ..text = state.convertedAmount?.format(
-                                        DeviceLocale.localeOf(context),
-                                        skipSymbol: true,
-                                      ) ??
-                                      '',
+                                amountController: _outputContoller,
                                 isInputEnabled: false,
                               ),
                             ],
@@ -164,7 +163,9 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                             top: 24,
                             bottom: 0,
                             child: InvertSwapButton(
-                              onTap: () {},
+                              onTap: () => swapTokenBloc.add(
+                                const SwapSelectorEvent.swapInverted(),
+                              ),
                             ),
                           )
                         ],

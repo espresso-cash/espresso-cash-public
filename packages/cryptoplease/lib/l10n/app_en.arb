@@ -272,7 +272,7 @@
   },
   "max": "max",
   "slippage": "Slippage Tolerance",
-  "slippageAbout": "Slippage is the difference observed because of changing market conditions between the moment the transaction is submitted and its verification",
+  "slippageAbout": "Slippage is the difference observed on changing market conditions between the moment the transaction is submitted and its verification",
   "swapTokens": "Swap Tokens",
   "youPay": "You Pay",
   "youReceive": "You Receive",
