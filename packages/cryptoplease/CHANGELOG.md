@@ -1,27 +1,34 @@
+## 1.36.0
+
+- **REFACTOR**: Migrate to Dart 2.17 (#271).
+- **REFACTOR**: Update API URL config (#268).
+- **REFACTOR**: Add transactionId to PaymentRequest (#267).
+- **FIX**: Buffer to ByteArray (#266).
+
 ## 1.35.0
 
- - **REFACTOR**: Extract link hosts as constants.
- - **REFACTOR**: Bump mews_pedantic.
- - **FIX**: change share text for request payment (#253).
- - **FIX**: fix label receive to request (#249).
- - **FEAT**: Add InstallLinkManager.
- - **FEAT**: Support new links schemes.
- - **FEAT**: add fee in dolar currency (#233).
+- **REFACTOR**: Extract link hosts as constants.
+- **REFACTOR**: Bump mews_pedantic.
+- **FIX**: change share text for request payment (#253).
+- **FIX**: fix label receive to request (#249).
+- **FEAT**: Add InstallLinkManager.
+- **FEAT**: Support new links schemes.
+- **FEAT**: add fee in dolar currency (#233).
 
 ## 1.34.1
 
- - **FIX**: Clear payment requests on log out (#247).
- - **FIX**: Process initial pending request (#246).
+- **FIX**: Clear payment requests on log out (#247).
+- **FIX**: Process initial pending request (#246).
 
 ## 1.34.0
 
- - **FIX**: Pass initial token for link transfer (#244).
- - **FIX**: Show fiat amount in payment request message (#242).
- - **FEAT**: Update solana pay links format (#243).
+- **FIX**: Pass initial token for link transfer (#244).
+- **FIX**: Show fiat amount in payment request message (#242).
+- **FEAT**: Update solana pay links format (#243).
 
 ## 1.33.1
 
- - **FIX**: Enable receive flow for prod.
+- **FIX**: Enable receive flow for prod.
 
 ## 1.33.0
 
