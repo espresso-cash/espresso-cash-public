@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +23,16 @@ class InvertSwapButton extends StatelessWidget {
             child: InkWell(
               customBorder: const CircleBorder(),
               onTap: onTap,
-              child: Assets.icons.swap.image(
-                width: 36,
-                height: 36,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Transform.rotate(
+                  angle: math.pi / 2,
+                  child: Assets.icons.swap.svg(
+                    color: Colors.white,
+                    width: 20,
+                    height: 20,
+                  ),
+                ),
               ), // other widget
             ),
           ),

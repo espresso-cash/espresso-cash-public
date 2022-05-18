@@ -6,8 +6,8 @@ import 'package:cryptoplease/presentation/components/number_formatter.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/slippage_dropdown.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_header_widget.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/slippage_dialog.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_router.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
@@ -86,6 +86,20 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
         );
   }
 
+  void _onSlippageChange(
+    BuildContext context,
+    Decimal slippage,
+  ) =>
+      showDialog<void>(
+        context: context,
+        builder: (context) => SlippageDialog(
+          currentSlippage: slippage,
+          onSlippageChange: (s) => swapTokenBloc.add(
+            SwapSelectorEvent.slippageUpdated(s),
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) =>
       BlocConsumer<SwapSelectorBloc, SwapSelectorState>(
@@ -111,8 +125,17 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
             ),
             child: Scaffold(
               appBar: CpAppBar(
-                leading: BackButton(
-                  onPressed: () => context.read<SwapTokenRouter>().closeFlow(),
+                leading: IconButton(
+                  icon: const Icon(
+                    Icons.more_horiz,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => _onSlippageChange(context, state.slippage),
+                ),
+                nextButton: CpButton(
+                  text: context.l10n.next,
+                  size: CpButtonSize.small,
+                  onPressed: state.canSwap ? _onConfirm : null,
                 ),
                 title: Text(context.l10n.swapTokens),
               ),
@@ -127,16 +150,6 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                       onSelectOutput: () =>
                           context.read<SwapTokenRouter>().onSelectOutputToken(),
                     ),
-                    SizedBox(
-                      height: 45,
-                      width: MediaQuery.of(context).size.width,
-                      child: SlippageDropdown(
-                        currentSlippage: state.slippage,
-                        onSlippageChanged: (slippage) => swapTokenBloc.add(
-                          SwapSelectorEvent.slippageUpdated(slippage),
-                        ),
-                      ),
-                    ),
                     Flexible(
                       child: LayoutBuilder(
                         builder: (context, ctrs) => EnterAmountKeypad(
@@ -144,18 +157,6 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                           controller: _inputController,
                           maxDecimals: state.selectedInput?.decimals ?? 2,
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 8,
-                        right: 24,
-                        left: 24,
-                      ),
-                      child: CpButton(
-                        text: context.l10n.reviewOrder,
-                        width: double.infinity,
-                        onPressed: state.canSwap ? _onConfirm : null,
                       ),
                     ),
                   ],

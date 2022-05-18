@@ -38,17 +38,6 @@ class InputRowWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Flexible(
-                  child: TokenDropdown(
-                    selectedToken: selectedToken,
-                    onTap: onSelectToken,
-                    isEnabled: !isLoadingTokens,
-                    suffixWidget: isLoadingTokens
-                        ? const _LoadingWidget()
-                        : const Icon(Icons.expand_more),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Flexible(
                   child: AmountInputWidget(
                     onMaxRequested: onMaxRequested,
                     amountController: amountController,
@@ -58,6 +47,17 @@ class InputRowWidget extends StatelessWidget {
                         : onMaxRequested == null
                             ? null
                             : _MaxButton(onMaxRequested: onMaxRequested),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Flexible(
+                  child: TokenDropdown(
+                    selectedToken: selectedToken,
+                    onTap: onSelectToken,
+                    isEnabled: !isLoadingTokens,
+                    suffixWidget: isLoadingTokens
+                        ? const _LoadingWidget()
+                        : const Icon(Icons.expand_more),
                   ),
                 ),
               ],
