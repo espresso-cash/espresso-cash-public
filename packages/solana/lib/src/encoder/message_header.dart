@@ -4,26 +4,28 @@ import 'package:solana/encoder.dart';
 ///
 /// [message header format]: https://docs.solana.com/developing/programming-model/transactions#message-header-format
 class MessageHeader {
-  MessageHeader._({
-    required int numRequiredSignatures,
-    required int numReadonlySignedAccounts,
-    required int numReadonlyUnsignedAccounts,
-  }) : _data = ByteArray.merge([
-          ByteArray.u8(numRequiredSignatures),
-          ByteArray.u8(numReadonlySignedAccounts),
-          ByteArray.u8(numReadonlyUnsignedAccounts),
-        ]);
+  MessageHeader({
+    required this.numRequiredSignatures,
+    required this.numReadonlySignedAccounts,
+    required this.numReadonlyUnsignedAccounts,
+  });
 
   /// Constructs a message header by counting signers, and readonly accounts
   /// from [accounts].
   factory MessageHeader.fromAccounts(List<AccountMeta> accounts) =>
-      MessageHeader._(
+      MessageHeader(
         numRequiredSignatures: accounts.getNumSigners(),
         numReadonlySignedAccounts: accounts.getNumReadonlySigners(),
         numReadonlyUnsignedAccounts: accounts.getNumReadonlyNonSigners(),
       );
 
-  final ByteArray _data;
+  final int numRequiredSignatures;
+  final int numReadonlySignedAccounts;
+  final int numReadonlyUnsignedAccounts;
 
-  ByteArray toByteArray() => _data;
+  ByteArray toByteArray() => ByteArray.merge([
+        ByteArray.u8(numRequiredSignatures),
+        ByteArray.u8(numReadonlySignedAccounts),
+        ByteArray.u8(numReadonlyUnsignedAccounts),
+      ]);
 }

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:solana/src/encoder/byte_array.dart';
 
 class CompactU16 {
@@ -41,5 +39,7 @@ class CompactU16 {
     return len;
   }
 
-  ByteArray toByteArray() => ByteArray(Uint8List.fromList(_data));
+  int get size => toByteArray().length;
+
+  ByteArray toByteArray() => ByteArray(CompactU16(value)._data);
 }
