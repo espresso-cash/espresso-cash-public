@@ -22,9 +22,9 @@ class AddressView extends StatelessWidget {
   final Alignment alignment;
   final Color color;
 
-  Future<void> _onTap(BuildContext context) async {
+  void _onTap(BuildContext context) {
     final data = ClipboardData(text: address);
-    await Clipboard.setData(data);
+    Clipboard.setData(data);
     showClipboardSnackbar(context);
   }
 

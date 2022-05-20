@@ -1,6 +1,5 @@
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
-import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 
 abstract class StakeAuthorize {
   const factory StakeAuthorize.staker(Ed25519HDPublicKey pubKey) =
@@ -18,9 +17,9 @@ class StakerAuthority implements StakeAuthorize {
   const StakerAuthority(this.pubKey) : type = 0;
 
   @override
-  ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
-        pubKey.toBuffer(),
-        Buffer.fromUint32(type),
+  ByteArray serialize() => ByteArray.merge([
+        pubKey.toByteArray(),
+        ByteArray.u32(type),
       ]);
 
   @override
@@ -32,9 +31,9 @@ class WithdrawerAuthority implements StakeAuthorize {
   const WithdrawerAuthority(this.pubKey) : type = 1;
 
   @override
-  ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
-        pubKey.toBuffer(),
-        Buffer.fromUint32(type),
+  ByteArray serialize() => ByteArray.merge([
+        pubKey.toByteArray(),
+        ByteArray.u32(type),
       ]);
 
   @override

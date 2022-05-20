@@ -1,5 +1,5 @@
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -8,9 +8,9 @@ void main() {
         () async {
       final address = await Ed25519HDPublicKey.findProgramAddress(
         seeds: [
-          Buffer.fromBase58(entry.key),
-          Buffer.fromBase58(TokenProgram.programId),
-          Buffer.fromBase58(_mint),
+          ByteArray.fromBase58(entry.key),
+          ByteArray.fromBase58(TokenProgram.programId),
+          ByteArray.fromBase58(_mint),
         ],
         programId: Ed25519HDPublicKey.fromBase58(
           AssociatedTokenAccountProgram.programId,

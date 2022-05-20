@@ -8,6 +8,7 @@ on:
       - "packages/**"
       - "!packages/cryptoplease/**"
       - "!packages/cryptoplease_ui/**"
+      - "!packages/cryptoplease_link/**"
   push:
     branches:
       - master
@@ -28,7 +29,7 @@ jobs:
       DEVNET_RPC_URL: "http://solana:8899"
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
     container:
-      image: ghcr.io/cryptoplease/flutter:2.10.3
+      image: ghcr.io/cryptoplease/flutter:3.0.0
     services:
       solana:
         image: solanalabs/solana:v1.8.11

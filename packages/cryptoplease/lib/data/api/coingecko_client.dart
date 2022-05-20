@@ -41,7 +41,7 @@ class PricesMapDto with _$PricesMapDto {
 
 @freezed
 class RateRequestDto with _$RateRequestDto {
-  // ignore: invalid_annotation_target
+  // ignore: invalid_annotation_target, it's valid
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory RateRequestDto({
     required IList<String> ids,

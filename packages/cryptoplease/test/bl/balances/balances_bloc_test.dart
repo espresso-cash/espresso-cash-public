@@ -6,8 +6,8 @@ import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/config.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
-import 'package:test/test.dart';
 
 import '../../utils.dart';
 
@@ -16,6 +16,7 @@ void main() {
     rpcUrl: Uri.parse(solanaRpcUrl),
     websocketUrl: Uri.parse(solanaWebSocketUrl),
   );
+  // ignore: avoid-non-null-assertion, cannot be null here
   late final token = TokenList()
       .findTokenByMint('gfctksjBntn1EBqLYgmcPhQEf9uwPi5ds7Vs4fbsahp')!;
 
@@ -74,6 +75,5 @@ void main() {
         tags: 'solana',
       );
     },
-    timeout: const Timeout(Duration(minutes: 2)),
   );
 }

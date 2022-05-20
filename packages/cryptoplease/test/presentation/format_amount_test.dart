@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('Correctly formats 44450 FROG', () {
+    // ignore: avoid-non-null-assertion, cannot be null here
     final frogToken = TokenList(chainId: 101)
         .findTokenByMint('Amt5wUJREJQC5pX7Z48YSK812xmu4j3sQVupNhtsEuY8')!;
     final amount = Amount.fromToken(value: 44450000000, token: frogToken);

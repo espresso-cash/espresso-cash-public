@@ -1,6 +1,6 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/system_program/instruction.dart';
@@ -17,7 +17,7 @@ enum AuthorityType {
 class TokenInstruction extends Instruction {
   TokenInstruction._({
     required List<AccountMeta> accounts,
-    required Iterable<int> data,
+    required ByteArray data,
   }) : super(
           programId: TokenProgram.id,
           accounts: accounts,
@@ -47,15 +47,15 @@ class TokenInstruction extends Instruction {
             isSigner: false,
           ),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           TokenProgram.initializeMintInstructionIndex,
-          Buffer.fromUint8(decimals),
-          mintAuthority.toBuffer(),
-          Buffer.fromUint8(freezeAuthority != null ? 1 : 0),
+          ByteArray.u8(decimals),
+          mintAuthority.toByteArray(),
+          ByteArray.u8(freezeAuthority != null ? 1 : 0),
           if (freezeAuthority != null)
-            freezeAuthority.toBuffer()
+            freezeAuthority.toByteArray()
           else
-            List<int>.filled(32, 0),
+            ByteArray(List<int>.filled(32, 0)),
         ]),
       );
 
@@ -103,9 +103,9 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           TokenProgram.initializeMintInstructionIndex,
-          Buffer.fromUint8(signers.length),
+          ByteArray.u8(signers.length),
         ]),
       );
 
@@ -133,9 +133,9 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           TokenProgram.transferInstructionIndex,
-          Buffer.fromUint64(amount),
+          ByteArray.u64(amount),
         ]),
       );
 
@@ -162,8 +162,11 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: Buffer.fromConcatenatedByteArrays(
-          [TokenProgram.approveInstructionIndex, Buffer.fromUint64(amount)],
+        data: ByteArray.merge(
+          [
+            TokenProgram.approveInstructionIndex,
+            ByteArray.u64(amount),
+          ],
         ),
       );
 
@@ -206,10 +209,10 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           TokenProgram.setAuthorityInstructionIndex,
-          Buffer.fromUint32(authorityType.value),
-          newAuthority.toBuffer(),
+          ByteArray.u32(authorityType.value),
+          newAuthority.toByteArray(),
         ]),
       );
 
@@ -231,9 +234,9 @@ class TokenInstruction extends Instruction {
           // TODO(IA): this should be readonly unless, it is the fee payer
           AccountMeta.writeable(pubKey: authority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           TokenProgram.mintToInstructionIndex,
-          Buffer.fromUint64(amount),
+          ByteArray.u64(amount),
         ]),
       );
 
@@ -260,12 +263,10 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: Buffer.fromConcatenatedByteArrays(
-          [
-            TokenProgram.burnInstructionIndex,
-            Buffer.fromUint64(amount),
-          ],
-        ),
+        data: ByteArray.merge([
+          TokenProgram.burnInstructionIndex,
+          ByteArray.u64(amount),
+        ]),
       );
 
   /// Close an account by transferring all its SOL to the destination account.
@@ -365,13 +366,11 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: Buffer.fromConcatenatedByteArrays(
-          [
-            TokenProgram.transferCheckedInstructionIndex,
-            Buffer.fromUint64(amount),
-            Buffer.fromUint8(decimals),
-          ],
-        ),
+        data: ByteArray.merge([
+          TokenProgram.transferCheckedInstructionIndex,
+          ByteArray.u64(amount),
+          ByteArray.u8(decimals),
+        ]),
       );
 
   /// Approves a delegate. A delegate is given the authority over tokens on
@@ -402,11 +401,11 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: Buffer.fromConcatenatedByteArrays(
+        data: ByteArray.merge(
           [
             TokenProgram.approveCheckedInstructionIndex,
-            Buffer.fromUint64(amount),
-            Buffer.fromUint8(decimals),
+            ByteArray.u64(amount),
+            ByteArray.u8(decimals),
           ],
         ),
       );
@@ -430,13 +429,11 @@ class TokenInstruction extends Instruction {
           // TODO(IA): this should be readonly unless, it is the fee payer
           AccountMeta.writeable(pubKey: authority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays(
-          [
-            TokenProgram.mintToCheckedInstructionIndex,
-            Buffer.fromUint64(amount),
-            Buffer.fromUint8(decimals),
-          ],
-        ),
+        data: ByteArray.merge([
+          TokenProgram.mintToCheckedInstructionIndex,
+          ByteArray.u64(amount),
+          ByteArray.u8(decimals),
+        ]),
       );
 
   /// Burns tokens by removing them from an account.
@@ -467,13 +464,11 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: Buffer.fromConcatenatedByteArrays(
-          [
-            TokenProgram.burnCheckedInstructionIndex,
-            Buffer.fromUint64(amount),
-            Buffer.fromUint8(decimals),
-          ],
-        ),
+        data: ByteArray.merge([
+          TokenProgram.burnCheckedInstructionIndex,
+          ByteArray.u64(amount),
+          ByteArray.u8(decimals),
+        ]),
       );
 
   /// Like [TokenInstruction.initializeAccount], but the owner pubkey is passed
@@ -494,12 +489,10 @@ class TokenInstruction extends Instruction {
             isSigner: false,
           ),
         ],
-        data: Buffer.fromConcatenatedByteArrays(
-          [
-            TokenProgram.initializeAccount2InstructionIndex,
-            owner.toBuffer(),
-          ],
-        ),
+        data: ByteArray.merge([
+          TokenProgram.initializeAccount2InstructionIndex,
+          owner.toByteArray(),
+        ]),
       );
 
   /// Given a wrapped / native token account (a token account containing SOL)
@@ -529,12 +522,10 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: pubKey, isSigner: true),
           AccountMeta.readonly(pubKey: mint, isSigner: false),
         ],
-        data: Buffer.fromConcatenatedByteArrays(
-          [
-            TokenProgram.initializeAccount3InstructionIndex,
-            owner.toBuffer(),
-          ],
-        ),
+        data: ByteArray.merge([
+          TokenProgram.initializeAccount3InstructionIndex,
+          owner.toByteArray(),
+        ]),
       );
 
   /// Like [TokenInstruction.initializeMultisig], but does not require the Rent
@@ -550,9 +541,9 @@ class TokenInstruction extends Instruction {
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
           )
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           TokenProgram.initializeMultisig2InstructionIndex,
-          Buffer.fromUint8(signerPubKeys.length),
+          ByteArray.u8(signerPubKeys.length),
         ]),
       );
 
@@ -568,18 +559,16 @@ class TokenInstruction extends Instruction {
         accounts: [
           AccountMeta.writeable(pubKey: mint, isSigner: false),
         ],
-        data: Buffer.fromConcatenatedByteArrays(
-          [
-            TokenProgram.initializeMint2InstructionIndex,
-            Buffer.fromUint8(decimals),
-            mintAuthority.toBuffer(),
-            Buffer.fromUint8(freezeAuthority != null ? 1 : 0),
-            if (freezeAuthority != null)
-              freezeAuthority.toBuffer()
-            else
-              List<int>.filled(32, 0),
-          ],
-        ),
+        data: ByteArray.merge([
+          TokenProgram.initializeMint2InstructionIndex,
+          ByteArray.u8(decimals),
+          mintAuthority.toByteArray(),
+          ByteArray.u8(freezeAuthority != null ? 1 : 0),
+          if (freezeAuthority != null)
+            freezeAuthority.toByteArray()
+          else
+            ByteArray(List<int>.filled(32, 0)),
+        ]),
       );
 
   /// Initialize a new spl token with address [mint], [decimals] decimal places,

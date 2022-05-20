@@ -1,6 +1,7 @@
 part of 'transaction_item_bloc.dart';
 
 enum TransactionType { incoming, outgoing, unknown }
+
 enum TransactionItemStatus { loading, succeeded, failed }
 
 @freezed

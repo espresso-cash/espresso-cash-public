@@ -1,6 +1,6 @@
+import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/amount_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/list_item.dart';
 import 'package:flutter/widgets.dart';
 
 class TokenCreateLinkContent extends StatelessWidget {
@@ -8,12 +8,10 @@ class TokenCreateLinkContent extends StatelessWidget {
     Key? key,
     required this.amount,
     required this.fee,
-    this.fiatAmount,
   }) : super(key: key);
 
-  final String amount;
-  final String fee;
-  final String? fiatAmount;
+  final Amount amount;
+  final Amount fee;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -29,21 +27,18 @@ class TokenCreateLinkContent extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 40),
-          Text(
-            context.l10n.itWillContain,
-            style: _mediumTextStyle,
-          ),
           FittedBox(
-            child: AmountView(amount: amount),
+            child: AmountView.value(
+              label: context.l10n.itWillContain,
+              amount: amount,
+            ),
           ),
-          if (fiatAmount != null)
-            Text('≈ $fiatAmount', style: _mediumTextStyle),
           Expanded(
             child: ListView(
               children: [
-                ListItem(
+                AmountView.fee(
                   label: context.l10n.labelFee,
-                  value: fee,
+                  fee: fee,
                 ),
               ],
             ),

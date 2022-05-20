@@ -16,7 +16,7 @@ class TransactionDetailsView extends StatefulWidget {
   final Token token;
 
   @override
-  _TransactionDetailsViewState createState() => _TransactionDetailsViewState();
+  State<TransactionDetailsView> createState() => _TransactionDetailsViewState();
 }
 
 class _TransactionDetailsViewState extends State<TransactionDetailsView> {

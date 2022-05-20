@@ -46,5 +46,10 @@ const _devNetChainId = 103;
 /// Although this depends on the environment the only difference is
 /// PROD vs non-PROD
 const _solanaHost = isProd
-    ? 'cryptoplease.rpcpool.com'
-    : 'cryptopl-cryptopl-adc0.devnet.rpcpool.com';
+    ? '' // mainnet URL should be provided via environment variable
+    : 'api.devnet.solana.com';
+
+const cpLinkDomain = 'cryptoplease.link';
+const link1Host = 'solana1.$cpLinkDomain';
+const link2Host = 'solana2.$cpLinkDomain';
+const solanaPayHost = 'solanapay.$cpLinkDomain';

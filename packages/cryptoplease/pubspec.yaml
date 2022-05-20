@@ -1,13 +1,14 @@
 name: cryptoplease
 description: CryptoPlease mobile wallet for Solana
 publish_to: "none"
-version: 1.34.1
+version: 1.36.0
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   auto_route: ^3.2.1
+  bip39: ^1.0.6
   bloc_concurrency: ^0.2.0
   cached_network_image: ^3.1.0
   cloud_functions: ^3.2.4
@@ -15,12 +16,12 @@ dependencies:
   cryptoplease_ui:
     path: ../cryptoplease_ui/
   date_time_format: ^2.0.1
-  decimal: ^2.1.0
+  decimal: ^2.2.0
   dfunc: ^0.7.2
   dio: ^4.0.0
   drift: ^1.5.0
   fast_immutable_collections: ^7.0.3
-  firebase_analytics: ^9.1.2
+  firebase_analytics: ^9.1.7
   firebase_core: ^1.4.0
   firebase_dynamic_links: ^4.1.2
   flutter:
@@ -33,23 +34,26 @@ dependencies:
   flutter_svg: ^1.0.3
   flutter_svg_provider: ^1.0.3
   freezed_annotation: ^1.0.0
-  image_picker: ^0.8.3+3
+  image_picker: ^0.8.5
   intl: ^0.17.0
   json_annotation: ^4.4.0
   jupiter_aggregator: ^1.0.0
   logging: ^1.0.2
   meta: ^1.7.0
-  mews_pedantic: ^0.4.1
+  mews_pedantic: ^0.5.0
   nested: ^1.0.0
   package_info_plus: ^1.3.0
   path: ^1.8.0
   path_provider: ^2.0.2
   provider: ^6.0.0
-  qr_code_scanner: ^0.6.1
+  qr_code_scanner:
+    git:
+      url: https://github.com/xeinebiu/qr_code_scanner.git
+      ref: fix_break_changes_platform
   qr_flutter: ^4.0.0
   retrofit: ^3.0.1
   rxdart: ^0.27.1
-  sentry_flutter: ^6.2.2
+  sentry_flutter: ^6.5.1
   share: ^2.0.4
   shared_preferences: ^2.0.8
   solana:
@@ -61,7 +65,7 @@ dependencies:
 
 dev_dependencies:
   auto_route_generator: ^3.2.0
-  bloc_test: ^9.0.2
+  bloc_test: ^9.0.3
   build_runner: ^2.0.6
   drift_dev: ^1.5.2
   flutter_driver:
@@ -72,6 +76,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^1.0.0
   golden_toolkit: ^0.13.0
+  http: ^0.13.4
   integration_test:
     sdk: flutter
   json_serializable: ^6.1.4

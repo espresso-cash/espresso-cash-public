@@ -20,6 +20,8 @@ class DecoratedWindowHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final messageStyle =
         Theme.of(context).textTheme.headline2?.copyWith(fontSize: 18);
+    final title = this.title;
+    final message = this.message;
 
     return Column(
       children: <Widget>[
@@ -32,7 +34,7 @@ class DecoratedWindowHeader extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              title!,
+              title,
               textAlign: TextAlign.center,
               style:
                   Theme.of(context).textTheme.headline2?.copyWith(fontSize: 30),
@@ -43,13 +45,13 @@ class DecoratedWindowHeader extends StatelessWidget {
             padding: const EdgeInsets.only(top: 16),
             child: markdownMessage
                 ? Markdown(
-                    data: message!,
+                    data: message,
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
                     styleSheet: MarkdownStyleSheet(p: messageStyle),
                   )
                 : Text(
-                    message!,
+                    message,
                     textAlign: TextAlign.center,
                     style: messageStyle,
                   ),

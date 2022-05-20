@@ -1,7 +1,7 @@
-import 'package:solana/src/common/byte_array.dart';
+import 'package:collection/collection.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 
 /// Taken from [here](https://spl.solana.com/memo#compute-limits).
@@ -29,28 +29,41 @@ class Instruction {
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
   ByteArray compile(Map<Ed25519HDPublicKey, int> accountIndexesMap) {
-    final data = CompactArray.fromIterable(this.data);
-
     if (!accountIndexesMap.containsKey(programId)) {
       throw const FormatException('programId not found in accountIndexesMap');
     }
-    final programIdIndex = Buffer.fromInt8(accountIndexesMap[programId]!);
-    final accountIndexes = CompactArray.fromIterable(
-      accounts.map((a) {
-        if (!accountIndexesMap.containsKey(a.pubKey)) {
-          throw const FormatException(
-            'one of the supplied accounts was not found in the accountIndexesMap',
-          );
-        }
+    final programIdIndex = ByteArray.u8(accountIndexesMap[programId]!);
+    final accountIndexes = accounts.map((a) {
+      if (!accountIndexesMap.containsKey(a.pubKey)) {
+        throw const FormatException(
+          'one of the supplied accounts was not found in the accountIndexesMap',
+        );
+      }
 
-        return accountIndexesMap[a.pubKey]!;
-      }),
-    );
+      return accountIndexesMap[a.pubKey]!;
+    });
 
-    return Buffer.fromConcatenatedByteArrays([
+    return ByteArray.merge([
       programIdIndex,
-      accountIndexes,
-      data,
+      CompactArray(ByteArray(accountIndexes)).toByteArray(),
+      CompactArray(data).toByteArray(),
     ]);
   }
+
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other.runtimeType == runtimeType &&
+          other is Instruction &&
+          const DeepCollectionEquality().equals(other.programId, programId) &&
+          const DeepCollectionEquality().equals(other.accounts, accounts) &&
+          const DeepCollectionEquality().equals(other.data, data));
+
+  @override
+  int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(programId),
+        const DeepCollectionEquality().hash(accounts),
+        const DeepCollectionEquality().hash(data),
+      );
 }

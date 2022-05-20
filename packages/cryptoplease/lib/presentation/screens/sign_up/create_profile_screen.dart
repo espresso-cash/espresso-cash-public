@@ -44,7 +44,7 @@ class EnterFirstName extends StatefulWidget {
   final VoidCallback onBackButtonPressed;
 
   @override
-  _EnterFirstNameState createState() => _EnterFirstNameState();
+  State<EnterFirstName> createState() => _EnterFirstNameState();
 }
 
 class _EnterFirstNameState extends State<EnterFirstName> {

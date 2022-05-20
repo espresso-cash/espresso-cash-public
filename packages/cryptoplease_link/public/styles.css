@@ -1,0 +1,36 @@
+body {
+    text-align: center;
+    padding: 10px;
+    background-color: #F45440;
+}
+
+.payment-link {
+    font-size: 16px;
+    text-decoration: none;
+    display: inline;
+    padding: 20px;
+    border-radius: 30px;
+    background-color: #FACF48;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 300px;
+}
+
+.logo {
+    max-width: 100px;
+    margin: 0 auto 32px;
+    display: block;
+}
+
+.message {
+    font-size: 18px;
+    overflow-wrap: break-word;
+    display: block;
+    padding: 20px;
+    border-radius: 30px;
+    background-color: white;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 300px;
+    margin: 0 auto 64px;
+}

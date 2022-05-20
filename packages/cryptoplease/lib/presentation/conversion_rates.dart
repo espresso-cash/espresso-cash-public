@@ -33,6 +33,9 @@ extension ConversionRates on BuildContext {
 
     final tokenAmount = Amount.fromToken(value: amount, token: token);
 
-    return tokenAmount.convert(rate: conversionRate, to: fiatCurrency);
+    return tokenAmount.convert(
+      rate: conversionRate,
+      to: fiatCurrency,
+    );
   }
 }

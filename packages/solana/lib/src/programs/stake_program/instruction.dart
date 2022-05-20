@@ -1,7 +1,6 @@
-import 'package:solana/src/common/byte_array.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/programs/stake_program/program.dart';
@@ -33,7 +32,7 @@ class StakeInstruction extends Instruction {
             isSigner: false,
           ),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.initializeInstructionIndex,
           authorized.serialize(),
           lockup.serialize(),
@@ -58,7 +57,7 @@ class StakeInstruction extends Instruction {
           if (lockupAuthority != null)
             AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.authorizeInstructionIndex,
           authorize.serialize(),
         ]),
@@ -106,9 +105,9 @@ class StakeInstruction extends Instruction {
           ),
           AccountMeta.readonly(pubKey: authority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.splitInstructionIndex,
-          Buffer.fromUint64(amount),
+          ByteArray.u64(amount),
         ]),
       );
 
@@ -142,9 +141,9 @@ class StakeInstruction extends Instruction {
               isSigner: true,
             )
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.withdrawInstructionIndex,
-          Buffer.fromUint64(lamports),
+          ByteArray.u64(lamports),
         ]),
       );
 
@@ -179,7 +178,7 @@ class StakeInstruction extends Instruction {
           AccountMeta.writeable(pubKey: stake, isSigner: false),
           AccountMeta.readonly(pubKey: authority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.setLockupInstructionIndex,
           lockup.serialize(),
         ]),
@@ -250,7 +249,7 @@ class StakeInstruction extends Instruction {
               isSigner: true,
             ),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.authorizeWithSeedInstructionIndex,
           args.serialize(),
         ]),
@@ -300,7 +299,7 @@ class StakeInstruction extends Instruction {
           if (lockupAuthority != null)
             AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.authorizeCheckedInstructionIndex,
           stakeAuthorize.serialize(),
         ]),
@@ -332,7 +331,7 @@ class StakeInstruction extends Instruction {
           if (lockupAuthority != null)
             AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.authorizeCheckedInstructionIndex,
           authorizeWithSeedArgs.serialize(),
         ]),
@@ -355,7 +354,7 @@ class StakeInstruction extends Instruction {
           AccountMeta.writeable(pubKey: stake, isSigner: false),
           AccountMeta.writeable(pubKey: authority, isSigner: true),
         ],
-        data: Buffer.fromConcatenatedByteArrays([
+        data: ByteArray.merge([
           StakeProgram.setLockupInstructionIndex,
           lockupCheckedArgs.serialize(),
         ]),
@@ -416,9 +415,9 @@ class LockupCheckedArgs {
     required this.epoch,
   });
 
-  ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
-        Buffer.fromInt64(unixTimestamp),
-        Buffer.fromUint64(epoch),
+  ByteArray serialize() => ByteArray.merge([
+        ByteArray.i64(unixTimestamp),
+        ByteArray.u64(epoch),
       ]);
 
   final UnixTimestamp unixTimestamp;
@@ -432,10 +431,10 @@ class AuthorizeWithSeedArgs {
     required this.stakeAuthorize,
   });
 
-  ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
+  ByteArray serialize() => ByteArray.merge([
         stakeAuthorize.serialize(),
-        Buffer.fromString(authoritySeed),
-        authorityOwnerPubKey.toBuffer()
+        ByteArray.fromString(authoritySeed),
+        authorityOwnerPubKey.toByteArray(),
       ]);
 
   final StakeAuthorize stakeAuthorize;

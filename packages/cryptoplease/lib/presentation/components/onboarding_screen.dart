@@ -41,6 +41,7 @@ class OnboardingScreen extends StatelessWidget {
                         title: Builder(
                           builder: (context) {
                             final FlexibleSpaceBarSettings settings =
+                                // ignore: avoid-non-null-assertion, cannot be null here
                                 context.dependOnInheritedWidgetOfExactType<
                                     FlexibleSpaceBarSettings>()!;
 
@@ -81,6 +82,7 @@ class OnboardingScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: DefaultTextStyle(
                     textAlign: TextAlign.center,
+                    // ignore: avoid-non-null-assertion, cannot be null here
                     style: Theme.of(context).textTheme.headline2!.copyWith(
                           fontSize: 18,
                           fontWeight: FontWeight.w400,

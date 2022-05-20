@@ -14,24 +14,24 @@ class CryptopleaseApp extends StatefulWidget {
   const CryptopleaseApp({Key? key}) : super(key: key);
 
   @override
-  _CryptopleaseAppState createState() => _CryptopleaseAppState();
+  State<CryptopleaseApp> createState() => _CryptopleaseAppState();
 }
 
 class _CryptopleaseAppState extends State<CryptopleaseApp>
     with
-        // ignore: prefer_mixin
+        // ignore: prefer_mixin, Flutter way
         WidgetsBindingObserver {
   final _router = AppRouter();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -79,6 +79,7 @@ class _CryptopleaseAppState extends State<CryptopleaseApp>
           theme: context.watch<CpThemeData>().toMaterialTheme(),
           builder: (context, child) => Stack(
             children: [
+              // ignore: avoid-non-null-assertion, cannot be null here
               child!,
               if (isLocked) const AppLockScreen(),
             ],

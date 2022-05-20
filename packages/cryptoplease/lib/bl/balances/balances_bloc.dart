@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/solana_helpers.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:solana/dto.dart';
@@ -137,20 +137,15 @@ class _MainTokenAccount {
 extension SortedBalance on Map<Token, Amount> {
   Iterable<MapEntry<Token, Amount>> _splitAndSort(
     bool Function(MapEntry<Token, Amount>) test,
-  ) {
-    final splitted = entries.where(test).toList()
-      ..sort((e1, e2) => e2.value.value.compareTo(e1.value.value));
-
-    return splitted;
-  }
+  ) =>
+      entries.where(test).toList()
+        ..sort((e1, e2) => e2.value.value.compareTo(e1.value.value));
 
   Map<Token, Amount> get sorted {
     final geckoEntries = _splitAndSort((e) => e.key.coingeckoId != null);
     final notGeckoEntries = _splitAndSort((e) => e.key.coingeckoId == null);
-    final sortedMap = Map.fromEntries(geckoEntries)
-      ..addEntries(notGeckoEntries);
 
-    return sortedMap;
+    return Map.fromEntries(geckoEntries)..addEntries(notGeckoEntries);
   }
 }
 

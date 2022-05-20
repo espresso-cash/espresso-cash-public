@@ -46,7 +46,7 @@ libs_test:
 	melos exec -c 1 --dir-exists="test" --no-flutter -- "dart run test --coverage=coverage"
 
 libs_coverage:
-	melos exec --scope="solana" -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib --packages=.packages
+	melos exec --scope="solana" -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
 	melos exec --scope="solana" -- "remove_from_coverage -f coverage/coverage.lcov -r '\.(g|freezed)\.dart$$'"
 
 # Other rules

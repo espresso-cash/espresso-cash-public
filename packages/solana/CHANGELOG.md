@@ -1,3 +1,17 @@
+## 0.23.0+1
+
+ - **REFACTOR**: Remove unused code.
+ - **FIX**: getTokenLargestAccounts response (#270).
+
+## 0.23.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: Bump mews_pedantic.
+ - **FIX**: Make Meta innerInstructions and logMessages nullable (#257).
+ - **BREAKING** **FIX**: Buffer to ByteArray (#266).
+ - **BREAKING** **FEAT**: Add CompiledMessage.fromSignedTransaction (#256).
+
 ## 0.22.0
 
  - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.

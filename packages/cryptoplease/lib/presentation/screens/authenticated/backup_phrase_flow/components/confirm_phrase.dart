@@ -16,7 +16,7 @@ class ConfirmPhrase extends StatefulWidget {
   final void Function(String value) onPhraseChanged;
 
   @override
-  _ConfirmPhraseState createState() => _ConfirmPhraseState();
+  State<ConfirmPhrase> createState() => _ConfirmPhraseState();
 }
 
 class _ConfirmPhraseState extends State<ConfirmPhrase> {

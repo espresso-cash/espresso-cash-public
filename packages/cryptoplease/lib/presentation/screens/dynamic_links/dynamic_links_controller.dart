@@ -5,6 +5,7 @@ import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/models.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/presentation/screens/dynamic_links/install_link_manager.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class DynamicLinksController extends StatefulWidget {
   final Widget child;
 
   @override
-  _DynamicLinksControllerState createState() => _DynamicLinksControllerState();
+  State<DynamicLinksController> createState() => _DynamicLinksControllerState();
 }
 
 class _DynamicLinksControllerState extends State<DynamicLinksController> {
@@ -61,6 +62,8 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
       _tryProcessLink(link);
       _tryProcessSplitKeySecondPart(link);
     });
+
+    await InstallLinkManager().getInstallReferrer().then(_tryProcessLink);
   }
 
   void _tryProcessLink(Uri? link) {

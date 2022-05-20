@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Request Payment</title>
+
+  <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+
+<body>
+  <img src="/solanapay.png" class="logo">
+
+  <div class="message">
+    <b>
+      To make an instant payment{{# amount }} of {{ amount }}&nbsp;{{token}}{{/amount}} to
+    </b>
+    <br />
+    <br />
+    {{ recipient}}
+  </div>
+
+  <a class="{{# shouldCopy }}js-copy{{/shouldCopy}} payment-link" href="{{ installLink }}">
+    Pay with {{ appName }}
+  </a>
+
+  {{# otherAppsExist }}
+  <p>Or try one of these apps:</p>
+
+  <ul>
+    {{# otherApps }}
+    <li><a href="{{ url }}" class="copy">{{name}}</a></li>
+    {{/otherApps}}
+  </ul>
+  {{/otherAppsExist}}
+
+  <script src="/script.js"></script>
+
+</body>
+
+</html>

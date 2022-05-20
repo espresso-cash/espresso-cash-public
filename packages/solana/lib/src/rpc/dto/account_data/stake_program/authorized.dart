@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:solana/src/common/byte_array.dart';
-import 'package:solana/src/encoder/buffer.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 
 part 'authorized.g.dart';
 
@@ -14,9 +13,9 @@ class Authorized {
   factory Authorized.fromJson(Map<String, dynamic> json) =>
       _$AuthorizedFromJson(json);
 
-  ByteArray serialize() => Buffer.fromConcatenatedByteArrays([
-        Buffer.fromBase58(staker),
-        Buffer.fromBase58(withdrawer),
+  ByteArray serialize() => ByteArray.merge([
+        ByteArray.fromBase58(staker),
+        ByteArray.fromBase58(withdrawer),
       ]);
 
   final String staker;

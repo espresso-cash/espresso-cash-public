@@ -8,7 +8,7 @@ class AppLockSetupFlowScreen extends StatefulWidget {
   const AppLockSetupFlowScreen({Key? key}) : super(key: key);
 
   @override
-  _AppLockSetupFlowScreenState createState() => _AppLockSetupFlowScreenState();
+  State<AppLockSetupFlowScreen> createState() => _AppLockSetupFlowScreenState();
 }
 
 class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>

@@ -154,9 +154,8 @@ void main() {
         account,
       );
       final newAccount = await Ed25519HDKeyPair.random();
-      final lamports = await rpcClient.getMinimumBalanceForRentExemption(
-        StakeProgram.neededAccountSpace,
-      );
+      final lamports = await rpcClient
+          .getMinimumBalanceForRentExemption(StakeProgram.neededAccountSpace);
       final instruction = SystemInstruction.createAccount(
         lamports: lamports,
         newAccount: newAccount.publicKey,

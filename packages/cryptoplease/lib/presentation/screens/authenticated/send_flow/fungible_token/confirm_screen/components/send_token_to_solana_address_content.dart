@@ -1,7 +1,7 @@
+import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/profile/component/address_view.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/amount_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/list_item.dart';
 import 'package:flutter/widgets.dart';
 
 class SendTokenToSolanaAddressContent extends StatelessWidget {
@@ -10,13 +10,11 @@ class SendTokenToSolanaAddressContent extends StatelessWidget {
     required this.amount,
     required this.fee,
     required this.address,
-    this.fiatAmount,
   }) : super(key: key);
 
-  final String amount;
-  final String fee;
+  final Amount amount;
+  final Amount fee;
   final String address;
-  final String? fiatAmount;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -29,15 +27,12 @@ class SendTokenToSolanaAddressContent extends StatelessWidget {
               style: _largeTextStyle,
             ),
             const SizedBox(height: 40),
-            Text(
-              context.l10n.youAreSending,
-              style: _mediumTextStyle,
-            ),
             FittedBox(
-              child: AmountView(amount: amount),
+              child: AmountView.value(
+                label: context.l10n.youAreSending,
+                amount: amount,
+              ),
             ),
-            if (fiatAmount != null)
-              Text('≈ $fiatAmount', style: _mediumTextStyle),
             const SizedBox(height: 40),
             Text(context.l10n.to, style: _mediumTextStyle),
             AddressView(
@@ -50,10 +45,10 @@ class SendTokenToSolanaAddressContent extends StatelessWidget {
               width: null,
             ),
             const SizedBox(height: 40),
-            ListItem(
+            AmountView.fee(
+              fee: fee,
               label: context.l10n.labelFee,
-              value: fee,
-            )
+            ),
           ],
         ),
       );

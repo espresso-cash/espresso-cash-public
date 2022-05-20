@@ -35,7 +35,7 @@ class _ShareMessageWrapperState extends State<ShareMessageWrapper> {
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         child: CupertinoScrollbar(
-          isAlwaysShown: true,
+          thumbVisibility: true,
           radius: const Radius.circular(10),
           controller: _scrollController,
           child: SingleChildScrollView(

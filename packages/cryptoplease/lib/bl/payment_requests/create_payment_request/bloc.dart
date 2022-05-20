@@ -147,7 +147,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
       payerName: state.payerName,
       payRequest: request,
       dynamicLink: request.toUniversalLink().toString(),
-      state: PaymentRequestState.initial,
+      state: const PaymentRequestState.initial(),
     );
     await _repository.save(paymentRequest);
     emit(state.copyWith(flow: Flow.success(paymentRequest)));

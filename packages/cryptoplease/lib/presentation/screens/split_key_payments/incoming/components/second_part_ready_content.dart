@@ -20,6 +20,7 @@ class SecondPartReadyContent extends StatefulWidget {
 
 class _SecondPartReadyContentState extends State<SecondPartReadyContent> {
   void _onSubmit() {
+    // ignore: avoid-non-null-assertion, cannot be null here
     final wallet = context.read<AccountsBloc>().state.account!;
     final event = SplitKeyIncomingPaymentEvent.paymentRequested(
       recipient: wallet.address,

@@ -64,9 +64,8 @@ void main() {
   });
 
   test('Create Account', () async {
-    final rent = await rpcClient.getMinimumBalanceForRentExemption(
-      TokenProgram.neededAccountSpace,
-    );
+    final rent = await rpcClient
+        .getMinimumBalanceForRentExemption(TokenProgram.neededAccountSpace);
     final instructions = TokenInstruction.createAndInitializeAccount(
       mint: mint.publicKey,
       address: tokensHolder.publicKey,

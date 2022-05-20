@@ -67,7 +67,9 @@ void main() {
         await AnchorInstruction.forMethod(
           programId: _basic1,
           method: 'initialize',
-          arguments: Basic1Arguments(data: BigInt.from(100)).toBorsh().toList(),
+          arguments: ByteArray(
+            Basic1Arguments(data: BigInt.from(100)).toBorsh().toList(),
+          ),
           accounts: <AccountMeta>[
             AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
             AccountMeta.readonly(
@@ -95,6 +97,7 @@ void main() {
       expect(account, isNotNull);
       final rawData = account?.data;
       expect(rawData, isNotNull);
+      // ignore: avoid-non-null-assertion, cannot be null here
       final data = Basic1DataAccount.fromAccountData(rawData!);
       final discriminator = await computeDiscriminator('account', 'MyAccount');
       expect(data.data, equals(100));
@@ -111,7 +114,9 @@ void main() {
         await AnchorInstruction.forMethod(
           programId: _basic1,
           method: 'update',
-          arguments: Basic1Arguments(data: BigInt.from(25)).toBorsh().toList(),
+          arguments: ByteArray(
+            Basic1Arguments(data: BigInt.from(25)).toBorsh().toList(),
+          ),
           accounts: <AccountMeta>[
             AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
           ],
@@ -134,6 +139,7 @@ void main() {
       expect(account, isNotNull);
       final rawData = account?.data;
       expect(rawData, isNotNull);
+      // ignore: avoid-non-null-assertion, cannot be null here
       final dataAccount = Basic1DataAccount.fromAccountData(rawData!);
       expect(dataAccount.data, equals(25));
       expect(dataAccount.discriminator, equals(discriminator));

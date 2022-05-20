@@ -28,7 +28,9 @@ class DbPaymentRequestRepository implements PaymentRequestRepository {
           (rows) => rows
               .map(
                 (row) => Product2(
+                  // ignore: avoid-non-null-assertion, cannot be null here
                   row.read(db.paymentRequestRows.id)!,
+                  // ignore: avoid-non-null-assertion, cannot be null here
                   row.read(db.paymentRequestRows.created)!,
                 ),
               )
@@ -69,7 +71,7 @@ extension on PaymentRequestRow {
           memo: memo,
         ),
         dynamicLink: dynamicLink,
-        state: state,
+        state: state.toPaymentRequestState(transactionId),
       );
 }
 
@@ -79,7 +81,8 @@ extension on PaymentRequest {
         created: created,
         payerName: payerName,
         dynamicLink: dynamicLink,
-        state: state,
+        state: state.toPaymentRequestStateDto(),
+        transactionId: state.transactionIdOrNull,
         recipient: payRequest.recipient.toBase58(),
         amount: payRequest.amount?.toString(),
         label: payRequest.label,
@@ -87,5 +90,33 @@ extension on PaymentRequest {
         message: payRequest.message,
         reference: payRequest.reference?.map((it) => it.toBase58()).join(','),
         spltToken: payRequest.splToken?.toBase58(),
+      );
+}
+
+extension on PaymentRequestStateDto {
+  PaymentRequestState toPaymentRequestState(String? transactionId) {
+    switch (this) {
+      case PaymentRequestStateDto.initial:
+        return const PaymentRequestState.initial();
+      case PaymentRequestStateDto.completed:
+        return PaymentRequestState.completed(
+          transactionId: transactionId ?? '',
+        );
+      case PaymentRequestStateDto.error:
+        return const PaymentRequestState.failure();
+    }
+  }
+}
+
+extension on PaymentRequestState {
+  PaymentRequestStateDto toPaymentRequestStateDto() => when(
+        initial: always(PaymentRequestStateDto.initial),
+        completed: always(PaymentRequestStateDto.completed),
+        failure: always(PaymentRequestStateDto.error),
+      );
+
+  String? get transactionIdOrNull => maybeWhen(
+        completed: identity,
+        orElse: always(null),
       );
 }

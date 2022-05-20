@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Crypto Please Redirection</title>
+
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+
+<body>
+    <img src="/logo.png" class="logo">
+
+    <a class="{{# shouldCopy }}js-copy{{/shouldCopy}} payment-link" href="{{ installLink }}">
+        Receive money with {{ appName }}
+    </a>
+
+    {{# otherAppsExist }}
+    <p>Or try one of these apps:</p>
+
+    <ul>
+        {{# otherApps }}
+        <li><a href="{{ url }}" class="copy">{{name}}</a></li>
+        {{/otherApps}}
+    </ul>
+    {{/otherAppsExist}}
+
+    <script src="/script.js"></script>
+</body>
+
+</html>

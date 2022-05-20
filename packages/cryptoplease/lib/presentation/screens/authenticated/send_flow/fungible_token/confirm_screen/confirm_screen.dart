@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
-import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/send_token_to_solana_address_content.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/token_create_link_content.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -16,7 +14,7 @@ class FtConfirmScreen extends StatefulWidget {
   const FtConfirmScreen({Key? key}) : super(key: key);
 
   @override
-  _ConfirmScreenState createState() => _ConfirmScreenState();
+  State<FtConfirmScreen> createState() => _ConfirmScreenState();
 }
 
 class _ConfirmScreenState extends State<FtConfirmScreen> {
@@ -39,11 +37,6 @@ class _ConfirmScreenState extends State<FtConfirmScreen> {
           orElse: ignore,
         ),
         builder: (context, state) {
-          final locale = DeviceLocale.localeOf(context);
-          final tokenAmount = state.tokenAmount.format(locale);
-          final fiatAmount = state.fiatAmount.format(locale);
-          final formattedFee = state.fee.format(locale);
-
           final String nextButtonText;
           switch (state.transferType) {
             case OutgoingTransferType.splitKey:
@@ -58,16 +51,14 @@ class _ConfirmScreenState extends State<FtConfirmScreen> {
           switch (state.transferType) {
             case OutgoingTransferType.splitKey:
               content = TokenCreateLinkContent(
-                amount: tokenAmount,
-                fiatAmount: fiatAmount,
-                fee: formattedFee,
+                amount: state.tokenAmount,
+                fee: state.fee,
               );
               break;
             case OutgoingTransferType.direct:
               content = SendTokenToSolanaAddressContent(
-                amount: tokenAmount,
-                fiatAmount: fiatAmount,
-                fee: formattedFee,
+                amount: state.tokenAmount,
+                fee: state.fee,
                 address: state.recipientAddress ?? '',
               );
               break;

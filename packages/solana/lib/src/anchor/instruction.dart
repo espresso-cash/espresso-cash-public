@@ -2,13 +2,14 @@ import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:solana/src/crypto/crypto.dart';
 import 'package:solana/src/encoder/account_meta.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/instruction.dart';
 
 class AnchorInstruction extends Instruction {
   const AnchorInstruction._({
     required Ed25519HDPublicKey programId,
     required List<AccountMeta> accounts,
-    required List<int> data,
+    required ByteArray data,
   }) : super(
           programId: programId,
           accounts: accounts,
@@ -20,7 +21,7 @@ class AnchorInstruction extends Instruction {
     required String method,
     required String namespace,
     required List<AccountMeta> accounts,
-    List<int> arguments = const [],
+    ByteArray arguments = const ByteArray.empty(),
   }) async =>
       AnchorInstruction._(
         programId: programId,
@@ -34,11 +35,11 @@ class AnchorInstruction extends Instruction {
 
 final _sha256 = Sha256();
 
-extension on List<int> {
-  Future<List<int>> addDiscriminator(String ns, String name) async {
+extension on ByteArray {
+  Future<ByteArray> addDiscriminator(String ns, String name) async {
     final discriminator = await computeDiscriminator(ns, name);
 
-    return discriminator.followedBy(this).toList(growable: false);
+    return ByteArray(discriminator.followedBy(this));
   }
 }
 
