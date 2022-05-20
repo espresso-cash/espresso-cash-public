@@ -79,6 +79,10 @@ class SwapTransactionBloc
           exception: e,
         ),
       );
+
+      emit(
+        const SwapTransactionState.finished(),
+      );
     } on SwapExcetion catch (e) {
       emit(
         SwapTransactionState.failed(e.reason, e.exception),
@@ -100,21 +104,28 @@ class SwapTransactionBloc
       onSetup();
 
       final decoded = base64Decode(tx);
-      final compiled = CompiledMessage.fromSignedTransaction(decoded);
+      final byteArray = ByteArray(decoded);
+      final compiled = CompiledMessage.fromSignedTransaction(byteArray);
+      final message = Message.decompile(compiled);
+      final recent = await _solanaClient.rpcClient.getRecentBlockhash(
+        commitment: Commitment.processed,
+      );
+      final recompiled = message.compile(recentBlockhash: recent.blockhash);
       final wallet = _myAccount.wallet;
 
       final signedTx = SignedTx(
-        messageBytes: compiled.data,
-        signatures: [await wallet.sign(compiled.data)],
+        messageBytes: recompiled.data,
+        signatures: [await wallet.sign(recompiled.data)],
       );
 
       final signature = signedTx.encode();
 
-      await _solanaClient.rpcClient.sendTransaction(
+      final x = await _solanaClient.rpcClient.sendTransaction(
         signature,
-        skipPreflight: true,
         commitment: Commitment.processed,
       );
+
+      print(x);
     } on Exception catch (e) {
       onError(e);
     }
