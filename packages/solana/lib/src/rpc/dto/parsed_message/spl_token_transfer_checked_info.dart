@@ -12,6 +12,9 @@ class SplTokenTransferCheckedInfo {
     required this.tokenAmount,
     required this.source,
     required this.destination,
+    required this.mint,
+    required this.multisigAuthority,
+    required this.signers,
   });
 
   factory SplTokenTransferCheckedInfo.fromJson(
@@ -22,4 +25,7 @@ class SplTokenTransferCheckedInfo {
   final TokenAmount tokenAmount;
   final String source;
   final String destination;
+  final String mint;
+  final String multisigAuthority;
+  final List<String> signers;
 }

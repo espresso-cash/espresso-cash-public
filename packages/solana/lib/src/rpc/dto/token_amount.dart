@@ -9,6 +9,7 @@ class TokenAmount {
     required this.amount,
     required this.decimals,
     required this.uiAmountString,
+    required this.uiAmount,
   });
 
   factory TokenAmount.fromJson(Map<String, dynamic> json) =>
@@ -24,4 +25,7 @@ class TokenAmount {
 
   /// Token amount as a string, accounting for decimals.
   final String? uiAmountString;
+
+  /// Token amount as a decimal number.
+  final double uiAmount;
 }
