@@ -288,13 +288,5 @@
   "swapFailSetupFailed":"An error ocurred while setting up your transaction",
   "swapFailSwapFailed":"An error ocurred while swapping tokens",
   "swapFailCleanUpFailed":"An error ocurred while cleaning up your transaction",
-  "swapFailUnknown":"An unkown error ocurred while submitting your transaction",
-  "swapFail": "Swap tokens failed: {reason}",
-  "@swapFail" : {
-    "placeholders" : {
-      "reason": {
-        "type": "String"
-      }
-    }
-  }
+  "swapFailUnknown":"An unkown error ocurred while submitting your transaction"
 }

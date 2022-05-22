@@ -12,7 +12,11 @@ class SwapTransactionState with _$SwapTransactionState {
 
   const factory SwapTransactionState.cleaningUp() = _SwapCleanUp;
 
-  const factory SwapTransactionState.finished() = _SwapFinished;
+  const factory SwapTransactionState.finished({
+    required String? setupTxId,
+    required String swapTxId,
+    required String? cleanupTxId,
+  }) = _SwapFinished;
 
   const factory SwapTransactionState.failed(
     SwapFailReason reason,

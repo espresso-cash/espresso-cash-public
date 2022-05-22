@@ -74,16 +74,17 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
   }
 
   void _onConfirm() {
-    swapTokenBloc.validate().fold(
-          (error) => error.map(
-            insufficientFunds: (e) => _insufficientTokenDialog(
-              balance: e.balance,
-              currentAmount: e.currentAmount,
-            ),
-            insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
-          ),
-          (_) => context.read<SwapTokenRouter>().onConfirm(),
-        );
+    context.read<SwapTokenRouter>().onConfirm();
+    // swapTokenBloc.validate().fold(
+    //       (error) => error.map(
+    //         insufficientFunds: (e) => _insufficientTokenDialog(
+    //           balance: e.balance,
+    //           currentAmount: e.currentAmount,
+    //         ),
+    //         insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
+    //       ),
+    //       (_) => context.read<SwapTokenRouter>().onConfirm(),
+    //     );
   }
 
   void _onSlippageChange(

@@ -23,11 +23,16 @@ class _SwapStepWidgetState extends State<SwapStepWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (widget.isLoading) ...[
-                const CircularProgressIndicator(),
-                const SizedBox.square(dimension: 16),
-              ],
-              Text(widget.message),
+              if (widget.isLoading)
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 16.0),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                ),
+              Flexible(
+                child: Text(widget.message),
+              ),
             ],
           ),
         ),

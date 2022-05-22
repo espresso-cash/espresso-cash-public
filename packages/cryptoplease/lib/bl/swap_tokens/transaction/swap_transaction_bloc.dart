@@ -53,7 +53,7 @@ class SwapTransactionBloc
         userPublicKey: publicKey,
       );
 
-      await _maybeExecuteTx(
+      final setupTxId = await _maybeExecuteTx(
         tx: transaction.setupTransaction,
         onSetup: () => emit(const SwapTransactionState.settingUp()),
         onError: (e) => throw SwapExcetion(
@@ -62,7 +62,7 @@ class SwapTransactionBloc
         ),
       );
 
-      await _maybeExecuteTx(
+      final swapTxId = await _maybeExecuteTx(
         tx: transaction.swapTransaction,
         onSetup: () => emit(const SwapTransactionState.swapping()),
         onError: (e) => throw SwapExcetion(
@@ -71,7 +71,7 @@ class SwapTransactionBloc
         ),
       );
 
-      await _maybeExecuteTx(
+      final cleanupTxId = await _maybeExecuteTx(
         tx: transaction.cleanupTransaction,
         onSetup: () => emit(const SwapTransactionState.cleaningUp()),
         onError: (e) => throw SwapExcetion(
@@ -81,7 +81,11 @@ class SwapTransactionBloc
       );
 
       emit(
-        const SwapTransactionState.finished(),
+        SwapTransactionState.finished(
+          setupTxId: setupTxId,
+          swapTxId: swapTxId ?? '',
+          cleanupTxId: cleanupTxId,
+        ),
       );
     } on SwapExcetion catch (e) {
       emit(
@@ -94,22 +98,21 @@ class SwapTransactionBloc
     }
   }
 
-  Future<void> _maybeExecuteTx({
+  Future<String?> _maybeExecuteTx({
     required String? tx,
     required VoidCallback onSetup,
     required ValueSetter<Exception> onError,
+    Commitment commitment = Commitment.processed,
   }) async {
     try {
-      if (tx == null) return;
+      if (tx == null) return null;
       onSetup();
 
       final decoded = base64Decode(tx);
       final byteArray = ByteArray(decoded);
       final compiled = CompiledMessage.fromSignedTransaction(byteArray);
       final message = Message.decompile(compiled);
-      final recent = await _solanaClient.rpcClient.getRecentBlockhash(
-        commitment: Commitment.processed,
-      );
+      final recent = await _solanaClient.rpcClient.getRecentBlockhash();
       final recompiled = message.compile(recentBlockhash: recent.blockhash);
       final wallet = _myAccount.wallet;
 
@@ -120,12 +123,13 @@ class SwapTransactionBloc
 
       final signature = signedTx.encode();
 
-      final x = await _solanaClient.rpcClient.sendTransaction(
+      final txId = await _solanaClient.rpcClient.sendTransaction(
         signature,
-        commitment: Commitment.processed,
+        skipPreflight: true,
+        commitment: commitment,
       );
 
-      print(x);
+      return txId;
     } on Exception catch (e) {
       onError(e);
     }

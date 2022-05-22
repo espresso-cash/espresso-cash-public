@@ -71,7 +71,8 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
 
   @override
   void closeFlow() {
-    context.router.popUntilRoot();
+    final router = routerKey.currentState?.controller;
+    router?.popUntilRoot();
   }
 
   @override

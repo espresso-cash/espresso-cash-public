@@ -1,5 +1,7 @@
 import 'package:cryptoplease/bl/swap_tokens/transaction/swap_transaction_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/presentation/components/common_success.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_step_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_router.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -22,11 +24,13 @@ class _SwapTokenOrderScreenState extends State<SwapTokenProcessScreen> {
     swapTransactionBloc = context.read<SwapTransactionBloc>();
   }
 
+  void _onFinish() => context.read<SwapTokenRouter>().closeFlow();
+
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<SwapTransactionBloc, SwapTransactionState>(
         bloc: swapTransactionBloc,
-        builder: (context, state) => CpTheme.light(
+        builder: (context, state) => CpTheme.dark(
           child: Scaffold(
             appBar: CpAppBar(
               leading: BackButton(
@@ -34,17 +38,20 @@ class _SwapTokenOrderScreenState extends State<SwapTokenProcessScreen> {
               ),
             ),
             body: SafeArea(
-              child: SwapStepWidget(
-                isLoading: state.isProcessing,
-                message: state.map(
-                  idle: (s) => '',
-                  preparing: (s) => context.l10n.swapPreparing,
-                  settingUp: (s) => context.l10n.swapSetup,
-                  swapping: (s) => context.l10n.swapTransaction,
-                  cleaningUp: (s) => context.l10n.swapCleanup,
-                  finished: (s) => context.l10n.swapSuccess,
-                  failed: (s) => context.l10n.swapFail(
-                    '${s.reason.name}\n${s.error}',
+              child: state.maybeMap(
+                finished: (f) => CommonSuccess(
+                  text: context.l10n.txSuccess(f.swapTxId),
+                  onClosePressed: _onFinish,
+                ),
+                orElse: () => SwapStepWidget(
+                  isLoading: state.isProcessing,
+                  message: state.maybeMap(
+                    preparing: (s) => context.l10n.swapPreparing,
+                    settingUp: (s) => context.l10n.swapSetup,
+                    swapping: (s) => context.l10n.swapTransaction,
+                    cleaningUp: (s) => context.l10n.swapCleanup,
+                    failed: (s) => s.reason.buildMessage(context),
+                    orElse: () => context.l10n.loading,
                   ),
                 ),
               ),
