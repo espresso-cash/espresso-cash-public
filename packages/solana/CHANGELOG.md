@@ -1,3 +1,8 @@
+## 0.23.1
+
+ - **REFACTOR**: Migrate to Dart 2.17 (#271).
+ - **FEAT**: Add Message.decompile (#275).
+
 ## 0.23.0+1
 
  - **REFACTOR**: Remove unused code.
