@@ -65,14 +65,21 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     _Emitter emit,
   ) async {
     emit(
-      state.invalidateRoute(),
+      SwapSelectorState(
+        amount: const CryptoAmount(currency: Currency.sol, value: 0),
+        slippage: Decimal.one,
+      ).invalidateRoute(),
     );
 
     try {
       _routeMap = await _jupiterClient.getIndexedRouteMap();
       _jupiterTokens = _routeMap.mintKeys.map(_tokenList.findTokenByMint);
       _mintToIndex = _routeMap.mintKeys.asMap().map((k, v) => MapEntry(v, k));
-      final inputTokens = _jupiterTokens.whereNotNull().toList();
+      
+      final inputTokens =
+          _jupiterTokens.whereNotNull().where(_balances.isPositive).toList()
+            ..add(Token.sol)
+            ..sortByName();
 
       emit(
         state.copyWith(
@@ -93,29 +100,20 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     SwapSelectorInputEvent inputEvent,
     _Emitter emit,
   ) async {
+    final mappedInput = inputEvent.inputToken.isSolana
+        ? const Token.wrappedSolana()
+        : inputEvent.inputToken;
+
     emit(
       state.copyWith(
-        selectedInput: inputEvent.inputToken,
+        selectedInput: mappedInput,
         bestRoute: null,
         selectedOutput: null,
-        amount: state.amount.copyWith(
-          currency: CryptoCurrency(token: inputEvent.inputToken),
-        ),
-      ),
-    );
-
-    final mint = inputEvent.inputToken.address;
-    final index = _mintToIndex[mint].toString();
-    final outputIndexes = _routeMap.indexedRouteMap[index]!;
-    final outputTokens = outputIndexes
-        .map((index) => _jupiterTokens.elementAt(index))
-        .whereNotNull()
-        .toList();
-
-    emit(
-      state.copyWith(
-        outputTokens: outputTokens,
+        outputTokens: _validOutputsForInput(mappedInput),
         tokenProcessingState: const ProcessingState.none(),
+        amount: state.amount.copyWith(
+          currency: CryptoCurrency(token: mappedInput),
+        ),
       ),
     );
   }
@@ -179,19 +177,14 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     );
 
     final newInput = state.selectedOutput!;
-    final newOutput = state.selectedInput!;
+    final outputTokens = _validOutputsForInput(newInput);
+    final newOutput = outputTokens.contains(state.selectedInput)
+        ? state.selectedInput!
+        : null;
     final amount = CryptoAmount(
       value: 0,
       currency: CryptoCurrency(token: newInput),
     );
-
-    final mint = newInput.address;
-    final index = _mintToIndex[mint].toString();
-    final outputIndexes = _routeMap.indexedRouteMap[index]!;
-    final outputTokens = outputIndexes
-        .map((index) => _jupiterTokens.elementAt(index))
-        .whereNotNull()
-        .toList();
 
     emit(
       state.copyWith(
@@ -211,28 +204,9 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     if (input == null) return;
 
-    final entry = _balances.entries.firstWhere(
-      (entry) => entry.key.address == input.address,
-      orElse: () => MapEntry(
-        input,
-        CryptoAmount(
-          value: 0,
-          currency: CryptoCurrency(token: input),
-        ),
-      ),
-    );
-
-    final amount = entry.value.map(
-      crypto: identity,
-      fiat: (f) => CryptoAmount(
-        value: f.value,
-        currency: CryptoCurrency(token: input),
-      ),
-    );
-
     emit(
       state.copyWith(
-        amount: amount,
+        amount: _balances.balanceFromToken(input),
       ),
     );
 
@@ -287,15 +261,23 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     }
   }
 
+  List<Token> _validOutputsForInput(Token token) {
+    final index = _mintToIndex[token.address].toString();
+    final outputIndexes = _routeMap.indexedRouteMap[index]!;
+    final outputTokens = outputIndexes
+        .map((index) => _jupiterTokens.elementAt(index))
+        .whereNotNull()
+        .toList()
+      ..sortByName();
+
+    return outputTokens;
+  }
+
   Either<ValidationError, void> validate() {
     final token = state.selectedInput;
     if (token == null) return const Either.right(null);
 
-    final entry = _balances.entries.firstWhereOrNull(
-      (entry) => entry.key.address == token.address,
-    );
-    final userBalance =
-        entry?.value ?? Amount.zero(currency: Currency.crypto(token: token));
+    final userBalance = _balances.balanceFromToken(token);
 
     if (userBalance < state.amount) {
       return Either.left(
@@ -320,4 +302,35 @@ extension on _State {
             ? const ProcessingState.processing()
             : const ProcessingState.none(),
       );
+}
+
+extension on Map<Token, Amount?> {
+  bool isPositive(Token token) {
+    final balance = this[token];
+
+    return balance != null && balance.value != 0;
+  }
+
+  CryptoAmount balanceFromToken(Token input) {
+    final mappedInput = input
+        .let((token) => token.address)
+        .let((address) => address == const Token.wrappedSolana().address)
+        .let((isWrappedSol) => isWrappedSol ? Token.sol : input);
+
+    final balance = this[mappedInput];
+    final amount =
+        balance ?? Amount.zero(currency: CryptoCurrency(token: input));
+
+    return amount.map(
+      fiat: (fiat) => CryptoAmount(
+        value: fiat.value,
+        currency: CryptoCurrency(token: input),
+      ),
+      crypto: identity,
+    );
+  }
+}
+
+extension on List<Token> {
+  void sortByName() => sorted((a, b) => a.name.compareTo(b.name));
 }

@@ -52,39 +52,30 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
         ),
       );
 
-  void _insufficientFeeDialog(Amount fee) {
-    showWarningDialog(
-      context,
-      title: context.l10n.insufficientFundsForFeeTitle,
-      message: context.l10n.insufficientFundsForFeeMessage(
-        fee.format(DeviceLocale.localeOf(context)),
-      ),
-    );
-  }
-
   Decimal get inputControllerAmount => _inputController.text.toDecimalOrZero(
         DeviceLocale.localeOf(context),
       );
 
   void _onAmountUpdate() {
     if (swapTokenBloc.state.selectedInput == null) return;
+    if (swapTokenBloc.state.amount.decimal == inputControllerAmount) return;
+
     swapTokenBloc.add(
       SwapSelectorEvent.amountUpdated(inputControllerAmount),
     );
   }
 
   void _onConfirm() {
-    context.read<SwapTokenRouter>().onConfirm();
-    // swapTokenBloc.validate().fold(
-    //       (error) => error.map(
-    //         insufficientFunds: (e) => _insufficientTokenDialog(
-    //           balance: e.balance,
-    //           currentAmount: e.currentAmount,
-    //         ),
-    //         insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
-    //       ),
-    //       (_) => context.read<SwapTokenRouter>().onConfirm(),
-    //     );
+    swapTokenBloc.validate().fold(
+          (error) => error.map(
+            insufficientFunds: (e) => _insufficientTokenDialog(
+              balance: e.balance,
+              currentAmount: e.currentAmount,
+            ),
+            insufficientFee: (_) {},
+          ),
+          (_) => context.read<SwapTokenRouter>().onConfirm(),
+        );
   }
 
   void _onSlippageChange(

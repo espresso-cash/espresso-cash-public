@@ -1,6 +1,6 @@
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_list_dialog/token_item.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/selectable_balance_item.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -64,15 +64,9 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
               body: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: _tokenList.length,
-                itemBuilder: (context, index) => Card(
-                  color: CpColors.accentDarkBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TokenItem(
-                      token: _tokenList.elementAt(index),
-                      onSelected: (token) => Navigator.of(context).pop(token),
-                    ),
-                  ),
+                itemBuilder: (context, index) => SelectableBalanceItem(
+                  token: _tokenList.elementAt(index),
+                  onSelect: (token) => Navigator.of(context).pop(token),
                 ),
               ),
             ),

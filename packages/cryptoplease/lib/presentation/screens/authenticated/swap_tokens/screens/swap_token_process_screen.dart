@@ -39,9 +39,11 @@ class _SwapTokenOrderScreenState extends State<SwapTokenProcessScreen> {
             ),
             body: SafeArea(
               child: state.maybeMap(
-                finished: (f) => CommonSuccess(
-                  text: context.l10n.txSuccess(f.swapTxId),
-                  onClosePressed: _onFinish,
+                finished: (f) => CpTheme.dark(
+                  child: CommonSuccess(
+                    text: context.l10n.swapSuccess,
+                    onClosePressed: _onFinish,
+                  ),
                 ),
                 orElse: () => SwapStepWidget(
                   isLoading: state.isProcessing,

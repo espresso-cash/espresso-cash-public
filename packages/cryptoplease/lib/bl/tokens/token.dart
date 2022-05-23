@@ -23,6 +23,8 @@ class Token {
 
   const factory Token.solana() = _SolanaToken;
 
+  const factory Token.wrappedSolana() = _WrappedSolanaToken;
+
   const factory Token.splToken({
     required int chainId,
     required String address,
@@ -100,6 +102,23 @@ class SplToken extends Token {
           logoURI: logoURI,
           tags: tags,
           extensions: extensions,
+        );
+}
+
+class _WrappedSolanaToken extends SplToken {
+  const _WrappedSolanaToken()
+      : super(
+          address: 'So11111111111111111111111111111111111111112',
+          extensions: const Extensions(
+            coingeckoId: 'wrapped-solana',
+          ),
+          logoURI:
+              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
+          chainId: currentChainId,
+          tags: const [],
+          decimals: 9,
+          name: 'Wrapped SOL',
+          symbol: 'SOL',
         );
 }
 
