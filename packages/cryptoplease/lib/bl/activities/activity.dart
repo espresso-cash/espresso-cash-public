@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
