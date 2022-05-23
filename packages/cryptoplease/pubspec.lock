@@ -7,21 +7,21 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "31.0.0"
+    version: "36.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.0"
+    version: "3.3.1"
   analyzer_plugin:
     dependency: transitive
     description:
       name: analyzer_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0"
+    version: "0.9.0"
   ansicolor:
     dependency: transitive
     description:
@@ -315,7 +315,7 @@ packages:
       name: dart_code_metrics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.15.0"
+    version: "4.15.1"
   dart_style:
     dependency: transitive
     description:
@@ -344,13 +344,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
-  device_frame:
-    dependency: transitive
-    description:
-      name: device_frame
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   dfunc:
     dependency: "direct main"
     description:
@@ -627,14 +620,14 @@ packages:
       name: freezed
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "2.0.3+1"
   freezed_annotation:
     dependency: "direct main"
     description:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "2.0.3"
   frontend_server_client:
     dependency: transitive
     description:
@@ -826,7 +819,7 @@ packages:
       name: mews_pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0"
+    version: "0.6.0"
   mime:
     dependency: transitive
     description:
@@ -1122,7 +1115,7 @@ packages:
       name: retrofit_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1+1"
+    version: "4.0.1"
   rxdart:
     dependency: "direct main"
     description:
@@ -1246,7 +1239,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.23.0+1"
+    version: "0.23.1"
   source_gen:
     dependency: transitive
     description:
@@ -1324,13 +1317,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
-  storybook_flutter:
-    dependency: "direct dev"
-    description:
-      name: storybook_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.10.0+1"
   stream_channel:
     dependency: transitive
     description:

@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'parsed_account_data.dart';
@@ -11,7 +12,7 @@ part of 'parsed_account_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 ParsedAccountData _$ParsedAccountDataFromJson(Map<String, dynamic> json) {
   switch (json['program']) {
@@ -24,36 +25,6 @@ ParsedAccountData _$ParsedAccountDataFromJson(Map<String, dynamic> json) {
       return UnsupportedProgramAccountData.fromJson(json);
   }
 }
-
-/// @nodoc
-class _$ParsedAccountDataTearOff {
-  const _$ParsedAccountDataTearOff();
-
-  ParsedSplTokenProgramAccountData splToken(SplTokenProgramAccountData parsed) {
-    return ParsedSplTokenProgramAccountData(
-      parsed,
-    );
-  }
-
-  ParsedStakeProgramAccountData stake(StakeProgramAccountData parsed) {
-    return ParsedStakeProgramAccountData(
-      parsed,
-    );
-  }
-
-  UnsupportedProgramAccountData unsupported(Map<String, dynamic> parsed) {
-    return UnsupportedProgramAccountData(
-      parsed,
-    );
-  }
-
-  ParsedAccountData fromJson(Map<String, Object?> json) {
-    return ParsedAccountData.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $ParsedAccountData = _$ParsedAccountDataTearOff();
 
 /// @nodoc
 mixin _$ParsedAccountData {
@@ -122,34 +93,34 @@ class _$ParsedAccountDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class $ParsedSplTokenProgramAccountDataCopyWith<$Res> {
-  factory $ParsedSplTokenProgramAccountDataCopyWith(
-          ParsedSplTokenProgramAccountData value,
-          $Res Function(ParsedSplTokenProgramAccountData) then) =
-      _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>;
+abstract class _$$ParsedSplTokenProgramAccountDataCopyWith<$Res> {
+  factory _$$ParsedSplTokenProgramAccountDataCopyWith(
+          _$ParsedSplTokenProgramAccountData value,
+          $Res Function(_$ParsedSplTokenProgramAccountData) then) =
+      __$$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>;
   $Res call({SplTokenProgramAccountData parsed});
 
   $SplTokenProgramAccountDataCopyWith<$Res> get parsed;
 }
 
 /// @nodoc
-class _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
+class __$$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
     extends _$ParsedAccountDataCopyWithImpl<$Res>
-    implements $ParsedSplTokenProgramAccountDataCopyWith<$Res> {
-  _$ParsedSplTokenProgramAccountDataCopyWithImpl(
-      ParsedSplTokenProgramAccountData _value,
-      $Res Function(ParsedSplTokenProgramAccountData) _then)
-      : super(_value, (v) => _then(v as ParsedSplTokenProgramAccountData));
+    implements _$$ParsedSplTokenProgramAccountDataCopyWith<$Res> {
+  __$$ParsedSplTokenProgramAccountDataCopyWithImpl(
+      _$ParsedSplTokenProgramAccountData _value,
+      $Res Function(_$ParsedSplTokenProgramAccountData) _then)
+      : super(_value, (v) => _then(v as _$ParsedSplTokenProgramAccountData));
 
   @override
-  ParsedSplTokenProgramAccountData get _value =>
-      super._value as ParsedSplTokenProgramAccountData;
+  _$ParsedSplTokenProgramAccountData get _value =>
+      super._value as _$ParsedSplTokenProgramAccountData;
 
   @override
   $Res call({
     Object? parsed = freezed,
   }) {
-    return _then(ParsedSplTokenProgramAccountData(
+    return _then(_$ParsedSplTokenProgramAccountData(
       parsed == freezed
           ? _value.parsed
           : parsed // ignore: cast_nullable_to_non_nullable
@@ -167,10 +138,9 @@ class _$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-@FreezedUnionValue('spl-token')
 class _$ParsedSplTokenProgramAccountData
     implements ParsedSplTokenProgramAccountData {
-  const _$ParsedSplTokenProgramAccountData(this.parsed, {String? $type})
+  const _$ParsedSplTokenProgramAccountData(this.parsed, {final String? $type})
       : $type = $type ?? 'spl-token';
 
   factory _$ParsedSplTokenProgramAccountData.fromJson(
@@ -192,19 +162,21 @@ class _$ParsedSplTokenProgramAccountData
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ParsedSplTokenProgramAccountData &&
+            other is _$ParsedSplTokenProgramAccountData &&
             const DeepCollectionEquality().equals(other.parsed, parsed));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(parsed));
 
   @JsonKey(ignore: true)
   @override
-  $ParsedSplTokenProgramAccountDataCopyWith<ParsedSplTokenProgramAccountData>
-      get copyWith => _$ParsedSplTokenProgramAccountDataCopyWithImpl<
-          ParsedSplTokenProgramAccountData>(this, _$identity);
+  _$$ParsedSplTokenProgramAccountDataCopyWith<
+          _$ParsedSplTokenProgramAccountData>
+      get copyWith => __$$ParsedSplTokenProgramAccountDataCopyWithImpl<
+          _$ParsedSplTokenProgramAccountData>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -282,46 +254,48 @@ class _$ParsedSplTokenProgramAccountData
 
 abstract class ParsedSplTokenProgramAccountData implements ParsedAccountData {
   const factory ParsedSplTokenProgramAccountData(
-      SplTokenProgramAccountData parsed) = _$ParsedSplTokenProgramAccountData;
+          final SplTokenProgramAccountData parsed) =
+      _$ParsedSplTokenProgramAccountData;
 
   factory ParsedSplTokenProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedSplTokenProgramAccountData.fromJson;
 
-  SplTokenProgramAccountData get parsed;
+  SplTokenProgramAccountData get parsed => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ParsedSplTokenProgramAccountDataCopyWith<ParsedSplTokenProgramAccountData>
+  _$$ParsedSplTokenProgramAccountDataCopyWith<
+          _$ParsedSplTokenProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ParsedStakeProgramAccountDataCopyWith<$Res> {
-  factory $ParsedStakeProgramAccountDataCopyWith(
-          ParsedStakeProgramAccountData value,
-          $Res Function(ParsedStakeProgramAccountData) then) =
-      _$ParsedStakeProgramAccountDataCopyWithImpl<$Res>;
+abstract class _$$ParsedStakeProgramAccountDataCopyWith<$Res> {
+  factory _$$ParsedStakeProgramAccountDataCopyWith(
+          _$ParsedStakeProgramAccountData value,
+          $Res Function(_$ParsedStakeProgramAccountData) then) =
+      __$$ParsedStakeProgramAccountDataCopyWithImpl<$Res>;
   $Res call({StakeProgramAccountData parsed});
 
   $StakeProgramAccountDataCopyWith<$Res> get parsed;
 }
 
 /// @nodoc
-class _$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
+class __$$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
     extends _$ParsedAccountDataCopyWithImpl<$Res>
-    implements $ParsedStakeProgramAccountDataCopyWith<$Res> {
-  _$ParsedStakeProgramAccountDataCopyWithImpl(
-      ParsedStakeProgramAccountData _value,
-      $Res Function(ParsedStakeProgramAccountData) _then)
-      : super(_value, (v) => _then(v as ParsedStakeProgramAccountData));
+    implements _$$ParsedStakeProgramAccountDataCopyWith<$Res> {
+  __$$ParsedStakeProgramAccountDataCopyWithImpl(
+      _$ParsedStakeProgramAccountData _value,
+      $Res Function(_$ParsedStakeProgramAccountData) _then)
+      : super(_value, (v) => _then(v as _$ParsedStakeProgramAccountData));
 
   @override
-  ParsedStakeProgramAccountData get _value =>
-      super._value as ParsedStakeProgramAccountData;
+  _$ParsedStakeProgramAccountData get _value =>
+      super._value as _$ParsedStakeProgramAccountData;
 
   @override
   $Res call({
     Object? parsed = freezed,
   }) {
-    return _then(ParsedStakeProgramAccountData(
+    return _then(_$ParsedStakeProgramAccountData(
       parsed == freezed
           ? _value.parsed
           : parsed // ignore: cast_nullable_to_non_nullable
@@ -340,7 +314,7 @@ class _$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
-  const _$ParsedStakeProgramAccountData(this.parsed, {String? $type})
+  const _$ParsedStakeProgramAccountData(this.parsed, {final String? $type})
       : $type = $type ?? 'stake';
 
   factory _$ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =>
@@ -361,19 +335,20 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ParsedStakeProgramAccountData &&
+            other is _$ParsedStakeProgramAccountData &&
             const DeepCollectionEquality().equals(other.parsed, parsed));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(parsed));
 
   @JsonKey(ignore: true)
   @override
-  $ParsedStakeProgramAccountDataCopyWith<ParsedStakeProgramAccountData>
-      get copyWith => _$ParsedStakeProgramAccountDataCopyWithImpl<
-          ParsedStakeProgramAccountData>(this, _$identity);
+  _$$ParsedStakeProgramAccountDataCopyWith<_$ParsedStakeProgramAccountData>
+      get copyWith => __$$ParsedStakeProgramAccountDataCopyWithImpl<
+          _$ParsedStakeProgramAccountData>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -450,47 +425,47 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
 }
 
 abstract class ParsedStakeProgramAccountData implements ParsedAccountData {
-  const factory ParsedStakeProgramAccountData(StakeProgramAccountData parsed) =
-      _$ParsedStakeProgramAccountData;
+  const factory ParsedStakeProgramAccountData(
+      final StakeProgramAccountData parsed) = _$ParsedStakeProgramAccountData;
 
   factory ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedStakeProgramAccountData.fromJson;
 
-  StakeProgramAccountData get parsed;
+  StakeProgramAccountData get parsed => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ParsedStakeProgramAccountDataCopyWith<ParsedStakeProgramAccountData>
+  _$$ParsedStakeProgramAccountDataCopyWith<_$ParsedStakeProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UnsupportedProgramAccountDataCopyWith<$Res> {
-  factory $UnsupportedProgramAccountDataCopyWith(
-          UnsupportedProgramAccountData value,
-          $Res Function(UnsupportedProgramAccountData) then) =
-      _$UnsupportedProgramAccountDataCopyWithImpl<$Res>;
+abstract class _$$UnsupportedProgramAccountDataCopyWith<$Res> {
+  factory _$$UnsupportedProgramAccountDataCopyWith(
+          _$UnsupportedProgramAccountData value,
+          $Res Function(_$UnsupportedProgramAccountData) then) =
+      __$$UnsupportedProgramAccountDataCopyWithImpl<$Res>;
   $Res call({Map<String, dynamic> parsed});
 }
 
 /// @nodoc
-class _$UnsupportedProgramAccountDataCopyWithImpl<$Res>
+class __$$UnsupportedProgramAccountDataCopyWithImpl<$Res>
     extends _$ParsedAccountDataCopyWithImpl<$Res>
-    implements $UnsupportedProgramAccountDataCopyWith<$Res> {
-  _$UnsupportedProgramAccountDataCopyWithImpl(
-      UnsupportedProgramAccountData _value,
-      $Res Function(UnsupportedProgramAccountData) _then)
-      : super(_value, (v) => _then(v as UnsupportedProgramAccountData));
+    implements _$$UnsupportedProgramAccountDataCopyWith<$Res> {
+  __$$UnsupportedProgramAccountDataCopyWithImpl(
+      _$UnsupportedProgramAccountData _value,
+      $Res Function(_$UnsupportedProgramAccountData) _then)
+      : super(_value, (v) => _then(v as _$UnsupportedProgramAccountData));
 
   @override
-  UnsupportedProgramAccountData get _value =>
-      super._value as UnsupportedProgramAccountData;
+  _$UnsupportedProgramAccountData get _value =>
+      super._value as _$UnsupportedProgramAccountData;
 
   @override
   $Res call({
     Object? parsed = freezed,
   }) {
-    return _then(UnsupportedProgramAccountData(
+    return _then(_$UnsupportedProgramAccountData(
       parsed == freezed
-          ? _value.parsed
+          ? _value._parsed
           : parsed // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
@@ -500,14 +475,20 @@ class _$UnsupportedProgramAccountDataCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
-  const _$UnsupportedProgramAccountData(this.parsed, {String? $type})
-      : $type = $type ?? 'unsupported';
+  const _$UnsupportedProgramAccountData(final Map<String, dynamic> parsed,
+      {final String? $type})
+      : _parsed = parsed,
+        $type = $type ?? 'unsupported';
 
   factory _$UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =>
       _$$UnsupportedProgramAccountDataFromJson(json);
 
+  final Map<String, dynamic> _parsed;
   @override
-  final Map<String, dynamic> parsed;
+  Map<String, dynamic> get parsed {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_parsed);
+  }
 
   @JsonKey(name: 'program')
   final String $type;
@@ -521,19 +502,20 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is UnsupportedProgramAccountData &&
-            const DeepCollectionEquality().equals(other.parsed, parsed));
+            other is _$UnsupportedProgramAccountData &&
+            const DeepCollectionEquality().equals(other._parsed, _parsed));
   }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(parsed));
 
   @JsonKey(ignore: true)
   @override
-  $UnsupportedProgramAccountDataCopyWith<UnsupportedProgramAccountData>
-      get copyWith => _$UnsupportedProgramAccountDataCopyWithImpl<
-          UnsupportedProgramAccountData>(this, _$identity);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_parsed));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$UnsupportedProgramAccountDataCopyWith<_$UnsupportedProgramAccountData>
+      get copyWith => __$$UnsupportedProgramAccountDataCopyWithImpl<
+          _$UnsupportedProgramAccountData>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -610,14 +592,14 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
 }
 
 abstract class UnsupportedProgramAccountData implements ParsedAccountData {
-  const factory UnsupportedProgramAccountData(Map<String, dynamic> parsed) =
-      _$UnsupportedProgramAccountData;
+  const factory UnsupportedProgramAccountData(
+      final Map<String, dynamic> parsed) = _$UnsupportedProgramAccountData;
 
   factory UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$UnsupportedProgramAccountData.fromJson;
 
-  Map<String, dynamic> get parsed;
+  Map<String, dynamic> get parsed => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UnsupportedProgramAccountDataCopyWith<UnsupportedProgramAccountData>
+  _$$UnsupportedProgramAccountDataCopyWith<_$UnsupportedProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;
 }
