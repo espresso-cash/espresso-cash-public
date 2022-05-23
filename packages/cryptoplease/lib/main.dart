@@ -1,4 +1,6 @@
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
+import 'package:cryptoplease/bl/activities/solana_transaction.dart';
+import 'package:cryptoplease/bl/activities/tx_fetcher/bloc.dart';
 import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
 import 'package:cryptoplease/bl/app_lock/app_lock_bloc.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
@@ -20,6 +22,7 @@ import 'package:cryptoplease/data/db/payment_request_repository.dart';
 import 'package:cryptoplease/data/offchain_metadata_repository.dart';
 import 'package:cryptoplease/data/outgoing_transfer_repository.dart';
 import 'package:cryptoplease/data/split_key_payments_repository.dart';
+import 'package:cryptoplease/data/transaction_repository.dart';
 import 'package:cryptoplease/logging.dart';
 import 'package:cryptoplease/presentation/app.dart';
 import 'package:cryptoplease/presentation/screens/dynamic_links/dynamic_links_controller.dart';
@@ -95,6 +98,12 @@ Future<void> _start() async {
           ),
           Provider<OutgoingTransferRepository>(
             create: (_) => DbOutgoingTransferRepository(db),
+          ),
+          Provider<TxFetcherRepository>.value(
+            value: MemoryTransactionRepository.instance,
+          ),
+          Provider<TransactionReaderRepository>.value(
+            value: MemoryTransactionRepository.instance,
           ),
           Provider<TokenList>(create: (_) => TokenList()),
           BlocProvider<PuzzleReminderBloc>(

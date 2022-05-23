@@ -1,5 +1,5 @@
 import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/activities/activities_screen.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/activities/new_activities_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/navigation_bar/navigation_button.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/nft/nft_screen.dart';
@@ -28,7 +28,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
       _Page(widget: WalletScreen(), overlayStyle: SystemUiOverlayStyle.light),
       _Page(widget: NftScreen(), overlayStyle: SystemUiOverlayStyle.light),
       _Page(
-        widget: ActivitiesScreen(),
+        widget: NewActivitiesScreen(),
         overlayStyle: SystemUiOverlayStyle.dark,
       ),
       _Page(widget: ProfileScreen(), overlayStyle: SystemUiOverlayStyle.dark),
