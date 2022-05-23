@@ -1,3 +1,9 @@
+## 0.24.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **REFACTOR**: Bump freezed_annotation to 2.0.0.
+
 ## 0.23.1
 
  - **REFACTOR**: Migrate to Dart 2.17 (#271).
