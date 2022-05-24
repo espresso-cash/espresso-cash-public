@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'compiled_message.dart';
@@ -11,21 +12,7 @@ part of 'compiled_message.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$CompiledMessageTearOff {
-  const _$CompiledMessageTearOff();
-
-  _CompiledMessage call(ByteArray data) {
-    return _CompiledMessage(
-      data,
-    );
-  }
-}
-
-/// @nodoc
-const $CompiledMessage = _$CompiledMessageTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$CompiledMessage {
@@ -67,31 +54,31 @@ class _$CompiledMessageCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$CompiledMessageCopyWith<$Res>
+abstract class _$$_CompiledMessageCopyWith<$Res>
     implements $CompiledMessageCopyWith<$Res> {
-  factory _$CompiledMessageCopyWith(
-          _CompiledMessage value, $Res Function(_CompiledMessage) then) =
-      __$CompiledMessageCopyWithImpl<$Res>;
+  factory _$$_CompiledMessageCopyWith(
+          _$_CompiledMessage value, $Res Function(_$_CompiledMessage) then) =
+      __$$_CompiledMessageCopyWithImpl<$Res>;
   @override
   $Res call({ByteArray data});
 }
 
 /// @nodoc
-class __$CompiledMessageCopyWithImpl<$Res>
+class __$$_CompiledMessageCopyWithImpl<$Res>
     extends _$CompiledMessageCopyWithImpl<$Res>
-    implements _$CompiledMessageCopyWith<$Res> {
-  __$CompiledMessageCopyWithImpl(
-      _CompiledMessage _value, $Res Function(_CompiledMessage) _then)
-      : super(_value, (v) => _then(v as _CompiledMessage));
+    implements _$$_CompiledMessageCopyWith<$Res> {
+  __$$_CompiledMessageCopyWithImpl(
+      _$_CompiledMessage _value, $Res Function(_$_CompiledMessage) _then)
+      : super(_value, (v) => _then(v as _$_CompiledMessage));
 
   @override
-  _CompiledMessage get _value => super._value as _CompiledMessage;
+  _$_CompiledMessage get _value => super._value as _$_CompiledMessage;
 
   @override
   $Res call({
     Object? data = freezed,
   }) {
-    return _then(_CompiledMessage(
+    return _then(_$_CompiledMessage(
       data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -117,7 +104,7 @@ class _$_CompiledMessage extends _CompiledMessage {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _CompiledMessage &&
+            other is _$_CompiledMessage &&
             const DeepCollectionEquality().equals(other.data, data));
   }
 
@@ -127,18 +114,18 @@ class _$_CompiledMessage extends _CompiledMessage {
 
   @JsonKey(ignore: true)
   @override
-  _$CompiledMessageCopyWith<_CompiledMessage> get copyWith =>
-      __$CompiledMessageCopyWithImpl<_CompiledMessage>(this, _$identity);
+  _$$_CompiledMessageCopyWith<_$_CompiledMessage> get copyWith =>
+      __$$_CompiledMessageCopyWithImpl<_$_CompiledMessage>(this, _$identity);
 }
 
 abstract class _CompiledMessage extends CompiledMessage {
-  const factory _CompiledMessage(ByteArray data) = _$_CompiledMessage;
+  const factory _CompiledMessage(final ByteArray data) = _$_CompiledMessage;
   const _CompiledMessage._() : super._();
 
   @override
-  ByteArray get data;
+  ByteArray get data => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$CompiledMessageCopyWith<_CompiledMessage> get copyWith =>
+  _$$_CompiledMessageCopyWith<_$_CompiledMessage> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,5 +1,5 @@
+import 'package:collection/collection.dart';
 import 'package:cryptography/cryptography.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/encoder.dart';
