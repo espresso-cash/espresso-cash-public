@@ -45,6 +45,8 @@ class Token {
 
   static const sol = Token.solana();
 
+  static const wrappedSol = Token.wrappedSolana();
+
   bool get isSolana => this is _SolanaToken;
 
   String? get coingeckoId => extensions?.coingeckoId;

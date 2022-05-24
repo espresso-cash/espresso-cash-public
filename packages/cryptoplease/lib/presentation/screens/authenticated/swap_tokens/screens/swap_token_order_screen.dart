@@ -52,6 +52,14 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
         ),
       );
 
+  void _insufficientFeeDialog(Amount fee) => showWarningDialog(
+        context,
+        title: context.l10n.insufficientFundsForFeeTitle,
+        message: context.l10n.insufficientFundsForFeeMessage(
+          fee.format(DeviceLocale.localeOf(context)),
+        ),
+      );
+
   Decimal get inputControllerAmount => _inputController.text.toDecimalOrZero(
         DeviceLocale.localeOf(context),
       );
@@ -72,7 +80,7 @@ class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
               balance: e.balance,
               currentAmount: e.currentAmount,
             ),
-            insufficientFee: (_) {},
+            insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
           ),
           (_) => context.read<SwapTokenRouter>().onConfirm(),
         );

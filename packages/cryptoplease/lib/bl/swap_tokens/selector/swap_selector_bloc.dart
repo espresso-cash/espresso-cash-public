@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
@@ -5,6 +7,7 @@ import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/swap_tokens/swap_exception.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
+import 'package:cryptoplease/config.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,7 +78,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       _routeMap = await _jupiterClient.getIndexedRouteMap();
       _jupiterTokens = _routeMap.mintKeys.map(_tokenList.findTokenByMint);
       _mintToIndex = _routeMap.mintKeys.asMap().map((k, v) => MapEntry(v, k));
-      
+
       final inputTokens =
           _jupiterTokens.whereNotNull().where(_balances.isPositive).toList()
             ..add(Token.sol)
@@ -101,7 +104,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     _Emitter emit,
   ) async {
     final mappedInput = inputEvent.inputToken.isSolana
-        ? const Token.wrappedSolana()
+        ? Token.wrappedSol
         : inputEvent.inputToken;
 
     emit(
@@ -204,9 +207,18 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     if (input == null) return;
 
+    var balance = _balances.balanceFromToken(input);
+
+    if (input.isWrappedSol) {
+      final fee = calculateFeeForWrappedSol();
+      balance = balance.copyWith(
+        value: math.max(0, balance.value - fee.value),
+      );
+    }
+
     emit(
       state.copyWith(
-        amount: _balances.balanceFromToken(input),
+        amount: balance,
       ),
     );
 
@@ -288,6 +300,21 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       );
     }
 
+    if (token.isWrappedSol) {
+      final fee = calculateFeeForWrappedSol();
+
+      var feeBalance =
+          _balances[Token.sol] ?? Amount.zero(currency: Currency.sol);
+
+      feeBalance = feeBalance.copyWith(
+        value: feeBalance.value - state.amount.value,
+      );
+
+      if (feeBalance < fee) {
+        return Either.left(ValidationError.insufficientFee(fee));
+      }
+    }
+
     return const Either.right(null);
   }
 }
@@ -311,26 +338,30 @@ extension on Map<Token, Amount?> {
     return balance != null && balance.value != 0;
   }
 
-  CryptoAmount balanceFromToken(Token input) {
-    final mappedInput = input
-        .let((token) => token.address)
-        .let((address) => address == const Token.wrappedSolana().address)
-        .let((isWrappedSol) => isWrappedSol ? Token.sol : input);
-
+  CryptoAmount balanceFromToken(Token splInput) {
+    final mappedInput = splInput.isWrappedSol ? Token.sol : splInput;
     final balance = this[mappedInput];
-    final amount =
-        balance ?? Amount.zero(currency: CryptoCurrency(token: input));
+    final value = balance?.value ?? 0;
 
-    return amount.map(
-      fiat: (fiat) => CryptoAmount(
-        value: fiat.value,
-        currency: CryptoCurrency(token: input),
-      ),
-      crypto: identity,
+    return CryptoAmount(
+      value: value,
+      currency: CryptoCurrency(token: splInput),
     );
   }
 }
 
 extension on List<Token> {
   void sortByName() => sorted((a, b) => a.name.compareTo(b.name));
+}
+
+extension on Token {
+  bool get isWrappedSol => address == Token.wrappedSol.address;
+}
+
+CryptoAmount calculateFeeForWrappedSol() {
+  // Base fee for the transaction multiplied by 3, once it's the max of
+  // transactions that might happen
+  const fee = 3 * (lamportsPerSignature + tokenProgramRent);
+
+  return const CryptoAmount(value: fee, currency: Currency.sol);
 }
