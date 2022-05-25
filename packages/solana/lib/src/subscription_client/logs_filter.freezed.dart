@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'logs_filter.dart';
@@ -11,29 +12,7 @@ part of 'logs_filter.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$LogsFilterTearOff {
-  const _$LogsFilterTearOff();
-
-  _LogsFilterAll all() {
-    return const _LogsFilterAll();
-  }
-
-  _LosgFilterAllWithVotes allWithVotes() {
-    return const _LosgFilterAllWithVotes();
-  }
-
-  _LogsFilterMentions mentions(List<String> pubKeys) {
-    return _LogsFilterMentions(
-      pubKeys,
-    );
-  }
-}
-
-/// @nodoc
-const $LogsFilter = _$LogsFilterTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$LogsFilter {
@@ -100,21 +79,22 @@ class _$LogsFilterCopyWithImpl<$Res> implements $LogsFilterCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$LogsFilterAllCopyWith<$Res> {
-  factory _$LogsFilterAllCopyWith(
-          _LogsFilterAll value, $Res Function(_LogsFilterAll) then) =
-      __$LogsFilterAllCopyWithImpl<$Res>;
+abstract class _$$_LogsFilterAllCopyWith<$Res> {
+  factory _$$_LogsFilterAllCopyWith(
+          _$_LogsFilterAll value, $Res Function(_$_LogsFilterAll) then) =
+      __$$_LogsFilterAllCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$LogsFilterAllCopyWithImpl<$Res> extends _$LogsFilterCopyWithImpl<$Res>
-    implements _$LogsFilterAllCopyWith<$Res> {
-  __$LogsFilterAllCopyWithImpl(
-      _LogsFilterAll _value, $Res Function(_LogsFilterAll) _then)
-      : super(_value, (v) => _then(v as _LogsFilterAll));
+class __$$_LogsFilterAllCopyWithImpl<$Res>
+    extends _$LogsFilterCopyWithImpl<$Res>
+    implements _$$_LogsFilterAllCopyWith<$Res> {
+  __$$_LogsFilterAllCopyWithImpl(
+      _$_LogsFilterAll _value, $Res Function(_$_LogsFilterAll) _then)
+      : super(_value, (v) => _then(v as _$_LogsFilterAll));
 
   @override
-  _LogsFilterAll get _value => super._value as _LogsFilterAll;
+  _$_LogsFilterAll get _value => super._value as _$_LogsFilterAll;
 }
 
 /// @nodoc
@@ -130,7 +110,7 @@ class _$_LogsFilterAll implements _LogsFilterAll {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _LogsFilterAll);
+        (other.runtimeType == runtimeType && other is _$_LogsFilterAll);
   }
 
   @override
@@ -210,22 +190,23 @@ abstract class _LogsFilterAll implements LogsFilter {
 }
 
 /// @nodoc
-abstract class _$LosgFilterAllWithVotesCopyWith<$Res> {
-  factory _$LosgFilterAllWithVotesCopyWith(_LosgFilterAllWithVotes value,
-          $Res Function(_LosgFilterAllWithVotes) then) =
-      __$LosgFilterAllWithVotesCopyWithImpl<$Res>;
+abstract class _$$_LosgFilterAllWithVotesCopyWith<$Res> {
+  factory _$$_LosgFilterAllWithVotesCopyWith(_$_LosgFilterAllWithVotes value,
+          $Res Function(_$_LosgFilterAllWithVotes) then) =
+      __$$_LosgFilterAllWithVotesCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$LosgFilterAllWithVotesCopyWithImpl<$Res>
+class __$$_LosgFilterAllWithVotesCopyWithImpl<$Res>
     extends _$LogsFilterCopyWithImpl<$Res>
-    implements _$LosgFilterAllWithVotesCopyWith<$Res> {
-  __$LosgFilterAllWithVotesCopyWithImpl(_LosgFilterAllWithVotes _value,
-      $Res Function(_LosgFilterAllWithVotes) _then)
-      : super(_value, (v) => _then(v as _LosgFilterAllWithVotes));
+    implements _$$_LosgFilterAllWithVotesCopyWith<$Res> {
+  __$$_LosgFilterAllWithVotesCopyWithImpl(_$_LosgFilterAllWithVotes _value,
+      $Res Function(_$_LosgFilterAllWithVotes) _then)
+      : super(_value, (v) => _then(v as _$_LosgFilterAllWithVotes));
 
   @override
-  _LosgFilterAllWithVotes get _value => super._value as _LosgFilterAllWithVotes;
+  _$_LosgFilterAllWithVotes get _value =>
+      super._value as _$_LosgFilterAllWithVotes;
 }
 
 /// @nodoc
@@ -241,7 +222,8 @@ class _$_LosgFilterAllWithVotes implements _LosgFilterAllWithVotes {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _LosgFilterAllWithVotes);
+        (other.runtimeType == runtimeType &&
+            other is _$_LosgFilterAllWithVotes);
   }
 
   @override
@@ -321,31 +303,31 @@ abstract class _LosgFilterAllWithVotes implements LogsFilter {
 }
 
 /// @nodoc
-abstract class _$LogsFilterMentionsCopyWith<$Res> {
-  factory _$LogsFilterMentionsCopyWith(
-          _LogsFilterMentions value, $Res Function(_LogsFilterMentions) then) =
-      __$LogsFilterMentionsCopyWithImpl<$Res>;
+abstract class _$$_LogsFilterMentionsCopyWith<$Res> {
+  factory _$$_LogsFilterMentionsCopyWith(_$_LogsFilterMentions value,
+          $Res Function(_$_LogsFilterMentions) then) =
+      __$$_LogsFilterMentionsCopyWithImpl<$Res>;
   $Res call({List<String> pubKeys});
 }
 
 /// @nodoc
-class __$LogsFilterMentionsCopyWithImpl<$Res>
+class __$$_LogsFilterMentionsCopyWithImpl<$Res>
     extends _$LogsFilterCopyWithImpl<$Res>
-    implements _$LogsFilterMentionsCopyWith<$Res> {
-  __$LogsFilterMentionsCopyWithImpl(
-      _LogsFilterMentions _value, $Res Function(_LogsFilterMentions) _then)
-      : super(_value, (v) => _then(v as _LogsFilterMentions));
+    implements _$$_LogsFilterMentionsCopyWith<$Res> {
+  __$$_LogsFilterMentionsCopyWithImpl(
+      _$_LogsFilterMentions _value, $Res Function(_$_LogsFilterMentions) _then)
+      : super(_value, (v) => _then(v as _$_LogsFilterMentions));
 
   @override
-  _LogsFilterMentions get _value => super._value as _LogsFilterMentions;
+  _$_LogsFilterMentions get _value => super._value as _$_LogsFilterMentions;
 
   @override
   $Res call({
     Object? pubKeys = freezed,
   }) {
-    return _then(_LogsFilterMentions(
+    return _then(_$_LogsFilterMentions(
       pubKeys == freezed
-          ? _value.pubKeys
+          ? _value._pubKeys
           : pubKeys // ignore: cast_nullable_to_non_nullable
               as List<String>,
     ));
@@ -355,10 +337,14 @@ class __$LogsFilterMentionsCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LogsFilterMentions implements _LogsFilterMentions {
-  const _$_LogsFilterMentions(this.pubKeys);
+  const _$_LogsFilterMentions(final List<String> pubKeys) : _pubKeys = pubKeys;
 
+  final List<String> _pubKeys;
   @override
-  final List<String> pubKeys;
+  List<String> get pubKeys {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_pubKeys);
+  }
 
   @override
   String toString() {
@@ -369,18 +355,19 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _LogsFilterMentions &&
-            const DeepCollectionEquality().equals(other.pubKeys, pubKeys));
+            other is _$_LogsFilterMentions &&
+            const DeepCollectionEquality().equals(other._pubKeys, _pubKeys));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(pubKeys));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_pubKeys));
 
   @JsonKey(ignore: true)
   @override
-  _$LogsFilterMentionsCopyWith<_LogsFilterMentions> get copyWith =>
-      __$LogsFilterMentionsCopyWithImpl<_LogsFilterMentions>(this, _$identity);
+  _$$_LogsFilterMentionsCopyWith<_$_LogsFilterMentions> get copyWith =>
+      __$$_LogsFilterMentionsCopyWithImpl<_$_LogsFilterMentions>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -452,11 +439,11 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
 }
 
 abstract class _LogsFilterMentions implements LogsFilter {
-  const factory _LogsFilterMentions(List<String> pubKeys) =
+  const factory _LogsFilterMentions(final List<String> pubKeys) =
       _$_LogsFilterMentions;
 
-  List<String> get pubKeys;
+  List<String> get pubKeys => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  _$LogsFilterMentionsCopyWith<_LogsFilterMentions> get copyWith =>
+  _$$_LogsFilterMentionsCopyWith<_$_LogsFilterMentions> get copyWith =>
       throw _privateConstructorUsedError;
 }

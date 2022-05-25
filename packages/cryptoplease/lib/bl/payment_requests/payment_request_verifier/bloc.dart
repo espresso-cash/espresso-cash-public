@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:decimal/decimal.dart';

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/solana_helpers.dart';

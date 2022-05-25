@@ -5,11 +5,10 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: '>=2.14.3 <3.0.0'
-
+  sdk: ">=2.14.3 <3.0.0"
 
 dependencies:
-  analyzer: ^2.7.0
+  analyzer: ^3.0.0
   build: ^2.1.1
   http: ^0.13.4
   source_gen: ^1.1.1

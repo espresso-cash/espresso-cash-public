@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'notification_message.dart';
@@ -11,7 +12,7 @@ part of 'notification_message.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 NotificationMessage _$NotificationMessageFromJson(Map<String, dynamic> json) {
   switch (json['method']) {
@@ -30,57 +31,6 @@ NotificationMessage _$NotificationMessageFromJson(Map<String, dynamic> json) {
       return _UnsupportedNotification.fromJson(json);
   }
 }
-
-/// @nodoc
-class _$NotificationMessageTearOff {
-  const _$NotificationMessageTearOff();
-
-  _UnsupportedNotification unsupported() {
-    return const _UnsupportedNotification();
-  }
-
-  AccountNotification accountNotification(
-      {required NotificationParams<Account> params}) {
-    return AccountNotification(
-      params: params,
-    );
-  }
-
-  LogsNotification logsNotification(
-      {required NotificationParams<Logs> params}) {
-    return LogsNotification(
-      params: params,
-    );
-  }
-
-  ProgramNotification programNotification(
-      {required NotificationParams<dynamic> params}) {
-    return ProgramNotification(
-      params: params,
-    );
-  }
-
-  SignatureNotification signatureNotification(
-      {required NotificationParams<OptionalError> params}) {
-    return SignatureNotification(
-      params: params,
-    );
-  }
-
-  SlotNotification slotNotification(
-      {required NotificationParams<Slot> params}) {
-    return SlotNotification(
-      params: params,
-    );
-  }
-
-  NotificationMessage fromJson(Map<String, Object?> json) {
-    return NotificationMessage.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $NotificationMessage = _$NotificationMessageTearOff();
 
 /// @nodoc
 mixin _$NotificationMessage {
@@ -173,29 +123,29 @@ class _$NotificationMessageCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$UnsupportedNotificationCopyWith<$Res> {
-  factory _$UnsupportedNotificationCopyWith(_UnsupportedNotification value,
-          $Res Function(_UnsupportedNotification) then) =
-      __$UnsupportedNotificationCopyWithImpl<$Res>;
+abstract class _$$_UnsupportedNotificationCopyWith<$Res> {
+  factory _$$_UnsupportedNotificationCopyWith(_$_UnsupportedNotification value,
+          $Res Function(_$_UnsupportedNotification) then) =
+      __$$_UnsupportedNotificationCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$UnsupportedNotificationCopyWithImpl<$Res>
+class __$$_UnsupportedNotificationCopyWithImpl<$Res>
     extends _$NotificationMessageCopyWithImpl<$Res>
-    implements _$UnsupportedNotificationCopyWith<$Res> {
-  __$UnsupportedNotificationCopyWithImpl(_UnsupportedNotification _value,
-      $Res Function(_UnsupportedNotification) _then)
-      : super(_value, (v) => _then(v as _UnsupportedNotification));
+    implements _$$_UnsupportedNotificationCopyWith<$Res> {
+  __$$_UnsupportedNotificationCopyWithImpl(_$_UnsupportedNotification _value,
+      $Res Function(_$_UnsupportedNotification) _then)
+      : super(_value, (v) => _then(v as _$_UnsupportedNotification));
 
   @override
-  _UnsupportedNotification get _value =>
-      super._value as _UnsupportedNotification;
+  _$_UnsupportedNotification get _value =>
+      super._value as _$_UnsupportedNotification;
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$_UnsupportedNotification extends _UnsupportedNotification {
-  const _$_UnsupportedNotification({String? $type})
+  const _$_UnsupportedNotification({final String? $type})
       : $type = $type ?? 'unsupported',
         super._();
 
@@ -213,9 +163,11 @@ class _$_UnsupportedNotification extends _UnsupportedNotification {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _UnsupportedNotification);
+        (other.runtimeType == runtimeType &&
+            other is _$_UnsupportedNotification);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -326,29 +278,29 @@ abstract class _UnsupportedNotification extends NotificationMessage {
 }
 
 /// @nodoc
-abstract class $AccountNotificationCopyWith<$Res> {
-  factory $AccountNotificationCopyWith(
-          AccountNotification value, $Res Function(AccountNotification) then) =
-      _$AccountNotificationCopyWithImpl<$Res>;
+abstract class _$$AccountNotificationCopyWith<$Res> {
+  factory _$$AccountNotificationCopyWith(_$AccountNotification value,
+          $Res Function(_$AccountNotification) then) =
+      __$$AccountNotificationCopyWithImpl<$Res>;
   $Res call({NotificationParams<Account> params});
 }
 
 /// @nodoc
-class _$AccountNotificationCopyWithImpl<$Res>
+class __$$AccountNotificationCopyWithImpl<$Res>
     extends _$NotificationMessageCopyWithImpl<$Res>
-    implements $AccountNotificationCopyWith<$Res> {
-  _$AccountNotificationCopyWithImpl(
-      AccountNotification _value, $Res Function(AccountNotification) _then)
-      : super(_value, (v) => _then(v as AccountNotification));
+    implements _$$AccountNotificationCopyWith<$Res> {
+  __$$AccountNotificationCopyWithImpl(
+      _$AccountNotification _value, $Res Function(_$AccountNotification) _then)
+      : super(_value, (v) => _then(v as _$AccountNotification));
 
   @override
-  AccountNotification get _value => super._value as AccountNotification;
+  _$AccountNotification get _value => super._value as _$AccountNotification;
 
   @override
   $Res call({
     Object? params = freezed,
   }) {
-    return _then(AccountNotification(
+    return _then(_$AccountNotification(
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
@@ -360,7 +312,7 @@ class _$AccountNotificationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AccountNotification extends AccountNotification {
-  const _$AccountNotification({required this.params, String? $type})
+  const _$AccountNotification({required this.params, final String? $type})
       : $type = $type ?? 'accountNotification',
         super._();
 
@@ -382,18 +334,20 @@ class _$AccountNotification extends AccountNotification {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is AccountNotification &&
+            other is _$AccountNotification &&
             const DeepCollectionEquality().equals(other.params, params));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(params));
 
   @JsonKey(ignore: true)
   @override
-  $AccountNotificationCopyWith<AccountNotification> get copyWith =>
-      _$AccountNotificationCopyWithImpl<AccountNotification>(this, _$identity);
+  _$$AccountNotificationCopyWith<_$AccountNotification> get copyWith =>
+      __$$AccountNotificationCopyWithImpl<_$AccountNotification>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -495,42 +449,43 @@ class _$AccountNotification extends AccountNotification {
 
 abstract class AccountNotification extends NotificationMessage {
   const factory AccountNotification(
-      {required NotificationParams<Account> params}) = _$AccountNotification;
+          {required final NotificationParams<Account> params}) =
+      _$AccountNotification;
   const AccountNotification._() : super._();
 
   factory AccountNotification.fromJson(Map<String, dynamic> json) =
       _$AccountNotification.fromJson;
 
-  NotificationParams<Account> get params;
+  NotificationParams<Account> get params => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AccountNotificationCopyWith<AccountNotification> get copyWith =>
+  _$$AccountNotificationCopyWith<_$AccountNotification> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LogsNotificationCopyWith<$Res> {
-  factory $LogsNotificationCopyWith(
-          LogsNotification value, $Res Function(LogsNotification) then) =
-      _$LogsNotificationCopyWithImpl<$Res>;
+abstract class _$$LogsNotificationCopyWith<$Res> {
+  factory _$$LogsNotificationCopyWith(
+          _$LogsNotification value, $Res Function(_$LogsNotification) then) =
+      __$$LogsNotificationCopyWithImpl<$Res>;
   $Res call({NotificationParams<Logs> params});
 }
 
 /// @nodoc
-class _$LogsNotificationCopyWithImpl<$Res>
+class __$$LogsNotificationCopyWithImpl<$Res>
     extends _$NotificationMessageCopyWithImpl<$Res>
-    implements $LogsNotificationCopyWith<$Res> {
-  _$LogsNotificationCopyWithImpl(
-      LogsNotification _value, $Res Function(LogsNotification) _then)
-      : super(_value, (v) => _then(v as LogsNotification));
+    implements _$$LogsNotificationCopyWith<$Res> {
+  __$$LogsNotificationCopyWithImpl(
+      _$LogsNotification _value, $Res Function(_$LogsNotification) _then)
+      : super(_value, (v) => _then(v as _$LogsNotification));
 
   @override
-  LogsNotification get _value => super._value as LogsNotification;
+  _$LogsNotification get _value => super._value as _$LogsNotification;
 
   @override
   $Res call({
     Object? params = freezed,
   }) {
-    return _then(LogsNotification(
+    return _then(_$LogsNotification(
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
@@ -542,7 +497,7 @@ class _$LogsNotificationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LogsNotification extends LogsNotification {
-  const _$LogsNotification({required this.params, String? $type})
+  const _$LogsNotification({required this.params, final String? $type})
       : $type = $type ?? 'logsNotification',
         super._();
 
@@ -564,18 +519,19 @@ class _$LogsNotification extends LogsNotification {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is LogsNotification &&
+            other is _$LogsNotification &&
             const DeepCollectionEquality().equals(other.params, params));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(params));
 
   @JsonKey(ignore: true)
   @override
-  $LogsNotificationCopyWith<LogsNotification> get copyWith =>
-      _$LogsNotificationCopyWithImpl<LogsNotification>(this, _$identity);
+  _$$LogsNotificationCopyWith<_$LogsNotification> get copyWith =>
+      __$$LogsNotificationCopyWithImpl<_$LogsNotification>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -676,43 +632,43 @@ class _$LogsNotification extends LogsNotification {
 }
 
 abstract class LogsNotification extends NotificationMessage {
-  const factory LogsNotification({required NotificationParams<Logs> params}) =
-      _$LogsNotification;
+  const factory LogsNotification(
+      {required final NotificationParams<Logs> params}) = _$LogsNotification;
   const LogsNotification._() : super._();
 
   factory LogsNotification.fromJson(Map<String, dynamic> json) =
       _$LogsNotification.fromJson;
 
-  NotificationParams<Logs> get params;
+  NotificationParams<Logs> get params => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $LogsNotificationCopyWith<LogsNotification> get copyWith =>
+  _$$LogsNotificationCopyWith<_$LogsNotification> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ProgramNotificationCopyWith<$Res> {
-  factory $ProgramNotificationCopyWith(
-          ProgramNotification value, $Res Function(ProgramNotification) then) =
-      _$ProgramNotificationCopyWithImpl<$Res>;
+abstract class _$$ProgramNotificationCopyWith<$Res> {
+  factory _$$ProgramNotificationCopyWith(_$ProgramNotification value,
+          $Res Function(_$ProgramNotification) then) =
+      __$$ProgramNotificationCopyWithImpl<$Res>;
   $Res call({NotificationParams<dynamic> params});
 }
 
 /// @nodoc
-class _$ProgramNotificationCopyWithImpl<$Res>
+class __$$ProgramNotificationCopyWithImpl<$Res>
     extends _$NotificationMessageCopyWithImpl<$Res>
-    implements $ProgramNotificationCopyWith<$Res> {
-  _$ProgramNotificationCopyWithImpl(
-      ProgramNotification _value, $Res Function(ProgramNotification) _then)
-      : super(_value, (v) => _then(v as ProgramNotification));
+    implements _$$ProgramNotificationCopyWith<$Res> {
+  __$$ProgramNotificationCopyWithImpl(
+      _$ProgramNotification _value, $Res Function(_$ProgramNotification) _then)
+      : super(_value, (v) => _then(v as _$ProgramNotification));
 
   @override
-  ProgramNotification get _value => super._value as ProgramNotification;
+  _$ProgramNotification get _value => super._value as _$ProgramNotification;
 
   @override
   $Res call({
     Object? params = freezed,
   }) {
-    return _then(ProgramNotification(
+    return _then(_$ProgramNotification(
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
@@ -724,7 +680,7 @@ class _$ProgramNotificationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ProgramNotification extends ProgramNotification {
-  const _$ProgramNotification({required this.params, String? $type})
+  const _$ProgramNotification({required this.params, final String? $type})
       : $type = $type ?? 'programNotification',
         super._();
 
@@ -746,18 +702,20 @@ class _$ProgramNotification extends ProgramNotification {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ProgramNotification &&
+            other is _$ProgramNotification &&
             const DeepCollectionEquality().equals(other.params, params));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(params));
 
   @JsonKey(ignore: true)
   @override
-  $ProgramNotificationCopyWith<ProgramNotification> get copyWith =>
-      _$ProgramNotificationCopyWithImpl<ProgramNotification>(this, _$identity);
+  _$$ProgramNotificationCopyWith<_$ProgramNotification> get copyWith =>
+      __$$ProgramNotificationCopyWithImpl<_$ProgramNotification>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -859,42 +817,43 @@ class _$ProgramNotification extends ProgramNotification {
 
 abstract class ProgramNotification extends NotificationMessage {
   const factory ProgramNotification(
-      {required NotificationParams<dynamic> params}) = _$ProgramNotification;
+          {required final NotificationParams<dynamic> params}) =
+      _$ProgramNotification;
   const ProgramNotification._() : super._();
 
   factory ProgramNotification.fromJson(Map<String, dynamic> json) =
       _$ProgramNotification.fromJson;
 
-  NotificationParams<dynamic> get params;
+  NotificationParams<dynamic> get params => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ProgramNotificationCopyWith<ProgramNotification> get copyWith =>
+  _$$ProgramNotificationCopyWith<_$ProgramNotification> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SignatureNotificationCopyWith<$Res> {
-  factory $SignatureNotificationCopyWith(SignatureNotification value,
-          $Res Function(SignatureNotification) then) =
-      _$SignatureNotificationCopyWithImpl<$Res>;
+abstract class _$$SignatureNotificationCopyWith<$Res> {
+  factory _$$SignatureNotificationCopyWith(_$SignatureNotification value,
+          $Res Function(_$SignatureNotification) then) =
+      __$$SignatureNotificationCopyWithImpl<$Res>;
   $Res call({NotificationParams<OptionalError> params});
 }
 
 /// @nodoc
-class _$SignatureNotificationCopyWithImpl<$Res>
+class __$$SignatureNotificationCopyWithImpl<$Res>
     extends _$NotificationMessageCopyWithImpl<$Res>
-    implements $SignatureNotificationCopyWith<$Res> {
-  _$SignatureNotificationCopyWithImpl(
-      SignatureNotification _value, $Res Function(SignatureNotification) _then)
-      : super(_value, (v) => _then(v as SignatureNotification));
+    implements _$$SignatureNotificationCopyWith<$Res> {
+  __$$SignatureNotificationCopyWithImpl(_$SignatureNotification _value,
+      $Res Function(_$SignatureNotification) _then)
+      : super(_value, (v) => _then(v as _$SignatureNotification));
 
   @override
-  SignatureNotification get _value => super._value as SignatureNotification;
+  _$SignatureNotification get _value => super._value as _$SignatureNotification;
 
   @override
   $Res call({
     Object? params = freezed,
   }) {
-    return _then(SignatureNotification(
+    return _then(_$SignatureNotification(
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
@@ -906,7 +865,7 @@ class _$SignatureNotificationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$SignatureNotification extends SignatureNotification {
-  const _$SignatureNotification({required this.params, String? $type})
+  const _$SignatureNotification({required this.params, final String? $type})
       : $type = $type ?? 'signatureNotification',
         super._();
 
@@ -928,18 +887,19 @@ class _$SignatureNotification extends SignatureNotification {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is SignatureNotification &&
+            other is _$SignatureNotification &&
             const DeepCollectionEquality().equals(other.params, params));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(params));
 
   @JsonKey(ignore: true)
   @override
-  $SignatureNotificationCopyWith<SignatureNotification> get copyWith =>
-      _$SignatureNotificationCopyWithImpl<SignatureNotification>(
+  _$$SignatureNotificationCopyWith<_$SignatureNotification> get copyWith =>
+      __$$SignatureNotificationCopyWithImpl<_$SignatureNotification>(
           this, _$identity);
 
   @override
@@ -1042,43 +1002,44 @@ class _$SignatureNotification extends SignatureNotification {
 
 abstract class SignatureNotification extends NotificationMessage {
   const factory SignatureNotification(
-          {required NotificationParams<OptionalError> params}) =
+          {required final NotificationParams<OptionalError> params}) =
       _$SignatureNotification;
   const SignatureNotification._() : super._();
 
   factory SignatureNotification.fromJson(Map<String, dynamic> json) =
       _$SignatureNotification.fromJson;
 
-  NotificationParams<OptionalError> get params;
+  NotificationParams<OptionalError> get params =>
+      throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SignatureNotificationCopyWith<SignatureNotification> get copyWith =>
+  _$$SignatureNotificationCopyWith<_$SignatureNotification> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SlotNotificationCopyWith<$Res> {
-  factory $SlotNotificationCopyWith(
-          SlotNotification value, $Res Function(SlotNotification) then) =
-      _$SlotNotificationCopyWithImpl<$Res>;
+abstract class _$$SlotNotificationCopyWith<$Res> {
+  factory _$$SlotNotificationCopyWith(
+          _$SlotNotification value, $Res Function(_$SlotNotification) then) =
+      __$$SlotNotificationCopyWithImpl<$Res>;
   $Res call({NotificationParams<Slot> params});
 }
 
 /// @nodoc
-class _$SlotNotificationCopyWithImpl<$Res>
+class __$$SlotNotificationCopyWithImpl<$Res>
     extends _$NotificationMessageCopyWithImpl<$Res>
-    implements $SlotNotificationCopyWith<$Res> {
-  _$SlotNotificationCopyWithImpl(
-      SlotNotification _value, $Res Function(SlotNotification) _then)
-      : super(_value, (v) => _then(v as SlotNotification));
+    implements _$$SlotNotificationCopyWith<$Res> {
+  __$$SlotNotificationCopyWithImpl(
+      _$SlotNotification _value, $Res Function(_$SlotNotification) _then)
+      : super(_value, (v) => _then(v as _$SlotNotification));
 
   @override
-  SlotNotification get _value => super._value as SlotNotification;
+  _$SlotNotification get _value => super._value as _$SlotNotification;
 
   @override
   $Res call({
     Object? params = freezed,
   }) {
-    return _then(SlotNotification(
+    return _then(_$SlotNotification(
       params: params == freezed
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
@@ -1090,7 +1051,7 @@ class _$SlotNotificationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$SlotNotification extends SlotNotification {
-  const _$SlotNotification({required this.params, String? $type})
+  const _$SlotNotification({required this.params, final String? $type})
       : $type = $type ?? 'slotNotification',
         super._();
 
@@ -1112,18 +1073,19 @@ class _$SlotNotification extends SlotNotification {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is SlotNotification &&
+            other is _$SlotNotification &&
             const DeepCollectionEquality().equals(other.params, params));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(params));
 
   @JsonKey(ignore: true)
   @override
-  $SlotNotificationCopyWith<SlotNotification> get copyWith =>
-      _$SlotNotificationCopyWithImpl<SlotNotification>(this, _$identity);
+  _$$SlotNotificationCopyWith<_$SlotNotification> get copyWith =>
+      __$$SlotNotificationCopyWithImpl<_$SlotNotification>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1224,15 +1186,15 @@ class _$SlotNotification extends SlotNotification {
 }
 
 abstract class SlotNotification extends NotificationMessage {
-  const factory SlotNotification({required NotificationParams<Slot> params}) =
-      _$SlotNotification;
+  const factory SlotNotification(
+      {required final NotificationParams<Slot> params}) = _$SlotNotification;
   const SlotNotification._() : super._();
 
   factory SlotNotification.fromJson(Map<String, dynamic> json) =
       _$SlotNotification.fromJson;
 
-  NotificationParams<Slot> get params;
+  NotificationParams<Slot> get params => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SlotNotificationCopyWith<SlotNotification> get copyWith =>
+  _$$SlotNotificationCopyWith<_$SlotNotification> get copyWith =>
       throw _privateConstructorUsedError;
 }

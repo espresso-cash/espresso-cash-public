@@ -1,3 +1,7 @@
+## 0.3.0+2
+
+ - **REFACTOR**: Migrate to Dart 2.17 (#271).
+
 ## 0.3.0+1
 
  - **DOCS**: Update readme.
