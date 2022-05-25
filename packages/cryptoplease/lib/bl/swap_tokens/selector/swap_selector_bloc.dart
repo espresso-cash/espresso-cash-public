@@ -174,17 +174,17 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onSwapInverted(_Emitter emit) async {
-    if (state.selectedInput == null || state.selectedOutput == null) return;
+    final newInput = state.selectedOutput;
+
+    if (newInput == null || state.selectedOutput == null) return;
 
     emit(
       state.invalidateRoute(),
     );
 
-    final newInput = state.selectedOutput!;
     final outputTokens = _validOutputsForInput(newInput);
-    final newOutput = outputTokens.contains(state.selectedInput)
-        ? state.selectedInput!
-        : null;
+    final newOutput =
+        outputTokens.contains(state.selectedInput) ? newInput : null;
     final amount = CryptoAmount(
       value: 0,
       currency: CryptoCurrency(token: newInput),
@@ -276,14 +276,15 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
   List<Token> _validOutputsForInput(Token token) {
     final index = _mintToIndex[token.address].toString();
-    final outputIndexes = _routeMap.indexedRouteMap[index]!;
-    final outputTokens = outputIndexes
+    final outputIndexes = _routeMap.indexedRouteMap[index];
+
+    if (outputIndexes == null) return List<Token>.empty();
+
+    return outputIndexes
         .map((index) => _jupiterTokens.elementAt(index))
         .whereNotNull()
         .toList()
       ..sortByName();
-
-    return outputTokens;
   }
 
   Either<ValidationError, void> validate() {

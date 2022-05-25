@@ -123,13 +123,11 @@ class SwapTransactionBloc
 
       final signature = signedTx.encode();
 
-      final txId = await _solanaClient.rpcClient.sendTransaction(
+      return await _solanaClient.rpcClient.sendTransaction(
         signature,
         skipPreflight: true,
         commitment: commitment,
       );
-
-      return txId;
     } on Exception catch (e) {
       onError(e);
     }

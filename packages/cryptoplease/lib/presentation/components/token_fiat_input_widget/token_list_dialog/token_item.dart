@@ -15,7 +15,7 @@ class TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-        onTap: onSelected == null ? null : () => onSelected!(token),
+        onTap: onSelected == null ? null : () => onSelected?.call(token),
         leading: TokenIcon(token: token, size: 40),
         title: Text(
           token.symbol,

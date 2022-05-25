@@ -18,31 +18,35 @@ class TokenDropdown extends StatelessWidget {
   final Widget suffixWidget;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: isEnabled ? onTap : null,
-        child: DecoratedBox(
-          decoration: const BoxDecoration(
-            color: CpColors.darkBackground,
-            borderRadius: BorderRadius.all(
-              Radius.circular(7),
-            ),
-          ),
-          child: Row(
-            children: [
-              if (selectedToken != null) _TokenMini(token: selectedToken!),
-              Flexible(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: suffixWidget,
-                  ),
-                ),
-              )
-            ],
+  Widget build(BuildContext context) {
+    final token = selectedToken;
+
+    return GestureDetector(
+      onTap: isEnabled ? onTap : null,
+      child: DecoratedBox(
+        decoration: const BoxDecoration(
+          color: CpColors.darkBackground,
+          borderRadius: BorderRadius.all(
+            Radius.circular(7),
           ),
         ),
-      );
+        child: Row(
+          children: [
+            if (token != null) _TokenMini(token: token),
+            Flexible(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: suffixWidget,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _TokenMini extends StatelessWidget {
