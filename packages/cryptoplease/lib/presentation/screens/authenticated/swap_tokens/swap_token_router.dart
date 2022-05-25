@@ -50,7 +50,7 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
       solanaClient: context.read<SolanaClient>(),
     );
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) => reloadOrderScreen());
+    WidgetsBinding.instance.addPostFrameCallback((_) => reloadOrderScreen());
     _reset();
   }
 

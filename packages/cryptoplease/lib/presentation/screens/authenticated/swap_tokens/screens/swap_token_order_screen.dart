@@ -18,10 +18,10 @@ class SwapTokenOrderScreen extends StatefulWidget {
   const SwapTokenOrderScreen({Key? key}) : super(key: key);
 
   @override
-  _SwapTokenOrderScreenState createState() => _SwapTokenOrderScreenState();
+  SwapTokenOrderScreenState createState() => SwapTokenOrderScreenState();
 }
 
-class _SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
+class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
   final _inputController = TextEditingController();
   final _outputController = TextEditingController();
   late final SwapSelectorBloc swapTokenBloc;

@@ -164,7 +164,7 @@ class _PendingRequestListenerState
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkForPendingRequest(context.read<PendingRequestBloc>().state.request);
     });
   }

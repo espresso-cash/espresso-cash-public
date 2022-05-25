@@ -676,7 +676,7 @@ packages:
     source: hosted
     version: "0.15.0"
   http:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -778,6 +778,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.5"
+  jupiter_aggregator:
+    dependency: "direct main"
+    description:
+      name: jupiter_aggregator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   logging:
     dependency: "direct main"
     description:
@@ -1068,12 +1075,10 @@ packages:
   qr_code_scanner:
     dependency: "direct main"
     description:
-      path: "."
-      ref: fix_break_changes_platform
-      resolved-ref: "0feca6f15042c279ff575c559a3430df917b623d"
-      url: "https://github.com/xeinebiu/qr_code_scanner.git"
-    source: git
-    version: "0.7.0"
+      name: qr_code_scanner
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.1"
   qr_flutter:
     dependency: "direct main"
     description:
@@ -1578,4 +1583,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.17.0 <3.0.0"
-  flutter: ">=3.0.0"
+  flutter: ">=2.10.0"

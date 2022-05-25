@@ -49,17 +49,12 @@ class _TokenMini extends StatelessWidget {
   const _TokenMini({
     Key? key,
     required this.token,
-    this.onTap,
-    this.extensive = false,
   }) : super(key: key);
 
   final Token token;
-  final bool extensive;
-  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) => InkWell(
-        onTap: onTap,
         child: Row(
           children: [
             Padding(
@@ -69,7 +64,7 @@ class _TokenMini extends StatelessWidget {
                 token: token,
               ),
             ),
-            Text(extensive ? token.name : token.symbol),
+            Text(token.name),
           ],
         ),
       );

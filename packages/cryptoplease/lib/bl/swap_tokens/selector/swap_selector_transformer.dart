@@ -1,6 +1,6 @@
 part of 'swap_selector_bloc.dart';
 
-EventTransformer<_Event> debounceAmountOnly() => (events, mapper) {
+EventTransformer<SwapSelectorEvent> debounceAmountOnly() => (events, mapper) {
       final nonDebounceStream = events.where(
         (e) => e.maybeMap(
           amountUpdated: (_) => false,

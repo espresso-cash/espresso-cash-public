@@ -15,7 +15,7 @@ class DeviceLocale {
       //       and dates. The reason why we do this effort is because
       //       the user likes to see things formatted in the way they're
       //       used to.
-      return WidgetsBinding.instance!.window.locales.first;
+      return WidgetsBinding.instance.window.locales.first;
     }
   }
 }
