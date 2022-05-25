@@ -22,10 +22,10 @@ class CpSearchTextField extends StatefulWidget {
   final CpSearchTextVariant variant;
 
   @override
-  _CpSearchTextFieldState createState() => _CpSearchTextFieldState();
+  CpSearchTextFieldState createState() => CpSearchTextFieldState();
 }
 
-class _CpSearchTextFieldState extends State<CpSearchTextField> {
+class CpSearchTextFieldState extends State<CpSearchTextField> {
   late final TextEditingController _searchController;
   late final FocusNode _focusNode;
 
