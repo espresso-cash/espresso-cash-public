@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/activities/solana_transaction.dart';
 import 'package:cryptoplease/bl/activities/tx_fetcher/bloc.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:solana/solana.dart';
 
