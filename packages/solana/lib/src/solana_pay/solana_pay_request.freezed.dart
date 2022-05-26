@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'solana_pay_request.dart';
@@ -11,34 +12,7 @@ part of 'solana_pay_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$SolanaPayRequestTearOff {
-  const _$SolanaPayRequestTearOff();
-
-  _SolanaPayRequest call(
-      {required Ed25519HDPublicKey recipient,
-      Decimal? amount,
-      Ed25519HDPublicKey? splToken,
-      Iterable<Ed25519HDPublicKey>? reference,
-      String? label,
-      String? message,
-      String? memo}) {
-    return _SolanaPayRequest(
-      recipient: recipient,
-      amount: amount,
-      splToken: splToken,
-      reference: reference,
-      label: label,
-      message: message,
-      memo: memo,
-    );
-  }
-}
-
-/// @nodoc
-const $SolanaPayRequest = _$SolanaPayRequestTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$SolanaPayRequest {
@@ -124,11 +98,11 @@ class _$SolanaPayRequestCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$SolanaPayRequestCopyWith<$Res>
+abstract class _$$_SolanaPayRequestCopyWith<$Res>
     implements $SolanaPayRequestCopyWith<$Res> {
-  factory _$SolanaPayRequestCopyWith(
-          _SolanaPayRequest value, $Res Function(_SolanaPayRequest) then) =
-      __$SolanaPayRequestCopyWithImpl<$Res>;
+  factory _$$_SolanaPayRequestCopyWith(
+          _$_SolanaPayRequest value, $Res Function(_$_SolanaPayRequest) then) =
+      __$$_SolanaPayRequestCopyWithImpl<$Res>;
   @override
   $Res call(
       {Ed25519HDPublicKey recipient,
@@ -141,15 +115,15 @@ abstract class _$SolanaPayRequestCopyWith<$Res>
 }
 
 /// @nodoc
-class __$SolanaPayRequestCopyWithImpl<$Res>
+class __$$_SolanaPayRequestCopyWithImpl<$Res>
     extends _$SolanaPayRequestCopyWithImpl<$Res>
-    implements _$SolanaPayRequestCopyWith<$Res> {
-  __$SolanaPayRequestCopyWithImpl(
-      _SolanaPayRequest _value, $Res Function(_SolanaPayRequest) _then)
-      : super(_value, (v) => _then(v as _SolanaPayRequest));
+    implements _$$_SolanaPayRequestCopyWith<$Res> {
+  __$$_SolanaPayRequestCopyWithImpl(
+      _$_SolanaPayRequest _value, $Res Function(_$_SolanaPayRequest) _then)
+      : super(_value, (v) => _then(v as _$_SolanaPayRequest));
 
   @override
-  _SolanaPayRequest get _value => super._value as _SolanaPayRequest;
+  _$_SolanaPayRequest get _value => super._value as _$_SolanaPayRequest;
 
   @override
   $Res call({
@@ -161,7 +135,7 @@ class __$SolanaPayRequestCopyWithImpl<$Res>
     Object? message = freezed,
     Object? memo = freezed,
   }) {
-    return _then(_SolanaPayRequest(
+    return _then(_$_SolanaPayRequest(
       recipient: recipient == freezed
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
@@ -231,7 +205,7 @@ class _$_SolanaPayRequest extends _SolanaPayRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SolanaPayRequest &&
+            other is _$_SolanaPayRequest &&
             const DeepCollectionEquality().equals(other.recipient, recipient) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
             const DeepCollectionEquality().equals(other.splToken, splToken) &&
@@ -254,37 +228,38 @@ class _$_SolanaPayRequest extends _SolanaPayRequest {
 
   @JsonKey(ignore: true)
   @override
-  _$SolanaPayRequestCopyWith<_SolanaPayRequest> get copyWith =>
-      __$SolanaPayRequestCopyWithImpl<_SolanaPayRequest>(this, _$identity);
+  _$$_SolanaPayRequestCopyWith<_$_SolanaPayRequest> get copyWith =>
+      __$$_SolanaPayRequestCopyWithImpl<_$_SolanaPayRequest>(this, _$identity);
 }
 
 abstract class _SolanaPayRequest extends SolanaPayRequest {
   const factory _SolanaPayRequest(
-      {required Ed25519HDPublicKey recipient,
-      Decimal? amount,
-      Ed25519HDPublicKey? splToken,
-      Iterable<Ed25519HDPublicKey>? reference,
-      String? label,
-      String? message,
-      String? memo}) = _$_SolanaPayRequest;
+      {required final Ed25519HDPublicKey recipient,
+      final Decimal? amount,
+      final Ed25519HDPublicKey? splToken,
+      final Iterable<Ed25519HDPublicKey>? reference,
+      final String? label,
+      final String? message,
+      final String? memo}) = _$_SolanaPayRequest;
   const _SolanaPayRequest._() : super._();
 
   @override
-  Ed25519HDPublicKey get recipient;
+  Ed25519HDPublicKey get recipient => throw _privateConstructorUsedError;
   @override
-  Decimal? get amount;
+  Decimal? get amount => throw _privateConstructorUsedError;
   @override
-  Ed25519HDPublicKey? get splToken;
+  Ed25519HDPublicKey? get splToken => throw _privateConstructorUsedError;
   @override
-  Iterable<Ed25519HDPublicKey>? get reference;
+  Iterable<Ed25519HDPublicKey>? get reference =>
+      throw _privateConstructorUsedError;
   @override
-  String? get label;
+  String? get label => throw _privateConstructorUsedError;
   @override
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @override
-  String? get memo;
+  String? get memo => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SolanaPayRequestCopyWith<_SolanaPayRequest> get copyWith =>
+  _$$_SolanaPayRequestCopyWith<_$_SolanaPayRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
