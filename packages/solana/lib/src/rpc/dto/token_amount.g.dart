@@ -10,7 +10,6 @@ TokenAmount _$TokenAmountFromJson(Map<String, dynamic> json) => TokenAmount(
       amount: json['amount'] as String,
       decimals: json['decimals'] as int,
       uiAmountString: json['uiAmountString'] as String?,
-      uiAmount: (json['uiAmount'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$TokenAmountToJson(TokenAmount instance) =>
@@ -18,5 +17,4 @@ Map<String, dynamic> _$TokenAmountToJson(TokenAmount instance) =>
       'amount': instance.amount,
       'decimals': instance.decimals,
       'uiAmountString': instance.uiAmountString,
-      'uiAmount': instance.uiAmount,
     };

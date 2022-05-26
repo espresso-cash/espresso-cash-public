@@ -12,6 +12,10 @@ SplTokenTransferInfo _$SplTokenTransferInfoFromJson(
       amount: json['amount'] as String,
       source: json['source'] as String,
       destination: json['destination'] as String,
+      authority: json['authority'] as String?,
+      multisigAuthority: json['multisigAuthority'] as String?,
+      signers:
+          (json['signers'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$SplTokenTransferInfoToJson(
@@ -20,4 +24,7 @@ Map<String, dynamic> _$SplTokenTransferInfoToJson(
       'amount': instance.amount,
       'source': instance.source,
       'destination': instance.destination,
+      'authority': instance.authority,
+      'multisigAuthority': instance.multisigAuthority,
+      'signers': instance.signers,
     };

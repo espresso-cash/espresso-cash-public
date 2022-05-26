@@ -14,9 +14,10 @@ SplTokenTransferCheckedInfo _$SplTokenTransferCheckedInfoFromJson(
       source: json['source'] as String,
       destination: json['destination'] as String,
       mint: json['mint'] as String,
-      multisigAuthority: json['multisigAuthority'] as String,
+      authority: json['authority'] as String?,
+      multisigAuthority: json['multisigAuthority'] as String?,
       signers:
-          (json['signers'] as List<dynamic>).map((e) => e as String).toList(),
+          (json['signers'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$SplTokenTransferCheckedInfoToJson(
@@ -26,6 +27,7 @@ Map<String, dynamic> _$SplTokenTransferCheckedInfoToJson(
       'source': instance.source,
       'destination': instance.destination,
       'mint': instance.mint,
+      'authority': instance.authority,
       'multisigAuthority': instance.multisigAuthority,
       'signers': instance.signers,
     };
