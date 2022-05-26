@@ -11,8 +11,8 @@ class InputRowWidget extends StatelessWidget {
     required this.selectedToken,
     required this.onSelectToken,
     required this.amountController,
-    required this.isInputEnabled,
     this.onMaxRequested,
+    this.isTokenInputEnabled = true,
     this.isLoadingTokens = false,
     this.isLoadingAmount = false,
   }) : super(key: key);
@@ -21,7 +21,7 @@ class InputRowWidget extends StatelessWidget {
   final Token? selectedToken;
   final VoidCallback onSelectToken;
   final TextEditingController amountController;
-  final bool isInputEnabled;
+  final bool isTokenInputEnabled;
   final bool isLoadingTokens;
   final bool isLoadingAmount;
   final VoidCallback? onMaxRequested;
@@ -41,7 +41,6 @@ class InputRowWidget extends StatelessWidget {
                   child: AmountInputWidget(
                     onMaxRequested: onMaxRequested,
                     amountController: amountController,
-                    isEnabled: isInputEnabled,
                     suffixWidget: isLoadingAmount
                         ? const _LoadingWidget()
                         : onMaxRequested == null
@@ -54,7 +53,7 @@ class InputRowWidget extends StatelessWidget {
                   child: TokenDropdown(
                     selectedToken: selectedToken,
                     onTap: onSelectToken,
-                    isEnabled: !isLoadingTokens,
+                    isEnabled: !isLoadingTokens && isTokenInputEnabled,
                     suffixWidget: isLoadingTokens
                         ? const _LoadingWidget()
                         : const Icon(Icons.expand_more),

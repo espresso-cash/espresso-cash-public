@@ -32,16 +32,18 @@ class TokenDropdown extends StatelessWidget {
         ),
         child: Row(
           children: [
-            if (token != null) _TokenMini(token: token),
-            Flexible(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: suffixWidget,
-                ),
+            Expanded(
+              child: token != null
+                  ? _TokenMini(token: token)
+                  : const SizedBox.shrink(),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: suffixWidget,
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -68,7 +70,13 @@ class _TokenMini extends StatelessWidget {
                 token: token,
               ),
             ),
-            Text(token.name),
+            Flexible(
+              child: Text(
+                token.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       );

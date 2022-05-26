@@ -64,6 +64,13 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         maxInputRequested: (_) => _onMaxInputRequested(emit),
       );
 
+  // For route purposes, Wrapped SOL takes place instead of SOL.
+  // Jupiter creates a transaction to convert SOL amount into Wrapped SOL.
+  Token? _toSplInput(Token? token) {
+    if (token == null) return null;
+    if (token.isSolana) return Token.wrappedSol;
+  }
+
   Future<void> _onInitialized(
     SwapSelectorLoadEvent _,
     _Emitter emit,
@@ -104,19 +111,18 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     SwapSelectorInputEvent inputEvent,
     _Emitter emit,
   ) async {
-    final mappedInput = inputEvent.inputToken.isSolana
-        ? Token.wrappedSol
-        : inputEvent.inputToken;
+    final splInput = _toSplInput(inputEvent.inputToken);
+    if (splInput == null) return;
 
     emit(
       state.copyWith(
-        selectedInput: mappedInput,
+        selectedInput: inputEvent.inputToken,
         bestRoute: null,
         selectedOutput: null,
-        outputTokens: _validOutputsForInput(mappedInput),
+        outputTokens: _validOutputsForInput(splInput),
         tokenProcessingState: const ProcessingState.none(),
         amount: state.amount.copyWith(
-          currency: CryptoCurrency(token: mappedInput),
+          currency: CryptoCurrency(token: splInput),
         ),
       ),
     );
@@ -181,10 +187,9 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     emit(
       state.invalidateRoute(),
     );
-
+    final oldInput = _toSplInput(state.selectedInput);
     final outputTokens = _validOutputsForInput(newInput);
-    final newOutput =
-        outputTokens.contains(state.selectedInput) ? newInput : null;
+    final newOutput = outputTokens.contains(oldInput) ? newInput : null;
     final amount = CryptoAmount(
       value: 0,
       currency: CryptoCurrency(token: newInput),
@@ -210,7 +215,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     var balance = _balances.balanceFromToken(input);
 
-    if (input.isWrappedSol) {
+    if (input.isWrappedSol || input.isSolana) {
       final fee = calculateFeeForWrappedSol();
       balance = balance.copyWith(
         value: math.max(0, balance.value - fee.value),
@@ -229,7 +234,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   Future<void> _onRouteRefreshed(
     _Emitter emit,
   ) async {
-    final selectedInput = state.selectedInput;
+    final selectedInput = _toSplInput(state.selectedInput);
     final selectedOutput = state.selectedOutput;
 
     if (selectedInput == null || selectedOutput == null) return;
@@ -302,7 +307,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       );
     }
 
-    if (token.isWrappedSol) {
+    if (token.isSolana || token.isWrappedSol) {
       final fee = calculateFeeForWrappedSol();
 
       var feeBalance =
@@ -347,7 +352,7 @@ extension on Map<Token, Amount?> {
 
     return CryptoAmount(
       value: value,
-      currency: CryptoCurrency(token: splInput),
+      currency: CryptoCurrency(token: mappedInput),
     );
   }
 }

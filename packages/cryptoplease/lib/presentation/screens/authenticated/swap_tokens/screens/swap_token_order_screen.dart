@@ -110,12 +110,17 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
               DeviceLocale.localeOf(context),
               skipSymbol: true,
             );
+          } else if (state.amount.value == 0) {
+            _inputController.text = '0';
           }
-          final formattedOut = state.convertedAmount?.format(
+
+          final outAmount = state.convertedAmount ??
+              Amount.zero(currency: state.amount.currency);
+          final formattedOut = outAmount.format(
             DeviceLocale.localeOf(context),
             skipSymbol: true,
           );
-          _outputController.text = formattedOut ?? '';
+          _outputController.text = formattedOut;
         },
         builder: (context, state) => CpTheme.dark(
           child: CpLoader(
@@ -133,7 +138,7 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                   onPressed: () => _onSlippageChange(context, state.slippage),
                 ),
                 nextButton: CpButton(
-                  text: context.l10n.next,
+                  text: context.l10n.swap,
                   size: CpButtonSize.small,
                   onPressed: state.canSwap ? _onConfirm : null,
                 ),

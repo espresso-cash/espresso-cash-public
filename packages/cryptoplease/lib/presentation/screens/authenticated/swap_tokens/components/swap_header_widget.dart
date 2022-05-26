@@ -34,7 +34,6 @@ class SwapHeaderWidget extends StatelessWidget {
                     selectedToken: state.selectedInput,
                     onSelectToken: onSelectInput,
                     amountController: inputController,
-                    isInputEnabled: true,
                     onMaxRequested: () => context.read<SwapSelectorBloc>().add(
                           const SwapSelectorEvent.maxInputRequested(),
                         ),
@@ -46,7 +45,7 @@ class SwapHeaderWidget extends StatelessWidget {
                     onSelectToken: onSelectOutput,
                     isLoadingAmount: state.routeProcessingState.isProcessing,
                     amountController: outputController,
-                    isInputEnabled: false,
+                    isTokenInputEnabled: state.selectedInput != null,
                     isLoadingTokens: state.tokenProcessingState.maybeMap(
                       processing: (_) => state.outputTokens.isNotEmpty,
                       orElse: () => false,
