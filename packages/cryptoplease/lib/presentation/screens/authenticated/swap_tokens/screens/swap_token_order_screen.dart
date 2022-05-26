@@ -138,8 +138,8 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                   onPressed: () => _onSlippageChange(context, state.slippage),
                 ),
                 nextButton: CpButton(
-                  text: context.l10n.swap,
-                  size: CpButtonSize.small,
+                  text: context.l10n.swap.toUpperCase(),
+                  size: CpButtonSize.micro,
                   onPressed: state.canSwap ? _onConfirm : null,
                 ),
                 title: Text(context.l10n.swapTokens),

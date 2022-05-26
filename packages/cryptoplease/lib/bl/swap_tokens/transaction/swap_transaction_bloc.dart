@@ -102,7 +102,6 @@ class SwapTransactionBloc
     required String? tx,
     required VoidCallback onSetup,
     required ValueSetter<Exception> onError,
-    Commitment commitment = Commitment.processed,
   }) async {
     try {
       if (tx == null) return null;
@@ -126,7 +125,7 @@ class SwapTransactionBloc
       return await _solanaClient.rpcClient.sendTransaction(
         signature,
         skipPreflight: true,
-        commitment: commitment,
+        commitment: Commitment.confirmed,
       );
     } on Exception catch (e) {
       onError(e);
