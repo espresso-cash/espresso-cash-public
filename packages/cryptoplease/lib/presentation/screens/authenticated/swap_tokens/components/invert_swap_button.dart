@@ -1,16 +1,13 @@
 import 'dart:math' as math;
 
+import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class InvertSwapButton extends StatelessWidget {
-  const InvertSwapButton({
-    Key? key,
-    required this.onTap,
-  }) : super(key: key);
-
-  final VoidCallback onTap;
+  const InvertSwapButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Center(
@@ -22,7 +19,9 @@ class InvertSwapButton extends StatelessWidget {
             ),
             child: InkWell(
               customBorder: const CircleBorder(),
-              onTap: onTap,
+              onTap: () => context
+                  .read<SwapSelectorBloc>()
+                  .add(const SwapSelectorEvent.swapInverted()),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Transform.rotate(

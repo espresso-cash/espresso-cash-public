@@ -53,14 +53,10 @@ class SwapHeaderWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Positioned.fill(
+              const Positioned.fill(
                 top: 24,
                 bottom: 0,
-                child: InvertSwapButton(
-                  onTap: () => context.read<SwapSelectorBloc>().add(
-                        const SwapSelectorEvent.swapInverted(),
-                      ),
-                ),
+                child: InvertSwapButton(),
               ),
             ],
           ),

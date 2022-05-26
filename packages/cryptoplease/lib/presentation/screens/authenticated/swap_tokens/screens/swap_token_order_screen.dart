@@ -94,7 +94,7 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
         context: context,
         builder: (context) => SlippageDialog(
           currentSlippage: slippage,
-          onSlippageChange: (s) => swapTokenBloc.add(
+          onSlippageChanged: (s) => swapTokenBloc.add(
             SwapSelectorEvent.slippageUpdated(s),
           ),
         ),

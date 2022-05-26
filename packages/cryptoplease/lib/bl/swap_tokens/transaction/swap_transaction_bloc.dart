@@ -120,13 +120,19 @@ class SwapTransactionBloc
         signatures: [await wallet.sign(recompiled.data)],
       );
 
-      final signature = signedTx.encode();
+      final transaction = signedTx.encode();
 
-      return await _solanaClient.rpcClient.sendTransaction(
-        signature,
-        skipPreflight: true,
+      final signature = await _solanaClient.rpcClient.sendTransaction(
+        transaction,
         commitment: Commitment.confirmed,
       );
+
+      await _solanaClient.waitForSignatureStatus(
+        signature,
+        status: Commitment.confirmed,
+      );
+
+      return signature;
     } on Exception catch (e) {
       onError(e);
     }

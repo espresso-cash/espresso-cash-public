@@ -40,10 +40,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
             slippage: Decimal.one,
           ),
         ) {
-    on<_Event>(
-      _eventHandler,
-      transformer: debounceAmountOnly(),
-    );
+    on<_Event>(_eventHandler, transformer: debounceAmountOnly());
   }
 
   final TokenList _tokenList;
@@ -103,11 +100,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         ),
       );
     } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          tokenProcessingState: ProcessingState.error(e),
-        ),
-      );
+      emit(state.copyWith(tokenProcessingState: ProcessingState.error(e)));
     }
   }
 
@@ -152,11 +145,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   ) async {
     if (slippageEvent.slippage == state.slippage) return;
 
-    emit(
-      state.copyWith(
-        slippage: slippageEvent.slippage,
-      ),
-    );
+    emit(state.copyWith(slippage: slippageEvent.slippage));
 
     await _onRouteRefreshed(emit);
   }
@@ -170,12 +159,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     final tokenValue = state.amount.currency.decimalToInt(amountEvent.decimal);
     final tokenAmount = state.amount.copyWith(value: tokenValue);
 
-    emit(
-      state.copyWith(
-        amount: tokenAmount,
-        bestRoute: null,
-      ),
-    );
+    emit(state.copyWith(amount: tokenAmount, bestRoute: null));
 
     await _onRouteRefreshed(emit);
   }
@@ -186,9 +170,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     if (newInput == null || oldInput == null) return;
 
-    emit(
-      state.invalidateRoute(),
-    );
+    emit(state.invalidateRoute());
 
     final outputTokens = _validOutputsForInput(newInput);
     final newOutput = outputTokens.contains(oldInput) ? oldInput : null;
@@ -223,11 +205,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       );
     }
 
-    emit(
-      state.copyWith(
-        amount: balance,
-      ),
-    );
+    emit(state.copyWith(amount: balance));
 
     await _onRouteRefreshed(emit);
   }
@@ -276,11 +254,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         ),
       );
     } on SwapExcetion catch (e) {
-      emit(
-        state.copyWith(
-          routeProcessingState: ProcessingState.error(e),
-        ),
-      );
+      emit(state.copyWith(routeProcessingState: ProcessingState.error(e)));
     }
   }
 

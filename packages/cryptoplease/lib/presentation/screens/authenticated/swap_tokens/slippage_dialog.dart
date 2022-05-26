@@ -8,11 +8,11 @@ class SlippageDialog extends StatelessWidget {
   const SlippageDialog({
     Key? key,
     required this.currentSlippage,
-    required this.onSlippageChange,
+    required this.onSlippageChanged,
   }) : super(key: key);
 
   final Decimal currentSlippage;
-  final ValueSetter<Decimal> onSlippageChange;
+  final ValueSetter<Decimal> onSlippageChanged;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -30,7 +30,7 @@ class SlippageDialog extends StatelessWidget {
                   child: SlippageDropdown(
                     currentSlippage: currentSlippage,
                     onSlippageChanged: (slippage) {
-                      onSlippageChange(slippage);
+                      onSlippageChanged(slippage);
                       Navigator.of(context).pop();
                     },
                   ),
