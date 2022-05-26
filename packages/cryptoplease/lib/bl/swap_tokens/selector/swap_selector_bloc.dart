@@ -64,13 +64,6 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         maxInputRequested: (_) => _onMaxInputRequested(emit),
       );
 
-  // For route purposes, Wrapped SOL takes place instead of SOL.
-  // Jupiter creates a transaction to convert SOL amount into Wrapped SOL.
-  Token? _toSplInput(Token? token) {
-    if (token == null) return null;
-    if (token.isSolana) return Token.wrappedSol;
-  }
-
   Future<void> _onInitialized(
     SwapSelectorLoadEvent _,
     _Emitter emit,
@@ -84,13 +77,24 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     try {
       _routeMap = await _jupiterClient.getIndexedRouteMap();
-      _jupiterTokens = _routeMap.mintKeys.map(_tokenList.findTokenByMint);
-      _mintToIndex = _routeMap.mintKeys.asMap().map((k, v) => MapEntry(v, k));
 
-      final inputTokens =
-          _jupiterTokens.whereNotNull().where(_balances.isPositive).toList()
-            ..add(Token.sol)
-            ..sortByName();
+      // Replace Wrapped SOL with SOl in token list
+      final mintKeys = _routeMap.mintKeys;
+      final wrappedIndex = mintKeys.indexOf(Token.wrappedSol.address);
+      if (wrappedIndex != -1) {
+        mintKeys
+          ..removeAt(wrappedIndex)
+          ..insert(wrappedIndex, Token.sol.address);
+      }
+
+      _jupiterTokens = mintKeys.map(_tokenList.findTokenByMint);
+      _mintToIndex = mintKeys.asMap().map((k, v) => MapEntry(v, k));
+
+      final inputTokens = _jupiterTokens
+          .whereNotNull()
+          .where(_balances.isPositive)
+          .toList()
+        ..sortByName();
 
       emit(
         state.copyWith(
@@ -111,18 +115,15 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     SwapSelectorInputEvent inputEvent,
     _Emitter emit,
   ) async {
-    final splInput = _toSplInput(inputEvent.inputToken);
-    if (splInput == null) return;
-
     emit(
       state.copyWith(
         selectedInput: inputEvent.inputToken,
         bestRoute: null,
         selectedOutput: null,
-        outputTokens: _validOutputsForInput(splInput),
+        outputTokens: _validOutputsForInput(inputEvent.inputToken),
         tokenProcessingState: const ProcessingState.none(),
         amount: state.amount.copyWith(
-          currency: CryptoCurrency(token: splInput),
+          currency: CryptoCurrency(token: inputEvent.inputToken),
         ),
       ),
     );
@@ -181,19 +182,19 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
   Future<void> _onSwapInverted(_Emitter emit) async {
     final newInput = state.selectedOutput;
+    final oldInput = state.selectedInput;
 
-    if (newInput == null || state.selectedOutput == null) return;
+    if (newInput == null || oldInput == null) return;
 
     emit(
       state.invalidateRoute(),
     );
-    final oldInput = _toSplInput(state.selectedInput);
+
     final outputTokens = _validOutputsForInput(newInput);
-    final newOutput = outputTokens.contains(oldInput) ? newInput : null;
-    final amount = CryptoAmount(
-      value: 0,
-      currency: CryptoCurrency(token: newInput),
-    );
+    final newOutput = outputTokens.contains(oldInput) ? oldInput : null;
+    final amount = state.amount
+        .copyWith(currency: CryptoCurrency(token: newInput))
+        .copyWithDecimal(state.amount.decimal);
 
     emit(
       state.copyWith(
@@ -234,7 +235,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   Future<void> _onRouteRefreshed(
     _Emitter emit,
   ) async {
-    final selectedInput = _toSplInput(state.selectedInput);
+    final selectedInput = state.selectedInput;
     final selectedOutput = state.selectedOutput;
 
     if (selectedInput == null || selectedOutput == null) return;
@@ -255,8 +256,12 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
       final routes = await _jupiterClient.getQuote(
         amount: amount,
-        inputMint: selectedInput.address,
-        outputMint: selectedOutput.address,
+        inputMint: selectedInput.isSolana
+            ? Token.wrappedSol.address
+            : selectedInput.address,
+        outputMint: selectedOutput.isSolana
+            ? Token.wrappedSol.address
+            : selectedOutput.address,
         slippage: state.slippage.toDouble(),
       );
 
@@ -345,14 +350,13 @@ extension on Map<Token, Amount?> {
     return balance != null && balance.value != 0;
   }
 
-  CryptoAmount balanceFromToken(Token splInput) {
-    final mappedInput = splInput.isWrappedSol ? Token.sol : splInput;
-    final balance = this[mappedInput];
+  CryptoAmount balanceFromToken(Token token) {
+    final balance = this[token];
     final value = balance?.value ?? 0;
 
     return CryptoAmount(
       value: value,
-      currency: CryptoCurrency(token: mappedInput),
+      currency: CryptoCurrency(token: token),
     );
   }
 }
