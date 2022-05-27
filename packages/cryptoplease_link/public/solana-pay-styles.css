@@ -1,0 +1,112 @@
+body {
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    background: #424242;
+    color: white;
+    overflow-wrap: break-word;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    letter-spacing: 0.007em;
+}
+
+.payment-block {
+    font-size: 27px;
+    font-weight: 600;
+    margin: 32px auto 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.payment-item {
+    background-color: #FF8B49;
+    min-width: 350px;
+    border: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-bottom: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.payment-item-icon {
+    position: relative;
+    right: 20px;
+    width: 28px;
+    height: 28px;
+}
+
+
+.payment-item-title{
+    font-weight: 500;
+    font-size: 16px;
+    min-width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.logo {
+    max-width: 100px;
+    margin: 32px auto 32px;
+    display: block;
+}
+
+.background {
+    z-index: -1;
+    height: 100%;
+    max-width: 100%;
+    display: block;
+    position: absolute;
+    margin: auto;
+    float: left;
+    left: -240px;
+    top: 8%;
+}
+
+.message-block {
+    z-index: 0;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    max-width: 85%;
+    max-height: 45%;
+    background: linear-gradient(217.94deg, #F45440 10.03%, #FF8B49 100.98%);
+    border-radius: 35px;
+    margin: auto;
+    padding-top: 60px;
+    padding-bottom: 150px;
+
+}
+
+.address {
+    background: #F4F4F4;
+    border: 1px solid #EDEDED;
+    border-radius: 12px;
+    overflow-wrap: break-word;
+    margin: 32px 32px;
+    display: block;
+    padding: 20px;
+    min-height: 56px;
+    color: black;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 25px;
+    text-align: center;
+    color: #A7A7A7;
+}
+
+.payment-header {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.amount {
+    font-size: 25px;
+    font-weight: 400;
+}
