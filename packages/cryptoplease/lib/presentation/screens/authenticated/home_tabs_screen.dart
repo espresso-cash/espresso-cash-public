@@ -80,3 +80,16 @@ class _Page {
   final Widget widget;
   final SystemUiOverlayStyle overlayStyle;
 }
+
+
+// const SolanaPayScreen(
+//         address: 'JBUmKafR4MoMsavwiRrwwhDa57Mu7vJ5EkAfJWB4rYgw',
+//         cryptoAmount: CryptoAmount(
+//           value: 100000,
+//           currency: CryptoCurrency(token: Token.sol),
+//         ),
+//         fiatAmount: FiatAmount(
+//           value: 1000,
+//           currency: Currency.usd,
+//         ),
+//       );
