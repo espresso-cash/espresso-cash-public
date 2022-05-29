@@ -88,31 +88,4 @@ ByteArray _encodeBigIntAsUnsigned(BigInt number, int s) {
   return ByteArray(result);
 }
 
-// ignore: unused_element, will need later
-BigInt _decodeBigInt(ByteArray bytes, {required bool isSigned}) {
-  final list = bytes.toList();
-
-  final negative =
-      isSigned ? list.isNotEmpty && list.last & 0x80 == 0x80 : false;
-
-  BigInt result;
-
-  if (list.length == 1) {
-    result = BigInt.from(list.first);
-  } else {
-    result = BigInt.zero;
-    for (var i = 0; i < list.length; i++) {
-      final item = list[i];
-      result |= BigInt.from(item) << (8 * i);
-    }
-  }
-
-  return result != BigInt.zero
-      ? negative
-          ? result.toSigned(result.bitLength)
-          : result
-      : BigInt.zero;
-}
-
 final _byteMask = BigInt.from(0xff);
-final negativeFlag = BigInt.from(0x80);
