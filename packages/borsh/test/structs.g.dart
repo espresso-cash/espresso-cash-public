@@ -9,6 +9,7 @@ part of 'structs.dart';
 mixin _$Test1 {
   String get stringValue => throw UnimplementedError();
   int get intValue => throw UnimplementedError();
+  BigInt get bigIntValue => throw UnimplementedError();
   List<String> get listOfStrings => throw UnimplementedError();
   List<int> get listOfInts => throw UnimplementedError();
   List<List<int>> get listOfListsOfInts => throw UnimplementedError();
@@ -19,6 +20,7 @@ mixin _$Test1 {
 
     const BString().write(writer, stringValue);
     const BU8().write(writer, intValue);
+    const BU64().write(writer, bigIntValue);
     const BFixedArray(3, BString()).write(writer, listOfStrings);
     const BFixedArray(3, BU8()).write(writer, listOfInts);
     const BFixedArray(3, BFixedArray(2, BU8()))
@@ -33,6 +35,7 @@ class _Test1 extends Test1 {
   _Test1({
     required this.stringValue,
     required this.intValue,
+    required this.bigIntValue,
     required this.listOfStrings,
     required this.listOfInts,
     required this.listOfListsOfInts,
@@ -41,6 +44,7 @@ class _Test1 extends Test1 {
 
   final String stringValue;
   final int intValue;
+  final BigInt bigIntValue;
   final List<String> listOfStrings;
   final List<int> listOfInts;
   final List<List<int>> listOfListsOfInts;
@@ -60,6 +64,7 @@ class BTest1 implements BType<Test1> {
     return Test1(
       stringValue: const BString().read(reader),
       intValue: const BU8().read(reader),
+      bigIntValue: const BU64().read(reader),
       listOfStrings: const BFixedArray(3, BString()).read(reader),
       listOfInts: const BFixedArray(3, BU8()).read(reader),
       listOfListsOfInts:
