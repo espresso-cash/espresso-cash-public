@@ -29,11 +29,9 @@ class BinaryReader {
   }
 
   BigInt readU64() {
-    // TODO(KB): won't work for big numbers, update implementation
-    final value = buf.getUint64(offset, Endian.little);
-    offset += 8;
+    final buffer = _readBuffer(8);
 
-    return BigInt.from(value);
+    return _decodeBigInt(buffer, isSigned: false);
   }
 
   List<int> _readBuffer(int len) {
@@ -72,3 +70,31 @@ class BinaryReader {
     return result;
   }
 }
+
+BigInt _decodeBigInt(Iterable<int> bytes, {required bool isSigned}) {
+  final list = bytes.toList();
+
+  final negative = isSigned
+      ? list.isNotEmpty && list.last & _negativeFlag == _negativeFlag
+      : false;
+
+  BigInt result;
+
+  if (list.length == 1) {
+    result = BigInt.from(list.first);
+  } else {
+    result = BigInt.zero;
+    for (var i = 0; i < list.length; i++) {
+      final item = list[i];
+      result |= BigInt.from(item) << (8 * i);
+    }
+  }
+
+  return result != BigInt.zero
+      ? negative
+          ? result.toSigned(result.bitLength)
+          : result
+      : BigInt.zero;
+}
+
+const _negativeFlag = 0x80;

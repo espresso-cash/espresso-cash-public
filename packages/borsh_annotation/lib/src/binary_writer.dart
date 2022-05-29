@@ -36,10 +36,8 @@ class BinaryWriter {
   }
 
   void writeU64(BigInt value) {
-    _maybeResize();
-    // TODO(KB): won't work for big numbers, update implementation
-    buf.setUint64(length, value.toInt(), Endian.little);
-    length += 8;
+    final buffer = _encodeBigIntAsUnsigned(value, 8);
+    _writeBuffer(buffer);
   }
 
   void _writeBuffer(Iterable<int> buffer) {
@@ -77,3 +75,19 @@ class BinaryWriter {
 }
 
 const _initialLength = 1024;
+
+Iterable<int> _encodeBigIntAsUnsigned(BigInt number, int s) {
+  if (number == BigInt.zero) {
+    return List.filled(s, 0);
+  }
+
+  final result = Uint8List(s);
+  for (var i = 0; i < s; i++) {
+    result[i] = (number & _byteMask).toInt();
+    number = number >> 8;
+  }
+
+  return result;
+}
+
+final _byteMask = BigInt.from(0xff);

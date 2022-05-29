@@ -7,6 +7,7 @@ void main() {
     final struct = Test1(
       stringValue: 'test',
       intValue: 1,
+      bigIntValue: BigInt.one,
       listOfStrings: ['a', 'b', 'c'],
       listOfInts: [1, 2, 3],
       listOfListsOfInts: [
