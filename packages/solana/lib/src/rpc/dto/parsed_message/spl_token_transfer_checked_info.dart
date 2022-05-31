@@ -28,12 +28,15 @@ class SplTokenTransferCheckedInfo {
   final String source;
   final String destination;
   final String mint;
-  /// If [authority] is not available (null), then [multisigAuthority] and [signers] will be provided.
-  /// Otherwise [multisigAuthority] and [signers] will be [null] and [authority] will be provided.
+
+  /// If [authority] is not available (null), then [multisigAuthority] and
+  /// [signers] will be provided. Otherwise [multisigAuthority] and [signers]
+  /// will be `null` and [authority] will be provided.
   final String? authority;
   final String? multisigAuthority;
   final List<String>? signers;
 
   /// If [authority] is not provided, [multisigAuthority] must be provided. And vice versa.
+  // ignore: avoid-non-null-assertion, either authority or multisigAuthority should not be null
   String get singleAuthority => authority ?? multisigAuthority!;
 }
