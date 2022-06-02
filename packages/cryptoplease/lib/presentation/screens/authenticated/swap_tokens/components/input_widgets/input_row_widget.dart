@@ -38,14 +38,17 @@ class InputRowWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Flexible(
-                  child: AmountInputWidget(
-                    onMaxRequested: onMaxRequested,
-                    amountController: amountController,
-                    suffixWidget: isLoadingAmount
-                        ? const _LoadingWidget()
-                        : onMaxRequested == null
-                            ? null
-                            : _MaxButton(onMaxRequested: onMaxRequested),
+                  child: ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: amountController,
+                    builder: (context, controller, _) => AmountInputWidget(
+                      text: controller.text,
+                      onMaxRequested: onMaxRequested,
+                      suffixWidget: isLoadingAmount
+                          ? const _LoadingWidget()
+                          : onMaxRequested == null
+                              ? null
+                              : _MaxButton(onMaxRequested: onMaxRequested),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
