@@ -9,7 +9,6 @@ final cpSearchTextField = Story(
     padding: const EdgeInsets.all(16),
     child: CpSearchTextField(
       label: 'Search',
-      onClear: null,
       onSearch: print,
       variant: context.knobs.options(
         label: 'Variant',

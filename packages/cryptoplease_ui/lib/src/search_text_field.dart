@@ -7,18 +7,14 @@ class CpSearchTextField extends StatefulWidget {
   const CpSearchTextField({
     Key? key,
     required this.label,
-    required this.onClear,
     required this.onSearch,
     this.variant = CpSearchTextVariant.light,
-    this.submitOnChange = true,
     this.controller,
   }) : super(key: key);
 
-  final ValueSetter<String>? onSearch;
-  final VoidCallback? onClear;
+  final ValueSetter<String> onSearch;
   final TextEditingController? controller;
   final String label;
-  final bool submitOnChange;
   final CpSearchTextVariant variant;
 
   @override
@@ -27,7 +23,7 @@ class CpSearchTextField extends StatefulWidget {
 
 class CpSearchTextFieldState extends State<CpSearchTextField> {
   late final TextEditingController _searchController;
-  late final FocusNode _focusNode;
+  final FocusNode _focusNode = FocusNode();
 
   Color get _borderColor {
     switch (widget.variant) {
@@ -51,18 +47,16 @@ class CpSearchTextFieldState extends State<CpSearchTextField> {
   void initState() {
     super.initState();
     _searchController = widget.controller ?? TextEditingController();
-    _focusNode = FocusNode();
   }
 
   void _onSearch(String text) {
-    if (!widget.submitOnChange) _focusNode.unfocus();
-    widget.onSearch?.call(text);
+    widget.onSearch(text);
   }
 
   void _onClear() {
     _searchController.clear();
     _focusNode.unfocus();
-    widget.onClear?.call();
+    _onSearch('');
   }
 
   @override
@@ -70,41 +64,36 @@ class CpSearchTextFieldState extends State<CpSearchTextField> {
         cursorColor: _accentColor,
         controller: _searchController,
         focusNode: _focusNode,
-        onChanged: widget.submitOnChange ? _onSearch : null,
+        onChanged: _onSearch,
         onSubmitted: _onSearch,
         style: const TextStyle(fontSize: 18),
         decoration: InputDecoration(
-          fillColor: Colors.black,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(7)),
+            gapPadding: 0,
+          ),
+          focusedBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(7)),
             gapPadding: 0,
             borderSide: BorderSide(color: _borderColor),
           ),
           label: Text(widget.label),
-          labelStyle: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.normal,
-          ),
+          labelStyle: _labelStyle,
           prefixIcon: ValueListenableBuilder<TextEditingValue>(
             valueListenable: _searchController,
-            builder: (context, value, widget) {
-              if (value.text.isEmpty) {
-                return Icon(
-                  Icons.search,
-                  color: _accentColor,
-                );
-              }
-
-              return widget ?? const SizedBox.shrink();
-            },
+            builder: (context, value, widget) => value.text.isEmpty
+                ? Icon(Icons.search, color: _accentColor)
+                : widget ?? const SizedBox.shrink(),
             child: IconButton(
               onPressed: _onClear,
-              icon: Icon(
-                Icons.close,
-                color: _accentColor,
-              ),
+              icon: Icon(Icons.close, color: _accentColor),
             ),
           ),
         ),
       );
 }
+
+const _labelStyle = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.normal,
+);

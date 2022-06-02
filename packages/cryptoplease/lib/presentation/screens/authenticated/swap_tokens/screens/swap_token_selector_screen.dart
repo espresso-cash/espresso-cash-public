@@ -25,9 +25,13 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
     _tokenList = widget.availableTokens;
   }
 
-  void _onClear() => setState(() => _tokenList = widget.availableTokens);
-
   void _onSearch(String text) {
+    if (text.isEmpty) {
+      setState(() => _tokenList = widget.availableTokens);
+
+      return;
+    }
+
     final query = text.toLowerCase();
     final filtered = widget.availableTokens.where(
       (token) => token.name.toLowerCase().contains(query),
@@ -54,7 +58,6 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
                     ),
                     child: CpSearchTextField(
                       label: context.l10n.search,
-                      onClear: _onClear,
                       onSearch: _onSearch,
                       variant: CpSearchTextVariant.dark,
                     ),
