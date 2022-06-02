@@ -24,54 +24,6 @@ final cryptoPleaseApp = App(
   ),
 );
 
-final phantomApp = App(
-  id: 'phantom',
-  name: 'Phantom',
-  url: Uri.parse('https://phantom.app/'),
-  androidOptions: const AndroidOptions(
-    package: 'app.phantom',
-    sha256Fingerprints: [
-      '5D:08:00:89:DF:53:7F:0D:42:46:DB:6C:8E:3E:F0:7C:72:2C:A3:B4:47:20:73:6A:40:EA:0C:90:C4:AF:9A:0B'
-    ],
-  ),
-  iOSOptions: const IOSOptions(
-    appStoreId: '1598432977',
-    bundleId: 'app.phantom',
-    // TODO(rhbrunetto): missing teamId
-    teamId: '',
-  ),
-  appDisplayStyle: const AppDisplayStyle(
-    textColor: '#FFFFFF',
-    backgroundColor: '#7A72F1',
-    logoUri: 'icons/phantom-icon.png',
-  ),
-);
-
-final solflareApp = App(
-  id: 'solflare',
-  name: 'Solflare',
-  url: Uri.parse('https://solflare.com/'),
-  androidOptions: const AndroidOptions(
-    package: 'com.solflare.mobile',
-    sha256Fingerprints: [
-      'F5:83:3A:28:10:6F:09:D7:69:6F:39:E8:AE:D4:B6:08:72:6A:DB:CC:13:76:A4:6C:E8:05:F2:2A:CD:1E:A0:CB'
-    ],
-  ),
-  iOSOptions: const IOSOptions(
-    appStoreId: '1580902717',
-    bundleId: 'com.solflare.mobile',
-    // TODO(rhbrunetto): missing teamId
-    teamId: '',
-  ),
-  appDisplayStyle: const AppDisplayStyle(
-    textColor: '#FFFFFF',
-    backgroundColor: '#FC6922',
-    logoUri: 'icons/solflare-icon.png',
-  ),
-);
-
 final apps = [
   cryptoPleaseApp,
-  phantomApp,
-  solflareApp,
 ];
