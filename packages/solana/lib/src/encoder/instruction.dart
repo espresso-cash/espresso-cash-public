@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/byte_array.dart';
@@ -48,4 +49,21 @@ class Instruction {
       CompactArray(data).toByteArray(),
     ]);
   }
+
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other.runtimeType == runtimeType &&
+          other is Instruction &&
+          const DeepCollectionEquality().equals(other.programId, programId) &&
+          const DeepCollectionEquality().equals(other.accounts, accounts) &&
+          const DeepCollectionEquality().equals(other.data, data));
+
+  @override
+  int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(programId),
+        const DeepCollectionEquality().hash(accounts),
+        const DeepCollectionEquality().hash(data),
+      );
 }

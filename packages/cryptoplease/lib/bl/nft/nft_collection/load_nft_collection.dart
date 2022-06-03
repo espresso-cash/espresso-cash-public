@@ -1,10 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/nft/nft_collection/utils.dart';
 import 'package:cryptoplease/bl/solana_helpers.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/metaplex.dart';
 import 'package:solana/solana.dart';

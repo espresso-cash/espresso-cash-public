@@ -1,5 +1,5 @@
 name: solana
-version: 0.23.0+1
+version: 0.24.0+1
 repository: https://github.com/cryptoplease/cryptoplease-dart
 description: >-
   Dart implementation of Solana JSON RPC API client.
@@ -10,24 +10,24 @@ environment:
 
 dependencies:
   bip39: ^1.0.6
-  borsh_annotation: ^0.3.1
+  borsh_annotation: ^0.3.1+1
   collection: ^1.15.0
   convert: ^3.0.1
   cryptography: ^2.0.2
   decimal: ^2.1.0
   ed25519_hd_key: ^2.1.0
-  freezed_annotation: ^1.0.0
+  freezed_annotation: ^2.0.0
   http: ^0.13.3
   json_annotation: ^4.4.0
   typed_data: ^1.3.0
   web_socket_channel: ^2.1.0
 
 dev_dependencies:
-  borsh: ^0.3.0
+  borsh: ^0.3.0+3
   build_runner: ^2.1.1
-  freezed: ^1.0.0
+  freezed: ^2.0.0
   json_serializable: ^6.0.0
   jsonrpc_client:
     path: ../jsonrpc_client
-  mews_pedantic: ^0.5.0
+  mews_pedantic: ^0.6.0
   test: ^1.17.11

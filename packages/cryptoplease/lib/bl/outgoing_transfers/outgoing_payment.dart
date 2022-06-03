@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';

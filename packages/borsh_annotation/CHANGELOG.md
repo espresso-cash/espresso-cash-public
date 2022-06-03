@@ -1,3 +1,8 @@
+## 0.3.1+1
+
+ - **REFACTOR**: Migrate to Dart 2.17 (#271).
+ - **FIX**: update implementation to work in JS.
+
 ## 0.3.1
 
  - **FEAT**: Add BU64.

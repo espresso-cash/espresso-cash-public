@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'mint.dart';
@@ -11,32 +12,7 @@ part of 'mint.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$MintTearOff {
-  const _$MintTearOff();
-
-  _Mint call(
-      {required Ed25519HDPublicKey address,
-      required BigInt supply,
-      required int decimals,
-      Ed25519HDPublicKey? mintAuthority,
-      required bool isInitialized,
-      Ed25519HDPublicKey? freezeAuthority}) {
-    return _Mint(
-      address: address,
-      supply: supply,
-      decimals: decimals,
-      mintAuthority: mintAuthority,
-      isInitialized: isInitialized,
-      freezeAuthority: freezeAuthority,
-    );
-  }
-}
-
-/// @nodoc
-const $Mint = _$MintTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$Mint {
@@ -126,9 +102,9 @@ class _$MintCopyWithImpl<$Res> implements $MintCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$MintCopyWith<$Res> implements $MintCopyWith<$Res> {
-  factory _$MintCopyWith(_Mint value, $Res Function(_Mint) then) =
-      __$MintCopyWithImpl<$Res>;
+abstract class _$$_MintCopyWith<$Res> implements $MintCopyWith<$Res> {
+  factory _$$_MintCopyWith(_$_Mint value, $Res Function(_$_Mint) then) =
+      __$$_MintCopyWithImpl<$Res>;
   @override
   $Res call(
       {Ed25519HDPublicKey address,
@@ -140,13 +116,13 @@ abstract class _$MintCopyWith<$Res> implements $MintCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$MintCopyWithImpl<$Res> extends _$MintCopyWithImpl<$Res>
-    implements _$MintCopyWith<$Res> {
-  __$MintCopyWithImpl(_Mint _value, $Res Function(_Mint) _then)
-      : super(_value, (v) => _then(v as _Mint));
+class __$$_MintCopyWithImpl<$Res> extends _$MintCopyWithImpl<$Res>
+    implements _$$_MintCopyWith<$Res> {
+  __$$_MintCopyWithImpl(_$_Mint _value, $Res Function(_$_Mint) _then)
+      : super(_value, (v) => _then(v as _$_Mint));
 
   @override
-  _Mint get _value => super._value as _Mint;
+  _$_Mint get _value => super._value as _$_Mint;
 
   @override
   $Res call({
@@ -157,7 +133,7 @@ class __$MintCopyWithImpl<$Res> extends _$MintCopyWithImpl<$Res>
     Object? isInitialized = freezed,
     Object? freezeAuthority = freezed,
   }) {
-    return _then(_Mint(
+    return _then(_$_Mint(
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -197,33 +173,32 @@ class _$_Mint implements _Mint {
       required this.isInitialized,
       this.freezeAuthority});
 
-  @override
-
   /// Address of the mint
-  final Ed25519HDPublicKey address;
   @override
+  final Ed25519HDPublicKey address;
 
   /// Total supply of tokens.
-  final BigInt supply;
   @override
+  final BigInt supply;
 
   /// Number of base 10 digits to the right of the decimal place.
-  final int decimals;
   @override
+  final int decimals;
 
   /// Optional authority used to mint new tokens.
   ///
   /// The mint authority may only be provided during mint creation. If no mint
   /// authority is present then the mint has a fixed supply and no further
   /// tokens may be minted.
-  final Ed25519HDPublicKey? mintAuthority;
   @override
+  final Ed25519HDPublicKey? mintAuthority;
 
   /// Is this mint initialized
-  final bool isInitialized;
   @override
+  final bool isInitialized;
 
   /// Optional authority to freeze token accounts.
+  @override
   final Ed25519HDPublicKey? freezeAuthority;
 
   @override
@@ -235,7 +210,7 @@ class _$_Mint implements _Mint {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Mint &&
+            other is _$_Mint &&
             const DeepCollectionEquality().equals(other.address, address) &&
             const DeepCollectionEquality().equals(other.supply, supply) &&
             const DeepCollectionEquality().equals(other.decimals, decimals) &&
@@ -259,31 +234,31 @@ class _$_Mint implements _Mint {
 
   @JsonKey(ignore: true)
   @override
-  _$MintCopyWith<_Mint> get copyWith =>
-      __$MintCopyWithImpl<_Mint>(this, _$identity);
+  _$$_MintCopyWith<_$_Mint> get copyWith =>
+      __$$_MintCopyWithImpl<_$_Mint>(this, _$identity);
 }
 
 abstract class _Mint implements Mint {
   const factory _Mint(
-      {required Ed25519HDPublicKey address,
-      required BigInt supply,
-      required int decimals,
-      Ed25519HDPublicKey? mintAuthority,
-      required bool isInitialized,
-      Ed25519HDPublicKey? freezeAuthority}) = _$_Mint;
+      {required final Ed25519HDPublicKey address,
+      required final BigInt supply,
+      required final int decimals,
+      final Ed25519HDPublicKey? mintAuthority,
+      required final bool isInitialized,
+      final Ed25519HDPublicKey? freezeAuthority}) = _$_Mint;
 
   @override
 
   /// Address of the mint
-  Ed25519HDPublicKey get address;
+  Ed25519HDPublicKey get address => throw _privateConstructorUsedError;
   @override
 
   /// Total supply of tokens.
-  BigInt get supply;
+  BigInt get supply => throw _privateConstructorUsedError;
   @override
 
   /// Number of base 10 digits to the right of the decimal place.
-  int get decimals;
+  int get decimals => throw _privateConstructorUsedError;
   @override
 
   /// Optional authority used to mint new tokens.
@@ -291,16 +266,16 @@ abstract class _Mint implements Mint {
   /// The mint authority may only be provided during mint creation. If no mint
   /// authority is present then the mint has a fixed supply and no further
   /// tokens may be minted.
-  Ed25519HDPublicKey? get mintAuthority;
+  Ed25519HDPublicKey? get mintAuthority => throw _privateConstructorUsedError;
   @override
 
   /// Is this mint initialized
-  bool get isInitialized;
+  bool get isInitialized => throw _privateConstructorUsedError;
   @override
 
   /// Optional authority to freeze token accounts.
-  Ed25519HDPublicKey? get freezeAuthority;
+  Ed25519HDPublicKey? get freezeAuthority => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$MintCopyWith<_Mint> get copyWith => throw _privateConstructorUsedError;
+  _$$_MintCopyWith<_$_Mint> get copyWith => throw _privateConstructorUsedError;
 }
