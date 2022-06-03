@@ -2,21 +2,19 @@ part of 'swap_selector_bloc.dart';
 
 @freezed
 class SwapSelectorEvent with _$SwapSelectorEvent {
-  const factory SwapSelectorEvent.initialized() = SwapSelectorLoadEvent;
+  const factory SwapSelectorEvent.init() = Init;
 
-  const factory SwapSelectorEvent.inputSelected(Token inputToken) =
-      SwapSelectorInputEvent;
+  const factory SwapSelectorEvent.inputUpdated(Token token) = InputUpdated;
 
-  const factory SwapSelectorEvent.outputSelected(Token outputToken) =
-      SwapSelectorOutputEvent;
+  const factory SwapSelectorEvent.outputUpdated(Token token) = OutputUpdated;
 
   const factory SwapSelectorEvent.amountUpdated(Decimal decimal) =
-      SwapSelectorAmountEvent;
+      AmountUpdated;
 
   const factory SwapSelectorEvent.slippageUpdated(Decimal slippage) =
-      SwapSelectorSlippageEvent;
+      SlippageUpdated;
 
-  const factory SwapSelectorEvent.maxInputRequested() = SwapSelectorMaxEvent;
+  const factory SwapSelectorEvent.outputInvalidated() = OutputInvalidated;
 
-  const factory SwapSelectorEvent.swapInverted() = SwapSelectorInvertEvent;
+  const factory SwapSelectorEvent.swapInverted() = SwapInverted;
 }

@@ -6,8 +6,8 @@ enum SwapFailReason {
   unknown,
 }
 
-class SwapExcetion implements Exception {
-  const SwapExcetion(
+class SwapException implements Exception {
+  const SwapException(
     this.reason, {
     this.exception,
   });

@@ -61,7 +61,7 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
   }
 
   void _reset() {
-    _selectorBloc.add(const SwapSelectorEvent.initialized());
+    _selectorBloc.add(const SwapSelectorEvent.init());
   }
 
   void reloadOrderScreen() {
@@ -79,13 +79,10 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
   @override
   Future<void> onSelectInputToken() async {
     final availableInputs = _selectorBloc.state.inputTokens;
-    final token = await context.router.push<Token>(
-      SwapTokenSelectorRoute(
-        availableTokens: availableInputs,
-      ),
-    );
+    final token = await context.router
+        .push<Token>(SwapTokenSelectorRoute(availableTokens: availableInputs));
     if (token != null) {
-      _selectorBloc.add(SwapSelectorEvent.inputSelected(token));
+      _selectorBloc.add(SwapSelectorEvent.inputUpdated(token));
     }
   }
 
@@ -98,14 +95,14 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
       ),
     );
     if (token != null) {
-      _selectorBloc.add(SwapSelectorEvent.outputSelected(token));
+      _selectorBloc.add(SwapSelectorEvent.outputUpdated(token));
     }
   }
 
   @override
   void onConfirm() {
-    final inputToken = _selectorBloc.state.selectedInput;
-    final outputToken = _selectorBloc.state.selectedOutput;
+    final inputToken = _selectorBloc.state.input;
+    final outputToken = _selectorBloc.state.output;
     final route = _selectorBloc.state.bestRoute;
 
     if (inputToken == null || outputToken == null || route == null) return;
@@ -129,7 +126,7 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
         child: BlocListener<SwapSelectorBloc, SwapSelectorState>(
           listenWhen: (previous, current) =>
               previous.routeProcessingState != current.routeProcessingState,
-          listener: (context, state) => state.routeProcessingState.whenOrNull(
+          listener: (context, state) => state.routeProcessingState?.whenOrNull(
             error: (error) => showSwapErrorDialog(
               context,
               context.l10n.errorLoadingTokens,

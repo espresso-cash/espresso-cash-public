@@ -35,7 +35,7 @@ extension SwapFailExtension on SwapFailReason {
         return context.l10n.swapFailSwapFailed;
       case SwapFailReason.cleanUpFailed:
         return context.l10n.swapFailCleanUpFailed;
-      default:
+      case SwapFailReason.unknown:
         return context.l10n.swapFailUnknown;
     }
   }

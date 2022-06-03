@@ -11,6 +11,7 @@ import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/slip
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_router.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -64,26 +65,20 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
         DeviceLocale.localeOf(context),
       );
 
-  void _onAmountUpdate() {
-    if (swapTokenBloc.state.selectedInput == null) return;
-    if (swapTokenBloc.state.amount.decimal == inputControllerAmount) return;
-
-    swapTokenBloc.add(
-      SwapSelectorEvent.amountUpdated(inputControllerAmount),
-    );
-  }
+  void _onAmountUpdate() =>
+      swapTokenBloc.add(SwapSelectorEvent.amountUpdated(inputControllerAmount));
 
   void _onConfirm() {
-    swapTokenBloc.validate().fold(
-          (error) => error.map(
-            insufficientFunds: (e) => _insufficientTokenDialog(
-              balance: e.balance,
-              currentAmount: e.currentAmount,
-            ),
-            insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
-          ),
-          (_) => context.read<SwapTokenRouter>().onConfirm(),
-        );
+    // swapTokenBloc.validate().fold(
+    //       (error) => error.map(
+    //         insufficientFunds: (e) => _insufficientTokenDialog(
+    //           balance: e.balance,
+    //           currentAmount: e.currentAmount,
+    //         ),
+    //         insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
+    //       ),
+    //       (_) => context.read<SwapTokenRouter>().onConfirm(),
+    //     );
   }
 
   void _onSlippageChange(
@@ -102,32 +97,11 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
 
   @override
   Widget build(BuildContext context) =>
-      BlocConsumer<SwapSelectorBloc, SwapSelectorState>(
+      BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
         bloc: swapTokenBloc,
-        listener: (context, state) {
-          if (state.amount.decimal != inputControllerAmount) {
-            _inputController.text = state.amount.format(
-              DeviceLocale.localeOf(context),
-              skipSymbol: true,
-            );
-          } else if (state.amount.value == 0) {
-            _inputController.text = '0';
-          }
-
-          final outAmount = state.convertedAmount ??
-              Amount.zero(currency: state.amount.currency);
-          final formattedOut = outAmount.format(
-            DeviceLocale.localeOf(context),
-            skipSymbol: true,
-          );
-          _outputController.text = formattedOut;
-        },
         builder: (context, state) => CpTheme.dark(
           child: CpLoader(
-            isLoading: state.tokenProcessingState.maybeMap(
-              processing: (_) => state.inputTokens.isEmpty,
-              orElse: () => false,
-            ),
+            isLoading: state.map(uninitialized: T, initialized: F, failure: F),
             child: Scaffold(
               appBar: CpAppBar(
                 leading: IconButton(
@@ -135,7 +109,12 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                     Icons.more_horiz,
                     color: Colors.white,
                   ),
-                  onPressed: () => _onSlippageChange(context, state.slippage),
+                  onPressed: () {
+                    final slippage = state.slippage;
+                    if (slippage == null) return;
+
+                    _onSlippageChange(context, slippage);
+                  },
                 ),
                 nextButton: CpButton(
                   text: context.l10n.swap.toUpperCase(),
@@ -149,7 +128,11 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                   children: [
                     SwapHeaderWidget(
                       inputController: _inputController,
-                      outputController: _outputController,
+                      output: state.outputAmount?.format(
+                            DeviceLocale.localeOf(context),
+                            skipSymbol: true,
+                          ) ??
+                          '–',
                       onSelectInput: () =>
                           context.read<SwapTokenRouter>().onSelectInputToken(),
                       onSelectOutput: () =>
@@ -160,7 +143,7 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
                         builder: (context, ctrs) => EnterAmountKeypad(
                           size: ctrs.maxHeight,
                           controller: _inputController,
-                          maxDecimals: state.selectedInput?.decimals ?? 2,
+                          maxDecimals: state.input?.decimals ?? 2,
                         ),
                       ),
                     ),

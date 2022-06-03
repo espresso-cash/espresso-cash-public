@@ -56,7 +56,7 @@ class SwapTransactionBloc
       final setupTxId = await _maybeExecuteTx(
         tx: transaction.setupTransaction,
         onSetup: () => emit(const SwapTransactionState.settingUp()),
-        onError: (e) => throw SwapExcetion(
+        onError: (e) => throw SwapException(
           SwapFailReason.setupFailed,
           exception: e,
         ),
@@ -65,7 +65,7 @@ class SwapTransactionBloc
       final swapTxId = await _maybeExecuteTx(
         tx: transaction.swapTransaction,
         onSetup: () => emit(const SwapTransactionState.swapping()),
-        onError: (e) => throw SwapExcetion(
+        onError: (e) => throw SwapException(
           SwapFailReason.swapFailed,
           exception: e,
         ),
@@ -74,7 +74,7 @@ class SwapTransactionBloc
       final cleanupTxId = await _maybeExecuteTx(
         tx: transaction.cleanupTransaction,
         onSetup: () => emit(const SwapTransactionState.cleaningUp()),
-        onError: (e) => throw SwapExcetion(
+        onError: (e) => throw SwapException(
           SwapFailReason.cleanUpFailed,
           exception: e,
         ),
@@ -87,7 +87,7 @@ class SwapTransactionBloc
           cleanupTxId: cleanupTxId,
         ),
       );
-    } on SwapExcetion catch (e) {
+    } on SwapException catch (e) {
       emit(
         SwapTransactionState.failed(e.reason, e.exception),
       );

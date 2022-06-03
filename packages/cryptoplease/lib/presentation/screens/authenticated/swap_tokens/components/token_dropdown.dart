@@ -8,12 +8,10 @@ class TokenDropdown extends StatelessWidget {
     Key? key,
     required this.selectedToken,
     required this.onTap,
-    required this.isEnabled,
     required this.suffixWidget,
   }) : super(key: key);
 
   final Token? selectedToken;
-  final bool isEnabled;
   final VoidCallback onTap;
   final Widget suffixWidget;
 
@@ -22,7 +20,7 @@ class TokenDropdown extends StatelessWidget {
     final token = selectedToken;
 
     return GestureDetector(
-      onTap: isEnabled ? onTap : null,
+      onTap: onTap,
       child: DecoratedBox(
         decoration: const BoxDecoration(
           color: CpColors.darkBackground,

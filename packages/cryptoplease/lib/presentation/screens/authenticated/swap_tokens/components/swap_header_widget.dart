@@ -9,13 +9,13 @@ class SwapHeaderWidget extends StatelessWidget {
   const SwapHeaderWidget({
     Key? key,
     required this.inputController,
-    required this.outputController,
+    required this.output,
     required this.onSelectInput,
     required this.onSelectOutput,
   }) : super(key: key);
 
   final TextEditingController inputController;
-  final TextEditingController outputController;
+  final String output;
   final VoidCallback onSelectInput;
   final VoidCallback onSelectOutput;
 
@@ -29,27 +29,25 @@ class SwapHeaderWidget extends StatelessWidget {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  InputRowWidget(
-                    label: context.l10n.youPay,
-                    selectedToken: state.selectedInput,
-                    onSelectToken: onSelectInput,
-                    amountController: inputController,
-                    onMaxRequested: () => context.read<SwapSelectorBloc>().add(
-                          const SwapSelectorEvent.maxInputRequested(),
-                        ),
+                  ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: inputController,
+                    builder: (context, value, child) => InputRowWidget(
+                      label: context.l10n.youPay,
+                      selectedToken: state.input,
+                      onSelectToken: onSelectInput,
+                      value: value.text,
+                      onMaxRequested: () {
+                        // TODO(KB): implement
+                      },
+                    ),
                   ),
                   const SizedBox(height: 32),
                   InputRowWidget(
                     label: context.l10n.youReceive,
-                    selectedToken: state.selectedOutput,
+                    selectedToken: state.output,
                     onSelectToken: onSelectOutput,
-                    isLoadingAmount: state.routeProcessingState.isProcessing,
-                    amountController: outputController,
-                    isTokenInputEnabled: state.selectedInput != null,
-                    isLoadingTokens: state.tokenProcessingState.maybeMap(
-                      processing: (_) => state.outputTokens.isNotEmpty,
-                      orElse: () => false,
-                    ),
+                    isLoadingAmount: state.isLoadingRoute,
+                    value: output,
                   ),
                 ],
               ),

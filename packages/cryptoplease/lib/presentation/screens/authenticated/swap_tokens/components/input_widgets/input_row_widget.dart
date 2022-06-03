@@ -10,19 +10,15 @@ class InputRowWidget extends StatelessWidget {
     required this.label,
     required this.selectedToken,
     required this.onSelectToken,
-    required this.amountController,
+    required this.value,
     this.onMaxRequested,
-    this.isTokenInputEnabled = true,
-    this.isLoadingTokens = false,
     this.isLoadingAmount = false,
   }) : super(key: key);
 
   final String label;
   final Token? selectedToken;
   final VoidCallback onSelectToken;
-  final TextEditingController amountController;
-  final bool isTokenInputEnabled;
-  final bool isLoadingTokens;
+  final String value;
   final bool isLoadingAmount;
   final VoidCallback? onMaxRequested;
 
@@ -38,17 +34,14 @@ class InputRowWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Flexible(
-                  child: ValueListenableBuilder<TextEditingValue>(
-                    valueListenable: amountController,
-                    builder: (context, controller, _) => AmountInputWidget(
-                      text: controller.text,
-                      onMaxRequested: onMaxRequested,
-                      suffixWidget: isLoadingAmount
-                          ? const _LoadingWidget()
-                          : onMaxRequested == null
-                              ? null
-                              : _MaxButton(onMaxRequested: onMaxRequested),
-                    ),
+                  child: AmountInputWidget(
+                    text: value,
+                    onMaxRequested: onMaxRequested,
+                    suffixWidget: isLoadingAmount
+                        ? const _LoadingWidget()
+                        : onMaxRequested == null
+                            ? null
+                            : _MaxButton(onMaxRequested: onMaxRequested),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -56,10 +49,7 @@ class InputRowWidget extends StatelessWidget {
                   child: TokenDropdown(
                     selectedToken: selectedToken,
                     onTap: onSelectToken,
-                    isEnabled: !isLoadingTokens && isTokenInputEnabled,
-                    suffixWidget: isLoadingTokens
-                        ? const _LoadingWidget()
-                        : const Icon(Icons.expand_more),
+                    suffixWidget: const Icon(Icons.expand_more),
                   ),
                 ),
               ],
