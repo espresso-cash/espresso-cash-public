@@ -23,6 +23,7 @@ concurrency:
 jobs:
   check_pr_libs:
     strategy:
+      fail-fast: false
       matrix:
         solanaVersion: ["stable", "beta"]
     runs-on: ubuntu-latest
