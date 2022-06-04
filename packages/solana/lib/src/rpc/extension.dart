@@ -5,15 +5,19 @@ extension RpcClientExt on RpcClient {
     Message message,
     List<Ed25519HDKeyPair> signers, {
     FutureOr<void> Function(Signature)? onSigned,
+    Commitment commitment = Commitment.finalized,
   }) async {
-    final recentBlockhash = await getRecentBlockhash();
+    final recentBlockhash = await getRecentBlockhash(commitment: commitment);
     final signedTx = await signTransaction(recentBlockhash, message, signers);
 
     if (onSigned != null) {
       await onSigned(signedTx.signatures.first);
     }
 
-    return sendTransaction(signedTx.encode());
+    return sendTransaction(
+      signedTx.encode(),
+      preflightCommitment: commitment,
+    );
   }
 
   /// Get the [limit] most recent transactions for the [address] account

@@ -1,20 +1,16 @@
-import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
 import 'config.dart';
 
 void main() {
-  late final RpcClient rpcClient;
-  late final SubscriptionClient subscriptionClient;
-
-  setUpAll(() async {
-    rpcClient = RpcClient(devnetRpcUrl);
-    subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
-  });
+  final client = SolanaClient(
+    rpcUrl: Uri.parse(devnetRpcUrl),
+    websocketUrl: Uri.parse(devnetWebsocketUrl),
+  );
 
   test('Create account', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final accountKey = await Ed25519HDKeyPair.random();
     final instruction = SystemInstruction.createAccount(
       newAccount: accountKey.publicKey,
@@ -24,31 +20,33 @@ void main() {
       space: 0,
     );
 
-    final future = rpcClient.signAndSendTransaction(
-      Message.only(instruction),
-      [fromKey, accountKey],
+    final future = client.sendAndConfirmTransaction(
+      message: Message.only(instruction),
+      signers: [fromKey, accountKey],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, completes);
   });
 
   test('Assign', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final recipient = await Ed25519HDKeyPair.random();
     final instruction = SystemInstruction.assign(
       assignedAccount: fromKey.publicKey,
       owner: recipient.publicKey,
     );
-    final future = rpcClient.signAndSendTransaction(
-      Message.only(instruction),
-      [fromKey],
+    final future = client.sendAndConfirmTransaction(
+      message: Message.only(instruction),
+      signers: [fromKey],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, completes);
   });
 
   test('Transfer', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final recipient = await Ed25519HDKeyPair.random();
     const lamports = lamportsPerSol;
     final instruction = SystemInstruction.transfer(
@@ -56,16 +54,17 @@ void main() {
       recipientAccount: recipient.publicKey,
       lamports: lamports,
     );
-    final future = rpcClient.signAndSendTransaction(
-      Message.only(instruction),
-      [fromKey],
+    final future = client.sendAndConfirmTransaction(
+      message: Message.only(instruction),
+      signers: [fromKey],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, completes);
   });
 
   test('Create account with seed', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final accountKey = await Ed25519HDKeyPair.random();
     const seed = '1234';
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
@@ -83,9 +82,10 @@ void main() {
       owner: SystemProgram.id,
     );
 
-    final future = rpcClient.signAndSendTransaction(
-      Message.only(instruction),
-      [fromKey, accountKey],
+    final future = client.sendAndConfirmTransaction(
+      message: Message.only(instruction),
+      signers: [fromKey, accountKey],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, completes);
@@ -95,16 +95,13 @@ void main() {
     final fromKey = await Ed25519HDKeyPair.random();
     final nonceKey = await Ed25519HDKeyPair.random();
     final authorized = nonceKey;
-    final lamports = await rpcClient
+    final lamports = await client.rpcClient
         .getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize);
 
-    final signature = await rpcClient.requestAirdrop(
-      fromKey.address,
-      5 * lamportsPerSol,
-    );
-    await subscriptionClient.waitForSignatureStatus(
-      signature,
-      status: ConfirmationStatus.finalized,
+    await client.requestAirdrop(
+      address: fromKey.publicKey,
+      lamports: 5 * lamportsPerSol,
+      commitment: Commitment.confirmed,
     );
 
     final instructions = SystemInstruction.createAndInitializeNonceAccount(
@@ -114,9 +111,10 @@ void main() {
       lamports: lamports,
     );
 
-    final future = rpcClient.signAndSendTransaction(
-      Message(instructions: instructions),
-      [fromKey, nonceKey],
+    final future = client.sendAndConfirmTransaction(
+      message: Message(instructions: instructions),
+      signers: [fromKey, nonceKey],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, completes);
@@ -124,9 +122,9 @@ void main() {
 
   test('Create nonce account fails for insufficient lamports', () async {
     final nonceKey = await Ed25519HDKeyPair.random();
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final authorized = fromKey;
-    final lamports = await rpcClient
+    final lamports = await client.rpcClient
         .getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize);
 
     final instructions = SystemInstruction.createAndInitializeNonceAccount(
@@ -135,20 +133,20 @@ void main() {
       noceAuthorityPubKey: authorized.publicKey,
       lamports: lamports - 1,
     );
-    final future = rpcClient.signAndSendTransaction(
-      Message(instructions: instructions),
-      [fromKey, nonceKey],
+    final future = client.sendAndConfirmTransaction(
+      message: Message(instructions: instructions),
+      signers: [fromKey, nonceKey],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, throwsA(isA<JsonRpcException>()));
   });
 
   test('Advance nonce account', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final nonceKey = await _createNonceAccount(
       fromKey,
-      rpcClient,
-      subscriptionClient,
+      client,
     );
 
     final instruction = SystemInstruction.advanceNonceAccount(
@@ -157,13 +155,17 @@ void main() {
     );
 
     expect(
-      rpcClient.signAndSendTransaction(Message.only(instruction), [fromKey]),
+      client.sendAndConfirmTransaction(
+        message: Message.only(instruction),
+        signers: [fromKey],
+        commitment: Commitment.confirmed,
+      ),
       completes,
     );
   });
 
   test('Transfer with seed', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final recipient = await Ed25519HDKeyPair.random();
     const lamports = lamportsPerSol;
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
@@ -171,15 +173,12 @@ void main() {
       seed: '1234',
       programId: SystemProgram.id,
     );
-    final signature = await rpcClient.requestAirdrop(
-      derivedAddress.toBase58(),
-      2 * lamportsPerSol,
+    await client.requestAirdrop(
+      address: derivedAddress,
+      lamports: 2 * lamportsPerSol,
       commitment: Commitment.confirmed,
     );
-    await subscriptionClient.waitForSignatureStatus(
-      signature,
-      status: ConfirmationStatus.finalized,
-    );
+
     final instruction = SystemInstruction.transferWithSeed(
       fundingAccount: derivedAddress,
       recipientAccount: recipient.publicKey,
@@ -188,16 +187,17 @@ void main() {
       seed: '1234',
       owner: SystemProgram.id,
     );
-    final future = rpcClient.signAndSendTransaction(
-      Message.only(instruction),
-      [fromKey],
+    final future = client.sendAndConfirmTransaction(
+      message: Message.only(instruction),
+      signers: [fromKey],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, completes);
   });
 
   test('Assign with seed', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final recipient = await Ed25519HDKeyPair.random();
     const seed = '1234';
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
@@ -211,30 +211,32 @@ void main() {
       owner: SystemProgram.id,
       seed: seed,
     );
-    final future = rpcClient.signAndSendTransaction(
-      Message.only(instruction),
-      [fromKey, recipient],
+    final future = client.sendAndConfirmTransaction(
+      message: Message.only(instruction),
+      signers: [fromKey, recipient],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, completes);
   });
 
   test('Allocate', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final instruction = SystemInstruction.allocate(
       account: fromKey.publicKey,
       space: 100,
     );
-    final future = rpcClient.signAndSendTransaction(
-      Message.only(instruction),
-      [fromKey],
+    final future = client.sendAndConfirmTransaction(
+      message: Message.only(instruction),
+      signers: [fromKey],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, completes);
   });
 
   test('Allocate with seed', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final derivedAddress = await Ed25519HDPublicKey.createWithSeed(
       fromPublicKey: fromKey.publicKey,
       seed: '1234',
@@ -247,20 +249,20 @@ void main() {
       owner: SystemProgram.id,
       seed: '1234',
     );
-    final future = rpcClient.signAndSendTransaction(
-      Message.only(instruction),
-      [fromKey],
+    final future = client.sendAndConfirmTransaction(
+      message: Message.only(instruction),
+      signers: [fromKey],
+      commitment: Commitment.confirmed,
     );
 
     expect(future, completes);
   });
 
   test('Withdraw nonce account', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
     final nonceKey = await _createNonceAccount(
       fromKey,
-      rpcClient,
-      subscriptionClient,
+      client,
       extraLamports: 100,
     );
     final toKey = await Ed25519HDKeyPair.random();
@@ -269,19 +271,25 @@ void main() {
       nonce: nonceKey.publicKey,
       nonceAuthority: fromKey.publicKey,
       recipient: toKey.publicKey,
-      lamports: 100,
+      lamports: 100 +
+          await client.rpcClient.getMinimumBalanceForRentExemption(
+            SystemProgram.nonceAccountSize,
+          ),
     );
 
     expect(
-      rpcClient.signAndSendTransaction(Message.only(instruction), [fromKey]),
+      client.sendAndConfirmTransaction(
+        message: Message.only(instruction),
+        signers: [fromKey],
+        commitment: Commitment.confirmed,
+      ),
       completes,
     );
   });
 
   test('Authorize nonce account', () async {
-    final fromKey = await _createFundedKey(rpcClient, subscriptionClient);
-    final nonceKey =
-        await _createNonceAccount(fromKey, rpcClient, subscriptionClient);
+    final fromKey = await _createFundedKey(client);
+    final nonceKey = await _createNonceAccount(fromKey, client);
     final newAuthority = await Ed25519HDKeyPair.random();
 
     final instruction = SystemInstruction.authorizeNonceAccount(
@@ -291,24 +299,23 @@ void main() {
     );
 
     expect(
-      rpcClient.signAndSendTransaction(Message.only(instruction), [fromKey]),
+      client.sendAndConfirmTransaction(
+        message: Message.only(instruction),
+        signers: [fromKey],
+        commitment: Commitment.confirmed,
+      ),
       completes,
     );
   });
 }
 
-Future<Ed25519HDKeyPair> _createFundedKey(
-  RpcClient rpcClient,
-  SubscriptionClient subscriptionClient,
-) async {
+Future<Ed25519HDKeyPair> _createFundedKey(SolanaClient client) async {
   final key = await Ed25519HDKeyPair.random();
 
-  final signature =
-      await rpcClient.requestAirdrop(key.address, 100 * lamportsPerSol);
-
-  await subscriptionClient.waitForSignatureStatus(
-    signature,
-    status: ConfirmationStatus.finalized,
+  await client.requestAirdrop(
+    address: key.publicKey,
+    lamports: 100 * lamportsPerSol,
+    commitment: Commitment.confirmed,
   );
 
   return key;
@@ -316,12 +323,11 @@ Future<Ed25519HDKeyPair> _createFundedKey(
 
 Future<Ed25519HDKeyPair> _createNonceAccount(
   Ed25519HDKeyPair nonceAuthority,
-  RpcClient rpcClient,
-  SubscriptionClient subscriptionClient, {
+  SolanaClient client, {
   int extraLamports = 0,
 }) async {
   final nonceKey = await Ed25519HDKeyPair.random();
-  final lamports = await rpcClient
+  final lamports = await client.rpcClient
       .getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize);
 
   final instructions = SystemInstruction.createAndInitializeNonceAccount(
@@ -330,13 +336,10 @@ Future<Ed25519HDKeyPair> _createNonceAccount(
     noceAuthorityPubKey: nonceAuthority.publicKey,
     lamports: lamports + extraLamports,
   );
-  final signature = await rpcClient.signAndSendTransaction(
-    Message(instructions: instructions),
-    [nonceAuthority, nonceKey],
-  );
-  await subscriptionClient.waitForSignatureStatus(
-    signature,
-    status: ConfirmationStatus.finalized,
+  await client.sendAndConfirmTransaction(
+    message: Message(instructions: instructions),
+    signers: [nonceAuthority, nonceKey],
+    commitment: Commitment.confirmed,
   );
 
   return nonceKey;
