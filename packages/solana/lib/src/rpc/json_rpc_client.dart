@@ -72,7 +72,7 @@ class JsonRpcClient {
       body: json.encode(body),
     ).timeout(
       _timeout,
-      onTimeout: () => throw RpcTimeoutException(body),
+      onTimeout: () => throw RpcTimeoutException(body, timeout: _timeout),
     );
     // Handle the response
     if (response.statusCode == 200) {
