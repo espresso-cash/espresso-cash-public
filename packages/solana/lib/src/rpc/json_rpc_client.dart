@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:solana/src/exceptions/http_exception.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
+import 'package:solana/src/exceptions/rpc_timeout_exception.dart';
 
 class JsonRpcClient {
   JsonRpcClient(
@@ -63,17 +64,15 @@ class JsonRpcClient {
   Future<_JsonRpcResponse> _postRequest(
     _JsonRpcRequest request,
   ) async {
-    final body = json.encode(request.toJson());
+    final body = request.toJson();
     // Perform the POST request
     final Response response = await post(
       Uri.parse(_url),
       headers: _defaultHeaders,
-      body: body,
+      body: json.encode(body),
     ).timeout(
       _timeout,
-      onTimeout: () {
-        throw TimeoutException('request timed out');
-      },
+      onTimeout: () => throw RpcTimeoutException(body, timeout: _timeout),
     );
     // Handle the response
     if (response.statusCode == 200) {

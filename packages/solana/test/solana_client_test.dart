@@ -20,26 +20,33 @@ void main() {
     await solanaClient.requestAirdrop(
       lamports: 100 * lamportsPerSol,
       address: source.publicKey,
+      commitment: Commitment.confirmed,
     );
     token = await solanaClient.initializeMint(
       mintAuthority: source,
       decimals: 2,
+      commitment: Commitment.confirmed,
     );
     final associatedAccount = await solanaClient.createAssociatedTokenAccount(
       mint: token.address,
       funder: source,
+      commitment: Commitment.confirmed,
     );
     await solanaClient.mintTo(
       destination: Ed25519HDPublicKey.fromBase58(associatedAccount.pubkey),
       amount: _tokenMintAmount,
       mint: token.address,
       authority: source,
+      commitment: Commitment.confirmed,
     );
   });
 
   test('Get wallet lamports', () async {
     expect(
-      await solanaClient.rpcClient.getBalance(source.address),
+      await solanaClient.rpcClient.getBalance(
+        source.address,
+        commitment: Commitment.confirmed,
+      ),
       greaterThan(0),
     );
   });
@@ -49,10 +56,14 @@ void main() {
       destination: destination.publicKey,
       lamports: lamportsPerSol,
       source: source,
+      commitment: Commitment.confirmed,
     );
     expect(signature, isNotNull);
     expect(
-      await solanaClient.rpcClient.getBalance(destination.address),
+      await solanaClient.rpcClient.getBalance(
+        destination.address,
+        commitment: Commitment.confirmed,
+      ),
       equals(lamportsPerSol),
     );
   });
@@ -65,6 +76,7 @@ void main() {
       lamports: _lamportsTransferAmount,
       memo: memoText,
       source: source,
+      commitment: Commitment.confirmed,
     );
     expect(signature, isNotNull);
 
@@ -72,6 +84,7 @@ void main() {
     final result = await solanaClient.rpcClient.getTransaction(
       signature.toString(),
       encoding: Encoding.jsonParsed,
+      commitment: Commitment.confirmed,
     );
 
     expect(result, isNotNull);
@@ -101,50 +114,53 @@ void main() {
     expect(memoInstruction.memo, equals(memoText));
   });
 
-  test(
-    'Get a token balance',
-    () async {
-      final wallet = await Ed25519HDKeyPair.random();
-      expect(
-        solanaClient.hasAssociatedTokenAccount(
-          mint: token.address,
-          owner: wallet.publicKey,
-        ),
-        completion(equals(false)),
-      );
-
-      final signature = await solanaClient.requestAirdrop(
-        lamports: lamportsPerSol,
-        commitment: Commitment.finalized,
-        address: wallet.publicKey,
-      );
-      expect(signature, isNotNull);
-      expect(
-        await solanaClient.rpcClient.getBalance(wallet.address),
-        equals(lamportsPerSol),
-      );
-
-      await solanaClient.createAssociatedTokenAccount(
-        mint: token.address,
-        funder: wallet,
-      );
-      final hasAssociatedTokenAccount =
-          await solanaClient.hasAssociatedTokenAccount(
+  test('Get a token balance', () async {
+    final wallet = await Ed25519HDKeyPair.random();
+    expect(
+      solanaClient.hasAssociatedTokenAccount(
         mint: token.address,
         owner: wallet.publicKey,
-      );
+        commitment: Commitment.confirmed,
+      ),
+      completion(equals(false)),
+    );
 
-      expect(hasAssociatedTokenAccount, equals(true));
+    final signature = await solanaClient.requestAirdrop(
+      lamports: lamportsPerSol,
+      address: wallet.publicKey,
+      commitment: Commitment.confirmed,
+    );
+    expect(signature, isNotNull);
+    expect(
+      await solanaClient.rpcClient.getBalance(
+        wallet.address,
+        commitment: Commitment.confirmed,
+      ),
+      equals(lamportsPerSol),
+    );
 
-      final tokenBalance = await solanaClient.getTokenBalance(
-        mint: token.address,
-        owner: wallet.publicKey,
-      );
-      expect(tokenBalance.decimals, equals(token.decimals));
-      expect(tokenBalance.amount, equals('0'));
-    },
-    timeout: const Timeout(Duration(minutes: 2)),
-  );
+    await solanaClient.createAssociatedTokenAccount(
+      mint: token.address,
+      funder: wallet,
+      commitment: Commitment.confirmed,
+    );
+    final hasAssociatedTokenAccount =
+        await solanaClient.hasAssociatedTokenAccount(
+      mint: token.address,
+      owner: wallet.publicKey,
+      commitment: Commitment.confirmed,
+    );
+
+    expect(hasAssociatedTokenAccount, equals(true));
+
+    final tokenBalance = await solanaClient.getTokenBalance(
+      mint: token.address,
+      owner: wallet.publicKey,
+      commitment: Commitment.confirmed,
+    );
+    expect(tokenBalance.decimals, equals(token.decimals));
+    expect(tokenBalance.amount, equals('0'));
+  });
 
   test(
     'Fails SPL transfer if recipient has no associated token account',
@@ -156,37 +172,37 @@ void main() {
           amount: 100,
           mint: token.address,
           owner: source,
+          commitment: Commitment.confirmed,
         ),
         throwsA(isA<NoAssociatedTokenAccountException>()),
       );
     },
   );
 
-  test(
-    'Transfer SPL tokens successfully',
-    () async {
-      final wallet = await Ed25519HDKeyPair.random();
-      await solanaClient.createAssociatedTokenAccount(
-        mint: token.address,
-        funder: source,
-        owner: wallet.publicKey,
-      );
-      final signature = await solanaClient.transferSplToken(
-        destination: wallet.publicKey,
-        amount: 40,
-        mint: token.address,
-        owner: source,
-      );
-      expect(signature, isNotNull);
+  test('Transfer SPL tokens successfully', () async {
+    final wallet = await Ed25519HDKeyPair.random();
+    await solanaClient.createAssociatedTokenAccount(
+      mint: token.address,
+      funder: source,
+      owner: wallet.publicKey,
+      commitment: Commitment.confirmed,
+    );
+    final signature = await solanaClient.transferSplToken(
+      destination: wallet.publicKey,
+      amount: 40,
+      mint: token.address,
+      owner: source,
+      commitment: Commitment.confirmed,
+    );
+    expect(signature, isNotNull);
 
-      final tokenBalance = await solanaClient.getTokenBalance(
-        mint: token.address,
-        owner: wallet.publicKey,
-      );
-      expect(tokenBalance.amount, equals('40'));
-    },
-    timeout: const Timeout(Duration(minutes: 2)),
-  );
+    final tokenBalance = await solanaClient.getTokenBalance(
+      mint: token.address,
+      owner: wallet.publicKey,
+      commitment: Commitment.confirmed,
+    );
+    expect(tokenBalance.amount, equals('40'));
+  });
 
   test(
     'Transfer SPL tokens with memo',
@@ -197,6 +213,7 @@ void main() {
         mint: token.address,
         funder: source,
         owner: wallet.publicKey,
+        commitment: Commitment.confirmed,
       );
       const memoText = 'Memo test string...';
 
@@ -206,6 +223,7 @@ void main() {
         amount: 40,
         memo: memoText,
         owner: source,
+        commitment: Commitment.confirmed,
       );
       expect(signature, isNotNull);
 
@@ -213,6 +231,7 @@ void main() {
       final result = await solanaClient.rpcClient.getTransaction(
         signature.toString(),
         encoding: Encoding.jsonParsed,
+        commitment: Commitment.confirmed,
       );
 
       expect(result, isNotNull);
@@ -241,6 +260,7 @@ void main() {
       final tokenBalance = await solanaClient.getTokenBalance(
         mint: token.address,
         owner: wallet.publicKey,
+        commitment: Commitment.confirmed,
       );
       expect(tokenBalance.amount, equals('40'));
     },

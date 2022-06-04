@@ -44,15 +44,16 @@ class SubscriptionClient {
   Stream<Account> accountSubscribe(
     String address, {
     Commitment? commitment,
+    Encoding encoding = Encoding.jsonParsed,
   }) =>
       _subscribe<Account>(
         'account',
         params: <dynamic>[
           address,
-          if (commitment != null)
-            <String, String>{
-              'commitment': commitment.value,
-            },
+          <String, String>{
+            if (commitment != null) 'commitment': commitment.value,
+            'encoding': encoding.value,
+          },
         ],
       );
 

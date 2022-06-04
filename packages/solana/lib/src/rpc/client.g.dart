@@ -516,7 +516,8 @@ Map<String, dynamic> _$SendTransactionConfigToJson(
     }
   }
 
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull(
+      'preflightCommitment', _$CommitmentEnumMap[instance.preflightCommitment]);
   writeNotNull('skipPreflight', instance.skipPreflight);
   writeNotNull('maxRetries', instance.maxRetries);
   return val;
