@@ -4,7 +4,7 @@ class RpcTimeoutException extends TimeoutException {
   RpcTimeoutException(
     this.body, {
     Duration? timeout,
-  }) : super(null, timeout);
+  }) : super('RPC call timed out.', timeout);
 
   /// Request body.
   final dynamic body;
