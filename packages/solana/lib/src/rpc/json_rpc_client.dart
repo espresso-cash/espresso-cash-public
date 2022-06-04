@@ -71,9 +71,7 @@ class JsonRpcClient {
       body: body,
     ).timeout(
       _timeout,
-      onTimeout: () {
-        throw TimeoutException('request timed out');
-      },
+      onTimeout: () => throw TimeoutException('Time out. Request: $body'),
     );
     // Handle the response
     if (response.statusCode == 200) {
