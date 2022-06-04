@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:solana/src/exceptions/http_exception.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
+import 'package:solana/src/subscription_client/rpc_timeout_exception.dart';
 
 class JsonRpcClient {
   JsonRpcClient(
@@ -71,7 +72,7 @@ class JsonRpcClient {
       body: body,
     ).timeout(
       _timeout,
-      onTimeout: () => throw TimeoutException('Time out. Request: $body'),
+      onTimeout: () => throw RPCTimeoutException.withData(body),
     );
     // Handle the response
     if (response.statusCode == 200) {
