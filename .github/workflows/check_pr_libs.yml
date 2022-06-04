@@ -5,6 +5,7 @@ on:
     branches:
       - master
     paths:
+      - ".github/workflows/check_pr_libs.yml"
       - "packages/**"
       - "!packages/cryptoplease/**"
       - "!packages/cryptoplease_ui/**"
