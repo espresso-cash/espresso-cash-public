@@ -650,8 +650,7 @@ abstract class RpcClient {
   ///
   /// [encoding] Only [Encoding.base64] is acceptable
   ///
-  /// [commitment] For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
+  /// [preflightCommitment] For [preflightCommitment] parameter description [see this document][see this document]
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
@@ -664,7 +663,7 @@ abstract class RpcClient {
   Future<TransactionId> sendTransaction(
     String transaction, {
     Encoding encoding = Encoding.base64,
-    Commitment? commitment = Commitment.finalized,
+    Commitment? preflightCommitment = Commitment.finalized,
     bool? skipPreflight = false,
     int? maxRetries,
   });

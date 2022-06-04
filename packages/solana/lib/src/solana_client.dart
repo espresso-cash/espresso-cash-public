@@ -23,11 +23,11 @@ class SolanaClient {
   Future<TransactionId> sendAndConfirmTransaction({
     required Message message,
     required List<Ed25519HDKeyPair> signers,
-    required SignatureCallback onSigned,
+    SignatureCallback onSigned = ignoreOnSigned,
     required Commitment commitment,
   }) async {
     final tx = await signTransaction(
-      await rpcClient.getRecentBlockhash(),
+      await rpcClient.getRecentBlockhash(commitment: commitment),
       message,
       signers,
     );
@@ -35,7 +35,7 @@ class SolanaClient {
 
     final signature = await rpcClient.sendTransaction(
       tx.encode(),
-      commitment: commitment,
+      preflightCommitment: commitment,
     );
 
     await waitForSignatureStatus(signature, status: commitment);
@@ -69,6 +69,8 @@ class SolanaClient {
       SubscriptionClient(_websocketUrl);
 }
 
-typedef SignatureCallback = Future<void> Function(TransactionId transactionId);
+typedef SignatureCallback = FutureOr<void> Function(
+  TransactionId transactionId,
+);
 
-Future<void> ignoreOnSigned(TransactionId _) async {}
+void ignoreOnSigned(TransactionId _) {}

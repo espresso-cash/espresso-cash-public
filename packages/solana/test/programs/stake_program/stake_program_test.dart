@@ -30,11 +30,12 @@ void main() {
     final signature = await rpcClient.signAndSendTransaction(
       Message(instructions: instructions),
       [fromKey, account],
+      commitment: Commitment.confirmed,
     );
     expect(
       subscriptionClient.waitForSignatureStatus(
         signature,
-        status: ConfirmationStatus.finalized,
+        status: ConfirmationStatus.confirmed,
       ),
       completes,
     );
@@ -51,10 +52,11 @@ void main() {
     final signature = await rpcClient.requestAirdrop(
       fromKey.address,
       100 * lamportsPerSol,
+      commitment: Commitment.confirmed,
     );
     await subscriptionClient.waitForSignatureStatus(
       signature,
-      status: ConfirmationStatus.finalized,
+      status: ConfirmationStatus.confirmed,
     );
 
     const seed = 'seed';
@@ -81,6 +83,7 @@ void main() {
       rpcClient.signAndSendTransaction(
         Message(instructions: instructions),
         [fromKey, stakeKey],
+        commitment: Commitment.confirmed,
       ),
       completes,
     );
@@ -108,6 +111,7 @@ void main() {
       rpcClient.signAndSendTransaction(
         Message.only(instruction),
         [fromKey, staker],
+        commitment: Commitment.confirmed,
       ),
       completes,
     );
@@ -135,6 +139,7 @@ void main() {
       rpcClient.signAndSendTransaction(
         Message.only(instruction),
         [fromKey, withdrawer],
+        commitment: Commitment.confirmed,
       ),
       completes,
     );
@@ -166,10 +171,11 @@ void main() {
       final signature = await rpcClient.signAndSendTransaction(
         Message.only(instruction),
         [fromKey, newAccount],
+        commitment: Commitment.confirmed,
       );
       await subscriptionClient.waitForSignatureStatus(
         signature,
-        status: ConfirmationStatus.finalized,
+        status: ConfirmationStatus.confirmed,
       );
 
       final splitInstruction = StakeInstruction.split(
@@ -183,6 +189,7 @@ void main() {
         rpcClient.signAndSendTransaction(
           Message.only(splitInstruction),
           [fromKey, staker],
+          commitment: Commitment.confirmed,
         ),
         completes,
       );
@@ -212,6 +219,7 @@ void main() {
       rpcClient.signAndSendTransaction(
         Message.only(instruction),
         [fromKey, withdrawer],
+        commitment: Commitment.confirmed,
       ),
       completes,
     );
@@ -248,6 +256,7 @@ void main() {
         rpcClient.signAndSendTransaction(
           Message.only(instruction),
           [fromKey, staker],
+          commitment: Commitment.confirmed,
         ),
         completes,
       );
@@ -267,7 +276,7 @@ Future<Ed25519HDKeyPair> _createFundedKey(
   );
   await subscriptionClient.waitForSignatureStatus(
     signature,
-    status: ConfirmationStatus.finalized,
+    status: ConfirmationStatus.confirmed,
   );
 
   return keyPair;
@@ -296,10 +305,11 @@ Future<Ed25519HDKeyPair> _newAccount(
   final signature = await rpcClient.signAndSendTransaction(
     Message(instructions: instructions),
     [fromKey, stakeKey],
+    commitment: Commitment.confirmed,
   );
   await subscriptionClient.waitForSignatureStatus(
     signature,
-    status: ConfirmationStatus.finalized,
+    status: ConfirmationStatus.confirmed,
   );
 
   return fromKey;

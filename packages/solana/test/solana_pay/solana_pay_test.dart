@@ -24,12 +24,14 @@ void main() {
       await client.requestAirdrop(
         address: recipient.publicKey,
         lamports: lamportsPerSol,
+        commitment: Commitment.confirmed,
       );
 
       // Airdrop some SOL to the sender.
       await client.requestAirdrop(
         address: sender.publicKey,
         lamports: lamportsPerSol,
+        commitment: Commitment.confirmed,
       );
 
       final reference = (await Ed25519HDKeyPair.random()).publicKey;
