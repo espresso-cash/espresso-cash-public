@@ -83,7 +83,7 @@ extension SolanaClientTokenProgram on SolanaClient {
       commitment: commitment,
     );
 
-    return getMint(address: mint.publicKey);
+    return getMint(address: mint.publicKey, commitment: commitment);
   }
 
   /// Mint [destination] with [amount] tokens.
@@ -129,10 +129,12 @@ extension SolanaClientTokenProgram on SolanaClient {
     final associatedRecipientAccount = await getAssociatedTokenAccount(
       owner: destination,
       mint: mint,
+      commitment: commitment,
     );
     final associatedSenderAccount = await getAssociatedTokenAccount(
       owner: owner.publicKey,
       mint: mint,
+      commitment: commitment,
     );
     // Throw an appropriate exception if the sender has no associated
     // token account
