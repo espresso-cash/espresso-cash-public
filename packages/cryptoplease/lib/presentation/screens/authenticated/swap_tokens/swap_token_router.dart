@@ -17,7 +17,6 @@ import 'package:solana/solana.dart';
 abstract class SwapTokenRouter {
   void onSelectInputToken();
   void onSelectOutputToken();
-  void onConfirm();
   void closeFlow();
 }
 
@@ -100,23 +99,6 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
   }
 
   @override
-  void onConfirm() {
-    final inputToken = _selectorBloc.state.input;
-    final outputToken = _selectorBloc.state.output;
-    final route = _selectorBloc.state.bestRoute;
-
-    if (inputToken == null || outputToken == null || route == null) return;
-
-    _transactionBloc.add(
-      SwapTransactionEvent.swap(
-        jupiterRoute: route,
-      ),
-    );
-
-    context.router.push(const SwapTokenProcessRoute());
-  }
-
-  @override
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           BlocProvider.value(value: _selectorBloc),
@@ -126,13 +108,23 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
         child: BlocListener<SwapSelectorBloc, SwapSelectorState>(
           listenWhen: (previous, current) =>
               previous.routeProcessingState != current.routeProcessingState,
-          listener: (context, state) => state.routeProcessingState?.whenOrNull(
-            error: (error) => showSwapErrorDialog(
-              context,
-              context.l10n.errorLoadingTokens,
-              error.reason,
-            ),
-          ),
+          listener: (context, state) {
+            state.whenOrNull(
+              success: (route) {
+                _transactionBloc
+                    .add(SwapTransactionEvent.swap(jupiterRoute: route));
+
+                context.router.replace(const SwapTokenProcessRoute());
+              },
+            );
+            state.routeProcessingState?.whenOrNull(
+              error: (error) => showSwapErrorDialog(
+                context,
+                context.l10n.errorLoadingTokens,
+                error.reason,
+              ),
+            );
+          },
           child: AutoRouter(key: routerKey),
         ),
       );

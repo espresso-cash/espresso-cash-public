@@ -10,7 +10,6 @@ import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/comp
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/slippage_dialog.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_router.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
-import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,14 +23,17 @@ class SwapTokenOrderScreen extends StatefulWidget {
 
 class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
   final _inputController = TextEditingController();
-  final _outputController = TextEditingController();
-  late final SwapSelectorBloc swapTokenBloc;
 
   @override
   void initState() {
     super.initState();
-    swapTokenBloc = context.read<SwapSelectorBloc>();
-    _inputController.addListener(_onAmountUpdate);
+    _inputController.addListener(() {
+      final locale = DeviceLocale.localeOf(context);
+      final value = _inputController.text.toDecimalOrZero(locale);
+      context
+          .read<SwapSelectorBloc>()
+          .add(SwapSelectorEvent.amountUpdated(value));
+    });
   }
 
   @override
@@ -61,96 +63,111 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
         ),
       );
 
-  Decimal get inputControllerAmount => _inputController.text.toDecimalOrZero(
-        DeviceLocale.localeOf(context),
-      );
-
-  void _onAmountUpdate() =>
-      swapTokenBloc.add(SwapSelectorEvent.amountUpdated(inputControllerAmount));
-
-  void _onConfirm() {
-    // swapTokenBloc.validate().fold(
-    //       (error) => error.map(
-    //         insufficientFunds: (e) => _insufficientTokenDialog(
-    //           balance: e.balance,
-    //           currentAmount: e.currentAmount,
-    //         ),
-    //         insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
-    //       ),
-    //       (_) => context.read<SwapTokenRouter>().onConfirm(),
-    //     );
-  }
-
-  void _onSlippageChange(
-    BuildContext context,
-    Decimal slippage,
-  ) =>
-      showDialog<void>(
-        context: context,
-        builder: (context) => SlippageDialog(
-          currentSlippage: slippage,
-          onSlippageChanged: (s) => swapTokenBloc.add(
-            SwapSelectorEvent.slippageUpdated(s),
+  @override
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: CpLoader(
+          isLoading: context.select<SwapSelectorBloc, bool>(
+            (b) => b.state.maybeMap(uninitialized: T, orElse: F),
+          ),
+          child: Scaffold(
+            appBar: CpAppBar(
+              title: Text(context.l10n.swapTokens),
+              leading: const _SettingsButton(),
+              nextButton: const _SubmitButton(),
+            ),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  _Header(controller: _inputController),
+                  Flexible(child: _Keypad(controller: _inputController)),
+                ],
+              ),
+            ),
           ),
         ),
       );
+}
+
+class _Header extends StatelessWidget {
+  const _Header({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final TextEditingController controller;
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
-        bloc: swapTokenBloc,
-        builder: (context, state) => CpTheme.dark(
-          child: CpLoader(
-            isLoading: state.map(uninitialized: T, initialized: F, failure: F),
-            child: Scaffold(
-              appBar: CpAppBar(
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.more_horiz,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    final slippage = state.slippage;
-                    if (slippage == null) return;
+  Widget build(BuildContext context) {
+    final locale = DeviceLocale.localeOf(context);
 
-                    _onSlippageChange(context, slippage);
-                  },
-                ),
-                nextButton: CpButton(
-                  text: context.l10n.swap.toUpperCase(),
-                  size: CpButtonSize.micro,
-                  onPressed: state.canSwap ? _onConfirm : null,
-                ),
-                title: Text(context.l10n.swapTokens),
-              ),
-              body: SafeArea(
-                child: Column(
-                  children: [
-                    SwapHeaderWidget(
-                      inputController: _inputController,
-                      output: state.outputAmount?.format(
-                            DeviceLocale.localeOf(context),
-                            skipSymbol: true,
-                          ) ??
-                          '–',
-                      onSelectInput: () =>
-                          context.read<SwapTokenRouter>().onSelectInputToken(),
-                      onSelectOutput: () =>
-                          context.read<SwapTokenRouter>().onSelectOutputToken(),
-                    ),
-                    Flexible(
-                      child: LayoutBuilder(
-                        builder: (context, ctrs) => EnterAmountKeypad(
-                          size: ctrs.maxHeight,
-                          controller: _inputController,
-                          maxDecimals: state.input?.decimals ?? 2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+    return SwapHeaderWidget(
+      inputController: controller,
+      output: context.select<SwapSelectorBloc, String>(
+        (bloc) =>
+            bloc.state.outputAmount?.format(locale, skipSymbol: true) ?? '–',
+      ),
+      onSelectInput: () => context.read<SwapTokenRouter>().onSelectInputToken(),
+      onSelectOutput: () =>
+          context.read<SwapTokenRouter>().onSelectOutputToken(),
+    );
+  }
+}
+
+class _SettingsButton extends StatelessWidget {
+  const _SettingsButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+        icon: const Icon(Icons.more_horiz, color: Colors.white),
+        onPressed: () {
+          final slippage = context.read<SwapSelectorBloc>().state.slippage;
+          if (slippage == null) return;
+
+          showDialog<void>(
+            context: context,
+            useRootNavigator: false,
+            builder: (context) => SlippageDialog(
+              currentSlippage: slippage,
+              onSlippageChanged: (s) => context
+                  .read<SwapSelectorBloc>()
+                  .add(SwapSelectorEvent.slippageUpdated(s)),
             ),
+          );
+        },
+      );
+}
+
+class _SubmitButton extends StatelessWidget {
+  const _SubmitButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => CpButton(
+        text: context.l10n.swap.toUpperCase(),
+        size: CpButtonSize.micro,
+        onPressed:
+            context.select<SwapSelectorBloc, bool>((b) => b.state.canSwap)
+                ? () => context
+                    .read<SwapSelectorBloc>()
+                    .add(const SwapSelectorEvent.submitted())
+                : null,
+      );
+}
+
+class _Keypad extends StatelessWidget {
+  const _Keypad({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) => EnterAmountKeypad(
+          size: constraints.maxHeight,
+          controller: controller,
+          maxDecimals: context.select<SwapSelectorBloc, int>(
+            (b) => b.state.input?.decimals ?? 2,
           ),
         ),
       );

@@ -3,6 +3,8 @@ enum SwapFailReason {
   setupFailed,
   swapFailed,
   cleanUpFailed,
+  insufficientBalance,
+  insufficientFee,
   unknown,
 }
 

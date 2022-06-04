@@ -37,6 +37,12 @@ extension SwapFailExtension on SwapFailReason {
         return context.l10n.swapFailCleanUpFailed;
       case SwapFailReason.unknown:
         return context.l10n.swapFailUnknown;
+      case SwapFailReason.insufficientBalance:
+        // TODO(KB): Handle this case.
+        return context.l10n.swapFailUnknown;
+      case SwapFailReason.insufficientFee:
+        // TODO(KB): Handle this case.
+        return context.l10n.swapFailUnknown;
     }
   }
 }

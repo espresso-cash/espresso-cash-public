@@ -18,13 +18,13 @@ class SwapSelectorState with _$SwapSelectorState {
 
   const factory SwapSelectorState.failure() = Failure;
 
+  const factory SwapSelectorState.success(JupiterRoute route) = Success;
+
   const SwapSelectorState._();
 }
 
 extension SwapSelectorStateExt on SwapSelectorState {
-  CryptoAmount? get convertedAmount => this.map(
-        uninitialized: (_) => null,
-        failure: (_) => null,
+  CryptoAmount? get convertedAmount => maybeMap(
         initialized: (s) {
           final route = s.bestRoute;
           if (route == null) return null;
@@ -34,48 +34,42 @@ extension SwapSelectorStateExt on SwapSelectorState {
             currency: CryptoCurrency(token: s.output),
           );
         },
+        orElse: () => null,
       );
 
-  Token? get input => this.map(
-        uninitialized: (_) => null,
-        failure: (_) => null,
+  Token? get input => maybeMap(
         initialized: (s) => s.amount.currency.token,
+        orElse: () => null,
       );
 
-  Token? get output => this.map(
-        uninitialized: (_) => null,
-        failure: (_) => null,
+  Token? get output => maybeMap(
         initialized: (s) => s.output,
+        orElse: () => null,
       );
 
-  bool get isLoadingRoute => this.map(
-        uninitialized: F,
-        failure: F,
+  bool get isLoadingRoute => maybeMap(
         initialized: (s) => s.processingState is ProcessingStateProcessing,
+        orElse: F,
       );
 
-  Iterable<Token> get inputTokens => this.map(
-        uninitialized: (_) => const [],
-        failure: (_) => const [],
+  Iterable<Token> get inputTokens => maybeMap(
         initialized: (s) => s.inputTokens,
+        orElse: () => const [],
       );
 
-  Iterable<Token> get outputTokens => this.map(
-        uninitialized: (_) => const [],
-        failure: (_) => const [],
+  Iterable<Token> get outputTokens => maybeMap(
         initialized: (s) => s.outputTokens,
+        orElse: () => const [],
       );
 
-  JupiterRoute? get bestRoute => this.map(
-        uninitialized: (_) => null,
-        failure: (_) => null,
+  JupiterRoute? get bestRoute => maybeMap(
         initialized: (s) => s.bestRoute,
+        orElse: () => null,
       );
 
-  ProcessingState<SwapException>? get routeProcessingState => this.map(
-        uninitialized: (_) => null,
-        failure: (_) => null,
+  ProcessingState<SwapException>? get routeProcessingState => maybeMap(
         initialized: (s) => s.processingState,
+        orElse: () => null,
       );
 
   CryptoAmount? get outputAmount {
@@ -89,10 +83,9 @@ extension SwapSelectorStateExt on SwapSelectorState {
     );
   }
 
-  Decimal? get slippage => this.map(
-        uninitialized: (_) => null,
-        failure: (_) => null,
+  Decimal? get slippage => maybeMap(
         initialized: (s) => s.slippage,
+        orElse: () => null,
       );
 
   bool get canSwap => outputAmount != null;

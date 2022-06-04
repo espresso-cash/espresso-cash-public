@@ -17,4 +17,6 @@ class SwapSelectorEvent with _$SwapSelectorEvent {
   const factory SwapSelectorEvent.outputInvalidated() = OutputInvalidated;
 
   const factory SwapSelectorEvent.swapInverted() = SwapInverted;
+
+  const factory SwapSelectorEvent.submitted() = Submitted;
 }

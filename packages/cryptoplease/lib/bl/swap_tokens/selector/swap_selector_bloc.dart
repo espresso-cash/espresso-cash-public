@@ -1,9 +1,6 @@
-import 'dart:math' as math;
-
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/swap_tokens/swap_exception.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
@@ -50,6 +47,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         amountUpdated: (e) => _onAmountUpdated(e, emit),
         slippageUpdated: (e) => _onSlippageUpdated(e, emit),
         swapInverted: (e) => _onSwapInverted(e, emit),
+        submitted: (e) => _onSubmitted(e, emit),
       );
 
   Iterable<Token> _getOutputTokens(
@@ -93,7 +91,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       );
 
       emit(state);
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       emit(const SwapSelectorState.failure());
     }
   }
@@ -163,7 +161,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       ),
     );
 
-    add(const SwapSelectorEvent.outputInvalidated());
+    add(const _Event.outputInvalidated());
   }
 
   Future<void> _onOutputUpdated(OutputUpdated event, _Emitter emit) async {
@@ -172,7 +170,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     emit(state.copyWith(output: event.token));
 
-    add(const SwapSelectorEvent.outputInvalidated());
+    add(const _Event.outputInvalidated());
   }
 
   Future<void> _onSlippageUpdated(SlippageUpdated event, _Emitter emit) async {
@@ -181,7 +179,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     emit(state.copyWith(slippage: event.slippage));
 
-    add(const SwapSelectorEvent.outputInvalidated());
+    add(const _Event.outputInvalidated());
   }
 
   Future<void> _onAmountUpdated(AmountUpdated event, _Emitter emit) async {
@@ -190,7 +188,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
     emit(state.copyWith(amount: state.amount.copyWithDecimal(event.decimal)));
 
-    add(const SwapSelectorEvent.outputInvalidated());
+    add(const _Event.outputInvalidated());
   }
 
   Future<void> _onSwapInverted(SwapInverted _, _Emitter emit) async {
@@ -215,7 +213,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       ),
     );
 
-    add(const SwapSelectorEvent.outputInvalidated());
+    add(const _Event.outputInvalidated());
   }
 
   // Future<void> _onMaxInputRequested(_Emitter emit) async {
@@ -237,38 +235,51 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   //   await _onRouteRefreshed(emit);
   // }
 
-  // Either<ValidationError, void> validate() {
-  //   final token = state.selectedInput;
-  //   if (token == null) return const Either.right(null);
+  Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
+    final state = this.state;
+    if (state is! Initialized) return;
 
-  //   final userBalance = _balances.balanceFromToken(token);
+    final token = state.amount.token;
+    final userBalance = _balances.balanceFromToken(token);
 
-  //   if (userBalance < state.amount) {
-  //     return Either.left(
-  //       ValidationError.insufficientFunds(
-  //         balance: userBalance,
-  //         currentAmount: state.amount,
-  //       ),
-  //     );
-  //   }
+    if (userBalance < state.amount) {
+      final newState = state.copyWith(
+        processingState: const ProcessingState.error(
+          SwapException(SwapFailReason.insufficientBalance),
+        ),
+      );
+      emit(newState);
 
-  //   if (token.isSolana || token.isWrappedSol) {
-  //     final fee = calculateFeeForWrappedSol();
+      return;
+    }
 
-  //     var feeBalance =
-  //         _balances[Token.sol] ?? Amount.zero(currency: Currency.sol);
+    if (token.isWrappedSol) {
+      final fee = calculateFeeForWrappedSol();
 
-  //     feeBalance = feeBalance.copyWith(
-  //       value: feeBalance.value - state.amount.value,
-  //     );
+      Amount feeBalance =
+          _balances[Token.sol] ?? Amount.zero(currency: Currency.sol);
 
-  //     if (feeBalance < fee) {
-  //       return Either.left(ValidationError.insufficientFee(fee));
-  //     }
-  //   }
+      feeBalance = feeBalance.copyWith(
+        value: feeBalance.value - state.amount.value,
+      );
 
-  //   return const Either.right(null);
-  // }
+      if (feeBalance < fee) {
+        final newState = state.copyWith(
+          processingState: const ProcessingState.error(
+            SwapException(SwapFailReason.insufficientFee),
+          ),
+        );
+        emit(newState);
+
+        return;
+      }
+    }
+
+    final route = state.bestRoute;
+    if (route == null) return;
+
+    emit(_State.success(route));
+  }
 }
 
 extension on Map<Token, Amount?> {
