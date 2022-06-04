@@ -1,3 +1,11 @@
+## 0.3.0+3
+
+ - Update a dependency to the latest release.
+
+## 0.3.0+2
+
+ - **REFACTOR**: Migrate to Dart 2.17 (#271).
+
 ## 0.3.0+1
 
  - **DOCS**: Update readme.

@@ -7,6 +7,7 @@ class Test1 with _$Test1 {
   factory Test1({
     @BString() required String stringValue,
     @BU8() required int intValue,
+    @BU64() required BigInt bigIntValue,
     @BFixedArray(3, BString()) required List<String> listOfStrings,
     @BFixedArray(3, BU8()) required List<int> listOfInts,
     @BFixedArray(3, BFixedArray(2, BU8()))
