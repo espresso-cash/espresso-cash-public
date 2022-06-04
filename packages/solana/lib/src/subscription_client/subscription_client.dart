@@ -44,6 +44,7 @@ class SubscriptionClient {
   Stream<Account> accountSubscribe(
     String address, {
     Commitment? commitment,
+    Encoding encoding = Encoding.jsonParsed,
   }) =>
       _subscribe<Account>(
         'account',
@@ -53,6 +54,9 @@ class SubscriptionClient {
             <String, String>{
               'commitment': commitment.value,
             },
+          <String, String>{
+            'encoding': encoding.value,
+          },
         ],
       );
 
