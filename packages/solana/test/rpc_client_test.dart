@@ -543,7 +543,7 @@ void main() {
 
     test('Call to getFirstAvailableBlock() succeeds', () async {
       final block = await client.rpcClient.getFirstAvailableBlock();
-      expect(block, greaterThan(0));
+      expect(block, greaterThanOrEqualTo(0));
     });
 
     test('Call to getIdentity() succeeds', () async {
