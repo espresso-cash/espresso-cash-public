@@ -11,9 +11,52 @@ import 'config.dart';
 const int _transferredAmount = lamportsPerSol;
 
 void main() {
-  test('throws exception on timeout', () async {
-    final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
-    expect(client.getTransactionCount, throwsA(isA<TimeoutException>()));
+  group('Timeout exceptions', () {
+    test('throws exception with method name on timeout', () async {
+      final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
+
+      expect(
+        client.getTransactionCount(),
+        throwsA(
+          isA<RpcTimeoutException>().having(
+            (e) => e.message,
+            'message',
+            'RPC call getTransactionCount timed out.',
+          ),
+        ),
+      );
+    });
+
+    test('throws exception with bulk method names on timeout', () async {
+      final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
+      const transactions = [
+        TransactionSignatureInformation(
+          signature: 'signature',
+          slot: 0,
+          err: null,
+          memo: null,
+          blockTime: null,
+        ),
+        TransactionSignatureInformation(
+          signature: 'signature',
+          slot: 0,
+          err: null,
+          memo: null,
+          blockTime: null,
+        ),
+      ];
+
+      expect(
+        client.getMultipleTransactions(transactions),
+        throwsA(
+          isA<RpcTimeoutException>().having(
+            (e) => e.message,
+            'message',
+            'RPC call [getTransaction, getTransaction] timed out.',
+          ),
+        ),
+      );
+    });
   });
 
   group('RpcClient testsuite', () {
