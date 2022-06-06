@@ -14,33 +14,36 @@
 <body>
   <img src="/solanapay.png" class="logo">
 
-  <div class="message-block">
-    <b>
-      <div class="payment-header"> 
-        You are making an instant payment{{# amount }} of
-      </b><br />
-    </div>
-    <div class="amount"> 
-      {{ amount }}&nbsp;{{token}}{{/amount}} to:
-    </div>
-    <div class="address"> 
-      {{ recipient}}
-    </div>
+  <div class="background-mobile">
+    <div class="message-block-mobile">
+      <div class="message-block">
+        <b>
+          <div class="payment-header"> 
+            You are making an instant payment{{# amount }} of
+          </b><br />
+        </div>
+        <div class="amount"> 
+          {{ amount }}&nbsp;{{token}}{{/amount}} to:
+        </div>
+        <div class="address"> 
+          {{ recipient}}
+        </div>
 
-    <img src="solana-background.svg" class="background">
-  </div>
+        <img src="solana-background.svg" class="background">
+      </div>
 
-  <div class="payment-block">
-    <div style="margin-bottom: 32px">Pay with</div>
+    <div class="payment-block">
+      <div style="margin-bottom: 32px">Pay with</div>
 
-    {{# apps }}
-      <button class="payment-item"
-        style="background-color: {{backgroundColor}}; color: {{textColor}}"
-        onclick="window.location.href='{{url}}'">
-          <div class="payment-item-title">{{name}}</div> 
-          <img src="{{logoUri}}" class="payment-item-icon"/>
-      </button>
-    {{/apps}}
+      {{# apps }}
+        <button class="payment-item"
+          style="background-color: {{backgroundColor}}; color: {{textColor}}"
+          onclick="window.location.href='{{url}}'">
+            <div class="payment-item-title">{{name}}</div> 
+            <img src="{{logoUri}}" class="payment-item-icon"/>
+        </button>
+      {{/apps}}
+    </div>
   </div>
 
   <script src="/script.js"></script>

@@ -1,22 +1,118 @@
-body {
-    text-align: center;
-    padding: 10px;
-    position: relative;
-    background: #424242;
-    color: white;
-    overflow-wrap: break-word;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    letter-spacing: 0.007em;
+@media screen and (min-width: 600px) {
+    body {
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        background: #424242;
+        color: white;
+        overflow-wrap: break-word;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        letter-spacing: 0.007em;
+    }
+
+    .logo {
+        max-width: 100px;
+        margin: 32px auto 32px;
+        display: block;
+    }
+
+    .background {
+        z-index: -1;
+        height: 100%;
+        max-width: 100%;
+        display: block;
+        position: absolute;
+        margin: auto;
+        float: left;
+        left: -240px;
+        top: 8%;
+    }
+
+    .message-block {
+        z-index: 0;
+        display: block;
+        position: relative;
+        overflow: hidden;
+        max-width: 85%;
+        max-height: 45%;
+        background: linear-gradient(217.94deg, #F45440 10.03%, #FF8B49 100.98%);
+        border-radius: 35px;
+        margin: auto;
+        padding-top: 60px;
+        padding-bottom: 150px;
+    }
+
+    .payment-block {
+        font-size: 27px;
+        font-weight: 600;
+        margin: 32px auto 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
-.payment-block {
-    font-size: 27px;
-    font-weight: 600;
-    margin: 32px auto 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+@media screen and (max-width: 600px) {
+    body {
+        text-align: center;
+        align-items: center;
+        align-self: center;
+        background: #F45440;
+        color: white;
+        overflow-wrap: break-word;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        letter-spacing: 0.007em;
+        background-image: url("solana-background.svg");
+        background-repeat: no-repeat;
+        background-position: top;
+        height: 100%;
+        width: 100%;
+        display: block;
+        position: absolute;
+        margin: auto;
+        float: top;
+        top: 0;
+    }
+
+    .logo {
+        max-width: 100px;
+        margin: 64px auto 96px;
+        display: block;
+    }
+
+    .background-mobile {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(66, 66, 66, 0) 0%, #2C2C2C 15%);
+    }
+
+    .background {
+        height: 0;
+        max-width: 0;
+    }
+
+    .message-block-mobile {
+        margin: auto;
+        position: relative;
+        display: block;
+        top: 150;
+        padding: 10px;
+    }
+
+    .payment-block {
+        font-size: 27px;
+        font-weight: 600;
+        margin: 32px auto 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        float: bottom;
+        bottom: 0;
+    }
 }
 
 .payment-item {
@@ -50,39 +146,6 @@ body {
     text-transform: uppercase;
 }
 
-.logo {
-    max-width: 100px;
-    margin: 32px auto 32px;
-    display: block;
-}
-
-.background {
-    z-index: -1;
-    height: 100%;
-    max-width: 100%;
-    display: block;
-    position: absolute;
-    margin: auto;
-    float: left;
-    left: -240px;
-    top: 8%;
-}
-
-.message-block {
-    z-index: 0;
-    display: block;
-    position: relative;
-    overflow: hidden;
-    max-width: 85%;
-    max-height: 45%;
-    background: linear-gradient(217.94deg, #F45440 10.03%, #FF8B49 100.98%);
-    border-radius: 35px;
-    margin: auto;
-    padding-top: 60px;
-    padding-bottom: 150px;
-
-}
-
 .address {
     background: #F4F4F4;
     border: 1px solid #EDEDED;
@@ -111,3 +174,10 @@ body {
     font-weight: 400;
     margin-top: 16px;
 }
+
+
+
+
+
+
+

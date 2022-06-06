@@ -1,6 +1,5 @@
 import 'package:cryptoplease_link/src/constants.dart';
 import 'package:cryptoplease_link/src/handlers/common_link_handler.dart';
-import 'package:cryptoplease_link/src/platform.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:shelf/shelf.dart';
 
@@ -35,8 +34,7 @@ Future<Response> _solanaPayHandler(
 
   return commonHandler(
     request,
-    templateName:
-        request.platform == Platform.web ? 'solana-pay' : 'solana-pay-mobile',
+    templateName: 'solana-pay',
     updateData: (data) => <String, dynamic>{
       ...data,
       'token': token,
