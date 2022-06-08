@@ -1,3 +1,46 @@
+.payment-item {
+  background-color: #ff8b49;
+  min-width: 300px;
+  border: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 30px;
+  margin-bottom: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.payment-item-icon {
+  position: relative;
+  right: 20px;
+  width: 28px;
+  height: 28px;
+}
+
+.payment-item-title {
+  font-weight: 500;
+  font-size: 16px;
+  min-width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.payment-header {
+  font-size: 30px;
+  font-weight: 600;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.amount {
+  font-size: 25px;
+  font-weight: 400;
+  margin-top: 16px;
+}
+
 @media screen and (min-width: 600px) {
   body {
     text-align: center;
@@ -71,29 +114,6 @@
 }
 
 @media screen and (max-width: 599px) {
-  body {
-    text-align: center;
-    align-items: center;
-    align-self: center;
-    background: #f45440;
-    color: white;
-    overflow-wrap: break-word;
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-    letter-spacing: 0.007em;
-    background-image: url('solana-background-mobile.svg');
-    background-size: 110% auto;
-    background-repeat: no-repeat;
-    background-position: top;
-    height: 100%;
-    width: 100%;
-    display: block;
-    position: absolute;
-    margin: auto;
-    float: top;
-    top: 0;
-  }
-
   .logo {
     max-width: 100px;
     margin: 64px auto 72px;
@@ -124,12 +144,26 @@
   }
 
   @media screen and (prefers-color-scheme: dark) {
-    .background-mobile {
-      position: relative;
-      display: block;
+    body {
+      text-align: center;
+      align-items: center;
+      align-self: center;
+      color: white;
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+      letter-spacing: 0.007em;
+      background-image: linear-gradient(180deg, rgba(66, 66, 66, 0) 0%, #2c2c2c 40%), url('solana-background-mobile.svg'),
+        linear-gradient(180deg, #f45440 0%, #2c2c2c 25.95%);
+      background-size: 110% auto;
+      background-repeat: no-repeat;
+      background-position: top;
+      background-attachment: fixed;
       width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, rgba(66, 66, 66, 0) 0%, #2c2c2c 26.82%);
+      display: block;
+      position: absolute;
+      margin: auto;
+      float: top;
+      top: 0;
     }
 
     .address {
@@ -148,14 +182,27 @@
       color: #ffffff;
     }
   }
-
   @media screen and (prefers-color-scheme: light) {
-    .background-mobile {
-      position: relative;
-      display: block;
+    body {
+      text-align: center;
+      align-items: center;
+      align-self: center;
+      color: white;
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+      letter-spacing: 0.007em;
+      background-image: linear-gradient(180deg, rgba(192, 81, 81, 0) 1.65%, #f46640 40%), url('solana-background-mobile.svg'),
+        linear-gradient(180deg, #f45440 1.65%, #f46640 40%);
+      background-size: 110% auto;
+      background-repeat: no-repeat;
+      background-position: top;
+      background-attachment: fixed;
       width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, rgba(255, 161, 136, 0) 0%, #f46640 26.82%);
+      display: block;
+      position: absolute;
+      margin: auto;
+      float: top;
+      top: 0;
     }
 
     .address {
@@ -174,47 +221,4 @@
       color: #000000;
     }
   }
-}
-
-.payment-item {
-  background-color: #ff8b49;
-  min-width: 300px;
-  border: none;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  border-radius: 30px;
-  margin-bottom: 8px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.payment-item-icon {
-  position: relative;
-  right: 20px;
-  width: 28px;
-  height: 28px;
-}
-
-.payment-item-title {
-  font-weight: 500;
-  font-size: 16px;
-  min-width: 100%;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.payment-header {
-  font-size: 30px;
-  font-weight: 600;
-  padding-right: 8px;
-  padding-left: 8px;
-}
-
-.amount {
-  font-size: 25px;
-  font-weight: 400;
-  margin-top: 16px;
 }
