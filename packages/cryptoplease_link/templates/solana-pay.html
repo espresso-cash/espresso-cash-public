@@ -15,14 +15,12 @@
 </head>
 
 <body>
-  
+
     <img src="/solanapay.png" class="logo">
     <div class="message-block-mobile">
       <div class="message-block">
-        <b>
-          <div class="payment-header"> 
-            You are making an instant payment{{# amount }} of
-          </b><br />
+        <div class="payment-header"> 
+          You are making an instant payment{{# amount }} of
         </div>
         <div class="amount"> 
           {{ amount }}&nbsp;{{token}}{{/amount}} to:
@@ -35,7 +33,7 @@
       </div>
 
     <div class="payment-block">
-      <div style="margin-bottom: 32px">Pay with</div>
+      <div class="payment-block-title">Pay with</div>
 
       {{# apps }}
         <button class="payment-item"
