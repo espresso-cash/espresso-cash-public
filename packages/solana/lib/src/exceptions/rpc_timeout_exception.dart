@@ -1,10 +1,11 @@
 import 'dart:async';
 
 class RpcTimeoutException extends TimeoutException {
-  RpcTimeoutException(
-    this.body, {
+  RpcTimeoutException({
+    required String method,
+    required this.body,
     Duration? timeout,
-  }) : super('RPC call timed out.', timeout);
+  }) : super('RPC call $method timed out.', timeout);
 
   /// Request body.
   final dynamic body;
