@@ -17,6 +17,11 @@ final cryptoPleaseApp = App(
     bundleId: 'com.pleasecrypto.flutter',
     teamId: 'US38KFXH3P',
   ),
+  appDisplayStyle: const AppDisplayStyle(
+    textColor: '#000000',
+    backgroundColor: '#FACF48',
+    logoUri: 'icons/cp-icon.png',
+  ),
 );
 
 final apps = [
