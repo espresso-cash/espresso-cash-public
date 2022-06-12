@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/presentation/components/keypad_key.dart';
