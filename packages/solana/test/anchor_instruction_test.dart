@@ -1,27 +1,30 @@
 import 'dart:io';
 
 import 'package:solana/anchor.dart';
-import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
-import 'airdrop.dart';
 import 'anchor_tutorial_types/basic1.dart';
 import 'config.dart';
 
 void main() {
   late final Ed25519HDKeyPair payer;
   late final Ed25519HDKeyPair updater;
-  late final SubscriptionClient subscriptionClient;
-  final rpcClient = RpcClient(devnetRpcUrl);
+  final client = SolanaClient(
+    rpcUrl: Uri.parse(devnetRpcUrl),
+    websocketUrl: Uri.parse(devnetWebsocketUrl),
+  );
 
   setUpAll(() async {
-    subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
     payer = await Ed25519HDKeyPair.random();
     updater = await Ed25519HDKeyPair.random();
 
-    await airdrop(rpcClient, subscriptionClient, payer, sol: 10);
+    await client.requestAirdrop(
+      address: payer.publicKey,
+      lamports: 10 * lamportsPerSol,
+      commitment: Commitment.confirmed,
+    );
   });
 
   test(
@@ -36,13 +39,10 @@ void main() {
         ),
       ];
       final message = Message(instructions: instructions);
-      final signature = await rpcClient.signAndSendTransaction(
-        message,
-        [payer],
-      );
-      await subscriptionClient.waitForSignatureStatus(
-        signature,
-        status: ConfirmationStatus.finalized,
+      final signature = await client.sendAndConfirmTransaction(
+        message: message,
+        signers: [payer],
+        commitment: Commitment.confirmed,
       );
 
       expect(signature, isNotNull);
@@ -55,7 +55,8 @@ void main() {
     () async {
       // 8 bytes for the discriminator and 8 bytes for the data
       const space = 16;
-      final rent = await rpcClient.getMinimumBalanceForRentExemption(space);
+      final rent =
+          await client.rpcClient.getMinimumBalanceForRentExemption(space);
       final instructions = [
         SystemInstruction.createAccount(
           lamports: rent,
@@ -81,19 +82,20 @@ void main() {
         ),
       ];
       final message = Message(instructions: instructions);
-      final signature = await rpcClient.signAndSendTransaction(
-        message,
-        [
+      await client.sendAndConfirmTransaction(
+        message: message,
+        signers: [
           payer,
           updater,
         ],
-      );
-      await subscriptionClient.waitForSignatureStatus(
-        signature,
-        status: ConfirmationStatus.finalized,
+        commitment: Commitment.confirmed,
       );
 
-      final account = await rpcClient.getAccountInfo(updater.address);
+      final account = await client.rpcClient.getAccountInfo(
+        updater.address,
+        commitment: Commitment.confirmed,
+      );
+
       expect(account, isNotNull);
       final rawData = account?.data;
       expect(rawData, isNotNull);
@@ -125,17 +127,18 @@ void main() {
       ];
 
       final message = Message(instructions: instructions);
-      final signature = await rpcClient.signAndSendTransaction(
-        message,
-        [payer],
-      );
-      await subscriptionClient.waitForSignatureStatus(
-        signature,
-        status: ConfirmationStatus.finalized,
+      await client.sendAndConfirmTransaction(
+        message: message,
+        signers: [payer],
+        commitment: Commitment.confirmed,
       );
 
       final discriminator = await computeDiscriminator('account', 'MyAccount');
-      final account = await rpcClient.getAccountInfo(updater.address);
+      final account = await client.rpcClient.getAccountInfo(
+        updater.address,
+        commitment: Commitment.confirmed,
+      );
+
       expect(account, isNotNull);
       final rawData = account?.data;
       expect(rawData, isNotNull);

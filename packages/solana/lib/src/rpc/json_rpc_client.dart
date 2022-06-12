@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:solana/src/exceptions/http_exception.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
+import 'package:solana/src/exceptions/rpc_timeout_exception.dart';
+import 'package:solana/src/rpc/json_rpc_request.dart';
 
 class JsonRpcClient {
   JsonRpcClient(
@@ -21,7 +23,7 @@ class JsonRpcClient {
   ) async {
     final requests = params
         .map(
-          (p) => _JsonRpcSingleRequest(
+          (p) => JsonRpcSingleRequest(
             method: method,
             params: p,
             id: (_lastId++).toString(),
@@ -29,7 +31,7 @@ class JsonRpcClient {
         )
         .toList(growable: false);
 
-    final response = await _postRequest(_JsonRpcRequest.bulk(requests));
+    final response = await _postRequest(JsonRpcRequest.bulk(requests));
     if (response is _JsonRpcArrayResponse) {
       final elements = response.array;
 
@@ -46,7 +48,7 @@ class JsonRpcClient {
     String method, {
     List<dynamic>? params,
   }) async {
-    final request = _JsonRpcSingleRequest(
+    final request = JsonRpcSingleRequest(
       id: (_lastId++).toString(),
       method: method,
       params: params,
@@ -61,19 +63,21 @@ class JsonRpcClient {
   }
 
   Future<_JsonRpcResponse> _postRequest(
-    _JsonRpcRequest request,
+    JsonRpcRequest request,
   ) async {
-    final body = json.encode(request.toJson());
+    final body = request.toJson();
     // Perform the POST request
     final Response response = await post(
       Uri.parse(_url),
       headers: _defaultHeaders,
-      body: body,
+      body: json.encode(body),
     ).timeout(
       _timeout,
-      onTimeout: () {
-        throw TimeoutException('request timed out');
-      },
+      onTimeout: () => throw RpcTimeoutException(
+        method: request.method,
+        body: body,
+        timeout: _timeout,
+      ),
     );
     // Handle the response
     if (response.statusCode == 200) {
@@ -82,44 +86,6 @@ class JsonRpcClient {
       throw HttpException(response.statusCode, response.body);
     }
   }
-}
-
-abstract class _JsonRpcRequest {
-  const factory _JsonRpcRequest.bulk(
-    List<_JsonRpcSingleRequest> list,
-  ) = _JsonRpcBulkRequest;
-
-  dynamic toJson();
-}
-
-class _JsonRpcBulkRequest implements _JsonRpcRequest {
-  const _JsonRpcBulkRequest(this.list);
-
-  @override
-  List<dynamic> toJson() =>
-      list.map<dynamic>((i) => i.toJson()).toList(growable: false);
-
-  final List<_JsonRpcRequest> list;
-}
-
-class _JsonRpcSingleRequest implements _JsonRpcRequest {
-  const _JsonRpcSingleRequest({
-    required this.id,
-    required this.method,
-    this.params,
-  });
-
-  @override
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'jsonrpc': '2.0',
-        'id': id,
-        'method': method,
-        if (params != null) 'params': params,
-      };
-
-  final String id;
-  final String method;
-  final List<dynamic>? params;
 }
 
 abstract class _JsonRpcResponse {

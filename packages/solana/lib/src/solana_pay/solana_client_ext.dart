@@ -181,6 +181,7 @@ extension SolanaClientSolanaPay on SolanaClient {
           splToken: splToken,
           reference: reference,
           memo: memo,
+          commitment: commitment,
         ),
         signers: [payer],
         onSigned: onSigned ?? ignoreOnSigned,

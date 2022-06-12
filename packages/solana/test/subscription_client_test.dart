@@ -7,43 +7,50 @@ import 'package:test/test.dart';
 import 'config.dart';
 
 void main() {
-  test(
-    'accountSubscribe must return account owned by the system program',
-    () async {
-      const originalLamports = lamportsPerSol;
-      final sender = await Ed25519HDKeyPair.random();
-      final recipient = await Ed25519HDKeyPair.random();
-      final rpcClient = RpcClient(devnetRpcUrl);
-      final signature = await rpcClient.requestAirdrop(
-        sender.address,
-        originalLamports,
-      );
+  test('accountSubscribe must return account owned by the system program',
+      () async {
+    const originalLamports = lamportsPerSol;
+    final sender = await Ed25519HDKeyPair.random();
+    final recipient = await Ed25519HDKeyPair.random();
+    final rpcClient = RpcClient(devnetRpcUrl);
+    final signature = await rpcClient.requestAirdrop(
+      sender.address,
+      originalLamports,
+      commitment: Commitment.confirmed,
+    );
 
-      final subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
+    final subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
 
-      final result =
-          await subscriptionClient.signatureSubscribe(signature).first;
-      expect(result.err, isNull);
+    final result = await subscriptionClient
+        .signatureSubscribe(
+          signature,
+          commitment: Commitment.confirmed,
+        )
+        .first;
+    expect(result.err, isNull);
 
-      // System program
-      final accountStream = subscriptionClient.accountSubscribe(sender.address);
+    // System program
+    final accountStream = subscriptionClient.accountSubscribe(
+      sender.address,
+      commitment: Commitment.confirmed,
+    );
 
-      // Now send some tokens
-      await createTestSolanaClient().transferLamports(
-        destination: recipient.publicKey,
-        commitment: Commitment.confirmed,
-        lamports: lamportsPerSol ~/ 2,
-        source: sender,
-      );
+    // Now send some tokens
+    createTestSolanaClient()
+        .transferLamports(
+          destination: recipient.publicKey,
+          lamports: lamportsPerSol ~/ 2,
+          source: sender,
+          commitment: Commitment.confirmed,
+        )
+        .ignore();
 
-      final account = await accountStream.firstWhere(
-        (Account data) => data.lamports < originalLamports,
-      );
+    final account = await accountStream.firstWhere(
+      (Account data) => data.lamports < originalLamports,
+    );
 
-      expect(account.lamports, lessThan(originalLamports));
-    },
-    timeout: const Timeout(Duration(minutes: 1)),
-  );
+    expect(account.lamports, lessThan(originalLamports));
+  });
 
   test('waitForSignatureStatus throws Exception on timout', () async {
     final client = SubscriptionClient.connect(devnetWebsocketUrl);

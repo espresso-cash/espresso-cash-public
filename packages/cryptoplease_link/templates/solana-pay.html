@@ -5,37 +5,45 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
   <title>Request Payment</title>
 
-  <link rel="stylesheet" type="text/css" href="/styles.css">
+  <link rel="stylesheet" type="text/css" href="/solana-pay-styles.css">
 </head>
 
 <body>
-  <img src="/solanapay.png" class="logo">
 
-  <div class="message">
-    <b>
-      To make an instant payment{{# amount }} of {{ amount }}&nbsp;{{token}}{{/amount}} to
-    </b>
-    <br />
-    <br />
-    {{ recipient}}
-  </div>
+    <img src="/solanapay.png" class="logo">
+    <div class="message-block-mobile">
+      <div class="message-block">
+        <div class="payment-header"> 
+          You are making an instant payment{{# amount }} of
+        </div>
+        <div class="amount"> 
+          {{ amount }}&nbsp;{{token}}{{/amount}} to:
+        </div>
+        <div class="address"> 
+          {{ recipient}}
+        </div>
 
-  <a class="{{# shouldCopy }}js-copy{{/shouldCopy}} payment-link" href="{{ installLink }}">
-    Pay with {{ appName }}
-  </a>
+        <img src="solana-background-web.svg" class="background">
+      </div>
 
-  {{# otherAppsExist }}
-  <p>Or try one of these apps:</p>
+    <div class="payment-block">
+      <div class="payment-block-title">Pay with</div>
 
-  <ul>
-    {{# otherApps }}
-    <li><a href="{{ url }}" class="copy">{{name}}</a></li>
-    {{/otherApps}}
-  </ul>
-  {{/otherAppsExist}}
+      {{# apps }}
+        <button class="payment-item"
+          style="background-color: {{backgroundColor}}; color: {{textColor}}"
+          onclick="window.location.href='{{url}}'">
+            <div class="payment-item-title">{{name}}</div> 
+            <img src="{{logoUri}}" class="payment-item-icon"/>
+        </button>
+      {{/apps}}
+    </div>
 
   <script src="/script.js"></script>
 

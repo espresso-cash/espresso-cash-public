@@ -874,12 +874,12 @@ class _RpcClient implements RpcClient {
   @override
   Future<String> sendTransaction(String transaction,
       {Encoding encoding = Encoding.base64,
-      Commitment? commitment = Commitment.finalized,
+      Commitment? preflightCommitment = Commitment.finalized,
       bool? skipPreflight = false,
       int? maxRetries}) async {
     final config = SendTransactionConfig(
             encoding: encoding,
-            commitment: commitment,
+            preflightCommitment: preflightCommitment,
             skipPreflight: skipPreflight,
             maxRetries: maxRetries)
         .toJson();
@@ -1474,13 +1474,13 @@ class RequestAirdropConfig {
 class SendTransactionConfig {
   SendTransactionConfig({
     this.encoding = Encoding.base64,
-    this.commitment = Commitment.finalized,
+    this.preflightCommitment = Commitment.finalized,
     this.skipPreflight = false,
     this.maxRetries,
   });
 
   final Encoding encoding;
-  final Commitment? commitment;
+  final Commitment? preflightCommitment;
   final bool? skipPreflight;
   final int? maxRetries;
 

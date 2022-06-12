@@ -1,3 +1,16 @@
+## 0.25.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: add `encoding` to `accountSubscribe` (#286).
+ - **FEAT**: Add method name to RpcTimeoutException (#288).
+ - **FEAT**: improve timeout message with more data provided (#285).
+ - **BREAKING** **FIX**: Fix commitments (#287).
+
+## 0.24.0+1
+
+ - Update a dependency to the latest release.
+
 ## 0.24.0
 
 > Note: This release has breaking changes.
