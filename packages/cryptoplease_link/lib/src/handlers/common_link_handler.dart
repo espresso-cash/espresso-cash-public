@@ -31,8 +31,6 @@ Future<Response> commonHandler(
       break;
   }
 
-  final otherApps = apps.whereNot((a) => a.id == app.id).toList()..shuffle();
-
   final template = Template(
     File('templates/$templateName.html').readAsStringSync(),
     partialResolver: (p) => Template(
@@ -63,12 +61,14 @@ Future<Response> commonHandler(
     'shouldCopy': shouldCopy,
     'appName': app.name,
     'deepLink': deepLink.toString(),
-    'otherAppsExist': otherApps.isNotEmpty,
-    'otherApps': otherApps
+    'apps': apps
         .map(
           (a) => <String, dynamic>{
             'name': a.name,
             'url': a.installLink(deepLink, platform),
+            'textColor': a.appDisplayStyle.textColor,
+            'backgroundColor': a.appDisplayStyle.backgroundColor,
+            'logoUri': a.appDisplayStyle.logoUri,
           },
         )
         .where((a) => a['url'] != null),

@@ -19,6 +19,7 @@ mixin _$App {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   Uri get url => throw _privateConstructorUsedError;
+  AppDisplayStyle get appDisplayStyle => throw _privateConstructorUsedError;
   AndroidOptions? get androidOptions => throw _privateConstructorUsedError;
   IOSOptions? get iOSOptions => throw _privateConstructorUsedError;
 
@@ -34,9 +35,11 @@ abstract class $AppCopyWith<$Res> {
       {String id,
       String name,
       Uri url,
+      AppDisplayStyle appDisplayStyle,
       AndroidOptions? androidOptions,
       IOSOptions? iOSOptions});
 
+  $AppDisplayStyleCopyWith<$Res> get appDisplayStyle;
   $AndroidOptionsCopyWith<$Res>? get androidOptions;
   $IOSOptionsCopyWith<$Res>? get iOSOptions;
 }
@@ -54,6 +57,7 @@ class _$AppCopyWithImpl<$Res> implements $AppCopyWith<$Res> {
     Object? id = freezed,
     Object? name = freezed,
     Object? url = freezed,
+    Object? appDisplayStyle = freezed,
     Object? androidOptions = freezed,
     Object? iOSOptions = freezed,
   }) {
@@ -70,6 +74,10 @@ class _$AppCopyWithImpl<$Res> implements $AppCopyWith<$Res> {
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
+      appDisplayStyle: appDisplayStyle == freezed
+          ? _value.appDisplayStyle
+          : appDisplayStyle // ignore: cast_nullable_to_non_nullable
+              as AppDisplayStyle,
       androidOptions: androidOptions == freezed
           ? _value.androidOptions
           : androidOptions // ignore: cast_nullable_to_non_nullable
@@ -79,6 +87,13 @@ class _$AppCopyWithImpl<$Res> implements $AppCopyWith<$Res> {
           : iOSOptions // ignore: cast_nullable_to_non_nullable
               as IOSOptions?,
     ));
+  }
+
+  @override
+  $AppDisplayStyleCopyWith<$Res> get appDisplayStyle {
+    return $AppDisplayStyleCopyWith<$Res>(_value.appDisplayStyle, (value) {
+      return _then(_value.copyWith(appDisplayStyle: value));
+    });
   }
 
   @override
@@ -113,9 +128,12 @@ abstract class _$AppCopyWith<$Res> implements $AppCopyWith<$Res> {
       {String id,
       String name,
       Uri url,
+      AppDisplayStyle appDisplayStyle,
       AndroidOptions? androidOptions,
       IOSOptions? iOSOptions});
 
+  @override
+  $AppDisplayStyleCopyWith<$Res> get appDisplayStyle;
   @override
   $AndroidOptionsCopyWith<$Res>? get androidOptions;
   @override
@@ -136,6 +154,7 @@ class __$AppCopyWithImpl<$Res> extends _$AppCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? url = freezed,
+    Object? appDisplayStyle = freezed,
     Object? androidOptions = freezed,
     Object? iOSOptions = freezed,
   }) {
@@ -152,6 +171,10 @@ class __$AppCopyWithImpl<$Res> extends _$AppCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
+      appDisplayStyle: appDisplayStyle == freezed
+          ? _value.appDisplayStyle
+          : appDisplayStyle // ignore: cast_nullable_to_non_nullable
+              as AppDisplayStyle,
       androidOptions: androidOptions == freezed
           ? _value.androidOptions
           : androidOptions // ignore: cast_nullable_to_non_nullable
@@ -171,6 +194,7 @@ class _$_App implements _App {
       {required this.id,
       required this.name,
       required this.url,
+      required this.appDisplayStyle,
       this.androidOptions,
       this.iOSOptions});
 
@@ -181,13 +205,15 @@ class _$_App implements _App {
   @override
   final Uri url;
   @override
+  final AppDisplayStyle appDisplayStyle;
+  @override
   final AndroidOptions? androidOptions;
   @override
   final IOSOptions? iOSOptions;
 
   @override
   String toString() {
-    return 'App(id: $id, name: $name, url: $url, androidOptions: $androidOptions, iOSOptions: $iOSOptions)';
+    return 'App(id: $id, name: $name, url: $url, appDisplayStyle: $appDisplayStyle, androidOptions: $androidOptions, iOSOptions: $iOSOptions)';
   }
 
   @override
@@ -198,6 +224,8 @@ class _$_App implements _App {
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.url, url) &&
+            const DeepCollectionEquality()
+                .equals(other.appDisplayStyle, appDisplayStyle) &&
             const DeepCollectionEquality()
                 .equals(other.androidOptions, androidOptions) &&
             const DeepCollectionEquality()
@@ -210,6 +238,7 @@ class _$_App implements _App {
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(url),
+      const DeepCollectionEquality().hash(appDisplayStyle),
       const DeepCollectionEquality().hash(androidOptions),
       const DeepCollectionEquality().hash(iOSOptions));
 
@@ -224,6 +253,7 @@ abstract class _App implements App {
       {required final String id,
       required final String name,
       required final Uri url,
+      required final AppDisplayStyle appDisplayStyle,
       final AndroidOptions? androidOptions,
       final IOSOptions? iOSOptions}) = _$_App;
 
@@ -234,12 +264,171 @@ abstract class _App implements App {
   @override
   Uri get url => throw _privateConstructorUsedError;
   @override
+  AppDisplayStyle get appDisplayStyle => throw _privateConstructorUsedError;
+  @override
   AndroidOptions? get androidOptions => throw _privateConstructorUsedError;
   @override
   IOSOptions? get iOSOptions => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$AppCopyWith<_App> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$AppDisplayStyle {
+  String get textColor => throw _privateConstructorUsedError;
+  String get backgroundColor => throw _privateConstructorUsedError;
+  String get logoUri => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $AppDisplayStyleCopyWith<AppDisplayStyle> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AppDisplayStyleCopyWith<$Res> {
+  factory $AppDisplayStyleCopyWith(
+          AppDisplayStyle value, $Res Function(AppDisplayStyle) then) =
+      _$AppDisplayStyleCopyWithImpl<$Res>;
+  $Res call({String textColor, String backgroundColor, String logoUri});
+}
+
+/// @nodoc
+class _$AppDisplayStyleCopyWithImpl<$Res>
+    implements $AppDisplayStyleCopyWith<$Res> {
+  _$AppDisplayStyleCopyWithImpl(this._value, this._then);
+
+  final AppDisplayStyle _value;
+  // ignore: unused_field
+  final $Res Function(AppDisplayStyle) _then;
+
+  @override
+  $Res call({
+    Object? textColor = freezed,
+    Object? backgroundColor = freezed,
+    Object? logoUri = freezed,
+  }) {
+    return _then(_value.copyWith(
+      textColor: textColor == freezed
+          ? _value.textColor
+          : textColor // ignore: cast_nullable_to_non_nullable
+              as String,
+      backgroundColor: backgroundColor == freezed
+          ? _value.backgroundColor
+          : backgroundColor // ignore: cast_nullable_to_non_nullable
+              as String,
+      logoUri: logoUri == freezed
+          ? _value.logoUri
+          : logoUri // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$AppDisplayStyleCopyWith<$Res>
+    implements $AppDisplayStyleCopyWith<$Res> {
+  factory _$AppDisplayStyleCopyWith(
+          _AppDisplayStyle value, $Res Function(_AppDisplayStyle) then) =
+      __$AppDisplayStyleCopyWithImpl<$Res>;
+  @override
+  $Res call({String textColor, String backgroundColor, String logoUri});
+}
+
+/// @nodoc
+class __$AppDisplayStyleCopyWithImpl<$Res>
+    extends _$AppDisplayStyleCopyWithImpl<$Res>
+    implements _$AppDisplayStyleCopyWith<$Res> {
+  __$AppDisplayStyleCopyWithImpl(
+      _AppDisplayStyle _value, $Res Function(_AppDisplayStyle) _then)
+      : super(_value, (v) => _then(v as _AppDisplayStyle));
+
+  @override
+  _AppDisplayStyle get _value => super._value as _AppDisplayStyle;
+
+  @override
+  $Res call({
+    Object? textColor = freezed,
+    Object? backgroundColor = freezed,
+    Object? logoUri = freezed,
+  }) {
+    return _then(_AppDisplayStyle(
+      textColor: textColor == freezed
+          ? _value.textColor
+          : textColor // ignore: cast_nullable_to_non_nullable
+              as String,
+      backgroundColor: backgroundColor == freezed
+          ? _value.backgroundColor
+          : backgroundColor // ignore: cast_nullable_to_non_nullable
+              as String,
+      logoUri: logoUri == freezed
+          ? _value.logoUri
+          : logoUri // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_AppDisplayStyle implements _AppDisplayStyle {
+  const _$_AppDisplayStyle(
+      {required this.textColor,
+      required this.backgroundColor,
+      required this.logoUri});
+
+  @override
+  final String textColor;
+  @override
+  final String backgroundColor;
+  @override
+  final String logoUri;
+
+  @override
+  String toString() {
+    return 'AppDisplayStyle(textColor: $textColor, backgroundColor: $backgroundColor, logoUri: $logoUri)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _AppDisplayStyle &&
+            const DeepCollectionEquality().equals(other.textColor, textColor) &&
+            const DeepCollectionEquality()
+                .equals(other.backgroundColor, backgroundColor) &&
+            const DeepCollectionEquality().equals(other.logoUri, logoUri));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(textColor),
+      const DeepCollectionEquality().hash(backgroundColor),
+      const DeepCollectionEquality().hash(logoUri));
+
+  @JsonKey(ignore: true)
+  @override
+  _$AppDisplayStyleCopyWith<_AppDisplayStyle> get copyWith =>
+      __$AppDisplayStyleCopyWithImpl<_AppDisplayStyle>(this, _$identity);
+}
+
+abstract class _AppDisplayStyle implements AppDisplayStyle {
+  const factory _AppDisplayStyle(
+      {required final String textColor,
+      required final String backgroundColor,
+      required final String logoUri}) = _$_AppDisplayStyle;
+
+  @override
+  String get textColor => throw _privateConstructorUsedError;
+  @override
+  String get backgroundColor => throw _privateConstructorUsedError;
+  @override
+  String get logoUri => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$AppDisplayStyleCopyWith<_AppDisplayStyle> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

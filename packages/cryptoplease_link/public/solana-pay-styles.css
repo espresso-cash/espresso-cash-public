@@ -1,0 +1,200 @@
+.payment-item {
+  background-color: #ff8b49;
+  min-width: 300px;
+  border: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 30px;
+  margin-bottom: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.payment-item-icon {
+  position: relative;
+  right: 20px;
+  width: 28px;
+  height: 28px;
+}
+
+.payment-item-title {
+  font-weight: 500;
+  font-size: 16px;
+  min-width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.payment-block-title {
+  margin-bottom: 32px;
+}
+
+@media screen and (min-width: 600px) {
+  body {
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    background: #424242;
+    color: white;
+    overflow-wrap: break-word;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    letter-spacing: 0.007em;
+  }
+
+  .logo {
+    max-width: 100px;
+    margin: 32px auto 32px;
+    display: block;
+  }
+
+  .background {
+    z-index: -1;
+    height: 100%;
+    max-width: 100%;
+    display: block;
+    position: absolute;
+    margin: auto;
+    float: left;
+    left: -240px;
+    top: 8%;
+  }
+
+  .message-block {
+    z-index: 0;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    max-width: 85%;
+    max-height: 45%;
+    background: linear-gradient(217.94deg, #f45440 10.03%, #ff8b49 100.98%);
+    border-radius: 35px;
+    margin: auto;
+    padding-top: 60px;
+    padding-bottom: 150px;
+  }
+
+  .payment-block {
+    font-size: 27px;
+    font-weight: 600;
+    margin: 32px auto 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .address {
+    background: #f4f4f4;
+    border: 1px solid #ededed;
+    border-radius: 12px;
+    overflow-wrap: break-word;
+    margin: 32px 32px;
+    display: block;
+    padding: 20px;
+    min-height: 56px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 25px;
+    text-align: center;
+    color: #a7a7a7;
+  }
+
+  .payment-header {
+    font-size: 30px;
+    font-weight: 600;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .amount {
+    font-size: 25px;
+    font-weight: 400;
+    margin-top: 16px;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  body {
+    text-align: center;
+    align-items: center;
+    align-self: center;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    letter-spacing: 0.007em;
+    background-image: linear-gradient(180deg, rgba(66, 66, 66, 0) 0%, #2c2c2c 40%), url('solana-background-mobile.svg'),
+      linear-gradient(180deg, #f45440 0%, #2c2c2c 25.95%);
+    background-size: 110% auto;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-attachment: fixed;
+    width: 100%;
+    display: block;
+    position: absolute;
+    margin: auto;
+    float: top;
+    top: 0;
+  }
+
+  .logo {
+    max-width: 100px;
+    margin: 64px auto 72px;
+    display: block;
+  }
+
+  .background {
+    height: 0;
+    max-width: 0;
+  }
+
+  .message-block-mobile {
+    margin: auto;
+    position: relative;
+    display: block;
+    top: 150;
+  }
+
+  .payment-block {
+    font-size: 27px;
+    font-weight: 600;
+    margin: 32px auto 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    float: bottom;
+    bottom: 0;
+  }
+
+  .payment-header {
+    font-size: 26px;
+    font-weight: 600;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .amount {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 16px;
+  }
+
+  .address {
+    background: #f65c42;
+    border-radius: 12px;
+    overflow-wrap: break-word;
+    margin: 32px 32px;
+    display: block;
+    padding: 20px;
+    min-height: 56px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 25px;
+    text-align: center;
+    color: #ffffff;
+  }
+}

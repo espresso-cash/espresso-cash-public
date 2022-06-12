@@ -8,9 +8,19 @@ class App with _$App {
     required String id,
     required String name,
     required Uri url,
+    required AppDisplayStyle appDisplayStyle,
     AndroidOptions? androidOptions,
     IOSOptions? iOSOptions,
   }) = _App;
+}
+
+@freezed
+class AppDisplayStyle with _$AppDisplayStyle {
+  const factory AppDisplayStyle({
+    required String textColor,
+    required String backgroundColor,
+    required String logoUri,
+  }) = _AppDisplayStyle;
 }
 
 @freezed
