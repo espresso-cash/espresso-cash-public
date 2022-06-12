@@ -1,10 +1,8 @@
-import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/number_formatter.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/enter_amount_keypad.dart';
-import 'package:cryptoplease/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_header_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/slippage_dialog.dart';
@@ -41,27 +39,6 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
     _inputController.dispose();
     super.dispose();
   }
-
-  void _insufficientTokenDialog({
-    required Amount balance,
-    required Amount currentAmount,
-  }) =>
-      showWarningDialog(
-        context,
-        title: context.l10n.insufficientFundsTitle,
-        message: context.l10n.insufficientFundsMessage(
-          currentAmount.format(DeviceLocale.localeOf(context)),
-          balance.format(DeviceLocale.localeOf(context)),
-        ),
-      );
-
-  void _insufficientFeeDialog(Amount fee) => showWarningDialog(
-        context,
-        title: context.l10n.insufficientFundsForFeeTitle,
-        message: context.l10n.insufficientFundsForFeeMessage(
-          fee.format(DeviceLocale.localeOf(context)),
-        ),
-      );
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(

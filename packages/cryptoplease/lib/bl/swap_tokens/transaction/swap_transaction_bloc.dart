@@ -56,28 +56,19 @@ class SwapTransactionBloc
       final setupTxId = await _maybeExecuteTx(
         tx: transaction.setupTransaction,
         onSetup: () => emit(const SwapTransactionState.settingUp()),
-        onError: (e) => throw SwapException(
-          SwapFailReason.setupFailed,
-          exception: e,
-        ),
+        onError: (e) => throw SwapException.setupFailed(e),
       );
 
       final swapTxId = await _maybeExecuteTx(
         tx: transaction.swapTransaction,
         onSetup: () => emit(const SwapTransactionState.swapping()),
-        onError: (e) => throw SwapException(
-          SwapFailReason.swapFailed,
-          exception: e,
-        ),
+        onError: (e) => throw SwapException.swapFailed(e),
       );
 
       final cleanupTxId = await _maybeExecuteTx(
         tx: transaction.cleanupTransaction,
         onSetup: () => emit(const SwapTransactionState.cleaningUp()),
-        onError: (e) => throw SwapException(
-          SwapFailReason.cleanUpFailed,
-          exception: e,
-        ),
+        onError: (e) => throw SwapException.cleanupFailed(e),
       );
 
       emit(
@@ -88,13 +79,9 @@ class SwapTransactionBloc
         ),
       );
     } on SwapException catch (e) {
-      emit(
-        SwapTransactionState.failed(e.reason, e.exception),
-      );
+      emit(SwapTransactionState.failed(e));
     } on Exception catch (e) {
-      emit(
-        SwapTransactionState.failed(SwapFailReason.unknown, e),
-      );
+      emit(SwapTransactionState.failed(SwapException.other(e)));
     }
   }
 
@@ -124,7 +111,7 @@ class SwapTransactionBloc
 
       final signature = await _solanaClient.rpcClient.sendTransaction(
         transaction,
-        commitment: Commitment.confirmed,
+        preflightCommitment: Commitment.confirmed,
       );
 
       await _solanaClient.waitForSignatureStatus(

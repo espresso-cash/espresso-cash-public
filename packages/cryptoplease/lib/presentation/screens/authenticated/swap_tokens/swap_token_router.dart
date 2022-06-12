@@ -121,7 +121,7 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
               error: (error) => showSwapErrorDialog(
                 context,
                 context.l10n.errorLoadingTokens,
-                error.reason,
+                error,
               ),
             );
           },

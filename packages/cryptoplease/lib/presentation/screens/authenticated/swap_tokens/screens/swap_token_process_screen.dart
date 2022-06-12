@@ -52,7 +52,7 @@ class SwapTokenOrderScreenState extends State<SwapTokenProcessScreen> {
                     settingUp: (s) => context.l10n.swapSetup,
                     swapping: (s) => context.l10n.swapTransaction,
                     cleaningUp: (s) => context.l10n.swapCleanup,
-                    failed: (s) => s.reason.buildMessage(context),
+                    failed: (s) => s.error.buildMessage(context),
                     orElse: () => context.l10n.loading,
                   ),
                 ),

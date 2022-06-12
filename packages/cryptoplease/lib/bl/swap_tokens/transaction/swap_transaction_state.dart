@@ -18,10 +18,7 @@ class SwapTransactionState with _$SwapTransactionState {
     required String? cleanupTxId,
   }) = _SwapFinished;
 
-  const factory SwapTransactionState.failed(
-    SwapFailReason reason,
-    Exception? error,
-  ) = _SwapFailed;
+  const factory SwapTransactionState.failed(SwapException error) = _SwapFailed;
 
   const SwapTransactionState._();
 }

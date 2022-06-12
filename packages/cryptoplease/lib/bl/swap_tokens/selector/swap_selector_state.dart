@@ -23,6 +23,67 @@ class SwapSelectorState with _$SwapSelectorState {
   const SwapSelectorState._();
 }
 
+extension InitializedExt on Initialized {
+  Token get input => amount.token;
+
+  Either<SwapException, JupiterRoute> validate(IMap<Token, Amount> balances) {
+    final token = amount.token;
+    final tokenBalance = balances.balanceFromToken(token);
+    final fee = _calculateFee();
+
+    // Check if the total amount doesn't exceed the user's balance.
+    final totalAmount = amount.token == Token.wrappedSol
+        ? amount + fee as CryptoAmount
+        : amount;
+    if (tokenBalance < totalAmount) {
+      return Either.left(
+        SwapException.insufficientBalance(
+          balance: tokenBalance,
+          amount: totalAmount,
+        ),
+      );
+    }
+
+    // Check if the user has enough SOL balance to pay the fee. If the outgoing
+    // token is SOL, it will always succeed since the total amount was checked
+    // before, but for other tokens, we need to check the fee as the fee is
+    // always paid in SOL.
+    final solBalance = balances.balanceFromToken(Token.sol);
+    if (solBalance < fee) {
+      return Either.left(SwapException.insufficientFee(fee: fee));
+    }
+
+    final route = bestRoute;
+    if (route == null) {
+      return const Either.left(SwapException.routeNotFound());
+    }
+
+    return Either.right(route);
+  }
+
+  /// Calculates max swap amount for the selected token.
+  ///
+  /// It takes into account the fee, so for SOL the maximum possible amount is
+  /// lesser than the user's balance.
+  CryptoAmount calculateMaxAmount(IMap<Token, Amount> balances) {
+    final balance = balances.balanceFromToken(amount.token);
+
+    return amount.token == Token.wrappedSol
+        ? balance - _calculateFee() as CryptoAmount
+        : balance;
+  }
+
+  CryptoAmount _calculateFee() {
+    const baseFee = lamportsPerSignature + tokenProgramRent;
+
+    // Base fee for the transaction multiplied by 3 since it's the max of
+    // transactions that might happen
+    final fee = amount.token == Token.wrappedSol ? baseFee * 3 : baseFee;
+
+    return CryptoAmount(value: fee, currency: Currency.sol);
+  }
+}
+
 extension SwapSelectorStateExt on SwapSelectorState {
   CryptoAmount? get convertedAmount => maybeMap(
         initialized: (s) {
@@ -89,8 +150,4 @@ extension SwapSelectorStateExt on SwapSelectorState {
       );
 
   bool get canSwap => outputAmount != null;
-}
-
-extension InitialzedExt on Initialized {
-  Token get input => amount.token;
 }

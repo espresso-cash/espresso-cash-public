@@ -19,3 +19,10 @@ class ProcessingState<E extends Exception> with _$ProcessingState<E> {
 abstract class StateWithProcessingState {
   ProcessingState get processingState;
 }
+
+ProcessingStateNone<E> none<E extends Exception>() =>
+    const ProcessingStateNone();
+ProcessingStateProcessing<E> processing<E extends Exception>() =>
+    const ProcessingStateProcessing();
+ProcessingStateError<E> error<E extends Exception>(E e) =>
+    ProcessingStateError(e);

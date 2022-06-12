@@ -8,6 +8,7 @@ import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
@@ -16,11 +17,9 @@ import 'package:rxdart/rxdart.dart';
 part 'swap_selector_bloc.freezed.dart';
 part 'swap_selector_event.dart';
 part 'swap_selector_state.dart';
-part 'swap_selector_transformer.dart';
 
 typedef _Event = SwapSelectorEvent;
 typedef _State = SwapSelectorState;
-typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
 class SwapSelectorBloc extends Bloc<_Event, _State> {
@@ -30,36 +29,32 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     required Map<Token, Amount> balances,
   })  : _tokenList = tokenList,
         _jupiterClient = jupiterAggregatorClient,
-        _balances = balances,
+        _balances = balances.lock.add(
+          Token.wrappedSol,
+          balances[Token.sol] ??
+              Amount.zero(
+                currency: const Currency.crypto(token: Token.wrappedSol),
+              ),
+        ),
         super(const SwapSelectorState.uninitialized()) {
-    on<_Event>(_eventHandler, transformer: debounceAmountOnly());
+    on<Init>(_onInit);
+    on<InputUpdated>(_onInputUpdated);
+    on<OutputUpdated>(_onOutputUpdated);
+    on<SlippageUpdated>(_onSlippageUpdated);
+    on<AmountUpdated>(_onAmountUpdated);
+    on<SwapInverted>(_onSwapInverted);
+    on<OutputInvalidated>(
+      _onOutputInvalidated,
+      transformer: (events, mapper) => events
+          .debounceTime(const Duration(milliseconds: 300))
+          .switchMap(mapper),
+    );
+    on<Submitted>(_onSubmitted);
   }
 
   final TokenList _tokenList;
   final JupiterAggregatorClient _jupiterClient;
-  final Map<Token, Amount> _balances;
-
-  _EventHandler get _eventHandler => (event, emit) => event.map(
-        init: (e) => _onInit(e, emit),
-        inputUpdated: (e) => _onInputUpdated(e, emit),
-        outputUpdated: (e) => _onOutputUpdated(e, emit),
-        outputInvalidated: (e) => _onOutputInvalidated(e, emit),
-        amountUpdated: (e) => _onAmountUpdated(e, emit),
-        slippageUpdated: (e) => _onSlippageUpdated(e, emit),
-        swapInverted: (e) => _onSwapInverted(e, emit),
-        submitted: (e) => _onSubmitted(e, emit),
-      );
-
-  Iterable<Token> _getOutputTokens(
-    JupiterIndexedRouteMap routeMap,
-    Token input,
-  ) =>
-      routeMap
-          .indexedRouteMap[routeMap.mintKeys.indexOf(input.address).toString()]!
-          .map((route) => routeMap.mintKeys[route])
-          .map(_tokenList.findTokenByMint)
-          .whereNotNull()
-          .sortedByName();
+  final IMap<Token, Amount> _balances;
 
   Future<void> _onInit(Init _, _Emitter emit) async {
     if (state is! Uninitialized) return;
@@ -72,6 +67,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
       final inputTokens = jupiterTokens
           .whereNotNull()
+          .map((t) => t == Token.wrappedSol ? Token.sol : t)
           .where(_balances.isPositive)
           .sortedByName();
 
@@ -79,10 +75,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       final outputTokens = _getOutputTokens(routeMap, token);
 
       final state = SwapSelectorState.initialized(
-        amount: CryptoAmount(
-          currency: CryptoCurrency(token: token),
-          value: 0,
-        ),
+        amount: CryptoAmount(currency: CryptoCurrency(token: token), value: 0),
         slippage: Decimal.one,
         output: outputTokens.first,
         outputTokens: outputTokens,
@@ -106,197 +99,128 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       return;
     }
 
-    emit(
-      state.copyWith(processingState: const ProcessingState.processing()),
-    );
+    emit(state.copyWith(processingState: processing()));
 
     try {
       final routes = await _jupiterClient.getQuote(
         amount: state.amount.value,
-        inputMint: state.input.address,
+        inputMint: state.input.forJupiter.address,
         outputMint: state.output.address,
         slippage: state.slippage.toDouble(),
       );
 
-      if (routes.isEmpty) {
-        throw const SwapException(SwapFailReason.routeNotFound);
-      }
+      if (routes.isEmpty) throw const SwapException.routeNotFound();
 
-      emit(
-        state.copyWith(
-          bestRoute: routes.first,
-          processingState: const ProcessingState.none(),
-        ),
-      );
+      emit(state.copyWith(bestRoute: routes.first, processingState: none()));
     } on SwapException catch (e) {
-      emit(
-        state.copyWith(
-          processingState: ProcessingState.error(e),
-          bestRoute: null,
-        ),
-      );
+      emit(state.copyWith(processingState: error(e), bestRoute: null));
     } on Exception catch (e) {
       emit(
         state.copyWith(
-          processingState: ProcessingState.error(
-            SwapException(SwapFailReason.unknown, exception: e),
-          ),
+          processingState: error(SwapException.other(e)),
           bestRoute: null,
         ),
       );
     }
   }
 
-  Future<void> _onInputUpdated(InputUpdated event, _Emitter emit) async {
-    final state = this.state;
-    if (state is! Initialized) return;
-
-    emit(
-      state.copyWith(
-        amount: state.amount.copyWith(
+  Future<void> _onInputUpdated(InputUpdated event, _Emitter emit) async =>
+      _updateInput((state) {
+        final amount = state.amount.copyWith(
           currency: CryptoCurrency(token: event.token),
-        ),
-        outputTokens: _getOutputTokens(state.routeMap, event.token),
-        bestRoute: null,
-      ),
-    );
+        );
+        final newState = state.copyWith(
+          amount: amount,
+          outputTokens: _getOutputTokens(state.routeMap, event.token),
+          bestRoute: null,
+        );
+        emit(newState);
+      });
 
-    add(const _Event.outputInvalidated());
-  }
+  Future<void> _onOutputUpdated(OutputUpdated event, _Emitter emit) async =>
+      _updateInput((state) {
+        emit(state.copyWith(output: event.token));
+      });
 
-  Future<void> _onOutputUpdated(OutputUpdated event, _Emitter emit) async {
-    final state = this.state;
-    if (state is! Initialized) return;
+  Future<void> _onSlippageUpdated(SlippageUpdated event, _Emitter emit) async =>
+      _updateInput((state) {
+        emit(state.copyWith(slippage: event.slippage));
+      });
 
-    emit(state.copyWith(output: event.token));
+  Future<void> _onAmountUpdated(AmountUpdated event, _Emitter emit) async =>
+      _updateInput((state) {
+        emit(
+          state.copyWith(amount: state.amount.copyWithDecimal(event.decimal)),
+        );
+      });
 
-    add(const _Event.outputInvalidated());
-  }
+  Future<void> _onSwapInverted(SwapInverted _, _Emitter emit) async =>
+      _updateInput((state) {
+        final newInput = state.output;
+        final oldInput = state.input;
 
-  Future<void> _onSlippageUpdated(SlippageUpdated event, _Emitter emit) async {
-    final state = this.state;
-    if (state is! Initialized) return;
+        final outputTokens = _getOutputTokens(state.routeMap, newInput);
+        final newOutput =
+            outputTokens.contains(oldInput) ? oldInput : outputTokens.first;
+        final amount = state.amount
+            .copyWith(currency: CryptoCurrency(token: newInput))
+            .copyWithDecimal(state.amount.decimal);
 
-    emit(state.copyWith(slippage: event.slippage));
-
-    add(const _Event.outputInvalidated());
-  }
-
-  Future<void> _onAmountUpdated(AmountUpdated event, _Emitter emit) async {
-    final state = this.state;
-    if (state is! Initialized) return;
-
-    emit(state.copyWith(amount: state.amount.copyWithDecimal(event.decimal)));
-
-    add(const _Event.outputInvalidated());
-  }
-
-  Future<void> _onSwapInverted(SwapInverted _, _Emitter emit) async {
-    final state = this.state;
-    if (state is! Initialized) return;
-
-    final newInput = state.output;
-    final oldInput = state.input;
-
-    final outputTokens = _getOutputTokens(state.routeMap, newInput);
-    final newOutput =
-        outputTokens.contains(oldInput) ? oldInput : outputTokens.first;
-    final amount = state.amount
-        .copyWith(currency: CryptoCurrency(token: newInput))
-        .copyWithDecimal(state.amount.decimal);
-
-    emit(
-      state.copyWith(
-        amount: amount,
-        output: newOutput,
-        outputTokens: outputTokens,
-      ),
-    );
-
-    add(const _Event.outputInvalidated());
-  }
-
-  // Future<void> _onMaxInputRequested(_Emitter emit) async {
-  //   final input = state.selectedInput;
-
-  //   if (input == null) return;
-
-  //   var balance = _balances.balanceFromToken(input);
-
-  //   if (input.isWrappedSol || input.isSolana) {
-  //     final fee = calculateFeeForWrappedSol();
-  //     balance = balance.copyWith(
-  //       value: math.max(0, balance.value - fee.value),
-  //     );
-  //   }
-
-  //   emit(state.copyWith(amount: balance));
-
-  //   await _onRouteRefreshed(emit);
-  // }
+        final newState = state.copyWith(
+          amount: amount,
+          output: newOutput,
+          outputTokens: outputTokens,
+        );
+        emit(newState);
+      });
 
   Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
     final state = this.state;
     if (state is! Initialized) return;
 
-    final token = state.amount.token;
-    final userBalance = _balances.balanceFromToken(token);
-
-    if (userBalance < state.amount) {
-      final newState = state.copyWith(
-        processingState: const ProcessingState.error(
-          SwapException(SwapFailReason.insufficientBalance),
-        ),
-      );
-      emit(newState);
-
-      return;
-    }
-
-    if (token.isWrappedSol) {
-      final fee = calculateFeeForWrappedSol();
-
-      Amount feeBalance =
-          _balances[Token.sol] ?? Amount.zero(currency: Currency.sol);
-
-      feeBalance = feeBalance.copyWith(
-        value: feeBalance.value - state.amount.value,
-      );
-
-      if (feeBalance < fee) {
-        final newState = state.copyWith(
-          processingState: const ProcessingState.error(
-            SwapException(SwapFailReason.insufficientFee),
-          ),
+    final newState = state.validate(_balances).fold(
+          (e) => state.copyWith(processingState: error(e)),
+          _State.success,
         );
-        emit(newState);
+    emit(newState);
+  }
 
-        return;
-      }
-    }
+  Iterable<Token> _getOutputTokens(
+    JupiterIndexedRouteMap routeMap,
+    Token input,
+  ) {
+    final index =
+        routeMap.mintKeys.indexOf(input.forJupiter.address).toString();
 
-    final route = state.bestRoute;
-    if (route == null) return;
+    return routeMap.indexedRouteMap[index]!
+        .map((route) => routeMap.mintKeys[route])
+        .map(_tokenList.findTokenByMint)
+        .whereNotNull()
+        .sortedByName();
+  }
 
-    emit(_State.success(route));
+  void _updateInput(void Function(Initialized state) block) {
+    final state = this.state;
+    if (state is! Initialized) return;
+
+    block(state);
+
+    add(const _Event.outputInvalidated());
   }
 }
 
-extension on Map<Token, Amount?> {
+extension on IMap<Token, Amount?> {
   bool isPositive(Token token) {
     final balance = this[token];
 
-    return balance != null && balance.value != 0;
+    return balance != null && balance.value > 0;
   }
 
   CryptoAmount balanceFromToken(Token token) {
     final balance = this[token];
     final value = balance?.value ?? 0;
 
-    return CryptoAmount(
-      value: value,
-      currency: CryptoCurrency(token: token),
-    );
+    return CryptoAmount(value: value, currency: CryptoCurrency(token: token));
   }
 }
 
@@ -305,13 +229,5 @@ extension on Iterable<Token> {
 }
 
 extension on Token {
-  bool get isWrappedSol => address == Token.wrappedSol.address;
-}
-
-CryptoAmount calculateFeeForWrappedSol() {
-  // Base fee for the transaction multiplied by 3 since it's the max of
-  // transactions that might happen
-  const fee = 3 * (lamportsPerSignature + tokenProgramRent);
-
-  return const CryptoAmount(value: fee, currency: Currency.sol);
+  Token get forJupiter => this == Token.sol ? Token.wrappedSol : this;
 }

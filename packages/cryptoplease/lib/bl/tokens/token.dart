@@ -58,6 +58,14 @@ class Token {
   @override
   String toString() => '$address: $chainId/$symbol/$name';
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Token && chainId == other.chainId && address == other.address;
+
+  @override
+  int get hashCode => Object.hash(chainId, address);
+
   final int chainId;
   final String address;
   final String symbol;
