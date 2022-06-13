@@ -31,8 +31,8 @@ class CommonSuccess extends StatelessWidget {
                   child: Text(
                     text,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: CpColors.primaryTextColor,
+                    style: TextStyle(
+                      color: CpTheme.of(context).primaryTextColor,
                       fontSize: 21,
                     ),
                   ),

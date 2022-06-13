@@ -29,10 +29,8 @@ class SwapTransactionBloc
   })  : _solanaClient = solanaClient,
         _jupiterClient = jupiterAggregatorClient,
         _myAccount = myAccount,
-        super(
-          const SwapTransactionState.idle(),
-        ) {
-    on<_Event>(_eventHandler, transformer: sequential());
+        super(const SwapTransactionState.idle()) {
+    on<_Event>(_eventHandler, transformer: droppable());
   }
 
   final JupiterAggregatorClient _jupiterClient;
@@ -45,6 +43,8 @@ class SwapTransactionBloc
       );
 
   Future<void> _onSwapRequested(SwapRequested event, _Emitter emit) async {
+    if (state is! Idle) return;
+
     try {
       emit(const SwapTransactionState.preparing());
 

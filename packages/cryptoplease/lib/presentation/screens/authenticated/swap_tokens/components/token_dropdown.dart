@@ -24,9 +24,7 @@ class TokenDropdown extends StatelessWidget {
       child: DecoratedBox(
         decoration: const BoxDecoration(
           color: CpColors.darkBackground,
-          borderRadius: BorderRadius.all(
-            Radius.circular(7),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(7)),
         ),
         child: Row(
           children: [
@@ -63,10 +61,7 @@ class _TokenMini extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: TokenIcon(
-                size: 40,
-                token: token,
-              ),
+              child: TokenIcon(size: 40, token: token),
             ),
             Flexible(
               child: Text(

@@ -2,22 +2,22 @@ part of 'swap_transaction_bloc.dart';
 
 @freezed
 class SwapTransactionState with _$SwapTransactionState {
-  const factory SwapTransactionState.idle() = _SwapIdle;
+  const factory SwapTransactionState.idle() = Idle;
 
-  const factory SwapTransactionState.preparing() = _SwapPreparing;
+  const factory SwapTransactionState.preparing() = Preparing;
 
   const factory SwapTransactionState.settingUp(JupiterSwapTransactions tx) =
-      _SwapSetup;
+      SettingUp;
 
   const factory SwapTransactionState.swapping(JupiterSwapTransactions tx) =
-      _SwapSwap;
+      Swapping;
 
   const factory SwapTransactionState.cleaningUp(JupiterSwapTransactions tx) =
-      _SwapCleanUp;
+      CleaningUp;
 
-  const factory SwapTransactionState.finished() = _SwapFinished;
+  const factory SwapTransactionState.finished() = Finished;
 
-  const factory SwapTransactionState.failed(SwapException error) = _SwapFailed;
+  const factory SwapTransactionState.failed(SwapException error) = Failed;
 
   const SwapTransactionState._();
 }

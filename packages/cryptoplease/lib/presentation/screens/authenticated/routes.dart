@@ -15,7 +15,7 @@ import 'package:cryptoplease/presentation/screens/authenticated/puzzle_reminder/
 import 'package:cryptoplease/presentation/screens/authenticated/receive_flow/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/routes.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_router.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_flow.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transaction_details_screen/transaction_details_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transactions_screen/transactions_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/wallet_screen.dart';

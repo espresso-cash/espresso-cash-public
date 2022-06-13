@@ -6,7 +6,7 @@ import 'package:cryptoplease/presentation/components/token_fiat_input_widget/ent
 import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_header_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/slippage_dialog.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_router.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
