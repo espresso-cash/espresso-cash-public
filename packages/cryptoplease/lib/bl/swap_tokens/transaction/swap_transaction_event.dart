@@ -2,7 +2,9 @@ part of 'swap_transaction_bloc.dart';
 
 @freezed
 class SwapTransactionEvent with _$SwapTransactionEvent {
-  const factory SwapTransactionEvent.swap({
+  const factory SwapTransactionEvent.swapRequested({
     required JupiterRoute jupiterRoute,
-  }) = SwapEvent;
+  }) = SwapRequested;
+
+  const factory SwapTransactionEvent.retryRequested() = RetryRequested;
 }

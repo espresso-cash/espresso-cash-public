@@ -4,6 +4,7 @@ import 'package:cryptoplease/presentation/components/common_success.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_step_widget.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,28 +28,34 @@ class SwapTokenOrderScreenState extends State<SwapTokenProcessScreen> {
   Widget build(BuildContext context) =>
       BlocBuilder<SwapTransactionBloc, SwapTransactionState>(
         bloc: swapTransactionBloc,
-        builder: (context, state) => CpTheme.dark(
-          child: Scaffold(
-            appBar: CpAppBar(),
-            body: SafeArea(
-              child: state.maybeMap(
-                finished: (f) => CpTheme.dark(
-                  child: CommonSuccess(
-                    text: context.l10n.swapSuccess,
-                    onClosePressed: null,
-                  ),
-                ),
-                orElse: () => SwapStepWidget(
-                  isLoading: state.isProcessing,
-                  message: state.maybeMap(
-                    preparing: (s) => context.l10n.swapPreparing,
-                    settingUp: (s) => context.l10n.swapSetup,
-                    swapping: (s) => context.l10n.swapTransaction,
-                    cleaningUp: (s) => context.l10n.swapCleanup,
-                    failed: (s) => s.error.buildMessage(context),
-                    orElse: () => context.l10n.loading,
-                  ),
-                ),
+        builder: (context, state) => Scaffold(
+          appBar: CpAppBar(),
+          body: state.maybeMap(
+            finished: (_) => CommonSuccess(
+              text: context.l10n.swapSuccess,
+              onClosePressed: null,
+            ),
+            orElse: () => SwapStepWidget(
+              isLoading: state.isProcessing,
+              message: state.maybeMap(
+                preparing: (_) => context.l10n.swapPreparing,
+                settingUp: (_) => context.l10n.swapSetup,
+                swapping: (_) => context.l10n.swapTransaction,
+                cleaningUp: (_) => context.l10n.swapCleanup,
+                failed: (s) => s.error.buildMessage(context),
+                orElse: () => context.l10n.loading,
+              ),
+              onRetry: state.mapOrNull<VoidCallback?>(
+                failed: (s) {
+                  void retry() => swapTransactionBloc
+                      .add(const SwapTransactionEvent.retryRequested());
+
+                  return s.error.mapOrNull(
+                    setupFailed: (_) => retry,
+                    swapFailed: (_) => retry,
+                    cleanupFailed: (_) => retry,
+                  );
+                },
               ),
             ),
           ),
@@ -57,9 +64,5 @@ class SwapTokenOrderScreenState extends State<SwapTokenProcessScreen> {
 }
 
 extension on SwapTransactionState {
-  bool get isProcessing => maybeMap(
-        finished: (_) => false,
-        failed: (_) => false,
-        orElse: () => true,
-      );
+  bool get isProcessing => maybeMap(finished: F, failed: F, orElse: T);
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/swap_tokens/swap_exception.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -39,49 +40,75 @@ class SwapTransactionBloc
   final SolanaClient _solanaClient;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
-        swap: (e) => _onSwap(e, emit),
+        swapRequested: (e) => _onSwapRequested(e, emit),
+        retryRequested: (e) => _onRetryRequested(e, emit),
       );
 
-  Future<void> _onSwap(SwapEvent swapEvent, _Emitter emit) async {
+  Future<void> _onSwapRequested(SwapRequested event, _Emitter emit) async {
     try {
       emit(const SwapTransactionState.preparing());
 
       final publicKey = _myAccount.publicKey.toBase58();
 
       final transaction = await _jupiterClient.getSwapTransactions(
-        route: swapEvent.jupiterRoute,
+        route: event.jupiterRoute,
         userPublicKey: publicKey,
       );
 
-      final setupTxId = await _maybeExecuteTx(
-        tx: transaction.setupTransaction,
-        onSetup: () => emit(const SwapTransactionState.settingUp()),
-        onError: (e) => throw SwapException.setupFailed(e),
-      );
-
-      final swapTxId = await _maybeExecuteTx(
-        tx: transaction.swapTransaction,
-        onSetup: () => emit(const SwapTransactionState.swapping()),
-        onError: (e) => throw SwapException.swapFailed(e),
-      );
-
-      final cleanupTxId = await _maybeExecuteTx(
-        tx: transaction.cleanupTransaction,
-        onSetup: () => emit(const SwapTransactionState.cleaningUp()),
-        onError: (e) => throw SwapException.cleanupFailed(e),
-      );
-
-      emit(
-        SwapTransactionState.finished(
-          setupTxId: setupTxId,
-          swapTxId: swapTxId ?? '',
-          cleanupTxId: cleanupTxId,
-        ),
-      );
-    } on SwapException catch (e) {
-      emit(SwapTransactionState.failed(e));
+      await _executeTransactions(tx: transaction, emit: emit);
     } on Exception catch (e) {
       emit(SwapTransactionState.failed(SwapException.other(e)));
+    }
+  }
+
+  Future<void> _onRetryRequested(RetryRequested _, _Emitter emit) async =>
+      state.maybeMap(
+        failed: (e) => e.error.maybeMap(
+          setupFailed: (s) => _executeTransactions(tx: s.tx, emit: emit),
+          swapFailed: (s) => _executeTransactions(
+            tx: s.tx,
+            emit: emit,
+            skipSetup: true,
+          ),
+          cleanupFailed: (s) => _executeTransactions(
+            tx: s.tx,
+            emit: emit,
+            skipSetup: true,
+            skipSwap: true,
+          ),
+          orElse: ignore,
+        ),
+        orElse: ignore,
+      );
+
+  Future<void> _executeTransactions({
+    required JupiterSwapTransactions tx,
+    required _Emitter emit,
+    bool skipSetup = false,
+    bool skipSwap = false,
+  }) async {
+    try {
+      await _maybeExecuteTx(
+        tx: skipSetup ? null : tx.setupTransaction,
+        onSetup: () => emit(SwapTransactionState.settingUp(tx)),
+        onError: (e) => throw SwapException.setupFailed(tx, e),
+      );
+
+      await _maybeExecuteTx(
+        tx: skipSwap ? null : tx.swapTransaction,
+        onSetup: () => emit(SwapTransactionState.swapping(tx)),
+        onError: (e) => throw SwapException.swapFailed(tx, e),
+      );
+
+      await _maybeExecuteTx(
+        tx: tx.cleanupTransaction,
+        onSetup: () => emit(SwapTransactionState.cleaningUp(tx)),
+        onError: (e) => throw SwapException.cleanupFailed(tx, e),
+      );
+
+      emit(const SwapTransactionState.finished());
+    } on SwapException catch (e) {
+      emit(SwapTransactionState.failed(e));
     }
   }
 

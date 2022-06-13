@@ -8,6 +8,7 @@ import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
@@ -64,8 +65,11 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
   @override
   Future<void> onSelectInputToken() async {
     final availableInputs = _selectorBloc.state.inputTokens;
-    final token = await context.router
-        .push<Token>(SwapTokenSelectorRoute(availableTokens: availableInputs));
+    final route = SwapTokenSelectorRoute(
+      availableTokens: availableInputs,
+      shouldShowBalance: true,
+    );
+    final token = await context.router.push<Token>(route);
     if (token != null) {
       _selectorBloc.add(SwapSelectorEvent.inputUpdated(token));
     }
@@ -74,44 +78,47 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
   @override
   Future<void> onSelectOutputToken() async {
     final availableOutputs = _selectorBloc.state.outputTokens;
-    final token = await context.router.push<Token>(
-      SwapTokenSelectorRoute(
-        availableTokens: availableOutputs,
-      ),
+    final route = SwapTokenSelectorRoute(
+      availableTokens: availableOutputs,
+      shouldShowBalance: false,
     );
+    final token = await context.router.push<Token>(route);
     if (token != null) {
       _selectorBloc.add(SwapSelectorEvent.outputUpdated(token));
     }
   }
 
   @override
-  Widget build(BuildContext context) => MultiProvider(
-        providers: [
-          BlocProvider.value(value: _selectorBloc),
-          BlocProvider.value(value: _transactionBloc),
-          Provider<SwapTokenRouter>.value(value: this),
-        ],
-        child: BlocListener<SwapSelectorBloc, SwapSelectorState>(
-          listenWhen: (previous, current) =>
-              previous.routeProcessingState != current.routeProcessingState,
-          listener: (context, state) {
-            state.whenOrNull(
-              success: (route) {
-                _transactionBloc
-                    .add(SwapTransactionEvent.swap(jupiterRoute: route));
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: MultiProvider(
+          providers: [
+            BlocProvider.value(value: _selectorBloc),
+            BlocProvider.value(value: _transactionBloc),
+            Provider<SwapTokenRouter>.value(value: this),
+          ],
+          child: BlocListener<SwapSelectorBloc, SwapSelectorState>(
+            listenWhen: (previous, current) =>
+                previous.routeProcessingState != current.routeProcessingState,
+            listener: (context, state) {
+              state.whenOrNull(
+                success: (route) {
+                  final event =
+                      SwapTransactionEvent.swapRequested(jupiterRoute: route);
+                  _transactionBloc.add(event);
 
-                context.router.replace(const SwapTokenProcessRoute());
-              },
-            );
-            state.routeProcessingState?.whenOrNull(
-              error: (error) => showSwapErrorDialog(
-                context,
-                context.l10n.errorLoadingTokens,
-                error,
-              ),
-            );
-          },
-          child: AutoRouter(key: routerKey),
+                  context.router.replace(const SwapTokenProcessRoute());
+                },
+              );
+              state.routeProcessingState?.whenOrNull(
+                error: (error) => showSwapErrorDialog(
+                  context,
+                  context.l10n.errorLoadingTokens,
+                  error,
+                ),
+              );
+            },
+            child: AutoRouter(key: routerKey),
+          ),
         ),
       );
 }

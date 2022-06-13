@@ -41,25 +41,21 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
-        child: CpLoader(
-          isLoading: context.select<SwapSelectorBloc, bool>(
-            (b) => b.state.maybeMap(uninitialized: T, orElse: F),
+  Widget build(BuildContext context) => CpLoader(
+        isLoading: context.select<SwapSelectorBloc, bool>(
+          (b) => b.state.maybeMap(uninitialized: T, orElse: F),
+        ),
+        child: Scaffold(
+          appBar: CpAppBar(
+            title: Text(context.l10n.swapTokens),
+            leading: const _SettingsButton(),
+            nextButton: const _SubmitButton(),
           ),
-          child: Scaffold(
-            appBar: CpAppBar(
-              title: Text(context.l10n.swapTokens),
-              leading: const _SettingsButton(),
-              nextButton: const _SubmitButton(),
-            ),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  _Header(controller: _inputController),
-                  Flexible(child: _Keypad(controller: _inputController)),
-                ],
-              ),
-            ),
+          body: Column(
+            children: [
+              _Header(controller: _inputController),
+              Flexible(child: _Keypad(controller: _inputController)),
+            ],
           ),
         ),
       );
