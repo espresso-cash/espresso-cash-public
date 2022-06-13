@@ -26,51 +26,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final address = state.address;
 
     return SingleChildScrollView(
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                _buttonSpacing,
-                _buttonSpacing,
-                _buttonSpacing,
-                0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CpUserAvatar(
-                    radius: _imageSize / 2,
-                    image: photoPath?.let((it) => FileImage(File(it))),
-                    userName: name,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      name,
-                      style: Theme.of(context).textTheme.headline3,
+      child: ColoredBox(
+        color: Colors.white,
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  _buttonSpacing,
+                  _buttonSpacing,
+                  _buttonSpacing,
+                  0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CpUserAvatar(
+                      radius: _imageSize / 2,
+                      image: photoPath?.let((it) => FileImage(File(it))),
+                      userName: name,
                     ),
-                  ),
-                  AddressView(address: address, color: CpColors.yellowColor),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        name,
+                        style: Theme.of(context).textTheme.headline3,
+                      ),
+                    ),
+                    AddressView(address: address, color: CpColors.yellowColor),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-              child: Column(
-                children: const [
-                  SecuritySection(),
-                  EditProfileSection(),
-                  AboutSection(),
-                  DangerSection(),
-                  if (!isProd) DebugSection(),
-                  VersionSection(),
-                ],
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                child: Column(
+                  children: const [
+                    SecuritySection(),
+                    EditProfileSection(),
+                    AboutSection(),
+                    DangerSection(),
+                    if (!isProd) DebugSection(),
+                    VersionSection(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

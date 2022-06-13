@@ -56,8 +56,13 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   final JupiterAggregatorClient _jupiterClient;
   final IMap<Token, Amount> _balances;
 
+  CryptoAmount? calculateMaxAmount() => state.maybeMap(
+        initialized: (state) => state.calculateMaxAmount(_balances),
+        orElse: () => null,
+      );
+
   Future<void> _onInit(Init _, _Emitter emit) async {
-    if (state is! Uninitialized) return;
+    if (state is! Uninitialized && state is! Success) return;
 
     try {
       final routeMap = await _jupiterClient.getIndexedRouteMap();
@@ -178,11 +183,13 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     final state = this.state;
     if (state is! Initialized) return;
 
-    final newState = state.validate(_balances).fold(
-          (e) => state.copyWith(processingState: error(e)),
-          _State.success,
-        );
-    emit(newState);
+    state.validate(_balances).fold(
+      (e) {
+        emit(state.copyWith(processingState: error(e)));
+        emit(state.copyWith(processingState: none()));
+      },
+      (s) => emit(_State.success(s)),
+    );
   }
 
   Iterable<Token> _getOutputTokens(

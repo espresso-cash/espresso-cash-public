@@ -12,12 +12,14 @@ class SwapHeaderWidget extends StatelessWidget {
     required this.output,
     required this.onSelectInput,
     required this.onSelectOutput,
+    required this.onMaxRequested,
   }) : super(key: key);
 
   final TextEditingController inputController;
   final String output;
   final VoidCallback onSelectInput;
   final VoidCallback onSelectOutput;
+  final VoidCallback onMaxRequested;
 
   @override
   Widget build(BuildContext context) =>
@@ -36,9 +38,7 @@ class SwapHeaderWidget extends StatelessWidget {
                       selectedToken: state.input,
                       onSelectToken: onSelectInput,
                       value: value.text,
-                      onMaxRequested: () {
-                        // TODO(KB): implement
-                      },
+                      onMaxRequested: onMaxRequested,
                     ),
                   ),
                   const SizedBox(height: 32),

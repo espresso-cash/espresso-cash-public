@@ -17,7 +17,6 @@ import 'package:solana/solana.dart';
 abstract class SwapTokenRouter {
   void onSelectInputToken();
   void onSelectOutputToken();
-  void closeFlow();
 }
 
 class SwapTokenFlowScreen extends StatefulWidget {
@@ -42,37 +41,24 @@ class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
       jupiterAggregatorClient: jupiterClient,
       tokenList: context.read<TokenList>(),
       balances: context.read<BalancesBloc>().state.balances,
-    );
+    )..add(const SwapSelectorEvent.init());
     _transactionBloc = SwapTransactionBloc(
       jupiterAggregatorClient: jupiterClient,
       myAccount: context.read<MyAccount>(),
       solanaClient: context.read<SolanaClient>(),
     );
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => reloadOrderScreen());
-    _reset();
   }
 
   @override
   void dispose() {
     _selectorBloc.close();
+    _transactionBloc.close();
     super.dispose();
-  }
-
-  void _reset() {
-    _selectorBloc.add(const SwapSelectorEvent.init());
   }
 
   void reloadOrderScreen() {
     final router = routerKey.currentState?.controller;
     router?.navigate(const SwapTokenOrderRoute());
-  }
-
-  @override
-  void closeFlow() {
-    _reset();
-    final router = routerKey.currentState?.controller;
-    router?.popUntilRoot();
   }
 
   @override

@@ -11,7 +11,7 @@ class CommonSuccess extends StatelessWidget {
   }) : super(key: key);
 
   final String text;
-  final VoidCallback onClosePressed;
+  final VoidCallback? onClosePressed;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -37,15 +37,14 @@ class CommonSuccess extends StatelessWidget {
                     ),
                   ),
                 ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    minWidth: 250,
-                  ),
-                  child: CpButton(
-                    text: context.l10n.ok,
-                    onPressed: onClosePressed,
-                  ),
-                )
+                if (onClosePressed != null)
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(minWidth: 250),
+                    child: CpButton(
+                      text: context.l10n.ok,
+                      onPressed: onClosePressed,
+                    ),
+                  )
               ],
             ),
           ),

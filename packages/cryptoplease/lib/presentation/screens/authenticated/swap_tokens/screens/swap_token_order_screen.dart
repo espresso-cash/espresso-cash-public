@@ -86,6 +86,11 @@ class _Header extends StatelessWidget {
       onSelectInput: () => context.read<SwapTokenRouter>().onSelectInputToken(),
       onSelectOutput: () =>
           context.read<SwapTokenRouter>().onSelectOutputToken(),
+      onMaxRequested: () {
+        final amount = context.read<SwapSelectorBloc>().calculateMaxAmount();
+        if (amount == null) return;
+        controller.text = amount.format(locale, skipSymbol: true);
+      },
     );
   }
 }
