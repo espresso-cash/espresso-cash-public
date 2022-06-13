@@ -1,124 +1,58 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
-import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
-import 'package:cryptoplease/bl/swap_tokens/transaction/swap_transaction_bloc.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:cryptoplease/bl/tokens/token_list.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/routes.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:provider/provider.dart';
-import 'package:solana/solana.dart';
 
 abstract class SwapTokenRouter {
-  void onSelectInputToken();
-  void onSelectOutputToken();
+  Future<Token?> onSelectInputToken(Iterable<Token> tokens);
+  Future<Token?> onSelectOutputToken(Iterable<Token> tokens);
+  void onSubmit(JupiterRoute route);
 }
 
 class SwapTokenFlowScreen extends StatefulWidget {
   const SwapTokenFlowScreen({Key? key}) : super(key: key);
 
   @override
-  State<SwapTokenFlowScreen> createState() => _State();
+  State<SwapTokenFlowScreen> createState() => _SwapTokenFlowScreen();
 }
 
-class _State extends State<SwapTokenFlowScreen> implements SwapTokenRouter {
-  late final SwapSelectorBloc _selectorBloc;
-  late final SwapTransactionBloc _transactionBloc;
+class _SwapTokenFlowScreen extends State<SwapTokenFlowScreen>
+    implements SwapTokenRouter {
   final routerKey = GlobalKey<AutoRouterState>();
 
   @override
-  void initState() {
-    super.initState();
-
-    final jupiterClient = context.read<JupiterAggregatorClient>();
-
-    _selectorBloc = SwapSelectorBloc(
-      jupiterAggregatorClient: jupiterClient,
-      tokenList: context.read<TokenList>(),
-      balances: context.read<BalancesBloc>().state.balances,
-    )..add(const SwapSelectorEvent.init());
-    _transactionBloc = SwapTransactionBloc(
-      jupiterAggregatorClient: jupiterClient,
-      myAccount: context.read<MyAccount>(),
-      solanaClient: context.read<SolanaClient>(),
-    );
-  }
-
-  @override
-  void dispose() {
-    _selectorBloc.close();
-    _transactionBloc.close();
-    super.dispose();
-  }
-
-  void reloadOrderScreen() {
-    final router = routerKey.currentState?.controller;
-    router?.navigate(const SwapTokenOrderRoute());
-  }
-
-  @override
-  Future<void> onSelectInputToken() async {
-    final availableInputs = _selectorBloc.state.inputTokens;
+  Future<Token?> onSelectInputToken(Iterable<Token> tokens) async {
     final route = SwapTokenSelectorRoute(
-      availableTokens: availableInputs,
+      availableTokens: tokens,
       shouldShowBalance: true,
     );
-    final token = await context.router.push<Token>(route);
-    if (token != null) {
-      _selectorBloc.add(SwapSelectorEvent.inputUpdated(token));
-    }
+
+    return context.router.push<Token>(route);
   }
 
   @override
-  Future<void> onSelectOutputToken() async {
-    final availableOutputs = _selectorBloc.state.outputTokens;
+  Future<Token?> onSelectOutputToken(Iterable<Token> tokens) async {
     final route = SwapTokenSelectorRoute(
-      availableTokens: availableOutputs,
+      availableTokens: tokens,
       shouldShowBalance: false,
     );
-    final token = await context.router.push<Token>(route);
-    if (token != null) {
-      _selectorBloc.add(SwapSelectorEvent.outputUpdated(token));
-    }
+
+    return context.router.push<Token>(route);
+  }
+
+  @override
+  void onSubmit(JupiterRoute route) {
+    context.router.replace(SwapTokenProcessRoute(route: route));
   }
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
-        child: MultiProvider(
-          providers: [
-            BlocProvider.value(value: _selectorBloc),
-            BlocProvider.value(value: _transactionBloc),
-            Provider<SwapTokenRouter>.value(value: this),
-          ],
-          child: BlocListener<SwapSelectorBloc, SwapSelectorState>(
-            listenWhen: (previous, current) =>
-                previous.routeProcessingState != current.routeProcessingState,
-            listener: (context, state) {
-              state.whenOrNull(
-                success: (route) {
-                  final event =
-                      SwapTransactionEvent.swapRequested(jupiterRoute: route);
-                  _transactionBloc.add(event);
-
-                  context.router.replace(const SwapTokenProcessRoute());
-                },
-              );
-              state.routeProcessingState?.whenOrNull(
-                error: (error) => showSwapErrorDialog(
-                  context,
-                  context.l10n.errorLoadingTokens,
-                  error,
-                ),
-              );
-            },
-            child: AutoRouter(key: routerKey),
-          ),
+        child: Provider<SwapTokenRouter>.value(
+          value: this,
+          child: AutoRouter(key: routerKey),
         ),
       );
 }

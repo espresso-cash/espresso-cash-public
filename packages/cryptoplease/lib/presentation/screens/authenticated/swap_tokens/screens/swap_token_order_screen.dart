@@ -1,25 +1,44 @@
+import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
+import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/number_formatter.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
+import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_header_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/slippage_dialog.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 
-class SwapTokenOrderScreen extends StatefulWidget {
+class SwapTokenOrderScreen extends StatelessWidget {
   const SwapTokenOrderScreen({Key? key}) : super(key: key);
 
   @override
-  SwapTokenOrderScreenState createState() => SwapTokenOrderScreenState();
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => SwapSelectorBloc(
+          jupiterAggregatorClient: context.read<JupiterAggregatorClient>(),
+          tokenList: context.read<TokenList>(),
+          balances: context.read<BalancesBloc>().state.balances,
+        )..add(const SwapSelectorEvent.init()),
+        child: const _Content(),
+      );
 }
 
-class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
+class _Content extends StatefulWidget {
+  const _Content({Key? key}) : super(key: key);
+
+  @override
+  State<_Content> createState() => _ContentState();
+}
+
+class _ContentState extends State<_Content> {
   final _inputController = TextEditingController();
 
   @override
@@ -45,17 +64,34 @@ class SwapTokenOrderScreenState extends State<SwapTokenOrderScreen> {
         isLoading: context.select<SwapSelectorBloc, bool>(
           (b) => b.state.maybeMap(uninitialized: T, orElse: F),
         ),
-        child: Scaffold(
-          appBar: CpAppBar(
-            title: Text(context.l10n.swapTokens),
-            leading: const _SettingsButton(),
-            nextButton: const _SubmitButton(),
-          ),
-          body: Column(
-            children: [
-              _Header(controller: _inputController),
-              Flexible(child: _Keypad(controller: _inputController)),
-            ],
+        child: BlocListener<SwapSelectorBloc, SwapSelectorState>(
+          listenWhen: (previous, current) =>
+              previous.routeProcessingState != current.routeProcessingState,
+          listener: (context, state) {
+            state.whenOrNull(
+              success: (route) =>
+                  context.read<SwapTokenRouter>().onSubmit(route),
+            );
+            state.routeProcessingState?.whenOrNull(
+              error: (error) => showSwapErrorDialog(
+                context,
+                context.l10n.errorLoadingTokens,
+                error,
+              ),
+            );
+          },
+          child: Scaffold(
+            appBar: CpAppBar(
+              title: Text(context.l10n.swapTokens),
+              leading: const _SettingsButton(),
+              nextButton: const _SubmitButton(),
+            ),
+            body: Column(
+              children: [
+                _Header(controller: _inputController),
+                Flexible(child: _Keypad(controller: _inputController)),
+              ],
+            ),
           ),
         ),
       );
@@ -79,9 +115,24 @@ class _Header extends StatelessWidget {
         (bloc) =>
             bloc.state.outputAmount?.format(locale, skipSymbol: true) ?? '–',
       ),
-      onSelectInput: () => context.read<SwapTokenRouter>().onSelectInputToken(),
-      onSelectOutput: () =>
-          context.read<SwapTokenRouter>().onSelectOutputToken(),
+      onSelectInput: () async {
+        final bloc = context.read<SwapSelectorBloc>();
+        final tokens = bloc.state.inputTokens;
+        final token =
+            await context.read<SwapTokenRouter>().onSelectInputToken(tokens);
+        if (token != null) {
+          bloc.add(SwapSelectorEvent.inputUpdated(token));
+        }
+      },
+      onSelectOutput: () async {
+        final bloc = context.read<SwapSelectorBloc>();
+        final tokens = bloc.state.outputTokens;
+        final token =
+            await context.read<SwapTokenRouter>().onSelectOutputToken(tokens);
+        if (token != null) {
+          bloc.add(SwapSelectorEvent.outputUpdated(token));
+        }
+      },
       onMaxRequested: () {
         final amount = context.read<SwapSelectorBloc>().calculateMaxAmount();
         if (amount == null) return;
@@ -101,14 +152,16 @@ class _SettingsButton extends StatelessWidget {
           final slippage = context.read<SwapSelectorBloc>().state.slippage;
           if (slippage == null) return;
 
+          void onSlippageChanged(Decimal value) => context
+              .read<SwapSelectorBloc>()
+              .add(SwapSelectorEvent.slippageUpdated(value));
+
           showDialog<void>(
             context: context,
             useRootNavigator: false,
             builder: (context) => SlippageDialog(
               currentSlippage: slippage,
-              onSlippageChanged: (s) => context
-                  .read<SwapSelectorBloc>()
-                  .add(SwapSelectorEvent.slippageUpdated(s)),
+              onSlippageChanged: onSlippageChanged,
             ),
           );
         },
