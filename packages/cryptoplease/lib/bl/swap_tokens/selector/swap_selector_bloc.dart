@@ -110,7 +110,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       final routes = await _jupiterClient.getQuote(
         amount: state.amount.value,
         inputMint: state.input.forJupiter.address,
-        outputMint: state.output.address,
+        outputMint: state.output.forJupiter.address,
         slippage: state.slippage.toDouble(),
       );
 
@@ -202,6 +202,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     return routeMap.indexedRouteMap[index]!
         .map((route) => routeMap.mintKeys[route])
         .map(_tokenList.findTokenByMint)
+        .map((t) => t == Token.wrappedSol ? Token.sol : t)
         .whereNotNull()
         .sortedByName();
   }
