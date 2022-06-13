@@ -2,7 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-extension NumberFormatterExtension on String {
+extension NumberFormatterExt on String {
   Decimal toDecimalOrZero(Locale locale) {
     try {
       final formatter = NumberFormat.decimalPattern(locale.languageCode)

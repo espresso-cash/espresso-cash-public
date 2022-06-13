@@ -27,7 +27,7 @@ void showSwapErrorDialog(
       ),
     );
 
-extension SwapFailExtension on SwapException {
+extension SwapFailExt on SwapException {
   String buildMessage(BuildContext context) => this.map(
         routeNotFound: always(context.l10n.swapFailRouteNotFound),
         setupFailed: always(context.l10n.swapFailSetupFailed),
