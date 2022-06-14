@@ -15,21 +15,19 @@ class _VersionSectionState extends State<VersionSection> {
         future: _packageInfo,
         builder: (context, snapshot) {
           final version = snapshot.data?.version;
-          if (version != null) {
-            return SizedBox(
-              height: kToolbarHeight,
-              child: Center(
-                child: Text(
-                  'Version $version',
-                  style: Theme.of(context).textTheme.headline4?.copyWith(
-                        fontSize: 15,
-                      ),
-                ),
-              ),
-            );
-          }
+          final buildNumber = snapshot.data?.buildNumber;
 
-          return const SizedBox.shrink();
+          return version == null
+              ? const SizedBox.shrink()
+              : SizedBox(
+                  height: kToolbarHeight,
+                  child: Center(
+                    child: Text(
+                      'Version $version ($buildNumber)',
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ),
+                );
         },
       );
 }
