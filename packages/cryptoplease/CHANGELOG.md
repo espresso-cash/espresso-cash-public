@@ -1,3 +1,9 @@
+## 1.37.0
+
+ - **REFACTOR**: Bump solana.
+ - **FEAT**: Add build number to version section.
+ - **FEAT**: add swap token flow (#255).
+
 ## 1.36.0
 
 - **REFACTOR**: Migrate to Dart 2.17 (#271).
