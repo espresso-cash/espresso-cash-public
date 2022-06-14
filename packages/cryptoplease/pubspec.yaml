@@ -37,6 +37,7 @@ dependencies:
   image_picker: ^0.8.5
   intl: ^0.17.0
   json_annotation: ^4.4.0
+  jupiter_aggregator: ^1.0.0
   logging: ^1.0.2
   meta: ^1.7.0
   mews_pedantic: ^0.6.0
@@ -82,6 +83,12 @@ dev_dependencies:
   mockito: ^5.0.16
   recase: ^4.0.0
   retrofit_generator: ^4.0.0
+
+dependency_overrides:
+  qr_code_scanner: 
+    git:
+      url: https://github.com/X-SLAYER/qr_code_scanner.git
+      ref: flutter-beta
 
 flutter_gen:
   integrations:

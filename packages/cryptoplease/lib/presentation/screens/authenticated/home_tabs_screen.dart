@@ -1,10 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/activities/activities_screen.dart';
+import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/navigation_bar/navigation_button.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/nft/nft_screen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/profile/profile_screen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,31 +15,23 @@ class HomeTabsScreen extends StatefulWidget {
 
 class _HomeTabsScreenState extends State<HomeTabsScreen> {
   int _currentPage = 0;
+  final _routerKey = GlobalKey<AutoRouterState>();
 
   void _onBottomNavigatorItemTap(int page) {
     setState(() => _currentPage = page);
+    _routerKey.currentContext?.replaceRoute(_pages[page].route);
   }
 
   @override
   Widget build(BuildContext context) {
-    const pages = [
-      _Page(widget: WalletScreen(), overlayStyle: SystemUiOverlayStyle.light),
-      _Page(widget: NftScreen(), overlayStyle: SystemUiOverlayStyle.light),
-      _Page(
-        widget: ActivitiesScreen(),
-        overlayStyle: SystemUiOverlayStyle.dark,
-      ),
-      _Page(widget: ProfileScreen(), overlayStyle: SystemUiOverlayStyle.dark),
-    ];
-
-    final page = pages[_currentPage];
+    final page = _pages[_currentPage];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: page.overlayStyle,
       child: Scaffold(
         backgroundColor: Colors.white,
         extendBody: true,
-        body: page.widget,
+        body: AutoRouter(key: _routerKey),
         bottomNavigationBar: CPNavigationBar(
           items: [
             NavigationButton(
@@ -60,9 +50,14 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
               onPressed: () => _onBottomNavigatorItemTap(2),
             ),
             NavigationButton(
-              icon: Assets.icons.profile,
+              icon: Assets.icons.swap,
               active: _currentPage == 3,
               onPressed: () => _onBottomNavigatorItemTap(3),
+            ),
+            NavigationButton(
+              icon: Assets.icons.profile,
+              active: _currentPage == 4,
+              onPressed: () => _onBottomNavigatorItemTap(4),
             ),
           ],
         ),
@@ -71,12 +66,26 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
   }
 }
 
+const _pages = [
+  _Page(route: WalletRoute(), overlayStyle: SystemUiOverlayStyle.light),
+  _Page(route: NftRoute(), overlayStyle: SystemUiOverlayStyle.light),
+  _Page(
+    route: ActivitiesRoute(),
+    overlayStyle: SystemUiOverlayStyle.dark,
+  ),
+  _Page(
+    route: SwapTokenFlowRoute(),
+    overlayStyle: SystemUiOverlayStyle.dark,
+  ),
+  _Page(route: ProfileRoute(), overlayStyle: SystemUiOverlayStyle.dark),
+];
+
 class _Page {
   const _Page({
-    required this.widget,
+    required this.route,
     required this.overlayStyle,
   });
 
-  final Widget widget;
+  final PageRouteInfo route;
   final SystemUiOverlayStyle overlayStyle;
 }

@@ -23,6 +23,8 @@ class Token {
 
   const factory Token.solana() = _SolanaToken;
 
+  const factory Token.wrappedSolana() = _WrappedSolanaToken;
+
   const factory Token.splToken({
     required int chainId,
     required String address,
@@ -43,6 +45,8 @@ class Token {
 
   static const sol = Token.solana();
 
+  static const wrappedSol = Token.wrappedSolana();
+
   bool get isSolana => this is _SolanaToken;
 
   String? get coingeckoId => extensions?.coingeckoId;
@@ -53,6 +57,14 @@ class Token {
 
   @override
   String toString() => '$address: $chainId/$symbol/$name';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Token && chainId == other.chainId && address == other.address;
+
+  @override
+  int get hashCode => Object.hash(chainId, address);
 
   final int chainId;
   final String address;
@@ -100,6 +112,23 @@ class SplToken extends Token {
           logoURI: logoURI,
           tags: tags,
           extensions: extensions,
+        );
+}
+
+class _WrappedSolanaToken extends SplToken {
+  const _WrappedSolanaToken()
+      : super(
+          address: 'So11111111111111111111111111111111111111112',
+          extensions: const Extensions(
+            coingeckoId: 'wrapped-solana',
+          ),
+          logoURI:
+              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
+          chainId: currentChainId,
+          tags: const [],
+          decimals: 9,
+          name: 'Wrapped SOL',
+          symbol: 'SOL',
         );
 }
 

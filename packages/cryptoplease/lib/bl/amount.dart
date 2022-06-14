@@ -86,7 +86,7 @@ class Amount with _$Amount {
 
   void _ensureSameCurrency(Amount other) {
     if (currency != other.currency) {
-      throw ArgumentError('cannot add different currencies');
+      throw ArgumentError('cannot operate on different currencies');
     }
   }
 

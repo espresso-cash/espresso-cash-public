@@ -2,17 +2,16 @@ import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/presentation/components/number_formatter.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/add_max_button.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/amount_display.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/converted_amount_view.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/switch_currency_button.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-
 import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 enum _AmountInputType { token, fiat }
 
@@ -174,19 +173,5 @@ class _TokenFiatSwitcherInputState extends State<TokenFiatInputWidget> {
         ),
       ],
     );
-  }
-}
-
-extension on String {
-  Decimal toDecimalOrZero(Locale locale) {
-    try {
-      final formatter = NumberFormat.decimalPattern(locale.languageCode)
-        ..minimumFractionDigits = 2;
-      final formatted = formatter.parse(this);
-
-      return Decimal.tryParse(formatted.toString()) ?? Decimal.zero;
-    } on FormatException catch (_) {
-      return Decimal.zero;
-    }
   }
 }

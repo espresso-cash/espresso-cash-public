@@ -23,6 +23,11 @@ abstract class CpColors {
   static const lightTextFieldBackgroundColor = Color(0xfff0f0f0);
 
   static const purple = Color(0xffA695FF);
+
+  static const darkBackground = Color(0xff2d2b2b);
+  static const shadowPrimaryColor = Color(0xffeb5f3a);
+  static const accentDarkBackground = Color(0xff2c2d31);
+  static const darkPrimaryColor = Color(0xffd74924);
 }
 
 const bgGradient = LinearGradient(

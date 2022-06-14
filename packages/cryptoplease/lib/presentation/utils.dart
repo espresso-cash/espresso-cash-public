@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-extension LinkOpenerExtension on BuildContext {
+extension LinkOpenerExt on BuildContext {
   Future<void> openLink(String link) async {
     try {
       await launch(link);

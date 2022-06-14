@@ -105,7 +105,7 @@ packages:
       name: borsh_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.1"
+    version: "0.3.1+1"
   build:
     dependency: transitive
     description:
@@ -778,6 +778,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.5"
+  jupiter_aggregator:
+    dependency: "direct main"
+    description:
+      name: jupiter_aggregator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   logging:
     dependency: "direct main"
     description:
@@ -1069,9 +1076,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: fix_break_changes_platform
-      resolved-ref: "0feca6f15042c279ff575c559a3430df917b623d"
-      url: "https://github.com/xeinebiu/qr_code_scanner.git"
+      ref: flutter-beta
+      resolved-ref: "5c8a34b848e4e1bad6b4c987d89634b90fd3ab9e"
+      url: "https://github.com/X-SLAYER/qr_code_scanner.git"
     source: git
     version: "0.7.0"
   qr_flutter:
@@ -1239,7 +1246,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.23.1"
+    version: "0.25.0"
   source_gen:
     dependency: transitive
     description:
