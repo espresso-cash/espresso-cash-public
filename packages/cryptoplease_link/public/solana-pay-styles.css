@@ -195,15 +195,25 @@
 
   .payment-header {
     font-size: 26px;
-    font-weight: 600;
     padding-right: 8px;
     padding-left: 8px;
+    padding-bottom: 16px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 91.19%;
+    text-align: center;
+    letter-spacing: 0.007em;
   }
 
   .amount {
-    font-size: 20px;
-    font-weight: 400;
     margin-top: 16px;
+    font-weight: 600;
+    padding-bottom: 8px;
+    font-size: 26px;
+    line-height: 91.19%;
+    text-align: center;
+    letter-spacing: 0.007em;
+    color: #FFFFFF;
   }
 
   .address {
@@ -216,9 +226,19 @@
     min-height: 56px;
     font-style: normal;
     font-weight: 400;
-    font-size: 21px;
-    line-height: 25px;
+    font-size: 18px;
+    line-height: 121.69%;
     text-align: center;
-    color: #ffffff;
+    color: #FFFFFF;
+  }
+
+  .address-title {
+    padding-bottom: 12px;
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 102.19%;
+    text-align: center;
+    letter-spacing: 0.007em;
+    color: #FFFFFF;
   }
 }
