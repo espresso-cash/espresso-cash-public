@@ -20,12 +20,13 @@
     <div class="message-block-mobile">
       <div class="message-block">
         <div class="payment-header"> 
-          You are making an instant payment{{# amount }} of
+          Someone sent you a payment request.
         </div>
         <div class="amount"> 
-          {{ amount }}&nbsp;{{token}}{{/amount}} to:
+          {{ amount }}&nbsp;{{token}}
         </div>
         <div class="address"> 
+          <div class="address-title">Destination Address</div>
           {{ recipient}}
         </div>
 
