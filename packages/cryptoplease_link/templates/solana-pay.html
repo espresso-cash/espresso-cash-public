@@ -12,6 +12,10 @@
   <title>Request Payment</title>
 
   <link rel="stylesheet" type="text/css" href="/solana-pay-styles.css">
+  
+  <!-- TODO: Get minified from env -->
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+  <script src="/scripts/phantom-app.js"></script>
 </head>
 
 <body>
@@ -44,10 +48,18 @@
             <img src="{{logoUri}}" class="payment-item-icon"/>
         </button>
       {{/apps}}
+      
+      <div id="phantom-button">
+        <button class="payment-item payment-item-phantom" onclick="connect()">
+            <div class="payment-item-title payment-item-title-phantom">Phantom</div> 
+            <img src="icons/phantom-icon.svg" class="payment-item-icon"/>
+        </button>
+      </div>
     </div>
 
   <script src="/script.js"></script>
-
 </body>
+
+<script>window.onload = checkPhantom</script>
 
 </html>
