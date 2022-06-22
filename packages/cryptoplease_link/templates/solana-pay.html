@@ -13,8 +13,7 @@
 
   <link rel="stylesheet" type="text/css" href="/solana-pay-styles.css">
   
-  <!-- TODO: Get minified from env -->
-  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+  <script src="/scripts/solana-web3.browser.js"></script>
   <script src="/scripts/phantom-app.js"></script>
 </head>
 
@@ -31,7 +30,7 @@
         </div>
         <div class="address"> 
           <div class="address-title">Destination Address</div>
-          {{ recipient}}
+          {{ recipient }}
         </div>
 
         <img src="solana-background-web.svg" class="background">
@@ -50,7 +49,9 @@
       {{/apps}}
       
       <div id="phantom-button">
-        <button class="payment-item payment-item-phantom" onclick="connect()">
+        <button
+          class="payment-item payment-item-phantom"
+          onclick="sendTransaction({{amount}}, '{{recipient}}')">
             <div class="payment-item-title payment-item-title-phantom">Phantom</div> 
             <img src="icons/phantom-icon.svg" class="payment-item-icon"/>
         </button>
