@@ -65,7 +65,7 @@ class _TokenMini extends StatelessWidget {
             ),
             Flexible(
               child: Text(
-                token.name,
+                token.symbol,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
