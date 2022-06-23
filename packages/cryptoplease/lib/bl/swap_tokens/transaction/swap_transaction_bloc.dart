@@ -20,6 +20,8 @@ typedef _State = SwapTransactionState;
 typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
+const _transactionTimeout = Duration(seconds: 60);
+
 class SwapTransactionBloc
     extends Bloc<SwapTransactionEvent, SwapTransactionState> {
   SwapTransactionBloc({
@@ -144,6 +146,7 @@ class SwapTransactionBloc
       await _solanaClient.waitForSignatureStatus(
         signature,
         status: Commitment.confirmed,
+        timeout: _transactionTimeout,
       );
 
       return signature;
