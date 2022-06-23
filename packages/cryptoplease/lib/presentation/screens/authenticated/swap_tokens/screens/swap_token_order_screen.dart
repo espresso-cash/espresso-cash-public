@@ -12,7 +12,6 @@ import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/slip
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_flow.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
@@ -60,38 +59,38 @@ class _ContentState extends State<_Content> {
   }
 
   @override
-  Widget build(BuildContext context) => CpLoader(
-        isLoading: context.select<SwapSelectorBloc, bool>(
-          (b) => b.state.maybeMap(uninitialized: T, orElse: F),
-        ),
-        child: BlocListener<SwapSelectorBloc, SwapSelectorState>(
-          listenWhen: (previous, current) =>
-              previous.routeProcessingState != current.routeProcessingState,
-          listener: (context, state) {
-            state.whenOrNull(
-              success: (route) =>
-                  context.read<SwapTokenRouter>().onSubmit(route),
-            );
-            state.routeProcessingState?.whenOrNull(
-              error: (error) => showSwapErrorDialog(
-                context,
-                context.l10n.errorLoadingTokens,
-                error,
+  Widget build(BuildContext context) =>
+      BlocListener<SwapSelectorBloc, SwapSelectorState>(
+        listenWhen: (previous, current) =>
+            previous.routeProcessingState != current.routeProcessingState,
+        listener: (context, state) {
+          state.whenOrNull(
+            success: (route) => context.read<SwapTokenRouter>().onSubmit(route),
+          );
+          state.routeProcessingState?.whenOrNull(
+            error: (error) => showSwapErrorDialog(
+              context,
+              context.l10n.errorLoadingTokens,
+              error,
+            ),
+          );
+        },
+        child: Scaffold(
+          appBar: CpAppBar(
+            title: Text(context.l10n.swapTokens),
+            leading: BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
+              builder: (context, state) => state.maybeMap(
+                uninitialized: (_) => const _Loading(),
+                orElse: () => const _SettingsButton(),
               ),
-            );
-          },
-          child: Scaffold(
-            appBar: CpAppBar(
-              title: Text(context.l10n.swapTokens),
-              leading: const _SettingsButton(),
-              nextButton: const _SubmitButton(),
             ),
-            body: Column(
-              children: [
-                _Header(controller: _inputController),
-                Flexible(child: _Keypad(controller: _inputController)),
-              ],
-            ),
+            nextButton: const _SubmitButton(),
+          ),
+          body: Column(
+            children: [
+              _Header(controller: _inputController),
+              Flexible(child: _Keypad(controller: _inputController)),
+            ],
           ),
         ),
       );
@@ -199,6 +198,20 @@ class _Keypad extends StatelessWidget {
           controller: controller,
           maxDecimals: context.select<SwapSelectorBloc, int>(
             (b) => b.state.input?.decimals ?? 2,
+          ),
+        ),
+      );
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => const Center(
+        child: SizedBox.square(
+          dimension: 16.0,
+          child: CircularProgressIndicator(
+            color: Colors.white,
           ),
         ),
       );
