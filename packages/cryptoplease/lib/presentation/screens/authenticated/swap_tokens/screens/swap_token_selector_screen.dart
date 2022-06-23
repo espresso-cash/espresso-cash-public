@@ -37,7 +37,9 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
 
     final query = text.toLowerCase();
     final filtered = widget.availableTokens.where(
-      (token) => token.name.toLowerCase().contains(query),
+      (token) =>
+          token.name.toLowerCase().contains(query) ||
+          token.symbol.toLowerCase().contains(query),
     );
     setState(() => _tokenList = filtered);
   }
