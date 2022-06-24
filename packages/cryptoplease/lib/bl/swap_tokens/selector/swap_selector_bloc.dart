@@ -76,13 +76,21 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
           .where(_balances.isPositive)
           .sortedByName();
 
-      final token = inputTokens.first;
+      final token = inputTokens.firstWhere(
+        (token) => token.isSolana,
+        orElse: () => inputTokens.first,
+      );
       final outputTokens = _getOutputTokens(routeMap, token);
+
+      final output = outputTokens.firstWhere(
+        (token) => token.symbol.toLowerCase() == 'usdc',
+        orElse: () => outputTokens.first,
+      );
 
       final state = SwapSelectorState.initialized(
         amount: CryptoAmount(currency: CryptoCurrency(token: token), value: 0),
         slippage: Decimal.one,
-        output: outputTokens.first,
+        output: output,
         outputTokens: outputTokens,
         inputTokens: inputTokens,
         routeMap: routeMap,
