@@ -74,7 +74,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
           .whereNotNull()
           .map((t) => t == Token.wrappedSol ? Token.sol : t)
           .where(_balances.isPositive)
-          .sortByRelevance();
+          .sortedByName();
 
       final token = inputTokens.first;
       final outputTokens = _getOutputTokens(routeMap, token);
@@ -204,7 +204,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         .map(_tokenList.findTokenByMint)
         .map((t) => t == Token.wrappedSol ? Token.sol : t)
         .whereNotNull()
-        .sortByRelevance();
+        .sortedByName();
   }
 
   void _updateInput(void Function(Initialized state) block) {
@@ -234,24 +234,6 @@ extension on IMap<Token, Amount?> {
 
 extension on Iterable<Token> {
   List<Token> sortedByName() => sorted((a, b) => a.name.compareTo(b.name));
-
-  List<Token> sortByRelevance() {
-    final tokenList = sortedByName();
-
-    const stableSymbols = ['usdc', 'usdt', 'sol', 'btc'];
-
-    final stables = tokenList
-        .where((token) => stableSymbols.contains(token.symbol.toLowerCase()))
-        .sortedByName();
-
-    for (final stable in stables) {
-      tokenList
-        ..remove(stable)
-        ..insert(0, stable);
-    }
-
-    return tokenList;
-  }
 }
 
 extension on Token {

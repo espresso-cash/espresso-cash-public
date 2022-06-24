@@ -5,6 +5,8 @@ import 'package:cryptoplease/presentation/watch_balance.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
+const _popularTokenSymbols = ['usdc', 'usdt', 'sol', 'btc'];
+
 class SwapTokenSelectorScreen extends StatefulWidget {
   const SwapTokenSelectorScreen({
     Key? key,
@@ -20,26 +22,41 @@ class SwapTokenSelectorScreen extends StatefulWidget {
 }
 
 class _SelectorState extends State<SwapTokenSelectorScreen> {
-  late Iterable<Token> _tokenList;
+  late Iterable<Token> _otherTokenList;
+  late Iterable<Token> _popularTokenList;
 
   @override
   void initState() {
     super.initState();
-    _tokenList = widget.availableTokens;
+    _splitTokens();
+  }
+
+  void _splitTokens() {
+    final tokenSet = widget.availableTokens.toSet();
+    _popularTokenList = tokenSet.where(
+      (token) => _popularTokenSymbols.contains(token.symbol.toLowerCase()),
+    );
+    _otherTokenList = tokenSet.difference(_popularTokenList.toSet());
   }
 
   void _onSearch(String text) {
     if (text.isEmpty) {
-      setState(() => _tokenList = widget.availableTokens);
+      setState(_splitTokens);
 
       return;
     }
 
     final query = text.toLowerCase();
-    final filtered = widget.availableTokens.where(
+    final filterOthers = _otherTokenList.where(
       (token) => token.name.toLowerCase().contains(query),
     );
-    setState(() => _tokenList = filtered);
+    final filterPopular = _popularTokenList.where(
+      (token) => token.name.toLowerCase().contains(query),
+    );
+    setState(() {
+      _popularTokenList = filterPopular;
+      _otherTokenList = filterOthers;
+    });
   }
 
   @override
@@ -64,22 +81,82 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
                 ),
               ),
             ],
-            body: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemCount: _tokenList.length,
-              itemBuilder: (context, index) {
-                final token = _tokenList.elementAt(index);
-
-                return SelectableBalanceItem(
-                  token: token,
-                  onSelect: (token) => Navigator.of(context).pop(token),
-                  balance: widget.shouldShowBalance
-                      ? context.watchUserCryptoBalance(token)
-                      : null,
-                );
-              },
+            body: CustomScrollView(
+              slivers: [
+                if (_popularTokenList.isNotEmpty)
+                  const _SectionTitle(
+                    title: 'Popular tokens',
+                  ),
+                _TokenList(
+                  tokens: _popularTokenList,
+                  onTokenSelected: (token) => Navigator.of(context).pop(token),
+                  shouldDisplayAmount: widget.shouldShowBalance,
+                ),
+                if (_popularTokenList.isNotEmpty)
+                  const _SectionTitle(
+                    title: 'Other tokens',
+                  ),
+                _TokenList(
+                  tokens: _otherTokenList,
+                  onTokenSelected: (token) => Navigator.of(context).pop(token),
+                  shouldDisplayAmount: widget.shouldShowBalance,
+                ),
+              ],
             ),
           ),
+        ),
+      );
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) => SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ),
+      );
+}
+
+class _TokenList extends StatelessWidget {
+  const _TokenList({
+    Key? key,
+    required this.tokens,
+    required this.onTokenSelected,
+    required this.shouldDisplayAmount,
+  }) : super(key: key);
+
+  final Iterable<Token> tokens;
+  final ValueSetter<Token> onTokenSelected;
+  final bool shouldDisplayAmount;
+
+  @override
+  Widget build(BuildContext context) => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            final token = tokens.elementAt(index);
+
+            return SelectableBalanceItem(
+              token: token,
+              onSelect: onTokenSelected,
+              balance: shouldDisplayAmount
+                  ? context.watchUserCryptoBalance(token)
+                  : null,
+            );
+          },
+          childCount: tokens.length,
         ),
       );
 }
