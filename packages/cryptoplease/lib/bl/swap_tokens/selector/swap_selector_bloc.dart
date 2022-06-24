@@ -167,12 +167,14 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         final outputTokens = _getOutputTokens(state.routeMap, newInput);
         final newOutput =
             outputTokens.contains(oldInput) ? oldInput : outputTokens.first;
-        final amount = state.amount
-            .copyWith(currency: CryptoCurrency(token: newInput))
-            .copyWithDecimal(state.amount.decimal);
+
+        final newInputAmount = state.amount.copyWith(
+          currency: CryptoCurrency(token: newInput),
+          value: state.bestRoute?.outAmount ?? 0,
+        );
 
         final newState = state.copyWith(
-          amount: amount,
+          amount: newInputAmount,
           output: newOutput,
           outputTokens: outputTokens,
         );

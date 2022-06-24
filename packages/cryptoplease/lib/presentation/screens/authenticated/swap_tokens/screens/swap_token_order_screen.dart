@@ -109,35 +109,50 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
 
-    return SwapHeaderWidget(
-      inputController: controller,
-      output: context.select<SwapSelectorBloc, String>(
-        (bloc) =>
-            bloc.state.outputAmount?.format(locale, skipSymbol: true) ?? '–',
+    return BlocListener<SwapSelectorBloc, SwapSelectorState>(
+      listener: (context, state) => state.mapOrNull(
+        initialized: (state) {
+          final inputAmount = controller.text.toDecimalOrZero(
+            DeviceLocale.localeOf(context),
+          );
+          if (state.amount.decimal != inputAmount) {
+            controller.text = state.amount.format(
+              DeviceLocale.localeOf(context),
+              skipSymbol: true,
+            );
+          }
+        },
       ),
-      onSelectInput: () async {
-        final bloc = context.read<SwapSelectorBloc>();
-        final tokens = bloc.state.inputTokens;
-        final token =
-            await context.read<SwapTokenRouter>().onSelectInputToken(tokens);
-        if (token != null) {
-          bloc.add(SwapSelectorEvent.inputUpdated(token));
-        }
-      },
-      onSelectOutput: () async {
-        final bloc = context.read<SwapSelectorBloc>();
-        final tokens = bloc.state.outputTokens;
-        final token =
-            await context.read<SwapTokenRouter>().onSelectOutputToken(tokens);
-        if (token != null) {
-          bloc.add(SwapSelectorEvent.outputUpdated(token));
-        }
-      },
-      onMaxRequested: () {
-        final amount = context.read<SwapSelectorBloc>().calculateMaxAmount();
-        if (amount == null) return;
-        controller.text = amount.format(locale, skipSymbol: true);
-      },
+      child: SwapHeaderWidget(
+        inputController: controller,
+        output: context.select<SwapSelectorBloc, String>(
+          (bloc) =>
+              bloc.state.outputAmount?.format(locale, skipSymbol: true) ?? '–',
+        ),
+        onSelectInput: () async {
+          final bloc = context.read<SwapSelectorBloc>();
+          final tokens = bloc.state.inputTokens;
+          final token =
+              await context.read<SwapTokenRouter>().onSelectInputToken(tokens);
+          if (token != null) {
+            bloc.add(SwapSelectorEvent.inputUpdated(token));
+          }
+        },
+        onSelectOutput: () async {
+          final bloc = context.read<SwapSelectorBloc>();
+          final tokens = bloc.state.outputTokens;
+          final token =
+              await context.read<SwapTokenRouter>().onSelectOutputToken(tokens);
+          if (token != null) {
+            bloc.add(SwapSelectorEvent.outputUpdated(token));
+          }
+        },
+        onMaxRequested: () {
+          final amount = context.read<SwapSelectorBloc>().calculateMaxAmount();
+          if (amount == null) return;
+          controller.text = amount.format(locale, skipSymbol: true);
+        },
+      ),
     );
   }
 }
@@ -175,7 +190,7 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) => CpButton(
         text: context.l10n.swap.toUpperCase(),
         size: CpButtonSize.micro,
-        onPressed:
+        onPressed:         
             context.select<SwapSelectorBloc, bool>((b) => b.state.canSwap)
                 ? () => context
                     .read<SwapSelectorBloc>()
