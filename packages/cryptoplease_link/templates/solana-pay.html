@@ -13,6 +13,7 @@
 
   <link rel="stylesheet" type="text/css" href="/solana-pay-styles.css">
   
+  <script src="/scripts/solana-pay.browser.js"></script>
   <script src="/scripts/solana-web3.browser.js"></script>
   <script src="/scripts/phantom-app.js"></script>
 </head>
@@ -51,7 +52,7 @@
       <div id="phantom-button">
         <button
           class="payment-item payment-item-phantom"
-          onclick="sendTransaction({{amount}}, '{{recipient}}')">
+          onclick="sendTransaction('{{recipient}}')">
             <div class="payment-item-title payment-item-title-phantom">Phantom</div> 
             <img src="icons/phantom-icon.svg" class="payment-item-icon"/>
         </button>

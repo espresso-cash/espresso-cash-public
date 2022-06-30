@@ -28510,24 +28510,27 @@ class Transaction {
       return this._message;
     }
 
-    const {
-      nonceInfo
-    } = this;
+    let recentBlockhash;
+    let instructions;
 
-    if (nonceInfo && this.instructions[0] != nonceInfo.nonceInstruction) {
-      this.recentBlockhash = nonceInfo.nonce;
-      this.instructions.unshift(nonceInfo.nonceInstruction);
+    if (this.nonceInfo) {
+      recentBlockhash = this.nonceInfo.nonce;
+
+      if (this.instructions[0] != this.nonceInfo.nonceInstruction) {
+        instructions = [this.nonceInfo.nonceInstruction, ...this.instructions];
+      } else {
+        instructions = this.instructions;
+      }
+    } else {
+      recentBlockhash = this.recentBlockhash;
+      instructions = this.instructions;
     }
-
-    const {
-      recentBlockhash
-    } = this;
 
     if (!recentBlockhash) {
       throw new Error('Transaction recentBlockhash required');
     }
 
-    if (this.instructions.length < 1) {
+    if (instructions.length < 1) {
       console.warn('No instructions provided');
     }
 
@@ -28542,15 +28545,15 @@ class Transaction {
       throw new Error('Transaction fee payer required');
     }
 
-    for (let i = 0; i < this.instructions.length; i++) {
-      if (this.instructions[i].programId === undefined) {
+    for (let i = 0; i < instructions.length; i++) {
+      if (instructions[i].programId === undefined) {
         throw new Error(`Transaction instruction index ${i} has undefined program id`);
       }
     }
 
     const programIds = [];
     const accountMetas = [];
-    this.instructions.forEach(instruction => {
+    instructions.forEach(instruction => {
       instruction.keys.forEach(accountMeta => {
         accountMetas.push({ ...accountMeta
         });
@@ -28660,7 +28663,7 @@ class Transaction {
       }
     });
     const accountKeys = signedKeys.concat(unsignedKeys);
-    const instructions = this.instructions.map(instruction => {
+    const compiledInstructions = instructions.map(instruction => {
       const {
         data,
         programId
@@ -28671,7 +28674,7 @@ class Transaction {
         data: bs58__default["default"].encode(data)
       };
     });
-    instructions.forEach(instruction => {
+    compiledInstructions.forEach(instruction => {
       assert(instruction.programIdIndex >= 0);
       instruction.accounts.forEach(keyIndex => assert(keyIndex >= 0));
     });
@@ -28683,7 +28686,7 @@ class Transaction {
       },
       accountKeys,
       recentBlockhash,
-      instructions
+      instructions: compiledInstructions
     });
   }
   /**
@@ -29070,7 +29073,8 @@ async function sendAndConfirmTransaction(connection, transaction, signers, optio
   const sendOptions = options && {
     skipPreflight: options.skipPreflight,
     preflightCommitment: options.preflightCommitment || options.commitment,
-    maxRetries: options.maxRetries
+    maxRetries: options.maxRetries,
+    minContextSlot: options.minContextSlot
   };
   const signature = await connection.sendTransaction(transaction, signers, sendOptions);
   const status = transaction.recentBlockhash != null && transaction.lastValidBlockHeight != null ? (await connection.confirmTransaction({
@@ -30565,6 +30569,7 @@ function makeWebsocketUrl(endpoint) {
   return url.toString();
 }
 
+var _process$env$npm_pack;
 const PublicKeyFromString = superstruct.coerce(superstruct.instance(PublicKey), superstruct.string(), value => new PublicKey(value));
 const RawAccountDataResult = superstruct.tuple([superstruct.string(), superstruct.literal('base64')]);
 const BufferFromRawAccountData = superstruct.coerce(superstruct.instance(buffer.Buffer), RawAccountDataResult, value => buffer.Buffer.from(value[0], 'base64'));
@@ -30581,9 +30586,32 @@ const BLOCKHASH_CACHE_TIMEOUT_MS = 30 * 1000;
  * https://gist.github.com/steveluscher/c057eca81d479ef705cdb53162f9971d
  */
 
+/** @internal */
+function extractCommitmentFromConfig(commitmentOrConfig) {
+  let commitment;
+  let config;
+
+  if (typeof commitmentOrConfig === 'string') {
+    commitment = commitmentOrConfig;
+  } else if (commitmentOrConfig) {
+    const {
+      commitment: specifiedCommitment,
+      ...specifiedConfig
+    } = commitmentOrConfig;
+    commitment = specifiedCommitment;
+    config = specifiedConfig;
+  }
+
+  return {
+    commitment,
+    config
+  };
+}
 /**
  * @internal
  */
+
+
 function createRpcResult(result) {
   return superstruct.union([superstruct.type({
     jsonrpc: superstruct.literal('2.0'),
@@ -30775,7 +30803,7 @@ function createRpcClient(url, useHttps, httpHeaders, customFetch, fetchMiddlewar
       agent,
       headers: Object.assign({
         'Content-Type': 'application/json'
-      }, httpHeaders || {})
+      }, httpHeaders || {}, COMMON_HTTP_HEADERS)
     };
 
     try {
@@ -31448,9 +31476,14 @@ const LogsNotificationResult = superstruct.type({
  * Filter for log subscriptions.
  */
 
+/** @internal */
+const COMMON_HTTP_HEADERS = {
+  'solana-client': `js/${(_process$env$npm_pack = "0.0.0-development") !== null && _process$env$npm_pack !== void 0 ? _process$env$npm_pack : 'UNKNOWN'}`
+};
 /**
  * A connection to a fullnode JSON RPC endpoint
  */
+
 class Connection {
   /** @internal */
 
@@ -31615,8 +31648,16 @@ class Connection {
    */
 
 
-  async getBalanceAndContext(publicKey, commitment) {
-    const args = this._buildArgs([publicKey.toBase58()], commitment);
+  async getBalanceAndContext(publicKey, commitmentOrConfig) {
+    /** @internal */
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([publicKey.toBase58()], commitment, undefined
+    /* encoding */
+    , config);
 
     const unsafeRes = await this._rpcRequest('getBalance', args);
     const res = superstruct.create(unsafeRes, jsonRpcResultAndContext(superstruct.number()));
@@ -31632,8 +31673,8 @@ class Connection {
    */
 
 
-  async getBalance(publicKey, commitment) {
-    return await this.getBalanceAndContext(publicKey, commitment).then(x => x.value).catch(e => {
+  async getBalance(publicKey, commitmentOrConfig) {
+    return await this.getBalanceAndContext(publicKey, commitmentOrConfig).then(x => x.value).catch(e => {
       throw new Error('failed to get balance of account ' + publicKey.toBase58() + ': ' + e);
     });
   }
@@ -31755,7 +31796,11 @@ class Connection {
    */
 
 
-  async getTokenAccountsByOwner(ownerAddress, filter, commitment) {
+  async getTokenAccountsByOwner(ownerAddress, filter, commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
     let _args = [ownerAddress.toBase58()];
 
     if ('mint' in filter) {
@@ -31768,7 +31813,7 @@ class Connection {
       });
     }
 
-    const args = this._buildArgs(_args, commitment, 'base64');
+    const args = this._buildArgs(_args, commitment, 'base64', config);
 
     const unsafeRes = await this._rpcRequest('getTokenAccountsByOwner', args);
     const res = superstruct.create(unsafeRes, GetTokenAccountsByOwner);
@@ -31852,8 +31897,13 @@ class Connection {
    */
 
 
-  async getAccountInfoAndContext(publicKey, commitment) {
-    const args = this._buildArgs([publicKey.toBase58()], commitment, 'base64');
+  async getAccountInfoAndContext(publicKey, commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([publicKey.toBase58()], commitment, 'base64', config);
 
     const unsafeRes = await this._rpcRequest('getAccountInfo', args);
     const res = superstruct.create(unsafeRes, jsonRpcResultAndContext(superstruct.nullable(AccountInfoResult)));
@@ -31886,9 +31936,9 @@ class Connection {
    */
 
 
-  async getAccountInfo(publicKey, commitment) {
+  async getAccountInfo(publicKey, commitmentOrConfig) {
     try {
-      const res = await this.getAccountInfoAndContext(publicKey, commitment);
+      const res = await this.getAccountInfoAndContext(publicKey, commitmentOrConfig);
       return res.value;
     } catch (e) {
       throw new Error('failed to get info about account ' + publicKey.toBase58() + ': ' + e);
@@ -31899,10 +31949,14 @@ class Connection {
    */
 
 
-  async getMultipleAccountsInfoAndContext(publicKeys, commitment) {
+  async getMultipleAccountsInfoAndContext(publicKeys, commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
     const keys = publicKeys.map(key => key.toBase58());
 
-    const args = this._buildArgs([keys], commitment, 'base64');
+    const args = this._buildArgs([keys], commitment, 'base64', config);
 
     const unsafeRes = await this._rpcRequest('getMultipleAccounts', args);
     const res = superstruct.create(unsafeRes, jsonRpcResultAndContext(superstruct.array(superstruct.nullable(AccountInfoResult))));
@@ -31918,8 +31972,8 @@ class Connection {
    */
 
 
-  async getMultipleAccountsInfo(publicKeys, commitment) {
-    const res = await this.getMultipleAccountsInfoAndContext(publicKeys, commitment);
+  async getMultipleAccountsInfo(publicKeys, commitmentOrConfig) {
+    const res = await this.getMultipleAccountsInfoAndContext(publicKeys, commitmentOrConfig);
     return res.value;
   }
   /**
@@ -31927,10 +31981,17 @@ class Connection {
    */
 
 
-  async getStakeActivation(publicKey, commitment, epoch) {
-    const args = this._buildArgs([publicKey.toBase58()], commitment, undefined, epoch !== undefined ? {
-      epoch
-    } : undefined);
+  async getStakeActivation(publicKey, commitmentOrConfig, epoch) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([publicKey.toBase58()], commitment, undefined
+    /* encoding */
+    , { ...config,
+      epoch: epoch != null ? epoch : config === null || config === void 0 ? void 0 : config.epoch
+    });
 
     const unsafeRes = await this._rpcRequest('getStakeActivation', args);
     const res = superstruct.create(unsafeRes, jsonRpcResult(StakeActivationResult));
@@ -31949,28 +32010,16 @@ class Connection {
 
 
   async getProgramAccounts(programId, configOrCommitment) {
-    const extra = {};
-    let commitment;
-    let encoding;
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(configOrCommitment);
+    const {
+      encoding,
+      ...configWithoutEncoding
+    } = config || {};
 
-    if (configOrCommitment) {
-      if (typeof configOrCommitment === 'string') {
-        commitment = configOrCommitment;
-      } else {
-        commitment = configOrCommitment.commitment;
-        encoding = configOrCommitment.encoding;
-
-        if (configOrCommitment.dataSlice) {
-          extra.dataSlice = configOrCommitment.dataSlice;
-        }
-
-        if (configOrCommitment.filters) {
-          extra.filters = configOrCommitment.filters;
-        }
-      }
-    }
-
-    const args = this._buildArgs([programId.toBase58()], commitment, encoding || 'base64', extra);
+    const args = this._buildArgs([programId.toBase58()], commitment, encoding || 'base64', configWithoutEncoding);
 
     const unsafeRes = await this._rpcRequest('getProgramAccounts', args);
     const res = superstruct.create(unsafeRes, jsonRpcResult(superstruct.array(KeyedAccountInfoResult)));
@@ -31989,22 +32038,12 @@ class Connection {
 
 
   async getParsedProgramAccounts(programId, configOrCommitment) {
-    const extra = {};
-    let commitment;
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(configOrCommitment);
 
-    if (configOrCommitment) {
-      if (typeof configOrCommitment === 'string') {
-        commitment = configOrCommitment;
-      } else {
-        commitment = configOrCommitment.commitment;
-
-        if (configOrCommitment.filters) {
-          extra.filters = configOrCommitment.filters;
-        }
-      }
-    }
-
-    const args = this._buildArgs([programId.toBase58()], commitment, 'jsonParsed', extra);
+    const args = this._buildArgs([programId.toBase58()], commitment, 'jsonParsed', config);
 
     const unsafeRes = await this._rpcRequest('getProgramAccounts', args);
     const res = superstruct.create(unsafeRes, jsonRpcResult(superstruct.array(KeyedParsedAccountInfoResult)));
@@ -32171,8 +32210,15 @@ class Connection {
    */
 
 
-  async getSlot(commitment) {
-    const args = this._buildArgs([], commitment);
+  async getSlot(commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([], commitment, undefined
+    /* encoding */
+    , config);
 
     const unsafeRes = await this._rpcRequest('getSlot', args);
     const res = superstruct.create(unsafeRes, jsonRpcResult(superstruct.number()));
@@ -32188,8 +32234,15 @@ class Connection {
    */
 
 
-  async getSlotLeader(commitment) {
-    const args = this._buildArgs([], commitment);
+  async getSlotLeader(commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([], commitment, undefined
+    /* encoding */
+    , config);
 
     const unsafeRes = await this._rpcRequest('getSlotLeader', args);
     const res = superstruct.create(unsafeRes, jsonRpcResult(superstruct.string()));
@@ -32262,8 +32315,15 @@ class Connection {
    */
 
 
-  async getTransactionCount(commitment) {
-    const args = this._buildArgs([], commitment);
+  async getTransactionCount(commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([], commitment, undefined
+    /* encoding */
+    , config);
 
     const unsafeRes = await this._rpcRequest('getTransactionCount', args);
     const res = superstruct.create(unsafeRes, jsonRpcResult(superstruct.number()));
@@ -32310,9 +32370,16 @@ class Connection {
    */
 
 
-  async getInflationReward(addresses, epoch, commitment) {
-    const args = this._buildArgs([addresses.map(pubkey => pubkey.toBase58())], commitment, undefined, {
-      epoch
+  async getInflationReward(addresses, epoch, commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([addresses.map(pubkey => pubkey.toBase58())], commitment, undefined
+    /* encoding */
+    , { ...config,
+      epoch: epoch != null ? epoch : config === null || config === void 0 ? void 0 : config.epoch
     });
 
     const unsafeRes = await this._rpcRequest('getInflationReward', args);
@@ -32329,8 +32396,15 @@ class Connection {
    */
 
 
-  async getEpochInfo(commitment) {
-    const args = this._buildArgs([], commitment);
+  async getEpochInfo(commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([], commitment, undefined
+    /* encoding */
+    , config);
 
     const unsafeRes = await this._rpcRequest('getEpochInfo', args);
     const res = superstruct.create(unsafeRes, GetEpochInfoRpcResult);
@@ -32501,9 +32575,9 @@ class Connection {
    */
 
 
-  async getLatestBlockhash(commitment) {
+  async getLatestBlockhash(commitmentOrConfig) {
     try {
-      const res = await this.getLatestBlockhashAndContext(commitment);
+      const res = await this.getLatestBlockhashAndContext(commitmentOrConfig);
       return res.value;
     } catch (e) {
       throw new Error('failed to get recent blockhash: ' + e);
@@ -32515,8 +32589,15 @@ class Connection {
    */
 
 
-  async getLatestBlockhashAndContext(commitment) {
-    const args = this._buildArgs([], commitment);
+  async getLatestBlockhashAndContext(commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([], commitment, undefined
+    /* encoding */
+    , config);
 
     const unsafeRes = await this._rpcRequest('getLatestBlockhash', args);
     const res = superstruct.create(unsafeRes, GetLatestBlockhashRpcResult);
@@ -32594,8 +32675,15 @@ class Connection {
    */
 
 
-  async getBlockHeight(commitment) {
-    const args = this._buildArgs([], commitment);
+  async getBlockHeight(commitmentOrConfig) {
+    const {
+      commitment,
+      config
+    } = extractCommitmentFromConfig(commitmentOrConfig);
+
+    const args = this._buildArgs([], commitment, undefined
+    /* encoding */
+    , config);
 
     const unsafeRes = await this._rpcRequest('getBlockHeight', args);
     const res = superstruct.create(unsafeRes, jsonRpcResult(superstruct.number()));
@@ -32726,7 +32814,13 @@ class Connection {
         throw new Error('failed to get transactions: ' + res.error.message);
       }
 
-      return res.result;
+      const result = res.result;
+      if (!result) return result;
+      return { ...result,
+        transaction: { ...result.transaction,
+          message: new Message(result.transaction.message)
+        }
+      };
     });
     return res;
   }
@@ -33316,6 +33410,10 @@ class Connection {
 
     if (options && options.maxRetries) {
       config.maxRetries = options.maxRetries;
+    }
+
+    if (options && options.minContextSlot != null) {
+      config.minContextSlot = options.minContextSlot;
     }
 
     if (skipPreflight) {
@@ -35727,7 +35825,8 @@ async function sendAndConfirmRawTransaction(connection, rawTransaction, confirma
 
   const sendOptions = options && {
     skipPreflight: options.skipPreflight,
-    preflightCommitment: options.preflightCommitment || options.commitment
+    preflightCommitment: options.preflightCommitment || options.commitment,
+    minContextSlot: options.minContextSlot
   };
   const signature = await connection.sendRawTransaction(rawTransaction, sendOptions);
   const commitment = options && options.commitment;
