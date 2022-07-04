@@ -3,9 +3,8 @@ import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/selectable_balance_item.dart';
 import 'package:cryptoplease/presentation/watch_balance.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-
-const _popularTokenSymbols = ['usdc', 'usdt', 'sol', 'btc'];
 
 class SwapTokenSelectorScreen extends StatefulWidget {
   const SwapTokenSelectorScreen({
@@ -22,8 +21,10 @@ class SwapTokenSelectorScreen extends StatefulWidget {
 }
 
 class _SelectorState extends State<SwapTokenSelectorScreen> {
-  late Iterable<Token> _otherTokenList;
-  late Iterable<Token> _popularTokenList;
+  IList<Token> _otherTokenList = IList();
+  IList<Token> _popularTokenList = IList();
+
+  static const _popularTokenSymbols = {'usdc', 'usdt', 'sol', 'btc'};
 
   @override
   void initState() {
@@ -33,10 +34,12 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
 
   void _splitTokens() {
     final tokenSet = widget.availableTokens.toSet();
-    _popularTokenList = tokenSet.where(
-      (token) => _popularTokenSymbols.contains(token.symbol.toLowerCase()),
-    );
-    _otherTokenList = tokenSet.difference(_popularTokenList.toSet());
+    _popularTokenList = tokenSet
+        .where(
+          (token) => _popularTokenSymbols.contains(token.symbol.toLowerCase()),
+        )
+        .toIList();
+    _otherTokenList = tokenSet.difference(_popularTokenList.toSet()).toIList();
   }
 
   void _onSearch(String text) {
@@ -47,12 +50,11 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
     }
 
     final query = text.toLowerCase();
-    final filterOthers = _otherTokenList.where(
-      (token) => token.name.toLowerCase().contains(query),
-    );
-    final filterPopular = _popularTokenList.where(
-      (token) => token.name.toLowerCase().contains(query),
-    );
+    bool matches(Token token) => token.name.toLowerCase().contains(query);
+
+    final filterOthers = _otherTokenList.where(matches).toIList();
+    final filterPopular = _popularTokenList.where(matches).toIList();
+
     setState(() {
       _popularTokenList = filterPopular;
       _otherTokenList = filterOthers;
@@ -84,18 +86,14 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
             body: CustomScrollView(
               slivers: [
                 if (_popularTokenList.isNotEmpty)
-                  const _SectionTitle(
-                    title: 'Popular tokens',
-                  ),
+                  const _SectionTitle(title: 'Popular tokens'),
                 _TokenList(
                   tokens: _popularTokenList,
                   onTokenSelected: (token) => Navigator.of(context).pop(token),
                   shouldDisplayAmount: widget.shouldShowBalance,
                 ),
                 if (_popularTokenList.isNotEmpty)
-                  const _SectionTitle(
-                    title: 'Other tokens',
-                  ),
+                  const _SectionTitle(title: 'Other tokens'),
                 _TokenList(
                   tokens: _otherTokenList,
                   onTokenSelected: (token) => Navigator.of(context).pop(token),
@@ -122,9 +120,7 @@ class _SectionTitle extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
             title,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
+            style: const TextStyle(fontSize: 16),
           ),
         ),
       );
@@ -138,7 +134,7 @@ class _TokenList extends StatelessWidget {
     required this.shouldDisplayAmount,
   }) : super(key: key);
 
-  final Iterable<Token> tokens;
+  final IList<Token> tokens;
   final ValueSetter<Token> onTokenSelected;
   final bool shouldDisplayAmount;
 
