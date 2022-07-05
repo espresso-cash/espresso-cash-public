@@ -6,7 +6,7 @@ import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/tx_result_screen.dart';
-import 'package:cryptoplease/presentation/format_amount.dart';
+import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';

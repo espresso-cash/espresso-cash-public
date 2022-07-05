@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
-import 'package:cryptoplease/presentation/format_amount.dart';
+import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

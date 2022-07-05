@@ -5,7 +5,7 @@ import 'package:cryptoplease/bl/split_key_payments/models.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
 import 'package:cryptoplease/presentation/components/share_message_wrapper.dart';
-import 'package:cryptoplease/presentation/format_amount.dart';
+import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

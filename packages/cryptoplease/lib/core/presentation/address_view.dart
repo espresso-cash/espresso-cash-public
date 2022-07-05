@@ -1,4 +1,4 @@
-import 'package:cryptoplease/presentation/snackbars.dart';
+import 'package:cryptoplease/core/presentation/snackbars.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';

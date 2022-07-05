@@ -3,7 +3,7 @@ import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
-import 'package:cryptoplease/presentation/dialogs.dart';
+import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:decimal/decimal.dart';

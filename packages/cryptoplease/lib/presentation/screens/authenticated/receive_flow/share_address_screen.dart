@@ -2,7 +2,7 @@ import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/presentation/address_view.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
-import 'package:cryptoplease/presentation/snackbars.dart';
+import 'package:cryptoplease/core/presentation/snackbars.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

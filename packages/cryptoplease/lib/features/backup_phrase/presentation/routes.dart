@@ -5,7 +5,7 @@ import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_f
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_success_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/puzzle_reminder_dialog_message_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/puzzle_reminder_dialog_setup_screen.dart';
-import 'package:cryptoplease/presentation/dialog_modal_route.dart';
+import 'package:cryptoplease/core/presentation/dialog_modal_route.dart';
 
 const List<AutoRoute<dynamic>> backupPhraseRoutes = [
   DialogModalRoute<void>(

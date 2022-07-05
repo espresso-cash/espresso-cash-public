@@ -11,7 +11,7 @@ import 'package:cryptoplease/presentation/screens/authenticated/components/heade
 import 'package:cryptoplease/presentation/screens/authenticated/components/stablecoin_empty_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/total_balance_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/wallet_tab_bar.dart';
-import 'package:cryptoplease/presentation/watch_balance.dart';
+import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
