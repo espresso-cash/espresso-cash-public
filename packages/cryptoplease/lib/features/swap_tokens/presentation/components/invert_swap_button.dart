@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
+import 'package:cryptoplease/features/swap_tokens/bl/selector/swap_selector_bloc.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';

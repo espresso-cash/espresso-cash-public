@@ -6,8 +6,6 @@ import 'package:cryptoplease/app/screens/authenticated/nft/nft_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/send_flow/routes.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_tokens/routes.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_tokens/swap_token_flow.dart';
 import 'package:cryptoplease/app/screens/authenticated/transaction_details_screen/transaction_details_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/transactions_screen/transactions_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_screen.dart';
@@ -19,6 +17,8 @@ import 'package:cryptoplease/features/backup_phrase/presentation/routes.dart';
 import 'package:cryptoplease/features/profile/edit_profile_screen.dart';
 import 'package:cryptoplease/features/profile/help_screen.dart';
 import 'package:cryptoplease/features/profile/profile_screen.dart';
+import 'package:cryptoplease/features/swap_tokens/presentation/routes.dart';
+import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.dart';
 
 const authenticatedFlowRoutes = AutoRoute<void>(
   page: AuthenticatedFlowScreen,

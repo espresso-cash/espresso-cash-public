@@ -1,8 +1,8 @@
 import 'package:cryptoplease/app/components/common_success.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_tokens/components/swap_step_widget.dart';
-import 'package:cryptoplease/bl/swap_tokens/transaction/swap_transaction_bloc.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
+import 'package:cryptoplease/features/swap_tokens/bl/transaction/swap_transaction_bloc.dart';
+import 'package:cryptoplease/features/swap_tokens/presentation/components/swap_error_dialog.dart';
+import 'package:cryptoplease/features/swap_tokens/presentation/components/swap_step_widget.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/screens/authenticated/swap_tokens/components/slippage_dropdown.dart';
+import 'package:cryptoplease/features/swap_tokens/presentation/components/slippage_dropdown.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';

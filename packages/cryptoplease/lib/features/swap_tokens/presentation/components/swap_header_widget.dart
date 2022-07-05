@@ -1,6 +1,6 @@
-import 'package:cryptoplease/app/screens/authenticated/swap_tokens/components/input_widgets/input_row_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_tokens/components/invert_swap_button.dart';
-import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
+import 'package:cryptoplease/features/swap_tokens/bl/selector/swap_selector_bloc.dart';
+import 'package:cryptoplease/features/swap_tokens/presentation/components/input_widgets/input_row_widget.dart';
+import 'package:cryptoplease/features/swap_tokens/presentation/components/invert_swap_button.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
