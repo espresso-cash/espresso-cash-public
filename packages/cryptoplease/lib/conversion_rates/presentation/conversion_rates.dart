@@ -1,7 +1,7 @@
 import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/conversion_rates/bl/repository.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

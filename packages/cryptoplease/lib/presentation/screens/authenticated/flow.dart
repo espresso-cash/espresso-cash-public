@@ -4,8 +4,6 @@ import 'package:cryptoplease/authenticated/backup_phrase/module.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
-import 'package:cryptoplease/bl/conversion_rates/conversion_rates_bloc.dart';
-import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/nft/nft_collection/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
@@ -13,6 +11,8 @@ import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/solana_helpers.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
+import 'package:cryptoplease/conversion_rates/bl/conversion_rates_bloc.dart';
+import 'package:cryptoplease/conversion_rates/module.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/send_flow.dart';
 import 'package:flutter/foundation.dart';
@@ -38,7 +38,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   Widget build(BuildContext _) => MultiProvider(
         providers: [
           Provider<UserPreferences>(create: (_) => UserPreferences()),
-          _conversionRatesBlocProvider(),
+          const ConversionRatesModule(),
         ],
         child: BlocBuilder<AccountsBloc, AccountsState>(
           builder: (context, state) {
@@ -70,13 +70,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
         ),
       );
 }
-
-BlocProvider<ConversionRatesBloc> _conversionRatesBlocProvider() =>
-    BlocProvider(
-      create: (context) => ConversionRatesBloc(
-        repository: context.read<ConversionRatesRepository>(),
-      ),
-    );
 
 BlocProvider<OutgoingTransfersBloc> _outgoingTransfersBlocProvider(
   MyAccount account,

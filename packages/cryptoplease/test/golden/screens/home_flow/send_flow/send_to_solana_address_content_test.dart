@@ -1,6 +1,6 @@
 import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/currency.dart';
+import 'package:cryptoplease/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/confirm_screen/components/send_token_to_solana_address_content.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';

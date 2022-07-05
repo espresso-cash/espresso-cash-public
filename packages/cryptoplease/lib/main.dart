@@ -1,7 +1,6 @@
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
-import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
@@ -11,8 +10,6 @@ import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/data/analytics/analytics_manager.dart';
-import 'package:cryptoplease/data/api/coingecko_client.dart';
-import 'package:cryptoplease/data/conversion_rates_repository.dart';
 import 'package:cryptoplease/data/db/db.dart';
 import 'package:cryptoplease/data/db/payment_request_repository.dart';
 import 'package:cryptoplease/data/offchain_metadata_repository.dart';
@@ -87,11 +84,6 @@ Future<void> _start() async {
           ),
           Provider<RpcClient>.value(value: solanaClient.rpcClient),
           Provider<SolanaClient>.value(value: solanaClient),
-          ChangeNotifierProvider<ConversionRatesRepository>(
-            create: (_) => CoingeckoConversionRatesRepository(
-              coingeckoClient: CoingeckoClient(),
-            ),
-          ),
           Provider<SplitKeyIncomingRepository>(
             create: (_) =>
                 SharedPrefsSplitKeyIncomingRepository(sharedPreferences),
