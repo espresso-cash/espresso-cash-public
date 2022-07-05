@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/transactions/item/transaction_item_bloc.dart';
 import 'package:cryptoplease/bl/transactions/list/transactions_bloc.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
@@ -9,6 +8,7 @@ import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transaction_details_screen/transaction_details_screen.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';

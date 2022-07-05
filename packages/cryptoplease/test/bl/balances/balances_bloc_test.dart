@@ -3,9 +3,9 @@ import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/processing_state.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/tokens/token.dart';
+import 'package:cryptoplease/tokens/token_list.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
 

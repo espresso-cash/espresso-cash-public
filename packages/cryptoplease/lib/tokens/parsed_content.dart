@@ -1,6 +1,6 @@
-import 'package:cryptoplease/bl/tokens/tag.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
-import 'package:cryptoplease/bl/tokens/version.dart';
+import 'package:cryptoplease/tokens/tag.dart';
+import 'package:cryptoplease/tokens/token.dart';
+import 'package:cryptoplease/tokens/version.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'parsed_content.g.dart';

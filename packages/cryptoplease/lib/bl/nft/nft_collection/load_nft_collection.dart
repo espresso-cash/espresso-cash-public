@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/bl/nft/nft_collection/utils.dart';
 import 'package:cryptoplease/bl/solana_helpers.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:solana/dto.dart';

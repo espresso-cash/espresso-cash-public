@@ -1,9 +1,9 @@
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
 import 'package:cryptoplease/conversion_rates/presentation/conversion_rates.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

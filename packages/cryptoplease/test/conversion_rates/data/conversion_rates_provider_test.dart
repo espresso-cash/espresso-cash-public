@@ -1,8 +1,8 @@
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/tokens/extensions.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/conversion_rates/data/coingecko_client.dart';
 import 'package:cryptoplease/conversion_rates/data/conversion_rates_repository.dart';
+import 'package:cryptoplease/tokens/extensions.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';

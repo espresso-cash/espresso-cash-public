@@ -1,7 +1,7 @@
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/input_widgets/amount_input_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/token_dropdown.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:flutter/material.dart';
 
 class InputRowWidget extends StatelessWidget {

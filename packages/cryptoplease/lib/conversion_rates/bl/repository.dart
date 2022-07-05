@@ -1,5 +1,5 @@
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';

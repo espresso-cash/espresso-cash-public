@@ -1,5 +1,5 @@
-import 'package:cryptoplease/bl/tokens/extensions.dart';
 import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/tokens/extensions.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:solana/metaplex.dart';

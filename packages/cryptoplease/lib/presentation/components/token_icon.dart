@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path/path.dart';

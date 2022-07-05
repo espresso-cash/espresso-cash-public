@@ -1,5 +1,5 @@
 import 'package:cryptoplease/bl/split_key_payments/models.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 

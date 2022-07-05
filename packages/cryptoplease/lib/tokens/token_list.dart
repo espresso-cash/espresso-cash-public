@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/bl/tokens/parsed_content.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/tokens/parsed_content.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
 

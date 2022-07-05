@@ -1,5 +1,4 @@
 import 'package:cryptoplease/accounts/bl/account.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/transactions/item/transaction_item_bloc.dart';
 import 'package:cryptoplease/bl/transactions/list/transactions_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -7,6 +6,7 @@ import 'package:cryptoplease/presentation/screens/authenticated/components/app_b
 import 'package:cryptoplease/presentation/screens/authenticated/components/header_buttons.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transactions_screen/components/crypto_balance_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transactions_screen/components/transaction_item.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

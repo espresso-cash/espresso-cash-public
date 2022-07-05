@@ -1,8 +1,8 @@
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/transactions/details/transaction_details_bloc.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transaction_details_screen/components/memo_instruction_details.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transaction_details_screen/components/spl_token_instruction_details.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/transaction_details_screen/components/system_instruction_details.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:flutter/widgets.dart';
 import 'package:solana/dto.dart' hide TransactionStatus;
 

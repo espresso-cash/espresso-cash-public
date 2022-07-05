@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/accounts/bl/account.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -3,9 +3,9 @@ import 'package:cryptoplease/authenticated/add_funds/data/sign_funds_request.dar
 import 'package:cryptoplease/authenticated/add_funds/presentation/component/crypto_amount_view.dart';
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/dialogs.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';

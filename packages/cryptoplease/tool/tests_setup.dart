@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
-import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/tokens/token_list.dart';
 import 'package:solana/solana.dart';
 
 import '../test/keys/keys.dart';

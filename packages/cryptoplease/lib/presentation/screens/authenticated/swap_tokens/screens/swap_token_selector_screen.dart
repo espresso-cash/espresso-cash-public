@@ -1,7 +1,7 @@
-import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/selectable_balance_item.dart';
 import 'package:cryptoplease/presentation/watch_balance.dart';
+import 'package:cryptoplease/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
