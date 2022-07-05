@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app_lock/presentation/app_lock_button.dart';
 import 'package:cryptoplease/authenticated/airdrop/presentation/airdrop_button.dart';
+import 'package:cryptoplease/authenticated/app_lock/presentation/app_lock_button.dart';
 import 'package:cryptoplease/authenticated/backup_phrase/presentation/recovery_phrase_button.dart';
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';

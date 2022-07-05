@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app_lock/presentation/components/pin_display.dart';
-import 'package:cryptoplease/app_lock/presentation/components/pin_keypad.dart';
+import 'package:cryptoplease/authenticated/app_lock/presentation/components/pin_display.dart';
+import 'package:cryptoplease/authenticated/app_lock/presentation/components/pin_keypad.dart';
 import 'package:flutter/material.dart';
 
 class PinInputDisplayWidget extends StatefulWidget {

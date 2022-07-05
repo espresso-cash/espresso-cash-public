@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app_lock/presentation/routes.dart';
 import 'package:cryptoplease/authenticated/add_funds/presentation/routes.dart';
+import 'package:cryptoplease/authenticated/app_lock/presentation/routes.dart';
 import 'package:cryptoplease/authenticated/backup_phrase/presentation/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/activities/activities_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/flow.dart';

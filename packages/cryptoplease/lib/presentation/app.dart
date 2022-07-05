@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app_lock/module.dart';
+import 'package:cryptoplease/authenticated/app_lock/module.dart';
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/presentation/routes.dart';

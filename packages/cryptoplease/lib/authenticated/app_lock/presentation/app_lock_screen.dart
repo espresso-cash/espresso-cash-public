@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app_lock/bl/app_lock_bloc.dart';
-import 'package:cryptoplease/app_lock/presentation/components/pin_input_display_widget.dart';
+import 'package:cryptoplease/authenticated/app_lock/bl/app_lock_bloc.dart';
+import 'package:cryptoplease/authenticated/app_lock/presentation/components/pin_input_display_widget.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
 import 'package:flutter/material.dart';
