@@ -1,7 +1,7 @@
+import 'package:cryptoplease/app_lock/presentation/app_lock_setup_flow_screen.dart';
+import 'package:cryptoplease/app_lock/presentation/components/pin_input_display_widget.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
-import 'package:cryptoplease/presentation/screens/app_lock/app_lock_setup_flow_screen.dart';
-import 'package:cryptoplease/presentation/screens/app_lock/components/pin_input_display_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

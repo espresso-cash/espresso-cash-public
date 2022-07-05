@@ -1,6 +1,5 @@
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
-import 'package:cryptoplease/bl/app_lock/app_lock_bloc.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/conversion_rates/repository.dart';
 import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
@@ -103,13 +102,6 @@ Future<void> _start() async {
           Provider<TokenList>(create: (_) => TokenList()),
           BlocProvider<PuzzleReminderBloc>(
             create: (_) => PuzzleReminderBloc(sharedPreferences),
-          ),
-          BlocProvider(
-            create: (context) => AppLockBloc(
-              secureStorage: const FlutterSecureStorage(),
-            )
-              ..add(const AppLockEvent.init())
-              ..add(const AppLockEvent.lock()),
           ),
           BlocProvider(
             create: (context) => BalancesBloc(

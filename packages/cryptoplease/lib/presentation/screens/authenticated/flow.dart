@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/authenticated/airdrop/module.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
-import 'package:cryptoplease/bl/airdrop/airdrop_bloc.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/conversion_rates/conversion_rates_bloc.dart';
 import 'package:cryptoplease/bl/conversion_rates/repository.dart';
@@ -63,7 +63,12 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
             return MultiProvider(
               providers: [
                 Provider<MyAccount>.value(value: account),
-                _airdropBlocProvider(account),
+                AirdropModule(
+                  onAirdropCompleted: () => context
+                      .read<BalancesBloc>()
+                      .add(BalancesEvent.requested(address: account.address)),
+                  account: account.publicKey,
+                ),
                 _nftCollectionBlocProvider(account),
                 _outgoingTransfersBlocProvider(account),
               ],
@@ -91,15 +96,6 @@ BlocProvider<ConversionRatesBloc> _conversionRatesBlocProvider() =>
     BlocProvider(
       create: (context) => ConversionRatesBloc(
         repository: context.read<ConversionRatesRepository>(),
-      ),
-    );
-
-BlocProvider<AirdropBloc> _airdropBlocProvider(MyAccount account) =>
-    BlocProvider(
-      create: (context) => AirdropBloc(
-        solanaClient: context.read<SolanaClient>(),
-        balancesBloc: context.read<BalancesBloc>(),
-        account: account,
       ),
     );
 

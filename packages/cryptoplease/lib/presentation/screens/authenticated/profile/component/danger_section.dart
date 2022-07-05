@@ -13,7 +13,6 @@ class DangerSection extends StatelessWidget {
               .read<PuzzleReminderBloc>()
               .add(const PuzzleReminderEvent.loggedOut());
           context.read<SplitKeyIncomingRepository>().clear();
-          context.read<AppLockBloc>().add(const AppLockEvent.logout());
           context.read<OutgoingTransferRepository>().clear();
           context.read<PaymentRequestRepository>().clear();
         },

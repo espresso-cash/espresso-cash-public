@@ -12,11 +12,7 @@ class SecuritySection extends StatelessWidget {
             onPressed: () =>
                 context.router.navigate(const BackupPhraseFlowRoute()),
           ),
-          ProfileButton(
-            label: context.l10n.appLock,
-            onPressed: () =>
-                context.router.navigate(const AppLockSetupFlowRoute()),
-          )
+          const AppLockButton(),
         ],
       );
 }

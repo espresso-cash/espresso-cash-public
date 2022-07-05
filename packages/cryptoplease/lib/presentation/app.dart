@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app_lock/module.dart';
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
-import 'package:cryptoplease/bl/app_lock/app_lock_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/presentation/routes.dart';
-import 'package:cryptoplease/presentation/screens/app_lock/app_lock_screen.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,30 +16,8 @@ class CryptopleaseApp extends StatefulWidget {
   State<CryptopleaseApp> createState() => _CryptopleaseAppState();
 }
 
-class _CryptopleaseAppState extends State<CryptopleaseApp>
-    with
-        // ignore: prefer_mixin, Flutter way
-        WidgetsBindingObserver {
+class _CryptopleaseAppState extends State<CryptopleaseApp> {
   final _router = AppRouter();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      context.read<AppLockBloc>().add(const AppLockEvent.lock());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +28,6 @@ class _CryptopleaseAppState extends State<CryptopleaseApp>
     final skState = context.watch<SplitKeyIncomingPaymentBloc>().state;
     final shouldLoginForSk =
         !isAuthenticated && skState is PaymentSecondPartReady;
-    final isLocked =
-        context.select<AppLockBloc, bool>((b) => b.state is AppLockStateLocked);
 
     return CpTheme(
       theme: const CpThemeData.light(),
@@ -77,13 +52,7 @@ class _CryptopleaseAppState extends State<CryptopleaseApp>
           debugShowCheckedModeBanner: false,
           title: 'Crypto Please',
           theme: context.watch<CpThemeData>().toMaterialTheme(),
-          builder: (context, child) => Stack(
-            children: [
-              // ignore: avoid-non-null-assertion, cannot be null here
-              child!,
-              if (isLocked) const AppLockScreen(),
-            ],
-          ),
+          builder: (context, child) => AppLockModule(child: child),
         ),
       ),
     );
