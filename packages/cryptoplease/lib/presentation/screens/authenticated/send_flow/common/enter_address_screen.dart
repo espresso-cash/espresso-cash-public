@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
 import 'package:cryptoplease/presentation/routes.dart';
+import 'package:cryptoplease/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

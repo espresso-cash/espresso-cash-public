@@ -1,5 +1,5 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/bl/qr_scanner/qr_scanner_request.dart';
+import 'package:cryptoplease/qr_scanner/qr_scanner_request.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

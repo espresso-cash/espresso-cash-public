@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cryptoplease/bl/qr_scanner/qr_scanner_bloc.dart';
-import 'package:cryptoplease/bl/qr_scanner/qr_scanner_request.dart';
+import 'package:cryptoplease/qr_scanner/qr_scanner_bloc.dart';
+import 'package:cryptoplease/qr_scanner/qr_scanner_request.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
 
