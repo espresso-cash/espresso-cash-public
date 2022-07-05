@@ -1,9 +1,9 @@
 import 'package:cryptoplease/app/components/empty_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/activities/components/activity_list.dart';
-import 'package:cryptoplease/bl/activities/activity.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
+import 'package:cryptoplease/features/activities/bl/activity.dart';
+import 'package:cryptoplease/features/activities/presentation/components/activity_list.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';

@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/screens/authenticated/activities/activities_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/app/screens/authenticated/home_tabs_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/nft/nft_details_screen.dart';
@@ -13,6 +12,7 @@ import 'package:cryptoplease/app/screens/authenticated/transaction_details_scree
 import 'package:cryptoplease/app/screens/authenticated/transactions_screen/transactions_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_screen.dart';
 import 'package:cryptoplease/core/presentation/legal_document_view.dart';
+import 'package:cryptoplease/features/activities/presentation/activities_screen.dart';
 import 'package:cryptoplease/features/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/features/app_lock/presentation/routes.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/routes.dart';
