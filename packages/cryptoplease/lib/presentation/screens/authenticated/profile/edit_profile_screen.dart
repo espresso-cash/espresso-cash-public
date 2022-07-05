@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/onboarding/presentation/sign_up/components/pick_profile_picture.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
-import 'package:cryptoplease/presentation/screens/sign_up/elements/pick_profile_picture.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
