@@ -1,8 +1,8 @@
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
+import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:flutter/material.dart';
 
 class CryptoBalanceWidget extends StatelessWidget {

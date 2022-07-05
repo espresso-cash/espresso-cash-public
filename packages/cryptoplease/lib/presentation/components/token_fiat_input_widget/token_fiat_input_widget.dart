@@ -1,5 +1,6 @@
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
+import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/presentation/components/number_formatter.dart';
@@ -8,7 +9,6 @@ import 'package:cryptoplease/presentation/components/token_fiat_input_widget/amo
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/converted_amount_view.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/switch_currency_button.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';

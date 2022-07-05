@@ -1,11 +1,11 @@
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
+import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/add_funds/bl/add_funds_bloc.dart';
 import 'package:cryptoplease/features/add_funds/data/sign_funds_request.dart';
 import 'package:cryptoplease/features/add_funds/presentation/components/crypto_amount_view.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';

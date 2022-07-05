@@ -1,9 +1,9 @@
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
 import 'package:cryptoplease/core/currency.dart';
+import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
