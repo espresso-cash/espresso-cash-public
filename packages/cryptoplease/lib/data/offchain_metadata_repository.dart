@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
+import 'package:cryptoplease/features/nft/bl/offchain_metadata_repository.dart';
 import 'package:solana/metaplex.dart';
 
 class OffchainMetadataRepositoryImpl implements OffchainMetadataRepository {

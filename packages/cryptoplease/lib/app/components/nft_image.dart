@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
+import 'package:cryptoplease/features/nft/bl/offchain_metadata_repository.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

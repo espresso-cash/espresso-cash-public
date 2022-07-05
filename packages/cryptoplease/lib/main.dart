@@ -1,7 +1,6 @@
 import 'package:cryptoplease/analytics/analytics_manager.dart';
 import 'package:cryptoplease/app/app.dart';
 import 'package:cryptoplease/app/screens/dynamic_links/dynamic_links_controller.dart';
-import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
@@ -17,6 +16,7 @@ import 'package:cryptoplease/data/db/payment_request_repository.dart';
 import 'package:cryptoplease/data/offchain_metadata_repository.dart';
 import 'package:cryptoplease/data/outgoing_transfer_repository.dart';
 import 'package:cryptoplease/data/split_key_payments_repository.dart';
+import 'package:cryptoplease/features/nft/bl/offchain_metadata_repository.dart';
 import 'package:cryptoplease/logging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';

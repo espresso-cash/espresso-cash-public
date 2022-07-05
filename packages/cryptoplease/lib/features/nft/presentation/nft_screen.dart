@@ -1,7 +1,7 @@
 import 'package:cryptoplease/app/components/empty_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/nft/nft_item.dart';
-import 'package:cryptoplease/bl/nft/nft_collection/bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
+import 'package:cryptoplease/features/nft/presentation/nft_item.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';

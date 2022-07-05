@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/nft/nft_collection/utils.dart';
+import 'package:cryptoplease/features/nft/bl/nft_collection/utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/dto.dart';
 
