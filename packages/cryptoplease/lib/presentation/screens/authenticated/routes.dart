@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app_lock/presentation/routes.dart';
+import 'package:cryptoplease/authenticated/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/activities/activities_screen.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/add_funds_flow/add_funds_screen.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/backup_phrase_flow/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/flow.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/home_tabs_screen.dart';
@@ -42,7 +42,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
     ...createPaymentFlowRoutes,
     AutoRoute<void>(page: OutgoingTransferFlowScreen),
     ...receiveFlowRoutes,
-    AutoRoute<void>(page: AddFundsScreen),
+    ...addFundsRoutes,
     backupPhraseFlowRoutes,
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: EditProfileScreen),

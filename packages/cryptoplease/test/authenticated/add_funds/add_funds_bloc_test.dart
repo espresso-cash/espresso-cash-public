@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cryptoplease/bl/add_funds/add_funds_bloc.dart';
+import 'package:cryptoplease/authenticated/add_funds/bl/add_funds_bloc.dart';
 import 'package:decimal/decimal.dart';
 
 void main() {
