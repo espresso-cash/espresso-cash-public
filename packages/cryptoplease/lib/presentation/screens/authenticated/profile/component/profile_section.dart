@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app_lock/presentation/app_lock_button.dart';
 import 'package:cryptoplease/authenticated/airdrop/presentation/airdrop_button.dart';
+import 'package:cryptoplease/authenticated/backup_phrase/presentation/recovery_phrase_button.dart';
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
-import 'package:cryptoplease/bl/puzzle_reminder/puzzle_reminder_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/l10n/l10n.dart';

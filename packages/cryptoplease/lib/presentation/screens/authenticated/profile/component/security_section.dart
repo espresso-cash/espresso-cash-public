@@ -6,13 +6,9 @@ class SecuritySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ProfileSection(
         title: context.l10n.securitySectionTitle,
-        actions: [
-          ProfileButton(
-            label: context.l10n.viewRecoveryPhrase,
-            onPressed: () =>
-                context.router.navigate(const BackupPhraseFlowRoute()),
-          ),
-          const AppLockButton(),
+        actions: const [
+          RecoveryPhraseButton(),
+          AppLockButton(),
         ],
       );
 }

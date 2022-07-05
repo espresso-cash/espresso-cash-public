@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/puzzle_reminder/puzzle_reminder_bloc.dart';
+import 'package:cryptoplease/authenticated/backup_phrase/bl/puzzle_reminder_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';

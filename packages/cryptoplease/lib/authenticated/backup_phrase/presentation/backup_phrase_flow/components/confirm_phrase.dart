@@ -1,5 +1,5 @@
+import 'package:cryptoplease/authenticated/backup_phrase/presentation/backup_phrase_flow/components/grid_phrase.dart';
 import 'package:cryptoplease/presentation/components/recovery_phrase_text_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/backup_phrase_flow/components/grid_phrase.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 

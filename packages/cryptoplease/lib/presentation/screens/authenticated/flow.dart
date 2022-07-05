@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/authenticated/airdrop/module.dart';
+import 'package:cryptoplease/authenticated/backup_phrase/module.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
@@ -9,11 +10,9 @@ import 'package:cryptoplease/bl/nft/nft_collection/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
-import 'package:cryptoplease/bl/puzzle_reminder/puzzle_reminder_bloc.dart';
 import 'package:cryptoplease/bl/solana_helpers.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
-import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/fungible_token/send_flow.dart';
 import 'package:flutter/foundation.dart';
@@ -36,20 +35,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   final _homeRouterKey = GlobalKey<AutoRouterState>();
 
   @override
-  void initState() {
-    super.initState();
-
-    context
-        .read<PuzzleReminderBloc>()
-        .add(const PuzzleReminderEvent.checkRequested());
-  }
-
-  void _showPuzzleReminderDialog() {
-    final router = _homeRouterKey.currentState?.controller;
-    router?.push(const PuzzleReminderRoute());
-  }
-
-  @override
   Widget build(BuildContext _) => MultiProvider(
         providers: [
           Provider<UserPreferences>(create: (_) => UserPreferences()),
@@ -69,18 +54,12 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                       .add(BalancesEvent.requested(address: account.address)),
                   account: account.publicKey,
                 ),
+                const BackupPhraseModule(),
                 _nftCollectionBlocProvider(account),
                 _outgoingTransfersBlocProvider(account),
               ],
               child: Nested(
                 children: [
-                  BlocListener<PuzzleReminderBloc, PuzzleReminderState>(
-                    listener: (context, state) {
-                      if (state is PuzzleReminderStateRemindNow) {
-                        _showPuzzleReminderDialog();
-                      }
-                    },
-                  ),
                   _PendingRequestListener(routerKey: _homeRouterKey),
                   _balanceListener,
                 ],

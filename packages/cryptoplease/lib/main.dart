@@ -6,7 +6,6 @@ import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
-import 'package:cryptoplease/bl/puzzle_reminder/puzzle_reminder_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
 import 'package:cryptoplease/bl/tokens/token_list.dart';
@@ -78,6 +77,7 @@ Future<void> _start() async {
           Provider<JupiterAggregatorClient>(
             create: (_) => JupiterAggregatorClient(),
           ),
+          Provider<SharedPreferences>.value(value: sharedPreferences),
           Provider<AnalyticsManager>(create: (_) => FirebaseAnalyticsManager()),
           Provider<OffchainMetadataRepository>(
             create: (_) => OffchainMetadataRepositoryImpl(),
@@ -100,9 +100,6 @@ Future<void> _start() async {
             create: (_) => DbOutgoingTransferRepository(db),
           ),
           Provider<TokenList>(create: (_) => TokenList()),
-          BlocProvider<PuzzleReminderBloc>(
-            create: (_) => PuzzleReminderBloc(sharedPreferences),
-          ),
           BlocProvider(
             create: (context) => BalancesBloc(
               solanaClient: context.read<SolanaClient>(),
