@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
+import 'package:cryptoplease/analytics/analytics_manager.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/models.dart';

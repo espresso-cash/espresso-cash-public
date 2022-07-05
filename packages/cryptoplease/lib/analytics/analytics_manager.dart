@@ -1,10 +1,9 @@
-import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
-class FirebaseAnalyticsManager implements AnalyticsManager {
+class AnalyticsManager {
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
-  @override
+  /// User pressed on the first shareable link.
   void logShareableLinkPressed() =>
       _analytics.logEvent(name: 'shareableLinkPressed');
 }
