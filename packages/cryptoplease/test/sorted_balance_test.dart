@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:cryptoplease/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/tokens/token.dart';
+import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

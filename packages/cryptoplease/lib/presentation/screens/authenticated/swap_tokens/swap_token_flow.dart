@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/presentation/routes.dart';
-import 'package:cryptoplease/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';

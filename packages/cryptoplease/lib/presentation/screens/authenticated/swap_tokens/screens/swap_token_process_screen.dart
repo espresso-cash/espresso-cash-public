@@ -1,5 +1,5 @@
-import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/bl/swap_tokens/transaction/swap_transaction_bloc.dart';
+import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/common_success.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_error_dialog.dart';

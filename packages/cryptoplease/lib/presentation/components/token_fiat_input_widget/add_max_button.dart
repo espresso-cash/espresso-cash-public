@@ -1,4 +1,4 @@
-import 'package:cryptoplease/tokens/token.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

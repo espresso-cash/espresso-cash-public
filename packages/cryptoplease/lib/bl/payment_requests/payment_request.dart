@@ -1,8 +1,8 @@
 import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/tokens/token.dart';
-import 'package:cryptoplease/tokens/token_list.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana_pay.dart';
 

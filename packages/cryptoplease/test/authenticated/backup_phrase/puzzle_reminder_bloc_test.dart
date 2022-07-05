@@ -1,4 +1,4 @@
-import 'package:cryptoplease/authenticated/backup_phrase/bl/puzzle_reminder_bloc.dart';
+import 'package:cryptoplease/features/backup_phrase/bl/puzzle_reminder_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

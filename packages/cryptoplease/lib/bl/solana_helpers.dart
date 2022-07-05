@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/tokens/token.dart';
-import 'package:cryptoplease/tokens/token_list.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';

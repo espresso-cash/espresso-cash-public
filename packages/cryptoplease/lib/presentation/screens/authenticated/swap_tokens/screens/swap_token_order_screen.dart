@@ -1,5 +1,6 @@
-import 'package:cryptoplease/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/bl/swap_tokens/selector/swap_selector_bloc.dart';
+import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
+import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/number_formatter.dart';
@@ -9,7 +10,6 @@ import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/comp
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/components/swap_header_widget.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/slippage_dialog.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/swap_tokens/swap_token_flow.dart';
-import 'package:cryptoplease/tokens/token_list.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';

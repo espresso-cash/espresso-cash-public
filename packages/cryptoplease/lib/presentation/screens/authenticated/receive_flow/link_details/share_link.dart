@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
+import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
 import 'package:cryptoplease/presentation/components/share_message_wrapper.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
-import 'package:cryptoplease/tokens/token_list.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

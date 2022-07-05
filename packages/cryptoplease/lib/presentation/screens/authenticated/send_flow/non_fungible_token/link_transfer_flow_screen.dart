@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/nft/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
-import 'package:cryptoplease/tokens/token.dart';
+import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

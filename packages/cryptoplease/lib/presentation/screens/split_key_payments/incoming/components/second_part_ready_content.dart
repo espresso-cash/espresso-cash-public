@@ -1,5 +1,5 @@
-import 'package:cryptoplease/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
+import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/split_key_payments/incoming/components/cancel_dialog.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';

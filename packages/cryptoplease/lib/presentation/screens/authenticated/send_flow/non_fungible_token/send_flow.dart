@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/outgoing_transfer_flow/outgoing_transfer_flow.dart';
-import 'package:cryptoplease/qr_scanner/qr_scanner_request.dart';
-import 'package:cryptoplease/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 

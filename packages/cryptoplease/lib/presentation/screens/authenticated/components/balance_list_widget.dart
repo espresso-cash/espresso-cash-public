@@ -1,7 +1,7 @@
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/balance_item.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/components/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 

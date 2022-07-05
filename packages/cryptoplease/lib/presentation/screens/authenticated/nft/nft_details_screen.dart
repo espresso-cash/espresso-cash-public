@@ -1,8 +1,8 @@
 import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/nft_image.dart';
 import 'package:cryptoplease/presentation/screens/authenticated/send_flow/non_fungible_token/send_flow.dart';
-import 'package:cryptoplease/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

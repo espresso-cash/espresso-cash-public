@@ -1,7 +1,7 @@
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_list_dialog/search_box.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_list_dialog/token_item.dart';
-import 'package:cryptoplease/tokens/token.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
