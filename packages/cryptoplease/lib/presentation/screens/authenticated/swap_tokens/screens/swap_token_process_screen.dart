@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/accounts/account.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/bl/swap_tokens/transaction/swap_transaction_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/common_success.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/data/files.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';

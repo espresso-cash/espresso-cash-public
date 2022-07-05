@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
+import 'package:cryptoplease/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/bl/wallet/wallet.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/bl/nft/nft_collection/utils.dart';
 import 'package:cryptoplease/bl/solana_helpers.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';

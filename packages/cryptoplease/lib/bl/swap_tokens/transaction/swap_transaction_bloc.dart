@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/bl/swap_tokens/swap_exception.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';

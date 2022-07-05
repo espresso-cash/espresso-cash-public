@@ -1,5 +1,5 @@
+import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/authenticated/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';
 import 'package:cryptoplease/presentation/components/recovery_phrase_text_view.dart';

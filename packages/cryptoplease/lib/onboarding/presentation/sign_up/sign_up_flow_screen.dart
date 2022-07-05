@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
-import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
+import 'package:cryptoplease/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/data/files.dart';
 import 'package:cryptoplease/onboarding/bl/sign_up_bloc.dart';
 import 'package:cryptoplease/presentation/routes.dart';

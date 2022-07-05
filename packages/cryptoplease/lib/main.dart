@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
+import 'package:cryptoplease/accounts/module.dart';
 import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
@@ -98,11 +98,7 @@ Future<void> _start() async {
               tokens: context.read<TokenList>(),
             ),
           ),
-          BlocProvider(
-            create: (context) => AccountsBloc(
-              storage: const FlutterSecureStorage(),
-            )..add(const AccountsEvent.initialize()),
-          ),
+          const AccountsModule(),
           BlocProvider(
             create: (context) => SplitKeyIncomingPaymentBloc(
               solanaClient: context.read<SolanaClient>(),

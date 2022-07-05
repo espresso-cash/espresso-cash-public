@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
-import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
+import 'package:cryptoplease/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/wallet/wallet.dart';
 import 'package:dfunc/dfunc.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/bl/tokens/token.dart' hide SplToken;
 import 'package:cryptoplease/bl/transactions/list/transactions_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

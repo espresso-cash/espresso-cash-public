@@ -1,7 +1,7 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
-import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
+import 'package:cryptoplease/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/bl/wallet/wallet.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';

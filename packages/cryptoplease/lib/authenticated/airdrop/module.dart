@@ -9,7 +9,8 @@ class AirdropModule extends SingleChildStatelessWidget {
     Key? key,
     required this.onAirdropCompleted,
     required this.account,
-  }) : super(key: key);
+    Widget? child,
+  }) : super(key: key, child: child);
 
   final Ed25519HDPublicKey account;
   final VoidCallback onAirdropCompleted;

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
+import 'package:cryptoplease/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/onboarding/presentation/sign_up/components/pick_profile_picture.dart';
 import 'package:cryptoplease/presentation/components/decorated_window.dart';

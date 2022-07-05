@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
+import 'package:cryptoplease/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/authenticated/airdrop/module.dart';
 import 'package:cryptoplease/authenticated/backup_phrase/module.dart';
-import 'package:cryptoplease/bl/accounts/account.dart';
-import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/nft/nft_collection/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';

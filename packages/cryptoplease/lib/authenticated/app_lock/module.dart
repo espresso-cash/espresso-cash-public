@@ -1,6 +1,6 @@
+import 'package:cryptoplease/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/authenticated/app_lock/bl/app_lock_bloc.dart';
 import 'package:cryptoplease/authenticated/app_lock/presentation/app_lock_screen.dart';
-import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

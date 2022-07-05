@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/accounts/account.dart';
+import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/bl/tokens/token.dart';
 import 'package:cryptoplease/bl/transactions/item/transaction_item_bloc.dart';
 import 'package:cryptoplease/bl/transactions/list/transactions_bloc.dart';
