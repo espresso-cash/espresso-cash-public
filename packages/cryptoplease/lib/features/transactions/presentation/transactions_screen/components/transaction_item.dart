@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/app/screens/authenticated/transaction_details_screen/transaction_details_screen.dart';
-import 'package:cryptoplease/bl/transactions/item/transaction_item_bloc.dart';
-import 'package:cryptoplease/bl/transactions/list/transactions_bloc.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/transactions/bl/item/transaction_item_bloc.dart';
+import 'package:cryptoplease/features/transactions/bl/list/transactions_bloc.dart';
+import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/transaction_details_screen.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';

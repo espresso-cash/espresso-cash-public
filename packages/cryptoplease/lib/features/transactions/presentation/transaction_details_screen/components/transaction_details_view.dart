@@ -1,7 +1,7 @@
-import 'package:cryptoplease/app/screens/authenticated/transaction_details_screen/components/transaction_details.dart';
-import 'package:cryptoplease/app/screens/authenticated/transaction_details_screen/components/transaction_details_loading_view.dart';
-import 'package:cryptoplease/bl/transactions/details/transaction_details_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/transactions/bl/details/transaction_details_bloc.dart';
+import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/components/transaction_details.dart';
+import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/components/transaction_details_loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

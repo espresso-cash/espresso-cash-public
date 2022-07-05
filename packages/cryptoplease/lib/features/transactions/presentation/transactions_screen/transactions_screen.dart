@@ -1,11 +1,11 @@
 import 'package:cryptoplease/app/screens/authenticated/components/app_bar.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/header_buttons.dart';
-import 'package:cryptoplease/app/screens/authenticated/transactions_screen/components/crypto_balance_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/transactions_screen/components/transaction_item.dart';
-import 'package:cryptoplease/bl/transactions/item/transaction_item_bloc.dart';
-import 'package:cryptoplease/bl/transactions/list/transactions_bloc.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/transactions/bl/item/transaction_item_bloc.dart';
+import 'package:cryptoplease/features/transactions/bl/list/transactions_bloc.dart';
+import 'package:cryptoplease/features/transactions/presentation/transactions_screen/components/crypto_balance_widget.dart';
+import 'package:cryptoplease/features/transactions/presentation/transactions_screen/components/transaction_item.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';

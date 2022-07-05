@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/screens/authenticated/transaction_details_screen/components/value_views.dart';
+import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/components/value_views.dart';
 import 'package:flutter/widgets.dart';
 
 class MemoInstructionDetails extends StatelessWidget {

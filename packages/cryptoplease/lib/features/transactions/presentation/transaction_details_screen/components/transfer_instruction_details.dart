@@ -1,6 +1,6 @@
-import 'package:cryptoplease/app/screens/authenticated/transaction_details_screen/components/details_view.dart';
-import 'package:cryptoplease/app/screens/authenticated/transaction_details_screen/components/value_views.dart';
-import 'package:cryptoplease/app/screens/authenticated/transaction_details_screen/dto/transfer_instruction_data.dart';
+import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/components/details_view.dart';
+import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/components/value_views.dart';
+import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/dto/transfer_instruction_data.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/material.dart';

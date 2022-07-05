@@ -1,9 +1,9 @@
 import 'dart:ui';
 
-import 'package:cryptoplease/bl/transactions/details/transaction_details_bloc.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/transactions/bl/details/transaction_details_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:solana/dto.dart' hide Transaction, TransactionStatus;
 
