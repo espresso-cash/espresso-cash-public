@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/currency.dart';
+import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/presentation/components/token_fiat_input_widget/token_list_dialog/token_list_dialog.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';

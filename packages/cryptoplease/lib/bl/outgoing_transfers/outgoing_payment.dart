@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/wallet/wallet.dart';
 import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
+import 'package:cryptoplease/core/wallet.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

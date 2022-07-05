@@ -1,8 +1,8 @@
-import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/flow.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
+import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/currency.dart';
+import 'package:cryptoplease/core/flow.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';

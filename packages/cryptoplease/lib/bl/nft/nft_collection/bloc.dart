@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/bl/nft/nft_collection/load_nft_collection.dart';
-import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
+import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';

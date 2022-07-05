@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/transactions/item/transaction_item_bloc.dart';
 import 'package:cryptoplease/bl/transactions/list/transactions_bloc.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/amount.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/presentation/components/token_icon.dart';

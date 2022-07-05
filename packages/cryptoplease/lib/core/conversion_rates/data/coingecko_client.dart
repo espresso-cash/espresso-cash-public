@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/currency.dart';
+import 'package:cryptoplease/core/currency.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';

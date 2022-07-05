@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/amount.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/address_view.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/presentation/components/nft_image.dart';

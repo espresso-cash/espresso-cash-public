@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:cryptoplease/bl/amount.dart';
 import 'package:cryptoplease/bl/transactions/details/transaction_details_bloc.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/presentation/format_amount.dart';
 import 'package:intl/intl.dart';

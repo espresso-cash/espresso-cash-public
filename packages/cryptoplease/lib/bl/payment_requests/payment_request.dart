@@ -1,6 +1,6 @@
-import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

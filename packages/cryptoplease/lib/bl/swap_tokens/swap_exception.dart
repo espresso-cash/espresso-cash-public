@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/amount.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 

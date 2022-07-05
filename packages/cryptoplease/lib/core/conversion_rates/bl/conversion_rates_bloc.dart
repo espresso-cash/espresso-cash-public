@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/bl/currency.dart';
-import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
+import 'package:cryptoplease/core/currency.dart';
+import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

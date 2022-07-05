@@ -1,5 +1,5 @@
-import 'package:cryptoplease/bl/amount.dart';
-import 'package:cryptoplease/bl/currency.dart';
+import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/add_funds/bl/add_funds_bloc.dart';
 import 'package:cryptoplease/features/add_funds/data/sign_funds_request.dart';

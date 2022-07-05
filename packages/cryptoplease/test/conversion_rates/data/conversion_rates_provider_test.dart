@@ -1,6 +1,6 @@
-import 'package:cryptoplease/bl/currency.dart';
 import 'package:cryptoplease/core/conversion_rates/data/coingecko_client.dart';
 import 'package:cryptoplease/core/conversion_rates/data/conversion_rates_repository.dart';
+import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/extensions.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:decimal/decimal.dart';
