@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:cryptoplease/authenticated/profile/components/profile_section.dart';
 import 'package:cryptoplease/bl/accounts/account.dart';
 import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/profile/component/address_view.dart';
-import 'package:cryptoplease/presentation/screens/authenticated/profile/component/profile_section.dart';
+import 'package:cryptoplease/core/presentation/address_view.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
