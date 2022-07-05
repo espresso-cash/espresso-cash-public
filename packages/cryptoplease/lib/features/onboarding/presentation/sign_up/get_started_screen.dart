@@ -1,7 +1,7 @@
+import 'package:cryptoplease/app/components/decorated_window_header.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/terms_disclaimer.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/components/decorated_window_header.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

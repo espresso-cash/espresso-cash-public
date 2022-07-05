@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
@@ -11,7 +12,6 @@ import 'package:cryptoplease/features/app_lock/presentation/app_lock_button.dart
 import 'package:cryptoplease/features/backup_phrase/presentation/recovery_phrase_button.dart';
 import 'package:cryptoplease/features/profile/components/profile_button.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/presentation/routes.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';

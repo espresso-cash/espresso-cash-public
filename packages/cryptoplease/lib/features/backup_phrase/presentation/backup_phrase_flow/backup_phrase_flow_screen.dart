@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/features/backup_phrase/bl/puzzle_reminder_bloc.dart';
-import 'package:cryptoplease/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

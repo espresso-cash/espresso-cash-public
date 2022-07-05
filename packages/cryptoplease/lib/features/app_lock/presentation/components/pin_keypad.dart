@@ -1,4 +1,4 @@
-import 'package:cryptoplease/presentation/components/keypad_key.dart';
+import 'package:cryptoplease/app/components/keypad_key.dart';
 import 'package:flutter/material.dart';
 
 class PinKeypad extends StatelessWidget {

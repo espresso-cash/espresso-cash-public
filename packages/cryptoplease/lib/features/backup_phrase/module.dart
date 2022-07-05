@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/features/backup_phrase/bl/puzzle_reminder_bloc.dart';
-import 'package:cryptoplease/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';

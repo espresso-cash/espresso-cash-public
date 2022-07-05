@@ -1,7 +1,7 @@
+import 'package:cryptoplease/app/components/recovery_phrase_text_view.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/create_profile_screen.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/get_started_screen.dart';
 import 'package:cryptoplease/main.dart' as app;
-import 'package:cryptoplease/presentation/components/recovery_phrase_text_view.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
