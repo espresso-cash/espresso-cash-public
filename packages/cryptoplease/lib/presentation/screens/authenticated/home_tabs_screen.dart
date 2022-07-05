@@ -45,12 +45,12 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
               onPressed: () => _onBottomNavigatorItemTap(1),
             ),
             NavigationButton(
-              icon: Assets.icons.notifications,
+              icon: Assets.icons.swap,
               active: _currentPage == 2,
               onPressed: () => _onBottomNavigatorItemTap(2),
             ),
             NavigationButton(
-              icon: Assets.icons.swap,
+              icon: Assets.icons.notifications,
               active: _currentPage == 3,
               onPressed: () => _onBottomNavigatorItemTap(3),
             ),
@@ -70,11 +70,11 @@ const _pages = [
   _Page(route: WalletRoute(), overlayStyle: SystemUiOverlayStyle.light),
   _Page(route: NftRoute(), overlayStyle: SystemUiOverlayStyle.light),
   _Page(
-    route: ActivitiesRoute(),
+    route: SwapTokenFlowRoute(),
     overlayStyle: SystemUiOverlayStyle.dark,
   ),
   _Page(
-    route: SwapTokenFlowRoute(),
+    route: ActivitiesRoute(),
     overlayStyle: SystemUiOverlayStyle.dark,
   ),
   _Page(route: ProfileRoute(), overlayStyle: SystemUiOverlayStyle.dark),

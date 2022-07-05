@@ -144,6 +144,7 @@ class SwapTransactionBloc
       await _solanaClient.waitForSignatureStatus(
         signature,
         status: Commitment.confirmed,
+        timeout: const Duration(minutes: 1),
       );
 
       return signature;

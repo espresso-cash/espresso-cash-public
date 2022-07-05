@@ -50,7 +50,9 @@ class _SelectorState extends State<SwapTokenSelectorScreen> {
     }
 
     final query = text.toLowerCase();
-    bool matches(Token token) => token.name.toLowerCase().contains(query);
+    bool matches(Token token) =>
+        token.name.toLowerCase().contains(query) ||
+        token.symbol.toLowerCase().contains(query);
 
     final filterOthers = _otherTokenList.where(matches).toIList();
     final filterPopular = _popularTokenList.where(matches).toIList();
