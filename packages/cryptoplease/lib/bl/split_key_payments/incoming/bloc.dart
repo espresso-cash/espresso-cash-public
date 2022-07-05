@@ -1,6 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
+import 'package:cryptoplease/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/solana_helpers.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';

@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
+import 'package:cryptoplease/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/models.dart';

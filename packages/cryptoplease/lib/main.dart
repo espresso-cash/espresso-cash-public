@@ -1,6 +1,7 @@
 import 'package:cryptoplease/accounts/module.dart';
+import 'package:cryptoplease/balances/bl/balances_bloc.dart';
+import 'package:cryptoplease/balances/module.dart';
 import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
 import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
@@ -92,12 +93,7 @@ Future<void> _start() async {
             create: (_) => DbOutgoingTransferRepository(db),
           ),
           Provider<TokenList>(create: (_) => TokenList()),
-          BlocProvider(
-            create: (context) => BalancesBloc(
-              solanaClient: context.read<SolanaClient>(),
-              tokens: context.read<TokenList>(),
-            ),
-          ),
+          const BalancesModule(),
           const AccountsModule(),
           BlocProvider(
             create: (context) => SplitKeyIncomingPaymentBloc(

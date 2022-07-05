@@ -3,7 +3,7 @@ import 'package:cryptoplease/accounts/bl/account.dart';
 import 'package:cryptoplease/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/authenticated/airdrop/module.dart';
 import 'package:cryptoplease/authenticated/backup_phrase/module.dart';
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
+import 'package:cryptoplease/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/bl/nft/nft_collection/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';

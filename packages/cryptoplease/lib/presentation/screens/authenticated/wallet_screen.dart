@@ -1,5 +1,5 @@
 import 'package:cryptoplease/accounts/bl/account.dart';
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
+import 'package:cryptoplease/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/bl/processing_state.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
 import 'package:cryptoplease/conversion_rates/bl/conversion_rates_bloc.dart';

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
+import 'package:cryptoplease/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/create_outgoing_transfer_bloc/nft/bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';

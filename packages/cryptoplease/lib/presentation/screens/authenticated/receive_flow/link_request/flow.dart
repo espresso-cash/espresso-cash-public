@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/accounts/bl/account.dart';
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
+import 'package:cryptoplease/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/bl/payment_requests/create_payment_request/bloc.dart';
 import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/bl/user_preferences.dart';
