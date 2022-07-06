@@ -3,15 +3,11 @@ import 'package:cryptoplease/app/app.dart';
 import 'package:cryptoplease/app/screens/dynamic_links/dynamic_links_controller.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/module.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/module.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/data/split_key_payments_repository.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
-import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
-import 'package:cryptoplease/features/outgoing_transfer/data/outgoing_transfer_repository.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/module.dart';
+import 'package:cryptoplease/features/outgoing_transfer/module.dart';
 import 'package:cryptoplease/features/pending_request/module.dart';
 import 'package:cryptoplease/logging.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -50,7 +46,6 @@ Future<void> _start() async {
   await BlocOverrides.runZoned(
     () async {
       final sharedPreferences = await SharedPreferences.getInstance();
-      final db = MyDatabase();
       setUpLogging();
 
       final solanaClient = SolanaClient(
@@ -67,7 +62,7 @@ Future<void> _start() async {
 
       final app = MultiProvider(
         providers: [
-          Provider<MyDatabase>.value(value: db),
+          Provider<MyDatabase>(create: (_) => MyDatabase()),
           Provider<JupiterAggregatorClient>(
             create: (_) => JupiterAggregatorClient(),
           ),
@@ -75,23 +70,11 @@ Future<void> _start() async {
           Provider<AnalyticsManager>(create: (_) => AnalyticsManager()),
           Provider<RpcClient>.value(value: solanaClient.rpcClient),
           Provider<SolanaClient>.value(value: solanaClient),
-          Provider<SplitKeyIncomingRepository>(
-            create: (_) =>
-                SharedPrefsSplitKeyIncomingRepository(sharedPreferences),
-          ),
-          Provider<OutgoingTransferRepository>(
-            create: (_) => DbOutgoingTransferRepository(db),
-          ),
           Provider<TokenList>(create: (_) => TokenList()),
+          const OutgoingTransferModule(),
           const BalancesModule(),
           const AccountsModule(),
-          BlocProvider(
-            create: (context) => SplitKeyIncomingPaymentBloc(
-              solanaClient: context.read<SolanaClient>(),
-              repository: context.read<SplitKeyIncomingRepository>(),
-              balancesBloc: context.read<BalancesBloc>(),
-            ),
-          ),
+          const IncomingSplitKeyPaymentModule(),
           const PendingRequestModule(),
         ],
         child: const DynamicLinksController(child: CryptopleaseApp()),

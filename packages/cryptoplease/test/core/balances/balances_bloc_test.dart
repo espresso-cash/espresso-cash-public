@@ -9,7 +9,7 @@ import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
 
-import '../utils.dart';
+import '../../utils.dart';
 
 void main() {
   late final SolanaClient solanaClient = SolanaClient(
