@@ -3,7 +3,6 @@ import 'package:cryptoplease/app/app.dart';
 import 'package:cryptoplease/app/screens/dynamic_links/dynamic_links_controller.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
-import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
 import 'package:cryptoplease/config.dart';
@@ -12,7 +11,6 @@ import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/module.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/data/db/payment_request_repository.dart';
 import 'package:cryptoplease/data/offchain_metadata_repository.dart';
 import 'package:cryptoplease/data/outgoing_transfer_repository.dart';
 import 'package:cryptoplease/data/split_key_payments_repository.dart';
@@ -71,6 +69,7 @@ Future<void> _start() async {
 
       final app = MultiProvider(
         providers: [
+          Provider<MyDatabase>.value(value: db),
           Provider<JupiterAggregatorClient>(
             create: (_) => JupiterAggregatorClient(),
           ),
@@ -78,9 +77,6 @@ Future<void> _start() async {
           Provider<AnalyticsManager>(create: (_) => AnalyticsManager()),
           Provider<OffchainMetadataRepository>(
             create: (_) => OffchainMetadataRepositoryImpl(),
-          ),
-          Provider<PaymentRequestRepository>(
-            create: (_) => DbPaymentRequestRepository(db),
           ),
           Provider<RpcClient>.value(value: solanaClient.rpcClient),
           Provider<SolanaClient>.value(value: solanaClient),

@@ -10,7 +10,6 @@ class DangerSection extends StatelessWidget {
         onConfirm: () {
           context.read<AccountsBloc>().add(const AccountsEvent.loggedOut());
           context.read<SplitKeyIncomingRepository>().clear();
-          context.read<OutgoingTransferRepository>().clear();
           context.read<PaymentRequestRepository>().clear();
         },
       );

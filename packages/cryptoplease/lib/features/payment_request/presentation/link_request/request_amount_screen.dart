@@ -1,7 +1,7 @@
 import 'package:cryptoplease/app/components/token_fiat_input_widget/token_fiat_input_widget.dart';
-import 'package:cryptoplease/bl/payment_requests/create_payment_request/bloc.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/payment_request/bl/create_payment_request/bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';

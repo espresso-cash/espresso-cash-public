@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
+import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 

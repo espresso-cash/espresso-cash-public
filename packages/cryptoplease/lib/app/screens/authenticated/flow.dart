@@ -15,6 +15,7 @@ import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/airdrop/module.dart';
 import 'package:cryptoplease/features/backup_phrase/module.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
+import 'package:cryptoplease/features/payment_request/module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,6 +56,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                   account: account.publicKey,
                 ),
                 const BackupPhraseModule(),
+                const PaymentRequestModule(),
                 _nftCollectionBlocProvider(account),
                 _outgoingTransfersBlocProvider(account),
               ],

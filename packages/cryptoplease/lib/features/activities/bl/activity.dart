@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
-import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
 import 'package:cryptoplease/bl/split_key_payments/models.dart';
+import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

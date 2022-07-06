@@ -1,6 +1,6 @@
-import 'package:cryptoplease/bl/payment_requests/payment_request.dart';
-import 'package:cryptoplease/bl/payment_requests/repository.dart';
 import 'package:cryptoplease/data/db/db.dart';
+import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
+import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
