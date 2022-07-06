@@ -11,10 +11,8 @@ import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/module.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/data/offchain_metadata_repository.dart';
 import 'package:cryptoplease/data/outgoing_transfer_repository.dart';
 import 'package:cryptoplease/data/split_key_payments_repository.dart';
-import 'package:cryptoplease/features/nft/bl/offchain_metadata_repository.dart';
 import 'package:cryptoplease/logging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -75,9 +73,6 @@ Future<void> _start() async {
           ),
           Provider<SharedPreferences>.value(value: sharedPreferences),
           Provider<AnalyticsManager>(create: (_) => AnalyticsManager()),
-          Provider<OffchainMetadataRepository>(
-            create: (_) => OffchainMetadataRepositoryImpl(),
-          ),
           Provider<RpcClient>.value(value: solanaClient.rpcClient),
           Provider<SolanaClient>.value(value: solanaClient),
           Provider<SplitKeyIncomingRepository>(

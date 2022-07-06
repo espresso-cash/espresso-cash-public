@@ -15,6 +15,7 @@ import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/airdrop/module.dart';
 import 'package:cryptoplease/features/backup_phrase/module.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
+import 'package:cryptoplease/features/nft/module.dart';
 import 'package:cryptoplease/features/payment_request/module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 ),
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
-                _nftCollectionBlocProvider(account),
+                const NftModule(),
                 _outgoingTransfersBlocProvider(account),
               ],
               child: Nested(
@@ -83,14 +84,6 @@ BlocProvider<OutgoingTransfersBloc> _outgoingTransfersBlocProvider(
         account: account,
         balancesBloc: context.read<BalancesBloc>(),
         nftCollectionBloc: context.read<NftCollectionBloc>(),
-      ),
-    );
-
-BlocProvider<NftCollectionBloc> _nftCollectionBlocProvider(MyAccount account) =>
-    BlocProvider(
-      create: (context) => NftCollectionBloc(
-        solanaClient: context.read<SolanaClient>(),
-        account: account,
       ),
     );
 

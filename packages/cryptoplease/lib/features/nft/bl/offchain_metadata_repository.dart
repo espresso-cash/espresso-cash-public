@@ -1,5 +1,11 @@
 import 'package:solana/metaplex.dart';
 
-abstract class OffchainMetadataRepository {
-  Future<OffChainMetadata> getMetadata(Metadata metadata);
+class OffchainMetadataRepository {
+  final Map<String, Future<OffChainMetadata>> _requests = {};
+
+  Future<OffChainMetadata> getMetadata(Metadata metadata) async =>
+      _requests.putIfAbsent(
+        metadata.mint,
+        () => metadata.getExternalJson(),
+      );
 }
