@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
+import 'package:cryptoplease/features/pending_request/bl/pending_request_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';

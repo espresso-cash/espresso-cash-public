@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:cryptoplease/analytics/analytics_manager.dart';
 import 'package:cryptoplease/app/screens/dynamic_links/install_link_manager.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/models.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/pending_request/bl/pending_request_bloc.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
