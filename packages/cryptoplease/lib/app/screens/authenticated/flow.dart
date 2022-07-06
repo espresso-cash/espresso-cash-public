@@ -50,12 +50,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
             return MultiProvider(
               providers: [
                 Provider<MyAccount>.value(value: account),
-                AirdropModule(
-                  onAirdropCompleted: () => context
-                      .read<BalancesBloc>()
-                      .add(BalancesEvent.requested(address: account.address)),
-                  account: account.publicKey,
-                ),
+                const AirdropModule(),
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
                 const NftModule(),

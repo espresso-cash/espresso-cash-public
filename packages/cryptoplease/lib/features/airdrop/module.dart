@@ -1,3 +1,5 @@
+import 'package:cryptoplease/core/accounts/bl/account.dart';
+import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/features/airdrop/bl/airdrop_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,20 +9,20 @@ import 'package:solana/solana.dart';
 class AirdropModule extends SingleChildStatelessWidget {
   const AirdropModule({
     Key? key,
-    required this.onAirdropCompleted,
-    required this.account,
     Widget? child,
   }) : super(key: key, child: child);
-
-  final Ed25519HDPublicKey account;
-  final VoidCallback onAirdropCompleted;
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(
         create: (context) => AirdropBloc(
           solanaClient: context.read<SolanaClient>(),
-          onAirdropCompleted: onAirdropCompleted,
-          account: account,
+          onAirdropCompleted: () {
+            final address = context.read<MyAccount>().address;
+            context
+                .read<BalancesBloc>()
+                .add(BalancesEvent.requested(address: address));
+          },
+          account: context.read<MyAccount>().publicKey,
         ),
         child: child,
       );
