@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
-import 'package:cryptoplease/app/screens/authenticated/send_flow/fungible_token/send_flow.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';

@@ -1,6 +1,6 @@
-import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/data/db/db.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/data/payment_request_repository.dart';
 import 'package:flutter/material.dart';

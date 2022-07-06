@@ -1,6 +1,6 @@
-import 'package:cryptoplease/app/screens/authenticated/outgoing_transfer_flow/draft_screen.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfers_bloc/bloc.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/draft_screen.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';

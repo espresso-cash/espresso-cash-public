@@ -1,6 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/outgoing_transfers_bloc/bloc.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
@@ -11,6 +9,8 @@ import 'package:cryptoplease/features/airdrop/module.dart';
 import 'package:cryptoplease/features/backup_phrase/module.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
 import 'package:cryptoplease/features/nft/module.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfers_bloc/bloc.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/module.dart';
 import 'package:cryptoplease/features/pending_request/presentation/pending_request_listener.dart';
 import 'package:flutter/foundation.dart';

@@ -1,7 +1,6 @@
 import 'package:cryptoplease/analytics/analytics_manager.dart';
 import 'package:cryptoplease/app/app.dart';
 import 'package:cryptoplease/app/screens/dynamic_links/dynamic_links_controller.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
 import 'package:cryptoplease/config.dart';
@@ -10,8 +9,9 @@ import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/module.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/data/outgoing_transfer_repository.dart';
 import 'package:cryptoplease/data/split_key_payments_repository.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
+import 'package:cryptoplease/features/outgoing_transfer/data/outgoing_transfer_repository.dart';
 import 'package:cryptoplease/features/pending_request/module.dart';
 import 'package:cryptoplease/logging.dart';
 import 'package:firebase_core/firebase_core.dart';

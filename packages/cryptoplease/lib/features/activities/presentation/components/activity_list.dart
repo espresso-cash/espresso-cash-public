@@ -1,8 +1,8 @@
-import 'package:cryptoplease/app/screens/authenticated/outgoing_transfer_flow/outgoing_transfer_flow.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/outgoing_payment.dart';
 import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/activities/bl/activity.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request_verifier/bloc.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
