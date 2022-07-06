@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
-import 'package:cryptoplease/bl/split_key_payments/models.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';

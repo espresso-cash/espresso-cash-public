@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
-import 'package:cryptoplease/bl/split_key_payments/models.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

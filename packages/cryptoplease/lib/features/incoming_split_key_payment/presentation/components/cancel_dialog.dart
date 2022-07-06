@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';

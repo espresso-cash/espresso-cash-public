@@ -1,7 +1,7 @@
 import 'package:cryptoplease/app/components/common_success.dart';
-import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

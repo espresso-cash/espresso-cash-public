@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/features/app_lock/module.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

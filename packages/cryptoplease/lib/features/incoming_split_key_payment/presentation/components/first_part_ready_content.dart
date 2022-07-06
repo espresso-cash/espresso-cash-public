@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/screens/split_key_payments/incoming/components/cancel_dialog.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/presentation/components/cancel_dialog.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';

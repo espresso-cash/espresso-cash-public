@@ -1,7 +1,7 @@
-import 'package:cryptoplease/app/screens/split_key_payments/incoming/components/first_part_ready_content.dart';
-import 'package:cryptoplease/app/screens/split_key_payments/incoming/components/second_part_ready_content.dart';
-import 'package:cryptoplease/app/screens/split_key_payments/incoming/components/success_content.dart';
-import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/presentation/components/first_part_ready_content.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/presentation/components/second_part_ready_content.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/presentation/components/success_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

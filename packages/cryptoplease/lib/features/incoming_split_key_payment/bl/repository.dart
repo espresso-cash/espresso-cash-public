@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/split_key_payments/models.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 
 abstract class SplitKeyIncomingRepository {
   Stream<SplitKeyIncomingFirstPart?> watch();

@@ -1,7 +1,7 @@
 import 'package:cryptoplease/app/components/empty_widget.dart';
-import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
 import 'package:cryptoplease/features/activities/bl/activity.dart';
 import 'package:cryptoplease/features/activities/presentation/components/activity_list.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
