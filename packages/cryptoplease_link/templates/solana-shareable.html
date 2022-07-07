@@ -9,26 +9,17 @@
     <title>Crypto Please Redirection</title>
 
     <link rel="stylesheet" type="text/css" href="/styles.css">
+    <script src="/copy.browser.js"></script>
+    <script src="/script.js"></script>
 </head>
 
 <body>
     <img src="/logo.png" class="logo">
 
-    <a class="{{# shouldCopy }}js-copy{{/shouldCopy}} payment-link" href="{{ installLink }}">
+    <button class="payment-link" onclick="jscopy('{{shouldCopy}}', '{{deepLink}}', '{{installLink}}')" >
         Receive money with {{ appName }}
-    </a>
+    </button>
 
-    {{# otherAppsExist }}
-    <p>Or try one of these apps:</p>
-
-    <ul>
-        {{# otherApps }}
-        <li><a href="{{ url }}" class="copy">{{name}}</a></li>
-        {{/otherApps}}
-    </ul>
-    {{/otherAppsExist}}
-
-    <script src="/script.js"></script>
 </body>
 
 </html>
