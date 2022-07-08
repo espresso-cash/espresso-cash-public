@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -27,6 +28,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     required TokenList tokenList,
     required JupiterAggregatorClient jupiterAggregatorClient,
     required Map<Token, Amount> balances,
+    required AnalyticsManager analyticsManager,
   })  : _tokenList = tokenList,
         _jupiterClient = jupiterAggregatorClient,
         _balances = balances.lock.add(
@@ -36,6 +38,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
                 currency: const Currency.crypto(token: Token.wrappedSol),
               ),
         ),
+        _analyticsManager = analyticsManager,
         super(const SwapSelectorState.uninitialized()) {
     on<Init>(_onInit);
     on<InputUpdated>(_onInputUpdated);
@@ -55,6 +58,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   final TokenList _tokenList;
   final JupiterAggregatorClient _jupiterClient;
   final IMap<Token, Amount> _balances;
+  final AnalyticsManager _analyticsManager;
 
   CryptoAmount? calculateMaxAmount() => state.maybeMap(
         initialized: (state) => state.calculateMaxAmount(_balances),
@@ -188,7 +192,14 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
         emit(state.copyWith(processingState: error(e)));
         emit(state.copyWith(processingState: none()));
       },
-      (s) => emit(_State.success(s)),
+      (s) {
+        _analyticsManager.swapTransactionCreated(
+          from: state.input.symbol,
+          to: state.output.symbol,
+          amount: state.amount.value,
+        );
+        emit(_State.success(s));
+      },
     );
   }
 
