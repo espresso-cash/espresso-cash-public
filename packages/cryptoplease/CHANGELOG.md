@@ -1,3 +1,10 @@
+## 1.38.0
+
+ - **REFACTOR**: Update structure (#311).
+ - **FIX**: improves swap ux flow (#297).
+ - **FIX**: sort token list in swap flow (#298).
+ - **FEAT**: Add analytics for swap (#312).
+
 ## 1.37.0
 
  - **REFACTOR**: Bump solana.
