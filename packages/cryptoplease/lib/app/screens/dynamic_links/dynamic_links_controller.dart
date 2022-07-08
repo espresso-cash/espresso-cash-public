@@ -86,7 +86,7 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
       firstPart: firstPart,
     );
     context.read<SplitKeyIncomingPaymentBloc>().add(event);
-    context.read<AnalyticsManager>().logShareableLinkPressed();
+    context.read<AnalyticsManager>().shareableLinkPressed();
   }
 
   void _tryProcessSecondLink(Uri link) {

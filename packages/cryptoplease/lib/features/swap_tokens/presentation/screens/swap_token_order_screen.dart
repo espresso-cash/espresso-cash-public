@@ -1,5 +1,6 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
+import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
@@ -25,6 +26,7 @@ class SwapTokenOrderScreen extends StatelessWidget {
           jupiterAggregatorClient: context.read<JupiterAggregatorClient>(),
           tokenList: context.read<TokenList>(),
           balances: context.read<BalancesBloc>().state.balances,
+          analyticsManager: context.read<AnalyticsManager>(),
         )..add(const SwapSelectorEvent.init()),
         child: const _Content(),
       );
