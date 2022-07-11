@@ -5,19 +5,31 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
     <title>Crypto Please Redirection</title>
 
-    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="/solana-shareable-styles.css">
     <script src="/copy.browser.js"></script>
     <script src="/script.js"></script>
 </head>
 
 <body>
-    <img src="/logo.png" class="logo">
+    <img src="/logo.svg" class="logo">
+    <div class="message">Money is waiting for you on Crypto Please App</div>
 
-    <button class="payment-link" onclick="jscopy('{{shouldCopy}}', '{{deepLink}}', '{{installLink}}')" >
-        Receive money with {{ appName }}
+    <button class="button deeplink-button" onclick="openDeepLink('{{shouldCopy}}', '{{deepLink}}')" >
+        open
+    </button>
+    
+    <hr/>
+
+    <div class="message install-message">You don't have Crypto Please installed yet?</div>
+
+    <button class="button install-button" onclick="openInstallLink('{{shouldCopy}}', '{{deepLink}}', '{{installLink}}')" >
+        install
     </button>
 
 </body>

@@ -1,7 +1,13 @@
-const jscopy = function (shouldCopy, deepLink, installLink) {
+const openDeepLink = function (shouldCopy, deepLink) {
     if (shouldCopy === 'true') {
-        // TODO: change it to CopyToClipboard(deepLink)
-        CopyToClipboard('https://solana1.cryptoplease.link/?key=R6onb4LApxwQYGKosxiRGC')
+        CopyToClipboard(deepLink)
+    }
+    window.location = deepLink;
+}
+
+const openInstallLink = function (shouldCopy, deepLink, installLink) {
+    if (shouldCopy === 'true') {
+        CopyToClipboard(deepLink)
     }
     window.location = installLink;
 }
