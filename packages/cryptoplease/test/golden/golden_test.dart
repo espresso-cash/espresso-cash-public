@@ -1,6 +1,6 @@
-import 'package:cryptoplease/presentation/screens/sign_up/get_started_screen.dart';
-import 'package:cryptoplease/presentation/screens/sign_up/no_email_and_password_screen.dart';
-import 'package:cryptoplease/presentation/screens/split_key_payments/incoming/components/success_content.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/presentation/components/success_content.dart';
+import 'package:cryptoplease/features/onboarding/presentation/sign_up/get_started_screen.dart';
+import 'package:cryptoplease/features/onboarding/presentation/sign_up/no_email_and_password_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils.dart';

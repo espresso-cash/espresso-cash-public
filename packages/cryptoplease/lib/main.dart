@@ -1,28 +1,15 @@
-import 'package:cryptoplease/bl/accounts/accounts_bloc.dart';
-import 'package:cryptoplease/bl/analytics/analytics_manager.dart';
-import 'package:cryptoplease/bl/app_lock/app_lock_bloc.dart';
-import 'package:cryptoplease/bl/balances/balances_bloc.dart';
-import 'package:cryptoplease/bl/conversion_rates/repository.dart';
-import 'package:cryptoplease/bl/nft/offchain_metadata_repository.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/pending_request_bloc/pending_request_bloc.dart';
-import 'package:cryptoplease/bl/outgoing_transfers/repository.dart';
-import 'package:cryptoplease/bl/payment_requests/repository.dart';
-import 'package:cryptoplease/bl/puzzle_reminder/puzzle_reminder_bloc.dart';
-import 'package:cryptoplease/bl/split_key_payments/incoming/bloc.dart';
-import 'package:cryptoplease/bl/split_key_payments/incoming/repository.dart';
-import 'package:cryptoplease/bl/tokens/token_list.dart';
+import 'package:cryptoplease/app/app.dart';
+import 'package:cryptoplease/app/screens/dynamic_links/dynamic_links_controller.dart';
 import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/data/analytics/analytics_manager.dart';
-import 'package:cryptoplease/data/api/coingecko_client.dart';
-import 'package:cryptoplease/data/conversion_rates_repository.dart';
+import 'package:cryptoplease/core/accounts/module.dart';
+import 'package:cryptoplease/core/analytics/analytics_manager.dart';
+import 'package:cryptoplease/core/balances/module.dart';
+import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/data/db/payment_request_repository.dart';
-import 'package:cryptoplease/data/offchain_metadata_repository.dart';
-import 'package:cryptoplease/data/outgoing_transfer_repository.dart';
-import 'package:cryptoplease/data/split_key_payments_repository.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/module.dart';
+import 'package:cryptoplease/features/outgoing_transfer/module.dart';
+import 'package:cryptoplease/features/pending_request/module.dart';
 import 'package:cryptoplease/logging.dart';
-import 'package:cryptoplease/presentation/app.dart';
-import 'package:cryptoplease/presentation/screens/dynamic_links/dynamic_links_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +46,6 @@ Future<void> _start() async {
   await BlocOverrides.runZoned(
     () async {
       final sharedPreferences = await SharedPreferences.getInstance();
-      final db = MyDatabase();
       setUpLogging();
 
       final solanaClient = SolanaClient(
@@ -76,60 +62,20 @@ Future<void> _start() async {
 
       final app = MultiProvider(
         providers: [
+          Provider<MyDatabase>(create: (_) => MyDatabase()),
           Provider<JupiterAggregatorClient>(
             create: (_) => JupiterAggregatorClient(),
           ),
-          Provider<AnalyticsManager>(create: (_) => FirebaseAnalyticsManager()),
-          Provider<OffchainMetadataRepository>(
-            create: (_) => OffchainMetadataRepositoryImpl(),
-          ),
-          Provider<PaymentRequestRepository>(
-            create: (_) => DbPaymentRequestRepository(db),
-          ),
+          Provider<SharedPreferences>.value(value: sharedPreferences),
+          Provider<AnalyticsManager>(create: (_) => AnalyticsManager()),
           Provider<RpcClient>.value(value: solanaClient.rpcClient),
           Provider<SolanaClient>.value(value: solanaClient),
-          ChangeNotifierProvider<ConversionRatesRepository>(
-            create: (_) => CoingeckoConversionRatesRepository(
-              coingeckoClient: CoingeckoClient(),
-            ),
-          ),
-          Provider<SplitKeyIncomingRepository>(
-            create: (_) =>
-                SharedPrefsSplitKeyIncomingRepository(sharedPreferences),
-          ),
-          Provider<OutgoingTransferRepository>(
-            create: (_) => DbOutgoingTransferRepository(db),
-          ),
           Provider<TokenList>(create: (_) => TokenList()),
-          BlocProvider<PuzzleReminderBloc>(
-            create: (_) => PuzzleReminderBloc(sharedPreferences),
-          ),
-          BlocProvider(
-            create: (context) => AppLockBloc(
-              secureStorage: const FlutterSecureStorage(),
-            )
-              ..add(const AppLockEvent.init())
-              ..add(const AppLockEvent.lock()),
-          ),
-          BlocProvider(
-            create: (context) => BalancesBloc(
-              solanaClient: context.read<SolanaClient>(),
-              tokens: context.read<TokenList>(),
-            ),
-          ),
-          BlocProvider(
-            create: (context) => AccountsBloc(
-              storage: const FlutterSecureStorage(),
-            )..add(const AccountsEvent.initialize()),
-          ),
-          BlocProvider(
-            create: (context) => SplitKeyIncomingPaymentBloc(
-              solanaClient: context.read<SolanaClient>(),
-              repository: context.read<SplitKeyIncomingRepository>(),
-              balancesBloc: context.read<BalancesBloc>(),
-            ),
-          ),
-          BlocProvider(create: (_) => PendingRequestBloc())
+          const OutgoingTransferModule(),
+          const BalancesModule(),
+          const AccountsModule(),
+          const IncomingSplitKeyPaymentModule(),
+          const PendingRequestModule(),
         ],
         child: const DynamicLinksController(child: CryptopleaseApp()),
       );
