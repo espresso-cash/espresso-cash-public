@@ -25,7 +25,7 @@ class SwapHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
         builder: (context, state) => Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
           child: Stack(
             children: [
               Column(

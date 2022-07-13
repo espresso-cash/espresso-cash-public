@@ -194,12 +194,17 @@ class _Keypad extends StatelessWidget {
   final TextEditingController controller;
 
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, constraints) => EnterAmountKeypad(
-          size: constraints.maxHeight,
-          controller: controller,
-          maxDecimals: context.select<SwapSelectorBloc, int>(
-            (b) => b.state.input?.decimals ?? 2,
+  Widget build(BuildContext context) => SafeArea(
+        top: false,
+        child: Center(
+          child: LayoutBuilder(
+            builder: (context, constraints) => EnterAmountKeypad(
+              size: constraints.maxHeight,
+              controller: controller,
+              maxDecimals: context.select<SwapSelectorBloc, int>(
+                (b) => b.state.input?.decimals ?? 2,
+              ),
+            ),
           ),
         ),
       );
