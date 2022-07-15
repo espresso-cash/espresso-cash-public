@@ -1,5 +1,6 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
+import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
@@ -194,16 +195,15 @@ class _Keypad extends StatelessWidget {
   final TextEditingController controller;
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-        top: false,
-        child: Center(
-          child: LayoutBuilder(
-            builder: (context, constraints) => EnterAmountKeypad(
-              size: constraints.maxHeight,
-              controller: controller,
-              maxDecimals: context.select<SwapSelectorBloc, int>(
-                (b) => b.state.input?.decimals ?? 2,
-              ),
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
+        child: LayoutBuilder(
+          builder: (context, constraints) => EnterAmountKeypad(
+            height: constraints.maxHeight,
+            width: constraints.maxWidth,
+            controller: controller,
+            maxDecimals: context.select<SwapSelectorBloc, int>(
+              (b) => b.state.input?.decimals ?? 2,
             ),
           ),
         ),
