@@ -1,4 +1,4 @@
-import 'package:cryptoplease/bl/tokens/token.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 

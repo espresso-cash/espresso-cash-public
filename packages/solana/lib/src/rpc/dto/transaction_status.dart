@@ -10,12 +10,14 @@ class TransactionStatus {
     required this.err,
     required this.logs,
     required this.accounts,
+    required this.unitsConsumed,
   });
 
   factory TransactionStatus.fromJson(Map<String, dynamic> json) =>
       _$TransactionStatusFromJson(json);
 
-  final Map<String, dynamic>? err;
+  /// Error if transaction failed, null if transaction succeeded.
+  final dynamic err;
 
   /// Array of log messages the transaction instructions output during
   /// execution, null if simulation failed before the transaction was able to
@@ -23,7 +25,11 @@ class TransactionStatus {
   /// failure).
   final List<String>? logs;
 
-  /// Array of [Account]s with the same length as the
-  /// `SimulateTransactionAccounts.addresses` array in the request.
+  /// Array of accounts with the same length as the `accounts.addresses` array
+  /// in the request.
   final List<Account>? accounts;
+
+  /// The number of compute budget units consumed during the processing of this
+  /// transaction.
+  final int? unitsConsumed;
 }
