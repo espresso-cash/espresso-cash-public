@@ -191,7 +191,7 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) => CpButton(
         text: context.l10n.swap.toUpperCase(),
         size: CpButtonSize.micro,
-        onPressed:         
+        onPressed:
             context.select<SwapSelectorBloc, bool>((b) => b.state.canSwap)
                 ? () => context
                     .read<SwapSelectorBloc>()
