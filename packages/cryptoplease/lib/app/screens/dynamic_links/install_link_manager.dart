@@ -12,11 +12,14 @@ class InstallLinkManager {
   Future<Uri?> getInstallReferrer() async {
     final prefs = await SharedPreferences.getInstance();
     final isFirstLaunch = prefs.getBool(_key) ?? true;
-    if (!isFirstLaunch) return null;
-
-    await prefs.setBool(_key, false);
+    if (isFirstLaunch) {
+      await prefs.setBool(_key, false);
+    }
 
     if (Platform.isIOS) {
+      final hasStrings = await Clipboard.hasStrings();
+      if (!hasStrings) return null;
+
       final uri = await Clipboard.getData('text/plain')
           .then((it) => it?.text ?? '')
           .then(Uri.tryParse);
@@ -27,6 +30,8 @@ class InstallLinkManager {
         return uri;
       }
     } else if (Platform.isAndroid) {
+      if (!isFirstLaunch) return null;
+
       final result = await _platform.invokeMethod<String>('getInstallReferrer');
 
       return Uri.tryParse(result ?? '');
