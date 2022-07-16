@@ -9,12 +9,14 @@ class EnterAmountKeypad extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.maxDecimals,
-    this.size,
+    this.height,
+    this.width,
   }) : super(key: key);
 
   final TextEditingController controller;
   final int maxDecimals;
-  final double? size;
+  final double? height;
+  final double? width;
 
   static const _keys = [
     KeypadKey.number(number: 1),
@@ -72,17 +74,21 @@ class EnterAmountKeypad extends StatelessWidget {
     final decimalSeparator =
         getDecimalSeparator(DeviceLocale.localeOf(context));
 
-    final size = this.size ?? MediaQuery.of(context).size.height / 2;
+    final height = this.height ?? MediaQuery.of(context).size.height / 2;
+    final width = this.width ?? height;
+
+    final baseAspectRatio = width / height;
+    final childAspectRatio = 3 / 2 * baseAspectRatio;
 
     return SizedBox(
-      height: size,
-      width: size,
+      height: height,
+      width: width,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: GridView.count(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          childAspectRatio: 3 / 2,
+          childAspectRatio: childAspectRatio,
           crossAxisCount: 3,
           crossAxisSpacing: 5,
           mainAxisSpacing: 5,

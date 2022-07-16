@@ -149,5 +149,5 @@ extension SwapSelectorStateExt on SwapSelectorState {
         orElse: () => null,
       );
 
-  bool get canSwap => outputAmount != null;
+  bool get canSwap => outputAmount != null && !isLoadingRoute;
 }

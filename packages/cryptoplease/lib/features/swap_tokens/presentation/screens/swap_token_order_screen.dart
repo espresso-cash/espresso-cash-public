@@ -1,5 +1,6 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
+import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
@@ -110,35 +111,50 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
 
-    return SwapHeaderWidget(
-      inputController: controller,
-      output: context.select<SwapSelectorBloc, String>(
-        (bloc) =>
-            bloc.state.outputAmount?.format(locale, skipSymbol: true) ?? '–',
+    return BlocListener<SwapSelectorBloc, SwapSelectorState>(
+      listener: (context, state) => state.mapOrNull(
+        initialized: (state) {
+          final inputAmount = controller.text.toDecimalOrZero(
+            DeviceLocale.localeOf(context),
+          );
+          if (state.amount.decimal != inputAmount) {
+            controller.text = state.amount.format(
+              DeviceLocale.localeOf(context),
+              skipSymbol: true,
+            );
+          }
+        },
       ),
-      onSelectInput: () async {
-        final bloc = context.read<SwapSelectorBloc>();
-        final tokens = bloc.state.inputTokens;
-        final token =
-            await context.read<SwapTokenRouter>().onSelectInputToken(tokens);
-        if (token != null) {
-          bloc.add(SwapSelectorEvent.inputUpdated(token));
-        }
-      },
-      onSelectOutput: () async {
-        final bloc = context.read<SwapSelectorBloc>();
-        final tokens = bloc.state.outputTokens;
-        final token =
-            await context.read<SwapTokenRouter>().onSelectOutputToken(tokens);
-        if (token != null) {
-          bloc.add(SwapSelectorEvent.outputUpdated(token));
-        }
-      },
-      onMaxRequested: () {
-        final amount = context.read<SwapSelectorBloc>().calculateMaxAmount();
-        if (amount == null) return;
-        controller.text = amount.format(locale, skipSymbol: true);
-      },
+      child: SwapHeaderWidget(
+        inputController: controller,
+        output: context.select<SwapSelectorBloc, String>(
+          (bloc) =>
+              bloc.state.outputAmount?.format(locale, skipSymbol: true) ?? '–',
+        ),
+        onSelectInput: () async {
+          final bloc = context.read<SwapSelectorBloc>();
+          final tokens = bloc.state.inputTokens;
+          final token =
+              await context.read<SwapTokenRouter>().onSelectInputToken(tokens);
+          if (token != null) {
+            bloc.add(SwapSelectorEvent.inputUpdated(token));
+          }
+        },
+        onSelectOutput: () async {
+          final bloc = context.read<SwapSelectorBloc>();
+          final tokens = bloc.state.outputTokens;
+          final token =
+              await context.read<SwapTokenRouter>().onSelectOutputToken(tokens);
+          if (token != null) {
+            bloc.add(SwapSelectorEvent.outputUpdated(token));
+          }
+        },
+        onMaxRequested: () {
+          final amount = context.read<SwapSelectorBloc>().calculateMaxAmount();
+          if (amount == null) return;
+          controller.text = amount.format(locale, skipSymbol: true);
+        },
+      ),
     );
   }
 }
@@ -194,12 +210,16 @@ class _Keypad extends StatelessWidget {
   final TextEditingController controller;
 
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, constraints) => EnterAmountKeypad(
-          size: constraints.maxHeight,
-          controller: controller,
-          maxDecimals: context.select<SwapSelectorBloc, int>(
-            (b) => b.state.input?.decimals ?? 2,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
+        child: LayoutBuilder(
+          builder: (context, constraints) => EnterAmountKeypad(
+            height: constraints.maxHeight,
+            width: constraints.maxWidth,
+            controller: controller,
+            maxDecimals: context.select<SwapSelectorBloc, int>(
+              (b) => b.state.input?.decimals ?? 2,
+            ),
           ),
         ),
       );
