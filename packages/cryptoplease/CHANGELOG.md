@@ -1,3 +1,9 @@
+## 1.38.1
+
+ - **FIX**: Fix iOS deeplink parsing on start (#320).
+ - **FIX**: predefined input tokens, invert amount on swap flow (#299).
+ - **FIX**: swap keyboard above navbar (#319).
+
 ## 1.38.0
 
  - **REFACTOR**: Update structure (#311).
