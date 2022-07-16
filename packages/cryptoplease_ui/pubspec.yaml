@@ -12,23 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.0
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mews_pedantic: ^0.6.0
-
-flutter:
-  fonts:
-    - family: DIN2014
-      fonts:
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-Light.ttf
-          weight: 300
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-Regular.ttf
-          weight: 400
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-DemiBold.ttf
-          weight: 600
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-Bold.ttf
-          weight: 700
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-ExtraBold.ttf
-          weight: 900
