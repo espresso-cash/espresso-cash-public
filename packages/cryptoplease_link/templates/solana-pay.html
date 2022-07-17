@@ -12,6 +12,10 @@
   <title>Request Payment</title>
 
   <link rel="stylesheet" type="text/css" href="/solana-pay-styles.css">
+  
+  <script src="/scripts/solana-pay.browser.js"></script>
+  <script src="/scripts/solana-web3.browser.js"></script>
+  <script src="/scripts/phantom-app.js"></script>
 </head>
 
 <body>
@@ -27,7 +31,7 @@
         </div>
         <div class="address"> 
           <div class="address-title">Destination Address</div>
-          {{ recipient}}
+          {{ recipient }}
         </div>
 
         <img src="solana-background-web.svg" class="background">
@@ -44,10 +48,20 @@
             <img src="{{logoUri}}" class="payment-item-icon"/>
         </button>
       {{/apps}}
+      
+      <div id="phantom-button">
+        <button
+          class="payment-item payment-item-phantom"
+          onclick="sendTransaction('{{recipient}}')">
+            <div class="payment-item-title payment-item-title-phantom">Phantom</div> 
+            <img src="icons/phantom-icon.svg" class="payment-item-icon"/>
+        </button>
+      </div>
     </div>
 
   <script src="/script.js"></script>
-
 </body>
+
+<script>window.onload = checkPhantom</script>
 
 </html>

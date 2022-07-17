@@ -23,11 +23,21 @@
 .payment-item-title {
   font-weight: 500;
   min-width: 100%;
+  font-family: 'Roboto';
   text-transform: uppercase;
   font-size: 17px;
   line-height: 20px;
   text-align: center;
   color: #272727;
+}
+
+.payment-item-phantom{
+  background-color: #7a72f1;
+  color: white;
+}
+
+.payment-item-title-phantom{
+  color: white;
 }
 
 .payment-block-title {
