@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
+import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 extension SendNftFlowExt on BuildContext {
   /// Navigates to the flow for sending a non-fungible token.
@@ -15,12 +17,12 @@ extension SendNftFlowExt on BuildContext {
   void navigateToSendNft(NonFungibleToken token) => navigateTo(
         PickRecipientTypeRoute(
           onDirectSelected: () => _navigateToDirectTransferNft(
-            onTransferCreated: navigateToOutgoingTransfer,
+            onTransferCreated: _navigateToOutgoingTransfer,
             token: token,
           ),
           onLinkSelected: () => _navigateToLinkTransferNft(
             token: token,
-            onTransferCreated: navigateToOutgoingTransfer,
+            onTransferCreated: _navigateToOutgoingTransfer,
           ),
           onQrCodeSelected: () async {
             final request =
@@ -36,6 +38,11 @@ extension SendNftFlowExt on BuildContext {
           },
         ),
       );
+
+  void _navigateToOutgoingTransfer(String id) {
+    read<HomeRouterKey>().value.currentState?.controller?.popUntilRoot();
+    navigateToOutgoingTransfer(id);
+  }
 
   /// Navigate to the flow for sending a non-fungible token with a link.
   ///

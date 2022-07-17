@@ -16,12 +16,9 @@ extension SendFlowExt on BuildContext {
   /// the transaction).
   void navigateToOutgoingTransfer(
     OutgoingTransferId id, {
-    GlobalKey<AutoRouterState>? routerKey,
     bool autoSubmit = true,
   }) {
-    (routerKey?.currentState?.controller ?? router)
-      ..popUntilRoot()
-      ..navigate(OutgoingTransferFlowRoute(id: id));
+    router.navigate(OutgoingTransferFlowRoute(id: id));
     if (autoSubmit) {
       read<OutgoingTransfersBloc>().add(OutgoingTransfersEvent.submitted(id));
     }
