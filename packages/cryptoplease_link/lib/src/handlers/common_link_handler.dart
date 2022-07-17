@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:cryptoplease_link/src/app.dart';
 import 'package:cryptoplease_link/src/apps.dart';
+import 'package:cryptoplease_link/src/constants.dart';
 import 'package:cryptoplease_link/src/platform.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:shelf/shelf.dart';
@@ -39,7 +40,7 @@ Future<Response> commonHandler(
     htmlEscapeValues: false,
   );
 
-  final deepLink = request.requestedUri;
+  final deepLink = app.deepLink(request.requestedUri);
   // ignore: avoid-non-null-assertion, should not be null at this point
   final String installLink = app.installLink(deepLink, platform)!;
 
@@ -81,6 +82,11 @@ Future<Response> commonHandler(
 }
 
 extension on App {
+  Uri deepLink(Uri requestLink) => requestLink.replace(
+        scheme: deeplinkScheme,
+        host: protocolMap[requestLink.host],
+      );
+
   String? installLink(Uri deepLink, Platform platform) {
     switch (platform) {
       case Platform.android:
