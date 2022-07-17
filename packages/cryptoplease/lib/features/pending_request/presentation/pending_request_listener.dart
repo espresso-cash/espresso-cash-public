@@ -44,10 +44,11 @@ class _PendingRequestListenerState
     if (token == null) return;
 
     context.navigateToDirectTransferFt(
-      onTransferCreated: (id) => context.navigateToOutgoingTransfer(
-        id,
-        routerKey: widget.routerKey,
-      ),
+      onTransferCreated: (id) {
+        widget.routerKey.currentState?.controller?.popUntilRoot();
+
+        context.navigateToOutgoingTransfer(id);
+      },
       initialAddress: request.recipient.toBase58(),
       token: token,
       amount: request.amount,

@@ -19,6 +19,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
+@immutable
+class HomeRouterKey {
+  const HomeRouterKey(this.value);
+
+  final GlobalKey<AutoRouterState> value;
+}
+
 class AuthenticatedFlowScreen extends StatefulWidget {
   const AuthenticatedFlowScreen({Key? key}) : super(key: key);
 
@@ -51,6 +58,9 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 _outgoingTransfersBlocProvider(account),
                 PendingRequestListener(routerKey: _homeRouterKey),
                 _balanceListener,
+                Provider<HomeRouterKey>(
+                  create: (_) => HomeRouterKey(_homeRouterKey),
+                ),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );

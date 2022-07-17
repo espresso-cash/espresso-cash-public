@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
+import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
@@ -8,6 +9,7 @@ import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_tr
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 extension SendFtFlowExt on BuildContext {
@@ -26,12 +28,12 @@ extension SendFtFlowExt on BuildContext {
       navigateTo(
         PickRecipientTypeRoute(
           onDirectSelected: () => navigateToDirectTransferFt(
-            onTransferCreated: navigateToOutgoingTransfer,
+            onTransferCreated: _navigateToOutgoingTransfer,
             token: token,
           ),
           onLinkSelected: () => _navigateToLinkTransferFt(
             token: token,
-            onTransferCreated: navigateToOutgoingTransfer,
+            onTransferCreated: _navigateToOutgoingTransfer,
           ),
           onQrCodeSelected: () async {
             final request =
@@ -60,7 +62,7 @@ extension SendFtFlowExt on BuildContext {
                 );
               },
               address: (r) => navigateToDirectTransferFt(
-                onTransferCreated: navigateToOutgoingTransfer,
+                onTransferCreated: _navigateToOutgoingTransfer,
                 initialAddress: r.address,
                 token: token,
               ),
@@ -68,6 +70,11 @@ extension SendFtFlowExt on BuildContext {
           },
         ),
       );
+
+  void _navigateToOutgoingTransfer(String id) {
+    read<HomeRouterKey>().value.currentState?.controller?.popUntilRoot();
+    navigateToOutgoingTransfer(id);
+  }
 
   /// Navigate to the flow for sending a fungible token with a link.
   ///
