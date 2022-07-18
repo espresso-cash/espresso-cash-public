@@ -8,10 +8,10 @@ body {
     font-size: 17px;
     font-weight: 700;
     text-decoration: none;
-    display: inline;
+    display: inline-block;
     text-transform: uppercase;
     padding: 10px;
-    border-radius: 30px;    
+    border-radius: 30px;
     border-width: 0px;
     min-width: 300px;
     cursor: pointer;
