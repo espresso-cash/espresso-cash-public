@@ -21,6 +21,10 @@ class Token {
     required this.extensions,
   });
 
+  const factory Token.splUsdc() = _UsdcToken;
+
+  const factory Token.splUsdt() = _UsdtToken;
+
   const factory Token.solana() = _SolanaToken;
 
   const factory Token.wrappedSolana() = _WrappedSolanaToken;
@@ -46,6 +50,10 @@ class Token {
   static const sol = Token.solana();
 
   static const wrappedSol = Token.wrappedSolana();
+
+  static const usdc = Token.splUsdc();
+
+  static const usdt = Token.splUsdt();
 
   bool get isSolana => this is _SolanaToken;
 
@@ -159,5 +167,43 @@ class UnknownToken extends SplToken {
           name: '',
           decimals: decimals,
           tags: const <String>[],
+        );
+}
+
+class _UsdcToken extends SplToken {
+  const _UsdcToken()
+      : super(
+          address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+          extensions: const Extensions(
+            coingeckoId: 'usd-coin',
+          ),
+          logoURI:
+              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
+          chainId: currentChainId,
+          tags: const [
+            'stablecoin',
+          ],
+          decimals: 6,
+          name: 'USD Coin',
+          symbol: 'USDC',
+        );
+}
+
+class _UsdtToken extends SplToken {
+  const _UsdtToken()
+      : super(
+          address: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
+          extensions: const Extensions(
+            coingeckoId: 'tether',
+          ),
+          logoURI:
+              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB/logo.svg',
+          chainId: currentChainId,
+          tags: const [
+            'stablecoin',
+          ],
+          decimals: 6,
+          name: 'USDT',
+          symbol: 'USDT',
         );
 }

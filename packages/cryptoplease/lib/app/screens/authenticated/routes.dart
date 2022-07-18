@@ -15,6 +15,7 @@ import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/r
 import 'package:cryptoplease/features/profile/edit_profile_screen.dart';
 import 'package:cryptoplease/features/profile/help_screen.dart';
 import 'package:cryptoplease/features/profile/profile_screen.dart';
+import 'package:cryptoplease/features/request_pay/presentation/request_pay_screen.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/routes.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.dart';
 import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/transaction_details_screen.dart';
@@ -29,9 +30,10 @@ const authenticatedFlowRoutes = AutoRoute<void>(
       children: [
         CustomRoute<void>(path: '', page: WalletScreen),
         CustomRoute<void>(page: NftScreen),
+        CustomRoute<void>(page: RequestPayScreen),
         CustomRoute<void>(page: ActivitiesScreen),
         CustomRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),
-        CustomRoute<void>(page: ProfileScreen),
+        CustomRoute<void>(page: ProfileScreen)
       ],
     ),
     ...backupPhraseRoutes,
