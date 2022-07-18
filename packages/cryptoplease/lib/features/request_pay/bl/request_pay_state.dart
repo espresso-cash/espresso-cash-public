@@ -8,4 +8,11 @@ class RequestPayState with _$RequestPayState {
     required Iterable<Token> availableTokens,
     required ProcessingState processingState,
   }) = _RequestPayState;
+
+  const RequestPayState._();
+
+  Amount get fee => calculateFee(
+        OutgoingTransferType.splitKey,
+        amount.currency.token.address,
+      );
 }
