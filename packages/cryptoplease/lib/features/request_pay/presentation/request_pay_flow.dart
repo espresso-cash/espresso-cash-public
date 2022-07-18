@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
+import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +21,13 @@ class RequestPayFlowScreen extends StatefulWidget {
 
 class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
   late final RequestPayBloc _requestPayBloc;
+  late final BalancesBloc _balanceBloc;
 
   @override
   void initState() {
     super.initState();
     _requestPayBloc = RequestPayBloc();
+    _balanceBloc = context.read<BalancesBloc>();
   }
 
   @override
@@ -56,7 +60,10 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
   }
 
   @override
-  void onPay() {}
+  void onPay() {
+    final amount = _requestPayBloc.state.amount;
+    context.navigateToLinkConfirmation(amount: amount);
+  }
 
   @override
   void onQrScanner() {}

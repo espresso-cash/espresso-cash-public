@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -18,9 +19,11 @@ class FtLinkTransferFlowScreen extends StatefulWidget {
     Key? key,
     required this.onComplete,
     this.token,
+    this.amount,
   }) : super(key: key);
 
   final Token? token;
+  final CryptoAmount? amount;
   final ValueSetter<OutgoingTransferId> onComplete;
 
   @override
@@ -29,16 +32,33 @@ class FtLinkTransferFlowScreen extends StatefulWidget {
 }
 
 class _FtLinkTransferFlowScreenState extends State<FtLinkTransferFlowScreen> {
+  late final FtCreateOutgoingTransferBloc outgoingBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    final amount = widget.amount;
+    final token = amount?.token ?? widget.token;
+
+    outgoingBloc = FtCreateOutgoingTransferBloc(
+      repository: context.read<OutgoingTransferRepository>(),
+      balances: context.read<BalancesBloc>().state.balances,
+      conversionRatesRepository: context.read<ConversionRatesRepository>(),
+      userCurrency: context.read<UserPreferences>().fiatCurrency,
+      transferType: OutgoingTransferType.splitKey,
+      initialToken: token,
+    );
+
+    if (amount != null) {
+      outgoingBloc.add(
+        FtCreateOutgoingTransferEvent.tokenAmountUpdated(amount.decimal),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => FtCreateOutgoingTransferBloc(
-          repository: context.read<OutgoingTransferRepository>(),
-          balances: context.read<BalancesBloc>().state.balances,
-          conversionRatesRepository: context.read<ConversionRatesRepository>(),
-          userCurrency: context.read<UserPreferences>().fiatCurrency,
-          transferType: OutgoingTransferType.splitKey,
-          initialToken: widget.token,
-        ),
+        create: (context) => outgoingBloc,
         child: BlocListener<FtCreateOutgoingTransferBloc,
             FtCreateOutgoingTransferState>(
           listener: (context, state) => state.flow.maybeMap(
