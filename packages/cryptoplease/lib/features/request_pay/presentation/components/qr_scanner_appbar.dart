@@ -1,7 +1,13 @@
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const QrScannerAppBar({Key? key}) : super(key: key);
+  const QrScannerAppBar({
+    Key? key,
+    required this.onQrScanner,
+  }) : super(key: key);
+
+  final VoidCallback onQrScanner;
 
   @override
   Size get preferredSize => const Size.fromHeight(2 * kToolbarHeight);
@@ -9,13 +15,15 @@ class QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
           child: Row(
             children: [
-              // TODO: onpressed
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.qr_code),
+                onPressed: onQrScanner,
+                icon: Assets.icons.qrScanner.svg(height: 24),
               ),
             ],
           ),

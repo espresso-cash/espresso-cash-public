@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 class InfoWidget extends StatelessWidget {
   const InfoWidget({
     Key? key,
-    required this.selectedToken,
+    required this.token,
   }) : super(key: key);
 
-  final Token selectedToken;
+  final Token token;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -43,7 +43,7 @@ class InfoWidget extends StatelessWidget {
                       alignment: PlaceholderAlignment.middle,
                     ),
                     TextSpan(
-                      text: '1 ${selectedToken.symbol} is equal to \$1',
+                      text: '1 ${token.symbol} is equal to \$1',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class InfoWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  'The ${selectedToken.name} is a digital stablecoin that should be fixed to the United States dollar.',
+                  'The ${token.name} is a digital stablecoin that should be fixed to the United States dollar.',
                   style: const TextStyle(fontSize: 13),
                 ),
               ),

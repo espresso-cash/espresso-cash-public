@@ -18,6 +18,7 @@ class StableTokenDropdown extends StatelessWidget {
   Widget build(BuildContext context) => GestureDetector(
         onTap: onTap,
         child: Container(
+          margin: const EdgeInsets.only(left: 4),
           padding: const EdgeInsets.symmetric(
             horizontal: 16.0,
             vertical: 8.0,

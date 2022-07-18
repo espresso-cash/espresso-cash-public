@@ -68,7 +68,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
 
 const _pages = [
   _Page(route: WalletRoute(), overlayStyle: SystemUiOverlayStyle.light),
-  _Page(route: RequestPayRoute(), overlayStyle: SystemUiOverlayStyle.dark),
+  _Page(route: RequestPayFlowRoute(), overlayStyle: SystemUiOverlayStyle.dark),
   _Page(
     route: SwapTokenFlowRoute(),
     overlayStyle: SystemUiOverlayStyle.dark,
