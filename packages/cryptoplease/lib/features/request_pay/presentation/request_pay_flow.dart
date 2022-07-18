@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -21,13 +21,13 @@ class RequestPayFlowScreen extends StatefulWidget {
 
 class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
   late final RequestPayBloc _requestPayBloc;
-  late final BalancesBloc _balanceBloc;
 
   @override
   void initState() {
     super.initState();
-    _requestPayBloc = RequestPayBloc();
-    _balanceBloc = context.read<BalancesBloc>();
+    _requestPayBloc = RequestPayBloc(
+      tokenList: context.read<TokenList>(),
+    )..add(const RequestPayEvent.initialized());
   }
 
   @override
@@ -66,17 +66,18 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
   }
 
   @override
-  void onQrScanner() {}
-
-  @override
-  Widget build(BuildContext context) => MultiProvider(
-        providers: [
-          BlocProvider<RequestPayBloc>(
-            create: (_) => _requestPayBloc,
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: Scaffold(
+          body: MultiProvider(
+            providers: [
+              BlocProvider<RequestPayBloc>(
+                create: (_) => _requestPayBloc,
+              ),
+              Provider<RequestPayRouter>.value(value: this),
+            ],
+            child: const AutoRouter(),
           ),
-          Provider<RequestPayRouter>.value(value: this),
-        ],
-        child: const AutoRouter(),
+        ),
       );
 }
 
@@ -85,5 +86,4 @@ abstract class RequestPayRouter {
   void onAmountUpdate(String value);
   void onRequest();
   void onPay();
-  void onQrScanner();
 }

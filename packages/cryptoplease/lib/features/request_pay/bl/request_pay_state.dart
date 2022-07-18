@@ -6,5 +6,6 @@ class RequestPayState with _$RequestPayState {
     required Token token,
     required CryptoAmount amount,
     required Iterable<Token> availableTokens,
+    required ProcessingState processingState,
   }) = _RequestPayState;
 }

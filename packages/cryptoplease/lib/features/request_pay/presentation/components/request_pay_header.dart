@@ -9,10 +9,12 @@ class RequestPayHeader extends StatelessWidget {
     Key? key,
     required this.amount,
     required this.onTokenChanged,
+    required this.isLoading,
   }) : super(key: key);
 
   final CryptoAmount amount;
   final VoidCallback onTokenChanged;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,9 @@ class RequestPayHeader extends StatelessWidget {
           StableTokenDropdown(
             onTap: onTokenChanged,
             selectedToken: amount.token,
-            suffixWidget: const SizedBox.shrink(),
+            suffixWidget: isLoading
+                ? const CircularProgressIndicator()
+                : const SizedBox.shrink(),
           ),
         ],
       ),
