@@ -5,6 +5,12 @@ import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/helpers.dart';
 
+class ProgramAddressResult {
+  ProgramAddressResult(this.oncurve, this.key);
+  final bool oncurve;
+  final Ed25519HDPublicKey key;
+}
+
 class Ed25519HDPublicKey implements PublicKey {
   const Ed25519HDPublicKey(this.bytes);
 
@@ -37,7 +43,7 @@ class Ed25519HDPublicKey implements PublicKey {
   }
 
   /// Derives a program address from seeds and a program ID.
-  static Future<Ed25519HDPublicKey> createProgramAddress({
+  static Future<ProgramAddressResult> createProgramAddress({
     required Iterable<int> seeds,
     required Ed25519HDPublicKey programId,
   }) async {
@@ -47,11 +53,15 @@ class Ed25519HDPublicKey implements PublicKey {
         .toList(growable: false);
     final data = await _computeHash(seedBytes);
     if (isPointOnEd25519Curve(data)) {
-      throw const FormatException(
-        'failed to create address with provided seeds',
+      return ProgramAddressResult(
+        true,
+        Ed25519HDPublicKey(data),
       );
     } else {
-      return Ed25519HDPublicKey(data);
+      return ProgramAddressResult(
+        false,
+        Ed25519HDPublicKey(data),
+      );
     }
   }
 
@@ -75,14 +85,16 @@ class Ed25519HDPublicKey implements PublicKey {
     }
     final flatSeeds = seeds.fold(<int>[], _flatten);
     int bumpSeed = _maxBumpSeed;
+
     while (bumpSeed >= 0) {
-      try {
-        return await createProgramAddress(
-          seeds: [...flatSeeds, bumpSeed],
-          programId: programId,
-        );
-      } on FormatException {
+      ProgramAddressResult result = await createProgramAddress(
+        seeds: [...flatSeeds, bumpSeed],
+        programId: programId,
+      );
+      if (result.oncurve) {
         bumpSeed -= 1;
+      } else {
+        return result.key;
       }
     }
 
