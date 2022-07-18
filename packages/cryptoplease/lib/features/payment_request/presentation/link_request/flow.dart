@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
@@ -21,24 +22,45 @@ class LinkRequestFlowScreen extends StatefulWidget {
   const LinkRequestFlowScreen({
     Key? key,
     required this.initialToken,
+    this.initialAmount,
   }) : super(key: key);
 
   final Token? initialToken;
+  final CryptoAmount? initialAmount;
 
   @override
   State<LinkRequestFlowScreen> createState() => _LinkRequestFlowScreenState();
 }
 
 class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
+  late final CreatePaymentRequestBloc paymentRequestBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    final amount = widget.initialAmount;
+    final token = amount?.token ?? widget.initialToken;
+
+    paymentRequestBloc = CreatePaymentRequestBloc(
+      balances: context.read<BalancesBloc>().state.balances,
+      userCurrency: context.read<UserPreferences>().fiatCurrency,
+      initialToken: token,
+      repository: context.read<PaymentRequestRepository>(),
+      conversionRatesRepository: context.read<ConversionRatesRepository>(),
+    );
+
+    if (amount != null) {
+      paymentRequestBloc.add(
+        CreatePaymentRequestEvent.tokenAmountUpdated(
+          amount.decimal,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) => BlocProvider<CreatePaymentRequestBloc>(
-        create: (context) => CreatePaymentRequestBloc(
-          balances: context.read<BalancesBloc>().state.balances,
-          userCurrency: context.read<UserPreferences>().fiatCurrency,
-          initialToken: widget.initialToken,
-          repository: context.read<PaymentRequestRepository>(),
-          conversionRatesRepository: context.read<ConversionRatesRepository>(),
-        ),
+        create: (context) => paymentRequestBloc,
         child: const _Content(),
       );
 }
@@ -65,7 +87,14 @@ class _ContentState extends State<_Content>
     context
         .read<CreatePaymentRequestBloc>()
         .add(CreatePaymentRequestEvent.payerNameUpdated(name));
-    context.navigateTo(const RequestAmountRoute());
+
+    final state = context.read<CreatePaymentRequestBloc>().state;
+
+    if (state.tokenAmount.value != 0) {
+      onAmountSubmitted();
+    } else {
+      context.navigateTo(const RequestAmountRoute());
+    }
   }
 
   @override

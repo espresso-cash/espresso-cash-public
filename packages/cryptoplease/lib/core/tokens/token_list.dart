@@ -49,9 +49,13 @@ class TokenList {
 
   Iterable<Token> get tokens => _allTokens.where((t) => t.chainId == chainId);
 
-  Token? findTokenByMint(String mint) => mint == Token.sol.address
-      ? Token.sol
-      : tokens.firstWhereOrNull((t) => t.address == mint);
+  Token? findTokenByMint(String mint) {
+    if (mint == Token.sol.address) return Token.sol;
+    if (mint == Token.usdc.address) return Token.usdc;
+    if (mint == Token.usdt.address) return Token.usdt;
+
+    return tokens.firstWhereOrNull((t) => t.address == mint);
+  }
 
   Iterable<Token> findTokensByCoingeckoId(String coingeckoId) =>
       tokens.where((t) => t.coingeckoId == coingeckoId);

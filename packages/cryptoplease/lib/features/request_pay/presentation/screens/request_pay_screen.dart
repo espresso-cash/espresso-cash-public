@@ -71,11 +71,12 @@ class _ScreenState extends State<RequestPayScreen> {
                   children: [
                     CpButton(
                       text: 'Request',
-                      onPressed: _router.onRequest,
+                      onPressed:
+                          state.amount.value == 0 ? null : _router.onRequest,
                     ),
                     CpButton(
                       text: 'Pay',
-                      onPressed: _router.onPay,
+                      onPressed: state.amount.value == 0 ? null : _router.onPay,
                     ),
                   ],
                 ),

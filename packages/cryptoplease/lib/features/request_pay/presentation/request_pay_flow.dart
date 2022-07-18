@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
+import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
@@ -49,7 +50,10 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
   }
 
   @override
-  void onRequest() {}
+  void onRequest() {
+    final amount = _requestPayBloc.state.amount;
+    context.navigateToReceiveByLink(amount: amount);
+  }
 
   @override
   void onPay() {}
