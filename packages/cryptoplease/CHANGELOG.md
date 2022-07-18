@@ -1,3 +1,8 @@
+## 1.39.0
+
+ - **FIX**: properly clear navigation stack after creating link (#331).
+ - **FEAT**: switch to Firebase dynamic links.
+
 ## 1.38.1
 
  - **FIX**: Fix iOS deeplink parsing on start (#320).
