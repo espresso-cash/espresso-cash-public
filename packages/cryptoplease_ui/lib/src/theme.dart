@@ -1,7 +1,6 @@
 import 'package:cryptoplease_ui/src/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CpTheme extends StatelessWidget {
@@ -73,17 +72,17 @@ class CpThemeData {
   final Brightness brightness;
   final Color dividerColor;
 
-  TextStyle get _baseTextStyle => GoogleFonts.roboto(
-        textStyle: TextStyle(
-          height: 1.25,
-          color: primaryTextColor,
-        ),
+  TextStyle get _baseTextStyle => TextStyle(
+        height: 1.25,
+        color: primaryTextColor,
+        fontFamily: 'Roboto',
+        package: 'cryptoplease_ui',
       );
 
   ThemeData toMaterialTheme() => ThemeData(
         brightness: brightness,
         splashColor: CpColors.yellowColor.withOpacity(0.25),
-        fontFamily: GoogleFonts.roboto().fontFamily,
+        fontFamily: 'packages/cryptoplease_ui/Roboto',
         textTheme: TextTheme(
           headline1: _baseTextStyle.copyWith(
             fontSize: 72,
