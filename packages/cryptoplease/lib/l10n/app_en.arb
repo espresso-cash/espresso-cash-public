@@ -289,5 +289,6 @@
   "swapFailSetupFailed":"An error ocurred while setting up your transaction",
   "swapFailSwapFailed":"An error ocurred while swapping tokens",
   "swapFailCleanUpFailed":"An error ocurred while cleaning up your transaction",
-  "swapFailUnknown":"An unkown error ocurred while submitting your transaction"
+  "swapFailUnknown":"An unkown error ocurred while submitting your transaction",
+  "comingSoon":"Coming soon!"
 }

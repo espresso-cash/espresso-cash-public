@@ -2,9 +2,11 @@ import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
+import 'package:cryptoplease/features/request_pay/presentation/components/qr_scanner_appbar.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/request_pay_header.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/token_info_widget.dart';
 import 'package:cryptoplease/features/request_pay/presentation/request_pay_flow.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +43,13 @@ class _ScreenState extends State<RequestPayScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: CpAppBar(),
+        appBar: QrScannerAppBar(
+          onQrScanner: () => showWarningDialog(
+            context,
+            title: context.l10n.scanQRTitle,
+            message: context.l10n.comingSoon,
+          ),
+        ),
         body: BlocConsumer<RequestPayBloc, RequestPayState>(
           listener: (context, state) => state.processingState.whenOrNull(
             error: (e) => showErrorDialog(context, 'Error', e),
