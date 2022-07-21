@@ -19,6 +19,7 @@ class CpButton extends StatelessWidget {
     this.variant = CpButtonVariant.dark,
     this.minWidth,
     this.size = CpButtonSize.normal,
+    this.alignment = Alignment.center,
   }) : super(key: key);
 
   final String text;
@@ -27,6 +28,7 @@ class CpButton extends StatelessWidget {
   final CpButtonVariant variant;
   final double? minWidth;
   final CpButtonSize size;
+  final Alignment alignment;
 
   Color get _backgroundColor {
     switch (variant) {
@@ -82,7 +84,7 @@ class CpButton extends StatelessWidget {
           Size.fromHeight(size.height),
         ),
         shape: MaterialStateProperty.all(const StadiumBorder()),
-        alignment: size.alignment,
+        alignment: alignment,
         overlayColor:
             MaterialStateProperty.all(CpColors.translucentYellowColor),
         padding: MaterialStateProperty.all(
@@ -129,19 +131,6 @@ extension on CpButtonSize {
         return true;
       default:
         return false;
-    }
-  }
-
-  Alignment get alignment {
-    switch (this) {
-      case CpButtonSize.normal:
-        return Alignment.center;
-      case CpButtonSize.big:
-        return Alignment.centerLeft;
-      case CpButtonSize.small:
-        return Alignment.center;
-      case CpButtonSize.micro:
-        return Alignment.center;
     }
   }
 }

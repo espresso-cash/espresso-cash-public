@@ -42,62 +42,78 @@ class _ScreenState extends State<RequestPayScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: QrScannerAppBar(
-          onQrScanner: () => showWarningDialog(
-            context,
-            title: context.l10n.scanQRTitle,
-            message: context.l10n.comingSoon,
-          ),
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: QrScannerAppBar(
+        onQrScanner: () => showWarningDialog(
+          context,
+          title: context.l10n.scanQRTitle,
+          message: context.l10n.comingSoon,
         ),
-        body: BlocConsumer<RequestPayBloc, RequestPayState>(
-          listener: (context, state) => state.processingState.whenOrNull(
-            error: (e) => showErrorDialog(context, 'Error', e),
-          ),
-          builder: (context, state) => Column(
-            children: [
-              Flexible(
-                child: RequestPayHeader(
-                  amount: state.amount,
-                  onTokenChanged: _router.onTokenSelect,
-                  isLoading: state.processingState.isProcessing,
+      ),
+      body: BlocConsumer<RequestPayBloc, RequestPayState>(
+        listener: (context, state) => state.processingState.whenOrNull(
+          error: (e) => showErrorDialog(context, 'Error', e),
+        ),
+        builder: (context, state) => Column(
+          children: [
+            Flexible(
+              child: RequestPayHeader(
+                amount: state.amount,
+                onTokenChanged: _router.onTokenSelect,
+                isLoading: state.processingState.isProcessing,
+              ),
+            ),
+            state.processingState.maybeMap(
+              orElse: () => const SizedBox.shrink(),
+              none: (_) => InfoWidget(token: state.token),
+            ),
+            Flexible(
+              flex: 3,
+              child: LayoutBuilder(
+                builder: (context, constraints) => EnterAmountKeypad(
+                  height: constraints.maxHeight,
+                  width: width,
+                  controller: _amountController,
+                  maxDecimals: 2,
                 ),
               ),
-              state.processingState.maybeMap(
-                orElse: () => const SizedBox.shrink(),
-                none: (_) => InfoWidget(token: state.token),
-              ),
-              Flexible(
-                flex: 3,
-                child: LayoutBuilder(
-                  builder: (context, constraints) => EnterAmountKeypad(
-                    height: constraints.maxHeight,
-                    width: MediaQuery.of(context).size.width,
-                    controller: _amountController,
-                    maxDecimals: 2,
-                  ),
-                ),
-              ),
-              state.processingState.maybeMap(
-                orElse: () => const SizedBox.shrink(),
-                none: (_) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ),
+            state.processingState.maybeMap(
+              orElse: () => const SizedBox.shrink(),
+              none: (_) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Row(
                   children: [
-                    CpButton(
-                      text: 'Request',
-                      onPressed:
-                          state.amount.value == 0 ? null : _router.onRequest,
+                    Flexible(
+                      child: CpButton(
+                        text: context.l10n.receive,
+                        minWidth: width,
+                        onPressed:
+                            state.amount.value == 0 ? null : _router.onRequest,
+                        size: CpButtonSize.big,
+                      ),
                     ),
-                    CpButton(
-                      text: 'Pay',
-                      onPressed: state.amount.value == 0 ? null : _router.onPay,
+                    const SizedBox(width: 24),
+                    Flexible(
+                      child: CpButton(
+                        text: context.l10n.pay,
+                        minWidth: width,
+                        onPressed:
+                            state.amount.value == 0 ? null : _router.onPay,
+                        size: CpButtonSize.big,
+                      ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox.square(dimension: cpNavigationBarheight),
-            ],
-          ),
+            ),
+            const SizedBox.square(dimension: cpNavigationBarheight),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
