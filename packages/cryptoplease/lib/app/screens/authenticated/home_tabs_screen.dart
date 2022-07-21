@@ -35,12 +35,12 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
         bottomNavigationBar: CPNavigationBar(
           items: [
             NavigationButton(
-              icon: Assets.icons.wallet,
+              icon: Assets.icons.nfts,
               active: _currentPage == 0,
               onPressed: () => _onBottomNavigatorItemTap(0),
             ),
             NavigationButton(
-              icon: Assets.icons.nfts,
+              icon: Assets.icons.wallet,
               active: _currentPage == 1,
               onPressed: () => _onBottomNavigatorItemTap(1),
             ),
