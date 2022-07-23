@@ -77,7 +77,7 @@ const _pages = [
     route: ActivitiesRoute(),
     overlayStyle: SystemUiOverlayStyle.dark,
   ),
-  _Page(route: ProfileRoute(), overlayStyle: SystemUiOverlayStyle.dark),
+  _Page(route: MenuRoute(), overlayStyle: SystemUiOverlayStyle.dark),
 ];
 
 class _Page {
@@ -89,3 +89,4 @@ class _Page {
   final PageRouteInfo route;
   final SystemUiOverlayStyle overlayStyle;
 }
+
