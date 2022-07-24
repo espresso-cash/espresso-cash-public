@@ -32,6 +32,8 @@ abstract class CpColors {
   static const greyBackground = Color(0xfff4f4f4);
   static const menuPrimaryTextColor = Color(0xff34393c);
   static const greyIconBackgroundColor = Color(0xfff0efe7);
+
+  static const primaryAccentColor = Color(0xfffce4da);
 }
 
 const bgGradient = LinearGradient(
