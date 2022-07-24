@@ -25,7 +25,7 @@ class _SwapTokenFlowScreen extends State<SwapTokenFlowScreen>
 
   @override
   Future<Token?> onSelectInputToken(Iterable<Token> tokens) async {
-    final route = SwapTokenSelectorRoute(
+    final route = TokenSelectorRoute(
       availableTokens: tokens,
       shouldShowBalance: true,
     );
@@ -35,7 +35,7 @@ class _SwapTokenFlowScreen extends State<SwapTokenFlowScreen>
 
   @override
   Future<Token?> onSelectOutputToken(Iterable<Token> tokens) async {
-    final route = SwapTokenSelectorRoute(
+    final route = TokenSelectorRoute(
       availableTokens: tokens,
       shouldShowBalance: false,
     );
