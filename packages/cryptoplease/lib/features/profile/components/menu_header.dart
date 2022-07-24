@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
@@ -174,20 +176,9 @@ class _AppBarContent extends StatelessWidget {
               top: 0,
               right: 0,
               bottom: 0,
-              child: Container(
-                width: 32,
-                decoration: const ShapeDecoration(
-                  shape: CircleBorder(),
-                  color: CpColors.greyIconBackgroundColor,
-                ),
-                child: IconButton(
-                  iconSize: 16,
-                  icon: const Icon(
-                    Icons.settings,
-                    color: CpColors.darkBackground,
-                  ),
-                  onPressed: () {},
-                ),
+              child: CpIconButton(
+                icon: Icons.settings,
+                onPressed: () => context.router.push(const ProfileRoute()),
               ),
             ),
           ],

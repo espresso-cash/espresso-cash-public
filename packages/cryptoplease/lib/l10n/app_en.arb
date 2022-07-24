@@ -5,7 +5,7 @@
   "yourRecoveryPhraseSub": "Please write down your secret recovery phrase and save it carefully in a secure location. This phrase is composed of 12 random generated words. You will not be able to recover your funds if you lose these words.",
   "yourFirstNamePlaceholder": "Type your name",
   "activitiesTitle": "Activities",
-  "signOut": "Delete wallet",
+  "signOut": "Delete Wallet",
   "signOutConfirmation": "Are you sure you want to delete the wallet?",
   "cancel": "Cancel",
   "solanaAddress": "To a solana address",
@@ -54,7 +54,7 @@
   "itWillContain": "It will contain",
   "ok": "OK",
   "backupPhraseSuccessMessage": "You successfully saved your secret recovery phrase in a safe place, keep it as private as you can.",
-  "editProfile": "Profile",
+  "editProfile": "Edit Profile",
   "photoLibrary": "Photo Library",
   "camera": "Camera",
   "didYouWriteItDownCorrectly": "Did you write it down correctly?",
@@ -289,5 +289,6 @@
   "swapFailSetupFailed":"An error ocurred while setting up your transaction",
   "swapFailSwapFailed":"An error ocurred while swapping tokens",
   "swapFailCleanUpFailed":"An error ocurred while cleaning up your transaction",
-  "swapFailUnknown":"An unkown error ocurred while submitting your transaction"
+  "swapFailUnknown":"An unkown error ocurred while submitting your transaction",
+  "pushNotifications":"Push Notifications"
 }

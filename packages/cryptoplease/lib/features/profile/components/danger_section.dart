@@ -21,8 +21,9 @@ class DangerSection extends StatelessWidget {
           ProfileButton(
             label: context.l10n.signOut,
             onPressed: () => _onLogOutPressed(context),
+            color: CpColors.primaryColor,
           ),
         ],
-        color: CpColors.primaryColor,
+        color: CpColors.primaryAccentColor,
       );
 }
