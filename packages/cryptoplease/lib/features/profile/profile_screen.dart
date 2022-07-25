@@ -61,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             top: 0,
                             right: 0,
                             child: CpIconButton(
-                              icon: Icons.close,
+                              icon: Icons.close_outlined,
                               onPressed: Navigator.of(context).pop,
                             ),
                           ),
@@ -101,6 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     EditProfileSection(),
                     DangerSection(),
                     if (!isProd) DebugSection(),
+                    ShareSection(),
                     VersionSection(),
                   ],
                 ),

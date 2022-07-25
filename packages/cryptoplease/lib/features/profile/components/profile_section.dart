@@ -8,6 +8,7 @@ import 'package:cryptoplease/features/airdrop/presentation/airdrop_button.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/profile/components/profile_button.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:provider/provider.dart';
 part 'danger_section.dart';
 part 'debug_section.dart';
 part 'edit_profile_section.dart';
+part 'share_section.dart';
 part 'version_section.dart';
 
 class ProfileSection extends StatelessWidget {

@@ -15,6 +15,7 @@ class ProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
+        onTap: onPressed,
         title: Text(
           label,
           style: TextStyle(

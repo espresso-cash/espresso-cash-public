@@ -25,9 +25,8 @@ class EditProfileSection extends StatelessWidget {
           ),
           ProfileButton(
             label: context.l10n.pushNotifications,
-            onPressed: () => context.router.navigate(
-              const PrivacyPolicyRoute(),
-            ),
+            // TODO(rhbrunetto): add push callback
+            onPressed: () {},
           ),
         ],
       );
