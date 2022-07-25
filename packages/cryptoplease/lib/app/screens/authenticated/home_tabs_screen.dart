@@ -89,4 +89,3 @@ class _Page {
   final PageRouteInfo route;
   final SystemUiOverlayStyle overlayStyle;
 }
-
