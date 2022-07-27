@@ -19,6 +19,8 @@ dev_dependencies:
   mews_pedantic: ^0.6.0
 
 flutter:
+  assets:
+    - lib/fonts/
   fonts:
     - family: Roboto
       fonts:
