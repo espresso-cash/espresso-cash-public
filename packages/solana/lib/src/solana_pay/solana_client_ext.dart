@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
-import 'package:solana/dto.dart' show TransactionDetails;
+import 'package:solana/dto.dart' show ParsedTransaction, TransactionDetails;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/solana_pay/exceptions.dart';
@@ -235,7 +235,9 @@ extension SolanaClientSolanaPay on SolanaClient {
 
     final Decimal preAmount, postAmount;
     if (splToken == null) {
-      final accountIndex = response.transaction.message.accountKeys
+      final accountIndex = (response.transaction as ParsedTransaction)
+          .message
+          .accountKeys
           .indexWhere((a) => a.pubkey == recipient.toBase58());
       if (accountIndex == -1) {
         throw const ValidateTransactionException('Recipient not found.');
@@ -248,7 +250,9 @@ extension SolanaClientSolanaPay on SolanaClient {
     } else {
       final recipientATA =
           await findAssociatedTokenAddress(owner: recipient, mint: splToken);
-      final accountIndex = response.transaction.message.accountKeys
+      final accountIndex = (response.transaction as ParsedTransaction)
+          .message
+          .accountKeys
           .indexWhere((a) => a.pubkey == recipientATA.toBase58());
       if (accountIndex == -1) {
         throw const ValidateTransactionException('Recipient not found.');
@@ -270,8 +274,10 @@ extension SolanaClientSolanaPay on SolanaClient {
     }
 
     if (reference != null) {
-      final keys =
-          response.transaction.message.accountKeys.map((e) => e.pubkey);
+      final keys = (response.transaction as ParsedTransaction)
+          .message
+          .accountKeys
+          .map((e) => e.pubkey);
       if (reference.any((e) => !keys.contains(e.toBase58()))) {
         throw const ValidateTransactionException('Reference not found.');
       }
