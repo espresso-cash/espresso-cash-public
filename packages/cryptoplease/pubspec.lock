@@ -1136,14 +1136,14 @@ packages:
       name: sentry
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.5.1"
+    version: "6.9.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.5.1"
+    version: "6.9.0"
   share:
     dependency: "direct main"
     description:
@@ -1246,7 +1246,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.25.0"
+    version: "0.26.0"
   source_gen:
     dependency: transitive
     description:
