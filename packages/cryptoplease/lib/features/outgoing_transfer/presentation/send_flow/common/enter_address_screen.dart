@@ -121,7 +121,6 @@ class _EnterAddressScreenState extends State<EnterAddressScreen> {
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                     color: CpColors.primaryTextColor,
-                    fontFamily: 'DIN',
                   ),
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
