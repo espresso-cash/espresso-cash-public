@@ -1,5 +1,6 @@
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,7 @@ class InfoWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  'The ${token.name} is a digital stablecoin that should be fixed to the United States dollar.',
+                  context.l10n.usdcExplanation,
                   style: const TextStyle(fontSize: 13),
                 ),
               ),
