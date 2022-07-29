@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
@@ -28,12 +29,10 @@ class RequestPayBloc extends Bloc<_Event, _State> {
         super(
           const RequestPayState(
             processingState: ProcessingState.processing(),
-            token: Token.sol,
             amount: CryptoAmount(
               value: 0,
               currency: CryptoCurrency(token: Token.sol),
             ),
-            availableTokens: [],
           ),
         ) {
     on<_Event>(_eventHandler);
@@ -44,17 +43,15 @@ class RequestPayBloc extends Bloc<_Event, _State> {
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         initialized: (_) => _onInitialized(emit),
-        tokenUpdated: (event) => _onTokenUpdated(event, emit),
         amountUpdated: (event) => _onAmountUpdated(event, emit),
       );
 
   void _onInitialized(_Emitter emit) {
-    final symbols = ['USDC', 'USDT'];
-    final tokens = _tokenList.tokens.where(
-      (token) => symbols.contains(token.symbol) && token.isStablecoin,
+    final usdcToken = _tokenList.tokens.firstWhereOrNull(
+      (token) => token.symbol == 'USDC' && token.isStablecoin,
     );
 
-    if (tokens.isEmpty) {
+    if (usdcToken == null) {
       emit(
         state.copyWith(
           processingState: ProcessingState.error(
@@ -66,27 +63,12 @@ class RequestPayBloc extends Bloc<_Event, _State> {
       return;
     }
 
-    final initialToken = tokens.first;
-
     emit(
       state.copyWith(
-        token: initialToken,
-        availableTokens: tokens,
         amount: state.amount.copyWith(
-          currency: CryptoCurrency(token: initialToken),
+          currency: CryptoCurrency(token: usdcToken),
         ),
         processingState: const ProcessingState.none(),
-      ),
-    );
-  }
-
-  void _onTokenUpdated(_TokenUpdated event, _Emitter emit) {
-    emit(
-      state.copyWith(
-        token: event.token,
-        amount: state.amount.copyWith(
-          currency: CryptoCurrency(token: event.token),
-        ),
       ),
     );
   }
@@ -100,7 +82,7 @@ class RequestPayBloc extends Bloc<_Event, _State> {
   }
 
   Either<ValidationError, void> validate() {
-    final token = state.token;
+    final token = state.amount.token;
     final userBalance = _balances[token] ??
         Amount.zero(currency: Currency.crypto(token: token));
 

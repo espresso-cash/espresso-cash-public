@@ -51,8 +51,6 @@ class TokenList {
 
   Token? findTokenByMint(String mint) {
     if (mint == Token.sol.address) return Token.sol;
-    if (mint == Token.usdc.address) return Token.usdc;
-    if (mint == Token.usdt.address) return Token.usdt;
 
     return tokens.firstWhereOrNull((t) => t.address == mint);
   }

@@ -60,15 +60,17 @@ class _ScreenState extends State<RequestPayScreen> {
         builder: (context, state) => Column(
           children: [
             Flexible(
-              child: RequestPayHeader(
-                amount: state.amount,
-                onTokenChanged: _router.onTokenSelect,
-                isLoading: state.processingState.isProcessing,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: RequestPayHeader(
+                  amount: state.amount,
+                  isLoading: state.processingState.isProcessing,
+                ),
               ),
             ),
             state.processingState.maybeMap(
               orElse: () => const SizedBox.shrink(),
-              none: (_) => InfoWidget(token: state.token),
+              none: (_) => InfoWidget(token: state.amount.currency.token),
             ),
             Flexible(
               flex: 3,

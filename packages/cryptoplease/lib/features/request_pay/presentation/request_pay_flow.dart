@@ -1,12 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
-import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
@@ -34,20 +32,6 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
       balances: context.read<BalancesBloc>().state.balances,
       tokenList: context.read<TokenList>(),
     )..add(const RequestPayEvent.initialized());
-  }
-
-  @override
-  Future<void> onTokenSelect() async {
-    final token = await context.router.push<Token>(
-      RequestTokenSelectRoute(
-        availableTokens: _requestPayBloc.state.availableTokens,
-      ),
-    );
-    if (token == null) return;
-
-    _requestPayBloc.add(
-      RequestPayEvent.tokenUpdated(token),
-    );
   }
 
   @override
@@ -120,7 +104,6 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
 }
 
 abstract class RequestPayRouter {
-  void onTokenSelect();
   void onAmountUpdate(String value);
   void onRequest();
   void onPay();
