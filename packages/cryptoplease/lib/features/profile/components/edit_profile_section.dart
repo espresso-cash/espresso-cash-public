@@ -23,11 +23,6 @@ class EditProfileSection extends StatelessWidget {
               const PrivacyPolicyRoute(),
             ),
           ),
-          ProfileButton(
-            label: context.l10n.pushNotifications,
-            // TODO(rhbrunetto): add push callback
-            onPressed: () {},
-          ),
         ],
       );
 }
