@@ -8,11 +8,15 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpTheme.light(
-        child: Column(
-          children: const [
-            MenuHeader(),
-            MenuSection(),
-          ],
+        child: Scaffold(
+          backgroundColor: CpColors.greyBackground,
+          body: ListView(
+            physics: const ClampingScrollPhysics(),
+            children: const [
+              MenuHeader(),
+              MenuSection(),
+            ],
+          ),
         ),
       );
 }

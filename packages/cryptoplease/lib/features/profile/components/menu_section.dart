@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/features/profile/components/menu_button.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -11,59 +10,54 @@ class MenuSection extends StatelessWidget {
   const MenuSection({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Expanded(
-        child: Material(
-          color: CpColors.greyBackground,
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+  Widget build(BuildContext context) => ListView(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+        children: [
+          _Section(
+            title: context.l10n.securitySectionTitle,
             children: [
-              _Section(
-                title: context.l10n.securitySectionTitle,
-                children: [
-                  MenuButton(
-                    title: context.l10n.appLock,
-                    description: context.l10n.appLockDescription,
-                    icon: Assets.icons.lock,
-                    onTap: () => context.router.push(
-                      const AppLockSetupFlowRoute(),
-                    ),
-                  ),
-                  MenuButton(
-                    title: context.l10n.viewRecoveryPhrase,
-                    description: context.l10n.viewRecoveryPhraseDescription,
-                    icon: Assets.icons.secret,
-                    onTap: () => context.router.push(
-                      const BackupPhraseFlowRoute(),
-                    ),
-                  ),
-                ],
+              MenuButton(
+                title: context.l10n.appLock,
+                description: context.l10n.appLockDescription,
+                icon: Assets.icons.lock,
+                onTap: () => context.router.push(
+                  const AppLockSetupFlowRoute(),
+                ),
               ),
-              _Section(
-                title: context.l10n.yourAccountSectionTitle,
-                children: [
-                  MenuButton(
-                    title: context.l10n.editProfile,
-                    description: context.l10n.editProfileDescription,
-                    icon: Assets.icons.visibility,
-                    onTap: () => context.router.push(
-                      const EditProfileRoute(),
-                    ),
-                  ),
-                  MenuButton(
-                    title: context.l10n.learnAboutCrypto,
-                    description: context.l10n.learnAboutCryptoDescription,
-                    icon: Assets.icons.info,
-                    onTap: () => context.router.push(
-                      const HelpRoute(),
-                    ),
-                  ),
-                ],
+              MenuButton(
+                title: context.l10n.viewRecoveryPhrase,
+                description: context.l10n.viewRecoveryPhraseDescription,
+                icon: Assets.icons.secret,
+                onTap: () => context.router.push(
+                  const BackupPhraseFlowRoute(),
+                ),
               ),
-              const SizedBox(height: cpNavigationBarheight + 16)
             ],
           ),
-        ),
+          _Section(
+            title: context.l10n.yourAccountSectionTitle,
+            children: [
+              MenuButton(
+                title: context.l10n.editProfile,
+                description: context.l10n.editProfileDescription,
+                icon: Assets.icons.visibility,
+                onTap: () => context.router.push(
+                  const EditProfileRoute(),
+                ),
+              ),
+              MenuButton(
+                title: context.l10n.learnAboutCrypto,
+                description: context.l10n.learnAboutCryptoDescription,
+                icon: Assets.icons.info,
+                onTap: () => context.router.push(
+                  const HelpRoute(),
+                ),
+              ),
+            ],
+          ),
+        ],
       );
 }
 

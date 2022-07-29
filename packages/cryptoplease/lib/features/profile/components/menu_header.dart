@@ -55,34 +55,37 @@ class _MenuHeaderState extends State<MenuHeader> {
     final amount = converted ?? Amount.zero(currency: Currency.usd);
     final formatted = amount.format(locale);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CpAppBar(
-          hasBorder: false,
-          automaticallyImplyLeading: false,
-          title: const _AppBarContent(),
-        ),
-        FittedBox(
-          child: Text(
-            formatted,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 57,
+    return Material(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CpAppBar(
+            hasBorder: false,
+            automaticallyImplyLeading: false,
+            title: const _AppBarContent(),
+          ),
+          FittedBox(
+            child: Text(
+              formatted,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 57,
+              ),
             ),
           ),
-        ),
-        _BalanceDropdown(
-          selectedToken: currentToken,
-          onTap: hasMultipleTokens ? _onSelectToken : null,
-        ),
-        _Buttons(
-          onAddCash: () => context.router.navigate(
-            AddFundsRoute(wallet: context.read<MyAccount>().wallet),
+          _BalanceDropdown(
+            selectedToken: currentToken,
+            onTap: hasMultipleTokens ? _onSelectToken : null,
           ),
-          onCashOut: () => context.navigateToSendFt(currentToken),
-        ),
-      ],
+          _Buttons(
+            onAddCash: () => context.router.navigate(
+              AddFundsRoute(wallet: context.read<MyAccount>().wallet),
+            ),
+            onCashOut: () => context.navigateToSendFt(currentToken),
+          ),
+        ],
+      ),
     );
   }
 }
