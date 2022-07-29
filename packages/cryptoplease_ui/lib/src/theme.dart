@@ -76,12 +76,13 @@ class CpThemeData {
         height: 1.25,
         color: primaryTextColor,
         fontFamily: 'Roboto',
+        package: 'cryptoplease_ui',
       );
 
   ThemeData toMaterialTheme() => ThemeData(
         brightness: brightness,
         splashColor: CpColors.yellowColor.withOpacity(0.25),
-        fontFamily: 'Roboto',
+        fontFamily: 'packages/cryptoplease_ui/Roboto',
         textTheme: TextTheme(
           headline1: _baseTextStyle.copyWith(
             fontSize: 72,
