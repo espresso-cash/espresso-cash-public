@@ -6,7 +6,8 @@ part of 'transaction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
+ParsedTransaction _$ParsedTransactionFromJson(Map<String, dynamic> json) =>
+    ParsedTransaction(
       signatures: (json['signatures'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
