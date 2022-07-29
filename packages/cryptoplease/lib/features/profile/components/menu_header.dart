@@ -5,9 +5,9 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/currency.dart';
+import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -82,7 +82,11 @@ class _MenuHeaderState extends State<MenuHeader> {
             onAddCash: () => context.router.navigate(
               AddFundsRoute(wallet: context.read<MyAccount>().wallet),
             ),
-            onCashOut: () => context.navigateToSendFt(currentToken),
+            onCashOut: () => showWarningDialog(
+              context,
+              title: context.l10n.cashOut,
+              message: context.l10n.comingSoon,
+            ),
           ),
         ],
       ),

@@ -305,5 +305,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "comingSoon": "Coming Soon"
 }
