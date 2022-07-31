@@ -25,7 +25,8 @@ class TransactionDetails extends StatelessWidget {
   final DateTime? dateTime;
   final String signature;
 
-  Future<void> _openBlockExplorer() => launch(createTransactionLink(signature));
+  Future<void> _openBlockExplorer() =>
+      launchUrl(Uri.parse(createTransactionLink(signature)));
 
   @override
   Widget build(BuildContext context) => CustomScrollView(

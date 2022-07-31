@@ -11,7 +11,7 @@ dependencies:
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.0
   cached_network_image: ^3.1.0
-  cloud_functions: ^3.2.4
+  cloud_functions: ^3.3.3
   collection: ^1.15.0
   cryptoplease_ui:
     path: ../cryptoplease_ui/
@@ -21,9 +21,9 @@ dependencies:
   dio: ^4.0.0
   drift: ^1.5.0
   fast_immutable_collections: ^7.4.1
-  firebase_analytics: ^9.1.7
+  firebase_analytics: ^9.3.0
   firebase_core: ^1.20.0
-  firebase_dynamic_links: ^4.1.2
+  firebase_dynamic_links: ^4.3.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
@@ -34,7 +34,7 @@ dependencies:
   flutter_svg: ^1.0.3
   flutter_svg_provider: ^1.0.3
   freezed_annotation: ^2.0.0
-  image_picker: ^0.8.5
+  image_picker: ^0.8.5+3
   intl: ^0.17.0
   json_annotation: ^4.4.0
   jupiter_aggregator: ^1.0.0
@@ -85,7 +85,7 @@ dev_dependencies:
   retrofit_generator: ^4.0.0
 
 dependency_overrides:
-  qr_code_scanner: 
+  qr_code_scanner:
     git:
       url: https://github.com/X-SLAYER/qr_code_scanner.git
       ref: flutter-beta
