@@ -42,17 +42,17 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
             NavigationButton(
               icon: Assets.icons.swap,
               active: _currentPage == 1,
-              onPressed: () => _onBottomNavigatorItemTap(2),
+              onPressed: () => _onBottomNavigatorItemTap(1),
             ),
             NavigationButton(
               icon: Assets.icons.notifications,
               active: _currentPage == 2,
-              onPressed: () => _onBottomNavigatorItemTap(3),
+              onPressed: () => _onBottomNavigatorItemTap(2),
             ),
             NavigationButton(
               icon: Assets.icons.profile,
               active: _currentPage == 3,
-              onPressed: () => _onBottomNavigatorItemTap(4),
+              onPressed: () => _onBottomNavigatorItemTap(3),
             ),
           ],
         ),
