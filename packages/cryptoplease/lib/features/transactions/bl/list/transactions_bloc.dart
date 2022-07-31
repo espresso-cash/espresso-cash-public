@@ -99,7 +99,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
 }
 
 Transaction _solTxTransformer(TransactionDetails response) {
-  final transaction = response.transaction;
+  final transaction = response.transaction as ParsedTransaction;
   final instruction = transaction.message.instructions
       .whereType<ParsedInstructionSystem>()
       .firstWhereOrNull(
@@ -136,7 +136,7 @@ Transaction _solTxTransformer(TransactionDetails response) {
 }
 
 Transaction _splTxTransformer(TransactionDetails response) {
-  final transaction = response.transaction;
+  final transaction = response.transaction as ParsedTransaction;
   final instruction = transaction.message.instructions
       .whereType<ParsedInstructionSplToken>()
       .firstWhereOrNull(
@@ -176,7 +176,7 @@ Transaction _fallbackTransformer(TransactionDetails response) =>
     Transaction.generic(
       meta: response.meta,
       blockTime: _blockTimeToDateTime(response.blockTime),
-      hash: response.transaction.signatures.first,
+      hash: (response.transaction as ParsedTransaction).signatures.first,
     );
 
 DateTime? _blockTimeToDateTime(int? blockTime) {

@@ -9,8 +9,7 @@ part of 'transaction_details.dart';
 TransactionDetails _$TransactionDetailsFromJson(Map<String, dynamic> json) =>
     TransactionDetails(
       slot: json['slot'] as int,
-      transaction:
-          Transaction.fromJson(json['transaction'] as Map<String, dynamic>),
+      transaction: Transaction.fromJson(json['transaction']),
       blockTime: json['blockTime'] as int?,
       meta: json['meta'] == null
           ? null
