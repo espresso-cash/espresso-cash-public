@@ -1,14 +1,13 @@
 name: jsonrpc_client
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
-# homepage: https://www.example.com
 publish_to: none
 
 environment:
   sdk: ">=2.14.3 <3.0.0"
 
 dependencies:
-  analyzer: ^3.0.0
+  analyzer: ^4.0.0
   build: ^2.1.1
   http: ^0.13.4
   source_gen: ^1.1.1
