@@ -40,24 +40,19 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
               onPressed: () => _onBottomNavigatorItemTap(0),
             ),
             NavigationButton(
-              icon: Assets.icons.nfts,
+              icon: Assets.icons.swap,
               active: _currentPage == 1,
               onPressed: () => _onBottomNavigatorItemTap(1),
             ),
             NavigationButton(
-              icon: Assets.icons.swap,
+              icon: Assets.icons.notifications,
               active: _currentPage == 2,
               onPressed: () => _onBottomNavigatorItemTap(2),
             ),
             NavigationButton(
-              icon: Assets.icons.notifications,
+              icon: Assets.icons.profile,
               active: _currentPage == 3,
               onPressed: () => _onBottomNavigatorItemTap(3),
-            ),
-            NavigationButton(
-              icon: Assets.icons.profile,
-              active: _currentPage == 4,
-              onPressed: () => _onBottomNavigatorItemTap(4),
             ),
           ],
         ),
@@ -68,7 +63,6 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
 
 const _pages = [
   _Page(route: WalletRoute(), overlayStyle: SystemUiOverlayStyle.light),
-  _Page(route: NftRoute(), overlayStyle: SystemUiOverlayStyle.light),
   _Page(
     route: SwapTokenFlowRoute(),
     overlayStyle: SystemUiOverlayStyle.dark,
