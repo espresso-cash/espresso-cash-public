@@ -1,5 +1,4 @@
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
-import 'package:flutter/widgets.dart';
 import 'package:storybook/utils.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
@@ -24,18 +23,8 @@ final cpButton = Story(
     ),
     alignment: context.knobs.options(
       label: 'Alignment',
-      initial: Alignment.center,
-      options: [
-        Alignment.topLeft,
-        Alignment.topCenter,
-        Alignment.topRight,
-        Alignment.centerLeft,
-        Alignment.center,
-        Alignment.centerRight,
-        Alignment.bottomLeft,
-        Alignment.bottomCenter,
-        Alignment.bottomRight,
-      ].map((e) => Option(label: e.toString(), value: e)).toList(),
+      initial: CpButtonAlignment.center,
+      options: CpButtonAlignment.values.toOptions(),
     ),
   ),
 );

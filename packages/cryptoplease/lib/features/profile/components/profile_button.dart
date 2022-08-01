@@ -23,7 +23,7 @@ class ProfileButton extends StatelessWidget {
             variant: CpButtonVariant.secondary,
             onPressed: onPressed,
             size: CpButtonSize.big,
-            alignment: Alignment.centerLeft,
+            alignment: CpButtonAlignment.left,
           ),
         ),
       );

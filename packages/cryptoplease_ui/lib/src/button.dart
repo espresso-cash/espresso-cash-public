@@ -10,6 +10,8 @@ enum CpButtonVariant {
 
 enum CpButtonSize { normal, big, small, micro }
 
+enum CpButtonAlignment { left, center }
+
 class CpButton extends StatelessWidget {
   const CpButton({
     Key? key,
@@ -19,7 +21,7 @@ class CpButton extends StatelessWidget {
     this.variant = CpButtonVariant.dark,
     this.minWidth,
     this.size = CpButtonSize.normal,
-    this.alignment = Alignment.center,
+    this.alignment = CpButtonAlignment.center,
   }) : super(key: key);
 
   final String text;
@@ -28,7 +30,7 @@ class CpButton extends StatelessWidget {
   final CpButtonVariant variant;
   final double? minWidth;
   final CpButtonSize size;
-  final Alignment alignment;
+  final CpButtonAlignment alignment;
 
   Color get _backgroundColor {
     switch (variant) {
@@ -84,7 +86,7 @@ class CpButton extends StatelessWidget {
           Size.fromHeight(size.height),
         ),
         shape: MaterialStateProperty.all(const StadiumBorder()),
-        alignment: alignment,
+        alignment: alignment.alignment,
         overlayColor:
             MaterialStateProperty.all(CpColors.translucentYellowColor),
         padding: MaterialStateProperty.all(
@@ -110,6 +112,17 @@ class CpButton extends StatelessWidget {
 }
 
 const _disabledOpacity = 0.25;
+
+extension on CpButtonAlignment {
+  Alignment get alignment {
+    switch (this) {
+      case CpButtonAlignment.left:
+        return Alignment.centerLeft;
+      case CpButtonAlignment.center:
+        return Alignment.center;
+    }
+  }
+}
 
 extension on CpButtonSize {
   double get height {
