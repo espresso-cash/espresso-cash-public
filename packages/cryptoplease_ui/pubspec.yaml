@@ -8,7 +8,7 @@ environment:
   flutter: ">=3.0.0"
 
 dependencies:
-  dfunc: ^0.7.2
+  dfunc: ^0.8.0+1
   flutter:
     sdk: flutter
   provider: ^6.0.0
