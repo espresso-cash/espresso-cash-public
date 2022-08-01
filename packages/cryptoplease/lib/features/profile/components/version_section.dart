@@ -24,7 +24,10 @@ class _VersionSectionState extends State<VersionSection> {
                   child: Center(
                     child: Text(
                       'Version $version ($buildNumber)',
-                      style: const TextStyle(fontSize: 15),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 );

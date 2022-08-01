@@ -8,6 +8,7 @@ export 'src/colors.dart';
 export 'src/content_padding.dart';
 export 'src/empty_message_widget.dart';
 export 'src/headered_list/headered_list.dart';
+export 'src/icon_button.dart';
 export 'src/loader.dart';
 export 'src/search_text_field.dart';
 export 'src/snackbar.dart';
