@@ -25,10 +25,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final photoPath = state.photoPath;
     final address = state.address;
 
-    return SingleChildScrollView(
-      child: Material(
-        color: Colors.white,
-        child: SafeArea(
+    return Material(
+      color: Colors.white,
+      child: SafeArea(
+        bottom: false,
+        maintainBottomViewPadding: false,
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
