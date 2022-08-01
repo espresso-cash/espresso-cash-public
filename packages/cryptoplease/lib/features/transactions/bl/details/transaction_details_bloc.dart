@@ -47,7 +47,7 @@ class TransactionDetailsBloc extends Bloc<_Event, _State> {
           return const _State.error(TransactionDetailsError.notFound);
         }
 
-        final transaction = result.transaction;
+        final transaction = result.transaction as ParsedTransaction;
         final message = transaction.message;
         final blockTime = result.blockTime;
 

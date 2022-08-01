@@ -16,19 +16,41 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mews_pedantic: ^0.6.0
+  mews_pedantic: ^0.7.0
 
 flutter:
+  assets:
+    - lib/fonts/
   fonts:
-    - family: DIN2014
+    - family: Roboto
       fonts:
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-Light.ttf
+        - asset: packages/cryptoplease_ui/fonts/Roboto-Thin.ttf
+          weight: 100
+        - asset: packages/cryptoplease_ui/fonts/Roboto-ThinItalic.ttf
+          style: italic
+          weight: 100
+        - asset: packages/cryptoplease_ui/fonts/Roboto-Light.ttf
           weight: 300
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-Regular.ttf
+        - asset: packages/cryptoplease_ui/fonts/Roboto-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: packages/cryptoplease_ui/fonts/Roboto-Regular.ttf
           weight: 400
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-DemiBold.ttf
-          weight: 600
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-Bold.ttf
+        - asset: packages/cryptoplease_ui/fonts/Roboto-Italic.ttf
+          style: italic
+          weight: 400
+        - asset: packages/cryptoplease_ui/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: packages/cryptoplease_ui/fonts/Roboto-MediumItalic.ttf
+          style: italic
+          weight: 500
+        - asset: packages/cryptoplease_ui/fonts/Roboto-Bold.ttf
           weight: 700
-        - asset: packages/cryptoplease_ui/fonts/DIN2014-ExtraBold.ttf
+        - asset: packages/cryptoplease_ui/fonts/Roboto-BoldItalic.ttf
+          style: italic
+          weight: 700
+        - asset: packages/cryptoplease_ui/fonts/Roboto-Black.ttf
+          weight: 900
+        - asset: packages/cryptoplease_ui/fonts/Roboto-BlackItalic.ttf
+          style: italic
           weight: 900

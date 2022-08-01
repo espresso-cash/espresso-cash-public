@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 extension LinkOpenerExt on BuildContext {
   Future<void> openLink(String link) async {
     try {
-      await launch(link);
+      await launchUrl(Uri.parse(link));
     } on PlatformException catch (_) {
       showCpErrorSnackbar(
         this,
