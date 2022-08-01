@@ -39,7 +39,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
               title: context.l10n.buySolFailedTitle,
               message: context.l10n.buySolFailedMessage,
             ),
-            success: launch,
+            success: (url) => launchUrl(Uri.parse(url)),
             orElse: ignore,
           ),
           builder: (context, state) {

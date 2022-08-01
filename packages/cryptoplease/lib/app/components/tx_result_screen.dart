@@ -23,7 +23,7 @@ class TxResultScreen extends StatelessWidget {
     final signature = this.signature;
     if (signature == null) return;
 
-    launch(createTransactionLink(signature));
+    launchUrl(Uri.parse(createTransactionLink(signature)));
   }
 
   @override
