@@ -35,7 +35,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
         ),
         CustomRoute<void>(page: ActivitiesScreen),
         CustomRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),
-        CustomRoute<void>(page: ProfileScreen)
+        CustomRoute<void>(page: ProfileScreen),
       ],
     ),
     ...backupPhraseRoutes,

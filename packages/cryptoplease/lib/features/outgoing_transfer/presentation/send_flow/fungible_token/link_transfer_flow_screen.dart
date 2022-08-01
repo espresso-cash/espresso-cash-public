@@ -57,8 +57,9 @@ class _FtLinkTransferFlowScreenState extends State<FtLinkTransferFlowScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (context) => outgoingBloc,
+  Widget build(BuildContext context) =>
+      Provider<FtCreateOutgoingTransferBloc>.value(
+        value: outgoingBloc,
         child: BlocListener<FtCreateOutgoingTransferBloc,
             FtCreateOutgoingTransferState>(
           listener: (context, state) => state.flow.maybeMap(

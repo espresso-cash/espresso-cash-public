@@ -59,8 +59,9 @@ class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => BlocProvider<CreatePaymentRequestBloc>(
-        create: (context) => paymentRequestBloc,
+  Widget build(BuildContext context) =>
+      Provider<CreatePaymentRequestBloc>.value(
+        value: paymentRequestBloc,
         child: const _Content(),
       );
 }
