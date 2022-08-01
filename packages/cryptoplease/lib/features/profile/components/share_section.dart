@@ -14,7 +14,11 @@ class ShareSection extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Assets.icons.twitter.image(height: 20, width: 20),
+              child: Assets.icons.twitter.svg(
+                height: 20,
+                width: 20,
+                color: Colors.white,
+              ),
             ),
           ),
         ),

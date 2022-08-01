@@ -12,7 +12,7 @@ class MenuButton extends StatelessWidget {
 
   final String title;
   final String description;
-  final AssetGenImage icon;
+  final SvgGenImage icon;
   final VoidCallback onTap;
 
   @override
@@ -23,7 +23,7 @@ class MenuButton extends StatelessWidget {
         leading: SizedBox(
           width: 32,
           child: Center(
-            child: icon.image(height: 16, width: 16),
+            child: icon.svg(height: 16, width: 16),
           ),
         ),
         title: Text(
