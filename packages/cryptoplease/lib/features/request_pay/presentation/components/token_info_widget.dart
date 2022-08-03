@@ -16,7 +16,7 @@ class InfoWidget extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
         decoration: const BoxDecoration(
-          color: CpColors.primaryAccentColor,
+          color: CpColors.backgroundAccentColor,
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(40),
             bottomRight: Radius.circular(40),

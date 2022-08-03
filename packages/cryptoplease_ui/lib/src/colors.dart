@@ -29,7 +29,12 @@ abstract class CpColors {
   static const accentDarkBackground = Color(0xff2c2d31);
   static const darkPrimaryColor = Color(0xffd74924);
 
-  static const primaryAccentColor = Color(0xffff9551);
+  static const backgroundAccentColor = Color(0xffff9551);
+  static const greyBackground = Color(0xfff4f4f4);
+  static const menuPrimaryTextColor = Color(0xff34393c);
+  static const greyIconBackgroundColor = Color(0xfff0efe7);
+
+  static const primaryAccentColor = Color(0xfffce4da);
 }
 
 const bgGradient = LinearGradient(

@@ -6,25 +6,24 @@ class ProfileButton extends StatelessWidget {
     Key? key,
     required this.label,
     this.onPressed,
+    this.color = CpColors.primaryTextColor,
   }) : super(key: key);
 
   final String label;
+  final Color color;
   final VoidCallback? onPressed;
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minWidth: MediaQuery.of(context).size.width - 32,
-          ),
-          child: CpButton(
-            text: label,
-            variant: CpButtonVariant.secondary,
-            onPressed: onPressed,
-            size: CpButtonSize.big,
-            alignment: CpButtonAlignment.left,
+  Widget build(BuildContext context) => ListTile(
+        onTap: onPressed,
+        title: Text(
+          label,
+          style: TextStyle(
+            color: color,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        trailing: Icon(Icons.chevron_right, color: color),
       );
 }

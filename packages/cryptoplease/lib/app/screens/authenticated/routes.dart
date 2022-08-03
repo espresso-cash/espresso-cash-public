@@ -3,6 +3,8 @@ import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/app/screens/authenticated/home_tabs_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_screen.dart';
+import 'package:cryptoplease/core/presentation/token_selector_screen.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/activities/presentation/activities_screen.dart';
 import 'package:cryptoplease/features/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/features/app_lock/presentation/routes.dart';
@@ -13,6 +15,7 @@ import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_tr
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/routes.dart';
 import 'package:cryptoplease/features/profile/edit_profile_screen.dart';
 import 'package:cryptoplease/features/profile/help_screen.dart';
+import 'package:cryptoplease/features/profile/menu_screen.dart';
 import 'package:cryptoplease/features/profile/profile_screen.dart';
 import 'package:cryptoplease/features/request_pay/presentation/request_pay_flow.dart';
 import 'package:cryptoplease/features/request_pay/presentation/routes.dart';
@@ -35,7 +38,8 @@ const authenticatedFlowRoutes = AutoRoute<void>(
         ),
         CustomRoute<void>(page: ActivitiesScreen),
         CustomRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),
-        CustomRoute<void>(page: ProfileScreen),
+        CustomRoute<void>(page: MenuScreen),
+        CustomRoute<Token>(page: TokenSelectorScreen),
       ],
     ),
     ...backupPhraseRoutes,
@@ -47,6 +51,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
     ...receiveFlowRoutes,
     ...addFundsRoutes,
     appLockSetupFlowRoutes,
+    AutoRoute<void>(page: ProfileScreen),
     AutoRoute<void>(page: EditProfileScreen),
     AutoRoute<void>(page: TermsOfServiceScreen),
     AutoRoute<void>(page: PrivacyPolicyScreen),

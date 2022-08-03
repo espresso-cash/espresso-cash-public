@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/core/presentation/address_view.dart';
 import 'package:cryptoplease/features/profile/components/profile_section.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -25,10 +25,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final photoPath = state.photoPath;
     final address = state.address;
 
-    return SingleChildScrollView(
-      child: ColoredBox(
-        color: Colors.white,
-        child: SafeArea(
+    return Material(
+      color: Colors.white,
+      child: SafeArea(
+        bottom: false,
+        maintainBottomViewPadding: false,
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -43,10 +45,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CpUserAvatar(
-                      radius: _imageSize / 2,
-                      image: photoPath?.let((it) => FileImage(File(it))),
-                      userName: name,
+                    SizedBox(
+                      height: _imageSize,
+                      width: MediaQuery.of(context).size.width,
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: CpUserAvatar(
+                              radius: _imageSize / 2,
+                              image: photoPath?.let(
+                                (it) => FileImage(File(it)),
+                              ),
+                              userName: name,
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: CpIconButton(
+                              icon: Icons.close_outlined,
+                              onPressed: Navigator.of(context).pop,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
@@ -55,20 +77,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
-                    AddressView(address: address, color: CpColors.yellowColor),
+                    Container(
+                      height: 150,
+                      width: 150,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: CpColors.lightGreyBackground,
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                      ),
+                      child: QrImage(
+                        data: address,
+                        size: 136,
+                      ),
+                    ),
                   ],
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 24,
+                ),
                 child: Column(
                   children: const [
-                    SecuritySection(),
                     EditProfileSection(),
-                    AboutSection(),
                     DangerSection(),
                     if (!isProd) DebugSection(),
+                    ShareSection(),
                     VersionSection(),
                   ],
                 ),
@@ -82,4 +117,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 const double _buttonSpacing = 24;
-const double _imageSize = 160;
+const double _imageSize = 100;
