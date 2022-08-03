@@ -63,7 +63,8 @@ class _ScreenState extends State<RequestPayScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
                 child: RequestPayHeader(
-                  amount: state.amount,
+                  inputController: _amountController,
+                  token: state.amount.currency.token,
                   isLoading: state.processingState.isProcessing,
                 ),
               ),
