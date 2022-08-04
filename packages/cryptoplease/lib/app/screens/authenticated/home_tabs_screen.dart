@@ -35,24 +35,29 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
         bottomNavigationBar: CPNavigationBar(
           items: [
             NavigationButton(
-              icon: Assets.icons.wallet,
+              icon: Assets.icons.nfts,
               active: _currentPage == 0,
               onPressed: () => _onBottomNavigatorItemTap(0),
             ),
             NavigationButton(
-              icon: Assets.icons.swap,
+              icon: Assets.icons.wallet,
               active: _currentPage == 1,
               onPressed: () => _onBottomNavigatorItemTap(1),
             ),
             NavigationButton(
-              icon: Assets.icons.notifications,
+              icon: Assets.icons.swap,
               active: _currentPage == 2,
               onPressed: () => _onBottomNavigatorItemTap(2),
             ),
             NavigationButton(
-              icon: Assets.icons.profile,
+              icon: Assets.icons.notifications,
               active: _currentPage == 3,
               onPressed: () => _onBottomNavigatorItemTap(3),
+            ),
+            NavigationButton(
+              icon: Assets.icons.profile,
+              active: _currentPage == 4,
+              onPressed: () => _onBottomNavigatorItemTap(4),
             ),
           ],
         ),
@@ -63,9 +68,10 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
 
 const _pages = [
   _Page(route: WalletRoute(), overlayStyle: SystemUiOverlayStyle.light),
+  _Page(route: RequestPayFlowRoute(), overlayStyle: SystemUiOverlayStyle.light),
   _Page(
     route: SwapTokenFlowRoute(),
-    overlayStyle: SystemUiOverlayStyle.dark,
+    overlayStyle: SystemUiOverlayStyle.light,
   ),
   _Page(
     route: ActivitiesRoute(),

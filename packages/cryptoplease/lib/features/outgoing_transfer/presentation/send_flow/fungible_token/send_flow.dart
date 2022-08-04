@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/flow.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
@@ -13,6 +14,17 @@ import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 extension SendFtFlowExt on BuildContext {
+  void navigateToLinkConfirmation({
+    required CryptoAmount amount,
+  }) =>
+      navigateTo(
+        FtLinkTransferFlowRoute(
+          onComplete: _navigateToOutgoingTransfer,
+          amount: amount,
+          children: const [FtConfirmRoute()],
+        ),
+      );
+
   /// Navigates to the flow for sending a fungible token.
   ///
   /// It starts with the picking recipient type: direct transfer / link

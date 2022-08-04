@@ -43,6 +43,8 @@ class Token {
 
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
 
+  static const usdc = isProd ? _UsdcMainToken() : _UsdcDevToken();
+
   static const sol = Token.solana();
 
   static const wrappedSol = Token.wrappedSolana();
@@ -129,6 +131,40 @@ class _WrappedSolanaToken extends SplToken {
           decimals: 9,
           name: 'Wrapped SOL',
           symbol: 'SOL',
+        );
+}
+
+class _UsdcMainToken extends SplToken {
+  const _UsdcMainToken()
+      : super(
+          address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+          extensions: const Extensions(
+            coingeckoId: 'usd-coin',
+          ),
+          logoURI:
+              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
+          chainId: currentChainId,
+          tags: const ['stablecoin'],
+          decimals: 6,
+          name: 'USD Coin',
+          symbol: 'USDC',
+        );
+}
+
+class _UsdcDevToken extends SplToken {
+  const _UsdcDevToken()
+      : super(
+          address: '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU',
+          extensions: const Extensions(
+            coingeckoId: 'usd-coin',
+          ),
+          logoURI:
+              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU/logo.png',
+          chainId: currentChainId,
+          tags: const ['stablecoin'],
+          decimals: 6,
+          name: 'USD Coin',
+          symbol: 'USDC',
         );
 }
 

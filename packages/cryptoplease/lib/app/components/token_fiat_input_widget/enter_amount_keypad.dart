@@ -28,9 +28,9 @@ class EnterAmountKeypad extends StatelessWidget {
     KeypadKey.number(number: 7),
     KeypadKey.number(number: 8),
     KeypadKey.number(number: 9),
-    KeypadKey.backspace(),
+    KeypadKey.decimalSeparator(),
     KeypadKey.number(number: 0),
-    KeypadKey.decimalSeparator()
+    KeypadKey.backspace(),
   ];
 
   void _manageKey(String key, String decimalSeparator) {

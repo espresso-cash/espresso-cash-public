@@ -15,9 +15,10 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokenlist = context.read<TokenList>();
     final request = context.watch<PaymentRequest>();
     final formattedAmount =
-        request.payRequest.cryptoAmount(TokenList())?.formatWithFiat(context) ??
+        request.payRequest.cryptoAmount(tokenlist)?.formatWithFiat(context) ??
             '';
 
     final message = context.l10n.sharePaymentRequestLinkMessage(
