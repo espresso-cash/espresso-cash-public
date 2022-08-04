@@ -21,16 +21,14 @@ class RequestPayBloc extends Bloc<_Event, _State> {
   RequestPayBloc({
     required Map<Token, Amount> balances,
   })  : _balances = balances,
-        super(
-          RequestPayState(
-            amount: CryptoAmount(
-              value: 0,
-              currency: CryptoCurrency(token: Token.usdc),
-            ),
-          ),
-        ) {
+        super(const RequestPayState(amount: _defaultAmount)) {
     on<_Event>(_eventHandler);
   }
+
+  static const _defaultAmount = CryptoAmount(
+    value: 0,
+    currency: CryptoCurrency(token: Token.usdc),
+  );
 
   final Map<Token, Amount> _balances;
 
@@ -39,11 +37,7 @@ class RequestPayBloc extends Bloc<_Event, _State> {
       );
 
   void _onAmountUpdated(_AmountUpdated event, _Emitter emit) {
-    emit(
-      state.copyWith(
-        amount: state.amount.copyWithDecimal(event.amount),
-      ),
-    );
+    emit(state.copyWith(amount: state.amount.copyWithDecimal(event.amount)));
   }
 
   Either<ValidationError, void> validate() {

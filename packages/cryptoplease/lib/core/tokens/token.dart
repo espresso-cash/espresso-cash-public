@@ -21,11 +21,6 @@ class Token {
     required this.extensions,
   });
 
-  factory Token.usdcSpl() {
-    if (isProd) return const _UsdcMainToken();
-
-    return const _UsdcDevToken();
-  }
 
   const factory Token.solana() = _SolanaToken;
 
@@ -49,7 +44,7 @@ class Token {
 
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
 
-  static final usdc = Token.usdcSpl();
+  static const usdc = isProd ? _UsdcMainToken() :  _UsdcDevToken();
 
   static const sol = Token.solana();
 

@@ -12,22 +12,21 @@ class InfoWidget extends StatelessWidget {
 
   final Token token;
 
+  static const _radius = Radius.circular(40);
+
   @override
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
         decoration: const BoxDecoration(
           color: CpColors.backgroundAccentColor,
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(40),
-            bottomRight: Radius.circular(40),
-            topLeft: Radius.circular(40),
+            bottomLeft: _radius,
+            bottomRight: _radius,
+            topLeft: _radius,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-            horizontal: 24,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: Column(
             children: [
               Text.rich(

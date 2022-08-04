@@ -13,10 +13,7 @@ class TokenDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.only(left: 4),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24.0,
-          vertical: 8.0,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         height: kToolbarHeight + 8,
         decoration: const ShapeDecoration(
           color: CpColors.darkBackground,
@@ -27,10 +24,7 @@ class TokenDisplay extends StatelessWidget {
             selectedToken.symbol,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           ),
         ),
       );
