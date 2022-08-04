@@ -1,3 +1,4 @@
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/input_display.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/widgets.dart';
@@ -128,7 +129,10 @@ class _Wrapper extends StatelessWidget {
         child: Localizations(
           delegates: AppLocalizations.localizationsDelegates,
           locale: const Locale('en'),
-          child: InputDisplay(input: input),
+          child: InputDisplay(
+            input: input,
+            token: Token.usdc,
+          ),
         ),
       );
 }

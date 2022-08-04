@@ -1,6 +1,5 @@
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
