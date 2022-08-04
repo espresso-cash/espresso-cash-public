@@ -21,7 +21,6 @@ class Token {
     required this.extensions,
   });
 
-
   const factory Token.solana() = _SolanaToken;
 
   const factory Token.wrappedSolana() = _WrappedSolanaToken;
@@ -44,7 +43,7 @@ class Token {
 
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
 
-  static const usdc = isProd ? _UsdcMainToken() :  _UsdcDevToken();
+  static const usdc = isProd ? _UsdcMainToken() : _UsdcDevToken();
 
   static const sol = Token.solana();
 
