@@ -51,7 +51,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
     ...receiveFlowRoutes,
     ...addFundsRoutes,
     appLockSetupFlowRoutes,
-    AutoRoute<void>(page: ProfileScreen),
+    AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),
     AutoRoute<void>(page: TermsOfServiceScreen),
     AutoRoute<void>(page: PrivacyPolicyScreen),
