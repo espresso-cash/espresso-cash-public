@@ -1,9 +1,7 @@
-import 'package:collection/collection.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:decimal/decimal.dart';
@@ -22,23 +20,20 @@ typedef _Emitter = Emitter<_State>;
 
 class RequestPayBloc extends Bloc<_Event, _State> {
   RequestPayBloc({
-    required TokenList tokenList,
     required Map<Token, Amount> balances,
-  })  : _tokenList = tokenList,
-        _balances = balances,
+  })  : _balances = balances,
         super(
-          const RequestPayState(
-            processingState: ProcessingState.processing(),
+          RequestPayState(
+            processingState: const ProcessingState.processing(),
             amount: CryptoAmount(
               value: 0,
-              currency: CryptoCurrency(token: Token.sol),
+              currency: CryptoCurrency(token: Token.usdc),
             ),
           ),
         ) {
     on<_Event>(_eventHandler);
   }
 
-  final TokenList _tokenList;
   final Map<Token, Amount> _balances;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
@@ -47,26 +42,10 @@ class RequestPayBloc extends Bloc<_Event, _State> {
       );
 
   void _onInitialized(_Emitter emit) {
-    final usdcToken = _tokenList.tokens.firstWhereOrNull(
-      (token) => token.symbol == 'USDC' && token.isStablecoin,
-    );
-
-    if (usdcToken == null) {
-      emit(
-        state.copyWith(
-          processingState: ProcessingState.error(
-            _RequestPayException('Failed to fetch stable coins'),
-          ),
-        ),
-      );
-
-      return;
-    }
-
     emit(
       state.copyWith(
         amount: state.amount.copyWith(
-          currency: CryptoCurrency(token: usdcToken),
+          currency: CryptoCurrency(token: Token.usdc),
         ),
         processingState: const ProcessingState.none(),
       ),
@@ -107,13 +86,4 @@ class RequestPayBloc extends Bloc<_Event, _State> {
 
     return const Either.right(null);
   }
-}
-
-class _RequestPayException implements Exception {
-  _RequestPayException(this.message);
-
-  final String message;
-
-  @override
-  String toString() => message;
 }
