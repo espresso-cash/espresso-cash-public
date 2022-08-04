@@ -1,6 +1,7 @@
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -11,15 +12,20 @@ class InputDisplay extends StatelessWidget {
   const InputDisplay({
     Key? key,
     required this.input,
+    required this.token,
   }) : super(key: key);
 
   final String input;
+  final Token token;
 
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
     final decimalSeparator = getDecimalSeparator(locale);
-    const defaultValue = Amount.crypto(value: 0, currency: Currency.sol);
+    final defaultValue = Amount.crypto(
+      value: 0,
+      currency: CryptoCurrency(token: token),
+    );
     final defaultMask = defaultValue.format(locale, skipSymbol: true);
     final sanitizedInput = input.sanitize(decimalSeparator);
     final mask = sanitizedInput.differenceMask(decimalSeparator, defaultMask);

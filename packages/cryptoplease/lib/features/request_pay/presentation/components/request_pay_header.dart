@@ -8,12 +8,10 @@ class RequestPayHeader extends StatelessWidget {
     Key? key,
     required this.inputController,
     required this.token,
-    required this.isLoading,
   }) : super(key: key);
 
   final TextEditingController inputController;
   final Token token;
-  final bool isLoading;
 
   @override
   Widget build(BuildContext context) => Row(
@@ -22,15 +20,15 @@ class RequestPayHeader extends StatelessWidget {
           Flexible(
             child: ValueListenableBuilder<TextEditingValue>(
               valueListenable: inputController,
-              builder: (context, value, _) => InputDisplay(input: value.text),
+              builder: (context, value, _) => InputDisplay(
+                input: value.text,
+                token: token,
+              ),
             ),
           ),
           const SizedBox.square(dimension: 16),
           TokenDisplay(
             selectedToken: token,
-            suffixWidget: isLoading
-                ? const CircularProgressIndicator()
-                : const SizedBox.shrink(),
           ),
         ],
       );

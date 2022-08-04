@@ -29,7 +29,7 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
     super.initState();
     _requestPayBloc = RequestPayBloc(
       balances: context.read<BalancesBloc>().state.balances,
-    )..add(const RequestPayEvent.initialized());
+    );
   }
 
   @override

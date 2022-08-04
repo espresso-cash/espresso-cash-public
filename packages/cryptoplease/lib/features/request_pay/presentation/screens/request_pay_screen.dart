@@ -53,10 +53,7 @@ class _ScreenState extends State<RequestPayScreen> {
           message: context.l10n.comingSoon,
         ),
       ),
-      body: BlocConsumer<RequestPayBloc, RequestPayState>(
-        listener: (context, state) => state.processingState.whenOrNull(
-          error: (e) => showErrorDialog(context, 'Error', e),
-        ),
+      body: BlocBuilder<RequestPayBloc, RequestPayState>(
         builder: (context, state) => Column(
           children: [
             Flexible(
@@ -65,14 +62,10 @@ class _ScreenState extends State<RequestPayScreen> {
                 child: RequestPayHeader(
                   inputController: _amountController,
                   token: state.amount.currency.token,
-                  isLoading: state.processingState.isProcessing,
                 ),
               ),
             ),
-            state.processingState.maybeMap(
-              orElse: () => const SizedBox.shrink(),
-              none: (_) => InfoWidget(token: state.amount.currency.token),
-            ),
+            InfoWidget(token: state.amount.currency.token),
             Flexible(
               flex: 3,
               child: LayoutBuilder(
@@ -84,33 +77,29 @@ class _ScreenState extends State<RequestPayScreen> {
                 ),
               ),
             ),
-            state.processingState.maybeMap(
-              orElse: () => const SizedBox.shrink(),
-              none: (_) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: CpButton(
-                        text: context.l10n.receive,
-                        minWidth: width,
-                        onPressed:
-                            state.amount.value == 0 ? null : _router.onRequest,
-                        size: CpButtonSize.big,
-                      ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: CpButton(
+                      text: context.l10n.receive,
+                      minWidth: width,
+                      onPressed:
+                          state.amount.value == 0 ? null : _router.onRequest,
+                      size: CpButtonSize.big,
                     ),
-                    const SizedBox(width: 24),
-                    Flexible(
-                      child: CpButton(
-                        text: context.l10n.pay,
-                        minWidth: width,
-                        onPressed:
-                            state.amount.value == 0 ? null : _router.onPay,
-                        size: CpButtonSize.big,
-                      ),
+                  ),
+                  const SizedBox(width: 24),
+                  Flexible(
+                    child: CpButton(
+                      text: context.l10n.pay,
+                      minWidth: width,
+                      onPressed: state.amount.value == 0 ? null : _router.onPay,
+                      size: CpButtonSize.big,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             const SizedBox.square(dimension: cpNavigationBarheight),

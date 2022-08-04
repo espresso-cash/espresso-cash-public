@@ -24,7 +24,6 @@ class RequestPayBloc extends Bloc<_Event, _State> {
   })  : _balances = balances,
         super(
           RequestPayState(
-            processingState: const ProcessingState.processing(),
             amount: CryptoAmount(
               value: 0,
               currency: CryptoCurrency(token: Token.usdc),
@@ -37,20 +36,8 @@ class RequestPayBloc extends Bloc<_Event, _State> {
   final Map<Token, Amount> _balances;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
-        initialized: (_) => _onInitialized(emit),
         amountUpdated: (event) => _onAmountUpdated(event, emit),
       );
-
-  void _onInitialized(_Emitter emit) {
-    emit(
-      state.copyWith(
-        amount: state.amount.copyWith(
-          currency: CryptoCurrency(token: Token.usdc),
-        ),
-        processingState: const ProcessingState.none(),
-      ),
-    );
-  }
 
   void _onAmountUpdated(_AmountUpdated event, _Emitter emit) {
     emit(

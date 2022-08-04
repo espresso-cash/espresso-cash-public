@@ -6,11 +6,9 @@ class TokenDisplay extends StatelessWidget {
   const TokenDisplay({
     Key? key,
     required this.selectedToken,
-    required this.suffixWidget,
   }) : super(key: key);
 
   final Token selectedToken;
-  final Widget suffixWidget;
 
   @override
   Widget build(BuildContext context) => Container(
