@@ -350,7 +350,7 @@ packages:
       name: dfunc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.2"
+    version: "0.8.0+1"
   diff_match_patch:
     dependency: transitive
     description:
