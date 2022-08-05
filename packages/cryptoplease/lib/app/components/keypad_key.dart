@@ -15,7 +15,7 @@ class _NumericKey extends KeypadKey {
   @override
   Widget build(BuildContext context) => Text(
         value,
-        style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 27),
+        style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 24),
       );
 }
 
