@@ -9,4 +9,3 @@
 - The [solana](packages/solana) library. This is the implementation of the Solana [transaction codec](https://docs.solana.com/developing/programming-model/transactions) and the [JSON RPC api](https://docs.solana.com/developing/clients/jsonrpc-api).
 - The [jsonrpc_client](packages/jsonrpc_client) is used to generate the RPC api methods from their definitions. This technique helps us stick to the DRY principle very easily.
 - The Borsh serialization package which is itself divided in two packages [borsh](packages/borsh) and [borsh_annotation](packages/borsh_annotation). The former is a code generator that generates borsh serialization and deserialization for a Dart class. And the latter is an annotation used to annotate these classes.
-
