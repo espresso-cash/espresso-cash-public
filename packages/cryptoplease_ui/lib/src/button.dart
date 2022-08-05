@@ -66,7 +66,7 @@ class CpButton extends StatelessWidget {
         case CpButtonSize.normal:
           return style;
         case CpButtonSize.big:
-          return style.copyWith(fontSize: 18);
+          return style.copyWith(fontSize: 17);
         case CpButtonSize.small:
           return style.copyWith(fontSize: 17, height: 1);
         case CpButtonSize.micro:
@@ -104,7 +104,7 @@ class CpButton extends StatelessWidget {
         ),
         textStyle: MaterialStateProperty.all(textStyle),
       ),
-      child: Text(size.uppercase ? text.toUpperCase() : text),
+      child: Text(text),
     );
 
     return width != null ? SizedBox(width: width, child: button) : button;
@@ -128,22 +128,13 @@ extension on CpButtonSize {
   double get height {
     switch (this) {
       case CpButtonSize.normal:
-        return 44;
+        return 51;
       case CpButtonSize.big:
-        return 60;
+        return 63;
       case CpButtonSize.small:
         return 44;
       case CpButtonSize.micro:
         return 30;
-    }
-  }
-
-  bool get uppercase {
-    switch (this) {
-      case CpButtonSize.normal:
-        return true;
-      default:
-        return false;
     }
   }
 }
