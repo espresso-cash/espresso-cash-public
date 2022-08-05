@@ -161,7 +161,7 @@ class _Buttons extends StatelessWidget {
             Expanded(
               child: CpButton(
                 text: context.l10n.addCash,
-                size: CpButtonSize.small,
+                size: CpButtonSize.normal,
                 minWidth: MediaQuery.of(context).size.width,
                 onPressed: onAddCash,
               ),
@@ -170,7 +170,7 @@ class _Buttons extends StatelessWidget {
             Expanded(
               child: CpButton(
                 text: context.l10n.cashOut,
-                size: CpButtonSize.small,
+                size: CpButtonSize.normal,
                 minWidth: MediaQuery.of(context).size.width,
                 onPressed: onCashOut,
               ),
