@@ -1,4 +1,5 @@
 import 'package:cryptoplease/gen/assets.gen.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 class MenuButton extends StatelessWidget {
@@ -41,6 +42,9 @@ class MenuButton extends StatelessWidget {
             fontSize: 14,
           ),
         ),
-        trailing: const Icon(Icons.chevron_right),
+        trailing: const Icon(
+          Icons.chevron_right,
+          color: CpColors.darkBackground,
+        ),
       );
 }
