@@ -17,7 +17,7 @@ dependencies:
     path: ../cryptoplease_ui/
   date_time_format: ^2.0.1
   decimal: ^2.2.0
-  dfunc: ^0.7.2
+  dfunc: ^0.8.0+1
   dio: ^4.0.0
   drift: ^1.5.0
   fast_immutable_collections: ^7.4.1
