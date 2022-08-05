@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sms_wallet/sms_wallet.dart';
 
@@ -16,8 +16,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _smsWalletPlugin = SmsWallet();
+  Scenario? _scenario;
 
   @override
   void initState() {
@@ -25,26 +24,18 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _smsWalletPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
+    _scenario = await Scenario.create(
+      walletConfig: const MobileWalletAdapterConfig(
+        supportsSignAndSendTransactions: true,
+        maxTransactionsPerSigningRequest: 10,
+        maxMessagesPerSigningRequest: 10,
+      ),
+      issuerConfig: const AuthIssuerConfig(name: 'example_wallet'),
+      callbacks: _Callbacks(() => _scenario),
+    );
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
+    _scenario?.start();
   }
 
   @override
@@ -54,10 +45,48 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: const Center(
+          child: Text('Running...'),
         ),
       ),
     );
+  }
+}
+
+class _Callbacks implements ScenarioCallbacks {
+  _Callbacks(this._scenario);
+
+  final Scenario? Function() _scenario;
+
+  @override
+  void onScenarioComplete() {
+    print('onScenarioComplete');
+  }
+
+  @override
+  void onScenarioError() {
+    print('onScenarioError');
+  }
+
+  @override
+  void onScenarioReady() {
+    print('onScenarioReady');
+  }
+
+  @override
+  void onScenarioServingClients() {
+    print('onScenarioServingClients');
+  }
+
+  @override
+  void onScenarioServingComplete() {
+    print('onScenarioServingComplete');
+    _scenario()?.close();
+  }
+
+  @override
+  void onScenarioTeardownComplete() {
+    print('onScenarioTeardownComplete');
+    SystemNavigator.pop();
   }
 }

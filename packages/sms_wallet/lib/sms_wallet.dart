@@ -1,8 +1,3 @@
-
-import 'sms_wallet_platform_interface.dart';
-
-class SmsWallet {
-  Future<String?> getPlatformVersion() {
-    return SmsWalletPlatform.instance.getPlatformVersion();
-  }
-}
+export 'src/auth_issuer_config.dart';
+export 'src/scenario.dart';
+export 'src/wallet_config.dart';
