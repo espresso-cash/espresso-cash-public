@@ -76,7 +76,8 @@ class Callbacks(
                 } else {
                     request.completeWithAuthorize(
                         result.publicKey,
-                        Uri.parse(result.walletUriBase),
+                        result.accountLabel,
+                        if (result.walletUriBase == null) null else Uri.parse(result.walletUriBase),
                         result.scope,
                     )
                 }

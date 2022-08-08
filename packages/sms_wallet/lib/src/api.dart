@@ -39,17 +39,20 @@ class AuthorizeRequest {
 class AuthorizeResult {
   AuthorizeResult({
     required this.publicKey,
-    required this.walletUriBase,
+    required this.accountLabel,
+    this.walletUriBase,
     required this.scope,
   });
 
   Uint8List publicKey;
-  String walletUriBase;
+  String accountLabel;
+  String? walletUriBase;
   Uint8List scope;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
     pigeonMap['publicKey'] = publicKey;
+    pigeonMap['accountLabel'] = accountLabel;
     pigeonMap['walletUriBase'] = walletUriBase;
     pigeonMap['scope'] = scope;
     return pigeonMap;
@@ -59,7 +62,8 @@ class AuthorizeResult {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
     return AuthorizeResult(
       publicKey: pigeonMap['publicKey']! as Uint8List,
-      walletUriBase: pigeonMap['walletUriBase']! as String,
+      accountLabel: pigeonMap['accountLabel']! as String,
+      walletUriBase: pigeonMap['walletUriBase'] as String?,
       scope: pigeonMap['scope']! as Uint8List,
     );
   }

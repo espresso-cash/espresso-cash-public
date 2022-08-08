@@ -96,12 +96,18 @@ public class Api {
       this.publicKey = setterArg;
     }
 
-    private @NonNull String walletUriBase;
-    public @NonNull String getWalletUriBase() { return walletUriBase; }
-    public void setWalletUriBase(@NonNull String setterArg) {
+    private @NonNull String accountLabel;
+    public @NonNull String getAccountLabel() { return accountLabel; }
+    public void setAccountLabel(@NonNull String setterArg) {
       if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"walletUriBase\" is null.");
+        throw new IllegalStateException("Nonnull field \"accountLabel\" is null.");
       }
+      this.accountLabel = setterArg;
+    }
+
+    private @Nullable String walletUriBase;
+    public @Nullable String getWalletUriBase() { return walletUriBase; }
+    public void setWalletUriBase(@Nullable String setterArg) {
       this.walletUriBase = setterArg;
     }
 
@@ -122,8 +128,13 @@ public class Api {
         this.publicKey = setterArg;
         return this;
       }
+      private @Nullable String accountLabel;
+      public @NonNull Builder setAccountLabel(@NonNull String setterArg) {
+        this.accountLabel = setterArg;
+        return this;
+      }
       private @Nullable String walletUriBase;
-      public @NonNull Builder setWalletUriBase(@NonNull String setterArg) {
+      public @NonNull Builder setWalletUriBase(@Nullable String setterArg) {
         this.walletUriBase = setterArg;
         return this;
       }
@@ -135,6 +146,7 @@ public class Api {
       public @NonNull AuthorizeResult build() {
         AuthorizeResult pigeonReturn = new AuthorizeResult();
         pigeonReturn.setPublicKey(publicKey);
+        pigeonReturn.setAccountLabel(accountLabel);
         pigeonReturn.setWalletUriBase(walletUriBase);
         pigeonReturn.setScope(scope);
         return pigeonReturn;
@@ -143,6 +155,7 @@ public class Api {
     @NonNull Map<String, Object> toMap() {
       Map<String, Object> toMapResult = new HashMap<>();
       toMapResult.put("publicKey", publicKey);
+      toMapResult.put("accountLabel", accountLabel);
       toMapResult.put("walletUriBase", walletUriBase);
       toMapResult.put("scope", scope);
       return toMapResult;
@@ -151,6 +164,8 @@ public class Api {
       AuthorizeResult pigeonResult = new AuthorizeResult();
       Object publicKey = map.get("publicKey");
       pigeonResult.setPublicKey((byte[])publicKey);
+      Object accountLabel = map.get("accountLabel");
+      pigeonResult.setAccountLabel((String)accountLabel);
       Object walletUriBase = map.get("walletUriBase");
       pigeonResult.setWalletUriBase((String)walletUriBase);
       Object scope = map.get("scope");

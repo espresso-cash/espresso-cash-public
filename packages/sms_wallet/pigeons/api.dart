@@ -15,12 +15,14 @@ class AuthorizeRequest {
 class AuthorizeResult {
   AuthorizeResult({
     required this.publicKey,
+    required this.accountLabel,
     required this.walletUriBase,
     required this.scope,
   });
 
   final Uint8List publicKey;
-  final String walletUriBase;
+  final String accountLabel;
+  final String? walletUriBase;
   final Uint8List scope;
 }
 
