@@ -53,8 +53,7 @@ class _MenuHeaderState extends State<MenuHeader> {
     final locale = DeviceLocale.localeOf(context);
     final converted = context.watchUserFiatBalance(currentToken);
     final amount = converted ?? Amount.zero(currency: Currency.usd);
-    const prefix = r'$';
-    final formattedAmount = amount.format(locale, skipSymbol: true);
+    final formattedAmount = amount.format(locale);
 
     return Material(
       color: Colors.white,
@@ -68,7 +67,7 @@ class _MenuHeaderState extends State<MenuHeader> {
           ),
           FittedBox(
             child: Text(
-              '$prefix $formattedAmount',
+              formattedAmount,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 57,
