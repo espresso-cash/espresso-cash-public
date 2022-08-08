@@ -69,5 +69,5 @@ String _formatAmount({
     return formatted;
   }
 
-  return prefixedSymbol ? '$symbol $formatted' : '$formatted $symbol';
+  return prefixedSymbol ? '$symbol$formatted' : '$formatted $symbol';
 }
