@@ -35,12 +35,16 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
   }
 
   @override
+  void dispose() {
+    _requestPayBloc.close();
+    super.dispose();
+  }
+
+  @override
   void onAmountUpdate(String value) {
     final locale = DeviceLocale.localeOf(context);
     final amount = value.toDecimalOrZero(locale);
-    _requestPayBloc.add(
-      RequestPayEvent.amountUpdated(amount),
-    );
+    _requestPayBloc.add(RequestPayEvent.amountUpdated(amount));
   }
 
   @override
@@ -48,7 +52,7 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
     final amount = _requestPayBloc.state.amount;
 
     if (amount.value == 0) {
-      return _zeroAmountDialog(_Operation.request);
+      return _showZeroAmountDialog(_Operation.request);
     }
 
     context.navigateToReceiveByLink(amount: amount);
@@ -59,28 +63,28 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
     final amount = _requestPayBloc.state.amount;
 
     if (amount.value == 0) {
-      return _zeroAmountDialog(_Operation.pay);
+      return _showZeroAmountDialog(_Operation.pay);
     }
 
     _requestPayBloc.validate().fold(
           (e) => e.map(
-            insufficientFunds: (e) => _insufficientTokenDialog(
+            insufficientFunds: (e) => _showInsufficientTokenDialog(
               balance: e.balance,
               currentAmount: e.currentAmount,
             ),
-            insufficientFee: (e) => _insufficientFeeDialog(e.requiredFee),
+            insufficientFee: (e) => _showInsufficientFeeDialog(e.requiredFee),
           ),
           (_) => context.navigateToLinkConfirmation(amount: amount),
         );
   }
 
-  void _zeroAmountDialog(_Operation operation) => showWarningDialog(
+  void _showZeroAmountDialog(_Operation operation) => showWarningDialog(
         context,
         title: context.l10n.zeroAmountTitle,
         message: context.l10n.zeroAmountMessage(operation.buildText(context)),
       );
 
-  void _insufficientTokenDialog({
+  void _showInsufficientTokenDialog({
     required Amount balance,
     required Amount currentAmount,
   }) =>
@@ -93,24 +97,20 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
         ),
       );
 
-  void _insufficientFeeDialog(Amount fee) {
-    showWarningDialog(
-      context,
-      title: context.l10n.insufficientFundsForFeeTitle,
-      message: context.l10n.insufficientFundsForFeeMessage(
-        fee.format(DeviceLocale.localeOf(context)),
-      ),
-    );
-  }
+  void _showInsufficientFeeDialog(Amount fee) => showWarningDialog(
+        context,
+        title: context.l10n.insufficientFundsForFeeTitle,
+        message: context.l10n.insufficientFundsForFeeMessage(
+          fee.format(DeviceLocale.localeOf(context)),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           body: MultiProvider(
             providers: [
-              BlocProvider<RequestPayBloc>(
-                create: (_) => _requestPayBloc,
-              ),
+              BlocProvider<RequestPayBloc>.value(value: _requestPayBloc),
               Provider<RequestPayRouter>.value(value: this),
             ],
             child: const AutoRouter(),
