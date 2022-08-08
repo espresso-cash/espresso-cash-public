@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
@@ -15,43 +14,17 @@ import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MenuHeader extends StatefulWidget {
+class MenuHeader extends StatelessWidget {
   const MenuHeader({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<MenuHeader> createState() => _MenuHeaderState();
-}
-
-class _MenuHeaderState extends State<MenuHeader> {
-  late Token currentToken;
-
-  @override
-  void initState() {
-    super.initState();
-    currentToken = Token.sol;
-  }
-
-  Future<void> _onSelectToken() async {
-    final route = TokenSelectorRoute(
-      availableTokens: context.read<BalancesBloc>().state.userTokens,
-      shouldShowBalance: false,
-    );
-    final newToken = await context.router.push<Token>(route);
-
-    if (newToken != null) {
-      setState(() => currentToken = newToken);
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final hasMultipleTokens =
-        context.watch<BalancesBloc>().state.userTokens.length > 1;
+    const token = Token.usdc;
 
     final locale = DeviceLocale.localeOf(context);
-    final converted = context.watchUserFiatBalance(currentToken);
+    final converted = context.watchUserFiatBalance(token);
     final amount = converted ?? Amount.zero(currency: Currency.usd);
     final formatted = amount.format(locale);
 
@@ -65,19 +38,19 @@ class _MenuHeaderState extends State<MenuHeader> {
             automaticallyImplyLeading: false,
             title: const _AppBarContent(),
           ),
-          FittedBox(
-            child: Text(
-              formatted,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 57,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: FittedBox(
+              child: Text(
+                formatted,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 57,
+                ),
               ),
             ),
           ),
-          _BalanceDropdown(
-            selectedToken: currentToken,
-            onTap: hasMultipleTokens ? _onSelectToken : null,
-          ),
+          const _TokenDisplay(token: token),
           _Buttons(
             onAddCash: () => context.router.navigate(
               AddFundsRoute(wallet: context.read<MyAccount>().wallet),
@@ -94,45 +67,33 @@ class _MenuHeaderState extends State<MenuHeader> {
   }
 }
 
-class _BalanceDropdown extends StatelessWidget {
-  const _BalanceDropdown({
+class _TokenDisplay extends StatelessWidget {
+  const _TokenDisplay({
     Key? key,
-    required this.selectedToken,
-    required this.onTap,
+    required this.token,
   }) : super(key: key);
 
-  final Token selectedToken;
-  final VoidCallback? onTap;
+  final Token token;
 
   @override
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.only(top: 8, bottom: 16),
-        padding: const EdgeInsets.fromLTRB(16, 8, 12, 8),
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 24,
+        ),
         decoration: const ShapeDecoration(
           shape: StadiumBorder(),
           color: CpColors.darkBackground,
         ),
-        child: InkWell(
-          onTap: onTap,
-          child: Center(
-            widthFactor: 1,
-            child: Text.rich(
-              TextSpan(
-                text: context.l10n.tokenBalance(selectedToken.symbol),
-                children: [
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: onTap != null
-                        ? const Icon(Icons.expand_more, color: Colors.white)
-                        : const SizedBox(height: 24, width: 4),
-                  ),
-                ],
-              ),
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+        child: Center(
+          widthFactor: 1,
+          child: Text(
+            context.l10n.tokenBalance(token.symbol),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -166,7 +127,7 @@ class _Buttons extends StatelessWidget {
                 onPressed: onAddCash,
               ),
             ),
-            const SizedBox.square(dimension: 16),
+            const SizedBox.square(dimension: 24),
             Expanded(
               child: CpButton(
                 text: context.l10n.cashOut,
