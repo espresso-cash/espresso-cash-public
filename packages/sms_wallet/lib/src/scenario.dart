@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:flutter/services.dart';
+import 'package:sms_wallet/src/api.dart';
 import 'package:sms_wallet/src/auth_issuer_config.dart';
 import 'package:sms_wallet/src/sms_wallet_platform.dart';
 import 'package:sms_wallet/src/wallet_config.dart';
@@ -10,9 +10,7 @@ class Scenario {
     required this.associationPublicKey,
     required this.callbacks,
     required this.id,
-  }) : _channel = MethodChannel('com.solana.sms.scenario#$id') {
-    _channel.setMethodCallHandler(_handleMethodCall);
-  }
+  });
 
   static Future<Scenario?> create({
     required MobileWalletAdapterConfig walletConfig,
@@ -30,52 +28,31 @@ class Scenario {
       return null;
     }
 
-    return Scenario._(
+    final scenario = Scenario._(
       associationPublicKey: associationPublicKey,
       callbacks: callbacks,
       id: id,
     );
+
+    Api.instance.register(scenario);
+
+    return scenario;
   }
 
   static int _nextId = 1;
 
-  final MethodChannel _channel;
   final int id;
 
   final Uint8List associationPublicKey;
   final ScenarioCallbacks callbacks;
+  final _host = ApiHost();
 
   void start() {
-    _channel.invokeMethod('start');
+    _host.start(id);
   }
 
   void close() {
-    _channel.invokeMethod('close');
-  }
-
-  Future<dynamic> _handleMethodCall(MethodCall call) async {
-    switch (call.method) {
-      case 'onScenarioReady':
-        callbacks.onScenarioReady();
-        break;
-      case 'onScenarioServingClients':
-        callbacks.onScenarioServingClients();
-        break;
-      case 'onScenarioServingComplete':
-        callbacks.onScenarioServingComplete();
-        break;
-      case 'onScenarioComplete':
-        callbacks.onScenarioComplete();
-        break;
-      case 'onScenarioError':
-        callbacks.onScenarioError();
-        break;
-      case 'onScenarioTeardownComplete':
-        callbacks.onScenarioTeardownComplete();
-        break;
-      default:
-        throw UnimplementedError(call.method);
-    }
+    _host.close(id);
   }
 }
 
@@ -89,9 +66,64 @@ abstract class ScenarioCallbacks {
   void onScenarioTeardownComplete();
 
   // Request callbacks
-  // void onAuthorizeRequest(AuthorizeRequest request);
+  Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request);
   // void onReauthorizeRequest(ReauthorizeRequest request);
   // void onSignTransactionsRequest(SignTransactionsRequest request);
   // void onSignMessagesRequest(SignMessagesRequest request);
   // void onSignAndSendTransactionsRequest(SignAndSendTransactionsRequest request);
+}
+
+class Api implements ApiFlutter {
+  Api._() {
+    ApiFlutter.setup(this);
+  }
+
+  static final _instance = Api._();
+
+  static Api get instance => _instance;
+
+  static final _scenarios = <int, Scenario>{};
+
+  void register(Scenario scenario) {
+    _scenarios[scenario.id] = scenario;
+  }
+
+  void unregister(int id) {
+    _scenarios.remove(id);
+  }
+
+  @override
+  Future<AuthorizeResult?> authorize(AuthorizeRequest request, int id) async =>
+      _scenarios[id]?.callbacks.onAuthorizeRequest(request);
+
+  @override
+  void onScenarioReady(int id) {
+    _scenarios[id]?.callbacks.onScenarioReady();
+  }
+
+  @override
+  void onScenarioComplete(int id) {
+    _scenarios[id]?.callbacks.onScenarioComplete();
+  }
+
+  @override
+  void onScenarioError(int id) {
+    _scenarios[id]?.callbacks.onScenarioError();
+  }
+
+  @override
+  void onScenarioServingClients(int id) {
+    _scenarios[id]?.callbacks.onScenarioServingClients();
+  }
+
+  @override
+  void onScenarioServingComplete(int id) {
+    _scenarios[id]?.callbacks.onScenarioServingComplete();
+  }
+
+  @override
+  void onScenarioTeardownComplete(int id) {
+    _scenarios[id]?.callbacks.onScenarioTeardownComplete();
+    unregister(id);
+  }
 }

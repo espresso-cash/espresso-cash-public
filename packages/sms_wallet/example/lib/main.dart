@@ -89,4 +89,10 @@ class _Callbacks implements ScenarioCallbacks {
     print('onScenarioTeardownComplete');
     SystemNavigator.pop();
   }
+
+  @override
+  Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request) {
+    // TODO: implement onAuthorizeRequest
+    throw UnimplementedError();
+  }
 }

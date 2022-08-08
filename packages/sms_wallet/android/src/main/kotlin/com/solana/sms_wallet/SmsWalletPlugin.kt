@@ -22,13 +22,14 @@ class SmsWalletPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private var intent: Intent? = null
     private lateinit var context: Context
     private lateinit var messenger: BinaryMessenger
-    private val proxies = mutableMapOf<Int, ScenarioProxy>()
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         messenger = flutterPluginBinding.binaryMessenger
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.solana.sms.wallet")
         channel.setMethodCallHandler(this)
         context = flutterPluginBinding.applicationContext
+
+        ApiHost.init(flutterPluginBinding.binaryMessenger)
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
@@ -52,37 +53,30 @@ class SmsWalletPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 Log.e(TAG, "Supported URI: $associationUri")
 
                 val arguments = call.arguments as Map<String, Any?>
-                val id = arguments["id"] as Int
+                val id = (arguments["id"] as Number).toLong()
 
                 val walletConfig = arguments["walletConfig"] as Map<String, Any?>
                 val issuerConfig = arguments["issuerConfig"] as Map<String, Any?>
 
-                val proxy = ScenarioProxy(
-                    id = id,
-                    messenger = messenger,
-                    onTeardownComplete = { proxies.remove(id) }) {
-                    associationUri.createScenario(
-                        context,
-                        MobileWalletAdapterConfig(
-                            walletConfig["supportsSignAndSendTransactions"] as Boolean,
-                            walletConfig["maxTransactionsPerSigningRequest"] as Int,
-                            walletConfig["maxMessagesPerSigningRequest"] as Int,
-                        ),
-                        AuthIssuerConfig(
-                            issuerConfig["name"] as String,
-                            issuerConfig["maxOutstandingTokensPerIdentity"] as Int,
-                            (issuerConfig["authorizationValidity"] as Number).toLong() / 1000,
-                            (issuerConfig["reauthorizationValidity"] as Number).toLong() / 1000,
-                            (issuerConfig["reauthorizationNopDuration"] as Number).toLong() / 1000,
-                        ),
-                        it,
-                    )
-                }
-                proxies[id] = proxy
+                val scenario = associationUri.createScenario(
+                    context,
+                    MobileWalletAdapterConfig(
+                        walletConfig["supportsSignAndSendTransactions"] as Boolean,
+                        walletConfig["maxTransactionsPerSigningRequest"] as Int,
+                        walletConfig["maxMessagesPerSigningRequest"] as Int,
+                    ),
+                    AuthIssuerConfig(
+                        issuerConfig["name"] as String,
+                        issuerConfig["maxOutstandingTokensPerIdentity"] as Int,
+                        (issuerConfig["authorizationValidity"] as Number).toLong() / 1000,
+                        (issuerConfig["reauthorizationValidity"] as Number).toLong() / 1000,
+                        (issuerConfig["reauthorizationNopDuration"] as Number).toLong() / 1000,
+                    ),
+                    Callbacks(id, messenger) { ApiHost.unregister(id) },
+                )
+                ApiHost.register(id, scenario)
 
-                Log.e(TAG, "Proxy created")
-
-                result.success(proxy.associationPublicKey)
+                result.success(scenario.associationPublicKey)
             }
         } else {
             result.notImplemented()
