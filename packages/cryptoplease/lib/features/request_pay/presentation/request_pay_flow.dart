@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+enum _Operation { request, pay }
+
 class RequestPayFlowScreen extends StatefulWidget {
   const RequestPayFlowScreen({Key? key}) : super(key: key);
 
@@ -44,12 +46,22 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
   @override
   void onRequest() {
     final amount = _requestPayBloc.state.amount;
+
+    if (amount.value == 0) {
+      return _zeroAmountDialog(_Operation.request);
+    }
+
     context.navigateToReceiveByLink(amount: amount);
   }
 
   @override
   void onPay() {
     final amount = _requestPayBloc.state.amount;
+
+    if (amount.value == 0) {
+      return _zeroAmountDialog(_Operation.pay);
+    }
+
     _requestPayBloc.validate().fold(
           (e) => e.map(
             insufficientFunds: (e) => _insufficientTokenDialog(
@@ -61,6 +73,12 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
           (_) => context.navigateToLinkConfirmation(amount: amount),
         );
   }
+
+  void _zeroAmountDialog(_Operation operation) => showWarningDialog(
+        context,
+        title: context.l10n.zeroAmountTitle,
+        message: context.l10n.zeroAmountMessage(operation.buildText(context)),
+      );
 
   void _insufficientTokenDialog({
     required Amount balance,
@@ -105,4 +123,15 @@ abstract class RequestPayRouter {
   void onAmountUpdate(String value);
   void onRequest();
   void onPay();
+}
+
+extension on _Operation {
+  String buildText(BuildContext context) {
+    switch (this) {
+      case _Operation.pay:
+        return context.l10n.operationSend;
+      case _Operation.request:
+        return context.l10n.operationRequest;
+    }
+  }
 }

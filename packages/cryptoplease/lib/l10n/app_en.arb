@@ -308,5 +308,16 @@
         "type": "String"
       }
     }
-  }
+  },
+  "zeroAmountTitle": "Invalid amount",
+  "zeroAmountMessage": "Please enter an amount greater than zero to be {operation}",
+  "@zeroAmountMessage": {
+    "placeholders": {
+      "operation": {
+        "type": "String"
+      }
+    }
+  },
+  "operationSend": "sent",
+  "operationRequest": "requested"
 }
