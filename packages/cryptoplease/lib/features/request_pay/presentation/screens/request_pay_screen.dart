@@ -85,8 +85,7 @@ class _ScreenState extends State<RequestPayScreen> {
                     child: CpButton(
                       text: context.l10n.receive,
                       minWidth: width,
-                      onPressed:
-                          state.amount.value == 0 ? null : _router.onRequest,
+                      onPressed: _router.onRequest,
                       size: CpButtonSize.big,
                     ),
                   ),
@@ -95,7 +94,7 @@ class _ScreenState extends State<RequestPayScreen> {
                     child: CpButton(
                       text: context.l10n.pay,
                       minWidth: width,
-                      onPressed: state.amount.value == 0 ? null : _router.onPay,
+                      onPressed: _router.onPay,
                       size: CpButtonSize.big,
                     ),
                   ),
