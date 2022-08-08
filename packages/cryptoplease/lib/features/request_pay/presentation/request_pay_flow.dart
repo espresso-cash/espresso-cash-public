@@ -14,8 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-enum _Operation { request, pay }
-
 class RequestPayFlowScreen extends StatefulWidget {
   const RequestPayFlowScreen({Key? key}) : super(key: key);
 
@@ -124,6 +122,8 @@ abstract class RequestPayRouter {
   void onRequest();
   void onPay();
 }
+
+enum _Operation { request, pay }
 
 extension on _Operation {
   String buildText(BuildContext context) {
