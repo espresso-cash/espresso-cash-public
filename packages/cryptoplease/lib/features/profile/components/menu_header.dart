@@ -26,7 +26,7 @@ class MenuHeader extends StatelessWidget {
     final locale = DeviceLocale.localeOf(context);
     final converted = context.watchUserFiatBalance(token);
     final amount = converted ?? Amount.zero(currency: Currency.usd);
-    final formatted = amount.format(locale);
+    final formattedAmount = amount.format(locale);
 
     return Material(
       color: Colors.white,
@@ -42,7 +42,7 @@ class MenuHeader extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: FittedBox(
               child: Text(
-                formatted,
+                formattedAmount,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 57,
