@@ -21,7 +21,7 @@ app_check_formatting:
 	melos exec -c 1 --flutter -- "make format"
 
 app_build:
-	melos exec -c 1 --depends-on="build_runner" --flutter -- "make build"
+	melos exec -c 1 --depends-on="build_runner" --ignore="sms_wallet*" --flutter -- "make build"
 	melos exec -c 1 --depends-on="drift_dev" --flutter -- "make generate_test_schemas"
 
 app_analyze:

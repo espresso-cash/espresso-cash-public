@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
                 child: Text('Running...'),
               ),
               remote: (r) => r.when(
-                authorizeDapp: (_) => const AuthScreen(),
+                authorizeDapp: (request) => AuthScreen(request: request),
               ),
             ),
           ),
