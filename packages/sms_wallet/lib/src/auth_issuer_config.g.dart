@@ -6,8 +6,8 @@ part of 'auth_issuer_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AuthIssuerConfig _$AuthIssuerConfigFromJson(Map<String, dynamic> json) =>
-    AuthIssuerConfig(
+_$_AuthIssuerConfig _$$_AuthIssuerConfigFromJson(Map<String, dynamic> json) =>
+    _$_AuthIssuerConfig(
       name: json['name'] as String,
       maxOutstandingTokensPerIdentity:
           json['maxOutstandingTokensPerIdentity'] as int? ?? 50,
@@ -22,7 +22,7 @@ AuthIssuerConfig _$AuthIssuerConfigFromJson(Map<String, dynamic> json) =>
           : Duration(microseconds: json['reauthorizationNopDuration'] as int),
     );
 
-Map<String, dynamic> _$AuthIssuerConfigToJson(AuthIssuerConfig instance) =>
+Map<String, dynamic> _$$_AuthIssuerConfigToJson(_$_AuthIssuerConfig instance) =>
     <String, dynamic>{
       'name': instance.name,
       'maxOutstandingTokensPerIdentity':

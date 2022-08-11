@@ -1,21 +1,16 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'wallet_config.g.dart';
+part 'wallet_config.freezed.dart';
 
-@JsonSerializable()
-class MobileWalletAdapterConfig {
-  const MobileWalletAdapterConfig({
-    required this.supportsSignAndSendTransactions,
-    required this.maxTransactionsPerSigningRequest,
-    required this.maxMessagesPerSigningRequest,
-  });
+@freezed
+class MobileWalletAdapterConfig with _$MobileWalletAdapterConfig {
+  const factory MobileWalletAdapterConfig({
+    required bool supportsSignAndSendTransactions,
+    required int maxTransactionsPerSigningRequest,
+    required int maxMessagesPerSigningRequest,
+  }) = _MobileWalletAdapterConfig;
 
   factory MobileWalletAdapterConfig.fromJson(Map<String, dynamic> json) =>
       _$MobileWalletAdapterConfigFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MobileWalletAdapterConfigToJson(this);
-
-  final bool supportsSignAndSendTransactions;
-  final int maxTransactionsPerSigningRequest;
-  final int maxMessagesPerSigningRequest;
 }

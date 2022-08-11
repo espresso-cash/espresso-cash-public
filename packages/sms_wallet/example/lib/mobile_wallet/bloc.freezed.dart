@@ -491,6 +491,8 @@ abstract class $RemoteRequestCopyWith<$Res> {
           RemoteRequest value, $Res Function(RemoteRequest) then) =
       _$RemoteRequestCopyWithImpl<$Res>;
   $Res call({AuthorizeRequest request});
+
+  $AuthorizeRequestCopyWith<$Res> get request;
 }
 
 /// @nodoc
@@ -513,6 +515,13 @@ class _$RemoteRequestCopyWithImpl<$Res>
               as AuthorizeRequest,
     ));
   }
+
+  @override
+  $AuthorizeRequestCopyWith<$Res> get request {
+    return $AuthorizeRequestCopyWith<$Res>(_value.request, (value) {
+      return _then(_value.copyWith(request: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -523,6 +532,9 @@ abstract class _$$AuthorizeDappCopyWith<$Res>
       __$$AuthorizeDappCopyWithImpl<$Res>;
   @override
   $Res call({AuthorizeRequest request});
+
+  @override
+  $AuthorizeRequestCopyWith<$Res> get request;
 }
 
 /// @nodoc

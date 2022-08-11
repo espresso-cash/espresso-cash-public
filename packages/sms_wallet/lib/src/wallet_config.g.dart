@@ -6,9 +6,9 @@ part of 'wallet_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MobileWalletAdapterConfig _$MobileWalletAdapterConfigFromJson(
+_$_MobileWalletAdapterConfig _$$_MobileWalletAdapterConfigFromJson(
         Map<String, dynamic> json) =>
-    MobileWalletAdapterConfig(
+    _$_MobileWalletAdapterConfig(
       supportsSignAndSendTransactions:
           json['supportsSignAndSendTransactions'] as bool,
       maxTransactionsPerSigningRequest:
@@ -16,8 +16,8 @@ MobileWalletAdapterConfig _$MobileWalletAdapterConfigFromJson(
       maxMessagesPerSigningRequest: json['maxMessagesPerSigningRequest'] as int,
     );
 
-Map<String, dynamic> _$MobileWalletAdapterConfigToJson(
-        MobileWalletAdapterConfig instance) =>
+Map<String, dynamic> _$$_MobileWalletAdapterConfigToJson(
+        _$_MobileWalletAdapterConfig instance) =>
     <String, dynamic>{
       'supportsSignAndSendTransactions':
           instance.supportsSignAndSendTransactions,
