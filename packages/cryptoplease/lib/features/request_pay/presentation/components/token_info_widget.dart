@@ -28,16 +28,21 @@ class InfoWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text.rich(
                 TextSpan(
                   children: [
                     WidgetSpan(
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 4),
-                        child: Assets.icons.info.svg(
-                          color: CpColors.yellowColor,
-                          height: 24,
+                        padding: const EdgeInsets.only(right: 8),
+                        child: CircleAvatar(
+                          maxRadius: 14,
+                          backgroundColor: CpColors.yellowColor,
+                          child: Assets.icons.info.svg(
+                            color: CpColors.backgroundAccentColor,
+                            height: 20,
+                          ),
                         ),
                       ),
                       alignment: PlaceholderAlignment.middle,
