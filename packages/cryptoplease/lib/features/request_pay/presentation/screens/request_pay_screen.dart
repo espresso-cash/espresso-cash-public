@@ -56,14 +56,9 @@ class _ScreenState extends State<RequestPayScreen> {
       body: BlocBuilder<RequestPayBloc, RequestPayState>(
         builder: (context, state) => Column(
           children: [
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: RequestPayHeader(
-                  inputController: _amountController,
-                  token: state.amount.currency.token,
-                ),
-              ),
+            RequestPayHeader(
+              inputController: _amountController,
+              token: state.amount.currency.token,
             ),
             InfoWidget(token: state.amount.currency.token),
             Flexible(
