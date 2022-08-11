@@ -1,10 +1,8 @@
-import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -20,29 +18,13 @@ class InputDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
-    final decimalSeparator = getDecimalSeparator(locale);
-    final defaultValue = Amount.crypto(
-      value: 0,
-      currency: CryptoCurrency(token: token),
-    );
-    final defaultMask = defaultValue.format(locale, skipSymbol: true);
-    final sanitizedInput = input.sanitize(decimalSeparator);
-    final mask = sanitizedInput.differenceMask(decimalSeparator, defaultMask);
+    final sign = Currency.usd.sign;
+    final amount = input.formatted(context);
+    final formatted = '$sign$amount';
 
     return FittedBox(
-      child: Text.rich(
-        TextSpan(
-          text: sanitizedInput,
-          children: [
-            TextSpan(
-              text: mask,
-              style: TextStyle(
-                color: CpTheme.of(context).primaryTextColor.withOpacity(0.3),
-              ),
-            ),
-          ],
-        ),
+      child: Text(
+        formatted,
         textAlign: TextAlign.right,
         style: const TextStyle(
           fontSize: 57,
@@ -54,28 +36,17 @@ class InputDisplay extends StatelessWidget {
 }
 
 extension on String {
-  String sanitize(String decimalSeparator) {
-    if (isNotEmpty && this[0] == decimalSeparator) return '0$decimalSeparator';
+  String formatted(BuildContext context) {
+    final locale = DeviceLocale.localeOf(context);
+    final decimalSeparator = getDecimalSeparator(locale);
+    final value = toDecimalOrZero(locale);
+
+    if (contains(decimalSeparator)) {
+      return this;
+    } else if (value.toDouble() == 0) {
+      return '0';
+    }
 
     return this;
-  }
-
-  String differenceMask(String decimalSeparator, String defaultMask) {
-    final inputValue = this;
-
-    if (inputValue.isEmpty) return defaultMask;
-
-    final values = inputValue.split(decimalSeparator);
-    final hasDecimal = values.length > 1;
-    final decimalsWithComma = defaultMask.split(decimalSeparator).last;
-
-    if (hasDecimal) {
-      final decimals = values.last.length;
-      if (decimals >= decimalsWithComma.length) return '';
-
-      return decimalsWithComma.substring(decimals);
-    } else {
-      return '$decimalSeparator$decimalsWithComma';
-    }
   }
 }
