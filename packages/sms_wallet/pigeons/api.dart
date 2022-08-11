@@ -1,7 +1,7 @@
 import 'package:pigeon/pigeon.dart';
 
-class AuthorizeRequest {
-  AuthorizeRequest({
+class AuthorizeRequestDto {
+  AuthorizeRequestDto({
     required this.identityName,
     required this.identityUri,
     required this.iconUri,
@@ -12,8 +12,8 @@ class AuthorizeRequest {
   final String? iconUri;
 }
 
-class AuthorizeResult {
-  AuthorizeResult({
+class AuthorizeResultDto {
+  AuthorizeResultDto({
     required this.publicKey,
     required this.accountLabel,
     required this.walletUriBase,
@@ -21,9 +21,9 @@ class AuthorizeResult {
   });
 
   final Uint8List publicKey;
-  final String accountLabel;
+  final String? accountLabel;
   final String? walletUriBase;
-  final Uint8List scope;
+  final Uint8List? scope;
 }
 
 @FlutterApi()
@@ -36,7 +36,7 @@ abstract class ApiFlutter {
   void onScenarioTeardownComplete(int id);
 
   @async
-  AuthorizeResult? authorize(AuthorizeRequest request, int id);
+  AuthorizeResultDto? authorize(AuthorizeRequestDto request, int id);
 }
 
 @HostApi()

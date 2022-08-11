@@ -23,7 +23,7 @@ import java.util.HashMap;
 public class Api {
 
   /** Generated class from Pigeon that represents data sent in messages. */
-  public static class AuthorizeRequest {
+  public static class AuthorizeRequestDto {
     private @Nullable String identityName;
     public @Nullable String getIdentityName() { return identityName; }
     public void setIdentityName(@Nullable String setterArg) {
@@ -58,8 +58,8 @@ public class Api {
         this.iconUri = setterArg;
         return this;
       }
-      public @NonNull AuthorizeRequest build() {
-        AuthorizeRequest pigeonReturn = new AuthorizeRequest();
+      public @NonNull AuthorizeRequestDto build() {
+        AuthorizeRequestDto pigeonReturn = new AuthorizeRequestDto();
         pigeonReturn.setIdentityName(identityName);
         pigeonReturn.setIdentityUri(identityUri);
         pigeonReturn.setIconUri(iconUri);
@@ -73,8 +73,8 @@ public class Api {
       toMapResult.put("iconUri", iconUri);
       return toMapResult;
     }
-    static @NonNull AuthorizeRequest fromMap(@NonNull Map<String, Object> map) {
-      AuthorizeRequest pigeonResult = new AuthorizeRequest();
+    static @NonNull AuthorizeRequestDto fromMap(@NonNull Map<String, Object> map) {
+      AuthorizeRequestDto pigeonResult = new AuthorizeRequestDto();
       Object identityName = map.get("identityName");
       pigeonResult.setIdentityName((String)identityName);
       Object identityUri = map.get("identityUri");
@@ -86,7 +86,7 @@ public class Api {
   }
 
   /** Generated class from Pigeon that represents data sent in messages. */
-  public static class AuthorizeResult {
+  public static class AuthorizeResultDto {
     private @NonNull byte[] publicKey;
     public @NonNull byte[] getPublicKey() { return publicKey; }
     public void setPublicKey(@NonNull byte[] setterArg) {
@@ -96,12 +96,9 @@ public class Api {
       this.publicKey = setterArg;
     }
 
-    private @NonNull String accountLabel;
-    public @NonNull String getAccountLabel() { return accountLabel; }
-    public void setAccountLabel(@NonNull String setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"accountLabel\" is null.");
-      }
+    private @Nullable String accountLabel;
+    public @Nullable String getAccountLabel() { return accountLabel; }
+    public void setAccountLabel(@Nullable String setterArg) {
       this.accountLabel = setterArg;
     }
 
@@ -111,17 +108,14 @@ public class Api {
       this.walletUriBase = setterArg;
     }
 
-    private @NonNull byte[] scope;
-    public @NonNull byte[] getScope() { return scope; }
-    public void setScope(@NonNull byte[] setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"scope\" is null.");
-      }
+    private @Nullable byte[] scope;
+    public @Nullable byte[] getScope() { return scope; }
+    public void setScope(@Nullable byte[] setterArg) {
       this.scope = setterArg;
     }
 
     /** Constructor is private to enforce null safety; use Builder. */
-    private AuthorizeResult() {}
+    private AuthorizeResultDto() {}
     public static final class Builder {
       private @Nullable byte[] publicKey;
       public @NonNull Builder setPublicKey(@NonNull byte[] setterArg) {
@@ -129,7 +123,7 @@ public class Api {
         return this;
       }
       private @Nullable String accountLabel;
-      public @NonNull Builder setAccountLabel(@NonNull String setterArg) {
+      public @NonNull Builder setAccountLabel(@Nullable String setterArg) {
         this.accountLabel = setterArg;
         return this;
       }
@@ -139,12 +133,12 @@ public class Api {
         return this;
       }
       private @Nullable byte[] scope;
-      public @NonNull Builder setScope(@NonNull byte[] setterArg) {
+      public @NonNull Builder setScope(@Nullable byte[] setterArg) {
         this.scope = setterArg;
         return this;
       }
-      public @NonNull AuthorizeResult build() {
-        AuthorizeResult pigeonReturn = new AuthorizeResult();
+      public @NonNull AuthorizeResultDto build() {
+        AuthorizeResultDto pigeonReturn = new AuthorizeResultDto();
         pigeonReturn.setPublicKey(publicKey);
         pigeonReturn.setAccountLabel(accountLabel);
         pigeonReturn.setWalletUriBase(walletUriBase);
@@ -160,8 +154,8 @@ public class Api {
       toMapResult.put("scope", scope);
       return toMapResult;
     }
-    static @NonNull AuthorizeResult fromMap(@NonNull Map<String, Object> map) {
-      AuthorizeResult pigeonResult = new AuthorizeResult();
+    static @NonNull AuthorizeResultDto fromMap(@NonNull Map<String, Object> map) {
+      AuthorizeResultDto pigeonResult = new AuthorizeResultDto();
       Object publicKey = map.get("publicKey");
       pigeonResult.setPublicKey((byte[])publicKey);
       Object accountLabel = map.get("accountLabel");
@@ -180,10 +174,10 @@ public class Api {
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
         case (byte)128:         
-          return AuthorizeRequest.fromMap((Map<String, Object>) readValue(buffer));
+          return AuthorizeRequestDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)129:         
-          return AuthorizeResult.fromMap((Map<String, Object>) readValue(buffer));
+          return AuthorizeResultDto.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
           return super.readValueOfType(type, buffer);
@@ -192,13 +186,13 @@ public class Api {
     }
     @Override
     protected void writeValue(ByteArrayOutputStream stream, Object value)     {
-      if (value instanceof AuthorizeRequest) {
+      if (value instanceof AuthorizeRequestDto) {
         stream.write(128);
-        writeValue(stream, ((AuthorizeRequest) value).toMap());
+        writeValue(stream, ((AuthorizeRequestDto) value).toMap());
       } else 
-      if (value instanceof AuthorizeResult) {
+      if (value instanceof AuthorizeResultDto) {
         stream.write(129);
-        writeValue(stream, ((AuthorizeResult) value).toMap());
+        writeValue(stream, ((AuthorizeResultDto) value).toMap());
       } else 
 {
         super.writeValue(stream, value);
@@ -261,12 +255,12 @@ public class Api {
         callback.reply(null);
       });
     }
-    public void authorize(@NonNull AuthorizeRequest requestArg, @NonNull Long idArg, Reply<AuthorizeResult> callback) {
+    public void authorize(@NonNull AuthorizeRequestDto requestArg, @NonNull Long idArg, Reply<AuthorizeResultDto> callback) {
       BasicMessageChannel<Object> channel =
           new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiFlutter.authorize", getCodec());
       channel.send(new ArrayList<Object>(Arrays.asList(requestArg, idArg)), channelReply -> {
         @SuppressWarnings("ConstantConditions")
-        AuthorizeResult output = (AuthorizeResult)channelReply;
+        AuthorizeResultDto output = (AuthorizeResultDto)channelReply;
         callback.reply(output);
       });
     }

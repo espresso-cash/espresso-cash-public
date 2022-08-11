@@ -63,7 +63,7 @@ class Callbacks(
     }
 
     override fun onAuthorizeRequest(request: AuthorizeRequest) {
-        val dto = Api.AuthorizeRequest.Builder()
+        val dto = Api.AuthorizeRequestDto.Builder()
             .setIconUri(request.iconRelativeUri?.toString())
             .setIdentityName(request.identityName)
             .setIdentityUri(request.identityUri?.toString())

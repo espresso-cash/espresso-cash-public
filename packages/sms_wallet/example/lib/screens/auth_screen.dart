@@ -16,19 +16,19 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  Uri? _iconUri;
+  late final Uri? _iconUri;
 
   @override
   void initState() {
     super.initState();
-    final identityUri = Uri.tryParse(widget.request.identityUri ?? '');
+    final identityUri = widget.request.identityUri;
     final iconUri = widget.request.iconUri;
 
     if (identityUri != null && iconUri != null && identityUri.isAbsolute) {
       _iconUri = identityUri.replace(
         pathSegments: [
           ...identityUri.pathSegments,
-          Uri.encodeFull(iconUri),
+          Uri.encodeFull(iconUri.toString()),
         ],
       );
     }
@@ -47,7 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
           const SizedBox(height: 16),
           if (iconUri != null) Image.network(iconUri.toString()),
           Text(widget.request.identityName ?? '<no name>'),
-          Text(widget.request.identityUri ?? '<no URI>'),
+          Text(widget.request.identityUri?.toString() ?? '<no URI>'),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

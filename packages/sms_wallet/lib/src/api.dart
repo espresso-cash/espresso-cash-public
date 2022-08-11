@@ -7,8 +7,8 @@ import 'dart:typed_data' show Uint8List, Int32List, Int64List, Float64List;
 import 'package:flutter/foundation.dart' show WriteBuffer, ReadBuffer;
 import 'package:flutter/services.dart';
 
-class AuthorizeRequest {
-  AuthorizeRequest({
+class AuthorizeRequestDto {
+  AuthorizeRequestDto({
     this.identityName,
     this.identityUri,
     this.iconUri,
@@ -26,9 +26,9 @@ class AuthorizeRequest {
     return pigeonMap;
   }
 
-  static AuthorizeRequest decode(Object message) {
+  static AuthorizeRequestDto decode(Object message) {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return AuthorizeRequest(
+    return AuthorizeRequestDto(
       identityName: pigeonMap['identityName'] as String?,
       identityUri: pigeonMap['identityUri'] as String?,
       iconUri: pigeonMap['iconUri'] as String?,
@@ -36,18 +36,18 @@ class AuthorizeRequest {
   }
 }
 
-class AuthorizeResult {
-  AuthorizeResult({
+class AuthorizeResultDto {
+  AuthorizeResultDto({
     required this.publicKey,
-    required this.accountLabel,
+    this.accountLabel,
     this.walletUriBase,
-    required this.scope,
+    this.scope,
   });
 
   Uint8List publicKey;
-  String accountLabel;
+  String? accountLabel;
   String? walletUriBase;
-  Uint8List scope;
+  Uint8List? scope;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
@@ -58,13 +58,13 @@ class AuthorizeResult {
     return pigeonMap;
   }
 
-  static AuthorizeResult decode(Object message) {
+  static AuthorizeResultDto decode(Object message) {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return AuthorizeResult(
+    return AuthorizeResultDto(
       publicKey: pigeonMap['publicKey']! as Uint8List,
-      accountLabel: pigeonMap['accountLabel']! as String,
+      accountLabel: pigeonMap['accountLabel'] as String?,
       walletUriBase: pigeonMap['walletUriBase'] as String?,
-      scope: pigeonMap['scope']! as Uint8List,
+      scope: pigeonMap['scope'] as Uint8List?,
     );
   }
 }
@@ -73,11 +73,11 @@ class _ApiFlutterCodec extends StandardMessageCodec {
   const _ApiFlutterCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is AuthorizeRequest) {
+    if (value is AuthorizeRequestDto) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
     } else 
-    if (value is AuthorizeResult) {
+    if (value is AuthorizeResultDto) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else 
@@ -89,10 +89,10 @@ class _ApiFlutterCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128:       
-        return AuthorizeRequest.decode(readValue(buffer)!);
+        return AuthorizeRequestDto.decode(readValue(buffer)!);
       
       case 129:       
-        return AuthorizeResult.decode(readValue(buffer)!);
+        return AuthorizeResultDto.decode(readValue(buffer)!);
       
       default:      
         return super.readValueOfType(type, buffer);
@@ -109,7 +109,7 @@ abstract class ApiFlutter {
   void onScenarioComplete(int id);
   void onScenarioError(int id);
   void onScenarioTeardownComplete(int id);
-  Future<AuthorizeResult?> authorize(AuthorizeRequest request, int id);
+  Future<AuthorizeResultDto?> authorize(AuthorizeRequestDto request, int id);
   static void setup(ApiFlutter? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -216,11 +216,11 @@ abstract class ApiFlutter {
         channel.setMessageHandler((Object? message) async {
           assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final AuthorizeRequest? arg_request = (args[0] as AuthorizeRequest?);
-          assert(arg_request != null, 'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null AuthorizeRequest.');
+          final AuthorizeRequestDto? arg_request = (args[0] as AuthorizeRequestDto?);
+          assert(arg_request != null, 'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null AuthorizeRequestDto.');
           final int? arg_id = (args[1] as int?);
           assert(arg_id != null, 'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null int.');
-          final AuthorizeResult? output = await api.authorize(arg_request!, arg_id!);
+          final AuthorizeResultDto? output = await api.authorize(arg_request!, arg_id!);
           return output;
         });
       }

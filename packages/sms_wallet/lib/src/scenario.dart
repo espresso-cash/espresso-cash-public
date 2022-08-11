@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:sms_wallet/src/api.dart';
 import 'package:sms_wallet/src/auth_issuer_config.dart';
+import 'package:sms_wallet/src/requests/authorize.dart';
 import 'package:sms_wallet/src/sms_wallet_platform.dart';
 import 'package:sms_wallet/src/wallet_config.dart';
 
@@ -93,8 +94,25 @@ class Api implements ApiFlutter {
   }
 
   @override
-  Future<AuthorizeResult?> authorize(AuthorizeRequest request, int id) async =>
-      _scenarios[id]?.callbacks.onAuthorizeRequest(request);
+  Future<AuthorizeResultDto?> authorize(
+    AuthorizeRequestDto request,
+    int id,
+  ) async {
+    final r = AuthorizeRequest(
+      identityName: request.identityName,
+      identityUri: Uri.tryParse(request.identityUri ?? ''),
+      iconUri: Uri.tryParse(request.iconUri ?? ''),
+    );
+    final result = await _scenarios[id]?.callbacks.onAuthorizeRequest(r);
+    if (result == null) return null;
+
+    return AuthorizeResultDto(
+      publicKey: result.publicKey,
+      accountLabel: result.accountLabel,
+      walletUriBase: result.walletUriBase?.toString(),
+      scope: result.scope,
+    );
+  }
 
   @override
   void onScenarioReady(int id) {
