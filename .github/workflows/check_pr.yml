@@ -4,8 +4,6 @@ on:
     branches:
       - master
   push:
-    branches:
-      - master
 
 concurrency:
   group: ${{ github.head_ref }}
