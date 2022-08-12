@@ -3,7 +3,7 @@ name: Check PR (libs)
 on:
   pull_request:
     branches:
-      - master
+      - master1
     paths:
       - ".github/workflows/check_pr_libs.yml"
       - "packages/**"

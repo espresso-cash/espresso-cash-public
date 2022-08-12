@@ -2,7 +2,7 @@ name: Check PR (app)
 on:
   pull_request:
     branches:
-      - master
+      - master1
 
 concurrency:
   group: ${{ github.head_ref }}
