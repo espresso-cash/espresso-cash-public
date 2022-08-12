@@ -159,8 +159,11 @@ jobs:
       - name: Generate test schemas
         run: melos exec -c 1 ${{ env.SCOPE }} --depends-on="drift_dev" -- make flutter_generate_test_schemas
 
-      - run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
-      - run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
+      - name: Analyze
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
+
+      - name: Test
+        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
 
       - name: Store failure artifacts
         if: ${{ failure() }}
