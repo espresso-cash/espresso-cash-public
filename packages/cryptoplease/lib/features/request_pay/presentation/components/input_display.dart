@@ -1,6 +1,5 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +9,9 @@ class InputDisplay extends StatelessWidget {
   const InputDisplay({
     Key? key,
     required this.input,
-    required this.token,
   }) : super(key: key);
 
   final String input;
-  final Token token;
 
   @override
   Widget build(BuildContext context) {

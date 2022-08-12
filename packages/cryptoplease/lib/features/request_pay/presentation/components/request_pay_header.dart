@@ -21,7 +21,6 @@ class RequestPayHeader extends StatelessWidget {
           children: [
             InputDisplay(
               input: value.text,
-              token: token,
             ),
             const SizedBox(height: 8),
             EquivalentDisplay(

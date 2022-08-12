@@ -1,6 +1,7 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class EquivalentDisplay extends StatelessWidget {
     final symbol = token.symbol;
     final shouldDisplay = value.toDouble() != 0;
     final amount = shouldDisplay ? input : '0';
-    final formatted = 'Equivalent to $amount $symbol';
+    final formatted = context.l10n.tokenEquivalent(amount, symbol);
 
     return SizedBox(
       height: 50,

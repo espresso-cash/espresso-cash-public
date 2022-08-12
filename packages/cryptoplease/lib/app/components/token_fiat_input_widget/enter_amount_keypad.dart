@@ -84,7 +84,7 @@ class EnterAmountKeypad extends StatelessWidget {
       height: height,
       width: width,
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         child: GridView.count(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
