@@ -10,6 +10,9 @@ concurrency:
 
 jobs:
   e2e:
+    defaults:
+      run:
+        working-directory: packages/cryptoplease
     permissions:
       contents: write
       packages: read
@@ -38,9 +41,8 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
-      - run: make app_get
-      - run: make app_build
+      - run: flutter pub get
+      - run: make build_runner
 
       - name: "Run E2E tests"
         run: make firebase_e2e
-        working-directory: packages/cryptoplease
