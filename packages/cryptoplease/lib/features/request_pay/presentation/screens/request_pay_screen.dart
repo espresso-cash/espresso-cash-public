@@ -56,16 +56,13 @@ class _ScreenState extends State<RequestPayScreen> {
       body: BlocBuilder<RequestPayBloc, RequestPayState>(
         builder: (context, state) => Column(
           children: [
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: RequestPayHeader(
-                  inputController: _amountController,
-                  token: state.amount.currency.token,
-                ),
-              ),
+            RequestPayHeader(
+              inputController: _amountController,
+              token: state.amount.currency.token,
             ),
-            InfoWidget(token: state.amount.currency.token),
+            const SizedBox(height: 16),
+            InfoWidget(message: context.l10n.usdcExplanation),
+            const SizedBox(height: 8),
             Flexible(
               flex: 3,
               child: LayoutBuilder(
@@ -77,6 +74,7 @@ class _ScreenState extends State<RequestPayScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Row(
@@ -101,7 +99,7 @@ class _ScreenState extends State<RequestPayScreen> {
                 ],
               ),
             ),
-            const SizedBox.square(dimension: cpNavigationBarheight),
+            const SizedBox(height: cpNavigationBarheight + 16),
           ],
         ),
       ),
