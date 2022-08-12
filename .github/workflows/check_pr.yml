@@ -30,7 +30,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1.3
 
-      - run: make activate_melos
+      - name: Activate melos
+        run: make activate_melos
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
@@ -51,7 +52,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1.3
 
-      - run: make activate_melos
+      - name: Activate melos
+        run: make activate_melos
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
@@ -85,11 +87,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-      - run: dart pub global activate remove_from_coverage
-      - run: melos exec -c 1 ${{ env.SCOPE }} -- dart pub get
-      - run: melos exec -c 1 ${{ env.SCOPE }} -- dart analyze --fatal-infos .
-      - run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --coverage=coverage
-      - run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_coverage
+
+      - name: Activate remove_from_coverage
+        run: dart pub global activate remove_from_coverage
+
+      - name: Install dependencies
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
+
+      - name: Analyze
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
+
+      - name: Test
+        run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --coverage=coverage
+
+      - name: Coverage
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_coverage
+
       - uses: codecov/codecov-action@v3
         with:
           flags: solana-${{ matrix.solanaVersion }}
@@ -106,13 +119,17 @@ jobs:
         with:
           flutter-version: "3.0.5"
 
-      - run: make activate_melos
+      - name: Activate melos
+        run: make activate_melos
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_get
 
-      - run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
-      - run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
+      - name: Analyze
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
+
+      - name: Test
+        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
 
   cryptoplease:
     needs: [formatting]

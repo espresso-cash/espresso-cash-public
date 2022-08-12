@@ -27,10 +27,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-      - run: dart pub global activate remove_from_coverage
-      - run: melos exec -c 1 ${{ env.SCOPE }} -- dart pub get
-      - run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --coverage=coverage
-      - run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_coverage
+
+      - name: Activate remove_from_coverage
+        run: dart pub global activate remove_from_coverage
+
+      - name: Install dependencies
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
+
+      - name: Test
+        run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --coverage=coverage
+
+      - name: Coverage
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_coverage
+
       - uses: codecov/codecov-action@v3
         with:
           flags: solana-stable
