@@ -10,9 +10,9 @@ dependencies:
   analyzer: ">=4.0.0 <4.4.0"
   build: ^2.1.1
   http: ^0.13.4
-  source_gen: ^1.1.1
   solana:
     path: ../solana
+  source_gen: ^1.1.1
 
 dev_dependencies:
   mews_pedantic: ^0.7.0
