@@ -52,9 +52,6 @@ jobs:
       - name: Install dependencies
         run: melos exec -c 1 --scope="cryptoplease_link" -- dart pub get
 
-      - name: Run build_runner
-        run: melos exec -c 1 --scope="cryptoplease_link" -- dart pub run build_runner build
-
       - name: Analyze project source
         run: melos exec -c 1 --scope="cryptoplease_link" -- dart analyze --fatal-infos .
 
@@ -84,6 +81,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
       - run: dart pub global activate remove_from_coverage
+      - run: melos exec -c 1 --scope="solana" -- dart pub get
       - run: melos exec -c 1 --scope="solana" -- dart analyze --fatal-infos .
       - run: melos exec -c 1 --scope="solana" -- dart run test --coverage=coverage
       - run: |
@@ -114,8 +112,8 @@ jobs:
       - name: Install dependencies
         run: melos exec -c 1 --scope="cryptoplease" --scope="cryptoplease_ui" -- flutter pub get
 
-      - name: Run build_runner
-        run: melos exec -c 1 --scope="cryptoplease" -- flutter pub run build_runner build
+      - name: Generate code
+        run: make app_build
 
       - run: melos exec -c 1 --scope="cryptoplease" --scope="cryptoplease_ui" -- make analyze
       - run: melos exec -c 1 --scope="cryptoplease" --scope="cryptoplease_ui" --dir-exists="test" -- make test
