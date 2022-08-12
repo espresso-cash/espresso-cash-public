@@ -1,0 +1,38 @@
+name: Solana coverage
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  solana_coverage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    env:
+      DEVNET_RPC_URL: "http://solana:8899"
+      DEVNET_WEBSOCKET_URL: "ws://solana:8900"
+      SCOPE: --scope="solana"
+    container:
+      image: ghcr.io/cryptoplease/flutter:3.0.5
+    services:
+      solana:
+        image: solanalabs/solana:stable
+        options: --entrypoint="solana-test-validator"
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+      - run: dart pub global activate remove_from_coverage
+      - run: melos exec -c 1 ${{ env.SCOPE }} -- dart pub get
+      - run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --coverage=coverage
+      - run: |
+          melos exec -c 1 ${{ env.SCOPE }} -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+          melos exec -c 1 ${{ env.SCOPE }} -- remove_from_coverage -f coverage/coverage.lcov -r "\.(g|freezed)\.dart$$"
+      - uses: codecov/codecov-action@v3
+        with:
+          flags: solana-stable

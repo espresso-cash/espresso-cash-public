@@ -91,7 +91,7 @@ jobs:
       - run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --coverage=coverage
       - run: |
           melos exec -c 1 ${{ env.SCOPE }} -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
-          melos exec -c 1 ${{ env.SCOPE }} -- remove_from_coverage -f coverage/coverage.lcov -r '\.(g|freezed)\.dart$$'
+          melos exec -c 1 ${{ env.SCOPE }} -- remove_from_coverage -f coverage/coverage.lcov -r "\.(g|freezed)\.dart$$"
       - uses: codecov/codecov-action@v3
         with:
           flags: solana-${{ matrix.solanaVersion }}
