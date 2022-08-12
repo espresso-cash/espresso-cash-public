@@ -10,6 +10,7 @@ on:
       - "!packages/cryptoplease/**"
       - "!packages/cryptoplease_ui/**"
       - "!packages/cryptoplease_link/**"
+      - "!packages/sms_wallet/**"
   push:
     branches:
       - master
