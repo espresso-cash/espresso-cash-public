@@ -76,30 +76,29 @@ class _ApiFlutterCodec extends StandardMessageCodec {
     if (value is AuthorizeRequestDto) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else 
-    if (value is AuthorizeResultDto) {
+    } else if (value is AuthorizeResultDto) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    } else 
-{
+    } else {
       super.writeValue(buffer, value);
     }
   }
+
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:       
+      case 128:
         return AuthorizeRequestDto.decode(readValue(buffer)!);
-      
-      case 129:       
+
+      case 129:
         return AuthorizeResultDto.decode(readValue(buffer)!);
-      
-      default:      
+
+      default:
         return super.readValueOfType(type, buffer);
-      
     }
   }
 }
+
 abstract class ApiFlutter {
   static const MessageCodec<Object?> codec = _ApiFlutterCodec();
 
@@ -113,15 +112,18 @@ abstract class ApiFlutter {
   static void setup(ApiFlutter? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioReady', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.ApiFlutter.onScenarioReady', codec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioReady was null.');
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioReady was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioReady was null, expected non-null int.');
+          assert(arg_id != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioReady was null, expected non-null int.');
           api.onScenarioReady(arg_id!);
           return;
         });
@@ -129,15 +131,18 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioServingClients', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.ApiFlutter.onScenarioServingClients', codec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingClients was null.');
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingClients was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingClients was null, expected non-null int.');
+          assert(arg_id != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingClients was null, expected non-null int.');
           api.onScenarioServingClients(arg_id!);
           return;
         });
@@ -145,15 +150,18 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete', codec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete was null.');
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete was null, expected non-null int.');
+          assert(arg_id != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete was null, expected non-null int.');
           api.onScenarioServingComplete(arg_id!);
           return;
         });
@@ -161,15 +169,18 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioComplete', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.ApiFlutter.onScenarioComplete', codec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioComplete was null.');
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioComplete was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioComplete was null, expected non-null int.');
+          assert(arg_id != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioComplete was null, expected non-null int.');
           api.onScenarioComplete(arg_id!);
           return;
         });
@@ -177,15 +188,18 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioError', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.ApiFlutter.onScenarioError', codec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioError was null.');
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioError was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioError was null, expected non-null int.');
+          assert(arg_id != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioError was null, expected non-null int.');
           api.onScenarioError(arg_id!);
           return;
         });
@@ -193,15 +207,18 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete', codec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete was null.');
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null, 'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete was null, expected non-null int.');
+          assert(arg_id != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete was null, expected non-null int.');
           api.onScenarioTeardownComplete(arg_id!);
           return;
         });
@@ -209,18 +226,24 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.authorize', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.ApiFlutter.authorize', codec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null.');
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final AuthorizeRequestDto? arg_request = (args[0] as AuthorizeRequestDto?);
-          assert(arg_request != null, 'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null AuthorizeRequestDto.');
+          final AuthorizeRequestDto? arg_request =
+              (args[0] as AuthorizeRequestDto?);
+          assert(arg_request != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null AuthorizeRequestDto.');
           final int? arg_id = (args[1] as int?);
-          assert(arg_id != null, 'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null int.');
-          final AuthorizeResultDto? output = await api.authorize(arg_request!, arg_id!);
+          assert(arg_id != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null int.');
+          final AuthorizeResultDto? output =
+              await api.authorize(arg_request!, arg_id!);
           return output;
         });
       }
@@ -236,7 +259,8 @@ class ApiHost {
   /// Constructor for [ApiHost].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  ApiHost({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
+  ApiHost({BinaryMessenger? binaryMessenger})
+      : _binaryMessenger = binaryMessenger;
 
   final BinaryMessenger? _binaryMessenger;
 
@@ -244,7 +268,8 @@ class ApiHost {
 
   Future<void> start(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.start', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.ApiHost.start', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_id]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -253,7 +278,8 @@ class ApiHost {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -266,7 +292,8 @@ class ApiHost {
 
   Future<void> close(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.close', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.ApiHost.close', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_id]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -275,7 +302,8 @@ class ApiHost {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
