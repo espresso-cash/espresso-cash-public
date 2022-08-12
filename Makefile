@@ -24,6 +24,9 @@ ifndef FLUTTER_VERSION
 endif
 	docker push ghcr.io/cryptoplease/flutter:${FLUTTER_VERSION}
 
+activate_melos:
+	dart pub global activate melos
+
 dart_get:
 	dart pub get
 
