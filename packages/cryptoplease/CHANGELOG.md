@@ -1,3 +1,12 @@
+## 1.40.0
+
+ - **FIX**: home tabs.
+ - **FIX**: Update tx handling.
+ - **FEAT**: add new screen for request and pay (#332).
+ - **FEAT**: new menu and profile screens (#335).
+ - **FEAT**: use roboto font as default (#329).
+ - **FEAT**: remove NFT tab (#330).
+
 ## 1.39.0
 
  - **FIX**: properly clear navigation stack after creating link (#331).

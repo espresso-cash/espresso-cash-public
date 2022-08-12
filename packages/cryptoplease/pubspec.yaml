@@ -1,7 +1,7 @@
 name: cryptoplease
 description: CryptoPlease mobile wallet for Solana
 publish_to: "none"
-version: 1.39.0
+version: 1.40.0
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -17,7 +17,7 @@ dependencies:
     path: ../cryptoplease_ui/
   date_time_format: ^2.0.1
   decimal: ^2.2.0
-  dfunc: ^0.7.2
+  dfunc: ^0.8.0+1
   dio: ^4.0.0
   drift: ^1.5.0
   fast_immutable_collections: ^7.4.1
@@ -71,7 +71,7 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^4.1.5
-  flutter_native_splash: ^2.0.4
+  flutter_native_splash: ^2.2.7
   flutter_test:
     sdk: flutter
   freezed: ^2.1.0+1

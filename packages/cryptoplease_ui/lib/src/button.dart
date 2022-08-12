@@ -10,6 +10,8 @@ enum CpButtonVariant {
 
 enum CpButtonSize { normal, big, small, micro }
 
+enum CpButtonAlignment { left, center }
+
 class CpButton extends StatelessWidget {
   const CpButton({
     Key? key,
@@ -19,6 +21,7 @@ class CpButton extends StatelessWidget {
     this.variant = CpButtonVariant.dark,
     this.minWidth,
     this.size = CpButtonSize.normal,
+    this.alignment = CpButtonAlignment.center,
   }) : super(key: key);
 
   final String text;
@@ -27,6 +30,7 @@ class CpButton extends StatelessWidget {
   final CpButtonVariant variant;
   final double? minWidth;
   final CpButtonSize size;
+  final CpButtonAlignment alignment;
 
   Color get _backgroundColor {
     switch (variant) {
@@ -62,7 +66,7 @@ class CpButton extends StatelessWidget {
         case CpButtonSize.normal:
           return style;
         case CpButtonSize.big:
-          return style.copyWith(fontSize: 18);
+          return style.copyWith(fontSize: 17);
         case CpButtonSize.small:
           return style.copyWith(fontSize: 17, height: 1);
         case CpButtonSize.micro:
@@ -82,7 +86,7 @@ class CpButton extends StatelessWidget {
           Size.fromHeight(size.height),
         ),
         shape: MaterialStateProperty.all(const StadiumBorder()),
-        alignment: size.alignment,
+        alignment: alignment.alignment,
         overlayColor:
             MaterialStateProperty.all(CpColors.translucentYellowColor),
         padding: MaterialStateProperty.all(
@@ -100,7 +104,7 @@ class CpButton extends StatelessWidget {
         ),
         textStyle: MaterialStateProperty.all(textStyle),
       ),
-      child: Text(size.uppercase ? text.toUpperCase() : text),
+      child: Text(text),
     );
 
     return width != null ? SizedBox(width: width, child: button) : button;
@@ -109,39 +113,28 @@ class CpButton extends StatelessWidget {
 
 const _disabledOpacity = 0.25;
 
+extension on CpButtonAlignment {
+  Alignment get alignment {
+    switch (this) {
+      case CpButtonAlignment.left:
+        return Alignment.centerLeft;
+      case CpButtonAlignment.center:
+        return Alignment.center;
+    }
+  }
+}
+
 extension on CpButtonSize {
   double get height {
     switch (this) {
       case CpButtonSize.normal:
-        return 44;
+        return 51;
       case CpButtonSize.big:
-        return 60;
+        return 63;
       case CpButtonSize.small:
         return 44;
       case CpButtonSize.micro:
         return 30;
-    }
-  }
-
-  bool get uppercase {
-    switch (this) {
-      case CpButtonSize.normal:
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  Alignment get alignment {
-    switch (this) {
-      case CpButtonSize.normal:
-        return Alignment.center;
-      case CpButtonSize.big:
-        return Alignment.centerLeft;
-      case CpButtonSize.small:
-        return Alignment.center;
-      case CpButtonSize.micro:
-        return Alignment.center;
     }
   }
 }

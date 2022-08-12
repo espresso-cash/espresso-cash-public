@@ -28,9 +28,9 @@ class EnterAmountKeypad extends StatelessWidget {
     KeypadKey.number(number: 7),
     KeypadKey.number(number: 8),
     KeypadKey.number(number: 9),
-    KeypadKey.backspace(),
+    KeypadKey.decimalSeparator(),
     KeypadKey.number(number: 0),
-    KeypadKey.decimalSeparator()
+    KeypadKey.backspace(),
   ];
 
   void _manageKey(String key, String decimalSeparator) {
@@ -84,7 +84,7 @@ class EnterAmountKeypad extends StatelessWidget {
       height: height,
       width: width,
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         child: GridView.count(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,

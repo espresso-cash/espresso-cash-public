@@ -4,7 +4,7 @@
 
 ## Packages
 
-- [cryptoplease](packages/cryptoplease): full-fledged mobile wallet for Solana built with [solana](packages/solana) library.
+- [cryptoplease](packages/cryptoplease): full-fledged mobile wallet for iOS and Android on Solana built with [solana](packages/solana) library.
 - [cryptoplease-ui](packages/cryptoplease-ui): UI library for mobile wallet.
 - The [solana](packages/solana) library. This is the implementation of the Solana [transaction codec](https://docs.solana.com/developing/programming-model/transactions) and the [JSON RPC api](https://docs.solana.com/developing/clients/jsonrpc-api).
 - The [jsonrpc_client](packages/jsonrpc_client) is used to generate the RPC api methods from their definitions. This technique helps us stick to the DRY principle very easily.

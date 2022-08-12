@@ -30,8 +30,9 @@ extension FormatAmountExt on Amount {
           locale: locale,
           value: decimal,
           decimals: currency.decimals,
-          symbol: currency.symbol,
+          symbol: currency.sign,
           skipSymbol: skipSymbol,
+          prefixedSymbol: true,
         ),
         crypto: (CryptoCurrency currency) => _formatAmount(
           locale: locale,
@@ -39,6 +40,7 @@ extension FormatAmountExt on Amount {
           decimals: currency.decimals,
           symbol: currency.symbol,
           skipSymbol: skipSymbol,
+          prefixedSymbol: false,
         ),
       );
 }
@@ -54,6 +56,7 @@ String _formatAmount({
   required Decimal value,
   required int decimals,
   required bool skipSymbol,
+  required bool prefixedSymbol,
 }) {
   late final NumberFormat formatter;
   formatter = NumberFormat.decimalPattern(locale?.languageCode)
@@ -62,5 +65,9 @@ String _formatAmount({
 
   final formatted = formatter.format(value.toDouble());
 
-  return skipSymbol ? formatted : '$formatted $symbol';
+  if (skipSymbol) {
+    return formatted;
+  }
+
+  return prefixedSymbol ? '$symbol$formatted' : '$formatted $symbol';
 }

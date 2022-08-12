@@ -10,6 +10,7 @@ class Currency with _$Currency {
     required String name,
     required int decimals,
     required String symbol,
+    required String sign,
   }) = FiatCurrency;
 
   const factory Currency.crypto({
@@ -22,6 +23,7 @@ class Currency with _$Currency {
 
   static const FiatCurrency usd = FiatCurrency(
     symbol: 'USD',
+    sign: r'$',
     name: 'US dollar',
     decimals: 2,
   );

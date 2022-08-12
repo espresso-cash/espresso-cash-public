@@ -21,5 +21,10 @@ final cpButton = Story(
       initial: CpButtonSize.normal,
       options: CpButtonSize.values.toOptions(),
     ),
+    alignment: context.knobs.options(
+      label: 'Alignment',
+      initial: CpButtonAlignment.center,
+      options: CpButtonAlignment.values.toOptions(),
+    ),
   ),
 );
