@@ -1,0 +1,125 @@
+name: Check PR
+on:
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  formatting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@stable
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+  dart_libs:
+    needs: [formatting]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@stable
+
+      - name: Install dependencies
+        run: make exec -c 1 --no-flutter --ignore="cryptoplease*" --ignore="solana" -- dart pub get
+
+      - name: Analyze project source
+        run: make exec -c 1 --no-flutter --ignore="cryptoplease*" --ignore="solana" -- dart analyze --fatal-infos .
+
+      - name: Run tests
+        run: make exec -c 1 --no-flutter --ignore="cryptoplease*" --ignore="solana" --dir-exists="test" -- dart test
+
+  cryptoplease_link:
+    needs: [formatting]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@stable
+
+      - name: Install dependencies
+        run: make exec -c 1 --scope="cryptoplease_link" -- dart pub get
+
+      - name: Run build_runner
+        run: melos exec -c 1 --scope="cryptoplease_link" -- dart pub run build_runner build
+
+      - name: Analyze project source
+        run: make exec -c 1 --scope="cryptoplease_link" -- dart analyze --fatal-infos .
+
+      - name: Run tests
+        run: make exec -c 1 --scope="cryptoplease_link" --dir-exists="test" -- dart test
+
+  solana:
+    needs: [formatting]
+    strategy:
+      fail-fast: false
+      matrix:
+        solanaVersion: ["stable", "beta"]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    env:
+      DEVNET_RPC_URL: "http://solana:8899"
+      DEVNET_WEBSOCKET_URL: "ws://solana:8900"
+    container:
+      image: ghcr.io/cryptoplease/flutter:3.0.0
+    services:
+      solana:
+        image: solanalabs/solana:${{ matrix.solanaVersion }}
+        options: --entrypoint="solana-test-validator"
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+      - run: dart pub global activate remove_from_coverage
+      - run: melos exec -c 1 --scope="solana" -- dart analyze --fatal-infos .
+      - run: melos exec -c 1 --scope="solana" -- dart run test --coverage=coverage
+      - run: |
+          melos exec -c 1 --scope="solana" -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+          melos exec -c 1 --scope="solana" -- "remove_from_coverage -f coverage/coverage.lcov -r '\.(g|freezed)\.dart$$'"
+      - uses: codecov/codecov-action@v3
+        with:
+          flags: solana
+
+  cryptoplease:
+    needs: [formatting]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    env:
+      SOLANA_RPC_URL: "http://solana:8899"
+      SOLANA_WEBSOCKET_URL: "ws://solana:8900"
+    container:
+      image: ghcr.io/cryptoplease/flutter:3.0.0
+    services:
+      solana:
+        image: solanalabs/solana:stable
+        options: --entrypoint="solana-test-validator"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: melos exec -c 1 --scope="cryptoplease" --scope="cryptoplease_ui" -- flutter pub get
+
+      - name: Run build_runner
+        run: melos exec -c 1 --scope="cryptoplease" -- flutter pub run build_runner build
+
+      - run: melos exec -c 1 --scope="cryptoplease" --scope="cryptoplease_ui" -- make analyze
+      - run: melos exec -c 1 --scope="cryptoplease" --scope="cryptoplease_ui" --dir-exists="test" -- make test
+
+      - name: Store failure artifacts
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: golden-test-failure
+          path: "**/test/golden/**/failures/"
+
+      - run: melos exec -c 1 --scope="cryptoplease" -- make test_solana
