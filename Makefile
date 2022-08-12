@@ -12,6 +12,48 @@ FLUTTER_TEST_DEFINITIONS=\
 		 --dart-define SOLANA_RPC_URL=${SOLANA_RPC_URL} \
 		 --dart-define SOLANA_WEBSOCKET_URL=${SOLANA_WEBSOCKET_URL}
 
+# CryptoPlease app rules
+
+app_get:
+	melos exec -c 1 --flutter -- "make get"
+
+app_check_formatting:
+	melos exec -c 1 --flutter -- "make format"
+
+app_build:
+	melos exec -c 1 --depends-on="build_runner" --flutter -- "make build"
+	melos exec -c 1 --depends-on="drift_dev" --flutter -- "make generate_test_schemas"
+
+app_analyze:
+	melos exec -c 1 --flutter -- "make analyze"
+
+app_test: app_build
+	melos exec -c 1 --dir-exists="test" --flutter -- "make test"
+
+app_test_solana:
+	melos exec -c 1 --scope="cryptoplease" -- "make test_solana"
+
+# Libs rules
+
+libs_check_formatting:
+	melos exec -c 1 --no-flutter -- dart pub get
+	melos exec -c 1 --no-flutter -- dart format --set-exit-if-changed -o none .
+
+libs_analyze:
+	melos exec -c 1 --no-flutter -- "dart analyze --fatal-infos ."
+
+libs_test:
+	melos exec -c 1 --dir-exists="test" --no-flutter -- "dart run test --coverage=coverage"
+
+libs_coverage:
+	melos exec --scope="solana" -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+	melos exec --scope="solana" -- "remove_from_coverage -f coverage/coverage.lcov -r '\.(g|freezed)\.dart$$'"
+
+# Other rules
+
+check_unused_code_all:
+	melos exec -c 1 -- "make check_unused_code"
+
 flutter_image_build:
 ifndef FLUTTER_VERSION
 	$(error "FLUTTER_VERSION must be set")
@@ -29,10 +71,13 @@ endif
 flutter_get:
 	flutter pub get
 
-flutter_build:
-	flutter pub run build_runner build --delete-conflicting-outputs
+format:
+	flutter format -n --set-exit-if-changed .
 
-flutter_generate_test_schemas:
+build:
+	flutter pub run build_runner build
+
+generate_test_schemas:
 	flutter pub run drift_dev schema generate moor_schemas test/generated/
 
 flutter_analyze:
