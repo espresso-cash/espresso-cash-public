@@ -31,14 +31,14 @@ const authenticatedFlowRoutes = AutoRoute<void>(
       path: '',
       page: HomeTabsScreen,
       children: [
-        CustomRoute<void>(path: '', page: WalletScreen),
+        CustomRoute<void>(path: '', page: MenuScreen),
         CustomRoute<void>(
           page: RequestPayFlowScreen,
           children: requestPayRoutes,
         ),
         CustomRoute<void>(page: ActivitiesScreen),
         CustomRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),
-        CustomRoute<void>(page: MenuScreen),
+        CustomRoute<void>(page: WalletScreen),
         CustomRoute<Token>(page: TokenSelectorScreen),
       ],
     ),
