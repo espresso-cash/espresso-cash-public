@@ -29,13 +29,13 @@ jobs:
       - uses: dart-lang/setup-dart@v1.3
 
       - name: Install dependencies
-        run: make exec -c 1 --no-flutter --ignore="cryptoplease*" --ignore="solana" -- dart pub get
+        run: melos exec -c 1 --no-flutter --ignore="cryptoplease*" --ignore="solana" -- dart pub get
 
       - name: Analyze project source
-        run: make exec -c 1 --no-flutter --ignore="cryptoplease*" --ignore="solana" -- dart analyze --fatal-infos .
+        run: melos exec -c 1 --no-flutter --ignore="cryptoplease*" --ignore="solana" -- dart analyze --fatal-infos .
 
       - name: Run tests
-        run: make exec -c 1 --no-flutter --ignore="cryptoplease*" --ignore="solana" --dir-exists="test" -- dart test
+        run: melos exec -c 1 --no-flutter --ignore="cryptoplease*" --ignore="solana" --dir-exists="test" -- dart test
 
   cryptoplease_link:
     needs: [formatting]
@@ -46,16 +46,16 @@ jobs:
       - uses: dart-lang/setup-dart@v1.3
 
       - name: Install dependencies
-        run: make exec -c 1 --scope="cryptoplease_link" -- dart pub get
+        run: melos exec -c 1 --scope="cryptoplease_link" -- dart pub get
 
       - name: Run build_runner
         run: melos exec -c 1 --scope="cryptoplease_link" -- dart pub run build_runner build
 
       - name: Analyze project source
-        run: make exec -c 1 --scope="cryptoplease_link" -- dart analyze --fatal-infos .
+        run: melos exec -c 1 --scope="cryptoplease_link" -- dart analyze --fatal-infos .
 
       - name: Run tests
-        run: make exec -c 1 --scope="cryptoplease_link" --dir-exists="test" -- dart test
+        run: melos exec -c 1 --scope="cryptoplease_link" --dir-exists="test" -- dart test
 
   solana:
     needs: [formatting]
