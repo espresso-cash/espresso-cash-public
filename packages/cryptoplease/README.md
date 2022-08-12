@@ -55,18 +55,18 @@ Main app screens. It should be kept minimal and serve as an entrypoint to featur
 1. Running unit and golden tests:
 
    ```sh
-   make generate_test_schemas test
+   make flutter_generate_test_schemas flutter_test
    ```
 
 2. Running solana-related integration tests (make sure that local solana instance is installed and running):
 
    ```sh
    # Ensure that SOLANA_RPC_URL and SOLANA_WEBSOCKET_URL environment variables are set
-   make app_test_solana
+   make flutter_test_solana
    ```
 
 3. Running E2E tests:
 
    ```sh
-   make test_e2e
+   make flutter_test_e2e
    ```

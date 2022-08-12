@@ -2,7 +2,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
-// ignore: implementation_imports
+// ignore: implementation_imports, package under our control
 import 'package:solana/src/rpc/rpc_client_annotation.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -58,8 +58,8 @@ class ${name}Config {
         return p.toJson();
       }
     }).toList();
-    final isWithContext =
-        TypeChecker.fromRuntime(WithContextResult).hasAnnotationOf(method);
+    final isWithContext = const TypeChecker.fromRuntime(WithContextResult)
+        .hasAnnotationOf(method);
     final configParams = method.parameters.where((p) => p.isNamed);
     final String configParamsString;
     if (configParams.isNotEmpty) {
@@ -120,6 +120,7 @@ extension on DartType {
 
   String _listFromJson(String data) {
     final type = (this as ParameterizedType).typeArguments.first;
+
     return 'fromJsonArray($data, ${type.convertFn()})';
   }
 
@@ -160,6 +161,7 @@ extension on DartType {
     } else {
       final parameters =
           _parameterizedTypeFromJsonParameters(parameterizedType, data);
+
       return '$_nullCheck$typeName.fromJson(${parameters.join(', ')})';
     }
   }
@@ -169,6 +171,7 @@ extension on DartType {
       return _parameterizedTypeFromJson(this as ParameterizedType, data);
     } else {
       final typeName = getDisplayString(withNullability: false);
+
       return '$_nullCheck$data as $typeName';
     }
   }
@@ -192,11 +195,12 @@ extension on DartType {
 extension on ParameterElement {
   String asField() {
     final t = type.getDisplayString(withNullability: true);
+
     return 'final $t $name;';
   }
 
   String asFormalInitializer() {
-    var defaultValue = hasDefaultValue ? ' = $defaultValueCode' : '';
+    final defaultValue = hasDefaultValue ? ' = $defaultValueCode' : '';
     if (isRequiredNamed) {
       return 'required this.$name$defaultValue';
     }

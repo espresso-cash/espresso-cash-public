@@ -11,3 +11,7 @@ splash:
 
 update_tokens:
 	dart run tool/update_token_list.dart
+
+flutter_test_solana:
+	dart run $(DART_TEST_DEFINITIONS) tool/tests_setup.dart
+	flutter test $(FLUTTER_TEST_DEFINITIONS) --tags solana
