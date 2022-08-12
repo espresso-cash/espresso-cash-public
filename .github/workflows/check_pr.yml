@@ -33,13 +33,13 @@ jobs:
       - run: dart pub global activate melos
 
       - name: Install dependencies
-        run: melos exec -c 1 ${{ env.SCOPE }} -- dart pub get
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
 
       - name: Analyze project source
-        run: melos exec -c 1 ${{ env.SCOPE }} -- dart analyze --fatal-infos .
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
 
       - name: Run tests
-        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- dart test
+        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make dart_test
 
   cryptoplease_link:
     needs: [formatting]
@@ -54,13 +54,13 @@ jobs:
       - run: dart pub global activate melos
 
       - name: Install dependencies
-        run: melos exec -c 1 ${{ env.SCOPE }} -- dart pub get
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
 
       - name: Analyze project source
-        run: melos exec -c 1 ${{ env.SCOPE }} -- dart analyze --fatal-infos .
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
 
       - name: Run tests
-        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- dart test
+        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make dart_test
 
   solana:
     needs: [formatting]
@@ -77,7 +77,7 @@ jobs:
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="solana"
     container:
-      image: ghcr.io/cryptoplease/flutter:3.0.0
+      image: ghcr.io/cryptoplease/flutter:3.0.5
     services:
       solana:
         image: solanalabs/solana:${{ matrix.solanaVersion }}
@@ -96,6 +96,25 @@ jobs:
         with:
           flags: solana-${{ matrix.solanaVersion }}
 
+  sms_wallet:
+    needs: [formatting]
+    runs-on: ubuntu-latest
+    env:
+      SCOPE: --scope="sms_wallet*"
+    steps:
+      - uses: actions/checkout@v2
+      - run: dart pub global activate melos
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.0.5"
+
+      - name: Install dependencies
+        run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_get
+
+      - run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
+      - run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
+
   cryptoplease:
     needs: [formatting]
     runs-on: ubuntu-latest
@@ -107,7 +126,7 @@ jobs:
       SOLANA_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="cryptoplease" --scope="cryptoplease_ui" --scope="storybook"
     container:
-      image: ghcr.io/cryptoplease/flutter:3.0.0
+      image: ghcr.io/cryptoplease/flutter:3.0.5
     services:
       solana:
         image: solanalabs/solana:stable
