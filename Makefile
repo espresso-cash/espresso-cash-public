@@ -37,6 +37,10 @@ dart_analyze:
 dart_test:
 	dart test
 
+dart_coverage:
+	dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+	remove_from_coverage -f coverage/coverage.lcov -r "\.(g|freezed)\.dart$$"
+
 flutter_get:
 	flutter pub get
 
