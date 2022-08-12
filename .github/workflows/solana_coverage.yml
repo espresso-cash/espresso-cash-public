@@ -30,9 +30,7 @@ jobs:
       - run: dart pub global activate remove_from_coverage
       - run: melos exec -c 1 ${{ env.SCOPE }} -- dart pub get
       - run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --coverage=coverage
-      - run: |
-          melos exec -c 1 ${{ env.SCOPE }} -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
-          melos exec -c 1 ${{ env.SCOPE }} -- remove_from_coverage -f coverage/coverage.lcov -r "\.(g|freezed)\.dart$$"
+      - run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_coverage
       - uses: codecov/codecov-action@v3
         with:
           flags: solana-stable
