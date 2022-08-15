@@ -1,13 +1,18 @@
-import 'package:cloud_functions/cloud_functions.dart';
+import 'package:cryptoplease/features/add_funds/data/sign_funds_client.dart';
 import 'package:decimal/decimal.dart';
 
-Future<String> signFundsRequest(String address, Decimal value) async {
-  final body = {
-    'receiverAddress': address,
-    'value': value.toDouble(),
-  };
-  final function = FirebaseFunctions.instance.httpsCallable('signRequest');
-  final response = await function.call<Map<String, dynamic>>(body);
+Future<String> signFundsRequest(
+  String address,
+  Decimal value,
+  String tokenSymbol,
+) async {
+  final requestDto = SignFundsRequestDto(
+    receiverAddress: address,
+    tokenSymbol: tokenSymbol,
+    value: value.toDouble(),
+  );
 
-  return response.data['signed_url'] as String;
+  final response = await SignFundsClient().sign(requestDto);
+
+  return response.signedUrl;
 }

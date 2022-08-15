@@ -18,9 +18,11 @@ class AddFundsScreen extends StatefulWidget {
   const AddFundsScreen({
     Key? key,
     required this.wallet,
+    required this.token,
   }) : super(key: key);
 
   final Wallet wallet;
+  final Token token;
 
   @override
   State<AddFundsScreen> createState() => _AddFundsScreenState();
@@ -65,7 +67,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
               builder: (context, value, _) => Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: CryptoAmountView(
-                  token: Token.sol,
+                  token: widget.token,
                   amount: FiatAmount(
                     value: Currency.usd.decimalToInt(_parseValue(value.text)),
                     currency: Currency.usd,
@@ -84,6 +86,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                     value: value.text,
                     isLoading: isLoading,
                     address: widget.wallet.address,
+                    token: widget.token,
                   ),
                 ),
               ),
@@ -141,11 +144,13 @@ class _SubmitButton extends StatelessWidget {
     required this.value,
     required this.isLoading,
     required this.address,
+    required this.token,
   }) : super(key: key);
 
   final String value;
   final bool isLoading;
   final String address;
+  final Token token;
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +164,7 @@ class _SubmitButton extends StatelessWidget {
                 AddFundsEvent.urlRequested(
                   walletAddress: address,
                   value: _parseValue(value),
+                  token: token,
                 ),
               )
           : null,

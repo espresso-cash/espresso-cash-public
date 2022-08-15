@@ -53,7 +53,10 @@ class MenuHeader extends StatelessWidget {
           const _TokenDisplay(token: token),
           _Buttons(
             onAddCash: () => context.router.navigate(
-              AddFundsRoute(wallet: context.read<MyAccount>().wallet),
+              AddFundsRoute(
+                wallet: context.read<MyAccount>().wallet,
+                token: Token.usdc,
+              ),
             ),
             onCashOut: () => showWarningDialog(
               context,

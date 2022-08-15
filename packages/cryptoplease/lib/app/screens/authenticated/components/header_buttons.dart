@@ -19,7 +19,10 @@ class AddFundsButton extends StatelessWidget {
         label: context.l10n.addFunds,
         icon: SvgPicture.asset(Assets.icons.add.path),
         onPressed: () => context.router.navigate(
-          AddFundsRoute(wallet: context.read<MyAccount>().wallet),
+          AddFundsRoute(
+            wallet: context.read<MyAccount>().wallet,
+            token: Token.sol,
+          ),
         ),
       );
 }
