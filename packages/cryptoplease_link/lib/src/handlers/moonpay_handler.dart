@@ -55,6 +55,9 @@ Future<Response> _handler(Request request) async {
 
   return Response.ok(
     jsonEncode(responseBody),
+    headers: {
+      'content-type': 'application/json',
+    },
   );
 }
 
