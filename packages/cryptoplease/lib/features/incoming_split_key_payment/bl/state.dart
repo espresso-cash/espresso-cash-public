@@ -26,8 +26,23 @@ class SplitKeyIncomingPaymentError
     implements Exception {
   const factory SplitKeyIncomingPaymentError.consumed() = ErrorConsumed;
 
-  const factory SplitKeyIncomingPaymentError.emptyAccount() = ErrorEmptyAccount;
+  const factory SplitKeyIncomingPaymentError.invalidTx() = ErrorInvalidTx;
 
-  const factory SplitKeyIncomingPaymentError.other(Exception error) =
-      ErrorOther;
+  const factory SplitKeyIncomingPaymentError.invalidLink() = ErrorInvalidLink;
+
+  const factory SplitKeyIncomingPaymentError.failedToSubmit(SignedTx tx) =
+      ErrorFailedToSubmit;
+
+  const factory SplitKeyIncomingPaymentError.failedToConfirm(SignedTx tx) =
+      ErrorFailedToConfirm;
+
+  const SplitKeyIncomingPaymentError._();
+
+  bool get isRecoverable => when(
+        consumed: F,
+        invalidTx: T,
+        invalidLink: F,
+        failedToSubmit: T,
+        failedToConfirm: T,
+      );
 }
