@@ -16,20 +16,16 @@ const Map<String, dynamic> _solanaTokenList = _$_solanaTokenListJsonLiteral;
 @visibleForTesting
 const Map<String, dynamic> localTokenList = _$localTokenListJsonLiteral;
 
-const _fileContent = bool.fromEnvironment('LOCAL_TOKEN_LIST')
-    ? localTokenList
-    : _solanaTokenList;
-
 class TokenList {
   factory TokenList({
     int chainId = currentChainId,
-    Map<String, dynamic>? data,
+    @visibleForTesting Map<String, dynamic>? data,
   }) {
     if (_instance?.chainId == chainId) {
       // ignore: avoid-non-null-assertion, cannot be null here
       return _instance!;
     }
-    _instance = TokenList._(chainId: chainId, data: data ?? _fileContent);
+    _instance = TokenList._(chainId: chainId, data: data ?? _solanaTokenList);
 
     // ignore: avoid-non-null-assertion, cannot be null here
     return _instance!;

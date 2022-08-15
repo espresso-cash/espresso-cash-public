@@ -171,6 +171,3 @@ jobs:
         with:
           name: golden-test-failure
           path: "**/test/golden/**/failures/"
-
-      - name: Run solana integration tests for cryptoplease app
-        run: melos exec -c 1 --scope="cryptoplease" -- make flutter_test_solana

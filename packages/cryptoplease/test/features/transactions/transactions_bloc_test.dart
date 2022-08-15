@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/transactions/bl/list/transactions_bloc.dart';
@@ -9,12 +8,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/dto.dart' show ConfirmationStatus;
 import 'package:solana/solana.dart';
 
+import '../../utils.dart';
+
 void main() {
-  final SolanaClient solanaClient = SolanaClient(
-    rpcUrl: Uri.parse(solanaRpcUrl),
-    websocketUrl: Uri.parse(solanaWebSocketUrl),
-  );
-  final rpcClient = solanaClient.rpcClient;
+  final SolanaClient solanaClient = createTestSolanaClient();
 
   group('TransactionsBloc:', () {
     final List<Transaction> transactions = [];
@@ -26,9 +23,10 @@ void main() {
 
       account = MyAccount(firstName: 'Tester', wallet: testWallet);
 
-      await solanaClient.waitForSignatureStatus(
-        await rpcClient.requestAirdrop(senderWallet.address, lamportsPerSol),
-        status: ConfirmationStatus.finalized,
+      await solanaClient.requestAirdrop(
+        address: senderWallet.publicKey,
+        lamports: lamportsPerSol,
+        commitment: Commitment.confirmed,
       );
 
       final instruction = SystemInstruction.transfer(
@@ -40,10 +38,11 @@ void main() {
       final signature = await solanaClient.rpcClient.signAndSendTransaction(
         Message.only(instruction),
         [senderWallet],
+        commitment: Commitment.confirmed,
       );
       await solanaClient.waitForSignatureStatus(
         signature,
-        status: ConfirmationStatus.finalized,
+        status: ConfirmationStatus.confirmed,
       );
 
       transactions.add(

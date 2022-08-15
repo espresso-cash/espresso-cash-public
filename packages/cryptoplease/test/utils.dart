@@ -1,8 +1,20 @@
+import 'dart:io';
+
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 import 'keys/keys.dart';
+
+final devnetRpcUrl =
+    Platform.environment['SOLANA_RPC_URL'] ?? 'http://127.0.0.1:8899';
+final devnetWebsocketUrl =
+    Platform.environment['SOLANA_WEBSOCKET_URL'] ?? 'ws://127.0.0.1:8900';
+
+SolanaClient createTestSolanaClient() => SolanaClient(
+      rpcUrl: Uri.parse(devnetRpcUrl),
+      websocketUrl: Uri.parse(devnetWebsocketUrl),
+    );
 
 extension SolanaClientExt on SolanaClient {
   Future<void> createToken(
@@ -51,8 +63,9 @@ extension SolanaClientExt on SolanaClient {
       await rpcClient.signAndSendTransaction(
         message,
         [mintAuthority, mint],
+        commitment: Commitment.confirmed,
       ),
-      status: ConfirmationStatus.finalized,
+      status: ConfirmationStatus.confirmed,
     );
   }
 
@@ -63,11 +76,12 @@ extension SolanaClientExt on SolanaClient {
     final signature = await rpcClient.requestAirdrop(
       address,
       sol * lamportsPerSol,
+      commitment: Commitment.confirmed,
     );
     // Fund the mint authority
     await waitForSignatureStatus(
       signature,
-      status: ConfirmationStatus.finalized,
+      status: ConfirmationStatus.confirmed,
     );
   }
 
@@ -111,11 +125,12 @@ extension SolanaClientExt on SolanaClient {
     final signature = await rpcClient.signAndSendTransaction(
       message,
       [mintAuthority],
+      commitment: Commitment.confirmed,
     );
 
     await waitForSignatureStatus(
       signature,
-      status: ConfirmationStatus.finalized,
+      status: ConfirmationStatus.confirmed,
     );
   }
 }

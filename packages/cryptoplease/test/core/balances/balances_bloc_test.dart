@@ -12,12 +12,9 @@ import 'package:solana/solana.dart';
 import '../../utils.dart';
 
 void main() {
-  late final SolanaClient solanaClient = SolanaClient(
-    rpcUrl: Uri.parse(solanaRpcUrl),
-    websocketUrl: Uri.parse(solanaWebSocketUrl),
-  );
+  final SolanaClient solanaClient = createTestSolanaClient();
   // ignore: avoid-non-null-assertion, cannot be null here
-  late final token = TokenList()
+  final token = TokenList(data: localTokenList)
       .findTokenByMint('gfctksjBntn1EBqLYgmcPhQEf9uwPi5ds7Vs4fbsahp')!;
 
   group(
@@ -33,12 +30,14 @@ void main() {
         await solanaClient.requestAirdrop(
           address: wallet.publicKey,
           lamports: initialAmount,
+          commitment: Commitment.confirmed,
         );
 
         await solanaClient.createTokenAccount(
           mint: token.publicKey,
           account: await Ed25519HDKeyPair.random(),
           creator: account.wallet,
+          commitment: Commitment.confirmed,
         );
 
         await solanaClient.airdropSplTokens(
@@ -71,7 +70,7 @@ void main() {
             },
           ),
         ],
-        wait: const Duration(seconds: 10),
+        wait: const Duration(seconds: 5),
         tags: 'solana',
       );
     },
