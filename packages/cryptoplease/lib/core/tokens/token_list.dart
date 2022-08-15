@@ -16,7 +16,6 @@ const Map<String, dynamic> _solanaTokenList = _$_solanaTokenListJsonLiteral;
 @visibleForTesting
 const Map<String, dynamic> localTokenList = _$localTokenListJsonLiteral;
 
-
 class TokenList {
   factory TokenList({
     int chainId = currentChainId,
