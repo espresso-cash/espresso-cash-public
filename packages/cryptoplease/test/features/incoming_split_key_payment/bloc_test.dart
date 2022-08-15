@@ -1,4 +1,3 @@
-import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/wallet.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
@@ -9,6 +8,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
 
+import '../../utils.dart';
 import 'repository.dart';
 
 void main() {
@@ -24,11 +24,10 @@ void main() {
     expect(wallet.address, '4zFNyiDY2uwqmd8NcHftRj3DKD7ueee13ENEpsR8wfdF');
   });
 
+  group('Recovering from errors:', () {});
+
   group('Incoming payment process:', () {
-    final solanaClient = SolanaClient(
-      rpcUrl: Uri.parse(solanaRpcUrl),
-      websocketUrl: Uri.parse(solanaWebSocketUrl),
-    );
+    final solanaClient = createTestSolanaClient();
     final txProcessor = TxProcessor(solanaClient);
     late Wallet sourceWallet;
     late Wallet targetWallet;
@@ -63,12 +62,7 @@ void main() {
             recipient: target.address,
           ),
         );
-      await bloc.stream.firstWhere(
-        (s) =>
-            s is PaymentSuccess ||
-            s is PaymentSecondPartReady &&
-                s.processingState.maybeMap(error: T, orElse: F),
-      );
+      await bloc.waitForPaymentProcessed();
     }
 
     setUpAll(() async {
@@ -77,6 +71,7 @@ void main() {
       await solanaClient.requestAirdrop(
         lamports: lamportsPerSol,
         address: sourceWallet.publicKey,
+        commitment: Commitment.confirmed,
       );
     });
 
@@ -95,7 +90,7 @@ void main() {
                 .publicKey,
         lamports: payment.amount,
         source: sourceWallet,
-        commitment: Commitment.finalized,
+        commitment: Commitment.confirmed,
       );
     });
 
@@ -203,4 +198,13 @@ void main() {
       tags: 'solana',
     );
   });
+}
+
+extension on SplitKeyIncomingPaymentBloc {
+  Future<void> waitForPaymentProcessed() => stream.firstWhere(
+        (s) =>
+            s is PaymentSuccess ||
+            s is PaymentSecondPartReady &&
+                s.processingState.maybeMap(error: T, orElse: F),
+      );
 }
