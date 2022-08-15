@@ -11,6 +11,7 @@ const protocolMap = {
   link1Host: '1',
   link2Host: '2',
 };
+const moonpayHost = 'moonpay.$cpLinkDomain';
 
 const shareableLinkPaymentFee = 10;
 
@@ -29,3 +30,7 @@ final mainnetPlatformMnemonic =
 
 final mainnetRpcUrl = Platform.environment['SOLANA_RPC_URL'] ?? '';
 final mainnetWsUrl = Platform.environment['SOLANA_WEBSOCKET_URL'] ?? '';
+
+final moonpayBaseUrl = Platform.environment['MOONPAY_BASE_URL'] ?? '';
+final moonpayApiKey = Platform.environment['MOONPAY_API_KEY'] ?? '';
+final moonpaySecret = Platform.environment['MOONPAY_SECRET'] ?? '';

@@ -2,6 +2,7 @@ import 'dart:io' as io;
 
 import 'package:cryptoplease_link/src/constants.dart';
 import 'package:cryptoplease_link/src/handlers/association_handlers.dart';
+import 'package:cryptoplease_link/src/handlers/moonpay_handler.dart';
 import 'package:cryptoplease_link/src/handlers/solana_handler.dart';
 import 'package:cryptoplease_link/src/payments/handler.dart';
 import 'package:cryptoplease_link/src/tokens.dart';
@@ -46,6 +47,9 @@ Future<void> main() async {
           mint: mainnetUsdc,
           platform: mainnetPlatform,
         ),
+      )
+      .add(
+        await moonpayHandler(),
       )
       .add(_router)
       .add(solanaHandler);
