@@ -20,6 +20,18 @@ extension RpcClientExt on RpcClient {
     );
   }
 
+  Future<SignedTx> signMessage(
+    Message message,
+    List<Ed25519HDKeyPair> signers, {
+    RecentBlockhash? blockhash,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final recentBlockhash =
+        blockhash ?? await getRecentBlockhash(commitment: commitment);
+
+    return signTransaction(recentBlockhash, message, signers);
+  }
+
   /// Get the [limit] most recent transactions for the [address] account
   ///
   /// For [commitment] parameter description [see this document][see this document]
