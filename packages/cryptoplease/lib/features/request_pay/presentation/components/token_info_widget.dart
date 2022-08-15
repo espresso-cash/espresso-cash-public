@@ -30,9 +30,13 @@ class InfoWidget extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 8),
-                child: Assets.icons.info.svg(
-                  color: CpColors.yellowColor,
-                  height: 24,
+                child: CircleAvatar(
+                  maxRadius: 14,
+                  backgroundColor: CpColors.yellowColor,
+                  child: Assets.icons.info.svg(
+                    color: CpColors.backgroundAccentColor,
+                    height: 20,
+                  ),
                 ),
               ),
               Flexible(
