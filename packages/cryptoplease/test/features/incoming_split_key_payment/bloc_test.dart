@@ -1,7 +1,5 @@
 import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/core/wallet.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
@@ -32,10 +30,6 @@ void main() {
       websocketUrl: Uri.parse(solanaWebSocketUrl),
     );
     final txProcessor = TxProcessor(solanaClient);
-    final balancesBloc = BalancesBloc(
-      solanaClient: solanaClient,
-      tokens: TokenList(),
-    );
     late Wallet sourceWallet;
     late Wallet targetWallet;
     late OutgoingTransferSplitKey payment;
@@ -111,7 +105,6 @@ void main() {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
           repository: MemorySplitKeyIncomingRepository(),
-          balancesBloc: balancesBloc,
         );
         await receivePayment(bloc, targetWallet);
 
@@ -140,7 +133,6 @@ void main() {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
           repository: repository,
-          balancesBloc: balancesBloc,
         );
         await receivePayment(
           bloc,
@@ -161,24 +153,16 @@ void main() {
     );
 
     test(
-      'gives error when requested second time',
+      'skips when requested second time',
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
           repository: MemorySplitKeyIncomingRepository(),
-          balancesBloc: balancesBloc,
         );
         await receivePayment(bloc, targetWallet);
         await receivePayment(bloc, targetWallet);
 
-        final state = bloc.state as PaymentSecondPartReady;
-        expect(
-          state.processingState.maybeMap(
-            error: (s) => s.e,
-            orElse: () => null,
-          ),
-          isA<ErrorConsumed>(),
-        );
+        expect(bloc.state, isA<PaymentSuccess>());
 
         final lamports = await solanaClient.rpcClient.getBalance(
           targetWallet.address,
@@ -196,7 +180,6 @@ void main() {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
           repository: MemorySplitKeyIncomingRepository(),
-          balancesBloc: balancesBloc,
         );
         await receivePayment(bloc, sourceWallet);
         await receivePayment(bloc, targetWallet);

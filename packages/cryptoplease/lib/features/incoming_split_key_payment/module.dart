@@ -1,8 +1,10 @@
+import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/data/split_key_payments_repository.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
@@ -26,10 +28,20 @@ class IncomingSplitKeyPaymentModule extends SingleChildStatelessWidget {
             create: (context) => SplitKeyIncomingPaymentBloc(
               txProcessor: TxProcessor(context.read<SolanaClient>()),
               repository: context.read<SplitKeyIncomingRepository>(),
-              balancesBloc: context.read<BalancesBloc>(),
             ),
           ),
         ],
-        child: child,
+        child:
+            BlocListener<SplitKeyIncomingPaymentBloc, SplitKeyIncomingPayment>(
+          listener: (context, state) => state.whenOrNull(
+            success: () => context
+                .read<AccountsBloc>()
+                .state
+                .account
+                ?.let((a) => BalancesEvent.requested(address: a.address))
+                .let(context.read<BalancesBloc>().add),
+          ),
+          child: child,
+        ),
       );
 }

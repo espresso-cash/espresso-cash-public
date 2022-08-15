@@ -1,5 +1,4 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
@@ -21,17 +20,14 @@ typedef _Emitter = Emitter<_State>;
 class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
   SplitKeyIncomingPaymentBloc({
     required SplitKeyIncomingRepository repository,
-    required BalancesBloc balancesBloc,
     required TxProcessor txProcessor,
   })  : _repository = repository,
-        _balancesBloc = balancesBloc,
         _txProcessor = txProcessor,
         super(const SplitKeyIncomingPayment.none()) {
     on<_Event>(_handler, transformer: sequential());
   }
 
   final SplitKeyIncomingRepository _repository;
-  final BalancesBloc _balancesBloc;
   final TxProcessor _txProcessor;
 
   _EventHandler get _handler => (e, emit) => e.map(
@@ -99,11 +95,7 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
           (e) => e.toFlow(),
           (tx) => _txProcessor.sendPayment(tx).flatMapAsync(_txProcessor.wait),
         )
-        .toState(
-          recipient: event.recipient,
-          state: state,
-          balancesBloc: _balancesBloc,
-        );
+        .toState(state: state);
     emit(updated);
   }
 
@@ -122,17 +114,11 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
         return state;
       },
       invalidLink: () async => state,
-      failedToSubmit: (tx) =>
-          _txProcessor.sendPayment(tx).flatMapAsync(_txProcessor.wait).toState(
-                recipient: event.recipient,
-                state: state,
-                balancesBloc: _balancesBloc,
-              ),
-      failedToConfirm: (tx) => _txProcessor.wait(tx).toState(
-            recipient: event.recipient,
-            state: state,
-            balancesBloc: _balancesBloc,
-          ),
+      failedToSubmit: (tx) => _txProcessor
+          .sendPayment(tx)
+          .flatMapAsync(_txProcessor.wait)
+          .toState(state: state),
+      failedToConfirm: (tx) => _txProcessor.wait(tx).toState(state: state),
     );
     emit(newState);
   }
@@ -147,12 +133,8 @@ typedef _Flow = AsyncEither<SplitKeyIncomingPaymentError, void>;
 extension on _Flow {
   Future<SplitKeyIncomingPayment> toState({
     required PaymentSecondPartReady state,
-    required String recipient,
-    required BalancesBloc balancesBloc,
   }) =>
-      doOnRightAsync(
-        (v) => balancesBloc.add(BalancesEvent.requested(address: recipient)),
-      ).foldAsync(
+      foldAsync(
         (e) => state.copyWith(processingState: ProcessingState.error(e)),
         (_) => const SplitKeyIncomingPayment.success(),
       );

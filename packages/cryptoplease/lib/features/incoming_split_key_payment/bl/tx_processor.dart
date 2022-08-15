@@ -88,7 +88,7 @@ class TxProcessor {
         if (transactions.length < 2) {
           return const Either.left(TxCreationError.invalidLink());
         } else {
-          final transaction = transactions.last;
+          final transaction = transactions.first;
           if (transaction.transaction.transferDestinationOrNull() ==
               recipient) {
             return const Either.left(TxCreationError.consumedByRecipient());
