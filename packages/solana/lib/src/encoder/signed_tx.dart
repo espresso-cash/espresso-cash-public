@@ -17,6 +17,8 @@ class SignedTx {
   final Iterable<Signature> signatures;
   final ByteArray messageBytes;
 
+  String get id => signatures.first.toBase58();
+
   String encode() => base64.encode(_data.toList());
 
   late final ByteArray _data = ByteArray.merge([
