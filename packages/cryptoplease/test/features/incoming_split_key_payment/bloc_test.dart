@@ -1,10 +1,9 @@
 import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/core/wallet.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -25,15 +24,12 @@ void main() {
     expect(wallet.address, '4zFNyiDY2uwqmd8NcHftRj3DKD7ueee13ENEpsR8wfdF');
   });
 
-  group('Process incoming payments', () {
+  group('Incoming payment process:', () {
     final solanaClient = SolanaClient(
       rpcUrl: Uri.parse(solanaRpcUrl),
       websocketUrl: Uri.parse(solanaWebSocketUrl),
     );
-    final balancesBloc = BalancesBloc(
-      solanaClient: solanaClient,
-      tokens: TokenList(),
-    );
+    final txProcessor = TxProcessor(solanaClient);
     late Wallet sourceWallet;
     late Wallet targetWallet;
     late OutgoingTransferSplitKey payment;
@@ -104,12 +100,11 @@ void main() {
     });
 
     test(
-      'Gets payment',
+      'gets payment',
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
-          solanaClient: solanaClient,
+          txProcessor: txProcessor,
           repository: MemorySplitKeyIncomingRepository(),
-          balancesBloc: balancesBloc,
         );
         await receivePayment(bloc, targetWallet);
 
@@ -126,7 +121,7 @@ void main() {
     );
 
     test(
-      'Gets payment if first part is saved in repository',
+      'gets payment if first part is saved in repository',
       () async {
         final repository = MemorySplitKeyIncomingRepository();
         await repository.save(
@@ -136,9 +131,8 @@ void main() {
           ),
         );
         final bloc = SplitKeyIncomingPaymentBloc(
-          solanaClient: solanaClient,
+          txProcessor: txProcessor,
           repository: repository,
-          balancesBloc: balancesBloc,
         );
         await receivePayment(
           bloc,
@@ -159,24 +153,16 @@ void main() {
     );
 
     test(
-      'Gives error when requested second time',
+      'skips when requested second time',
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
-          solanaClient: solanaClient,
+          txProcessor: txProcessor,
           repository: MemorySplitKeyIncomingRepository(),
-          balancesBloc: balancesBloc,
         );
         await receivePayment(bloc, targetWallet);
         await receivePayment(bloc, targetWallet);
 
-        final state = bloc.state as PaymentSecondPartReady;
-        expect(
-          state.processingState.maybeMap(
-            error: (s) => s.e,
-            orElse: () => null,
-          ),
-          isA<ErrorConsumed>(),
-        );
+        expect(bloc.state, isA<PaymentSuccess>());
 
         final lamports = await solanaClient.rpcClient.getBalance(
           targetWallet.address,
@@ -189,12 +175,11 @@ void main() {
     );
 
     test(
-      'Gives error when requested by someone else',
+      'gives error when requested by someone else',
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
-          solanaClient: solanaClient,
+          txProcessor: txProcessor,
           repository: MemorySplitKeyIncomingRepository(),
-          balancesBloc: balancesBloc,
         );
         await receivePayment(bloc, sourceWallet);
         await receivePayment(bloc, targetWallet);

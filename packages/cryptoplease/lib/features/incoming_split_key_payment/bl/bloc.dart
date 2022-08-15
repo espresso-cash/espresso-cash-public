@@ -1,18 +1,12 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:collection/collection.dart';
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/processing_state.dart';
-import 'package:cryptoplease/core/solana_helpers.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';
@@ -25,24 +19,22 @@ typedef _Emitter = Emitter<_State>;
 
 class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
   SplitKeyIncomingPaymentBloc({
-    required SolanaClient solanaClient,
     required SplitKeyIncomingRepository repository,
-    required BalancesBloc balancesBloc,
-  })  : _solanaClient = solanaClient,
-        _repository = repository,
-        _balancesBloc = balancesBloc,
+    required TxProcessor txProcessor,
+  })  : _repository = repository,
+        _txProcessor = txProcessor,
         super(const SplitKeyIncomingPayment.none()) {
     on<_Event>(_handler, transformer: sequential());
   }
 
-  final SolanaClient _solanaClient;
   final SplitKeyIncomingRepository _repository;
-  final BalancesBloc _balancesBloc;
+  final TxProcessor _txProcessor;
 
   _EventHandler get _handler => (e, emit) => e.map(
         firstPartAdded: (e) => _onFirstPartAdded(e, emit),
         secondPartAdded: (e) => _onSecondPartAdded(e, emit),
         paymentRequested: (e) => _onPaymentRequested(e, emit),
+        retried: (e) => _onRetried(e, emit),
         cleared: (e) => _onCleared(e, emit),
       );
 
@@ -91,132 +83,68 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
     final state = this.state;
     if (state is! PaymentSecondPartReady) return;
 
-    final firstPart = state.firstPart;
-    final secondPart = state.secondPart;
-
     emit(state.copyWith(processingState: const ProcessingState.processing()));
-    final updated = await _processPayment(
-      firstPart: firstPart,
-      secondPart: secondPart,
-      recipient: event.recipient,
-      tokenAddress: state.tokenAddress,
-    ).foldAsync(
-      (e) => state.copyWith(processingState: ProcessingState.error(e)),
-      (_) => const SplitKeyIncomingPayment.success(),
-    );
+    final updated = await _txProcessor
+        .createTx(
+          firstPart: state.firstPart,
+          secondPart: state.secondPart,
+          recipient: event.recipient,
+          tokenAddress: state.tokenAddress,
+        )
+        .foldAsync(
+          (e) => e.toFlow(),
+          (tx) => _txProcessor.sendPayment(tx).flatMapAsync(_txProcessor.wait),
+        )
+        .toState(state: state);
     emit(updated);
+  }
+
+  Future<void> _onRetried(Retried event, _Emitter emit) async {
+    final state = this.state;
+    if (state is! PaymentSecondPartReady) return;
+
+    final error = state.processingState.whenOrNull(error: identity);
+    if (error == null) return;
+
+    final SplitKeyIncomingPayment newState = await error.when(
+      consumed: () async => state,
+      invalidTx: () async {
+        add(PaymentRequested(recipient: event.recipient));
+
+        return state;
+      },
+      invalidLink: () async => state,
+      failedToSubmit: (tx) => _txProcessor
+          .sendPayment(tx)
+          .flatMapAsync(_txProcessor.wait)
+          .toState(state: state),
+      failedToConfirm: (tx) => _txProcessor.wait(tx).toState(state: state),
+    );
+    emit(newState);
   }
 
   Future<void> _onCleared(PaymentCleared _, _Emitter emit) async {
     emit(const SplitKeyIncomingPayment.none());
   }
-
-  AsyncEither<SplitKeyIncomingPaymentError, void> _processPayment({
-    required String firstPart,
-    required String secondPart,
-    required String recipient,
-    required String tokenAddress,
-  }) async {
-    try {
-      final wallet = await walletFromParts(
-        firstPart: firstPart,
-        secondPart: secondPart,
-      );
-
-      final solBalance = await _solanaClient.rpcClient.getBalance(
-        wallet.address,
-        commitment: Commitment.confirmed,
-      );
-
-      final int transferAmount;
-      final int remainder;
-      if (tokenAddress == Token.sol.address) {
-        // SOL payment, just transfer all the money minus transaction fee.
-        transferAmount = solBalance - lamportsPerSignature;
-        remainder = 0;
-      } else {
-        // SPL payment. Transfer all the money on SPL account and
-        // all the money remaining on the SOL account (minus transaction fee).
-        final tokenAccounts =
-            await _solanaClient.rpcClient.getTokenAccountsByOwner(
-          wallet.address,
-          TokenAccountsFilter.byMint(tokenAddress),
-          commitment: Commitment.confirmed,
-          encoding: Encoding.jsonParsed,
-        );
-        final tokenAccount = tokenAccounts.firstOrNull;
-
-        if (tokenAccount == null) {
-          return const Either.left(SplitKeyIncomingPaymentError.emptyAccount());
-        }
-
-        transferAmount = await _solanaClient.rpcClient
-            .getTokenAccountBalance(
-              tokenAccount.pubkey,
-              commitment: Commitment.confirmed,
-            )
-            .then((v) => int.parse(v.amount));
-
-        // If recipient has already associated account, then we can
-        // transfer all the money from SOL account of this temp wallet
-        // to SOL account of the recipient (minus the transaction fee).
-        remainder = await _solanaClient.hasAssociatedTokenAccount(
-          owner: Ed25519HDPublicKey.fromBase58(recipient),
-          mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
-        )
-            ? solBalance - lamportsPerSignature
-            : 0;
-      }
-
-      if (transferAmount <= 0) {
-        final transactions = await _solanaClient.rpcClient.getTransactionsList(
-          wallet.publicKey,
-          limit: 1,
-          commitment: Commitment.confirmed,
-        );
-        if (transactions.isEmpty) {
-          return const Either.left(SplitKeyIncomingPaymentError.emptyAccount());
-        } else {
-          return const Either.left(SplitKeyIncomingPaymentError.consumed());
-        }
-      }
-
-      final message = tokenAddress == Token.sol.address
-          ? await _solanaClient.createSolTransfer(
-              sender: wallet,
-              recipient: Ed25519HDPublicKey.fromBase58(recipient),
-              amount: transferAmount + remainder,
-            )
-          : await _solanaClient.createSplTransfer(
-              sender: wallet,
-              solanaAddress: Ed25519HDPublicKey.fromBase58(recipient),
-              additionalFee: remainder,
-              amount: transferAmount,
-              tokenAddress: Ed25519HDPublicKey.fromBase58(tokenAddress),
-            );
-      final signature = await _solanaClient.rpcClient
-          .signAndSendTransaction(message, [wallet]);
-      await _solanaClient.waitForSignatureStatus(
-        signature,
-        status: Commitment.confirmed,
-        timeout: waitForSignatureDefaultTimeout,
-      );
-
-      _balancesBloc.add(BalancesEvent.requested(address: recipient));
-
-      return const Either.right(null);
-    } on Exception catch (e) {
-      return Either.left(SplitKeyIncomingPaymentError.other(e));
-    }
-  }
 }
 
-Future<Wallet> walletFromParts({
-  required String firstPart,
-  required String secondPart,
-}) async {
-  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
-  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
+typedef _Flow = AsyncEither<SplitKeyIncomingPaymentError, void>;
 
-  return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
+extension on _Flow {
+  Future<SplitKeyIncomingPayment> toState({
+    required PaymentSecondPartReady state,
+  }) =>
+      foldAsync(
+        (e) => state.copyWith(processingState: ProcessingState.error(e)),
+        (_) => const SplitKeyIncomingPayment.success(),
+      );
+}
+
+extension on TxCreationError {
+  _Flow toFlow() => when(
+        invalidLink: () async => const Either.left(ErrorInvalidLink()),
+        consumedByRecipient: () async => const Either.right(null),
+        consumedByOther: () async => const Either.left(ErrorConsumed()),
+        other: () async => const Either.left(ErrorInvalidTx()),
+      );
 }
