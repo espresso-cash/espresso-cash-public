@@ -12,3 +12,31 @@ JsonRpcException _$JsonRpcExceptionFromJson(Map<String, dynamic> json) =>
       json['code'] as int,
       json['data'],
     );
+
+_TransactionErrorData _$TransactionErrorDataFromJson(
+        Map<String, dynamic> json) =>
+    _TransactionErrorData(
+      $enumDecode(_$TransactionErrorEnumMap, json['err'],
+          unknownValue: TransactionError.other),
+    );
+
+const _$TransactionErrorEnumMap = {
+  TransactionError.accountInUse: 'AccountInUse',
+  TransactionError.accountLoadedTwice: 'AccountLoadedTwice',
+  TransactionError.accountNotFound: 'AccountNotFound',
+  TransactionError.programAccountNotFound: 'ProgramAccountNotFound',
+  TransactionError.insufficientFundsForFee: 'InsufficientFundsForFee',
+  TransactionError.invalidAccountForFee: 'InvalidAccountForFee',
+  TransactionError.alreadyProcessed: 'AlreadyProcessed',
+  TransactionError.blockhashNotFound: 'BlockhashNotFound',
+  TransactionError.instructionError: 'InstructionError',
+  TransactionError.callChainTooDeep: 'CallChainTooDeep',
+  TransactionError.missingSignatureForFee: 'MissingSignatureForFee',
+  TransactionError.invalidAccountIndex: 'InvalidAccountIndex',
+  TransactionError.signatureFailure: 'SignatureFailure',
+  TransactionError.invalidProgramForExecution: 'InvalidProgramForExecution',
+  TransactionError.sanitizeFailure: 'SanitizeFailure',
+  TransactionError.clusterMaintenance: 'ClusterMaintenance',
+  TransactionError.accountBorrowOutstanding: 'AccountBorrowOutstanding',
+  TransactionError.other: 'Other',
+};

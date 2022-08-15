@@ -12,48 +12,6 @@ FLUTTER_TEST_DEFINITIONS=\
 		 --dart-define SOLANA_RPC_URL=${SOLANA_RPC_URL} \
 		 --dart-define SOLANA_WEBSOCKET_URL=${SOLANA_WEBSOCKET_URL}
 
-# CryptoPlease app rules
-
-app_get:
-	melos exec -c 1 --flutter -- "make get"
-
-app_check_formatting:
-	melos exec -c 1 --flutter -- "make format"
-
-app_build:
-	melos exec -c 1 --depends-on="build_runner" --flutter -- "make build"
-	melos exec -c 1 --depends-on="drift_dev" --flutter -- "make generate_test_schemas"
-
-app_analyze:
-	melos exec -c 1 --flutter -- "make analyze"
-
-app_test: app_build
-	melos exec -c 1 --dir-exists="test" --flutter -- "make test"
-
-app_test_solana:
-	melos exec -c 1 --scope="cryptoplease" -- "make test_solana"
-
-# Libs rules
-
-libs_check_formatting:
-	melos exec -c 1 --no-flutter -- dart pub get
-	melos exec -c 1 --no-flutter -- dart format --set-exit-if-changed -o none .
-
-libs_analyze:
-	melos exec -c 1 --no-flutter -- "dart analyze --fatal-infos ."
-
-libs_test:
-	melos exec -c 1 --dir-exists="test" --no-flutter -- "dart run test --coverage=coverage"
-
-libs_coverage:
-	melos exec --scope="solana" -- dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
-	melos exec --scope="solana" -- "remove_from_coverage -f coverage/coverage.lcov -r '\.(g|freezed)\.dart$$'"
-
-# Other rules
-
-check_unused_code_all:
-	melos exec -c 1 -- "make check_unused_code"
-
 flutter_image_build:
 ifndef FLUTTER_VERSION
 	$(error "FLUTTER_VERSION must be set")
@@ -66,36 +24,44 @@ ifndef FLUTTER_VERSION
 endif
 	docker push ghcr.io/cryptoplease/flutter:${FLUTTER_VERSION}
 
-# Rules that should be run in the package.
+activate_melos:
+	dart pub global activate melos
 
-get:
+dart_get:
+	dart pub get
+
+dart_analyze:
+	dart analyze --fatal-infos .
+	dart pub run mews_pedantic:metrics analyze --fatal-style --fatal-performance --fatal-warnings lib
+
+dart_test:
+	dart test
+
+dart_coverage:
+	dart run coverage:format_coverage -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+	remove_from_coverage -f coverage/coverage.lcov -r "\.(g|freezed)\.dart$$"
+
+flutter_get:
 	flutter pub get
 
-format:
-	flutter format -n --set-exit-if-changed .
+flutter_build:
+	flutter pub run build_runner build --delete-conflicting-outputs
 
-build:
-	flutter pub run build_runner build
-
-generate_test_schemas:
+flutter_generate_test_schemas:
 	flutter pub run drift_dev schema generate moor_schemas test/generated/
 
-analyze:
+flutter_analyze:
 	flutter analyze --fatal-infos
 	flutter pub run mews_pedantic:metrics analyze --fatal-style --fatal-performance --fatal-warnings lib
 
-check_unused_code:
+flutter_check_unused_code:
 	flutter pub run mews_pedantic:metrics check-unused-code lib --fatal-unused --exclude=$(excludeUnused)
 	flutter pub run mews_pedantic:metrics check-unused-files lib --fatal-unused --exclude=$(excludeUnused)
 
-test:
+flutter_test:
 	flutter test --exclude-tags solana
 
-test_solana:
-	dart run $(DART_TEST_DEFINITIONS) tool/tests_setup.dart
-	flutter test $(FLUTTER_TEST_DEFINITIONS) --tags solana
-
-test_e2e:
+flutter_test_e2e:
 	flutter test integration_test/app_test.dart
 
 firebase_e2e:
