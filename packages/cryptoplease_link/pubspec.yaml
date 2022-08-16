@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   collection: ^1.16.0
+  crypto: ^3.0.2
   dfunc: ^0.7.2
   freezed_annotation: ^2.0.1
   json_annotation: ^4.6.0
