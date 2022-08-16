@@ -50,7 +50,7 @@ Future<Response> _handler(Request request) async {
   });
 
   final responseBody = {
-    'signed_url': signedUrl.toString(),
+    'signedUrl': signedUrl.toString(),
   };
 
   return Response.ok(
