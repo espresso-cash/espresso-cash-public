@@ -8,7 +8,7 @@ Future<String> signFundsRequest(
   final requestDto = SignFundsRequestDto(
     receiverAddress: address,
     tokenSymbol: amount.currency.symbol,
-    value: amount.value.toDouble(),
+    value: amount.decimal.toDouble(),
   );
 
   final response = await SignFundsClient().sign(requestDto);
