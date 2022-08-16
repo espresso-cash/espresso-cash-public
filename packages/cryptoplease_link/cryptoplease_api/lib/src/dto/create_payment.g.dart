@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dto.dart';
+part of 'create_payment.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -12,6 +12,7 @@ _$_CreatePaymentRequestDto _$$_CreatePaymentRequestDtoFromJson(
       senderAccount: json['senderAccount'] as String,
       escrowAccount: json['escrowAccount'] as String,
       amount: json['amount'] as int,
+      cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
     );
 
 Map<String, dynamic> _$$_CreatePaymentRequestDtoToJson(
@@ -20,7 +21,13 @@ Map<String, dynamic> _$$_CreatePaymentRequestDtoToJson(
       'senderAccount': instance.senderAccount,
       'escrowAccount': instance.escrowAccount,
       'amount': instance.amount,
+      'cluster': _$ClusterEnumMap[instance.cluster]!,
     };
+
+const _$ClusterEnumMap = {
+  Cluster.mainnet: 'mainnet',
+  Cluster.devnet: 'devnet',
+};
 
 _$_CreatePaymentResponseDto _$$_CreatePaymentResponseDtoFromJson(
         Map<String, dynamic> json) =>
@@ -39,6 +46,7 @@ _$_ReceivePaymentRequestDto _$$_ReceivePaymentRequestDtoFromJson(
     _$_ReceivePaymentRequestDto(
       receiverAccount: json['receiverAccount'] as String,
       escrowAccount: json['escrowAccount'] as String,
+      cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
     );
 
 Map<String, dynamic> _$$_ReceivePaymentRequestDtoToJson(
@@ -46,6 +54,7 @@ Map<String, dynamic> _$$_ReceivePaymentRequestDtoToJson(
     <String, dynamic>{
       'receiverAccount': instance.receiverAccount,
       'escrowAccount': instance.escrowAccount,
+      'cluster': _$ClusterEnumMap[instance.cluster]!,
     };
 
 _$_ReceivePaymentResponseDto _$$_ReceivePaymentResponseDtoFromJson(

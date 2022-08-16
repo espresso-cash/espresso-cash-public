@@ -10,6 +10,7 @@ import 'package:cryptoplease/features/incoming_split_key_payment/module.dart';
 import 'package:cryptoplease/features/outgoing_transfer/module.dart';
 import 'package:cryptoplease/features/pending_request/module.dart';
 import 'package:cryptoplease/logging.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ Future<void> _start() async {
           Provider<RpcClient>.value(value: solanaClient.rpcClient),
           Provider<SolanaClient>.value(value: solanaClient),
           Provider<TokenList>(create: (_) => TokenList()),
+          Provider<CryptopleaseClient>(create: (_) => CryptopleaseClient()),
           const OutgoingTransferModule(),
           const BalancesModule(),
           const AccountsModule(),

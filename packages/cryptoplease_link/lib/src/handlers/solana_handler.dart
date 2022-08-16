@@ -14,7 +14,7 @@ Future<Response> Function(Request) createSolanaHandler({
         return _solanaPayHandler(request, tokens);
       }
 
-      return Response.badRequest(body: 'Wrong host');
+      return Response.notFound(null);
     };
 
 Future<Response> _solanaShareableHandler(Request request) => commonHandler(
