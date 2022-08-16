@@ -330,5 +330,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds  by simply clicking the links."
 }

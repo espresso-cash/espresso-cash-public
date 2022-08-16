@@ -1,6 +1,6 @@
 import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/confirm_screen/components/amount_view.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/confirm_screen/components/amount_fee_view.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/widgets.dart';
@@ -24,19 +24,14 @@ class TokenCreateLinkContent extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 40),
-          FittedBox(
-            child: AmountView.value(
-              label: context.l10n.itWillContain,
-              amount: amount,
-            ),
-          ),
-          AmountView.fee(
-            label: context.l10n.labelFee,
+          AmountFeeView(
+            amount: amount,
             fee: fee,
           ),
+          const SizedBox(height: 16),
           CpInfoWidget(
             icon: const InfoIcon(),
-            message: context.l10n.usdcExplanation,
+            message: context.l10n.sendExplanation,
           ),
           const Spacer(),
         ],
