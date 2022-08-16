@@ -274,6 +274,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+  cryptoplease_api:
+    dependency: "direct main"
+    description:
+      path: "../cryptoplease_link/cryptoplease_api"
+      relative: true
+    source: path
+    version: "1.0.0"
   cryptoplease_ui:
     dependency: "direct main"
     description:
@@ -1570,5 +1577,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.17.6 <3.0.0"
   flutter: ">=3.0.0"
