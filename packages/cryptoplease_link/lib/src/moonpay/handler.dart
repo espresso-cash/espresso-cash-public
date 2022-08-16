@@ -7,11 +7,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
 Future<Handler> moonpayHandler() async {
-  final router = shelf_router.Router()
-    ..get(
-      '/sign',
-      _handler,
-    );
+  final router = shelf_router.Router()..get('/sign', _handler);
 
   return (Request request) async {
     if (request.requestedUri.host != moonpayHost) {
