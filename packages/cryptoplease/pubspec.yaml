@@ -11,7 +11,6 @@ dependencies:
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.0
   cached_network_image: ^3.1.0
-  cloud_functions: ^3.3.3
   collection: ^1.15.0
   cryptoplease_ui:
     path: ../cryptoplease_ui/
