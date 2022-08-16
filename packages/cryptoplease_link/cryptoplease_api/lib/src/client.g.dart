@@ -10,7 +10,7 @@ part of 'client.dart';
 
 class _CryptopleaseClient implements CryptopleaseClient {
   _CryptopleaseClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://cryptoplease.link/api/v1';
+    baseUrl ??= 'https://cryptoplease-link.web.app/api/v1';
   }
 
   final Dio _dio;

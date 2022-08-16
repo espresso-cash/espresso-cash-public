@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
 
-@RestApi(baseUrl: 'https://cryptoplease.link/api/v1')
+@RestApi(baseUrl: 'https://cryptoplease-link.web.app/api/v1')
 abstract class CryptopleaseClient {
   factory CryptopleaseClient() => _CryptopleaseClient(Dio());
 
