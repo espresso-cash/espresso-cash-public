@@ -36,7 +36,7 @@ dependencies:
   freezed_annotation: ^2.1.0
   image_picker: ^0.8.5+3
   intl: ^0.17.0
-  json_annotation: ^4.6.0
+  json_annotation: ^4.4.0
   jupiter_aggregator: ^1.0.0
   logging: ^1.0.2
   meta: ^1.7.0
