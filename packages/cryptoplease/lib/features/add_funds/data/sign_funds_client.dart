@@ -10,10 +10,8 @@ part 'sign_funds_client.g.dart';
 abstract class SignFundsClient {
   factory SignFundsClient() => _SignFundsClient(Dio());
 
-  @GET('/sign')
-  Future<SignedUrlDto> sign(
-    @Queries() SignFundsRequestDto request,
-  );
+  @POST('/sign')
+  Future<SignedUrlDto> sign(@Body() SignFundsRequestDto request);
 }
 
 @freezed
@@ -31,7 +29,7 @@ class SignFundsRequestDto with _$SignFundsRequestDto {
   const factory SignFundsRequestDto({
     required String receiverAddress,
     required String tokenSymbol,
-    required double value,
+    required String value,
   }) = _SignFundsRequestDto;
 
   factory SignFundsRequestDto.fromJson(Map<String, dynamic> json) =>

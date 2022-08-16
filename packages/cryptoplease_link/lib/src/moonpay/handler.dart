@@ -7,7 +7,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
 Future<Handler> moonpayHandler() async {
-  final router = shelf_router.Router()..get('/sign', _handler);
+  final router = shelf_router.Router()..post('/sign', _handler);
 
   return (Request request) async {
     if (request.requestedUri.host != moonpayHost) {
@@ -19,9 +19,11 @@ Future<Handler> moonpayHandler() async {
 }
 
 Future<Response> _handler(Request request) async {
-  final value = request.url.queryParameters['value'];
-  final tokenSymbol = request.url.queryParameters['tokenSymbol'];
-  final receiverAddress = request.url.queryParameters['receiverAddress'];
+  final body =
+      await request.readAsString().then(json.decode) as Map<String, dynamic>;
+  final value = body['value'] as String?;
+  final tokenSymbol = body['tokenSymbol'] as String?;
+  final receiverAddress = body['receiverAddress'] as String?;
 
   if (value == null || receiverAddress == null || tokenSymbol == null) {
     return Response.badRequest();
