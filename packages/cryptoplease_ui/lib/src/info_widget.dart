@@ -1,13 +1,14 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
-class InfoWidget extends StatelessWidget {
-  const InfoWidget({
+class CpInfoWidget extends StatelessWidget {
+  const CpInfoWidget({
     Key? key,
+    required this.icon,
     required this.message,
   }) : super(key: key);
 
+  final Widget icon;
   final String message;
 
   static const _radius = Radius.circular(32);
@@ -33,10 +34,7 @@ class InfoWidget extends StatelessWidget {
                 child: CircleAvatar(
                   maxRadius: 14,
                   backgroundColor: CpColors.yellowColor,
-                  child: Assets.icons.info.svg(
-                    color: CpColors.backgroundAccentColor,
-                    height: 20,
-                  ),
+                  child: icon,
                 ),
               ),
               Flexible(

@@ -64,18 +64,30 @@ class _ConfirmScreenState extends State<FtConfirmScreen> {
               break;
           }
 
-          return CpLoader(
-            isLoading: state.flow.isProcessing(),
-            child: Scaffold(
-              appBar: CpAppBar(
-                hasBorder: false,
-                leading: BackButton(onPressed: () => context.router.pop()),
-                nextButton: CpButton(
-                  onPressed: _onSubmitted,
-                  text: nextButtonText,
+          return CpTheme.dark(
+            child: CpLoader(
+              isLoading: state.flow.isProcessing(),
+              child: Scaffold(
+                appBar: CpAppBar(
+                  title: const Text(
+                    'PAY',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 17,
+                    ),
+                  ),
+                  hasBorder: false,
+                  leading: BackButton(onPressed: () => context.router.pop()),
+                ),
+                body: CpContentPadding(child: content),
+                bottomNavigationBar: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: CpButton(
+                    onPressed: _onSubmitted,
+                    text: nextButtonText,
+                  ),
                 ),
               ),
-              body: CpContentPadding(child: content),
             ),
           );
         },

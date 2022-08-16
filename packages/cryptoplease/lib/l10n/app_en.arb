@@ -50,7 +50,7 @@
   "create": "Create",
   "youAreSending": "You're sending:",
   "confirmationTitle": "CONFIRMATION",
-  "youAreCreatingUniqueLink": "You're creating payment links to be redeemed by anyone",
+  "youAreCreatingUniqueLink": "You’re creating a secure link containing:",
   "itWillContain": "It will contain",
   "ok": "OK",
   "backupPhraseSuccessMessage": "You successfully saved your secret recovery phrase in a safe place, keep it as private as you can.",

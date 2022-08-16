@@ -1,6 +1,8 @@
+import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/confirm_screen/components/amount_view.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/widgets.dart';
 
 class TokenCreateLinkContent extends StatelessWidget {
@@ -17,11 +19,6 @@ class TokenCreateLinkContent extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: [
           Text(
-            context.l10n.confirmationTitle,
-            style: _largeTextStyle,
-          ),
-          const SizedBox(height: 20),
-          Text(
             context.l10n.youAreCreatingUniqueLink,
             style: _mediumTextStyle,
             textAlign: TextAlign.center,
@@ -33,26 +30,20 @@ class TokenCreateLinkContent extends StatelessWidget {
               amount: amount,
             ),
           ),
-          Expanded(
-            child: ListView(
-              children: [
-                AmountView.fee(
-                  label: context.l10n.labelFee,
-                  fee: fee,
-                ),
-              ],
-            ),
+          AmountView.fee(
+            label: context.l10n.labelFee,
+            fee: fee,
           ),
+          CpInfoWidget(
+            icon: const InfoIcon(),
+            message: context.l10n.usdcExplanation,
+          ),
+          const Spacer(),
         ],
       );
 }
 
 const _mediumTextStyle = TextStyle(
-  fontSize: 21,
-  fontWeight: FontWeight.w600,
-);
-
-const _largeTextStyle = TextStyle(
-  fontSize: 25,
-  fontWeight: FontWeight.w600,
+  fontSize: 18,
+  fontWeight: FontWeight.w500,
 );
