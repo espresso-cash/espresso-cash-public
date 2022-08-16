@@ -160,13 +160,16 @@ class _SubmitButton extends StatelessWidget {
       text: context.l10n.buy,
       width: double.infinity,
       onPressed: isValid && !isLoading
-          ? () => context.read<AddFundsBloc>().add(
-                AddFundsEvent.urlRequested(
-                  walletAddress: address,
+          ? () {
+              final event = AddFundsEvent.urlRequested(
+                walletAddress: address,
+                amount: Amount.fromDecimal(
+                  currency: Currency.crypto(token: token),
                   value: _parseValue(value),
-                  token: token,
                 ),
-              )
+              );
+              context.read<AddFundsBloc>().add(event);
+            }
           : null,
     );
   }

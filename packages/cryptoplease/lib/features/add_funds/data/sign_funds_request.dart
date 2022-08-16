@@ -1,15 +1,14 @@
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/features/add_funds/data/sign_funds_client.dart';
-import 'package:decimal/decimal.dart';
 
 Future<String> signFundsRequest(
   String address,
-  Decimal value,
-  String tokenSymbol,
+  Amount amount,
 ) async {
   final requestDto = SignFundsRequestDto(
     receiverAddress: address,
-    tokenSymbol: tokenSymbol,
-    value: value.toDouble(),
+    tokenSymbol: amount.currency.symbol,
+    value: amount.value.toDouble(),
   );
 
   final response = await SignFundsClient().sign(requestDto);

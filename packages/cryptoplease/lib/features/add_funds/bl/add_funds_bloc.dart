@@ -1,7 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/flow.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,8 +8,7 @@ part 'add_funds_bloc.freezed.dart';
 
 typedef AddFundsRequestSigner = Future<String> Function(
   String address,
-  Decimal value,
-  String tokenSymbol,
+  Amount amount,
 );
 
 class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
@@ -36,8 +34,7 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
     try {
       final url = await _signRequest(
         event.walletAddress,
-        event.value,
-        event.token.symbol,
+        event.amount,
       );
       emit(AddFundsState.success(url));
     } on Exception catch (e) {
@@ -50,8 +47,7 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
 class AddFundsEvent with _$AddFundsEvent {
   const factory AddFundsEvent.urlRequested({
     required String walletAddress,
-    required Decimal value,
-    required Token token,
+    required Amount amount,
   }) = AddFundsUrlRequested;
 }
 
