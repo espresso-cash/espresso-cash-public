@@ -18,8 +18,6 @@ abstract class SignFundsClient {
 
 @freezed
 class SignedUrlDto with _$SignedUrlDto {
-  // ignore: invalid_annotation_target, it's valid
-  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory SignedUrlDto({
     required String signedUrl,
   }) = _SignedUrlDto;
@@ -30,8 +28,6 @@ class SignedUrlDto with _$SignedUrlDto {
 
 @freezed
 class SignFundsRequestDto with _$SignFundsRequestDto {
-  // ignore: invalid_annotation_target, it's valid
-  @JsonSerializable(fieldRename: FieldRename.none)
   const factory SignFundsRequestDto({
     required String receiverAddress,
     required String tokenSymbol,
