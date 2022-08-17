@@ -23,6 +23,7 @@ import 'package:cryptoplease/features/swap_tokens/presentation/routes.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.dart';
 import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/transaction_details_screen.dart';
 import 'package:cryptoplease/features/transactions/presentation/transactions_screen/transactions_screen.dart';
+import 'package:cryptoplease/features/usdc_outgoing_transfer/presentation/usdc_outgoing_transfer_flow.dart';
 
 const authenticatedFlowRoutes = AutoRoute<void>(
   page: AuthenticatedFlowScreen,
@@ -48,6 +49,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
     AutoRoute<void>(page: TransactionDetailsScreen),
     ...createPaymentFlowRoutes,
     AutoRoute<void>(page: OutgoingTransferFlowScreen),
+    AutoRoute<void>(page: UsdcOutgoingTransferFlowScreen),
     ...receiveFlowRoutes,
     ...addFundsRoutes,
     appLockSetupFlowRoutes,
