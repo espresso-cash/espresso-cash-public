@@ -54,7 +54,3 @@ const link1Host = 'solana1.$cpLinkDomain';
 const link2Host = 'solana2.$cpLinkDomain';
 const solanaPayHost = 'solanapay.$cpLinkDomain';
 const moonpayHost = 'moonpay.$cpLinkDomain';
-
-// TODO: Improve these names
-const usdcBaseUrl =
-    isProd ? 'https://mainnet.$cpLinkDomain' : 'https://devnet.$cpLinkDomain';
