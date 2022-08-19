@@ -2,20 +2,19 @@ import 'package:collection/collection.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/data/transaction/tx_processor.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-part 'tx_processor.freezed.dart';
-
-class TxProcessor {
-  TxProcessor(this._solanaClient);
+class SolanaTxProcessor implements TxProcessor {
+  SolanaTxProcessor(this._solanaClient);
 
   final SolanaClient _solanaClient;
 
+  @override
   AsyncEither<TxCreationError, SignedTx> createTx({
     required String firstPart,
     required String secondPart,
@@ -120,6 +119,7 @@ class TxProcessor {
     }
   }
 
+  @override
   AsyncEither<SplitKeyIncomingPaymentError, SignedTx> sendPayment(
     SignedTx tx,
   ) async {
@@ -154,6 +154,7 @@ class TxProcessor {
     }
   }
 
+  @override
   AsyncEither<SplitKeyIncomingPaymentError, SignedTx> wait(SignedTx tx) async {
     try {
       await _solanaClient.waitForSignatureStatus(
@@ -209,12 +210,4 @@ extension on Transaction {
             .whereNotNull()
             .firstOrNull;
   }
-}
-
-@freezed
-class TxCreationError with _$TxCreationError {
-  const factory TxCreationError.invalidLink() = _InvalidLink;
-  const factory TxCreationError.consumedByRecipient() = _ConsumedByRecipient;
-  const factory TxCreationError.consumedByOther() = _ConsumedByOther;
-  const factory TxCreationError.other() = _Other;
 }

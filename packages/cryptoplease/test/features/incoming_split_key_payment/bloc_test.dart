@@ -1,8 +1,8 @@
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/wallet.dart';
+import 'package:cryptoplease/data/transaction/processors/solana_tx_processor.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,7 +28,7 @@ void main() {
 
   group('Incoming payment process:', () {
     final solanaClient = createTestSolanaClient();
-    final txProcessor = TxProcessor(solanaClient);
+    final txProcessor = SolanaTxProcessor(solanaClient);
     late Wallet sourceWallet;
     late Wallet targetWallet;
     late OutgoingTransferSplitKey payment;

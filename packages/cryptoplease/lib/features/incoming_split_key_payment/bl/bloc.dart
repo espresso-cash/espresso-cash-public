@@ -1,8 +1,9 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
+import 'package:cryptoplease/data/transaction/processors/solana_tx_processor.dart';
+import 'package:cryptoplease/data/transaction/tx_processor.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -20,7 +21,7 @@ typedef _Emitter = Emitter<_State>;
 class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
   SplitKeyIncomingPaymentBloc({
     required SplitKeyIncomingRepository repository,
-    required TxProcessor txProcessor,
+    required SolanaTxProcessor txProcessor,
   })  : _repository = repository,
         _txProcessor = txProcessor,
         super(const SplitKeyIncomingPayment.none()) {
@@ -28,7 +29,7 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
   }
 
   final SplitKeyIncomingRepository _repository;
-  final TxProcessor _txProcessor;
+  final SolanaTxProcessor _txProcessor;
 
   _EventHandler get _handler => (e, emit) => e.map(
         firstPartAdded: (e) => _onFirstPartAdded(e, emit),

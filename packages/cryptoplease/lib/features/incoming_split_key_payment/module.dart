@@ -1,8 +1,8 @@
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
+import 'package:cryptoplease/data/transaction/processors/solana_tx_processor.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/data/split_key_payments_repository.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class IncomingSplitKeyPaymentModule extends SingleChildStatelessWidget {
           ),
           BlocProvider(
             create: (context) => SplitKeyIncomingPaymentBloc(
-              txProcessor: TxProcessor(context.read<SolanaClient>()),
+              txProcessor: SolanaTxProcessor(context.read<SolanaClient>()),
               repository: context.read<SplitKeyIncomingRepository>(),
             ),
           ),
