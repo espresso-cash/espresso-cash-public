@@ -5,9 +5,11 @@ import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/data/transaction/signers/cp_tx_signer.dart';
+import 'package:cryptoplease/data/transaction/signers/solana_tx_signer.dart';
+import 'package:cryptoplease/data/transaction/tx_signer.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
-import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfers_bloc/tx_signer.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
@@ -82,7 +84,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       if (existingSignature == null || existingTx == null) {
         final TxSigner txSigner;
 
-        // TODO: change it
+        // TODO(rhbrunetto): change it
         if (payment.tokenAddress == Token.usdc.address) {
           txSigner = CpTxSigner(cpClient: CryptopleaseClient());
         } else {
