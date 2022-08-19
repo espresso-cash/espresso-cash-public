@@ -7,7 +7,9 @@ import 'package:cryptoplease/core/solana_helpers.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfers_bloc/tx_signer.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,7 +80,17 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       final String encodedTx, signature;
 
       if (existingSignature == null || existingTx == null) {
-        final message = await _createSignedTx(payment);
+        final TxSigner txSigner;
+
+        // TODO: change it
+        if (payment.tokenAddress == Token.usdc.address) {
+          txSigner = CpTxSigner(cpClient: CryptopleaseClient());
+        } else {
+          txSigner = SolanaTxSigner(solanaClient: _solanaClient);
+        }
+
+        final message = await txSigner.createSignedTx(payment, _account);
+
         final recentBlockhash =
             await _solanaClient.rpcClient.getRecentBlockhash();
         final tx = await signTransaction(
@@ -139,22 +151,6 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       return state.addError(payment.id, e);
     }
   }
-
-  Future<Message> _createSignedTx(OutgoingTransfer payment) async =>
-      _solanaClient.createTransfer(
-        sender: _account.wallet,
-        recipient: await payment.getRecipient(),
-        tokenAddress: Ed25519HDPublicKey.fromBase58(payment.tokenAddress),
-        amount: payment.amount,
-        additionalFee: payment.map(
-          splitKey: (p) => p.tokenAddress == Token.sol.address
-              ? lamportsPerSignature
-              : lamportsPerSignature + tokenProgramRent,
-          direct: always(0),
-        ),
-        memo: payment.memo,
-        reference: payment.allReferences.map(Ed25519HDPublicKey.fromBase58),
-      );
 }
 
 extension on OutgoingTransfer {
