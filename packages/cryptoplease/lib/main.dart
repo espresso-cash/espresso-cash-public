@@ -6,6 +6,9 @@ import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/module.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
+import 'package:cryptoplease/data/transaction/creators/cp_tx_creator.dart';
+import 'package:cryptoplease/data/transaction/creators/solana_tx_creator.dart';
+import 'package:cryptoplease/data/transaction/tx_creator_selector.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/module.dart';
 import 'package:cryptoplease/features/outgoing_transfer/module.dart';
 import 'package:cryptoplease/features/pending_request/module.dart';
@@ -53,6 +56,13 @@ Future<void> _start() async {
         rpcUrl: Uri.parse(solanaRpcUrl),
         websocketUrl: Uri.parse(solanaWebSocketUrl),
       );
+      final cpClient = CryptopleaseClient();
+
+      final solanaTxCreator = SolanaTxCreator(solanaClient: solanaClient);
+      final cpTxCreator = CpTxCreator(
+        cpClient: cpClient,
+        solanaClient: solanaClient,
+      );
 
       final hasPassedFirstRun =
           sharedPreferences.getBool(_firstRunKey) ?? false;
@@ -72,7 +82,13 @@ Future<void> _start() async {
           Provider<RpcClient>.value(value: solanaClient.rpcClient),
           Provider<SolanaClient>.value(value: solanaClient),
           Provider<TokenList>(create: (_) => TokenList()),
-          Provider<CryptopleaseClient>(create: (_) => CryptopleaseClient()),
+          Provider<CryptopleaseClient>.value(value: cpClient),
+          Provider<TxCreatorSelector>(
+            create: (_) => TxCreatorSelector(
+              solanaTxCreator: solanaTxCreator,
+              cpTxCreator: cpTxCreator,
+            ),
+          ),
           const OutgoingTransferModule(),
           const BalancesModule(),
           const AccountsModule(),

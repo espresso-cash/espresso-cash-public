@@ -1,6 +1,5 @@
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/wallet.dart';
-import 'package:cryptoplease/data/transaction/creators/solana_tx_creator.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
@@ -30,7 +29,7 @@ void main() {
   group('Incoming payment process:', () {
     final solanaClient = createTestSolanaClient();
     final txProcessor = TxProcessor(solanaClient);
-    final txCreator = SolanaTxCreator(solanaClient: solanaClient);
+
     late Wallet sourceWallet;
     late Wallet targetWallet;
     late OutgoingTransferSplitKey payment;
@@ -101,7 +100,6 @@ void main() {
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
-          txCreator: txCreator,
           repository: MemorySplitKeyIncomingRepository(),
         );
         await receivePayment(bloc, targetWallet);
@@ -130,7 +128,6 @@ void main() {
         );
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
-          txCreator: txCreator,
           repository: repository,
         );
         await receivePayment(
@@ -156,7 +153,6 @@ void main() {
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
-          txCreator: txCreator,
           repository: MemorySplitKeyIncomingRepository(),
         );
         await receivePayment(bloc, targetWallet);
@@ -179,7 +175,6 @@ void main() {
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
-          txCreator: txCreator,
           repository: MemorySplitKeyIncomingRepository(),
         );
         await receivePayment(bloc, sourceWallet);

@@ -5,6 +5,7 @@ import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/module.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
+import 'package:cryptoplease/data/transaction/tx_creator_selector.dart';
 import 'package:cryptoplease/features/add_funds/module.dart';
 import 'package:cryptoplease/features/airdrop/module.dart';
 import 'package:cryptoplease/features/backup_phrase/module.dart';
@@ -79,6 +80,7 @@ BlocProvider<OutgoingTransfersBloc> _outgoingTransfersBlocProvider(
         repository: context.read<OutgoingTransferRepository>(),
         solanaClient: context.read<SolanaClient>(),
         account: account,
+        txCreatorSelector: context.read<TxCreatorSelector>(),
         balancesBloc: context.read<BalancesBloc>(),
         nftCollectionBloc: context.read<NftCollectionBloc>(),
       ),

@@ -4,14 +4,10 @@ import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/data/transaction/creators/cp_tx_creator.dart';
-import 'package:cryptoplease/data/transaction/creators/solana_tx_creator.dart';
-import 'package:cryptoplease/data/transaction/tx_creator.dart';
+import 'package:cryptoplease/data/transaction/tx_creator_selector.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
-import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,11 +33,13 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
     required BalancesBloc balancesBloc,
     required NftCollectionBloc nftCollectionBloc,
     required MyAccount account,
+    required TxCreatorSelector txCreatorSelector,
   })  : _repository = repository,
         _solanaClient = solanaClient,
         _balancesBloc = balancesBloc,
         _nftCollectionBloc = nftCollectionBloc,
         _account = account,
+        _txCreatorSelector = txCreatorSelector,
         super(const OutgoingTransfersState()) {
     on<_Event>(_handler);
   }
@@ -50,6 +48,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
   final SolanaClient _solanaClient;
   final BalancesBloc _balancesBloc;
   final NftCollectionBloc _nftCollectionBloc;
+  final TxCreatorSelector _txCreatorSelector;
   final MyAccount _account;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
@@ -82,17 +81,8 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       final String encodedTx, signature;
 
       if (existingSignature == null || existingTx == null) {
-        final TxCreator txCreator;
-
-        // TODO(rhbrunetto): change it
-        if (payment.tokenAddress == Token.usdc.address) {
-          txCreator = CpTxCreator(
-            cpClient: CryptopleaseClient(),
-            solanaClient: _solanaClient,
-          );
-        } else {
-          txCreator = SolanaTxCreator(solanaClient: _solanaClient);
-        }
+        final txCreator =
+            _txCreatorSelector.fromTokenAddress(payment.tokenAddress);
 
         final tx = await txCreator
             .createOutgoingTx(payment: payment, account: _account)

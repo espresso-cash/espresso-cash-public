@@ -1,6 +1,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/data/transaction/tx_creator.dart';
+import 'package:cryptoplease/data/transaction/tx_creator_selector.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
@@ -22,17 +23,17 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
   SplitKeyIncomingPaymentBloc({
     required SplitKeyIncomingRepository repository,
     required TxProcessor txProcessor,
-    required TxCreator txCreator,
+    required TxCreatorSelector txCreatorSelector,
   })  : _repository = repository,
         _txProcessor = txProcessor,
-        _txCreator = txCreator,
+        _txCreatorSelector = txCreatorSelector,
         super(const SplitKeyIncomingPayment.none()) {
     on<_Event>(_handler, transformer: sequential());
   }
 
   final SplitKeyIncomingRepository _repository;
   final TxProcessor _txProcessor;
-  final TxCreator _txCreator;
+  final TxCreatorSelector _txCreatorSelector;
 
   _EventHandler get _handler => (e, emit) => e.map(
         firstPartAdded: (e) => _onFirstPartAdded(e, emit),
@@ -88,7 +89,9 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
     if (state is! PaymentSecondPartReady) return;
 
     emit(state.copyWith(processingState: const ProcessingState.processing()));
-    final updated = await _txCreator
+
+    final txCreator = _txCreatorSelector.fromTokenAddress(state.tokenAddress);
+    final updated = await txCreator
         .createIncomingTx(
           firstPart: state.firstPart,
           secondPart: state.secondPart,
