@@ -1,23 +1,23 @@
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
+import 'package:cryptoplease/core/accounts/bl/account.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
-part 'tx_processor.freezed.dart';
+part 'tx_creator.freezed.dart';
 
-abstract class TxProcessor {
-  AsyncEither<TxCreationError, SignedTx> createTx({
+abstract class TxCreator {
+  AsyncEither<TxCreationError, SignedTx> createOutgoingTx({
+    required OutgoingTransfer payment,
+    required MyAccount account,
+  });
+
+  AsyncEither<TxCreationError, SignedTx> createIncomingTx({
     required String firstPart,
     required String secondPart,
     required String recipient,
     required String tokenAddress,
   });
-
-  AsyncEither<SplitKeyIncomingPaymentError, SignedTx> sendPayment(
-    SignedTx tx,
-  );
-
-  AsyncEither<SplitKeyIncomingPaymentError, SignedTx> wait(SignedTx tx);
 }
 
 @freezed

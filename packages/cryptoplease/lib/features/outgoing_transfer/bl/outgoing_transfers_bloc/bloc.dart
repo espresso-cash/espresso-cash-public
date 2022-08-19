@@ -5,9 +5,9 @@ import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/data/transaction/signers/cp_tx_signer.dart';
-import 'package:cryptoplease/data/transaction/signers/solana_tx_signer.dart';
-import 'package:cryptoplease/data/transaction/tx_signer.dart';
+import 'package:cryptoplease/data/transaction/creators/cp_tx_creator.dart';
+import 'package:cryptoplease/data/transaction/creators/solana_tx_creator.dart';
+import 'package:cryptoplease/data/transaction/tx_creator.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
@@ -82,24 +82,21 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       final String encodedTx, signature;
 
       if (existingSignature == null || existingTx == null) {
-        final TxSigner txSigner;
+        final TxCreator txCreator;
 
         // TODO(rhbrunetto): change it
         if (payment.tokenAddress == Token.usdc.address) {
-          txSigner = CpTxSigner(cpClient: CryptopleaseClient());
+          txCreator = CpTxCreator(
+            cpClient: CryptopleaseClient(),
+            solanaClient: _solanaClient,
+          );
         } else {
-          txSigner = SolanaTxSigner(solanaClient: _solanaClient);
+          txCreator = SolanaTxCreator(solanaClient: _solanaClient);
         }
 
-        final message = await txSigner.createSignedTx(payment, _account);
-
-        final recentBlockhash =
-            await _solanaClient.rpcClient.getRecentBlockhash();
-        final tx = await signTransaction(
-          recentBlockhash,
-          message,
-          [_account.wallet],
-        );
+        final tx = await txCreator
+            .createOutgoingTx(payment: payment, account: _account)
+            .foldAsync((err) => throw Exception(err), identity);
 
         encodedTx = tx.encode();
         signature = tx.signatures.first.toBase58();

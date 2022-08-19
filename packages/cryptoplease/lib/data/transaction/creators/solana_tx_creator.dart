@@ -1,21 +1,56 @@
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/data/transaction/tx_processor.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
+import 'package:cryptoplease/data/transaction/tx_creator.dart';
+import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-class SolanaTxProcessor implements TxProcessor {
-  SolanaTxProcessor(this._solanaClient);
+class SolanaTxCreator implements TxCreator {
+  SolanaTxCreator({
+    required SolanaClient solanaClient,
+  }) : _client = solanaClient;
 
-  final SolanaClient _solanaClient;
+  final SolanaClient _client;
 
   @override
-  AsyncEither<TxCreationError, SignedTx> createTx({
+  AsyncEither<TxCreationError, SignedTx> createOutgoingTx({
+    required OutgoingTransfer payment,
+    required MyAccount account,
+  }) async {
+    try {
+      final message = await _client.createTransfer(
+        sender: account.wallet,
+        recipient: await payment.getRecipient(),
+        tokenAddress: Ed25519HDPublicKey.fromBase58(payment.tokenAddress),
+        amount: payment.amount,
+        additionalFee: payment.map(
+          splitKey: (p) => p.tokenAddress == Token.sol.address
+              ? lamportsPerSignature
+              : lamportsPerSignature + tokenProgramRent,
+          direct: always(0),
+        ),
+        memo: payment.memo,
+        reference: payment.allReferences.map(Ed25519HDPublicKey.fromBase58),
+      );
+      final tx = await _client.rpcClient.signMessage(
+        message,
+        [account.wallet],
+      );
+
+      return Either.right(tx);
+    } on Exception {
+      return const Either.left(TxCreationError.other());
+    }
+  }
+
+  @override
+  AsyncEither<TxCreationError, SignedTx> createIncomingTx({
     required String firstPart,
     required String secondPart,
     required String recipient,
@@ -33,7 +68,7 @@ class SolanaTxProcessor implements TxProcessor {
     }
 
     try {
-      final solBalance = await _solanaClient.rpcClient.getBalance(
+      final solBalance = await _client.rpcClient.getBalance(
         wallet.address,
         commitment: Commitment.confirmed,
       );
@@ -47,8 +82,7 @@ class SolanaTxProcessor implements TxProcessor {
       } else {
         // SPL payment. Transfer all the money on SPL account and
         // all the money remaining on the SOL account (minus transaction fee).
-        final tokenAccounts =
-            await _solanaClient.rpcClient.getTokenAccountsByOwner(
+        final tokenAccounts = await _client.rpcClient.getTokenAccountsByOwner(
           wallet.address,
           TokenAccountsFilter.byMint(tokenAddress),
           commitment: Commitment.confirmed,
@@ -60,7 +94,7 @@ class SolanaTxProcessor implements TxProcessor {
           return const Either.left(TxCreationError.invalidLink());
         }
 
-        transferAmount = await _solanaClient.rpcClient
+        transferAmount = await _client.rpcClient
             .getTokenAccountBalance(
               tokenAccount.pubkey,
               commitment: Commitment.confirmed,
@@ -70,7 +104,7 @@ class SolanaTxProcessor implements TxProcessor {
         // If recipient has already associated account, then we can
         // transfer all the money from SOL account of this temp wallet
         // to SOL account of the recipient (minus the transaction fee).
-        remainder = await _solanaClient.hasAssociatedTokenAccount(
+        remainder = await _client.hasAssociatedTokenAccount(
           owner: Ed25519HDPublicKey.fromBase58(recipient),
           mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
         )
@@ -79,7 +113,7 @@ class SolanaTxProcessor implements TxProcessor {
       }
 
       if (transferAmount <= 0) {
-        final transactions = await _solanaClient.rpcClient.getTransactionsList(
+        final transactions = await _client.rpcClient.getTransactionsList(
           wallet.publicKey,
           limit: 2,
           commitment: Commitment.confirmed,
@@ -98,86 +132,25 @@ class SolanaTxProcessor implements TxProcessor {
       }
 
       final message = tokenAddress == Token.sol.address
-          ? await _solanaClient.createSolTransfer(
+          ? await _client.createSolTransfer(
               sender: wallet,
               recipient: Ed25519HDPublicKey.fromBase58(recipient),
               amount: transferAmount + remainder,
             )
-          : await _solanaClient.createSplTransfer(
+          : await _client.createSplTransfer(
               sender: wallet,
               solanaAddress: Ed25519HDPublicKey.fromBase58(recipient),
               additionalFee: remainder,
               amount: transferAmount,
               tokenAddress: Ed25519HDPublicKey.fromBase58(tokenAddress),
             );
-      final signed =
-          await _solanaClient.rpcClient.signMessage(message, [wallet]);
+      final signed = await _client.rpcClient.signMessage(message, [wallet]);
 
       return Either.right(signed);
     } on Exception {
       return const Either.left(TxCreationError.other());
     }
   }
-
-  @override
-  AsyncEither<SplitKeyIncomingPaymentError, SignedTx> sendPayment(
-    SignedTx tx,
-  ) async {
-    try {
-      await _solanaClient.rpcClient.sendTransaction(
-        tx.encode(),
-        preflightCommitment: Commitment.confirmed,
-      );
-
-      return Either.right(tx);
-    } on JsonRpcException catch (e) {
-      final txError = e.transactionError;
-
-      switch (txError) {
-        case TransactionError.alreadyProcessed:
-          return Either.right(tx);
-        case TransactionError.blockhashNotFound:
-          return _solanaClient.rpcClient
-              .getTransaction(tx.id)
-              .toEither()
-              .foldAsync(
-                always(
-                  const Either.left(SplitKeyIncomingPaymentError.invalidTx()),
-                ),
-                always(Either.right(tx)),
-              );
-        default:
-          return const Either.left(SplitKeyIncomingPaymentError.invalidTx());
-      }
-    } on Exception {
-      return Either.left(SplitKeyIncomingPaymentError.failedToSubmit(tx));
-    }
-  }
-
-  @override
-  AsyncEither<SplitKeyIncomingPaymentError, SignedTx> wait(SignedTx tx) async {
-    try {
-      await _solanaClient.waitForSignatureStatus(
-        tx.id,
-        status: Commitment.confirmed,
-        timeout: waitForSignatureDefaultTimeout,
-      );
-
-      return Either.right(tx);
-    } on Object {
-      return Either.left(SplitKeyIncomingPaymentError.failedToConfirm(tx));
-    }
-  }
-}
-
-Future<Wallet> walletFromParts({
-  required String firstPart,
-  required String secondPart,
-}) async {
-  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
-  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
-
-  return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
 }
 
 extension on Transaction {
