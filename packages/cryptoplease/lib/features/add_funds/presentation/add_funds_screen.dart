@@ -3,7 +3,7 @@ import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/add_funds/bl/add_funds_bloc.dart';
-import 'package:cryptoplease/features/add_funds/data/sign_funds_request.dart';
+import 'package:cryptoplease/features/add_funds/bl/repository.dart';
 import 'package:cryptoplease/features/add_funds/presentation/components/crypto_amount_view.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -18,9 +18,11 @@ class AddFundsScreen extends StatefulWidget {
   const AddFundsScreen({
     Key? key,
     required this.wallet,
+    required this.token,
   }) : super(key: key);
 
   final Wallet wallet;
+  final Token token;
 
   @override
   State<AddFundsScreen> createState() => _AddFundsScreenState();
@@ -31,7 +33,9 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
 
   @override
   Widget build(BuildContext context) => BlocProvider<AddFundsBloc>(
-        create: (context) => AddFundsBloc(signRequest: signFundsRequest),
+        create: (context) => AddFundsBloc(
+          repository: context.read<AddFundsRepository>(),
+        ),
         child: BlocConsumer<AddFundsBloc, AddFundsState>(
           listener: (context, state) => state.maybeWhen(
             failure: (_) => showWarningDialog(
@@ -65,7 +69,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
               builder: (context, value, _) => Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: CryptoAmountView(
-                  token: Token.sol,
+                  token: widget.token,
                   amount: FiatAmount(
                     value: Currency.usd.decimalToInt(_parseValue(value.text)),
                     currency: Currency.usd,
@@ -84,6 +88,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                     value: value.text,
                     isLoading: isLoading,
                     address: widget.wallet.address,
+                    token: widget.token,
                   ),
                 ),
               ),
@@ -141,11 +146,13 @@ class _SubmitButton extends StatelessWidget {
     required this.value,
     required this.isLoading,
     required this.address,
+    required this.token,
   }) : super(key: key);
 
   final String value;
   final bool isLoading;
   final String address;
+  final Token token;
 
   @override
   Widget build(BuildContext context) {
@@ -155,12 +162,16 @@ class _SubmitButton extends StatelessWidget {
       text: context.l10n.buy,
       width: double.infinity,
       onPressed: isValid && !isLoading
-          ? () => context.read<AddFundsBloc>().add(
-                AddFundsEvent.urlRequested(
-                  walletAddress: address,
+          ? () {
+              final event = AddFundsEvent.urlRequested(
+                walletAddress: address,
+                amount: Amount.fromDecimal(
+                  currency: Currency.crypto(token: token),
                   value: _parseValue(value),
                 ),
-              )
+              );
+              context.read<AddFundsBloc>().add(event);
+            }
           : null,
     );
   }

@@ -19,38 +19,36 @@ dev_dependencies:
   mews_pedantic: ^0.7.0
 
 flutter:
-  assets:
-    - lib/fonts/
   fonts:
-    - family: Roboto
+    - family: RobotoApp
       fonts:
-        - asset: packages/cryptoplease_ui/fonts/Roboto-Thin.ttf
+        - asset: assets/fonts/Roboto-Thin.ttf
           weight: 100
-        - asset: packages/cryptoplease_ui/fonts/Roboto-ThinItalic.ttf
+        - asset: assets/fonts/Roboto-ThinItalic.ttf
           style: italic
           weight: 100
-        - asset: packages/cryptoplease_ui/fonts/Roboto-Light.ttf
+        - asset: assets/fonts/Roboto-Light.ttf
           weight: 300
-        - asset: packages/cryptoplease_ui/fonts/Roboto-LightItalic.ttf
+        - asset: assets/fonts/Roboto-LightItalic.ttf
           style: italic
           weight: 300
-        - asset: packages/cryptoplease_ui/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
           weight: 400
-        - asset: packages/cryptoplease_ui/fonts/Roboto-Italic.ttf
+        - asset: assets/fonts/Roboto-Italic.ttf
           style: italic
           weight: 400
-        - asset: packages/cryptoplease_ui/fonts/Roboto-Medium.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
           weight: 500
-        - asset: packages/cryptoplease_ui/fonts/Roboto-MediumItalic.ttf
+        - asset: assets/fonts/Roboto-MediumItalic.ttf
           style: italic
           weight: 500
-        - asset: packages/cryptoplease_ui/fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
           weight: 700
-        - asset: packages/cryptoplease_ui/fonts/Roboto-BoldItalic.ttf
+        - asset: assets/fonts/Roboto-BoldItalic.ttf
           style: italic
           weight: 700
-        - asset: packages/cryptoplease_ui/fonts/Roboto-Black.ttf
+        - asset: assets/fonts/Roboto-Black.ttf
           weight: 900
-        - asset: packages/cryptoplease_ui/fonts/Roboto-BlackItalic.ttf
+        - asset: assets/fonts/Roboto-BlackItalic.ttf
           style: italic
           weight: 900

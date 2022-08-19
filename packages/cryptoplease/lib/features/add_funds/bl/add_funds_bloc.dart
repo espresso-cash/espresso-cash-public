@@ -1,25 +1,21 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/flow.dart';
-import 'package:decimal/decimal.dart';
+import 'package:cryptoplease/features/add_funds/bl/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'add_funds_bloc.freezed.dart';
 
-typedef AddFundsRequestSigner = Future<String> Function(
-  String address,
-  Decimal value,
-);
-
 class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
   AddFundsBloc({
-    required AddFundsRequestSigner signRequest,
-  })  : _signRequest = signRequest,
+    required AddFundsRepository repository,
+  })  : _repository = repository,
         super(const AddFundsState.initial()) {
     on<AddFundsEvent>(_eventHandler, transformer: sequential());
   }
 
-  final AddFundsRequestSigner _signRequest;
+  final AddFundsRepository _repository;
 
   EventHandler<AddFundsEvent, AddFundsState> get _eventHandler =>
       (event, emit) => event.map(
@@ -32,7 +28,10 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
   ) async {
     emit(const AddFundsState.processing());
     try {
-      final url = await _signRequest(event.walletAddress, event.value);
+      final url = await _repository.signFundsRequest(
+        event.walletAddress,
+        event.amount,
+      );
       emit(AddFundsState.success(url));
     } on Exception catch (e) {
       emit(AddFundsState.failure(e));
@@ -44,7 +43,7 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
 class AddFundsEvent with _$AddFundsEvent {
   const factory AddFundsEvent.urlRequested({
     required String walletAddress,
-    required Decimal value,
+    required Amount amount,
   }) = AddFundsUrlRequested;
 }
 

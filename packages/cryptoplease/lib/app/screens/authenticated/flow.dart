@@ -5,6 +5,7 @@ import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/module.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
+import 'package:cryptoplease/features/add_funds/module.dart';
 import 'package:cryptoplease/features/airdrop/module.dart';
 import 'package:cryptoplease/features/backup_phrase/module.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
@@ -54,6 +55,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const AirdropModule(),
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
+                const AddFundsModule(),
                 const NftModule(),
                 _outgoingTransfersBlocProvider(account),
                 PendingRequestListener(routerKey: _homeRouterKey),

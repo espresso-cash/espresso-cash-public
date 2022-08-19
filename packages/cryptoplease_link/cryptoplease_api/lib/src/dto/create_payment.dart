@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'dto.freezed.dart';
-part 'dto.g.dart';
+part 'create_payment.freezed.dart';
+part 'create_payment.g.dart';
 
 @freezed
 class CreatePaymentRequestDto with _$CreatePaymentRequestDto {
@@ -9,6 +9,7 @@ class CreatePaymentRequestDto with _$CreatePaymentRequestDto {
     required String senderAccount,
     required String escrowAccount,
     required int amount,
+    required Cluster cluster,
   }) = _CreatePaymentRequestDto;
 
   factory CreatePaymentRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -30,6 +31,7 @@ class ReceivePaymentRequestDto with _$ReceivePaymentRequestDto {
   const factory ReceivePaymentRequestDto({
     required String receiverAccount,
     required String escrowAccount,
+    required Cluster cluster,
   }) = _ReceivePaymentRequestDto;
 
   factory ReceivePaymentRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -45,3 +47,5 @@ class ReceivePaymentResponseDto with _$ReceivePaymentResponseDto {
   factory ReceivePaymentResponseDto.fromJson(Map<String, dynamic> json) =>
       _$ReceivePaymentResponseDtoFromJson(json);
 }
+
+enum Cluster { mainnet, devnet }
