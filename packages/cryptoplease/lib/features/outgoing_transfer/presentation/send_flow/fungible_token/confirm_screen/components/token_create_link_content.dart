@@ -28,10 +28,12 @@ class TokenCreateLinkContent extends StatelessWidget {
             amount: amount,
             fee: fee,
           ),
-          const SizedBox(height: 16),
-          CpInfoWidget(
-            icon: const InfoIcon(),
-            message: context.l10n.sendExplanation,
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: CpInfoWidget(
+              icon: const InfoIcon(),
+              message: context.l10n.sendExplanation,
+            ),
           ),
           const Spacer(),
         ],

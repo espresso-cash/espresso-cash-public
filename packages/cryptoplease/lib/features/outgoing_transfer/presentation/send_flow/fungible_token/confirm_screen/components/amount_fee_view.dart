@@ -61,8 +61,20 @@ class AmountFeeView extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Equivalent to $formattedFiatAmount'),
-                Text('(Fee: $formattedFiatFee)'),
+                Text(
+                  'Equivalent to $formattedFiatAmount'.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '(Fee $formattedFiatFee)',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                  ),
+                ),
               ],
             ),
           ),
@@ -79,7 +91,7 @@ extension on Amount? {
 
     if (amount != null && amount < _minimumAmount) {
       final formattedMinimum = _minimumAmount.format(locale);
-      formattedAmount = '\n< $formattedMinimum';
+      formattedAmount = '< $formattedMinimum';
     }
 
     return formattedAmount;

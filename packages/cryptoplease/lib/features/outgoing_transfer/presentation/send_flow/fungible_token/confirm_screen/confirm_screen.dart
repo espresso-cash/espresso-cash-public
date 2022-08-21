@@ -81,7 +81,7 @@ class _ConfirmScreenState extends State<FtConfirmScreen> {
                 ),
                 body: CpContentPadding(child: content),
                 bottomNavigationBar: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(24.0),
                   child: CpButton(
                     onPressed: _onSubmitted,
                     text: nextButtonText,

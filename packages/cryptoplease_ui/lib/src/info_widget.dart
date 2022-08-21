@@ -14,8 +14,7 @@ class CpInfoWidget extends StatelessWidget {
   static const _radius = Radius.circular(32);
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 40),
+  Widget build(BuildContext context) => DecoratedBox(
         decoration: const BoxDecoration(
           color: CpColors.backgroundAccentColor,
           borderRadius: BorderRadius.only(
