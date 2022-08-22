@@ -4,6 +4,7 @@ export 'src/background_gradient.dart';
 export 'src/bottom_button.dart';
 export 'src/bullet_item.dart';
 export 'src/button.dart';
+export 'src/chip.dart';
 export 'src/colors.dart';
 export 'src/content_padding.dart';
 export 'src/empty_message_widget.dart';

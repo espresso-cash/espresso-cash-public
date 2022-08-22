@@ -6,6 +6,7 @@ import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/f
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:flutter/material.dart';
 
+// TODO(rhbrunetto): used on send-to-address view and will be removed soon
 class AmountView extends StatelessWidget {
   const AmountView._({
     Key? key,

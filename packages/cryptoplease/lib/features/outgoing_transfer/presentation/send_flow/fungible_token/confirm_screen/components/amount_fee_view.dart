@@ -3,11 +3,11 @@ import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-// TODO(rhbrunetto): add copies to arb, move _CpChip to ui lib, create CpInfoWidget and CpChip variants
 class AmountFeeView extends StatelessWidget {
   const AmountFeeView({
     Key? key,
@@ -57,24 +57,28 @@ class AmountFeeView extends StatelessWidget {
         ),
         Container(
           margin: const EdgeInsets.symmetric(vertical: 24),
-          child: _CpChip(
+          child: CpChip(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  'Equivalent to $formattedFiatAmount'.toUpperCase(),
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                if (formattedFiatAmount != null)
+                  Text(
+                    context.l10n
+                        .fiatEquivalent(formattedFiatAmount)
+                        .toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text(
-                  '(Fee $formattedFiatFee)',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
+                if (formattedFiatFee != null)
+                  Text(
+                    context.l10n.feeAmount(formattedFiatFee),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -99,27 +103,3 @@ extension on Amount? {
 }
 
 const _minimumAmount = Amount.fiat(value: 1, currency: Currency.usd);
-
-class _CpChip extends StatelessWidget {
-  const _CpChip({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: CpColors.darkBackground,
-          shape: StadiumBorder(),
-        ),
-        child: Center(
-          widthFactor: 1,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 44, vertical: 8),
-            child: child,
-          ),
-        ),
-      );
-}
