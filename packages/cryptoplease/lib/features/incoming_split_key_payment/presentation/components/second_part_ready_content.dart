@@ -28,6 +28,15 @@ class _SecondPartReadyContentState extends State<SecondPartReadyContent> {
     context.read<SplitKeyIncomingPaymentBloc>().add(event);
   }
 
+  void _onRetry() {
+    // ignore: avoid-non-null-assertion, cannot be null here
+    final wallet = context.read<AccountsBloc>().state.account!;
+    final event = SplitKeyIncomingPaymentEvent.retried(
+      recipient: wallet.address,
+    );
+    context.read<SplitKeyIncomingPaymentBloc>().add(event);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -70,10 +79,10 @@ class _SecondPartReadyContentState extends State<SecondPartReadyContent> {
             const SizedBox(height: 20),
             if (error != null) _ErrorView(error: error),
             const Spacer(),
-            if (error != null)
+            if (error != null && error.isRecoverable)
               CpBottomButton(
                 text: context.l10n.retry,
-                onPressed: _onSubmit,
+                onPressed: _onRetry,
               ),
           ],
         ),

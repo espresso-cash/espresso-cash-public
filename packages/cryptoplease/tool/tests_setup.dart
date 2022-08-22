@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:solana/solana.dart';
 
@@ -12,10 +11,7 @@ Future<void> main() async {
     privateKey: mintAuthorityPrivateKey,
   );
 
-  final solanaClient = SolanaClient(
-    rpcUrl: Uri.parse(solanaRpcUrl),
-    websocketUrl: Uri.parse(solanaWebSocketUrl),
-  );
+  final solanaClient = createTestSolanaClient();
   await solanaClient.createAndFundAccount(mintAuthority.address, sol: 1000);
   print('mint authority setup completed: ${mintAuthority.address}');
 
@@ -32,11 +28,7 @@ Future<void> main() async {
 
   final accountKey = await Ed25519HDKeyPair.fromMnemonic(accountMnemonic);
 
-  // We pass [localTokenList] explicitly here since this setup is run
-  // as a normal script, rather then part of a test, where we have
-  // `FLUTTER_TEST` environment variable set to `true`.
-  //
-  // ignore: invalid_use_of_visible_for_testing_member
+  // ignore: invalid_use_of_visible_for_testing_member, part of tests setup
   final tokenList = TokenList(data: localTokenList);
 
   await solanaClient.createAndFundAccount(accountKey.address, sol: 1000);

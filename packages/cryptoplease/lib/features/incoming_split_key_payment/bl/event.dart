@@ -14,5 +14,9 @@ class SplitKeyIncomingPaymentEvent with _$SplitKeyIncomingPaymentEvent {
     required String recipient,
   }) = PaymentRequested;
 
+  const factory SplitKeyIncomingPaymentEvent.retried({
+    required String recipient,
+  }) = Retried;
+
   const factory SplitKeyIncomingPaymentEvent.cleared() = PaymentCleared;
 }

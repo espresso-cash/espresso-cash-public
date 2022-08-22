@@ -3,7 +3,6 @@ on:
   pull_request:
     branches:
       - master
-  push:
 
 concurrency:
   group: ${{ github.head_ref }}
@@ -46,7 +45,7 @@ jobs:
     needs: [formatting]
     runs-on: ubuntu-latest
     env:
-      SCOPE: --scope="cryptoplease_link"
+      SCOPE: --scope="cryptoplease_link" --scope="cryptoplease_api"
 
     steps:
       - uses: actions/checkout@v2
@@ -171,6 +170,3 @@ jobs:
         with:
           name: golden-test-failure
           path: "**/test/golden/**/failures/"
-
-      - name: Run solana integration tests for cryptoplease app
-        run: melos exec -c 1 --scope="cryptoplease" -- make flutter_test_solana
