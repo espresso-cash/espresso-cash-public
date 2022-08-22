@@ -69,6 +69,43 @@ class AuthorizeResultDto {
   }
 }
 
+class ReauthorizeRequestDto {
+  ReauthorizeRequestDto({
+    this.identityName,
+    this.identityUri,
+    this.iconRelativeUri,
+    required this.cluster,
+    required this.authorizationScope,
+  });
+
+  String? identityName;
+  String? identityUri;
+  String? iconRelativeUri;
+  String cluster;
+  Uint8List authorizationScope;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['identityName'] = identityName;
+    pigeonMap['identityUri'] = identityUri;
+    pigeonMap['iconRelativeUri'] = iconRelativeUri;
+    pigeonMap['cluster'] = cluster;
+    pigeonMap['authorizationScope'] = authorizationScope;
+    return pigeonMap;
+  }
+
+  static ReauthorizeRequestDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return ReauthorizeRequestDto(
+      identityName: pigeonMap['identityName'] as String?,
+      identityUri: pigeonMap['identityUri'] as String?,
+      iconRelativeUri: pigeonMap['iconRelativeUri'] as String?,
+      cluster: pigeonMap['cluster']! as String,
+      authorizationScope: pigeonMap['authorizationScope']! as Uint8List,
+    );
+  }
+}
+
 class _ApiFlutterCodec extends StandardMessageCodec {
   const _ApiFlutterCodec();
   @override
@@ -78,6 +115,9 @@ class _ApiFlutterCodec extends StandardMessageCodec {
       writeValue(buffer, value.encode());
     } else if (value is AuthorizeResultDto) {
       buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    } else if (value is ReauthorizeRequestDto) {
+      buffer.putUint8(130);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -92,6 +132,9 @@ class _ApiFlutterCodec extends StandardMessageCodec {
 
       case 129:
         return AuthorizeResultDto.decode(readValue(buffer)!);
+
+      case 130:
+        return ReauthorizeRequestDto.decode(readValue(buffer)!);
 
       default:
         return super.readValueOfType(type, buffer);
@@ -109,6 +152,7 @@ abstract class ApiFlutter {
   void onScenarioError(int id);
   void onScenarioTeardownComplete(int id);
   Future<AuthorizeResultDto?> authorize(AuthorizeRequestDto request, int id);
+  Future<bool> reauthorize(ReauthorizeRequestDto request, int id);
   static void setup(ApiFlutter? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -244,6 +288,29 @@ abstract class ApiFlutter {
               'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null int.');
           final AuthorizeResultDto? output =
               await api.authorize(arg_request!, arg_id!);
+          return output;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.ApiFlutter.reauthorize', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final ReauthorizeRequestDto? arg_request =
+              (args[0] as ReauthorizeRequestDto?);
+          assert(arg_request != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null, expected non-null ReauthorizeRequestDto.');
+          final int? arg_id = (args[1] as int?);
+          assert(arg_id != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null, expected non-null int.');
+          final bool output = await api.reauthorize(arg_request!, arg_id!);
           return output;
         });
       }
