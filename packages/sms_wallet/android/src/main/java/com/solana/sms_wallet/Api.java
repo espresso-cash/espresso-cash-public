@@ -167,6 +167,107 @@ public class Api {
       return pigeonResult;
     }
   }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class ReauthorizeRequestDto {
+    private @Nullable String identityName;
+    public @Nullable String getIdentityName() { return identityName; }
+    public void setIdentityName(@Nullable String setterArg) {
+      this.identityName = setterArg;
+    }
+
+    private @Nullable String identityUri;
+    public @Nullable String getIdentityUri() { return identityUri; }
+    public void setIdentityUri(@Nullable String setterArg) {
+      this.identityUri = setterArg;
+    }
+
+    private @Nullable String iconRelativeUri;
+    public @Nullable String getIconRelativeUri() { return iconRelativeUri; }
+    public void setIconRelativeUri(@Nullable String setterArg) {
+      this.iconRelativeUri = setterArg;
+    }
+
+    private @NonNull String cluster;
+    public @NonNull String getCluster() { return cluster; }
+    public void setCluster(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"cluster\" is null.");
+      }
+      this.cluster = setterArg;
+    }
+
+    private @NonNull byte[] authorizationScope;
+    public @NonNull byte[] getAuthorizationScope() { return authorizationScope; }
+    public void setAuthorizationScope(@NonNull byte[] setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"authorizationScope\" is null.");
+      }
+      this.authorizationScope = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private ReauthorizeRequestDto() {}
+    public static final class Builder {
+      private @Nullable String identityName;
+      public @NonNull Builder setIdentityName(@Nullable String setterArg) {
+        this.identityName = setterArg;
+        return this;
+      }
+      private @Nullable String identityUri;
+      public @NonNull Builder setIdentityUri(@Nullable String setterArg) {
+        this.identityUri = setterArg;
+        return this;
+      }
+      private @Nullable String iconRelativeUri;
+      public @NonNull Builder setIconRelativeUri(@Nullable String setterArg) {
+        this.iconRelativeUri = setterArg;
+        return this;
+      }
+      private @Nullable String cluster;
+      public @NonNull Builder setCluster(@NonNull String setterArg) {
+        this.cluster = setterArg;
+        return this;
+      }
+      private @Nullable byte[] authorizationScope;
+      public @NonNull Builder setAuthorizationScope(@NonNull byte[] setterArg) {
+        this.authorizationScope = setterArg;
+        return this;
+      }
+      public @NonNull ReauthorizeRequestDto build() {
+        ReauthorizeRequestDto pigeonReturn = new ReauthorizeRequestDto();
+        pigeonReturn.setIdentityName(identityName);
+        pigeonReturn.setIdentityUri(identityUri);
+        pigeonReturn.setIconRelativeUri(iconRelativeUri);
+        pigeonReturn.setCluster(cluster);
+        pigeonReturn.setAuthorizationScope(authorizationScope);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("identityName", identityName);
+      toMapResult.put("identityUri", identityUri);
+      toMapResult.put("iconRelativeUri", iconRelativeUri);
+      toMapResult.put("cluster", cluster);
+      toMapResult.put("authorizationScope", authorizationScope);
+      return toMapResult;
+    }
+    static @NonNull ReauthorizeRequestDto fromMap(@NonNull Map<String, Object> map) {
+      ReauthorizeRequestDto pigeonResult = new ReauthorizeRequestDto();
+      Object identityName = map.get("identityName");
+      pigeonResult.setIdentityName((String)identityName);
+      Object identityUri = map.get("identityUri");
+      pigeonResult.setIdentityUri((String)identityUri);
+      Object iconRelativeUri = map.get("iconRelativeUri");
+      pigeonResult.setIconRelativeUri((String)iconRelativeUri);
+      Object cluster = map.get("cluster");
+      pigeonResult.setCluster((String)cluster);
+      Object authorizationScope = map.get("authorizationScope");
+      pigeonResult.setAuthorizationScope((byte[])authorizationScope);
+      return pigeonResult;
+    }
+  }
   private static class ApiFlutterCodec extends StandardMessageCodec {
     public static final ApiFlutterCodec INSTANCE = new ApiFlutterCodec();
     private ApiFlutterCodec() {}
@@ -178,6 +279,9 @@ public class Api {
         
         case (byte)129:         
           return AuthorizeResultDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)130:         
+          return ReauthorizeRequestDto.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
           return super.readValueOfType(type, buffer);
@@ -193,6 +297,10 @@ public class Api {
       if (value instanceof AuthorizeResultDto) {
         stream.write(129);
         writeValue(stream, ((AuthorizeResultDto) value).toMap());
+      } else 
+      if (value instanceof ReauthorizeRequestDto) {
+        stream.write(130);
+        writeValue(stream, ((ReauthorizeRequestDto) value).toMap());
       } else 
 {
         super.writeValue(stream, value);
@@ -261,6 +369,15 @@ public class Api {
       channel.send(new ArrayList<Object>(Arrays.asList(requestArg, idArg)), channelReply -> {
         @SuppressWarnings("ConstantConditions")
         AuthorizeResultDto output = (AuthorizeResultDto)channelReply;
+        callback.reply(output);
+      });
+    }
+    public void reauthorize(@NonNull ReauthorizeRequestDto requestArg, @NonNull Long idArg, Reply<Boolean> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiFlutter.reauthorize", getCodec());
+      channel.send(new ArrayList<Object>(Arrays.asList(requestArg, idArg)), channelReply -> {
+        @SuppressWarnings("ConstantConditions")
+        Boolean output = (Boolean)channelReply;
         callback.reply(output);
       });
     }

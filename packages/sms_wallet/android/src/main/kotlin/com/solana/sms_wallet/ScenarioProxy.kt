@@ -86,7 +86,23 @@ class Callbacks(
     }
 
     override fun onReauthorizeRequest(request: ReauthorizeRequest) {
+        val dto = Api.ReauthorizeRequestDto.Builder()
+            .setIdentityName(request.identityName)
+            .setIdentityUri(request.identityUri?.toString())
+            .setIconRelativeUri(request.iconRelativeUri?.toString())
+            .setCluster(request.cluster)
+            .setAuthorizationScope(request.authorizationScope)
+            .build()
 
+        Handler(Looper.getMainLooper()).post {
+            api.reauthorize(dto, id) { result ->
+                if (result == true) {
+                    request.completeWithReauthorize()
+                } else {
+                    request.completeWithDecline()
+                }
+            }
+        }
     }
 
     override fun onSignTransactionsRequest(request: SignTransactionsRequest) {
