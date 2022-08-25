@@ -293,7 +293,9 @@ class _$TokenAccountData implements TokenAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TokenAccountDataToJson(this);
+    return _$$TokenAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -306,10 +308,10 @@ abstract class TokenAccountData implements SplTokenProgramAccountData {
   factory TokenAccountData.fromJson(Map<String, dynamic> json) =
       _$TokenAccountData.fromJson;
 
-  SplTokenAccountDataInfo get info => throw _privateConstructorUsedError;
+  SplTokenAccountDataInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
-  String? get accountType => throw _privateConstructorUsedError;
+  String get type;
+  String? get accountType;
   @override
   @JsonKey(ignore: true)
   _$$TokenAccountDataCopyWith<_$TokenAccountData> get copyWith =>
@@ -487,7 +489,9 @@ class _$MintAccountData implements MintAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MintAccountDataToJson(this);
+    return _$$MintAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -500,10 +504,10 @@ abstract class MintAccountData implements SplTokenProgramAccountData {
   factory MintAccountData.fromJson(Map<String, dynamic> json) =
       _$MintAccountData.fromJson;
 
-  MintAccountDataInfo get info => throw _privateConstructorUsedError;
+  MintAccountDataInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
-  String? get accountType => throw _privateConstructorUsedError;
+  String get type;
+  String? get accountType;
   @override
   @JsonKey(ignore: true)
   _$$MintAccountDataCopyWith<_$MintAccountData> get copyWith =>
@@ -661,7 +665,9 @@ class _$UnknownAccountData implements UnknownAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnknownAccountDataToJson(this);
+    return _$$UnknownAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -673,7 +679,7 @@ abstract class UnknownAccountData implements SplTokenProgramAccountData {
       _$UnknownAccountData.fromJson;
 
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$UnknownAccountDataCopyWith<_$UnknownAccountData> get copyWith =>

@@ -265,7 +265,9 @@ class _$_UnsupportedNotification extends _UnsupportedNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UnsupportedNotificationToJson(this);
+    return _$$_UnsupportedNotificationToJson(
+      this,
+    );
   }
 }
 
@@ -443,7 +445,9 @@ class _$AccountNotification extends AccountNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AccountNotificationToJson(this);
+    return _$$AccountNotificationToJson(
+      this,
+    );
   }
 }
 
@@ -456,7 +460,7 @@ abstract class AccountNotification extends NotificationMessage {
   factory AccountNotification.fromJson(Map<String, dynamic> json) =
       _$AccountNotification.fromJson;
 
-  NotificationParams<Account> get params => throw _privateConstructorUsedError;
+  NotificationParams<Account> get params;
   @JsonKey(ignore: true)
   _$$AccountNotificationCopyWith<_$AccountNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -627,7 +631,9 @@ class _$LogsNotification extends LogsNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LogsNotificationToJson(this);
+    return _$$LogsNotificationToJson(
+      this,
+    );
   }
 }
 
@@ -639,7 +645,7 @@ abstract class LogsNotification extends NotificationMessage {
   factory LogsNotification.fromJson(Map<String, dynamic> json) =
       _$LogsNotification.fromJson;
 
-  NotificationParams<Logs> get params => throw _privateConstructorUsedError;
+  NotificationParams<Logs> get params;
   @JsonKey(ignore: true)
   _$$LogsNotificationCopyWith<_$LogsNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -811,7 +817,9 @@ class _$ProgramNotification extends ProgramNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ProgramNotificationToJson(this);
+    return _$$ProgramNotificationToJson(
+      this,
+    );
   }
 }
 
@@ -824,7 +832,7 @@ abstract class ProgramNotification extends NotificationMessage {
   factory ProgramNotification.fromJson(Map<String, dynamic> json) =
       _$ProgramNotification.fromJson;
 
-  NotificationParams<dynamic> get params => throw _privateConstructorUsedError;
+  NotificationParams<dynamic> get params;
   @JsonKey(ignore: true)
   _$$ProgramNotificationCopyWith<_$ProgramNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -996,7 +1004,9 @@ class _$SignatureNotification extends SignatureNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SignatureNotificationToJson(this);
+    return _$$SignatureNotificationToJson(
+      this,
+    );
   }
 }
 
@@ -1009,8 +1019,7 @@ abstract class SignatureNotification extends NotificationMessage {
   factory SignatureNotification.fromJson(Map<String, dynamic> json) =
       _$SignatureNotification.fromJson;
 
-  NotificationParams<OptionalError> get params =>
-      throw _privateConstructorUsedError;
+  NotificationParams<OptionalError> get params;
   @JsonKey(ignore: true)
   _$$SignatureNotificationCopyWith<_$SignatureNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1181,7 +1190,9 @@ class _$SlotNotification extends SlotNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SlotNotificationToJson(this);
+    return _$$SlotNotificationToJson(
+      this,
+    );
   }
 }
 
@@ -1193,7 +1204,7 @@ abstract class SlotNotification extends NotificationMessage {
   factory SlotNotification.fromJson(Map<String, dynamic> json) =
       _$SlotNotification.fromJson;
 
-  NotificationParams<Slot> get params => throw _privateConstructorUsedError;
+  NotificationParams<Slot> get params;
   @JsonKey(ignore: true)
   _$$SlotNotificationCopyWith<_$SlotNotification> get copyWith =>
       throw _privateConstructorUsedError;

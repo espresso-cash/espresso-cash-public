@@ -95,7 +95,7 @@ class _Content extends StatelessWidget {
                 text: context.l10n.send,
                 onPressed: () {
                   final token = NonFungibleToken(
-                    address: metadata.mint,
+                    address: metadata.mint.toBase58(),
                     metadata: metadata,
                   );
 

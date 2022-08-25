@@ -244,20 +244,19 @@ abstract class _SolanaPayRequest extends SolanaPayRequest {
   const _SolanaPayRequest._() : super._();
 
   @override
-  Ed25519HDPublicKey get recipient => throw _privateConstructorUsedError;
+  Ed25519HDPublicKey get recipient;
   @override
-  Decimal? get amount => throw _privateConstructorUsedError;
+  Decimal? get amount;
   @override
-  Ed25519HDPublicKey? get splToken => throw _privateConstructorUsedError;
+  Ed25519HDPublicKey? get splToken;
   @override
-  Iterable<Ed25519HDPublicKey>? get reference =>
-      throw _privateConstructorUsedError;
+  Iterable<Ed25519HDPublicKey>? get reference;
   @override
-  String? get label => throw _privateConstructorUsedError;
+  String? get label;
   @override
-  String? get message => throw _privateConstructorUsedError;
+  String? get message;
   @override
-  String? get memo => throw _privateConstructorUsedError;
+  String? get memo;
   @override
   @JsonKey(ignore: true)
   _$$_SolanaPayRequestCopyWith<_$_SolanaPayRequest> get copyWith =>

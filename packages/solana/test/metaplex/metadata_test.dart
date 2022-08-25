@@ -1,3 +1,4 @@
+import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/metaplex.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
@@ -39,7 +40,7 @@ void main() {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0,
     ];
-    final metadata = Metadata.fromBinary(binary);
+    final metadata = Metadata.fromBorsh(Uint8List.fromList(binary));
     expect(
       metadata,
       isA<Metadata>()

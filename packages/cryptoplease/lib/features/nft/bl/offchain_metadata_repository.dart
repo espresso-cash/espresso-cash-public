@@ -5,7 +5,7 @@ class OffchainMetadataRepository {
 
   Future<OffChainMetadata> getMetadata(Metadata metadata) async =>
       _requests.putIfAbsent(
-        metadata.mint,
+        metadata.mint.toBase58(),
         () => metadata.getExternalJson(),
       );
 }
