@@ -1,4 +1,5 @@
 import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/core/api_reference.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,6 +13,7 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
   const factory SplitKeyIncomingFirstPart({
     required String keyPart,
     required String tokenAddress,
+    required String apiReference,
   }) = _SplitKeyIncomingFirstPart;
 
   factory SplitKeyIncomingFirstPart.fromJson(Map<String, dynamic> json) =>
@@ -29,12 +31,15 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
 
     final tokenAddress = link.queryParameters['token'] ?? Token.sol.address;
     final firstPart = link.queryParameters['key'];
+    final apiReference =
+        link.queryParameters['apiReference'] ?? ApiReference.solana.name;
 
     if (firstPart == null) return null;
 
     return SplitKeyIncomingFirstPart(
       keyPart: firstPart,
       tokenAddress: tokenAddress,
+      apiReference: apiReference,
     );
   }
 }
@@ -72,13 +77,19 @@ class SplitKeySecondLink with _$SplitKeySecondLink {
   }
 }
 
-Uri buildFirstLink(IList<int> privateKey, String tokenAddress) => Uri(
+Uri buildFirstLink(
+  IList<int> privateKey,
+  String tokenAddress,
+  String apiReference,
+) =>
+    Uri(
       scheme: 'https',
       host: link1Host,
       path: '/',
       queryParameters: <String, String>{
         'key': splitKey(privateKey).first,
         if (tokenAddress != Token.sol.address) 'token': tokenAddress,
+        'apiReference': apiReference,
       },
     );
 

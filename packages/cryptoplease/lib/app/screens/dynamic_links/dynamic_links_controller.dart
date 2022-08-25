@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cryptoplease/app/screens/dynamic_links/install_link_manager.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
+import 'package:cryptoplease/core/api_reference.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
@@ -106,12 +107,15 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
 
     final firstPart = link.queryParameters['first'];
     final tokenAddress = link.queryParameters['token'] ?? Token.sol.address;
+    final apiReference =
+        link.queryParameters['apiReference'] ?? ApiReference.solana.name;
 
     if (firstPart != null) {
       final event = SplitKeyIncomingPaymentEvent.firstPartAdded(
         firstPart: SplitKeyIncomingFirstPart(
           keyPart: firstPart,
           tokenAddress: tokenAddress,
+          apiReference: apiReference,
         ),
       );
       context.read<SplitKeyIncomingPaymentBloc>().add(event);

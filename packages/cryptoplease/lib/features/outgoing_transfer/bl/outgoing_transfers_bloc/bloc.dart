@@ -81,8 +81,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       final String encodedTx, signature;
 
       if (existingSignature == null || existingTx == null) {
-        final txCreator =
-            _txCreatorSelector.fromTokenAddress(payment.tokenAddress);
+        final txCreator = _txCreatorSelector.fromPayment(payment);
 
         final tx = await txCreator
             .createOutgoingTx(payment: payment, account: _account)

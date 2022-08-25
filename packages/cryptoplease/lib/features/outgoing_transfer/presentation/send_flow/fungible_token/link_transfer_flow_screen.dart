@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/api_reference.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -18,6 +19,7 @@ class FtLinkTransferFlowScreen extends StatefulWidget {
   const FtLinkTransferFlowScreen({
     Key? key,
     required this.onComplete,
+    required this.apiReference,
     this.token,
     this.amount,
   }) : super(key: key);
@@ -25,6 +27,7 @@ class FtLinkTransferFlowScreen extends StatefulWidget {
   final Token? token;
   final CryptoAmount? amount;
   final ValueSetter<OutgoingTransferId> onComplete;
+  final ApiReference apiReference;
 
   @override
   State<FtLinkTransferFlowScreen> createState() =>
@@ -47,6 +50,7 @@ class _FtLinkTransferFlowScreenState extends State<FtLinkTransferFlowScreen> {
       userCurrency: context.read<UserPreferences>().fiatCurrency,
       transferType: OutgoingTransferType.splitKey,
       initialToken: token,
+      apiReference: widget.apiReference,
     );
 
     if (amount != null) {
