@@ -42,7 +42,7 @@ jobs:
         uses: android-actions/setup-android@v2
 
       - run: flutter pub get
-      - run: make build_runner
+      - run: make flutter_build
 
       - name: "Run E2E tests"
         run: make firebase_e2e
