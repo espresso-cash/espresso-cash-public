@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
@@ -160,17 +162,17 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       });
 
   Future<void> _onOutputUpdated(OutputUpdated event, _Emitter emit) async =>
-      _updateInput((state) async {
+      _updateInput((state) {
         emit(state.copyWith(output: event.token));
       });
 
   Future<void> _onSlippageUpdated(SlippageUpdated event, _Emitter emit) async =>
-      _updateInput((state) async {
+      _updateInput((state) {
         emit(state.copyWith(slippage: event.slippage));
       });
 
   Future<void> _onAmountUpdated(AmountUpdated event, _Emitter emit) async =>
-      _updateInput((state) async {
+      _updateInput((state) {
         emit(
           state.copyWith(amount: state.amount.copyWithDecimal(event.decimal)),
         );
@@ -228,7 +230,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _updateInput(
-    Future<void> Function(Initialized state) block,
+    FutureOr<void> Function(Initialized state) block,
   ) async {
     final state = this.state;
     if (state is! Initialized) return;
