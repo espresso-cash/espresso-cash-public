@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:sms_wallet/src/api.dart';
 import 'package:sms_wallet/src/auth_issuer_config.dart';
 import 'package:sms_wallet/src/requests/authorize.dart';
+import 'package:sms_wallet/src/requests/reauthorize.dart';
 import 'package:sms_wallet/src/sms_wallet_platform.dart';
 import 'package:sms_wallet/src/wallet_config.dart';
 
@@ -68,7 +69,7 @@ abstract class ScenarioCallbacks {
 
   // Request callbacks
   Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request);
-  // void onReauthorizeRequest(ReauthorizeRequest request);
+  Future<bool> onReauthorizeRequest(ReauthorizeRequest request);
   // void onSignTransactionsRequest(SignTransactionsRequest request);
   // void onSignMessagesRequest(SignMessagesRequest request);
   // void onSignAndSendTransactionsRequest(SignAndSendTransactionsRequest request);
@@ -112,6 +113,21 @@ class Api implements ApiFlutter {
       walletUriBase: result.walletUriBase?.toString(),
       scope: result.scope,
     );
+  }
+
+  @override
+  Future<bool> reauthorize(ReauthorizeRequestDto request, int id) async {
+    final r = ReauthorizeRequest(
+      identityName: request.identityName,
+      identityUri: Uri.tryParse(request.identityUri ?? ''),
+      iconRelativeUri: Uri.tryParse(request.iconRelativeUri ?? ''),
+      cluster: request.cluster,
+      authorizationScope: request.authorizationScope,
+    );
+
+    final result = await _scenarios[id]?.callbacks.onReauthorizeRequest(r);
+
+    return result ?? false;
   }
 
   @override

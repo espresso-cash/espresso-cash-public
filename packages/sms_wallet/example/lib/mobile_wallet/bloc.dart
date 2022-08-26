@@ -86,6 +86,13 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   @override
+  Future<bool> onReauthorizeRequest(ReauthorizeRequest request) async {
+    _cancelCurrentRequest();
+
+    return true;
+  }
+
+  @override
   void onScenarioComplete() {}
 
   @override
