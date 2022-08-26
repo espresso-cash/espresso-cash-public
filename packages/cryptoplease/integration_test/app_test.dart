@@ -18,8 +18,8 @@ void main() {
       await tester.tap(find.byKey(keyCreateWalletButton));
       await tester.pumpAndSettle();
 
-      // Submit button should have 'I UNDERSTAND' text, tap on it.
-      await tester.tap(find.text('I UNDERSTAND'));
+      // Submit button should have 'I Understand' text, tap on it.
+      await tester.tap(find.text('I Understand'));
       await tester.pumpAndSettle();
 
       // Ensure that recovery phrase is set.
