@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
@@ -10,6 +12,7 @@ import 'package:cryptoplease/features/swap_tokens/bl/swap_exception.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
@@ -74,17 +77,17 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       final mintKeys = routeMap.mintKeys;
       final jupiterTokens = mintKeys.map(_tokenList.findTokenByMint);
 
-      final inputTokens = jupiterTokens
-          .whereNotNull()
-          .map((t) => t == Token.wrappedSol ? Token.sol : t)
-          .where(_balances.isPositive)
-          .sortedByName();
+      final inputTokens = await compute(
+        _computeInputTokens,
+        _Input(tokens: jupiterTokens, balances: _balances),
+      );
 
       final token = inputTokens.firstWhere(
         (token) => token.isSolana,
         orElse: () => inputTokens.first,
       );
-      final outputTokens = _getOutputTokens(routeMap, token);
+
+      final outputTokens = await _getOutputTokens(routeMap, token);
 
       final output = outputTokens.firstWhere(
         (token) => token.symbol.toLowerCase() == 'usdc',
@@ -142,13 +145,17 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onInputUpdated(InputUpdated event, _Emitter emit) async =>
-      _updateInput((state) {
+      _updateInput((state) async {
         final amount = state.amount.copyWith(
           currency: CryptoCurrency(token: event.token),
         );
+
+        final outputTokens =
+            await _getOutputTokens(state.routeMap, event.token);
+
         final newState = state.copyWith(
           amount: amount,
-          outputTokens: _getOutputTokens(state.routeMap, event.token),
+          outputTokens: outputTokens,
           bestRoute: null,
         );
         emit(newState);
@@ -172,11 +179,11 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       });
 
   Future<void> _onSwapInverted(SwapInverted _, _Emitter emit) async =>
-      _updateInput((state) {
+      _updateInput((state) async {
         final newInput = state.output;
         final oldInput = state.input;
 
-        final outputTokens = _getOutputTokens(state.routeMap, newInput);
+        final outputTokens = await _getOutputTokens(state.routeMap, newInput);
         final newOutput =
             outputTokens.contains(oldInput) ? oldInput : outputTokens.first;
 
@@ -213,29 +220,58 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     );
   }
 
-  Iterable<Token> _getOutputTokens(
+  Future<Iterable<Token>> _getOutputTokens(
     JupiterIndexedRouteMap routeMap,
     Token input,
-  ) {
-    final index =
-        routeMap.mintKeys.indexOf(input.forJupiter.address).toString();
+  ) =>
+      compute(
+        _computeOutputTokens,
+        _Output(map: routeMap, input: input, tokenList: _tokenList),
+      );
 
-    return routeMap.indexedRouteMap[index]!
-        .map((route) => routeMap.mintKeys[route])
-        .map(_tokenList.findTokenByMint)
-        .map((t) => t == Token.wrappedSol ? Token.sol : t)
-        .whereNotNull()
-        .sortedByName();
-  }
-
-  void _updateInput(void Function(Initialized state) block) {
+  Future<void> _updateInput(
+    FutureOr<void> Function(Initialized state) block,
+  ) async {
     final state = this.state;
     if (state is! Initialized) return;
 
-    block(state);
+    await block(state);
 
     add(const _Event.outputInvalidated());
   }
+}
+
+class _Input {
+  _Input({required this.tokens, required this.balances});
+
+  final Iterable<Token?> tokens;
+  final IMap<Token, Amount> balances;
+}
+
+List<Token> _computeInputTokens(_Input input) => input.tokens
+    .whereNotNull()
+    .map((t) => t == Token.wrappedSol ? Token.sol : t)
+    .where(input.balances.isPositive)
+    .sortedByName();
+
+class _Output {
+  _Output({required this.map, required this.input, required this.tokenList});
+
+  final JupiterIndexedRouteMap map;
+  final Token input;
+  final TokenList tokenList;
+}
+
+Iterable<Token> _computeOutputTokens(_Output output) {
+  final index =
+      output.map.mintKeys.indexOf(output.input.forJupiter.address).toString();
+
+  return output.map.indexedRouteMap[index]!
+      .map((route) => output.map.mintKeys[route])
+      .map(output.tokenList.findTokenByMint)
+      .map((t) => t == Token.wrappedSol ? Token.sol : t)
+      .whereNotNull()
+      .sortedByName();
 }
 
 extension on IMap<Token, Amount?> {
