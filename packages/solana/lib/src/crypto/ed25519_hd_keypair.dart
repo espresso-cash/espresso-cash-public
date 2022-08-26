@@ -113,20 +113,29 @@ class Ed25519HDKeyPair extends KeyPair {
   Future<Ed25519HDPublicKey> extractPublicKey() =>
       Future<Ed25519HDPublicKey>.value(publicKey);
 
-  /// Returns a Future that resolves to the result of signing
-  /// [data] with the private key held internally by a given
-  /// instance
-  Future<Signature> sign(Iterable<int> data) async => _ed25519.sign(
-        data.toList(growable: false),
-        keyPair: SimpleKeyPairData(
-          _privateKey,
-          publicKey: SimplePublicKey(
-            publicKey.bytes,
-            type: KeyPairType.ed25519,
-          ),
-          type: KeyPairType.ed25519,
-        ),
-      );
+  /// Returns a Future that resolves to the result of signing [data] with the
+  /// private key held internally by a given instance.
+  Future<Signature> sign(Iterable<int> data) async {
+    // DartEd25519 expects SimpleKeyPairData as a keypair, but it's sealed, so
+    // we cannot make this class a subclass of SimpleKeyPairData, so we sign it
+    // with the instance of SimpleKeyPairData and then create a new Signature
+    // with our public key.
+    final keypair = SimpleKeyPairData(
+      _privateKey,
+      publicKey: SimplePublicKey(
+        publicKey.bytes,
+        type: KeyPairType.ed25519,
+      ),
+      type: KeyPairType.ed25519,
+    );
+
+    final signature = await _ed25519.sign(
+      data.toList(growable: false),
+      keyPair: keypair,
+    );
+
+    return Signature(signature.bytes, publicKey: publicKey);
+  }
 
   /// Build a derivation path with [account] and [change]
   static String _getHDPath(int account, int change) =>
