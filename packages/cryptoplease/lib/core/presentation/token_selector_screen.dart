@@ -1,4 +1,5 @@
 import 'package:cryptoplease/app/components/token_icon.dart';
+import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
@@ -148,20 +149,23 @@ class _TokenList extends StatelessWidget {
   final bool shouldDisplayAmount;
 
   @override
-  Widget build(BuildContext context) => SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final token = tokens.elementAt(index);
+  Widget build(BuildContext context) => SliverPadding(
+        padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              final token = tokens.elementAt(index);
 
-            return _SelectableBalanceItem(
-              token: token,
-              onSelect: onTokenSelected,
-              balance: shouldDisplayAmount
-                  ? context.watchUserCryptoBalance(token)
-                  : null,
-            );
-          },
-          childCount: tokens.length,
+              return _SelectableBalanceItem(
+                token: token,
+                onSelect: onTokenSelected,
+                balance: shouldDisplayAmount
+                    ? context.watchUserCryptoBalance(token)
+                    : null,
+              );
+            },
+            childCount: tokens.length,
+          ),
         ),
       );
 }
