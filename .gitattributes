@@ -1,4 +1,4 @@
 *.g.dart linguist-generated=true
 *.freezed.dart linguist-generated=true
-/packages/sms_wallet/android/src/main/java/com/solana/sms_wallet/Api.java linguist-generated=true
-/packages/sms_wallet/lib/src/api.dart linguist-generated=true
+/packages/solana_mobile_wallet/android/src/main/java/com/solana/solana_mobile_wallet/Api.java linguist-generated=true
+/packages/solana_mobile_wallet/lib/src/api.dart linguist-generated=true
