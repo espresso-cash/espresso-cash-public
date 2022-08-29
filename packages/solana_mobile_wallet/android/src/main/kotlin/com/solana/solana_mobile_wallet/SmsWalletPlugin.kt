@@ -17,7 +17,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
-class SmsWalletPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+class SolanaMobileWalletPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
     private var intent: Intent? = null
     private lateinit var context: Context
@@ -98,6 +98,6 @@ class SmsWalletPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     override fun onDetachedFromActivity() = Unit
 
     companion object {
-        private const val TAG = "SmsWalletPlugin"
+        private const val TAG = "SolanaMobileWalletPlugin"
     }
 }
