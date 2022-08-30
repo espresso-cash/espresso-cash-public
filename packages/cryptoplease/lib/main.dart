@@ -64,10 +64,7 @@ Future<void> _start() async {
       final cpClient = CryptopleaseClient();
 
       final solanaTxCreator = SolanaTxCreator(solanaClient: solanaClient);
-      final cpTxCreator = CpTxCreator(
-        cpClient: cpClient,
-        solanaClient: solanaClient,
-      );
+      final cpTxCreator = CpTxCreator(cpClient: cpClient);
 
       final hasPassedFirstRun =
           sharedPreferences.getBool(_firstRunKey) ?? false;

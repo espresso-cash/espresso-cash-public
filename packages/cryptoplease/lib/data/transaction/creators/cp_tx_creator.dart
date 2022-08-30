@@ -1,6 +1,5 @@
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/data/api/cp_client_extension.dart';
 import 'package:cryptoplease/data/transaction/tx_creator.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
@@ -12,12 +11,9 @@ import 'package:solana/solana.dart';
 class CpTxCreator implements TxCreator {
   CpTxCreator({
     required CryptopleaseClient cpClient,
-    required SolanaClient solanaClient,
-  })  : _cpClient = cpClient,
-        _solanaClient = solanaClient;
+  }) : _cpClient = cpClient;
 
   final CryptopleaseClient _cpClient;
-  final SolanaClient _solanaClient;
 
   @override
   AsyncEither<TxCreationError, SignedTx> createOutgoingTx({
@@ -36,11 +32,8 @@ class CpTxCreator implements TxCreator {
           cluster: isProd ? Cluster.mainnet : Cluster.devnet,
         ),
       );
-      final message = createdPayment.decompileMessage();
-      final tx = await _solanaClient.rpcClient.signMessage(
-        message,
-        [account.wallet],
-      );
+      final tx = await SignedTx.decode(createdPayment.transaction)
+          .resign(account.wallet);
 
       return Either.right(tx);
     } on Exception {
@@ -74,15 +67,20 @@ class CpTxCreator implements TxCreator {
       );
 
       final payment = await _cpClient.receivePayment(request);
-      final message = payment.decompileMessage();
-      final tx = await _solanaClient.rpcClient.signMessage(
-        message,
-        [escrow],
-      );
+      final tx = await SignedTx.decode(payment.transaction).resign(escrow);
 
       return Either.right(tx);
     } on Exception {
       return const Either.left(TxCreationError.other());
     }
   }
+}
+
+extension on SignedTx {
+  Future<SignedTx> resign(Wallet wallet) async => SignedTx(
+        signatures: signatures.toList()
+          ..removeLast()
+          ..add(await wallet.sign(messageBytes)),
+        messageBytes: messageBytes,
+      );
 }
