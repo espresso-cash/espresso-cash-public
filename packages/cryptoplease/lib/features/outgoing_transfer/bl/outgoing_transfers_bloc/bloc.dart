@@ -93,7 +93,10 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
         await _repository
             .save(payment.toDraft(signature: signature, encodedTx: encodedTx));
 
-        await _solanaClient.rpcClient.sendTransaction(encodedTx);
+        await _solanaClient.rpcClient.sendTransaction(
+          encodedTx,
+          preflightCommitment: Commitment.confirmed,
+        );
       } else {
         encodedTx = existingTx;
         signature = existingSignature;
@@ -110,7 +113,10 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
           //
           // In any case, it's up to user to try creating another transaction.
           try {
-            await _solanaClient.rpcClient.sendTransaction(encodedTx);
+            await _solanaClient.rpcClient.sendTransaction(
+              encodedTx,
+              preflightCommitment: Commitment.confirmed,
+            );
           } on JsonRpcException {
             await _repository.save(payment.toDraft());
             rethrow;
