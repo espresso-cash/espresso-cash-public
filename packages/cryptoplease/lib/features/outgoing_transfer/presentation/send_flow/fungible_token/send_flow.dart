@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/api_reference.dart';
+import 'package:cryptoplease/core/api_version.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
@@ -22,7 +22,7 @@ extension SendFtFlowExt on BuildContext {
         FtLinkTransferFlowRoute(
           onComplete: _navigateToOutgoingTransfer,
           amount: amount,
-          apiReference: ApiReference.cryptoplease,
+          apiVersion: ApiVersion.v2,
           children: const [FtConfirmRoute()],
         ),
       );
@@ -104,7 +104,7 @@ extension SendFtFlowExt on BuildContext {
         FtLinkTransferFlowRoute(
           onComplete: onTransferCreated,
           token: token,
-          apiReference: ApiReference.solana,
+          apiVersion: ApiVersion.v1,
           children: const [EnterAmountRoute()],
         ),
       );

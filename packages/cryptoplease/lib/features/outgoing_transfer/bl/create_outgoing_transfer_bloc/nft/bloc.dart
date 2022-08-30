@@ -1,5 +1,5 @@
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/api_reference.dart';
+import 'package:cryptoplease/core/api_version.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/flow.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -115,7 +115,7 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 amount: amount,
                 tokenAddress: address,
                 tokenType: OutgoingTransferTokenType.nonFungibleToken,
-                apiReference: ApiReference.solana,
+                apiVersion: ApiVersion.v1,
               );
               break;
             case OutgoingTransferType.direct:

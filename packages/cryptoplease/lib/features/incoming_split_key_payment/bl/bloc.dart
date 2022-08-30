@@ -1,5 +1,5 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/core/api_reference.dart';
+import 'package:cryptoplease/core/api_version.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/data/transaction/tx_creator.dart';
 import 'package:cryptoplease/data/transaction/tx_creator_selector.dart';
@@ -45,12 +45,12 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _onFirstPartAdded(FirstPartAdded event, _Emitter emit) async {
-    final apiReference = findReferenceByName(event.firstPart.apiReference);
+    final apiVersion = findVersionByName(event.firstPart.apiVersion);
     emit(
       SplitKeyIncomingPayment.firstPartReady(
         firstPart: event.firstPart.keyPart,
         tokenAddress: event.firstPart.tokenAddress,
-        apiReference: apiReference,
+        apiVersion: apiVersion,
       ),
     );
     await _repository.save(event.firstPart);
@@ -62,26 +62,26 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
         final existing = await _repository.watch().first;
         if (existing == null) return s;
 
-        final apiReference = findReferenceByName(existing.apiReference);
+        final apiVersion = findVersionByName(existing.apiVersion);
 
         return SplitKeyIncomingPayment.secondPartReady(
           firstPart: existing.keyPart,
           tokenAddress: existing.tokenAddress,
           secondPart: event.value.key,
-          apiReference: apiReference,
+          apiVersion: apiVersion,
         );
       },
       firstPartReady: (s) async => SplitKeyIncomingPayment.secondPartReady(
         firstPart: s.firstPart,
         tokenAddress: s.tokenAddress,
         secondPart: event.value.key,
-        apiReference: s.apiReference,
+        apiVersion: s.apiVersion,
       ),
       secondPartReady: (s) async => SplitKeyIncomingPayment.secondPartReady(
         firstPart: s.firstPart,
         tokenAddress: s.tokenAddress,
         secondPart: event.value.key,
-        apiReference: s.apiReference,
+        apiVersion: s.apiVersion,
       ),
       success: (s) async => s,
     );
@@ -98,7 +98,7 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
 
     emit(state.copyWith(processingState: const ProcessingState.processing()));
 
-    final txCreator = _txCreatorSelector.fromApiReference(state.apiReference);
+    final txCreator = _txCreatorSelector.fromApiVersion(state.apiVersion);
     final updated = await txCreator
         .createIncomingTx(
           firstPart: state.firstPart,

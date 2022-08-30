@@ -1,5 +1,5 @@
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/api_reference.dart';
+import 'package:cryptoplease/core/api_version.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/flow.dart';
@@ -33,7 +33,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     required ConversionRatesRepository conversionRatesRepository,
     required FiatCurrency userCurrency,
     required OutgoingTransferType transferType,
-    required ApiReference apiReference,
+    required ApiVersion apiVersion,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
     Token? initialToken,
@@ -42,7 +42,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         _conversionRatesRepository = conversionRatesRepository,
         super(
           _State(
-            apiReference: apiReference,
+            apiVersion: apiVersion,
             tokenAmount: initialToken == null
                 ? const CryptoAmount(value: 0, currency: Currency.sol)
                 : CryptoAmount(
@@ -210,7 +210,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
 
     emit(
       _State(
-        apiReference: ApiReference.solana,
+        apiVersion: ApiVersion.v1,
         tokenAmount: const CryptoAmount(value: 0, currency: Currency.sol),
         fiatAmount: state.fiatAmount.copyWith(value: 0),
         availableTokens: IList(_balances.keys),
@@ -234,7 +234,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 amount: state.tokenAmount.value,
                 tokenAddress: state.token.address,
                 tokenType: OutgoingTransferTokenType.fungibleToken,
-                apiReference: state.apiReference,
+                apiVersion: state.apiVersion,
               );
               break;
             case OutgoingTransferType.direct:

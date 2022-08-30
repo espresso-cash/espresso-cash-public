@@ -1,4 +1,4 @@
-import 'package:cryptoplease/core/api_reference.dart';
+import 'package:cryptoplease/core/api_version.dart';
 import 'package:cryptoplease/data/transaction/creators/cp_tx_creator.dart';
 import 'package:cryptoplease/data/transaction/creators/solana_tx_creator.dart';
 import 'package:cryptoplease/data/transaction/tx_creator.dart';
@@ -14,17 +14,17 @@ class TxCreatorSelector {
   final SolanaTxCreator _solanaTxCreator;
   final CpTxCreator _cpTxCreator;
 
-  TxCreator fromApiReference(ApiReference apiReference) {
-    switch (apiReference) {
-      case ApiReference.cryptoplease:
+  TxCreator fromApiVersion(ApiVersion apiVersion) {
+    switch (apiVersion) {
+      case ApiVersion.v2:
         return _cpTxCreator;
-      case ApiReference.solana:
+      case ApiVersion.v1:
         return _solanaTxCreator;
     }
   }
 
   TxCreator fromPayment(OutgoingTransfer payment) => payment.map(
         direct: (_) => _solanaTxCreator,
-        splitKey: (s) => fromApiReference(s.apiReference),
+        splitKey: (s) => fromApiVersion(s.apiVersion),
       );
 }

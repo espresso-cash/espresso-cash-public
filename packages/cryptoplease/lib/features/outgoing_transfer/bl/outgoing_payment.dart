@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/api_reference.dart';
+import 'package:cryptoplease/core/api_version.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
@@ -32,7 +32,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required IList<int> privateKey,
     @Default(OutgoingTransferTokenType.fungibleToken)
         OutgoingTransferTokenType tokenType,
-    @Default(ApiReference.solana) ApiReference apiReference,
+    @Default(ApiVersion.v1) ApiVersion apiVersion,
     String? signature,
     Uri? firstLink,
   }) = OutgoingTransferSplitKey;
@@ -61,7 +61,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferTokenType tokenType,
-    required ApiReference apiReference,
+    required ApiVersion apiVersion,
   }) async {
     final recipient = await createRandomKeyPair();
 
@@ -73,7 +73,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
       tokenAddress: tokenAddress,
       state: const OutgoingTransferState.draft(),
       tokenType: tokenType,
-      apiReference: apiReference,
+      apiVersion: apiVersion,
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/api_reference.dart';
+import 'package:cryptoplease/core/api_version.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -45,7 +45,7 @@ class _FtDirectTransferFlowScreenState
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => FtCreateOutgoingTransferBloc(
-          apiReference: ApiReference.solana,
+          apiVersion: ApiVersion.v1,
           repository: context.read<OutgoingTransferRepository>(),
           balances: context.read<BalancesBloc>().state.balances,
           conversionRatesRepository: context.read<ConversionRatesRepository>(),
