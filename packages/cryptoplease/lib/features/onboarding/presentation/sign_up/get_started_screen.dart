@@ -1,6 +1,7 @@
 import 'package:cryptoplease/app/components/decorated_window_header.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/terms_disclaimer.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -12,30 +13,40 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          body: CpBackgroundGradient(
-            child: SafeArea(
-              child: LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  physics: const RangeMaintainingScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        children: const [
-                          _Header(),
-                          Expanded(child: _Body()),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: _Footer(),
+          body: DecoratedBox(
+            decoration: const BoxDecoration(color: Color(0xffFF6640)), //TODO
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Assets.icons.logoDark
+                      .svg(alignment: Alignment.bottomCenter),
+                ),
+                SafeArea(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => SingleChildScrollView(
+                      physics: const RangeMaintainingScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight,
+                        ),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            children: const [
+                              _Header(),
+                              Expanded(child: _Body()),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: _Footer(),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ),

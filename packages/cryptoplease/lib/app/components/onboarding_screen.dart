@@ -33,7 +33,7 @@ class OnboardingScreen extends StatelessWidget {
                 floating: false,
                 pinned: true,
                 snap: false,
-                expandedHeight: title == null ? null : 300,
+                expandedHeight: title == null ? null : 250,
                 flexibleSpace: title == null
                     ? null
                     : FlexibleSpaceBar(
@@ -52,6 +52,10 @@ class OnboardingScreen extends StatelessWidget {
                               child: Text(
                                 title,
                                 textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             );
                             final alpha = min<double>(
