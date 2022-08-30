@@ -17,42 +17,48 @@ class FirstPartReadyContent extends StatelessWidget {
             extendBodyBehindAppBar: true,
             body: CpTheme.dark(
               child: Builder(
-                builder: (context) => CpBackgroundGradient(
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22),
-                      child: Column(
-                        children: [
-                          Assets.images.logo.image(height: 32),
-                          const SizedBox(height: 30),
-                          Text(
-                            context.l10n.splitKeySecondLinkTitle,
-                            textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.headline2?.copyWith(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                          ),
-                          const _ContentView(),
-                          const SizedBox(height: 40),
-                          Expanded(
-                            child: Assets.images.secondLinkArtwork.image(),
-                          ),
-                          const SizedBox(height: 30),
-                          TextButton(
-                            onPressed: () => showCancelDialog(context),
-                            child: Text(
-                              context.l10n.cancel,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(fontSize: 18),
-                            ),
-                          ),
-                        ],
+                builder: (context) => DecoratedBox(
+                  decoration: const BoxDecoration(color: CpColors.primaryColor),
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Assets.icons.logoBg.svg(),
                       ),
-                    ),
+                      SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 22),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 62),
+                              Text(
+                                context.l10n.splitKeySecondLinkTitle,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline2
+                                    ?.copyWith(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                              const _ContentView(),
+                              const SizedBox(height: 40),
+                              Expanded(
+                                child: Assets.images.secondLinkArtwork.image(),
+                              ),
+                              const SizedBox(height: 30),
+                              CpButton(
+                                onPressed: () => showCancelDialog(context),
+                                text: context.l10n.cancel,
+                                size: CpButtonSize.micro,
+                                variant: CpButtonVariant.inverted,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -69,20 +75,12 @@ class _ContentView extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: [
           const SizedBox(height: 30),
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              style:
-                  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 24),
-              children: <TextSpan>[
-                TextSpan(text: context.l10n.splitKeySecondLinkMessage1),
-                TextSpan(
-                  text: context.l10n.splitKeySecondLinkMessage2,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+          Text(
+            context.l10n.splitKeySecondLinkMessage,
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
                 ),
-                TextSpan(text: context.l10n.splitKeySecondLinkMessage3),
-              ],
-            ),
           ),
         ],
       );
