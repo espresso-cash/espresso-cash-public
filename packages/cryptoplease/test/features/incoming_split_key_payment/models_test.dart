@@ -5,7 +5,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('Builds first link', () {
+  test('(v1) Builds first link', () {
     final link = buildFirstLink(
       [1, 2, 3, 4].lock,
       Token.sol.address,
@@ -17,12 +17,24 @@ void main() {
     );
   });
 
+  test('(v2) Builds first link', () {
+    final link = buildFirstLink(
+      [1, 2, 3, 4].lock,
+      Token.sol.address,
+      ApiVersion.v2.name,
+    );
+    expect(
+      link.toString(),
+      'https://solana1.cryptoplease.link/?key=5T&version=v2',
+    );
+  });
+
   test('Builds second link', () {
     final link = buildSecondLink([1, 2, 3, 4].lock);
     expect(link.toString(), 'https://solana2.cryptoplease.link/?key=EK');
   });
 
-  test('Valid first link 1', () {
+  test('(v1) Valid first link 1', () {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('https://solana1.cryptoplease.link?token=abc&key=123'),
@@ -35,7 +47,7 @@ void main() {
     );
   });
 
-  test('Valid first link 2', () {
+  test('(v1) Valid first link 2', () {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('https://solana1.cryptoplease.link?key=123'),
@@ -48,7 +60,7 @@ void main() {
     );
   });
 
-  test('Valid first link 3', () {
+  test('(v1) Valid first link 3', () {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('https://solana1.cryptoplease.link/?token=abc&key=123'),
@@ -57,6 +69,49 @@ void main() {
         keyPart: '123',
         tokenAddress: 'abc',
         apiVersion: ApiVersion.v1.name,
+      ),
+    );
+  });
+
+  test('(v2) Valid first link 1', () {
+    expect(
+      SplitKeyIncomingFirstPart.tryParse(
+        Uri.parse(
+          'https://solana1.cryptoplease.link?token=abc&key=123&version=v2',
+        ),
+      ),
+      SplitKeyIncomingFirstPart(
+        keyPart: '123',
+        tokenAddress: 'abc',
+        apiVersion: ApiVersion.v2.name,
+      ),
+    );
+  });
+
+  test('(v2) Valid first link 2', () {
+    expect(
+      SplitKeyIncomingFirstPart.tryParse(
+        Uri.parse('https://solana1.cryptoplease.link?key=123&version=v2'),
+      ),
+      SplitKeyIncomingFirstPart(
+        keyPart: '123',
+        tokenAddress: Token.sol.address,
+        apiVersion: ApiVersion.v2.name,
+      ),
+    );
+  });
+
+  test('(v2) Valid first link 3', () {
+    expect(
+      SplitKeyIncomingFirstPart.tryParse(
+        Uri.parse(
+          'https://solana1.cryptoplease.link/?token=abc&key=123&version=v2',
+        ),
+      ),
+      SplitKeyIncomingFirstPart(
+        keyPart: '123',
+        tokenAddress: 'abc',
+        apiVersion: ApiVersion.v2.name,
       ),
     );
   });
