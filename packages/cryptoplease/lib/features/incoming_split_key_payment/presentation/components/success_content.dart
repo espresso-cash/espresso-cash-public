@@ -42,7 +42,8 @@ class SuccessContent extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.bottomCenter,
-              child: Assets.icons.logoBgGreen.svg(),
+              child: Assets.icons.logoBgGreen
+                  .svg(alignment: Alignment.bottomCenter),
             ),
             SizedBox(
               width: double.infinity,

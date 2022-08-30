@@ -23,7 +23,8 @@ class FirstPartReadyContent extends StatelessWidget {
                     children: [
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: Assets.icons.logoBg.svg(),
+                        child: Assets.icons.logoBg
+                            .svg(alignment: Alignment.bottomCenter),
                       ),
                       SafeArea(
                         child: Padding(
@@ -77,6 +78,7 @@ class _ContentView extends StatelessWidget {
           const SizedBox(height: 30),
           Text(
             context.l10n.splitKeySecondLinkMessage,
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyText1?.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,

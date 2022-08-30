@@ -86,7 +86,8 @@ class _ProgressView extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.bottomCenter,
-              child: Assets.icons.logoBgOrange.svg(),
+              child: Assets.icons.logoBgOrange
+                  .svg(alignment: Alignment.bottomCenter),
             ),
             SizedBox(
               width: double.infinity,
@@ -151,7 +152,8 @@ class _ErrorView extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.bottomCenter,
-              child: Assets.icons.logoBgRed.svg(),
+              child:
+                  Assets.icons.logoBgRed.svg(alignment: Alignment.bottomCenter),
             ),
             SizedBox(
               width: double.infinity,
