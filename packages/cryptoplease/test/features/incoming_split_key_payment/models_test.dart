@@ -11,7 +11,10 @@ void main() {
       Token.sol.address,
       ApiVersion.v1.name,
     );
-    expect(link.toString(), 'https://solana1.cryptoplease.link/?key=5T');
+    expect(
+      link.toString(),
+      'https://solana1.cryptoplease.link/?key=5T&version=v1',
+    );
   });
 
   test('Builds second link', () {
