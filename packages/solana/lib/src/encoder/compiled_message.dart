@@ -9,6 +9,7 @@ part 'compiled_message.freezed.dart';
 class CompiledMessage with _$CompiledMessage {
   const factory CompiledMessage(ByteArray data) = _CompiledMessage;
 
+  @Deprecated('Use SignedTx.decode')
   factory CompiledMessage.fromSignedTransaction(ByteArray data) {
     final signaturesCount = CompactU16.raw(data.toList()).value;
 
