@@ -38,7 +38,7 @@ abstract class CpColors {
 
   static const successBackgroundColor = Color(0xff62d58f);
   static const errorBackgroundColor = Color(0xffff6640);
-  static const pendingBackgroundColor = Color(0xfff2bd1a);
+  static const infoBackgroundColor = Color(0xfff2bd1a);
 }
 
 const bgGradient = LinearGradient(

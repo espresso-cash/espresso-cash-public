@@ -126,7 +126,7 @@
   "splitKeySuccessMessage2" : "Your transfer has been sent.",
   "splitKeyErrorMessage1": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
-  "splitKeyErrorRetry": "\nPlease retry.",
+  "splitKeyErrorRetry": "Please retry.",
   "buy": "Buy",
   "errorLoadingPullToRefresh": "There was an error and we couldn't load your NFT collection, please pull to refresh",
   "txFailed": "Failed {signature}",
