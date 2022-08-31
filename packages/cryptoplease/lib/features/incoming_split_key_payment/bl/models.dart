@@ -82,7 +82,7 @@ class SplitKeySecondLink with _$SplitKeySecondLink {
 Uri buildFirstLink(
   IList<int> privateKey,
   String tokenAddress,
-  String apiVersion,
+  SplitKeyApiVersion apiVersion,
 ) =>
     Uri(
       scheme: 'https',
@@ -91,7 +91,7 @@ Uri buildFirstLink(
       queryParameters: <String, String>{
         'key': splitKey(privateKey).first,
         if (tokenAddress != Token.sol.address) 'token': tokenAddress,
-        'v': apiVersion,
+        'v': apiVersion.name,
       },
     );
 

@@ -9,7 +9,7 @@ void main() {
     final link = buildFirstLink(
       [1, 2, 3, 4].lock,
       Token.sol.address,
-      SplitKeyApiVersion.v1.name,
+      SplitKeyApiVersion.v1,
     );
     expect(
       link.toString(),
@@ -21,7 +21,7 @@ void main() {
     final link = buildFirstLink(
       [1, 2, 3, 4].lock,
       Token.sol.address,
-      SplitKeyApiVersion.v2.name,
+      SplitKeyApiVersion.v2,
     );
     expect(
       link.toString(),
