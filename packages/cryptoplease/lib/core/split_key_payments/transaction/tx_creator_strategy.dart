@@ -3,13 +3,15 @@ import 'package:cryptoplease/core/split_key_payments/transaction/creators/cp_tx_
 import 'package:cryptoplease/core/split_key_payments/transaction/creators/solana_tx_creator.dart';
 import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
+import 'package:solana/solana.dart';
 
-class TxCreatorSelector {
-  TxCreatorSelector({
-    required SolanaTxCreator solanaTxCreator,
-    required CpTxCreator cpTxCreator,
-  })  : _solanaTxCreator = solanaTxCreator,
-        _cpTxCreator = cpTxCreator;
+class TxCreatorStrategy {
+  TxCreatorStrategy({
+    required SolanaClient solanaClient,
+    required CryptopleaseClient cryptopleaseClient,
+  })  : _solanaTxCreator = SolanaTxCreator(solanaClient: solanaClient),
+        _cpTxCreator = CpTxCreator(cpClient: cryptopleaseClient);
 
   final SolanaTxCreator _solanaTxCreator;
   final CpTxCreator _cpTxCreator;

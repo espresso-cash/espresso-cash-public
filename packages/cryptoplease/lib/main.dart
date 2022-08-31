@@ -4,9 +4,7 @@ import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/module.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/module.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/creators/cp_tx_creator.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/creators/solana_tx_creator.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_selector.dart';
+import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/module.dart';
@@ -63,9 +61,6 @@ Future<void> _start() async {
       );
       final cpClient = CryptopleaseClient();
 
-      final solanaTxCreator = SolanaTxCreator(solanaClient: solanaClient);
-      final cpTxCreator = CpTxCreator(cpClient: cpClient);
-
       final hasPassedFirstRun =
           sharedPreferences.getBool(_firstRunKey) ?? false;
       if (!hasPassedFirstRun) {
@@ -85,10 +80,10 @@ Future<void> _start() async {
           Provider<SolanaClient>.value(value: solanaClient),
           Provider<TokenList>(create: (_) => TokenList()),
           Provider<CryptopleaseClient>.value(value: cpClient),
-          Provider<TxCreatorSelector>(
-            create: (_) => TxCreatorSelector(
-              solanaTxCreator: solanaTxCreator,
-              cpTxCreator: cpTxCreator,
+          Provider<TxCreatorStrategy>(
+            create: (_) => TxCreatorStrategy(
+              solanaClient: solanaClient,
+              cryptopleaseClient: cpClient,
             ),
           ),
           const OutgoingTransferModule(),

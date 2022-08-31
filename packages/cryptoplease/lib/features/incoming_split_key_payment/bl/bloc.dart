@@ -2,7 +2,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_selector.dart';
+import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
@@ -24,17 +24,17 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
   SplitKeyIncomingPaymentBloc({
     required SplitKeyIncomingRepository repository,
     required TxProcessor txProcessor,
-    required TxCreatorSelector txCreatorSelector,
+    required TxCreatorStrategy txCreatorStrategy,
   })  : _repository = repository,
         _txProcessor = txProcessor,
-        _txCreatorSelector = txCreatorSelector,
+        _txCreatorStrategy = txCreatorStrategy,
         super(const SplitKeyIncomingPayment.none()) {
     on<_Event>(_handler, transformer: sequential());
   }
 
   final SplitKeyIncomingRepository _repository;
   final TxProcessor _txProcessor;
-  final TxCreatorSelector _txCreatorSelector;
+  final TxCreatorStrategy _txCreatorStrategy;
 
   _EventHandler get _handler => (e, emit) => e.map(
         firstPartAdded: (e) => _onFirstPartAdded(e, emit),
@@ -95,7 +95,7 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
 
     emit(state.copyWith(processingState: const ProcessingState.processing()));
 
-    final txCreator = _txCreatorSelector.fromApiVersion(state.apiVersion);
+    final txCreator = _txCreatorStrategy.fromApiVersion(state.apiVersion);
     final updated = await txCreator
         .createIncomingTx(
           firstPart: state.firstPart,

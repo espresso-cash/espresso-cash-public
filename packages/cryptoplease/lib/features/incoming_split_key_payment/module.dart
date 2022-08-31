@@ -1,6 +1,6 @@
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_selector.dart';
+import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
@@ -29,7 +29,7 @@ class IncomingSplitKeyPaymentModule extends SingleChildStatelessWidget {
             create: (context) => SplitKeyIncomingPaymentBloc(
               txProcessor: TxProcessor(context.read<SolanaClient>()),
               repository: context.read<SplitKeyIncomingRepository>(),
-              txCreatorSelector: context.read<TxCreatorSelector>(),
+              txCreatorStrategy: context.read<TxCreatorStrategy>(),
             ),
           ),
         ],

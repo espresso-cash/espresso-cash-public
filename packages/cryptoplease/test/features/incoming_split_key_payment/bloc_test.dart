@@ -1,7 +1,5 @@
 import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/creators/cp_tx_creator.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/creators/solana_tx_creator.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_selector.dart';
+import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/wallet.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
@@ -35,9 +33,9 @@ void main() {
     final solanaClient = createTestSolanaClient();
     final cpClient = CryptopleaseClient();
     final txProcessor = TxProcessor(solanaClient);
-    final txCreatorSelector = TxCreatorSelector(
-      solanaTxCreator: SolanaTxCreator(solanaClient: solanaClient),
-      cpTxCreator: CpTxCreator(cpClient: cpClient),
+    final txCreatorSelector = TxCreatorStrategy(
+      solanaClient: solanaClient,
+      cryptopleaseClient: cpClient,
     );
 
     late Wallet sourceWallet;
@@ -112,7 +110,7 @@ void main() {
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
-          txCreatorSelector: txCreatorSelector,
+          txCreatorStrategy: txCreatorSelector,
           repository: MemorySplitKeyIncomingRepository(),
         );
         await receivePayment(bloc, targetWallet);
@@ -142,7 +140,7 @@ void main() {
         );
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
-          txCreatorSelector: txCreatorSelector,
+          txCreatorStrategy: txCreatorSelector,
           repository: repository,
         );
         await receivePayment(
@@ -168,7 +166,7 @@ void main() {
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
-          txCreatorSelector: txCreatorSelector,
+          txCreatorStrategy: txCreatorSelector,
           repository: MemorySplitKeyIncomingRepository(),
         );
         await receivePayment(bloc, targetWallet);
@@ -191,7 +189,7 @@ void main() {
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
-          txCreatorSelector: txCreatorSelector,
+          txCreatorStrategy: txCreatorSelector,
           repository: MemorySplitKeyIncomingRepository(),
         );
         await receivePayment(bloc, sourceWallet);

@@ -4,7 +4,7 @@ import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_selector.dart';
+import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
@@ -33,7 +33,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
     required BalancesBloc balancesBloc,
     required NftCollectionBloc nftCollectionBloc,
     required MyAccount account,
-    required TxCreatorSelector txCreatorSelector,
+    required TxCreatorStrategy txCreatorSelector,
   })  : _repository = repository,
         _solanaClient = solanaClient,
         _balancesBloc = balancesBloc,
@@ -48,7 +48,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
   final SolanaClient _solanaClient;
   final BalancesBloc _balancesBloc;
   final NftCollectionBloc _nftCollectionBloc;
-  final TxCreatorSelector _txCreatorSelector;
+  final TxCreatorStrategy _txCreatorSelector;
   final MyAccount _account;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(

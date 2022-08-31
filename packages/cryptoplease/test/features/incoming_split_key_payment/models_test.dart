@@ -1,4 +1,4 @@
-import 'package:cryptoplease/core/api_version.dart';
+import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
