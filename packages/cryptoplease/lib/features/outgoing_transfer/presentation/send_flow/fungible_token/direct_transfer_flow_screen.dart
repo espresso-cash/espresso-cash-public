@@ -45,7 +45,7 @@ class _FtDirectTransferFlowScreenState
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => FtCreateOutgoingTransferBloc(
-          apiVersion: ApiVersion.v1,
+          apiVersion: SplitKeyApiVersion.v1,
           repository: context.read<OutgoingTransferRepository>(),
           balances: context.read<BalancesBloc>().state.balances,
           conversionRatesRepository: context.read<ConversionRatesRepository>(),

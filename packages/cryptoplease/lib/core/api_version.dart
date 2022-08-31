@@ -1,8 +1,8 @@
-/// The v1 is used to create the transaction using solana lib directly while v2
-/// uses the cryptoplease API to create the transaction to pay the fees in USDC
-enum ApiVersion { v1, v2 }
+/// API version for the split key payment feature.
+enum SplitKeyApiVersion {
+  /// Transaction created using solana lib directly.
+  v1,
 
-ApiVersion findVersionByName(String name) => ApiVersion.values.firstWhere(
-      (ref) => ref.name == name,
-      orElse: () => ApiVersion.v1,
-    );
+  /// Transaction created using cryptoplease API to pay the fees in USDC.
+  v2,
+}

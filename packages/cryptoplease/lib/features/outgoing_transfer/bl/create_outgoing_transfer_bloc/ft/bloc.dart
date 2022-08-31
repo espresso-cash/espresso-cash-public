@@ -33,7 +33,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     required ConversionRatesRepository conversionRatesRepository,
     required FiatCurrency userCurrency,
     required OutgoingTransferType transferType,
-    required ApiVersion apiVersion,
+    required SplitKeyApiVersion apiVersion,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
     Token? initialToken,
@@ -210,7 +210,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
 
     emit(
       _State(
-        apiVersion: ApiVersion.v1,
+        apiVersion: SplitKeyApiVersion.v1,
         tokenAmount: const CryptoAmount(value: 0, currency: Currency.sol),
         fiatAmount: state.fiatAmount.copyWith(value: 0),
         availableTokens: IList(_balances.keys),

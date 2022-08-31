@@ -107,14 +107,13 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
 
     final firstPart = link.queryParameters['first'];
     final tokenAddress = link.queryParameters['token'] ?? Token.sol.address;
-    final apiVersion = link.queryParameters['version'] ?? ApiVersion.v1.name;
 
     if (firstPart != null) {
       final event = SplitKeyIncomingPaymentEvent.firstPartAdded(
         firstPart: SplitKeyIncomingFirstPart(
           keyPart: firstPart,
           tokenAddress: tokenAddress,
-          apiVersion: apiVersion,
+          apiVersion: SplitKeyApiVersion.v1,
         ),
       );
       context.read<SplitKeyIncomingPaymentBloc>().add(event);

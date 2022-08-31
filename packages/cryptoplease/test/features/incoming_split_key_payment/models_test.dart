@@ -9,11 +9,11 @@ void main() {
     final link = buildFirstLink(
       [1, 2, 3, 4].lock,
       Token.sol.address,
-      ApiVersion.v1.name,
+      SplitKeyApiVersion.v1.name,
     );
     expect(
       link.toString(),
-      'https://solana1.cryptoplease.link/?key=5T&version=v1',
+      'https://solana1.cryptoplease.link/?key=5T&v=v1',
     );
   });
 
@@ -21,11 +21,11 @@ void main() {
     final link = buildFirstLink(
       [1, 2, 3, 4].lock,
       Token.sol.address,
-      ApiVersion.v2.name,
+      SplitKeyApiVersion.v2.name,
     );
     expect(
       link.toString(),
-      'https://solana1.cryptoplease.link/?key=5T&version=v2',
+      'https://solana1.cryptoplease.link/?key=5T&v=v2',
     );
   });
 
@@ -39,10 +39,10 @@ void main() {
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('https://solana1.cryptoplease.link?token=abc&key=123'),
       ),
-      SplitKeyIncomingFirstPart(
+      const SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: 'abc',
-        apiVersion: ApiVersion.v1.name,
+        apiVersion: SplitKeyApiVersion.v1,
       ),
     );
   });
@@ -55,7 +55,7 @@ void main() {
       SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: Token.sol.address,
-        apiVersion: ApiVersion.v1.name,
+        apiVersion: SplitKeyApiVersion.v1,
       ),
     );
   });
@@ -65,10 +65,10 @@ void main() {
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('https://solana1.cryptoplease.link/?token=abc&key=123'),
       ),
-      SplitKeyIncomingFirstPart(
+      const SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: 'abc',
-        apiVersion: ApiVersion.v1.name,
+        apiVersion: SplitKeyApiVersion.v1,
       ),
     );
   });
@@ -77,13 +77,13 @@ void main() {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse(
-          'https://solana1.cryptoplease.link?token=abc&key=123&version=v2',
+          'https://solana1.cryptoplease.link?token=abc&key=123&v=v2',
         ),
       ),
-      SplitKeyIncomingFirstPart(
+      const SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: 'abc',
-        apiVersion: ApiVersion.v2.name,
+        apiVersion: SplitKeyApiVersion.v2,
       ),
     );
   });
@@ -91,12 +91,12 @@ void main() {
   test('(v2) Valid first link 2', () {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
-        Uri.parse('https://solana1.cryptoplease.link?key=123&version=v2'),
+        Uri.parse('https://solana1.cryptoplease.link?key=123&v=v2'),
       ),
       SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: Token.sol.address,
-        apiVersion: ApiVersion.v2.name,
+        apiVersion: SplitKeyApiVersion.v2,
       ),
     );
   });
@@ -105,13 +105,13 @@ void main() {
     expect(
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse(
-          'https://solana1.cryptoplease.link/?token=abc&key=123&version=v2',
+          'https://solana1.cryptoplease.link/?token=abc&key=123&v=v2',
         ),
       ),
-      SplitKeyIncomingFirstPart(
+      const SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: 'abc',
-        apiVersion: ApiVersion.v2.name,
+        apiVersion: SplitKeyApiVersion.v2,
       ),
     );
   });
@@ -121,10 +121,10 @@ void main() {
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('https://sol.cryptoplease.link?token=abc&key=123'),
       ),
-      SplitKeyIncomingFirstPart(
+      const SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: 'abc',
-        apiVersion: ApiVersion.v1.name,
+        apiVersion: SplitKeyApiVersion.v1,
       ),
     );
   });
@@ -137,7 +137,7 @@ void main() {
       SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: Token.sol.address,
-        apiVersion: ApiVersion.v1.name,
+        apiVersion: SplitKeyApiVersion.v1,
       ),
     );
   });
@@ -147,10 +147,10 @@ void main() {
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('cryptoplease-sol://1?token=abc&key=123'),
       ),
-      SplitKeyIncomingFirstPart(
+      const SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: 'abc',
-        apiVersion: ApiVersion.v1.name,
+        apiVersion: SplitKeyApiVersion.v1,
       ),
     );
   });
@@ -160,10 +160,10 @@ void main() {
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('https://sol.cryptoplease.link/?token=abc&key=123'),
       ),
-      SplitKeyIncomingFirstPart(
+      const SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: 'abc',
-        apiVersion: ApiVersion.v1.name,
+        apiVersion: SplitKeyApiVersion.v1,
       ),
     );
   });
@@ -173,10 +173,10 @@ void main() {
       SplitKeyIncomingFirstPart.tryParse(
         Uri.parse('cryptoplease-sol://1/?token=abc&key=123'),
       ),
-      SplitKeyIncomingFirstPart(
+      const SplitKeyIncomingFirstPart(
         keyPart: '123',
         tokenAddress: 'abc',
-        apiVersion: ApiVersion.v1.name,
+        apiVersion: SplitKeyApiVersion.v1,
       ),
     );
   });

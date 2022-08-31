@@ -7,14 +7,14 @@ class SplitKeyIncomingPayment with _$SplitKeyIncomingPayment {
   const factory SplitKeyIncomingPayment.firstPartReady({
     required String firstPart,
     required String tokenAddress,
-    required ApiVersion apiVersion,
+    required SplitKeyApiVersion apiVersion,
   }) = PaymentFirstPartReady;
 
   const factory SplitKeyIncomingPayment.secondPartReady({
     required String firstPart,
     required String secondPart,
     required String tokenAddress,
-    required ApiVersion apiVersion,
+    required SplitKeyApiVersion apiVersion,
     @Default(ProcessingStateNone<SplitKeyIncomingPaymentError>())
         ProcessingState<SplitKeyIncomingPaymentError> processingState,
   }) = PaymentSecondPartReady;

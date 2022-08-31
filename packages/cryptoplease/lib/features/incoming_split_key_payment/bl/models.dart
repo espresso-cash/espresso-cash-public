@@ -13,7 +13,7 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
   const factory SplitKeyIncomingFirstPart({
     required String keyPart,
     required String tokenAddress,
-    required String apiVersion,
+    required SplitKeyApiVersion apiVersion,
   }) = _SplitKeyIncomingFirstPart;
 
   factory SplitKeyIncomingFirstPart.fromJson(Map<String, dynamic> json) =>
@@ -31,7 +31,10 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
 
     final tokenAddress = link.queryParameters['token'] ?? Token.sol.address;
     final firstPart = link.queryParameters['key'];
-    final apiVersion = link.queryParameters['version'] ?? ApiVersion.v1.name;
+    final apiVersion = SplitKeyApiVersion.values.firstWhere(
+      (e) => e.name == link.queryParameters['v'],
+      orElse: () => SplitKeyApiVersion.v1,
+    );
 
     if (firstPart == null) return null;
 
@@ -88,7 +91,7 @@ Uri buildFirstLink(
       queryParameters: <String, String>{
         'key': splitKey(privateKey).first,
         if (tokenAddress != Token.sol.address) 'token': tokenAddress,
-        'version': apiVersion,
+        'v': apiVersion,
       },
     );
 

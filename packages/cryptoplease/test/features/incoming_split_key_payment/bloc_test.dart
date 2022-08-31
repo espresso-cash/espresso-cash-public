@@ -57,7 +57,7 @@ void main() {
             firstPart: SplitKeyIncomingFirstPart(
               keyPart: parts.first,
               tokenAddress: Token.sol.address,
-              apiVersion: ApiVersion.v1.name,
+              apiVersion: SplitKeyApiVersion.v1,
             ),
           ),
         );
@@ -94,7 +94,7 @@ void main() {
         amount: lamportsPerSol ~/ 100,
         tokenAddress: Token.sol.address,
         tokenType: OutgoingTransferTokenType.fungibleToken,
-        apiVersion: ApiVersion.v1,
+        apiVersion: SplitKeyApiVersion.v1,
       );
 
       await solanaClient.transferLamports(
@@ -137,7 +137,7 @@ void main() {
           SplitKeyIncomingFirstPart(
             keyPart: splitKey(payment.privateKey).first,
             tokenAddress: Token.sol.address,
-            apiVersion: ApiVersion.v1.name,
+            apiVersion: SplitKeyApiVersion.v1,
           ),
         );
         final bloc = SplitKeyIncomingPaymentBloc(

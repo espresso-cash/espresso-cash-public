@@ -27,7 +27,7 @@ class FtLinkTransferFlowScreen extends StatefulWidget {
   final Token? token;
   final CryptoAmount? amount;
   final ValueSetter<OutgoingTransferId> onComplete;
-  final ApiVersion apiVersion;
+  final SplitKeyApiVersion apiVersion;
 
   @override
   State<FtLinkTransferFlowScreen> createState() =>

@@ -115,7 +115,7 @@ class NftCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 amount: amount,
                 tokenAddress: address,
                 tokenType: OutgoingTransferTokenType.nonFungibleToken,
-                apiVersion: ApiVersion.v1,
+                apiVersion: SplitKeyApiVersion.v1,
               );
               break;
             case OutgoingTransferType.direct:

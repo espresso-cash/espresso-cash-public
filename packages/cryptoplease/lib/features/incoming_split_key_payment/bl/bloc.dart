@@ -45,12 +45,11 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _onFirstPartAdded(FirstPartAdded event, _Emitter emit) async {
-    final apiVersion = findVersionByName(event.firstPart.apiVersion);
     emit(
       SplitKeyIncomingPayment.firstPartReady(
         firstPart: event.firstPart.keyPart,
         tokenAddress: event.firstPart.tokenAddress,
-        apiVersion: apiVersion,
+        apiVersion: event.firstPart.apiVersion,
       ),
     );
     await _repository.save(event.firstPart);
@@ -62,13 +61,11 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
         final existing = await _repository.watch().first;
         if (existing == null) return s;
 
-        final apiVersion = findVersionByName(existing.apiVersion);
-
         return SplitKeyIncomingPayment.secondPartReady(
           firstPart: existing.keyPart,
           tokenAddress: existing.tokenAddress,
           secondPart: event.value.key,
-          apiVersion: apiVersion,
+          apiVersion: existing.apiVersion,
         );
       },
       firstPartReady: (s) async => SplitKeyIncomingPayment.secondPartReady(

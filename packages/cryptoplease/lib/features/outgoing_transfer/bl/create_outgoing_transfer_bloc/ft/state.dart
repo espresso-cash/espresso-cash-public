@@ -7,7 +7,7 @@ class FtCreateOutgoingTransferState with _$FtCreateOutgoingTransferState {
     required OutgoingTransferType transferType,
     required CryptoAmount tokenAmount,
     required FiatAmount fiatAmount,
-    required ApiVersion apiVersion,
+    required SplitKeyApiVersion apiVersion,
     Amount? maxFee,
     String? recipientAddress,
     String? memo,

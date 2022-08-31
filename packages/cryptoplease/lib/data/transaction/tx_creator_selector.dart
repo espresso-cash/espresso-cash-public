@@ -14,11 +14,11 @@ class TxCreatorSelector {
   final SolanaTxCreator _solanaTxCreator;
   final CpTxCreator _cpTxCreator;
 
-  TxCreator fromApiVersion(ApiVersion apiVersion) {
+  TxCreator fromApiVersion(SplitKeyApiVersion apiVersion) {
     switch (apiVersion) {
-      case ApiVersion.v2:
+      case SplitKeyApiVersion.v2:
         return _cpTxCreator;
-      case ApiVersion.v1:
+      case SplitKeyApiVersion.v1:
         return _solanaTxCreator;
     }
   }

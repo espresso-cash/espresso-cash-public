@@ -22,7 +22,7 @@ extension SendFtFlowExt on BuildContext {
         FtLinkTransferFlowRoute(
           onComplete: _navigateToOutgoingTransfer,
           amount: amount,
-          apiVersion: ApiVersion.v2,
+          apiVersion: SplitKeyApiVersion.v2,
           children: const [FtConfirmRoute()],
         ),
       );
@@ -104,7 +104,7 @@ extension SendFtFlowExt on BuildContext {
         FtLinkTransferFlowRoute(
           onComplete: onTransferCreated,
           token: token,
-          apiVersion: ApiVersion.v1,
+          apiVersion: SplitKeyApiVersion.v1,
           children: const [EnterAmountRoute()],
         ),
       );

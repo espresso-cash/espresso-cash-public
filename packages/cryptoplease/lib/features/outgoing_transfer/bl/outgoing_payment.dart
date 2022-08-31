@@ -32,7 +32,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required IList<int> privateKey,
     @Default(OutgoingTransferTokenType.fungibleToken)
         OutgoingTransferTokenType tokenType,
-    @Default(ApiVersion.v1) ApiVersion apiVersion,
+    @Default(SplitKeyApiVersion.v1) SplitKeyApiVersion apiVersion,
     String? signature,
     Uri? firstLink,
   }) = OutgoingTransferSplitKey;
@@ -61,7 +61,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferTokenType tokenType,
-    required ApiVersion apiVersion,
+    required SplitKeyApiVersion apiVersion,
   }) async {
     final recipient = await createRandomKeyPair();
 
