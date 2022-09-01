@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
@@ -37,59 +38,112 @@ class _ConfirmScreenState extends State<FtConfirmScreen> {
           orElse: ignore,
         ),
         builder: (context, state) {
-          final String nextButtonText;
           switch (state.transferType) {
             case OutgoingTransferType.splitKey:
-              nextButtonText = context.l10n.create;
-              break;
-            case OutgoingTransferType.direct:
-              nextButtonText = context.l10n.send;
-              break;
-          }
-
-          final Widget content;
-          switch (state.transferType) {
-            case OutgoingTransferType.splitKey:
-              content = TokenCreateLinkContent(
-                amount: state.tokenAmount,
+              return _SplitKeyContent(
+                onSubmitted: _onSubmitted,
+                isProcessing: state.flow.isProcessing(),
+                tokenAmount: state.tokenAmount,
                 fee: state.fee,
               );
-              break;
             case OutgoingTransferType.direct:
-              content = SendTokenToSolanaAddressContent(
-                amount: state.tokenAmount,
+              return _DirectContent(
                 fee: state.fee,
-                address: state.recipientAddress ?? '',
+                recipientAddress: state.recipientAddress ?? '',
+                tokenAmount: state.tokenAmount,
+                isProcessing: state.flow.isProcessing(),
+                onSubmitted: _onSubmitted,
               );
-              break;
           }
+        },
+      );
+}
 
-          return CpTheme.dark(
-            child: CpLoader(
-              isLoading: state.flow.isProcessing(),
-              child: Scaffold(
-                appBar: CpAppBar(
-                  title: const Text(
-                    'PAY',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 17,
-                    ),
-                  ),
-                  hasBorder: false,
-                  leading: BackButton(onPressed: () => context.router.pop()),
-                ),
-                body: CpContentPadding(child: content),
-                bottomNavigationBar: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: CpButton(
-                    onPressed: _onSubmitted,
-                    text: nextButtonText,
-                  ),
+class _SplitKeyContent extends StatelessWidget {
+  const _SplitKeyContent({
+    Key? key,
+    required this.onSubmitted,
+    required this.isProcessing,
+    required this.tokenAmount,
+    required this.fee,
+  }) : super(key: key);
+
+  final VoidCallback onSubmitted;
+  final bool isProcessing;
+  final Amount tokenAmount;
+  final Amount fee;
+
+  @override
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: CpLoader(
+          isLoading: isProcessing,
+          child: Scaffold(
+            appBar: CpAppBar(
+              title: Text(
+                context.l10n.pay.toUpperCase(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
                 ),
               ),
+              hasBorder: false,
+              leading: BackButton(onPressed: () => context.router.pop()),
             ),
-          );
-        },
+            body: CpContentPadding(
+              child: TokenCreateLinkContent(
+                amount: tokenAmount,
+                fee: fee,
+              ),
+            ),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: CpButton(
+                onPressed: onSubmitted,
+                text: context.l10n.create,
+              ),
+            ),
+          ),
+        ),
+      );
+}
+
+class _DirectContent extends StatelessWidget {
+  const _DirectContent({
+    Key? key,
+    required this.onSubmitted,
+    required this.isProcessing,
+    required this.tokenAmount,
+    required this.fee,
+    required this.recipientAddress,
+  }) : super(key: key);
+
+  final VoidCallback onSubmitted;
+  final bool isProcessing;
+  final Amount tokenAmount;
+  final Amount fee;
+  final String recipientAddress;
+
+  @override
+  Widget build(BuildContext context) => CpTheme.light(
+        child: CpLoader(
+          isLoading: isProcessing,
+          child: Scaffold(
+            appBar: CpAppBar(
+              hasBorder: false,
+              leading: BackButton(onPressed: () => context.router.pop()),
+              nextButton: CpButton(
+                onPressed: onSubmitted,
+                text: context.l10n.send,
+              ),
+            ),
+            body: CpContentPadding(
+              child: SendTokenToSolanaAddressContent(
+                amount: tokenAmount,
+                fee: fee,
+                address: recipientAddress,
+              ),
+            ),
+          ),
+        ),
       );
 }
