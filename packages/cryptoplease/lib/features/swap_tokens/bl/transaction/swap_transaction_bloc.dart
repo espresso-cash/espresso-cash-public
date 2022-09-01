@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/features/swap_tokens/bl/swap_exception.dart';
@@ -121,10 +119,7 @@ class SwapTransactionBloc
       if (tx == null) return null;
       onSetup();
 
-      final decoded = base64Decode(tx);
-      final byteArray = ByteArray(decoded);
-      final compiled = CompiledMessage.fromSignedTransaction(byteArray);
-      final message = Message.decompile(compiled);
+      final message = SignedTx.decode(tx).message;
       final recent = await _solanaClient.rpcClient.getRecentBlockhash();
       final recompiled = message.compile(recentBlockhash: recent.blockhash);
       final wallet = _myAccount.wallet;
