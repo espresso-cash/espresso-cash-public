@@ -7,7 +7,7 @@ PODS:
   - Firebase/DynamicLinks (9.4.0):
     - Firebase/CoreOnly
     - FirebaseDynamicLinks (~> 9.4.0)
-  - firebase_analytics (9.3.0):
+  - firebase_analytics (9.3.3):
     - Firebase/AnalyticsWithoutAdIdSupport (= 9.4.0)
     - firebase_core
     - Flutter
@@ -217,7 +217,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Firebase: 7703fc4022824b6d6db1bf7bea58d13b8e17ec46
-  firebase_analytics: 0030099ff2cdd068667a6bd053f1df06305c4cbd
+  firebase_analytics: 1bba88ffd53f4e59f3a693d5d93bb2981a224cea
   firebase_core: 8e500850dd138c269d197c8dfca3ae886fa3b6f2
   firebase_dynamic_links: 3ce9f9339d7f350c72d3c269d0581dc3d9ca7b81
   FirebaseAnalytics: a1a24e72b7ba7f47045a4633f1abb545c07bd29c
