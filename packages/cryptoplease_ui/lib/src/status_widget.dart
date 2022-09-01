@@ -49,20 +49,22 @@ class CpStatusWidget extends StatelessWidget {
               children: [
                 if (title != null)
                   DefaultTextStyle(
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.w800,
-                    ),
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                              color: Colors.white,
+                              fontSize: 40,
+                              fontWeight: FontWeight.w800,
+                            ) ??
+                        const TextStyle(),
                     textAlign: TextAlign.center,
                     child: title ?? const SizedBox(),
                   ),
                 DefaultTextStyle(
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ) ??
+                      const TextStyle(),
                   textAlign: TextAlign.center,
                   child: content,
                 ),
