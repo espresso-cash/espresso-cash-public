@@ -33,8 +33,9 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
     return DecoratedWindow(
       hasAppBarBorder: false,
       isScrollable: false,
-      backgroundStyle: BackgroundStyle.light,
-      title: context.l10n.didYouWriteItDownCorrectly,
+      hasLogo: true,
+      backgroundStyle: BackgroundStyle.dark,
+      // title: context.l10n.didYouWriteItDownCorrectly,
       message: context.l10n.completeThePuzzle,
       bottomButton: CpBottomButton(
         text: context.l10n.next,

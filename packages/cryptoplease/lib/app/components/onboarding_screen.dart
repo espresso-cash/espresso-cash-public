@@ -97,9 +97,19 @@ class OnboardingScreen extends StatelessWidget {
               ),
               SliverFillRemaining(
                 hasScrollBody: false,
-                child: CpBottomButton(
-                  text: nextLabel,
-                  onPressed: onNextPressed,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CpButton(
+                        key: keyBottomButton,
+                        onPressed: onNextPressed,
+                        minWidth: 250,
+                        text: nextLabel,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

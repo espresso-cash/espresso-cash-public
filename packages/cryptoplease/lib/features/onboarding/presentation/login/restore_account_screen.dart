@@ -4,6 +4,7 @@ import 'package:cryptoplease/features/onboarding/bl/sign_up_bloc.dart';
 import 'package:cryptoplease/features/onboarding/presentation/login/mnemonic_input_formatter.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -59,11 +60,13 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
             TextField(
               controller: _controller,
               decoration: const InputDecoration(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 24, horizontal: 24),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(7)),
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
                   borderSide: BorderSide.none,
                 ),
-                fillColor: Colors.white,
+                fillColor: CpColors.darkBackground,
                 filled: true,
               ),
               inputFormatters: [MnemonicInputFormatter()],

@@ -29,7 +29,7 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 styleSheet: MarkdownStyleSheet(
-                  p: DefaultTextStyle.of(context).style,
+                  p: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   textAlign: WrapAlignment.start,
                 ),
                 data: context.l10n.noEmailInCryptoParagraph,

@@ -30,7 +30,13 @@ class _CreateRecoveryPhraseScreenState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(context.l10n.yourRecoveryPhraseSub),
+            Text(
+              context.l10n.yourRecoveryPhraseSub,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             const SizedBox(height: 24),
             BlocBuilder<SignUpBloc, SignUpState>(
               builder: (context, state) => RecoveryPhraseTextView(

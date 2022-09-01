@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/components/decorated_window_header.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/terms_disclaimer.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
@@ -14,7 +13,7 @@ class GetStartedScreen extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           body: DecoratedBox(
-            decoration: const BoxDecoration(color: Color(0xffFF6640)), //TODO
+            decoration: const BoxDecoration(color: CpColors.primaryColor),
             child: Stack(
               children: [
                 Align(
@@ -59,9 +58,25 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(top: 16),
-        child: DecoratedWindowHeader(
-          hasLogo: true,
-          title: context.l10n.getStarted,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Assets.images.logoIcon.image(height: 96),
+            ),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                context.l10n.getStarted,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline2
+                    ?.copyWith(fontSize: 28),
+              ),
+            ),
+          ],
         ),
       );
 }
@@ -101,7 +116,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 48),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
