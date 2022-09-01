@@ -21,7 +21,7 @@ final cpStatus = Story(
         context.knobs
             .text(label: 'Content', initial: 'Your transfer has been sent.'),
       ),
-      status: context.knobs.options(
+      statusType: context.knobs.options(
         label: 'Type',
         initial: CpStatusType.success,
         options: CpStatusType.values.toOptions(),

@@ -13,6 +13,7 @@ import 'package:storybook/stories/icon_button.dart';
 import 'package:storybook/stories/loader.dart';
 import 'package:storybook/stories/search_text_field.dart';
 import 'package:storybook/stories/snackbar.dart';
+import 'package:storybook/stories/status_screen.dart';
 import 'package:storybook/stories/status_widget.dart';
 import 'package:storybook/stories/switch.dart';
 import 'package:storybook/stories/text_field.dart';
@@ -68,6 +69,7 @@ class StorybookApp extends StatelessWidget {
           cpTextField,
           cpUserAvatar,
           cpStatus,
+          cpStatusScreen,
         ],
       );
 }

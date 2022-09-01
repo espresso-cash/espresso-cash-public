@@ -8,19 +8,19 @@ class CpStatusWidget extends StatelessWidget {
     Key? key,
     this.title,
     required this.content,
-    this.status = CpStatusType.info,
+    this.statusType = CpStatusType.info,
     this.padding = const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
   }) : super(key: key);
 
   final Widget? title;
   final Widget content;
-  final CpStatusType status;
+  final CpStatusType statusType;
   final EdgeInsetsGeometry padding;
 
   static const _radius = Radius.circular(32);
 
   Color get _backgroundColor {
-    switch (status) {
+    switch (statusType) {
       case CpStatusType.success:
         return CpColors.successBackgroundColor;
       case CpStatusType.info:

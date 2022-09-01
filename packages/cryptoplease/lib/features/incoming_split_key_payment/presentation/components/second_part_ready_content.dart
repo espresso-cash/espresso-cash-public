@@ -1,7 +1,7 @@
-import 'package:cryptoplease/app/components/status_screen.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/presentation/components/cancel_dialog.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
@@ -70,18 +70,16 @@ class _ProgressView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StatusScreen(
         title: context.l10n.splitKeyTransferTitle,
-        status: CpStatusType.info,
+        statusContent: Text(context.l10n.splitKeyTransactionLoading),
+        statusType: CpStatusType.info,
+        backgroundImage:
+            Assets.icons.logoBgOrange.svg(alignment: Alignment.bottomCenter),
         content: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            children: [
-              const SizedBox(height: 24),
-              CpStatusWidget(
-                status: CpStatusType.info,
-                content: Text(context.l10n.splitKeyTransactionLoading),
-              ),
-              const SizedBox(height: 52),
-              const Center(
+            children: const [
+              SizedBox(height: 50),
+              Center(
                 child: CircularProgressIndicator(
                   color: CpColors.yellowColor,
                   strokeWidth: 8,
@@ -106,20 +104,18 @@ class _ErrorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StatusScreen(
         title: context.l10n.splitKeyTransferTitle,
-        status: CpStatusType.error,
+        statusTitle: Text(context.l10n.splitKeyErrorMessage1),
+        statusContent: Text(
+          '${context.l10n.splitKeyErrorMessage2} ${error.isRecoverable ? context.l10n.splitKeyErrorRetry : ''}',
+        ),
+        statusType: CpStatusType.error,
+        backgroundImage:
+            Assets.icons.logoBgRed.svg(alignment: Alignment.bottomCenter),
         onBackButtonPressed: () => showCancelDialog(context),
         content: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
-              const SizedBox(height: 24),
-              CpStatusWidget(
-                status: CpStatusType.error,
-                title: Text(context.l10n.splitKeyErrorMessage1),
-                content: Text(
-                  '${context.l10n.splitKeyErrorMessage2} ${error.isRecoverable ? context.l10n.splitKeyErrorRetry : ''}',
-                ),
-              ),
               const SizedBox(height: 140),
               if (error.isRecoverable)
                 CpButton(

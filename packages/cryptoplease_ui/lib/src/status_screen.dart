@@ -1,31 +1,25 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 class StatusScreen extends StatelessWidget {
   const StatusScreen({
     Key? key,
-    required this.status,
+    required this.statusType,
     this.content,
     this.title,
     this.onBackButtonPressed,
+    this.statusTitle,
+    this.statusContent,
+    this.backgroundImage,
   }) : super(key: key);
 
-  final CpStatusType status;
+  final CpStatusType statusType;
   final Widget? content;
   final String? title;
+  final Widget? statusTitle;
+  final Widget? statusContent;
+  final Widget? backgroundImage;
   final VoidCallback? onBackButtonPressed;
-
-  Widget get _backgroundImage {
-    switch (status) {
-      case CpStatusType.success:
-        return Assets.icons.logoBgGreen.svg(alignment: Alignment.bottomCenter);
-      case CpStatusType.info:
-        return Assets.icons.logoBgOrange.svg(alignment: Alignment.bottomCenter);
-      case CpStatusType.error:
-        return Assets.icons.logoBgRed.svg(alignment: Alignment.bottomCenter);
-    }
-  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -43,21 +37,37 @@ class StatusScreen extends StatelessWidget {
                 )
               : null,
           leading: onBackButtonPressed != null
-              ? BackButton(onPressed: onBackButtonPressed)
+              ? BackButton(
+                  onPressed: onBackButtonPressed,
+                  color: Colors.black,
+                )
               : null,
           automaticallyImplyLeading: onBackButtonPressed != null,
         ),
         body: Stack(
           children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: _backgroundImage,
-            ),
-            if (content != null)
+            if (backgroundImage != null)
               SizedBox(
-                width: double.infinity,
-                child: content,
+                height: double.infinity,
+                child: backgroundImage,
               ),
+            SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  if (statusTitle != null || statusContent != null)
+                    CpContentPadding(
+                      bottom: false,
+                      child: CpStatusWidget(
+                        statusType: statusType,
+                        title: statusTitle,
+                        content: statusContent ?? const SizedBox(),
+                      ),
+                    ),
+                  if (content != null) content ?? const SizedBox(),
+                ],
+              ),
+            ),
           ],
         ),
       );
