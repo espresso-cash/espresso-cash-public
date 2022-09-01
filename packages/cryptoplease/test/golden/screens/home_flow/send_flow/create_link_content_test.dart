@@ -2,6 +2,7 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/confirm_screen/components/token_create_link_content.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -72,10 +73,12 @@ class _Wrapper extends StatelessWidget {
       ChangeNotifierProvider<ConversionRatesRepository>(
         create: (_) => repository,
         child: Builder(
-          builder: (context) => Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.all(32),
-              child: child,
+          builder: (context) => CpTheme.dark(
+            child: Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.all(32),
+                child: child,
+              ),
             ),
           ),
         ),
