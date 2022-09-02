@@ -31,46 +31,48 @@ class CpStatusWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: _backgroundColor,
-          borderRadius: const BorderRadius.only(
-            bottomLeft: _radius,
-            bottomRight: _radius,
-            topLeft: _radius,
-          ),
+  Widget build(BuildContext context) {
+    final title = this.title;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: _backgroundColor,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: _radius,
+          bottomRight: _radius,
+          topLeft: _radius,
         ),
-        child: Padding(
-          padding: padding,
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (title != null)
-                  DefaultTextStyle(
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                              color: Colors.white,
-                              fontSize: 40,
-                              fontWeight: FontWeight.w800,
-                            ) ??
-                        const TextStyle(),
-                    textAlign: TextAlign.center,
-                    child: title ?? const SizedBox(),
+      ),
+      child: Padding(
+        padding: padding,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (title != null)
+                DefaultTextStyle.merge(
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.w800,
                   ),
-                DefaultTextStyle(
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ) ??
-                      const TextStyle(),
                   textAlign: TextAlign.center,
-                  child: content,
+                  child: title,
                 ),
-              ],
-            ),
+              DefaultTextStyle.merge(
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+                child: content,
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }

@@ -20,16 +20,11 @@ final cpStatusScreen = Story(
           Option(label: 'Empty', value: null),
         ],
       ),
-      statusContent: context.knobs.options(
-        label: 'Status Content',
-        initial: const Text('Your transfer has been sent.'),
-        options: const [
-          Option(
-            label: 'With Status content',
-            value: Text('Your transfer has been sent.'),
-          ),
-          Option(label: 'Empty', value: null),
-        ],
+      statusContent: Text(
+        context.knobs.text(
+          label: 'Status Content',
+          initial: 'Your transfer has been sent.',
+        ),
       ),
       statusType: context.knobs.options(
         label: 'Type',
