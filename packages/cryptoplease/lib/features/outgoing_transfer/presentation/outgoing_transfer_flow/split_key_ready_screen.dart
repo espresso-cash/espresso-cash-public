@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/components/decorated_window.dart';
 import 'package:cryptoplease/app/components/share_message_wrapper.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
@@ -7,10 +6,8 @@ import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
 
 class SplitKeyReadyScreen extends StatefulWidget {
   const SplitKeyReadyScreen({
@@ -40,35 +37,73 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final message = context.l10n.shareText(
+  TextSpan _buildHeader() =>
       widget.transfer.tokenType == OutgoingTransferTokenType.fungibleToken
-          ? widget.transfer.toAmount().formatWithFiat(context)
-          : 'NFT',
-      _firstLink,
-      buildSecondLink(widget.transfer.privateKey),
-    );
+          ? const TextSpan(text: 'NFT')
+          : TextSpan(
+              text: '',
+              children: [
+                TextSpan(
+                  text: widget.transfer.toAmount().formatWithFiat(context),
+                ),
+              ],
+            );
 
-    return DecoratedWindow(
-      backgroundStyle: BackgroundStyle.gradient,
-      title: context.l10n.linkCreated,
-      message: context.l10n.linkSubtitle,
-      isScrollable: false,
-      child: Flex(
-        direction: Axis.vertical,
+  TextSpan _buildLinks() => TextSpan(
         children: [
-          Flexible(child: ShareMessageWrapper(message: message)),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 24),
-            child: CpButton(
-              text: context.l10n.shareLink,
-              onPressed:
-                  _firstLink.hasScheme ? () => Share.share(message) : null,
-            ),
+          const TextSpan(text: 'Step 1 - Click on the first link:'),
+          TextSpan(text: _firstLink.toString()),
+          const TextSpan(
+            text:
+                'Step 2 - When the application asks you, click on the second link:',
+          ),
+          TextSpan(
+            text: buildSecondLink(widget.transfer.privateKey).toString(),
           ),
         ],
-      ),
-    );
-  }
+      );
+
+  @override
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: Scaffold(
+          appBar: CpAppBar(
+            title: Text(
+              'Your link is ready'.toUpperCase(),
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 17,
+              ),
+            ),
+          ),
+          body: CpContentPadding(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    context.l10n.linkSubtitle,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: ShareMessageWrapper(
+                    header: _buildHeader(),
+                    links: _buildLinks(),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                const CpButton(
+                  text: 'Share payment links',
+                  width: double.infinity,
+                  size: CpButtonSize.big,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 }
