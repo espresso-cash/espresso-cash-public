@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/decorated_window.dart';
 import 'package:cryptoplease/app/components/info_widget.dart';
 import 'package:cryptoplease/features/backup_phrase/bl/puzzle_reminder_bloc.dart';
+import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/components/puzzle_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -56,11 +56,9 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => DecoratedWindow(
+  Widget build(BuildContext context) => PuzzleScreen(
         title: context.l10n.protectWalletTitle,
-        hasLogo: true,
         backButton: BackButton(onPressed: () => context.router.pop()),
-        backgroundStyle: BackgroundStyle.dark,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
@@ -68,75 +66,59 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
               const SizedBox(height: 24),
               MessageInfoWidget(
                 padding: const EdgeInsets.all(32),
-                content: CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
-                  activeColor: CpColors.yellowColor,
+                content: _Checkbox(
+                  title: context.l10n.iUnderstandIfLoseMySecret,
+                  value: _checked,
                   onChanged: (bool? value) {
                     setState(() {
                       _checked = value ?? false;
                     });
                   },
-                  value: _checked,
-                  checkColor: Colors.black,
-                  checkboxShape: const RoundedRectangleBorder(
-                    side: BorderSide(width: 20),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  title: Text(
-                    context.l10n.iUnderstandIfLoseMySecret,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
                 ),
               ),
               const SizedBox(height: 24),
               DecoratedBox(
                 decoration: const BoxDecoration(
                   color: CpColors.darkBackground,
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
                 ),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
-                  child: Center(
-                    child: DropdownButton<Duration?>(
-                      isExpanded: true,
-                      items: _dropdownItems,
-                      dropdownColor: CpColors.darkBackground,
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        color: Colors.white,
-                      ),
-                      iconSize: 32,
-                      alignment: Alignment.center,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                      underline: const SizedBox(),
-                      onChanged: (Duration? value) {
-                        if (value == null) return;
-                        setState(() {
-                          _duration = value;
-                        });
-                      },
-                      value: _duration,
-                      selectedItemBuilder: (context) => _dropdownItems
-                          .map(
-                            (e) => Center(
-                              child: Text(
-                                'SET A REMINDER FOR $_getTextDuration',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          )
-                          .toList(),
+                  child: DropdownButton<Duration?>(
+                    isExpanded: true,
+                    items: _dropdownItems,
+                    dropdownColor: CpColors.darkBackground,
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      color: Colors.white,
                     ),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    iconSize: 32,
+                    alignment: Alignment.center,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                    underline: const SizedBox(),
+                    onChanged: (Duration? value) {
+                      if (value == null) return;
+                      setState(() {
+                        _duration = value;
+                      });
+                    },
+                    value: _duration,
+                    selectedItemBuilder: (context) => _dropdownItems
+                        .map(
+                          (e) => Center(
+                            child: Text(
+                              context.l10n.setReminder(_getTextDuration),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
               ),
@@ -146,6 +128,74 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
                 size: CpButtonSize.big,
                 minWidth: 300,
                 onPressed: _checked ? () => _setupReminder(context) : null,
+              ),
+            ],
+          ),
+        ),
+      );
+}
+
+class _Checkbox extends StatelessWidget {
+  const _Checkbox({
+    required this.title,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final String title;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) => InkWell(
+        onTap: () {
+          onChanged(!value);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 50),
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: value ? CpColors.yellowColor : const Color(0xff696666),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                ),
+                child: Transform.scale(
+                  scale: 1.2,
+                  child: Theme(
+                    data: ThemeData(
+                      unselectedWidgetColor: Colors.transparent,
+                    ),
+                    child: Checkbox(
+                      value: value,
+                      onChanged: (bool? newValue) {
+                        if (newValue != null) {
+                          onChanged(newValue);
+                        }
+                      },
+                      activeColor: CpColors.yellowColor,
+                      checkColor: Colors.black,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 18),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
             ],
           ),

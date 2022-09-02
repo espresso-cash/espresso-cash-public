@@ -39,20 +39,30 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
   @override
   Widget build(BuildContext context) => DecoratedWindow(
         backButton: BackButton(onPressed: _closeFlow),
-        title: context.l10n.yourRecoveryPhrase.toUpperCase(),
+        title: context.l10n.yourRecoveryPhrase,
         message: context.l10n.recoverySubHeading,
         backgroundStyle: BackgroundStyle.dark,
         hasLogo: true,
-        bottomButton: CpBottomButton(
-          text: context.l10n.next,
-          onPressed: _goToConfirmPage,
-        ),
         child: CpContentPadding(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               RecoveryPhraseTextView(
                 phrase: _phrase,
-              )
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CpButton(
+                      text: context.l10n.next,
+                      size: CpButtonSize.big,
+                      minWidth: 300,
+                      onPressed: _goToConfirmPage,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

@@ -57,23 +57,19 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.only(top: 8),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Assets.images.logoIcon.image(height: 96),
-            ),
-            const SizedBox(height: 24),
+            Assets.images.logo.image(height: 195, width: 250),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 context.l10n.getStarted,
                 textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline2
-                    ?.copyWith(fontSize: 28),
+                style: Theme.of(context).textTheme.headline2?.copyWith(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
             ),
           ],

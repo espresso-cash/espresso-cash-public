@@ -55,7 +55,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(context.l10n.toRestoreYourAccount),
+            Text(context.l10n.toRestoreYourAccount, textAlign: TextAlign.left),
             const SizedBox(height: 32),
             TextField(
               controller: _controller,

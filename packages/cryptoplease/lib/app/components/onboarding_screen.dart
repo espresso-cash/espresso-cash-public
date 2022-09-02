@@ -47,13 +47,13 @@ class OnboardingScreen extends StatelessWidget {
 
                             final titleWidget = Padding(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
+                                horizontal: 8,
                               ),
                               child: Text(
                                 title,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

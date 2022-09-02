@@ -35,19 +35,36 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
       isScrollable: false,
       hasLogo: true,
       backgroundStyle: BackgroundStyle.dark,
-      // title: context.l10n.didYouWriteItDownCorrectly,
       message: context.l10n.completeThePuzzle,
-      bottomButton: CpBottomButton(
-        text: context.l10n.next,
-        onPressed: _currentPhrase == correctPhrase ? _onConfirmed : null,
-      ),
-      child: CpContentPadding(
-        bottom: false,
-        child: ConfirmPhrase(
-          correctPhrase: correctPhrase,
-          currentPhrase: _currentPhrase,
-          onPhraseChanged: (phrase) => setState(() => _currentPhrase = phrase),
-        ),
+      child: Column(
+        children: [
+          Expanded(
+            flex: 3,
+            child: CpContentPadding(
+              bottom: false,
+              child: ConfirmPhrase(
+                correctPhrase: correctPhrase,
+                currentPhrase: _currentPhrase,
+                onPhraseChanged: (phrase) =>
+                    setState(() => _currentPhrase = phrase),
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+          Expanded(
+            child: Column(
+              children: [
+                CpButton(
+                  text: context.l10n.next,
+                  size: CpButtonSize.big,
+                  minWidth: 300,
+                  onPressed:
+                      _currentPhrase == correctPhrase ? _onConfirmed : null,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

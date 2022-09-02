@@ -1,6 +1,6 @@
 {
   "next": "Next",
-  "recoverySubHeading": "Your secret recovery phrase allows you to recover your wallet in case you delete the wallet or lose your phone.\n\nWrite down or copy these words in the right order and save them somewhere safe.",
+  "recoverySubHeading": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
   "yourRecoveryPhrase": "Your Secret Recovery Phrase",
   "yourRecoveryPhraseSub": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
   "yourFirstNamePlaceholder": "Choose a username",
@@ -18,8 +18,8 @@
   "getStarted": "Get started with",
   "linkCreated": "Links have been created!",
   "linkSubtitle": "The recipient will need to click on the two links below to redeem the money.",
-  "enterYourSecretWords": "Enter your secret recovery phrase",
-  "toRestoreYourAccount": "To restore your wallet, please type the secret recovery phrase you have previously written down.",
+  "enterYourSecretWords": "Enter Your Secret Recovery Phrase",
+  "toRestoreYourAccount": "Please enter your secret recovery phrase below. This phrase is composed of random generated 12 words.",
   "shareLink": "Share payment links",
   "shareText": "Hi!\n\nI've just sent you {amount}! To receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
   "@shareText": {
@@ -53,12 +53,11 @@
   "youAreCreatingUniqueLink": "You're creating payment links to be redeemed by anyone",
   "itWillContain": "It will contain",
   "ok": "OK",
-  "backupPhraseSuccessMessage": "You successfully saved your secret recovery phrase in a safe place, keep it as private as you can.",
+  "backupPhraseSuccessMessage": "You’ve successfully saved your secret recovery phrase in a safe place. Make sure to keep it private!",
   "editProfile": "Edit Profile",
   "photoLibrary": "Photo Library",
   "camera": "Camera",
-  "didYouWriteItDownCorrectly": "Did you write it down correctly?",
-  "completeThePuzzle": "Tap the words to put them next to each other in the correct order.",
+  "completeThePuzzle": "Did you write it down your recovery phrase correctly? Test it here:",
   "sent": "Sent",
   "received": "Received",
   "ago": "ago",
@@ -110,9 +109,16 @@
   "protectWalletTitle": "WALLET PROTECTION",  
   "protectWallet": "Protect Wallet",
   "skipWalletProtection": "Skip wallet protection",
-  "iUnderstandIfLoseMySecret": "I understand that if I lose my Secret Recovery Phrase I will not be able to acces funds.",
+  "iUnderstandIfLoseMySecret": "I understand that if I lose my Secret Recovery Phrase I will not be able to access funds.",
   "remindMeLater": "Remind me later",
-  "setReminder" : "SET A REMINDER FOR",
+  "setReminder" : "SET A REMINDER FOR {duration}",
+  "@setReminder": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
   "tomorrow": "Tomorrow",
   "oneWeek": "1 week",
   "oneMonth": "1 month",

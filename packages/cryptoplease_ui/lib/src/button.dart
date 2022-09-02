@@ -37,7 +37,7 @@ class CpButton extends StatelessWidget {
       case CpButtonVariant.dark:
         return CpColors.yellowColor;
       case CpButtonVariant.inverted:
-        return CpColors.primaryTextColor;
+        return CpColors.darkBackground;
       case CpButtonVariant.light:
         return CpColors.lightButtonBackgroundColor;
       case CpButtonVariant.secondary:

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/decorated_window.dart';
 import 'package:cryptoplease/app/components/info_widget.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
+import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/components/puzzle_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +14,8 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => DecoratedWindow(
+  Widget build(BuildContext context) => PuzzleScreen(
         title: context.l10n.protectWalletTitle,
-        hasLogo: true,
-        backButton: const BackButton(),
-        backgroundStyle: BackgroundStyle.dark,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
