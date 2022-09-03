@@ -3,6 +3,7 @@ import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
+import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/create_outgoing_transfer_bloc/ft/bloc.dart';
@@ -18,6 +19,7 @@ class FtLinkTransferFlowScreen extends StatefulWidget {
   const FtLinkTransferFlowScreen({
     Key? key,
     required this.onComplete,
+    required this.apiVersion,
     this.token,
     this.amount,
   }) : super(key: key);
@@ -25,6 +27,7 @@ class FtLinkTransferFlowScreen extends StatefulWidget {
   final Token? token;
   final CryptoAmount? amount;
   final ValueSetter<OutgoingTransferId> onComplete;
+  final SplitKeyApiVersion apiVersion;
 
   @override
   State<FtLinkTransferFlowScreen> createState() =>
@@ -47,6 +50,7 @@ class _FtLinkTransferFlowScreenState extends State<FtLinkTransferFlowScreen> {
       userCurrency: context.read<UserPreferences>().fiatCurrency,
       transferType: OutgoingTransferType.splitKey,
       initialToken: token,
+      apiVersion: widget.apiVersion,
     );
 
     if (amount != null) {

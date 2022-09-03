@@ -1,4 +1,5 @@
 import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,6 +13,7 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
   const factory SplitKeyIncomingFirstPart({
     required String keyPart,
     required String tokenAddress,
+    required SplitKeyApiVersion apiVersion,
   }) = _SplitKeyIncomingFirstPart;
 
   factory SplitKeyIncomingFirstPart.fromJson(Map<String, dynamic> json) =>
@@ -29,12 +31,17 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
 
     final tokenAddress = link.queryParameters['token'] ?? Token.sol.address;
     final firstPart = link.queryParameters['key'];
+    final apiVersion = SplitKeyApiVersion.values.firstWhere(
+      (e) => e.name == link.queryParameters['v'],
+      orElse: () => SplitKeyApiVersion.v1,
+    );
 
     if (firstPart == null) return null;
 
     return SplitKeyIncomingFirstPart(
       keyPart: firstPart,
       tokenAddress: tokenAddress,
+      apiVersion: apiVersion,
     );
   }
 }
@@ -72,13 +79,19 @@ class SplitKeySecondLink with _$SplitKeySecondLink {
   }
 }
 
-Uri buildFirstLink(IList<int> privateKey, String tokenAddress) => Uri(
+Uri buildFirstLink(
+  IList<int> privateKey,
+  String tokenAddress,
+  SplitKeyApiVersion apiVersion,
+) =>
+    Uri(
       scheme: 'https',
       host: link1Host,
       path: '/',
       queryParameters: <String, String>{
         'key': splitKey(privateKey).first,
         if (tokenAddress != Token.sol.address) 'token': tokenAddress,
+        'v': apiVersion.name,
       },
     );
 
