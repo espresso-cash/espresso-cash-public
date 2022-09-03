@@ -138,6 +138,10 @@ class OutgoingTransferState with _$OutgoingTransferState {
 extension OutgoingTransferExt on OutgoingTransfer {
   Amount get fee => calculateFee(
         this.map(
+          splitKey: (p) => p.apiVersion,
+          direct: (_) => SplitKeyApiVersion.v1,
+        ),
+        this.map(
           splitKey: always(OutgoingTransferType.splitKey),
           direct: always(OutgoingTransferType.direct),
         ),
@@ -153,7 +157,15 @@ extension OutgoingTransferExt on OutgoingTransfer {
       );
 }
 
-Amount calculateFee(OutgoingTransferType paymentType, String tokenAddress) {
+CryptoAmount calculateFee(
+  SplitKeyApiVersion apiVersion,
+  OutgoingTransferType paymentType,
+  String tokenAddress,
+) {
+  if (apiVersion == SplitKeyApiVersion.v2) {
+    return const CryptoAmount(value: 100000, currency: Currency.usdc);
+  }
+
   // Base fee for the transaction;
   int fee = lamportsPerSignature;
 
@@ -185,5 +197,5 @@ Amount calculateFee(OutgoingTransferType paymentType, String tokenAddress) {
     }
   }
 
-  return Amount(value: fee, currency: Currency.sol);
+  return CryptoAmount(value: fee, currency: Currency.sol);
 }

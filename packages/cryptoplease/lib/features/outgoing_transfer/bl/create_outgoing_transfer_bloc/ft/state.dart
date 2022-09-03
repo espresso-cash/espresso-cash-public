@@ -18,12 +18,11 @@ class FtCreateOutgoingTransferState with _$FtCreateOutgoingTransferState {
 
   const FtCreateOutgoingTransferState._();
 
-  Amount get fee => apiVersion == SplitKeyApiVersion.v2
-      ? const FiatAmount(value: 10, currency: Currency.usd)
-      : calculateFee(
-          transferType,
-          tokenAmount.currency.token.address,
-        );
+  CryptoAmount get fee => calculateFee(
+        apiVersion,
+        transferType,
+        tokenAmount.currency.token.address,
+      );
 
   Token get token => tokenAmount.currency.token;
 }

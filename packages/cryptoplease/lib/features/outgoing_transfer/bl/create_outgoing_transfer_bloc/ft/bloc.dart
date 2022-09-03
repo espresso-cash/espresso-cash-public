@@ -85,14 +85,14 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
       );
     }
 
-    var feeBalance =
-        _balances[Token.sol] ?? Amount.zero(currency: Currency.sol);
-    if (token == Token.sol) {
+    final fee = state.fee;
+    var feeBalance = _balances[fee.currency.token] ?? fee.copyWith(value: 0);
+    if (token == fee.currency.token) {
       feeBalance -= state.tokenAmount;
     }
 
-    if (feeBalance < state.fee) {
-      return Either.left(ValidationError.insufficientFee(state.fee));
+    if (feeBalance < fee) {
+      return Either.left(ValidationError.insufficientFee(fee));
     }
 
     return const Either.right(null);

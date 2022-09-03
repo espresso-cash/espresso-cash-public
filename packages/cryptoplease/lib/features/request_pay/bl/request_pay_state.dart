@@ -8,7 +8,8 @@ class RequestPayState with _$RequestPayState {
 
   const RequestPayState._();
 
-  Amount get fee => calculateFee(
+  CryptoAmount get fee => calculateFee(
+        SplitKeyApiVersion.v2,
         OutgoingTransferType.splitKey,
         amount.currency.token.address,
       );

@@ -99,6 +99,7 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
         context,
         title: context.l10n.insufficientFundsForFeeTitle,
         message: context.l10n.insufficientFundsForFeeMessage(
+          fee.currency.symbol,
           fee.format(DeviceLocale.localeOf(context)),
         ),
       );
