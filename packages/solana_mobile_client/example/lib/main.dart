@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
           ),
           body: BlocListener<ClientBloc, ClientState>(
             listener: (context, state) {
+              // ignore: avoid_print, only for example
               print(state.capabilities);
             },
             listenWhen: (previous, current) =>
