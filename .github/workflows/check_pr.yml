@@ -4,9 +4,6 @@ on:
     branches:
       - master
 
-env:
-  FLUTTER_VERSION: 3.0.5
-
 concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
@@ -81,7 +78,7 @@ jobs:
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="solana"
     container:
-      image: ghcr.io/cryptoplease/flutter:${{ env.FLUTTER_VERSION }}
+      image: ghcr.io/cryptoplease/flutter:3.0.5
     services:
       solana:
         image: solanalabs/solana:${{ matrix.solanaVersion }}
@@ -119,7 +116,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "${{ env.FLUTTER_VERSION }}"
+          flutter-version: "3.0.5"
 
       - name: Activate melos
         run: make activate_melos
@@ -144,7 +141,7 @@ jobs:
       SOLANA_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="cryptoplease" --scope="cryptoplease_ui" --scope="storybook"
     container:
-      image: ghcr.io/cryptoplease/flutter:${{ env.FLUTTER_VERSION }}
+      image: ghcr.io/cryptoplease/flutter:3.0.5
     services:
       solana:
         image: solanalabs/solana:stable
