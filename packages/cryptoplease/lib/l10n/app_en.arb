@@ -69,9 +69,12 @@
   "transfer": "Transfer",
   "transactionDetails": "Transaction Details",
   "insufficientFundsForFeeTitle": "Insufficient Funds for Fee",
-  "insufficientFundsForFeeMessage": "You don't have enough SOL to pay for the network fee, you need at least {amount}.",
+  "insufficientFundsForFeeMessage": "You don't have enough {feeToken} to pay for the network fee, you need at least {amount}.",
   "@insufficientFundsForFeeMessage": {
     "placeholders": {
+      "feeToken": {
+        "type": "String"
+      },
       "amount": {
         "type": "String"
       }

@@ -106,11 +106,11 @@ jobs:
         with:
           flags: solana-${{ matrix.solanaVersion }}
 
-  solana_mobile_wallet:
+  solana_mobile:
     needs: [formatting]
     runs-on: ubuntu-latest
     env:
-      SCOPE: --scope="solana_mobile_wallet*"
+      SCOPE: --scope="solana_mobile_*"
     steps:
       - uses: actions/checkout@v2
 
