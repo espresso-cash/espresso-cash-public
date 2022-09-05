@@ -9,42 +9,20 @@ class CpStatusWidget extends StatelessWidget {
     this.title,
     required this.content,
     this.statusType = CpStatusType.info,
-    this.padding = const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
   }) : super(key: key);
 
   final Widget? title;
   final Widget content;
   final CpStatusType statusType;
-  final EdgeInsetsGeometry padding;
-
-  static const _radius = Radius.circular(32);
-
-  Color get _backgroundColor {
-    switch (statusType) {
-      case CpStatusType.success:
-        return CpColors.successBackgroundColor;
-      case CpStatusType.info:
-        return CpColors.infoBackgroundColor;
-      case CpStatusType.error:
-        return CpColors.errorBackgroundColor;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final title = this.title;
 
     return DecoratedBox(
-      decoration: BoxDecoration(
-        color: _backgroundColor,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: _radius,
-          bottomRight: _radius,
-          topLeft: _radius,
-        ),
-      ),
+      decoration: statusType.decoration,
       child: Padding(
-        padding: padding,
+        padding: const EdgeInsets.all(24),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -52,20 +30,12 @@ class CpStatusWidget extends StatelessWidget {
             children: [
               if (title != null)
                 DefaultTextStyle.merge(
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w800,
-                  ),
+                  style: _titleStyle,
                   textAlign: TextAlign.center,
                   child: title,
                 ),
               DefaultTextStyle.merge(
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: _contentStyle,
                 textAlign: TextAlign.center,
                 child: content,
               ),
@@ -76,3 +46,39 @@ class CpStatusWidget extends StatelessWidget {
     );
   }
 }
+
+extension on CpStatusType {
+  Decoration get decoration => BoxDecoration(
+        color: _backgroundColor,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: _radius,
+          bottomRight: _radius,
+          topLeft: _radius,
+        ),
+      );
+
+  Color get _backgroundColor {
+    switch (this) {
+      case CpStatusType.success:
+        return CpColors.successBackgroundColor;
+      case CpStatusType.info:
+        return CpColors.infoBackgroundColor;
+      case CpStatusType.error:
+        return CpColors.errorBackgroundColor;
+    }
+  }
+
+  static const _radius = Radius.circular(32);
+}
+
+const _titleStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 40,
+  fontWeight: FontWeight.w800,
+);
+
+const _contentStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 18,
+  fontWeight: FontWeight.w500,
+);

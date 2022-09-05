@@ -24,21 +24,13 @@ class StatusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final content = this.content;
+    final title = this.title;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CpAppBar(
         hasBorder: false,
-        title: title != null
-            ? Text(
-                title ?? '',
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: CpColors.primaryTextColor,
-                ),
-              )
-            : null,
+        title: title != null ? Text(title, style: _titleStyle) : null,
         leading: onBackButtonPressed != null
             ? BackButton(
                 onPressed: onBackButtonPressed,
@@ -75,3 +67,9 @@ class StatusScreen extends StatelessWidget {
     );
   }
 }
+
+const _titleStyle = TextStyle(
+  fontSize: 17,
+  fontWeight: FontWeight.w700,
+  color: CpColors.primaryTextColor,
+);
