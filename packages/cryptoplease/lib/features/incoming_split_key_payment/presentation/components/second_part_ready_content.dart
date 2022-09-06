@@ -1,6 +1,7 @@
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/presentation/components/cancel_dialog.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
@@ -53,63 +54,78 @@ class _SecondPartReadyContentState extends State<SecondPartReadyContent> {
       error: identity,
       orElse: () => null,
     );
-    final isLoading =
-        widget.payment.processingState.maybeWhen(processing: T, orElse: F);
 
-    final child = Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CpAppBar(
-        hasBorder: false,
-        leading: BackButton(
-          onPressed: () => showCancelDialog(context),
-        ),
-      ),
-      body: SizedBox(
-        width: double.infinity,
-        child: Column(
-          children: [
-            Text(
-              context.l10n.splitKeySecondLinkReadyTitle,
-              style: Theme.of(context).textTheme.headline2?.copyWith(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                    color: CpColors.primaryTextColor,
-                  ),
-            ),
-            const SizedBox(height: 20),
-            if (error != null) _ErrorView(error: error),
-            const Spacer(),
-            if (error != null && error.isRecoverable)
-              CpBottomButton(
-                text: context.l10n.retry,
-                onPressed: _onRetry,
-              ),
-          ],
-        ),
-      ),
-    );
-
-    return CpLoader(isLoading: isLoading, child: child);
+    return (error == null)
+        ? const _ProgressView()
+        : _ErrorView(
+            error: error,
+            onPressed: _onRetry,
+          );
   }
 }
 
-class _ErrorView extends StatelessWidget {
-  const _ErrorView({Key? key, required this.error}) : super(key: key);
-
-  final SplitKeyIncomingPaymentError error;
+class _ProgressView extends StatelessWidget {
+  const _ProgressView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 24),
-        child: Text(
-          error.maybeWhen(
-            consumed: () => context.l10n.splitKeyTransactionErrorConsumed,
-            orElse: () => context.l10n.splitKeyTransactionError,
-          ),
-          style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                color: CpColors.primaryColor,
-                fontSize: 24,
+  Widget build(BuildContext context) => StatusScreen(
+        title: context.l10n.splitKeyTransferTitle,
+        statusContent: Text(context.l10n.splitKeyTransactionLoading),
+        statusType: CpStatusType.info,
+        backgroundImage:
+            Assets.icons.logoBgOrange.svg(alignment: Alignment.bottomCenter),
+        content: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: const [
+              SizedBox(height: 50),
+              Center(
+                child: CircularProgressIndicator(
+                  color: CpColors.yellowColor,
+                  strokeWidth: 8,
+                ),
               ),
+            ],
+          ),
+        ),
+      );
+}
+
+class _ErrorView extends StatelessWidget {
+  const _ErrorView({
+    Key? key,
+    required this.error,
+    this.onPressed,
+  }) : super(key: key);
+
+  final SplitKeyIncomingPaymentError error;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) => StatusScreen(
+        title: context.l10n.splitKeyTransferTitle,
+        statusTitle: Text(context.l10n.splitKeyErrorMessage1),
+        statusContent: Text(
+          '${context.l10n.splitKeyErrorMessage2} ${error.isRecoverable ? context.l10n.splitKeyErrorRetry : ''}',
+        ),
+        statusType: CpStatusType.error,
+        backgroundImage:
+            Assets.icons.logoBgRed.svg(alignment: Alignment.bottomCenter),
+        onBackButtonPressed: () => showCancelDialog(context),
+        content: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              const SizedBox(height: 140),
+              if (error.isRecoverable)
+                CpButton(
+                  size: CpButtonSize.big,
+                  width: double.infinity,
+                  text: context.l10n.retry,
+                  onPressed: onPressed,
+                )
+            ],
+          ),
         ),
       );
 }
