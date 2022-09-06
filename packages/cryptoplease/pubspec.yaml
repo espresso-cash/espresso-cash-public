@@ -63,6 +63,7 @@ dependencies:
   uni_links: ^0.5.1
   url_launcher: ^6.0.12
   uuid: ^3.0.4
+  timelines: ^0.1.0
 
 dev_dependencies:
   auto_route_generator: ^4.2.0
