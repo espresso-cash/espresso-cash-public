@@ -1,3 +1,7 @@
+## 1.41.1
+
+ - **FIX**: add default value for version (#410).
+
 ## 1.41.0
 
  - **FIX**: make system status bar transparent (#392).
