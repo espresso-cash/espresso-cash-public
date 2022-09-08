@@ -13,7 +13,7 @@ class SplitKeyIncomingFirstPart with _$SplitKeyIncomingFirstPart {
   const factory SplitKeyIncomingFirstPart({
     required String keyPart,
     required String tokenAddress,
-    required SplitKeyApiVersion apiVersion,
+    @Default(SplitKeyApiVersion.v1) SplitKeyApiVersion apiVersion,
   }) = _SplitKeyIncomingFirstPart;
 
   factory SplitKeyIncomingFirstPart.fromJson(Map<String, dynamic> json) =>
