@@ -1,20 +1,22 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
-class InfoWidget extends StatelessWidget {
-  const InfoWidget({
+class CpInfoWidget extends StatelessWidget {
+  const CpInfoWidget({
     Key? key,
+    required this.icon,
     required this.message,
+    this.padding = const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
   }) : super(key: key);
 
-  final String message;
+  final Widget icon;
+  final Widget message;
+  final EdgeInsetsGeometry padding;
 
   static const _radius = Radius.circular(32);
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 40),
+  Widget build(BuildContext context) => DecoratedBox(
         decoration: const BoxDecoration(
           color: CpColors.backgroundAccentColor,
           borderRadius: BorderRadius.only(
@@ -24,7 +26,7 @@ class InfoWidget extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          padding: padding,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -33,19 +35,16 @@ class InfoWidget extends StatelessWidget {
                 child: CircleAvatar(
                   maxRadius: 14,
                   backgroundColor: CpColors.yellowColor,
-                  child: Assets.icons.info.svg(
-                    color: CpColors.backgroundAccentColor,
-                    height: 20,
-                  ),
+                  child: icon,
                 ),
               ),
               Flexible(
-                child: Text(
-                  message,
+                child: DefaultTextStyle.merge(
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 14.5,
                     fontWeight: FontWeight.w500,
                   ),
+                  child: message,
                 ),
               ),
             ],
