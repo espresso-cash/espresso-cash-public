@@ -4,7 +4,7 @@ import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
@@ -33,11 +33,13 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
     required BalancesBloc balancesBloc,
     required NftCollectionBloc nftCollectionBloc,
     required MyAccount account,
+    required TxCreatorStrategy txCreatorSelector,
   })  : _repository = repository,
         _solanaClient = solanaClient,
         _balancesBloc = balancesBloc,
         _nftCollectionBloc = nftCollectionBloc,
         _account = account,
+        _txCreatorSelector = txCreatorSelector,
         super(const OutgoingTransfersState()) {
     on<_Event>(_handler);
   }
@@ -46,6 +48,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
   final SolanaClient _solanaClient;
   final BalancesBloc _balancesBloc;
   final NftCollectionBloc _nftCollectionBloc;
+  final TxCreatorStrategy _txCreatorSelector;
   final MyAccount _account;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
@@ -78,14 +81,11 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       final String encodedTx, signature;
 
       if (existingSignature == null || existingTx == null) {
-        final message = await _createSignedTx(payment);
-        final recentBlockhash =
-            await _solanaClient.rpcClient.getRecentBlockhash();
-        final tx = await signTransaction(
-          recentBlockhash,
-          message,
-          [_account.wallet],
-        );
+        final txCreator = _txCreatorSelector.fromPayment(payment);
+
+        final tx = await txCreator
+            .createOutgoingTx(payment: payment, account: _account)
+            .foldAsync((err) => throw Exception(err), identity);
 
         encodedTx = tx.encode();
         signature = tx.signatures.first.toBase58();
@@ -93,7 +93,10 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
         await _repository
             .save(payment.toDraft(signature: signature, encodedTx: encodedTx));
 
-        await _solanaClient.rpcClient.sendTransaction(encodedTx);
+        await _solanaClient.rpcClient.sendTransaction(
+          encodedTx,
+          preflightCommitment: Commitment.confirmed,
+        );
       } else {
         encodedTx = existingTx;
         signature = existingSignature;
@@ -110,7 +113,10 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
           //
           // In any case, it's up to user to try creating another transaction.
           try {
-            await _solanaClient.rpcClient.sendTransaction(encodedTx);
+            await _solanaClient.rpcClient.sendTransaction(
+              encodedTx,
+              preflightCommitment: Commitment.confirmed,
+            );
           } on JsonRpcException {
             await _repository.save(payment.toDraft());
             rethrow;
@@ -139,22 +145,6 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       return state.addError(payment.id, e);
     }
   }
-
-  Future<Message> _createSignedTx(OutgoingTransfer payment) async =>
-      _solanaClient.createTransfer(
-        sender: _account.wallet,
-        recipient: await payment.getRecipient(),
-        tokenAddress: Ed25519HDPublicKey.fromBase58(payment.tokenAddress),
-        amount: payment.amount,
-        additionalFee: payment.map(
-          splitKey: (p) => p.tokenAddress == Token.sol.address
-              ? lamportsPerSignature
-              : lamportsPerSignature + tokenProgramRent,
-          direct: always(0),
-        ),
-        memo: payment.memo,
-        reference: payment.allReferences.map(Ed25519HDPublicKey.fromBase58),
-      );
 }
 
 extension on OutgoingTransfer {

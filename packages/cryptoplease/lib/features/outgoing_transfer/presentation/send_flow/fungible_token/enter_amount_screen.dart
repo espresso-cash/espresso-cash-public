@@ -45,6 +45,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
       context,
       title: context.l10n.insufficientFundsForFeeTitle,
       message: context.l10n.insufficientFundsForFeeMessage(
+        fee.currency.symbol,
         fee.format(DeviceLocale.localeOf(context)),
       ),
     );

@@ -21,6 +21,8 @@ class Currency with _$Currency {
 
   static const CryptoCurrency sol = CryptoCurrency(token: Token.sol);
 
+  static const CryptoCurrency usdc = CryptoCurrency(token: Token.usdc);
+
   static const FiatCurrency usd = FiatCurrency(
     symbol: 'USD',
     sign: r'$',

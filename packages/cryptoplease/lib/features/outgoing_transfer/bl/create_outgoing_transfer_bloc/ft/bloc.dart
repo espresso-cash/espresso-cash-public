@@ -2,6 +2,7 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/flow.dart';
+import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
@@ -32,6 +33,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
     required ConversionRatesRepository conversionRatesRepository,
     required FiatCurrency userCurrency,
     required OutgoingTransferType transferType,
+    required SplitKeyApiVersion apiVersion,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
     Token? initialToken,
@@ -40,6 +42,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
         _conversionRatesRepository = conversionRatesRepository,
         super(
           _State(
+            apiVersion: apiVersion,
             tokenAmount: initialToken == null
                 ? const CryptoAmount(value: 0, currency: Currency.sol)
                 : CryptoAmount(
@@ -82,14 +85,14 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
       );
     }
 
-    var feeBalance =
-        _balances[Token.sol] ?? Amount.zero(currency: Currency.sol);
-    if (token == Token.sol) {
+    final fee = state.fee;
+    var feeBalance = _balances[fee.currency.token] ?? fee.copyWith(value: 0);
+    if (token == fee.currency.token) {
       feeBalance -= state.tokenAmount;
     }
 
-    if (feeBalance < state.fee) {
-      return Either.left(ValidationError.insufficientFee(state.fee));
+    if (feeBalance < fee) {
+      return Either.left(ValidationError.insufficientFee(fee));
     }
 
     return const Either.right(null);
@@ -207,6 +210,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
 
     emit(
       _State(
+        apiVersion: SplitKeyApiVersion.v1,
         tokenAmount: const CryptoAmount(value: 0, currency: Currency.sol),
         fiatAmount: state.fiatAmount.copyWith(value: 0),
         availableTokens: IList(_balances.keys),
@@ -230,6 +234,7 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 amount: state.tokenAmount.value,
                 tokenAddress: state.token.address,
                 tokenType: OutgoingTransferTokenType.fungibleToken,
+                apiVersion: state.apiVersion,
               );
               break;
             case OutgoingTransferType.direct:

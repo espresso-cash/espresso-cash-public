@@ -82,9 +82,9 @@ const _contentStyle = TextStyle(
 );
 
 final _cancelButtonStyle = TextButton.styleFrom(
-  primary: CpColors.primaryTextColor,
+  foregroundColor: CpColors.primaryTextColor,
 );
 
 final _confirmButtonStyle = TextButton.styleFrom(
-  primary: CpColors.primaryColor,
+  foregroundColor: CpColors.primaryColor,
 );

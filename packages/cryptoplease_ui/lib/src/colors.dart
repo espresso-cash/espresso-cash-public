@@ -36,6 +36,10 @@ abstract class CpColors {
 
   static const primaryAccentColor = Color(0xfffce4da);
   static const linkColor = Color(0xfff6c83b);
+
+  static const successBackgroundColor = Color(0xff62d58f);
+  static const errorBackgroundColor = Color(0xffff6640);
+  static const infoBackgroundColor = Color(0xfff2bd1a);
 }
 
 const bgGradient = LinearGradient(
