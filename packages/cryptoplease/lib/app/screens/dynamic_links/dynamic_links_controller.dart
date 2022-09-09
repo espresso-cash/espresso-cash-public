@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cryptoplease/app/screens/dynamic_links/install_link_manager.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
+import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
@@ -112,6 +113,7 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
         firstPart: SplitKeyIncomingFirstPart(
           keyPart: firstPart,
           tokenAddress: tokenAddress,
+          apiVersion: SplitKeyApiVersion.v1,
         ),
       );
       context.read<SplitKeyIncomingPaymentBloc>().add(event);

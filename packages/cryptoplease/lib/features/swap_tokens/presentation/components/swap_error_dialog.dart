@@ -38,6 +38,7 @@ extension SwapFailExt on SwapException {
           e.balance.format(DeviceLocale.localeOf(context)),
         ),
         insufficientFee: (e) => context.l10n.insufficientFundsForFeeMessage(
+          e.fee.currency.symbol,
           e.fee.format(DeviceLocale.localeOf(context)),
         ),
         other: always(context.l10n.swapFailUnknown),

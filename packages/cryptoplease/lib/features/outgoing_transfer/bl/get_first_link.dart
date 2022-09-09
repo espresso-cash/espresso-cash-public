@@ -9,7 +9,11 @@ Future<Uri> getFirstLink(
 }) async {
   var firstLink = transfer.firstLink;
   if (firstLink == null) {
-    firstLink = buildFirstLink(transfer.privateKey, transfer.tokenAddress);
+    firstLink = buildFirstLink(
+      transfer.privateKey,
+      transfer.tokenAddress,
+      transfer.apiVersion,
+    );
     final firebaseLink = await FirebaseDynamicLinks.instance.buildShortLink(
       DynamicLinkParameters(
         link: firstLink,

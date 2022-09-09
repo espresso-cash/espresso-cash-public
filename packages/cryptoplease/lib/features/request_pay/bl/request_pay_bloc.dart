@@ -1,5 +1,6 @@
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
+import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/create_outgoing_transfer_bloc/ft/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
@@ -54,14 +55,14 @@ class RequestPayBloc extends Bloc<_Event, _State> {
       );
     }
 
-    var feeBalance =
-        _balances[Token.sol] ?? Amount.zero(currency: Currency.sol);
-    if (token == Token.sol) {
+    final fee = state.fee;
+    var feeBalance = _balances[fee.currency.token] ?? fee.copyWith(value: 0);
+    if (token == fee.currency.token) {
       feeBalance -= state.amount;
     }
 
-    if (feeBalance < state.fee) {
-      return Either.left(ValidationError.insufficientFee(state.fee));
+    if (feeBalance < fee) {
+      return Either.left(ValidationError.insufficientFee(fee));
     }
 
     return const Either.right(null);
