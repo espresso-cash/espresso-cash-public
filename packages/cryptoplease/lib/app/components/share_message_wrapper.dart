@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 class ShareMessageWrapper extends StatefulWidget {
   const ShareMessageWrapper({
     Key? key,
-    required this.header,
-    required this.links,
+    required this.textSpan,
   }) : super(key: key);
 
-  final TextSpan header;
-  final TextSpan links;
+  final TextSpan textSpan;
 
   @override
   State<ShareMessageWrapper> createState() => _ShareMessageWrapperState();
@@ -49,12 +47,7 @@ class _ShareMessageWrapperState extends State<ShareMessageWrapper> {
             child: Padding(
               padding: const EdgeInsets.all(32),
               child: Text.rich(
-                TextSpan(
-                  children: [
-                    widget.header,
-                    widget.links,
-                  ],
-                ),
+                widget.textSpan,
                 style: const TextStyle(
                   fontSize: 18,
                   color: Colors.white,

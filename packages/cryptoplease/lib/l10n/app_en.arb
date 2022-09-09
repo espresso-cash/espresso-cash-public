@@ -21,20 +21,6 @@
   "enterYourSecretWords": "Enter your secret recovery phrase",
   "toRestoreYourAccount": "To restore your wallet, please type the secret recovery phrase you have previously written down.",
   "shareLink": "Share payment links",
-  "shareText": "Hi!\n\nI've just sent you {amount}! To receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
-  "@shareText": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "firstLink": {
-        "type": "Uri"
-      },
-      "secondLink": {
-        "type": "Uri"
-      }
-    }
-  },
   "paste": "Paste",
   "viewRecoveryPhrase": "View secret recovery phrase",
   "termsOfUse": "Terms of Use",
@@ -330,5 +316,25 @@
         "type": "String"
       }
     }
-  }
+  },
+  "shareIntroFt": "Hi!\n\nI’ve just sent you ",
+  "shareIntroNft": "Hi!\n\nI’ve just sent you a NFT.",
+  "shareInstructions": "To receive it, you need to click on two links. Following the two steps below:",
+  "shareStep1": "Step 1 - Click on the first link:",
+  "shareStep2": "Step 2 - When the application asks you, click on the second link:",
+   "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
+  "@shareText": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "firstLink": {
+        "type": "Uri"
+      },
+      "secondLink": {
+        "type": "Uri"
+      }
+    }
+  },
+  "yourLinkIsReady": "Your link is ready"
 }
