@@ -13,7 +13,7 @@ const protocolMap = {
 };
 const moonpayHost = 'moonpay.$cpLinkDomain';
 
-const shareableLinkPaymentFee = 10;
+const shareableLinkPaymentFee = 100000;
 
 final devnetUsdc = Ed25519HDPublicKey.fromBase58(
   '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU',
