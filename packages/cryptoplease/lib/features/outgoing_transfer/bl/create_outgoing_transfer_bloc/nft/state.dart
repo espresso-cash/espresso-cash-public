@@ -15,5 +15,9 @@ class NftCreateOutgoingTransferState with _$NftCreateOutgoingTransferState {
 
   const NftCreateOutgoingTransferState._();
 
-  Amount get fee => calculateFee(transferType, nft.address);
+  CryptoAmount get fee => calculateFee(
+        SplitKeyApiVersion.v1,
+        transferType,
+        nft.address,
+      );
 }

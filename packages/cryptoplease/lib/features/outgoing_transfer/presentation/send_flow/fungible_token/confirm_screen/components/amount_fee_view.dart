@@ -62,13 +62,16 @@ class AmountFeeView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (formattedFiatAmount != null)
-                  Text(
-                    context.l10n
-                        .fiatEquivalent(formattedFiatAmount)
-                        .toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                  FittedBox(
+                    child: Text(
+                      context.l10n
+                          .fiatEquivalent(formattedFiatAmount)
+                          .toUpperCase(),
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 if (formattedFiatFee != null)

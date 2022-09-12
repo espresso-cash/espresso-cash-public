@@ -7,6 +7,7 @@ class FtCreateOutgoingTransferState with _$FtCreateOutgoingTransferState {
     required OutgoingTransferType transferType,
     required CryptoAmount tokenAmount,
     required FiatAmount fiatAmount,
+    required SplitKeyApiVersion apiVersion,
     Amount? maxFee,
     String? recipientAddress,
     String? memo,
@@ -17,7 +18,8 @@ class FtCreateOutgoingTransferState with _$FtCreateOutgoingTransferState {
 
   const FtCreateOutgoingTransferState._();
 
-  Amount get fee => calculateFee(
+  CryptoAmount get fee => calculateFee(
+        apiVersion,
         transferType,
         tokenAmount.currency.token.address,
       );

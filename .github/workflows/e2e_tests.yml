@@ -18,7 +18,7 @@ jobs:
       packages: read
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cryptoplease/flutter:3.0.0
+      image: ghcr.io/cryptoplease/flutter:3.3.0
     steps:
       - uses: actions/checkout@v2
 
@@ -42,7 +42,7 @@ jobs:
         uses: android-actions/setup-android@v2
 
       - run: flutter pub get
-      - run: make build_runner
+      - run: make flutter_build
 
       - name: "Run E2E tests"
         run: make firebase_e2e

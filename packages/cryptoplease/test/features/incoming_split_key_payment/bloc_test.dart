@@ -1,9 +1,12 @@
+import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
+import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/wallet.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
@@ -28,7 +31,13 @@ void main() {
 
   group('Incoming payment process:', () {
     final solanaClient = createTestSolanaClient();
+    final cpClient = CryptopleaseClient();
     final txProcessor = TxProcessor(solanaClient);
+    final txCreatorSelector = TxCreatorStrategy(
+      solanaClient: solanaClient,
+      cryptopleaseClient: cpClient,
+    );
+
     late Wallet sourceWallet;
     late Wallet targetWallet;
     late OutgoingTransferSplitKey payment;
@@ -46,6 +55,7 @@ void main() {
             firstPart: SplitKeyIncomingFirstPart(
               keyPart: parts.first,
               tokenAddress: Token.sol.address,
+              apiVersion: SplitKeyApiVersion.v1,
             ),
           ),
         );
@@ -82,6 +92,7 @@ void main() {
         amount: lamportsPerSol ~/ 100,
         tokenAddress: Token.sol.address,
         tokenType: OutgoingTransferTokenType.fungibleToken,
+        apiVersion: SplitKeyApiVersion.v1,
       );
 
       await solanaClient.transferLamports(
@@ -99,6 +110,7 @@ void main() {
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
+          txCreatorStrategy: txCreatorSelector,
           repository: MemorySplitKeyIncomingRepository(),
         );
         await receivePayment(bloc, targetWallet);
@@ -123,10 +135,12 @@ void main() {
           SplitKeyIncomingFirstPart(
             keyPart: splitKey(payment.privateKey).first,
             tokenAddress: Token.sol.address,
+            apiVersion: SplitKeyApiVersion.v1,
           ),
         );
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
+          txCreatorStrategy: txCreatorSelector,
           repository: repository,
         );
         await receivePayment(
@@ -152,6 +166,7 @@ void main() {
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
+          txCreatorStrategy: txCreatorSelector,
           repository: MemorySplitKeyIncomingRepository(),
         );
         await receivePayment(bloc, targetWallet);
@@ -174,6 +189,7 @@ void main() {
       () async {
         final bloc = SplitKeyIncomingPaymentBloc(
           txProcessor: txProcessor,
+          txCreatorStrategy: txCreatorSelector,
           repository: MemorySplitKeyIncomingRepository(),
         );
         await receivePayment(bloc, sourceWallet);
