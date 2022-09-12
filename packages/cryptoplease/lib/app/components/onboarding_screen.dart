@@ -33,7 +33,7 @@ class OnboardingScreen extends StatelessWidget {
                 floating: false,
                 pinned: true,
                 snap: false,
-                expandedHeight: title == null ? null : 300,
+                expandedHeight: title == null ? null : 250,
                 flexibleSpace: title == null
                     ? null
                     : FlexibleSpaceBar(
@@ -47,11 +47,15 @@ class OnboardingScreen extends StatelessWidget {
 
                             final titleWidget = Padding(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
+                                horizontal: 8,
                               ),
                               child: Text(
                                 title,
                                 textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             );
                             final alpha = min<double>(
@@ -93,9 +97,19 @@ class OnboardingScreen extends StatelessWidget {
               ),
               SliverFillRemaining(
                 hasScrollBody: false,
-                child: CpBottomButton(
-                  text: nextLabel,
-                  onPressed: onNextPressed,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CpButton(
+                        key: keyBottomButton,
+                        onPressed: onNextPressed,
+                        minWidth: 250,
+                        text: nextLabel,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
