@@ -40,8 +40,8 @@ class CpInfoWidget extends StatelessWidget {
                 child: Text(
                   message,
                   style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

@@ -7,7 +7,7 @@ abstract class CpColors {
 
   static const strokeColor = Color(0xffff8956); // stroke color
 
-  static const yellowColor = Color(0xfffacf48); // yellow primary color
+  static const yellowColor = Color(0xffF6C83B); // yellow primary color
   static const translucentYellowColor = Color(0x30e7b11f);
 
   static const primaryTextColor = Color(0xff231f20); // black primary color
