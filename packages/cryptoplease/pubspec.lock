@@ -63,7 +63,7 @@ packages:
       name: auto_route_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.0"
+    version: "4.2.1"
   bip39:
     dependency: "direct main"
     description:
