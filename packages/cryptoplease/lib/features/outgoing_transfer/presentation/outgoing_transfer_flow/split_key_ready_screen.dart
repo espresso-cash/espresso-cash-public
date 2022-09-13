@@ -25,8 +25,6 @@ class SplitKeyReadyScreen extends StatefulWidget {
 class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
   Uri _firstLink = Uri();
 
-  static const _newLine = TextSpan(text: '\n\n');
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -39,39 +37,6 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
       setState(() => _firstLink = firstLink);
     });
   }
-
-  InlineSpan _buildHeader(String amount) =>
-      widget.transfer.tokenType != OutgoingTransferTokenType.fungibleToken
-          ? TextSpan(text: context.l10n.shareIntroNft)
-          : TextSpan(
-              text: context.l10n.shareIntroFt,
-              children: [
-                TextSpan(
-                  text: amount,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            );
-
-  InlineSpan _buildInstructions() => TextSpan(
-        children: [
-          _newLine,
-          TextSpan(text: context.l10n.shareInstructions),
-          _newLine,
-        ],
-      );
-
-  InlineSpan _buildLinks(Uri firstLink, Uri secondLink) => TextSpan(
-        children: [
-          TextSpan(text: context.l10n.shareStep1),
-          _newLine,
-          TextSpan(text: firstLink.toString(), style: _linkStyle),
-          _newLine,
-          TextSpan(text: context.l10n.shareStep2),
-          _newLine,
-          TextSpan(text: secondLink.toString(), style: _linkStyle),
-        ],
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +74,21 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
                 child: ShareMessageWrapper(
                   textSpan: TextSpan(
                     children: [
-                      _buildHeader(amount),
-                      _buildInstructions(),
-                      _buildLinks(firstLink, secondLink),
+                      WidgetSpan(
+                        child: _HeaderWidget(
+                          amount: amount,
+                          tokenType: widget.transfer.tokenType,
+                        ),
+                      ),
+                      const WidgetSpan(
+                        child: _InstructionsWidget(),
+                      ),
+                      WidgetSpan(
+                        child: _LinksWidget(
+                          firstLink: firstLink,
+                          secondLink: secondLink,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -132,7 +109,76 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
   }
 }
 
+const _newLine = TextSpan(text: '\n\n');
+
 const _linkStyle = TextStyle(
   fontWeight: FontWeight.w600,
   color: CpColors.linkColor,
 );
+
+class _HeaderWidget extends StatelessWidget {
+  const _HeaderWidget({
+    Key? key,
+    required this.amount,
+    required this.tokenType,
+  }) : super(key: key);
+
+  final String amount;
+  final OutgoingTransferTokenType tokenType;
+
+  @override
+  Widget build(BuildContext context) => Text.rich(
+        tokenType != OutgoingTransferTokenType.fungibleToken
+            ? TextSpan(text: context.l10n.shareIntroNft)
+            : TextSpan(
+                text: context.l10n.shareIntroFt,
+                children: [
+                  TextSpan(
+                    text: amount,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+      );
+}
+
+class _LinksWidget extends StatelessWidget {
+  const _LinksWidget({
+    Key? key,
+    required this.firstLink,
+    required this.secondLink,
+  }) : super(key: key);
+
+  final Uri firstLink;
+  final Uri secondLink;
+
+  @override
+  Widget build(BuildContext context) => Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(text: context.l10n.shareStep1),
+            _newLine,
+            TextSpan(text: firstLink.toString(), style: _linkStyle),
+            _newLine,
+            TextSpan(text: context.l10n.shareStep2),
+            _newLine,
+            TextSpan(text: secondLink.toString(), style: _linkStyle),
+          ],
+        ),
+      );
+}
+
+class _InstructionsWidget extends StatelessWidget {
+  const _InstructionsWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Text.rich(
+        TextSpan(
+          children: [
+            _newLine,
+            TextSpan(text: context.l10n.shareInstructions),
+            _newLine,
+          ],
+        ),
+      );
+}
