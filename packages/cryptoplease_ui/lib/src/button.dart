@@ -37,7 +37,7 @@ class CpButton extends StatelessWidget {
       case CpButtonVariant.dark:
         return CpColors.yellowColor;
       case CpButtonVariant.inverted:
-        return CpColors.primaryTextColor;
+        return CpColors.darkBackground;
       case CpButtonVariant.light:
         return CpColors.lightButtonBackgroundColor;
       case CpButtonVariant.secondary:
@@ -70,7 +70,7 @@ class CpButton extends StatelessWidget {
         case CpButtonSize.small:
           return style.copyWith(fontSize: 17, height: 1);
         case CpButtonSize.micro:
-          return style.copyWith(fontSize: 15, height: 1.5);
+          return style.copyWith(fontSize: 15);
       }
     })();
 

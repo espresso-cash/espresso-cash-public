@@ -1,6 +1,6 @@
-import 'package:cryptoplease/app/components/decorated_window_header.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/terms_disclaimer.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -12,30 +12,40 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          body: CpBackgroundGradient(
-            child: SafeArea(
-              child: LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  physics: const RangeMaintainingScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        children: const [
-                          _Header(),
-                          Expanded(child: _Body()),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: _Footer(),
+          body: DecoratedBox(
+            decoration: const BoxDecoration(color: CpColors.primaryColor),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Assets.icons.logoDark
+                      .svg(alignment: Alignment.bottomCenter),
+                ),
+                SafeArea(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => SingleChildScrollView(
+                      physics: const RangeMaintainingScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight,
+                        ),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            children: const [
+                              _Header(),
+                              Expanded(child: _Body()),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: _Footer(),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
@@ -47,10 +57,22 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 16),
-        child: DecoratedWindowHeader(
-          hasLogo: true,
-          title: context.l10n.getStarted,
+        padding: const EdgeInsets.only(top: 8),
+        child: Column(
+          children: [
+            Assets.images.logo.image(height: 195, width: 250),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                context.l10n.getStarted,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline2?.copyWith(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500,
+                    ),
+              ),
+            ),
+          ],
         ),
       );
 }
@@ -90,7 +112,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 48),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

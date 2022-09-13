@@ -20,14 +20,14 @@ class RecoveryPhraseTextView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: BoxDecoration(
-          color: backgroundColor ?? CpColors.lightButtonBackgroundColor,
-          borderRadius: const BorderRadius.all(Radius.circular(7)),
+          color: backgroundColor ?? CpColors.darkBackground,
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
               child: Text(
                 phrase,
                 textAlign: TextAlign.justify,
@@ -38,7 +38,7 @@ class RecoveryPhraseTextView extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
-                  margin: const EdgeInsets.only(right: 12, bottom: 12),
+                  margin: const EdgeInsets.only(right: 24, bottom: 12),
                   height: kToolbarHeight / 2,
                   child: CpButton(
                     text: context.l10n.copy,
