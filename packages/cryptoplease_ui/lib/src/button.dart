@@ -70,7 +70,7 @@ class CpButton extends StatelessWidget {
         case CpButtonSize.small:
           return style.copyWith(fontSize: 17, height: 1);
         case CpButtonSize.micro:
-          return style.copyWith(fontSize: 15);
+          return style.copyWith(fontSize: 15, height: 0);
       }
     })();
 

@@ -6,10 +6,12 @@ class CpInfoWidget extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.message,
+    this.padding = const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
   }) : super(key: key);
 
   final Widget icon;
-  final String message;
+  final Widget message;
+  final EdgeInsetsGeometry padding;
 
   static const _radius = Radius.circular(32);
 
@@ -24,7 +26,7 @@ class CpInfoWidget extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          padding: padding,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,12 +39,12 @@ class CpInfoWidget extends StatelessWidget {
                 ),
               ),
               Flexible(
-                child: Text(
-                  message,
+                child: DefaultTextStyle.merge(
                   style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 14.5,
+                    fontWeight: FontWeight.w500,
                   ),
+                  child: message,
                 ),
               ),
             ],

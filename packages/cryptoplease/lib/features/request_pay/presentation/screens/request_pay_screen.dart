@@ -68,7 +68,7 @@ class _ScreenState extends State<RequestPayScreen> {
               ),
               child: CpInfoWidget(
                 icon: const InfoIcon(),
-                message: context.l10n.usdcExplanation,
+                message: Text(context.l10n.usdcExplanation),
               ),
             ),
             Flexible(
@@ -107,7 +107,7 @@ class _ScreenState extends State<RequestPayScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: cpNavigationBarheight + 16),
+            const SizedBox(height: cpNavigationBarheight + 32),
           ],
         ),
       ),
