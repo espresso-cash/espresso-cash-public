@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/services.dart';
 import 'package:solana_mobile_wallet/src/auth_issuer_config.dart';
 import 'package:solana_mobile_wallet/src/wallet_config.dart';

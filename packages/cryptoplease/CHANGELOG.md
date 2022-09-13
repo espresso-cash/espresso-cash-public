@@ -1,3 +1,34 @@
+## 1.41.1
+
+ - **FIX**: add default value for version (#410).
+
+## 1.41.0
+
+ - **FIX**: make system status bar transparent (#392).
+ - **FIX**: add padding at the bottom of 'Select Token' list (#391).
+ - **FIX**: fixed jank on swap page   (#386).
+ - **FIX**: update failing e2e test (#384).
+ - **FIX**: recover from error on incoming payment (#371).
+ - **FIX**: request-pay info icon (#357).
+ - **FIX**: add balance refresh on menu screen, reuse refresh logic (#366).
+ - **FIX**: menu page when startup (#356).
+ - **FIX**: font-size for numeric pad is 24 (#346).
+ - **FIX**: size of buttons and remove uppercase (#347).
+ - **FIX**: change size of button in menu (#348).
+ - **FIX**: chevron color in menu (#349).
+ - **FIX**: Make profile screen fullscreen dialog.
+ - **FEAT**: redesign screens when receiving crypto from a link (#396).
+ - **FEAT**: switch to payment api for usdc transfers (#381).
+ - **FEAT**: add SignedTx.decode (#388).
+ - **FEAT**: add cryptoplease_api (#377).
+ - **FEAT**: moonpay sign logic on cryptoplease_link, allow buy usdc (#370).
+ - **FEAT**: improve design on request-pay screen (#359).
+ - **FEAT**: change amount format in menu screen (#352).
+ - **FEAT**: keep request and pay buttons enabled (#353).
+ - **FEAT**: change bottom menu arrangement (#351).
+ - **FEAT**: remove stablecoin selector, set usdc as default token (#350).
+ - **DOCS**: updated readme (#355).
+
 ## 1.40.0
 
  - **FIX**: home tabs.
