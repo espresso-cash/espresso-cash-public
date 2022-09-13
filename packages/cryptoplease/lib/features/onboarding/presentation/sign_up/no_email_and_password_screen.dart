@@ -21,7 +21,14 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
           children: [
             CpInfoWidget(
               icon: const InfoIcon(),
-              message: context.l10n.noEmailInCryptoInfo,
+              message: Text(
+                context.l10n.noEmailInCryptoInfo,
+                textAlign: TextAlign.justify,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
             const SizedBox(height: 18),
             Builder(
