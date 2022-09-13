@@ -34,7 +34,7 @@ class CpBulletItemWidget extends StatelessWidget {
                 ),
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 17,
+                  fontSize: 18,
                 ),
               ),
             )
