@@ -23,7 +23,7 @@ dependencies:
   drift: ^1.5.0
   fast_immutable_collections: ^7.4.1
   firebase_analytics: ^9.3.3
-  firebase_core: ^1.21.1
+  firebase_core: ^1.22.0
   firebase_dynamic_links: ^4.3.3
   flutter:
     sdk: flutter
@@ -65,7 +65,7 @@ dependencies:
   uuid: ^3.0.4
 
 dev_dependencies:
-  auto_route_generator: ^4.2.0
+  auto_route_generator: ^4.2.1
   bloc_test: ^9.1.0
   build_runner: ^2.2.0
   drift_dev: ^1.5.2

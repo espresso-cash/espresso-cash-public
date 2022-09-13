@@ -63,7 +63,7 @@ packages:
       name: auto_route_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.0"
+    version: "4.2.1"
   bip39:
     dependency: "direct main"
     description:
@@ -427,7 +427,7 @@ packages:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.21.1"
+    version: "1.22.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
