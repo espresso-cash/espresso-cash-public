@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cryptoplease/gen/assets.gen.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
@@ -45,20 +46,12 @@ class PickImageContainer extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onLabelClicked,
-              child: Text(
-                label.toUpperCase(),
-                style: labelStyle ??
-                    Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(fontSize: 13),
-              ),
-            ),
-          )
+          CpButton(
+            text: label,
+            onPressed: pickImageClicked,
+            variant: CpButtonVariant.inverted,
+            size: CpButtonSize.small,
+          ),
         ],
       ),
     );
