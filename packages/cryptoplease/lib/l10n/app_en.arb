@@ -130,6 +130,21 @@
   "splitKeyErrorMessage1": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyErrorRetry": "Please retry.",
+  "splitKeyProgressOngoing" : "Sending {amount} using secure links...",
+  "@splitKeyProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitKeyProgressCreated" : "Links are created",
+  "splitKeyProgressWaiting" : "Waiting for the receiver to withdraw the funds",
+  "splitKeyProgressWithdrawn" : "Funds are withdrawn",
+  "splitKeyProgressSuccess" : "Money has been successfully received",
+  "splitKeyProgressCanceled" : "Transfer has been canceled",
+  "resendLink" : "Resend Links",
+  "cancelTransfer" : "Cancel transfer",
   "buy": "Buy",
   "errorLoadingPullToRefresh": "There was an error and we couldn't load your NFT collection, please pull to refresh",
   "txFailed": "Failed {signature}",
@@ -242,6 +257,7 @@
   "qrCodeScanErrorTitle": "Scan Failed",
   "qrCodeScanErrorContent": "We were unable to understand this QR code. Please try again.",
   "transactionFailed": "Transaction failed",
+  "transactionCanceled": "Transaction canceled.",
   "crypto": "Crypto",
   "stablecoin": "Stablecoin",
   "stablecoinExplained": "Stablecoins are cryptocurrencies that mirror traditional currency or asset such as the dollar, euro.",

@@ -55,6 +55,7 @@ class _OutgoingTransferFlowScreenState
           return transfer?.state.map(
                 draft: (_) => DraftScreen(transfer: transfer),
                 ready: (_) => transfer.map(
+                  // splitKey: (t) => SplitKeyReadyScreen(transfer: t), //TODO
                   splitKey: (t) => SplitKeyStatusScreen(transfer: t),
                   direct: (t) => DirectSuccessScreen(transfer: t),
                 ),
@@ -75,7 +76,8 @@ class SplitKeyStatusScreen extends StatelessWidget {
         title: context.l10n.splitKeyTransferTitle,
         statusType: CpStatusType.info,
         statusContent: Text(
-            'Sending ${transfer.amount} ${transfer.tokenAddress} using secure links...'),
+          'Sending ${transfer.toAmount().decimal} ${transfer.toAmount().currency.symbol} using secure links...',
+        ),
         backgroundImage:
             Assets.icons.logoBgOrange.svg(alignment: Alignment.bottomCenter),
         content: Padding(
