@@ -35,6 +35,7 @@ abstract class CpColors {
   static const greyIconBackgroundColor = Color(0xfff0efe7);
 
   static const primaryAccentColor = Color(0xfffce4da);
+  static const linkColor = Color(0xfff6c83b);
 
   static const successBackgroundColor = Color(0xff62d58f);
   static const errorBackgroundColor = Color(0xffff6640);
