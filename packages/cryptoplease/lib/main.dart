@@ -50,55 +50,50 @@ Future<void> _start() async {
 
   await Firebase.initializeApp();
 
-  await BlocOverrides.runZoned(
-    () async {
-      final sharedPreferences = await SharedPreferences.getInstance();
-      setUpLogging();
+  Bloc.observer = Observer();
 
-      final solanaClient = SolanaClient(
-        rpcUrl: Uri.parse(solanaRpcUrl),
-        websocketUrl: Uri.parse(solanaWebSocketUrl),
-      );
-      final cpClient = CryptopleaseClient();
+  final sharedPreferences = await SharedPreferences.getInstance();
+  setUpLogging();
 
-      final hasPassedFirstRun =
-          sharedPreferences.getBool(_firstRunKey) ?? false;
-      if (!hasPassedFirstRun) {
-        await const FlutterSecureStorage().deleteAll();
-      }
-      await sharedPreferences.setBool(_firstRunKey, true);
-
-      final app = MultiProvider(
-        providers: [
-          Provider<MyDatabase>(create: (_) => MyDatabase()),
-          Provider<JupiterAggregatorClient>(
-            create: (_) => JupiterAggregatorClient(),
-          ),
-          Provider<SharedPreferences>.value(value: sharedPreferences),
-          Provider<AnalyticsManager>(create: (_) => AnalyticsManager()),
-          Provider<RpcClient>.value(value: solanaClient.rpcClient),
-          Provider<SolanaClient>.value(value: solanaClient),
-          Provider<TokenList>(create: (_) => TokenList()),
-          Provider<CryptopleaseClient>.value(value: cpClient),
-          Provider<TxCreatorStrategy>(
-            create: (_) => TxCreatorStrategy(
-              solanaClient: solanaClient,
-              cryptopleaseClient: cpClient,
-            ),
-          ),
-          const OutgoingTransferModule(),
-          const BalancesModule(),
-          const AccountsModule(),
-          const IncomingSplitKeyPaymentModule(),
-          const PendingRequestModule(),
-        ],
-        child: const DynamicLinksController(child: CryptopleaseApp()),
-      );
-
-      runApp(app);
-    },
-    blocObserver: Observer(),
+  final solanaClient = SolanaClient(
+    rpcUrl: Uri.parse(solanaRpcUrl),
+    websocketUrl: Uri.parse(solanaWebSocketUrl),
   );
+
+  final hasPassedFirstRun = sharedPreferences.getBool(_firstRunKey) ?? false;
+  if (!hasPassedFirstRun) {
+    await const FlutterSecureStorage().deleteAll();
+  }
+  await sharedPreferences.setBool(_firstRunKey, true);
+
+  final app = MultiProvider(
+    providers: [
+      Provider<MyDatabase>(create: (_) => MyDatabase()),
+      Provider<JupiterAggregatorClient>(
+        create: (_) => JupiterAggregatorClient(),
+      ),
+      Provider<SharedPreferences>.value(value: sharedPreferences),
+      Provider<AnalyticsManager>(create: (_) => AnalyticsManager()),
+      Provider<RpcClient>.value(value: solanaClient.rpcClient),
+      Provider<SolanaClient>.value(value: solanaClient),
+      Provider<TokenList>(create: (_) => TokenList()),
+      Provider<CryptopleaseClient>(create: (_) => CryptopleaseClient()),
+      Provider<TxCreatorStrategy>(
+        create: (context) => TxCreatorStrategy(
+          solanaClient: context.read<SolanaClient>(),
+          cryptopleaseClient: context.read<CryptopleaseClient>(),
+        ),
+      ),
+      const OutgoingTransferModule(),
+      const BalancesModule(),
+      const AccountsModule(),
+      const IncomingSplitKeyPaymentModule(),
+      const PendingRequestModule(),
+    ],
+    child: const DynamicLinksController(child: CryptopleaseApp()),
+  );
+
+  runApp(app);
 }
 
 const _firstRunKey = 'hasPassedFirstRun';
