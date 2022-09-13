@@ -21,7 +21,7 @@ dependencies:
   solana: ^0.26.0
 
 dev_dependencies:
-  build_runner: ^2.1.10
+  build_runner: ^2.2.0
   freezed: ^2.0.2
   json_serializable: ^6.3.1
   mews_pedantic: ^0.7.0
