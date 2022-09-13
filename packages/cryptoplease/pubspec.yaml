@@ -22,7 +22,7 @@ dependencies:
   dio: ^4.0.0
   drift: ^1.5.0
   fast_immutable_collections: ^7.4.1
-  firebase_analytics: ^9.3.0
+  firebase_analytics: ^9.3.3
   firebase_core: ^1.21.1
   firebase_dynamic_links: ^4.3.3
   flutter:
@@ -54,7 +54,7 @@ dependencies:
   qr_flutter: ^4.0.0
   retrofit: ^3.0.1
   rxdart: ^0.27.1
-  sentry_flutter: ^6.9.0
+  sentry_flutter: ^6.9.1
   share: ^2.0.4
   shared_preferences: ^2.0.15
   solana:
