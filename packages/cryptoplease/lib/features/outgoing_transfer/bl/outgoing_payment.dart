@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
+import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/core/wallet.dart';
@@ -31,6 +32,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required IList<int> privateKey,
     @Default(OutgoingTransferTokenType.fungibleToken)
         OutgoingTransferTokenType tokenType,
+    @Default(SplitKeyApiVersion.v1) SplitKeyApiVersion apiVersion,
     String? signature,
     Uri? firstLink,
   }) = OutgoingTransferSplitKey;
@@ -59,6 +61,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferTokenType tokenType,
+    required SplitKeyApiVersion apiVersion,
   }) async {
     final recipient = await createRandomKeyPair();
 
@@ -70,6 +73,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
       tokenAddress: tokenAddress,
       state: const OutgoingTransferState.draft(),
       tokenType: tokenType,
+      apiVersion: apiVersion,
     );
   }
 
@@ -134,6 +138,10 @@ class OutgoingTransferState with _$OutgoingTransferState {
 extension OutgoingTransferExt on OutgoingTransfer {
   Amount get fee => calculateFee(
         this.map(
+          splitKey: (p) => p.apiVersion,
+          direct: (_) => SplitKeyApiVersion.v1,
+        ),
+        this.map(
           splitKey: always(OutgoingTransferType.splitKey),
           direct: always(OutgoingTransferType.direct),
         ),
@@ -149,7 +157,15 @@ extension OutgoingTransferExt on OutgoingTransfer {
       );
 }
 
-Amount calculateFee(OutgoingTransferType paymentType, String tokenAddress) {
+CryptoAmount calculateFee(
+  SplitKeyApiVersion apiVersion,
+  OutgoingTransferType paymentType,
+  String tokenAddress,
+) {
+  if (apiVersion == SplitKeyApiVersion.v2) {
+    return const CryptoAmount(value: 100000, currency: Currency.usdc);
+  }
+
   // Base fee for the transaction;
   int fee = lamportsPerSignature;
 
@@ -181,5 +197,5 @@ Amount calculateFee(OutgoingTransferType paymentType, String tokenAddress) {
     }
   }
 
-  return Amount(value: fee, currency: Currency.sol);
+  return CryptoAmount(value: fee, currency: Currency.sol);
 }

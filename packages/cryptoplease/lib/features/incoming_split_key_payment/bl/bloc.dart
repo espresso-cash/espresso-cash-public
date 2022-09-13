@@ -1,5 +1,8 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
+import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
+import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator.dart';
+import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
@@ -21,14 +24,17 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
   SplitKeyIncomingPaymentBloc({
     required SplitKeyIncomingRepository repository,
     required TxProcessor txProcessor,
+    required TxCreatorStrategy txCreatorStrategy,
   })  : _repository = repository,
         _txProcessor = txProcessor,
+        _txCreatorStrategy = txCreatorStrategy,
         super(const SplitKeyIncomingPayment.none()) {
     on<_Event>(_handler, transformer: sequential());
   }
 
   final SplitKeyIncomingRepository _repository;
   final TxProcessor _txProcessor;
+  final TxCreatorStrategy _txCreatorStrategy;
 
   _EventHandler get _handler => (e, emit) => e.map(
         firstPartAdded: (e) => _onFirstPartAdded(e, emit),
@@ -43,6 +49,7 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
       SplitKeyIncomingPayment.firstPartReady(
         firstPart: event.firstPart.keyPart,
         tokenAddress: event.firstPart.tokenAddress,
+        apiVersion: event.firstPart.apiVersion,
       ),
     );
     await _repository.save(event.firstPart);
@@ -58,17 +65,20 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
           firstPart: existing.keyPart,
           tokenAddress: existing.tokenAddress,
           secondPart: event.value.key,
+          apiVersion: existing.apiVersion,
         );
       },
       firstPartReady: (s) async => SplitKeyIncomingPayment.secondPartReady(
         firstPart: s.firstPart,
         tokenAddress: s.tokenAddress,
         secondPart: event.value.key,
+        apiVersion: s.apiVersion,
       ),
       secondPartReady: (s) async => SplitKeyIncomingPayment.secondPartReady(
         firstPart: s.firstPart,
         tokenAddress: s.tokenAddress,
         secondPart: event.value.key,
+        apiVersion: s.apiVersion,
       ),
       success: (s) async => s,
     );
@@ -84,8 +94,10 @@ class SplitKeyIncomingPaymentBloc extends Bloc<_Event, _State> {
     if (state is! PaymentSecondPartReady) return;
 
     emit(state.copyWith(processingState: const ProcessingState.processing()));
-    final updated = await _txProcessor
-        .createTx(
+
+    final txCreator = _txCreatorStrategy.fromApiVersion(state.apiVersion);
+    final updated = await txCreator
+        .createIncomingTx(
           firstPart: state.firstPart,
           secondPart: state.secondPart,
           recipient: event.recipient,

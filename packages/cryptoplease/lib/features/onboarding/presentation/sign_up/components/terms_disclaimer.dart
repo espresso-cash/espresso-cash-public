@@ -32,10 +32,11 @@ class TermsDisclaimer extends StatelessWidget {
               ),
             ),
           ],
-          style: Theme.of(context)
-              .textTheme
-              .headline2
-              ?.copyWith(fontSize: 16, height: 1.1),
+          style: Theme.of(context).textTheme.headline2?.copyWith(
+                fontSize: 14,
+                height: 1.1,
+                fontWeight: FontWeight.w500,
+              ),
         ),
       );
 }

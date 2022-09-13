@@ -1,26 +1,18 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/core/presentation/dialog_modal_route.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_confirm_phrase_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_success_screen.dart';
-import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/puzzle_reminder_dialog_message_screen.dart';
-import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/puzzle_reminder_dialog_setup_screen.dart';
+import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/puzzle_reminder_message_screen.dart';
+import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/puzzle_reminder_setup_screen.dart';
 
 const List<AutoRoute<dynamic>> backupPhraseRoutes = [
-  DialogModalRoute<void>(
+  AutoRoute<void>(
     name: 'PuzzleReminderRoute',
     page: EmptyRouterPage,
     children: [
-      DialogModalRoute<void>(
-        path: '',
-        hasBarrier: false,
-        page: PuzzleReminderDialogMessageScreen,
-      ),
-      DialogModalRoute<void>(
-        hasBarrier: false,
-        page: PuzzleReminderDialogSetupScreen,
-      ),
+      AutoRoute<void>(path: '', page: PuzzleReminderMessageScreen),
+      AutoRoute<void>(page: PuzzleReminderSetupScreen),
     ],
   ),
   AutoRoute<bool>(

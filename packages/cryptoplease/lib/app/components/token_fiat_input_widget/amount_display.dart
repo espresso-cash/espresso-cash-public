@@ -27,7 +27,7 @@ class AmountDisplay extends StatelessWidget {
       color: CpTheme.of(context).primaryTextColor,
     );
 
-    void _showTokensDialog() => showDialog<void>(
+    void showTokensDialog() => showDialog<void>(
           context: context,
           builder: (_) => TokenListDialog(
             tokens: availableTokens
@@ -65,7 +65,7 @@ class AmountDisplay extends StatelessWidget {
               Material(
                 child: Center(
                   child: InkWell(
-                    onTap: _showTokensDialog,
+                    onTap: showTokensDialog,
                     child: Row(
                       children: [
                         const SizedBox(width: 8),
