@@ -41,66 +41,57 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
   @override
   Widget build(BuildContext context) {
     final amount = widget.transfer.toAmount().formatWithFiat(context);
-    final firstLink = _firstLink;
     final secondLink = buildSecondLink(widget.transfer.privateKey);
-    final message = context.l10n.shareText(amount, firstLink, secondLink);
+    final message = context.l10n.shareText(amount, _firstLink, secondLink);
+
+    final messageWrapper = ShareMessageWrapper(
+      textSpan: TextSpan(
+        children: [
+          WidgetSpan(
+            child: _Header(
+              amount: amount,
+              tokenType: widget.transfer.tokenType,
+            ),
+          ),
+          const WidgetSpan(child: _Instructions()),
+          WidgetSpan(
+            child: _Links(firstLink: _firstLink, secondLink: secondLink),
+          ),
+        ],
+      ),
+    );
+
+    final title = Text(
+      context.l10n.yourLinkIsReady.toUpperCase(),
+      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+    );
+
+    final subTitle = Text(
+      context.l10n.linkSubtitle,
+      textAlign: TextAlign.center,
+      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+    );
+
+    final shareButton = CpButton(
+      text: context.l10n.shareLink,
+      width: double.infinity,
+      size: CpButtonSize.big,
+      onPressed: _firstLink.hasScheme ? () => Share.share(message) : null,
+    );
 
     return CpTheme.dark(
       child: Scaffold(
-        appBar: CpAppBar(
-          title: Text(
-            context.l10n.yourLinkIsReady.toUpperCase(),
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 17,
-            ),
-          ),
-        ),
+        appBar: CpAppBar(title: title),
         body: CpContentPadding(
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  context.l10n.linkSubtitle,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                  ),
-                ),
+                child: subTitle,
               ),
-              Flexible(
-                child: ShareMessageWrapper(
-                  textSpan: TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: _HeaderWidget(
-                          amount: amount,
-                          tokenType: widget.transfer.tokenType,
-                        ),
-                      ),
-                      const WidgetSpan(
-                        child: _InstructionsWidget(),
-                      ),
-                      WidgetSpan(
-                        child: _LinksWidget(
-                          firstLink: firstLink,
-                          secondLink: secondLink,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              Flexible(child: messageWrapper),
               const SizedBox(height: 24),
-              CpButton(
-                text: context.l10n.shareLink,
-                width: double.infinity,
-                size: CpButtonSize.big,
-                onPressed:
-                    _firstLink.hasScheme ? () => Share.share(message) : null,
-              ),
+              shareButton,
             ],
           ),
         ),
@@ -109,15 +100,8 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
   }
 }
 
-const _newLine = TextSpan(text: '\n\n');
-
-const _linkStyle = TextStyle(
-  fontWeight: FontWeight.w600,
-  color: CpColors.linkColor,
-);
-
-class _HeaderWidget extends StatelessWidget {
-  const _HeaderWidget({
+class _Header extends StatelessWidget {
+  const _Header({
     Key? key,
     required this.amount,
     required this.tokenType,
@@ -142,8 +126,8 @@ class _HeaderWidget extends StatelessWidget {
       );
 }
 
-class _LinksWidget extends StatelessWidget {
-  const _LinksWidget({
+class _Links extends StatelessWidget {
+  const _Links({
     Key? key,
     required this.firstLink,
     required this.secondLink,
@@ -168,8 +152,8 @@ class _LinksWidget extends StatelessWidget {
       );
 }
 
-class _InstructionsWidget extends StatelessWidget {
-  const _InstructionsWidget({Key? key}) : super(key: key);
+class _Instructions extends StatelessWidget {
+  const _Instructions({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Text.rich(
@@ -182,3 +166,10 @@ class _InstructionsWidget extends StatelessWidget {
         ),
       );
 }
+
+const _newLine = TextSpan(text: '\n\n');
+
+const _linkStyle = TextStyle(
+  fontWeight: FontWeight.w600,
+  color: CpColors.linkColor,
+);
