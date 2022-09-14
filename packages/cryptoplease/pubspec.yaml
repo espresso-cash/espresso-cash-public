@@ -31,7 +31,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.6.12
-  flutter_secure_storage: ^5.0.2
+  flutter_secure_storage: ^6.0.0
   flutter_svg: ^1.1.5
   flutter_svg_provider: ^1.0.3
   freezed_annotation: ^2.1.0
