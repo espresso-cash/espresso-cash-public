@@ -11,7 +11,7 @@ dependencies:
   crypto: ^3.0.2
   cryptoplease_api:
     path: cryptoplease_api
-  dfunc: ^0.7.2
+  dfunc: ^0.8.0+1
   freezed_annotation: ^2.0.1
   json_annotation: ^4.6.0
   mustache_template: ^2.0.0
