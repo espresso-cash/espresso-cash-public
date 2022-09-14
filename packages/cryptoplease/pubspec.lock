@@ -519,7 +519,7 @@ packages:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.11"
+    version: "0.6.12"
   flutter_native_splash:
     dependency: "direct dev"
     description:
