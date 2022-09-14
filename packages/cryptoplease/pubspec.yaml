@@ -77,7 +77,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.1.0+1
   golden_toolkit: ^0.13.0
-  http: ^0.13.4
+  http: ^0.13.5
   integration_test:
     sdk: flutter
   json_serializable: ^6.1.4
