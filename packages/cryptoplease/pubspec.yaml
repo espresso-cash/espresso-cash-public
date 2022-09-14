@@ -30,7 +30,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
-  flutter_markdown: ^0.6.11
+  flutter_markdown: ^0.6.12
   flutter_secure_storage: ^5.0.2
   flutter_svg: ^1.1.5
   flutter_svg_provider: ^1.0.3
@@ -54,7 +54,7 @@ dependencies:
   qr_flutter: ^4.0.0
   retrofit: ^3.0.1
   rxdart: ^0.27.1
-  sentry_flutter: ^6.9.0
+  sentry_flutter: ^6.9.1
   share: ^2.0.4
   shared_preferences: ^2.0.15
   solana:
