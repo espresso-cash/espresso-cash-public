@@ -115,22 +115,19 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - sqlite3 (3.39.2):
-    - sqlite3/common (= 3.39.2)
-  - sqlite3/common (3.39.2)
-  - sqlite3/fts5 (3.39.2):
+  - sqlite3 (3.39.3):
+    - sqlite3/common (= 3.39.3)
+  - sqlite3/common (3.39.3)
+  - sqlite3/fts5 (3.39.3):
     - sqlite3/common
-  - sqlite3/json1 (3.39.2):
+  - sqlite3/perf-threadsafe (3.39.3):
     - sqlite3/common
-  - sqlite3/perf-threadsafe (3.39.2):
-    - sqlite3/common
-  - sqlite3/rtree (3.39.2):
+  - sqlite3/rtree (3.39.3):
     - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
-    - sqlite3 (~> 3.39.2)
+    - sqlite3 (~> 3.39.3)
     - sqlite3/fts5
-    - sqlite3/json1
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
   - uni_links (0.0.1):
@@ -246,8 +243,8 @@ SPEC CHECKSUMS:
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  sqlite3: d115522c740c457b805c018b0296b5ba003da280
-  sqlite3_flutter_libs: 1641350489d5c2bcb9d0773ade9693624111b24c
+  sqlite3: 50117e9e063a9ef2b865f7bdf2f2601e5d368e9a
+  sqlite3_flutter_libs: c6ab7f23670a98fef45a137159452004bc552168
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
