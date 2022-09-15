@@ -24,20 +24,9 @@ class _ShareMessageWrapperState extends State<ShareMessageWrapper> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => CpRoundedRectangle(
         margin: const EdgeInsets.symmetric(vertical: 24),
-        padding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 4,
-        ),
-        decoration: const BoxDecoration(
-          color: CpColors.darkBackground,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30),
-            bottomRight: Radius.circular(30),
-            topLeft: Radius.circular(30),
-          ),
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 4),
         child: CupertinoScrollbar(
           radius: const Radius.circular(10),
           controller: _scrollController,
@@ -48,10 +37,7 @@ class _ShareMessageWrapperState extends State<ShareMessageWrapper> {
               padding: const EdgeInsets.all(32),
               child: Text.rich(
                 widget.textSpan,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                ),
+                style: const TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
           ),

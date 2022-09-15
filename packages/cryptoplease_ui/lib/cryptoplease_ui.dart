@@ -11,6 +11,7 @@ export 'src/headered_list/headered_list.dart';
 export 'src/icon_button.dart';
 export 'src/info_widget.dart';
 export 'src/loader.dart';
+export 'src/rounded_rectangle.dart';
 export 'src/search_text_field.dart';
 export 'src/snackbar.dart';
 export 'src/status_screen.dart';
