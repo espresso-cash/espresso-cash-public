@@ -22,7 +22,7 @@ dependencies:
   dio: ^4.0.0
   drift: ^1.5.0
   fast_immutable_collections: ^7.4.1
-  firebase_analytics: ^9.3.4
+  firebase_analytics: ^9.3.5
   firebase_core: ^1.22.0
   firebase_dynamic_links: ^4.3.7
   flutter:
