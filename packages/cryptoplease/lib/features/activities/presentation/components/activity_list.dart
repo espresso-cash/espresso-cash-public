@@ -167,7 +167,7 @@ class _SKOutgoingTile extends StatelessWidget {
   final OutgoingTransfer transfer;
 
   void _onTap(BuildContext context) =>
-      context.navigateToOutgoingTransfer(transfer.id, autoSubmit: false);
+      context.navigateToOutgoingTransferStatus(transfer.id);
 
   @override
   Widget build(BuildContext context) {

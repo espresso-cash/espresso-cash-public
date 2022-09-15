@@ -143,6 +143,7 @@
   "splitKeyProgressWithdrawn" : "Funds are withdrawn",
   "splitKeyProgressSuccess" : "Money has been successfully received",
   "splitKeyProgressCanceled" : "Transfer has been canceled",
+  "transferCancelConfirmationDialogContent" : "Are you sure you want to cancel the transfer?",
   "resendLink" : "Resend Links",
   "cancelTransfer" : "Cancel transfer",
   "buy": "Buy",

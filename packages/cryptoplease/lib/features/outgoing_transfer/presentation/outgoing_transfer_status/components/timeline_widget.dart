@@ -34,6 +34,7 @@ class CpTimelineWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Timeline.tileBuilder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         theme: TimelineThemeData(
           nodePosition: 0,
