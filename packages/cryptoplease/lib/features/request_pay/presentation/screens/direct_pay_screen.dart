@@ -1,7 +1,7 @@
 import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
-import 'package:cryptoplease/features/request_pay/presentation/components/qr_scanner_appbar.dart';
+import 'package:cryptoplease/features/request_pay/presentation/components/address_appbar.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/request_pay_header.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';

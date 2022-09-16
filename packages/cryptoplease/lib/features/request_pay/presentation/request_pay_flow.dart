@@ -12,7 +12,6 @@ import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class RequestPayFlowScreen extends StatefulWidget {
@@ -150,7 +149,6 @@ class _State extends State<RequestPayFlowScreen> implements RequestRouter {
         child: Scaffold(
           body: MultiProvider(
             providers: [
-              BlocProvider<RequestPayBloc>.value(value: _requestPayBloc),
               Provider<RequestRouter>.value(value: this),
             ],
             child: const AutoRouter(),
