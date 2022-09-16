@@ -64,6 +64,7 @@ class _ScreenState extends State<DirectPayScreen> {
           body: SafeArea(
             child: Column(
               children: [
+                const SizedBox(height: 16),
                 RequestPayHeader(
                   inputController: _amountController,
                   token: state.amount.currency.token,
