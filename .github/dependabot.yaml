@@ -5,6 +5,11 @@ updates:
     directory: "/packages/cryptoplease/"
     schedule:
       interval: "monthly"
+      
+  - package-ecosystem: "pub"
+    directory: "/packages/cryptoplease_link/"
+    schedule:
+      interval: "monthly"
 
   - package-ecosystem: "pub"
     directory: "/packages/cryptoplease_ui/"
