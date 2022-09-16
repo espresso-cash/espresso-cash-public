@@ -35,7 +35,17 @@ class RequestPayBloc extends Bloc<_Event, _State> {
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         amountUpdated: (event) => _onAmountUpdated(event, emit),
+        recipientUpdated: (event) => _onRecipientUpdated(event, emit),
+        cleared: (_) => _onCleared(emit),
       );
+
+  void _onCleared(_Emitter emit) {
+    emit(RequestPayState(amount: state.amount));
+  }
+
+  void _onRecipientUpdated(_RecipientUpdated event, _Emitter emit) {
+    emit(state.copyWith(recipient: event.recipient));
+  }
 
   void _onAmountUpdated(_AmountUpdated event, _Emitter emit) {
     emit(state.copyWith(amount: state.amount.copyWithDecimal(event.amount)));

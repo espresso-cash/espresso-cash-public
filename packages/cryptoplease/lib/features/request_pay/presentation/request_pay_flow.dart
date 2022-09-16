@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
+import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
+import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -15,27 +16,61 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class RequestPayFlowScreen extends StatefulWidget {
-  const RequestPayFlowScreen({Key? key}) : super(key: key);
+  const RequestPayFlowScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<RequestPayFlowScreen> createState() => _State();
 }
 
-class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
+class _State extends State<RequestPayFlowScreen> implements RequestRouter {
   late final RequestPayBloc _requestPayBloc;
 
   @override
   void initState() {
     super.initState();
-    _requestPayBloc = RequestPayBloc(
-      balances: context.read<BalancesBloc>().state.balances,
-    );
+    _requestPayBloc = context.read<RequestPayBloc>();
   }
 
   @override
   void dispose() {
     _requestPayBloc.close();
     super.dispose();
+  }
+
+  @override
+  Future<void> onQrScanner() =>
+      context.router.push<QrScannerRequest>(const QrScannerRoute()).then(
+        (request) {
+          final address = request?.map(
+            solanaPay: (r) => r.request.recipient.toBase58(),
+            address: (r) => r.address,
+          );
+          if (address == null) return;
+
+          _requestPayBloc.add(RequestPayEvent.recipientUpdated(address));
+
+          final amount = _requestPayBloc.state.amount.format(
+            DeviceLocale.localeOf(context),
+            skipSymbol: true,
+          );
+          context.router.push(
+            DirectPayRoute(
+              initialAmount: amount,
+              recipient: address,
+              onClearRecipient: onClearRecipient,
+              onAmountUpdate: onAmountUpdate,
+              onPay: onPay,
+            ),
+          );
+        },
+      );
+
+  @override
+  void onClearRecipient() {
+    _requestPayBloc.add(const RequestPayEvent.cleared());
+    context.router.pop();
   }
 
   @override
@@ -47,6 +82,8 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
 
   @override
   void onRequest() {
+    if (_requestPayBloc.state.recipient != null) return;
+
     final amount = _requestPayBloc.state.amount;
 
     if (amount.value == 0) {
@@ -59,6 +96,7 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
   @override
   void onPay() {
     final amount = _requestPayBloc.state.amount;
+    final recipient = _requestPayBloc.state.recipient;
 
     if (amount.value == 0) {
       return _showZeroAmountDialog(_Operation.pay);
@@ -72,7 +110,10 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
             ),
             insufficientFee: (e) => _showInsufficientFeeDialog(e.requiredFee),
           ),
-          (_) => context.navigateToLinkConfirmation(amount: amount),
+          (_) => context.navigateToConfirmation(
+            amount: amount,
+            recipient: recipient,
+          ),
         );
   }
 
@@ -110,7 +151,7 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
           body: MultiProvider(
             providers: [
               BlocProvider<RequestPayBloc>.value(value: _requestPayBloc),
-              Provider<RequestPayRouter>.value(value: this),
+              Provider<RequestRouter>.value(value: this),
             ],
             child: const AutoRouter(),
           ),
@@ -118,10 +159,12 @@ class _State extends State<RequestPayFlowScreen> implements RequestPayRouter {
       );
 }
 
-abstract class RequestPayRouter {
-  void onAmountUpdate(String value);
+abstract class RequestRouter {
   void onRequest();
   void onPay();
+  void onQrScanner();
+  void onClearRecipient();
+  void onAmountUpdate(String value);
 }
 
 enum _Operation { request, pay }

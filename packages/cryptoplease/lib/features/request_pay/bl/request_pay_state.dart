@@ -4,6 +4,7 @@ part of 'request_pay_bloc.dart';
 class RequestPayState with _$RequestPayState {
   const factory RequestPayState({
     required CryptoAmount amount,
+    String? recipient,
   }) = _RequestPayState;
 
   const RequestPayState._();
