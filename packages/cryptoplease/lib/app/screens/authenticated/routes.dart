@@ -18,8 +18,8 @@ import 'package:cryptoplease/features/profile/help_screen.dart';
 import 'package:cryptoplease/features/profile/menu_screen.dart';
 import 'package:cryptoplease/features/profile/profile_screen.dart';
 import 'package:cryptoplease/features/request_pay/presentation/request_pay_flow.dart';
+import 'package:cryptoplease/features/request_pay/presentation/routes.dart';
 import 'package:cryptoplease/features/request_pay/presentation/screens/direct_pay_screen.dart';
-import 'package:cryptoplease/features/request_pay/presentation/screens/request_pay_screen.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/routes.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.dart';
 import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/transaction_details_screen.dart';
@@ -35,9 +35,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
         CustomRoute<void>(path: '', page: MenuScreen),
         CustomRoute<void>(
           page: RequestPayFlowScreen,
-          children: [
-            AutoRoute<void>(path: '', page: RequestPayScreen),
-          ],
+          children: requestPayRoutes,
         ),
         CustomRoute<void>(page: ActivitiesScreen),
         CustomRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),
@@ -45,7 +43,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
         CustomRoute<Token>(page: TokenSelectorScreen),
       ],
     ),
-    AutoRoute<void>(path: '', page: DirectPayScreen),
+    AutoRoute<void>(page: DirectPayScreen),
     ...backupPhraseRoutes,
     AutoRoute<void>(page: NftDetailsScreen),
     AutoRoute<void>(page: TransactionsScreen),
