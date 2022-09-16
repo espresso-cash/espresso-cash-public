@@ -2,7 +2,8 @@ part of 'bloc.dart';
 
 @freezed
 class OutgoingTransferStatusEvent with _$OutgoingTransferStatusEvent {
-  const factory OutgoingTransferStatusEvent.load() = LoadOutgoingTransferStatus;
-  const factory OutgoingTransferStatusEvent.cancelTransfer() =
+  const factory OutgoingTransferStatusEvent.loaded() =
+      LoadOutgoingTransferStatus;
+  const factory OutgoingTransferStatusEvent.cancelled() =
       CancelOutgoingTransferStatus;
 }

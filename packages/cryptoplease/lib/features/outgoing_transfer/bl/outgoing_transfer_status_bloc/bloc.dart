@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
@@ -6,6 +9,7 @@ import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_stra
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,18 +35,16 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
     required MyAccount account,
     required TxProcessor txProcessor,
     required TxCreatorStrategy txCreatorStrategy,
+    required OutgoingTransferRepository repository,
     required this.transfer,
   })  : _rpcClient = client,
         _subscriptionClient = subscriptionClient,
         _account = account,
         _txProcessor = txProcessor,
         _txCreatorStrategy = txCreatorStrategy,
-        super(
-          const _State.ongoing(
-            processingState: ProcessingState.processing(),
-          ),
-        ) {
-    on<_Event>(_eventHandler);
+        _repository = repository,
+        super(const _State(processingState: ProcessingState.none())) {
+    on<_Event>(_eventHandler, transformer: sequential());
   }
 
   final OutgoingTransferSplitKey transfer;
@@ -55,9 +57,19 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
   final TxProcessor _txProcessor;
   final TxCreatorStrategy _txCreatorStrategy;
 
+  final OutgoingTransferRepository _repository;
+
+  StreamSubscription<Account>? _escrowSubscription;
+
+  @override
+  Future<void> close() async {
+    await _escrowSubscription?.cancel();
+    await super.close();
+  }
+
   _EventHandler get _eventHandler => (event, emit) => event.map(
-        load: (event) => _onLoad(event, emit),
-        cancelTransfer: (event) => _onCancel(event, emit),
+        loaded: (event) => _onLoad(event, emit),
+        cancelled: (event) => _onCancel(event, emit),
       );
 
   Future<Iterable<Transaction>> _loadTransactions({
@@ -110,7 +122,7 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
 
     final txCreator = _txCreatorStrategy.fromApiVersion(transfer.apiVersion);
 
-    final updated = await txCreator
+    await txCreator
         .createIncomingTx(
           firstPart: keys.first,
           secondPart: keys.last,
@@ -123,18 +135,9 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
         );
   }
 
-  Future<void> _onLoad(_, _Emitter emit) async {
+  Future<OutgoingTransferStatus?> _checkStatus(_Emitter emit) async {
     final recipient = await transfer.getRecipient();
     final currency = transfer.toAmount().currency;
-
-    // _subscriptionClient
-    //     .accountSubscribe(
-    //   recipient.toBase58(),
-    //   commitment: Commitment.confirmed,
-    // )
-    //     .listen((event) {
-    //   print('NEW EVENT');
-    // });
 
     final lamports = await _rpcClient.getBalance(
       recipient.toBase58(),
@@ -150,24 +153,67 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
 
     final transactions = await _fetchTransactions();
 
-    if (hasBalance && transactions.length == 1) {
-      emit(const _State.ongoing(processingState: ProcessingState.none()));
-    } else if (!hasBalance && transactions.length == 2) {
+    if (!hasBalance && transactions.length == 2) {
       final transaction = transactions.first as TransferTransaction;
 
-      if (transaction.recipientAddress == _account.address) {
-        emit(const _State.cancelled());
-      } else {
-        emit(const _State.success());
-      }
-    } else {
-      emit(const _State.error());
+      final status = OutgoingTransferStatus(
+        status: transaction.recipientAddress == _account.address
+            ? OutgoingStatus.canceled
+            : OutgoingStatus.success,
+        created: transaction.blockTime,
+      );
+
+      await _repository.save(transfer.copyWith(transferStatus: status));
+
+      await _escrowSubscription?.cancel();
+
+      emit(
+        state.copyWith(
+          transferStatus: status,
+          processingState: const ProcessingState.none(),
+        ),
+      );
+
+      return status;
     }
   }
 
-  Future<void> _onCancel(_, __) async {
-    emit(const _State.ongoing(processingState: ProcessingState.processing()));
+  Future<void> _onLoad(_, _Emitter emit) async {
+    if (transfer.transferStatus != null) {
+      emit(
+        state.copyWith(
+          processingState: const ProcessingState.none(),
+          transferStatus: transfer.transferStatus,
+        ),
+      );
+
+      return;
+    }
+
+    emit(state.copyWith(processingState: const ProcessingState.processing()));
+
+    final status = await _checkStatus(emit);
+
+    if (status == null) {
+      emit(state.copyWith(processingState: const ProcessingState.none()));
+    }
+
+    final recipient = await transfer.getRecipient();
+
+    _escrowSubscription = _subscriptionClient
+        .accountSubscribe(
+      recipient.toBase58(),
+      commitment: Commitment.confirmed,
+    )
+        .listen((event) async {
+      await _checkStatus(emit);
+    });
+  }
+
+  Future<void> _onCancel(_, _Emitter emit) async {
+    emit(state.copyWith(processingState: const ProcessingState.processing()));
     await _cancel();
+    await _checkStatus(emit);
   }
 }
 

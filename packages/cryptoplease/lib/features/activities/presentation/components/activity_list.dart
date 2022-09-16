@@ -166,7 +166,10 @@ class _SKOutgoingTile extends StatelessWidget {
 
   final OutgoingTransfer transfer;
 
-  void _onTap(BuildContext context) =>
+  void _onTapDraft(BuildContext context) =>
+      context.navigateToOutgoingTransfer(transfer.id, autoSubmit: true);
+
+  void _onTapReady(BuildContext context) =>
       context.navigateToOutgoingTransferStatus(transfer.id);
 
   @override
@@ -185,8 +188,13 @@ class _SKOutgoingTile extends StatelessWidget {
       direct: always(context.l10n.directOutgoingNotificationSubtitle),
     );
 
+    final onTap = transfer.state.map(
+      draft: always(() => _onTapDraft(context)),
+      ready: always(() => _onTapReady(context)),
+    );
+
     return ListTile(
-      onTap: () => _onTap(context),
+      onTap: onTap,
       leading: CircleAvatar(
         radius: 25,
         backgroundColor: CpColors.purple,

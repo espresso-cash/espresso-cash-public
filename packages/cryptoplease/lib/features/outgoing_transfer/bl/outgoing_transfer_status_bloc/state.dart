@@ -2,18 +2,10 @@ part of 'bloc.dart';
 
 @freezed
 class OutgoingTransferStatusState with _$OutgoingTransferStatusState {
-  const factory OutgoingTransferStatusState.ongoing({
+  const factory OutgoingTransferStatusState({
     @Default(ProcessingStateNone()) ProcessingState processingState,
+    OutgoingTransferStatus? transferStatus,
   }) = OutgoingTransferStatusStateOngoing;
-
-  const factory OutgoingTransferStatusState.success() =
-      OutgoingTransferStatusStateSuccess;
-
-  const factory OutgoingTransferStatusState.cancelled() =
-      OutgoingTransferStatusStateCancelled;
-
-  const factory OutgoingTransferStatusState.error() =
-      OutgoingTransferStatusStateError;
 }
 
 @freezed
