@@ -95,7 +95,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
             );
 
             return Scaffold(
-              appBar: CpAppBar(title: Text(context.l10n.buySol)),
+              appBar: CpAppBar(title: Text(context.l10n.buyUsdc)),
               body: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 16,

@@ -207,7 +207,7 @@
   "noNftsCollectedYet": "No collectibles",
   "nftDescription": "Description",
   "nftProperties": "Properties",
-  "buySol": "Buy SOL",
+  "buyUsdc": "Buy USDC",
   "buySolanaTokenMoonPay": "You can buy SOL via MoonPay, our third party provider",
   "buySolFailedTitle": "Failed to launch MoonPay",
   "tryAgainLater": "Please, try again later",
