@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class ShareMessageWrapper extends StatefulWidget {
   const ShareMessageWrapper({
     Key? key,
-    required this.message,
+    required this.textSpan,
   }) : super(key: key);
 
-  final String message;
+  final TextSpan textSpan;
 
   @override
   State<ShareMessageWrapper> createState() => _ShareMessageWrapperState();
@@ -24,16 +24,9 @@ class _ShareMessageWrapperState extends State<ShareMessageWrapper> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.all(24),
-        padding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 4,
-        ),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-        ),
+  Widget build(BuildContext context) => CpRoundedRectangle(
+        margin: const EdgeInsets.symmetric(vertical: 24),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 4),
         child: CupertinoScrollbar(
           radius: const Radius.circular(10),
           controller: _scrollController,
@@ -41,13 +34,10 @@ class _ShareMessageWrapperState extends State<ShareMessageWrapper> {
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Text(
-                widget.message,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: CpColors.primaryTextColor,
-                ),
+              padding: const EdgeInsets.all(32),
+              child: Text.rich(
+                widget.textSpan,
+                style: const TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
           ),

@@ -1,9 +1,9 @@
 {
   "next": "Next",
-  "recoverySubHeading": "Your secret recovery phrase allows you to recover your wallet in case you delete the wallet or lose your phone.\n\nWrite down or copy these words in the right order and save them somewhere safe.",
+  "recoverySubHeading": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
   "yourRecoveryPhrase": "Your Secret Recovery Phrase",
-  "yourRecoveryPhraseSub": "Please write down your secret recovery phrase and save it carefully in a secure location. This phrase is composed of 12 random generated words. You will not be able to recover your funds if you lose these words.",
-  "yourFirstNamePlaceholder": "Type your name",
+  "yourRecoveryPhraseSub": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
+  "yourFirstNamePlaceholder": "Choose a username",
   "activitiesTitle": "Activities",
   "signOut": "Delete Wallet",
   "signOutConfirmation": "Are you sure you want to delete the wallet?",
@@ -15,26 +15,12 @@
   "labelFee": "Network Fee:",
   "signUp": "Create Wallet",
   "signIn": "Use Existing Wallet",
-  "getStarted": "Get started",
+  "getStarted": "Get started with",
   "linkCreated": "Links have been created!",
   "linkSubtitle": "The recipient will need to click on the two links below to redeem the money.",
-  "enterYourSecretWords": "Enter your secret recovery phrase",
-  "toRestoreYourAccount": "To restore your wallet, please type the secret recovery phrase you have previously written down.",
+  "enterYourSecretWords": "Enter Your Secret Recovery Phrase",
+  "toRestoreYourAccount": "Please enter your secret recovery phrase below. This phrase is composed of random generated 12 words.",
   "shareLink": "Share payment links",
-  "shareText": "Hi!\n\nI've just sent you {amount}! To receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
-  "@shareText": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "firstLink": {
-        "type": "Uri"
-      },
-      "secondLink": {
-        "type": "Uri"
-      }
-    }
-  },
   "paste": "Paste",
   "viewRecoveryPhrase": "View secret recovery phrase",
   "termsOfUse": "Terms of Use",
@@ -53,12 +39,11 @@
   "youAreCreatingUniqueLink": "You're creating payment links to be redeemed by anyone",
   "itWillContain": "It will contain",
   "ok": "OK",
-  "backupPhraseSuccessMessage": "You successfully saved your secret recovery phrase in a safe place, keep it as private as you can.",
+  "backupPhraseSuccessMessage": "You’ve successfully saved your secret recovery phrase in a safe place. Make sure to keep it private!",
   "editProfile": "Edit Profile",
   "photoLibrary": "Photo Library",
   "camera": "Camera",
-  "didYouWriteItDownCorrectly": "Did you write it down correctly?",
-  "completeThePuzzle": "Tap the words to put them next to each other in the correct order.",
+  "completeThePuzzle": "Did you write it down your recovery phrase correctly? Test it here:",
   "sent": "Sent",
   "received": "Received",
   "ago": "ago",
@@ -102,31 +87,40 @@
   "retry": "Retry",
   "search": "Search",
   "noEmailInCryptoTitle": "No email and password in Crypto!",
-  "noEmailInCryptoParagraph": "In Crypto, you don't need an email and password to access your money.\n\nYou need a secret recovery phrase. This phrase is composed of random generated words which will be given to you now.\n\nWithout these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe!",
+  "noEmailInCryptoInfo": "With Espresso Cash, there’s no need for an email and password to access your money!",
+  "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\n\n\nKeep them safe! ",
   "iUnderstand": "I Understand",
   "termsOfService": "Terms of Service",
   "failToLoadTerms": "Failed to load Terms of Service, something unexpected happened!",
   "protectYourWallet": "Protect Your Wallet",
   "protectYourWalletParagraph1": "Don't risk losing your funds. Protect your wallet by saving your secret recovery phrase in a place you trust.",
   "protectYourWalletParagraph2": "It's the only way to recover your wallet if you get locked out of the app or get a new device.",
-  "protectWallet": "Protect My Wallet",
+  "protectWalletTitle": "WALLET PROTECTION",
+  "protectWallet": "Protect Wallet",
   "skipWalletProtection": "Skip wallet protection",
-  "iUnderstandIfLoseMySecret": "I understand that if I lose my secret recovery phrase I will not be able to access my wallet.",
+  "iUnderstandIfLoseMySecret": "I understand that if I lose my Secret Recovery Phrase I will not be able to access funds.",
   "remindMeLater": "Remind me later",
-  "yesRemindMe": "Yes, remind me to protect my wallet",
+  "setReminder": "SET A REMINDER FOR {duration}",
+  "@setReminder": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
   "tomorrow": "Tomorrow",
-  "oneWeek": "In one week",
-  "oneMonth": "In one month",
+  "oneWeek": "1 week",
+  "oneMonth": "1 month",
   "back": "Back",
   "unsupportedNft": "Unsupported Nft",
   "yourNfts": "YOUR COLLECTIBLES",
   "splitKeySecondLinkTitle": "Money is waiting for you!",
   "splitKeySecondLinkReadyTitle": "Receiving money",
   "splitKeySecondLinkMessage": "Please click the second link in the message you've received.",
-  "splitKeyTransferTitle" : "TRANSFER PROGRESS",
-  "splitKeyTransactionLoading" : "Hang tight. We're almost done...",
-  "splitKeySuccessMessage1" : "SUCCESS!",
-  "splitKeySuccessMessage2" : "Your transfer has been sent.",
+  "splitKeyTransferTitle": "TRANSFER PROGRESS",
+  "splitKeyTransactionLoading": "Hang tight. We're almost done...",
+  "splitKeySuccessMessage1": "SUCCESS!",
+  "splitKeySuccessMessage2": "Your transfer has been sent.",
   "splitKeyErrorMessage1": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyErrorRetry": "Please retry.",
@@ -263,7 +257,7 @@
   "stablecoin": "Stablecoin",
   "stablecoinExplained": "Stablecoins are cryptocurrencies that mirror traditional currency or asset such as the dollar, euro.",
   "theyWillAppearHere": "They will appear here",
-  "startSendingAndReceiving": "Start sending and receiving crypto using a simple & secure link.",
+  "startSendingAndReceiving": "Sending and receiving money using a simple & secure link.",
   "fastOnboarding": "Fast onboarding.",
   "supportAllDay": "24/7 Support.",
   "byCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
@@ -307,15 +301,15 @@
   "swapCleanup": "Cleaning up",
   "swapSuccess": "Success!",
   "errorLoadingTokens": "Error loading tokens for swapping",
-  "swapFailRouteNotFound":"No routes found for given tokens and amount!",
-  "swapFailSetupFailed":"An error ocurred while setting up your transaction",
-  "swapFailSwapFailed":"An error ocurred while swapping tokens",
-  "swapFailCleanUpFailed":"An error ocurred while cleaning up your transaction",
-  "swapFailUnknown":"An unkown error ocurred while submitting your transaction",
-  "comingSoon":"Coming soon!",
-  "pay":"Pay",
+  "swapFailRouteNotFound": "No routes found for given tokens and amount!",
+  "swapFailSetupFailed": "An error ocurred while setting up your transaction",
+  "swapFailSwapFailed": "An error ocurred while swapping tokens",
+  "swapFailCleanUpFailed": "An error ocurred while cleaning up your transaction",
+  "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
+  "comingSoon": "Coming soon!",
+  "pay": "Pay",
   "usdcExplanation": "The USD Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar.",
-  "pushNotifications":"Push Notifications",
+  "pushNotifications": "Push Notifications",
   "appLockDescription": "Temporarily lock the app",
   "viewRecoveryPhraseDescription": "Words generated by your crypto wallet",
   "editProfileDescription": "Make changes to your current profile",
@@ -352,5 +346,25 @@
         "type": "String"
       }
     }
-  }
+  },
+  "shareIntroFt": "Hi!\n\nI’ve just sent you ",
+  "shareIntroNft": "Hi!\n\nI’ve just sent you a NFT.",
+  "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
+  "shareStep1": "Step 1 – Click on the first link:",
+  "shareStep2": "Step 2 – When the application asks you, click on the second link:",
+  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
+  "@shareText": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "firstLink": {
+        "type": "Uri"
+      },
+      "secondLink": {
+        "type": "Uri"
+      }
+    }
+  },
+  "yourLinkIsReady": "Your link is ready"
 }

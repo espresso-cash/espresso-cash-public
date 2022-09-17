@@ -19,28 +19,26 @@ class CpStatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final title = this.title;
 
-    return DecoratedBox(
-      decoration: statusType.decoration,
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (title != null)
-                DefaultTextStyle.merge(
-                  style: _titleStyle,
-                  textAlign: TextAlign.center,
-                  child: title,
-                ),
+    return CpRoundedRectangle(
+      backgroundColor: statusType.backgroundColor,
+      padding: const EdgeInsets.all(24),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (title != null)
               DefaultTextStyle.merge(
-                style: _contentStyle,
+                style: _titleStyle,
                 textAlign: TextAlign.center,
-                child: content,
+                child: title,
               ),
-            ],
-          ),
+            DefaultTextStyle.merge(
+              style: _contentStyle,
+              textAlign: TextAlign.center,
+              child: content,
+            ),
+          ],
         ),
       ),
     );
@@ -48,16 +46,7 @@ class CpStatusWidget extends StatelessWidget {
 }
 
 extension on CpStatusType {
-  Decoration get decoration => BoxDecoration(
-        color: _backgroundColor,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: _radius,
-          bottomRight: _radius,
-          topLeft: _radius,
-        ),
-      );
-
-  Color get _backgroundColor {
+  Color get backgroundColor {
     switch (this) {
       case CpStatusType.success:
         return CpColors.successBackgroundColor;
@@ -67,8 +56,6 @@ extension on CpStatusType {
         return CpColors.errorBackgroundColor;
     }
   }
-
-  static const _radius = Radius.circular(32);
 }
 
 const _titleStyle = TextStyle(

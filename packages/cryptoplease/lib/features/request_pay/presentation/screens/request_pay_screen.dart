@@ -1,10 +1,10 @@
+import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/qr_scanner_appbar.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/request_pay_header.dart';
-import 'package:cryptoplease/features/request_pay/presentation/components/token_info_widget.dart';
 import 'package:cryptoplease/features/request_pay/presentation/request_pay_flow.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -61,7 +61,13 @@ class _ScreenState extends State<RequestPayScreen> {
               token: state.amount.currency.token,
             ),
             const SizedBox(height: 16),
-            InfoWidget(message: context.l10n.usdcExplanation),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 55),
+              child: CpInfoWidget(
+                icon: const InfoIcon(),
+                message: Text(context.l10n.usdcExplanation),
+              ),
+            ),
             const SizedBox(height: 8),
             Flexible(
               flex: 3,
@@ -99,7 +105,7 @@ class _ScreenState extends State<RequestPayScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: cpNavigationBarheight + 16),
+            const SizedBox(height: cpNavigationBarheight + 32),
           ],
         ),
       ),
