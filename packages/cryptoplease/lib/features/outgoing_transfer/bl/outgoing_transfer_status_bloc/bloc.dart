@@ -136,7 +136,7 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
         );
   }
 
-  Future<OutgoingTransferStatus?> _checkStatus(_Emitter emit) async {
+  Future<void> _updateStatus(_Emitter emit) async {
     final recipient = await transfer.getRecipient();
     final currency = transfer.toAmount().currency;
 
@@ -175,8 +175,10 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
         ),
       );
 
-      return status;
+      return;
     }
+
+    emit(state.copyWith(processingState: const ProcessingState.none()));
   }
 
   Future<void> _onInit(_, _Emitter emit) async {
@@ -193,31 +195,29 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
 
     emit(state.copyWith(processingState: const ProcessingState.processing()));
 
-    final status = await _checkStatus(emit);
-
-    if (status == null) {
-      emit(state.copyWith(processingState: const ProcessingState.none()));
-    }
+    await _updateStatus(emit);
 
     final recipient = await transfer.getRecipient();
 
     _escrowSubscription = _subscriptionClient
         .accountSubscribe(
-      recipient.toBase58(),
-      commitment: Commitment.confirmed,
-    )
-        .listen((event) {
-      add(const OutgoingTransferStatusEvent.updated());
-    });
+          recipient.toBase58(),
+          commitment: Commitment.confirmed,
+        )
+        .listen(_onListen);
   }
 
   Future<void> _onLoad(_, _Emitter emit) async {
-    await _checkStatus(emit);
+    await _updateStatus(emit);
   }
 
   Future<void> _onCancel(_, _Emitter emit) async {
     emit(state.copyWith(processingState: const ProcessingState.processing()));
     await _cancel();
+    add(const OutgoingTransferStatusEvent.updated());
+  }
+
+  void _onListen(_) {
     add(const OutgoingTransferStatusEvent.updated());
   }
 }
