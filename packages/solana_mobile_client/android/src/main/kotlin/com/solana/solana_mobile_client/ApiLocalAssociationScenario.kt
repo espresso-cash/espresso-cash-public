@@ -167,6 +167,13 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         }
     }
 
+    override fun deauthorize(id: Long, authToken: String, result: Api.Result<Void>?) {
+        val client = getClient(id)
+
+        client.deauthorize(authToken)
+            .notifyOnComplete { activity?.runOnUiThread { result?.success(null) } }
+    }
+
     private fun getScenario(id: Long): LocalAssociationScenario =
         scenarios[id] ?: throw IllegalStateException("No scenario with id $id registered")
 

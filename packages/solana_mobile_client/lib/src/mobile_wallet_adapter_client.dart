@@ -9,15 +9,20 @@ class MobileWalletAdapterClient {
 
   final int _scenarioId;
 
-  Future<GetCapabilitiesResult> getCapabilities() async {
-    final result = await api.getCapabilities(_scenarioId);
+  Future<GetCapabilitiesResult?> getCapabilities() async {
+    try {
+      final result = await api.getCapabilities(_scenarioId);
 
-    return GetCapabilitiesResult(
-      supportsCloneAuthorization: result.supportsCloneAuthorization,
-      supportsSignAndSendTransactions: result.supportsSignAndSendTransactions,
-      maxTransactionsPerSigningRequest: result.maxTransactionsPerSigningRequest,
-      maxMessagesPerSigningRequest: result.maxMessagesPerSigningRequest,
-    );
+      return GetCapabilitiesResult(
+        supportsCloneAuthorization: result.supportsCloneAuthorization,
+        supportsSignAndSendTransactions: result.supportsSignAndSendTransactions,
+        maxTransactionsPerSigningRequest:
+            result.maxTransactionsPerSigningRequest,
+        maxMessagesPerSigningRequest: result.maxMessagesPerSigningRequest,
+      );
+    } on PlatformException {
+      return null;
+    }
   }
 
   Future<AuthorizationResult?> authorize({
@@ -69,6 +74,16 @@ class MobileWalletAdapterClient {
       );
     } on PlatformException {
       return null;
+    }
+  }
+
+  Future<void> deauthorize({
+    required String authToken,
+  }) async {
+    try {
+      await api.deauthorize(_scenarioId, authToken);
+    } on PlatformException {
+      return;
     }
   }
 }

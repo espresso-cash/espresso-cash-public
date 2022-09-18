@@ -246,6 +246,7 @@ public class Api {
     void getCapabilities(@NonNull Long id, Result<GetCapabilitiesResultDto> result);
     void authorize(@NonNull Long id, @Nullable String identityUri, @Nullable String iconUri, @Nullable String identityName, @Nullable String cluster, Result<AuthorizationResultDto> result);
     void reauthorize(@NonNull Long id, @Nullable String identityUri, @Nullable String iconUri, @Nullable String identityName, @NonNull String authToken, Result<AuthorizationResultDto> result);
+    void deauthorize(@NonNull Long id, @NonNull String authToken, Result<Void> result);
 
     /** The codec used by ApiLocalAssociationScenario. */
     static MessageCodec<Object> getCodec() {
@@ -494,6 +495,44 @@ public class Api {
               };
 
               api.reauthorize((idArg == null) ? null : idArg.longValue(), identityUriArg, iconUriArg, identityNameArg, authTokenArg, resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiLocalAssociationScenario.deauthorize", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number idArg = (Number)args.get(0);
+              if (idArg == null) {
+                throw new NullPointerException("idArg unexpectedly null.");
+              }
+              String authTokenArg = (String)args.get(1);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              Result<Void> resultCallback = new Result<Void>() {
+                public void success(Void result) {
+                  wrapped.put("result", null);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.deauthorize((idArg == null) ? null : idArg.longValue(), authTokenArg, resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

@@ -34,6 +34,9 @@ abstract class ApiLocalAssociationScenario {
     String? identityName,
     String authToken,
   );
+
+  @async
+  void deauthorize(int id, String authToken);
 }
 
 class GetCapabilitiesResultDto {

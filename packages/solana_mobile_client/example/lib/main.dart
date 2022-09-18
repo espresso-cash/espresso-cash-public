@@ -44,6 +44,12 @@ class MyApp extends StatelessWidget {
                       : null,
                   child: const Text('Reauthorize'),
                 ),
+                ElevatedButton(
+                  onPressed: state.isAuthorized
+                      ? () => context.read<ClientBloc>().deauthorize()
+                      : null,
+                  child: const Text('Deauthorize'),
+                ),
               ],
             ),
           ),

@@ -55,6 +55,21 @@ class ClientBloc extends Cubit<ClientState> {
 
     emit(state.copyWith(authorizationResult: result));
   }
+
+  Future<void> deauthorize() async {
+    final authToken = state.authorizationResult?.authToken;
+    if (authToken == null) return;
+
+    final session = await LocalAssociationScenario.create();
+
+    session.startActivityForResult(null).ignore();
+
+    final client = await session.start();
+    await client.deauthorize(authToken: authToken);
+    await session.close();
+
+    emit(state.copyWith(authorizationResult: null));
+  }
 }
 
 @freezed
