@@ -68,7 +68,8 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
   }
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
-        loaded: (event) => _onLoad(event, emit),
+        init: (event) => _onInit(event, emit),
+        updated: (event) => _onLoad(event, emit),
         cancelled: (event) => _onCancel(event, emit),
       );
 
@@ -178,7 +179,7 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
     }
   }
 
-  Future<void> _onLoad(_, _Emitter emit) async {
+  Future<void> _onInit(_, _Emitter emit) async {
     if (transfer.transferStatus != null) {
       emit(
         state.copyWith(
@@ -205,15 +206,19 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
       recipient.toBase58(),
       commitment: Commitment.confirmed,
     )
-        .listen((event) async {
-      await _checkStatus(emit);
+        .listen((event) {
+      add(const OutgoingTransferStatusEvent.updated());
     });
+  }
+
+  Future<void> _onLoad(_, _Emitter emit) async {
+    await _checkStatus(emit);
   }
 
   Future<void> _onCancel(_, _Emitter emit) async {
     emit(state.copyWith(processingState: const ProcessingState.processing()));
     await _cancel();
-    await _checkStatus(emit);
+    add(const OutgoingTransferStatusEvent.updated());
   }
 }
 

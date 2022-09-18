@@ -51,7 +51,7 @@ class _SplitKeyStatusDetailsState extends State<_SplitKeyStatusDetails> {
   void initState() {
     super.initState();
     context.read<OutgoingTransferStatusBloc>().add(
-          const OutgoingTransferStatusEvent.loaded(),
+          const OutgoingTransferStatusEvent.init(),
         );
   }
 
