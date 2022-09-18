@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/solana.dart';
 import 'package:solana_mobile_client/solana_mobile_client.dart';
 
 part 'client.freezed.dart';
@@ -70,6 +71,27 @@ class ClientBloc extends Cubit<ClientState> {
 
     emit(state.copyWith(authorizationResult: null));
   }
+
+  Future<void> requestAirdrop() async {
+    final publicKey = state.authorizationResult?.publicKey;
+    if (publicKey == null) return;
+
+    if (state.isRequestingAirdrop) return;
+
+    emit(state.copyWith(isRequestingAirdrop: true));
+
+    try {
+      await SolanaClient(
+        rpcUrl: Uri.parse('https://api.testnet.solana.com'),
+        websocketUrl: Uri.parse('wss://api.testnet.solana.com'),
+      ).requestAirdrop(
+        address: Ed25519HDPublicKey(publicKey),
+        lamports: lamportsPerSol,
+      );
+    } finally {
+      emit(state.copyWith(isRequestingAirdrop: false));
+    }
+  }
 }
 
 @freezed
@@ -77,9 +99,19 @@ class ClientState with _$ClientState {
   const factory ClientState({
     GetCapabilitiesResult? capabilities,
     AuthorizationResult? authorizationResult,
+    @Default(false) bool isRequestingAirdrop,
   }) = _ClientState;
 
   const ClientState._();
 
   bool get isAuthorized => authorizationResult != null;
+
+  bool get canRequestAirdrop => isAuthorized && !isRequestingAirdrop;
+
+  String? get address {
+    final publicKey = authorizationResult?.publicKey;
+    if (publicKey == null) return null;
+
+    return Ed25519HDPublicKey(publicKey).toBase58();
+  }
 }

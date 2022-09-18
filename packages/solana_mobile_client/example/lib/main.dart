@@ -28,31 +28,71 @@ class MyApp extends StatelessWidget {
             listenWhen: (previous, current) =>
                 previous.capabilities != current.capabilities,
             builder: (context, state) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ElevatedButton(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 16,
+                  ),
+                  child: Text(
+                    'Public key: ${state.address ?? '<none>'}',
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                ),
+                Button(
                   onPressed: () =>
                       context.read<ClientBloc>().requestCapabilities(),
-                  child: const Text('Get capabilities'),
+                  text: 'Get capabilities',
                 ),
-                ElevatedButton(
+                Button(
                   onPressed: () => context.read<ClientBloc>().authorize(),
-                  child: const Text('Authorize'),
+                  text: 'Authorize',
                 ),
-                ElevatedButton(
+                Button(
                   onPressed: state.isAuthorized
                       ? () => context.read<ClientBloc>().reauthorize()
                       : null,
-                  child: const Text('Reauthorize'),
+                  text: 'Reauthorize',
                 ),
-                ElevatedButton(
+                Button(
                   onPressed: state.isAuthorized
                       ? () => context.read<ClientBloc>().deauthorize()
                       : null,
-                  child: const Text('Deauthorize'),
+                  text: 'Deauthorize',
+                ),
+                Button(
+                  onPressed: state.canRequestAirdrop
+                      ? () => context.read<ClientBloc>().requestAirdrop()
+                      : null,
+                  text: 'Request airdrop',
                 ),
               ],
             ),
           ),
+        ),
+      );
+}
+
+class Button extends StatelessWidget {
+  const Button({
+    super.key,
+    this.onPressed,
+    required this.text,
+  });
+
+  final VoidCallback? onPressed;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size.fromHeight(40),
+          ),
+          onPressed: onPressed,
+          child: Text(text),
         ),
       );
 }
