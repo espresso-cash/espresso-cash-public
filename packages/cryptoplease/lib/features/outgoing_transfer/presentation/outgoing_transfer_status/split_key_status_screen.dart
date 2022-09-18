@@ -75,8 +75,6 @@ class _SplitKeyStatusDetailsState extends State<_SplitKeyStatusDetails> {
         return CpStatusType.success;
       case OutgoingStatus.canceled:
         return CpStatusType.error;
-      case OutgoingStatus.ongoing:
-        return CpStatusType.info;
     }
   }
 
@@ -90,8 +88,6 @@ class _SplitKeyStatusDetailsState extends State<_SplitKeyStatusDetails> {
         return CpColors.successBackgroundColor;
       case OutgoingStatus.canceled:
         return CpColors.errorBackgroundColor;
-      case OutgoingStatus.ongoing:
-        return CpColors.infoBackgroundColor;
     }
   }
 
@@ -105,8 +101,6 @@ class _SplitKeyStatusDetailsState extends State<_SplitKeyStatusDetails> {
         return Assets.icons.logoBgGreen.svg(alignment: Alignment.bottomCenter);
       case OutgoingStatus.canceled:
         return Assets.icons.logoBgRed.svg(alignment: Alignment.bottomCenter);
-      case OutgoingStatus.ongoing:
-        return Assets.icons.logoBgOrange.svg(alignment: Alignment.bottomCenter);
     }
   }
 
@@ -131,8 +125,6 @@ class _SplitKeyStatusDetailsState extends State<_SplitKeyStatusDetails> {
         return context.l10n.splitKeySuccessMessage2;
       case OutgoingStatus.canceled:
         return context.l10n.transactionCanceled;
-      case OutgoingStatus.ongoing:
-        return context.l10n.splitKeyProgressOngoing(amount);
     }
   }
 

@@ -136,14 +136,13 @@ class OutgoingTransferState with _$OutgoingTransferState {
       _$OutgoingTransferStateFromJson(json);
 }
 
-enum OutgoingStatus { ongoing, success, canceled }
+enum OutgoingStatus { success, canceled }
 
 @freezed
 class OutgoingTransferStatus with _$OutgoingTransferStatus {
   const factory OutgoingTransferStatus({
     required OutgoingStatus status,
     DateTime? created,
-    String? signature,
   }) = _OutgoingTransferStatus;
 
   factory OutgoingTransferStatus.fromJson(Map<String, dynamic> json) =>
