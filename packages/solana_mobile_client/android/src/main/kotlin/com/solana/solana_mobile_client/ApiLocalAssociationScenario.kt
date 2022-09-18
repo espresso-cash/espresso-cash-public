@@ -103,6 +103,77 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         }
     }
 
+    override fun authorize(
+        id: Long,
+        identityUri: String?,
+        iconUri: String?,
+        identityName: String?,
+        cluster: String?,
+        result: Api.Result<Api.AuthorizationResultDto>?
+    ) {
+        val client = getClient(id)
+
+        client.authorize(
+            identityUri?.let(Uri::parse),
+            iconUri?.let(Uri::parse),
+            identityName,
+            cluster,
+        ).notifyOnComplete {
+            try {
+                val authResult = it.get()
+                val dto = Api.AuthorizationResultDto.Builder()
+                    .setAuthToken(authResult.authToken)
+                    .setPublicKey(authResult.publicKey)
+                    .setAccountLabel(authResult.accountLabel)
+                    .setWalletUriBase(authResult.walletUriBase?.toString())
+                    .build()
+
+                activity?.runOnUiThread { result?.success(dto) }
+            } catch (e: Throwable) {
+                activity?.runOnUiThread { result?.error(e) }
+            }
+        }
+    }
+
+    override fun reauthorize(
+        id: Long,
+        identityUri: String?,
+        iconUri: String?,
+        identityName: String?,
+        authToken: String,
+        result: Api.Result<Api.AuthorizationResultDto>?
+    ) {
+        val client = getClient(id)
+
+        client.reauthorize(
+            identityUri?.let(Uri::parse),
+            iconUri?.let(Uri::parse),
+            identityName,
+            authToken,
+        ).notifyOnComplete {
+            try {
+                val authResult = it.get()
+                val dto = Api.AuthorizationResultDto.Builder()
+                    .setAuthToken(authResult.authToken)
+                    .setPublicKey(authResult.publicKey)
+                    .setAccountLabel(authResult.accountLabel)
+                    .setWalletUriBase(authResult.walletUriBase?.toString())
+                    .build()
+
+                activity?.runOnUiThread { result?.success(dto) }
+            } catch (e: Throwable) {
+                activity?.runOnUiThread { result?.error(e) }
+            }
+        }
+    }
+
+    override fun deauthorize(id: Long, authToken: String, result: Api.Result<Void>?) {
+        val client = getClient(id)
+
+        client.deauthorize(authToken)
+            .notifyOnComplete { activity?.runOnUiThread { result?.success(null) } }
+    }
+
     private fun getScenario(id: Long): LocalAssociationScenario =
         scenarios[id] ?: throw IllegalStateException("No scenario with id $id registered")
 

@@ -16,6 +16,27 @@ abstract class ApiLocalAssociationScenario {
 
   @async
   GetCapabilitiesResultDto getCapabilities(int id);
+
+  @async
+  AuthorizationResultDto authorize(
+    int id,
+    String? identityUri,
+    String? iconUri,
+    String? identityName,
+    String? cluster,
+  );
+
+  @async
+  AuthorizationResultDto reauthorize(
+    int id,
+    String? identityUri,
+    String? iconUri,
+    String? identityName,
+    String authToken,
+  );
+
+  @async
+  void deauthorize(int id, String authToken);
 }
 
 class GetCapabilitiesResultDto {
@@ -30,4 +51,18 @@ class GetCapabilitiesResultDto {
   final bool supportsSignAndSendTransactions;
   final int maxTransactionsPerSigningRequest;
   final int maxMessagesPerSigningRequest;
+}
+
+class AuthorizationResultDto {
+  AuthorizationResultDto({
+    required this.authToken,
+    required this.publicKey,
+    required this.accountLabel,
+    required this.walletUriBase,
+  });
+
+  final String authToken;
+  final Uint8List publicKey;
+  final String? accountLabel;
+  final String? walletUriBase;
 }
