@@ -20,21 +20,24 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Plugin example app'),
           ),
-          body: BlocListener<ClientBloc, ClientState>(
+          body: BlocConsumer<ClientBloc, ClientState>(
             listener: (context, state) {
               // ignore: avoid_print, only for example
               print(state.capabilities);
             },
             listenWhen: (previous, current) =>
                 previous.capabilities != current.capabilities,
-            child: Column(
+            builder: (context, state) => Column(
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    context.read<ClientBloc>().requestCapabilities();
-                  },
+                  onPressed: () =>
+                      context.read<ClientBloc>().requestCapabilities(),
                   child: const Text('Get capabilities'),
-                )
+                ),
+                ElevatedButton(
+                  onPressed: () => context.read<ClientBloc>().authorize(),
+                  child: const Text('Authorize'),
+                ),
               ],
             ),
           ),

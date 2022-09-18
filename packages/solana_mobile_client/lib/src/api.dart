@@ -46,12 +46,48 @@ class GetCapabilitiesResultDto {
   }
 }
 
+class AuthorizationResultDto {
+  AuthorizationResultDto({
+    required this.authToken,
+    required this.publicKey,
+    this.accountLabel,
+    this.walletUriBase,
+  });
+
+  String authToken;
+  Uint8List publicKey;
+  String? accountLabel;
+  String? walletUriBase;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['authToken'] = authToken;
+    pigeonMap['publicKey'] = publicKey;
+    pigeonMap['accountLabel'] = accountLabel;
+    pigeonMap['walletUriBase'] = walletUriBase;
+    return pigeonMap;
+  }
+
+  static AuthorizationResultDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return AuthorizationResultDto(
+      authToken: pigeonMap['authToken']! as String,
+      publicKey: pigeonMap['publicKey']! as Uint8List,
+      accountLabel: pigeonMap['accountLabel'] as String?,
+      walletUriBase: pigeonMap['walletUriBase'] as String?,
+    );
+  }
+}
+
 class _ApiLocalAssociationScenarioCodec extends StandardMessageCodec {
   const _ApiLocalAssociationScenarioCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is GetCapabilitiesResultDto) {
+    if (value is AuthorizationResultDto) {
       buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else if (value is GetCapabilitiesResultDto) {
+      buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -62,6 +98,9 @@ class _ApiLocalAssociationScenarioCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128:
+        return AuthorizationResultDto.decode(readValue(buffer)!);
+
+      case 129:
         return GetCapabilitiesResultDto.decode(readValue(buffer)!);
 
       default:
@@ -205,6 +244,45 @@ class ApiLocalAssociationScenario {
       );
     } else {
       return (replyMap['result'] as GetCapabilitiesResultDto?)!;
+    }
+  }
+
+  Future<AuthorizationResultDto> authorize(
+      int arg_id,
+      String? arg_identityUri,
+      String? arg_iconUri,
+      String? arg_identityName,
+      String? arg_cluster) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiLocalAssociationScenario.authorize', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel.send(<Object?>[
+      arg_id,
+      arg_identityUri,
+      arg_iconUri,
+      arg_identityName,
+      arg_cluster
+    ]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as AuthorizationResultDto?)!;
     }
   }
 }

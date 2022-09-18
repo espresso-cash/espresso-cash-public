@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana_mobile_client/src/local_association_scenario.dart';
 
@@ -18,6 +19,32 @@ class MobileWalletAdapterClient {
       maxMessagesPerSigningRequest: result.maxMessagesPerSigningRequest,
     );
   }
+
+  Future<AuthorizationResult?> authorize({
+    Uri? identityUri,
+    Uri? iconUri,
+    String? identityName,
+    String? cluster,
+  }) async {
+    try {
+      final result = await api.authorize(
+        _scenarioId,
+        identityUri?.toString(),
+        iconUri?.toString(),
+        identityName,
+        cluster,
+      );
+
+      return AuthorizationResult(
+        authToken: result.authToken,
+        publicKey: result.publicKey,
+        accountLabel: result.accountLabel,
+        walletUriBase: Uri.tryParse(result.walletUriBase ?? ''),
+      );
+    } on PlatformException {
+      return null;
+    }
+  }
 }
 
 @freezed
@@ -28,4 +55,14 @@ class GetCapabilitiesResult with _$GetCapabilitiesResult {
     required int maxTransactionsPerSigningRequest,
     required int maxMessagesPerSigningRequest,
   }) = _GetCapabilitiesResult;
+}
+
+@freezed
+class AuthorizationResult with _$AuthorizationResult {
+  const factory AuthorizationResult({
+    required String authToken,
+    required Uint8List publicKey,
+    required String? accountLabel,
+    required Uri? walletUriBase,
+  }) = _AuthorizationResult;
 }

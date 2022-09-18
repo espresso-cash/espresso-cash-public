@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ClientState {
   GetCapabilitiesResult? get capabilities => throw _privateConstructorUsedError;
+  AuthorizationResult? get authorizationResult =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ClientStateCopyWith<ClientState> get copyWith =>
@@ -28,9 +30,12 @@ abstract class $ClientStateCopyWith<$Res> {
   factory $ClientStateCopyWith(
           ClientState value, $Res Function(ClientState) then) =
       _$ClientStateCopyWithImpl<$Res>;
-  $Res call({GetCapabilitiesResult? capabilities});
+  $Res call(
+      {GetCapabilitiesResult? capabilities,
+      AuthorizationResult? authorizationResult});
 
   $GetCapabilitiesResultCopyWith<$Res>? get capabilities;
+  $AuthorizationResultCopyWith<$Res>? get authorizationResult;
 }
 
 /// @nodoc
@@ -44,12 +49,17 @@ class _$ClientStateCopyWithImpl<$Res> implements $ClientStateCopyWith<$Res> {
   @override
   $Res call({
     Object? capabilities = freezed,
+    Object? authorizationResult = freezed,
   }) {
     return _then(_value.copyWith(
       capabilities: capabilities == freezed
           ? _value.capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
               as GetCapabilitiesResult?,
+      authorizationResult: authorizationResult == freezed
+          ? _value.authorizationResult
+          : authorizationResult // ignore: cast_nullable_to_non_nullable
+              as AuthorizationResult?,
     ));
   }
 
@@ -63,6 +73,18 @@ class _$ClientStateCopyWithImpl<$Res> implements $ClientStateCopyWith<$Res> {
       return _then(_value.copyWith(capabilities: value));
     });
   }
+
+  @override
+  $AuthorizationResultCopyWith<$Res>? get authorizationResult {
+    if (_value.authorizationResult == null) {
+      return null;
+    }
+
+    return $AuthorizationResultCopyWith<$Res>(_value.authorizationResult!,
+        (value) {
+      return _then(_value.copyWith(authorizationResult: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -72,10 +94,14 @@ abstract class _$$_ClientStateCopyWith<$Res>
           _$_ClientState value, $Res Function(_$_ClientState) then) =
       __$$_ClientStateCopyWithImpl<$Res>;
   @override
-  $Res call({GetCapabilitiesResult? capabilities});
+  $Res call(
+      {GetCapabilitiesResult? capabilities,
+      AuthorizationResult? authorizationResult});
 
   @override
   $GetCapabilitiesResultCopyWith<$Res>? get capabilities;
+  @override
+  $AuthorizationResultCopyWith<$Res>? get authorizationResult;
 }
 
 /// @nodoc
@@ -91,27 +117,35 @@ class __$$_ClientStateCopyWithImpl<$Res> extends _$ClientStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? capabilities = freezed,
+    Object? authorizationResult = freezed,
   }) {
     return _then(_$_ClientState(
       capabilities: capabilities == freezed
           ? _value.capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
               as GetCapabilitiesResult?,
+      authorizationResult: authorizationResult == freezed
+          ? _value.authorizationResult
+          : authorizationResult // ignore: cast_nullable_to_non_nullable
+              as AuthorizationResult?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_ClientState implements _ClientState {
-  const _$_ClientState({this.capabilities});
+class _$_ClientState extends _ClientState {
+  const _$_ClientState({this.capabilities, this.authorizationResult})
+      : super._();
 
   @override
   final GetCapabilitiesResult? capabilities;
+  @override
+  final AuthorizationResult? authorizationResult;
 
   @override
   String toString() {
-    return 'ClientState(capabilities: $capabilities)';
+    return 'ClientState(capabilities: $capabilities, authorizationResult: $authorizationResult)';
   }
 
   @override
@@ -120,12 +154,16 @@ class _$_ClientState implements _ClientState {
         (other.runtimeType == runtimeType &&
             other is _$_ClientState &&
             const DeepCollectionEquality()
-                .equals(other.capabilities, capabilities));
+                .equals(other.capabilities, capabilities) &&
+            const DeepCollectionEquality()
+                .equals(other.authorizationResult, authorizationResult));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(capabilities));
+      runtimeType,
+      const DeepCollectionEquality().hash(capabilities),
+      const DeepCollectionEquality().hash(authorizationResult));
 
   @JsonKey(ignore: true)
   @override
@@ -133,12 +171,16 @@ class _$_ClientState implements _ClientState {
       __$$_ClientStateCopyWithImpl<_$_ClientState>(this, _$identity);
 }
 
-abstract class _ClientState implements ClientState {
-  const factory _ClientState({final GetCapabilitiesResult? capabilities}) =
-      _$_ClientState;
+abstract class _ClientState extends ClientState {
+  const factory _ClientState(
+      {final GetCapabilitiesResult? capabilities,
+      final AuthorizationResult? authorizationResult}) = _$_ClientState;
+  const _ClientState._() : super._();
 
   @override
   GetCapabilitiesResult? get capabilities;
+  @override
+  AuthorizationResult? get authorizationResult;
   @override
   @JsonKey(ignore: true)
   _$$_ClientStateCopyWith<_$_ClientState> get copyWith =>

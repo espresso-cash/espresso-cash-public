@@ -212,3 +212,189 @@ abstract class _GetCapabilitiesResult implements GetCapabilitiesResult {
   _$$_GetCapabilitiesResultCopyWith<_$_GetCapabilitiesResult> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$AuthorizationResult {
+  String get authToken => throw _privateConstructorUsedError;
+  Uint8List get publicKey => throw _privateConstructorUsedError;
+  String? get accountLabel => throw _privateConstructorUsedError;
+  Uri? get walletUriBase => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $AuthorizationResultCopyWith<AuthorizationResult> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AuthorizationResultCopyWith<$Res> {
+  factory $AuthorizationResultCopyWith(
+          AuthorizationResult value, $Res Function(AuthorizationResult) then) =
+      _$AuthorizationResultCopyWithImpl<$Res>;
+  $Res call(
+      {String authToken,
+      Uint8List publicKey,
+      String? accountLabel,
+      Uri? walletUriBase});
+}
+
+/// @nodoc
+class _$AuthorizationResultCopyWithImpl<$Res>
+    implements $AuthorizationResultCopyWith<$Res> {
+  _$AuthorizationResultCopyWithImpl(this._value, this._then);
+
+  final AuthorizationResult _value;
+  // ignore: unused_field
+  final $Res Function(AuthorizationResult) _then;
+
+  @override
+  $Res call({
+    Object? authToken = freezed,
+    Object? publicKey = freezed,
+    Object? accountLabel = freezed,
+    Object? walletUriBase = freezed,
+  }) {
+    return _then(_value.copyWith(
+      authToken: authToken == freezed
+          ? _value.authToken
+          : authToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      publicKey: publicKey == freezed
+          ? _value.publicKey
+          : publicKey // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
+      accountLabel: accountLabel == freezed
+          ? _value.accountLabel
+          : accountLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      walletUriBase: walletUriBase == freezed
+          ? _value.walletUriBase
+          : walletUriBase // ignore: cast_nullable_to_non_nullable
+              as Uri?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_AuthorizationResultCopyWith<$Res>
+    implements $AuthorizationResultCopyWith<$Res> {
+  factory _$$_AuthorizationResultCopyWith(_$_AuthorizationResult value,
+          $Res Function(_$_AuthorizationResult) then) =
+      __$$_AuthorizationResultCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {String authToken,
+      Uint8List publicKey,
+      String? accountLabel,
+      Uri? walletUriBase});
+}
+
+/// @nodoc
+class __$$_AuthorizationResultCopyWithImpl<$Res>
+    extends _$AuthorizationResultCopyWithImpl<$Res>
+    implements _$$_AuthorizationResultCopyWith<$Res> {
+  __$$_AuthorizationResultCopyWithImpl(_$_AuthorizationResult _value,
+      $Res Function(_$_AuthorizationResult) _then)
+      : super(_value, (v) => _then(v as _$_AuthorizationResult));
+
+  @override
+  _$_AuthorizationResult get _value => super._value as _$_AuthorizationResult;
+
+  @override
+  $Res call({
+    Object? authToken = freezed,
+    Object? publicKey = freezed,
+    Object? accountLabel = freezed,
+    Object? walletUriBase = freezed,
+  }) {
+    return _then(_$_AuthorizationResult(
+      authToken: authToken == freezed
+          ? _value.authToken
+          : authToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      publicKey: publicKey == freezed
+          ? _value.publicKey
+          : publicKey // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
+      accountLabel: accountLabel == freezed
+          ? _value.accountLabel
+          : accountLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      walletUriBase: walletUriBase == freezed
+          ? _value.walletUriBase
+          : walletUriBase // ignore: cast_nullable_to_non_nullable
+              as Uri?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_AuthorizationResult implements _AuthorizationResult {
+  const _$_AuthorizationResult(
+      {required this.authToken,
+      required this.publicKey,
+      required this.accountLabel,
+      required this.walletUriBase});
+
+  @override
+  final String authToken;
+  @override
+  final Uint8List publicKey;
+  @override
+  final String? accountLabel;
+  @override
+  final Uri? walletUriBase;
+
+  @override
+  String toString() {
+    return 'AuthorizationResult(authToken: $authToken, publicKey: $publicKey, accountLabel: $accountLabel, walletUriBase: $walletUriBase)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_AuthorizationResult &&
+            const DeepCollectionEquality().equals(other.authToken, authToken) &&
+            const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
+            const DeepCollectionEquality()
+                .equals(other.accountLabel, accountLabel) &&
+            const DeepCollectionEquality()
+                .equals(other.walletUriBase, walletUriBase));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(authToken),
+      const DeepCollectionEquality().hash(publicKey),
+      const DeepCollectionEquality().hash(accountLabel),
+      const DeepCollectionEquality().hash(walletUriBase));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_AuthorizationResultCopyWith<_$_AuthorizationResult> get copyWith =>
+      __$$_AuthorizationResultCopyWithImpl<_$_AuthorizationResult>(
+          this, _$identity);
+}
+
+abstract class _AuthorizationResult implements AuthorizationResult {
+  const factory _AuthorizationResult(
+      {required final String authToken,
+      required final Uint8List publicKey,
+      required final String? accountLabel,
+      required final Uri? walletUriBase}) = _$_AuthorizationResult;
+
+  @override
+  String get authToken;
+  @override
+  Uint8List get publicKey;
+  @override
+  String? get accountLabel;
+  @override
+  Uri? get walletUriBase;
+  @override
+  @JsonKey(ignore: true)
+  _$$_AuthorizationResultCopyWith<_$_AuthorizationResult> get copyWith =>
+      throw _privateConstructorUsedError;
+}
