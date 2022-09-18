@@ -174,6 +174,27 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
             .notifyOnComplete { activity?.runOnUiThread { result?.success(null) } }
     }
 
+    override fun signTransactions(
+        id: Long,
+        transactions: MutableList<ByteArray>,
+        result: Api.Result<Api.SignPayloadsResultDto>?
+    ) {
+        val client = getClient(id)
+
+        client.signTransactions(transactions.toTypedArray()).notifyOnComplete {
+            try {
+                val response = it.get()
+                val dto = Api.SignPayloadsResultDto.Builder()
+                    .setSignedPayloads(response.signedPayloads.toList())
+                    .build()
+
+                activity?.runOnUiThread { result?.success(dto) }
+            } catch (e: Throwable) {
+                activity?.runOnUiThread { result?.error(e) }
+            }
+        }
+    }
+
     private fun getScenario(id: Long): LocalAssociationScenario =
         scenarios[id] ?: throw IllegalStateException("No scenario with id $id registered")
 

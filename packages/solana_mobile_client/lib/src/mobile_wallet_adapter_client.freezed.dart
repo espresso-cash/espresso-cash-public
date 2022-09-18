@@ -398,3 +398,126 @@ abstract class _AuthorizationResult implements AuthorizationResult {
   _$$_AuthorizationResultCopyWith<_$_AuthorizationResult> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$SignPayloadsResult {
+  List<Uint8List> get signedPayloads => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SignPayloadsResultCopyWith<SignPayloadsResult> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SignPayloadsResultCopyWith<$Res> {
+  factory $SignPayloadsResultCopyWith(
+          SignPayloadsResult value, $Res Function(SignPayloadsResult) then) =
+      _$SignPayloadsResultCopyWithImpl<$Res>;
+  $Res call({List<Uint8List> signedPayloads});
+}
+
+/// @nodoc
+class _$SignPayloadsResultCopyWithImpl<$Res>
+    implements $SignPayloadsResultCopyWith<$Res> {
+  _$SignPayloadsResultCopyWithImpl(this._value, this._then);
+
+  final SignPayloadsResult _value;
+  // ignore: unused_field
+  final $Res Function(SignPayloadsResult) _then;
+
+  @override
+  $Res call({
+    Object? signedPayloads = freezed,
+  }) {
+    return _then(_value.copyWith(
+      signedPayloads: signedPayloads == freezed
+          ? _value.signedPayloads
+          : signedPayloads // ignore: cast_nullable_to_non_nullable
+              as List<Uint8List>,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_SignPayloadsResultCopyWith<$Res>
+    implements $SignPayloadsResultCopyWith<$Res> {
+  factory _$$_SignPayloadsResultCopyWith(_$_SignPayloadsResult value,
+          $Res Function(_$_SignPayloadsResult) then) =
+      __$$_SignPayloadsResultCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Uint8List> signedPayloads});
+}
+
+/// @nodoc
+class __$$_SignPayloadsResultCopyWithImpl<$Res>
+    extends _$SignPayloadsResultCopyWithImpl<$Res>
+    implements _$$_SignPayloadsResultCopyWith<$Res> {
+  __$$_SignPayloadsResultCopyWithImpl(
+      _$_SignPayloadsResult _value, $Res Function(_$_SignPayloadsResult) _then)
+      : super(_value, (v) => _then(v as _$_SignPayloadsResult));
+
+  @override
+  _$_SignPayloadsResult get _value => super._value as _$_SignPayloadsResult;
+
+  @override
+  $Res call({
+    Object? signedPayloads = freezed,
+  }) {
+    return _then(_$_SignPayloadsResult(
+      signedPayloads: signedPayloads == freezed
+          ? _value._signedPayloads
+          : signedPayloads // ignore: cast_nullable_to_non_nullable
+              as List<Uint8List>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SignPayloadsResult implements _SignPayloadsResult {
+  const _$_SignPayloadsResult({required final List<Uint8List> signedPayloads})
+      : _signedPayloads = signedPayloads;
+
+  final List<Uint8List> _signedPayloads;
+  @override
+  List<Uint8List> get signedPayloads {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_signedPayloads);
+  }
+
+  @override
+  String toString() {
+    return 'SignPayloadsResult(signedPayloads: $signedPayloads)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_SignPayloadsResult &&
+            const DeepCollectionEquality()
+                .equals(other._signedPayloads, _signedPayloads));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_signedPayloads));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_SignPayloadsResultCopyWith<_$_SignPayloadsResult> get copyWith =>
+      __$$_SignPayloadsResultCopyWithImpl<_$_SignPayloadsResult>(
+          this, _$identity);
+}
+
+abstract class _SignPayloadsResult implements SignPayloadsResult {
+  const factory _SignPayloadsResult(
+      {required final List<Uint8List> signedPayloads}) = _$_SignPayloadsResult;
+
+  @override
+  List<Uint8List> get signedPayloads;
+  @override
+  @JsonKey(ignore: true)
+  _$$_SignPayloadsResultCopyWith<_$_SignPayloadsResult> get copyWith =>
+      throw _privateConstructorUsedError;
+}

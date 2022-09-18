@@ -79,6 +79,28 @@ class AuthorizationResultDto {
   }
 }
 
+class SignPayloadsResultDto {
+  SignPayloadsResultDto({
+    required this.signedPayloads,
+  });
+
+  List<Uint8List?> signedPayloads;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['signedPayloads'] = signedPayloads;
+    return pigeonMap;
+  }
+
+  static SignPayloadsResultDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return SignPayloadsResultDto(
+      signedPayloads:
+          (pigeonMap['signedPayloads'] as List<Object?>?)!.cast<Uint8List?>(),
+    );
+  }
+}
+
 class _ApiLocalAssociationScenarioCodec extends StandardMessageCodec {
   const _ApiLocalAssociationScenarioCodec();
   @override
@@ -88,6 +110,9 @@ class _ApiLocalAssociationScenarioCodec extends StandardMessageCodec {
       writeValue(buffer, value.encode());
     } else if (value is GetCapabilitiesResultDto) {
       buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    } else if (value is SignPayloadsResultDto) {
+      buffer.putUint8(130);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -102,6 +127,9 @@ class _ApiLocalAssociationScenarioCodec extends StandardMessageCodec {
 
       case 129:
         return GetCapabilitiesResultDto.decode(readValue(buffer)!);
+
+      case 130:
+        return SignPayloadsResultDto.decode(readValue(buffer)!);
 
       default:
         return super.readValueOfType(type, buffer);
@@ -346,6 +374,37 @@ class ApiLocalAssociationScenario {
       );
     } else {
       return;
+    }
+  }
+
+  Future<SignPayloadsResultDto> signTransactions(
+      int arg_id, List<Uint8List?> arg_transactions) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiLocalAssociationScenario.signTransactions',
+        codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object?>[arg_id, arg_transactions]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as SignPayloadsResultDto?)!;
     }
   }
 }

@@ -86,6 +86,20 @@ class MobileWalletAdapterClient {
       return;
     }
   }
+
+  Future<SignPayloadsResult> signTransactions({
+    required List<Uint8List> transactions,
+  }) async {
+    try {
+      final result = await api.signTransactions(_scenarioId, transactions);
+
+      return SignPayloadsResult(
+        signedPayloads: result.signedPayloads.whereType<Uint8List>().toList(),
+      );
+    } on PlatformException {
+      return const SignPayloadsResult(signedPayloads: []);
+    }
+  }
 }
 
 @freezed
@@ -106,4 +120,11 @@ class AuthorizationResult with _$AuthorizationResult {
     required String? accountLabel,
     required Uri? walletUriBase,
   }) = _AuthorizationResult;
+}
+
+@freezed
+class SignPayloadsResult with _$SignPayloadsResult {
+  const factory SignPayloadsResult({
+    required List<Uint8List> signedPayloads,
+  }) = _SignPayloadsResult;
 }

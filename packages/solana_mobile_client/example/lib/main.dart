@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solana/solana.dart';
 import 'package:solana_mobile_client_example/client.dart';
 
 void main() {
   runApp(
     BlocProvider(
-      create: (_) => ClientBloc(),
+      create: (_) => ClientBloc(
+        SolanaClient(
+          rpcUrl: Uri.parse('https://api.testnet.solana.com'),
+          websocketUrl: Uri.parse('wss://api.testnet.solana.com'),
+        ),
+      ),
       child: const MyApp(),
     ),
   );
@@ -67,10 +73,39 @@ class MyApp extends StatelessWidget {
                       : null,
                   text: 'Request airdrop',
                 ),
+                Row(
+                  children: const [
+                    Expanded(
+                      flex: 3,
+                      child: SignTxButton(count: 1, text: 'Sign txn x1'),
+                    ),
+                    Expanded(child: SignTxButton(count: 3, text: 'x3')),
+                    Expanded(child: SignTxButton(count: 20, text: 'x20')),
+                  ],
+                ),
               ],
             ),
           ),
         ),
+      );
+}
+
+class SignTxButton extends StatelessWidget {
+  const SignTxButton({
+    super.key,
+    required this.text,
+    required this.count,
+  });
+
+  final String text;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) => Button(
+        onPressed: context.watch<ClientBloc>().state.isAuthorized
+            ? () => context.read<ClientBloc>().signTransactions(count)
+            : null,
+        text: text,
       );
 }
 

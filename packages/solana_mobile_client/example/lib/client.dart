@@ -1,12 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana_mobile_client/solana_mobile_client.dart';
 
 part 'client.freezed.dart';
 
 class ClientBloc extends Cubit<ClientState> {
-  ClientBloc() : super(const ClientState());
+  ClientBloc(this._solanaClient) : super(const ClientState());
+
+  final SolanaClient _solanaClient;
 
   Future<void> requestCapabilities() async {
     final session = await LocalAssociationScenario.create();
@@ -46,15 +50,8 @@ class ClientBloc extends Cubit<ClientState> {
     session.startActivityForResult(null).ignore();
 
     final client = await session.start();
-    final result = await client.reauthorize(
-      identityUri: Uri.parse('https://solana.com'),
-      iconUri: Uri.parse('favicon.ico'),
-      identityName: 'Solana',
-      authToken: authToken,
-    );
+    await _doReauthorize(client);
     await session.close();
-
-    emit(state.copyWith(authorizationResult: result));
   }
 
   Future<void> deauthorize() async {
@@ -81,10 +78,7 @@ class ClientBloc extends Cubit<ClientState> {
     emit(state.copyWith(isRequestingAirdrop: true));
 
     try {
-      await SolanaClient(
-        rpcUrl: Uri.parse('https://api.testnet.solana.com'),
-        websocketUrl: Uri.parse('wss://api.testnet.solana.com'),
-      ).requestAirdrop(
+      await _solanaClient.requestAirdrop(
         address: Ed25519HDPublicKey(publicKey),
         lamports: lamportsPerSol,
       );
@@ -92,6 +86,54 @@ class ClientBloc extends Cubit<ClientState> {
       emit(state.copyWith(isRequestingAirdrop: false));
     }
   }
+
+  Future<void> signTransactions(int number) async {
+    final session = await LocalAssociationScenario.create();
+
+    session.startActivityForResult(null).ignore();
+
+    final client = await session.start();
+    if (await _doReauthorize(client)) {
+      final signer = state.publicKey as Ed25519HDPublicKey;
+
+      final blockhash = await _solanaClient.rpcClient
+          .getRecentBlockhash()
+          .then((value) => value.blockhash);
+      final txs = await _generateTransactions(
+        number: number,
+        signer: signer,
+        blockhash: blockhash,
+      )
+          .thenMap((e) => e.toByteArray().toList())
+          .thenMap(Uint8List.fromList)
+          .then((value) => value.toList());
+
+      await client.signTransactions(transactions: txs);
+    }
+
+    await session.close();
+  }
+
+  Future<bool> _doReauthorize(MobileWalletAdapterClient client) async {
+    final authToken = state.authorizationResult?.authToken;
+    if (authToken == null) return false;
+
+    final result = await client.reauthorize(
+      identityUri: Uri.parse('https://solana.com'),
+      iconUri: Uri.parse('favicon.ico'),
+      identityName: 'Solana',
+      authToken: authToken,
+    );
+
+    emit(state.copyWith(authorizationResult: result));
+
+    return result != null;
+  }
+}
+
+extension<A> on Future<Iterable<A>> {
+  Future<Iterable<B>> thenMap<B>(B Function(A) f) =>
+      then((value) => value.map(f));
 }
 
 @freezed
@@ -108,10 +150,34 @@ class ClientState with _$ClientState {
 
   bool get canRequestAirdrop => isAuthorized && !isRequestingAirdrop;
 
-  String? get address {
+  Ed25519HDPublicKey? get publicKey {
     final publicKey = authorizationResult?.publicKey;
     if (publicKey == null) return null;
 
-    return Ed25519HDPublicKey(publicKey).toBase58();
+    return Ed25519HDPublicKey(publicKey);
   }
+
+  String? get address => publicKey?.toBase58();
+}
+
+Future<List<SignedTx>> _generateTransactions({
+  required int number,
+  required Ed25519HDPublicKey signer,
+  required String blockhash,
+}) async {
+  final instructions = List.generate(
+    number,
+    (index) => MemoInstruction(signers: [signer], memo: 'Memo #$index'),
+  );
+  final signature = Signature(List.filled(64, 0), publicKey: signer);
+
+  return instructions
+      .map(Message.only)
+      .map(
+        (e) => SignedTx(
+          messageBytes: e.compile(recentBlockhash: blockhash).data,
+          signatures: [signature],
+        ),
+      )
+      .toList();
 }
