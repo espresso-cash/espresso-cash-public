@@ -38,6 +38,12 @@ class MyApp extends StatelessWidget {
                   onPressed: () => context.read<ClientBloc>().authorize(),
                   child: const Text('Authorize'),
                 ),
+                ElevatedButton(
+                  onPressed: state.isAuthorized
+                      ? () => context.read<ClientBloc>().reauthorize()
+                      : null,
+                  child: const Text('Reauthorize'),
+                ),
               ],
             ),
           ),

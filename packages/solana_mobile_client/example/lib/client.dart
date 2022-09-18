@@ -33,7 +33,25 @@ class ClientBloc extends Cubit<ClientState> {
     );
     await session.close();
 
-    print('!!! result: $result');
+    emit(state.copyWith(authorizationResult: result));
+  }
+
+  Future<void> reauthorize() async {
+    final authToken = state.authorizationResult?.authToken;
+    if (authToken == null) return;
+
+    final session = await LocalAssociationScenario.create();
+
+    session.startActivityForResult(null).ignore();
+
+    final client = await session.start();
+    final result = await client.reauthorize(
+      identityUri: Uri.parse('https://solana.com'),
+      iconUri: Uri.parse('favicon.ico'),
+      identityName: 'Solana',
+      authToken: authToken,
+    );
+    await session.close();
 
     emit(state.copyWith(authorizationResult: result));
   }

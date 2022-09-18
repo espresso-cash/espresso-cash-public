@@ -135,6 +135,38 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         }
     }
 
+    override fun reauthorize(
+        id: Long,
+        identityUri: String?,
+        iconUri: String?,
+        identityName: String?,
+        authToken: String,
+        result: Api.Result<Api.AuthorizationResultDto>?
+    ) {
+        val client = getClient(id)
+
+        client.reauthorize(
+            identityUri?.let(Uri::parse),
+            iconUri?.let(Uri::parse),
+            identityName,
+            authToken,
+        ).notifyOnComplete {
+            try {
+                val authResult = it.get()
+                val dto = Api.AuthorizationResultDto.Builder()
+                    .setAuthToken(authResult.authToken)
+                    .setPublicKey(authResult.publicKey)
+                    .setAccountLabel(authResult.accountLabel)
+                    .setWalletUriBase(authResult.walletUriBase?.toString())
+                    .build()
+
+                activity?.runOnUiThread { result?.success(dto) }
+            } catch (e: Throwable) {
+                activity?.runOnUiThread { result?.error(e) }
+            }
+        }
+    }
+
     private fun getScenario(id: Long): LocalAssociationScenario =
         scenarios[id] ?: throw IllegalStateException("No scenario with id $id registered")
 

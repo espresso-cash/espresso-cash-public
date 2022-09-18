@@ -25,6 +25,15 @@ abstract class ApiLocalAssociationScenario {
     String? identityName,
     String? cluster,
   );
+
+  @async
+  AuthorizationResultDto reauthorize(
+    int id,
+    String? identityUri,
+    String? iconUri,
+    String? identityName,
+    String authToken,
+  );
 }
 
 class GetCapabilitiesResultDto {

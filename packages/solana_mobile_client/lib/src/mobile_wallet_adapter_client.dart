@@ -45,6 +45,32 @@ class MobileWalletAdapterClient {
       return null;
     }
   }
+
+  Future<AuthorizationResult?> reauthorize({
+    Uri? identityUri,
+    Uri? iconUri,
+    String? identityName,
+    required String authToken,
+  }) async {
+    try {
+      final result = await api.reauthorize(
+        _scenarioId,
+        identityUri?.toString(),
+        iconUri?.toString(),
+        identityName,
+        authToken,
+      );
+
+      return AuthorizationResult(
+        authToken: result.authToken,
+        publicKey: result.publicKey,
+        accountLabel: result.accountLabel,
+        walletUriBase: Uri.tryParse(result.walletUriBase ?? ''),
+      );
+    } on PlatformException {
+      return null;
+    }
+  }
 }
 
 @freezed

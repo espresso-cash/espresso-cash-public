@@ -245,6 +245,7 @@ public class Api {
     void startActivityForResult(@NonNull Long id, @Nullable String uriPrefix, Result<Void> result);
     void getCapabilities(@NonNull Long id, Result<GetCapabilitiesResultDto> result);
     void authorize(@NonNull Long id, @Nullable String identityUri, @Nullable String iconUri, @Nullable String identityName, @Nullable String cluster, Result<AuthorizationResultDto> result);
+    void reauthorize(@NonNull Long id, @Nullable String identityUri, @Nullable String iconUri, @Nullable String identityName, @NonNull String authToken, Result<AuthorizationResultDto> result);
 
     /** The codec used by ApiLocalAssociationScenario. */
     static MessageCodec<Object> getCodec() {
@@ -452,6 +453,47 @@ public class Api {
               };
 
               api.authorize((idArg == null) ? null : idArg.longValue(), identityUriArg, iconUriArg, identityNameArg, clusterArg, resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiLocalAssociationScenario.reauthorize", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number idArg = (Number)args.get(0);
+              if (idArg == null) {
+                throw new NullPointerException("idArg unexpectedly null.");
+              }
+              String identityUriArg = (String)args.get(1);
+              String iconUriArg = (String)args.get(2);
+              String identityNameArg = (String)args.get(3);
+              String authTokenArg = (String)args.get(4);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              Result<AuthorizationResultDto> resultCallback = new Result<AuthorizationResultDto>() {
+                public void success(AuthorizationResultDto result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.reauthorize((idArg == null) ? null : idArg.longValue(), identityUriArg, iconUriArg, identityNameArg, authTokenArg, resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));
