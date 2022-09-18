@@ -19,6 +19,7 @@ mixin _$ClientState {
   GetCapabilitiesResult? get capabilities => throw _privateConstructorUsedError;
   AuthorizationResult? get authorizationResult =>
       throw _privateConstructorUsedError;
+  bool get isRequestingAirdrop => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ClientStateCopyWith<ClientState> get copyWith =>
@@ -32,7 +33,8 @@ abstract class $ClientStateCopyWith<$Res> {
       _$ClientStateCopyWithImpl<$Res>;
   $Res call(
       {GetCapabilitiesResult? capabilities,
-      AuthorizationResult? authorizationResult});
+      AuthorizationResult? authorizationResult,
+      bool isRequestingAirdrop});
 
   $GetCapabilitiesResultCopyWith<$Res>? get capabilities;
   $AuthorizationResultCopyWith<$Res>? get authorizationResult;
@@ -50,6 +52,7 @@ class _$ClientStateCopyWithImpl<$Res> implements $ClientStateCopyWith<$Res> {
   $Res call({
     Object? capabilities = freezed,
     Object? authorizationResult = freezed,
+    Object? isRequestingAirdrop = freezed,
   }) {
     return _then(_value.copyWith(
       capabilities: capabilities == freezed
@@ -60,6 +63,10 @@ class _$ClientStateCopyWithImpl<$Res> implements $ClientStateCopyWith<$Res> {
           ? _value.authorizationResult
           : authorizationResult // ignore: cast_nullable_to_non_nullable
               as AuthorizationResult?,
+      isRequestingAirdrop: isRequestingAirdrop == freezed
+          ? _value.isRequestingAirdrop
+          : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -96,7 +103,8 @@ abstract class _$$_ClientStateCopyWith<$Res>
   @override
   $Res call(
       {GetCapabilitiesResult? capabilities,
-      AuthorizationResult? authorizationResult});
+      AuthorizationResult? authorizationResult,
+      bool isRequestingAirdrop});
 
   @override
   $GetCapabilitiesResultCopyWith<$Res>? get capabilities;
@@ -118,6 +126,7 @@ class __$$_ClientStateCopyWithImpl<$Res> extends _$ClientStateCopyWithImpl<$Res>
   $Res call({
     Object? capabilities = freezed,
     Object? authorizationResult = freezed,
+    Object? isRequestingAirdrop = freezed,
   }) {
     return _then(_$_ClientState(
       capabilities: capabilities == freezed
@@ -128,6 +137,10 @@ class __$$_ClientStateCopyWithImpl<$Res> extends _$ClientStateCopyWithImpl<$Res>
           ? _value.authorizationResult
           : authorizationResult // ignore: cast_nullable_to_non_nullable
               as AuthorizationResult?,
+      isRequestingAirdrop: isRequestingAirdrop == freezed
+          ? _value.isRequestingAirdrop
+          : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -135,17 +148,23 @@ class __$$_ClientStateCopyWithImpl<$Res> extends _$ClientStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ClientState extends _ClientState {
-  const _$_ClientState({this.capabilities, this.authorizationResult})
+  const _$_ClientState(
+      {this.capabilities,
+      this.authorizationResult,
+      this.isRequestingAirdrop = false})
       : super._();
 
   @override
   final GetCapabilitiesResult? capabilities;
   @override
   final AuthorizationResult? authorizationResult;
+  @override
+  @JsonKey()
+  final bool isRequestingAirdrop;
 
   @override
   String toString() {
-    return 'ClientState(capabilities: $capabilities, authorizationResult: $authorizationResult)';
+    return 'ClientState(capabilities: $capabilities, authorizationResult: $authorizationResult, isRequestingAirdrop: $isRequestingAirdrop)';
   }
 
   @override
@@ -156,14 +175,17 @@ class _$_ClientState extends _ClientState {
             const DeepCollectionEquality()
                 .equals(other.capabilities, capabilities) &&
             const DeepCollectionEquality()
-                .equals(other.authorizationResult, authorizationResult));
+                .equals(other.authorizationResult, authorizationResult) &&
+            const DeepCollectionEquality()
+                .equals(other.isRequestingAirdrop, isRequestingAirdrop));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(capabilities),
-      const DeepCollectionEquality().hash(authorizationResult));
+      const DeepCollectionEquality().hash(authorizationResult),
+      const DeepCollectionEquality().hash(isRequestingAirdrop));
 
   @JsonKey(ignore: true)
   @override
@@ -174,13 +196,16 @@ class _$_ClientState extends _ClientState {
 abstract class _ClientState extends ClientState {
   const factory _ClientState(
       {final GetCapabilitiesResult? capabilities,
-      final AuthorizationResult? authorizationResult}) = _$_ClientState;
+      final AuthorizationResult? authorizationResult,
+      final bool isRequestingAirdrop}) = _$_ClientState;
   const _ClientState._() : super._();
 
   @override
   GetCapabilitiesResult? get capabilities;
   @override
   AuthorizationResult? get authorizationResult;
+  @override
+  bool get isRequestingAirdrop;
   @override
   @JsonKey(ignore: true)
   _$$_ClientStateCopyWith<_$_ClientState> get copyWith =>

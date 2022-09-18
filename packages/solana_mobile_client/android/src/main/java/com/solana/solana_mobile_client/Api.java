@@ -200,6 +200,44 @@ public class Api {
     }
   }
 
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class SignPayloadsResultDto {
+    private @NonNull List<byte[]> signedPayloads;
+    public @NonNull List<byte[]> getSignedPayloads() { return signedPayloads; }
+    public void setSignedPayloads(@NonNull List<byte[]> setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"signedPayloads\" is null.");
+      }
+      this.signedPayloads = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private SignPayloadsResultDto() {}
+    public static final class Builder {
+      private @Nullable List<byte[]> signedPayloads;
+      public @NonNull Builder setSignedPayloads(@NonNull List<byte[]> setterArg) {
+        this.signedPayloads = setterArg;
+        return this;
+      }
+      public @NonNull SignPayloadsResultDto build() {
+        SignPayloadsResultDto pigeonReturn = new SignPayloadsResultDto();
+        pigeonReturn.setSignedPayloads(signedPayloads);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("signedPayloads", signedPayloads);
+      return toMapResult;
+    }
+    static @NonNull SignPayloadsResultDto fromMap(@NonNull Map<String, Object> map) {
+      SignPayloadsResultDto pigeonResult = new SignPayloadsResultDto();
+      Object signedPayloads = map.get("signedPayloads");
+      pigeonResult.setSignedPayloads((List<byte[]>)signedPayloads);
+      return pigeonResult;
+    }
+  }
+
   public interface Result<T> {
     void success(T result);
     void error(Throwable error);
@@ -216,6 +254,9 @@ public class Api {
         case (byte)129:         
           return GetCapabilitiesResultDto.fromMap((Map<String, Object>) readValue(buffer));
         
+        case (byte)130:         
+          return SignPayloadsResultDto.fromMap((Map<String, Object>) readValue(buffer));
+        
         default:        
           return super.readValueOfType(type, buffer);
         
@@ -230,6 +271,10 @@ public class Api {
       if (value instanceof GetCapabilitiesResultDto) {
         stream.write(129);
         writeValue(stream, ((GetCapabilitiesResultDto) value).toMap());
+      } else 
+      if (value instanceof SignPayloadsResultDto) {
+        stream.write(130);
+        writeValue(stream, ((SignPayloadsResultDto) value).toMap());
       } else 
 {
         super.writeValue(stream, value);
@@ -247,6 +292,7 @@ public class Api {
     void authorize(@NonNull Long id, @Nullable String identityUri, @Nullable String iconUri, @Nullable String identityName, @Nullable String cluster, Result<AuthorizationResultDto> result);
     void reauthorize(@NonNull Long id, @Nullable String identityUri, @Nullable String iconUri, @Nullable String identityName, @NonNull String authToken, Result<AuthorizationResultDto> result);
     void deauthorize(@NonNull Long id, @NonNull String authToken, Result<Void> result);
+    void signTransactions(@NonNull Long id, @NonNull List<byte[]> transactions, Result<SignPayloadsResultDto> result);
 
     /** The codec used by ApiLocalAssociationScenario. */
     static MessageCodec<Object> getCodec() {
@@ -533,6 +579,44 @@ public class Api {
               };
 
               api.deauthorize((idArg == null) ? null : idArg.longValue(), authTokenArg, resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiLocalAssociationScenario.signTransactions", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number idArg = (Number)args.get(0);
+              if (idArg == null) {
+                throw new NullPointerException("idArg unexpectedly null.");
+              }
+              List<byte[]> transactionsArg = (List<byte[]>)args.get(1);
+              if (transactionsArg == null) {
+                throw new NullPointerException("transactionsArg unexpectedly null.");
+              }
+              Result<SignPayloadsResultDto> resultCallback = new Result<SignPayloadsResultDto>() {
+                public void success(SignPayloadsResultDto result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.signTransactions((idArg == null) ? null : idArg.longValue(), transactionsArg, resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

@@ -37,6 +37,9 @@ abstract class ApiLocalAssociationScenario {
 
   @async
   void deauthorize(int id, String authToken);
+
+  @async
+  SignPayloadsResultDto signTransactions(int id, List<Uint8List> transactions);
 }
 
 class GetCapabilitiesResultDto {
@@ -65,4 +68,12 @@ class AuthorizationResultDto {
   final Uint8List publicKey;
   final String? accountLabel;
   final String? walletUriBase;
+}
+
+class SignPayloadsResultDto {
+  SignPayloadsResultDto({
+    required this.signedPayloads,
+  });
+
+  final List<Uint8List?> signedPayloads;
 }
