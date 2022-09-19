@@ -12,9 +12,11 @@ dependencies:
   cryptoplease_api:
     path: cryptoplease_api
   dfunc: ^0.8.0+1
+  dio: ^4.0.6
   freezed_annotation: ^2.0.1
   json_annotation: ^4.6.0
   mustache_template: ^2.0.0
+  retrofit: ^3.0.1+1
   shelf: ^1.3.2
   shelf_router: ^1.1.2
   shelf_static: ^1.1.0
@@ -25,4 +27,5 @@ dev_dependencies:
   freezed: ^2.1.0+1
   json_serializable: ^6.3.1
   mews_pedantic: ^0.8.0
+  retrofit_generator: ^4.0.3+2
   test: ^1.21.6

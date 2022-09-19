@@ -66,25 +66,25 @@ class _$EscrowAccountCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$EscrowAccountCopyWith<$Res>
+abstract class _$$_EscrowAccountCopyWith<$Res>
     implements $EscrowAccountCopyWith<$Res> {
-  factory _$EscrowAccountCopyWith(
-          _EscrowAccount value, $Res Function(_EscrowAccount) then) =
-      __$EscrowAccountCopyWithImpl<$Res>;
+  factory _$$_EscrowAccountCopyWith(
+          _$_EscrowAccount value, $Res Function(_$_EscrowAccount) then) =
+      __$$_EscrowAccountCopyWithImpl<$Res>;
   @override
   $Res call({Ed25519HDPublicKey address, Ed25519HDPublicKey mint, int amount});
 }
 
 /// @nodoc
-class __$EscrowAccountCopyWithImpl<$Res>
+class __$$_EscrowAccountCopyWithImpl<$Res>
     extends _$EscrowAccountCopyWithImpl<$Res>
-    implements _$EscrowAccountCopyWith<$Res> {
-  __$EscrowAccountCopyWithImpl(
-      _EscrowAccount _value, $Res Function(_EscrowAccount) _then)
-      : super(_value, (v) => _then(v as _EscrowAccount));
+    implements _$$_EscrowAccountCopyWith<$Res> {
+  __$$_EscrowAccountCopyWithImpl(
+      _$_EscrowAccount _value, $Res Function(_$_EscrowAccount) _then)
+      : super(_value, (v) => _then(v as _$_EscrowAccount));
 
   @override
-  _EscrowAccount get _value => super._value as _EscrowAccount;
+  _$_EscrowAccount get _value => super._value as _$_EscrowAccount;
 
   @override
   $Res call({
@@ -92,7 +92,7 @@ class __$EscrowAccountCopyWithImpl<$Res>
     Object? mint = freezed,
     Object? amount = freezed,
   }) {
-    return _then(_EscrowAccount(
+    return _then(_$_EscrowAccount(
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -131,7 +131,7 @@ class _$_EscrowAccount implements _EscrowAccount {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _EscrowAccount &&
+            other is _$_EscrowAccount &&
             const DeepCollectionEquality().equals(other.address, address) &&
             const DeepCollectionEquality().equals(other.mint, mint) &&
             const DeepCollectionEquality().equals(other.amount, amount));
@@ -146,8 +146,8 @@ class _$_EscrowAccount implements _EscrowAccount {
 
   @JsonKey(ignore: true)
   @override
-  _$EscrowAccountCopyWith<_EscrowAccount> get copyWith =>
-      __$EscrowAccountCopyWithImpl<_EscrowAccount>(this, _$identity);
+  _$$_EscrowAccountCopyWith<_$_EscrowAccount> get copyWith =>
+      __$$_EscrowAccountCopyWithImpl<_$_EscrowAccount>(this, _$identity);
 }
 
 abstract class _EscrowAccount implements EscrowAccount {
@@ -157,13 +157,13 @@ abstract class _EscrowAccount implements EscrowAccount {
       required final int amount}) = _$_EscrowAccount;
 
   @override
-  Ed25519HDPublicKey get address => throw _privateConstructorUsedError;
+  Ed25519HDPublicKey get address;
   @override
-  Ed25519HDPublicKey get mint => throw _privateConstructorUsedError;
+  Ed25519HDPublicKey get mint;
   @override
-  int get amount => throw _privateConstructorUsedError;
+  int get amount;
   @override
   @JsonKey(ignore: true)
-  _$EscrowAccountCopyWith<_EscrowAccount> get copyWith =>
+  _$$_EscrowAccountCopyWith<_$_EscrowAccount> get copyWith =>
       throw _privateConstructorUsedError;
 }

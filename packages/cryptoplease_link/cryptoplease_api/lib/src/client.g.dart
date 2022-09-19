@@ -9,7 +9,10 @@ part of 'client.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
 class _CryptopleaseClient implements CryptopleaseClient {
-  _CryptopleaseClient(this._dio, {this.baseUrl}) {
+  _CryptopleaseClient(
+    this._dio, {
+    this.baseUrl,
+  }) {
     baseUrl ??= 'https://cryptoplease-link.web.app/api/v1';
   }
 
@@ -25,12 +28,43 @@ class _CryptopleaseClient implements CryptopleaseClient {
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<AddFundsResponseDto>(
-            Options(method: 'POST', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/addFunds',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        _setStreamType<AddFundsResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/addFunds',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = AddFundsResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<QuoteResponseDto> buyQuote(request) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<QuoteResponseDto>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/buyQuote',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = QuoteResponseDto.fromJson(_result.data!);
     return value;
   }
 
@@ -42,11 +76,18 @@ class _CryptopleaseClient implements CryptopleaseClient {
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CreatePaymentResponseDto>(
-            Options(method: 'POST', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/createPayment',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        _setStreamType<CreatePaymentResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/createPayment',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CreatePaymentResponseDto.fromJson(_result.data!);
     return value;
   }
@@ -59,11 +100,18 @@ class _CryptopleaseClient implements CryptopleaseClient {
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ReceivePaymentResponseDto>(
-            Options(method: 'POST', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/receivePayment',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        _setStreamType<ReceivePaymentResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/receivePayment',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ReceivePaymentResponseDto.fromJson(_result.data!);
     return value;
   }

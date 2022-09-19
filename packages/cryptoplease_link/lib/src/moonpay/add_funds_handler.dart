@@ -8,9 +8,10 @@ import 'package:cryptoplease_link/src/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
-Handler addFundsHandler() => shelf_router.Router()..post('/addFunds', _handler);
+Handler addFundsHandler() =>
+    shelf_router.Router()..post('/addFunds', _addFundsHandler);
 
-Future<Response> _handler(Request request) async =>
+Future<Response> _addFundsHandler(Request request) async =>
     processRequest<AddFundsRequestDto, AddFundsResponseDto>(
       request,
       AddFundsRequestDto.fromJson,
@@ -36,12 +37,3 @@ Future<Response> _handler(Request request) async =>
         return AddFundsResponseDto(signedUrl: signedUrl.toString());
       },
     );
-
-extension on Uri {
-  Uri addParams(Map<String, dynamic> params) => replace(
-        queryParameters: {
-          ...queryParameters,
-          ...params,
-        },
-      );
-}
