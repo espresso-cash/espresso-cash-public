@@ -23,7 +23,6 @@ Future<Response> createPaymentHandler(Request request) async =>
           aEscrow: Ed25519HDPublicKey.fromBase58(data.escrowAccount),
           mint: cluster.mint,
           amount: data.amount,
-          fee: shareableLinkPaymentFee,
           platform: await cluster.platformAccount,
           client: cluster.solanaClient,
           commitment: Commitment.confirmed,
