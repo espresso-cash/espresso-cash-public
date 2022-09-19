@@ -9,23 +9,25 @@ import 'utils.dart';
 void main() {
   final client = createTestSolanaClient();
 
+  /// Initial token amount for the sender after creation.
+  const senderInitialAmount = 500000;
+
+  const transferAmount = 300000;
+
   test('receives payment', () async {
     final testData = await createTestData(
       client: client,
-      senderInitialAmount: 10,
+      senderInitialAmount: senderInitialAmount,
     );
 
     final escrowAccount = await Ed25519HDKeyPair.random();
     final receiverAccount = await Ed25519HDKeyPair.random();
-
-    const transferAmount = 2;
 
     final tx = await createPaymentTx(
       aSender: testData.sender.publicKey,
       aEscrow: escrowAccount.publicKey,
       mint: testData.mint,
       amount: transferAmount,
-      fee: 1,
       client: client,
       platform: testData.platform,
       commitment: Commitment.confirmed,
@@ -92,7 +94,7 @@ void main() {
   test('platform does not create ATA if not needed', () async {
     final testData = await createTestData(
       client: client,
-      senderInitialAmount: 10,
+      senderInitialAmount: senderInitialAmount,
     );
 
     final escrowAccount = await Ed25519HDKeyPair.random();
@@ -104,14 +106,11 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    const transferAmount = 2;
-
     final tx = await createPaymentTx(
       aSender: testData.sender.publicKey,
       aEscrow: escrowAccount.publicKey,
       mint: testData.mint,
       amount: transferAmount,
-      fee: 1,
       client: client,
       platform: testData.platform,
       commitment: Commitment.confirmed,

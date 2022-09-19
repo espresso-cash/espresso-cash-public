@@ -1,3 +1,4 @@
+import 'package:cryptoplease_link/src/constants.dart';
 import 'package:cryptoplease_link/src/payments/create_payment.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
@@ -9,7 +10,9 @@ Future<void> main() async {
   final client = createTestSolanaClient();
 
   /// Initial token amount for the sender after creation.
-  const senderInitialAmount = 10;
+  const senderInitialAmount = 500000;
+
+  const transferAmount = 300000;
 
   /// Creates sender system account and ATA, minting [senderInitialAmount] to
   /// the ATA. System account won't have any SOL, since sender is not paying any
@@ -24,9 +27,6 @@ Future<void> main() async {
     final platform = data.platform;
     final mint = data.mint;
 
-    const transferAmount = 2;
-    const fee = 1;
-
     // Sender creates an escrow account and keeps its private key. Sender
     // doesn't transfer private key for the escrow account to the system.
     final escrow = await Ed25519HDKeyPair.random();
@@ -35,8 +35,7 @@ Future<void> main() async {
       aSender: sender.publicKey,
       aEscrow: escrow.publicKey,
       mint: mint,
-      amount: 2,
-      fee: 1,
+      amount: transferAmount,
       client: client,
       platform: platform,
       commitment: Commitment.confirmed,
@@ -58,7 +57,7 @@ Future<void> main() async {
 
     expect(
       await client.getMintBalance(sender.publicKey, mint: mint),
-      senderInitialAmount - transferAmount - fee,
+      senderInitialAmount - transferAmount - shareableLinkPaymentFee,
     );
     expect(
       await client.getMintBalance(escrow.publicKey, mint: mint),
@@ -66,7 +65,7 @@ Future<void> main() async {
     );
     expect(
       await client.getMintBalance(platform.publicKey, mint: mint),
-      fee,
+      shareableLinkPaymentFee,
     );
   });
 
@@ -85,8 +84,7 @@ Future<void> main() async {
       aSender: sender.publicKey,
       aEscrow: escrow.publicKey,
       mint: mint,
-      amount: 2,
-      fee: 1,
+      amount: transferAmount,
       client: client,
       platform: platform,
       commitment: Commitment.confirmed,
