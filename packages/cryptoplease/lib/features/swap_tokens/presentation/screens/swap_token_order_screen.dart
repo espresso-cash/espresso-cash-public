@@ -101,7 +101,6 @@ class _ContentState extends State<_Content> {
                 ),
               ],
             ),
-            automaticallyImplyLeading: false,
             nextButton: const _SubmitButton(),
           ),
           body: Column(
