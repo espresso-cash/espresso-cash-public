@@ -48,7 +48,7 @@ class CpTimelineWidget extends StatelessWidget {
               title: Text(
                 tile.title,
                 style: const TextStyle(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   fontSize: 16,
                 ),
               ),
@@ -64,7 +64,7 @@ class CpTimelineWidget extends StatelessWidget {
               trailing: Text(
                 tile.trailing ?? '',
                 style: const TextStyle(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   fontSize: 16,
                 ),
               ),
