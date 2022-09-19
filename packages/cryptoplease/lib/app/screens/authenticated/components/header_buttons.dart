@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+//TODO (JE) : remove if not used in other pages
 class AddFundsButton extends StatelessWidget {
   const AddFundsButton({Key? key}) : super(key: key);
 
@@ -23,6 +24,31 @@ class AddFundsButton extends StatelessWidget {
             wallet: context.read<MyAccount>().wallet,
             token: Token.sol,
           ),
+        ),
+      );
+}
+
+class SwapButton extends StatelessWidget {
+  const SwapButton({Key? key, this.token}) : super(key: key);
+
+  final Token? token;
+
+  @override
+  Widget build(BuildContext context) => HeaderedListButton(
+        label: context.l10n.swap,
+        icon: Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
+            border: Border.all(width: 2, color: const Color(0xffFF8956)),
+          ),
+          padding: const EdgeInsets.all(8),
+          child: SvgPicture.asset(
+            Assets.icons.swap.path,
+            color: Colors.white,
+          ),
+        ),
+        onPressed: () => context.router.navigate(
+          SwapTokenFlowRoute(token: token),
         ),
       );
 }
