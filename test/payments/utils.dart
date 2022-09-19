@@ -8,11 +8,13 @@ class TestData {
     required this.mint,
     required this.platform,
     required this.sender,
+    required this.mintAuthority,
   });
 
   final Ed25519HDPublicKey mint;
   final Ed25519HDKeyPair platform;
   final Ed25519HDKeyPair sender;
+  final Ed25519HDKeyPair mintAuthority;
 }
 
 Future<TestData> createTestData({
@@ -77,6 +79,7 @@ Future<TestData> createTestData({
     mint: mint.address,
     platform: await createPlatform(),
     sender: await createSender(),
+    mintAuthority: mintAuthority,
   );
 }
 
