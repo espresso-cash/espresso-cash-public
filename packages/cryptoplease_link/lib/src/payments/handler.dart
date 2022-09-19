@@ -1,5 +1,6 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:cryptoplease_link/src/constants.dart';
+import 'package:cryptoplease_link/src/payments/create_direct_payment.dart';
 import 'package:cryptoplease_link/src/payments/create_payment.dart';
 import 'package:cryptoplease_link/src/payments/receive_payment.dart';
 import 'package:cryptoplease_link/src/utils.dart';
@@ -9,7 +10,8 @@ import 'package:solana/solana.dart';
 
 Handler paymentHandler() => shelf_router.Router()
   ..post('/createPayment', createPaymentHandler)
-  ..post('/receivePayment', receivePaymentHandler);
+  ..post('/receivePayment', receivePaymentHandler)
+  ..post('/createDirectPayment', createDirectPaymentHandler);
 
 Future<Response> createPaymentHandler(Request request) async =>
     processRequest<CreatePaymentRequestDto, CreatePaymentResponseDto>(
@@ -49,6 +51,31 @@ Future<Response> receivePaymentHandler(Request request) async =>
         );
 
         return ReceivePaymentResponseDto(transaction: payment.encode());
+      },
+    );
+
+Future<Response> createDirectPaymentHandler(Request request) async =>
+    processRequest<CreateDirectPaymentRequestDto,
+        CreateDirectPaymentResponseDto>(
+      request,
+      CreateDirectPaymentRequestDto.fromJson,
+      (data) async {
+        final cluster = data.cluster;
+
+        final payment = await createDirectPayment(
+          aSender: Ed25519HDPublicKey.fromBase58(data.senderAccount),
+          aReceiver: Ed25519HDPublicKey.fromBase58(data.receiverAccount),
+          mint: cluster.mint,
+          amount: data.amount,
+          platform: await cluster.platformAccount,
+          client: cluster.solanaClient,
+          commitment: Commitment.confirmed,
+        );
+
+        return CreateDirectPaymentResponseDto(
+          fee: payment.fee,
+          transaction: payment.transaction.encode(),
+        );
       },
     );
 

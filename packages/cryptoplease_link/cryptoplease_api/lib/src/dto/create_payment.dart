@@ -48,4 +48,28 @@ class ReceivePaymentResponseDto with _$ReceivePaymentResponseDto {
       _$ReceivePaymentResponseDtoFromJson(json);
 }
 
+@freezed
+class CreateDirectPaymentRequestDto with _$CreateDirectPaymentRequestDto {
+  const factory CreateDirectPaymentRequestDto({
+    required String senderAccount,
+    required String receiverAccount,
+    required int amount,
+    required Cluster cluster,
+  }) = _CreateDirectPaymentRequestDto;
+
+  factory CreateDirectPaymentRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$CreateDirectPaymentRequestDtoFromJson(json);
+}
+
+@freezed
+class CreateDirectPaymentResponseDto with _$CreateDirectPaymentResponseDto {
+  const factory CreateDirectPaymentResponseDto({
+    required int fee,
+    required String transaction,
+  }) = _CreateDirectPaymentResponseDto;
+
+  factory CreateDirectPaymentResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$CreateDirectPaymentResponseDtoFromJson(json);
+}
+
 enum Cluster { mainnet, devnet }
