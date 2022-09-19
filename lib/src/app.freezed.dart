@@ -120,9 +120,9 @@ class _$AppCopyWithImpl<$Res> implements $AppCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$AppCopyWith<$Res> implements $AppCopyWith<$Res> {
-  factory _$AppCopyWith(_App value, $Res Function(_App) then) =
-      __$AppCopyWithImpl<$Res>;
+abstract class _$$_AppCopyWith<$Res> implements $AppCopyWith<$Res> {
+  factory _$$_AppCopyWith(_$_App value, $Res Function(_$_App) then) =
+      __$$_AppCopyWithImpl<$Res>;
   @override
   $Res call(
       {String id,
@@ -141,13 +141,13 @@ abstract class _$AppCopyWith<$Res> implements $AppCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$AppCopyWithImpl<$Res> extends _$AppCopyWithImpl<$Res>
-    implements _$AppCopyWith<$Res> {
-  __$AppCopyWithImpl(_App _value, $Res Function(_App) _then)
-      : super(_value, (v) => _then(v as _App));
+class __$$_AppCopyWithImpl<$Res> extends _$AppCopyWithImpl<$Res>
+    implements _$$_AppCopyWith<$Res> {
+  __$$_AppCopyWithImpl(_$_App _value, $Res Function(_$_App) _then)
+      : super(_value, (v) => _then(v as _$_App));
 
   @override
-  _App get _value => super._value as _App;
+  _$_App get _value => super._value as _$_App;
 
   @override
   $Res call({
@@ -158,7 +158,7 @@ class __$AppCopyWithImpl<$Res> extends _$AppCopyWithImpl<$Res>
     Object? androidOptions = freezed,
     Object? iOSOptions = freezed,
   }) {
-    return _then(_App(
+    return _then(_$_App(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -220,7 +220,7 @@ class _$_App implements _App {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _App &&
+            other is _$_App &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.url, url) &&
@@ -244,8 +244,8 @@ class _$_App implements _App {
 
   @JsonKey(ignore: true)
   @override
-  _$AppCopyWith<_App> get copyWith =>
-      __$AppCopyWithImpl<_App>(this, _$identity);
+  _$$_AppCopyWith<_$_App> get copyWith =>
+      __$$_AppCopyWithImpl<_$_App>(this, _$identity);
 }
 
 abstract class _App implements App {
@@ -258,20 +258,20 @@ abstract class _App implements App {
       final IOSOptions? iOSOptions}) = _$_App;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  Uri get url => throw _privateConstructorUsedError;
+  Uri get url;
   @override
-  AppDisplayStyle get appDisplayStyle => throw _privateConstructorUsedError;
+  AppDisplayStyle get appDisplayStyle;
   @override
-  AndroidOptions? get androidOptions => throw _privateConstructorUsedError;
+  AndroidOptions? get androidOptions;
   @override
-  IOSOptions? get iOSOptions => throw _privateConstructorUsedError;
+  IOSOptions? get iOSOptions;
   @override
   @JsonKey(ignore: true)
-  _$AppCopyWith<_App> get copyWith => throw _privateConstructorUsedError;
+  _$$_AppCopyWith<_$_App> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -326,25 +326,25 @@ class _$AppDisplayStyleCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$AppDisplayStyleCopyWith<$Res>
+abstract class _$$_AppDisplayStyleCopyWith<$Res>
     implements $AppDisplayStyleCopyWith<$Res> {
-  factory _$AppDisplayStyleCopyWith(
-          _AppDisplayStyle value, $Res Function(_AppDisplayStyle) then) =
-      __$AppDisplayStyleCopyWithImpl<$Res>;
+  factory _$$_AppDisplayStyleCopyWith(
+          _$_AppDisplayStyle value, $Res Function(_$_AppDisplayStyle) then) =
+      __$$_AppDisplayStyleCopyWithImpl<$Res>;
   @override
   $Res call({String textColor, String backgroundColor, String logoUri});
 }
 
 /// @nodoc
-class __$AppDisplayStyleCopyWithImpl<$Res>
+class __$$_AppDisplayStyleCopyWithImpl<$Res>
     extends _$AppDisplayStyleCopyWithImpl<$Res>
-    implements _$AppDisplayStyleCopyWith<$Res> {
-  __$AppDisplayStyleCopyWithImpl(
-      _AppDisplayStyle _value, $Res Function(_AppDisplayStyle) _then)
-      : super(_value, (v) => _then(v as _AppDisplayStyle));
+    implements _$$_AppDisplayStyleCopyWith<$Res> {
+  __$$_AppDisplayStyleCopyWithImpl(
+      _$_AppDisplayStyle _value, $Res Function(_$_AppDisplayStyle) _then)
+      : super(_value, (v) => _then(v as _$_AppDisplayStyle));
 
   @override
-  _AppDisplayStyle get _value => super._value as _AppDisplayStyle;
+  _$_AppDisplayStyle get _value => super._value as _$_AppDisplayStyle;
 
   @override
   $Res call({
@@ -352,7 +352,7 @@ class __$AppDisplayStyleCopyWithImpl<$Res>
     Object? backgroundColor = freezed,
     Object? logoUri = freezed,
   }) {
-    return _then(_AppDisplayStyle(
+    return _then(_$_AppDisplayStyle(
       textColor: textColor == freezed
           ? _value.textColor
           : textColor // ignore: cast_nullable_to_non_nullable
@@ -393,7 +393,7 @@ class _$_AppDisplayStyle implements _AppDisplayStyle {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _AppDisplayStyle &&
+            other is _$_AppDisplayStyle &&
             const DeepCollectionEquality().equals(other.textColor, textColor) &&
             const DeepCollectionEquality()
                 .equals(other.backgroundColor, backgroundColor) &&
@@ -409,8 +409,8 @@ class _$_AppDisplayStyle implements _AppDisplayStyle {
 
   @JsonKey(ignore: true)
   @override
-  _$AppDisplayStyleCopyWith<_AppDisplayStyle> get copyWith =>
-      __$AppDisplayStyleCopyWithImpl<_AppDisplayStyle>(this, _$identity);
+  _$$_AppDisplayStyleCopyWith<_$_AppDisplayStyle> get copyWith =>
+      __$$_AppDisplayStyleCopyWithImpl<_$_AppDisplayStyle>(this, _$identity);
 }
 
 abstract class _AppDisplayStyle implements AppDisplayStyle {
@@ -420,14 +420,14 @@ abstract class _AppDisplayStyle implements AppDisplayStyle {
       required final String logoUri}) = _$_AppDisplayStyle;
 
   @override
-  String get textColor => throw _privateConstructorUsedError;
+  String get textColor;
   @override
-  String get backgroundColor => throw _privateConstructorUsedError;
+  String get backgroundColor;
   @override
-  String get logoUri => throw _privateConstructorUsedError;
+  String get logoUri;
   @override
   @JsonKey(ignore: true)
-  _$AppDisplayStyleCopyWith<_AppDisplayStyle> get copyWith =>
+  _$$_AppDisplayStyleCopyWith<_$_AppDisplayStyle> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -477,38 +477,38 @@ class _$AndroidOptionsCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$AndroidOptionsCopyWith<$Res>
+abstract class _$$_AndroidOptionsCopyWith<$Res>
     implements $AndroidOptionsCopyWith<$Res> {
-  factory _$AndroidOptionsCopyWith(
-          _AndroidOptions value, $Res Function(_AndroidOptions) then) =
-      __$AndroidOptionsCopyWithImpl<$Res>;
+  factory _$$_AndroidOptionsCopyWith(
+          _$_AndroidOptions value, $Res Function(_$_AndroidOptions) then) =
+      __$$_AndroidOptionsCopyWithImpl<$Res>;
   @override
   $Res call({String package, List<String> sha256Fingerprints});
 }
 
 /// @nodoc
-class __$AndroidOptionsCopyWithImpl<$Res>
+class __$$_AndroidOptionsCopyWithImpl<$Res>
     extends _$AndroidOptionsCopyWithImpl<$Res>
-    implements _$AndroidOptionsCopyWith<$Res> {
-  __$AndroidOptionsCopyWithImpl(
-      _AndroidOptions _value, $Res Function(_AndroidOptions) _then)
-      : super(_value, (v) => _then(v as _AndroidOptions));
+    implements _$$_AndroidOptionsCopyWith<$Res> {
+  __$$_AndroidOptionsCopyWithImpl(
+      _$_AndroidOptions _value, $Res Function(_$_AndroidOptions) _then)
+      : super(_value, (v) => _then(v as _$_AndroidOptions));
 
   @override
-  _AndroidOptions get _value => super._value as _AndroidOptions;
+  _$_AndroidOptions get _value => super._value as _$_AndroidOptions;
 
   @override
   $Res call({
     Object? package = freezed,
     Object? sha256Fingerprints = freezed,
   }) {
-    return _then(_AndroidOptions(
+    return _then(_$_AndroidOptions(
       package: package == freezed
           ? _value.package
           : package // ignore: cast_nullable_to_non_nullable
               as String,
       sha256Fingerprints: sha256Fingerprints == freezed
-          ? _value.sha256Fingerprints
+          ? _value._sha256Fingerprints
           : sha256Fingerprints // ignore: cast_nullable_to_non_nullable
               as List<String>,
     ));
@@ -540,22 +540,22 @@ class _$_AndroidOptions implements _AndroidOptions {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _AndroidOptions &&
+            other is _$_AndroidOptions &&
             const DeepCollectionEquality().equals(other.package, package) &&
             const DeepCollectionEquality()
-                .equals(other.sha256Fingerprints, sha256Fingerprints));
+                .equals(other._sha256Fingerprints, _sha256Fingerprints));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(package),
-      const DeepCollectionEquality().hash(sha256Fingerprints));
+      const DeepCollectionEquality().hash(_sha256Fingerprints));
 
   @JsonKey(ignore: true)
   @override
-  _$AndroidOptionsCopyWith<_AndroidOptions> get copyWith =>
-      __$AndroidOptionsCopyWithImpl<_AndroidOptions>(this, _$identity);
+  _$$_AndroidOptionsCopyWith<_$_AndroidOptions> get copyWith =>
+      __$$_AndroidOptionsCopyWithImpl<_$_AndroidOptions>(this, _$identity);
 }
 
 abstract class _AndroidOptions implements AndroidOptions {
@@ -564,12 +564,12 @@ abstract class _AndroidOptions implements AndroidOptions {
       required final List<String> sha256Fingerprints}) = _$_AndroidOptions;
 
   @override
-  String get package => throw _privateConstructorUsedError;
+  String get package;
   @override
-  List<String> get sha256Fingerprints => throw _privateConstructorUsedError;
+  List<String> get sha256Fingerprints;
   @override
   @JsonKey(ignore: true)
-  _$AndroidOptionsCopyWith<_AndroidOptions> get copyWith =>
+  _$$_AndroidOptionsCopyWith<_$_AndroidOptions> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -624,23 +624,24 @@ class _$IOSOptionsCopyWithImpl<$Res> implements $IOSOptionsCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$IOSOptionsCopyWith<$Res> implements $IOSOptionsCopyWith<$Res> {
-  factory _$IOSOptionsCopyWith(
-          _IOSOptions value, $Res Function(_IOSOptions) then) =
-      __$IOSOptionsCopyWithImpl<$Res>;
+abstract class _$$_IOSOptionsCopyWith<$Res>
+    implements $IOSOptionsCopyWith<$Res> {
+  factory _$$_IOSOptionsCopyWith(
+          _$_IOSOptions value, $Res Function(_$_IOSOptions) then) =
+      __$$_IOSOptionsCopyWithImpl<$Res>;
   @override
   $Res call({String appStoreId, String bundleId, String teamId});
 }
 
 /// @nodoc
-class __$IOSOptionsCopyWithImpl<$Res> extends _$IOSOptionsCopyWithImpl<$Res>
-    implements _$IOSOptionsCopyWith<$Res> {
-  __$IOSOptionsCopyWithImpl(
-      _IOSOptions _value, $Res Function(_IOSOptions) _then)
-      : super(_value, (v) => _then(v as _IOSOptions));
+class __$$_IOSOptionsCopyWithImpl<$Res> extends _$IOSOptionsCopyWithImpl<$Res>
+    implements _$$_IOSOptionsCopyWith<$Res> {
+  __$$_IOSOptionsCopyWithImpl(
+      _$_IOSOptions _value, $Res Function(_$_IOSOptions) _then)
+      : super(_value, (v) => _then(v as _$_IOSOptions));
 
   @override
-  _IOSOptions get _value => super._value as _IOSOptions;
+  _$_IOSOptions get _value => super._value as _$_IOSOptions;
 
   @override
   $Res call({
@@ -648,7 +649,7 @@ class __$IOSOptionsCopyWithImpl<$Res> extends _$IOSOptionsCopyWithImpl<$Res>
     Object? bundleId = freezed,
     Object? teamId = freezed,
   }) {
-    return _then(_IOSOptions(
+    return _then(_$_IOSOptions(
       appStoreId: appStoreId == freezed
           ? _value.appStoreId
           : appStoreId // ignore: cast_nullable_to_non_nullable
@@ -687,7 +688,7 @@ class _$_IOSOptions implements _IOSOptions {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _IOSOptions &&
+            other is _$_IOSOptions &&
             const DeepCollectionEquality()
                 .equals(other.appStoreId, appStoreId) &&
             const DeepCollectionEquality().equals(other.bundleId, bundleId) &&
@@ -703,8 +704,8 @@ class _$_IOSOptions implements _IOSOptions {
 
   @JsonKey(ignore: true)
   @override
-  _$IOSOptionsCopyWith<_IOSOptions> get copyWith =>
-      __$IOSOptionsCopyWithImpl<_IOSOptions>(this, _$identity);
+  _$$_IOSOptionsCopyWith<_$_IOSOptions> get copyWith =>
+      __$$_IOSOptionsCopyWithImpl<_$_IOSOptions>(this, _$identity);
 }
 
 abstract class _IOSOptions implements IOSOptions {
@@ -714,13 +715,13 @@ abstract class _IOSOptions implements IOSOptions {
       required final String teamId}) = _$_IOSOptions;
 
   @override
-  String get appStoreId => throw _privateConstructorUsedError;
+  String get appStoreId;
   @override
-  String get bundleId => throw _privateConstructorUsedError;
+  String get bundleId;
   @override
-  String get teamId => throw _privateConstructorUsedError;
+  String get teamId;
   @override
   @JsonKey(ignore: true)
-  _$IOSOptionsCopyWith<_IOSOptions> get copyWith =>
+  _$$_IOSOptionsCopyWith<_$_IOSOptions> get copyWith =>
       throw _privateConstructorUsedError;
 }
