@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-//TODO (JE) : remove if not used in other pages
+// TODO(JE): remove if not used in other pages
 class AddFundsButton extends StatelessWidget {
   const AddFundsButton({Key? key}) : super(key: key);
 
