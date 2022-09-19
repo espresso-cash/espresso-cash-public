@@ -86,7 +86,7 @@ class _ContentState extends State<_Content> {
             title: Text(context.l10n.swapTokens),
             leading: Row(
               children: [
-                const SizedBox(width: 8),
+                const SizedBox(width: 12),
                 Expanded(
                   child: BackButton(onPressed: () => context.router.pop()),
                 ),
