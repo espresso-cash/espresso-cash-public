@@ -683,3 +683,381 @@ abstract class _ReceivePaymentResponseDto implements ReceivePaymentResponseDto {
   _$$_ReceivePaymentResponseDtoCopyWith<_$_ReceivePaymentResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+CreateDirectPaymentRequestDto _$CreateDirectPaymentRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _CreateDirectPaymentRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateDirectPaymentRequestDto {
+  String get senderAccount => throw _privateConstructorUsedError;
+  String get receiverAccount => throw _privateConstructorUsedError;
+  int get amount => throw _privateConstructorUsedError;
+  Cluster get cluster => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateDirectPaymentRequestDtoCopyWith<CreateDirectPaymentRequestDto>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateDirectPaymentRequestDtoCopyWith<$Res> {
+  factory $CreateDirectPaymentRequestDtoCopyWith(
+          CreateDirectPaymentRequestDto value,
+          $Res Function(CreateDirectPaymentRequestDto) then) =
+      _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res>;
+  $Res call(
+      {String senderAccount,
+      String receiverAccount,
+      int amount,
+      Cluster cluster});
+}
+
+/// @nodoc
+class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
+    implements $CreateDirectPaymentRequestDtoCopyWith<$Res> {
+  _$CreateDirectPaymentRequestDtoCopyWithImpl(this._value, this._then);
+
+  final CreateDirectPaymentRequestDto _value;
+  // ignore: unused_field
+  final $Res Function(CreateDirectPaymentRequestDto) _then;
+
+  @override
+  $Res call({
+    Object? senderAccount = freezed,
+    Object? receiverAccount = freezed,
+    Object? amount = freezed,
+    Object? cluster = freezed,
+  }) {
+    return _then(_value.copyWith(
+      senderAccount: senderAccount == freezed
+          ? _value.senderAccount
+          : senderAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      receiverAccount: receiverAccount == freezed
+          ? _value.receiverAccount
+          : receiverAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int,
+      cluster: cluster == freezed
+          ? _value.cluster
+          : cluster // ignore: cast_nullable_to_non_nullable
+              as Cluster,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_CreateDirectPaymentRequestDtoCopyWith<$Res>
+    implements $CreateDirectPaymentRequestDtoCopyWith<$Res> {
+  factory _$$_CreateDirectPaymentRequestDtoCopyWith(
+          _$_CreateDirectPaymentRequestDto value,
+          $Res Function(_$_CreateDirectPaymentRequestDto) then) =
+      __$$_CreateDirectPaymentRequestDtoCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {String senderAccount,
+      String receiverAccount,
+      int amount,
+      Cluster cluster});
+}
+
+/// @nodoc
+class __$$_CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
+    extends _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
+    implements _$$_CreateDirectPaymentRequestDtoCopyWith<$Res> {
+  __$$_CreateDirectPaymentRequestDtoCopyWithImpl(
+      _$_CreateDirectPaymentRequestDto _value,
+      $Res Function(_$_CreateDirectPaymentRequestDto) _then)
+      : super(_value, (v) => _then(v as _$_CreateDirectPaymentRequestDto));
+
+  @override
+  _$_CreateDirectPaymentRequestDto get _value =>
+      super._value as _$_CreateDirectPaymentRequestDto;
+
+  @override
+  $Res call({
+    Object? senderAccount = freezed,
+    Object? receiverAccount = freezed,
+    Object? amount = freezed,
+    Object? cluster = freezed,
+  }) {
+    return _then(_$_CreateDirectPaymentRequestDto(
+      senderAccount: senderAccount == freezed
+          ? _value.senderAccount
+          : senderAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      receiverAccount: receiverAccount == freezed
+          ? _value.receiverAccount
+          : receiverAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int,
+      cluster: cluster == freezed
+          ? _value.cluster
+          : cluster // ignore: cast_nullable_to_non_nullable
+              as Cluster,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CreateDirectPaymentRequestDto
+    implements _CreateDirectPaymentRequestDto {
+  const _$_CreateDirectPaymentRequestDto(
+      {required this.senderAccount,
+      required this.receiverAccount,
+      required this.amount,
+      required this.cluster});
+
+  factory _$_CreateDirectPaymentRequestDto.fromJson(
+          Map<String, dynamic> json) =>
+      _$$_CreateDirectPaymentRequestDtoFromJson(json);
+
+  @override
+  final String senderAccount;
+  @override
+  final String receiverAccount;
+  @override
+  final int amount;
+  @override
+  final Cluster cluster;
+
+  @override
+  String toString() {
+    return 'CreateDirectPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, amount: $amount, cluster: $cluster)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CreateDirectPaymentRequestDto &&
+            const DeepCollectionEquality()
+                .equals(other.senderAccount, senderAccount) &&
+            const DeepCollectionEquality()
+                .equals(other.receiverAccount, receiverAccount) &&
+            const DeepCollectionEquality().equals(other.amount, amount) &&
+            const DeepCollectionEquality().equals(other.cluster, cluster));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(senderAccount),
+      const DeepCollectionEquality().hash(receiverAccount),
+      const DeepCollectionEquality().hash(amount),
+      const DeepCollectionEquality().hash(cluster));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_CreateDirectPaymentRequestDtoCopyWith<_$_CreateDirectPaymentRequestDto>
+      get copyWith => __$$_CreateDirectPaymentRequestDtoCopyWithImpl<
+          _$_CreateDirectPaymentRequestDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CreateDirectPaymentRequestDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateDirectPaymentRequestDto
+    implements CreateDirectPaymentRequestDto {
+  const factory _CreateDirectPaymentRequestDto(
+      {required final String senderAccount,
+      required final String receiverAccount,
+      required final int amount,
+      required final Cluster cluster}) = _$_CreateDirectPaymentRequestDto;
+
+  factory _CreateDirectPaymentRequestDto.fromJson(Map<String, dynamic> json) =
+      _$_CreateDirectPaymentRequestDto.fromJson;
+
+  @override
+  String get senderAccount;
+  @override
+  String get receiverAccount;
+  @override
+  int get amount;
+  @override
+  Cluster get cluster;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CreateDirectPaymentRequestDtoCopyWith<_$_CreateDirectPaymentRequestDto>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateDirectPaymentResponseDto _$CreateDirectPaymentResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _CreateDirectPaymentResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateDirectPaymentResponseDto {
+  int get fee => throw _privateConstructorUsedError;
+  String get transaction => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateDirectPaymentResponseDtoCopyWith<CreateDirectPaymentResponseDto>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateDirectPaymentResponseDtoCopyWith<$Res> {
+  factory $CreateDirectPaymentResponseDtoCopyWith(
+          CreateDirectPaymentResponseDto value,
+          $Res Function(CreateDirectPaymentResponseDto) then) =
+      _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res>;
+  $Res call({int fee, String transaction});
+}
+
+/// @nodoc
+class _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
+    implements $CreateDirectPaymentResponseDtoCopyWith<$Res> {
+  _$CreateDirectPaymentResponseDtoCopyWithImpl(this._value, this._then);
+
+  final CreateDirectPaymentResponseDto _value;
+  // ignore: unused_field
+  final $Res Function(CreateDirectPaymentResponseDto) _then;
+
+  @override
+  $Res call({
+    Object? fee = freezed,
+    Object? transaction = freezed,
+  }) {
+    return _then(_value.copyWith(
+      fee: fee == freezed
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as int,
+      transaction: transaction == freezed
+          ? _value.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_CreateDirectPaymentResponseDtoCopyWith<$Res>
+    implements $CreateDirectPaymentResponseDtoCopyWith<$Res> {
+  factory _$$_CreateDirectPaymentResponseDtoCopyWith(
+          _$_CreateDirectPaymentResponseDto value,
+          $Res Function(_$_CreateDirectPaymentResponseDto) then) =
+      __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>;
+  @override
+  $Res call({int fee, String transaction});
+}
+
+/// @nodoc
+class __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
+    extends _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
+    implements _$$_CreateDirectPaymentResponseDtoCopyWith<$Res> {
+  __$$_CreateDirectPaymentResponseDtoCopyWithImpl(
+      _$_CreateDirectPaymentResponseDto _value,
+      $Res Function(_$_CreateDirectPaymentResponseDto) _then)
+      : super(_value, (v) => _then(v as _$_CreateDirectPaymentResponseDto));
+
+  @override
+  _$_CreateDirectPaymentResponseDto get _value =>
+      super._value as _$_CreateDirectPaymentResponseDto;
+
+  @override
+  $Res call({
+    Object? fee = freezed,
+    Object? transaction = freezed,
+  }) {
+    return _then(_$_CreateDirectPaymentResponseDto(
+      fee: fee == freezed
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as int,
+      transaction: transaction == freezed
+          ? _value.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CreateDirectPaymentResponseDto
+    implements _CreateDirectPaymentResponseDto {
+  const _$_CreateDirectPaymentResponseDto(
+      {required this.fee, required this.transaction});
+
+  factory _$_CreateDirectPaymentResponseDto.fromJson(
+          Map<String, dynamic> json) =>
+      _$$_CreateDirectPaymentResponseDtoFromJson(json);
+
+  @override
+  final int fee;
+  @override
+  final String transaction;
+
+  @override
+  String toString() {
+    return 'CreateDirectPaymentResponseDto(fee: $fee, transaction: $transaction)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CreateDirectPaymentResponseDto &&
+            const DeepCollectionEquality().equals(other.fee, fee) &&
+            const DeepCollectionEquality()
+                .equals(other.transaction, transaction));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(fee),
+      const DeepCollectionEquality().hash(transaction));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_CreateDirectPaymentResponseDtoCopyWith<_$_CreateDirectPaymentResponseDto>
+      get copyWith => __$$_CreateDirectPaymentResponseDtoCopyWithImpl<
+          _$_CreateDirectPaymentResponseDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CreateDirectPaymentResponseDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateDirectPaymentResponseDto
+    implements CreateDirectPaymentResponseDto {
+  const factory _CreateDirectPaymentResponseDto(
+      {required final int fee,
+      required final String transaction}) = _$_CreateDirectPaymentResponseDto;
+
+  factory _CreateDirectPaymentResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_CreateDirectPaymentResponseDto.fromJson;
+
+  @override
+  int get fee;
+  @override
+  String get transaction;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CreateDirectPaymentResponseDtoCopyWith<_$_CreateDirectPaymentResponseDto>
+      get copyWith => throw _privateConstructorUsedError;
+}

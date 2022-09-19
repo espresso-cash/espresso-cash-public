@@ -1,3 +1,4 @@
+import 'package:cryptoplease_link/src/constants.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -5,7 +6,7 @@ import 'package:solana/solana.dart';
 ///
 /// - create ATA for the [aEscrow] account;
 /// - send [amount] from [aSender] ATA to [aEscrow] ATA;
-/// - send [fee] from [aSender] ATA to [platform] ATA;
+/// - send fee from [aSender] ATA to [platform] ATA;
 ///
 /// Tx will be partially signed by the [platform]. Keep in mind that [aSender]
 /// and [platform] should already have the corresponding ATAs for the [mint].
@@ -17,7 +18,6 @@ Future<SignedTx> createPaymentTx({
   required Ed25519HDPublicKey aEscrow,
   required Ed25519HDPublicKey mint,
   required int amount,
-  required int fee,
   required Ed25519HDKeyPair platform,
   required SolanaClient client,
   required Commitment commitment,
@@ -67,7 +67,7 @@ Future<SignedTx> createPaymentTx({
     mint: mint,
   );
   final iTransferFee = TokenInstruction.transfer(
-    amount: fee,
+    amount: shareableLinkPaymentFee,
     source: ataSender,
     destination: ataPlatform,
     owner: aSender,

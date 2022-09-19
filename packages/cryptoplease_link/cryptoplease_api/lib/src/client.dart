@@ -20,4 +20,9 @@ abstract class CryptopleaseClient {
   Future<ReceivePaymentResponseDto> receivePayment(
     @Body() ReceivePaymentRequestDto request,
   );
+
+  @POST('/createDirectPayment')
+  Future<CreateDirectPaymentResponseDto> createDirectPayment(
+    @Body() CreateDirectPaymentRequestDto request,
+  );
 }
