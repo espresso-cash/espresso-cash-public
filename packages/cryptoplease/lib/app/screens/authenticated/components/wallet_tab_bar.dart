@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/screens/authenticated/components/round_corners_container.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
@@ -8,31 +7,35 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-        color: Colors.white,
-        child: RoundCornersContainer(
-          child: Container(
-            height: preferredSize.height,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: CpColors.listDividerColor,
-                  width: 1.0,
+        child: Container(
+          margin: const EdgeInsets.only(
+            bottom: _barPadding,
+            left: _barPadding,
+            right: _barPadding,
+          ),
+          clipBehavior: Clip.antiAlias,
+          decoration: const ShapeDecoration(
+            color: CpColors.primaryTextColor,
+            shape: StadiumBorder(),
+          ),
+          child: TabBar(
+            indicatorColor: Colors.transparent,
+            unselectedLabelColor: CpColors.disabledTabColor,
+            labelColor: Colors.black,
+            labelStyle: Theme.of(context).textTheme.headline3?.copyWith(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
                 ),
-              ),
+            indicator: const ShapeDecoration(
+              color: Colors.white,
+              shape: StadiumBorder(),
             ),
-            child: TabBar(
-              padding: const EdgeInsets.only(top: 5),
-              indicatorColor: Colors.transparent,
-              unselectedLabelColor: CpColors.disabledTabColor,
-              labelColor: Colors.black,
-              labelStyle: Theme.of(context).textTheme.headline3?.copyWith(
-                    fontSize: 21,
-                  ),
-              tabs: [
-                Tab(text: context.l10n.crypto),
-                Tab(text: context.l10n.stablecoin)
-              ],
-            ),
+            padding: const EdgeInsets.all(4),
+            tabs: [
+              Tab(text: context.l10n.stablecoin),
+              Tab(text: context.l10n.crypto),
+              const Tab(text: 'All')
+            ],
           ),
         ),
       );
@@ -40,3 +43,5 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(82);
 }
+
+const double _barPadding = 16;

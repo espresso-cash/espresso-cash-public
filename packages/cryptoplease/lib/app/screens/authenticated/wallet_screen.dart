@@ -1,7 +1,5 @@
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/app_bar.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/balance_list_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/header_buttons.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/stablecoin_empty_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/total_balance_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/wallet_tab_bar.dart';
@@ -36,15 +34,10 @@ class _WalletScreenState extends State<WalletScreen> {
             );
 
             return DefaultTabController(
-              length: 2,
+              length: 3,
               child: CpHeaderedList(
                 onRefresh: onRefresh,
-                headerAppBar: const HomeScreenAppBar(),
-                headerButtons: const [
-                  AddFundsButton(),
-                  SendButton(),
-                  ReceiveButton(),
-                ],
+                headerAppBar: const _AppBarContent(),
                 headerContent: TotalBalanceWidget(balance: total),
                 stickyBottomHeader: const WalletTabBar(),
                 child: TabBarView(
@@ -62,11 +55,47 @@ class _WalletScreenState extends State<WalletScreen> {
                       isLoading: isLoading,
                       emptyWidget: const StableCoinEmptyWidget(),
                     ),
+                    BalanceListWidget(
+                      tokens: state.stableTokens,
+                      isLoading: isLoading,
+                      emptyWidget: const StableCoinEmptyWidget(),
+                    ),
                   ],
                 ),
               ),
             );
           },
+        ),
+      );
+}
+
+class _AppBarContent extends StatelessWidget {
+  const _AppBarContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        height: kToolbarHeight,
+        child: Stack(
+          children: [
+            Center(
+              child: Text(
+                'Investments'.toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              bottom: 0,
+              child: CpIconButton(
+                icon: Icons.settings,
+                onPressed: () => {},
+              ),
+            ),
+          ],
         ),
       );
 }

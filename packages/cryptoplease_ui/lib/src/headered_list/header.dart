@@ -10,7 +10,7 @@ class HeaderedListHeader extends StatelessWidget {
     this.stickyBottomHeader,
     this.allowBackNavigation = false,
     required this.minHeight,
-    required this.buttons,
+    this.buttons,
     required this.appBar,
   }) : super(key: key);
 
@@ -18,7 +18,7 @@ class HeaderedListHeader extends StatelessWidget {
   final bool allowBackNavigation;
   final PreferredSizeWidget? stickyBottomHeader;
   final double minHeight;
-  final List<Widget> buttons;
+  final List<Widget>? buttons;
   final Widget appBar;
 
   final _buttonRowHeight = 75.0;
@@ -39,14 +39,16 @@ class HeaderedListHeader extends StatelessWidget {
             automaticallyImplyLeading: false,
             title: Center(child: appBar),
           ),
-          buttonsWidget: SizedBox(
-            height: _buttonRowHeight,
-            width: 300,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: buttons,
-            ),
-          ),
+          buttonsWidget: buttons != null
+              ? SizedBox(
+                  height: _buttonRowHeight,
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: buttons ?? [],
+                  ),
+                )
+              : null,
         ),
       );
 }
@@ -54,7 +56,7 @@ class HeaderedListHeader extends StatelessWidget {
 class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   _HeaderDelegate({
     required this.backButton,
-    required this.buttonsWidget,
+    this.buttonsWidget,
     required this.appBarWidget,
     required this.minHeight,
     required this.buttonsHeight,
@@ -66,7 +68,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget? backButton;
   final Widget child;
   final Widget appBarWidget;
-  final Widget buttonsWidget;
+  final Widget? buttonsWidget;
   final double minHeight;
   final double buttonsHeight;
   final double appBarHeight;
@@ -102,9 +104,11 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     final topOffset = 0 - percent * 2 * minHeight;
     final bottomOpacity = Curves.easeInExpo.transform(1 - percent);
     final topDisplacement = math.max(topOffset + appBarHeight, 0.0);
-    final bottomDisplacement = buttonsHeight +
-        _buttonBottomOffset -
-        (1 - bottomOpacity) * (buttonsHeight + _buttonBottomOffset);
+    final bottomDisplacement = buttonsWidget != null
+        ? buttonsHeight +
+            _buttonBottomOffset -
+            (1 - bottomOpacity) * (buttonsHeight + _buttonBottomOffset)
+        : 0.0;
     final stickyBottomHeader = this.stickyBottomHeader;
 
     return Column(
@@ -117,7 +121,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
               children: [
                 _buildAppBar(topOffset),
                 _buildBalance(percent, topDisplacement, bottomDisplacement),
-                _buildButtons(bottomOpacity),
+                if (buttonsWidget != null) _buildButtons(bottomOpacity),
                 _buildBackButton(),
               ],
             ),
