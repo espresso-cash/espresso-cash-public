@@ -9,19 +9,30 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RefreshBalancesWrapper(
-        builder: (context, _) => CpTheme.light(
-          child: ColoredBox(
-            color: Colors.white,
-            child: SafeArea(
-              bottom: false,
-              child: ColoredBox(
-                color: CpColors.lightGreyBackground,
-                child: ListView(
-                  physics: const ClampingScrollPhysics(),
-                  children: const [
-                    MenuHeader(),
-                    MenuSection(),
-                  ],
+        builder: (context, onRefresh) => CpTheme.light(
+          child: RefreshIndicator(
+            displacement: 80,
+            notificationPredicate: (notification) => true,
+            onRefresh: onRefresh,
+            backgroundColor: Colors.white,
+            color: CpColors.primaryColor,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                color: Colors.white,
+                child: SafeArea(
+                  bottom: false,
+                  child: ColoredBox(
+                    color: CpColors.lightGreyBackground,
+                    child: ListView(
+                      physics: const ClampingScrollPhysics(),
+                      children: const [
+                        MenuHeader(),
+                        MenuSection(),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
