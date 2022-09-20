@@ -1,3 +1,4 @@
+import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
@@ -5,6 +6,7 @@ import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/add_funds/bl/add_funds_bloc.dart';
 import 'package:cryptoplease/features/add_funds/bl/repository.dart';
 import 'package:cryptoplease/features/add_funds/presentation/components/crypto_amount_view.dart';
+import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
@@ -29,25 +31,42 @@ class AddFundsScreen extends StatefulWidget {
 }
 
 class _AddFundsScreenState extends State<AddFundsScreen> {
+  late final AddFundsBloc _bloc;
   final _controller = TextEditingController();
 
   @override
-  Widget build(BuildContext context) => BlocProvider<AddFundsBloc>(
-        create: (context) => AddFundsBloc(
-          repository: context.read<AddFundsRepository>(),
-        ),
+  void initState() {
+    super.initState();
+    _bloc = AddFundsBloc(repository: context.read<AddFundsRepository>());
+    _controller.addListener(() {
+      final locale = DeviceLocale.localeOf(context);
+      final value = _controller.text.toDecimalOrZero(locale);
+      _bloc.add(AddFundsEvent.amountUpdated(decimal: value));
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _bloc.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => BlocProvider<AddFundsBloc>.value(
+        value: _bloc,
         child: BlocConsumer<AddFundsBloc, AddFundsState>(
           listener: (context, state) => state.maybeWhen(
-            failure: (_) => showWarningDialog(
+            failure: () => showWarningDialog(
               context,
-              title: context.l10n.buySolFailedTitle,
-              message: context.l10n.buySolFailedMessage,
+              title: context.l10n.buyUsdcFailedTitle,
+              message: context.l10n.buyUsdcFailedMessage,
             ),
             success: (url) => launchUrl(Uri.parse(url)),
             orElse: ignore,
           ),
           builder: (context, state) {
-            final isLoading = state.isProcessing();
+            final isLoading = state.isLoading();
 
             final textField = CpTextField(
               disabled: isLoading,
@@ -134,7 +153,7 @@ class _Description extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(left: 16),
         child: Text(
-          context.l10n.buySolanaTokenMoonPay,
+          context.l10n.buyUsdcTokenMoonPay,
           style: Theme.of(context).textTheme.bodyText1,
         ),
       );
@@ -165,10 +184,6 @@ class _SubmitButton extends StatelessWidget {
           ? () {
               final event = AddFundsEvent.urlRequested(
                 walletAddress: address,
-                amount: Amount.fromDecimal(
-                  currency: Currency.crypto(token: token),
-                  value: _parseValue(value),
-                ),
               );
               context.read<AddFundsBloc>().add(event);
             }
