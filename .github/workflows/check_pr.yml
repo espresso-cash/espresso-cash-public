@@ -44,8 +44,19 @@ jobs:
   cryptoplease_link:
     needs: [formatting]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
     env:
+      DEVNET_RPC_URL: "http://solana:8899"
+      DEVNET_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="cryptoplease_link" --scope="cryptoplease_api"
+    container:
+      image: ghcr.io/cryptoplease/flutter:3.3.0
+    services:
+      solana:
+        image: solanalabs/solana:stable
+        options: --entrypoint="solana-test-validator"
 
     steps:
       - uses: actions/checkout@v2
