@@ -9,9 +9,10 @@ class QuoteResponseDto with _$QuoteResponseDto {
     required double quoteAmount,
     required double feeAmount,
     required double networkFeeAmount,
-    required int minAmount,
     required double quotePrice,
-  }) = _QuoteResponseDto;
+  }) = _Quote;
+
+  const QuoteResponseDto._();
 
   factory QuoteResponseDto.fromJson(Map<String, dynamic> json) =>
       _$QuoteResponseDtoFromJson(json);

@@ -22,13 +22,13 @@ MoonpayQuoteDto _$MoonpayQuoteDtoFromJson(Map<String, dynamic> json) {
 mixin _$MoonpayQuoteDto {
   String get accountId => throw _privateConstructorUsedError;
   String get baseCurrencyCode => throw _privateConstructorUsedError;
-  int get baseCurrencyAmount => throw _privateConstructorUsedError;
+  double get baseCurrencyAmount => throw _privateConstructorUsedError;
   String get quoteCurrencyCode => throw _privateConstructorUsedError;
   double get quoteCurrencyAmount => throw _privateConstructorUsedError;
   double get quoteCurrencyPrice => throw _privateConstructorUsedError;
   double get feeAmount => throw _privateConstructorUsedError;
-  int get extraFeeAmount => throw _privateConstructorUsedError;
-  int get extraFeePercentage => throw _privateConstructorUsedError;
+  double get extraFeeAmount => throw _privateConstructorUsedError;
+  double get extraFeePercentage => throw _privateConstructorUsedError;
   double get networkFeeAmount => throw _privateConstructorUsedError;
   bool get networkFeeAmountNonRefundable => throw _privateConstructorUsedError;
   double get totalAmount => throw _privateConstructorUsedError;
@@ -52,13 +52,13 @@ abstract class $MoonpayQuoteDtoCopyWith<$Res> {
   $Res call(
       {String accountId,
       String baseCurrencyCode,
-      int baseCurrencyAmount,
+      double baseCurrencyAmount,
       String quoteCurrencyCode,
       double quoteCurrencyAmount,
       double quoteCurrencyPrice,
       double feeAmount,
-      int extraFeeAmount,
-      int extraFeePercentage,
+      double extraFeeAmount,
+      double extraFeePercentage,
       double networkFeeAmount,
       bool networkFeeAmountNonRefundable,
       double totalAmount,
@@ -113,7 +113,7 @@ class _$MoonpayQuoteDtoCopyWithImpl<$Res>
       baseCurrencyAmount: baseCurrencyAmount == freezed
           ? _value.baseCurrencyAmount
           : baseCurrencyAmount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       quoteCurrencyCode: quoteCurrencyCode == freezed
           ? _value.quoteCurrencyCode
           : quoteCurrencyCode // ignore: cast_nullable_to_non_nullable
@@ -133,11 +133,11 @@ class _$MoonpayQuoteDtoCopyWithImpl<$Res>
       extraFeeAmount: extraFeeAmount == freezed
           ? _value.extraFeeAmount
           : extraFeeAmount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       extraFeePercentage: extraFeePercentage == freezed
           ? _value.extraFeePercentage
           : extraFeePercentage // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       networkFeeAmount: networkFeeAmount == freezed
           ? _value.networkFeeAmount
           : networkFeeAmount // ignore: cast_nullable_to_non_nullable
@@ -198,13 +198,13 @@ abstract class _$$_MoonpayQuoteDtoCopyWith<$Res>
   $Res call(
       {String accountId,
       String baseCurrencyCode,
-      int baseCurrencyAmount,
+      double baseCurrencyAmount,
       String quoteCurrencyCode,
       double quoteCurrencyAmount,
       double quoteCurrencyPrice,
       double feeAmount,
-      int extraFeeAmount,
-      int extraFeePercentage,
+      double extraFeeAmount,
+      double extraFeePercentage,
       double networkFeeAmount,
       bool networkFeeAmountNonRefundable,
       double totalAmount,
@@ -263,7 +263,7 @@ class __$$_MoonpayQuoteDtoCopyWithImpl<$Res>
       baseCurrencyAmount: baseCurrencyAmount == freezed
           ? _value.baseCurrencyAmount
           : baseCurrencyAmount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       quoteCurrencyCode: quoteCurrencyCode == freezed
           ? _value.quoteCurrencyCode
           : quoteCurrencyCode // ignore: cast_nullable_to_non_nullable
@@ -283,11 +283,11 @@ class __$$_MoonpayQuoteDtoCopyWithImpl<$Res>
       extraFeeAmount: extraFeeAmount == freezed
           ? _value.extraFeeAmount
           : extraFeeAmount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       extraFeePercentage: extraFeePercentage == freezed
           ? _value.extraFeePercentage
           : extraFeePercentage // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       networkFeeAmount: networkFeeAmount == freezed
           ? _value.networkFeeAmount
           : networkFeeAmount // ignore: cast_nullable_to_non_nullable
@@ -354,7 +354,7 @@ class _$_MoonpayQuoteDto implements _MoonpayQuoteDto {
   @override
   final String baseCurrencyCode;
   @override
-  final int baseCurrencyAmount;
+  final double baseCurrencyAmount;
   @override
   final String quoteCurrencyCode;
   @override
@@ -364,9 +364,9 @@ class _$_MoonpayQuoteDto implements _MoonpayQuoteDto {
   @override
   final double feeAmount;
   @override
-  final int extraFeeAmount;
+  final double extraFeeAmount;
   @override
-  final int extraFeePercentage;
+  final double extraFeePercentage;
   @override
   final double networkFeeAmount;
   @override
@@ -466,13 +466,13 @@ abstract class _MoonpayQuoteDto implements MoonpayQuoteDto {
   const factory _MoonpayQuoteDto(
       {required final String accountId,
       required final String baseCurrencyCode,
-      required final int baseCurrencyAmount,
+      required final double baseCurrencyAmount,
       required final String quoteCurrencyCode,
       required final double quoteCurrencyAmount,
       required final double quoteCurrencyPrice,
       required final double feeAmount,
-      required final int extraFeeAmount,
-      required final int extraFeePercentage,
+      required final double extraFeeAmount,
+      required final double extraFeePercentage,
       required final double networkFeeAmount,
       required final bool networkFeeAmountNonRefundable,
       required final double totalAmount,
@@ -490,7 +490,7 @@ abstract class _MoonpayQuoteDto implements MoonpayQuoteDto {
   @override
   String get baseCurrencyCode;
   @override
-  int get baseCurrencyAmount;
+  double get baseCurrencyAmount;
   @override
   String get quoteCurrencyCode;
   @override
@@ -500,9 +500,9 @@ abstract class _MoonpayQuoteDto implements MoonpayQuoteDto {
   @override
   double get feeAmount;
   @override
-  int get extraFeeAmount;
+  double get extraFeeAmount;
   @override
-  int get extraFeePercentage;
+  double get extraFeePercentage;
   @override
   double get networkFeeAmount;
   @override
@@ -525,12 +525,219 @@ abstract class _MoonpayQuoteDto implements MoonpayQuoteDto {
       throw _privateConstructorUsedError;
 }
 
+MoonpayLimitDto _$MoonpayLimitDtoFromJson(Map<String, dynamic> json) {
+  return _MoonpayLimitDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MoonpayLimitDto {
+  String get paymentMethod => throw _privateConstructorUsedError;
+  MoonpayCurrency get baseCurrency => throw _privateConstructorUsedError;
+  MoonpayCurrency get quoteCurrency => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MoonpayLimitDtoCopyWith<MoonpayLimitDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MoonpayLimitDtoCopyWith<$Res> {
+  factory $MoonpayLimitDtoCopyWith(
+          MoonpayLimitDto value, $Res Function(MoonpayLimitDto) then) =
+      _$MoonpayLimitDtoCopyWithImpl<$Res>;
+  $Res call(
+      {String paymentMethod,
+      MoonpayCurrency baseCurrency,
+      MoonpayCurrency quoteCurrency});
+
+  $MoonpayCurrencyCopyWith<$Res> get baseCurrency;
+  $MoonpayCurrencyCopyWith<$Res> get quoteCurrency;
+}
+
+/// @nodoc
+class _$MoonpayLimitDtoCopyWithImpl<$Res>
+    implements $MoonpayLimitDtoCopyWith<$Res> {
+  _$MoonpayLimitDtoCopyWithImpl(this._value, this._then);
+
+  final MoonpayLimitDto _value;
+  // ignore: unused_field
+  final $Res Function(MoonpayLimitDto) _then;
+
+  @override
+  $Res call({
+    Object? paymentMethod = freezed,
+    Object? baseCurrency = freezed,
+    Object? quoteCurrency = freezed,
+  }) {
+    return _then(_value.copyWith(
+      paymentMethod: paymentMethod == freezed
+          ? _value.paymentMethod
+          : paymentMethod // ignore: cast_nullable_to_non_nullable
+              as String,
+      baseCurrency: baseCurrency == freezed
+          ? _value.baseCurrency
+          : baseCurrency // ignore: cast_nullable_to_non_nullable
+              as MoonpayCurrency,
+      quoteCurrency: quoteCurrency == freezed
+          ? _value.quoteCurrency
+          : quoteCurrency // ignore: cast_nullable_to_non_nullable
+              as MoonpayCurrency,
+    ));
+  }
+
+  @override
+  $MoonpayCurrencyCopyWith<$Res> get baseCurrency {
+    return $MoonpayCurrencyCopyWith<$Res>(_value.baseCurrency, (value) {
+      return _then(_value.copyWith(baseCurrency: value));
+    });
+  }
+
+  @override
+  $MoonpayCurrencyCopyWith<$Res> get quoteCurrency {
+    return $MoonpayCurrencyCopyWith<$Res>(_value.quoteCurrency, (value) {
+      return _then(_value.copyWith(quoteCurrency: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$_MoonpayLimitDtoCopyWith<$Res>
+    implements $MoonpayLimitDtoCopyWith<$Res> {
+  factory _$$_MoonpayLimitDtoCopyWith(
+          _$_MoonpayLimitDto value, $Res Function(_$_MoonpayLimitDto) then) =
+      __$$_MoonpayLimitDtoCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {String paymentMethod,
+      MoonpayCurrency baseCurrency,
+      MoonpayCurrency quoteCurrency});
+
+  @override
+  $MoonpayCurrencyCopyWith<$Res> get baseCurrency;
+  @override
+  $MoonpayCurrencyCopyWith<$Res> get quoteCurrency;
+}
+
+/// @nodoc
+class __$$_MoonpayLimitDtoCopyWithImpl<$Res>
+    extends _$MoonpayLimitDtoCopyWithImpl<$Res>
+    implements _$$_MoonpayLimitDtoCopyWith<$Res> {
+  __$$_MoonpayLimitDtoCopyWithImpl(
+      _$_MoonpayLimitDto _value, $Res Function(_$_MoonpayLimitDto) _then)
+      : super(_value, (v) => _then(v as _$_MoonpayLimitDto));
+
+  @override
+  _$_MoonpayLimitDto get _value => super._value as _$_MoonpayLimitDto;
+
+  @override
+  $Res call({
+    Object? paymentMethod = freezed,
+    Object? baseCurrency = freezed,
+    Object? quoteCurrency = freezed,
+  }) {
+    return _then(_$_MoonpayLimitDto(
+      paymentMethod: paymentMethod == freezed
+          ? _value.paymentMethod
+          : paymentMethod // ignore: cast_nullable_to_non_nullable
+              as String,
+      baseCurrency: baseCurrency == freezed
+          ? _value.baseCurrency
+          : baseCurrency // ignore: cast_nullable_to_non_nullable
+              as MoonpayCurrency,
+      quoteCurrency: quoteCurrency == freezed
+          ? _value.quoteCurrency
+          : quoteCurrency // ignore: cast_nullable_to_non_nullable
+              as MoonpayCurrency,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_MoonpayLimitDto implements _MoonpayLimitDto {
+  const _$_MoonpayLimitDto(
+      {required this.paymentMethod,
+      required this.baseCurrency,
+      required this.quoteCurrency});
+
+  factory _$_MoonpayLimitDto.fromJson(Map<String, dynamic> json) =>
+      _$$_MoonpayLimitDtoFromJson(json);
+
+  @override
+  final String paymentMethod;
+  @override
+  final MoonpayCurrency baseCurrency;
+  @override
+  final MoonpayCurrency quoteCurrency;
+
+  @override
+  String toString() {
+    return 'MoonpayLimitDto(paymentMethod: $paymentMethod, baseCurrency: $baseCurrency, quoteCurrency: $quoteCurrency)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_MoonpayLimitDto &&
+            const DeepCollectionEquality()
+                .equals(other.paymentMethod, paymentMethod) &&
+            const DeepCollectionEquality()
+                .equals(other.baseCurrency, baseCurrency) &&
+            const DeepCollectionEquality()
+                .equals(other.quoteCurrency, quoteCurrency));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(paymentMethod),
+      const DeepCollectionEquality().hash(baseCurrency),
+      const DeepCollectionEquality().hash(quoteCurrency));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_MoonpayLimitDtoCopyWith<_$_MoonpayLimitDto> get copyWith =>
+      __$$_MoonpayLimitDtoCopyWithImpl<_$_MoonpayLimitDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_MoonpayLimitDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MoonpayLimitDto implements MoonpayLimitDto {
+  const factory _MoonpayLimitDto(
+      {required final String paymentMethod,
+      required final MoonpayCurrency baseCurrency,
+      required final MoonpayCurrency quoteCurrency}) = _$_MoonpayLimitDto;
+
+  factory _MoonpayLimitDto.fromJson(Map<String, dynamic> json) =
+      _$_MoonpayLimitDto.fromJson;
+
+  @override
+  String get paymentMethod;
+  @override
+  MoonpayCurrency get baseCurrency;
+  @override
+  MoonpayCurrency get quoteCurrency;
+  @override
+  @JsonKey(ignore: true)
+  _$$_MoonpayLimitDtoCopyWith<_$_MoonpayLimitDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 MoonpayCurrency _$MoonpayCurrencyFromJson(Map<String, dynamic> json) {
   return _MoonpayCurrency.fromJson(json);
 }
 
 /// @nodoc
 mixin _$MoonpayCurrency {
+  String get code => throw _privateConstructorUsedError;
   int get minBuyAmount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -544,7 +751,7 @@ abstract class $MoonpayCurrencyCopyWith<$Res> {
   factory $MoonpayCurrencyCopyWith(
           MoonpayCurrency value, $Res Function(MoonpayCurrency) then) =
       _$MoonpayCurrencyCopyWithImpl<$Res>;
-  $Res call({int minBuyAmount});
+  $Res call({String code, int minBuyAmount});
 }
 
 /// @nodoc
@@ -558,9 +765,14 @@ class _$MoonpayCurrencyCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? code = freezed,
     Object? minBuyAmount = freezed,
   }) {
     return _then(_value.copyWith(
+      code: code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
       minBuyAmount: minBuyAmount == freezed
           ? _value.minBuyAmount
           : minBuyAmount // ignore: cast_nullable_to_non_nullable
@@ -576,7 +788,7 @@ abstract class _$$_MoonpayCurrencyCopyWith<$Res>
           _$_MoonpayCurrency value, $Res Function(_$_MoonpayCurrency) then) =
       __$$_MoonpayCurrencyCopyWithImpl<$Res>;
   @override
-  $Res call({int minBuyAmount});
+  $Res call({String code, int minBuyAmount});
 }
 
 /// @nodoc
@@ -592,9 +804,14 @@ class __$$_MoonpayCurrencyCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? code = freezed,
     Object? minBuyAmount = freezed,
   }) {
     return _then(_$_MoonpayCurrency(
+      code: code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
       minBuyAmount: minBuyAmount == freezed
           ? _value.minBuyAmount
           : minBuyAmount // ignore: cast_nullable_to_non_nullable
@@ -606,17 +823,19 @@ class __$$_MoonpayCurrencyCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_MoonpayCurrency implements _MoonpayCurrency {
-  const _$_MoonpayCurrency({required this.minBuyAmount});
+  const _$_MoonpayCurrency({required this.code, required this.minBuyAmount});
 
   factory _$_MoonpayCurrency.fromJson(Map<String, dynamic> json) =>
       _$$_MoonpayCurrencyFromJson(json);
 
   @override
+  final String code;
+  @override
   final int minBuyAmount;
 
   @override
   String toString() {
-    return 'MoonpayCurrency(minBuyAmount: $minBuyAmount)';
+    return 'MoonpayCurrency(code: $code, minBuyAmount: $minBuyAmount)';
   }
 
   @override
@@ -624,6 +843,7 @@ class _$_MoonpayCurrency implements _MoonpayCurrency {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MoonpayCurrency &&
+            const DeepCollectionEquality().equals(other.code, code) &&
             const DeepCollectionEquality()
                 .equals(other.minBuyAmount, minBuyAmount));
   }
@@ -631,7 +851,9 @@ class _$_MoonpayCurrency implements _MoonpayCurrency {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(minBuyAmount));
+      runtimeType,
+      const DeepCollectionEquality().hash(code),
+      const DeepCollectionEquality().hash(minBuyAmount));
 
   @JsonKey(ignore: true)
   @override
@@ -647,12 +869,15 @@ class _$_MoonpayCurrency implements _MoonpayCurrency {
 }
 
 abstract class _MoonpayCurrency implements MoonpayCurrency {
-  const factory _MoonpayCurrency({required final int minBuyAmount}) =
-      _$_MoonpayCurrency;
+  const factory _MoonpayCurrency(
+      {required final String code,
+      required final int minBuyAmount}) = _$_MoonpayCurrency;
 
   factory _MoonpayCurrency.fromJson(Map<String, dynamic> json) =
       _$_MoonpayCurrency.fromJson;
 
+  @override
+  String get code;
   @override
   int get minBuyAmount;
   @override

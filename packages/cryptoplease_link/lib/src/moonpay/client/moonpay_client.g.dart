@@ -10,13 +10,13 @@ _$_MoonpayQuoteDto _$$_MoonpayQuoteDtoFromJson(Map<String, dynamic> json) =>
     _$_MoonpayQuoteDto(
       accountId: json['accountId'] as String,
       baseCurrencyCode: json['baseCurrencyCode'] as String,
-      baseCurrencyAmount: json['baseCurrencyAmount'] as int,
+      baseCurrencyAmount: (json['baseCurrencyAmount'] as num).toDouble(),
       quoteCurrencyCode: json['quoteCurrencyCode'] as String,
       quoteCurrencyAmount: (json['quoteCurrencyAmount'] as num).toDouble(),
       quoteCurrencyPrice: (json['quoteCurrencyPrice'] as num).toDouble(),
       feeAmount: (json['feeAmount'] as num).toDouble(),
-      extraFeeAmount: json['extraFeeAmount'] as int,
-      extraFeePercentage: json['extraFeePercentage'] as int,
+      extraFeeAmount: (json['extraFeeAmount'] as num).toDouble(),
+      extraFeePercentage: (json['extraFeePercentage'] as num).toDouble(),
       networkFeeAmount: (json['networkFeeAmount'] as num).toDouble(),
       networkFeeAmountNonRefundable:
           json['networkFeeAmountNonRefundable'] as bool,
@@ -51,13 +51,31 @@ Map<String, dynamic> _$$_MoonpayQuoteDtoToJson(_$_MoonpayQuoteDto instance) =>
       'currency': instance.currency,
     };
 
+_$_MoonpayLimitDto _$$_MoonpayLimitDtoFromJson(Map<String, dynamic> json) =>
+    _$_MoonpayLimitDto(
+      paymentMethod: json['paymentMethod'] as String,
+      baseCurrency: MoonpayCurrency.fromJson(
+          json['baseCurrency'] as Map<String, dynamic>),
+      quoteCurrency: MoonpayCurrency.fromJson(
+          json['quoteCurrency'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$_MoonpayLimitDtoToJson(_$_MoonpayLimitDto instance) =>
+    <String, dynamic>{
+      'paymentMethod': instance.paymentMethod,
+      'baseCurrency': instance.baseCurrency,
+      'quoteCurrency': instance.quoteCurrency,
+    };
+
 _$_MoonpayCurrency _$$_MoonpayCurrencyFromJson(Map<String, dynamic> json) =>
     _$_MoonpayCurrency(
+      code: json['code'] as String,
       minBuyAmount: json['minBuyAmount'] as int,
     );
 
 Map<String, dynamic> _$$_MoonpayCurrencyToJson(_$_MoonpayCurrency instance) =>
     <String, dynamic>{
+      'code': instance.code,
       'minBuyAmount': instance.minBuyAmount,
     };
 
@@ -77,10 +95,17 @@ class _MoonpayClient implements MoonpayClient {
   String? baseUrl;
 
   @override
-  Future<MoonpayQuoteDto> buyQuote(currencyCode, queries) async {
+  Future<MoonpayQuoteDto> buyQuote(
+      {required apiKey,
+      required currencyCode,
+      required baseCurrencyCode,
+      required baseCurrencyAmount}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(queries);
+    final queryParameters = <String, dynamic>{
+      r'apiKey': apiKey,
+      r'baseCurrencyCode': baseCurrencyCode,
+      r'baseCurrencyAmount': baseCurrencyAmount
+    };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -90,6 +115,45 @@ class _MoonpayClient implements MoonpayClient {
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MoonpayQuoteDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MoonpayLimitDto> limits(
+      {required apiKey,
+      required currencyCode,
+      required baseCurrencyCode}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'apiKey': apiKey,
+      r'baseCurrencyCode': baseCurrencyCode
+    };
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MoonpayLimitDto>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/currencies/${currencyCode}/limits',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MoonpayLimitDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Map<String, double>> askPrice(
+      {required apiKey, required currencyCode}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'apiKey': apiKey};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Map<String, double>>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/currencies/${currencyCode}/ask_price',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!.cast<String, double>();
     return value;
   }
 

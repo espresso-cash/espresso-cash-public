@@ -6,21 +6,17 @@ part of 'quote.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_QuoteResponseDto _$$_QuoteResponseDtoFromJson(Map<String, dynamic> json) =>
-    _$_QuoteResponseDto(
+_$_Quote _$$_QuoteFromJson(Map<String, dynamic> json) => _$_Quote(
       quoteAmount: (json['quoteAmount'] as num).toDouble(),
       feeAmount: (json['feeAmount'] as num).toDouble(),
       networkFeeAmount: (json['networkFeeAmount'] as num).toDouble(),
-      minAmount: json['minAmount'] as int,
       quotePrice: (json['quotePrice'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$_QuoteResponseDtoToJson(_$_QuoteResponseDto instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_QuoteToJson(_$_Quote instance) => <String, dynamic>{
       'quoteAmount': instance.quoteAmount,
       'feeAmount': instance.feeAmount,
       'networkFeeAmount': instance.networkFeeAmount,
-      'minAmount': instance.minAmount,
       'quotePrice': instance.quotePrice,
     };
 

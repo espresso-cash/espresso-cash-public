@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 QuoteResponseDto _$QuoteResponseDtoFromJson(Map<String, dynamic> json) {
-  return _QuoteResponseDto.fromJson(json);
+  return _Quote.fromJson(json);
 }
 
 /// @nodoc
@@ -23,7 +23,6 @@ mixin _$QuoteResponseDto {
   double get quoteAmount => throw _privateConstructorUsedError;
   double get feeAmount => throw _privateConstructorUsedError;
   double get networkFeeAmount => throw _privateConstructorUsedError;
-  int get minAmount => throw _privateConstructorUsedError;
   double get quotePrice => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +40,6 @@ abstract class $QuoteResponseDtoCopyWith<$Res> {
       {double quoteAmount,
       double feeAmount,
       double networkFeeAmount,
-      int minAmount,
       double quotePrice});
 }
 
@@ -59,7 +57,6 @@ class _$QuoteResponseDtoCopyWithImpl<$Res>
     Object? quoteAmount = freezed,
     Object? feeAmount = freezed,
     Object? networkFeeAmount = freezed,
-    Object? minAmount = freezed,
     Object? quotePrice = freezed,
   }) {
     return _then(_value.copyWith(
@@ -75,10 +72,6 @@ class _$QuoteResponseDtoCopyWithImpl<$Res>
           ? _value.networkFeeAmount
           : networkFeeAmount // ignore: cast_nullable_to_non_nullable
               as double,
-      minAmount: minAmount == freezed
-          ? _value.minAmount
-          : minAmount // ignore: cast_nullable_to_non_nullable
-              as int,
       quotePrice: quotePrice == freezed
           ? _value.quotePrice
           : quotePrice // ignore: cast_nullable_to_non_nullable
@@ -88,40 +81,35 @@ class _$QuoteResponseDtoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$$_QuoteResponseDtoCopyWith<$Res>
+abstract class _$$_QuoteCopyWith<$Res>
     implements $QuoteResponseDtoCopyWith<$Res> {
-  factory _$$_QuoteResponseDtoCopyWith(
-          _$_QuoteResponseDto value, $Res Function(_$_QuoteResponseDto) then) =
-      __$$_QuoteResponseDtoCopyWithImpl<$Res>;
+  factory _$$_QuoteCopyWith(_$_Quote value, $Res Function(_$_Quote) then) =
+      __$$_QuoteCopyWithImpl<$Res>;
   @override
   $Res call(
       {double quoteAmount,
       double feeAmount,
       double networkFeeAmount,
-      int minAmount,
       double quotePrice});
 }
 
 /// @nodoc
-class __$$_QuoteResponseDtoCopyWithImpl<$Res>
-    extends _$QuoteResponseDtoCopyWithImpl<$Res>
-    implements _$$_QuoteResponseDtoCopyWith<$Res> {
-  __$$_QuoteResponseDtoCopyWithImpl(
-      _$_QuoteResponseDto _value, $Res Function(_$_QuoteResponseDto) _then)
-      : super(_value, (v) => _then(v as _$_QuoteResponseDto));
+class __$$_QuoteCopyWithImpl<$Res> extends _$QuoteResponseDtoCopyWithImpl<$Res>
+    implements _$$_QuoteCopyWith<$Res> {
+  __$$_QuoteCopyWithImpl(_$_Quote _value, $Res Function(_$_Quote) _then)
+      : super(_value, (v) => _then(v as _$_Quote));
 
   @override
-  _$_QuoteResponseDto get _value => super._value as _$_QuoteResponseDto;
+  _$_Quote get _value => super._value as _$_Quote;
 
   @override
   $Res call({
     Object? quoteAmount = freezed,
     Object? feeAmount = freezed,
     Object? networkFeeAmount = freezed,
-    Object? minAmount = freezed,
     Object? quotePrice = freezed,
   }) {
-    return _then(_$_QuoteResponseDto(
+    return _then(_$_Quote(
       quoteAmount: quoteAmount == freezed
           ? _value.quoteAmount
           : quoteAmount // ignore: cast_nullable_to_non_nullable
@@ -134,10 +122,6 @@ class __$$_QuoteResponseDtoCopyWithImpl<$Res>
           ? _value.networkFeeAmount
           : networkFeeAmount // ignore: cast_nullable_to_non_nullable
               as double,
-      minAmount: minAmount == freezed
-          ? _value.minAmount
-          : minAmount // ignore: cast_nullable_to_non_nullable
-              as int,
       quotePrice: quotePrice == freezed
           ? _value.quotePrice
           : quotePrice // ignore: cast_nullable_to_non_nullable
@@ -148,16 +132,16 @@ class __$$_QuoteResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_QuoteResponseDto implements _QuoteResponseDto {
-  const _$_QuoteResponseDto(
+class _$_Quote extends _Quote {
+  const _$_Quote(
       {required this.quoteAmount,
       required this.feeAmount,
       required this.networkFeeAmount,
-      required this.minAmount,
-      required this.quotePrice});
+      required this.quotePrice})
+      : super._();
 
-  factory _$_QuoteResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_QuoteResponseDtoFromJson(json);
+  factory _$_Quote.fromJson(Map<String, dynamic> json) =>
+      _$$_QuoteFromJson(json);
 
   @override
   final double quoteAmount;
@@ -166,26 +150,23 @@ class _$_QuoteResponseDto implements _QuoteResponseDto {
   @override
   final double networkFeeAmount;
   @override
-  final int minAmount;
-  @override
   final double quotePrice;
 
   @override
   String toString() {
-    return 'QuoteResponseDto(quoteAmount: $quoteAmount, feeAmount: $feeAmount, networkFeeAmount: $networkFeeAmount, minAmount: $minAmount, quotePrice: $quotePrice)';
+    return 'QuoteResponseDto(quoteAmount: $quoteAmount, feeAmount: $feeAmount, networkFeeAmount: $networkFeeAmount, quotePrice: $quotePrice)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuoteResponseDto &&
+            other is _$_Quote &&
             const DeepCollectionEquality()
                 .equals(other.quoteAmount, quoteAmount) &&
             const DeepCollectionEquality().equals(other.feeAmount, feeAmount) &&
             const DeepCollectionEquality()
                 .equals(other.networkFeeAmount, networkFeeAmount) &&
-            const DeepCollectionEquality().equals(other.minAmount, minAmount) &&
             const DeepCollectionEquality()
                 .equals(other.quotePrice, quotePrice));
   }
@@ -197,32 +178,30 @@ class _$_QuoteResponseDto implements _QuoteResponseDto {
       const DeepCollectionEquality().hash(quoteAmount),
       const DeepCollectionEquality().hash(feeAmount),
       const DeepCollectionEquality().hash(networkFeeAmount),
-      const DeepCollectionEquality().hash(minAmount),
       const DeepCollectionEquality().hash(quotePrice));
 
   @JsonKey(ignore: true)
   @override
-  _$$_QuoteResponseDtoCopyWith<_$_QuoteResponseDto> get copyWith =>
-      __$$_QuoteResponseDtoCopyWithImpl<_$_QuoteResponseDto>(this, _$identity);
+  _$$_QuoteCopyWith<_$_Quote> get copyWith =>
+      __$$_QuoteCopyWithImpl<_$_Quote>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_QuoteResponseDtoToJson(
+    return _$$_QuoteToJson(
       this,
     );
   }
 }
 
-abstract class _QuoteResponseDto implements QuoteResponseDto {
-  const factory _QuoteResponseDto(
+abstract class _Quote extends QuoteResponseDto {
+  const factory _Quote(
       {required final double quoteAmount,
       required final double feeAmount,
       required final double networkFeeAmount,
-      required final int minAmount,
-      required final double quotePrice}) = _$_QuoteResponseDto;
+      required final double quotePrice}) = _$_Quote;
+  const _Quote._() : super._();
 
-  factory _QuoteResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_QuoteResponseDto.fromJson;
+  factory _Quote.fromJson(Map<String, dynamic> json) = _$_Quote.fromJson;
 
   @override
   double get quoteAmount;
@@ -231,12 +210,10 @@ abstract class _QuoteResponseDto implements QuoteResponseDto {
   @override
   double get networkFeeAmount;
   @override
-  int get minAmount;
-  @override
   double get quotePrice;
   @override
   @JsonKey(ignore: true)
-  _$$_QuoteResponseDtoCopyWith<_$_QuoteResponseDto> get copyWith =>
+  _$$_QuoteCopyWith<_$_Quote> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

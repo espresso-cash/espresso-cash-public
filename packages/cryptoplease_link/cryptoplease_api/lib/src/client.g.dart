@@ -53,7 +53,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     _data.addAll(request.toJson());
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<QuoteResponseDto>(Options(
-      method: 'GET',
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
@@ -65,6 +65,30 @@ class _CryptopleaseClient implements CryptopleaseClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = QuoteResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<LimitResponseDto> limit(request) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<LimitResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/limit',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = LimitResponseDto.fromJson(_result.data!);
     return value;
   }
 
@@ -124,11 +148,18 @@ class _CryptopleaseClient implements CryptopleaseClient {
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CreateDirectPaymentResponseDto>(
-            Options(method: 'POST', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/createDirectPayment',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        _setStreamType<CreateDirectPaymentResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/createDirectPayment',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CreateDirectPaymentResponseDto.fromJson(_result.data!);
     return value;
   }
