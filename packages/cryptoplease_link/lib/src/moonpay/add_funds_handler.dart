@@ -20,7 +20,7 @@ Future<Response> _addFundsHandler(Request request) async =>
           'apiKey': moonpayApiKey,
           'baseCurrencyAmount': data.value,
           'walletAddress': Uri.encodeComponent(data.receiverAddress),
-          'currencyCode': data.tokenSymbol,
+          'currencyCode': data.tokenSymbol.toLowerCase(),
           'baseCurrencyCode': 'usd',
         });
         final parameters = '?${url.query}';

@@ -21,6 +21,7 @@ Future<Response> _quoteHandler(Request request) async =>
           apiKey: moonpayApiKey,
           currencyCode: tokenSymbol,
           baseCurrencyAmount: data.value,
+          areFeesIncluded: true,
           baseCurrencyCode: 'usd',
         );
 
@@ -52,7 +53,7 @@ Future<Response> _limitHandler(Request request) async =>
         final askCurrency = askResponse['USD'];
 
         if (askCurrency == null) {
-          throw Exception('Token price not found in USD');
+          throw Exception('$tokenSymbol price not found in USD');
         }
 
         return LimitResponseDto(

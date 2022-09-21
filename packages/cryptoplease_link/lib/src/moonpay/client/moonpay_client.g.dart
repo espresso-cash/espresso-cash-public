@@ -99,12 +99,14 @@ class _MoonpayClient implements MoonpayClient {
       {required apiKey,
       required currencyCode,
       required baseCurrencyCode,
-      required baseCurrencyAmount}) async {
+      required baseCurrencyAmount,
+      required areFeesIncluded}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'apiKey': apiKey,
       r'baseCurrencyCode': baseCurrencyCode,
-      r'baseCurrencyAmount': baseCurrencyAmount
+      r'baseCurrencyAmount': baseCurrencyAmount,
+      r'areFeesIncluded': areFeesIncluded
     };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};

@@ -15,6 +15,7 @@ abstract class MoonpayClient {
     @Path('currencyCode') required String currencyCode,
     @Query('baseCurrencyCode') required String baseCurrencyCode,
     @Query('baseCurrencyAmount') required String baseCurrencyAmount,
+    @Query('areFeesIncluded') required bool areFeesIncluded,
   });
 
   @GET('/currencies/{currencyCode}/limits')
