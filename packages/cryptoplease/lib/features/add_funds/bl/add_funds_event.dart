@@ -4,11 +4,11 @@ part of 'add_funds_bloc.dart';
 class AddFundsEvent with _$AddFundsEvent {
   const factory AddFundsEvent.urlRequested({
     required String walletAddress,
-  }) = _UrlRequested;
+  }) = _UrlRequestedEvent;
 
   const factory AddFundsEvent.amountUpdated({
     required Decimal decimal,
-  }) = _AmountUpdated;
+  }) = _AmountUpdatedEvent;
 
-  const factory AddFundsEvent.outputInvalidated() = _OutputInvalidated;
+  const factory AddFundsEvent.initialized() = _InitializedEvent;
 }

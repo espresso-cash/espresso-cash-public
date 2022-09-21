@@ -4,6 +4,7 @@ part of 'add_funds_bloc.dart';
 class AddFundsState with _$AddFundsState {
   const factory AddFundsState.initialized({
     required FiatAmount inputAmount,
+    required FiatAmount minAmount,
     AddFundsQuote? quote,
     @Default(ProcessingState.none()) ProcessingState processingState,
   }) = _Initialized;
@@ -20,5 +21,12 @@ extension AddFundsStateExt on AddFundsState {
         orElse: F,
         loading: T,
         initialized: (state) => state.processingState.isProcessing,
+      );
+
+  bool isValidAmount() => maybeMap(
+        orElse: F,
+        initialized: (state) =>
+            state.inputAmount.value != 0 &&
+            state.inputAmount >= state.minAmount,
       );
 }

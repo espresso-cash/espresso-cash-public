@@ -4,11 +4,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'add_funds_quote.freezed.dart';
 
 @freezed
-class AddFundsQuote {
+class AddFundsQuote with _$AddFundsQuote {
   const factory AddFundsQuote({
     required CryptoAmount buyAmount,
     FiatAmount? quotePrice,
-    FiatAmount? minAmount,
     FiatAmount? feeAmount,
   }) = _AddFundsQuote;
 

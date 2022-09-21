@@ -1,15 +1,14 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
+import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/add_funds/bl/add_funds_bloc.dart';
+import 'package:cryptoplease/features/add_funds/bl/add_funds_quote.dart';
 import 'package:cryptoplease/features/add_funds/bl/repository.dart';
-import 'package:cryptoplease/features/add_funds/presentation/components/crypto_amount_view.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
-import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +36,8 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
   @override
   void initState() {
     super.initState();
-    _bloc = AddFundsBloc(repository: context.read<AddFundsRepository>());
+    _bloc = AddFundsBloc(repository: context.read<AddFundsRepository>())
+      ..add(const AddFundsEvent.initialized());
     _controller.addListener(() {
       final locale = DeviceLocale.localeOf(context);
       final value = _controller.text.toDecimalOrZero(locale);
@@ -67,10 +67,13 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
           ),
           builder: (context, state) {
             final isLoading = state.isLoading();
+            final isValidAmount = state.isValidAmount();
+
+            final enabled = !isLoading && isValidAmount;
 
             final textField = CpTextField(
-              disabled: isLoading,
               margin: const EdgeInsets.only(top: 16),
+              disabled: state.maybeMap(orElse: F, loading: T),
               placeholder: context.l10n.amount,
               inputType: TextInputType.number,
               controller: _controller,
@@ -83,20 +86,12 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                   : null,
             );
 
-            final cryptoAmount = ValueListenableBuilder<TextEditingValue>(
-              valueListenable: _controller,
-              builder: (context, value, _) => Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: CryptoAmountView(
-                  token: widget.token,
-                  amount: FiatAmount(
-                    value: Currency.usd.decimalToInt(_parseValue(value.text)),
-                    currency: Currency.usd,
-                  ),
-                ),
-              ),
+            final cryptoAmount = state.maybeMap(
+              orElse: () => const SizedBox.shrink(),
+              initialized: (state) => isValidAmount
+                  ? _QuoteWidget(quote: state.quote)
+                  : _MinimumAmountMessage(minimumAmount: state.minAmount),
             );
-
             final submitButton = Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -105,7 +100,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                   valueListenable: _controller,
                   builder: (_, value, __) => _SubmitButton(
                     value: value.text,
-                    isLoading: isLoading,
+                    enabled: enabled,
                     address: widget.wallet.address,
                     token: widget.token,
                   ),
@@ -163,39 +158,86 @@ class _SubmitButton extends StatelessWidget {
   const _SubmitButton({
     Key? key,
     required this.value,
-    required this.isLoading,
+    required this.enabled,
     required this.address,
     required this.token,
   }) : super(key: key);
 
   final String value;
-  final bool isLoading;
+  final bool enabled;
   final String address;
   final Token token;
 
   @override
-  Widget build(BuildContext context) {
-    final isValid = _isValidValue(value);
+  Widget build(BuildContext context) => CpButton(
+        text: context.l10n.buy,
+        width: double.infinity,
+        onPressed: enabled
+            ? () {
+                final event = AddFundsEvent.urlRequested(
+                  walletAddress: address,
+                );
+                context.read<AddFundsBloc>().add(event);
+              }
+            : null,
+      );
+}
 
-    return CpButton(
-      text: context.l10n.buy,
-      width: double.infinity,
-      onPressed: isValid && !isLoading
-          ? () {
-              final event = AddFundsEvent.urlRequested(
-                walletAddress: address,
-              );
-              context.read<AddFundsBloc>().add(event);
-            }
-          : null,
+class _MinimumAmountMessage extends StatelessWidget {
+  const _MinimumAmountMessage({
+    Key? key,
+    required this.minimumAmount,
+  }) : super(key: key);
+
+  final FiatAmount minimumAmount;
+
+  @override
+  Widget build(BuildContext context) {
+    final locale = DeviceLocale.localeOf(context);
+    final formattedAmount = minimumAmount.format(locale);
+
+    return Text.rich(
+      TextSpan(
+        text: context.l10n.buyUsdcMinimumMessage,
+        children: [
+          TextSpan(
+            text: formattedAmount,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-Decimal _parseValue(String? value) {
-  if (value == null) return Decimal.zero;
+class _QuoteWidget extends StatelessWidget {
+  const _QuoteWidget({
+    Key? key,
+    required this.quote,
+  }) : super(key: key);
 
-  return Decimal.tryParse(value.replaceAll(',', '.')) ?? Decimal.zero;
+  final AddFundsQuote? quote;
+
+  @override
+  Widget build(BuildContext context) {
+    final quote = this.quote;
+
+    if (quote == null) return const SizedBox.shrink();
+
+    final locale = DeviceLocale.localeOf(context);
+    final amount = quote.buyAmount.format(locale);
+    final fees = quote.feeAmount?.format(locale);
+    final price = quote.quotePrice?.format(locale);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(amount),
+        if (fees != null) Text(fees),
+        if (price != null) Text(price),
+      ],
+    );
+  }
 }
-
-bool _isValidValue(String? value) => _parseValue(value) != Decimal.zero;

@@ -18,11 +18,7 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
   AddFundsBloc({
     required AddFundsRepository repository,
   })  : _repository = repository,
-        super(
-          const AddFundsState.initialized(
-            inputAmount: FiatAmount(value: 0, currency: Currency.usd),
-          ),
-        ) {
+        super(const AddFundsState.loading()) {
     on<AddFundsEvent>(
       _eventHandler,
       transformer: (events, mapper) => events
@@ -35,52 +31,59 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
 
   EventHandler<AddFundsEvent, AddFundsState> get _eventHandler =>
       (event, emit) => event.map(
-            outputInvalidated: (_) => _onOutputInvalidated(emit),
+            initialized: (_) => _onInitialized(emit),
             amountUpdated: (event) => _onAmountUpdated(event, emit),
             urlRequested: (event) => _onUrlRequested(event, emit),
           );
 
-  Future<void> _onOutputInvalidated(Emitter<AddFundsState> emit) async =>
-      state.mapOrNull(
+  Future<void> _onInitialized(Emitter<AddFundsState> emit) async {
+    try {
+      emit(const AddFundsState.loading());
+
+      final minimumAmount = await _repository.limit(Token.usdc);
+
+      emit(
+        AddFundsState.initialized(
+          inputAmount: const FiatAmount(value: 0, currency: Currency.usd),
+          minAmount: minimumAmount,
+        ),
+      );
+    } on Exception {
+      emit(const AddFundsState.failure());
+    }
+  }
+
+  Future<void> _onAmountUpdated(
+    _AmountUpdatedEvent event,
+    Emitter<AddFundsState> emit,
+  ) async =>
+      state.maybeMap(
+        orElse: () => add(const AddFundsEvent.initialized()),
         initialized: (state) async {
-          emit(state.toProcessing());
+          final newState = state.copyWith(
+            inputAmount: state.inputAmount.copyWithDecimal(event.decimal),
+          );
+          final isValid = newState.isValidAmount();
+
+          emit(newState.invalidate(isValid));
+
+          if (!isValid) return;
 
           try {
             final quote = await _repository.buyQuote(
               Token.usdc,
-              state.inputAmount,
+              newState.inputAmount,
             );
 
-            emit(state.ready(quote));
+            emit(newState.ready(quote));
           } on Exception catch (_) {
             emit(const AddFundsState.failure());
           }
         },
       );
 
-  Future<void> _onAmountUpdated(
-    _AmountUpdated event,
-    Emitter<AddFundsState> emit,
-  ) async {
-    final newState = state.maybeMap(
-      initialized: (state) => state.copyWith(
-        inputAmount: state.inputAmount.copyWithDecimal(event.decimal),
-      ),
-      orElse: () => AddFundsState.initialized(
-        inputAmount: FiatAmount(
-          currency: Currency.usd,
-          value: Currency.usd.decimalToInt(event.decimal),
-        ),
-      ),
-    );
-
-    emit(newState);
-
-    add(const AddFundsEvent.outputInvalidated());
-  }
-
   Future<void> _onUrlRequested(
-    _UrlRequested event,
+    _UrlRequestedEvent event,
     Emitter<AddFundsState> emit,
   ) async {
     final amount = state.mapOrNull(
@@ -103,9 +106,11 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
 }
 
 extension on _Initialized {
-  _Initialized toProcessing() => copyWith(
+  _Initialized invalidate(bool isValid) => copyWith(
         quote: null,
-        processingState: const ProcessingState.processing(),
+        processingState: isValid
+            ? const ProcessingState.processing()
+            : const ProcessingState.none(),
       );
 
   _Initialized ready(AddFundsQuote quote) => copyWith(

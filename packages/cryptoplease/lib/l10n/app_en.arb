@@ -349,5 +349,7 @@
       }
     }
   },
-  "yourLinkIsReady": "Your link is ready"
+  "yourLinkIsReady": "Your link is ready",
+  "buyUsdcMinimumMessage": "You need to buy an amount greater than "
+
 }

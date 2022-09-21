@@ -25,6 +25,16 @@ class AddFundsRepository {
     return response.signedUrl;
   }
 
+  Future<FiatAmount> limit(Token quoteToken) async {
+    final requestDto = LimitRequestDto(tokenSymbol: quoteToken.symbol);
+
+    final response = await _client.limit(requestDto);
+    final value = Decimal.parse(response.minAmount.toString());
+    final amount = Amount.fromDecimal(value: value, currency: Currency.usd);
+
+    return amount as FiatAmount;
+  }
+
   Future<AddFundsQuote> buyQuote(
     Token quoteToken,
     FiatAmount amount,
@@ -33,18 +43,17 @@ class AddFundsRepository {
       tokenSymbol: quoteToken.symbol,
       value: amount.decimal.toString(),
     );
+    final currency = CryptoCurrency(token: quoteToken);
 
     final response = await _client.buyQuote(requestDto);
+
     final totalFee = response.feeAmount + response.networkFeeAmount;
     final buyAmount = Amount.fromDecimal(
       value: Decimal.parse(response.quoteAmount.toString()),
-      currency: CryptoCurrency(token: quoteToken),
+      currency: currency,
     );
     final feeAmount = amount.copyWithDecimal(
       Decimal.parse(totalFee.toString()),
-    );
-    final minAmount = amount.copyWithDecimal(
-      Decimal.fromInt(response.minAmount),
     );
     final quotePrice = amount.copyWithDecimal(
       Decimal.parse(response.quotePrice.toString()),
@@ -53,7 +62,6 @@ class AddFundsRepository {
     return AddFundsQuote(
       buyAmount: buyAmount as CryptoAmount,
       feeAmount: feeAmount,
-      minAmount: minAmount,
       quotePrice: quotePrice,
     );
   }
