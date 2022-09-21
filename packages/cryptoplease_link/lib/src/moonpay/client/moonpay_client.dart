@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'moonpay_client.freezed.dart';
 part 'moonpay_client.g.dart';
-part 'moonpay_quote_dto.dart';
+part 'moonpay_dto.dart';
 
 @RestApi(baseUrl: 'https://api.moonpay.com/v3')
 abstract class MoonpayClient {
