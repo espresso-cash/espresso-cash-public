@@ -350,6 +350,22 @@
     }
   },
   "yourLinkIsReady": "Your link is ready",
-  "buyUsdcMinimumMessage": "You need to buy an amount greater than "
-
+  "buyUsdcMinimumMessage": "The minimum transaction amount is ",
+  "buyUsdcAmountMessage": "You will receive ",
+  "buyUsdcFee": "Fees: {amount}",
+  "@buyUsdcFee": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "buyUsdcQuotePrice": "Quote price: {amount}",
+  "@buyUsdcQuotePrice": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

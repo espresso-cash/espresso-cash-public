@@ -13,10 +13,11 @@ class AddFundsRepository {
   Future<String> signFundsRequest(
     String address,
     Amount amount,
+    Token quoteToken,
   ) async {
     final requestDto = AddFundsRequestDto(
       receiverAddress: address,
-      tokenSymbol: amount.currency.symbol,
+      tokenSymbol: quoteToken.symbol,
       value: amount.decimal.toString(),
     );
 

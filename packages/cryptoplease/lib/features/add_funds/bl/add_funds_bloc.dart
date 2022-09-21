@@ -60,6 +60,8 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
       state.maybeMap(
         orElse: () => add(const AddFundsEvent.initialized()),
         initialized: (state) async {
+          if (state.inputAmount.decimal == event.decimal) return;
+
           final newState = state.copyWith(
             inputAmount: state.inputAmount.copyWithDecimal(event.decimal),
           );
@@ -97,6 +99,7 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
       final url = await _repository.signFundsRequest(
         event.walletAddress,
         amount,
+        Token.usdc,
       );
       emit(AddFundsState.success(url));
     } on Exception catch (_) {

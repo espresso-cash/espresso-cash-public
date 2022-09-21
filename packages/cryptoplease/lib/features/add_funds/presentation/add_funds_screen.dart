@@ -62,7 +62,8 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
               title: context.l10n.buyUsdcFailedTitle,
               message: context.l10n.buyUsdcFailedMessage,
             ),
-            success: (url) => launchUrl(Uri.parse(url)),
+            success: (url) => launchUrl(Uri.parse(url))
+                .then((_) => Navigator.of(context).pop()),
             orElse: ignore,
           ),
           builder: (context, state) {
@@ -86,12 +87,13 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                   : null,
             );
 
-            final cryptoAmount = state.maybeMap(
+            final bodyWidget = state.maybeMap(
               orElse: () => const SizedBox.shrink(),
               initialized: (state) => isValidAmount
                   ? _QuoteWidget(quote: state.quote)
                   : _MinimumAmountMessage(minimumAmount: state.minAmount),
             );
+
             final submitButton = Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -125,7 +127,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                         children: [
                           textField,
                           const SizedBox(height: 16),
-                          cryptoAmount,
+                          bodyWidget,
                           const SizedBox(height: 32),
                           const _Description(),
                         ],
@@ -145,12 +147,9 @@ class _Description extends StatelessWidget {
   const _Description({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 16),
-        child: Text(
-          context.l10n.buyUsdcTokenMoonPay,
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
+  Widget build(BuildContext context) => Text(
+        context.l10n.buyUsdcTokenMoonPay,
+        style: Theme.of(context).textTheme.bodyText1,
       );
 }
 
@@ -207,6 +206,10 @@ class _MinimumAmountMessage extends StatelessWidget {
             ),
           ),
         ],
+        style: const TextStyle(
+          fontSize: 14,
+          color: CpColors.darkPrimaryColor,
+        ),
       ),
     );
   }
@@ -230,14 +233,43 @@ class _QuoteWidget extends StatelessWidget {
     final amount = quote.buyAmount.format(locale);
     final fees = quote.feeAmount?.format(locale);
     final price = quote.quotePrice?.format(locale);
+    const style = TextStyle(fontSize: 12, color: CpColors.secondaryTextColor);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(amount),
-        if (fees != null) Text(fees),
-        if (price != null) Text(price),
-      ],
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: Text.rich(
+              TextSpan(
+                text: context.l10n.buyUsdcAmountMessage,
+                children: [
+                  TextSpan(
+                    text: amount,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              style: const TextStyle(fontSize: 16),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          const SizedBox(height: 8),
+          if (fees != null)
+            Text(
+              context.l10n.buyUsdcFee(fees),
+              style: style,
+            ),
+          if (price != null)
+            Text(
+              context.l10n.buyUsdcQuotePrice(price),
+              style: style,
+            ),
+        ],
+      ),
     );
   }
 }
