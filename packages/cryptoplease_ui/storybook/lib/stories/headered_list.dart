@@ -48,6 +48,7 @@ final cpHeaderedList = Story(
           style: TextStyle(color: CpTheme.of(context).secondaryTextColor),
         ),
       ),
+      showDivider: true,
     ),
   ),
 );
