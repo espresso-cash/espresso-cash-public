@@ -11,12 +11,6 @@ abstract class CryptopleaseClient {
   @POST('/addFunds')
   Future<AddFundsResponseDto> addFunds(@Body() AddFundsRequestDto request);
 
-  @POST('/buyQuote')
-  Future<QuoteResponseDto> buyQuote(@Body() QuoteRequestDto request);
-
-  @POST('/limit')
-  Future<LimitResponseDto> limit(@Body() LimitRequestDto request);
-
   @POST('/createPayment')
   Future<CreatePaymentResponseDto> createPayment(
     @Body() CreatePaymentRequestDto request,
