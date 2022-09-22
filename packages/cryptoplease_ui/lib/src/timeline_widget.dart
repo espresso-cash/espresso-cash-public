@@ -56,90 +56,94 @@ class CpTimelineWidget extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: _tileHeight,
-                  width: _timelineWidth,
-                  decoration: BoxDecoration(
-                    color: backgroundColor,
-                    borderRadius: (isFirst || isLast)
-                        ? BorderRadius.vertical(
-                            top: isFirst ? _radius : Radius.zero,
-                            bottom: isLast ? _radius : Radius.zero,
-                          )
-                        : null,
-                  ),
-                  padding: (isFirst || isLast)
-                      ? EdgeInsets.only(
-                          top: isFirst ? 10 : 4,
-                          bottom: isLast ? 10 : 4,
-                        )
-                      : const EdgeInsets.symmetric(vertical: 4),
-                  child: Center(
-                    child: Container(
-                      width: _indicatorSize,
-                      height: _indicatorSize,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: tile.iconColor ?? CpColors.darkBackground,
-                      ),
-                      child: tile.icon,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListTile(
-                    dense: true,
-                    title: Text(
-                      tile.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                      ),
-                    ),
-                    subtitle: tile.subtitle != null
-                        ? Text(
-                            tile.subtitle ?? '',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                            ),
-                          )
-                        : null,
-                    trailing: Text(
-                      tile.trailing ?? '',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
+                _buildIndicator(isFirst, isLast, tile),
+                Expanded(child: _buildTileInfo(tile)),
               ],
             ),
-            if (!isLast)
-              Container(
-                color: backgroundColor,
-                padding: EdgeInsets.zero,
-                width: _timelineWidth,
-                height: _connectorHeight,
-                child: Center(
-                  child: Container(
-                    width: 7,
-                    decoration: BoxDecoration(
-                      color: tile.connectorColor ?? CpColors.darkBackground,
-                      borderRadius: const BorderRadius.vertical(
-                        top: _radius,
-                        bottom: _radius,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            if (!isLast) _buildConnector(tile),
           ],
         );
       },
     );
   }
+
+  Widget _buildConnector(CpTimelineData tile) => Container(
+        color: backgroundColor,
+        padding: EdgeInsets.zero,
+        width: _timelineWidth,
+        height: _connectorHeight,
+        child: Center(
+          child: Container(
+            width: 7,
+            decoration: BoxDecoration(
+              color: tile.connectorColor ?? CpColors.darkBackground,
+              borderRadius: const BorderRadius.vertical(
+                top: _radius,
+                bottom: _radius,
+              ),
+            ),
+          ),
+        ),
+      );
+
+  Widget _buildTileInfo(CpTimelineData tile) => ListTile(
+        dense: true,
+        title: Text(
+          tile.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
+        subtitle: tile.subtitle != null
+            ? Text(
+                tile.subtitle ?? '',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+              )
+            : null,
+        trailing: Text(
+          tile.trailing ?? '',
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
+      );
+
+  Widget _buildIndicator(bool isFirst, bool isLast, CpTimelineData tile) =>
+      Container(
+        height: _tileHeight,
+        width: _timelineWidth,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: (isFirst || isLast)
+              ? BorderRadius.vertical(
+                  top: isFirst ? _radius : Radius.zero,
+                  bottom: isLast ? _radius : Radius.zero,
+                )
+              : null,
+        ),
+        padding: (isFirst || isLast)
+            ? EdgeInsets.only(
+                top: isFirst ? 10 : 4,
+                bottom: isLast ? 10 : 4,
+              )
+            : const EdgeInsets.symmetric(vertical: 4),
+        child: Center(
+          child: Container(
+            width: _indicatorSize,
+            height: _indicatorSize,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: tile.iconColor ?? CpColors.darkBackground,
+            ),
+            child: tile.icon,
+          ),
+        ),
+      );
 }
 
 class _DefaultEmptyWidget extends StatelessWidget {
