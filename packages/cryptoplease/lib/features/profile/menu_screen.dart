@@ -17,21 +17,24 @@ class MenuScreen extends StatelessWidget {
             onRefresh: onRefresh,
             backgroundColor: Colors.white,
             color: CpColors.primaryColor,
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                color: Colors.white,
-                child: SafeArea(
-                  bottom: false,
-                  child: ColoredBox(
-                    color: CpColors.lightGreyBackground,
-                    child: ListView(
-                      physics: const ClampingScrollPhysics(),
-                      children: const [
-                        MenuHeader(),
-                        MenuSection(),
-                      ],
+            child: DecoratedBox(
+              decoration: _menuScreenBackground,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  color: Colors.white,
+                  child: SafeArea(
+                    bottom: false,
+                    child: ColoredBox(
+                      color: CpColors.lightGreyBackground,
+                      child: ListView(
+                        physics: const ClampingScrollPhysics(),
+                        children: const [
+                          MenuHeader(),
+                          MenuSection(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -41,3 +44,15 @@ class MenuScreen extends StatelessWidget {
         ),
       );
 }
+
+const _menuScreenBackground = BoxDecoration(
+  gradient: LinearGradient(
+    stops: [0.5, 0.5],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: <Color>[
+      Colors.white,
+      CpColors.lightGreyBackground,
+    ],
+  ),
+);
