@@ -60,15 +60,17 @@ class _ScreenState extends State<RequestPayScreen> {
               inputController: _amountController,
               token: state.amount.currency.token,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 55),
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 40,
+              ),
               child: CpInfoWidget(
                 icon: const InfoIcon(),
                 message: Text(context.l10n.usdcExplanation),
               ),
             ),
-            const SizedBox(height: 8),
             Flexible(
               flex: 3,
               child: LayoutBuilder(
