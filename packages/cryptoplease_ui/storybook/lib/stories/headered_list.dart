@@ -14,6 +14,13 @@ final cpHeaderedList = Story(
         ),
       ),
     ),
+    headerSubContent: const Text(
+      'Sub Header',
+      style: TextStyle(
+        fontSize: 14,
+        color: Colors.grey,
+      ),
+    ),
     headerAppBar: Center(
       child: Text(
         context.knobs.text(label: 'AppBar', initial: 'Header app bar'),

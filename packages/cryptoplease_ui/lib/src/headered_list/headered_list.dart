@@ -16,12 +16,14 @@ class CpHeaderedList extends StatelessWidget {
     required this.headerAppBar,
     this.stickyBottomHeader,
     this.allowBackNavigation = false,
+    this.headerSubContent,
   }) : super(key: key);
 
   final AsyncCallback onRefresh;
   final Widget child;
   final List<Widget>? headerButtons;
   final Widget headerContent;
+  final Widget? headerSubContent;
   final Widget headerAppBar;
   final bool allowBackNavigation;
   final PreferredSizeWidget? stickyBottomHeader;
@@ -52,6 +54,7 @@ class CpHeaderedList extends StatelessWidget {
                   stickyBottomHeader: stickyBottomHeader,
                   minHeight: minHeight,
                   buttons: headerButtons,
+                  subContent: headerSubContent,
                   child: headerContent,
                 ),
               ),

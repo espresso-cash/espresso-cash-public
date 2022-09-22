@@ -12,9 +12,11 @@ class HeaderedListHeader extends StatelessWidget {
     required this.minHeight,
     this.buttons,
     required this.appBar,
+    this.subContent,
   }) : super(key: key);
 
   final Widget child;
+  final Widget? subContent;
   final bool allowBackNavigation;
   final PreferredSizeWidget? stickyBottomHeader;
   final double minHeight;
@@ -31,6 +33,7 @@ class HeaderedListHeader extends StatelessWidget {
           minHeight: minHeight,
           appBarHeight: kToolbarHeight,
           buttonsHeight: _buttonRowHeight,
+          subContent: subContent,
           child: child,
           backButton: allowBackNavigation
               ? BackButton(onPressed: Navigator.of(context).maybePop)
@@ -63,10 +66,12 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.appBarHeight,
     required this.stickyBottomHeader,
     required this.child,
+    this.subContent,
   });
 
   final Widget? backButton;
   final Widget child;
+  final Widget? subContent;
   final Widget appBarWidget;
   final Widget? buttonsWidget;
   final double minHeight;
@@ -121,6 +126,12 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
               children: [
                 _buildAppBar(topOffset),
                 _buildBalance(percent, topDisplacement, bottomDisplacement),
+                if (subContent != null)
+                  _buildSubContent(
+                    topDisplacement,
+                    bottomDisplacement,
+                    bottomOpacity,
+                  ),
                 if (buttonsWidget != null) _buildButtons(bottomOpacity),
                 _buildBackButton(),
               ],
@@ -148,13 +159,28 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
         right: 0,
         left: 0,
         bottom: bottom,
-        child: Center(
-          child: Transform.scale(
-            scale: 1 - math.min(percent, 0.5),
-            child: child,
-          ),
+        child: Transform.scale(
+          scale: 1 - math.min(percent, 0.5),
+          child: child,
         ),
       );
+
+  Widget _buildSubContent(double top, double bottom, double opactity) {
+    final content = subContent;
+
+    return Positioned(
+      top: top + 50,
+      right: 0,
+      left: 0,
+      bottom: bottom,
+      child: Center(
+        child: Opacity(
+          opacity: opactity,
+          child: content,
+        ),
+      ),
+    );
+  }
 
   Widget _buildButtons(double opactity) => Positioned(
         bottom: _buttonBottomOffset,
