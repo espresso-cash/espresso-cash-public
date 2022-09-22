@@ -46,71 +46,81 @@ class _ScreenState extends State<RequestPayScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return BlocBuilder<RequestPayBloc, RequestPayState>(
-      builder: (context, state) {
-        final token = state.amount.currency.token;
-
-        return Scaffold(
-          appBar: QrScannerAppBar(
-            onQrScanner: _router.onQrScanner,
-          ),
-          body: Column(
-            children: [
-              RequestPayHeader(
-                inputController: _amountController,
-                token: token,
-                collapsed: false,
+    return Scaffold(
+      appBar: QrScannerAppBar(
+        onQrScanner: _router.onQrScanner,
+      ),
+      body: BlocBuilder<RequestPayBloc, RequestPayState>(
+        builder: (context, state) => Column(
+          children: [
+            RequestPayHeader(
+              inputController: _amountController,
+              token: state.amount.currency.token,
+              collapsed: false,
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 40,
               ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 55),
-                child: CpInfoWidget(
-                  icon: const InfoIcon(),
-                  message: Text(context.l10n.usdcExplanation),
+              child: CpInfoWidget(
+                icon: const InfoIcon(),
+                message: Text(context.l10n.usdcExplanation),
+              ),
+            ),
+            Flexible(
+              flex: 3,
+              child: LayoutBuilder(
+                builder: (context, constraints) => EnterAmountKeypad(
+                  height: constraints.maxHeight,
+                  width: width,
+                  controller: _amountController,
+                  maxDecimals: 2,
                 ),
               ),
-              const SizedBox(height: 8),
-              Flexible(
-                flex: 3,
-                child: LayoutBuilder(
-                  builder: (context, constraints) => EnterAmountKeypad(
-                    height: constraints.maxHeight,
-                    width: width,
-                    controller: _amountController,
-                    maxDecimals: 2,
+            ),
+            const SizedBox(height: 8),
+            Flexible(
+              flex: 3,
+              child: LayoutBuilder(
+                builder: (context, constraints) => EnterAmountKeypad(
+                  height: constraints.maxHeight,
+                  width: width,
+                  controller: _amountController,
+                  maxDecimals: 2,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: CpButton(
+                      text: context.l10n.receive,
+                      minWidth: width,
+                      onPressed: _router.onRequest,
+                      size: CpButtonSize.big,
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: CpButton(
-                        text: context.l10n.receive,
-                        minWidth: width,
-                        onPressed: _router.onRequest,
-                        size: CpButtonSize.big,
-                      ),
+                  const SizedBox(width: 24),
+                  Flexible(
+                    child: CpButton(
+                      text: context.l10n.pay,
+                      minWidth: width,
+                      onPressed: _router.onPay,
+                      size: CpButtonSize.big,
                     ),
-                    const SizedBox(width: 24),
-                    Flexible(
-                      child: CpButton(
-                        text: context.l10n.pay,
-                        minWidth: width,
-                        onPressed: _router.onPay,
-                        size: CpButtonSize.big,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(height: cpNavigationBarheight + 32),
-            ],
-          ),
-        );
-      },
+            ),
+            const SizedBox(height: cpNavigationBarheight + 32),
+          ],
+        ),
+      ),
     );
   }
 }

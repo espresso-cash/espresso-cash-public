@@ -114,6 +114,130 @@ public class Api {
     }
   }
 
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class AuthorizationResultDto {
+    private @NonNull String authToken;
+    public @NonNull String getAuthToken() { return authToken; }
+    public void setAuthToken(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"authToken\" is null.");
+      }
+      this.authToken = setterArg;
+    }
+
+    private @NonNull byte[] publicKey;
+    public @NonNull byte[] getPublicKey() { return publicKey; }
+    public void setPublicKey(@NonNull byte[] setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"publicKey\" is null.");
+      }
+      this.publicKey = setterArg;
+    }
+
+    private @Nullable String accountLabel;
+    public @Nullable String getAccountLabel() { return accountLabel; }
+    public void setAccountLabel(@Nullable String setterArg) {
+      this.accountLabel = setterArg;
+    }
+
+    private @Nullable String walletUriBase;
+    public @Nullable String getWalletUriBase() { return walletUriBase; }
+    public void setWalletUriBase(@Nullable String setterArg) {
+      this.walletUriBase = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private AuthorizationResultDto() {}
+    public static final class Builder {
+      private @Nullable String authToken;
+      public @NonNull Builder setAuthToken(@NonNull String setterArg) {
+        this.authToken = setterArg;
+        return this;
+      }
+      private @Nullable byte[] publicKey;
+      public @NonNull Builder setPublicKey(@NonNull byte[] setterArg) {
+        this.publicKey = setterArg;
+        return this;
+      }
+      private @Nullable String accountLabel;
+      public @NonNull Builder setAccountLabel(@Nullable String setterArg) {
+        this.accountLabel = setterArg;
+        return this;
+      }
+      private @Nullable String walletUriBase;
+      public @NonNull Builder setWalletUriBase(@Nullable String setterArg) {
+        this.walletUriBase = setterArg;
+        return this;
+      }
+      public @NonNull AuthorizationResultDto build() {
+        AuthorizationResultDto pigeonReturn = new AuthorizationResultDto();
+        pigeonReturn.setAuthToken(authToken);
+        pigeonReturn.setPublicKey(publicKey);
+        pigeonReturn.setAccountLabel(accountLabel);
+        pigeonReturn.setWalletUriBase(walletUriBase);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("authToken", authToken);
+      toMapResult.put("publicKey", publicKey);
+      toMapResult.put("accountLabel", accountLabel);
+      toMapResult.put("walletUriBase", walletUriBase);
+      return toMapResult;
+    }
+    static @NonNull AuthorizationResultDto fromMap(@NonNull Map<String, Object> map) {
+      AuthorizationResultDto pigeonResult = new AuthorizationResultDto();
+      Object authToken = map.get("authToken");
+      pigeonResult.setAuthToken((String)authToken);
+      Object publicKey = map.get("publicKey");
+      pigeonResult.setPublicKey((byte[])publicKey);
+      Object accountLabel = map.get("accountLabel");
+      pigeonResult.setAccountLabel((String)accountLabel);
+      Object walletUriBase = map.get("walletUriBase");
+      pigeonResult.setWalletUriBase((String)walletUriBase);
+      return pigeonResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class SignPayloadsResultDto {
+    private @NonNull List<byte[]> signedPayloads;
+    public @NonNull List<byte[]> getSignedPayloads() { return signedPayloads; }
+    public void setSignedPayloads(@NonNull List<byte[]> setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"signedPayloads\" is null.");
+      }
+      this.signedPayloads = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private SignPayloadsResultDto() {}
+    public static final class Builder {
+      private @Nullable List<byte[]> signedPayloads;
+      public @NonNull Builder setSignedPayloads(@NonNull List<byte[]> setterArg) {
+        this.signedPayloads = setterArg;
+        return this;
+      }
+      public @NonNull SignPayloadsResultDto build() {
+        SignPayloadsResultDto pigeonReturn = new SignPayloadsResultDto();
+        pigeonReturn.setSignedPayloads(signedPayloads);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("signedPayloads", signedPayloads);
+      return toMapResult;
+    }
+    static @NonNull SignPayloadsResultDto fromMap(@NonNull Map<String, Object> map) {
+      SignPayloadsResultDto pigeonResult = new SignPayloadsResultDto();
+      Object signedPayloads = map.get("signedPayloads");
+      pigeonResult.setSignedPayloads((List<byte[]>)signedPayloads);
+      return pigeonResult;
+    }
+  }
+
   public interface Result<T> {
     void success(T result);
     void error(Throwable error);
@@ -125,7 +249,13 @@ public class Api {
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
         case (byte)128:         
+          return AuthorizationResultDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)129:         
           return GetCapabilitiesResultDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)130:         
+          return SignPayloadsResultDto.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
           return super.readValueOfType(type, buffer);
@@ -134,9 +264,17 @@ public class Api {
     }
     @Override
     protected void writeValue(ByteArrayOutputStream stream, Object value)     {
-      if (value instanceof GetCapabilitiesResultDto) {
+      if (value instanceof AuthorizationResultDto) {
         stream.write(128);
+        writeValue(stream, ((AuthorizationResultDto) value).toMap());
+      } else 
+      if (value instanceof GetCapabilitiesResultDto) {
+        stream.write(129);
         writeValue(stream, ((GetCapabilitiesResultDto) value).toMap());
+      } else 
+      if (value instanceof SignPayloadsResultDto) {
+        stream.write(130);
+        writeValue(stream, ((SignPayloadsResultDto) value).toMap());
       } else 
 {
         super.writeValue(stream, value);
@@ -151,6 +289,10 @@ public class Api {
     void close(@NonNull Long id, Result<Void> result);
     void startActivityForResult(@NonNull Long id, @Nullable String uriPrefix, Result<Void> result);
     void getCapabilities(@NonNull Long id, Result<GetCapabilitiesResultDto> result);
+    void authorize(@NonNull Long id, @Nullable String identityUri, @Nullable String iconUri, @Nullable String identityName, @Nullable String cluster, Result<AuthorizationResultDto> result);
+    void reauthorize(@NonNull Long id, @Nullable String identityUri, @Nullable String iconUri, @Nullable String identityName, @NonNull String authToken, Result<AuthorizationResultDto> result);
+    void deauthorize(@NonNull Long id, @NonNull String authToken, Result<Void> result);
+    void signTransactions(@NonNull Long id, @NonNull List<byte[]> transactions, Result<SignPayloadsResultDto> result);
 
     /** The codec used by ApiLocalAssociationScenario. */
     static MessageCodec<Object> getCodec() {
@@ -320,6 +462,161 @@ public class Api {
               };
 
               api.getCapabilities((idArg == null) ? null : idArg.longValue(), resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiLocalAssociationScenario.authorize", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number idArg = (Number)args.get(0);
+              if (idArg == null) {
+                throw new NullPointerException("idArg unexpectedly null.");
+              }
+              String identityUriArg = (String)args.get(1);
+              String iconUriArg = (String)args.get(2);
+              String identityNameArg = (String)args.get(3);
+              String clusterArg = (String)args.get(4);
+              Result<AuthorizationResultDto> resultCallback = new Result<AuthorizationResultDto>() {
+                public void success(AuthorizationResultDto result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.authorize((idArg == null) ? null : idArg.longValue(), identityUriArg, iconUriArg, identityNameArg, clusterArg, resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiLocalAssociationScenario.reauthorize", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number idArg = (Number)args.get(0);
+              if (idArg == null) {
+                throw new NullPointerException("idArg unexpectedly null.");
+              }
+              String identityUriArg = (String)args.get(1);
+              String iconUriArg = (String)args.get(2);
+              String identityNameArg = (String)args.get(3);
+              String authTokenArg = (String)args.get(4);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              Result<AuthorizationResultDto> resultCallback = new Result<AuthorizationResultDto>() {
+                public void success(AuthorizationResultDto result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.reauthorize((idArg == null) ? null : idArg.longValue(), identityUriArg, iconUriArg, identityNameArg, authTokenArg, resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiLocalAssociationScenario.deauthorize", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number idArg = (Number)args.get(0);
+              if (idArg == null) {
+                throw new NullPointerException("idArg unexpectedly null.");
+              }
+              String authTokenArg = (String)args.get(1);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              Result<Void> resultCallback = new Result<Void>() {
+                public void success(Void result) {
+                  wrapped.put("result", null);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.deauthorize((idArg == null) ? null : idArg.longValue(), authTokenArg, resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiLocalAssociationScenario.signTransactions", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number idArg = (Number)args.get(0);
+              if (idArg == null) {
+                throw new NullPointerException("idArg unexpectedly null.");
+              }
+              List<byte[]> transactionsArg = (List<byte[]>)args.get(1);
+              if (transactionsArg == null) {
+                throw new NullPointerException("transactionsArg unexpectedly null.");
+              }
+              Result<SignPayloadsResultDto> resultCallback = new Result<SignPayloadsResultDto>() {
+                public void success(SignPayloadsResultDto result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.signTransactions((idArg == null) ? null : idArg.longValue(), transactionsArg, resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

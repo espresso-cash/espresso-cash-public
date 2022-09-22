@@ -9,10 +9,15 @@ import 'utils.dart';
 void main() {
   final client = createTestSolanaClient();
 
+  /// Initial token amount for the sender after creation.
+  const senderInitialAmount = 500000;
+
+  const transferAmount = 300000;
+
   test('account without transactions fails', () async {
     final testData = await createTestData(
       client: client,
-      senderInitialAmount: 10,
+      senderInitialAmount: senderInitialAmount,
     );
 
     final account = await Ed25519HDKeyPair.random();
@@ -56,7 +61,7 @@ void main() {
   test('account with proper payments succeeds', () async {
     final testData = await createTestData(
       client: client,
-      senderInitialAmount: 10,
+      senderInitialAmount: senderInitialAmount,
     );
 
     final escrowAccount = await Ed25519HDKeyPair.random();
@@ -65,8 +70,7 @@ void main() {
       aSender: testData.sender.publicKey,
       aEscrow: escrowAccount.publicKey,
       mint: testData.mint,
-      amount: 2,
-      fee: 1,
+      amount: transferAmount,
       client: client,
       platform: testData.platform,
       commitment: Commitment.confirmed,
@@ -98,6 +102,6 @@ void main() {
       fail('escrow account not found');
     }
 
-    expect(escrow.amount, 2);
+    expect(escrow.amount, transferAmount);
   });
 }
