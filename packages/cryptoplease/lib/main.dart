@@ -7,6 +7,7 @@ import 'package:cryptoplease/core/balances/module.dart';
 import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
+import 'package:cryptoplease/data/moonpay/moonpay_client.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/module.dart';
 import 'package:cryptoplease/features/outgoing_transfer/module.dart';
 import 'package:cryptoplease/features/pending_request/module.dart';
@@ -78,6 +79,7 @@ Future<void> _start() async {
       Provider<SolanaClient>.value(value: solanaClient),
       Provider<TokenList>(create: (_) => TokenList()),
       Provider<CryptopleaseClient>(create: (_) => CryptopleaseClient()),
+      Provider<MoonpayClient>(create: (_) => MoonpayClient()),
       Provider<TxCreatorStrategy>(
         create: (context) => TxCreatorStrategy(
           solanaClient: context.read<SolanaClient>(),

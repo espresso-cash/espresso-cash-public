@@ -25,6 +25,8 @@ const faqUrl = 'https://learn.cryptoplease.com/';
 
 const sentryDsn = String.fromEnvironment('SENTRY_DSN', defaultValue: '');
 
+const moonpayApiKey = String.fromEnvironment('MOONPAY_API_KEY');
+
 const lamportsPerSignature = 5000;
 
 /// Currently, the rent cost is fixed at the genesis. However, it's anticipated

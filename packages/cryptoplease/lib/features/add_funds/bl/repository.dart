@@ -1,14 +1,21 @@
+import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/data/moonpay/moonpay_client.dart';
 import 'package:cryptoplease/features/add_funds/bl/add_funds_quote.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 
 class AddFundsRepository {
-  AddFundsRepository(this._client);
+  AddFundsRepository({
+    required CryptopleaseClient cryptopleaseClient,
+    required MoonpayClient moonpayClient,
+  })  : _cpClient = cryptopleaseClient,
+        _moonpayClient = moonpayClient;
 
-  final CryptopleaseClient _client;
+  final CryptopleaseClient _cpClient;
+  final MoonpayClient _moonpayClient;
 
   Future<String> signFundsRequest(
     String address,
@@ -21,16 +28,31 @@ class AddFundsRepository {
       value: amount.decimal.toString(),
     );
 
-    final response = await _client.addFunds(requestDto);
+    final response = await _cpClient.addFunds(requestDto);
 
     return response.signedUrl;
   }
 
   Future<FiatAmount> limit(Token quoteToken) async {
-    final requestDto = LimitRequestDto(tokenSymbol: quoteToken.symbol);
+    final tokenSymbol = quoteToken.symbol.toLowerCase();
+    final limitResponse = await _moonpayClient.limits(
+      apiKey: moonpayApiKey,
+      currencyCode: tokenSymbol,
+      baseCurrencyCode: 'usd',
+    );
+    final askResponse = await _moonpayClient.askPrice(
+      apiKey: moonpayApiKey,
+      currencyCode: tokenSymbol,
+    );
 
-    final response = await _client.limit(requestDto);
-    final value = Decimal.parse(response.minAmount.toString());
+    final askCurrency = askResponse['USD'];
+
+    if (askCurrency == null) {
+      throw Exception('$tokenSymbol price not found in USD');
+    }
+
+    final minValue = limitResponse.quoteCurrency.minBuyAmount * askCurrency;
+    final value = Decimal.parse(minValue.toString());
     final amount = Amount.fromDecimal(value: value, currency: Currency.usd);
 
     return amount as FiatAmount;
@@ -40,24 +62,27 @@ class AddFundsRepository {
     Token quoteToken,
     FiatAmount amount,
   ) async {
-    final requestDto = QuoteRequestDto(
-      tokenSymbol: quoteToken.symbol,
-      value: amount.decimal.toString(),
+    final tokenSymbol = quoteToken.symbol.toLowerCase();
+    final response = await _moonpayClient.buyQuote(
+      apiKey: moonpayApiKey,
+      currencyCode: tokenSymbol,
+      baseCurrencyAmount: amount.decimal.toString(),
+      areFeesIncluded: true,
+      baseCurrencyCode: 'usd',
     );
-    final currency = CryptoCurrency(token: quoteToken);
 
-    final response = await _client.buyQuote(requestDto);
+    final buyAmount = Amount.fromDecimal(
+      currency: CryptoCurrency(token: quoteToken),
+      value: Decimal.parse(response.quoteCurrencyPrice.toString()),
+    );
 
     final totalFee = response.feeAmount + response.networkFeeAmount;
-    final buyAmount = Amount.fromDecimal(
-      value: Decimal.parse(response.quoteAmount.toString()),
-      currency: currency,
-    );
     final feeAmount = amount.copyWithDecimal(
       Decimal.parse(totalFee.toString()),
     );
+
     final quotePrice = amount.copyWithDecimal(
-      Decimal.parse(response.quotePrice.toString()),
+      Decimal.parse(response.quoteCurrencyPrice.toString()),
     );
 
     return AddFundsQuote(

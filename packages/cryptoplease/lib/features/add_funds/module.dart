@@ -1,3 +1,4 @@
+import 'package:cryptoplease/data/moonpay/moonpay_client.dart';
 import 'package:cryptoplease/features/add_funds/bl/repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,8 @@ class AddFundsModule extends SingleChildStatelessWidget {
         providers: [
           Provider<AddFundsRepository>(
             create: (context) => AddFundsRepository(
-              context.read<CryptopleaseClient>(),
+              cryptopleaseClient: context.read<CryptopleaseClient>(),
+              moonpayClient: context.read<MoonpayClient>(),
             ),
           )
         ],

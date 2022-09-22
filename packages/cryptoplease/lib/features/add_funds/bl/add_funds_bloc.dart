@@ -38,8 +38,6 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
 
   Future<void> _onInitialized(Emitter<AddFundsState> emit) async {
     try {
-      emit(const AddFundsState.loading());
-
       final minimumAmount = await _repository.limit(Token.usdc);
 
       emit(
