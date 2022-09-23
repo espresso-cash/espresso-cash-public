@@ -80,18 +80,6 @@ class _ScreenState extends State<RequestPayScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            Flexible(
-              flex: 3,
-              child: LayoutBuilder(
-                builder: (context, constraints) => EnterAmountKeypad(
-                  height: constraints.maxHeight,
-                  width: width,
-                  controller: _amountController,
-                  maxDecimals: 2,
-                ),
-              ),
-            ),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),

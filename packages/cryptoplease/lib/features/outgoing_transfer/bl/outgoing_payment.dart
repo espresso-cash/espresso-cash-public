@@ -46,6 +46,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required OutgoingTransferState state,
     @Default(OutgoingTransferTokenType.fungibleToken)
         OutgoingTransferTokenType tokenType,
+    @Default(SplitKeyApiVersion.v1) SplitKeyApiVersion apiVersion,
     String? reference,
     @Default(IListConst<String>([])) IList<String> references,
     String? memo,
@@ -82,8 +83,10 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferTokenType tokenType,
+    SplitKeyApiVersion apiVersion = SplitKeyApiVersion.v1,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
+    OutgoingTransferState state = const OutgoingTransferState.draft(),
   }) =>
       OutgoingTransferDirect(
         id: const Uuid().v4().toString(),
@@ -91,10 +94,11 @@ class OutgoingTransfer with _$OutgoingTransfer {
         recipient: recipientAddress,
         amount: amount,
         tokenAddress: tokenAddress,
-        state: const OutgoingTransferState.draft(),
+        state: state,
         memo: memo,
         references: IList(reference?.map((e) => e.toBase58()) ?? []),
         tokenType: tokenType,
+        apiVersion: apiVersion,
       );
 
   IList<String> get allReferences => this.map(

@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/routes.dart';
+import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
@@ -102,18 +105,30 @@ class _State extends State<RequestPayFlowScreen> implements RequestRouter {
     }
 
     _requestPayBloc.validate().fold(
-          (e) => e.map(
-            insufficientFunds: (e) => _showInsufficientTokenDialog(
-              balance: e.balance,
-              currentAmount: e.currentAmount,
-            ),
-            insufficientFee: (e) => _showInsufficientFeeDialog(e.requiredFee),
-          ),
-          (_) => context.navigateToConfirmation(
-            amount: amount,
-            recipient: recipient,
-          ),
-        );
+      (e) => e.map(
+        insufficientFunds: (e) => _showInsufficientTokenDialog(
+          balance: e.balance,
+          currentAmount: e.currentAmount,
+        ),
+        insufficientFee: (e) => _showInsufficientFeeDialog(e.requiredFee),
+      ),
+      (_) {
+        if (recipient == null) {
+          context.navigateToLinkConfirmation(amount: amount);
+        } else {
+          _requestPayBloc.add(const RequestPayEvent.directSubmitted());
+          context.router.push(
+            DirectPayConfirmRoute(onSubmitted: _onPaymentSubmitted),
+          );
+        }
+      },
+    );
+  }
+
+  void _onPaymentSubmitted(OutgoingTransferId transferId) {
+    context
+      ..read<HomeRouterKey>().value.currentState?.controller?.popUntilRoot()
+      ..navigateToOutgoingTransfer(transferId);
   }
 
   void _showZeroAmountDialog(_Operation operation) => showWarningDialog(

@@ -15,26 +15,17 @@ import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 extension SendFtFlowExt on BuildContext {
-  void navigateToConfirmation({
+  void navigateToLinkConfirmation({
     required CryptoAmount amount,
-    required String? recipient,
   }) =>
-      recipient != null
-          ? navigateToDirectTransferFt(
-              onTransferCreated: navigateToOutgoingTransfer,
-              apiVersion: SplitKeyApiVersion.v2,
-              amount: amount.decimal,
-              initialAddress: recipient,
-              token: amount.token,
-            )
-          : navigateTo(
-              FtLinkTransferFlowRoute(
-                onComplete: _navigateToOutgoingTransfer,
-                amount: amount,
-                apiVersion: SplitKeyApiVersion.v2,
-                children: const [FtConfirmRoute()],
-              ),
-            );
+      navigateTo(
+        FtLinkTransferFlowRoute(
+          onComplete: _navigateToOutgoingTransfer,
+          amount: amount,
+          apiVersion: SplitKeyApiVersion.v2,
+          children: const [FtConfirmRoute()],
+        ),
+      );
 
   /// Navigates to the flow for sending a fungible token.
   ///
@@ -136,7 +127,6 @@ extension SendFtFlowExt on BuildContext {
     Decimal? amount,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
-    SplitKeyApiVersion? apiVersion,
   }) =>
       navigateTo(
         FtDirectTransferFlowRoute(
@@ -146,7 +136,7 @@ extension SendFtFlowExt on BuildContext {
           amount: amount,
           memo: memo,
           reference: reference,
-          apiVersion: apiVersion ?? SplitKeyApiVersion.v1,
+          apiVersion: SplitKeyApiVersion.v1,
           children: [
             if (initialAddress == null)
               EnterAddressRoute(initialAddress: null)

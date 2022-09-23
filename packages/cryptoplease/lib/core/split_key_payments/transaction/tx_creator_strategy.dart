@@ -25,8 +25,6 @@ class TxCreatorStrategy {
     }
   }
 
-  TxCreator fromPayment(OutgoingTransfer payment) => payment.map(
-        direct: (_) => _solanaTxCreator,
-        splitKey: (s) => fromApiVersion(s.apiVersion),
-      );
+  TxCreator fromPayment(OutgoingTransfer payment) =>
+      fromApiVersion(payment.apiVersion);
 }

@@ -6,4 +6,5 @@ class RequestPayEvent with _$RequestPayEvent {
   const factory RequestPayEvent.recipientUpdated(String recipient) =
       _RecipientUpdated;
   const factory RequestPayEvent.cleared() = _Cleared;
+  const factory RequestPayEvent.directSubmitted() = _DirectSubmitted;
 }

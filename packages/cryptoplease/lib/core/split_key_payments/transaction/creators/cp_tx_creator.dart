@@ -24,16 +24,27 @@ class CpTxCreator implements TxCreator {
       final recipient = await payment.getRecipient();
       final publicKey = recipient.toBase58();
 
-      final createdPayment = await _cpClient.createPayment(
-        CreatePaymentRequestDto(
-          senderAccount: account.wallet.address,
-          escrowAccount: publicKey,
-          amount: payment.amount.toInt(),
-          cluster: isProd ? Cluster.mainnet : Cluster.devnet,
-        ),
+      String encodedTx;
+      final paymentTx = payment.state.maybeMap(
+        draft: (d) => d.encodedTx,
+        orElse: () => null,
       );
-      final tx = await SignedTx.decode(createdPayment.transaction)
-          .resign(account.wallet);
+
+      if (paymentTx != null) {
+        encodedTx = paymentTx;
+      } else {
+        final createdPayment = await _cpClient.createPayment(
+          CreatePaymentRequestDto(
+            senderAccount: account.wallet.address,
+            escrowAccount: publicKey,
+            amount: payment.amount.toInt(),
+            cluster: isProd ? Cluster.mainnet : Cluster.devnet,
+          ),
+        );
+        encodedTx = createdPayment.transaction;
+      }
+
+      final tx = await SignedTx.decode(encodedTx).resign(account.wallet);
 
       return Either.right(tx);
     } on Exception {
