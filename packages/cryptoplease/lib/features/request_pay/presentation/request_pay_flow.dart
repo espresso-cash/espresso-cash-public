@@ -51,13 +51,14 @@ class _State extends State<RequestPayFlowScreen> implements RequestRouter {
 
           _requestPayBloc.add(RequestPayEvent.recipientUpdated(address));
 
-          final amount = _requestPayBloc.state.amount.format(
-            DeviceLocale.localeOf(context),
-            skipSymbol: true,
-          );
+          final amount = _requestPayBloc.state.amount;
+          final formatted = amount.value == 0
+              ? ''
+              : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
+
           context.router.push(
             DirectPayRoute(
-              initialAmount: amount,
+              initialAmount: formatted,
               recipient: address,
               label: name,
               onClearRecipient: onClearRecipient,
