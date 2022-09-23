@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/app/screens/authenticated/home_tabs_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/routes.dart';
+import 'package:cryptoplease/app/screens/authenticated/token_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_screen.dart';
 import 'package:cryptoplease/core/presentation/token_selector_screen.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -38,8 +39,12 @@ const authenticatedFlowRoutes = AutoRoute<void>(
         ),
         CustomRoute<void>(page: ActivitiesScreen),
         CustomRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),
-        CustomRoute<void>(page: WalletScreen),
+        CustomRoute<void>(
+          page: WalletRouterScreen,
+          children: [CustomRoute<void>(path: '', page: WalletScreen)],
+        ),
         CustomRoute<Token>(page: TokenSelectorScreen),
+        CustomRoute<void>(page: TokenScreen),
       ],
     ),
     ...backupPhraseRoutes,

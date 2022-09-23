@@ -13,9 +13,10 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
             left: _barPadding,
             right: _barPadding,
           ),
+          height: 50,
           clipBehavior: Clip.antiAlias,
           decoration: const ShapeDecoration(
-            color: CpColors.primaryTextColor,
+            color: CpColors.darkBackground,
             shape: StadiumBorder(),
           ),
           child: TabBar(
@@ -30,7 +31,7 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
               color: Colors.white,
               shape: StadiumBorder(),
             ),
-            padding: const EdgeInsets.all(4),
+            padding: const EdgeInsets.all(6),
             tabs: [
               Tab(text: context.l10n.stablecoin),
               Tab(text: context.l10n.crypto),
@@ -43,5 +44,16 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(82);
 }
+
+// const Padding(
+//               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+//               child: Text(
+//                 'MY PORTFOLIO',
+//                 style: TextStyle(
+//                   fontWeight: FontWeight.w700,
+//                   fontSize: 13,
+//                 ),
+//               ),
+//             ), //TODO
 
 const double _barPadding = 16;

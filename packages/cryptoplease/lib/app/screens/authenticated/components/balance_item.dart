@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/token_icon.dart';
 import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -17,16 +16,15 @@ class BalanceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-    final Amount balance = context.watchUserCryptoBalance(token);
     final fiatAmount = context.watchUserFiatBalance(token);
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => context.router.push(TransactionsRoute(token: token)),
+        onTap: () => context.router.push(TokenRoute(token: token)),
         child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
           decoration: const BoxDecoration(
             color: CpColors.yellowColor,
             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -34,8 +32,8 @@ class BalanceItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TokenIcon(token: token, size: 40),
-              const SizedBox(width: 13),
+              TokenIcon(token: token, size: 35),
+              const SizedBox(width: 18),
               Expanded(
                 child: Text(
                   token.name,
@@ -44,18 +42,6 @@ class BalanceItem extends StatelessWidget {
                 ),
               ),
               _AmountDisplay(fiatAmount?.format(locale) ?? '-'),
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   crossAxisAlignment: CrossAxisAlignment.end,
-              //   children: [
-              //     const SizedBox(height: 8),
-              //     Text(fiatAmount?.format(locale) ?? '-', style: _titleStyle),
-              //     Text(
-              //       balance.format(locale, skipSymbol: true),
-              //       style: _subtitleStyle,
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),
@@ -70,12 +56,6 @@ const _titleStyle = TextStyle(
   color: Colors.black,
 );
 
-const _subtitleStyle = TextStyle(
-  fontWeight: FontWeight.w500,
-  fontSize: 13,
-  color: Color.fromARGB(0xff, 0x90, 0x90, 0x90),
-);
-
 class _AmountDisplay extends StatelessWidget {
   const _AmountDisplay(
     this.amount, {
@@ -85,23 +65,27 @@ class _AmountDisplay extends StatelessWidget {
   final String amount;
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 12,
-          horizontal: 24,
-        ),
-        decoration: const ShapeDecoration(
-          shape: StadiumBorder(),
-          color: CpColors.darkBackground,
-        ),
-        child: Center(
-          widthFactor: 1,
-          child: Text(
-            amount,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16.5,
-              fontWeight: FontWeight.w700,
+  Widget build(BuildContext context) => SizedBox(
+        width: 115,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 18,
+          ),
+          decoration: const ShapeDecoration(
+            shape: StadiumBorder(),
+            color: CpColors.darkBackground,
+          ),
+          child: Center(
+            widthFactor: 1,
+            child: Text(
+              amount,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16.5,
+                fontWeight: FontWeight.w700,
+              ),
+              maxLines: 1,
             ),
           ),
         ),

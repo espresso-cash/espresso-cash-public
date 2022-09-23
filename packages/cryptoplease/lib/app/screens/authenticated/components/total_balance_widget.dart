@@ -13,12 +13,14 @@ class TotalBalanceWidget extends StatelessWidget {
   final Amount balance;
 
   @override
-  Widget build(BuildContext context) => Text(
-        balance.format(DeviceLocale.localeOf(context)),
-        style: Theme.of(context).textTheme.headline2?.copyWith(
-              fontSize: 57.5,
-              fontWeight: FontWeight.w700,
-              color: CpColors.menuPrimaryTextColor,
-            ),
+  Widget build(BuildContext context) => Center(
+        child: Text(
+          balance.format(DeviceLocale.localeOf(context)),
+          style: Theme.of(context).textTheme.headline2?.copyWith(
+                fontSize: 57.5,
+                fontWeight: FontWeight.w700,
+                color: CpColors.menuPrimaryTextColor,
+              ),
+        ),
       );
 }

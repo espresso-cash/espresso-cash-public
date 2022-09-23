@@ -22,7 +22,7 @@ class CPNavigationBar extends StatelessWidget {
           ),
           clipBehavior: Clip.antiAlias,
           decoration: const ShapeDecoration(
-            color: CpColors.primaryTextColor,
+            color: CpColors.darkBackground,
             shape: StadiumBorder(),
           ),
           child: SizedBox(

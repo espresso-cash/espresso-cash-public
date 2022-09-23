@@ -27,5 +27,6 @@ class BalanceListWidget extends StatelessWidget {
         emptyWidget: isLoading
             ? CpEmptyMessageWidget(message: context.l10n.loading)
             : emptyWidget,
+        showDivider: false,
       );
 }
