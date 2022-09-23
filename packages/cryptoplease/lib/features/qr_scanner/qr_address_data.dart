@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
-part 'qr_address.freezed.dart';
-part 'qr_address.g.dart';
+part 'qr_address_data.freezed.dart';
+part 'qr_address_data.g.dart';
 
 @freezed
 class QrAddressData with _$QrAddressData {
@@ -21,9 +21,11 @@ class QrAddressData with _$QrAddressData {
       return QrAddressData(address: data, name: null);
     }
     try {
-      final jsonData = jsonDecode(data);
-
-      return QrAddressData.fromJson(jsonData as Map<String, dynamic>);
+      final jsonData = jsonDecode(data) as Map<String, dynamic>;
+      final qrAddress = QrAddressData.fromJson(jsonData);
+      if (isValidAddress(qrAddress.address)) {
+        return qrAddress;
+      }
     } on Exception {
       return null;
     }

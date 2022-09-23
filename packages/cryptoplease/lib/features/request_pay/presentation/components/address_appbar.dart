@@ -44,7 +44,8 @@ class AddressAppBar extends StatelessWidget implements PreferredSizeWidget {
               TextSpan(
                 text: label ?? '',
                 children: [
-                  const WidgetSpan(child: SizedBox(width: 24)),
+                  if (label != null)
+                    const WidgetSpan(child: SizedBox(width: 24)),
                   TextSpan(
                     text: formattedAddress,
                     style: _textStyle.copyWith(

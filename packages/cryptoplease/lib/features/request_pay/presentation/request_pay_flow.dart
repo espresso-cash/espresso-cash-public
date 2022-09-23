@@ -36,12 +36,6 @@ class _State extends State<RequestPayFlowScreen> implements RequestRouter {
   }
 
   @override
-  void dispose() {
-    _requestPayBloc.close();
-    super.dispose();
-  }
-
-  @override
   Future<void> onQrScanner() =>
       context.router.push<QrScannerRequest>(const QrScannerRoute()).then(
         (request) {
