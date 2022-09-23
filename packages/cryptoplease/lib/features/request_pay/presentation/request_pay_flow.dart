@@ -47,7 +47,11 @@ class _State extends State<RequestPayFlowScreen> implements RequestRouter {
         (request) {
           final address = request?.map(
             solanaPay: (r) => r.request.recipient.toBase58(),
-            address: (r) => r.address,
+            address: (r) => r.addressData.address,
+          );
+          final name = request?.map(
+            solanaPay: (r) => r.request.label,
+            address: (r) => r.addressData.name,
           );
           if (address == null) return;
 
@@ -61,6 +65,7 @@ class _State extends State<RequestPayFlowScreen> implements RequestRouter {
             DirectPayRoute(
               initialAmount: amount,
               recipient: address,
+              label: name,
               onClearRecipient: onClearRecipient,
               onAmountUpdate: onAmountUpdate,
               onPay: onPay,

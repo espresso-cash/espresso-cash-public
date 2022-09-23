@@ -13,6 +13,7 @@ class DirectPayScreen extends StatefulWidget {
     Key? key,
     required this.initialAmount,
     required this.recipient,
+    required this.label,
     required this.onAmountUpdate,
     required this.onPay,
     required this.onClearRecipient,
@@ -20,6 +21,7 @@ class DirectPayScreen extends StatefulWidget {
 
   final String initialAmount;
   final String recipient;
+  final String? label;
   final ValueSetter<String> onAmountUpdate;
   final VoidCallback onPay;
   final VoidCallback onClearRecipient;
@@ -65,6 +67,7 @@ class _ScreenState extends State<DirectPayScreen> {
             appBar: AddressAppBar(
               onClose: widget.onClearRecipient,
               address: widget.recipient,
+              label: widget.label,
               token: state.amount.currency.token,
             ),
             body: SafeArea(

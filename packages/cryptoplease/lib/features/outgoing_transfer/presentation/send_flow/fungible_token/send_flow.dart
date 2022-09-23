@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/payments/split_key_payments/split_key_api_version.dart';
+import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
@@ -77,7 +77,7 @@ extension SendFtFlowExt on BuildContext {
               },
               address: (r) => navigateToDirectTransferFt(
                 onTransferCreated: _navigateToOutgoingTransfer,
-                initialAddress: r.address,
+                initialAddress: r.addressData.address,
                 token: token,
               ),
             );

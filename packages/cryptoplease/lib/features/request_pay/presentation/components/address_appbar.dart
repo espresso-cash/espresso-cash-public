@@ -1,4 +1,5 @@
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +8,13 @@ class AddressAppBar extends StatelessWidget implements PreferredSizeWidget {
   const AddressAppBar({
     Key? key,
     required this.onClose,
+    required this.label,
     required this.address,
     required this.token,
   }) : super(key: key);
 
   final VoidCallback onClose;
+  final String? label;
   final String address;
   final Token token;
 
@@ -36,10 +39,10 @@ class AddressAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           _AppBarRow(
-            text: 'To',
+            text: context.l10n.to,
             chipContent: Text.rich(
               TextSpan(
-                text: 'William Prince',
+                text: label ?? '',
                 children: [
                   const WidgetSpan(child: SizedBox(width: 24)),
                   TextSpan(
@@ -56,7 +59,7 @@ class AddressAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           const Divider(color: CpColors.accentDisabledColor, height: 1),
           _AppBarRow(
-            text: 'Send as',
+            text: context.l10n.sendAs,
             chipContent: Text(token.symbol, style: _textStyle),
           ),
           const Divider(color: CpColors.accentDisabledColor, height: 1),

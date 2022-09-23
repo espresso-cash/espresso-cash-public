@@ -32,7 +32,7 @@ extension SendNftFlowExt on BuildContext {
               address: (r) => _navigateToDirectTransferNft(
                 onTransferCreated: navigateToOutgoingTransfer,
                 token: token,
-                initialAddress: r.address,
+                initialAddress: r.addressData.address,
               ),
             );
           },
