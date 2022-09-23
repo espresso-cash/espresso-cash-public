@@ -2,7 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
+import 'package:cryptoplease/core/payments/direct_payments/direct_payment_fee_method.dart';
+import 'package:cryptoplease/core/payments/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/core/wallet.dart';
@@ -46,7 +47,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required OutgoingTransferState state,
     @Default(OutgoingTransferTokenType.fungibleToken)
         OutgoingTransferTokenType tokenType,
-    @Default(SplitKeyApiVersion.v1) SplitKeyApiVersion apiVersion,
+    @Default(DirectPaymentFeeMethod.v1) DirectPaymentFeeMethod feeMethod,
     String? reference,
     @Default(IListConst<String>([])) IList<String> references,
     String? memo,
@@ -83,7 +84,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferTokenType tokenType,
-    SplitKeyApiVersion apiVersion = SplitKeyApiVersion.v1,
+    DirectPaymentFeeMethod feeMethod = DirectPaymentFeeMethod.v1,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
     OutgoingTransferState state = const OutgoingTransferState.draft(),
@@ -98,7 +99,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
         memo: memo,
         references: IList(reference?.map((e) => e.toBase58()) ?? []),
         tokenType: tokenType,
-        apiVersion: apiVersion,
+        feeMethod: feeMethod,
       );
 
   IList<String> get allReferences => this.map(

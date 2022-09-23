@@ -27,20 +27,16 @@ class _ConfirmScreenState extends State<DirectPayConfirmScreen> {
           error: (s) => showErrorDialog(context, 'Failed to send money', s.e),
           orElse: ignore,
         ),
-        builder: (context, state) {
-          print(state);
-
-          return DirectContent(
-            fee: state.fee,
-            recipientAddress: state.recipient ?? '',
-            tokenAmount: state.amount,
-            isProcessing: state.processingState.isProcessing,
-            onSubmitted: () {
-              final paymentId = state.directTransfer?.paymentId;
-              if (paymentId == null) return;
-              widget.onSubmitted(paymentId);
-            },
-          );
-        },
+        builder: (context, state) => DirectContent(
+          fee: state.fee,
+          recipientAddress: state.recipient ?? '',
+          tokenAmount: state.amount,
+          isProcessing: state.processingState.isProcessing,
+          onSubmitted: () {
+            final paymentId = state.directTransfer?.paymentId;
+            if (paymentId == null) return;
+            widget.onSubmitted(paymentId);
+          },
+        ),
       );
 }
