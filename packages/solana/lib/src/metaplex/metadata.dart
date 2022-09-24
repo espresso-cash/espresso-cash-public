@@ -1,38 +1,41 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
+import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:http/http.dart' as http;
-import 'package:solana/base58.dart';
+import 'package:solana/metaplex.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/metaplex/off_chain_metadata.dart';
+import 'package:solana/src/borsh_ext.dart';
+import 'package:solana/src/metaplex/collection_details.dart';
+import 'package:solana/src/metaplex/creator.dart';
+import 'package:solana/src/metaplex/on_chain_collection.dart';
+import 'package:solana/src/metaplex/uses.dart';
 
-class Metadata {
-  const Metadata({
-    required this.name,
-    required this.symbol,
-    required this.uri,
-    required this.updateAuthority,
-    required this.mint,
-  });
+part 'metadata.g.dart';
 
-  factory Metadata.fromBinary(List<int> sourceBytes) {
-    final bytes = Int8List.fromList(sourceBytes);
-    final reader = _StructReader(bytes.buffer)..skip(1);
-    final updateAuthority = base58encode(reader.nextBytes(32));
-    final mint = base58encode(reader.nextBytes(32));
+@BorshSerializable()
+class Metadata with _$Metadata {
+  factory Metadata({
+    @BU8() required int key,
+    @BPublicKey() required Ed25519HDPublicKey updateAuthority,
+    @BPublicKey() required Ed25519HDPublicKey mint,
+    @BString() required String name,
+    @BString() required String symbol,
+    @BString() required String uri,
+    @BU16() required int sellerFeeBasisPoints,
+    @BOption(BArray(BCreator())) required List<Creator>? creators,
+    @BBool() required bool primarySaleHappened,
+    @BBool() required bool isMutable,
+    @BOption(BU8()) required int? editionNonce,
+    @BOption(BU8()) required int? tokenStandard,
+    @BOption(BOnChainCollection()) required OnChainCollection? collection,
+    @BOption(BUses()) required Uses? uses,
+    @BOption(BCollectionDetails())
+        required CollectionDetails? collectionDetails,
+  }) = _Metadata;
 
-    final name = reader.nextString();
-    final symbol = reader.nextString();
-    final uri = reader.nextString();
+  const Metadata._();
 
-    return Metadata(
-      name: name,
-      symbol: symbol,
-      uri: uri,
-      updateAuthority: updateAuthority,
-      mint: mint,
-    );
-  }
+  factory Metadata.fromBorsh(Uint8List data) => _$MetadataFromBorsh(data);
 
   Future<OffChainMetadata> getExternalJson() async {
     final response = await http.get(Uri.parse(uri));
@@ -44,42 +47,6 @@ class Metadata {
       json.decode(response.body) as Map<String, dynamic>,
     );
   }
-
-  final String name;
-  final String symbol;
-  final String uri;
-  final String updateAuthority;
-  final String mint;
-}
-
-class _StructReader {
-  _StructReader(this._buffer) : _offset = 0;
-
-  void skip(int length) => _offset += length;
-
-  String nextString() {
-    final length = _buffer.asByteData(_offset, 4).getInt32(0, Endian.little);
-    final rawBytes = _buffer.asUint8List(_offset + 4, length);
-
-    _offset += length + 4;
-    // It is a zero terminated string a'la C
-    final lastZero = rawBytes.indexOf(0);
-    if (lastZero == -1) {
-      return '';
-    }
-
-    return utf8.decode(rawBytes.sublist(0, lastZero));
-  }
-
-  Uint8List nextBytes(int length) {
-    final bytes = _buffer.asUint8List(_offset, length);
-    _offset += length;
-
-    return bytes;
-  }
-
-  final ByteBuffer _buffer;
-  int _offset;
 }
 
 const metaplexMetadataProgramId = 'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s';

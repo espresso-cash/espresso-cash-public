@@ -270,7 +270,9 @@ class _$ParsedInstructionSystem implements ParsedInstructionSystem {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionSystemToJson(this);
+    return _$$ParsedInstructionSystemToJson(
+      this,
+    );
   }
 }
 
@@ -283,8 +285,8 @@ abstract class ParsedInstructionSystem implements ParsedInstruction {
   factory ParsedInstructionSystem.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionSystem.fromJson;
 
-  String get programId => throw _privateConstructorUsedError;
-  ParsedSystemInstruction get parsed => throw _privateConstructorUsedError;
+  String get programId;
+  ParsedSystemInstruction get parsed;
   @JsonKey(ignore: true)
   _$$ParsedInstructionSystemCopyWith<_$ParsedInstructionSystem> get copyWith =>
       throw _privateConstructorUsedError;
@@ -449,7 +451,9 @@ class _$ParsedInstructionSplToken implements ParsedInstructionSplToken {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionSplTokenToJson(this);
+    return _$$ParsedInstructionSplTokenToJson(
+      this,
+    );
   }
 }
 
@@ -461,7 +465,7 @@ abstract class ParsedInstructionSplToken implements ParsedInstruction {
   factory ParsedInstructionSplToken.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionSplToken.fromJson;
 
-  ParsedSplTokenInstruction get parsed => throw _privateConstructorUsedError;
+  ParsedSplTokenInstruction get parsed;
   @JsonKey(ignore: true)
   _$$ParsedInstructionSplTokenCopyWith<_$ParsedInstructionSplToken>
       get copyWith => throw _privateConstructorUsedError;
@@ -619,7 +623,9 @@ class _$ParsedInstructionMemo implements ParsedInstructionMemo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionMemoToJson(this);
+    return _$$ParsedInstructionMemoToJson(
+      this,
+    );
   }
 }
 
@@ -634,7 +640,7 @@ abstract class ParsedInstructionMemo implements ParsedInstruction {
 // This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
 // ignore: invalid_annotation_target
   @JsonKey(name: 'parsed')
-  String? get memo => throw _privateConstructorUsedError;
+  String? get memo;
   @JsonKey(ignore: true)
   _$$ParsedInstructionMemoCopyWith<_$ParsedInstructionMemo> get copyWith =>
       throw _privateConstructorUsedError;
@@ -787,7 +793,9 @@ class _$ParsedInstructionUnsupported implements ParsedInstructionUnsupported {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionUnsupportedToJson(this);
+    return _$$ParsedInstructionUnsupportedToJson(
+      this,
+    );
   }
 }
 
@@ -798,7 +806,7 @@ abstract class ParsedInstructionUnsupported implements ParsedInstruction {
   factory ParsedInstructionUnsupported.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionUnsupported.fromJson;
 
-  String? get program => throw _privateConstructorUsedError;
+  String? get program;
   @JsonKey(ignore: true)
   _$$ParsedInstructionUnsupportedCopyWith<_$ParsedInstructionUnsupported>
       get copyWith => throw _privateConstructorUsedError;

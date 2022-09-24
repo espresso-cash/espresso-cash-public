@@ -294,7 +294,9 @@ class _$ParsedSystemTransferInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemTransferInstructionToJson(this);
+    return _$$ParsedSystemTransferInstructionToJson(
+      this,
+    );
   }
 }
 
@@ -307,10 +309,9 @@ abstract class ParsedSystemTransferInstruction
   factory ParsedSystemTransferInstruction.fromJson(Map<String, dynamic> json) =
       _$ParsedSystemTransferInstruction.fromJson;
 
-  ParsedSystemTransferInformation get info =>
-      throw _privateConstructorUsedError;
+  ParsedSystemTransferInformation get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$ParsedSystemTransferInstructionCopyWith<_$ParsedSystemTransferInstruction>
@@ -493,7 +494,9 @@ class _$ParsedSystemTransferCheckedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemTransferCheckedInstructionToJson(this);
+    return _$$ParsedSystemTransferCheckedInstructionToJson(
+      this,
+    );
   }
 }
 
@@ -507,10 +510,9 @@ abstract class ParsedSystemTransferCheckedInstruction
           Map<String, dynamic> json) =
       _$ParsedSystemTransferCheckedInstruction.fromJson;
 
-  ParsedSystemTransferInformation get info =>
-      throw _privateConstructorUsedError;
+  ParsedSystemTransferInformation get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$ParsedSystemTransferCheckedInstructionCopyWith<
@@ -673,7 +675,9 @@ class _$ParsedSystemUnsupportedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemUnsupportedInstructionToJson(this);
+    return _$$ParsedSystemUnsupportedInstructionToJson(
+      this,
+    );
   }
 }
 
@@ -687,7 +691,7 @@ abstract class ParsedSystemUnsupportedInstruction
       _$ParsedSystemUnsupportedInstruction.fromJson;
 
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$ParsedSystemUnsupportedInstructionCopyWith<
@@ -853,7 +857,9 @@ class _$_ParsedSystemTransferInformation
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ParsedSystemTransferInformationToJson(this);
+    return _$$_ParsedSystemTransferInformationToJson(
+      this,
+    );
   }
 }
 
@@ -868,11 +874,11 @@ abstract class _ParsedSystemTransferInformation
       _$_ParsedSystemTransferInformation.fromJson;
 
   @override
-  int get lamports => throw _privateConstructorUsedError;
+  int get lamports;
   @override
-  String get source => throw _privateConstructorUsedError;
+  String get source;
   @override
-  String get destination => throw _privateConstructorUsedError;
+  String get destination;
   @override
   @JsonKey(ignore: true)
   _$$_ParsedSystemTransferInformationCopyWith<

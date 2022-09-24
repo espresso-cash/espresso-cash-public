@@ -442,7 +442,7 @@ abstract class _LogsFilterMentions implements LogsFilter {
   const factory _LogsFilterMentions(final List<String> pubKeys) =
       _$_LogsFilterMentions;
 
-  List<String> get pubKeys => throw _privateConstructorUsedError;
+  List<String> get pubKeys;
   @JsonKey(ignore: true)
   _$$_LogsFilterMentionsCopyWith<_$_LogsFilterMentions> get copyWith =>
       throw _privateConstructorUsedError;

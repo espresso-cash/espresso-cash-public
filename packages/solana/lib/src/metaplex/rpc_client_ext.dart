@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/metaplex/metaplex.dart';
@@ -27,7 +29,7 @@ extension GetMetaplexMetadata on RpcClient {
     final data = account.data;
 
     if (data is BinaryAccountData) {
-      return Metadata.fromBinary(data.data);
+      return Metadata.fromBorsh(Uint8List.fromList(data.data));
     } else {
       return null;
     }

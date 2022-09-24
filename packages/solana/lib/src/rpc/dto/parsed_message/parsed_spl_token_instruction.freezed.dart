@@ -278,7 +278,9 @@ class _$ParsedSplTokenTransferInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenTransferInstructionToJson(this);
+    return _$$ParsedSplTokenTransferInstructionToJson(
+      this,
+    );
   }
 }
 
@@ -291,9 +293,9 @@ abstract class ParsedSplTokenTransferInstruction
   factory ParsedSplTokenTransferInstruction.fromJson(
       Map<String, dynamic> json) = _$ParsedSplTokenTransferInstruction.fromJson;
 
-  SplTokenTransferInfo get info => throw _privateConstructorUsedError;
+  SplTokenTransferInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$ParsedSplTokenTransferInstructionCopyWith<
@@ -464,7 +466,9 @@ class _$ParsedSplTokenTransferCheckedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenTransferCheckedInstructionToJson(this);
+    return _$$ParsedSplTokenTransferCheckedInstructionToJson(
+      this,
+    );
   }
 }
 
@@ -478,9 +482,9 @@ abstract class ParsedSplTokenTransferCheckedInstruction
           Map<String, dynamic> json) =
       _$ParsedSplTokenTransferCheckedInstruction.fromJson;
 
-  SplTokenTransferCheckedInfo get info => throw _privateConstructorUsedError;
+  SplTokenTransferCheckedInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$ParsedSplTokenTransferCheckedInstructionCopyWith<
@@ -650,7 +654,9 @@ class _$ParsedSplTokenGenericInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenGenericInstructionToJson(this);
+    return _$$ParsedSplTokenGenericInstructionToJson(
+      this,
+    );
   }
 }
 
@@ -663,9 +669,9 @@ abstract class ParsedSplTokenGenericInstruction
   factory ParsedSplTokenGenericInstruction.fromJson(Map<String, dynamic> json) =
       _$ParsedSplTokenGenericInstruction.fromJson;
 
-  dynamic get info => throw _privateConstructorUsedError;
+  dynamic get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$ParsedSplTokenGenericInstructionCopyWith<

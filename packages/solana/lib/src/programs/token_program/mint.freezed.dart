@@ -250,15 +250,15 @@ abstract class _Mint implements Mint {
   @override
 
   /// Address of the mint
-  Ed25519HDPublicKey get address => throw _privateConstructorUsedError;
+  Ed25519HDPublicKey get address;
   @override
 
   /// Total supply of tokens.
-  BigInt get supply => throw _privateConstructorUsedError;
+  BigInt get supply;
   @override
 
   /// Number of base 10 digits to the right of the decimal place.
-  int get decimals => throw _privateConstructorUsedError;
+  int get decimals;
   @override
 
   /// Optional authority used to mint new tokens.
@@ -266,15 +266,15 @@ abstract class _Mint implements Mint {
   /// The mint authority may only be provided during mint creation. If no mint
   /// authority is present then the mint has a fixed supply and no further
   /// tokens may be minted.
-  Ed25519HDPublicKey? get mintAuthority => throw _privateConstructorUsedError;
+  Ed25519HDPublicKey? get mintAuthority;
   @override
 
   /// Is this mint initialized
-  bool get isInitialized => throw _privateConstructorUsedError;
+  bool get isInitialized;
   @override
 
   /// Optional authority to freeze token accounts.
-  Ed25519HDPublicKey? get freezeAuthority => throw _privateConstructorUsedError;
+  Ed25519HDPublicKey? get freezeAuthority;
   @override
   @JsonKey(ignore: true)
   _$$_MintCopyWith<_$_Mint> get copyWith => throw _privateConstructorUsedError;
