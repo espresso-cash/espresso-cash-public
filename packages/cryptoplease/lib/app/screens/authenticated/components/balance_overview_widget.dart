@@ -45,7 +45,7 @@ class BalanceOverviewWidget extends StatelessWidget {
               const TextSpan(text: 'Today', style: TextStyle())
             ],
           ),
-          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 13),
         ),
       ),
     );
