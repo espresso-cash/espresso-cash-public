@@ -41,7 +41,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 onRefresh: onRefresh,
                 headerAppBar: const HomeScreenAppBar(),
                 headerButtons: const [
-                  AddFundsButton(),
+                  SwapButton(),
                   SendButton(),
                   ReceiveButton(),
                 ],
