@@ -36,7 +36,9 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
         text: context.l10n.share,
         onPressed: () => Share.share(message),
       ),
-      child: ShareMessageWrapper(message: message),
+      child: ShareMessageWrapper(
+        textSpan: TextSpan(text: message),
+      ),
     );
   }
 }

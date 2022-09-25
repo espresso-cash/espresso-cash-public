@@ -44,8 +44,19 @@ jobs:
   cryptoplease_link:
     needs: [formatting]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
     env:
+      DEVNET_RPC_URL: "http://solana:8899"
+      DEVNET_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="cryptoplease_link" --scope="cryptoplease_api"
+    container:
+      image: ghcr.io/cryptoplease/flutter:3.3.0
+    services:
+      solana:
+        image: solanalabs/solana:stable
+        options: --entrypoint="solana-test-validator"
 
     steps:
       - uses: actions/checkout@v2
@@ -78,7 +89,7 @@ jobs:
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="solana"
     container:
-      image: ghcr.io/cryptoplease/flutter:3.0.5
+      image: ghcr.io/cryptoplease/flutter:3.3.0
     services:
       solana:
         image: solanalabs/solana:${{ matrix.solanaVersion }}
@@ -106,17 +117,17 @@ jobs:
         with:
           flags: solana-${{ matrix.solanaVersion }}
 
-  solana_mobile_wallet:
+  solana_mobile:
     needs: [formatting]
     runs-on: ubuntu-latest
     env:
-      SCOPE: --scope="solana_mobile_wallet*"
+      SCOPE: --scope="solana_mobile_*"
     steps:
       - uses: actions/checkout@v2
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.0.5"
+          flutter-version: "3.3.0"
 
       - name: Activate melos
         run: make activate_melos
@@ -141,7 +152,7 @@ jobs:
       SOLANA_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="cryptoplease" --scope="cryptoplease_ui" --scope="storybook"
     container:
-      image: ghcr.io/cryptoplease/flutter:3.0.5
+      image: ghcr.io/cryptoplease/flutter:3.3.0
     services:
       solana:
         image: solanalabs/solana:stable
