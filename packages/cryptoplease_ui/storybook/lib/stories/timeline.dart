@@ -6,25 +6,31 @@ final cpTimeline = Story(
   name: 'CpTimeline',
   builder: (context) => Padding(
     padding: const EdgeInsets.all(16),
-    child: CpTimelineWidget(
-      data: context.knobs.options(
-        label: 'Data',
+    child: CpTimeline(
+      items: context.knobs.options(
+        label: 'Items',
         initial: _data,
         options: [
           Option(label: 'With Data', value: _data),
           const Option(label: 'Empty', value: []),
         ],
       ),
-      backgroundColor: context.knobs.options(
-        label: 'Background Color',
-        initial: CpColors.infoBackgroundColor,
+      status: context.knobs.options(
+        label: 'Timeline Status',
+        initial: CpTimelineStatus.inProgress,
         options: [
-          const Option(label: 'Yellow', value: CpColors.infoBackgroundColor),
           const Option(
-            label: 'Green',
-            value: CpColors.successBackgroundColor,
+            label: 'In Progress',
+            value: CpTimelineStatus.inProgress,
           ),
-          const Option(label: 'Red', value: CpColors.errorBackgroundColor)
+          const Option(
+            label: 'Success',
+            value: CpTimelineStatus.success,
+          ),
+          const Option(
+            label: 'Failure',
+            value: CpTimelineStatus.failure,
+          )
         ],
       ),
     ),
@@ -32,23 +38,16 @@ final cpTimeline = Story(
 );
 
 final _data = [
-  CpTimelineData(
+  CpTimelineItem(
     title: 'Tile #1',
     subtitle: 'Tile Subtitle #1',
     trailing: '#1',
   ),
-  CpTimelineData(
+  CpTimelineItem(
     title: 'Tile #2',
     subtitle: 'Tile Subtitle #2',
   ),
-  CpTimelineData(
+  CpTimelineItem(
     title: 'Tile #3',
-    iconColor: Colors.white,
-    connectorColor: Colors.white,
-  ),
-  CpTimelineData(
-    title: 'Tile With long Title',
-    subtitle: 'Tile With long Subtitle ',
-    icon: const Icon(Icons.check, color: Colors.white),
   ),
 ];

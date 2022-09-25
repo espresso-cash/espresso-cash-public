@@ -1,35 +1,29 @@
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
-class CpTimelineData {
-  CpTimelineData({
+class CpTimelineItem {
+  CpTimelineItem({
     required this.title,
     this.subtitle,
     this.trailing,
-    this.icon,
-    this.iconColor,
-    this.connectorColor,
   });
 
   final String title;
   final String? subtitle;
   final String? trailing;
-  final Widget? icon;
-  final Color? iconColor;
-  final Color? connectorColor;
 }
 
-class CpTimelineWidget extends StatelessWidget {
-  const CpTimelineWidget({
+enum CpTimelineStatus { inProgress, success, failure }
+
+class CpTimeline extends StatelessWidget {
+  const CpTimeline({
     super.key,
-    required this.data,
-    required this.backgroundColor,
-    this.emptyWidget,
+    required this.items,
+    required this.status,
   });
 
-  final List<CpTimelineData> data;
-  final Color backgroundColor;
-  final Widget? emptyWidget;
+  final List<CpTimelineItem> items;
+  final CpTimelineStatus status;
 
   static const _radius = Radius.circular(32);
   static const _timelineWidth = 65.0;
@@ -39,45 +33,64 @@ class CpTimelineWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (data.isEmpty) return emptyWidget ?? const _DefaultEmptyWidget();
+    if (items.isEmpty) return const _DefaultEmptyWidget();
 
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: data.length,
+      addRepaintBoundaries: false,
+      clipBehavior: Clip.antiAlias,
+      itemCount: items.length,
       itemBuilder: (context, index) {
-        final tile = data[index];
+        final tile = items[index];
 
         final bool isFirst = index == 0;
-        final bool isLast = index == data.length - 1;
+        final bool isLast = index == items.length - 1;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildIndicator(isFirst, isLast, tile),
-                Expanded(child: _buildTileInfo(tile)),
-              ],
-            ),
-            if (!isLast) _buildConnector(tile),
-          ],
+        return Container(
+          padding: EdgeInsets.zero,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  _buildIndicator(isFirst, isLast),
+                  Expanded(child: _buildTileInfo(tile)),
+                ],
+              ),
+              if (!isLast) _buildConnector(),
+            ],
+          ),
         );
       },
     );
   }
 
-  Widget _buildConnector(CpTimelineData tile) => Container(
-        color: backgroundColor,
-        padding: EdgeInsets.zero,
+  Widget _buildTileInfo(CpTimelineItem tile) {
+    final subtitle = tile.subtitle;
+
+    return ListTile(
+      dense: true,
+      title: Text(tile.title, style: _titleStyle),
+      subtitle: subtitle != null ? Text(subtitle, style: _subtitleStyle) : null,
+      trailing: Text(tile.trailing ?? '', style: _titleStyle),
+    );
+  }
+
+  Widget _buildConnector() => Container(
         width: _timelineWidth,
         height: _connectorHeight,
+        decoration: BoxDecoration(
+          color: status.backgroundColor,
+          border: Border.symmetric(
+            horizontal: BorderSide(color: status.backgroundColor, width: 4),
+          ),
+        ),
         child: Center(
           child: Container(
             width: 7,
-            decoration: BoxDecoration(
-              color: tile.connectorColor ?? CpColors.darkBackground,
-              borderRadius: const BorderRadius.vertical(
+            decoration: const BoxDecoration(
+              color: CpColors.darkBackground,
+              borderRadius: BorderRadius.vertical(
                 top: _radius,
                 bottom: _radius,
               ),
@@ -86,39 +99,12 @@ class CpTimelineWidget extends StatelessWidget {
         ),
       );
 
-  Widget _buildTileInfo(CpTimelineData tile) => ListTile(
-        dense: true,
-        title: Text(
-          tile.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-          ),
-        ),
-        subtitle: tile.subtitle != null
-            ? Text(
-                tile.subtitle ?? '',
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              )
-            : null,
-        trailing: Text(
-          tile.trailing ?? '',
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-          ),
-        ),
-      );
-
-  Widget _buildIndicator(bool isFirst, bool isLast, CpTimelineData tile) =>
-      Container(
+  Widget _buildIndicator(bool isFirst, bool isLast) => Container(
         height: _tileHeight,
         width: _timelineWidth,
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: status.backgroundColor,
+          border: Border.all(color: status.backgroundColor, width: 2),
           borderRadius: (isFirst || isLast)
               ? BorderRadius.vertical(
                   top: isFirst ? _radius : Radius.zero,
@@ -127,23 +113,41 @@ class CpTimelineWidget extends StatelessWidget {
               : null,
         ),
         padding: (isFirst || isLast)
-            ? EdgeInsets.only(
-                top: isFirst ? 10 : 4,
-                bottom: isLast ? 10 : 4,
-              )
-            : const EdgeInsets.symmetric(vertical: 4),
+            ? EdgeInsets.only(top: isFirst ? 10 : 0, bottom: isLast ? 10 : 0)
+            : EdgeInsets.zero,
+        margin: EdgeInsets.zero,
         child: Center(
           child: Container(
             width: _indicatorSize,
             height: _indicatorSize,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: tile.iconColor ?? CpColors.darkBackground,
+              color: CpColors.darkBackground,
             ),
-            child: tile.icon,
+            child: isLast ? _getIndicatorIcon() : null,
           ),
         ),
       );
+
+  Widget? _getIndicatorIcon() {
+    switch (status) {
+      case CpTimelineStatus.success:
+        return const Icon(
+          Icons.check,
+          color: Colors.white,
+          size: 18,
+        );
+      case CpTimelineStatus.failure:
+        return const Icon(
+          Icons.close,
+          color: Colors.white,
+          size: 18,
+        );
+
+      case CpTimelineStatus.inProgress:
+        return null;
+    }
+  }
 }
 
 class _DefaultEmptyWidget extends StatelessWidget {
@@ -154,3 +158,26 @@ class _DefaultEmptyWidget extends StatelessWidget {
         message: 'Timeline Empty.',
       );
 }
+
+extension on CpTimelineStatus {
+  Color get backgroundColor {
+    switch (this) {
+      case CpTimelineStatus.success:
+        return CpColors.successBackgroundColor;
+      case CpTimelineStatus.inProgress:
+        return CpColors.infoBackgroundColor;
+      case CpTimelineStatus.failure:
+        return CpColors.errorBackgroundColor;
+    }
+  }
+}
+
+const _titleStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+);
+
+const _subtitleStyle = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 14,
+);
