@@ -14,11 +14,11 @@ import 'package:cryptoplease/features/swap_tokens/presentation/components/swap_h
 import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 
 class SwapTokenOrderScreen extends StatelessWidget {
   const SwapTokenOrderScreen({Key? key}) : super(key: key);
