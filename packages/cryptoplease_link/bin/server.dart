@@ -2,7 +2,7 @@ import 'dart:io' as io;
 
 import 'package:cryptoplease_link/src/handlers/association_handlers.dart';
 import 'package:cryptoplease_link/src/handlers/solana_handler.dart';
-import 'package:cryptoplease_link/src/moonpay/add_funds_handler.dart';
+import 'package:cryptoplease_link/src/moonpay/handler.dart';
 import 'package:cryptoplease_link/src/payments/handler.dart';
 import 'package:cryptoplease_link/src/tokens.dart';
 import 'package:shelf/shelf.dart';

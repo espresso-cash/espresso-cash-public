@@ -24,12 +24,3 @@ Future<Response> processRequest<T, R>(
     },
   );
 }
-
-extension UriParamsExt on Uri {
-  Uri addParams(Map<String, dynamic> params) => replace(
-        queryParameters: {
-          ...queryParameters,
-          ...params,
-        },
-      );
-}
