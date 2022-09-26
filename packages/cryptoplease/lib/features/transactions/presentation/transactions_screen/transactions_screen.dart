@@ -60,7 +60,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
               allowBackNavigation: true,
               headerAppBar: const HomeScreenAppBar(),
               headerButtons: [
-                if (widget.token == Token.sol) const AddFundsButton(),
+                SwapButton(token: widget.token),
                 SendButton(token: widget.token),
                 ReceiveButton(token: widget.token),
               ],

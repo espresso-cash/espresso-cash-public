@@ -32,6 +32,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     required JupiterAggregatorClient jupiterAggregatorClient,
     required Map<Token, Amount> balances,
     required AnalyticsManager analyticsManager,
+    Token? initialToken,
   })  : _tokenList = tokenList,
         _jupiterClient = jupiterAggregatorClient,
         _balances = balances.lock.add(
@@ -42,6 +43,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
               ),
         ),
         _analyticsManager = analyticsManager,
+        _initialToken = initialToken,
         super(const SwapSelectorState.uninitialized()) {
     on<Init>(_onInit);
     on<InputUpdated>(_onInputUpdated);
@@ -58,6 +60,7 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
     on<Submitted>(_onSubmitted);
   }
 
+  final Token? _initialToken;
   final TokenList _tokenList;
   final JupiterAggregatorClient _jupiterClient;
   final IMap<Token, Amount> _balances;
@@ -83,7 +86,8 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
       );
 
       final token = inputTokens.firstWhere(
-        (token) => token.isSolana,
+        (token) =>
+            _initialToken != null ? token == _initialToken : token.isSolana,
         orElse: () => inputTokens.first,
       );
 
@@ -146,16 +150,28 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
   Future<void> _onInputUpdated(InputUpdated event, _Emitter emit) async =>
       _updateInput((state) async {
-        final amount = state.amount.copyWith(
-          currency: CryptoCurrency(token: event.token),
-        );
-
         final outputTokens =
             await _getOutputTokens(state.routeMap, event.token);
+
+        final isInputSameAsOutput = event.token == state.output;
+
+        final output = isInputSameAsOutput && outputTokens.contains(state.input)
+            ? state.input
+            : outputTokens.contains(state.output)
+                ? state.output
+                : outputTokens.first;
+
+        final amount = state.amount.copyWith(
+          currency: CryptoCurrency(token: event.token),
+          value: isInputSameAsOutput
+              ? state.bestRoute?.outAmount ?? 0
+              : state.amount.value,
+        );
 
         final newState = state.copyWith(
           amount: amount,
           outputTokens: outputTokens,
+          output: output,
           bestRoute: null,
         );
         emit(newState);

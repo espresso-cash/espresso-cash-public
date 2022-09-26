@@ -13,7 +13,9 @@ abstract class SwapTokenRouter {
 }
 
 class SwapTokenFlowScreen extends StatefulWidget {
-  const SwapTokenFlowScreen({Key? key}) : super(key: key);
+  const SwapTokenFlowScreen({Key? key, this.token}) : super(key: key);
+
+  final Token? token;
 
   @override
   State<SwapTokenFlowScreen> createState() => _SwapTokenFlowScreen();
@@ -50,8 +52,11 @@ class _SwapTokenFlowScreen extends State<SwapTokenFlowScreen>
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
-        child: Provider<SwapTokenRouter>.value(
-          value: this,
+        child: MultiProvider(
+          providers: [
+            Provider<SwapTokenRouter>.value(value: this),
+            Provider<Token?>.value(value: widget.token),
+          ],
           child: AutoRouter(key: routerKey),
         ),
       );
