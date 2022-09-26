@@ -1,41 +1,27 @@
+// ignore_for_file: invalid_annotation_target
+
 part of 'moonpay_client.dart';
 
 @freezed
-class MoonpayQuoteDto with _$MoonpayQuoteDto {
-  const factory MoonpayQuoteDto({
-    required String accountId,
-    required String baseCurrencyCode,
-    required double baseCurrencyAmount,
-    required String quoteCurrencyCode,
-    required double quoteCurrencyAmount,
+class BuyQuoteResponseDto with _$BuyQuoteResponseDto {
+  const factory BuyQuoteResponseDto({
     required double quoteCurrencyPrice,
     required double feeAmount,
-    required double extraFeeAmount,
-    required double extraFeePercentage,
     required double networkFeeAmount,
-    required bool networkFeeAmountNonRefundable,
-    required double totalAmount,
-    required dynamic feeDiscountType,
-    required dynamic feeAmountDiscount,
-    required String feeRuleId,
-    required MoonpayCurrency baseCurrency,
-    required MoonpayCurrency currency,
-  }) = _MoonpayQuoteDto;
+  }) = _BuyQuoteResponseDto;
 
-  factory MoonpayQuoteDto.fromJson(Map<String, dynamic> json) =>
-      _$MoonpayQuoteDtoFromJson(json);
+  factory BuyQuoteResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$BuyQuoteResponseDtoFromJson(json);
 }
 
 @freezed
-class MoonpayLimitDto with _$MoonpayLimitDto {
-  const factory MoonpayLimitDto({
-    required String paymentMethod,
-    required MoonpayCurrency baseCurrency,
+class LimitResponseDto with _$LimitResponseDto {
+  const factory LimitResponseDto({
     required MoonpayCurrency quoteCurrency,
-  }) = _MoonpayLimitDto;
+  }) = _LimitResponseDto;
 
-  factory MoonpayLimitDto.fromJson(Map<String, dynamic> json) =>
-      _$MoonpayLimitDtoFromJson(json);
+  factory LimitResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$LimitResponseDtoFromJson(json);
 }
 
 @freezed
@@ -47,4 +33,14 @@ class MoonpayCurrency with _$MoonpayCurrency {
 
   factory MoonpayCurrency.fromJson(Map<String, dynamic> json) =>
       _$MoonpayCurrencyFromJson(json);
+}
+
+@freezed
+class AskPriceResponseDto with _$AskPriceResponseDto {
+  const factory AskPriceResponseDto({
+    @JsonKey(name: 'USD') double? usd,
+  }) = _AskPriceResponseDto;
+
+  factory AskPriceResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$AskPriceResponseDtoFromJson(json);
 }

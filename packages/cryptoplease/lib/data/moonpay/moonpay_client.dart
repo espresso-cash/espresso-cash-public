@@ -9,8 +9,9 @@ part 'moonpay_dto.dart';
 @RestApi(baseUrl: 'https://api.moonpay.com/v3')
 abstract class MoonpayClient {
   factory MoonpayClient() => _MoonpayClient(Dio());
+
   @GET('/currencies/{currencyCode}/buy_quote')
-  Future<MoonpayQuoteDto> buyQuote({
+  Future<BuyQuoteResponseDto> buyQuote({
     @Query('apiKey') required String apiKey,
     @Path('currencyCode') required String currencyCode,
     @Query('baseCurrencyCode') required String baseCurrencyCode,
@@ -19,14 +20,14 @@ abstract class MoonpayClient {
   });
 
   @GET('/currencies/{currencyCode}/limits')
-  Future<MoonpayLimitDto> limits({
+  Future<LimitResponseDto> limits({
     @Query('apiKey') required String apiKey,
     @Path('currencyCode') required String currencyCode,
     @Query('baseCurrencyCode') required String baseCurrencyCode,
   });
 
   @GET('/currencies/{currencyCode}/ask_price')
-  Future<Map<String, double>> askPrice({
+  Future<AskPriceResponseDto> askPrice({
     @Query('apiKey') required String apiKey,
     @Path('currencyCode') required String currencyCode,
   });

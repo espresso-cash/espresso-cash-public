@@ -38,7 +38,8 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
 
   Future<void> _onInitialized(Emitter<AddFundsState> emit) async {
     try {
-      final minimumAmount = await _repository.limit(Token.usdc);
+      final minimumAmount =
+          await _repository.fetchLimit(quoteToken: Token.usdc);
 
       emit(
         AddFundsState.initialized(
@@ -70,9 +71,9 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
           if (!isValid) return;
 
           try {
-            final quote = await _repository.buyQuote(
-              Token.usdc,
-              newState.inputAmount,
+            final quote = await _repository.fetchBuyQuote(
+              quoteToken: Token.usdc,
+              amount: newState.inputAmount,
             );
 
             emit(newState.ready(quote));
@@ -95,9 +96,9 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
     emit(const AddFundsState.loading());
     try {
       final url = await _repository.signFundsRequest(
-        event.walletAddress,
-        amount,
-        Token.usdc,
+        address: event.walletAddress,
+        amount: amount,
+        quoteToken: Token.usdc,
       );
       emit(AddFundsState.success(url));
     } on Exception catch (_) {

@@ -17,11 +17,11 @@ class AddFundsRepository {
   final CryptopleaseClient _cpClient;
   final MoonpayClient _moonpayClient;
 
-  Future<String> signFundsRequest(
-    String address,
-    Amount amount,
-    Token quoteToken,
-  ) async {
+  Future<String> signFundsRequest({
+    required String address,
+    required Amount amount,
+    required Token quoteToken,
+  }) async {
     final requestDto = AddFundsRequestDto(
       receiverAddress: address,
       tokenSymbol: quoteToken.symbol,
@@ -33,7 +33,7 @@ class AddFundsRepository {
     return response.signedUrl;
   }
 
-  Future<FiatAmount> limit(Token quoteToken) async {
+  Future<FiatAmount> fetchLimit({required Token quoteToken}) async {
     final tokenSymbol = quoteToken.symbol.toLowerCase();
     final limitResponse = await _moonpayClient.limits(
       apiKey: moonpayApiKey,
@@ -45,7 +45,7 @@ class AddFundsRepository {
       currencyCode: tokenSymbol,
     );
 
-    final askCurrency = askResponse['USD'];
+    final askCurrency = askResponse.usd;
 
     if (askCurrency == null) {
       throw Exception('$tokenSymbol price not found in USD');
@@ -58,10 +58,10 @@ class AddFundsRepository {
     return amount as FiatAmount;
   }
 
-  Future<AddFundsQuote> buyQuote(
-    Token quoteToken,
-    FiatAmount amount,
-  ) async {
+  Future<AddFundsQuote> fetchBuyQuote({
+    required Token quoteToken,
+    required FiatAmount amount,
+  }) async {
     final tokenSymbol = quoteToken.symbol.toLowerCase();
     final response = await _moonpayClient.buyQuote(
       apiKey: moonpayApiKey,

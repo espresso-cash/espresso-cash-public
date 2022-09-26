@@ -65,24 +65,24 @@ final _testException = Exception();
 
 class _ConstantAddFundsRepository implements AddFundsRepository {
   @override
-  Future<String> signFundsRequest(
-    String address,
-    Amount amount,
-    Token quoteToken,
-  ) async =>
+  Future<String> signFundsRequest({
+    required String address,
+    required Amount amount,
+    required Token quoteToken,
+  }) async =>
       'SIGNED_URL';
 
   @override
-  Future<FiatAmount> limit(
-    Token quoteToken,
-  ) async =>
+  Future<FiatAmount> fetchLimit({
+    required Token quoteToken,
+  }) async =>
       const FiatAmount(currency: Currency.usd, value: 0);
 
   @override
-  Future<AddFundsQuote> buyQuote(
-    Token quoteToken,
-    FiatAmount amount,
-  ) async =>
+  Future<AddFundsQuote> fetchBuyQuote({
+    required Token quoteToken,
+    required FiatAmount amount,
+  }) async =>
       AddFundsQuote(
         buyAmount: CryptoAmount(
           value: 0,
@@ -93,25 +93,23 @@ class _ConstantAddFundsRepository implements AddFundsRepository {
 
 class _ThrowAddFundsRepository implements AddFundsRepository {
   @override
-  Future<String> signFundsRequest(
-    String address,
-    Amount amount,
-    Token quoteToken,
-  ) async {
-    throw _testException;
-  }
+  Future<String> signFundsRequest({
+    required String address,
+    required Amount amount,
+    required Token quoteToken,
+  }) async =>
+      throw _testException;
 
   @override
-  Future<FiatAmount> limit(
-    Token quoteToken,
-  ) async =>
+  Future<FiatAmount> fetchLimit({
+    required Token quoteToken,
+  }) async =>
       const FiatAmount(currency: Currency.usd, value: 0);
 
   @override
-  Future<AddFundsQuote> buyQuote(
-    Token quoteToken,
-    FiatAmount amount,
-  ) async {
-    throw _testException;
-  }
+  Future<AddFundsQuote> fetchBuyQuote({
+    required Token quoteToken,
+    required FiatAmount amount,
+  }) async =>
+      throw _testException;
 }
