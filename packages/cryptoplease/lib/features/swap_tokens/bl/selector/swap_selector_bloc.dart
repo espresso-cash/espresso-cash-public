@@ -150,16 +150,28 @@ class SwapSelectorBloc extends Bloc<_Event, _State> {
 
   Future<void> _onInputUpdated(InputUpdated event, _Emitter emit) async =>
       _updateInput((state) async {
-        final amount = state.amount.copyWith(
-          currency: CryptoCurrency(token: event.token),
-        );
-
         final outputTokens =
             await _getOutputTokens(state.routeMap, event.token);
+
+        final isInputSameAsOutput = event.token == state.output;
+
+        final output = isInputSameAsOutput && outputTokens.contains(state.input)
+            ? state.input
+            : outputTokens.contains(state.output)
+                ? state.output
+                : outputTokens.first;
+
+        final amount = state.amount.copyWith(
+          currency: CryptoCurrency(token: event.token),
+          value: isInputSameAsOutput
+              ? state.bestRoute?.outAmount ?? 0
+              : state.amount.value,
+        );
 
         final newState = state.copyWith(
           amount: amount,
           outputTokens: outputTokens,
+          output: output,
           bestRoute: null,
         );
         emit(newState);
