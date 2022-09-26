@@ -765,7 +765,7 @@ packages:
     source: hosted
     version: "6.3.1"
   jupiter_aggregator:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: jupiter_aggregator
       url: "https://pub.dartlang.org"
