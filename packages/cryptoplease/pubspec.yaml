@@ -38,7 +38,6 @@ dependencies:
   image_picker: ^0.8.5+3
   intl: ^0.17.0
   json_annotation: ^4.4.0
-  jupiter_aggregator: ^1.0.0
   logging: ^1.0.2
   meta: ^1.7.0
   mews_pedantic: ^0.8.0
@@ -82,7 +81,7 @@ dev_dependencies:
     sdk: flutter
   json_serializable: ^6.1.4
   mockito: ^5.3.0
-  recase: ^4.0.0
+  recase: ^4.1.0
   retrofit_generator: ^4.0.0
 
 dependency_overrides:

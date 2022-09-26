@@ -765,7 +765,7 @@ packages:
     source: hosted
     version: "6.3.1"
   jupiter_aggregator:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: jupiter_aggregator
       url: "https://pub.dartlang.org"
@@ -1101,7 +1101,7 @@ packages:
       name: recase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.0"
   retrofit:
     dependency: "direct main"
     description:
