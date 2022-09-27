@@ -6,18 +6,21 @@ import 'package:storybook/stories/background_gradient.dart';
 import 'package:storybook/stories/bottom_button.dart';
 import 'package:storybook/stories/bullet_item.dart';
 import 'package:storybook/stories/button.dart';
+import 'package:storybook/stories/chip.dart';
 import 'package:storybook/stories/content_padding.dart';
 import 'package:storybook/stories/empty_message_widget.dart';
 import 'package:storybook/stories/headered_list.dart';
 import 'package:storybook/stories/icon_button.dart';
 import 'package:storybook/stories/info_widget.dart';
 import 'package:storybook/stories/loader.dart';
+import 'package:storybook/stories/rounded_rectangle.dart';
 import 'package:storybook/stories/search_text_field.dart';
 import 'package:storybook/stories/snackbar.dart';
 import 'package:storybook/stories/status_screen.dart';
 import 'package:storybook/stories/status_widget.dart';
 import 'package:storybook/stories/switch.dart';
 import 'package:storybook/stories/text_field.dart';
+import 'package:storybook/stories/timeline.dart';
 import 'package:storybook/stories/user_avatar.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
@@ -59,19 +62,22 @@ class StorybookApp extends StatelessWidget {
           cpBottomButton,
           cpBulletItem,
           cpButton,
+          cpChip,
           cpContentPadding,
           cpEmptyMessageWidget,
           cpHeaderedList,
           cpIconButton,
+          cpInfoWidget,
           cpLoader,
+          cpRoundedRectangle,
           cpSearchTextField,
           cpSnackbar,
-          cpSwitch,
-          cpTextField,
-          cpUserAvatar,
           cpStatus,
           cpStatusScreen,
-          cpInfoWidget,
+          cpSwitch,
+          cpTextField,
+          cpTimeline,
+          cpUserAvatar,
         ],
       );
 }

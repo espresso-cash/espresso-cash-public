@@ -4,9 +4,9 @@ import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/confirm_screen/components/list_item.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
+// TODO(rhbrunetto): used on send-to-address view and will be removed soon
 class AmountView extends StatelessWidget {
   const AmountView._({
     Key? key,
@@ -41,12 +41,10 @@ class AmountView extends StatelessWidget {
         label: label,
         amount: fee,
         labelStyle: const TextStyle(
-          color: CpColors.primaryTextColor,
           fontWeight: FontWeight.w600,
           fontSize: 21,
         ),
         amountStyle: const TextStyle(
-          color: CpColors.primaryTextColor,
           fontWeight: FontWeight.w600,
           fontSize: 21,
         ),

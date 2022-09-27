@@ -13,30 +13,19 @@ class MessageInfoWidget extends StatelessWidget {
   final Color? backgroundColor;
   final EdgeInsetsGeometry padding;
 
-  static const _radius = Radius.circular(32);
-
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: backgroundColor ?? CpColors.darkBackground,
-          borderRadius: const BorderRadius.only(
-            bottomLeft: _radius,
-            bottomRight: _radius,
-            topLeft: _radius,
-          ),
-        ),
-        child: Padding(
-          padding: padding,
-          child: Center(
-            child: DefaultTextStyle(
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-              textAlign: TextAlign.left,
-              child: content,
+  Widget build(BuildContext context) => CpRoundedRectangle(
+        backgroundColor: backgroundColor,
+        padding: padding,
+        child: Center(
+          child: DefaultTextStyle(
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
             ),
+            textAlign: TextAlign.left,
+            child: content,
           ),
         ),
       );

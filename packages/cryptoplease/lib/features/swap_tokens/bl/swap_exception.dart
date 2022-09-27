@@ -1,6 +1,6 @@
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 
 part 'swap_exception.freezed.dart';
 

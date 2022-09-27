@@ -4,10 +4,10 @@ import 'package:cryptoplease/features/swap_tokens/bl/transaction/swap_transactio
 import 'package:cryptoplease/features/swap_tokens/presentation/components/swap_error_dialog.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/components/swap_step_widget.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:solana/solana.dart';
 
 class SwapTokenProcessScreen extends StatelessWidget {
