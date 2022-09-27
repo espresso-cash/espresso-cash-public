@@ -25,10 +25,10 @@ class CpTimeline extends StatelessWidget {
   final List<CpTimelineItem> items;
   final CpTimelineStatus status;
 
-  static const _radius = Radius.circular(32);
+  static const _timelineRadius = Radius.circular(32);
   static const _timelineWidth = 65.0;
-  static const _tileHeight = 60.0;
-  static const _connectorHeight = 50.0;
+  static const _connectorHeight = 57.0;
+  static const _connectorWidth = 7.0;
   static const _indicatorSize = 30.0;
 
   @override
@@ -37,8 +37,6 @@ class CpTimeline extends StatelessWidget {
 
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
-      addRepaintBoundaries: false,
-      clipBehavior: Clip.antiAlias,
       itemCount: items.length,
       itemBuilder: (context, index) {
         final tile = items[index];
@@ -46,20 +44,17 @@ class CpTimeline extends StatelessWidget {
         final bool isFirst = index == 0;
         final bool isLast = index == items.length - 1;
 
-        return Container(
-          padding: EdgeInsets.zero,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  _buildIndicator(isFirst, isLast),
-                  Expanded(child: _buildTileInfo(tile)),
-                ],
-              ),
-              if (!isLast) _buildConnector(),
-            ],
-          ),
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                _buildIndicator(isFirst, isLast),
+                if (!isLast) _buildConnector(index),
+              ],
+            ),
+            Expanded(child: _buildTileInfo(tile)),
+          ],
         );
       },
     );
@@ -68,66 +63,92 @@ class CpTimeline extends StatelessWidget {
   Widget _buildTileInfo(CpTimelineItem tile) {
     final subtitle = tile.subtitle;
 
-    return ListTile(
-      dense: true,
-      title: Text(tile.title, style: _titleStyle),
-      subtitle: subtitle != null ? Text(subtitle, style: _subtitleStyle) : null,
-      trailing: Text(tile.trailing ?? '', style: _titleStyle),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(tile.title, style: _titleStyle),
+                const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+                if (subtitle != null) Text(subtitle, style: _subtitleStyle)
+              ],
+            ),
+          ),
+          Text(tile.trailing ?? '', style: _titleStyle)
+        ],
+      ),
     );
   }
 
-  Widget _buildConnector() => Container(
-        width: _timelineWidth,
-        height: _connectorHeight,
-        decoration: BoxDecoration(
-          color: status.backgroundColor,
-          border: Border.symmetric(
-            horizontal: BorderSide(color: status.backgroundColor, width: 4),
-          ),
-        ),
-        child: Center(
-          child: Container(
-            width: 7,
-            decoration: const BoxDecoration(
-              color: CpColors.darkBackground,
-              borderRadius: BorderRadius.vertical(
-                top: _radius,
-                bottom: _radius,
-              ),
-            ),
-          ),
-        ),
-      );
+  Widget _buildConnector(int index) {
+    Color color = CpColors.darkBackground;
 
-  Widget _buildIndicator(bool isFirst, bool isLast) => Container(
-        height: _tileHeight,
-        width: _timelineWidth,
-        decoration: BoxDecoration(
-          color: status.backgroundColor,
-          border: Border.all(color: status.backgroundColor, width: 2),
-          borderRadius: (isFirst || isLast)
-              ? BorderRadius.vertical(
-                  top: isFirst ? _radius : Radius.zero,
-                  bottom: isLast ? _radius : Radius.zero,
-                )
-              : null,
-        ),
-        padding: (isFirst || isLast)
-            ? EdgeInsets.only(top: isFirst ? 10 : 0, bottom: isLast ? 10 : 0)
-            : EdgeInsets.zero,
-        margin: EdgeInsets.zero,
-        child: Center(
-          child: Container(
-            width: _indicatorSize,
-            height: _indicatorSize,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: CpColors.darkBackground,
+    if (status == CpTimelineStatus.inProgress && index == items.length - 2) {
+      color = Colors.white;
+    }
+
+    return Container(
+      width: _timelineWidth,
+      height: _connectorHeight,
+      decoration: BoxDecoration(color: status.backgroundColor),
+      child: Center(
+        child: Container(
+          width: _connectorWidth,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: const BorderRadius.vertical(
+              top: _timelineRadius,
+              bottom: _timelineRadius,
             ),
-            child: isLast ? _getIndicatorIcon() : null,
           ),
         ),
-      );
+      ),
+    );
+  }
+
+  Widget _buildIndicator(bool isFirst, bool isLast) {
+    Color color = CpColors.darkBackground;
+
+    if (isLast && status == CpTimelineStatus.inProgress) {
+      color = Colors.white;
+    }
+
+    return Container(
+      width: _timelineWidth,
+      decoration: BoxDecoration(
+        color: status.backgroundColor,
+        border: Border.all(color: status.backgroundColor, width: 2),
+        borderRadius: (isFirst || isLast)
+            ? BorderRadius.vertical(
+                top: isFirst ? _timelineRadius : Radius.zero,
+                bottom: isLast ? _timelineRadius : Radius.zero,
+              )
+            : null,
+      ),
+      padding: (isFirst || isLast)
+          ? EdgeInsets.only(
+              top: isFirst ? 16 : 4,
+              bottom: isLast ? 16 : 4,
+            )
+          : const EdgeInsets.symmetric(vertical: 4),
+      margin: EdgeInsets.zero,
+      child: Center(
+        child: Container(
+          width: _indicatorSize,
+          height: _indicatorSize,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+          ),
+          child: isLast ? _getIndicatorIcon() : null,
+        ),
+      ),
+    );
+  }
 
   Widget? _getIndicatorIcon() {
     switch (status) {
@@ -135,13 +156,13 @@ class CpTimeline extends StatelessWidget {
         return const Icon(
           Icons.check,
           color: Colors.white,
-          size: 18,
+          size: 22,
         );
       case CpTimelineStatus.failure:
         return const Icon(
           Icons.close,
           color: Colors.white,
-          size: 18,
+          size: 22,
         );
 
       case CpTimelineStatus.inProgress:

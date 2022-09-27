@@ -37,7 +37,7 @@ final cpTimeline = Story(
   ),
 );
 
-final _data = [
+final _data = <CpTimelineItem>[
   CpTimelineItem(
     title: 'Tile #1',
     subtitle: 'Tile Subtitle #1',
@@ -49,5 +49,6 @@ final _data = [
   ),
   CpTimelineItem(
     title: 'Tile #3',
+    subtitle: 'Tile Subtitle #3',
   ),
 ];
