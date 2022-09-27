@@ -20,4 +20,5 @@ export 'src/status_widget.dart';
 export 'src/switch.dart';
 export 'src/text_field.dart';
 export 'src/theme.dart';
+export 'src/timeline.dart';
 export 'src/user_avatar.dart';
