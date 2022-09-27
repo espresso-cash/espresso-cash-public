@@ -21,7 +21,11 @@ class CpTimeline extends StatelessWidget {
     required this.items,
     required this.status,
     required this.active,
-  });
+  })  : assert(items.length > 0, 'Items must not be empty'),
+        assert(
+          active >= 0 && active < items.length,
+          'Current must be in range [0, items.length)',
+        );
 
   final List<CpTimelineItem> items;
   final CpTimelineStatus status;
@@ -34,33 +38,29 @@ class CpTimeline extends StatelessWidget {
   static const _indicatorSize = 30.0;
 
   @override
-  Widget build(BuildContext context) {
-    if (items.isEmpty) return const _DefaultEmptyWidget();
+  Widget build(BuildContext context) => ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          final tile = items[index];
 
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final tile = items[index];
+          final bool isFirst = index == 0;
+          final bool isLast = index == items.length - 1;
 
-        final bool isFirst = index == 0;
-        final bool isLast = index == items.length - 1;
-
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              children: [
-                _buildIndicator(index, isFirst, isLast),
-                if (!isLast) _buildConnector(index),
-              ],
-            ),
-            Expanded(child: _buildTileInfo(tile)),
-          ],
-        );
-      },
-    );
-  }
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  _buildIndicator(index, isFirst, isLast),
+                  if (!isLast) _buildConnector(index),
+                ],
+              ),
+              Expanded(child: _buildTileInfo(tile)),
+            ],
+          );
+        },
+      );
 
   Widget _buildTileInfo(CpTimelineItem tile) {
     final subtitle = tile.subtitle;
@@ -171,15 +171,6 @@ class CpTimeline extends StatelessWidget {
         return null;
     }
   }
-}
-
-class _DefaultEmptyWidget extends StatelessWidget {
-  const _DefaultEmptyWidget();
-
-  @override
-  Widget build(BuildContext context) => const CpEmptyMessageWidget(
-        message: 'Timeline Empty.',
-      );
 }
 
 extension on CpTimelineStatus {
