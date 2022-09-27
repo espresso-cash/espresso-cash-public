@@ -75,8 +75,8 @@ class StorybookApp extends StatelessWidget {
           cpStatus,
           cpStatusScreen,
           cpSwitch,
-          cpTimeline,
           cpTextField,
+          cpTimeline,
           cpUserAvatar,
         ],
       );

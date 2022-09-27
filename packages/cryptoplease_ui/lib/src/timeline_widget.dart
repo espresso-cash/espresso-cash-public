@@ -20,10 +20,12 @@ class CpTimeline extends StatelessWidget {
     super.key,
     required this.items,
     required this.status,
+    required this.active,
   });
 
   final List<CpTimelineItem> items;
   final CpTimelineStatus status;
+  final int active;
 
   static const _timelineRadius = Radius.circular(32);
   static const _timelineWidth = 65.0;
@@ -49,7 +51,7 @@ class CpTimeline extends StatelessWidget {
           children: [
             Column(
               children: [
-                _buildIndicator(isFirst, isLast),
+                _buildIndicator(index, isFirst, isLast),
                 if (!isLast) _buildConnector(index),
               ],
             ),
@@ -87,7 +89,7 @@ class CpTimeline extends StatelessWidget {
   Widget _buildConnector(int index) {
     Color color = CpColors.darkBackground;
 
-    if (status == CpTimelineStatus.inProgress && index == items.length - 2) {
+    if (index >= active) {
       color = Colors.white;
     }
 
@@ -110,10 +112,10 @@ class CpTimeline extends StatelessWidget {
     );
   }
 
-  Widget _buildIndicator(bool isFirst, bool isLast) {
+  Widget _buildIndicator(int index, bool isFirst, bool isLast) {
     Color color = CpColors.darkBackground;
 
-    if (isLast && status == CpTimelineStatus.inProgress) {
+    if (index > active) {
       color = Colors.white;
     }
 
@@ -144,7 +146,7 @@ class CpTimeline extends StatelessWidget {
             shape: BoxShape.circle,
             color: color,
           ),
-          child: isLast ? _getIndicatorIcon() : null,
+          child: index == active ? _getIndicatorIcon() : null,
         ),
       ),
     );

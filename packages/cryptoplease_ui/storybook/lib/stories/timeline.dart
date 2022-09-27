@@ -33,6 +33,12 @@ final cpTimeline = Story(
           )
         ],
       ),
+      active: context.knobs.sliderInt(
+        label: 'Current',
+        initial: 1,
+        min: 0,
+        max: _data.length,
+      ),
     ),
   ),
 );
