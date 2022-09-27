@@ -7,14 +7,7 @@ final cpTimeline = Story(
   builder: (context) => Padding(
     padding: const EdgeInsets.all(16),
     child: CpTimeline(
-      items: context.knobs.options(
-        label: 'Items',
-        initial: _data,
-        options: [
-          Option(label: 'With Data', value: _data),
-          const Option(label: 'Empty', value: []),
-        ],
-      ),
+      items: _data,
       status: context.knobs.options(
         label: 'Timeline Status',
         initial: CpTimelineStatus.inProgress,
@@ -37,7 +30,7 @@ final cpTimeline = Story(
         label: 'Current',
         initial: 1,
         min: 0,
-        max: _data.length,
+        max: _data.length - 1,
       ),
     ),
   ),
