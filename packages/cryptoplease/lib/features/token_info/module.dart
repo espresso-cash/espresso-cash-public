@@ -14,7 +14,7 @@ class TokenInfoModule extends SingleChildStatelessWidget {
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
-          ChangeNotifierProvider<TokenInfoRepository>(
+          Provider<TokenInfoRepository>(
             create: (_) => CoingeckoTokenInfoRepository(
               coingeckoClient: CoingeckoClient(),
             ),

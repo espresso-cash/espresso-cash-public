@@ -2,6 +2,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/token_info/bl/repository.dart';
+import 'package:cryptoplease/features/token_info/data/coingecko_client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -32,10 +33,15 @@ class TokenInfoBloc extends Bloc<_Event, _State> {
     FetchRequested event,
     _Emitter emit,
   ) async {
-    // emit(state.copyWith(processingState: const ProcessingState.processing()));
+    emit(state.copyWith(processingState: const ProcessingState.processing()));
 
-    // await _repository.getTokenInfo(event.token);
+    final resp = await _repository.getMarketChart(event.token);
 
-    // emit(state.copyWith(processingState: const ProcessingState.none()));
+    emit(
+      state.copyWith(
+        processingState: const ProcessingState.none(),
+        chart: resp ?? [],
+      ),
+    );
   }
 }

@@ -1,10 +1,8 @@
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/token_info/bl/repository.dart';
 import 'package:cryptoplease/features/token_info/data/coingecko_client.dart';
-import 'package:flutter/material.dart';
 
-class CoingeckoTokenInfoRepository extends ChangeNotifier
-    implements TokenInfoRepository {
+class CoingeckoTokenInfoRepository implements TokenInfoRepository {
   CoingeckoTokenInfoRepository({
     required CoingeckoClient coingeckoClient,
   }) : _coingeckoClient = coingeckoClient;
@@ -12,21 +10,21 @@ class CoingeckoTokenInfoRepository extends ChangeNotifier
   final CoingeckoClient _coingeckoClient;
 
   @override
-  Future<void> getMarketChart(Token crypto) async {
-    final test = await _coingeckoClient.getCoinChart(
-      'solana',
-      const CoinMarketChartRequestDto(),
+  Future<List<TokenChartItem>?> getMarketChart(Token crypto) async {
+    final chartResponse = await _coingeckoClient.getCoinChart(
+      crypto.extensions?.coingeckoId ?? crypto.name,
+      const TokenChartRequestDto(),
     );
 
-    print(test);
+    return chartResponse.prices;
   }
 
   @override
   Future<void> getTokenInfo(Token crypto) async {
     try {
       final test = await _coingeckoClient.getCoinInfo(
-        'solana',
-        const CoinInfoRequestDto(),
+        crypto.extensions?.coingeckoId ?? crypto.name,
+        const TokenInfoRequestDto(),
       );
 
       print(test);

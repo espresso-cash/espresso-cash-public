@@ -4,5 +4,6 @@ part of 'token_info_bloc.dart';
 class TokenInfoState with _$TokenInfoState implements StateWithProcessingState {
   const factory TokenInfoState({
     @Default(ProcessingStateNone()) ProcessingState processingState,
+    @Default([]) List<TokenChartItem> chart,
   }) = _TokenInfoState;
 }
