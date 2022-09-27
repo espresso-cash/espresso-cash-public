@@ -9,13 +9,13 @@ import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/features/swap_tokens/bl/swap_exception.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'swap_selector_bloc.freezed.dart';
