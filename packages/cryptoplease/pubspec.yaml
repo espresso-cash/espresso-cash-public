@@ -24,7 +24,7 @@ dependencies:
   fast_immutable_collections: ^7.4.2
   firebase_analytics: ^9.3.5
   firebase_core: ^1.22.0
-  firebase_dynamic_links: ^4.3.7
+  firebase_dynamic_links: ^4.3.8
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
@@ -71,7 +71,7 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^4.1.5
-  flutter_native_splash: ^2.2.9
+  flutter_native_splash: ^2.2.10+1
   flutter_test:
     sdk: flutter
   freezed: ^2.1.0+1
