@@ -5,9 +5,11 @@ part of 'moonpay_client.dart';
 @freezed
 class BuyQuoteResponseDto with _$BuyQuoteResponseDto {
   const factory BuyQuoteResponseDto({
+    required double quoteCurrencyAmount,
     required double quoteCurrencyPrice,
     required double feeAmount,
     required double networkFeeAmount,
+    required double totalAmount,
   }) = _BuyQuoteResponseDto;
 
   factory BuyQuoteResponseDto.fromJson(Map<String, dynamic> json) =>

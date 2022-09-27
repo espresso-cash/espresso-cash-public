@@ -31,12 +31,15 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
 
   EventHandler<AddFundsEvent, AddFundsState> get _eventHandler =>
       (event, emit) => event.map(
-            initialized: (_) => _onInitialized(emit),
+            initialized: (event) => _onInitialized(event, emit),
             amountUpdated: (event) => _onAmountUpdated(event, emit),
             urlRequested: (event) => _onUrlRequested(event, emit),
           );
 
-  Future<void> _onInitialized(Emitter<AddFundsState> emit) async {
+  Future<void> _onInitialized(
+    _InitializedEvent event,
+    Emitter<AddFundsState> emit,
+  ) async {
     try {
       final minimumAmount =
           await _repository.fetchLimit(quoteToken: Token.usdc);
@@ -47,6 +50,11 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
           minAmount: minimumAmount,
         ),
       );
+
+      final amount = event.decimal;
+      if (amount != null) {
+        add(AddFundsEvent.amountUpdated(decimal: amount));
+      }
     } on Exception {
       emit(const AddFundsState.failure());
     }
@@ -77,7 +85,7 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
             );
 
             emit(newState.ready(quote));
-          } on Exception catch (_) {
+          } on Exception {
             emit(const AddFundsState.failure());
           }
         },

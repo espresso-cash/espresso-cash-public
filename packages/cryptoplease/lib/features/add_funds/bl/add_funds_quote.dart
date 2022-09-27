@@ -7,6 +7,7 @@ part 'add_funds_quote.freezed.dart';
 class AddFundsQuote with _$AddFundsQuote {
   const factory AddFundsQuote({
     required CryptoAmount buyAmount,
+    required FiatAmount totalAmount,
     FiatAmount? quotePrice,
     FiatAmount? feeAmount,
   }) = _AddFundsQuote;

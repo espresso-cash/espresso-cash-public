@@ -25,7 +25,8 @@ const faqUrl = 'https://learn.cryptoplease.com/';
 
 const sentryDsn = String.fromEnvironment('SENTRY_DSN', defaultValue: '');
 
-const moonpayApiKey = String.fromEnvironment('MOONPAY_API_KEY');
+const moonpayApiKey = String.fromEnvironment('MOONPAY_API_KEY',
+    defaultValue: 'pk_test_yBm1j8cO6ZFAMmqsRPIm4Lpp6RQNhD');
 
 const lamportsPerSignature = 5000;
 

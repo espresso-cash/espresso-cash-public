@@ -67,13 +67,13 @@ class AddFundsRepository {
       apiKey: moonpayApiKey,
       currencyCode: tokenSymbol,
       baseCurrencyAmount: amount.decimal.toString(),
-      areFeesIncluded: true,
+      areFeesIncluded: false,
       baseCurrencyCode: 'usd',
     );
 
     final buyAmount = Amount.fromDecimal(
       currency: CryptoCurrency(token: quoteToken),
-      value: Decimal.parse(response.quoteCurrencyPrice.toString()),
+      value: Decimal.parse(response.quoteCurrencyAmount.toString()),
     );
 
     final totalFee = response.feeAmount + response.networkFeeAmount;
@@ -85,10 +85,15 @@ class AddFundsRepository {
       Decimal.parse(response.quoteCurrencyPrice.toString()),
     );
 
+    final totalAmount = amount.copyWithDecimal(
+      Decimal.parse(response.totalAmount.toString()),
+    );
+
     return AddFundsQuote(
       buyAmount: buyAmount as CryptoAmount,
       feeAmount: feeAmount,
       quotePrice: quotePrice,
+      totalAmount: totalAmount,
     );
   }
 }

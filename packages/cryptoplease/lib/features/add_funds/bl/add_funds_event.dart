@@ -10,5 +10,6 @@ class AddFundsEvent with _$AddFundsEvent {
     required Decimal decimal,
   }) = _AmountUpdatedEvent;
 
-  const factory AddFundsEvent.initialized() = _InitializedEvent;
+  const factory AddFundsEvent.initialized([Decimal? decimal]) =
+      _InitializedEvent;
 }

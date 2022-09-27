@@ -384,5 +384,13 @@
         "type": "String"
       }
     }
+  },
+  "buyUsdcTotalAmount": "Total amount: {amount}",
+  "@buyUsdcTotalAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   }
 }

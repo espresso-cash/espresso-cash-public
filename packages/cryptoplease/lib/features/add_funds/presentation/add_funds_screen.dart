@@ -231,6 +231,7 @@ class _QuoteWidget extends StatelessWidget {
 
     final locale = DeviceLocale.localeOf(context);
     final amount = quote.buyAmount.format(locale);
+    final total = quote.totalAmount.format(locale);
     final fees = quote.feeAmount?.format(locale);
     final price = quote.quotePrice?.format(locale);
     const style = TextStyle(fontSize: 12, color: CpColors.secondaryTextColor);
@@ -258,16 +259,21 @@ class _QuoteWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          if (fees != null)
-            Text(
-              context.l10n.buyUsdcFee(fees),
-              style: style,
-            ),
           if (price != null)
             Text(
               context.l10n.buyUsdcQuotePrice(price),
               style: style,
             ),
+          if (fees != null)
+            Text(
+              context.l10n.buyUsdcFee(fees),
+              style: style,
+            ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.buyUsdcTotalAmount(total),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
