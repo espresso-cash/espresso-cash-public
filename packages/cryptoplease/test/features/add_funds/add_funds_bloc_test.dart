@@ -84,6 +84,7 @@ class _ConstantAddFundsRepository implements AddFundsRepository {
     required FiatAmount amount,
   }) async =>
       AddFundsQuote(
+        totalAmount: const FiatAmount(value: 0, currency: Currency.usd),
         buyAmount: CryptoAmount(
           value: 0,
           currency: CryptoCurrency(token: quoteToken),

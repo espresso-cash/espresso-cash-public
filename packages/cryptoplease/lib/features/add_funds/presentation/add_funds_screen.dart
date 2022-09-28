@@ -231,7 +231,6 @@ class _QuoteWidget extends StatelessWidget {
 
     final locale = DeviceLocale.localeOf(context);
     final amount = quote.buyAmount.format(locale);
-    final total = quote.totalAmount.format(locale);
     final fees = quote.feeAmount?.format(locale);
     final price = quote.quotePrice?.format(locale);
     const style = TextStyle(fontSize: 12, color: CpColors.secondaryTextColor);
