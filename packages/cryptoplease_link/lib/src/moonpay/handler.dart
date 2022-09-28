@@ -21,6 +21,7 @@ Future<Response> _handler(Request request) async =>
           'walletAddress': Uri.encodeComponent(data.receiverAddress),
           'currencyCode': data.tokenSymbol.toLowerCase(),
           'baseCurrencyCode': 'usd',
+          'areFeesIncluded': true,
         });
         final parameters = '?${url.query}';
 

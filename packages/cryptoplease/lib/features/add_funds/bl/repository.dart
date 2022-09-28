@@ -39,6 +39,7 @@ class AddFundsRepository {
       apiKey: moonpayApiKey,
       currencyCode: tokenSymbol,
       baseCurrencyCode: 'usd',
+      areFeesIncluded: true,
     );
     final askResponse = await _moonpayClient.askPrice(
       apiKey: moonpayApiKey,

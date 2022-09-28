@@ -24,6 +24,7 @@ abstract class MoonpayClient {
     @Query('apiKey') required String apiKey,
     @Path('currencyCode') required String currencyCode,
     @Query('baseCurrencyCode') required String baseCurrencyCode,
+    @Query('areFeesIncluded') required bool areFeesIncluded,
   });
 
   @GET('/currencies/{currencyCode}/ask_price')
