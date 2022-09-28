@@ -34,27 +34,18 @@ class AddFundsRepository {
   }
 
   Future<FiatAmount> fetchLimit({required Token quoteToken}) async {
+    const baseCurrency = Currency.usd;
     final tokenSymbol = quoteToken.symbol.toLowerCase();
     final limitResponse = await _moonpayClient.limits(
       apiKey: moonpayApiKey,
       currencyCode: tokenSymbol,
-      baseCurrencyCode: 'usd',
+      baseCurrencyCode: baseCurrency.symbol.toLowerCase(),
       areFeesIncluded: true,
     );
-    final askResponse = await _moonpayClient.askPrice(
-      apiKey: moonpayApiKey,
-      currencyCode: tokenSymbol,
-    );
 
-    final askCurrency = askResponse.usd;
-
-    if (askCurrency == null) {
-      throw Exception('$tokenSymbol price not found in USD');
-    }
-
-    final minValue = limitResponse.quoteCurrency.minBuyAmount * askCurrency;
+    final minValue = limitResponse.baseCurrency.minBuyAmount;
     final value = Decimal.parse(minValue.toString());
-    final amount = Amount.fromDecimal(value: value, currency: Currency.usd);
+    final amount = Amount.fromDecimal(value: value, currency: baseCurrency);
 
     return amount as FiatAmount;
   }
@@ -63,13 +54,14 @@ class AddFundsRepository {
     required Token quoteToken,
     required FiatAmount amount,
   }) async {
+    const baseCurrency = Currency.usd;
     final tokenSymbol = quoteToken.symbol.toLowerCase();
     final response = await _moonpayClient.buyQuote(
       apiKey: moonpayApiKey,
       currencyCode: tokenSymbol,
       baseCurrencyAmount: amount.decimal.toString(),
-      areFeesIncluded: false,
-      baseCurrencyCode: 'usd',
+      areFeesIncluded: true,
+      baseCurrencyCode: baseCurrency.symbol.toLowerCase(),
     );
 
     final buyAmount = Amount.fromDecimal(

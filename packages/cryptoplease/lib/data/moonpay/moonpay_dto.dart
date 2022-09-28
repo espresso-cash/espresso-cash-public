@@ -19,7 +19,7 @@ class BuyQuoteResponseDto with _$BuyQuoteResponseDto {
 @freezed
 class LimitResponseDto with _$LimitResponseDto {
   const factory LimitResponseDto({
-    required MoonpayCurrency quoteCurrency,
+    required MoonpayCurrency baseCurrency,
   }) = _LimitResponseDto;
 
   factory LimitResponseDto.fromJson(Map<String, dynamic> json) =>

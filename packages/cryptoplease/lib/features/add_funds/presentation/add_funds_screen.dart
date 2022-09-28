@@ -269,11 +269,6 @@ class _QuoteWidget extends StatelessWidget {
               context.l10n.buyUsdcFee(fees),
               style: style,
             ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.buyUsdcTotalAmount(total),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
         ],
       ),
     );
