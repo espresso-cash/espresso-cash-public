@@ -43,7 +43,11 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
         _txProcessor = txProcessor,
         _txCreatorStrategy = txCreatorStrategy,
         _repository = repository,
-        super(const _State(processingState: ProcessingState.none())) {
+        super(
+          const OutgoingTransferOngoing(
+            processingState: ProcessingState.processing(),
+          ),
+        ) {
     on<_Event>(_eventHandler, transformer: sequential());
   }
 
@@ -136,7 +140,7 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
         );
   }
 
-  Future<void> _updateStatus(_Emitter emit) async {
+  Future<void> _checkStatus(_Emitter emit) async {
     final recipient = await transfer.getRecipient();
     final currency = transfer.toAmount().currency;
 
@@ -168,34 +172,26 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
 
       await _escrowSubscription?.cancel();
 
-      emit(
-        state.copyWith(
-          transferStatus: status,
-          processingState: const ProcessingState.none(),
-        ),
-      );
+      emit(toState(status));
 
       return;
     }
 
-    emit(state.copyWith(processingState: const ProcessingState.none()));
+    emit(
+      const OutgoingTransferOngoing(processingState: ProcessingState.none()),
+    );
   }
 
   Future<void> _onInit(_, _Emitter emit) async {
-    if (transfer.transferStatus != null) {
-      emit(
-        state.copyWith(
-          processingState: const ProcessingState.none(),
-          transferStatus: transfer.transferStatus,
-        ),
-      );
+    final status = transfer.transferStatus;
+
+    if (status != null) {
+      emit(toState(status));
 
       return;
     }
 
-    emit(state.copyWith(processingState: const ProcessingState.processing()));
-
-    await _updateStatus(emit);
+    await _checkStatus(emit);
 
     final recipient = await transfer.getRecipient();
 
@@ -208,11 +204,18 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onLoad(_, _Emitter emit) async {
-    await _updateStatus(emit);
+    await _checkStatus(emit);
   }
 
   Future<void> _onCancel(_, _Emitter emit) async {
-    emit(state.copyWith(processingState: const ProcessingState.processing()));
+    if (state is! OutgoingTransferOngoing) return;
+
+    emit(
+      const OutgoingTransferOngoing(
+        processingState: ProcessingState.processing(),
+      ),
+    );
+
     await _cancel();
     add(const OutgoingTransferStatusEvent.updated());
   }

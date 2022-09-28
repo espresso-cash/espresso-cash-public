@@ -136,7 +136,7 @@ class OutgoingTransferState with _$OutgoingTransferState {
       _$OutgoingTransferStateFromJson(json);
 }
 
-enum OutgoingStatus { ongoing, success, canceled }
+enum OutgoingStatus { success, canceled }
 
 @freezed
 class OutgoingTransferStatus with _$OutgoingTransferStatus {
