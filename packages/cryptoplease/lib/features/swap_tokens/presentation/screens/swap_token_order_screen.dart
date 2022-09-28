@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/features/swap_tokens/bl/selector/swap_selector_bloc.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/components/slippage_dialog.dart';
@@ -12,11 +14,11 @@ import 'package:cryptoplease/features/swap_tokens/presentation/components/swap_h
 import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 
 class SwapTokenOrderScreen extends StatelessWidget {
   const SwapTokenOrderScreen({Key? key}) : super(key: key);
@@ -28,6 +30,7 @@ class SwapTokenOrderScreen extends StatelessWidget {
           tokenList: context.read<TokenList>(),
           balances: context.read<BalancesBloc>().state.balances,
           analyticsManager: context.read<AnalyticsManager>(),
+          initialToken: context.read<Token?>(),
         )..add(const SwapSelectorEvent.init()),
         child: const _Content(),
       );
@@ -81,11 +84,22 @@ class _ContentState extends State<_Content> {
         child: Scaffold(
           appBar: CpAppBar(
             title: Text(context.l10n.swapTokens),
-            leading: BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
-              builder: (context, state) => state.maybeMap(
-                uninitialized: (_) => const _Loading(),
-                orElse: () => const _SettingsButton(),
-              ),
+            leading: Row(
+              children: [
+                const SizedBox(width: 12),
+                Expanded(
+                  child: BackButton(onPressed: () => context.router.pop()),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: BlocBuilder<SwapSelectorBloc, SwapSelectorState>(
+                    builder: (context, state) => state.maybeMap(
+                      uninitialized: (_) => const _Loading(),
+                      orElse: () => const _SettingsButton(),
+                    ),
+                  ),
+                ),
+              ],
             ),
             nextButton: const _SubmitButton(),
           ),

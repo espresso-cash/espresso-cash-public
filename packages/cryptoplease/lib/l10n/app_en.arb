@@ -36,7 +36,7 @@
   "create": "Create",
   "youAreSending": "You're sending:",
   "confirmationTitle": "CONFIRMATION",
-  "youAreCreatingUniqueLink": "You're creating payment links to be redeemed by anyone",
+  "youAreCreatingUniqueLink": "You’re creating a secure link containing:",
   "itWillContain": "It will contain",
   "ok": "OK",
   "backupPhraseSuccessMessage": "You’ve successfully saved your secret recovery phrase in a safe place. Make sure to keep it private!",
@@ -347,6 +347,23 @@
       }
     }
   },
+  "fiatEquivalent": "Equivalent to {value}",
+  "@fiatEquivalent": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "feeAmount": "(Fee: {value})",
+  "@feeAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the links.",
   "shareIntroFt": "Hi!\n\nI’ve just sent you ",
   "shareIntroNft": "Hi!\n\nI’ve just sent you a NFT.",
   "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",

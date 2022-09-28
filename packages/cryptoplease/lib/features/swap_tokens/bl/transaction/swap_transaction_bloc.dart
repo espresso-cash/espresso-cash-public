@@ -1,11 +1,11 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/features/swap_tokens/bl/swap_exception.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 

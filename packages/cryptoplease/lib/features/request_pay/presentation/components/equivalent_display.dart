@@ -29,24 +29,15 @@ class EquivalentDisplay extends StatelessWidget {
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 200),
         opacity: shouldDisplay ? 1 : 0,
-        child: DecoratedBox(
-          decoration: const ShapeDecoration(
-            color: CpColors.darkBackground,
-            shape: StadiumBorder(),
-          ),
-          child: Center(
-            widthFactor: 1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                formatted.toUpperCase(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+        child: CpChip(
+          padding: CpChipPadding.small,
+          child: Text(
+            formatted.toUpperCase(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
