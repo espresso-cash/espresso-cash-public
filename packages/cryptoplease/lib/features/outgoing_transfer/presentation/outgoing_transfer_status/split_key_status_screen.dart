@@ -8,7 +8,6 @@ import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfer_status_bloc/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_status/components/cancel_dialog.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_status/components/timeline_widget.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -65,70 +64,65 @@ class _SplitKeyStatusDetailsState extends State<_SplitKeyStatusDetails> {
     context.router.push(SplitKeyReadyRoute(transfer: widget.transfer));
   }
 
-  CpStatusType _getStatus(OutgoingTransferStatus? status) {
-    if (status == null) {
-      return CpStatusType.info;
-    }
-
-    switch (status.status) {
+  CpStatusType _getStatus(OutgoingStatus status) {
+    switch (status) {
       case OutgoingStatus.success:
         return CpStatusType.success;
       case OutgoingStatus.canceled:
         return CpStatusType.error;
+      case OutgoingStatus.ongoing:
+        return CpStatusType.info;
     }
   }
 
-  Color _getColor(OutgoingTransferStatus? status) {
-    if (status == null) {
-      return CpColors.infoBackgroundColor;
-    }
-
-    switch (status.status) {
+  CpTimelineStatus _timelineStatusFromStatusType(OutgoingStatus status) {
+    switch (status) {
       case OutgoingStatus.success:
-        return CpColors.successBackgroundColor;
+        return CpTimelineStatus.success;
+      case OutgoingStatus.ongoing:
+        return CpTimelineStatus.inProgress;
       case OutgoingStatus.canceled:
-        return CpColors.errorBackgroundColor;
+        return CpTimelineStatus.failure;
     }
   }
 
-  Widget _getBackground(OutgoingTransferStatus? status) {
-    if (status == null) {
-      return Assets.icons.logoBgOrange.svg(alignment: Alignment.bottomCenter);
-    }
-
-    switch (status.status) {
+  Widget _getBackground(OutgoingStatus status) {
+    switch (status) {
       case OutgoingStatus.success:
         return Assets.icons.logoBgGreen.svg(alignment: Alignment.bottomCenter);
       case OutgoingStatus.canceled:
         return Assets.icons.logoBgRed.svg(alignment: Alignment.bottomCenter);
+      case OutgoingStatus.ongoing:
+        return Assets.icons.logoBgOrange.svg(alignment: Alignment.bottomCenter);
     }
   }
 
-  Widget? _getStatusTitle(OutgoingTransferStatus? status) {
-    if (status?.status == OutgoingStatus.success) {
+  Widget? _getStatusTitle(OutgoingStatus status) {
+    if (status == OutgoingStatus.success) {
       return Text(context.l10n.splitKeySuccessMessage1);
     }
   }
 
-  String _getStatusContent(OutgoingTransferStatus? status) {
+  String _getStatusContent(OutgoingStatus status) {
     final transfer = widget.transfer;
 
     final amount =
         '${transfer.toAmount().decimal} ${transfer.toAmount().currency.symbol}';
 
-    if (status == null) {
-      return context.l10n.splitKeyProgressOngoing(amount);
-    }
-
-    switch (status.status) {
+    switch (status) {
       case OutgoingStatus.success:
         return context.l10n.splitKeySuccessMessage2;
       case OutgoingStatus.canceled:
         return context.l10n.transactionCanceled;
+      case OutgoingStatus.ongoing:
+        return context.l10n.splitKeyProgressOngoing(amount);
     }
   }
 
-  List<CpTimelineData> _buildTimeline(OutgoingTransferStatus? status) {
+  List<CpTimelineItem> _buildTimeline({
+    required OutgoingStatus status,
+    required DateTime? date,
+  }) {
     final transfer = widget.transfer;
 
     final amount =
@@ -136,50 +130,59 @@ class _SplitKeyStatusDetailsState extends State<_SplitKeyStatusDetails> {
     final created = transfer.created;
 
     return [
-      CpTimelineData(
+      CpTimelineItem(
         title: context.l10n.splitKeyProgressCreated,
         subtitle: created.formatDate(),
         trailing: amount,
       ),
-      if (status == null)
-        CpTimelineData(
+      if (status == OutgoingStatus.ongoing) ...[
+        CpTimelineItem(
           title: context.l10n.splitKeyProgressWaiting,
-          connectorColor: Colors.white,
         ),
-      if (status?.status == OutgoingStatus.success) ...[
-        CpTimelineData(
-          title: context.l10n.splitKeyProgressWithdrawn,
-          subtitle: status?.created?.formatDate(),
-        ),
-        CpTimelineData(
+        CpTimelineItem(
           title: context.l10n.splitKeyProgressSuccess,
-          subtitle: status?.created?.formatDate(),
-          icon: const Icon(
-            Icons.check,
-            color: Colors.white,
-            size: 16,
-          ),
         ),
       ],
-      if (status?.status == OutgoingStatus.canceled)
-        CpTimelineData(
+      if (status == OutgoingStatus.success) ...[
+        CpTimelineItem(
+          title: context.l10n.splitKeyProgressWithdrawn,
+          subtitle: date?.formatDate(),
+        ),
+        CpTimelineItem(
+          title: context.l10n.splitKeyProgressSuccess,
+          subtitle: date?.formatDate(),
+        ),
+      ],
+      if (status == OutgoingStatus.canceled)
+        CpTimelineItem(
           title: context.l10n.splitKeyProgressCanceled,
-          subtitle: status?.created?.formatDate(),
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-            size: 16,
-          ),
+          subtitle: date?.formatDate(),
         ),
     ];
+  }
+
+  int _getActive(OutgoingStatus status, int itemLength) {
+    switch (status) {
+      case OutgoingStatus.ongoing:
+        return itemLength - 2;
+      case OutgoingStatus.success:
+        return itemLength - 1;
+      case OutgoingStatus.canceled:
+        return itemLength - 1;
+    }
   }
 
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<OutgoingTransferStatusBloc, OutgoingTransferStatusState>(
         builder: (context, state) {
-          final status = state.transferStatus;
           final isLoading = state.processingState.isProcessing;
+          final status = state.transferStatus?.status ?? OutgoingStatus.ongoing;
+
+          final items = _buildTimeline(
+            status: status,
+            date: state.transferStatus?.created,
+          );
 
           return CpLoader(
             isLoading: isLoading,
@@ -195,11 +198,15 @@ class _SplitKeyStatusDetailsState extends State<_SplitKeyStatusDetails> {
                 child: Column(
                   children: [
                     const SizedBox(height: 60),
-                    CpTimelineWidget(
-                      data: _buildTimeline(status),
-                      backgroundColor: _getColor(status),
+                    SizedBox(
+                      height: 280,
+                      child: CpTimeline(
+                        items: items,
+                        status: _timelineStatusFromStatusType(status),
+                        active: _getActive(status, items.length),
+                      ),
                     ),
-                    if (status == null) ...[
+                    if (status == OutgoingStatus.ongoing) ...[
                       const SizedBox(height: 90),
                       CpButton(
                         size: CpButtonSize.big,
