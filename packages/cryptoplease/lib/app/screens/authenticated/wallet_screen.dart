@@ -1,13 +1,10 @@
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/balance_list_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/balance_overview_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/stablecoin_empty_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/total_balance_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/wallet_tab_bar.dart';
-import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
-import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -36,21 +33,6 @@ class _WalletScreenState extends State<WalletScreen> {
               orElse: () => false,
             );
 
-            const balanceUpdate = Amount.fiat(
-              value: 100000,
-              currency: Currency.usd,
-            );
-            final checkedDate = DateTime.now();
-            const percentageDifference = 7.25;
-
-            final subHeader = (checkedDate != null)
-                ? BalanceOverviewWidget(
-                    balance: balanceUpdate,
-                    checkedDate: checkedDate,
-                    percentageDifference: percentageDifference,
-                  )
-                : null;
-
             return DefaultTabController(
               length: 3,
               child: CpHeaderedList(
@@ -58,10 +40,11 @@ class _WalletScreenState extends State<WalletScreen> {
                 headerAppBar: const _AppBarContent(),
                 headerContent: TotalBalanceWidget(balance: total),
                 stickyBottomHeader: const WalletTabBar(),
-                headerSubContent: Padding(
-                  padding: const EdgeInsets.only(top: 24),
-                  child: subHeader,
-                ),
+                //TODO
+                // headerSubContent: Padding(
+                //   padding: const EdgeInsets.only(top: 24),
+                //   child: subHeader,
+                // ),
                 child: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
                   children: [

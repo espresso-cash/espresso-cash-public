@@ -1,8 +1,9 @@
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/token_info/bl/repository.dart';
 import 'package:cryptoplease/features/token_info/data/coingecko_client.dart';
+import 'package:cryptoplease/features/token_info/presentation/components/chart_widget.dart';
 
-class CoingeckoTokenInfoRepository implements TokenInfoRepository {
+class CoingeckoTokenInfoRepository implements TokenRepository {
   CoingeckoTokenInfoRepository({
     required CoingeckoClient coingeckoClient,
   }) : _coingeckoClient = coingeckoClient;
@@ -10,26 +11,22 @@ class CoingeckoTokenInfoRepository implements TokenInfoRepository {
   final CoingeckoClient _coingeckoClient;
 
   @override
-  Future<List<TokenChartItem>?> getMarketChart(Token crypto) async {
-    final chartResponse = await _coingeckoClient.getCoinChart(
-      crypto.extensions?.coingeckoId ?? crypto.name,
-      const TokenChartRequestDto(),
-    );
-
-    return chartResponse.prices;
-  }
-
-  @override
-  Future<void> getTokenInfo(Token crypto) async {
-    try {
-      final test = await _coingeckoClient.getCoinInfo(
+  Future<TokenInfoResponseDto> getTokenInfo(Token crypto) async =>
+      _coingeckoClient.getCoinInfo(
         crypto.extensions?.coingeckoId ?? crypto.name,
         const TokenInfoRequestDto(),
       );
 
-      print(test);
-    } catch (ex) {
-      print(ex);
-    }
+  @override
+  Future<List<TokenChartItem>?> getMarketChart(
+    Token crypto, {
+    ChartInterval interval = ChartInterval.oneWeek,
+  }) async {
+    final response = await _coingeckoClient.getCoinChart(
+      crypto.extensions?.coingeckoId ?? crypto.name,
+      TokenChartRequestDto(days: interval.value),
+    );
+
+    return response.prices;
   }
 }

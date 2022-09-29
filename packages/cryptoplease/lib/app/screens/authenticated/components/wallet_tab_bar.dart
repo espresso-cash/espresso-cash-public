@@ -42,7 +42,7 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
       );
 
   @override
-  Size get preferredSize => const Size.fromHeight(82);
+  Size get preferredSize => const Size.fromHeight(70);
 }
 
 // const Padding(

@@ -2,7 +2,6 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/token_info/bl/repository.dart';
-import 'package:cryptoplease/features/token_info/data/coingecko_client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -17,30 +16,36 @@ typedef _Emitter = Emitter<_State>;
 
 class TokenInfoBloc extends Bloc<_Event, _State> {
   TokenInfoBloc({
-    required TokenInfoRepository repository,
+    required this.token,
+    required TokenRepository repository,
   })  : _repository = repository,
         super(const _State()) {
-    on<_Event>(_eventHandler, transformer: restartable());
+    on<_Event>(_eventHandler, transformer: droppable());
   }
 
-  final TokenInfoRepository _repository;
+  final Token token;
+
+  final TokenRepository _repository;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
-        fetchRequested: (event) => _onRefreshRequested(event, emit),
+        infoRequested: (event) => _onRefreshRequested(event, emit),
       );
 
-  Future<void> _onRefreshRequested(
-    FetchRequested event,
-    _Emitter emit,
-  ) async {
+  Future<void> _onRefreshRequested(_, _Emitter emit) async {
     emit(state.copyWith(processingState: const ProcessingState.processing()));
 
-    final resp = await _repository.getMarketChart(event.token);
+    final resp = await _repository.getTokenInfo(token);
+
+    final description = resp.description?['en'] as String;
+    final homePage = (resp.links?['homepage'] as List).first as String;
 
     emit(
       state.copyWith(
         processingState: const ProcessingState.none(),
-        chart: resp ?? [],
+        name: resp.name,
+        description: description,
+        homePage: homePage,
+        marketCap: resp.marketCapRank,
       ),
     );
   }

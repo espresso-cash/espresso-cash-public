@@ -45,9 +45,10 @@ class TokenInfoResponseDto with _$TokenInfoResponseDto {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TokenInfoResponseDto({
     String? id,
-    String? symbol,
     String? name,
     Map<String, dynamic>? description,
+    Map<String, dynamic>? links,
+    int? marketCapRank,
   }) = _TokenInfoResponseDto;
 
   const TokenInfoResponseDto._();
