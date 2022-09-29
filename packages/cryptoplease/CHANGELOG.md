@@ -1,3 +1,16 @@
+## 1.42.0
+
+ - **REFACTOR**: move jupiter client to cryptoplease_api package (#452).
+ - **REFACTOR**: extract CpRoundedRectangle (#437).
+ - **FIX**: auto-update output when the selected input is same as the output token (#393).
+ - **FIX**: request pay screen ui updates (#412).
+ - **FEAT**: create TxSender (#465).
+ - **FEAT**: remove swap on bottom menu (#444).
+ - **FEAT**: add pull-to-refresh in balance page (#446).
+ - **FEAT**: redesign confirmation screen (#376).
+ - **FEAT**: redesign share links page (#414).
+ - **FEAT**: redesign onboarding screens (#405).
+
 ## 1.41.1
 
  - **FIX**: add default value for version (#410).
