@@ -55,65 +55,63 @@ class _ScreenState extends State<RequestPayScreen> {
         ),
       ),
       body: BlocBuilder<RequestPayBloc, RequestPayState>(
-        builder: (context, state) => SingleChildScrollView(
-          child: Column(
-            children: [
-              RequestPayHeader(
-                inputController: _amountController,
-                token: state.amount.currency.token,
+        builder: (context, state) => Column(
+          children: [
+            RequestPayHeader(
+              inputController: _amountController,
+              token: state.amount.currency.token,
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 40,
               ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 40,
+              child: CpInfoWidget(
+                icon: const InfoIcon(),
+                message: Text(
+                  context.l10n.usdcExplanation,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-                child: CpInfoWidget(
-                  icon: const InfoIcon(),
-                  message: Text(
-                    context.l10n.usdcExplanation,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              ),
+            ),
+            EnterAmountKeypad(
+              height: height * 0.4,
+              width: width,
+              controller: _amountController,
+              maxDecimals: 2,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: CpButton(
+                      text: context.l10n.receive,
+                      minWidth: width,
+                      onPressed: _router.onRequest,
+                      size: CpButtonSize.big,
                     ),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                ),
-              ),
-              EnterAmountKeypad(
-                height: height * 0.4,
-                width: width,
-                controller: _amountController,
-                maxDecimals: 2,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: CpButton(
-                        text: context.l10n.receive,
-                        minWidth: width,
-                        onPressed: _router.onRequest,
-                        size: CpButtonSize.big,
-                      ),
+                  const SizedBox(width: 24),
+                  Flexible(
+                    child: CpButton(
+                      text: context.l10n.pay,
+                      minWidth: width,
+                      onPressed: _router.onPay,
+                      size: CpButtonSize.big,
                     ),
-                    const SizedBox(width: 24),
-                    Flexible(
-                      child: CpButton(
-                        text: context.l10n.pay,
-                        minWidth: width,
-                        onPressed: _router.onPay,
-                        size: CpButtonSize.big,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(height: cpNavigationBarheight + 18),
-            ],
-          ),
+            ),
+            const SizedBox(height: cpNavigationBarheight + 18),
+          ],
         ),
       ),
     );
