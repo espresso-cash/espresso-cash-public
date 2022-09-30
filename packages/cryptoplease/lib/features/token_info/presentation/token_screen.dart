@@ -91,8 +91,6 @@ class _Header extends StatelessWidget {
 
     final tokenRate = Amount.fromDecimal(value: conversion, currency: currency);
 
-    print(token);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Stack(
