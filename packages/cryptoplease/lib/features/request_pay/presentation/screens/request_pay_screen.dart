@@ -44,6 +44,7 @@ class _ScreenState extends State<RequestPayScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: QrScannerAppBar(
@@ -54,61 +55,65 @@ class _ScreenState extends State<RequestPayScreen> {
         ),
       ),
       body: BlocBuilder<RequestPayBloc, RequestPayState>(
-        builder: (context, state) => Column(
-          children: [
-            RequestPayHeader(
-              inputController: _amountController,
-              token: state.amount.currency.token,
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 40,
+        builder: (context, state) => SingleChildScrollView(
+          child: Column(
+            children: [
+              RequestPayHeader(
+                inputController: _amountController,
+                token: state.amount.currency.token,
               ),
-              child: CpInfoWidget(
-                icon: const InfoIcon(),
-                message: Text(context.l10n.usdcExplanation),
-              ),
-            ),
-            Flexible(
-              flex: 3,
-              child: LayoutBuilder(
-                builder: (context, constraints) => EnterAmountKeypad(
-                  height: constraints.maxHeight,
-                  width: width,
-                  controller: _amountController,
-                  maxDecimals: 2,
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 40,
+                ),
+                child: CpInfoWidget(
+                  icon: const InfoIcon(),
+                  message: Text(
+                    context.l10n.usdcExplanation,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: CpButton(
-                      text: context.l10n.receive,
-                      minWidth: width,
-                      onPressed: _router.onRequest,
-                      size: CpButtonSize.big,
-                    ),
-                  ),
-                  const SizedBox(width: 24),
-                  Flexible(
-                    child: CpButton(
-                      text: context.l10n.pay,
-                      minWidth: width,
-                      onPressed: _router.onPay,
-                      size: CpButtonSize.big,
-                    ),
-                  ),
-                ],
+              EnterAmountKeypad(
+                height: height * 0.4,
+                width: width,
+                controller: _amountController,
+                maxDecimals: 2,
               ),
-            ),
-            const SizedBox(height: cpNavigationBarheight + 32),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: CpButton(
+                        text: context.l10n.receive,
+                        minWidth: width,
+                        onPressed: _router.onRequest,
+                        size: CpButtonSize.big,
+                      ),
+                    ),
+                    const SizedBox(width: 24),
+                    Flexible(
+                      child: CpButton(
+                        text: context.l10n.pay,
+                        minWidth: width,
+                        onPressed: _router.onPay,
+                        size: CpButtonSize.big,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: cpNavigationBarheight + 18),
+            ],
+          ),
         ),
       ),
     );

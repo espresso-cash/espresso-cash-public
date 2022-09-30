@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 abstract class CpColors {
   CpColors._();
 
-  static const primaryColor = Color(0xfff46640); // red primary color
+  static const primaryColor = Color(0xffff6640); // red primary color
 
   static const strokeColor = Color(0xffff8956); // stroke color
 

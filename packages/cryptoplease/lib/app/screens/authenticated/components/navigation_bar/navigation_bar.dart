@@ -22,7 +22,7 @@ class CPNavigationBar extends StatelessWidget {
           ),
           clipBehavior: Clip.antiAlias,
           decoration: const ShapeDecoration(
-            color: CpColors.primaryTextColor,
+            color: CpColors.darkBackground,
             shape: StadiumBorder(),
           ),
           child: SizedBox(
@@ -39,5 +39,5 @@ class CPNavigationBar extends StatelessWidget {
 
 const cpNavigationBarheight = _barHeight + _barPadding;
 
-const double _barHeight = 60;
+const double _barHeight = 58;
 const double _barPadding = 16;
