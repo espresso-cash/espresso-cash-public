@@ -1,5 +1,6 @@
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/token_info/bl/token_chart_bloc.dart';
+import 'package:cryptoplease/features/token_info/presentation/components/loading.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class TokenChart extends StatelessWidget {
 
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            height: 400,
+            height: 350,
             child: Column(
               children: [
                 Expanded(
@@ -108,7 +109,7 @@ class TokenChart extends StatelessWidget {
                             const Duration(milliseconds: 250),
                         swapAnimationCurve: Curves.fastLinearToSlowEaseIn,
                       ),
-                      if (isLoading) const _ChartLoadingIndicator()
+                      if (isLoading) const TokenLoadingIndicator()
                     ],
                   ),
                 ),
@@ -169,21 +170,5 @@ class _ChartRangeSelector extends StatelessWidget {
               )
               .toList(),
         ],
-      );
-}
-
-class _ChartLoadingIndicator extends StatelessWidget {
-  const _ChartLoadingIndicator({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => const Center(
-        child: SizedBox.square(
-          dimension: 20,
-          child: CircularProgressIndicator(
-            color: CpColors.yellowColor,
-          ),
-        ),
       );
 }

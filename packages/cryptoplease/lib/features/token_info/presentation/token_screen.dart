@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/token_icon.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
@@ -16,6 +16,7 @@ import 'package:cryptoplease/features/token_info/bl/token_chart_bloc.dart';
 import 'package:cryptoplease/features/token_info/bl/token_info_bloc.dart';
 import 'package:cryptoplease/features/token_info/presentation/components/balance_widget.dart';
 import 'package:cryptoplease/features/token_info/presentation/components/chart_widget.dart';
+import 'package:cryptoplease/features/token_info/presentation/components/loading.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -23,21 +24,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-
-// TODO move
-class WalletRouterScreen extends StatefulWidget {
-  const WalletRouterScreen({super.key});
-
-  @override
-  State<WalletRouterScreen> createState() => _WalletRouterScreenState();
-}
-
-class _WalletRouterScreenState extends State<WalletRouterScreen> {
-  final routerKey = GlobalKey<AutoRouterState>();
-
-  @override
-  Widget build(BuildContext context) => AutoRouter(key: routerKey);
-}
 
 class TokenScreen extends StatelessWidget {
   const TokenScreen({super.key, required this.token});
@@ -69,6 +55,7 @@ class TokenScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
                 child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: const [
@@ -104,6 +91,8 @@ class _Header extends StatelessWidget {
 
     final tokenRate = Amount.fromDecimal(value: conversion, currency: currency);
 
+    print(token);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Stack(
@@ -113,6 +102,7 @@ class _Header extends StatelessWidget {
             child: Column(
               children: [
                 TokenIcon(token: token, size: 60),
+                const SizedBox(height: 4),
                 Text(
                   token.name,
                   style: const TextStyle(
@@ -120,6 +110,7 @@ class _Header extends StatelessWidget {
                     fontSize: 26,
                   ),
                 ),
+                const SizedBox(height: 2),
                 Text(
                   tokenRate.format(locale),
                   style: const TextStyle(
@@ -155,35 +146,28 @@ class _Buttons extends StatelessWidget {
     final token = context.read<Token>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (token == Token.sol)
-            Flexible(
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: CpButton(
-                text: context.l10n.buy,
+                text: context.l10n.swap,
                 onPressed: () => context.router.navigate(
-                  AddFundsRoute(
-                    wallet: context.read<MyAccount>().wallet,
-                    token: Token.sol,
-                  ),
+                  SwapTokenFlowRoute(token: token),
                 ),
               ),
             ),
-          Flexible(
-            child: CpButton(
-              text: context.l10n.swap,
-              // onPressed: () => context.router.navigate( //TODO
-              // SwapTokenFlowRoute(token: token),
-              // ),
-            ),
           ),
-          Flexible(
-            child: CpButton(
-              text: context.l10n.send,
-              onPressed: () => context.navigateToSendFt(token),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: CpButton(
+                text: context.l10n.send,
+                onPressed: () => context.navigateToSendFt(token),
+              ),
             ),
           )
         ],
@@ -202,18 +186,16 @@ class _TokenInfo extends StatelessWidget {
           final isLoading = state.processingState.isProcessing;
 
           if (isLoading) {
-            return const SizedBox.square(
-              dimension: 20,
-              child: CircularProgressIndicator(
-                color: CpColors.yellowColor,
-              ),
+            return const SizedBox(
+              height: 80,
+              child: TokenLoadingIndicator(),
             );
           }
 
           final name = state.name ?? '-';
           final description = state.description ?? '-';
           final marketRank = state.marketCap ?? 0;
-          final homePage = state.homePage ?? '-';
+          final link = state.homePage ?? '-';
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -241,7 +223,15 @@ class _TokenInfo extends StatelessWidget {
                     Expanded(
                       child: _InfoRowItem(
                         label: context.l10n.homePage,
-                        value: const Text('Link'),
+                        value: InkWell(
+                          onTap: () => context.openLink(link),
+                          child: Text(
+                            context.l10n.link,
+                            style: const TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(

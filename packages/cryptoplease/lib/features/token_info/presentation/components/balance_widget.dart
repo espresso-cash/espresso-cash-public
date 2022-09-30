@@ -13,7 +13,7 @@ class BalancePillWidget extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
         child: Container(
           padding: const EdgeInsets.symmetric(
-            vertical: 4,
+            vertical: 6,
             horizontal: 12,
           ),
           decoration: const ShapeDecoration(

@@ -35,14 +35,14 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
             tabs: [
               Tab(text: context.l10n.stablecoin),
               Tab(text: context.l10n.crypto),
-              const Tab(text: 'All')
+              Tab(text: context.l10n.all)
             ],
           ),
         ),
       );
 
   @override
-  Size get preferredSize => const Size.fromHeight(70);
+  Size get preferredSize => const Size.fromHeight(68);
 }
 
 const double _barPadding = 16;

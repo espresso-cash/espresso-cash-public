@@ -45,7 +45,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
               onPressed: () => _onBottomNavigatorItemTap(1),
             ),
             NavigationButton(
-              icon: Assets.icons.nfts,
+              icon: Assets.icons.investment,
               active: _currentPage == 2,
               onPressed: () => _onBottomNavigatorItemTap(2),
             ),
@@ -65,7 +65,6 @@ const _pages = [
   _Page(route: MenuRoute(), overlayStyle: SystemUiOverlayStyle.dark),
   _Page(route: RequestPayFlowRoute(), overlayStyle: SystemUiOverlayStyle.light),
   _Page(route: WalletRouterRoute(), overlayStyle: SystemUiOverlayStyle.light),
-  _Page(route: SwapTokenFlowRoute(), overlayStyle: SystemUiOverlayStyle.light),
   _Page(route: ActivitiesRoute(), overlayStyle: SystemUiOverlayStyle.dark),
 ];
 

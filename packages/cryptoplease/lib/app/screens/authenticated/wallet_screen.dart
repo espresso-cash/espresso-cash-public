@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/balance_list_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/stablecoin_empty_widget.dart';
@@ -77,27 +78,28 @@ class _AppBarContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SizedBox(
         height: kToolbarHeight,
-        child: Stack(
-          children: [
-            Center(
-              child: Text(
-                context.l10n.investments,
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+        child: Center(
+          child: Text(
+            context.l10n.investments,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
             ),
-            Positioned(
-              top: 0,
-              right: 0,
-              bottom: 0,
-              child: CpIconButton(
-                icon: Icons.settings,
-                onPressed: () => {},
-              ),
-            ),
-          ],
+          ),
         ),
       );
+}
+
+class WalletRouterScreen extends StatefulWidget {
+  const WalletRouterScreen({super.key});
+
+  @override
+  State<WalletRouterScreen> createState() => _WalletRouterScreenState();
+}
+
+class _WalletRouterScreenState extends State<WalletRouterScreen> {
+  final routerKey = GlobalKey<AutoRouterState>();
+
+  @override
+  Widget build(BuildContext context) => AutoRouter(key: routerKey);
 }
