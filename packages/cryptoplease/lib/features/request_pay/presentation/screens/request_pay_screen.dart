@@ -44,7 +44,6 @@ class _ScreenState extends State<RequestPayScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: QrScannerAppBar(
@@ -80,11 +79,15 @@ class _ScreenState extends State<RequestPayScreen> {
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               ),
             ),
-            EnterAmountKeypad(
-              height: height * 0.4,
-              width: width,
-              controller: _amountController,
-              maxDecimals: 2,
+            Flexible(
+              child: LayoutBuilder(
+                builder: (context, constraints) => EnterAmountKeypad(
+                  height: constraints.maxHeight,
+                  width: width,
+                  controller: _amountController,
+                  maxDecimals: 2,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -110,7 +113,7 @@ class _ScreenState extends State<RequestPayScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: cpNavigationBarheight + 18),
+            const SizedBox(height: cpNavigationBarheight + 24),
           ],
         ),
       ),
