@@ -392,7 +392,7 @@ packages:
       name: fast_immutable_collections
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.4.1"
+    version: "7.4.2"
   ffi:
     dependency: transitive
     description:
@@ -540,7 +540,7 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.9"
+    version: "2.2.10+1"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -779,19 +779,12 @@ packages:
     source: hosted
     version: "6.3.1"
   jupiter_aggregator:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: jupiter_aggregator
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  lint:
-    dependency: transitive
-    description:
-      name: lint
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.10.0"
   logging:
     dependency: "direct main"
     description:
@@ -1115,7 +1108,7 @@ packages:
       name: recase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.0"
   retrofit:
     dependency: "direct main"
     description:

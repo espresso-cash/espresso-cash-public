@@ -14,6 +14,7 @@ export 'src/rpc/client.dart';
 export 'src/solana_client.dart';
 export 'src/subscription_client/optional_error.dart';
 export 'src/subscription_client/subscription_client.dart';
+export 'src/subscription_client/subscription_client_exception.dart';
 export 'src/subscription_client/subscription_client_ext.dart';
 
 /// The first signature in a transaction, which can be used to uniquely identify

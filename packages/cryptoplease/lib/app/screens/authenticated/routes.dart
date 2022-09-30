@@ -51,6 +51,8 @@ const authenticatedFlowRoutes = AutoRoute<void>(
     AutoRoute<void>(page: NftDetailsScreen),
     AutoRoute<void>(page: TransactionsScreen),
     AutoRoute<void>(page: TransactionDetailsScreen),
+    AutoRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),
+    AutoRoute<Token>(page: TokenSelectorScreen),
     ...createPaymentFlowRoutes,
     AutoRoute<void>(page: OutgoingTransferFlowScreen),
     ...receiveFlowRoutes,

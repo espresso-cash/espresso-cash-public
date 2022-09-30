@@ -50,14 +50,9 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
               onPressed: () => _onBottomNavigatorItemTap(2),
             ),
             NavigationButton(
-              icon: Assets.icons.swap,
+              icon: Assets.icons.notifications,
               active: _currentPage == 3,
               onPressed: () => _onBottomNavigatorItemTap(3),
-            ),
-            NavigationButton(
-              icon: Assets.icons.notifications,
-              active: _currentPage == 4,
-              onPressed: () => _onBottomNavigatorItemTap(4),
             ),
           ],
         ),
