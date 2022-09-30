@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/token_icon.dart';
+import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
+import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
@@ -15,6 +17,7 @@ import 'package:cryptoplease/features/token_info/bl/token_info_bloc.dart';
 import 'package:cryptoplease/features/token_info/presentation/components/balance_widget.dart';
 import 'package:cryptoplease/features/token_info/presentation/components/chart_widget.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -157,11 +160,29 @@ class _Buttons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Flexible(child: CpButton(text: 'Buy', onPressed: () {})),
-          Flexible(child: CpButton(text: 'Sell', onPressed: () {})),
+          if (token == Token.sol)
+            Flexible(
+              child: CpButton(
+                text: context.l10n.buy,
+                onPressed: () => context.router.navigate(
+                  AddFundsRoute(
+                    wallet: context.read<MyAccount>().wallet,
+                    token: Token.sol,
+                  ),
+                ),
+              ),
+            ),
           Flexible(
             child: CpButton(
-              text: 'Send',
+              text: context.l10n.swap,
+              // onPressed: () => context.router.navigate( //TODO
+              // SwapTokenFlowRoute(token: token),
+              // ),
+            ),
+          ),
+          Flexible(
+            child: CpButton(
+              text: context.l10n.send,
               onPressed: () => context.navigateToSendFt(token),
             ),
           )
@@ -200,7 +221,7 @@ class _TokenInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'About $name',
+                  context.l10n.aboutTokenLabel(name),
                   style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 30,
@@ -217,15 +238,15 @@ class _TokenInfo extends StatelessWidget {
                 const SizedBox(height: 24),
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: _InfoRowItem(
-                        label: 'Home Page', //TODO
-                        value: Text('Link'),
+                        label: context.l10n.homePage,
+                        value: const Text('Link'),
                       ),
                     ),
                     Expanded(
                       child: _InfoRowItem(
-                        label: 'Market Cap Rank',
+                        label: context.l10n.marketCapRank,
                         value: Text('#$marketRank'),
                       ),
                     ),

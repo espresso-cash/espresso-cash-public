@@ -45,15 +45,4 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(70);
 }
 
-// const Padding(
-//               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-//               child: Text(
-//                 'MY PORTFOLIO',
-//                 style: TextStyle(
-//                   fontWeight: FontWeight.w700,
-//                   fontSize: 13,
-//                 ),
-//               ),
-//             ), //TODO
-
 const double _barPadding = 16;

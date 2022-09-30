@@ -40,11 +40,6 @@ class _WalletScreenState extends State<WalletScreen> {
                 headerAppBar: const _AppBarContent(),
                 headerContent: TotalBalanceWidget(balance: total),
                 stickyBottomHeader: const WalletTabBar(),
-                //TODO
-                // headerSubContent: Padding(
-                //   padding: const EdgeInsets.only(top: 24),
-                //   child: subHeader,
-                // ),
                 child: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
@@ -86,7 +81,7 @@ class _AppBarContent extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                'Investments'.toUpperCase(), //TODO
+                context.l10n.investments,
                 style: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,

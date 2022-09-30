@@ -55,7 +55,7 @@ class TokenChart extends StatelessWidget {
                                   .toList(),
                               isCurved: true,
                               dotData: FlDotData(show: false),
-                              color: const Color(0xffF9653E), //TODO
+                              color: CpColors.chartLineColor,
                               barWidth: 4,
                             )
                           ],
@@ -83,7 +83,7 @@ class TokenChart extends StatelessWidget {
                               },
                             ).toList(),
                             touchTooltipData: LineTouchTooltipData(
-                              tooltipBgColor: const Color(0xff464646), //TODO
+                              tooltipBgColor: CpColors.lightBackgroundColor,
                               getTooltipItems: (touchedSpots) =>
                                   touchedSpots.map(
                                 (LineBarSpot touchedSpot) {
@@ -153,7 +153,7 @@ class _ChartRangeSelector extends StatelessWidget {
                     decoration: interval == e
                         ? const ShapeDecoration(
                             shape: StadiumBorder(),
-                            color: Color(0xff181818), //TODO
+                            color: CpColors.darkBackgroundColor,
                           )
                         : null,
                     child: Text(

@@ -1,3 +1,4 @@
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 class BalancePillWidget extends StatelessWidget {
@@ -17,7 +18,7 @@ class BalancePillWidget extends StatelessWidget {
           ),
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
-            color: Color(0xff464646), //TODO
+            color: CpColors.lightBackgroundColor,
           ),
           child: Center(
             widthFactor: 1,

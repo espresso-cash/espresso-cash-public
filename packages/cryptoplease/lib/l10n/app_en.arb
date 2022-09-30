@@ -349,5 +349,16 @@
       }
     }
   },
-  "yourLinkIsReady": "Your link is ready"
+  "yourLinkIsReady": "Your link is ready",
+  "investments": "INVESTMENTS",
+  "homePage": "Home Page",
+  "marketCapRank": "Market Cap Rank",
+  "aboutTokenLabel": "About{name}.",
+  "@aboutTokenLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }
