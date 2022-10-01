@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -27,8 +25,10 @@ class ODPEvent with _$ODPEvent {
   const factory ODPEvent.process(String id) = ODPEventProcess;
 }
 
+typedef ODPState = ISet<String>;
+
 typedef _Event = ODPEvent;
-typedef _State = ISet<String>;
+typedef _State = ODPState;
 typedef _Emitter = Emitter<_State>;
 
 class ODPBloc extends Bloc<_Event, _State> {
@@ -50,12 +50,10 @@ class ODPBloc extends Bloc<_Event, _State> {
   final Ed25519HDKeyPair _account;
   final TxSender _txSender;
 
-  EventHandler<_Event, _State> get _handler => (event, emit) {
-        event.map(
-          create: (e) => _onCreate(e, emit),
-          process: (e) => _onProcess(e, emit),
-        );
-      };
+  EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
+        create: (e) => _onCreate(e, emit),
+        process: (e) => _onProcess(e, emit),
+      );
 
   Future<void> _onCreate(ODPEventCreate event, _Emitter _) async {
     if (event.amount.token != Token.usdc) {
