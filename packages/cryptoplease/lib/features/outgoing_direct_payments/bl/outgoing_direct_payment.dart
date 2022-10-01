@@ -10,7 +10,7 @@ class OutgoingDirectPayment with _$OutgoingDirectPayment {
   const factory OutgoingDirectPayment({
     required String id,
     required Ed25519HDPublicKey receiver,
-    required Amount amount,
+    required CryptoAmount amount,
     required DateTime created,
     required ODPStatus status,
   }) = _OutgoingDirectPayment;

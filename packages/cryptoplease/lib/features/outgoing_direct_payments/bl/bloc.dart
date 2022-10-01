@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tx_sender.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/outgoing_direct_payment.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
@@ -18,7 +21,7 @@ part 'bloc.freezed.dart';
 class ODPEvent with _$ODPEvent {
   const factory ODPEvent.create({
     required Ed25519HDPublicKey receiver,
-    required Amount amount,
+    required CryptoAmount amount,
   }) = ODPEventCreate;
 
   const factory ODPEvent.process(String id) = ODPEventProcess;
@@ -55,6 +58,10 @@ class ODPBloc extends Bloc<_Event, _State> {
       };
 
   Future<void> _onCreate(ODPEventCreate event, _Emitter _) async {
+    if (event.amount.token != Token.usdc) {
+      throw ArgumentError('Only USDC is supported');
+    }
+
     final status = await _createTx(event.receiver, event.amount);
 
     final payment = OutgoingDirectPayment(
