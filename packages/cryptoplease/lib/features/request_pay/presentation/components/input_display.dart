@@ -24,7 +24,7 @@ class InputDisplay extends StatelessWidget {
         formatted,
         textAlign: TextAlign.right,
         style: const TextStyle(
-          fontSize: 80,
+          fontSize: 70,
           fontWeight: FontWeight.w700,
         ),
       ),
