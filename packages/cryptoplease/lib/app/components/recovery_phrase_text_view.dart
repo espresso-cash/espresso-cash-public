@@ -48,6 +48,7 @@ class RecoveryPhraseTextView extends StatelessWidget {
                       Clipboard.setData(data);
                       showClipboardSnackbar(context);
                     },
+                    size: CpButtonSize.micro,
                   ),
                 ),
               ),
