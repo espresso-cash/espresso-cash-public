@@ -13,7 +13,7 @@ dependencies:
     path: cryptoplease_api
   dfunc: ^0.8.0+1
   freezed_annotation: ^2.0.1
-  json_annotation: ^4.6.0
+  json_annotation: ^4.7.0
   mustache_template: ^2.0.0
   shelf: ^1.3.2
   shelf_router: ^1.1.2
