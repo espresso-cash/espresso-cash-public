@@ -40,37 +40,35 @@ Future<void> main() async {
         ),
       )
       .then((it) => it.encode());
+  final testApiResponse = CreateDirectPaymentResponseDto(
+    fee: 100,
+    transaction: stubTx,
+  );
+  const testAmount = CryptoAmount(
+    value: 100000000,
+    currency: CryptoCurrency(token: Token.usdc),
+  );
+
+  ODPBloc createBloc() => ODPBloc(
+        repository: repository,
+        client: client,
+        account: account,
+        txSender: sender,
+      );
 
   blocTest<ODPBloc, ODPState>(
     'happy path',
     setUp: () async {
-      when(client.createDirectPayment(any)).thenAnswer(
-        (_) async => CreateDirectPaymentResponseDto(
-          fee: 100,
-          transaction: stubTx,
-        ),
-      );
+      when(client.createDirectPayment(any))
+          .thenAnswer((_) async => testApiResponse);
 
       when(sender.send(any)).thenAnswer((_) async => const TxSendResult.sent());
       when(sender.wait(any))
           .thenAnswer((_) async => const TxWaitResult.success());
     },
-    build: () => ODPBloc(
-      repository: repository,
-      client: client,
-      account: account,
-      txSender: sender,
-    ),
+    build: createBloc,
     act: (b) async {
-      b.add(
-        ODPEvent.create(
-          receiver: receiver.publicKey,
-          amount: const CryptoAmount(
-            value: 100000000,
-            currency: CryptoCurrency(token: Token.usdc),
-          ),
-        ),
-      );
+      b.add(ODPEvent.create(receiver: receiver.publicKey, amount: testAmount));
     },
     verify: (b) async {
       verify(sender.send(any)).called(1);
@@ -81,6 +79,29 @@ Future<void> main() async {
         repository._payments.values.first,
         isA<OutgoingDirectPayment>()
             .having((it) => it.status, 'status', const ODPStatus.success()),
+      );
+    },
+  );
+
+  blocTest<ODPBloc, ODPState>(
+    'failed to get tx from API',
+    setUp: () async {
+      when(client.createDirectPayment(any))
+          .thenAnswer((_) async => throw Exception());
+    },
+    build: createBloc,
+    act: (b) async {
+      b.add(ODPEvent.create(receiver: receiver.publicKey, amount: testAmount));
+    },
+    verify: (b) async {
+      verifyNever(sender.send(any));
+      verifyNever(sender.wait(any));
+
+      expect(repository._payments.length, 1);
+      expect(
+        repository._payments.values.first,
+        isA<OutgoingDirectPayment>()
+            .having((it) => it.status, 'status', const ODPStatus.txFailure()),
       );
     },
   );
