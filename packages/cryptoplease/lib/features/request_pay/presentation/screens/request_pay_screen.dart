@@ -68,11 +68,18 @@ class _ScreenState extends State<RequestPayScreen> {
               ),
               child: CpInfoWidget(
                 icon: const InfoIcon(),
-                message: Text(context.l10n.usdcExplanation),
+                message: Text(
+                  context.l10n.usdcExplanation,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               ),
             ),
             Flexible(
-              flex: 3,
               child: LayoutBuilder(
                 builder: (context, constraints) => EnterAmountKeypad(
                   height: constraints.maxHeight,
@@ -82,7 +89,6 @@ class _ScreenState extends State<RequestPayScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Row(
@@ -107,7 +113,7 @@ class _ScreenState extends State<RequestPayScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: cpNavigationBarheight + 32),
+            const SizedBox(height: cpNavigationBarheight + 24),
           ],
         ),
       ),
