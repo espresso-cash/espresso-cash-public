@@ -1,3 +1,4 @@
+import 'package:cryptoplease/app/components/share_message/header.dart';
 import 'package:cryptoplease/app/components/share_message_wrapper.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
@@ -48,7 +49,7 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
       textSpan: TextSpan(
         children: [
           WidgetSpan(
-            child: _Header(
+            child: ShareMessageHeader(
               amount: amount,
               tokenType: widget.transfer.tokenType,
             ),
@@ -98,32 +99,6 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
       ),
     );
   }
-}
-
-class _Header extends StatelessWidget {
-  const _Header({
-    Key? key,
-    required this.amount,
-    required this.tokenType,
-  }) : super(key: key);
-
-  final String amount;
-  final OutgoingTransferTokenType tokenType;
-
-  @override
-  Widget build(BuildContext context) => Text.rich(
-        tokenType != OutgoingTransferTokenType.fungibleToken
-            ? TextSpan(text: context.l10n.shareIntroNft)
-            : TextSpan(
-                text: context.l10n.shareIntroFt,
-                children: [
-                  TextSpan(
-                    text: amount,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-      );
 }
 
 class _Links extends StatelessWidget {
