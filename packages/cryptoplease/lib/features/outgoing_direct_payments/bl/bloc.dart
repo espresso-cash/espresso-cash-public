@@ -1,5 +1,6 @@
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/resign_tx.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tx_sender.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/outgoing_direct_payment.dart';
@@ -119,9 +120,11 @@ class ODPBloc extends Bloc<_Event, _State> {
       );
       final tx = await _client
           .createDirectPayment(dto)
-          .then((value) => value.transaction);
+          .then((it) => it.transaction)
+          .then(SignedTx.decode)
+          .then((it) => it.resign(_account));
 
-      return ODPStatus.txCreated(SignedTx.decode(tx));
+      return ODPStatus.txCreated(tx);
     } on Exception {
       return const ODPStatus.txFailure();
     }
