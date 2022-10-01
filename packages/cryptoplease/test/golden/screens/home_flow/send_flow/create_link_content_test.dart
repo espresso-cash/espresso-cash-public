@@ -1,7 +1,7 @@
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/confirm_screen/components/token_create_link_content.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/confirm_screen/components/token_create_link_content.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';

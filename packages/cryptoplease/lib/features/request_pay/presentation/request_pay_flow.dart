@@ -5,7 +5,7 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';

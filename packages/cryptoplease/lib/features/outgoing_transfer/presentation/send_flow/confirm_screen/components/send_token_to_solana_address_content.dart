@@ -1,22 +1,20 @@
-import 'package:cryptoplease/app/components/nft_image.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/address_view.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/confirm_screen/components/amount_view.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/confirm_screen/components/amount_view.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/widgets.dart';
-import 'package:solana/metaplex.dart';
 
-class SendNftToSolanaAddressContent extends StatelessWidget {
-  const SendNftToSolanaAddressContent({
+class SendTokenToSolanaAddressContent extends StatelessWidget {
+  const SendTokenToSolanaAddressContent({
     Key? key,
+    required this.amount,
     required this.fee,
     required this.address,
-    required this.metadata,
   }) : super(key: key);
 
+  final Amount amount;
   final Amount fee;
   final String address;
-  final Metadata metadata;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -24,12 +22,16 @@ class SendNftToSolanaAddressContent extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(context.l10n.confirmationTitle, style: _largeTextStyle),
+            Text(
+              context.l10n.confirmationTitle,
+              style: _largeTextStyle,
+            ),
             const SizedBox(height: 40),
-            Text(context.l10n.youAreSending, style: _mediumTextStyle),
-            SizedBox(
-              height: 244,
-              child: Center(child: NftImage(metadata: metadata, size: 184)),
+            FittedBox(
+              child: AmountView.value(
+                label: context.l10n.youAreSending,
+                amount: amount,
+              ),
             ),
             const SizedBox(height: 40),
             Text(context.l10n.to, style: _mediumTextStyle),
