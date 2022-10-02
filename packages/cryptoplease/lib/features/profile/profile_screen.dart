@@ -23,7 +23,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final state = context.watch<MyAccount>();
     final name = state.firstName;
     final photoPath = state.photoPath;
-    final address = state.address;
 
     return Material(
       color: Colors.white,
@@ -77,19 +76,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
-                    Container(
-                      height: 150,
-                      width: 150,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: CpColors.lightGreyBackground,
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                      ),
-                      child: QrImage(
-                        data: address,
-                        size: 136,
-                      ),
-                    ),
+                    const SizedBox(height: 24),
+                    _AddressWidget(address: state.address),
                   ],
                 ),
               ),
@@ -118,3 +106,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 const double _buttonSpacing = 24;
 const double _imageSize = 100;
+
+class _AddressWidget extends StatelessWidget {
+  const _AddressWidget({
+    Key? key,
+    required this.address,
+  }) : super(key: key);
+
+  final String address;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        height: 150,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        decoration: const BoxDecoration(
+          color: CpColors.lightGreyBackground,
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+        child: Row(
+          children: [
+            QrImage(data: address, padding: EdgeInsets.zero),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 24),
+                child: Text(
+                  address,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+}
