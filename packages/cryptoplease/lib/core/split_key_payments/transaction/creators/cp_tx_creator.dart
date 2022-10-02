@@ -1,5 +1,6 @@
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
+import 'package:cryptoplease/core/resign_tx.dart';
 import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
@@ -74,13 +75,4 @@ class CpTxCreator implements TxCreator {
       return const Either.left(TxCreationError.other());
     }
   }
-}
-
-extension on SignedTx {
-  Future<SignedTx> resign(Wallet wallet) async => SignedTx(
-        signatures: signatures.toList()
-          ..removeLast()
-          ..add(await wallet.sign(messageBytes)),
-        messageBytes: messageBytes,
-      );
 }
