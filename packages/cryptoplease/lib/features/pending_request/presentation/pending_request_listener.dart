@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
 import 'package:cryptoplease/features/pending_request/bl/pending_request_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -5,7 +5,6 @@ import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
 import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
-import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:dfunc/dfunc.dart';
@@ -31,13 +30,11 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
     required OutgoingTransferRepository repository,
     required SolanaClient solanaClient,
     required BalancesBloc balancesBloc,
-    required NftCollectionBloc nftCollectionBloc,
     required MyAccount account,
     required TxCreatorStrategy txCreatorSelector,
   })  : _repository = repository,
         _solanaClient = solanaClient,
         _balancesBloc = balancesBloc,
-        _nftCollectionBloc = nftCollectionBloc,
         _account = account,
         _txCreatorSelector = txCreatorSelector,
         super(const OutgoingTransfersState()) {
@@ -47,7 +44,6 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
   final OutgoingTransferRepository _repository;
   final SolanaClient _solanaClient;
   final BalancesBloc _balancesBloc;
-  final NftCollectionBloc _nftCollectionBloc;
   final TxCreatorStrategy _txCreatorSelector;
   final MyAccount _account;
 
@@ -131,14 +127,7 @@ class OutgoingTransfersBloc extends Bloc<_Event, _State> {
       );
 
       await _repository.save(payment.toReady(signature));
-      switch (payment.tokenType) {
-        case OutgoingTransferTokenType.fungibleToken:
-          _balancesBloc.add(BalancesEvent.requested(address: _account.address));
-          break;
-        case OutgoingTransferTokenType.nonFungibleToken:
-          _nftCollectionBloc.add(const NftCollectionEvent.updated());
-          break;
-      }
+      _balancesBloc.add(BalancesEvent.requested(address: _account.address));
 
       return state.removeProcessing(payment.id);
     } on Exception catch (e) {

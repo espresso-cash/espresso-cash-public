@@ -112,8 +112,6 @@
   "oneWeek": "1 week",
   "oneMonth": "1 month",
   "back": "Back",
-  "unsupportedNft": "Unsupported Nft",
-  "yourNfts": "YOUR COLLECTIBLES",
   "splitKeySecondLinkTitle": "Money is waiting for you!",
   "splitKeySecondLinkReadyTitle": "Receiving money",
   "splitKeySecondLinkMessage": "Please click the second link in the message you've received.",
@@ -125,7 +123,6 @@
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyErrorRetry": "Please retry.",
   "buy": "Buy",
-  "errorLoadingPullToRefresh": "There was an error and we couldn't load your NFT collection, please pull to refresh",
   "txFailed": "Failed {signature}",
   "@txFailed": {
     "placeholders": {
@@ -348,7 +345,6 @@
   },
   "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the links.",
   "shareIntroFt": "Hi!\n\nI’ve just sent you ",
-  "shareIntroNft": "Hi!\n\nI’ve just sent you a NFT.",
   "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
   "shareStep1": "Step 1 – Click on the first link:",
   "shareStep2": "Step 2 – When the application asks you, click on the second link:",
