@@ -1,6 +1,6 @@
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/confirm_screen/components/direct_content.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/confirm_screen/components/direct_content.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
