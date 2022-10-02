@@ -76,7 +76,9 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
     await _repository.save(payment);
 
-    add(OSKPEvent.process(payment.id));
+    if (status is OSKPStatusTxCreated) {
+      add(OSKPEvent.process(payment.id));
+    }
   }
 
   Future<void> _onProcess(OSKPEventProcess event, _Emitter emit) async {
