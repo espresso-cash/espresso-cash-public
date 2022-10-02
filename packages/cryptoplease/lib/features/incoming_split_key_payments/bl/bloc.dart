@@ -1,10 +1,8 @@
 import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/resign_tx.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tx_sender.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/bl/outgoing_direct_payment.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/bl/incoming_split_key_payment.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/bl/repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -17,24 +15,21 @@ import 'package:uuid/uuid.dart';
 part 'bloc.freezed.dart';
 
 @freezed
-class ODPEvent with _$ODPEvent {
-  const factory ODPEvent.create({
-    required Ed25519HDPublicKey receiver,
-    required CryptoAmount amount,
-  }) = ODPEventCreate;
+class ISKPEvent with _$ISKPEvent {
+  const factory ISKPEvent.create(Ed25519HDKeyPair escrow) = ISKPEventCreate;
 
-  const factory ODPEvent.process(String id) = ODPEventProcess;
+  const factory ISKPEvent.process(String id) = ISKPEventProcess;
 }
 
-typedef ODPState = ISet<String>;
+typedef ISKPState = ISet<String>;
 
-typedef _Event = ODPEvent;
-typedef _State = ODPState;
+typedef _Event = ISKPEvent;
+typedef _State = ISKPState;
 typedef _Emitter = Emitter<_State>;
 
-class ODPBloc extends Bloc<_Event, _State> {
-  ODPBloc({
-    required ODPRepository repository,
+class ISKPBloc extends Bloc<_Event, _State> {
+  ISKPBloc({
+    required ISKPRepository repository,
     required CryptopleaseClient client,
     required Ed25519HDKeyPair account,
     required TxSender txSender,
@@ -46,7 +41,7 @@ class ODPBloc extends Bloc<_Event, _State> {
     on<_Event>(_handler);
   }
 
-  final ODPRepository _repository;
+  final ISKPRepository _repository;
   final CryptopleaseClient _client;
   final Ed25519HDKeyPair _account;
   final TxSender _txSender;
@@ -56,29 +51,26 @@ class ODPBloc extends Bloc<_Event, _State> {
         process: (e) => _onProcess(e, emit),
       );
 
-  Future<void> _onCreate(ODPEventCreate event, _Emitter _) async {
-    if (event.amount.token != Token.usdc) {
-      throw ArgumentError('Only USDC is supported');
-    }
+  Future<void> _onCreate(ISKPEventCreate event, _Emitter _) async {
+    // TODO(KB): Check whether the account is correct.
 
-    final status = await _createTx(event.receiver, event.amount);
+    final status = await _createTx(event.escrow);
 
-    final payment = OutgoingDirectPayment(
+    final payment = IncomingSplitKeyPayment(
       id: const Uuid().v4(),
-      receiver: event.receiver,
-      amount: event.amount,
       created: DateTime.now(),
+      escrow: event.escrow,
       status: status,
     );
 
     await _repository.save(payment);
 
-    if (status is ODPStatusTxCreated) {
-      add(ODPEvent.process(payment.id));
+    if (status is ISKPStatusTxCreated) {
+      add(ISKPEvent.process(payment.id));
     }
   }
 
-  Future<void> _onProcess(ODPEventProcess event, _Emitter emit) async {
+  Future<void> _onProcess(ISKPEventProcess event, _Emitter emit) async {
     final payment = await _repository.load(event.id);
 
     if (payment == null) return;
@@ -86,13 +78,15 @@ class ODPBloc extends Bloc<_Event, _State> {
 
     emit(state.add(payment.id));
 
-    final ODPStatus newStatus = await payment.status.map(
+    final ISKPStatus newStatus = await payment.status.map(
+      privateKeyReady: (_) => _createTx(payment.escrow),
       txCreated: (status) => _sendTx(status.tx),
       txSent: (status) => _waitTx(status.txId),
       success: (status) async => status,
-      txFailure: (_) => _createTx(payment.receiver, payment.amount),
+      txFailure: (_) => _createTx(payment.escrow),
       txSendFailure: (status) => _sendTx(status.tx),
       txWaitFailure: (status) => _waitTx(status.txId),
+      txEscrowFailure: (status) async => status,
     );
 
     await _repository.save(payment.copyWith(status: newStatus));
@@ -100,56 +94,55 @@ class ODPBloc extends Bloc<_Event, _State> {
     emit(state.remove(payment.id));
 
     newStatus.map(
-      txCreated: (_) => add(ODPEvent.process(payment.id)),
-      txSent: (_) => add(ODPEvent.process(payment.id)),
+      privateKeyReady: (_) => add(ISKPEvent.process(payment.id)),
+      txCreated: (_) => add(ISKPEvent.process(payment.id)),
+      txSent: (_) => add(ISKPEvent.process(payment.id)),
       success: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,
+      txEscrowFailure: ignore,
     );
   }
 
-  Future<ODPStatus> _createTx(
-    Ed25519HDPublicKey receiver,
-    Amount amount,
-  ) async {
+  Future<ISKPStatus> _createTx(Ed25519HDKeyPair escrow) async {
     try {
-      final dto = CreateDirectPaymentRequestDto(
-        senderAccount: _account.address,
-        receiverAccount: receiver.toBase58(),
-        amount: amount.value,
+      final dto = ReceivePaymentRequestDto(
+        receiverAccount: _account.address,
+        escrowAccount: escrow.address,
         cluster: apiCluster,
       );
+
       final tx = await _client
-          .createDirectPayment(dto)
+          .receivePayment(dto)
           .then((it) => it.transaction)
           .then(SignedTx.decode)
           .then((it) => it.resign(_account));
 
-      return ODPStatus.txCreated(tx);
+      return ISKPStatus.txCreated(tx);
     } on Exception {
-      return const ODPStatus.txFailure();
+      return const ISKPStatus.txFailure();
     }
   }
 
-  Future<ODPStatus> _sendTx(SignedTx tx) async {
+  Future<ISKPStatus> _sendTx(SignedTx tx) async {
     final result = await _txSender.send(tx);
 
     return result.map(
-      sent: (_) => ODPStatus.txSent(tx.id),
-      invalidBlockhash: (_) => const ODPStatus.txFailure(),
-      failure: (_) => const ODPStatus.txFailure(),
-      networkError: (_) => ODPStatus.txSendFailure(tx),
+      sent: (_) => ISKPStatus.txSent(tx.id),
+      invalidBlockhash: (_) => const ISKPStatus.txFailure(),
+      failure: (_) => const ISKPStatus.txEscrowFailure(),
+      networkError: (_) => ISKPStatus.txSendFailure(tx),
     );
   }
 
-  Future<ODPStatus> _waitTx(String txId) async {
+  Future<ISKPStatus> _waitTx(String txId) async {
     final result = await _txSender.wait(txId);
 
     return result.map(
-      success: (_) => const ODPStatus.success(),
-      failure: (_) => const ODPStatus.txFailure(),
-      networkError: (_) => ODPStatus.txWaitFailure(txId),
+      success: (_) => const ISKPStatus.success(),
+      failure: (_) => const ISKPStatus.txEscrowFailure(),
+      networkError: (_) => ISKPStatus.txWaitFailure(txId),
     );
   }
 }
