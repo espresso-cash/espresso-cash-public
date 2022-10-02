@@ -1,9 +1,13 @@
+import 'package:cryptoplease_api/cryptoplease_api.dart';
+
 // If 'PROD' is provided with the value "true" to the dart
 // defines, then we mostly use the default values.
 
 const isProd = bool.fromEnvironment('PROD');
 
 const currentChainId = isProd ? _mainNetChainId : _devNetChainId;
+
+const apiCluster = isProd ? Cluster.mainnet : Cluster.devnet;
 
 // Environment dependent constants
 

@@ -15,15 +15,16 @@ class QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(
-            left: 16,
-            top: 8,
-          ),
+          padding: const EdgeInsets.only(left: 28, top: 12),
           child: Row(
             children: [
-              IconButton(
-                onPressed: onQrScanner,
-                icon: Assets.icons.qrScanner.svg(height: 24),
+              SizedBox.square(
+                dimension: 26,
+                child: IconButton(
+                  onPressed: onQrScanner,
+                  icon: Assets.icons.qrScanner.svg(height: 26),
+                  padding: EdgeInsets.zero,
+                ),
               ),
             ],
           ),
