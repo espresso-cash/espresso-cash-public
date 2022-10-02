@@ -233,7 +233,6 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
               payment = await OutgoingTransfer.createSplitKeyTransfer(
                 amount: state.tokenAmount.value,
                 tokenAddress: state.token.address,
-                tokenType: OutgoingTransferTokenType.fungibleToken,
                 apiVersion: state.apiVersion,
               );
               break;
@@ -245,7 +244,6 @@ class FtCreateOutgoingTransferBloc extends Bloc<_Event, _State> {
                 tokenAddress: state.token.address,
                 memo: state.memo,
                 reference: state.reference,
-                tokenType: OutgoingTransferTokenType.fungibleToken,
               );
               break;
           }

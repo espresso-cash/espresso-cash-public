@@ -20,7 +20,6 @@ void main() {
     amount: 100,
     tokenAddress: 'sol',
     state: const OutgoingTransferState.draft(),
-    tokenType: OutgoingTransferTokenType.fungibleToken,
   );
 
   tearDown(() => reset(bloc));
