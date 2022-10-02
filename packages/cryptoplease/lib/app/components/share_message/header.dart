@@ -24,6 +24,7 @@ class ShareMessageHeader extends StatelessWidget {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
+                style: const TextStyle(fontSize: 18, color: Colors.white),
               ),
       );
 }

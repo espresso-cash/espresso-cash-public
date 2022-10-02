@@ -123,6 +123,7 @@ class _Links extends StatelessWidget {
             _newLine,
             TextSpan(text: secondLink.toString(), style: _linkStyle),
           ],
+          style: _baseStyle,
         ),
       );
 }
@@ -138,13 +139,18 @@ class _Instructions extends StatelessWidget {
             TextSpan(text: context.l10n.shareInstructions),
             _newLine,
           ],
+          style: _baseStyle,
         ),
       );
 }
 
 const _newLine = TextSpan(text: '\n\n');
 
-const _linkStyle = TextStyle(
-  fontWeight: FontWeight.w600,
-  color: CpColors.linkColor,
+final _linkStyle = _baseStyle.merge(
+  const TextStyle(
+    fontWeight: FontWeight.w600,
+    color: CpColors.linkColor,
+  ),
 );
+
+const _baseStyle = TextStyle(fontSize: 18);
