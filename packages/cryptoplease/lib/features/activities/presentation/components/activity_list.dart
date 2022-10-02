@@ -174,9 +174,7 @@ class _SKOutgoingTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final amount = transfer.tokenType == OutgoingTransferTokenType.fungibleToken
-        ? transfer.toAmount().format(DeviceLocale.localeOf(context))
-        : 'NFT';
+    final amount = transfer.toAmount().format(DeviceLocale.localeOf(context));
     final title = transfer.state.map(
       draft: always(
         context.l10n.splitKeyOutgoingDraftNotificationTitle(amount),

@@ -9,8 +9,6 @@ import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/add_funds/module.dart';
 import 'package:cryptoplease/features/airdrop/module.dart';
 import 'package:cryptoplease/features/backup_phrase/module.dart';
-import 'package:cryptoplease/features/nft/bl/nft_collection/bloc.dart';
-import 'package:cryptoplease/features/nft/module.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfers_bloc/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/module.dart';
@@ -57,7 +55,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
                 const AddFundsModule(),
-                const NftModule(),
                 _outgoingTransfersBlocProvider(account),
                 PendingRequestListener(routerKey: _homeRouterKey),
                 _balanceListener,
@@ -82,7 +79,6 @@ BlocProvider<OutgoingTransfersBloc> _outgoingTransfersBlocProvider(
         account: account,
         txCreatorSelector: context.read<TxCreatorStrategy>(),
         balancesBloc: context.read<BalancesBloc>(),
-        nftCollectionBloc: context.read<NftCollectionBloc>(),
       ),
     );
 

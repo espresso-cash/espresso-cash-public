@@ -19,8 +19,6 @@ typedef OutgoingTransferId = String;
 
 enum OutgoingTransferType { splitKey, direct }
 
-enum OutgoingTransferTokenType { fungibleToken, nonFungibleToken }
-
 @freezed
 class OutgoingTransfer with _$OutgoingTransfer {
   const factory OutgoingTransfer.splitKey({
@@ -30,8 +28,6 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required String tokenAddress,
     required OutgoingTransferState state,
     required IList<int> privateKey,
-    @Default(OutgoingTransferTokenType.fungibleToken)
-        OutgoingTransferTokenType tokenType,
     @Default(SplitKeyApiVersion.v1) SplitKeyApiVersion apiVersion,
     String? signature,
     Uri? firstLink,
@@ -45,8 +41,6 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required int amount,
     required String tokenAddress,
     required OutgoingTransferState state,
-    @Default(OutgoingTransferTokenType.fungibleToken)
-        OutgoingTransferTokenType tokenType,
     String? reference,
     @Default(IListConst<String>([])) IList<String> references,
     String? memo,
@@ -61,7 +55,6 @@ class OutgoingTransfer with _$OutgoingTransfer {
   static Future<OutgoingTransferSplitKey> createSplitKeyTransfer({
     required int amount,
     required String tokenAddress,
-    required OutgoingTransferTokenType tokenType,
     required SplitKeyApiVersion apiVersion,
   }) async {
     final recipient = await createRandomKeyPair();
@@ -73,7 +66,6 @@ class OutgoingTransfer with _$OutgoingTransfer {
       amount: amount,
       tokenAddress: tokenAddress,
       state: const OutgoingTransferState.draft(),
-      tokenType: tokenType,
       apiVersion: apiVersion,
     );
   }
@@ -82,7 +74,6 @@ class OutgoingTransfer with _$OutgoingTransfer {
     required String recipientAddress,
     required int amount,
     required String tokenAddress,
-    required OutgoingTransferTokenType tokenType,
     String? memo,
     Iterable<Ed25519HDPublicKey>? reference,
   }) =>
@@ -95,7 +86,6 @@ class OutgoingTransfer with _$OutgoingTransfer {
         state: const OutgoingTransferState.draft(),
         memo: memo,
         references: IList(reference?.map((e) => e.toBase58()) ?? []),
-        tokenType: tokenType,
       );
 
   IList<String> get allReferences => this.map(
