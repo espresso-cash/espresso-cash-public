@@ -23,7 +23,7 @@ import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.d
 import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/transaction_details_screen.dart';
 import 'package:cryptoplease/features/transactions/presentation/transactions_screen/transactions_screen.dart';
 
-const authenticatedFlowRoutes = AutoRoute<void>(
+const authenticatedFlowRoutes = AutoRoute<dynamic>(
   page: AuthenticatedFlowScreen,
   children: [
     AutoRoute<void>(
@@ -31,10 +31,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
       page: HomeTabsScreen,
       children: [
         CustomRoute<void>(path: '', page: MenuScreen),
-        CustomRoute<void>(
-          page: RequestPayFlowScreen,
-          children: requestPayRoutes,
-        ),
+        CustomRoute<void>(page: RequestPayFlowScreen),
         CustomRoute<void>(page: ActivitiesScreen),
         CustomRoute<void>(page: WalletScreen),
       ],

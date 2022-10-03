@@ -1,34 +1,45 @@
 import 'package:cryptoplease/app/components/info_icon.dart';
+import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/qr_scanner_appbar.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/request_pay_header.dart';
-import 'package:cryptoplease/features/request_pay/presentation/request_pay_flow.dart';
+import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RequestPayScreen extends StatefulWidget {
   const RequestPayScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+    required this.onScan,
+    required this.onAmountChanged,
+    required this.onRequest,
+    required this.onPay,
+    required this.amount,
+  });
+
+  final VoidCallback onScan;
+  final VoidCallback onRequest;
+  final VoidCallback onPay;
+  final ValueSetter<Decimal> onAmountChanged;
+  final Decimal amount;
 
   @override
   State<RequestPayScreen> createState() => _ScreenState();
 }
 
 class _ScreenState extends State<RequestPayScreen> {
-  late final RequestRouter _router;
   late final TextEditingController _amountController;
 
   @override
   void initState() {
-    _router = context.read<RequestRouter>();
+    super.initState();
     _amountController = TextEditingController();
     _amountController.addListener(_updateValue);
-    super.initState();
   }
 
   @override
@@ -37,9 +48,22 @@ class _ScreenState extends State<RequestPayScreen> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(covariant RequestPayScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final newAmount = widget.amount;
+    final locale = DeviceLocale.localeOf(context);
+    final currentAmount = _amountController.text.toDecimalOrZero(locale);
+    if (newAmount != oldWidget.amount && newAmount != currentAmount) {
+      _amountController.text = newAmount.toString();
+    }
+  }
+
   void _updateValue() {
-    final value = _amountController.text;
-    _router.onAmountUpdate(value);
+    final locale = DeviceLocale.localeOf(context);
+    final amount = _amountController.text.toDecimalOrZero(locale);
+    widget.onAmountChanged(amount);
   }
 
   @override
@@ -47,9 +71,7 @@ class _ScreenState extends State<RequestPayScreen> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: QrScannerAppBar(
-        onQrScanner: _router.onQrScanner,
-      ),
+      appBar: QrScannerAppBar(onQrScanner: widget.onScan),
       body: BlocBuilder<RequestPayBloc, RequestPayState>(
         builder: (context, state) => Column(
           children: [
@@ -95,7 +117,7 @@ class _ScreenState extends State<RequestPayScreen> {
                     child: CpButton(
                       text: context.l10n.receive,
                       minWidth: width,
-                      onPressed: _router.onRequest,
+                      onPressed: widget.onRequest,
                       size: CpButtonSize.big,
                     ),
                   ),
@@ -104,7 +126,7 @@ class _ScreenState extends State<RequestPayScreen> {
                     child: CpButton(
                       text: context.l10n.pay,
                       minWidth: width,
-                      onPressed: _router.onPay,
+                      onPressed: widget.onPay,
                       size: CpButtonSize.big,
                     ),
                   ),

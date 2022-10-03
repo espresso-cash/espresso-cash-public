@@ -1,19 +1,21 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
+import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
-import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
+import 'package:cryptoplease/features/request_pay/presentation/screens/request_pay_screen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,103 +28,93 @@ class RequestPayFlowScreen extends StatefulWidget {
   State<RequestPayFlowScreen> createState() => _State();
 }
 
-class _State extends State<RequestPayFlowScreen> implements RequestRouter {
-  late final RequestPayBloc _requestPayBloc;
+class _State extends State<RequestPayFlowScreen> {
+  CryptoAmount _amount = const CryptoAmount(value: 0, currency: Currency.usdc);
 
-  @override
-  void initState() {
-    super.initState();
-    _requestPayBloc = context.read<RequestPayBloc>();
+  Future<void> _onQrScanner() async {
+    // final request =
+    // await context.router.push<QrScannerRequest>(const QrScannerRoute());
+
+    final request = QrScannerRequest.address(
+        QrAddressData(address: 'address', name: 'name'));
+
+    final address = request?.map(
+      solanaPay: (r) => r.request.recipient.toBase58(),
+      address: (r) => r.addressData.address,
+    );
+    final name = request?.map(
+      solanaPay: (r) => r.request.label,
+      address: (r) => r.addressData.name,
+    );
+    if (!mounted) return;
+
+    if (address == null) {
+      // TODO(KB): Show meaningful dialog
+      await showWarningDialog(context, title: 'title', message: 'message');
+
+      return;
+    }
+
+    final formatted = _amount.value == 0
+        ? ''
+        : _amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
+
+    final amount = await context.router.push<Decimal>(
+      DirectPayRoute(
+        initialAmount: formatted,
+        recipient: address,
+        label: name,
+      ),
+    );
+    if (!mounted) return;
+
+    if (amount != null) {
+      setState(() => _amount = _amount.copyWithDecimal(amount));
+    }
+
+    await showWarningDialog(context, title: 'title', message: '$amount');
   }
 
-  @override
-  Future<void> onQrScanner() =>
-      context.router.push<QrScannerRequest>(const QrScannerRoute()).then(
-        (request) {
-          final address = request?.map(
-            solanaPay: (r) => r.request.recipient.toBase58(),
-            address: (r) => r.addressData.address,
-          );
-          final name = request?.map(
-            solanaPay: (r) => r.request.label,
-            address: (r) => r.addressData.name,
-          );
-          if (address == null) return;
+  void _onAmountUpdate(Decimal value) {
+    if (value == _amount.decimal) return;
 
-          _requestPayBloc.add(RequestPayEvent.recipientUpdated(address));
-
-          final amount = _requestPayBloc.state.amount;
-          final formatted = amount.value == 0
-              ? ''
-              : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
-
-          context.router.push(
-            DirectPayRoute(
-              initialAmount: formatted,
-              recipient: address,
-              label: name,
-              onClearRecipient: onClearRecipient,
-              onAmountUpdate: onAmountUpdate,
-              onPay: onPay,
-            ),
-          );
-        },
-      );
-
-  @override
-  void onClearRecipient() {
-    _requestPayBloc.add(const RequestPayEvent.cleared());
-    context.router.pop();
+    setState(() => _amount = _amount.copyWithDecimal(value));
   }
 
-  @override
-  void onAmountUpdate(String value) {
-    final locale = DeviceLocale.localeOf(context);
-    final amount = value.toDecimalOrZero(locale);
-    _requestPayBloc.add(RequestPayEvent.amountUpdated(amount));
-  }
-
-  @override
-  void onRequest() {
-    if (_requestPayBloc.state.recipient != null) return;
-
-    final amount = _requestPayBloc.state.amount;
-
-    if (amount.value == 0) {
+  void _onRequest() {
+    if (_amount.value == 0) {
       return _showZeroAmountDialog(_Operation.request);
     }
 
-    context.navigateToReceiveByLink(amount: amount);
+    context.navigateToReceiveByLink(amount: _amount);
   }
 
-  @override
-  void onPay() {
-    final amount = _requestPayBloc.state.amount;
-    final recipient = _requestPayBloc.state.recipient;
-
-    if (amount.value == 0) {
+  void _onPay() {
+    if (_amount.value == 0) {
       return _showZeroAmountDialog(_Operation.pay);
     }
 
-    _requestPayBloc.validate().fold(
-      (e) => e.map(
-        insufficientFunds: (e) => _showInsufficientTokenDialog(
-          balance: e.balance,
-          currentAmount: e.currentAmount,
-        ),
-        insufficientFee: (e) => _showInsufficientFeeDialog(e.requiredFee),
-      ),
-      (_) {
-        if (recipient == null) {
-          context.navigateToLinkConfirmation(amount: amount);
-        } else {
-          _requestPayBloc.add(const RequestPayEvent.directSubmitted());
-          context.router.push(
-            DirectPayConfirmRoute(onSubmitted: _onPaymentSubmitted),
-          );
-        }
-      },
-    );
+    context.navigateToLinkConfirmation(amount: _amount);
+
+    // _requestPayBloc.validate().fold(
+    //   (e) => e.map(
+    //     insufficientFunds: (e) => _showInsufficientTokenDialog(
+    //       balance: e.balance,
+    //       currentAmount: e.currentAmount,
+    //     ),
+    //     insufficientFee: (e) => _showInsufficientFeeDialog(e.requiredFee),
+    //   ),
+    //   (_) {
+    //     if (recipient == null) {
+    //       context.navigateToLinkConfirmation(amount: amount);
+    //     } else {
+    //       _requestPayBloc.add(const RequestPayEvent.directSubmitted());
+    //       context.router.push(
+    //         DirectPayConfirmRoute(onSubmitted: _onPaymentSubmitted),
+    //       );
+    //     }
+    //   },
+    // );
   }
 
   void _onPaymentSubmitted(OutgoingTransferId transferId) {
@@ -162,22 +154,15 @@ class _State extends State<RequestPayFlowScreen> implements RequestRouter {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          body: MultiProvider(
-            providers: [
-              Provider<RequestRouter>.value(value: this),
-            ],
-            child: const AutoRouter(),
+          body: RequestPayScreen(
+            onScan: _onQrScanner,
+            onAmountChanged: _onAmountUpdate,
+            onRequest: _onRequest,
+            onPay: _onPay,
+            amount: _amount.decimal,
           ),
         ),
       );
-}
-
-abstract class RequestRouter {
-  void onRequest();
-  void onPay();
-  void onQrScanner();
-  void onClearRecipient();
-  void onAmountUpdate(String value);
 }
 
 enum _Operation { request, pay }

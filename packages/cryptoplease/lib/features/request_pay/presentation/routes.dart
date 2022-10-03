@@ -1,13 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/features/request_pay/presentation/screens/direct_pay_confirm_screen.dart';
 import 'package:cryptoplease/features/request_pay/presentation/screens/direct_pay_screen.dart';
-import 'package:cryptoplease/features/request_pay/presentation/screens/request_pay_screen.dart';
-
-const requestPayRoutes = [
-  AutoRoute<void>(path: '', page: RequestPayScreen),
-];
+import 'package:decimal/decimal.dart';
 
 const requestDirectRoutes = [
-  AutoRoute<void>(page: DirectPayScreen),
+  AutoRoute<Decimal>(page: DirectPayScreen),
   AutoRoute<void>(page: DirectPayConfirmScreen),
 ];
