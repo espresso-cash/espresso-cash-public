@@ -1,18 +1,23 @@
+import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/confirm_screen/components/direct_content.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
+import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DirectPayConfirmScreen extends StatefulWidget {
   const DirectPayConfirmScreen({
-    Key? key,
-    required this.onSubmitted,
-  }) : super(key: key);
+    super.key,
+    required this.recipient,
+    required this.amount,
+  });
 
-  final ValueSetter<OutgoingTransferId> onSubmitted;
+  final String recipient;
+  final Amount amount;
 
   @override
   State<DirectPayConfirmScreen> createState() => _ConfirmScreenState();
@@ -20,23 +25,14 @@ class DirectPayConfirmScreen extends StatefulWidget {
 
 class _ConfirmScreenState extends State<DirectPayConfirmScreen> {
   @override
-  Widget build(BuildContext context) =>
-      BlocConsumer<RequestPayBloc, RequestPayState>(
-        listenWhen: (s1, s2) => s1.processingState != s2.processingState,
-        listener: (context, state) => state.processingState.maybeMap(
-          error: (s) => showErrorDialog(context, 'Failed to send money', s.e),
-          orElse: ignore,
+  Widget build(BuildContext context) => DirectContent(
+        fee: Amount.fromDecimal(
+          value: Decimal.parse('0.1'),
+          currency: Currency.usdc,
         ),
-        builder: (context, state) => DirectContent(
-          fee: state.fee,
-          recipientAddress: state.recipient ?? '',
-          tokenAmount: state.amount,
-          isProcessing: state.processingState.isProcessing,
-          onSubmitted: () {
-            final paymentId = state.directTransfer?.paymentId;
-            if (paymentId == null) return;
-            widget.onSubmitted(paymentId);
-          },
-        ),
+        recipientAddress: widget.recipient,
+        tokenAmount: widget.amount,
+        isProcessing: false,
+        onSubmitted: () {},
       );
 }

@@ -64,15 +64,24 @@ class _State extends State<RequestPayFlowScreen> {
         initialAmount: formatted,
         recipient: address,
         label: name,
+        token: _amount.token,
       ),
     );
     if (!mounted) return;
 
     if (amount != null) {
-      setState(() => _amount = _amount.copyWithDecimal(amount));
-    }
+      setState(() => _amount = _amount.copyWith(value: 0));
 
-    await showWarningDialog(context, title: 'title', message: '$amount');
+      await context.router.push(
+        DirectPayConfirmRoute(
+          recipient: address,
+          amount: Amount.fromDecimal(
+            value: amount,
+            currency: Currency.usdc,
+          ),
+        ),
+      );
+    }
   }
 
   void _onAmountUpdate(Decimal value) {
@@ -159,7 +168,7 @@ class _State extends State<RequestPayFlowScreen> {
             onAmountChanged: _onAmountUpdate,
             onRequest: _onRequest,
             onPay: _onPay,
-            amount: _amount.decimal,
+            amount: _amount,
           ),
         ),
       );
