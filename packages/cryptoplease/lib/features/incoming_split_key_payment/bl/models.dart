@@ -1,5 +1,5 @@
 import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
+import 'package:cryptoplease/core/payments/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

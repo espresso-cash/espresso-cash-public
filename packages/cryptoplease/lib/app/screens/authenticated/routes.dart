@@ -39,6 +39,7 @@ const authenticatedFlowRoutes = AutoRoute<void>(
         CustomRoute<void>(page: WalletScreen),
       ],
     ),
+    ...requestDirectRoutes,
     ...backupPhraseRoutes,
     AutoRoute<void>(page: TransactionsScreen),
     AutoRoute<void>(page: TransactionDetailsScreen),
