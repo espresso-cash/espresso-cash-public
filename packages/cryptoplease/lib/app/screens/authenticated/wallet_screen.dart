@@ -45,16 +45,16 @@ class _WalletScreenState extends State<WalletScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
                     BalanceListWidget(
-                      tokens: state.stableTokens,
-                      isLoading: isLoading,
-                      emptyWidget: const StableCoinEmptyWidget(),
-                    ),
-                    BalanceListWidget(
                       tokens: state.nonStableTokens,
                       isLoading: isLoading,
                       emptyWidget: CpEmptyMessageWidget(
                         message: context.l10n.noDataPullToRefresh,
                       ),
+                    ),
+                    BalanceListWidget(
+                      tokens: state.stableTokens,
+                      isLoading: isLoading,
+                      emptyWidget: const StableCoinEmptyWidget(),
                     ),
                     BalanceListWidget(
                       tokens: state.userTokens,

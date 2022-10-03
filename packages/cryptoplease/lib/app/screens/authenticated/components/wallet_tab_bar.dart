@@ -33,8 +33,8 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             padding: const EdgeInsets.all(6),
             tabs: [
-              Tab(text: context.l10n.stablecoin),
               Tab(text: context.l10n.crypto),
+              Tab(text: context.l10n.stablecoin),
               Tab(text: context.l10n.all)
             ],
           ),
