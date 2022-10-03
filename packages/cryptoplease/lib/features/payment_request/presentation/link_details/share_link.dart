@@ -3,7 +3,6 @@ import 'package:cryptoplease/app/components/share_message/header.dart';
 import 'package:cryptoplease/app/components/share_message_wrapper.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
-import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -49,10 +48,7 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
       textSpan: TextSpan(
         children: [
           WidgetSpan(
-            child: ShareMessageHeader(
-              amount: amount,
-              tokenType: OutgoingTransferTokenType.fungibleToken,
-            ),
+            child: ShareMessageHeader(amount: amount),
           ),
           _newLine,
           WidgetSpan(child: _Links(link: request.dynamicLink)),

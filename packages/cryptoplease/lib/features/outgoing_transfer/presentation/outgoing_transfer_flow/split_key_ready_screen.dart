@@ -49,10 +49,7 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
       textSpan: TextSpan(
         children: [
           WidgetSpan(
-            child: ShareMessageHeader(
-              amount: amount,
-              tokenType: widget.transfer.tokenType,
-            ),
+            child: ShareMessageHeader(amount: amount),
           ),
           const WidgetSpan(child: _Instructions()),
           WidgetSpan(
