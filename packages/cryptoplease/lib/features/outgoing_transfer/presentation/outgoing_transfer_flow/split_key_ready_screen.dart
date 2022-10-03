@@ -48,10 +48,7 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
       textSpan: TextSpan(
         children: [
           WidgetSpan(
-            child: _Header(
-              amount: amount,
-              tokenType: widget.transfer.tokenType,
-            ),
+            child: _Header(amount: amount),
           ),
           const WidgetSpan(child: _Instructions()),
           WidgetSpan(
@@ -104,25 +101,21 @@ class _Header extends StatelessWidget {
   const _Header({
     Key? key,
     required this.amount,
-    required this.tokenType,
   }) : super(key: key);
 
   final String amount;
-  final OutgoingTransferTokenType tokenType;
 
   @override
   Widget build(BuildContext context) => Text.rich(
-        tokenType != OutgoingTransferTokenType.fungibleToken
-            ? TextSpan(text: context.l10n.shareIntroNft)
-            : TextSpan(
-                text: context.l10n.shareIntroFt,
-                children: [
-                  TextSpan(
-                    text: amount,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
+        TextSpan(
+          text: context.l10n.shareIntroFt,
+          children: [
+            TextSpan(
+              text: amount,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       );
 }
 

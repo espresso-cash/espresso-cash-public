@@ -10,7 +10,7 @@ import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/fungible_token/send_flow.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
 import 'package:cryptoplease/features/token_info/bl/repository.dart';
 import 'package:cryptoplease/features/token_info/bl/token_chart_bloc.dart';
 import 'package:cryptoplease/features/token_info/bl/token_info_bloc.dart';

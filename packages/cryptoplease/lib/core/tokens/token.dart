@@ -36,11 +36,6 @@ class Token {
     required Extensions? extensions,
   }) = SplToken;
 
-  const factory Token.nft({
-    required String address,
-    required Metadata metadata,
-  }) = NonFungibleToken;
-
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
 
   static const usdc = isProd ? _UsdcMainToken() : _UsdcDevToken();
