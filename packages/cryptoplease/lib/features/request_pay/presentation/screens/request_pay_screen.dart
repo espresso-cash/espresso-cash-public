@@ -1,7 +1,6 @@
 import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/qr_scanner_appbar.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/request_pay_header.dart';
@@ -12,19 +11,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RequestPayScreen extends StatefulWidget {
-  const RequestPayScreen({Key? key}) : super(key: key);
+  const RequestPayScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<RequestPayScreen> createState() => _ScreenState();
 }
 
 class _ScreenState extends State<RequestPayScreen> {
-  late final RequestPayRouter _router;
+  late final RequestRouter _router;
   late final TextEditingController _amountController;
 
   @override
   void initState() {
-    _router = context.read<RequestPayRouter>();
+    _router = context.read<RequestRouter>();
     _amountController = TextEditingController();
     _amountController.addListener(_updateValue);
     super.initState();
@@ -47,11 +48,7 @@ class _ScreenState extends State<RequestPayScreen> {
 
     return Scaffold(
       appBar: QrScannerAppBar(
-        onQrScanner: () => showWarningDialog(
-          context,
-          title: context.l10n.scanQRTitle,
-          message: context.l10n.comingSoon,
-        ),
+        onQrScanner: _router.onQrScanner,
       ),
       body: BlocBuilder<RequestPayBloc, RequestPayState>(
         builder: (context, state) => Column(
@@ -59,6 +56,7 @@ class _ScreenState extends State<RequestPayScreen> {
             RequestPayHeader(
               inputController: _amountController,
               token: state.amount.currency.token,
+              collapsed: false,
             ),
             const SizedBox(height: 8),
             Padding(

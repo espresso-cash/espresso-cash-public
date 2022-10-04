@@ -3,7 +3,7 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/create_outgoing_transfer_bloc/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/confirm_screen/components/send_token_to_solana_address_content.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/confirm_screen/components/direct_content.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/confirm_screen/components/token_create_link_content.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -47,7 +47,7 @@ class _ConfirmScreenState extends State<FtConfirmScreen> {
                 fee: state.fee,
               );
             case OutgoingTransferType.direct:
-              return _DirectContent(
+              return DirectContent(
                 fee: state.fee,
                 recipientAddress: state.recipientAddress ?? '',
                 tokenAmount: state.tokenAmount,
@@ -100,47 +100,6 @@ class _SplitKeyContent extends StatelessWidget {
               child: CpButton(
                 onPressed: onSubmitted,
                 text: context.l10n.create,
-              ),
-            ),
-          ),
-        ),
-      );
-}
-
-class _DirectContent extends StatelessWidget {
-  const _DirectContent({
-    Key? key,
-    required this.onSubmitted,
-    required this.isProcessing,
-    required this.tokenAmount,
-    required this.fee,
-    required this.recipientAddress,
-  }) : super(key: key);
-
-  final VoidCallback onSubmitted;
-  final bool isProcessing;
-  final Amount tokenAmount;
-  final Amount fee;
-  final String recipientAddress;
-
-  @override
-  Widget build(BuildContext context) => CpTheme.light(
-        child: CpLoader(
-          isLoading: isProcessing,
-          child: Scaffold(
-            appBar: CpAppBar(
-              hasBorder: false,
-              leading: BackButton(onPressed: () => context.router.pop()),
-              nextButton: CpButton(
-                onPressed: onSubmitted,
-                text: context.l10n.send,
-              ),
-            ),
-            body: CpContentPadding(
-              child: SendTokenToSolanaAddressContent(
-                amount: tokenAmount,
-                fee: fee,
-                address: recipientAddress,
               ),
             ),
           ),

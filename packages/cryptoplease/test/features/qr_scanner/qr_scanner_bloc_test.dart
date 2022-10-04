@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_bloc.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -35,7 +36,11 @@ void main() {
       build: QrScannerBloc.new,
       act: (bloc) => bloc.add(QrScannerEvent.received(sampleAddress)),
       expect: () => [
-        QrScannerState.done(QrScannerRequest.address(sampleAddress)),
+        QrScannerState.done(
+          QrScannerRequest.address(
+            QrAddressData(address: sampleAddress, name: null),
+          ),
+        ),
       ],
     );
   });

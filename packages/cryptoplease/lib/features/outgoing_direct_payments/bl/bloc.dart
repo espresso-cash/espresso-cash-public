@@ -147,7 +147,7 @@ class ODPBloc extends Bloc<_Event, _State> {
     final result = await _txSender.wait(txId);
 
     return result.map(
-      success: (_) => const ODPStatus.success(),
+      success: (_) => ODPStatus.success(txId: txId),
       failure: (_) => const ODPStatus.txFailure(),
       networkError: (_) => ODPStatus.txWaitFailure(txId),
     );

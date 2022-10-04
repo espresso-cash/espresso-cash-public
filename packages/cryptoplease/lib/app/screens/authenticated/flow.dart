@@ -4,7 +4,7 @@ import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/module.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
+import 'package:cryptoplease/core/payments/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/add_funds/module.dart';
 import 'package:cryptoplease/features/airdrop/module.dart';
@@ -14,6 +14,7 @@ import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfers_bl
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/module.dart';
 import 'package:cryptoplease/features/pending_request/presentation/pending_request_listener.dart';
+import 'package:cryptoplease/features/request_pay/module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +57,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
                 const AddFundsModule(),
+                const RequestPayModule(),
                 _outgoingTransfersBlocProvider(account),
                 PendingRequestListener(routerKey: _homeRouterKey),
                 _balanceListener,

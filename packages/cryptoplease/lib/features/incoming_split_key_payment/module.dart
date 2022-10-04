@@ -1,6 +1,6 @@
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
+import 'package:cryptoplease/core/payments/tx_creator_strategy.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
