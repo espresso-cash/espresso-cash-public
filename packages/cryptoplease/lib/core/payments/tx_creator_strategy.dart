@@ -1,7 +1,8 @@
-import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/creators/cp_tx_creator.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/creators/solana_tx_creator.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator.dart';
+import 'package:cryptoplease/core/payments/direct_payments/direct_payment_fee_method.dart';
+import 'package:cryptoplease/core/payments/split_key_payments/split_key_api_version.dart';
+import 'package:cryptoplease/core/payments/split_key_payments/transaction/creators/cp_tx_creator.dart';
+import 'package:cryptoplease/core/payments/split_key_payments/transaction/creators/solana_tx_creator.dart';
+import 'package:cryptoplease/core/payments/split_key_payments/transaction/tx_creator.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:solana/solana.dart';
@@ -25,8 +26,17 @@ class TxCreatorStrategy {
     }
   }
 
+  TxCreator fromFeeMethod(DirectPaymentFeeMethod feeMethod) {
+    switch (feeMethod) {
+      case DirectPaymentFeeMethod.v2:
+        return _cpTxCreator;
+      case DirectPaymentFeeMethod.v1:
+        return _solanaTxCreator;
+    }
+  }
+
   TxCreator fromPayment(OutgoingTransfer payment) => payment.map(
-        direct: (_) => _solanaTxCreator,
+        direct: (d) => fromFeeMethod(d.feeMethod),
         splitKey: (s) => fromApiVersion(s.apiVersion),
       );
 }

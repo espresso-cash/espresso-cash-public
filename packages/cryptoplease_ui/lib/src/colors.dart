@@ -44,6 +44,9 @@ abstract class CpColors {
   static const chartLineColor = Color(0xfff9653e);
   static const lightBackgroundColor = Color(0xff464646);
   static const darkBackgroundColor = Color(0xff181818);
+
+  static const disabledColor = Color(0xffbbbbbb);
+  static const accentDisabledColor = Color(0xffff8666);
 }
 
 const bgGradient = LinearGradient(

@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
-import 'package:cryptoplease/core/split_key_payments/split_key_api_version.dart';
+import 'package:cryptoplease/core/payments/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/create_outgoing_transfer_bloc/bloc.dart';
@@ -21,6 +21,7 @@ class FtDirectTransferFlowScreen extends StatefulWidget {
   const FtDirectTransferFlowScreen({
     Key? key,
     required this.onComplete,
+    required this.apiVersion,
     this.initialAddress,
     this.token,
     this.amount,
@@ -34,6 +35,7 @@ class FtDirectTransferFlowScreen extends StatefulWidget {
   final ValueSetter<OutgoingTransferId> onComplete;
   final Iterable<Ed25519HDPublicKey>? reference;
   final String? memo;
+  final SplitKeyApiVersion apiVersion;
 
   @override
   State<FtDirectTransferFlowScreen> createState() =>
@@ -45,7 +47,7 @@ class _FtDirectTransferFlowScreenState
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => FtCreateOutgoingTransferBloc(
-          apiVersion: SplitKeyApiVersion.v1,
+          apiVersion: widget.apiVersion,
           repository: context.read<OutgoingTransferRepository>(),
           balances: context.read<BalancesBloc>().state.balances,
           conversionRatesRepository: context.read<ConversionRatesRepository>(),

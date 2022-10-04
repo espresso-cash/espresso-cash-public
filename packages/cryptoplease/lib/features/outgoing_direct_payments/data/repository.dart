@@ -69,7 +69,7 @@ extension on ODPStatusDto {
       case ODPStatusDto.txSent:
         return ODPStatus.txSent(row.txId!);
       case ODPStatusDto.success:
-        return const ODPStatus.success();
+        return ODPStatus.success(txId: row.txId!);
       case ODPStatusDto.txFailure:
         return const ODPStatus.txFailure();
       case ODPStatusDto.txSendFailure:
@@ -111,5 +111,6 @@ extension on ODPStatus {
   String? toTxId() => mapOrNull(
         txSent: (it) => it.txId,
         txWaitFailure: (it) => it.txId,
+        success: (it) => it.txId,
       );
 }

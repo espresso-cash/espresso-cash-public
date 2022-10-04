@@ -65,6 +65,7 @@ class _ContentState extends State<_Content> {
     });
 
     _qrViewController = controller;
+    _qrViewController.resumeCamera();
   }
 
   void _onBlocChange(BuildContext context, QrScannerState state) {
