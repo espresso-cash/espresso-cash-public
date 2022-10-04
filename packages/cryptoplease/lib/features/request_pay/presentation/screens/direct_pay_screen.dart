@@ -2,12 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
+import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/address_appbar.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/request_pay_header.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 class DirectPayScreen extends StatefulWidget {
@@ -35,6 +37,20 @@ class _ScreenState extends State<DirectPayScreen> {
   void initState() {
     super.initState();
     _amountController = TextEditingController(text: widget.initialAmount);
+  }
+
+  void _onSubmit() {
+    final locale = DeviceLocale.localeOf(context);
+    final amount = _amountController.text.toDecimalOrZero(locale);
+    if (amount == Decimal.zero) {
+      showWarningDialog(
+        context,
+        title: context.l10n.zeroAmountTitle,
+        message: context.l10n.zeroAmountMessage(context.l10n.operationSend),
+      );
+    } else {
+      context.router.pop(amount);
+    }
   }
 
   @override
@@ -84,12 +100,7 @@ class _ScreenState extends State<DirectPayScreen> {
                 child: CpButton(
                   text: context.l10n.pay,
                   minWidth: width,
-                  onPressed: () {
-                    final locale = DeviceLocale.localeOf(context);
-                    final amount =
-                        _amountController.text.toDecimalOrZero(locale);
-                    context.router.pop(amount);
-                  },
+                  onPressed: _onSubmit,
                   size: CpButtonSize.big,
                 ),
               ),

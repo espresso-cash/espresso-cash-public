@@ -6,6 +6,7 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
@@ -18,6 +19,8 @@ import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:solana/solana.dart';
+import 'package:uuid/uuid.dart';
 
 class RequestPayFlowScreen extends StatefulWidget {
   const RequestPayFlowScreen({
@@ -36,7 +39,11 @@ class _State extends State<RequestPayFlowScreen> {
     // await context.router.push<QrScannerRequest>(const QrScannerRoute());
 
     final request = QrScannerRequest.address(
-        QrAddressData(address: 'address', name: 'name'));
+      QrAddressData(
+        address: 'u57gteTrr37jpvdjk7R8WA8nn7PTAMZaiTHwTLmp9ep',
+        name: 'name',
+      ),
+    );
 
     final address = request?.map(
       solanaPay: (r) => r.request.recipient.toBase58(),
@@ -48,12 +55,7 @@ class _State extends State<RequestPayFlowScreen> {
     );
     if (!mounted) return;
 
-    if (address == null) {
-      // TODO(KB): Show meaningful dialog
-      await showWarningDialog(context, title: 'title', message: 'message');
-
-      return;
-    }
+    if (address == null) return;
 
     final formatted = _amount.value == 0
         ? ''
@@ -72,15 +74,21 @@ class _State extends State<RequestPayFlowScreen> {
     if (amount != null) {
       setState(() => _amount = _amount.copyWith(value: 0));
 
-      await context.router.push(
-        DirectPayConfirmRoute(
-          recipient: address,
-          amount: Amount.fromDecimal(
-            value: amount,
-            currency: Currency.usdc,
-          ),
-        ),
-      );
+      const currency = Currency.usdc;
+      final id = const Uuid().v4();
+
+      context.read<ODPBloc>().add(
+            ODPEvent.create(
+              id: id,
+              receiver: Ed25519HDPublicKey.fromBase58(address),
+              amount: CryptoAmount(
+                value: currency.decimalToInt(amount),
+                currency: currency,
+              ),
+            ),
+          );
+
+      await context.router.push(PaymentRoute(id: id));
     }
   }
 

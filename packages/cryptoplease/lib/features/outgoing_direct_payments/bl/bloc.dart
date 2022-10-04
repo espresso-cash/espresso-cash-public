@@ -19,6 +19,7 @@ part 'bloc.freezed.dart';
 @freezed
 class ODPEvent with _$ODPEvent {
   const factory ODPEvent.create({
+    required String id,
     required Ed25519HDPublicKey receiver,
     required CryptoAmount amount,
   }) = ODPEventCreate;
@@ -64,7 +65,7 @@ class ODPBloc extends Bloc<_Event, _State> {
     final status = await _createTx(event.receiver, event.amount);
 
     final payment = OutgoingDirectPayment(
-      id: const Uuid().v4(),
+      id: event.id,
       receiver: event.receiver,
       amount: event.amount,
       created: DateTime.now(),

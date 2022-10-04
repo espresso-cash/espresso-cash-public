@@ -4,4 +4,6 @@ abstract class ODPRepository {
   Future<void> save(OutgoingDirectPayment payment);
 
   Future<OutgoingDirectPayment?> load(String id);
+
+  Stream<OutgoingDirectPayment?> watch(String id);
 }
