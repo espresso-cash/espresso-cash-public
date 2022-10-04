@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/features/profile/components/profile_section.dart';
+import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final name = state.firstName;
     final photoPath = state.photoPath;
     final address = state.address;
+
+    final qrData = jsonEncode(
+      QrAddressData(address: address, name: name).toJson(),
+    );
 
     return Material(
       color: Colors.white,
@@ -86,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(16)),
                       ),
                       child: QrImage(
-                        data: address,
+                        data: qrData,
                         size: 136,
                       ),
                     ),

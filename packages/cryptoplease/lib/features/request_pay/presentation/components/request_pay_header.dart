@@ -8,10 +8,12 @@ class RequestPayHeader extends StatelessWidget {
     Key? key,
     required this.inputController,
     required this.token,
+    required this.collapsed,
   }) : super(key: key);
 
   final TextEditingController inputController;
   final Token token;
+  final bool collapsed;
 
   @override
   Widget build(BuildContext context) =>
@@ -21,12 +23,16 @@ class RequestPayHeader extends StatelessWidget {
           children: [
             InputDisplay(
               input: value.text,
+              fontSize: collapsed ? 57 : 80,
             ),
-            const SizedBox(height: 8),
-            EquivalentDisplay(
-              input: value.text,
-              token: token,
-            )
+            if (!collapsed)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: EquivalentDisplay(
+                  input: value.text,
+                  token: token,
+                ),
+              )
           ],
         ),
       );

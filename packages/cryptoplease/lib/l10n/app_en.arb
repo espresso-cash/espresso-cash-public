@@ -380,5 +380,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "sendAs": "Send as"
 }
