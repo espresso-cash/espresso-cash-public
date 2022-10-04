@@ -14,11 +14,11 @@ import 'package:cryptoplease/features/token_info/bl/token_chart_bloc.dart';
 import 'package:cryptoplease/features/token_info/bl/token_info_bloc.dart';
 import 'package:cryptoplease/features/token_info/presentation/components/balance_widget.dart';
 import 'package:cryptoplease/features/token_info/presentation/components/chart_widget.dart';
+import 'package:cryptoplease/features/token_info/presentation/components/expandable_text.dart';
 import 'package:cryptoplease/features/token_info/presentation/components/loading.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -77,16 +77,21 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final token = context.read<Token>();
-
-    final Amount? fiatAmount = context.watchUserFiatBalance(token);
     final locale = DeviceLocale.localeOf(context);
 
-    final currency = context.read<UserPreferences>().fiatCurrency;
+    final Amount? fiatAmount = context.watchUserFiatBalance(token);
 
-    final conversion = context.readConversionRate(from: token, to: currency) ??
-        Decimal.fromInt(0);
+    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
 
-    final tokenRate = Amount.fromDecimal(value: conversion, currency: currency);
+    final conversionRate =
+        context.watchConversionRate(from: token, to: fiatCurrency);
+
+    Amount? tokenRate;
+
+    if (conversionRate != null) {
+      tokenRate =
+          Amount.fromDecimal(value: conversionRate, currency: fiatCurrency);
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -107,7 +112,7 @@ class _Header extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  tokenRate.format(locale),
+                  tokenRate?.format(locale) ?? '-',
                   style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 18,
@@ -120,12 +125,12 @@ class _Header extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: BackButton(onPressed: () => context.router.pop()),
           ),
-          if (fiatAmount?.value != 0)
+          if (fiatAmount != null && fiatAmount.value != 0)
             Align(
               alignment: Alignment.topRight,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: BalancePillWidget(fiatAmount?.format(locale) ?? '-'),
+                child: BalancePillWidget(fiatAmount.format(locale)),
               ),
             )
         ],
@@ -191,7 +196,6 @@ class _TokenInfo extends StatelessWidget {
           final name = state.name ?? '-';
           final description = state.description ?? '-';
           final marketRank = state.marketCap ?? 0;
-          final link = state.homePage ?? '-';
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -206,12 +210,15 @@ class _TokenInfo extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  description,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 15,
+                ExpandableText(
+                  text: TextSpan(
+                    text: description,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                    ),
                   ),
+                  maxLines: 8,
                 ),
                 const SizedBox(height: 24),
                 Row(

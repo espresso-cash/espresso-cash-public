@@ -42,45 +42,42 @@ class _WalletScreenState extends State<WalletScreen> {
                 headerAppBar: const _AppBarContent(),
                 headerContent: TotalBalanceWidget(balance: total),
                 stickyBottomHeader: const WalletTabBar(),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 0),
-                  child: CustomScrollView(
-                    primary: true,
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 425,
-                          child: TabBarView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              BalanceListWidget(
-                                tokens: state.nonStableTokens,
-                                isLoading: isLoading,
-                                emptyWidget: CpEmptyMessageWidget(
-                                  message: context.l10n.noDataPullToRefresh,
-                                ),
+                child: CustomScrollView(
+                  primary: true,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 425,
+                        child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            BalanceListWidget(
+                              tokens: state.nonStableTokens,
+                              isLoading: isLoading,
+                              emptyWidget: CpEmptyMessageWidget(
+                                message: context.l10n.noDataPullToRefresh,
                               ),
-                              BalanceListWidget(
-                                tokens: state.stableTokens,
-                                isLoading: isLoading,
-                                emptyWidget: const StableCoinEmptyWidget(),
+                            ),
+                            BalanceListWidget(
+                              tokens: state.stableTokens,
+                              isLoading: isLoading,
+                              emptyWidget: const StableCoinEmptyWidget(),
+                            ),
+                            BalanceListWidget(
+                              tokens: state.userTokens,
+                              isLoading: isLoading,
+                              emptyWidget: CpEmptyMessageWidget(
+                                message: context.l10n.noDataPullToRefresh,
                               ),
-                              BalanceListWidget(
-                                tokens: state.userTokens,
-                                isLoading: isLoading,
-                                emptyWidget: CpEmptyMessageWidget(
-                                  message: context.l10n.noDataPullToRefresh,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SliverToBoxAdapter(
-                        child: PopularTokens(),
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: PopularTokens(),
+                    ),
+                  ],
                 ),
               ),
             );

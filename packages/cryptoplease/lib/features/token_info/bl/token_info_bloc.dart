@@ -36,17 +36,25 @@ class TokenInfoBloc extends Bloc<_Event, _State> {
 
     final resp = await _repository.getTokenInfo(token);
 
-    final description = resp.description?['en'] as String;
-    final homePage = (resp.links?['homepage'] as List).first as String;
+    final description = _removeHtmlTags(resp.description?['en'] as String);
 
     emit(
       state.copyWith(
         processingState: const ProcessingState.none(),
         name: resp.name,
         description: description,
-        homePage: homePage,
         marketCap: resp.marketCapRank,
       ),
     );
   }
+}
+
+String _removeHtmlTags(String htmlText) {
+  final RegExp exp = RegExp(
+    r'<[^>]*>',
+    multiLine: true,
+    caseSensitive: true,
+  );
+
+  return htmlText.replaceAll(exp, '');
 }

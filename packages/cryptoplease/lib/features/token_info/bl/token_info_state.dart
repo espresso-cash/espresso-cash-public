@@ -7,6 +7,5 @@ class TokenInfoState with _$TokenInfoState implements StateWithProcessingState {
     String? name,
     String? description,
     int? marketCap,
-    String? homePage,
   }) = _TokenInfoState;
 }

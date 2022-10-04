@@ -3,24 +3,47 @@ import 'package:cryptoplease/app/components/token_icon.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
-import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:decimal/decimal.dart';
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const _popularTokenList = <Token>[
+final popularTokenList = <Token>[
   Token.sol,
 ];
 
-class PopularTokens extends StatelessWidget {
+class PopularTokens extends StatefulWidget {
   const PopularTokens({super.key});
+
+  @override
+  State<PopularTokens> createState() => _PopularTokensState();
+}
+
+class _PopularTokensState extends State<PopularTokens> {
+  @override
+  void initState() {
+    super.initState();
+    _updateConversionRates();
+  }
+
+  void _updateConversionRates() {
+    final bloc = context.read<ConversionRatesBloc>();
+    final currency = context.read<UserPreferences>().fiatCurrency;
+
+    final conversionEvent = ConversionRatesEvent.refreshRequested(
+      currency: currency,
+      tokens: popularTokenList,
+    );
+
+    bloc.add(conversionEvent);
+  }
 
   @override
   Widget build(BuildContext context) => Column(
@@ -49,9 +72,9 @@ class PopularTokens extends StatelessWidget {
             padding: EdgeInsets.zero,
             primary: false,
             shrinkWrap: true,
-            itemCount: _popularTokenList.length,
+            itemCount: popularTokenList.length,
             itemBuilder: (context, index) {
-              final token = _popularTokenList[index];
+              final token = popularTokenList[index];
 
               return _TokenItem(token);
             },
@@ -69,13 +92,17 @@ class _TokenItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
 
-    final currency = context.read<UserPreferences>().fiatCurrency;
+    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
 
-    final conversion =
-        context.readConversionRate(from: token, to: Currency.usd) ??
-            Decimal.fromInt(0);
+    final conversionRate =
+        context.watchConversionRate(from: token, to: fiatCurrency);
 
-    final tokenRate = Amount.fromDecimal(value: conversion, currency: currency);
+    Amount? tokenRate;
+
+    if (conversionRate != null) {
+      tokenRate =
+          Amount.fromDecimal(value: conversionRate, currency: fiatCurrency);
+    }
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
@@ -86,7 +113,7 @@ class _TokenItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              width: 80,
+              width: 90,
               child: Text(
                 token.name,
                 style: const TextStyle(
@@ -101,7 +128,7 @@ class _TokenItem extends StatelessWidget {
           ],
         ),
         trailing: Text(
-          tokenRate.format(locale),
+          tokenRate?.format(locale) ?? ' -',
           style: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 15,
@@ -132,7 +159,7 @@ class _TokenSymbolWidget extends StatelessWidget {
           ),
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
-            color: Color(0xffEAEAEA),
+            color: CpColors.lightPillBackgroundColor,
           ),
           child: Center(
             widthFactor: 1,

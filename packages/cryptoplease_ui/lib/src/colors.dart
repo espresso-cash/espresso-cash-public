@@ -47,6 +47,8 @@ abstract class CpColors {
 
   static const disabledColor = Color(0xffbbbbbb);
   static const accentDisabledColor = Color(0xffff8666);
+
+  static const lightPillBackgroundColor = Color(0xffeaeaea);
 }
 
 const bgGradient = LinearGradient(
