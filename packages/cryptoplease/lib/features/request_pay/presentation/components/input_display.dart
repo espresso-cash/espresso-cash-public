@@ -9,9 +9,11 @@ class InputDisplay extends StatelessWidget {
   const InputDisplay({
     Key? key,
     required this.input,
+    required this.fontSize,
   }) : super(key: key);
 
   final String input;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,8 @@ class InputDisplay extends StatelessWidget {
       child: Text(
         formatted,
         textAlign: TextAlign.right,
-        style: const TextStyle(
-          fontSize: 70,
+        style: TextStyle(
+          fontSize: fontSize,
           fontWeight: FontWeight.w700,
         ),
       ),

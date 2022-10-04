@@ -78,7 +78,7 @@ Future<void> main() async {
       expect(
         repository._payments.values.first,
         isA<OutgoingDirectPayment>()
-            .having((it) => it.status, 'status', const ODPStatus.success()),
+            .having((it) => it.status, 'status', isA<ODPStatusSuccess>()),
       );
     },
   );

@@ -37,7 +37,9 @@ class OSKPStatus with _$OSKPStatus {
     required Ed25519HDKeyPair escrow,
   }) = OSKPStatusLinksReady;
 
-  const factory OSKPStatus.success() = OSKPStatusSuccess;
+  const factory OSKPStatus.success({
+    required String txId,
+  }) = OSKPStatusSuccess;
 
   const factory OSKPStatus.txFailure() = OSKPStatusTxFailure;
 

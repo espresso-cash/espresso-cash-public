@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/features/profile/components/profile_section.dart';
+import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final state = context.watch<MyAccount>();
     final name = state.firstName;
     final photoPath = state.photoPath;
+    final address = state.address;
 
     return Material(
       color: Colors.white,
@@ -77,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    _AddressWidget(address: state.address),
+                    _QrCodeWidget(address: address, name: name),
                   ],
                 ),
               ),
@@ -107,39 +110,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
 const double _buttonSpacing = 24;
 const double _imageSize = 100;
 
-class _AddressWidget extends StatelessWidget {
-  const _AddressWidget({
+class _QrCodeWidget extends StatelessWidget {
+  const _QrCodeWidget({
     Key? key,
     required this.address,
+    required this.name,
   }) : super(key: key);
 
   final String address;
+  final String name;
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: 150,
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        decoration: const BoxDecoration(
-          color: CpColors.lightGreyBackground,
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
-        child: Row(
-          children: [
-            QrImage(data: address, padding: EdgeInsets.zero),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 24),
-                child: Text(
-                  address,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+  Widget build(BuildContext context) {
+    final qrData = jsonEncode(
+      QrAddressData(address: address, name: name).toJson(),
+    );
+
+    return Container(
+      height: 150,
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+      decoration: const BoxDecoration(
+        color: CpColors.lightGreyBackground,
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+      ),
+      child: Row(
+        children: [
+          QrImage(data: qrData, padding: EdgeInsets.zero),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 24),
+              child: Text(
+                address,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }

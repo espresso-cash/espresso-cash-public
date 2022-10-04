@@ -81,7 +81,7 @@ class _EnterAddressScreenState extends State<EnterAddressScreen> {
 
     final address = request?.map(
       solanaPay: (r) => r.request.recipient.toBase58(),
-      address: (r) => r.address,
+      address: (r) => r.addressData.address,
     );
     if (address != null) {
       _controller.text = address;
