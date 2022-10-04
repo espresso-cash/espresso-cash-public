@@ -24,9 +24,29 @@ class CoingeckoTokenInfoRepository implements TokenRepository {
   }) async {
     final response = await _coingeckoClient.getCoinChart(
       crypto.extensions?.coingeckoId ?? crypto.name,
-      TokenChartRequestDto(days: interval.value),
+      TokenChartRequestDto(
+        days: interval.value,
+        interval: _getChartInterval(interval),
+      ),
     );
 
     return response.prices;
+  }
+}
+
+String? _getChartInterval(ChartInterval interval) {
+  switch (interval) {
+    case ChartInterval.oneDay:
+      return 'hourly';
+    case ChartInterval.oneWeek:
+      return 'hourly';
+    case ChartInterval.oneMonth:
+      return 'daily';
+    case ChartInterval.threeMonth:
+      return 'daily';
+    case ChartInterval.oneYear:
+      return 'daily';
+    case ChartInterval.all:
+      return 'daily';
   }
 }

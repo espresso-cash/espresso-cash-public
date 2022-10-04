@@ -64,6 +64,7 @@ class TokenChartRequestDto with _$TokenChartRequestDto {
   const factory TokenChartRequestDto({
     @Default('usd') String vsCurrency,
     @Default('1') String days,
+    String? interval,
   }) = _TokenChartRequestDto;
 
   factory TokenChartRequestDto.fromJson(Map<String, dynamic> json) =>

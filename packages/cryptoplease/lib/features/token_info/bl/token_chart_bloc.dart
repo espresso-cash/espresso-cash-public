@@ -21,7 +21,7 @@ class TokenChartBloc extends Bloc<_Event, _State> {
     required this.token,
     required TokenRepository repository,
   })  : _repository = repository,
-        super(const _State(interval: ChartInterval.oneWeek)) {
+        super(const _State(interval: ChartInterval.oneMonth)) {
     on<_Event>(_eventHandler, transformer: droppable());
   }
 

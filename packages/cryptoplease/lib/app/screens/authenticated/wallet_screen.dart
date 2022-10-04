@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/balance_list_widget.dart';
+import 'package:cryptoplease/app/screens/authenticated/components/popular_tokens.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/stablecoin_empty_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/total_balance_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/wallet_tab_bar.dart';
@@ -41,29 +42,45 @@ class _WalletScreenState extends State<WalletScreen> {
                 headerAppBar: const _AppBarContent(),
                 headerContent: TotalBalanceWidget(balance: total),
                 stickyBottomHeader: const WalletTabBar(),
-                child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    BalanceListWidget(
-                      tokens: state.nonStableTokens,
-                      isLoading: isLoading,
-                      emptyWidget: CpEmptyMessageWidget(
-                        message: context.l10n.noDataPullToRefresh,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 0),
+                  child: CustomScrollView(
+                    primary: true,
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 425,
+                          child: TabBarView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              BalanceListWidget(
+                                tokens: state.nonStableTokens,
+                                isLoading: isLoading,
+                                emptyWidget: CpEmptyMessageWidget(
+                                  message: context.l10n.noDataPullToRefresh,
+                                ),
+                              ),
+                              BalanceListWidget(
+                                tokens: state.stableTokens,
+                                isLoading: isLoading,
+                                emptyWidget: const StableCoinEmptyWidget(),
+                              ),
+                              BalanceListWidget(
+                                tokens: state.userTokens,
+                                isLoading: isLoading,
+                                emptyWidget: CpEmptyMessageWidget(
+                                  message: context.l10n.noDataPullToRefresh,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    BalanceListWidget(
-                      tokens: state.stableTokens,
-                      isLoading: isLoading,
-                      emptyWidget: const StableCoinEmptyWidget(),
-                    ),
-                    BalanceListWidget(
-                      tokens: state.userTokens,
-                      isLoading: isLoading,
-                      emptyWidget: CpEmptyMessageWidget(
-                        message: context.l10n.noDataPullToRefresh,
+                      const SliverToBoxAdapter(
+                        child: PopularTokens(),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

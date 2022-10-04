@@ -105,9 +105,7 @@ class TokenChart extends StatelessWidget {
                             getTouchLineEnd: (_, __) => 0,
                           ),
                         ),
-                        swapAnimationDuration:
-                            const Duration(milliseconds: 250),
-                        swapAnimationCurve: Curves.fastLinearToSlowEaseIn,
+                        swapAnimationDuration: Duration.zero,
                       ),
                       if (isLoading) const TokenLoadingIndicator()
                     ],

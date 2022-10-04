@@ -5,9 +5,7 @@ import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
-import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
@@ -85,9 +83,8 @@ class _Header extends StatelessWidget {
 
     final currency = context.read<UserPreferences>().fiatCurrency;
 
-    final conversion =
-        context.readConversionRate(from: token, to: Currency.usd) ??
-            Decimal.fromInt(0);
+    final conversion = context.readConversionRate(from: token, to: currency) ??
+        Decimal.fromInt(0);
 
     final tokenRate = Amount.fromDecimal(value: conversion, currency: currency);
 
@@ -123,13 +120,14 @@ class _Header extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: BackButton(onPressed: () => context.router.pop()),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BalancePillWidget(fiatAmount?.format(locale) ?? '-'),
-            ),
-          )
+          if (fiatAmount?.value != 0)
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: BalancePillWidget(fiatAmount?.format(locale) ?? '-'),
+              ),
+            )
         ],
       ),
     );
@@ -218,25 +216,9 @@ class _TokenInfo extends StatelessWidget {
                 const SizedBox(height: 24),
                 Row(
                   children: [
-                    Expanded(
-                      child: _InfoRowItem(
-                        label: context.l10n.homePage,
-                        value: InkWell(
-                          onTap: () => context.openLink(link),
-                          child: Text(
-                            context.l10n.link,
-                            style: const TextStyle(
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: _InfoRowItem(
-                        label: context.l10n.marketCapRank,
-                        value: Text('#$marketRank'),
-                      ),
+                    _InfoRowItem(
+                      label: context.l10n.marketCapRank,
+                      value: Text('#$marketRank'),
                     ),
                   ],
                 )
