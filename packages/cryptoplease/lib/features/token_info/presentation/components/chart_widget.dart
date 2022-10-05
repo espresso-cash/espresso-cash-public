@@ -1,5 +1,6 @@
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/token_info/bl/token_chart_bloc.dart';
+import 'package:cryptoplease/features/token_info/data/coingecko_client.dart';
 import 'package:cryptoplease/features/token_info/presentation/components/loading.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -30,8 +31,6 @@ class TokenChart extends StatelessWidget {
           final data = state.chart;
           final isLoading = state.processingState.isProcessing;
 
-          final sign = context.read<UserPreferences>().fiatCurrency.sign;
-
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 16),
             height: 350,
@@ -40,73 +39,7 @@ class TokenChart extends StatelessWidget {
                 Expanded(
                   child: Stack(
                     children: [
-                      LineChart(
-                        LineChartData(
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: data
-                                  .map(
-                                    (e) => FlSpot(
-                                      e.date?.millisecondsSinceEpoch
-                                              .toDouble() ??
-                                          0.0,
-                                      e.price ?? 0,
-                                    ),
-                                  )
-                                  .toList(),
-                              isCurved: true,
-                              dotData: FlDotData(show: false),
-                              color: CpColors.chartLineColor,
-                              barWidth: 4,
-                            )
-                          ],
-                          gridData: FlGridData(show: false),
-                          borderData: FlBorderData(show: false),
-                          titlesData: FlTitlesData(show: false),
-                          lineTouchData: LineTouchData(
-                            enabled: true,
-                            getTouchedSpotIndicator: (
-                              LineChartBarData barData,
-                              List<int> indicators,
-                            ) =>
-                                indicators.map(
-                              (int index) {
-                                final line = FlLine(
-                                  color: Colors.grey,
-                                  strokeWidth: 1,
-                                  dashArray: [2, 4],
-                                );
-
-                                return TouchedSpotIndicatorData(
-                                  line,
-                                  FlDotData(show: true),
-                                );
-                              },
-                            ).toList(),
-                            touchTooltipData: LineTouchTooltipData(
-                              tooltipBgColor: CpColors.lightBackgroundColor,
-                              getTooltipItems: (touchedSpots) =>
-                                  touchedSpots.map(
-                                (LineBarSpot touchedSpot) {
-                                  final price =
-                                      data[touchedSpot.spotIndex].price ?? 0;
-
-                                  return LineTooltipItem(
-                                    '$sign${price.toStringAsFixed(2)}',
-                                    const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
-                                  );
-                                },
-                              ).toList(),
-                            ),
-                            getTouchLineEnd: (_, __) => 0,
-                          ),
-                        ),
-                        swapAnimationDuration: Duration.zero,
-                      ),
+                      _ChartWidget(data: data),
                       if (isLoading) const TokenLoadingIndicator()
                     ],
                   ),
@@ -125,6 +58,84 @@ class TokenChart extends StatelessWidget {
           );
         },
       );
+}
+
+class _ChartWidget extends StatelessWidget {
+  const _ChartWidget({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final List<TokenChartItem> data;
+
+  @override
+  Widget build(BuildContext context) {
+    final sign = context.read<UserPreferences>().fiatCurrency.sign;
+
+    return LineChart(
+      LineChartData(
+        lineBarsData: [
+          LineChartBarData(
+            spots: data
+                .map(
+                  (e) => FlSpot(
+                    e.date?.millisecondsSinceEpoch.toDouble() ?? 0.0,
+                    e.price ?? 0,
+                  ),
+                )
+                .toList(),
+            isCurved: true,
+            dotData: FlDotData(show: false),
+            color: CpColors.chartLineColor,
+            barWidth: 4,
+          )
+        ],
+        gridData: FlGridData(show: false),
+        borderData: FlBorderData(show: false),
+        titlesData: FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          enabled: true,
+          getTouchedSpotIndicator: (
+            LineChartBarData barData,
+            List<int> indicators,
+          ) =>
+              indicators.map(
+            (int index) {
+              final line = FlLine(
+                color: Colors.grey,
+                strokeWidth: 1,
+                dashArray: [2, 4],
+              );
+
+              return TouchedSpotIndicatorData(
+                line,
+                FlDotData(show: true),
+              );
+            },
+          ).toList(),
+          touchTooltipData: LineTouchTooltipData(
+            tooltipBgColor: CpColors.lightBackgroundColor,
+            getTooltipItems: (touchedSpots) => touchedSpots.map(
+              (LineBarSpot touchedSpot) {
+                final price = data[touchedSpot.spotIndex].price ?? 0;
+
+                return LineTooltipItem(
+                  '$sign${price.toStringAsFixed(2)}',
+                  const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                );
+              },
+            ).toList(),
+          ),
+          getTouchLineEnd: (_, __) => 0,
+        ),
+      ),
+      swapAnimationDuration: Duration.zero,
+    );
+  }
 }
 
 class _ChartRangeSelector extends StatelessWidget {
