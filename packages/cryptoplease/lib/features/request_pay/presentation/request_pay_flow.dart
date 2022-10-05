@@ -35,15 +35,8 @@ class _State extends State<RequestPayFlowScreen> {
   CryptoAmount _amount = const CryptoAmount(value: 0, currency: Currency.usdc);
 
   Future<void> _onQrScanner() async {
-    // final request =
-    // await context.router.push<QrScannerRequest>(const QrScannerRoute());
-
-    final request = QrScannerRequest.address(
-      QrAddressData(
-        address: 'u57gteTrr37jpvdjk7R8WA8nn7PTAMZaiTHwTLmp9ep',
-        name: 'name',
-      ),
-    );
+    final request =
+        await context.router.push<QrScannerRequest>(const QrScannerRoute());
 
     final address = request?.map(
       solanaPay: (r) => r.request.recipient.toBase58(),
