@@ -25,7 +25,8 @@ class SplitKeyStatusScreen extends StatelessWidget {
       BlocProvider<OutgoingTransferStatusBloc>(
         create: (_) => OutgoingTransferStatusBloc(
           client: context.read<RpcClient>(),
-          subscriptionClient: context.read<SubscriptionClient>(),
+          subscriptionClient:
+              context.read<SolanaClient>().createSubscriptionClient(),
           account: context.read<MyAccount>(),
           txProcessor: TxProcessor(context.read<SolanaClient>()),
           txCreatorStrategy: context.read<TxCreatorStrategy>(),

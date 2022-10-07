@@ -83,9 +83,6 @@ Future<void> _start() async {
           cryptopleaseClient: context.read<CryptopleaseClient>(),
         ),
       ),
-      Provider<SubscriptionClient>(
-        create: (_) => SubscriptionClient(Uri.parse(solanaWebSocketUrl)),
-      ),
       const OutgoingTransferModule(),
       const BalancesModule(),
       const AccountsModule(),
