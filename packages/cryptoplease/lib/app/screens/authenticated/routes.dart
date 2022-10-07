@@ -10,6 +10,7 @@ import 'package:cryptoplease/features/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/features/app_lock/presentation/routes.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/routes.dart';
 import 'package:cryptoplease/features/legal/legal_document_view.dart';
+import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/split_key_ready_screen.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/routes.dart';
@@ -24,7 +25,7 @@ import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.d
 import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/transaction_details_screen.dart';
 import 'package:cryptoplease/features/transactions/presentation/transactions_screen/transactions_screen.dart';
 
-const authenticatedFlowRoutes = AutoRoute<void>(
+const authenticatedFlowRoutes = AutoRoute<dynamic>(
   page: AuthenticatedFlowScreen,
   children: [
     AutoRoute<void>(
@@ -32,16 +33,14 @@ const authenticatedFlowRoutes = AutoRoute<void>(
       page: HomeTabsScreen,
       children: [
         CustomRoute<void>(path: '', page: MenuScreen),
-        CustomRoute<void>(
-          page: RequestPayFlowScreen,
-          children: requestPayRoutes,
-        ),
+        CustomRoute<void>(page: RequestPayFlowScreen),
         CustomRoute<void>(page: ActivitiesScreen),
         CustomRoute<void>(page: WalletScreen),
       ],
     ),
     ...requestDirectRoutes,
     ...backupPhraseRoutes,
+    ...odpRoutes,
     AutoRoute<void>(page: TransactionsScreen),
     AutoRoute<void>(page: TransactionDetailsScreen),
     AutoRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),

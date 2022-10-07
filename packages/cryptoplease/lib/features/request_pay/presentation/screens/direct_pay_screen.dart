@@ -1,12 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/info_icon.dart';
+import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
-import 'package:cryptoplease/features/request_pay/bl/request_pay_bloc.dart';
+import 'package:cryptoplease/core/presentation/dialogs.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/address_appbar.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/request_pay_header.dart';
+import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DirectPayScreen extends StatefulWidget {
   const DirectPayScreen({
@@ -14,17 +18,13 @@ class DirectPayScreen extends StatefulWidget {
     required this.initialAmount,
     required this.recipient,
     required this.label,
-    required this.onAmountUpdate,
-    required this.onPay,
-    required this.onClearRecipient,
+    required this.token,
   }) : super(key: key);
 
   final String initialAmount;
   final String recipient;
   final String? label;
-  final ValueSetter<String> onAmountUpdate;
-  final VoidCallback onPay;
-  final VoidCallback onClearRecipient;
+  final Token token;
 
   @override
   State<DirectPayScreen> createState() => _ScreenState();
@@ -35,84 +35,77 @@ class _ScreenState extends State<DirectPayScreen> {
 
   @override
   void initState() {
-    _amountController = TextEditingController(text: widget.initialAmount);
-    _amountController.addListener(_updateValue);
     super.initState();
+    _amountController = TextEditingController(text: widget.initialAmount);
   }
 
-  @override
-  void dispose() {
-    _amountController.removeListener(_updateValue);
-    super.dispose();
-  }
-
-  void _updateValue() {
-    final value = _amountController.text;
-    widget.onAmountUpdate(value);
+  void _onSubmit() {
+    final locale = DeviceLocale.localeOf(context);
+    final amount = _amountController.text.toDecimalOrZero(locale);
+    if (amount == Decimal.zero) {
+      showWarningDialog(
+        context,
+        title: context.l10n.zeroAmountTitle,
+        message: context.l10n.zeroAmountMessage(context.l10n.operationSend),
+      );
+    } else {
+      context.router.pop(amount);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return BlocBuilder<RequestPayBloc, RequestPayState>(
-      builder: (context, state) => WillPopScope(
-        onWillPop: () {
-          widget.onClearRecipient();
-
-          return Future.value(true);
-        },
-        child: CpTheme.dark(
-          child: Scaffold(
-            appBar: AddressAppBar(
-              onClose: widget.onClearRecipient,
-              address: widget.recipient,
-              label: widget.label,
-              token: state.amount.currency.token,
-            ),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  RequestPayHeader(
-                    inputController: _amountController,
-                    token: state.amount.currency.token,
-                    collapsed: true,
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 55),
-                    child: CpInfoWidget(
-                      icon: const InfoIcon(),
-                      message: Text(context.l10n.usdcExplanation),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Flexible(
-                    flex: 3,
-                    child: LayoutBuilder(
-                      builder: (context, constraints) => EnterAmountKeypad(
-                        height: constraints.maxHeight,
-                        width: width,
-                        controller: _amountController,
-                        maxDecimals: 2,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: CpButton(
-                      text: context.l10n.pay,
-                      minWidth: width,
-                      onPressed: widget.onPay,
-                      size: CpButtonSize.big,
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                ],
+    return CpTheme.dark(
+      child: Scaffold(
+        appBar: AddressAppBar(
+          onClose: () => context.router.pop(),
+          address: widget.recipient,
+          label: widget.label,
+          token: widget.token,
+        ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              RequestPayHeader(
+                inputController: _amountController,
+                token: widget.token,
+                collapsed: true,
               ),
-            ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 55),
+                child: CpInfoWidget(
+                  icon: const InfoIcon(),
+                  message: Text(context.l10n.usdcExplanation),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Flexible(
+                flex: 3,
+                child: LayoutBuilder(
+                  builder: (context, constraints) => EnterAmountKeypad(
+                    height: constraints.maxHeight,
+                    width: width,
+                    controller: _amountController,
+                    maxDecimals: 2,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: CpButton(
+                  text: context.l10n.pay,
+                  minWidth: width,
+                  onPressed: _onSubmit,
+                  size: CpButtonSize.big,
+                ),
+              ),
+              const SizedBox(height: 32),
+            ],
           ),
         ),
       ),
