@@ -1,16 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/app/screens/authenticated/flow.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
-import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/request_pay/presentation/screens/request_pay_screen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
@@ -105,60 +101,12 @@ class _State extends State<RequestPayFlowScreen> {
     }
 
     context.navigateToLinkConfirmation(amount: _amount);
-
-    // _requestPayBloc.validate().fold(
-    //   (e) => e.map(
-    //     insufficientFunds: (e) => _showInsufficientTokenDialog(
-    //       balance: e.balance,
-    //       currentAmount: e.currentAmount,
-    //     ),
-    //     insufficientFee: (e) => _showInsufficientFeeDialog(e.requiredFee),
-    //   ),
-    //   (_) {
-    //     if (recipient == null) {
-    //       context.navigateToLinkConfirmation(amount: amount);
-    //     } else {
-    //       _requestPayBloc.add(const RequestPayEvent.directSubmitted());
-    //       context.router.push(
-    //         DirectPayConfirmRoute(onSubmitted: _onPaymentSubmitted),
-    //       );
-    //     }
-    //   },
-    // );
-  }
-
-  void _onPaymentSubmitted(OutgoingTransferId transferId) {
-    context
-      ..read<HomeRouterKey>().value.currentState?.controller?.popUntilRoot()
-      ..navigateToOutgoingTransfer(transferId);
   }
 
   void _showZeroAmountDialog(_Operation operation) => showWarningDialog(
         context,
         title: context.l10n.zeroAmountTitle,
         message: context.l10n.zeroAmountMessage(operation.buildText(context)),
-      );
-
-  void _showInsufficientTokenDialog({
-    required Amount balance,
-    required Amount currentAmount,
-  }) =>
-      showWarningDialog(
-        context,
-        title: context.l10n.insufficientFundsTitle,
-        message: context.l10n.insufficientFundsMessage(
-          currentAmount.format(DeviceLocale.localeOf(context)),
-          balance.format(DeviceLocale.localeOf(context)),
-        ),
-      );
-
-  void _showInsufficientFeeDialog(Amount fee) => showWarningDialog(
-        context,
-        title: context.l10n.insufficientFundsForFeeTitle,
-        message: context.l10n.insufficientFundsForFeeMessage(
-          fee.currency.symbol,
-          fee.format(DeviceLocale.localeOf(context)),
-        ),
       );
 
   @override
