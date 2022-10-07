@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/datetime.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfer_status_bloc/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
@@ -28,8 +26,6 @@ class SplitKeyStatusScreen extends StatelessWidget {
           subscriptionClient:
               context.read<SolanaClient>().createSubscriptionClient(),
           account: context.read<MyAccount>(),
-          txProcessor: TxProcessor(context.read<SolanaClient>()),
-          txCreatorStrategy: context.read<TxCreatorStrategy>(),
           repository: context.read<OutgoingTransferRepository>(),
           transfer: transfer,
         ),

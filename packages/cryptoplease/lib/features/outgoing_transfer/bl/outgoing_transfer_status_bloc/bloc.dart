@@ -5,9 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/processing_state.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:dfunc/dfunc.dart';
@@ -33,15 +31,11 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
     required RpcClient client,
     required SubscriptionClient subscriptionClient,
     required MyAccount account,
-    required TxProcessor txProcessor,
-    required TxCreatorStrategy txCreatorStrategy,
     required OutgoingTransferRepository repository,
     required this.transfer,
   })  : _rpcClient = client,
         _subscriptionClient = subscriptionClient,
         _account = account,
-        _txProcessor = txProcessor,
-        _txCreatorStrategy = txCreatorStrategy,
         _repository = repository,
         super(
           const OutgoingTransferOngoing(
@@ -57,9 +51,6 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
   final SubscriptionClient _subscriptionClient;
 
   final MyAccount _account;
-
-  final TxProcessor _txProcessor;
-  final TxCreatorStrategy _txCreatorStrategy;
 
   final OutgoingTransferRepository _repository;
 
@@ -123,21 +114,7 @@ class OutgoingTransferStatusBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _cancel() async {
-    final keys = splitKey(transfer.privateKey);
-
-    final txCreator = _txCreatorStrategy.fromApiVersion(transfer.apiVersion);
-
-    await txCreator
-        .createIncomingTx(
-          firstPart: keys.first,
-          secondPart: keys.last,
-          recipient: _account.address,
-          tokenAddress: transfer.tokenAddress,
-        )
-        .foldAsync(
-          (e) => {},
-          (tx) => _txProcessor.sendPayment(tx).flatMapAsync(_txProcessor.wait),
-        );
+    // TODO(KB): Implement cancellation
   }
 
   Future<void> _checkStatus(_Emitter emit) async {
