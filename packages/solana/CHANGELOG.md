@@ -1,3 +1,12 @@
+## 0.26.1
+
+ - **FEAT**: added outgoing split transfer status page (#441).
+ - **FEAT**: create TxSender (#465).
+ - **FEAT**: add SignedTx.decode (#388).
+ - **FEAT**: add SignedTx.id.
+ - **FEAT**: add signMessage extension method.
+ - **FEAT**: add TransactionError (#365).
+
 ## 0.26.0
 
 > Note: This release has breaking changes.
