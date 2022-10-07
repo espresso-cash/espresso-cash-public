@@ -1,7 +1,7 @@
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
+import 'package:cryptoplease/core/payments/split_key_payments/transaction/tx_creator.dart';
 import 'package:cryptoplease/core/resign_tx.dart';
-import 'package:cryptoplease/core/split_key_payments/transaction/tx_creator.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
@@ -25,16 +25,27 @@ class CpTxCreator implements TxCreator {
       final recipient = await payment.getRecipient();
       final publicKey = recipient.toBase58();
 
-      final createdPayment = await _cpClient.createPayment(
-        CreatePaymentRequestDto(
-          senderAccount: account.wallet.address,
-          escrowAccount: publicKey,
-          amount: payment.amount.toInt(),
-          cluster: isProd ? Cluster.mainnet : Cluster.devnet,
-        ),
+      String encodedTx;
+      final paymentTx = payment.state.maybeMap(
+        draft: (d) => d.encodedTx,
+        orElse: () => null,
       );
-      final tx = await SignedTx.decode(createdPayment.transaction)
-          .resign(account.wallet);
+
+      if (paymentTx != null) {
+        encodedTx = paymentTx;
+      } else {
+        final createdPayment = await _cpClient.createPayment(
+          CreatePaymentRequestDto(
+            senderAccount: account.wallet.address,
+            escrowAccount: publicKey,
+            amount: payment.amount.toInt(),
+            cluster: isProd ? Cluster.mainnet : Cluster.devnet,
+          ),
+        );
+        encodedTx = createdPayment.transaction;
+      }
+
+      final tx = await SignedTx.decode(encodedTx).resign(account.wallet);
 
       return Either.right(tx);
     } on Exception {

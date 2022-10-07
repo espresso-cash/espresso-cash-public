@@ -376,5 +376,6 @@
       }
     }
   },
-  "yourLinkIsReady": "Your link is ready"
+  "yourLinkIsReady": "Your link is ready",
+  "sendAs": "Send as"
 }
