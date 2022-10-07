@@ -33,6 +33,8 @@ class OnboardingScreen extends StatelessWidget {
                 floating: false,
                 pinned: true,
                 snap: false,
+                shadowColor: Colors.transparent,
+                backgroundColor: CpColors.primaryColor,
                 expandedHeight: title == null ? null : 250,
                 flexibleSpace: title == null
                     ? null
