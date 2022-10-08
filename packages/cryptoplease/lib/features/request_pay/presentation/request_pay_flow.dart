@@ -7,7 +7,6 @@ import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/request_pay/presentation/screens/request_pay_screen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';

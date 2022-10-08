@@ -6,7 +6,6 @@ import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/presentation/share_links_screen.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
