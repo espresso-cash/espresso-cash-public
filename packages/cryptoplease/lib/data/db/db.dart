@@ -1,4 +1,5 @@
 import 'package:cryptoplease/data/db/open_connection.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/data/repository.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/data/repository.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/data/repository.dart';
 import 'package:drift/drift.dart';
@@ -37,13 +38,14 @@ class PaymentRequestRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 16;
+const int latestVersion = 17;
 
 const _tables = [
   OutgoingTransferRows,
   PaymentRequestRows,
   ODPRows,
   OSKPRows,
+  ISKPRows,
 ];
 
 @DriftDatabase(tables: _tables)
@@ -77,6 +79,9 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 16) {
             await m.createTable(oSKPRows);
+          }
+          if (from < 17) {
+            await m.createTable(iSKPRows);
           }
         },
       );
