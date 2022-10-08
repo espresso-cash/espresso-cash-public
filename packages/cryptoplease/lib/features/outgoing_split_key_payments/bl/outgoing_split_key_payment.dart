@@ -24,8 +24,6 @@ class OutgoingSplitKeyPayment with _$OutgoingSplitKeyPayment {
         txLinksFailure: T,
         orElse: F,
       );
-
-  bool get shouldShareLinks => status.maybeMap(linksReady: T, orElse: F);
 }
 
 @freezed
