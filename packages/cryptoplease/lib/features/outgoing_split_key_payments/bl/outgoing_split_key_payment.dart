@@ -1,4 +1,5 @@
 import 'package:cryptoplease/core/amount.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -13,6 +14,18 @@ class OutgoingSplitKeyPayment with _$OutgoingSplitKeyPayment {
     required DateTime created,
     required OSKPStatus status,
   }) = _OutgoingSplitKeyPayment;
+
+  const OutgoingSplitKeyPayment._();
+
+  bool get shouldRetry => status.maybeMap(
+        txFailure: T,
+        txSendFailure: T,
+        txWaitFailure: T,
+        txLinksFailure: T,
+        orElse: F,
+      );
+
+  bool get shouldShareLinks => status.maybeMap(linksReady: T, orElse: F);
 }
 
 @freezed

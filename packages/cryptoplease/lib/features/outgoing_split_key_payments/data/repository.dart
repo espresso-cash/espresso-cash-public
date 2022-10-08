@@ -29,6 +29,13 @@ class DbOSKPRepository implements OSKPRepository {
   @override
   Future<void> save(OutgoingSplitKeyPayment payment) async =>
       db.into(db.oSKPRows).insertOnConflictUpdate(await payment.toDto());
+
+  @override
+  Stream<OutgoingSplitKeyPayment?> watch(String id) {
+    final query = db.select(db.oSKPRows)..where((p) => p.id.equals(id));
+
+    return query.watchSingleOrNull().asyncMap((row) => row?.toModel(tokens));
+  }
 }
 
 class OSKPRows extends Table with AmountMixin, EntityMixin {

@@ -4,4 +4,6 @@ abstract class OSKPRepository {
   Future<void> save(OutgoingSplitKeyPayment payment);
 
   Future<OutgoingSplitKeyPayment?> load(String id);
+
+  Stream<OutgoingSplitKeyPayment?> watch(String id);
 }

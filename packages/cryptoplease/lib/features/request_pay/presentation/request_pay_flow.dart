@@ -6,6 +6,7 @@ import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
+import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/request_pay/presentation/screens/request_pay_screen.dart';
@@ -100,7 +101,23 @@ class _State extends State<RequestPayFlowScreen> {
       return _showZeroAmountDialog(_Operation.pay);
     }
 
-    context.navigateToLinkConfirmation(amount: _amount);
+    context.router.push(
+      SplitKeyConfirmRoute(
+        tokenAmount: _amount,
+        // TODO(KB): do not hardcode
+        fee: Amount.fromDecimal(
+          value: Decimal.parse('0.1'),
+          currency: Currency.usdc,
+        ),
+        onSubmit: () {
+          final id = const Uuid().v4();
+          final event = OSKPEvent.create(amount: _amount, id: id);
+          context.read<OSKPBloc>().add(event);
+          context.router.replace(OSKPRoute(id: id));
+          setState(() => _amount = _amount.copyWith(value: 0));
+        },
+      ),
+    );
   }
 
   void _showZeroAmountDialog(_Operation operation) => showWarningDialog(
