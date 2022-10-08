@@ -38,7 +38,9 @@ class _OSKPScreenState extends State<OSKPScreen> {
         .skip(1)
         .where((payment) => payment?.status is OSKPStatusLinksReady)
         .listen((payment) {
-      final status = payment!.status as OSKPStatusLinksReady;
+      if (payment == null) throw StateError('Payment is null');
+
+      final status = payment.status as OSKPStatusLinksReady;
 
       context.router
           .push(ShareLinksRoute(amount: payment.amount, status: status));
