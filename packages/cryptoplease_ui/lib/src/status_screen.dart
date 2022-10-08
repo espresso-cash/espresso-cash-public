@@ -58,7 +58,7 @@ class StatusScreen extends StatelessWidget {
                     content: statusContent,
                   ),
                 ),
-                if (content != null) content,
+                if (content != null) Expanded(child: content),
               ],
             ),
           ),

@@ -10,6 +10,7 @@ import 'package:cryptoplease/features/add_funds/module.dart';
 import 'package:cryptoplease/features/airdrop/module.dart';
 import 'package:cryptoplease/features/backup_phrase/module.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/module.dart';
+import 'package:cryptoplease/features/outgoing_split_key_payments/module.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfers_bloc/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/module.dart';
@@ -63,6 +64,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                   create: (_) => HomeRouterKey(_homeRouterKey),
                 ),
                 const ODPModule(),
+                const OSKPModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );
