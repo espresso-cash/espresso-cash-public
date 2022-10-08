@@ -13,6 +13,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:uuid/uuid.dart';
 
 import 'bloc_test.mocks.dart';
 
@@ -68,7 +69,13 @@ Future<void> main() async {
     },
     build: createBloc,
     act: (b) async {
-      b.add(ODPEvent.create(receiver: receiver.publicKey, amount: testAmount));
+      b.add(
+        ODPEvent.create(
+          id: const Uuid().v4(),
+          receiver: receiver.publicKey,
+          amount: testAmount,
+        ),
+      );
     },
     verify: (b) async {
       verify(sender.send(any)).called(1);
@@ -91,7 +98,13 @@ Future<void> main() async {
     },
     build: createBloc,
     act: (b) async {
-      b.add(ODPEvent.create(receiver: receiver.publicKey, amount: testAmount));
+      b.add(
+        ODPEvent.create(
+          id: const Uuid().v4(),
+          receiver: receiver.publicKey,
+          amount: testAmount,
+        ),
+      );
     },
     verify: (b) async {
       verifyNever(sender.send(any));
@@ -119,4 +132,9 @@ class MemoryRepository implements ODPRepository {
   }
 
   void clear() => _payments.clear();
+
+  @override
+  Stream<OutgoingDirectPayment?> watch(String id) {
+    throw UnimplementedError();
+  }
 }

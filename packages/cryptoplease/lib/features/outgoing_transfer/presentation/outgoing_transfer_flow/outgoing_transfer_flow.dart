@@ -6,6 +6,7 @@ import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/direct_success_screen.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/draft_screen.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/split_key_ready_screen.dart';
+import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_status/split_key_status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,15 +24,23 @@ extension SendFlowExt on BuildContext {
       read<OutgoingTransfersBloc>().add(OutgoingTransfersEvent.submitted(id));
     }
   }
+
+  void navigateToOutgoingTransferStatus(OutgoingTransferId id) {
+    router.navigate(
+      OutgoingTransferFlowRoute(id: id, showSkStatus: true),
+    );
+  }
 }
 
 class OutgoingTransferFlowScreen extends StatefulWidget {
   const OutgoingTransferFlowScreen({
     Key? key,
     required this.id,
+    this.showSkStatus = false,
   }) : super(key: key);
 
   final String id;
+  final bool showSkStatus;
 
   @override
   State<OutgoingTransferFlowScreen> createState() =>
@@ -52,7 +61,9 @@ class _OutgoingTransferFlowScreenState
           return transfer?.state.map(
                 draft: (_) => DraftScreen(transfer: transfer),
                 ready: (_) => transfer.map(
-                  splitKey: (t) => SplitKeyReadyScreen(transfer: t),
+                  splitKey: (t) => widget.showSkStatus
+                      ? SplitKeyStatusScreen(transfer: t)
+                      : SplitKeyReadyScreen(transfer: t),
                   direct: (t) => DirectSuccessScreen(transfer: t),
                 ),
               ) ??
