@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
+import 'package:cryptoplease/features/outgoing_split_key_payments/presentation/share_links_screen.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -148,15 +150,23 @@ class _OSKPScreenState extends State<OSKPScreen> {
                           .read<OSKPBloc>()
                           .add(OSKPEvent.process(payment.id)),
                     ),
-                  if (payment != null && payment.shouldShareLinks)
-                    CpButton(
-                      size: CpButtonSize.big,
-                      width: double.infinity,
-                      text: context.l10n.resendLink,
-                      onPressed: () {
-                        // TODO(KB): Implement
-                      },
-                    ),
+                  if (payment != null)
+                    ...payment.status.mapOrNull(
+                          linksReady: (s) => [
+                            CpButton(
+                              size: CpButtonSize.big,
+                              width: double.infinity,
+                              text: context.l10n.resendLink,
+                              onPressed: () => context.router.push(
+                                ShareLinksRoute(
+                                  amount: payment.amount,
+                                  status: s,
+                                ),
+                              ),
+                            )
+                          ],
+                        ) ??
+                        [],
                   const SizedBox(height: 60),
                 ],
               ),
