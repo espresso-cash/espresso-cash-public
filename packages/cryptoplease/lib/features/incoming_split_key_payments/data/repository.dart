@@ -1,4 +1,5 @@
-import 'package:cryptoplease/core/tokens/token_list.dart';
+// ignore_for_file: avoid-non-null-assertion
+
 import 'package:cryptoplease/data/db/db.dart';
 import 'package:cryptoplease/data/db/mixins.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/incoming_split_key_payment.dart';
@@ -10,16 +11,15 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 class DbISKPRepository implements ISKPRepository {
-  DbISKPRepository(this.db, this.tokens);
+  DbISKPRepository(this.db);
 
   final MyDatabase db;
-  final TokenList tokens;
 
   @override
   Future<IncomingSplitKeyPayment?> load(String id) {
     final query = db.select(db.iSKPRows)..where((p) => p.id.equals(id));
 
-    return query.getSingleOrNull().then((row) => row?.toModel(tokens));
+    return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
   @override
@@ -48,7 +48,7 @@ enum ISKPStatusDto {
 }
 
 extension on ISKPRow {
-  Future<IncomingSplitKeyPayment> toModel(TokenList tokens) async {
+  Future<IncomingSplitKeyPayment> toModel() async {
     final escrow = await privateKey
         .let(base58decode)
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));

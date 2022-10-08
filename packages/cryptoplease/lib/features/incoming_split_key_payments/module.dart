@@ -1,5 +1,4 @@
 import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/core/tx_sender.dart';
 import 'package:cryptoplease/data/db/db.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/bloc.dart';
@@ -19,10 +18,7 @@ class ISKPModule extends SingleChildStatelessWidget {
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
           Provider<ISKPRepository>(
-            create: (context) => DbISKPRepository(
-              context.read<MyDatabase>(),
-              context.read<TokenList>(),
-            ),
+            create: (context) => DbISKPRepository(context.read<MyDatabase>()),
           ),
           BlocProvider<ISKPBloc>(
             create: (context) => ISKPBloc(
