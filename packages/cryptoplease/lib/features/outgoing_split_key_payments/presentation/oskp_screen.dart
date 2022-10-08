@@ -54,11 +54,11 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ) ??
               CpStatusType.info;
 
-          final statusTitle = payment?.status.mapOrNull(
+          final String? statusTitle = payment?.status.mapOrNull(
             success: always(context.l10n.splitKeySuccessMessage1),
           );
 
-          final statusContent = payment == null
+          final String statusContent = payment == null
               ? context.l10n.loading
               : payment.status.maybeMap(
                   success: always(context.l10n.splitKeySuccessMessage2),
@@ -82,7 +82,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ) ??
               CpTimelineStatus.inProgress;
 
-          final activeItem = payment?.status.mapOrNull(
+          final int activeItem = payment?.status.mapOrNull(
                 success: always(2),
                 linksReady: always(1),
               ) ??
