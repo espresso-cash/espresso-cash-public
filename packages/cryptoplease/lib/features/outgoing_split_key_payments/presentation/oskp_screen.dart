@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
@@ -24,11 +26,31 @@ class OSKPScreen extends StatefulWidget {
 
 class _OSKPScreenState extends State<OSKPScreen> {
   late final Stream<OutgoingSplitKeyPayment?> _payment;
+  StreamSubscription<void>? _shareLinksSubscription;
 
   @override
   void initState() {
     super.initState();
     _payment = context.read<OSKPRepository>().watch(widget.id);
+
+    _shareLinksSubscription = context
+        .read<OSKPRepository>()
+        .watch(widget.id)
+        .skip(1)
+        .where((payment) => payment?.status is OSKPStatusLinksReady)
+        .listen((payment) {
+      final status = payment!.status as OSKPStatusLinksReady;
+
+      context.router
+          .push(ShareLinksRoute(amount: payment.amount, status: status));
+      _shareLinksSubscription?.cancel();
+    });
+  }
+
+  @override
+  void dispose() {
+    _shareLinksSubscription?.cancel();
+    super.dispose();
   }
 
   @override
