@@ -19,12 +19,14 @@ class DirectPayScreen extends StatefulWidget {
     required this.recipient,
     required this.label,
     required this.token,
+    this.isEnabled = true,
   }) : super(key: key);
 
   final String initialAmount;
   final String recipient;
   final String? label;
   final Token token;
+  final bool isEnabled;
 
   @override
   State<DirectPayScreen> createState() => _ScreenState();
@@ -91,6 +93,7 @@ class _ScreenState extends State<DirectPayScreen> {
                     width: width,
                     controller: _amountController,
                     maxDecimals: 2,
+                    isEnabled: widget.isEnabled,
                   ),
                 ),
               ),

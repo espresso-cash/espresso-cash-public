@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:cryptoplease/app/screens/dynamic_links/install_link_manager.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
-import 'package:cryptoplease/core/payments/split_key_payments/split_key_api_version.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/pending_request/bl/pending_request_bloc.dart';
@@ -46,23 +44,18 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
   Future<void> _init() async {
     final PendingDynamicLinkData? data =
         await FirebaseDynamicLinks.instance.getInitialLink();
-    data?.link.also(_tryProcessSplitKeyFirstPart).also(_tryProcessLink);
+    data?.link.also(_tryProcessLink);
 
     _subscription = FirebaseDynamicLinks.instance.onLink
         .listen((PendingDynamicLinkData? dynamicLink) async {
       if (dynamicLink == null) return;
 
       _tryProcessLink(dynamicLink.link);
-      _tryProcessSplitKeyFirstPart(dynamicLink.link);
     });
 
     final initialUri = await getInitialUri();
-    _tryProcessSplitKeySecondPart(initialUri);
     _tryProcessLink(initialUri);
-    uriLinkStream.listen((link) {
-      _tryProcessLink(link);
-      _tryProcessSplitKeySecondPart(link);
-    });
+    uriLinkStream.listen(_tryProcessLink);
 
     await InstallLinkManager().getInstallReferrer().then(_tryProcessLink);
   }
@@ -92,39 +85,6 @@ class _DynamicLinksControllerState extends State<DynamicLinksController> {
 
   void _tryProcessSecondLink(Uri link) {
     final secondPart = SplitKeySecondLink.tryParse(link);
-    if (secondPart == null) return;
-
-    final event = SplitKeyIncomingPaymentEvent.secondPartAdded(
-      value: secondPart,
-    );
-    context.read<SplitKeyIncomingPaymentBloc>().add(event);
-  }
-
-  @Deprecated('Old format of split key payment link')
-  void _tryProcessSplitKeyFirstPart(Uri link) {
-    if (link.path != '/') return;
-    if (link.queryParameters['type'] != 'sk') return;
-
-    final firstPart = link.queryParameters['first'];
-    final tokenAddress = link.queryParameters['token'] ?? Token.sol.address;
-
-    if (firstPart != null) {
-      final event = SplitKeyIncomingPaymentEvent.firstPartAdded(
-        firstPart: SplitKeyIncomingFirstPart(
-          keyPart: firstPart,
-          tokenAddress: tokenAddress,
-          apiVersion: SplitKeyApiVersion.v1,
-        ),
-      );
-      context.read<SplitKeyIncomingPaymentBloc>().add(event);
-    }
-  }
-
-  @Deprecated('Old format of split key payment link')
-  void _tryProcessSplitKeySecondPart(Uri? uri) {
-    if (uri == null) return;
-
-    final secondPart = SplitKeySecondLink.tryParse(uri);
     if (secondPart == null) return;
 
     final event = SplitKeyIncomingPaymentEvent.secondPartAdded(

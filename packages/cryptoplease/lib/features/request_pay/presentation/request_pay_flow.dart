@@ -5,7 +5,7 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
+import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/request_pay/presentation/screens/request_pay_screen.dart';
@@ -63,21 +63,10 @@ class _State extends State<RequestPayFlowScreen> {
     if (amount != null) {
       setState(() => _amount = _amount.copyWith(value: 0));
 
-      const currency = Currency.usdc;
-      final id = const Uuid().v4();
-
-      context.read<ODPBloc>().add(
-            ODPEvent.create(
-              id: id,
-              receiver: Ed25519HDPublicKey.fromBase58(address),
-              amount: CryptoAmount(
-                value: currency.decimalToInt(amount),
-                currency: currency,
-              ),
-            ),
-          );
-
-      await context.router.push(PaymentRoute(id: id));
+      context.createAndOpenDirectPayment(
+        amountInUsdc: amount,
+        receiver: Ed25519HDPublicKey.fromBase58(address),
+      );
     }
   }
 
@@ -93,6 +82,7 @@ class _State extends State<RequestPayFlowScreen> {
     }
 
     context.navigateToReceiveByLink(amount: _amount);
+    setState(() => _amount = _amount.copyWith(value: 0));
   }
 
   void _onPay() {
