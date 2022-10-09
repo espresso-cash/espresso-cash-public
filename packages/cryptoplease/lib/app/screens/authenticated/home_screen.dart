@@ -6,14 +6,14 @@ import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class HomeTabsScreen extends StatefulWidget {
-  const HomeTabsScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeTabsScreen> createState() => _HomeTabsScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeTabsScreenState extends State<HomeTabsScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   int _currentPage = 0;
   final _routerKey = GlobalKey<AutoRouterState>();
 
@@ -45,7 +45,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
               onPressed: () => _onBottomNavigatorItemTap(1),
             ),
             NavigationButton(
-              icon: Assets.icons.requestPay,
+              icon: Assets.icons.investments,
               active: _currentPage == 2,
               onPressed: () => _onBottomNavigatorItemTap(2),
             ),
@@ -63,8 +63,8 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
 
 const _pages = [
   _Page(route: MenuRoute(), overlayStyle: SystemUiOverlayStyle.dark),
-  _Page(route: RequestPayFlowRoute(), overlayStyle: SystemUiOverlayStyle.light),
-  _Page(route: WalletRoute(), overlayStyle: SystemUiOverlayStyle.light),
+  _Page(route: WalletFlowRoute(), overlayStyle: SystemUiOverlayStyle.light),
+  _Page(route: InvestmentsRoute(), overlayStyle: SystemUiOverlayStyle.light),
   _Page(route: ActivitiesRoute(), overlayStyle: SystemUiOverlayStyle.dark),
 ];
 

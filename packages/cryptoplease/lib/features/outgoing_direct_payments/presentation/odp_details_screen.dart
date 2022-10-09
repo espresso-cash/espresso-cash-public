@@ -7,8 +7,8 @@ import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({
+class ODPDetailsScreen extends StatefulWidget {
+  const ODPDetailsScreen({
     super.key,
     required this.id,
   });
@@ -16,10 +16,10 @@ class PaymentScreen extends StatefulWidget {
   final String id;
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  State<ODPDetailsScreen> createState() => _ODPDetailsScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
   late final Stream<OutgoingDirectPayment?> _payment;
 
   @override

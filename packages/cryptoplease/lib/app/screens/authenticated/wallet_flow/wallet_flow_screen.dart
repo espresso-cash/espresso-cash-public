@@ -1,14 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
+import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_main_screen.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
+import 'package:cryptoplease/features/outgoing_direct_payments/presentation/build_context_ext.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
-import 'package:cryptoplease/features/request_pay/presentation/screens/request_pay_screen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
@@ -18,16 +18,16 @@ import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-class RequestPayFlowScreen extends StatefulWidget {
-  const RequestPayFlowScreen({
+class WalletFlowScreen extends StatefulWidget {
+  const WalletFlowScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<RequestPayFlowScreen> createState() => _State();
+  State<WalletFlowScreen> createState() => _State();
 }
 
-class _State extends State<RequestPayFlowScreen> {
+class _State extends State<WalletFlowScreen> {
   CryptoAmount _amount = const CryptoAmount(value: 0, currency: Currency.usdc);
 
   Future<void> _onQrScanner() async {
@@ -51,7 +51,7 @@ class _State extends State<RequestPayFlowScreen> {
         : _amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
 
     final amount = await context.router.push<Decimal>(
-      DirectPayRoute(
+      ODPConfirmationRoute(
         initialAmount: formatted,
         recipient: address,
         label: name,
@@ -91,7 +91,7 @@ class _State extends State<RequestPayFlowScreen> {
     }
 
     context.router.push(
-      SplitKeyConfirmRoute(
+      OSKPConfirmationRoute(
         tokenAmount: _amount,
         // TODO(KB): do not hardcode
         fee: Amount.fromDecimal(
@@ -118,7 +118,7 @@ class _State extends State<RequestPayFlowScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          body: RequestPayScreen(
+          body: WalletMainScreen(
             onScan: _onQrScanner,
             onAmountChanged: _onAmountUpdate,
             onRequest: _onRequest,
