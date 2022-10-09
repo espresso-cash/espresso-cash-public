@@ -9,6 +9,7 @@ import 'package:cryptoplease/features/activities/presentation/activities_screen.
 import 'package:cryptoplease/features/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/features/app_lock/presentation/routes.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/routes.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/legal/legal_document_view.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/presentation/routes.dart';
@@ -43,6 +44,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...backupPhraseRoutes,
     ...odpRoutes,
     ...oskpRoutes,
+    ...iskpRoutes,
     AutoRoute<void>(page: TransactionsScreen),
     AutoRoute<void>(page: TransactionDetailsScreen),
     AutoRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),

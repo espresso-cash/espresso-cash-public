@@ -1,8 +1,9 @@
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/tx_sender.dart';
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/bl/bloc.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/bl/repository.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_bloc.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/bl/pending_iskp_repository.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/data/repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,9 @@ class ISKPModule extends SingleChildStatelessWidget {
         providers: [
           Provider<ISKPRepository>(
             create: (context) => DbISKPRepository(context.read<MyDatabase>()),
+          ),
+          Provider<PendingISKPRepository>(
+            create: (_) => PendingISKPRepository(),
           ),
           BlocProvider<ISKPBloc>(
             create: (context) => ISKPBloc(
