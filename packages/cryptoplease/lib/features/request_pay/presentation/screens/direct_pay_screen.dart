@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
-import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/request_pay/presentation/components/address_appbar.dart';
