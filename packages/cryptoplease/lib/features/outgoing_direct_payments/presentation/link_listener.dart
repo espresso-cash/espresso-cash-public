@@ -36,6 +36,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
         }
 
         _processSolanaPayRequest(solanaPayRequest);
+
         return true;
       }
 
