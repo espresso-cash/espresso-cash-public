@@ -2,7 +2,7 @@ import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/resign_tx.dart';
 import 'package:cryptoplease/core/tx_sender.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/incoming_split_key_payment.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/bl/repository.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -10,13 +10,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
 
-part 'bloc.freezed.dart';
+part 'iskp_bloc.freezed.dart';
 
 @freezed
 class ISKPEvent with _$ISKPEvent {
-  const factory ISKPEvent.create(Ed25519HDKeyPair escrow) = ISKPEventCreate;
+  const factory ISKPEvent.create(
+    Ed25519HDKeyPair escrow, {
+    required String id,
+  }) = ISKPEventCreate;
 
   const factory ISKPEvent.process(String id) = ISKPEventProcess;
 }
@@ -57,7 +59,7 @@ class ISKPBloc extends Bloc<_Event, _State> {
     final status = await _createTx(event.escrow);
 
     final payment = IncomingSplitKeyPayment(
-      id: const Uuid().v4(),
+      id: event.id,
       created: DateTime.now(),
       escrow: event.escrow,
       status: status,
@@ -117,7 +119,7 @@ class ISKPBloc extends Bloc<_Event, _State> {
           .receivePayment(dto)
           .then((it) => it.transaction)
           .then(SignedTx.decode)
-          .then((it) => it.resign(_account));
+          .then((it) => it.resign(escrow));
 
       return ISKPStatus.txCreated(tx);
     } on Exception {

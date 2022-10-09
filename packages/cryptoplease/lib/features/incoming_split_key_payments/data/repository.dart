@@ -3,7 +3,7 @@
 import 'package:cryptoplease/data/db/db.dart';
 import 'package:cryptoplease/data/db/mixins.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/incoming_split_key_payment.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/bl/repository.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:solana/base58.dart';
@@ -20,6 +20,13 @@ class DbISKPRepository implements ISKPRepository {
     final query = db.select(db.iSKPRows)..where((p) => p.id.equals(id));
 
     return query.getSingleOrNull().then((row) => row?.toModel());
+  }
+
+  @override
+  Stream<IncomingSplitKeyPayment?> watch(String id) {
+    final query = db.select(db.iSKPRows)..where((p) => p.id.equals(id));
+
+    return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
   }
 
   @override
