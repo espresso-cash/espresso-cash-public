@@ -4,9 +4,6 @@ import 'package:cryptoplease/core/presentation/transfer_status/transfer_success.
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/incoming_split_key_payment.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/bl/outgoing_direct_payment.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
