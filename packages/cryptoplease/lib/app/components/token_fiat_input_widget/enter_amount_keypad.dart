@@ -11,12 +11,14 @@ class EnterAmountKeypad extends StatelessWidget {
     required this.maxDecimals,
     this.height,
     this.width,
+    this.isEnabled = true,
   }) : super(key: key);
 
   final TextEditingController controller;
   final int maxDecimals;
   final double? height;
   final double? width;
+  final bool isEnabled;
 
   static const _keys = [
     KeypadKey.number(number: 1),
@@ -94,9 +96,14 @@ class EnterAmountKeypad extends StatelessWidget {
           mainAxisSpacing: 5,
           children: _keys
               .map(
-                (KeypadKey child) => InkWell(
-                  onTap: () => _manageKey(child.value, decimalSeparator),
-                  child: Center(child: child),
+                (KeypadKey child) => Opacity(
+                  opacity: isEnabled ? 1 : 0.5,
+                  child: InkWell(
+                    onTap: isEnabled
+                        ? () => _manageKey(child.value, decimalSeparator)
+                        : null,
+                    child: Center(child: child),
+                  ),
                 ),
               )
               .toList(),
