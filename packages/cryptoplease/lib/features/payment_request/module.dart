@@ -1,6 +1,5 @@
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/data/payment_request_repository.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,7 @@ class _Content extends StatelessWidget {
         listenWhen: (s1, s2) => s1.account != s2.account,
         listener: (context, state) {
           if (state.account == null) {
-            context.read<OutgoingTransferRepository>().clear();
+            context.read<DbPaymentRequestRepository>().clear();
           }
         },
         child: child,

@@ -1,6 +1,4 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/token_icon.dart';
-import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
@@ -107,8 +105,6 @@ class _TokenItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
       child: ListTile(
-        // TODO(JE): Update onTap when Token Detail implemented
-        onTap: () => context.router.push(TransactionsRoute(token: token)),
         leading: TokenIcon(token: token, size: 37),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,

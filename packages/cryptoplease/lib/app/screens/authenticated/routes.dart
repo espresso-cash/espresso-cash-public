@@ -14,17 +14,14 @@ import 'package:cryptoplease/features/incoming_split_key_payments/presentation/r
 import 'package:cryptoplease/features/legal/legal_document_view.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/presentation/routes.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/split_key_ready_screen.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/routes.dart';
 import 'package:cryptoplease/features/profile/edit_profile_screen.dart';
 import 'package:cryptoplease/features/profile/help_screen.dart';
 import 'package:cryptoplease/features/profile/menu_screen.dart';
 import 'package:cryptoplease/features/profile/profile_screen.dart';
+import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
+import 'package:cryptoplease/features/qr_scanner/qr_scanner_screen.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/routes.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.dart';
-import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/transaction_details_screen.dart';
-import 'package:cryptoplease/features/transactions/presentation/transactions_screen/transactions_screen.dart';
 
 const authenticatedFlowRoutes = AutoRoute<dynamic>(
   page: AuthenticatedFlowScreen,
@@ -43,13 +40,9 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...odpRoutes,
     ...oskpRoutes,
     ...iskpRoutes,
-    AutoRoute<void>(page: TransactionsScreen),
-    AutoRoute<void>(page: TransactionDetailsScreen),
+    AutoRoute<QrScannerRequest>(page: QrScannerScreen),
     AutoRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),
     AutoRoute<Token>(page: TokenSelectorScreen),
-    ...createPaymentFlowRoutes,
-    AutoRoute<void>(page: OutgoingTransferFlowScreen),
-    AutoRoute<void>(page: SplitKeyReadyScreen),
     ...receiveFlowRoutes,
     ...addFundsRoutes,
     appLockSetupFlowRoutes,
