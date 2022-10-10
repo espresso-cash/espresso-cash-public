@@ -2,7 +2,6 @@ import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/tokens/extensions.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:solana/metaplex.dart';
 import 'package:solana/solana.dart';
 
 part 'token.g.dart';
@@ -160,35 +159,5 @@ class _UsdcDevToken extends SplToken {
           decimals: 6,
           name: 'USD Coin',
           symbol: 'USDC',
-        );
-}
-
-class NonFungibleToken extends SplToken {
-  const NonFungibleToken({
-    required String address,
-    required this.metadata,
-  }) : super(
-          chainId: currentChainId,
-          address: address,
-          symbol: '',
-          name: '',
-          decimals: 0,
-          tags: const <String>[],
-        );
-
-  final Metadata metadata;
-}
-
-class UnknownToken extends SplToken {
-  const UnknownToken({
-    required String address,
-    int decimals = 0,
-  }) : super(
-          chainId: currentChainId,
-          address: address,
-          symbol: '',
-          name: '',
-          decimals: decimals,
-          tags: const <String>[],
         );
 }
