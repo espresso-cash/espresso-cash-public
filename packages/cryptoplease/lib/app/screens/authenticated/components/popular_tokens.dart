@@ -107,8 +107,7 @@ class _TokenItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
       child: ListTile(
-        // TODO(JE): Update onTap when Token Detail implemented
-        onTap: () => context.router.push(TransactionsRoute(token: token)),
+        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
         leading: TokenIcon(token: token, size: 37),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,

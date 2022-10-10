@@ -23,8 +23,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class TokenScreen extends StatelessWidget {
-  const TokenScreen({super.key, required this.token});
+class TokenDetailsScreen extends StatelessWidget {
+  const TokenDetailsScreen({super.key, required this.token});
 
   final Token token;
 

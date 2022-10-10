@@ -17,6 +17,7 @@ import 'package:cryptoplease/features/outgoing_split_key_payments/module.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfers_bloc/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/module.dart';
+import 'package:cryptoplease/features/token_details/module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,6 +68,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const ODPModule(),
                 const OSKPModule(),
                 const ISKPModule(),
+                const TokenDetailsModule(),
               ],
               child: ODPLinkListener(
                 child: PendingISKPListener(

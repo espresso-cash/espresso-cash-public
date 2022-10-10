@@ -23,6 +23,7 @@ import 'package:cryptoplease/features/profile/menu_screen.dart';
 import 'package:cryptoplease/features/profile/profile_screen.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/routes.dart';
 import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.dart';
+import 'package:cryptoplease/features/token_details/presentation/token_screen.dart';
 import 'package:cryptoplease/features/transactions/presentation/transaction_details_screen/transaction_details_screen.dart';
 import 'package:cryptoplease/features/transactions/presentation/transactions_screen/transactions_screen.dart';
 
@@ -35,11 +36,9 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
       children: [
         CustomRoute<void>(path: '', page: MenuScreen),
         CustomRoute<void>(page: WalletFlowScreen),
-        CustomRoute<void>(
-          page: InvestmentRouter,
-          children: [CustomRoute<void>(path: '', page: InvestmentsScreen)],
-        ),
+        CustomRoute<void>(page: InvestmentsScreen),
         CustomRoute<void>(page: ActivitiesScreen),
+        CustomRoute<void>(page: TokenDetailsScreen),
       ],
     ),
     ...backupPhraseRoutes,
