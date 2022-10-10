@@ -14,6 +14,13 @@ final cpHeaderedList = Story(
         ),
       ),
     ),
+    headerSubContent: Text(
+      context.knobs.text(label: 'Sub Header', initial: 'Sub Header'),
+      style: const TextStyle(
+        fontSize: 14,
+        color: Colors.grey,
+      ),
+    ),
     headerAppBar: Center(
       child: Text(
         context.knobs.text(label: 'AppBar', initial: 'Header app bar'),
@@ -48,6 +55,7 @@ final cpHeaderedList = Story(
           style: TextStyle(color: CpTheme.of(context).secondaryTextColor),
         ),
       ),
+      showDivider: context.knobs.boolean(label: 'Show Divider', initial: true),
     ),
   ),
 );
