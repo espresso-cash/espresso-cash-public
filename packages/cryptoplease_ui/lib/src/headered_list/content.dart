@@ -8,12 +8,14 @@ class CpHeaderedListContent extends StatelessWidget {
     required this.itemCount,
     required this.emptyWidget,
     this.padding,
+    this.showDivider = true,
   }) : super(key: key);
 
   final int itemCount;
   final IndexedWidgetBuilder itemBuilder;
   final Widget emptyWidget;
   final EdgeInsets? padding;
+  final bool showDivider;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +27,12 @@ class CpHeaderedListContent extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   itemBuilder(context, index),
-                  Container(
-                    color: CpColors.listDividerColor,
-                    height: 1,
-                    margin: const EdgeInsets.symmetric(horizontal: 24),
-                  ),
+                  if (showDivider)
+                    Container(
+                      color: CpColors.listDividerColor,
+                      height: 1,
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                    ),
                 ],
               ),
               childCount: itemCount,
