@@ -1,19 +1,19 @@
 import 'package:cryptoplease/app/app.dart';
-import 'package:cryptoplease/app/screens/dynamic_links/dynamic_links_controller.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/module.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/module.dart';
+import 'package:cryptoplease/core/dynamic_links_notifier.dart';
 import 'package:cryptoplease/core/payments/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
 import 'package:cryptoplease/data/moonpay/moonpay_client.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/module.dart';
 import 'package:cryptoplease/features/outgoing_transfer/module.dart';
-import 'package:cryptoplease/features/pending_request/module.dart';
 import 'package:cryptoplease/logging.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -89,9 +89,11 @@ Future<void> _start() async {
       const BalancesModule(),
       const AccountsModule(),
       const IncomingSplitKeyPaymentModule(),
-      const PendingRequestModule(),
+      ChangeNotifierProvider(
+        create: (_) => DynamicLinksNotifier(FirebaseDynamicLinks.instance),
+      ),
     ],
-    child: const DynamicLinksController(child: CryptopleaseApp()),
+    child: const CryptopleaseApp(),
   );
 
   runApp(app);

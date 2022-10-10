@@ -1,3 +1,4 @@
+import 'package:cryptoplease/app/components/share_message/header.dart';
 import 'package:cryptoplease/app/components/share_message_wrapper.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
@@ -48,7 +49,7 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
       textSpan: TextSpan(
         children: [
           WidgetSpan(
-            child: _Header(amount: amount),
+            child: ShareMessageHeader(amount: amount),
           ),
           const WidgetSpan(child: _Instructions()),
           WidgetSpan(
@@ -97,28 +98,6 @@ class _SplitKeyReadyScreenState extends State<SplitKeyReadyScreen> {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header({
-    Key? key,
-    required this.amount,
-  }) : super(key: key);
-
-  final String amount;
-
-  @override
-  Widget build(BuildContext context) => Text.rich(
-        TextSpan(
-          text: context.l10n.shareIntroFt,
-          children: [
-            TextSpan(
-              text: amount,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      );
-}
-
 class _Links extends StatelessWidget {
   const _Links({
     Key? key,
@@ -141,6 +120,7 @@ class _Links extends StatelessWidget {
             _newLine,
             TextSpan(text: secondLink.toString(), style: _linkStyle),
           ],
+          style: _baseStyle,
         ),
       );
 }
@@ -156,13 +136,18 @@ class _Instructions extends StatelessWidget {
             TextSpan(text: context.l10n.shareInstructions),
             _newLine,
           ],
+          style: _baseStyle,
         ),
       );
 }
 
 const _newLine = TextSpan(text: '\n\n');
 
-const _linkStyle = TextStyle(
-  fontWeight: FontWeight.w600,
-  color: CpColors.linkColor,
+final _linkStyle = _baseStyle.merge(
+  const TextStyle(
+    fontWeight: FontWeight.w600,
+    color: CpColors.linkColor,
+  ),
 );
+
+const _baseStyle = TextStyle(fontSize: 18);
