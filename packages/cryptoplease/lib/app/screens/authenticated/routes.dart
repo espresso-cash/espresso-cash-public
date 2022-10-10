@@ -20,8 +20,6 @@ import 'package:cryptoplease/features/profile/menu_screen.dart';
 import 'package:cryptoplease/features/profile/profile_screen.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_screen.dart';
-import 'package:cryptoplease/features/swap_tokens/presentation/routes.dart';
-import 'package:cryptoplease/features/swap_tokens/presentation/swap_token_flow.dart';
 
 const authenticatedFlowRoutes = AutoRoute<dynamic>(
   page: AuthenticatedFlowScreen,
@@ -41,7 +39,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...oskpRoutes,
     ...iskpRoutes,
     AutoRoute<QrScannerRequest>(page: QrScannerScreen),
-    AutoRoute<void>(page: SwapTokenFlowScreen, children: swapTokenRoutes),
     AutoRoute<Token>(page: TokenSelectorScreen),
     ...receiveFlowRoutes,
     ...addFundsRoutes,
