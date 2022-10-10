@@ -13,14 +13,14 @@ import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WalletScreen extends StatefulWidget {
-  const WalletScreen({Key? key}) : super(key: key);
+class InvestmentsScreen extends StatefulWidget {
+  const InvestmentsScreen({Key? key}) : super(key: key);
 
   @override
-  State<WalletScreen> createState() => _WalletScreenState();
+  State<InvestmentsScreen> createState() => _InvestmentsScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen> {
+class _InvestmentsScreenState extends State<InvestmentsScreen> {
   @override
   Widget build(BuildContext context) => RefreshBalancesWrapper(
         builder: (context, onRefresh) =>

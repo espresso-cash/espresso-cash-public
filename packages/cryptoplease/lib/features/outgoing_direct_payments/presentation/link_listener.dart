@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/app/screens/dynamic_links/dynamic_links_notifier.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
+import 'package:cryptoplease/core/dynamic_links_notifier.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
+import 'package:cryptoplease/features/outgoing_direct_payments/presentation/build_context_ext.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +54,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
         : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
 
     final confirmedAmount = await context.router.push<Decimal>(
-      DirectPayRoute(
+      ODPConfirmationRoute(
         initialAmount: formatted,
         recipient: request.recipient.toBase58(),
         label: request.label,

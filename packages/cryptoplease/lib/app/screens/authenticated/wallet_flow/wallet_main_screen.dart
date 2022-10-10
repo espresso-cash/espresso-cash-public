@@ -3,16 +3,16 @@ import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/features/request_pay/presentation/components/qr_scanner_appbar.dart';
-import 'package:cryptoplease/features/request_pay/presentation/components/request_pay_header.dart';
+import 'package:cryptoplease/features/outgoing_direct_payments/presentation/odp_header.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
-class RequestPayScreen extends StatefulWidget {
-  const RequestPayScreen({
+class WalletMainScreen extends StatefulWidget {
+  const WalletMainScreen({
     super.key,
     required this.onScan,
     required this.onAmountChanged,
@@ -28,10 +28,10 @@ class RequestPayScreen extends StatefulWidget {
   final CryptoAmount amount;
 
   @override
-  State<RequestPayScreen> createState() => _ScreenState();
+  State<WalletMainScreen> createState() => _ScreenState();
 }
 
-class _ScreenState extends State<RequestPayScreen> {
+class _ScreenState extends State<WalletMainScreen> {
   late final TextEditingController _amountController;
 
   @override
@@ -48,7 +48,7 @@ class _ScreenState extends State<RequestPayScreen> {
   }
 
   @override
-  void didUpdateWidget(covariant RequestPayScreen oldWidget) {
+  void didUpdateWidget(covariant WalletMainScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     final newAmount = widget.amount.decimal;
@@ -70,10 +70,10 @@ class _ScreenState extends State<RequestPayScreen> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: QrScannerAppBar(onQrScanner: widget.onScan),
+      appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
       body: Column(
         children: [
-          RequestPayHeader(
+          ODPHeader(
             inputController: _amountController,
             token: widget.amount.currency.token,
             collapsed: false,
@@ -135,4 +135,35 @@ class _ScreenState extends State<RequestPayScreen> {
       ),
     );
   }
+}
+
+class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _QrScannerAppBar({
+    Key? key,
+    required this.onQrScanner,
+  }) : super(key: key);
+
+  final VoidCallback onQrScanner;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(2 * kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 28, top: 12),
+          child: Row(
+            children: [
+              SizedBox.square(
+                dimension: 26,
+                child: IconButton(
+                  onPressed: onQrScanner,
+                  icon: Assets.icons.qrScanner.svg(height: 26),
+                  padding: EdgeInsets.zero,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 }

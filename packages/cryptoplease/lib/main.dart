@@ -1,9 +1,9 @@
 import 'package:cryptoplease/app/app.dart';
-import 'package:cryptoplease/app/screens/dynamic_links/dynamic_links_notifier.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/module.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/module.dart';
+import 'package:cryptoplease/core/dynamic_links_notifier.dart';
 import 'package:cryptoplease/core/payments/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
