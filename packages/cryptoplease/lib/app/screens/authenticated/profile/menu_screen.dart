@@ -1,6 +1,6 @@
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
-import 'package:cryptoplease/features/profile/components/menu_header.dart';
-import 'package:cryptoplease/features/profile/components/menu_section.dart';
+import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_header.dart';
+import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_section.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';

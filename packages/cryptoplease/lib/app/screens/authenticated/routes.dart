@@ -1,7 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/screens/authenticated/authenticated_flow_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/home_screen.dart';
-import 'package:cryptoplease/app/screens/authenticated/investments_screen.dart';
+import 'package:cryptoplease/app/screens/authenticated/investments/investments_screen.dart';
+import 'package:cryptoplease/app/screens/authenticated/profile/edit_profile_screen.dart';
+import 'package:cryptoplease/app/screens/authenticated/profile/help_screen.dart';
+import 'package:cryptoplease/app/screens/authenticated/profile/menu_screen.dart';
+import 'package:cryptoplease/app/screens/authenticated/profile/profile_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_flow_screen.dart';
 import 'package:cryptoplease/core/presentation/token_selector_screen.dart';
@@ -14,10 +18,6 @@ import 'package:cryptoplease/features/incoming_split_key_payments/presentation/r
 import 'package:cryptoplease/features/legal/legal_document_view.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/presentation/routes.dart';
-import 'package:cryptoplease/features/profile/edit_profile_screen.dart';
-import 'package:cryptoplease/features/profile/help_screen.dart';
-import 'package:cryptoplease/features/profile/menu_screen.dart';
-import 'package:cryptoplease/features/profile/profile_screen.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_screen.dart';
 

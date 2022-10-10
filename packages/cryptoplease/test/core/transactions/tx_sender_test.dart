@@ -4,7 +4,7 @@ import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../utils.dart';
+import '../../utils.dart';
 
 Future<void> main() async {
   final client = createTestSolanaClient();
