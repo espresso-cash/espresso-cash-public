@@ -35,10 +35,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
       children: [
         CustomRoute<void>(path: '', page: MenuScreen),
         CustomRoute<void>(page: WalletFlowScreen),
-        CustomRoute<void>(
-          page: InvestmentRouter,
-          children: [CustomRoute<void>(path: '', page: InvestmentsScreen)],
-        ),
+        CustomRoute<void>(page: InvestmentsScreen),
         CustomRoute<void>(page: ActivitiesScreen),
       ],
     ),

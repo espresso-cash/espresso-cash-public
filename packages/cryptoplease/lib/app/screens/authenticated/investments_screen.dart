@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/balance_list_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/popular_tokens.dart';
@@ -102,18 +101,4 @@ class _AppBarContent extends StatelessWidget {
           ),
         ),
       );
-}
-
-class InvestmentRouter extends StatefulWidget {
-  const InvestmentRouter({super.key});
-
-  @override
-  State<InvestmentRouter> createState() => _InvestmentRouterScreen();
-}
-
-class _InvestmentRouterScreen extends State<InvestmentRouter> {
-  final routerKey = GlobalKey<AutoRouterState>();
-
-  @override
-  Widget build(BuildContext context) => AutoRouter(key: routerKey);
 }
