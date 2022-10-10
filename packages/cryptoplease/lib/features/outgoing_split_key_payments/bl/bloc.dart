@@ -15,14 +15,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
 
 part 'bloc.freezed.dart';
 
 @freezed
 class OSKPEvent with _$OSKPEvent {
-  const factory OSKPEvent.create({required CryptoAmount amount}) =
-      OSKPEventCreate;
+  const factory OSKPEvent.create({
+    required CryptoAmount amount,
+    required String id,
+  }) = OSKPEventCreate;
 
   const factory OSKPEvent.process(String id) = OSKPEventProcess;
 }
@@ -68,7 +69,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
     final status = await _createTx(event.amount);
 
     final payment = OutgoingSplitKeyPayment(
-      id: const Uuid().v4(),
+      id: event.id,
       amount: event.amount,
       created: DateTime.now(),
       status: status,

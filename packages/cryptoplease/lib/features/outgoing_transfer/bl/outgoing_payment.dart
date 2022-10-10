@@ -32,6 +32,7 @@ class OutgoingTransfer with _$OutgoingTransfer {
     @Default(SplitKeyApiVersion.v1) SplitKeyApiVersion apiVersion,
     String? signature,
     Uri? firstLink,
+    OutgoingTransferStatus? transferStatus,
   }) = OutgoingTransferSplitKey;
 
   const factory OutgoingTransfer.direct({
@@ -128,6 +129,19 @@ class OutgoingTransferState with _$OutgoingTransferState {
 
   factory OutgoingTransferState.fromJson(Map<String, dynamic> json) =>
       _$OutgoingTransferStateFromJson(json);
+}
+
+enum OutgoingStatus { success, canceled }
+
+@freezed
+class OutgoingTransferStatus with _$OutgoingTransferStatus {
+  const factory OutgoingTransferStatus({
+    required OutgoingStatus status,
+    DateTime? created,
+  }) = _OutgoingTransferStatus;
+
+  factory OutgoingTransferStatus.fromJson(Map<String, dynamic> json) =>
+      _$OutgoingTransferStatusFromJson(json);
 }
 
 extension OutgoingTransferExt on OutgoingTransfer {

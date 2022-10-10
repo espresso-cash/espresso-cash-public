@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/app/screens/authenticated/flow.dart';
+import 'package:cryptoplease/app/screens/authenticated/authenticated_flow_screen.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/payments/split_key_payments/split_key_api_version.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';

@@ -1,6 +1,5 @@
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class ShareMessageWrapper extends StatefulWidget {
   const ShareMessageWrapper({
@@ -34,11 +33,8 @@ class _ShareMessageWrapperState extends State<ShareMessageWrapper> {
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.all(32),
-              child: Text.rich(
-                widget.textSpan,
-                style: const TextStyle(fontSize: 18, color: Colors.white),
-              ),
+              padding: const EdgeInsets.fromLTRB(48, 56, 24, 56),
+              child: Text.rich(widget.textSpan),
             ),
           ),
         ),

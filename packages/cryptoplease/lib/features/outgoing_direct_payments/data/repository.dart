@@ -26,6 +26,13 @@ class DbODPRepository implements ODPRepository {
   }
 
   @override
+  Stream<OutgoingDirectPayment?> watch(String id) {
+    final query = db.select(db.oDPRows)..where((p) => p.id.equals(id));
+
+    return query.watchSingleOrNull().map((row) => row?.toModel(tokens));
+  }
+
+  @override
   Future<void> save(OutgoingDirectPayment payment) =>
       db.into(db.oDPRows).insertOnConflictUpdate(payment.toDto());
 }
