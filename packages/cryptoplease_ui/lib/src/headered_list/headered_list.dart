@@ -17,7 +17,7 @@ class CpHeaderedList extends StatelessWidget {
     this.stickyBottomHeader,
     this.allowBackNavigation = false,
     this.headerSubContent,
-    this.theme = CpTheme.light(),
+    this.theme = const CpThemeData.light(),
   }) : super(key: key);
 
   final AsyncCallback onRefresh;
@@ -28,14 +28,16 @@ class CpHeaderedList extends StatelessWidget {
   final Widget headerAppBar;
   final bool allowBackNavigation;
   final PreferredSizeWidget? stickyBottomHeader;
-  final CpThemeData theme; 
+  final CpThemeData theme;
 
   @override
   Widget build(BuildContext context) {
     final minHeight = kToolbarHeight + MediaQuery.of(context).padding.top;
 
-    final color = theme == CpTheme.light ? Colors.white :  CpColors.primaryColor;
-    // TODO 
+    final color = theme == const CpThemeData.light()
+        ? Colors.white
+        : CpColors.primaryColor;
+
     return CpTheme(
       theme: theme,
       child: Material(

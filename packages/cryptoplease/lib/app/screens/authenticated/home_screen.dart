@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
 const _pages = [
   _Page(route: MenuRoute(), overlayStyle: SystemUiOverlayStyle.dark),
   _Page(route: WalletFlowRoute(), overlayStyle: SystemUiOverlayStyle.light),
-  _Page(route: InvestmentsRoute(), overlayStyle: SystemUiOverlayStyle.light),
+  _Page(route: InvestmentRouter(), overlayStyle: SystemUiOverlayStyle.light),
   _Page(route: ActivitiesRoute(), overlayStyle: SystemUiOverlayStyle.dark),
 ];
 
