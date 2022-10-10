@@ -11,16 +11,18 @@ class CpHeaderedList extends StatelessWidget {
     Key? key,
     required this.child,
     required this.onRefresh,
-    required this.headerButtons,
+    this.headerButtons,
     required this.headerContent,
     required this.headerAppBar,
     this.stickyBottomHeader,
     this.allowBackNavigation = false,
+    this.headerSubContent,
   }) : super(key: key);
 
   final AsyncCallback onRefresh;
   final Widget child;
-  final List<Widget> headerButtons;
+  final Widget? headerSubContent;
+  final List<Widget>? headerButtons;
   final Widget headerContent;
   final Widget headerAppBar;
   final bool allowBackNavigation;
@@ -30,9 +32,9 @@ class CpHeaderedList extends StatelessWidget {
   Widget build(BuildContext context) {
     final minHeight = kToolbarHeight + MediaQuery.of(context).padding.top;
 
-    return CpTheme.dark(
+    return CpTheme.light(
       child: Material(
-        color: CpColors.primaryColor,
+        color: Colors.white,
         child: RefreshIndicator(
           displacement: 80,
           notificationPredicate: (notification) => true,
@@ -52,6 +54,7 @@ class CpHeaderedList extends StatelessWidget {
                   stickyBottomHeader: stickyBottomHeader,
                   minHeight: minHeight,
                   buttons: headerButtons,
+                  subContent: headerSubContent,
                   child: headerContent,
                 ),
               ),
