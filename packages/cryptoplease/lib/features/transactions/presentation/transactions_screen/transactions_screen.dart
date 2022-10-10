@@ -56,7 +56,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           body: BlocBuilder<TransactionsBloc, TransactionsState>(
             bloc: _transactionsBloc,
             builder: (context, state) => CpHeaderedList(
-              // theme: CpThemeData.dark(),
+              theme: const CpThemeData.dark(),
               onRefresh: _refresh,
               allowBackNavigation: true,
               headerAppBar: const HomeScreenAppBar(),

@@ -104,14 +104,14 @@ class _AppBarContent extends StatelessWidget {
       );
 }
 
-class InvestmentRouterScreen extends StatefulWidget {
-  const InvestmentRouterScreen({super.key});
+class InvestmentRouter extends StatefulWidget {
+  const InvestmentRouter({super.key});
 
   @override
-  State<InvestmentRouterScreen> createState() => _InvestmentRouterScreen();
+  State<InvestmentRouter> createState() => _InvestmentRouterScreen();
 }
 
-class _InvestmentRouterScreen extends State<InvestmentRouterScreen> {
+class _InvestmentRouterScreen extends State<InvestmentRouter> {
   final routerKey = GlobalKey<AutoRouterState>();
 
   @override

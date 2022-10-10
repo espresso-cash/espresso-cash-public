@@ -21,7 +21,7 @@ class BalanceItem extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        // TODO (JE) : Update onTap when Token Detail implemented
+        // TODO(JE): Update onTap when Token Detail implemented
         onTap: () => context.router.push(TransactionsRoute(token: token)),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
