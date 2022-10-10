@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -48,6 +49,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
     try {
       emit(state.copyWith(processingState: const ProcessingState.processing()));
       balances[Token.sol] = await _solanaClient.getSolBalance(event.address);
+      balances[Token.usdc] = Amount.zero(currency: Currency.usdc);
 
       final allAccounts = await _solanaClient.getSplAccounts(
         event.address,

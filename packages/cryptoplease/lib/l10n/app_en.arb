@@ -377,5 +377,9 @@
     }
   },
   "yourLinkIsReady": "Your link is ready",
-  "sendAs": "Send as"
+  "sendAs": "Send as",
+  "investments": "INVESTMENTS",
+  "popularCryptoTitle" : "Popular Crypto",
+  "popularCryptoSubtitle" : "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
+  "all": "All"
 }

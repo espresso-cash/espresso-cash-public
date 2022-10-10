@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/app_bar.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/balance_list_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/header_buttons.dart';
+import 'package:cryptoplease/app/screens/authenticated/components/popular_tokens.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/stablecoin_empty_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/total_balance_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/components/wallet_tab_bar.dart';
@@ -36,31 +36,46 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
             );
 
             return DefaultTabController(
-              length: 2,
+              length: 3,
               child: CpHeaderedList(
                 onRefresh: onRefresh,
-                headerAppBar: const HomeScreenAppBar(),
-                headerButtons: const [
-                  SwapButton(),
-                  SendButton(),
-                  ReceiveButton(),
-                ],
+                headerAppBar: const _AppBarContent(),
                 headerContent: TotalBalanceWidget(balance: total),
                 stickyBottomHeader: const WalletTabBar(),
-                child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    BalanceListWidget(
-                      tokens: state.nonStableTokens,
-                      isLoading: isLoading,
-                      emptyWidget: CpEmptyMessageWidget(
-                        message: context.l10n.noDataPullToRefresh,
+                child: CustomScrollView(
+                  primary: true,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 425,
+                        child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            BalanceListWidget(
+                              tokens: state.nonStableTokens,
+                              isLoading: isLoading,
+                              emptyWidget: CpEmptyMessageWidget(
+                                message: context.l10n.noDataPullToRefresh,
+                              ),
+                            ),
+                            BalanceListWidget(
+                              tokens: state.stableTokens,
+                              isLoading: isLoading,
+                              emptyWidget: const StableCoinEmptyWidget(),
+                            ),
+                            BalanceListWidget(
+                              tokens: state.userTokens,
+                              isLoading: isLoading,
+                              emptyWidget: CpEmptyMessageWidget(
+                                message: context.l10n.noDataPullToRefresh,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    BalanceListWidget(
-                      tokens: state.stableTokens,
-                      isLoading: isLoading,
-                      emptyWidget: const StableCoinEmptyWidget(),
+                    const SliverToBoxAdapter(
+                      child: PopularTokens(),
                     ),
                   ],
                 ),
@@ -69,4 +84,36 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
           },
         ),
       );
+}
+
+class _AppBarContent extends StatelessWidget {
+  const _AppBarContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        height: kToolbarHeight,
+        child: Center(
+          child: Text(
+            context.l10n.investments,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      );
+}
+
+class InvestmentRouterScreen extends StatefulWidget {
+  const InvestmentRouterScreen({super.key});
+
+  @override
+  State<InvestmentRouterScreen> createState() => _InvestmentRouterScreen();
+}
+
+class _InvestmentRouterScreen extends State<InvestmentRouterScreen> {
+  final routerKey = GlobalKey<AutoRouterState>();
+
+  @override
+  Widget build(BuildContext context) => AutoRouter(key: routerKey);
 }
