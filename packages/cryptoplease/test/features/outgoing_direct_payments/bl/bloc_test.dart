@@ -131,7 +131,8 @@ class MemoryRepository implements ODPRepository {
     _payments[payment.id] = payment;
   }
 
-  void clear() => _payments.clear();
+  @override
+  Future<void> clear() async => _payments.clear();
 
   @override
   Stream<OutgoingDirectPayment?> watch(String id) {

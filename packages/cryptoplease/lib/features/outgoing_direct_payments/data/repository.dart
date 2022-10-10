@@ -35,6 +35,9 @@ class DbODPRepository implements ODPRepository {
   @override
   Future<void> save(OutgoingDirectPayment payment) =>
       db.into(db.oDPRows).insertOnConflictUpdate(payment.toDto());
+
+  @override
+  Future<void> clear() => db.delete(db.oDPRows).go();
 }
 
 class ODPRows extends Table with AmountMixin, EntityMixin {
