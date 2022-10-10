@@ -32,6 +32,9 @@ class DbISKPRepository implements ISKPRepository {
   @override
   Future<void> save(IncomingSplitKeyPayment payment) async =>
       db.into(db.iSKPRows).insertOnConflictUpdate(await payment.toDto());
+
+  @override
+  Future<void> clear() => db.delete(db.iSKPRows).go();
 }
 
 class ISKPRows extends Table with EntityMixin {
