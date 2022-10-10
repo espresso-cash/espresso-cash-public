@@ -1,7 +1,6 @@
 import 'package:cryptoplease/app/components/share_message/header.dart';
 import 'package:cryptoplease/app/components/share_message_wrapper.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/get_first_link.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';

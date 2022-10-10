@@ -4,7 +4,7 @@ import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/payments/split_key_payments/transaction/tx_creator.dart';
 import 'package:cryptoplease/core/solana_helpers.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/presentation/first_part_ready_screen.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:solana/dto.dart';

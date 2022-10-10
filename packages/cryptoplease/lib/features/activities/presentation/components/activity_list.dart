@@ -1,6 +1,5 @@
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/activities/bl/activity.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_payment.dart';
 import 'package:cryptoplease/features/outgoing_transfer/presentation/outgoing_transfer_flow/outgoing_transfer_flow.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
@@ -29,7 +28,6 @@ class ActivityList extends StatelessWidget {
   Widget build(BuildContext context) => ListView.builder(
         itemBuilder: (context, i) => activities[i].map(
           outgoingTransfer: (n) => _SKOutgoingTile(transfer: n.transfer),
-          splitKeyIncoming: (n) => _SKIncomingTile(activitiy: n),
           paymentRequest: (n) => PaymentRequestTile(id: n.id),
         ),
         itemCount: activities.length,
@@ -126,39 +124,6 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
           );
         },
       );
-}
-
-class _SKIncomingTile extends StatelessWidget {
-  const _SKIncomingTile({
-    Key? key,
-    required this.activitiy,
-  }) : super(key: key);
-
-  final SplitKeyIncomingActivity activitiy;
-
-  void _onTap(BuildContext context) {
-    final event = SplitKeyIncomingPaymentEvent.firstPartAdded(
-      firstPart: activitiy.firstPart,
-    );
-    context.read<SplitKeyIncomingPaymentBloc>().add(event);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final title = context.l10n.splitKeyIncomingNotificationTitle;
-    final subTitle = context.l10n.splitKeyIncomingNotificationSubtitle;
-
-    return ListTile(
-      onTap: () => _onTap(context),
-      leading: CircleAvatar(
-        radius: 25,
-        backgroundColor: CpColors.yellowColor,
-        child: Assets.icons.incoming.svg(),
-      ),
-      title: Text(title, style: _titleStyle),
-      subtitle: Text(subTitle, style: _subtitleStyle),
-    );
-  }
 }
 
 class _SKOutgoingTile extends StatelessWidget {

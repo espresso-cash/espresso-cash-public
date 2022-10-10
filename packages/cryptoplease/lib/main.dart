@@ -7,7 +7,6 @@ import 'package:cryptoplease/core/dynamic_links_notifier.dart';
 import 'package:cryptoplease/core/payments/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/module.dart';
 import 'package:cryptoplease/features/outgoing_transfer/module.dart';
 import 'package:cryptoplease/logging.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
@@ -86,7 +85,6 @@ Future<void> _start() async {
       const OutgoingTransferModule(),
       const BalancesModule(),
       const AccountsModule(),
-      const IncomingSplitKeyPaymentModule(),
       ChangeNotifierProvider(
         create: (_) => DynamicLinksNotifier(FirebaseDynamicLinks.instance),
       ),
