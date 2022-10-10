@@ -1,9 +1,9 @@
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/balance_list_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/popular_tokens.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/stablecoin_empty_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/total_balance_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/wallet_tab_bar.dart';
+import 'package:cryptoplease/app/screens/authenticated/investments/components/balance_list_widget.dart';
+import 'package:cryptoplease/app/screens/authenticated/investments/components/popular_tokens.dart';
+import 'package:cryptoplease/app/screens/authenticated/investments/components/stablecoin_empty_widget.dart';
+import 'package:cryptoplease/app/screens/authenticated/investments/components/total_balance_widget.dart';
+import 'package:cryptoplease/app/screens/authenticated/investments/components/wallet_tab_bar.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/user_preferences.dart';

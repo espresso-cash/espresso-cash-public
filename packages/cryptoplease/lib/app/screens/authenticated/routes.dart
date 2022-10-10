@@ -8,8 +8,6 @@ import 'package:cryptoplease/app/screens/authenticated/profile/menu_screen.dart'
 import 'package:cryptoplease/app/screens/authenticated/profile/profile_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_flow_screen.dart';
-import 'package:cryptoplease/core/presentation/token_selector_screen.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/activities/presentation/activities_screen.dart';
 import 'package:cryptoplease/features/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/features/app_lock/presentation/routes.dart';
@@ -39,7 +37,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...oskpRoutes,
     ...iskpRoutes,
     AutoRoute<QrScannerRequest>(page: QrScannerScreen),
-    AutoRoute<Token>(page: TokenSelectorScreen),
     ...receiveFlowRoutes,
     ...addFundsRoutes,
     appLockSetupFlowRoutes,

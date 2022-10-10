@@ -1,13 +1,41 @@
+import 'package:cryptoplease/app/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/app/components/token_icon.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
-class BalanceItem extends StatelessWidget {
-  const BalanceItem({Key? key, required this.token}) : super(key: key);
+class BalanceListWidget extends StatelessWidget {
+  const BalanceListWidget({
+    Key? key,
+    required this.tokens,
+    required this.isLoading,
+    required this.emptyWidget,
+  }) : super(key: key);
+
+  final Iterable<Token> tokens;
+  final bool isLoading;
+  final Widget emptyWidget;
+
+  @override
+  Widget build(BuildContext context) => CpHeaderedListContent(
+        padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
+        itemCount: tokens.length,
+        itemBuilder: (context, index) => _BalanceItem(
+          token: tokens.elementAt(index),
+        ),
+        emptyWidget: isLoading
+            ? CpEmptyMessageWidget(message: context.l10n.loading)
+            : emptyWidget,
+        showDivider: false,
+      );
+}
+
+class _BalanceItem extends StatelessWidget {
+  const _BalanceItem({Key? key, required this.token}) : super(key: key);
 
   final Token token;
 

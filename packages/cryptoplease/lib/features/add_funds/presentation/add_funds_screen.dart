@@ -1,6 +1,6 @@
+import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/add_funds/bl/add_funds_bloc.dart';
 import 'package:cryptoplease/features/add_funds/bl/repository.dart';
