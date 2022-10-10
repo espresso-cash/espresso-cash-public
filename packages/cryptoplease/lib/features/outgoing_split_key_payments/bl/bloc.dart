@@ -1,9 +1,9 @@
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/resign_tx.dart';
 import 'package:cryptoplease/core/split_key_payments.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tx_sender.dart';
+import 'package:cryptoplease/core/transactions/resign_tx.dart';
+import 'package:cryptoplease/core/transactions/tx_sender.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/link_shortener.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
