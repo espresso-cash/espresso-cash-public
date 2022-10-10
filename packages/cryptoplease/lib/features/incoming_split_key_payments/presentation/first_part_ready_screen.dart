@@ -1,8 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/dynamic_links_notifier.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/tx_processor.dart';
+import 'package:cryptoplease/core/split_key_payments.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/pending_iskp_repository.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/presentation/components/cancel_dialog.dart';
@@ -12,6 +11,8 @@ import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
 class FirstPartReadyScreen extends StatefulWidget {
@@ -149,4 +150,14 @@ class _ContentView extends StatelessWidget {
           ),
         ],
       );
+}
+
+Future<Wallet> walletFromParts({
+  required String firstPart,
+  required String secondPart,
+}) async {
+  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
+  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
+
+  return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
 }

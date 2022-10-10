@@ -5,7 +5,6 @@ import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/features/airdrop/presentation/airdrop_button.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/profile/components/profile_button.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
