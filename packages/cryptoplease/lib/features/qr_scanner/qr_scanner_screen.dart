@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/core/presentation/dialogs.dart';
+import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';

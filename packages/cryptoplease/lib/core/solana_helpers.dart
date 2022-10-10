@@ -2,20 +2,9 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/solana_pay.dart';
-
-extension SolanaPayRequestExt on SolanaPayRequest {
-  Token? token(TokenList tokenList) {
-    final splToken = this.splToken;
-    if (splToken == null) return Token.sol;
-
-    return tokenList.findTokenByMint(splToken.toBase58());
-  }
-}
 
 extension SolanaClientExt on SolanaClient {
   Future<Iterable<ProgramAccount>> getSplAccounts(String address) =>

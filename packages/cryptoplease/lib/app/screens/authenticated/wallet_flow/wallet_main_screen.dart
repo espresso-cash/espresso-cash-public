@@ -1,7 +1,7 @@
 import 'package:cryptoplease/app/components/info_icon.dart';
+import 'package:cryptoplease/app/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/odp_header.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';

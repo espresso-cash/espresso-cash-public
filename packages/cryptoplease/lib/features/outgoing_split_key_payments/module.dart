@@ -1,6 +1,6 @@
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
-import 'package:cryptoplease/core/tx_sender.dart';
+import 'package:cryptoplease/core/transactions/tx_sender.dart';
 import 'package:cryptoplease/data/db/db.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';

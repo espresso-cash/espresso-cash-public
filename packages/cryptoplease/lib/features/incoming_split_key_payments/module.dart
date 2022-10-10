@@ -1,5 +1,5 @@
 import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/core/tx_sender.dart';
+import 'package:cryptoplease/core/transactions/tx_sender.dart';
 import 'package:cryptoplease/data/db/db.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
