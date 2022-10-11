@@ -5,7 +5,6 @@ import 'package:cryptoplease/app/screens/authenticated/profile/components/profil
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
-import 'package:cryptoplease/features/airdrop/presentation/airdrop_button.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
@@ -18,7 +17,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 part 'danger_section.dart';
-part 'debug_section.dart';
 part 'edit_profile_section.dart';
 part 'share_section.dart';
 part 'version_section.dart';
