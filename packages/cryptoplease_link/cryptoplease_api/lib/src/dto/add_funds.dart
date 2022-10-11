@@ -18,7 +18,6 @@ class AddFundsRequestDto with _$AddFundsRequestDto {
   const factory AddFundsRequestDto({
     required String receiverAddress,
     required String tokenSymbol,
-    required String value,
   }) = _AddFundsRequestDto;
 
   factory AddFundsRequestDto.fromJson(Map<String, dynamic> json) =>

@@ -1,4 +1,4 @@
-import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 
 class AddFundsRepository {
@@ -6,14 +6,13 @@ class AddFundsRepository {
 
   final CryptopleaseClient _client;
 
-  Future<String> signFundsRequest(
-    String address,
-    Amount amount,
-  ) async {
+  Future<String> signFundsRequest({
+    required String address,
+    required Token token,
+  }) async {
     final requestDto = AddFundsRequestDto(
       receiverAddress: address,
-      tokenSymbol: amount.currency.symbol,
-      value: amount.decimal.toString(),
+      tokenSymbol: token.symbol,
     );
 
     final response = await _client.addFunds(requestDto);
