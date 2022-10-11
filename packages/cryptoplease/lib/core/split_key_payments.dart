@@ -21,10 +21,6 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
   static SplitKeyFirstLink? tryParse(Uri link) {
     final correctSchemeAndHost =
         link.scheme == 'cryptoplease-sol' && link.host == '1' ||
-            link.scheme == 'https' &&
-                link.host == 'sol.$cpLinkDomain' &&
-                (link.path == '/' || link.path == '') ||
-            link.scheme == 'https' && link.host == 'sol1.$cpLinkDomain' ||
             link.scheme == 'https' && link.host == link1Host;
     if (!correctSchemeAndHost) return null;
 
@@ -67,7 +63,6 @@ class SplitKeySecondLink with _$SplitKeySecondLink {
     final String? secondPart;
 
     if (uri.scheme == 'cryptoplease-sol' && uri.host == '2' ||
-        uri.scheme == 'https' && uri.host == 'sol2.$cpLinkDomain' ||
         uri.scheme == 'https' && uri.host == link2Host) {
       secondPart = uri.queryParameters['key'];
       if (secondPart == null) return null;
