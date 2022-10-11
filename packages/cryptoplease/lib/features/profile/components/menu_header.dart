@@ -4,7 +4,6 @@ import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
@@ -58,11 +57,7 @@ class MenuHeader extends StatelessWidget {
                 token: Token.usdc,
               ),
             ),
-            onCashOut: () => showWarningDialog(
-              context,
-              title: context.l10n.cashOut,
-              message: context.l10n.comingSoon,
-            ),
+            onCashOut: () => context.router.navigate(const CashOutRoute()),
           ),
         ],
       ),
