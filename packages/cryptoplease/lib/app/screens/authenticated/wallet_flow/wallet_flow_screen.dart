@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_main_screen.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/presentation/dialogs.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/build_context_ext.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';

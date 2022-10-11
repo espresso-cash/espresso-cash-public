@@ -36,6 +36,9 @@ class DbOSKPRepository implements OSKPRepository {
 
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel(tokens));
   }
+
+  @override
+  Future<void> clear() => db.delete(db.oSKPRows).go();
 }
 
 class OSKPRows extends Table with AmountMixin, EntityMixin {

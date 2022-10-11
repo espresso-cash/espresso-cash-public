@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/dynamic_links_notifier.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/bl/pending_iskp.dart';
+import 'package:cryptoplease/core/split_key_payments.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/pending_iskp_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +43,7 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
-      final firstPart = ISKPFirstPart.tryParse(link);
+      final firstPart = SplitKeyFirstLink.tryParse(link);
       if (firstPart != null) {
         context.read<PendingISKPRepository>().save(firstPart);
         _openFirstPartReadyScreen();

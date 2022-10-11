@@ -1,5 +1,5 @@
+import 'package:cryptoplease/app/components/snackbars.dart';
 import 'package:cryptoplease/app/text_styles.dart';
-import 'package:cryptoplease/core/presentation/snackbars.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';

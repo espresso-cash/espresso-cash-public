@@ -1,8 +1,8 @@
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/resign_tx.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tx_sender.dart';
+import 'package:cryptoplease/core/transactions/resign_tx.dart';
+import 'package:cryptoplease/core/transactions/tx_sender.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/outgoing_direct_payment.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';

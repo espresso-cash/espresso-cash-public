@@ -1,5 +1,5 @@
+import 'package:cryptoplease/app/screens/authenticated/profile/components/profile_button.dart';
 import 'package:cryptoplease/features/airdrop/bl/airdrop_bloc.dart';
-import 'package:cryptoplease/features/profile/components/profile_button.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -1,4 +1,4 @@
-import 'package:cryptoplease/core/presentation/dialogs.dart';
+import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/add_funds/bl/add_funds_bloc.dart';
