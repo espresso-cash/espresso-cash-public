@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/app/components/token_icon.dart';
+import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -47,6 +49,7 @@ class _BalanceItem extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),

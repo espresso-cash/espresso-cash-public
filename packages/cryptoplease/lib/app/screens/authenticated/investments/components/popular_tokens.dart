@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/app/components/token_icon.dart';
+import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
@@ -105,6 +107,7 @@ class _TokenItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
       child: ListTile(
+        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
         leading: TokenIcon(token: token, size: 37),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,

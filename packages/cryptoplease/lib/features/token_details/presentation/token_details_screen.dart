@@ -1,14 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/app/components/token_icon.dart';
-import 'package:cryptoplease/app/routes.gr.dart';
-import 'package:cryptoplease/app/screens/authenticated/components/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
-import 'package:cryptoplease/features/outgoing_transfer/presentation/send_flow/send_flow.dart';
 import 'package:cryptoplease/features/token_details/bl/repository.dart';
 import 'package:cryptoplease/features/token_details/bl/token_chart_bloc.dart';
 import 'package:cryptoplease/features/token_details/bl/token_details_bloc.dart';
@@ -59,7 +57,8 @@ class TokenDetailsScreen extends StatelessWidget {
                     children: const [
                       _Header(),
                       TokenChart(),
-                      _Buttons(),
+                      // TODO(JE): Readd buttons after implementing Swap
+                      // _Buttons(),
                       _TokenDetails(),
                     ],
                   ),
@@ -143,38 +142,34 @@ class _Buttons extends StatelessWidget {
   const _Buttons();
 
   @override
-  Widget build(BuildContext context) {
-    final token = context.read<Token>();
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: CpButton(
-                text: context.l10n.swap,
-                onPressed: () => context.router.navigate(
-                  SwapTokenFlowRoute(token: token),
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: CpButton(
+                  text: context.l10n.swap,
+                  // onPressed: () => context.router.navigate(
+                  //   SwapTokenFlowRoute(token: token),
+                  // ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: CpButton(
-                text: context.l10n.send,
-                onPressed: () => context.navigateToSendFt(token),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: CpButton(
+                  text: context.l10n.send,
+                  // onPressed: () => context.navigateToSendFt(token),
+                ),
               ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+            )
+          ],
+        ),
+      );
 }
 
 class _TokenDetails extends StatelessWidget {
