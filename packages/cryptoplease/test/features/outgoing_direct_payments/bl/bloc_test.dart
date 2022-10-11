@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tx_sender.dart';
+import 'package:cryptoplease/core/transactions/tx_sender.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/outgoing_direct_payment.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
@@ -131,7 +131,8 @@ class MemoryRepository implements ODPRepository {
     _payments[payment.id] = payment;
   }
 
-  void clear() => _payments.clear();
+  @override
+  Future<void> clear() async => _payments.clear();
 
   @override
   Stream<OutgoingDirectPayment?> watch(String id) {

@@ -4,11 +4,8 @@ import 'package:cryptoplease/core/accounts/module.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/module.dart';
 import 'package:cryptoplease/core/dynamic_links_notifier.dart';
-import 'package:cryptoplease/core/payments/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/module.dart';
-import 'package:cryptoplease/features/outgoing_transfer/module.dart';
 import 'package:cryptoplease/logging.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -77,16 +74,8 @@ Future<void> _start() async {
       Provider<SolanaClient>.value(value: solanaClient),
       Provider<TokenList>(create: (_) => TokenList()),
       Provider<CryptopleaseClient>(create: (_) => CryptopleaseClient()),
-      Provider<TxCreatorStrategy>(
-        create: (context) => TxCreatorStrategy(
-          solanaClient: context.read<SolanaClient>(),
-          cryptopleaseClient: context.read<CryptopleaseClient>(),
-        ),
-      ),
-      const OutgoingTransferModule(),
       const BalancesModule(),
       const AccountsModule(),
-      const IncomingSplitKeyPaymentModule(),
       ChangeNotifierProvider(
         create: (_) => DynamicLinksNotifier(FirebaseDynamicLinks.instance),
       ),

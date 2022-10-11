@@ -1,6 +1,6 @@
-import 'package:cryptoplease/core/presentation/transfer_status/transfer_error.dart';
-import 'package:cryptoplease/core/presentation/transfer_status/transfer_progress.dart';
-import 'package:cryptoplease/core/presentation/transfer_status/transfer_success.dart';
+import 'package:cryptoplease/app/components/transfer_status/transfer_error.dart';
+import 'package:cryptoplease/app/components/transfer_status/transfer_progress.dart';
+import 'package:cryptoplease/app/components/transfer_status/transfer_success.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/outgoing_direct_payment.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';

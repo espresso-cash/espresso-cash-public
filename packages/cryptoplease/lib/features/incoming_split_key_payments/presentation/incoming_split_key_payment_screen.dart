@@ -1,6 +1,6 @@
-import 'package:cryptoplease/core/presentation/transfer_status/transfer_error.dart';
-import 'package:cryptoplease/core/presentation/transfer_status/transfer_progress.dart';
-import 'package:cryptoplease/core/presentation/transfer_status/transfer_success.dart';
+import 'package:cryptoplease/app/components/transfer_status/transfer_error.dart';
+import 'package:cryptoplease/app/components/transfer_status/transfer_progress.dart';
+import 'package:cryptoplease/app/components/transfer_status/transfer_success.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/incoming_split_key_payment.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';

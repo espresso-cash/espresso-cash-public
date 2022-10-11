@@ -1,10 +1,9 @@
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/payments/split_key_payments/split_key_api_version.dart';
-import 'package:cryptoplease/core/resign_tx.dart';
+import 'package:cryptoplease/core/split_key_payments.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tx_sender.dart';
-import 'package:cryptoplease/features/incoming_split_key_payment/bl/models.dart';
+import 'package:cryptoplease/core/transactions/resign_tx.dart';
+import 'package:cryptoplease/core/transactions/tx_sender.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/link_shortener.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
@@ -13,6 +12,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -180,18 +180,19 @@ class OSKPBloc extends Bloc<_Event, _State> {
     required Token token,
   }) async {
     final privateKey = await escrow.extract().then((value) => value.bytes.lock);
-    final rawFirstLink = buildFirstLink(
-      privateKey,
-      token.address,
-      SplitKeyApiVersion.v2,
-    );
+    final keyParts = _splitKey(privateKey);
+
+    final rawFirstLink = SplitKeyFirstLink(
+      key: keyParts.first,
+      token: token.publicKey,
+    ).toUri();
 
     final firstLink = await _linkShortener.shorten(rawFirstLink);
     if (firstLink == null) {
       return OSKPStatus.txLinksFailure(escrow: escrow);
     }
 
-    final secondLink = buildSecondLink(privateKey);
+    final secondLink = SplitKeySecondLink(key: keyParts.last).toUri();
 
     return OSKPStatus.linksReady(
       link1: firstLink,
@@ -199,4 +200,13 @@ class OSKPBloc extends Bloc<_Event, _State> {
       escrow: escrow,
     );
   }
+}
+
+List<String> _splitKey(IList<int> privateKey) {
+  final parts = privateKey.splitAt(privateKey.length ~/ 2);
+
+  return [
+    base58encode(parts.first.toList()),
+    base58encode(parts.second.toList()),
+  ];
 }

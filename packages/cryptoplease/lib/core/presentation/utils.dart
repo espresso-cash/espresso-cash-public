@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cryptoplease/app/components/snackbars.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/services.dart';
@@ -16,5 +17,14 @@ extension LinkOpenerExt on BuildContext {
         message: l10n.tryAgainLater,
       );
     }
+  }
+}
+
+// TODO(rhbrunetto): use this extension app-wide
+extension ClipboardExt on BuildContext {
+  void copyToClipboard(String text) {
+    final data = ClipboardData(text: text);
+    Clipboard.setData(data);
+    showClipboardSnackbar(this);
   }
 }
