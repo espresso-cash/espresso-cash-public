@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cryptoplease/app/screens/authenticated/profile/components/profile_section.dart';
-import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
@@ -95,7 +94,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: const [
                       EditProfileSection(),
                       DangerSection(),
-                      if (!isProd) DebugSection(),
                       ShareSection(),
                       VersionSection(),
                     ],
