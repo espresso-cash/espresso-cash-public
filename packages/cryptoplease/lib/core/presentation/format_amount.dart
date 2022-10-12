@@ -25,7 +25,12 @@ extension FormatAmountWithFiatExt on CryptoAmount {
 }
 
 extension FormatAmountExt on Amount {
-  String format(Locale? locale, {bool skipSymbol = false}) => currency.map(
+  String format(
+    Locale? locale, {
+    bool skipSymbol = false,
+    bool roundInteger = false,
+  }) =>
+      currency.map(
         fiat: (FiatCurrency currency) => _formatAmount(
           locale: locale,
           value: decimal,
@@ -33,6 +38,7 @@ extension FormatAmountExt on Amount {
           symbol: currency.sign,
           skipSymbol: skipSymbol,
           prefixedSymbol: true,
+          roundInteger: roundInteger,
         ),
         crypto: (CryptoCurrency currency) => _formatAmount(
           locale: locale,
@@ -41,6 +47,7 @@ extension FormatAmountExt on Amount {
           symbol: currency.symbol,
           skipSymbol: skipSymbol,
           prefixedSymbol: false,
+          roundInteger: roundInteger,
         ),
       );
 }
@@ -57,10 +64,13 @@ String _formatAmount({
   required int decimals,
   required bool skipSymbol,
   required bool prefixedSymbol,
+  required bool roundInteger,
 }) {
   late final NumberFormat formatter;
+  final minimumDigits = roundInteger && value.isInteger ? 0 : 2;
+
   formatter = NumberFormat.decimalPattern(locale?.languageCode)
-    ..minimumFractionDigits = 2
+    ..minimumFractionDigits = minimumDigits
     ..maximumFractionDigits = decimals;
 
   final formatted = formatter.format(value.toDouble());

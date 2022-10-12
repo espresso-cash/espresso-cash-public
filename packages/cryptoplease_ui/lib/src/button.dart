@@ -12,6 +12,8 @@ enum CpButtonSize { normal, big, small, micro }
 
 enum CpButtonAlignment { left, center }
 
+enum CpButtonMechanic { tap, hold }
+
 class CpButton extends StatelessWidget {
   const CpButton({
     Key? key,
@@ -22,6 +24,7 @@ class CpButton extends StatelessWidget {
     this.minWidth,
     this.size = CpButtonSize.normal,
     this.alignment = CpButtonAlignment.center,
+    this.mechanic = CpButtonMechanic.tap,
   }) : super(key: key);
 
   final String text;
@@ -31,6 +34,7 @@ class CpButton extends StatelessWidget {
   final double? minWidth;
   final CpButtonSize size;
   final CpButtonAlignment alignment;
+  final CpButtonMechanic mechanic;
 
   Color get _backgroundColor {
     switch (variant) {
@@ -77,7 +81,8 @@ class CpButton extends StatelessWidget {
     final double horizontalPadding = size == CpButtonSize.micro ? 8 : 16;
 
     final button = TextButton(
-      onPressed: onPressed,
+      onPressed: mechanic == CpButtonMechanic.tap ? onPressed : null,
+      onLongPress: mechanic == CpButtonMechanic.hold ? onPressed : null,
       style: ButtonStyle(
         animationDuration: Duration.zero,
         minimumSize:

@@ -129,7 +129,7 @@ const _newLine = TextSpan(text: '\n\n');
 final _linkStyle = _baseStyle.merge(
   const TextStyle(
     fontWeight: FontWeight.w600,
-    color: CpColors.linkColor,
+    color: CpColors.yellowColor,
   ),
 );
 

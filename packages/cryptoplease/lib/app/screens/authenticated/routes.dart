@@ -18,6 +18,7 @@ import 'package:cryptoplease/features/outgoing_direct_payments/presentation/rout
 import 'package:cryptoplease/features/outgoing_split_key_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_screen.dart';
+import 'package:cryptoplease/features/swap/presentation/routes.dart';
 
 const authenticatedFlowRoutes = AutoRoute<dynamic>(
   page: AuthenticatedFlowScreen,
@@ -39,6 +40,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<QrScannerRequest>(page: QrScannerScreen),
     ...receiveFlowRoutes,
     ...addFundsRoutes,
+    ...swapRoutes,
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),
