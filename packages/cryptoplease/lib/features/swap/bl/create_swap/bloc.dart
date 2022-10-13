@@ -10,7 +10,6 @@ import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/features/swap/bl/balances.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
-import 'package:cryptoplease/features/swap/bl/create_swap/swap_setup.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -33,10 +32,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     required TokenList tokenList,
     required JupiterAggregatorClient jupiterAggregatorClient,
     required Balances balances,
-    required SwapSetup initialSetup,
     required AnalyticsManager analyticsManager,
   })  : _tokenList = tokenList,
-        _initialSetup = initialSetup,
         _jupiterClient = jupiterAggregatorClient,
         _balances = balances.add(
           Token.wrappedSol,
@@ -60,7 +57,6 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     on<Submitted>(_onSubmitted);
   }
 
-  final SwapSetup _initialSetup;
   final TokenList _tokenList;
   final JupiterAggregatorClient _jupiterClient;
   final Balances _balances;
@@ -71,8 +67,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         orElse: () => null,
       );
 
-  Future<void> _onInit(Init _, _Emitter emit) async {
-    final hasInitialized = state.maybeMap(none: T, success: T, orElse: F);
+  Future<void> _onInit(Init event, _Emitter emit) async {
+    final hasInitialized = state.maybeMap(none: F, success: F, orElse: T);
     if (hasInitialized) return;
 
     try {
@@ -87,29 +83,35 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       );
 
       final token = inputTokens.firstWhere(
-        (token) => token == _initialSetup.inputToken,
-        orElse: () => inputTokens.first,
+        (token) => token == event.input,
+        orElse: () => throw const SwapException.inputNotFound(),
       );
 
-      final outputTokens = await _getOutputTokens(routeMap, token);
+      // TODO: remove
+      final outputTokens = (await _getOutputTokens(routeMap, token)).toList()
+        ..add(Token.usdcProd);
 
       final output = outputTokens.firstWhere(
-        (token) => token == _initialSetup.outputToken,
-        orElse: () => outputTokens.first,
+        (token) => token == event.output,
+        orElse: () => throw const SwapException.outputNotFound(),
+      );
+
+      final zero = CryptoAmount(
+        currency: CryptoCurrency(token: token),
+        value: 0,
       );
 
       final state = CreateSwapState.initialized(
-        inputAmount:
-            CryptoAmount(currency: CryptoCurrency(token: token), value: 0),
-        slippage: _initialSetup.slippage,
+        inputAmount: zero,
+        slippage: event.slippage,
         output: output,
         outputTokens: outputTokens,
         routeMap: routeMap,
       );
 
       emit(state);
-    } on Exception catch (_) {
-      emit(const CreateSwapState.failure());
+    } on SwapException catch (e) {
+      emit(CreateSwapState.failure(e));
     }
   }
 

@@ -1,9 +1,11 @@
+import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/swap/presentation/components/slippage_bottom_sheet.dart';
+import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
@@ -18,18 +20,55 @@ class SwapScreen extends StatefulWidget {
     required this.inputAmount,
     required this.outputAmount,
     required this.slippage,
+    required this.onSlippageChanged,
+    required this.onAmountChanged,
+    required this.onSubmit,
   }) : super(key: key);
 
   final CryptoAmount inputAmount;
-  final CryptoAmount outputAmount;
+  final CryptoAmount? outputAmount;
   final Decimal slippage;
+  final ValueSetter<Decimal> onSlippageChanged;
+  final ValueSetter<Decimal> onAmountChanged;
+  final VoidCallback onSubmit;
 
   @override
   State<SwapScreen> createState() => _SwapScreenState();
 }
 
 class _SwapScreenState extends State<SwapScreen> {
-  final _inputController = TextEditingController(text: '10.00');
+  final _amountController = TextEditingController(text: '0');
+
+  @override
+  void initState() {
+    super.initState();
+    _amountController.addListener(_updateValue);
+  }
+
+  void _updateValue() {
+    final locale = DeviceLocale.localeOf(context);
+    final amount = _amountController.text.toDecimalOrZero(locale);
+    widget.onAmountChanged(amount);
+  }
+
+  @override
+  void didUpdateWidget(covariant SwapScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final newAmount = widget.inputAmount.decimal;
+    final locale = DeviceLocale.localeOf(context);
+    final currentAmount = _amountController.text.toDecimalOrZero(locale);
+    if (newAmount != oldWidget.inputAmount.decimal &&
+        newAmount != currentAmount) {
+      _amountController.text = newAmount.toString();
+    }
+  }
+
+  @override
+  void dispose() {
+    _amountController.removeListener(_updateValue);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => AnnotatedRegion(
@@ -44,9 +83,9 @@ class _SwapScreenState extends State<SwapScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ValueListenableBuilder<TextEditingValue>(
-                    valueListenable: _inputController,
+                    valueListenable: _amountController,
                     builder: (context, _, __) => _Header(
-                      inputController: _inputController,
+                      inputController: _amountController,
                       inputAmount: widget.inputAmount,
                       outputAmount: widget.outputAmount,
                     ),
@@ -59,14 +98,14 @@ class _SwapScreenState extends State<SwapScreen> {
                   _AvailableBalance(token: widget.inputAmount.token),
                   _SlippageInfo(
                     slippage: widget.slippage,
-                    onSlippageChanged: print,
+                    onSlippageChanged: widget.onSlippageChanged,
                   ),
                   Flexible(
                     child: LayoutBuilder(
                       builder: (context, constraints) => EnterAmountKeypad(
                         height: constraints.maxHeight,
                         width: MediaQuery.of(context).size.width,
-                        controller: _inputController,
+                        controller: _amountController,
                         maxDecimals: widget.inputAmount.token.decimals,
                       ),
                     ),
@@ -101,7 +140,7 @@ class _SlippageInfo extends StatelessWidget {
                   'Your transaction will be cancelled\nif the price varies more than ',
               children: [
                 TextSpan(
-                  text: '${slippage.toStringAsFixed(1)}%',
+                  text: '$slippage%',
                   style: const TextStyle(
                     color: CpColors.yellowDarkAccentColor,
                     fontWeight: FontWeight.w600,
@@ -183,13 +222,14 @@ class _Header extends StatelessWidget {
 
   final TextEditingController inputController;
   final CryptoAmount inputAmount;
-  final CryptoAmount outputAmount;
+  final CryptoAmount? outputAmount;
 
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
+    final toDisplayAmount = inputController.text.formatted(context);
     final formattedInput = inputAmount.format(locale, roundInteger: true);
-    final formattedOutput = outputAmount.format(locale, roundInteger: true);
+    final formattedOutput = outputAmount?.format(locale, roundInteger: true);
 
     return SizedBox(
       width: double.infinity,
@@ -206,7 +246,7 @@ class _Header extends StatelessWidget {
             children: [
               FittedBox(
                 child: Text(
-                  inputController.text,
+                  toDisplayAmount,
                   maxLines: 1,
                   style: const TextStyle(
                     fontSize: 80,
@@ -249,4 +289,20 @@ class _Button extends StatelessWidget {
           onPressed: ignore,
         ),
       );
+}
+
+extension on String {
+  String formatted(BuildContext context) {
+    final locale = DeviceLocale.localeOf(context);
+    final decimalSeparator = getDecimalSeparator(locale);
+    final value = toDecimalOrZero(locale);
+
+    if (contains(decimalSeparator)) {
+      return this;
+    } else if (value.toDouble() == 0) {
+      return '0';
+    }
+
+    return this;
+  }
 }

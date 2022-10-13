@@ -15,7 +15,7 @@ class CreateSwapState with _$CreateSwapState {
         ProcessingState<SwapException> processingState,
   }) = Initialized;
 
-  const factory CreateSwapState.failure() = Failure;
+  const factory CreateSwapState.failure(SwapException e) = Failure;
 
   const factory CreateSwapState.success(JupiterRoute route) = Success;
 
