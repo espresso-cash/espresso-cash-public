@@ -3,6 +3,7 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/swap/presentation/components/slippage_bottom_sheet.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
@@ -93,7 +94,7 @@ class _SlippageInfo extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(8),
         child: GestureDetector(
-          onTap: null,
+          onTap: () => SlippageBottomSheet.show(context, onSlippageChanged),
           child: Text.rich(
             TextSpan(
               text:
