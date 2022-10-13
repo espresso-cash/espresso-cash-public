@@ -39,37 +39,39 @@ class _SwapScreenState extends State<SwapScreen> {
           child: Scaffold(
             backgroundColor: CpColors.darkBackground,
             body: SafeArea(
-              child: CpContentPadding(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ValueListenableBuilder<TextEditingValue>(
-                      valueListenable: _inputController,
-                      builder: (context, _, __) => _Header(
-                        inputController: _inputController,
-                        inputAmount: widget.inputAmount,
-                        outputAmount: widget.outputAmount,
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: _inputController,
+                    builder: (context, _, __) => _Header(
+                      inputController: _inputController,
+                      inputAmount: widget.inputAmount,
+                      outputAmount: widget.outputAmount,
                     ),
-                    _TokenDropDown(
-                      current: widget.inputAmount.token,
-                      availableTokens: <Token>[].lock,
-                      onTokenChanged: print,
-                    ),
-                    _AvailableBalance(token: widget.inputAmount.token),
-                    _SlippageInfo(
-                      slippage: widget.slippage,
-                      onSlippageChanged: print,
-                    ),
-                    FittedBox(
-                      child: EnterAmountKeypad(
+                  ),
+                  _TokenDropDown(
+                    current: widget.inputAmount.token,
+                    availableTokens: <Token>[].lock,
+                    onTokenChanged: print,
+                  ),
+                  _AvailableBalance(token: widget.inputAmount.token),
+                  _SlippageInfo(
+                    slippage: widget.slippage,
+                    onSlippageChanged: print,
+                  ),
+                  Flexible(
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => EnterAmountKeypad(
+                        height: constraints.maxHeight,
+                        width: MediaQuery.of(context).size.width,
                         controller: _inputController,
-                        maxDecimals: widget.inputAmount.decimal.precision,
+                        maxDecimals: widget.inputAmount.token.decimals,
                       ),
                     ),
-                    const _Button(),
-                  ],
-                ),
+                  ),
+                  const _Button(),
+                ],
               ),
             ),
           ),
@@ -150,7 +152,7 @@ class _TokenDropDown extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: const ShapeDecoration(
           shape: StadiumBorder(),
-          color: Colors.green,
+          color: CpColors.greenDropdown,
         ),
         child: Stack(
           fit: StackFit.expand,
@@ -188,27 +190,39 @@ class _Header extends StatelessWidget {
     final formattedInput = inputAmount.format(locale, roundInteger: true);
     final formattedOutput = outputAmount.format(locale, roundInteger: true);
 
-    return Center(
-      child: Column(
+    return SizedBox(
+      width: double.infinity,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          FittedBox(
-            child: Text(
-              inputController.text,
-              maxLines: 1,
-              style: const TextStyle(
-                fontSize: 80,
-                fontWeight: FontWeight.w700,
-                height: 1.5,
-              ),
-            ),
+          const Positioned(
+            top: 4,
+            left: 4,
+            child: CloseButton(),
           ),
-          FittedBox(
-            child: Text(
-              'For $formattedInput you will get aprox. $formattedOutput',
-              maxLines: 1,
-              style: const TextStyle(fontSize: 15),
-            ),
-          )
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FittedBox(
+                child: Text(
+                  inputController.text,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: 80,
+                    fontWeight: FontWeight.w700,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+              FittedBox(
+                child: Text(
+                  'For $formattedInput you will get aprox. $formattedOutput',
+                  maxLines: 1,
+                  style: const TextStyle(fontSize: 15),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -225,11 +239,13 @@ class _Button extends StatelessWidget {
   const _Button({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => const CpButton(
-        text: 'Press & hold to submit',
-        mechanic: CpButtonMechanic.hold,
-        width: double.infinity,
-        size: CpButtonSize.big,
-        onPressed: ignore,
+  Widget build(BuildContext context) => const CpContentPadding(
+        child: CpButton(
+          text: 'Press & hold to submit',
+          mechanic: CpButtonMechanic.hold,
+          width: double.infinity,
+          size: CpButtonSize.big,
+          onPressed: ignore,
+        ),
       );
 }

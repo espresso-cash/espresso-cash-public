@@ -4,6 +4,7 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
+import 'package:cryptoplease/features/swap/bl/create_swap/swap_setup.dart';
 import 'package:cryptoplease/features/swap/bl/swap_verifier/bloc.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -29,14 +30,10 @@ extension SwapFlowExt on BuildContext {
 class SwapFlowScreen extends StatefulWidget {
   const SwapFlowScreen({
     Key? key,
-    required this.input,
-    required this.output,
-    required this.slippage,
+    required this.setup,
   }) : super(key: key);
 
-  final Token input;
-  final Token output;
-  final Decimal slippage;
+  final SwapSetup setup;
 
   @override
   State<SwapFlowScreen> createState() => _FlowState();

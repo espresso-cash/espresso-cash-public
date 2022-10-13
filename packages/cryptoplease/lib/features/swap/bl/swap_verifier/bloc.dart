@@ -1,6 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/features/swap/bl/create_swap/swap_exception.dart';
+import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
