@@ -39,6 +39,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
         initialData: const IListConst([]),
         builder: (context, snapshot) => ListView.builder(
           itemBuilder: (context, i) {
+            // ignore: avoid-non-null-assertion, cannot be null here
             final item = snapshot.data![i];
 
             return item.map(
@@ -61,7 +62,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
               ),
             );
           },
-          itemCount: snapshot.data!.length,
+          itemCount: snapshot.data?.length ?? 0,
         ),
       );
 }
