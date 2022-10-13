@@ -23,14 +23,16 @@ class SwapScreen extends StatefulWidget {
     required this.onSlippageChanged,
     required this.onAmountChanged,
     required this.onSubmit,
+    required this.loading,
   }) : super(key: key);
 
   final CryptoAmount inputAmount;
-  final CryptoAmount? outputAmount;
+  final CryptoAmount outputAmount;
   final Decimal slippage;
   final ValueSetter<Decimal> onSlippageChanged;
   final ValueSetter<Decimal> onAmountChanged;
   final VoidCallback onSubmit;
+  final bool loading;
 
   @override
   State<SwapScreen> createState() => _SwapScreenState();
@@ -86,9 +88,12 @@ class _SwapScreenState extends State<SwapScreen> {
                     valueListenable: _amountController,
                     builder: (context, _, __) => _Header(
                       inputController: _amountController,
-                      inputAmount: widget.inputAmount,
-                      outputAmount: widget.outputAmount,
                     ),
+                  ),
+                  _Equivalent(
+                    inputAmount: widget.inputAmount,
+                    outputAmount: widget.outputAmount,
+                    loading: widget.loading,
                   ),
                   _TokenDropDown(
                     current: widget.inputAmount.token,
@@ -216,56 +221,84 @@ class _Header extends StatelessWidget {
   const _Header({
     Key? key,
     required this.inputController,
-    required this.inputAmount,
-    required this.outputAmount,
   }) : super(key: key);
 
   final TextEditingController inputController;
-  final CryptoAmount inputAmount;
-  final CryptoAmount? outputAmount;
 
   @override
   Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
-    final toDisplayAmount = inputController.text.formatted(context);
-    final formattedInput = inputAmount.format(locale, roundInteger: true);
-    final formattedOutput = outputAmount?.format(locale, roundInteger: true);
+    final displayAmount = inputController.text.formatted(context);
 
     return SizedBox(
       width: double.infinity,
       child: Stack(
         alignment: Alignment.center,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
+            child: FittedBox(
+              child: Text(
+                displayAmount,
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 80,
+                  fontWeight: FontWeight.w700,
+                  height: 1.5,
+                ),
+              ),
+            ),
+          ),
           const Positioned(
             top: 4,
             left: 4,
             child: CloseButton(),
           ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FittedBox(
-                child: Text(
-                  toDisplayAmount,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 80,
-                    fontWeight: FontWeight.w700,
-                    height: 1.5,
-                  ),
-                ),
-              ),
-              FittedBox(
-                child: Text(
-                  'For $formattedInput you will get aprox. $formattedOutput',
-                  maxLines: 1,
-                  style: const TextStyle(fontSize: 15),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
+    );
+  }
+}
+
+class _Equivalent extends StatelessWidget {
+  const _Equivalent({
+    Key? key,
+    required this.inputAmount,
+    required this.outputAmount,
+    required this.loading,
+  }) : super(key: key);
+
+  final CryptoAmount inputAmount;
+  final CryptoAmount outputAmount;
+  final bool loading;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget content;
+    if (loading) {
+      content = const _Loading();
+    } else if (inputAmount.value == 0) {
+      content = const SizedBox.shrink();
+    } else {
+      final locale = DeviceLocale.localeOf(context);
+      final formattedInput = inputAmount.format(locale, roundInteger: true);
+      final formattedOutput = outputAmount.format(
+        locale,
+        decimals: 2,
+        roundInteger: true,
+      );
+
+      content = FittedBox(
+        child: Text(
+          'For $formattedInput you will get aprox. $formattedOutput',
+          maxLines: 1,
+          style: const TextStyle(fontSize: 15),
+        ),
+      );
+    }
+
+    return SizedBox(
+      height: 16,
+      child: content,
     );
   }
 }
@@ -275,6 +308,16 @@ const _descriptionStyle = TextStyle(
   fontSize: 14.5,
   color: CpColors.greyDarkAccentColor,
 );
+
+class _Loading extends StatelessWidget {
+  const _Loading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => const SizedBox.square(
+        dimension: 16,
+        child: CircularProgressIndicator(color: Colors.white),
+      );
+}
 
 class _Button extends StatelessWidget {
   const _Button({Key? key}) : super(key: key);

@@ -48,17 +48,12 @@ class SwapFlowScreen extends StatefulWidget {
 }
 
 class _FlowState extends State<SwapFlowScreen> {
-  late final CryptoAmount zero;
   late final SwapVerifierBloc swapVerifierBloc;
   late final CreateSwapBloc createSwapBloc;
 
   @override
   void initState() {
     super.initState();
-    zero = CryptoAmount(
-      value: 0,
-      currency: CryptoCurrency(token: widget.inputToken),
-    );
     createSwapBloc = CreateSwapBloc(
       jupiterAggregatorClient: context.read<JupiterAggregatorClient>(),
       tokenList: context.read<TokenList>(),
@@ -97,20 +92,29 @@ class _FlowState extends State<SwapFlowScreen> {
             failure: _onSwapException,
           ),
           builder: (context, state) {
-            final amount = state.maybeMap(
+            final inputAmount = state.maybeMap(
               initialized: (state) => state.inputAmount,
-              orElse: () => zero,
+              orElse: () => CryptoAmount(
+                value: 0,
+                currency: CryptoCurrency(token: widget.inputToken),
+              ),
             );
 
+            final outputAmount = state.outputAmount ??
+                CryptoAmount(
+                  value: 0,
+                  currency: CryptoCurrency(
+                    token: state.output ?? widget.outputToken,
+                  ),
+                );
+
             return SwapScreen(
-              inputAmount: amount,
-              outputAmount: state.maybeMap(
-                initialized: (state) => state.outputAmount,
-                orElse: () => null,
-              ),
+              inputAmount: inputAmount,
+              outputAmount: outputAmount,
               slippage: state.slippage ?? widget.slippage,
+              loading: state.isLoadingRoute,
               onSlippageChanged: _onSlippageUpdate,
-              onAmountChanged: (value) => _onAmountUpdate(amount, value),
+              onAmountChanged: (value) => _onAmountUpdate(inputAmount, value),
               onSubmit: ignore,
             );
           },
