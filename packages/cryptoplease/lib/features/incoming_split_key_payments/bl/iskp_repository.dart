@@ -4,4 +4,5 @@ abstract class ISKPRepository {
   Future<void> save(IncomingSplitKeyPayment payment);
   Future<IncomingSplitKeyPayment?> load(String id);
   Stream<IncomingSplitKeyPayment?> watch(String id);
+  Future<void> clear();
 }

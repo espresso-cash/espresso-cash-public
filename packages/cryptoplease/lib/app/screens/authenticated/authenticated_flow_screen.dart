@@ -4,24 +4,19 @@ import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/module.dart';
-import 'package:cryptoplease/core/payments/tx_creator_strategy.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/add_funds/module.dart';
-import 'package:cryptoplease/features/airdrop/module.dart';
 import 'package:cryptoplease/features/backup_phrase/module.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/module.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/presentation/pending_iskp_listener.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/module.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/link_listener.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/module.dart';
-import 'package:cryptoplease/features/outgoing_transfer/bl/outgoing_transfers_bloc/bloc.dart';
-import 'package:cryptoplease/features/outgoing_transfer/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:solana/solana.dart';
 
 @immutable
 class HomeRouterKey {
@@ -55,11 +50,9 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
             return MultiProvider(
               providers: [
                 Provider<MyAccount>.value(value: account),
-                const AirdropModule(),
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
                 const AddFundsModule(),
-                _outgoingTransfersBlocProvider(account),
                 _balanceListener,
                 Provider<HomeRouterKey>(
                   create: (_) => HomeRouterKey(_homeRouterKey),
@@ -78,19 +71,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
         ),
       );
 }
-
-BlocProvider<OutgoingTransfersBloc> _outgoingTransfersBlocProvider(
-  MyAccount account,
-) =>
-    BlocProvider(
-      create: (context) => OutgoingTransfersBloc(
-        repository: context.read<OutgoingTransferRepository>(),
-        solanaClient: context.read<SolanaClient>(),
-        account: account,
-        txCreatorSelector: context.read<TxCreatorStrategy>(),
-        balancesBloc: context.read<BalancesBloc>(),
-      ),
-    );
 
 /// Requests conversion rates update whenever the list of user tokens changes.
 final _balanceListener = BlocListener<BalancesBloc, BalancesState>(

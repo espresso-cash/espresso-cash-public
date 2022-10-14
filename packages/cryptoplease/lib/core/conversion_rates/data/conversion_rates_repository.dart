@@ -57,22 +57,27 @@ class CoingeckoConversionRatesRepository extends ChangeNotifier
         final Map<String, PricesMapDto> conversionRates = {};
         results.forEach(conversionRates.addAll);
 
+        final previous = _value.value[currency] ?? const IMapConst({});
+
         final newValue = _value.value.add(
           currency,
-          conversionRates.keys.fold(const IMapConst({}), (map, value) {
-            final data = conversionRates[value];
+          previous.addAll(
+            conversionRates.keys.fold<IMap<CryptoCurrency, Decimal>>(
+                const IMapConst({}), (map, value) {
+              final data = conversionRates[value];
 
-            if (data == null) return map;
-            final rate = currency == Currency.usd ? data.usd : data.eur;
-            if (rate == null) return map;
+              if (data == null) return map;
+              final rate = currency == Currency.usd ? data.usd : data.eur;
+              if (rate == null) return map;
 
-            return map.add(
-              CryptoCurrency(
-                token: tokens.firstWhere((t) => t.coingeckoId == value),
-              ),
-              Decimal.parse(rate.toString()),
-            );
-          }),
+              return map.add(
+                CryptoCurrency(
+                  token: tokens.firstWhere((t) => t.coingeckoId == value),
+                ),
+                Decimal.parse(rate.toString()),
+              );
+            }),
+          ),
         );
         _value.add(newValue);
         notifyListeners();

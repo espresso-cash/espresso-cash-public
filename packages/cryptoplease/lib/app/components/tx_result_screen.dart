@@ -1,5 +1,5 @@
 import 'package:cryptoplease/app/components/decorated_window.dart';
-import 'package:cryptoplease/features/transactions/bl/create_transaction_link.dart';
+import 'package:cryptoplease/core/transactions/create_transaction_link.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
