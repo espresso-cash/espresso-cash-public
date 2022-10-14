@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/routes.dart';
+import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
@@ -16,6 +17,7 @@ import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solana/solana.dart';
 
 extension SwapFlowExt on BuildContext {
   void navigateToBuyToken(Token token) => navigateTo(
@@ -72,6 +74,12 @@ class _FlowState extends State<SwapFlowScreen> {
           widget.slippage,
         ),
       );
+
+    swapVerifierBloc = SwapVerifierBloc(
+      jupiterAggregatorClient: context.read<JupiterAggregatorClient>(),
+      myAccount: context.read<MyAccount>(),
+      solanaClient: context.read<SolanaClient>(),
+    );
   }
 
   void _onSubmit() => createSwapBloc.add(const CreateSwapEvent.submitted());
@@ -94,38 +102,50 @@ class _FlowState extends State<SwapFlowScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: BlocConsumer<CreateSwapBloc, CreateSwapState>(
-          bloc: createSwapBloc,
+        body: BlocListener<SwapVerifierBloc, SwapVerifierState>(
+          bloc: swapVerifierBloc,
           listener: (context, state) => state.whenOrNull(
-            failure: _onSwapException,
+            failed: _onSwapException,
           ),
-          builder: (context, state) {
-            final inputAmount = state.maybeMap(
-              initialized: (state) => state.inputAmount,
-              orElse: () => CryptoAmount(
-                value: 0,
-                currency: CryptoCurrency(token: widget.inputToken),
-              ),
-            );
-
-            final outputAmount = state.outputAmount ??
-                CryptoAmount(
-                  value: 0,
-                  currency: CryptoCurrency(
-                    token: state.output ?? widget.outputToken,
-                  ),
+          child: BlocConsumer<CreateSwapBloc, CreateSwapState>(
+            bloc: createSwapBloc,
+            listener: (context, state) => state.whenOrNull(
+              failure: _onSwapException,
+              success: (route) {
+                print(route);
+                swapVerifierBloc.add(
+                  SwapVerifierEvent.swapRequested(jupiterRoute: route),
                 );
+              },
+            ),
+            builder: (context, state) {
+              final inputAmount = state.maybeMap(
+                initialized: (state) => state.inputAmount,
+                orElse: () => CryptoAmount(
+                  value: 0,
+                  currency: CryptoCurrency(token: widget.inputToken),
+                ),
+              );
 
-            return SwapScreen(
-              inputAmount: inputAmount,
-              outputAmount: outputAmount,
-              slippage: state.slippage ?? widget.slippage,
-              loading: state.isLoadingRoute,
-              onSlippageChanged: _onSlippageUpdate,
-              onAmountChanged: (value) => _onAmountUpdate(inputAmount, value),
-              onSubmit: _onSubmit,
-            );
-          },
+              final outputAmount = state.outputAmount ??
+                  CryptoAmount(
+                    value: 0,
+                    currency: CryptoCurrency(
+                      token: state.output ?? widget.outputToken,
+                    ),
+                  );
+
+              return SwapScreen(
+                inputAmount: inputAmount,
+                outputAmount: outputAmount,
+                slippage: state.slippage ?? widget.slippage,
+                loading: state.isLoadingRoute,
+                onSlippageChanged: _onSlippageUpdate,
+                onAmountChanged: (value) => _onAmountUpdate(inputAmount, value),
+                onSubmit: _onSubmit,
+              );
+            },
+          ),
         ),
       );
 }
