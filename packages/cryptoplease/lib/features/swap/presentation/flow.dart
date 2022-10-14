@@ -13,13 +13,19 @@ import 'package:cryptoplease/features/swap/bl/swap_verifier/bloc.dart';
 import 'package:cryptoplease/features/swap/swap_screen.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 extension SwapFlowExt on BuildContext {
-  // void navigateToBuyToken(Token token);
+  void navigateToBuyToken(Token token) => navigateTo(
+        SwapFlowRoute(
+          // TODO: remove
+          inputToken: Token.usdcProd,
+          outputToken: token,
+          slippage: Decimal.one,
+        ),
+      );
 
   void navigateToSellToken(Token token) => navigateTo(
         SwapFlowRoute(
@@ -68,6 +74,8 @@ class _FlowState extends State<SwapFlowScreen> {
       );
   }
 
+  void _onSubmit() => createSwapBloc.add(const CreateSwapEvent.submitted());
+
   void _onSlippageUpdate(Decimal value) {
     createSwapBloc.add(CreateSwapEvent.slippageUpdated(value));
   }
@@ -115,7 +123,7 @@ class _FlowState extends State<SwapFlowScreen> {
               loading: state.isLoadingRoute,
               onSlippageChanged: _onSlippageUpdate,
               onAmountChanged: (value) => _onAmountUpdate(inputAmount, value),
-              onSubmit: ignore,
+              onSubmit: _onSubmit,
             );
           },
         ),

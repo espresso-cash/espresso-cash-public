@@ -9,7 +9,6 @@ import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -115,7 +114,9 @@ class _SwapScreenState extends State<SwapScreen> {
                       ),
                     ),
                   ),
-                  const _Button(),
+                  _Button(
+                    onSubmit: widget.onSubmit,
+                  ),
                 ],
               ),
             ),
@@ -320,16 +321,21 @@ class _Loading extends StatelessWidget {
 }
 
 class _Button extends StatelessWidget {
-  const _Button({Key? key}) : super(key: key);
+  const _Button({
+    Key? key,
+    required this.onSubmit,
+  }) : super(key: key);
+
+  final VoidCallback onSubmit;
 
   @override
-  Widget build(BuildContext context) => const CpContentPadding(
+  Widget build(BuildContext context) => CpContentPadding(
         child: CpButton(
           text: 'Press & hold to submit',
           mechanic: CpButtonMechanic.hold,
           width: double.infinity,
           size: CpButtonSize.big,
-          onPressed: ignore,
+          onPressed: onSubmit,
         ),
       );
 }

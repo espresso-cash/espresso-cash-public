@@ -58,7 +58,8 @@ class MenuHeader extends StatelessWidget {
                 token: Token.usdc,
               ),
             ),
-            onCashOut: () => context.navigateToSellToken(Token.sol),
+            // TODO: remove
+            onCashOut: () => context.navigateToBuyToken(Token.sol),
           ),
         ],
       ),

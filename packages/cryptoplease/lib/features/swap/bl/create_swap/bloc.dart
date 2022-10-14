@@ -77,10 +77,13 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       final mintKeys = routeMap.mintKeys;
       final jupiterTokens = mintKeys.map(_tokenList.findTokenByMint);
 
-      final inputTokens = await compute(
+      // TODO: remove
+      final inputTokens = (await compute(
         _computeInputTokens,
         _Input(tokens: jupiterTokens, balances: _balances),
-      );
+      ))
+          .toList()
+        ..add(Token.usdcProd);
 
       final token = inputTokens.firstWhere(
         (token) => token == event.input,
