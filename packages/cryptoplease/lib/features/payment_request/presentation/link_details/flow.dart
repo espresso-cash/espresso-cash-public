@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/tx_result_screen.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request_verifier/bloc.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
@@ -12,7 +13,6 @@ import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:solana/solana.dart';
 
 extension LinkDetailsFlowExt on BuildContext {
   void navigateToPaymentRequest(String id) =>
@@ -49,11 +49,7 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
 
           return data.state.when(
             initial: () => BlocProvider<PaymentRequestVerifierBloc>(
-              create: (context) => PaymentRequestVerifierBloc(
-                solanaClient: context.read<SolanaClient>(),
-                request: data,
-                repository: context.read<PaymentRequestRepository>(),
-              ),
+              create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
               lazy: false,
               child: Provider<PaymentRequest>.value(
                 value: data,

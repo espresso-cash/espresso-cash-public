@@ -6,10 +6,10 @@ import 'package:cryptoplease/core/balances/module.dart';
 import 'package:cryptoplease/core/dynamic_links_notifier.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/logging.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +31,8 @@ Future<void> main() => sentryDsn.isNotEmpty
 
 Future<void> _start() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await configureDependencies();
 
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations([
@@ -76,8 +78,8 @@ Future<void> _start() async {
       Provider<CryptopleaseClient>(create: (_) => CryptopleaseClient()),
       const BalancesModule(),
       const AccountsModule(),
-      ChangeNotifierProvider(
-        create: (_) => DynamicLinksNotifier(FirebaseDynamicLinks.instance),
+      ChangeNotifierProvider<DynamicLinksNotifier>(
+        create: (_) => sl<DynamicLinksNotifier>(),
       ),
     ],
     child: const CryptopleaseApp(),

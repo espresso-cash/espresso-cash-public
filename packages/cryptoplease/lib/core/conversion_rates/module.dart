@@ -1,7 +1,6 @@
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
-import 'package:cryptoplease/core/conversion_rates/data/coingecko_client.dart';
-import 'package:cryptoplease/core/conversion_rates/data/conversion_rates_repository.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
@@ -14,16 +13,10 @@ class ConversionRatesModule extends SingleChildStatelessWidget {
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
-          ChangeNotifierProvider<ConversionRatesRepository>(
-            create: (_) => CoingeckoConversionRatesRepository(
-              coingeckoClient: CoingeckoClient(),
-            ),
+          ChangeNotifierProvider<ConversionRatesRepository>.value(
+            value: sl<ConversionRatesRepository>(),
           ),
-          BlocProvider(
-            create: (context) => ConversionRatesBloc(
-              repository: context.read<ConversionRatesRepository>(),
-            ),
-          )
+          BlocProvider(create: (_) => sl<ConversionRatesBloc>())
         ],
         child: child,
       );

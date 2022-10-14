@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:uni_links/uni_links.dart';
 
+@injectable
 class DynamicLinksNotifier extends ChangeNotifier {
   DynamicLinksNotifier(this._firebaseDynamicLinks) {
     _init();

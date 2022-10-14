@@ -1,4 +1,5 @@
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request_verifier/bloc.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
@@ -12,7 +13,6 @@ import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solana/solana.dart';
 
 class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({
@@ -30,7 +30,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
   void initState() {
     super.initState();
 
-    _stream = context.read<PendingActivitiesRepository>().watchAll();
+    _stream = sl<PendingActivitiesRepository>().watchAll();
   }
 
   @override
@@ -85,7 +85,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
   @override
   void initState() {
     super.initState();
-    _stream = context.read<PaymentRequestRepository>().watchById(widget.id);
+    _stream = sl<PaymentRequestRepository>().watchById(widget.id);
   }
 
   @override
@@ -134,11 +134,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
 
           return BlocProvider<PaymentRequestVerifierBloc>(
             key: ValueKey(widget.id),
-            create: (context) => PaymentRequestVerifierBloc(
-              request: data,
-              solanaClient: context.read<SolanaClient>(),
-              repository: context.read<PaymentRequestRepository>(),
-            ),
+            create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
             lazy: false,
             child: ListTile(
               onTap: () => context.navigateToPaymentRequest(data.id),

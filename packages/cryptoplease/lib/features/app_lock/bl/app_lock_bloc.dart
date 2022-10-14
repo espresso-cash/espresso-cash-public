@@ -2,6 +2,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
 part 'app_lock_bloc.freezed.dart';
 
@@ -10,6 +11,7 @@ part 'app_lock_state.dart';
 
 typedef _Emitter = Emitter<AppLockState>;
 
+@injectable
 class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
   AppLockBloc({
     required FlutterSecureStorage secureStorage,

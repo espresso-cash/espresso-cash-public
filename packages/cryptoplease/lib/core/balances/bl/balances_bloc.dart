@@ -10,6 +10,7 @@ import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
@@ -20,6 +21,7 @@ part 'balances_state.dart';
 
 final _logger = Logger('BalancesBloc');
 
+@injectable
 class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
   BalancesBloc({
     required SolanaClient solanaClient,
