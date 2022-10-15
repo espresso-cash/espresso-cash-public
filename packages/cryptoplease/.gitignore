@@ -118,6 +118,7 @@ app.*.symbols
 *.freezed.dart
 *.i69n.dart
 *.reflectable.dart
+*.config.dart
 lib/gen/
 
 .fvm/

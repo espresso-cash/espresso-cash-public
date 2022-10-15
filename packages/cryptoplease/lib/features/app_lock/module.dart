@@ -1,9 +1,9 @@
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/app_lock/bl/app_lock_bloc.dart';
 import 'package:cryptoplease/features/app_lock/presentation/app_lock_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nested/nested.dart';
 
 class AppLockModule extends SingleChildStatelessWidget {
@@ -12,9 +12,7 @@ class AppLockModule extends SingleChildStatelessWidget {
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(
-        create: (context) => AppLockBloc(
-          secureStorage: const FlutterSecureStorage(),
-        )
+        create: (_) => sl<AppLockBloc>()
           ..add(const AppLockEvent.init())
           ..add(const AppLockEvent.lock()),
         child: _Content(child: child),

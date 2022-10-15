@@ -1,8 +1,9 @@
 import 'package:cryptoplease/data/db/open_connection.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/data/repository.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/data/repository.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/data/repository.dart';
+import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
+import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
+import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:drift/drift.dart';
+import 'package:injectable/injectable.dart';
 
 part 'db.g.dart';
 
@@ -48,6 +49,7 @@ const _tables = [
   ISKPRows,
 ];
 
+@lazySingleton
 @DriftDatabase(tables: _tables)
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(openConnection());

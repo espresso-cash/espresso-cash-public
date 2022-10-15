@@ -8,6 +8,7 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
@@ -21,10 +22,11 @@ typedef _State = PaymentRequestVerifierState;
 typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
+@injectable
 class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
   PaymentRequestVerifierBloc({
     required SolanaClient solanaClient,
-    required PaymentRequest request,
+    @factoryParam required PaymentRequest request,
     required PaymentRequestRepository repository,
   })  : _solanaClient = solanaClient,
         _request = request,

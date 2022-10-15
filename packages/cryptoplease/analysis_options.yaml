@@ -5,6 +5,7 @@ analyzer:
     - "**/*.mocks.dart"
     - "test/generated/**"
     - "lib/gen/**"
+    - "lib/di.config.dart"
 
   errors:
     deprecated_member_use_from_same_package: ignore

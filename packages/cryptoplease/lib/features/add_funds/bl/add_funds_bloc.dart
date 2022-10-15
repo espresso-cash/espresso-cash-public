@@ -4,9 +4,11 @@ import 'package:cryptoplease/core/flow.dart';
 import 'package:cryptoplease/features/add_funds/bl/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
 part 'add_funds_bloc.freezed.dart';
 
+@injectable
 class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
   AddFundsBloc({
     required AddFundsRepository repository,

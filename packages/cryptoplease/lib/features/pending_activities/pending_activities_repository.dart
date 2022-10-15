@@ -1,13 +1,15 @@
 import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/data/repository.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/data/repository.dart';
+import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
+import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:cryptoplease/features/pending_activities/pending_activity.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 typedef _L = Iterable<PendingActivity>;
 
+@injectable
 class PendingActivitiesRepository {
   PendingActivitiesRepository(this._db);
 
