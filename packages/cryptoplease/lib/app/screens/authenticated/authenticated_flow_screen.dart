@@ -5,7 +5,6 @@ import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/module.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
-import 'package:cryptoplease/features/add_funds/module.dart';
 import 'package:cryptoplease/features/backup_phrase/module.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/module.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/presentation/pending_iskp_listener.dart';
@@ -52,7 +51,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 Provider<MyAccount>.value(value: account),
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
-                const AddFundsModule(),
                 _balanceListener,
                 Provider<HomeRouterKey>(
                   create: (_) => HomeRouterKey(_homeRouterKey),

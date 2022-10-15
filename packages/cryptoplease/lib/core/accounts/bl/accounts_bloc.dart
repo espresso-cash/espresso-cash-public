@@ -7,6 +7,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 
 part 'accounts_bloc.freezed.dart';
@@ -16,6 +17,7 @@ part 'accounts_state.dart';
 typedef CopyFileToAppDir = Future<File> Function(File file);
 typedef LoadFileFromAppDir = Future<File> Function(String path);
 
+@injectable
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   AccountsBloc({
     required FlutterSecureStorage storage,

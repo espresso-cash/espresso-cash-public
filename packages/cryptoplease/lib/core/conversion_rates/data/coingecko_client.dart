@@ -4,13 +4,16 @@ import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
+@injectable
 @RestApi(baseUrl: 'https://api.coingecko.com/api/v3/simple')
 abstract class CoingeckoClient {
+  @factoryMethod
   factory CoingeckoClient() =>
       _CoingeckoClient(Dio()..options.listFormat = ListFormat.csv);
 

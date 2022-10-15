@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'puzzle_reminder_bloc.freezed.dart';
@@ -10,6 +11,7 @@ part 'puzzle_reminder_bloc.g.dart';
 part 'puzzle_reminder_event.dart';
 part 'puzzle_reminder_state.dart';
 
+@injectable
 class PuzzleReminderBloc
     extends Bloc<PuzzleReminderEvent, PuzzleReminderState> {
   PuzzleReminderBloc(this._sharedPreferences)

@@ -7,6 +7,7 @@ import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/create_payment_request/bloc.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/presentation/link_details/flow.dart';
@@ -45,8 +46,8 @@ class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
       balances: context.read<BalancesBloc>().state.balances,
       userCurrency: context.read<UserPreferences>().fiatCurrency,
       initialToken: token,
-      repository: context.read<PaymentRequestRepository>(),
-      conversionRatesRepository: context.read<ConversionRatesRepository>(),
+      repository: sl<PaymentRequestRepository>(),
+      conversionRatesRepository: sl<ConversionRatesRepository>(),
     );
 
     if (amount != null) {

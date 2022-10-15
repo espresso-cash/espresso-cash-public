@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/dynamic_links_notifier.dart';
 import 'package:cryptoplease/core/split_key_payments.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/pending_iskp_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +24,7 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
   }
 
   Future<void> _loadExisting() async {
-    final existing = await context.read<PendingISKPRepository>().load();
+    final existing = await sl<PendingISKPRepository>().load();
     if (existing != null) {
       if (!mounted) return;
 
@@ -34,7 +35,7 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
   void _openFirstPartReadyScreen() {
     context.router.push(
       FirstPartReadyRoute(
-        onCancel: () => context.read<PendingISKPRepository>().clear(),
+        onCancel: () => sl<PendingISKPRepository>().clear(),
       ),
     );
   }
@@ -45,7 +46,7 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
     context.watch<DynamicLinksNotifier>().processLink((link) {
       final firstPart = SplitKeyFirstLink.tryParse(link);
       if (firstPart != null) {
-        context.read<PendingISKPRepository>().save(firstPart);
+        sl<PendingISKPRepository>().save(firstPart);
         _openFirstPartReadyScreen();
 
         return true;
