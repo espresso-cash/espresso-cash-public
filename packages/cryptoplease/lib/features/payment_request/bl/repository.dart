@@ -51,6 +51,29 @@ class PaymentRequestRepository {
   Future<void> clear() => _db.delete(_db.paymentRequestRows).go();
 }
 
+enum PaymentRequestStateDto { initial, completed, error }
+
+class PaymentRequestRows extends Table {
+  TextColumn get id => text()();
+  DateTimeColumn get created => dateTime()();
+  TextColumn get payerName => text()();
+  TextColumn get dynamicLink => text()();
+  IntColumn get state => intEnum<PaymentRequestStateDto>()();
+  TextColumn get transactionId => text().nullable()();
+
+  // SolanaPayRequest columns
+  TextColumn get recipient => text()();
+  TextColumn get amount => text().nullable()();
+  TextColumn get spltToken => text().nullable()();
+  TextColumn get reference => text().nullable()();
+  TextColumn get label => text().nullable()();
+  TextColumn get message => text().nullable()();
+  TextColumn get memo => text().nullable()();
+
+  @override
+  Set<Column<dynamic>>? get primaryKey => {id};
+}
+
 extension on PaymentRequestRow {
   PaymentRequest toPaymentRequest() => PaymentRequest(
         id: id,

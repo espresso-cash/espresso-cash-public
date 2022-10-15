@@ -2,6 +2,7 @@ import 'package:cryptoplease/data/db/open_connection.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
+import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
@@ -11,29 +12,6 @@ class OutgoingTransferRows extends Table {
   TextColumn get id => text()();
   DateTimeColumn get created => dateTime()();
   TextColumn get data => text()();
-
-  @override
-  Set<Column<dynamic>>? get primaryKey => {id};
-}
-
-enum PaymentRequestStateDto { initial, completed, error }
-
-class PaymentRequestRows extends Table {
-  TextColumn get id => text()();
-  DateTimeColumn get created => dateTime()();
-  TextColumn get payerName => text()();
-  TextColumn get dynamicLink => text()();
-  IntColumn get state => intEnum<PaymentRequestStateDto>()();
-  TextColumn get transactionId => text().nullable()();
-
-  // SolanaPayRequest columns
-  TextColumn get recipient => text()();
-  TextColumn get amount => text().nullable()();
-  TextColumn get spltToken => text().nullable()();
-  TextColumn get reference => text().nullable()();
-  TextColumn get label => text().nullable()();
-  TextColumn get message => text().nullable()();
-  TextColumn get memo => text().nullable()();
 
   @override
   Set<Column<dynamic>>? get primaryKey => {id};
