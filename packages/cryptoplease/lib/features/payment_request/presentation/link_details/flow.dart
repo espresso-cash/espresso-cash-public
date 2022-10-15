@@ -37,7 +37,7 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
   @override
   void initState() {
     super.initState();
-    _stream = context.read<PaymentRequestRepository>().watchById(widget.id);
+    _stream = sl<PaymentRequestRepository>().watchById(widget.id);
   }
 
   @override

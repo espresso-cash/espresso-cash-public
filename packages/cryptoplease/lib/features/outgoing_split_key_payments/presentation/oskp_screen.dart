@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
@@ -30,10 +31,10 @@ class _OSKPScreenState extends State<OSKPScreen> {
   @override
   void initState() {
     super.initState();
-    _payment = context.read<OSKPRepository>().watch(widget.id);
+    final repository = sl<OSKPRepository>();
+    _payment = repository.watch(widget.id);
 
-    _shareLinksSubscription = context
-        .read<OSKPRepository>()
+    _shareLinksSubscription = repository
         .watch(widget.id)
         .skip(1)
         .where((payment) => payment?.status is OSKPStatusLinksReady)
