@@ -7,10 +7,8 @@ import 'package:cryptoplease/app/components/token_fiat_input_widget/switch_curre
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:decimal/decimal.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 enum _AmountInputType { token, fiat }
@@ -23,8 +21,6 @@ class TokenFiatInputWidget extends StatefulWidget {
     required this.currency,
     required this.onTokenAmountChanged,
     required this.onFiatAmountChanged,
-    required this.onTokenChanged,
-    required this.availableTokens,
     this.onMaxRequested,
   }) : super(key: key);
 
@@ -33,9 +29,7 @@ class TokenFiatInputWidget extends StatefulWidget {
   final Currency currency;
   final ValueSetter<Decimal> onTokenAmountChanged;
   final ValueSetter<Decimal> onFiatAmountChanged;
-  final ValueSetter<Token> onTokenChanged;
   final VoidCallback? onMaxRequested;
-  final IList<Token> availableTokens;
 
   @override
   State<TokenFiatInputWidget> createState() => _TokenFiatSwitcherInputState();
@@ -126,13 +120,9 @@ class _TokenFiatSwitcherInputState extends State<TokenFiatInputWidget> {
                     valueListenable: _controller,
                     builder: (context, value, _) => AmountDisplay(
                       value: value.text,
-                      onTokenChanged: _inputType == _AmountInputType.token
-                          ? widget.onTokenChanged
-                          : null,
                       currency: _inputType == _AmountInputType.token
                           ? widget.tokenAmount.currency
                           : widget.currency,
-                      availableTokens: widget.availableTokens,
                     ),
                   ),
                   const SizedBox(height: 8),

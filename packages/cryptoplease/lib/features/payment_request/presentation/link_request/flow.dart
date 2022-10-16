@@ -1,12 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
-import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/ui/loader.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/create_payment_request/bloc.dart';
@@ -22,11 +19,9 @@ import 'package:provider/provider.dart';
 class LinkRequestFlowScreen extends StatefulWidget {
   const LinkRequestFlowScreen({
     Key? key,
-    required this.initialToken,
     this.initialAmount,
   }) : super(key: key);
 
-  final Token? initialToken;
   final CryptoAmount? initialAmount;
 
   @override
@@ -40,12 +35,9 @@ class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
   void initState() {
     super.initState();
     final amount = widget.initialAmount;
-    final token = amount?.token ?? widget.initialToken;
 
     paymentRequestBloc = CreatePaymentRequestBloc(
-      balances: context.read<BalancesBloc>().state.balances,
       userCurrency: context.read<UserPreferences>().fiatCurrency,
-      initialToken: token,
       repository: sl<PaymentRequestRepository>(),
       conversionRatesRepository: sl<ConversionRatesRepository>(),
     );
@@ -94,8 +86,6 @@ class _ContentState extends State<_Content>
 
     if (state.tokenAmount.value != 0) {
       onAmountSubmitted();
-    } else {
-      context.navigateTo(const RequestAmountRoute());
     }
   }
 
