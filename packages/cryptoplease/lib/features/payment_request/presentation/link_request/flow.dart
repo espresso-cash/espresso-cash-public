@@ -9,7 +9,6 @@ import 'package:cryptoplease/features/payment_request/bl/create_payment_request/
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/presentation/link_details/flow.dart';
 import 'package:cryptoplease/features/payment_request/presentation/link_request/payer_name_screen.dart';
-import 'package:cryptoplease/features/payment_request/presentation/link_request/request_amount_screen.dart';
 import 'package:cryptoplease/ui/loader.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -66,16 +65,7 @@ class _Content extends StatefulWidget {
   State<_Content> createState() => _ContentState();
 }
 
-class _ContentState extends State<_Content>
-    implements PayerNameSetter, RequestAmountSetter {
-  @override
-  void onAmountSubmitted() {
-    final event = CreatePaymentRequestEvent.submitted(
-      recipient: context.read<MyAccount>().wallet.publicKey,
-    );
-    context.read<CreatePaymentRequestBloc>().add(event);
-  }
-
+class _ContentState extends State<_Content> implements PayerNameSetter {
   @override
   void onPayerNameSubmitted(String name) {
     context
@@ -85,7 +75,10 @@ class _ContentState extends State<_Content>
     final state = context.read<CreatePaymentRequestBloc>().state;
 
     if (state.tokenAmount.value != 0) {
-      onAmountSubmitted();
+      final event = CreatePaymentRequestEvent.submitted(
+        recipient: context.read<MyAccount>().wallet.publicKey,
+      );
+      context.read<CreatePaymentRequestBloc>().add(event);
     }
   }
 
@@ -93,7 +86,6 @@ class _ContentState extends State<_Content>
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           Provider<PayerNameSetter>.value(value: this),
-          Provider<RequestAmountSetter>.value(value: this),
         ],
         child:
             BlocConsumer<CreatePaymentRequestBloc, CreatePaymentRequestState>(

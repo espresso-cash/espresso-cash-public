@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
-import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/odp_header.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/amount_keypad/amount_keypad.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/chip.dart';
 import 'package:cryptoplease/ui/colors.dart';
@@ -92,7 +92,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
               Flexible(
                 flex: 3,
                 child: LayoutBuilder(
-                  builder: (context, constraints) => EnterAmountKeypad(
+                  builder: (context, constraints) => AmountKeypad(
                     height: constraints.maxHeight,
                     width: width,
                     controller: _amountController,
