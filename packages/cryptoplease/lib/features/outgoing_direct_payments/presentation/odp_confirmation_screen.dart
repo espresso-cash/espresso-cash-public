@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
-import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/app/ui/button.dart';
 import 'package:cryptoplease/app/ui/chip.dart';
 import 'package:cryptoplease/app/ui/colors.dart';
+import 'package:cryptoplease/app/ui/info_icon.dart';
 import 'package:cryptoplease/app/ui/info_widget.dart';
 import 'package:cryptoplease/app/ui/theme.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -84,7 +84,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 55),
                 child: CpInfoWidget(
-                  icon: const InfoIcon(),
+                  icon: const CpInfoIcon(),
                   message: Text(context.l10n.usdcExplanation),
                 ),
               ),

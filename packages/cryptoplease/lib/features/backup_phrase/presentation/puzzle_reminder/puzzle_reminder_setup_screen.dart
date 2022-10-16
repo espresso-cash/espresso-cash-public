@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/info_widget.dart';
 import 'package:cryptoplease/app/ui/button.dart';
 import 'package:cryptoplease/app/ui/colors.dart';
+import 'package:cryptoplease/app/ui/message_info_widget.dart';
 import 'package:cryptoplease/features/backup_phrase/bl/puzzle_reminder_bloc.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/components/puzzle_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -65,7 +65,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
           child: Column(
             children: [
               const SizedBox(height: 24),
-              MessageInfoWidget(
+              CpMessageInfoWidget(
                 padding: const EdgeInsets.all(32),
                 content: _Checkbox(
                   title: context.l10n.iUnderstandIfLoseMySecret,

@@ -1,6 +1,6 @@
-import 'package:cryptoplease/app/components/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/app/components/token_icon.dart';
 import 'package:cryptoplease/app/ui/colors.dart';
+import 'package:cryptoplease/app/ui/navigation_bar/navigation_bar.dart';
+import 'package:cryptoplease/app/ui/token_icon.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
@@ -105,7 +105,7 @@ class _TokenItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
       child: ListTile(
-        leading: TokenIcon(token: token, size: 37),
+        leading: CpTokenIcon(token: token, size: 37),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

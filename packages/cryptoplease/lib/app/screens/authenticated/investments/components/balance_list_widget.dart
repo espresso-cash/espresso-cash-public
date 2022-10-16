@@ -1,8 +1,8 @@
-import 'package:cryptoplease/app/components/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/app/components/token_icon.dart';
 import 'package:cryptoplease/app/ui/colors.dart';
 import 'package:cryptoplease/app/ui/empty_message_widget.dart';
 import 'package:cryptoplease/app/ui/headered_list/content.dart';
+import 'package:cryptoplease/app/ui/navigation_bar/navigation_bar.dart';
+import 'package:cryptoplease/app/ui/token_icon.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -59,7 +59,7 @@ class _BalanceItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TokenIcon(token: token, size: 35),
+              CpTokenIcon(token: token, size: 35),
               const SizedBox(width: 18),
               Expanded(
                 child: Text(

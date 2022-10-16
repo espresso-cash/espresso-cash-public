@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/app/ui/app_bar.dart';
 import 'package:cryptoplease/app/ui/button.dart';
 import 'package:cryptoplease/app/ui/chip.dart';
 import 'package:cryptoplease/app/ui/content_padding.dart';
+import 'package:cryptoplease/app/ui/info_icon.dart';
 import 'package:cryptoplease/app/ui/info_widget.dart';
 import 'package:cryptoplease/app/ui/theme.dart';
 import 'package:cryptoplease/core/amount.dart';
@@ -83,7 +83,7 @@ class _TokenCreateLinkContent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: CpInfoWidget(
-              icon: const InfoIcon(),
+              icon: const CpInfoIcon(),
               message: Text(context.l10n.sendExplanation),
             ),
           ),

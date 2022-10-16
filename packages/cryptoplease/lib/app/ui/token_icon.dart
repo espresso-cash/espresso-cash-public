@@ -5,8 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path/path.dart';
 
-class TokenIcon extends StatelessWidget {
-  const TokenIcon({
+class CpTokenIcon extends StatelessWidget {
+  const CpTokenIcon({
     Key? key,
     required this.token,
     required this.size,
@@ -51,9 +51,7 @@ class _TokenIconImage extends StatelessWidget {
             const _DefaultIcon(),
         imageUrl: url,
         imageBuilder: (context, provider) => DecoratedBox(
-          decoration: BoxDecoration(
-            image: DecorationImage(image: provider),
-          ),
+          decoration: BoxDecoration(image: DecorationImage(image: provider)),
         ),
       );
     }

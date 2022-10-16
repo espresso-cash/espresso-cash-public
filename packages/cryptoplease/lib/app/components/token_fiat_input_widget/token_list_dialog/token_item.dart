@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app/components/token_icon.dart';
 import 'package:cryptoplease/app/ui/colors.dart';
+import 'package:cryptoplease/app/ui/token_icon.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ class TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListTile(
         onTap: () => onSelected(token),
-        leading: TokenIcon(token: token, size: 40),
+        leading: CpTokenIcon(token: token, size: 40),
         title: Text(
           token.symbol,
           style: Theme.of(context)

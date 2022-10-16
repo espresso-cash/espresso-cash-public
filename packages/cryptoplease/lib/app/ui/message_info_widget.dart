@@ -1,8 +1,8 @@
 import 'package:cryptoplease/app/ui/rounded_rectangle.dart';
 import 'package:flutter/material.dart';
 
-class MessageInfoWidget extends StatelessWidget {
-  const MessageInfoWidget({
+class CpMessageInfoWidget extends StatelessWidget {
+  const CpMessageInfoWidget({
     Key? key,
     required this.content,
     this.backgroundColor,

@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app/components/navigation_bar/navigation_button.dart';
 import 'package:cryptoplease/app/ui/colors.dart';
+import 'package:cryptoplease/app/ui/navigation_bar/navigation_button.dart';
 import 'package:flutter/material.dart';
 
 class CPNavigationBar extends StatelessWidget {
@@ -8,7 +8,7 @@ class CPNavigationBar extends StatelessWidget {
     required this.items,
   }) : super(key: key);
 
-  final List<NavigationButton> items;
+  final List<CpNavigationButton> items;
 
   @override
   Widget build(BuildContext context) => Container(

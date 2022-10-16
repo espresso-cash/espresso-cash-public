@@ -2,8 +2,8 @@ import 'package:cryptoplease/app/ui/colors.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
-class NavigationButton extends StatelessWidget {
-  const NavigationButton({
+class CpNavigationButton extends StatelessWidget {
+  const CpNavigationButton({
     Key? key,
     required this.icon,
     required this.active,
