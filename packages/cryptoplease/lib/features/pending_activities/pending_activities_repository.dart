@@ -1,3 +1,4 @@
+import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
@@ -12,9 +13,10 @@ typedef _L = Iterable<PendingActivity>;
 
 @injectable
 class PendingActivitiesRepository {
-  PendingActivitiesRepository(this._db);
+  PendingActivitiesRepository(this._db, this._tokens);
 
   final MyDatabase _db;
+  final TokenList _tokens;
 
   Stream<IList<PendingActivity>> watchAll() {
     final opr = _db.select(_db.paymentRequestRows)
@@ -28,7 +30,10 @@ class PendingActivitiesRepository {
 
     final oprStream = opr.watch().map((rows) => rows.map((r) => r.toModel()));
     final odpStream = odp.watch().map((rows) => rows.map((r) => r.toModel()));
-    final oskpStream = oskp.watch().map((rows) => rows.map((r) => r.toModel()));
+    final oskpStream = oskp
+        .watch()
+        .map((rows) => rows.map((r) => r.toPendingActivity(_tokens)))
+        .asyncMap(Future.wait);
 
     return Rx.zip3<_L, _L, _L, IList<PendingActivity>>(
       oprStream,
@@ -56,8 +61,10 @@ extension on ODPRow {
 }
 
 extension on OSKPRow {
-  PendingActivity toModel() => PendingActivity.outgoingSplitKeyPayment(
+  Future<PendingActivity> toPendingActivity(TokenList tokens) async =>
+      PendingActivity.outgoingSplitKeyPayment(
         id: id,
         created: created,
+        data: await toModel(tokens),
       );
 }
