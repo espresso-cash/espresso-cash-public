@@ -31,10 +31,10 @@ class PendingActivitiesRepository {
 
     final oprStream = opr.watch().map((rows) => rows.map((r) => r.toModel()));
     final odpStream = odp.watch().map((rows) => rows.map((r) => r.toModel()));
-    final oskpStream = oskp.watch().asyncMap(
-          (rows) =>
-              rows.map((r) => r.toPendingActivity(_tokens)).let(Future.wait),
-        );
+    final oskpStream = oskp
+        .watch()
+        .map((rows) => rows.map((r) => r.toPendingActivity(_tokens)))
+        .asyncMap(Future.wait);
 
     return Rx.zip3<_L, _L, _L, IList<PendingActivity>>(
       oprStream,
