@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app/ui/app_bar.dart';
-import 'package:cryptoplease/app/ui/bottom_button.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/bottom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 

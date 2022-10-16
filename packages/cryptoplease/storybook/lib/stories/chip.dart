@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/ui/chip.dart';
+import 'package:cryptoplease/ui/chip.dart';
 import 'package:flutter/widgets.dart';
 import 'package:storybook/utils.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';

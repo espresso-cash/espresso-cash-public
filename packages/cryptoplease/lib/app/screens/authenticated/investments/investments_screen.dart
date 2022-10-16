@@ -4,12 +4,12 @@ import 'package:cryptoplease/app/screens/authenticated/investments/components/po
 import 'package:cryptoplease/app/screens/authenticated/investments/components/stablecoin_empty_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/total_balance_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/wallet_tab_bar.dart';
-import 'package:cryptoplease/app/ui/empty_message_widget.dart';
-import 'package:cryptoplease/app/ui/headered_list/headered_list.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/empty_message_widget.dart';
+import 'package:cryptoplease/ui/headered_list/headered_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

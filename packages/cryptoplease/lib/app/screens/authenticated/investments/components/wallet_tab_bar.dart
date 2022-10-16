@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app/ui/tab_bar.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/tab_bar.dart';
 import 'package:flutter/material.dart';
 
 class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {

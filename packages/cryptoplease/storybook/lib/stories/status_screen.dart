@@ -1,8 +1,8 @@
-import 'package:cryptoplease/app/ui/button.dart';
-import 'package:cryptoplease/app/ui/colors.dart';
-import 'package:cryptoplease/app/ui/content_padding.dart';
-import 'package:cryptoplease/app/ui/status_screen.dart';
-import 'package:cryptoplease/app/ui/status_widget.dart';
+import 'package:cryptoplease/ui/button.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/status_screen.dart';
+import 'package:cryptoplease/ui/status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook/utils.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';

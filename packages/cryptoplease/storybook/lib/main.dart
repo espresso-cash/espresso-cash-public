@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/ui/theme.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook/stories/app_bar.dart';
 import 'package:storybook/stories/background_gradient.dart';

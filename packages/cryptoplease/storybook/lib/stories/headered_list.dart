@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app/ui/headered_list/headered_list.dart';
-import 'package:cryptoplease/app/ui/theme.dart';
+import 'package:cryptoplease/ui/headered_list/headered_list.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 

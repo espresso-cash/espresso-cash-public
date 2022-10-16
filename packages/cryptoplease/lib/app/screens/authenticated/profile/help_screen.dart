@@ -1,9 +1,9 @@
 import 'package:cryptoplease/app/screens/authenticated/profile/components/help_bottom_sheet.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/components/profile_button.dart';
-import 'package:cryptoplease/app/ui/app_bar.dart';
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class HelpScreen extends StatelessWidget {

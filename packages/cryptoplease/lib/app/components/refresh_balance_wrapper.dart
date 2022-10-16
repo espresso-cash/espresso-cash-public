@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/ui/snackbar.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
@@ -6,6 +5,7 @@ import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/snackbar.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

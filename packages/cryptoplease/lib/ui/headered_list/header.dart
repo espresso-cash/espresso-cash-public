@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:cryptoplease/app/ui/app_bar.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class HeaderedListHeader extends StatelessWidget {

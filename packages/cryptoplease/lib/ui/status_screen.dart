@@ -1,7 +1,7 @@
-import 'package:cryptoplease/app/ui/app_bar.dart';
-import 'package:cryptoplease/app/ui/colors.dart';
-import 'package:cryptoplease/app/ui/content_padding.dart';
-import 'package:cryptoplease/app/ui/status_widget.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/status_widget.dart';
 import 'package:flutter/material.dart';
 
 class StatusScreen extends StatelessWidget {
