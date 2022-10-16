@@ -17,7 +17,7 @@ class CpActionSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: CpAppBar(hasBorder: false, leading: appBarLeading),
+        appBar: CpAppBar(leading: appBarLeading),
         body: CpContentPadding(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

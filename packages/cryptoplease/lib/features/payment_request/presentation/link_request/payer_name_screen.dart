@@ -23,7 +23,6 @@ class _PayerNameScreenState extends State<PayerNameScreen> {
   Widget build(BuildContext context) => DecoratedWindow(
         isScrollable: false,
         backgroundStyle: BackgroundStyle.light,
-        hasAppBarBorder: false,
         backButton: BackButton(onPressed: () => context.router.pop()),
         bottomButton: _BottomButton(controller: _controller),
         child: CpContentPadding(

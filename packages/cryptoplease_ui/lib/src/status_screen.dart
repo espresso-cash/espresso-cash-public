@@ -29,7 +29,6 @@ class StatusScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CpAppBar(
-        hasBorder: false,
         title: title != null ? Text(title, style: _titleStyle) : null,
         leading: onBackButtonPressed != null
             ? BackButton(

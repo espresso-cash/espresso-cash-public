@@ -33,7 +33,6 @@ class OSKPConfirmationScreen extends StatelessWidget {
                 fontSize: 17,
               ),
             ),
-            hasBorder: false,
             leading: BackButton(onPressed: () => context.router.pop()),
           ),
           body: CpContentPadding(

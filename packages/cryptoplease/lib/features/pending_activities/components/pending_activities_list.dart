@@ -11,7 +11,10 @@ import 'package:flutter/material.dart' hide Notification;
 class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({
     Key? key,
+    this.padding,
   }) : super(key: key);
+
+  final EdgeInsetsGeometry? padding;
 
   @override
   State<PendingActivitiesList> createState() => _PendingActivitiesListState();
@@ -32,6 +35,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
         stream: _stream,
         initialData: const IListConst([]),
         builder: (context, snapshot) => ListView.builder(
+          padding: widget.padding,
           itemBuilder: (context, i) {
             // ignore: avoid-non-null-assertion, cannot be null here
             final item = snapshot.data![i];

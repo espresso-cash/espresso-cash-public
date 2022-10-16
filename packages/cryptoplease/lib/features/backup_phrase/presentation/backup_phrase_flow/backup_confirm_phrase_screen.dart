@@ -31,7 +31,6 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
     final correctPhrase = widget.correctPhrase;
 
     return DecoratedWindow(
-      hasAppBarBorder: false,
       isScrollable: false,
       hasLogo: true,
       backgroundStyle: BackgroundStyle.dark,

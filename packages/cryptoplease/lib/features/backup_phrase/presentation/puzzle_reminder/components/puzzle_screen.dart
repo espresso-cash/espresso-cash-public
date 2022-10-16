@@ -8,13 +8,11 @@ class PuzzleScreen extends StatelessWidget {
     this.title,
     required this.child,
     this.backButton,
-    this.hasAppBarBorder = true,
   }) : super(key: key);
 
   final Widget child;
   final String? title;
   final Widget? backButton;
-  final bool hasAppBarBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,6 @@ class PuzzleScreen extends StatelessWidget {
       theme: const CpThemeData.dark(),
       child: Scaffold(
         appBar: CpAppBar(
-          hasBorder: hasAppBarBorder,
           leading: backButton,
           title: title != null
               ? Text(
