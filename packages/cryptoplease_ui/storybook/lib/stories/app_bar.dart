@@ -5,10 +5,7 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 final cpAppBar = Story(
   name: 'CpAppBar',
   builder: (context) => Scaffold(
-    appBar: CpAppBar(
-      title: const Text('App bar'),
-      hasBorder: context.knobs.boolean(label: 'Has border'),
-    ),
+    appBar: CpAppBar(title: const Text('App bar')),
     body: const Center(
       child: Text('Crypto Please'),
     ),

@@ -1,3 +1,4 @@
+import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 class CpAppBar extends AppBar {
@@ -6,7 +7,6 @@ class CpAppBar extends AppBar {
     Widget? title,
     Widget? leading,
     Widget? nextButton,
-    bool hasBorder = true,
     bool automaticallyImplyLeading = true,
   }) : super(
           key: key,
@@ -27,6 +27,12 @@ class CpAppBar extends AppBar {
               : null,
           title: title,
           elevation: 0,
-          shape: hasBorder ? null : const Border(),
+          shape: const Border(),
+          titleTextStyle: const TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+            color: CpColors.menuPrimaryTextColor,
+            letterSpacing: .23,
+          ),
         );
 }
