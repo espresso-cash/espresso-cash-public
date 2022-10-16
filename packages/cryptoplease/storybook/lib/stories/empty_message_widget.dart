@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/ui/empty_message_widget.dart';
+import 'package:cryptoplease/ui/empty_message_widget.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 final cpEmptyMessageWidget = Story(

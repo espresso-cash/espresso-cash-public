@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app/ui/colors.dart';
-import 'package:cryptoplease/app/ui/navigation_bar/navigation_button.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/navigation_bar/navigation_button.dart';
 import 'package:flutter/material.dart';
 
 class CPNavigationBar extends StatelessWidget {

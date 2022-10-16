@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app/ui/colors.dart';
-import 'package:cryptoplease/app/ui/theme.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 
 class CpHeaderedListContent extends StatelessWidget {

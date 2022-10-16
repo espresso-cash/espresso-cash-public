@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/ui/status_widget.dart';
+import 'package:cryptoplease/ui/status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook/utils.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
