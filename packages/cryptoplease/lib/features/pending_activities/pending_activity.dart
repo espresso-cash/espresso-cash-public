@@ -1,3 +1,4 @@
+import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'pending_activity.freezed.dart';
@@ -17,5 +18,6 @@ class PendingActivity with _$PendingActivity {
   const factory PendingActivity.outgoingSplitKeyPayment({
     required String id,
     required DateTime created,
+    required OutgoingSplitKeyPayment data,
   }) = OSKPPendingActivity;
 }
