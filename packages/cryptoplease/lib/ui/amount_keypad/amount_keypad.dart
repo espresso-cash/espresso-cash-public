@@ -1,11 +1,11 @@
-import 'package:cryptoplease/app/components/keypad_key.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/ui/amount_keypad/keypad_key.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-class EnterAmountKeypad extends StatelessWidget {
-  const EnterAmountKeypad({
+class AmountKeypad extends StatelessWidget {
+  const AmountKeypad({
     Key? key,
     required this.controller,
     required this.maxDecimals,
