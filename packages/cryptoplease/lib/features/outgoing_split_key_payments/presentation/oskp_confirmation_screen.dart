@@ -1,12 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/info_icon.dart';
+import 'package:cryptoplease/app/ui/app_bar.dart';
+import 'package:cryptoplease/app/ui/button.dart';
+import 'package:cryptoplease/app/ui/chip.dart';
+import 'package:cryptoplease/app/ui/content_padding.dart';
+import 'package:cryptoplease/app/ui/info_widget.dart';
+import 'package:cryptoplease/app/ui/theme.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 

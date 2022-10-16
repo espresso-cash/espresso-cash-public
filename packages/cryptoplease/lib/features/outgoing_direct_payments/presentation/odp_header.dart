@@ -1,10 +1,10 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
+import 'package:cryptoplease/app/ui/chip.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 class ODPHeader extends StatelessWidget {

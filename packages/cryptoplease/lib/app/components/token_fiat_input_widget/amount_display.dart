@@ -1,7 +1,7 @@
 import 'package:cryptoplease/app/components/token_fiat_input_widget/token_list_dialog/token_list_dialog.dart';
+import 'package:cryptoplease/app/ui/theme.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 

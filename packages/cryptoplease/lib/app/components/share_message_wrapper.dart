@@ -1,4 +1,4 @@
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/app/ui/rounded_rectangle.dart';
 import 'package:flutter/cupertino.dart';
 
 class ShareMessageWrapper extends StatefulWidget {

@@ -1,6 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
+import 'package:cryptoplease/app/ui/app_bar.dart';
+import 'package:cryptoplease/app/ui/button.dart';
+import 'package:cryptoplease/app/ui/colors.dart';
+import 'package:cryptoplease/app/ui/icon_button.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
@@ -10,7 +14,6 @@ import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:cryptoplease/app/ui/bottom_button.dart';
+import 'package:cryptoplease/app/ui/button.dart';
+import 'package:cryptoplease/app/ui/colors.dart';
+import 'package:cryptoplease/app/ui/theme.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatelessWidget {

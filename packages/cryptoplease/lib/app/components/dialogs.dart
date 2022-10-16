@@ -1,5 +1,5 @@
+import 'package:cryptoplease/app/ui/colors.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 void showErrorDialog(BuildContext context, String title, Exception e) =>
