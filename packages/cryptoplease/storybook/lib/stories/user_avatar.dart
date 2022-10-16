@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/ui/user_avatar.dart';
+import 'package:cryptoplease/ui/user_avatar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 

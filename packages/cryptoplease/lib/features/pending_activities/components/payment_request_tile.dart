@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/ui/colors.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
@@ -9,6 +8,7 @@ import 'package:cryptoplease/features/pending_activities/components/styles.dart'
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,14 +1,14 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
-import 'package:cryptoplease/app/ui/button.dart';
-import 'package:cryptoplease/app/ui/info_icon.dart';
-import 'package:cryptoplease/app/ui/info_widget.dart';
-import 'package:cryptoplease/app/ui/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/odp_header.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/button.dart';
+import 'package:cryptoplease/ui/info_icon.dart';
+import 'package:cryptoplease/ui/info_widget.dart';
+import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 

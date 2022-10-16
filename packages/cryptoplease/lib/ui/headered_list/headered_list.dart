@@ -1,6 +1,6 @@
-import 'package:cryptoplease/app/ui/colors.dart';
-import 'package:cryptoplease/app/ui/headered_list/header.dart';
-import 'package:cryptoplease/app/ui/theme.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/headered_list/header.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

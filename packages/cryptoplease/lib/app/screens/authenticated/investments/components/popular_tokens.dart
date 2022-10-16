@@ -1,6 +1,3 @@
-import 'package:cryptoplease/app/ui/colors.dart';
-import 'package:cryptoplease/app/ui/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/app/ui/token_icon.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
@@ -10,6 +7,9 @@ import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
+import 'package:cryptoplease/ui/token_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

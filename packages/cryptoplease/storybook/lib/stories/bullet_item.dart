@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/ui/bullet_item.dart';
+import 'package:cryptoplease/ui/bullet_item.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 final cpBulletItem = Story(

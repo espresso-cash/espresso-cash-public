@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/ui/timeline.dart';
+import 'package:cryptoplease/ui/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 

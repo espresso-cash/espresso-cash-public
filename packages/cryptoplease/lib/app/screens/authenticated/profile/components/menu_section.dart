@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_button.dart';
-import 'package:cryptoplease/app/ui/colors.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 
 class MenuSection extends StatelessWidget {

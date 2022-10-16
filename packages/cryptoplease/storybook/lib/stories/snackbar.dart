@@ -1,4 +1,4 @@
-import 'package:cryptoplease/app/ui/snackbar.dart';
+import 'package:cryptoplease/ui/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
