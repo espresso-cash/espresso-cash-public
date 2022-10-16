@@ -10,6 +10,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -32,11 +33,12 @@ typedef _Event = ODPEvent;
 typedef _State = ODPState;
 typedef _Emitter = Emitter<_State>;
 
+@injectable
 class ODPBloc extends Bloc<_Event, _State> {
   ODPBloc({
     required ODPRepository repository,
     required CryptopleaseClient client,
-    required Ed25519HDKeyPair account,
+    @factoryParam required Ed25519HDKeyPair account,
     required TxSender txSender,
   })  : _repository = repository,
         _client = client,

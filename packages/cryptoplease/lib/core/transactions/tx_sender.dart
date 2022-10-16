@@ -1,9 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 part 'tx_sender.freezed.dart';
 
+@injectable
 class TxSender {
   TxSender({
     required SolanaClient client,

@@ -9,10 +9,10 @@ class DangerSection extends StatelessWidget {
         message: context.l10n.signOutConfirmation,
         onConfirm: () {
           context.read<AccountsBloc>().add(const AccountsEvent.loggedOut());
-          context.read<PaymentRequestRepository>().clear();
-          context.read<ISKPRepository>().clear();
-          context.read<ODPRepository>().clear();
-          context.read<OSKPRepository>().clear();
+          sl<PaymentRequestRepository>().clear();
+          sl<ISKPRepository>().clear();
+          sl<ODPRepository>().clear();
+          sl<OSKPRepository>().clear();
         },
       );
 

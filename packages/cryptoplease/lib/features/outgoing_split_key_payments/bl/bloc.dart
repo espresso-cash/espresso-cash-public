@@ -12,6 +12,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -34,13 +35,14 @@ typedef _Event = OSKPEvent;
 typedef _State = OSKPState;
 typedef _Emitter = Emitter<_State>;
 
+@injectable
 class OSKPBloc extends Bloc<_Event, _State> {
   OSKPBloc({
-    required Ed25519HDKeyPair account,
+    @factoryParam required Ed25519HDKeyPair account,
     required CryptopleaseClient client,
     required OSKPRepository repository,
     required TxSender txSender,
-    LinkShortener linkShortener = const LinkShortener(),
+    required LinkShortener linkShortener,
   })  : _account = account,
         _client = client,
         _repository = repository,
