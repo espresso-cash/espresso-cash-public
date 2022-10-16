@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/ui/button.dart';
+import 'package:cryptoplease/app/ui/status_screen.dart';
+import 'package:cryptoplease/app/ui/status_widget.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 class TransferError extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/app/ui/button.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';

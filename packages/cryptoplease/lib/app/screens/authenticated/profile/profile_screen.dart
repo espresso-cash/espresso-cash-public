@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cryptoplease/app/screens/authenticated/profile/components/profile_section.dart';
+import 'package:cryptoplease/app/ui/colors.dart';
+import 'package:cryptoplease/app/ui/icon_button.dart';
+import 'package:cryptoplease/app/ui/user_avatar.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

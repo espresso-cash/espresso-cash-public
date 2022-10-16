@@ -1,4 +1,4 @@
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/app/ui/colors.dart';
 import 'package:flutter/material.dart';
 
 class ProfileButton extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/ui/action_selector/action_selector.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:flutter/material.dart';
 
 class RequestTypeScreen extends StatelessWidget {
