@@ -34,7 +34,6 @@ class MenuHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CpAppBar(
-            hasBorder: false,
             automaticallyImplyLeading: false,
             title: const _AppBarContent(),
           ),

@@ -31,7 +31,6 @@ class ShareAddressScreen extends StatelessWidget {
     final account = context.watch<MyAccount>();
 
     return DecoratedWindow(
-      hasAppBarBorder: false,
       backgroundStyle: BackgroundStyle.light,
       child: CpContentPadding(
         child: Column(
