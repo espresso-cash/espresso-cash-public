@@ -4,7 +4,6 @@ import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dar
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/pending_activities/pending_activity.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
