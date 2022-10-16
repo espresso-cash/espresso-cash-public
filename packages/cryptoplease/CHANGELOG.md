@@ -1,3 +1,17 @@
+## 1.44.0
+
+ - **REFACTOR**: merge storybook into cryptoplease.
+ - **REFACTOR**: remove unused code (#531).
+ - **REFACTOR**: move ui to lib (#530).
+ - **REFACTOR**: remove unused code (#529).
+ - **REFACTOR**: merge cryptoplease_ui into cryptoplease (#525).
+ - **REFACTOR**: remove unused l10n strings (#522).
+ - **REFACTOR**: move payment request table data (#521).
+ - **REFACTOR**: integrate get_it (#520).
+ - **FIX**: fix WalletMainScreen layout for small screens.
+ - **FEAT**: add tabbar to activity screen (#524).
+ - **FEAT**: update OSKPTile in activity (#523).
+
 ## 1.43.0
 
  - **REFACTOR**: remove obsolete deep links support (#514).
