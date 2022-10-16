@@ -24,8 +24,6 @@ We use BLoC-inspired architecture with BLoCs as pure business-logic components a
 
 All the states and events are immutable `freezed` classes.
 
-There are 2 packages related to the application: `cryptoplease` and `cryptoplease_ui`. The first one contains the main code of the app, the second one contains only business-logic-free UI components (think of it as UI-library).
-
 ## `cryptoplease` package structure
 
 ### `core`

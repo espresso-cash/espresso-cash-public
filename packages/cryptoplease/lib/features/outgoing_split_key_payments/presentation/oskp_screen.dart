@@ -2,6 +2,11 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
+import 'package:cryptoplease/app/ui/button.dart';
+import 'package:cryptoplease/app/ui/content_padding.dart';
+import 'package:cryptoplease/app/ui/status_screen.dart';
+import 'package:cryptoplease/app/ui/status_widget.dart';
+import 'package:cryptoplease/app/ui/timeline.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
@@ -10,7 +15,6 @@ import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

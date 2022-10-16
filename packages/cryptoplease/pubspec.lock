@@ -281,13 +281,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
-  cryptoplease_ui:
-    dependency: "direct main"
-    description:
-      path: "../cryptoplease_ui"
-      relative: true
-    source: path
-    version: "0.0.1"
   csslib:
     dependency: transitive
     description:
