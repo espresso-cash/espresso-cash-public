@@ -128,9 +128,10 @@ class CpThemeData {
           backgroundColor: Colors.transparent,
           centerTitle: true,
           titleTextStyle: _baseTextStyle.copyWith(
-            fontSize: 22,
+            fontSize: 17,
             color: primaryTextColor,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.bold,
+            letterSpacing: .23,
           ),
           shape: Border(
             bottom: BorderSide(

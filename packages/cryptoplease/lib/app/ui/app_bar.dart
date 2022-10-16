@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/ui/colors.dart';
 import 'package:flutter/material.dart';
 
 class CpAppBar extends AppBar {
@@ -28,11 +27,5 @@ class CpAppBar extends AppBar {
           title: title,
           elevation: 0,
           shape: const Border(),
-          titleTextStyle: const TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
-            color: CpColors.menuPrimaryTextColor,
-            letterSpacing: .23,
-          ),
         );
 }
