@@ -1,6 +1,5 @@
 import 'package:cryptoplease/app/ui/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:storybook/stories/action_selector.dart';
 import 'package:storybook/stories/app_bar.dart';
 import 'package:storybook/stories/background_gradient.dart';
 import 'package:storybook/stories/bottom_button.dart';
@@ -14,7 +13,6 @@ import 'package:storybook/stories/icon_button.dart';
 import 'package:storybook/stories/info_widget.dart';
 import 'package:storybook/stories/loader.dart';
 import 'package:storybook/stories/rounded_rectangle.dart';
-import 'package:storybook/stories/search_text_field.dart';
 import 'package:storybook/stories/snackbar.dart';
 import 'package:storybook/stories/status_screen.dart';
 import 'package:storybook/stories/status_widget.dart';
@@ -56,7 +54,6 @@ class StorybookApp extends StatelessWidget {
           ),
         ),
         stories: [
-          cpActionSelector,
           cpAppBar,
           cpBackgroundGradient,
           cpBottomButton,
@@ -70,7 +67,6 @@ class StorybookApp extends StatelessWidget {
           cpInfoWidget,
           cpLoader,
           cpRoundedRectangle,
-          cpSearchTextField,
           cpSnackbar,
           cpStatus,
           cpStatusScreen,

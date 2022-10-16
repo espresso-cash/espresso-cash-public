@@ -13,9 +13,6 @@ class CreatePaymentRequestEvent with _$CreatePaymentRequestEvent {
     Decimal amount,
   ) = FiatAmountUpdated;
 
-  const factory CreatePaymentRequestEvent.tokenUpdated(Token token) =
-      TokenUpdated;
-
   const factory CreatePaymentRequestEvent.submitted({
     required Ed25519HDPublicKey recipient,
   }) = Submitted;

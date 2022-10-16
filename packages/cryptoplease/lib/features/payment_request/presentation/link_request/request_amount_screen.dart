@@ -3,7 +3,6 @@ import 'package:cryptoplease/app/ui/app_bar.dart';
 import 'package:cryptoplease/app/ui/button.dart';
 import 'package:cryptoplease/app/ui/theme.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/payment_request/bl/create_payment_request/bloc.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:decimal/decimal.dart';
@@ -33,10 +32,6 @@ class _RequestAmountScreenState extends State<RequestAmountScreen> {
       .read<CreatePaymentRequestBloc>()
       .add(CreatePaymentRequestEvent.fiatAmountUpdated(value));
 
-  void _updateToken(Token value) => context
-      .read<CreatePaymentRequestBloc>()
-      .add(CreatePaymentRequestEvent.tokenUpdated(value));
-
   @override
   Widget build(BuildContext context) {
     final state = context.watch<CreatePaymentRequestBloc>().state;
@@ -54,9 +49,7 @@ class _RequestAmountScreenState extends State<RequestAmountScreen> {
           fiatAmount: state.fiatAmount,
           onTokenAmountChanged: _updateTokenAmount,
           onFiatAmountChanged: _updateFiatAmount,
-          onTokenChanged: _updateToken,
           currency: Currency.usd,
-          availableTokens: state.availableTokens,
         ),
       ),
     );
