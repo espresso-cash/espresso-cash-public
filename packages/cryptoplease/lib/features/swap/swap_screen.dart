@@ -1,13 +1,16 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
-import 'package:cryptoplease/app/components/token_fiat_input_widget/enter_amount_keypad.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/app_lock/presentation/components/pin_keypad.dart';
 import 'package:cryptoplease/features/swap/presentation/components/slippage_bottom_sheet.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/button.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
@@ -106,11 +109,9 @@ class _SwapScreenState extends State<SwapScreen> {
                   ),
                   Flexible(
                     child: LayoutBuilder(
-                      builder: (context, constraints) => EnterAmountKeypad(
-                        height: constraints.maxHeight,
-                        width: MediaQuery.of(context).size.width,
+                      builder: (context, constraints) => PinKeypad(
                         controller: _amountController,
-                        maxDecimals: widget.inputAmount.token.decimals,
+                        maxDigits: widget.inputAmount.token.decimals,
                       ),
                     ),
                   ),
