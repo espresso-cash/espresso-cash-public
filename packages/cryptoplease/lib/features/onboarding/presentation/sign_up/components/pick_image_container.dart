@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 

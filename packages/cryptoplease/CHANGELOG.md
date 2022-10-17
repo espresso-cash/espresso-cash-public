@@ -1,3 +1,48 @@
+## 1.44.0
+
+ - **REFACTOR**: merge storybook into cryptoplease.
+ - **REFACTOR**: remove unused code (#531).
+ - **REFACTOR**: move ui to lib (#530).
+ - **REFACTOR**: remove unused code (#529).
+ - **REFACTOR**: merge cryptoplease_ui into cryptoplease (#525).
+ - **REFACTOR**: remove unused l10n strings (#522).
+ - **REFACTOR**: move payment request table data (#521).
+ - **REFACTOR**: integrate get_it (#520).
+ - **FIX**: fix WalletMainScreen layout for small screens.
+ - **FEAT**: add tabbar to activity screen (#524).
+ - **FEAT**: update OSKPTile in activity (#523).
+
+## 1.43.0
+
+ - **REFACTOR**: remove obsolete deep links support (#514).
+ - **REFACTOR**: remove debug section from profile (#513).
+ - **REFACTOR**: remove old code (#509).
+ - **REFACTOR**: remove old iskp (#508).
+ - **REFACTOR**: extract SplitKey*Link (#507).
+ - **REFACTOR**: restructure screens (#505).
+ - **REFACTOR**: remove old pending requests code (#504).
+ - **REFACTOR**: remove nft code (#480).
+ - **FIX**: clear repositories on logout (#510).
+ - **FIX**: request payment links layout (#478).
+ - **FIX**: adjusted vertical align for copy button (#477).
+ - **FIX**: request page design updates (#475).
+ - **FEAT**: partially implement new pending activities (#515).
+ - **FEAT**: update logo (#496).
+ - **FEAT**: added investments screen (#506).
+ - **FEAT**: add address to profile screen (#491).
+ - **FEAT**: connect ISKP to UI (#503).
+ - **FEAT**: use new models in incoming payment requests (#502).
+ - **FEAT**: implement data layer for iskp (#501).
+ - **FEAT**: update OSKP (#500).
+ - **FEAT**: connect ODP to UI (#497).
+ - **FEAT**: added outgoing split transfer status page (#441).
+ - **FEAT**: add txId to success statuses (#493).
+ - **FEAT**: scan qrcode to send usdc (#438).
+ - **FEAT**: add ODPModule (#492).
+ - **FEAT**: add new incoming split-key model and bloc (#490).
+ - **FEAT**: add new outgoing transfer (#489).
+ - **FEAT**: add new OutgoingDirectPayment model and bloc (#479).
+
 ## 1.42.0
 
  - **REFACTOR**: move jupiter client to cryptoplease_api package (#452).

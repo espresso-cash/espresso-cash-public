@@ -4,7 +4,7 @@ import 'package:cryptoplease/features/onboarding/bl/sign_up_bloc.dart';
 import 'package:cryptoplease/features/onboarding/presentation/login/mnemonic_input_formatter.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

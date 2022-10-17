@@ -1,5 +1,7 @@
 import 'package:cryptoplease/app/components/decorated_window_header.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/background_gradient.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 
 enum BackgroundStyle { gradient, light, dark }
@@ -16,7 +18,6 @@ class DecoratedWindow extends StatelessWidget {
     this.isScrollable = true,
     this.backgroundStyle = BackgroundStyle.gradient,
     this.markdownMessage = false,
-    this.hasAppBarBorder = true,
     this.bottomButton,
   }) : super(key: key);
 
@@ -29,7 +30,6 @@ class DecoratedWindow extends StatelessWidget {
   final bool isScrollable;
   final BackgroundStyle backgroundStyle;
   final bool markdownMessage;
-  final bool hasAppBarBorder;
   final Widget? bottomButton;
 
   @override
@@ -60,7 +60,6 @@ class DecoratedWindow extends StatelessWidget {
           : const CpThemeData.dark(),
       child: Scaffold(
         appBar: CpAppBar(
-          hasBorder: hasAppBarBorder,
           leading: backButton,
           nextButton: nextButton,
         ),

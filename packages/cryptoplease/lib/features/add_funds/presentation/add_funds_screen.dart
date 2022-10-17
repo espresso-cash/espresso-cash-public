@@ -2,11 +2,13 @@ import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/add_funds/bl/add_funds_bloc.dart';
-import 'package:cryptoplease/features/add_funds/bl/repository.dart';
 import 'package:cryptoplease/features/add_funds/presentation/components/crypto_amount_view.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/button.dart';
+import 'package:cryptoplease/ui/text_field.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +35,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
 
   @override
   Widget build(BuildContext context) => BlocProvider<AddFundsBloc>(
-        create: (context) => AddFundsBloc(
-          repository: context.read<AddFundsRepository>(),
-        ),
+        create: (_) => sl<AddFundsBloc>(),
         child: BlocConsumer<AddFundsBloc, AddFundsState>(
           listener: (context, state) => state.maybeWhen(
             failure: (_) => showWarningDialog(

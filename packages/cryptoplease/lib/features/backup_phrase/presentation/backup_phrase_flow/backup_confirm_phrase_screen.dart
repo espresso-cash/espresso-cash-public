@@ -2,7 +2,8 @@ import 'package:cryptoplease/app/components/decorated_window.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/components/confirm_phrase.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/button.dart';
+import 'package:cryptoplease/ui/content_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,7 +32,6 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
     final correctPhrase = widget.correctPhrase;
 
     return DecoratedWindow(
-      hasAppBarBorder: false,
       isScrollable: false,
       hasLogo: true,
       backgroundStyle: BackgroundStyle.dark,

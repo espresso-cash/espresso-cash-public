@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/info_widget.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/components/puzzle_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/button.dart';
+import 'package:cryptoplease/ui/message_info_widget.dart';
 import 'package:flutter/material.dart';
 
 class PuzzleReminderMessageScreen extends StatelessWidget {
@@ -21,7 +21,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 24),
-              MessageInfoWidget(
+              CpMessageInfoWidget(
                 padding: const EdgeInsets.all(32),
                 content: Wrap(
                   runSpacing: 20,

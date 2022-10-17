@@ -6,7 +6,6 @@ import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:decimal/decimal.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
@@ -25,23 +24,13 @@ typedef _Emitter = Emitter<_State>;
 class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   CreatePaymentRequestBloc({
     required FiatCurrency userCurrency,
-    required Map<Token, Amount> balances,
-    Token? initialToken,
     required PaymentRequestRepository repository,
     required ConversionRatesRepository conversionRatesRepository,
   })  : _repository = repository,
         _conversionRatesRepository = conversionRatesRepository,
         super(
           CreatePaymentRequestState(
-            availableTokens: initialToken == null
-                ? IList(balances.keys)
-                : IList([initialToken]),
-            tokenAmount: initialToken == null
-                ? const CryptoAmount(value: 0, currency: Currency.sol)
-                : CryptoAmount(
-                    value: 0,
-                    currency: CryptoCurrency(token: initialToken),
-                  ),
+            tokenAmount: const CryptoAmount(value: 0, currency: Currency.usdc),
             fiatAmount: FiatAmount(value: 0, currency: userCurrency),
           ),
         ) {
@@ -55,7 +44,6 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
         payerNameUpdated: (event) => _onPayerNameUpdated(event, emit),
         tokenAmountUpdated: (event) => _onAmountUpdated(event, emit),
         fiatAmountUpdated: (event) => _onFiatAmountUpdated(event, emit),
-        tokenUpdated: (event) => _onTokenUpdated(event, emit),
         submitted: (event) => _onSubmitted(event, emit),
       );
 
@@ -103,26 +91,6 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
     if (tokenAmount == null) return;
 
     emit(state.copyWith(tokenAmount: tokenAmount, fiatAmount: fiatAmount));
-  }
-
-  Future<void> _onTokenUpdated(TokenUpdated event, _Emitter emit) async {
-    if (!state.flow.isInitial()) return;
-
-    if (!state.availableTokens.contains(event.token)) return;
-
-    final currency = CryptoCurrency(token: event.token);
-    final value = state.tokenAmount.decimal;
-    final newAmount = state.tokenAmount.copyWith(
-      currency: currency,
-      value: currency.decimalToInt(value),
-    );
-
-    emit(
-      state.copyWith(
-        tokenAmount: newAmount,
-        fiatAmount: _toFiatAmount(newAmount),
-      ),
-    );
   }
 
   Future<void> _onSubmitted(Submitted event, _Emitter emit) async {

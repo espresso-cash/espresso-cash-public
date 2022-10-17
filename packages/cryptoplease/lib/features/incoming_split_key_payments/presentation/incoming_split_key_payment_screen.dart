@@ -1,6 +1,7 @@
 import 'package:cryptoplease/app/components/transfer_status/transfer_error.dart';
 import 'package:cryptoplease/app/components/transfer_status/transfer_progress.dart';
 import 'package:cryptoplease/app/components/transfer_status/transfer_success.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/incoming_split_key_payment.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_bloc.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
@@ -27,7 +28,7 @@ class _IncomingSplitKeyPaymentScreenState
   @override
   void initState() {
     super.initState();
-    _payment = context.read<ISKPRepository>().watch(widget.id);
+    _payment = sl<ISKPRepository>().watch(widget.id);
   }
 
   @override

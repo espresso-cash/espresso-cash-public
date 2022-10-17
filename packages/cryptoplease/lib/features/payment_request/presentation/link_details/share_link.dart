@@ -3,9 +3,14 @@ import 'package:cryptoplease/app/components/share_message/header.dart';
 import 'package:cryptoplease/app/components/share_message_wrapper.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/button.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -15,7 +20,7 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokenlist = context.read<TokenList>();
+    final tokenlist = sl<TokenList>();
     final request = context.watch<PaymentRequest>();
     final amount =
         request.payRequest.cryptoAmount(tokenlist)?.formatWithFiat(context) ??
