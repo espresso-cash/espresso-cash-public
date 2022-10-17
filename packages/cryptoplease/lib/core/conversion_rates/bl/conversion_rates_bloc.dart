@@ -8,6 +8,7 @@ import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 part 'conversion_rates_bloc.freezed.dart';
@@ -21,6 +22,7 @@ typedef _State = ConversionRatesState;
 typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
+@injectable
 class ConversionRatesBloc extends Bloc<_Event, _State> {
   ConversionRatesBloc({
     required ConversionRatesRepository repository,

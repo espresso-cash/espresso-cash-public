@@ -1,12 +1,17 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/button.dart';
+import 'package:cryptoplease/ui/chip.dart';
+import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/info_icon.dart';
+import 'package:cryptoplease/ui/info_widget.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +38,6 @@ class OSKPConfirmationScreen extends StatelessWidget {
                 fontSize: 17,
               ),
             ),
-            hasBorder: false,
             leading: BackButton(onPressed: () => context.router.pop()),
           ),
           body: CpContentPadding(
@@ -79,7 +83,7 @@ class _TokenCreateLinkContent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: CpInfoWidget(
-              icon: const InfoIcon(),
+              icon: const CpInfoIcon(),
               message: Text(context.l10n.sendExplanation),
             ),
           ),

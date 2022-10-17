@@ -3,6 +3,7 @@ import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
 part 'qr_scanner_bloc.freezed.dart';
 part 'qr_scanner_event.dart';
@@ -13,6 +14,7 @@ typedef _State = QrScannerState;
 typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
+@injectable
 class QrScannerBloc extends Bloc<_Event, _State> {
   QrScannerBloc() : super(const QrScannerState.initial()) {
     on<_Event>(_eventHandler, transformer: sequential());

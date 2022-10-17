@@ -5,7 +5,7 @@ import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/snackbar.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

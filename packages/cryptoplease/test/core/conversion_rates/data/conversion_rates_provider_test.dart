@@ -1,5 +1,5 @@
+import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/conversion_rates/data/coingecko_client.dart';
-import 'package:cryptoplease/core/conversion_rates/data/conversion_rates_repository.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/extensions.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -70,7 +70,7 @@ void main() {
       extensions: Extensions(coingeckoId: 'c'),
     );
 
-    final repository = CoingeckoConversionRatesRepository(
+    final repository = ConversionRatesRepository.test(
       coingeckoClient: client,
       maxCoingeckoIds: 2,
     );

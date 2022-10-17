@@ -1,18 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
-import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/create_payment_request/bloc.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/presentation/link_details/flow.dart';
 import 'package:cryptoplease/features/payment_request/presentation/link_request/payer_name_screen.dart';
-import 'package:cryptoplease/features/payment_request/presentation/link_request/request_amount_screen.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/loader.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,11 +18,9 @@ import 'package:provider/provider.dart';
 class LinkRequestFlowScreen extends StatefulWidget {
   const LinkRequestFlowScreen({
     Key? key,
-    required this.initialToken,
     this.initialAmount,
   }) : super(key: key);
 
-  final Token? initialToken;
   final CryptoAmount? initialAmount;
 
   @override
@@ -39,14 +34,11 @@ class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
   void initState() {
     super.initState();
     final amount = widget.initialAmount;
-    final token = amount?.token ?? widget.initialToken;
 
     paymentRequestBloc = CreatePaymentRequestBloc(
-      balances: context.read<BalancesBloc>().state.balances,
       userCurrency: context.read<UserPreferences>().fiatCurrency,
-      initialToken: token,
-      repository: context.read<PaymentRequestRepository>(),
-      conversionRatesRepository: context.read<ConversionRatesRepository>(),
+      repository: sl<PaymentRequestRepository>(),
+      conversionRatesRepository: sl<ConversionRatesRepository>(),
     );
 
     if (amount != null) {
@@ -73,16 +65,7 @@ class _Content extends StatefulWidget {
   State<_Content> createState() => _ContentState();
 }
 
-class _ContentState extends State<_Content>
-    implements PayerNameSetter, RequestAmountSetter {
-  @override
-  void onAmountSubmitted() {
-    final event = CreatePaymentRequestEvent.submitted(
-      recipient: context.read<MyAccount>().wallet.publicKey,
-    );
-    context.read<CreatePaymentRequestBloc>().add(event);
-  }
-
+class _ContentState extends State<_Content> implements PayerNameSetter {
   @override
   void onPayerNameSubmitted(String name) {
     context
@@ -92,9 +75,10 @@ class _ContentState extends State<_Content>
     final state = context.read<CreatePaymentRequestBloc>().state;
 
     if (state.tokenAmount.value != 0) {
-      onAmountSubmitted();
-    } else {
-      context.navigateTo(const RequestAmountRoute());
+      final event = CreatePaymentRequestEvent.submitted(
+        recipient: context.read<MyAccount>().wallet.publicKey,
+      );
+      context.read<CreatePaymentRequestBloc>().add(event);
     }
   }
 
@@ -102,7 +86,6 @@ class _ContentState extends State<_Content>
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           Provider<PayerNameSetter>.value(value: this),
-          Provider<RequestAmountSetter>.value(value: this),
         ],
         child:
             BlocConsumer<CreatePaymentRequestBloc, CreatePaymentRequestState>(

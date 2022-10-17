@@ -1,5 +1,5 @@
 import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 
 class MenuButton extends StatelessWidget {

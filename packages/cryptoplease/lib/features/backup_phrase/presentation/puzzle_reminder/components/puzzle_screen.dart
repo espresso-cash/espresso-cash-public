@@ -1,5 +1,6 @@
 import 'package:cryptoplease/app/components/decorated_window_header.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 
 class PuzzleScreen extends StatelessWidget {
@@ -8,13 +9,11 @@ class PuzzleScreen extends StatelessWidget {
     this.title,
     required this.child,
     this.backButton,
-    this.hasAppBarBorder = true,
   }) : super(key: key);
 
   final Widget child;
   final String? title;
   final Widget? backButton;
-  final bool hasAppBarBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,6 @@ class PuzzleScreen extends StatelessWidget {
       theme: const CpThemeData.dark(),
       child: Scaffold(
         appBar: CpAppBar(
-          hasBorder: hasAppBarBorder,
           leading: backButton,
           title: title != null
               ? Text(

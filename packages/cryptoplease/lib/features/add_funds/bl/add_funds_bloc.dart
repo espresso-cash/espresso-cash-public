@@ -5,10 +5,12 @@ import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/add_funds/bl/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
 part 'add_funds_bloc.freezed.dart';
 
+@injectable
 class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
   AddFundsBloc({
     required Token token,
