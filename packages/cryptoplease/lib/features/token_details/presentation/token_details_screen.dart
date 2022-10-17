@@ -5,6 +5,7 @@ import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/token_details/bl/repository.dart';
 import 'package:cryptoplease/features/token_details/bl/token_chart_bloc.dart';
 import 'package:cryptoplease/features/token_details/bl/token_details_bloc.dart';
@@ -34,13 +35,13 @@ class TokenDetailsScreen extends StatelessWidget {
           BlocProvider(
             create: (context) => TokenDetailsBloc(
               token: token,
-              repository: context.read<TokenRepository>(),
+              repository: sl<TokenDetailsRepository>(),
             )..add(const FetchDetailsRequested()),
           ),
           BlocProvider(
             create: (context) => TokenChartBloc(
               token: token,
-              repository: context.read<TokenRepository>(),
+              repository: sl<TokenDetailsRepository>(),
             )..add(const FetchChartRequested()),
           ),
         ],

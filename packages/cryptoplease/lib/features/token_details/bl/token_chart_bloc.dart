@@ -19,7 +19,7 @@ typedef _Emitter = Emitter<_State>;
 class TokenChartBloc extends Bloc<_Event, _State> {
   TokenChartBloc({
     required this.token,
-    required TokenRepository repository,
+    required TokenDetailsRepository repository,
   })  : _repository = repository,
         super(const _State(interval: ChartInterval.oneMonth)) {
     on<_Event>(_eventHandler, transformer: droppable());
@@ -27,7 +27,7 @@ class TokenChartBloc extends Bloc<_Event, _State> {
 
   final Token token;
 
-  final TokenRepository _repository;
+  final TokenDetailsRepository _repository;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         chartRequested: (event) => _onChartRequested(event, emit),

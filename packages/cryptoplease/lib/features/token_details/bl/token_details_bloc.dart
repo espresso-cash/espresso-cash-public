@@ -17,7 +17,7 @@ typedef _Emitter = Emitter<_State>;
 class TokenDetailsBloc extends Bloc<_Event, _State> {
   TokenDetailsBloc({
     required this.token,
-    required TokenRepository repository,
+    required TokenDetailsRepository repository,
   })  : _repository = repository,
         super(const _State()) {
     on<_Event>(_eventHandler, transformer: droppable());
@@ -25,7 +25,7 @@ class TokenDetailsBloc extends Bloc<_Event, _State> {
 
   final Token token;
 
-  final TokenRepository _repository;
+  final TokenDetailsRepository _repository;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         infoRequested: (event) => _onRefreshRequested(event, emit),
