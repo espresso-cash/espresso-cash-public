@@ -1,6 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/app/components/token_icon.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
@@ -16,7 +14,10 @@ import 'package:cryptoplease/features/token_details/presentation/components/expa
 import 'package:cryptoplease/features/token_details/presentation/components/loading.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
+import 'package:cryptoplease/ui/theme.dart';
+import 'package:cryptoplease/ui/token_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -100,7 +101,7 @@ class _Header extends StatelessWidget {
             alignment: Alignment.center,
             child: Column(
               children: [
-                TokenIcon(token: token, size: 60),
+                CpTokenIcon(token: token, size: 60),
                 const SizedBox(height: 4),
                 Text(
                   token.name,
