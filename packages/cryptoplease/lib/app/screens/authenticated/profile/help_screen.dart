@@ -3,7 +3,7 @@ import 'package:cryptoplease/app/screens/authenticated/profile/components/profil
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class HelpScreen extends StatelessWidget {

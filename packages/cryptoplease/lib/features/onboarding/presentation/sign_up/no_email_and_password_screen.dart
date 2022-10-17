@@ -1,8 +1,8 @@
-import 'package:cryptoplease/app/components/info_icon.dart';
 import 'package:cryptoplease/app/components/onboarding_screen.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/info_icon.dart';
+import 'package:cryptoplease/ui/info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CpInfoWidget(
-              icon: const InfoIcon(),
+              icon: const CpInfoIcon(),
               message: Text(
                 context.l10n.noEmailInCryptoInfo,
                 textAlign: TextAlign.justify,

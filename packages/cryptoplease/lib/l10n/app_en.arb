@@ -4,7 +4,7 @@
   "yourRecoveryPhrase": "Your Secret Recovery Phrase",
   "yourRecoveryPhraseSub": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
   "yourFirstNamePlaceholder": "Choose a username",
-  "activitiesTitle": "Activities",
+  "activitiesTitle": "Activity",
   "signOut": "Delete Wallet",
   "signOutConfirmation": "Are you sure you want to delete the wallet?",
   "cancel": "Cancel",

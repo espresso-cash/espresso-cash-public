@@ -12,7 +12,7 @@ import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';

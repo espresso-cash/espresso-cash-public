@@ -1,6 +1,7 @@
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/colors.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;

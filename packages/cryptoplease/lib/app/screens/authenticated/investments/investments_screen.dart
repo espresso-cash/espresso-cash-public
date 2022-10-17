@@ -8,7 +8,8 @@ import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/empty_message_widget.dart';
+import 'package:cryptoplease/ui/headered_list/headered_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

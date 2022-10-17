@@ -11,7 +11,7 @@ import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

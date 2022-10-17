@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/decorated_window.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/bottom_button.dart';
+import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +25,6 @@ class _PayerNameScreenState extends State<PayerNameScreen> {
   Widget build(BuildContext context) => DecoratedWindow(
         isScrollable: false,
         backgroundStyle: BackgroundStyle.light,
-        hasAppBarBorder: false,
         backButton: BackButton(onPressed: () => context.router.pop()),
         bottomButton: _BottomButton(controller: _controller),
         child: CpContentPadding(

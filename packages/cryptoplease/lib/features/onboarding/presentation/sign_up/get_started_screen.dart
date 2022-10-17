@@ -2,7 +2,10 @@ import 'package:cryptoplease/features/onboarding/presentation/sign_up/components
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease_ui/cryptoplease_ui.dart';
+import 'package:cryptoplease/ui/bullet_item.dart';
+import 'package:cryptoplease/ui/button.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

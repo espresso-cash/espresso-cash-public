@@ -61,7 +61,7 @@ enum OSKPStatusDto {
   txLinksFailure,
 }
 
-extension on OSKPRow {
+extension OSKPRowExt on OSKPRow {
   Future<OutgoingSplitKeyPayment> toModel(TokenList tokens) async =>
       OutgoingSplitKeyPayment(
         id: id,

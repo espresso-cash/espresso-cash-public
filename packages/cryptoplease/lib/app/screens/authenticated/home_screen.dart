@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/app/components/navigation_bar/navigation_button.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
+import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
+import 'package:cryptoplease/ui/navigation_bar/navigation_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -34,22 +34,22 @@ class _HomeScreenState extends State<HomeScreen> {
         body: AutoRouter(key: _routerKey),
         bottomNavigationBar: CPNavigationBar(
           items: [
-            NavigationButton(
+            CpNavigationButton(
               icon: Assets.icons.profile,
               active: _currentPage == 0,
               onPressed: () => _onBottomNavigatorItemTap(0),
             ),
-            NavigationButton(
+            CpNavigationButton(
               icon: Assets.icons.wallet,
               active: _currentPage == 1,
               onPressed: () => _onBottomNavigatorItemTap(1),
             ),
-            NavigationButton(
+            CpNavigationButton(
               icon: Assets.icons.investments,
               active: _currentPage == 2,
               onPressed: () => _onBottomNavigatorItemTap(2),
             ),
-            NavigationButton(
+            CpNavigationButton(
               icon: Assets.icons.notifications,
               active: _currentPage == 3,
               onPressed: () => _onBottomNavigatorItemTap(3),
