@@ -28,12 +28,13 @@ class JupiterRepository {
   }
 
   Future<JupiterRoute> bestRoute(
-    Amount amount,
+    CryptoAmount amount,
     Token inputToken,
     Token outputToken,
     Decimal slippage,
-    SwapMode swapMode,
   ) async {
+    final swapMode =
+        amount.token == inputToken ? SwapMode.exactIn : SwapMode.exactOut;
     final requestDto = QuoteRequestDto(
       amount: amount.value,
       inputMint: inputToken.forJupiter.address,

@@ -1,14 +1,17 @@
 import 'dart:async';
 
+import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/processing_state.dart';
+import 'package:cryptoplease/core/flow.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/swap/bl/balances.dart';
 import 'package:cryptoplease/features/swap/bl/repository.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
@@ -27,7 +30,15 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     required Token input,
     required Token output,
     required Decimal initialSlippage,
+    required Map<Token, Amount> balances,
   })  : _jupiterRepository = jupiterRepository,
+        _balances = balances.lock.add(
+          Token.wrappedSol,
+          balances[Token.sol] ??
+              Amount.zero(
+                currency: const Currency.crypto(token: Token.wrappedSol),
+              ),
+        ),
         super(
           CreateSwapState(
             inputAmount: CryptoAmount(
@@ -39,7 +50,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
               currency: CryptoCurrency(token: output),
             ),
             slippage: initialSlippage,
-            processingState: const ProcessingState.processing(),
+            flowState: const Flow.processing(),
           ),
         ) {
     on<Init>(_onInit);
@@ -56,6 +67,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   }
 
   final JupiterRepository _jupiterRepository;
+  final Balances _balances;
 
   bool isValidInput(Token token, Balances balances) =>
       balances.isPositive(token);
@@ -70,11 +82,15 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
 
       emit(
         state.copyWith(
-          processingState: const ProcessingState.none(),
+          flowState: const Flow.initial(),
         ),
       );
     } on SwapException catch (e) {
-      emit(state.copyWith(processingState: ProcessingState.error(e)));
+      emit(
+        state.copyWith(
+          flowState: Flow.failure(e),
+        ),
+      );
     }
   }
 
@@ -94,7 +110,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       return;
     }
 
-    emit(state.copyWith(processingState: processing()));
+    emit(state.copyWith(flowState: const Flow.processing()));
 
     try {
       final bestRoute = await _jupiterRepository.bestRoute(
@@ -102,14 +118,13 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         state.input,
         state.output,
         state.slippage,
-        state.swapMode,
       );
 
       if (state.editingMode == SwapEditingMode.input) {
         emit(
           state.copyWith(
             bestRoute: bestRoute,
-            processingState: none(),
+            flowState: const Flow.initial(),
             outputAmount: state.outputAmount.copyWith(
               value: bestRoute.outAmount,
             ),
@@ -119,7 +134,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         emit(
           state.copyWith(
             bestRoute: bestRoute,
-            processingState: none(),
+            flowState: const Flow.initial(),
             inputAmount: state.inputAmount.copyWith(
               value: bestRoute.inAmount,
             ),
@@ -127,11 +142,16 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         );
       }
     } on SwapException catch (e) {
-      emit(state.copyWith(processingState: error(e), bestRoute: null));
+      emit(
+        state.copyWith(
+          flowState: Flow.failure(e),
+          bestRoute: null,
+        ),
+      );
     } on Exception catch (e) {
       emit(
         state.copyWith(
-          processingState: error(SwapException.other(e)),
+          flowState: Flow.failure(SwapException.other(e)),
           bestRoute: null,
         ),
       );
@@ -174,20 +194,24 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       });
 
   Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
-    // state.validate(_balances).fold(
-    //   (e) {
-    //     emit(state.copyWith(processingState: error(e)));
-    //     emit(state.copyWith(processingState: none()));
-    //   },
-    //   (s) {
-    //     _analyticsManager.swapTransactionCreated(
-    //       from: state.input.symbol,
-    //       to: state.output.symbol,
-    //       amount: state.inputAmount.value,
-    //     );
-    //     emit(_State.success(s));
-    //   },
-    // );
+    state.validate(_balances).fold(
+      (e) {
+        emit(state.copyWith(flowState: Flow.failure(e)));
+        emit(state.copyWith(flowState: const Flow.initial()));
+      },
+      (s) {
+        // _analyticsManager.swapTransactionCreated(
+        //   from: state.input.symbol,
+        //   to: state.output.symbol,
+        //   amount: state.inputAmount.value,
+        // );
+        emit(
+          state.copyWith(
+            flowState: Flow.success(s),
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _updateRoute(
@@ -195,5 +219,17 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   ) async {
     await block(state);
     add(const CreateSwapEvent.routeInvalidated());
+  }
+
+  /// Calculates max swap amount for the selected token.
+  ///
+  /// It takes into account the fee, so for SOL the maximum possible amount is
+  /// lesser than the user's balance.
+  CryptoAmount calculateMaxAmount() {
+    final balance = _balances.balanceFromToken(state.input);
+
+    return state.input == Token.sol
+        ? balance - state._calculateFee() as CryptoAmount
+        : balance;
   }
 }

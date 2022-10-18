@@ -1,6 +1,5 @@
 import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/app_lock/presentation/components/pin_keypad.dart';
@@ -20,6 +19,7 @@ class SwapScreen extends StatefulWidget {
     Key? key,
     required this.inputAmount,
     required this.outputAmount,
+    required this.maxAmountAvailable,
     required this.displayToken,
     required this.slippage,
     required this.onSlippageChanged,
@@ -31,6 +31,7 @@ class SwapScreen extends StatefulWidget {
 
   final CryptoAmount inputAmount;
   final CryptoAmount outputAmount;
+  final CryptoAmount maxAmountAvailable;
   final Token displayToken;
   final Decimal slippage;
   final ValueSetter<Decimal> onSlippageChanged;
@@ -104,7 +105,9 @@ class _SwapScreenState extends State<SwapScreen> {
                     current: widget.displayToken,
                     onTokenChanged: widget.onToggleEditingMode,
                   ),
-                  _AvailableBalance(token: widget.inputAmount.token),
+                  _AvailableBalance(
+                    maxAmountAvailable: widget.maxAmountAvailable,
+                  ),
                   _SlippageInfo(
                     slippage: widget.slippage,
                     onSlippageChanged: widget.onSlippageChanged,
@@ -167,16 +170,15 @@ class _SlippageInfo extends StatelessWidget {
 class _AvailableBalance extends StatelessWidget {
   const _AvailableBalance({
     Key? key,
-    required this.token,
+    required this.maxAmountAvailable,
   }) : super(key: key);
 
-  final Token token;
+  final CryptoAmount maxAmountAvailable;
 
   @override
   Widget build(BuildContext context) {
-    final available = context.watchUserCryptoBalance(token);
     final locale = DeviceLocale.localeOf(context);
-    final formatted = available.format(locale, roundInteger: true);
+    final formatted = maxAmountAvailable.format(locale, roundInteger: true);
 
     return Text('$formatted available for use.', style: _descriptionStyle);
   }

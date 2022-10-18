@@ -3,6 +3,7 @@ import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/di.dart';
@@ -71,6 +72,7 @@ class _FlowState extends State<SwapFlowScreen> {
       output: widget.outputToken,
       initialSlippage: Decimal.one,
       jupiterRepository: jupiterRepo,
+      balances: context.read<BalancesBloc>().state.balances,
     )..add(
         const CreateSwapEvent.initialized(),
       );
@@ -119,20 +121,21 @@ class _FlowState extends State<SwapFlowScreen> {
           child: BlocConsumer<CreateSwapBloc, CreateSwapState>(
             bloc: createSwapBloc,
             listenWhen: (previous, current) =>
-                previous.processingState != current.processingState,
-            listener: (context, state) => state.processingState.whenOrNull(
-              error: _onSwapException,
-              // success: (route) {
-              //   print(route);
-              //   swapVerifierBloc.add(
-              //     SwapVerifierEvent.swapRequested(jupiterRoute: route),
-              //   );
-              // },
+                previous.flowState != current.flowState,
+            listener: (context, state) => state.flowState.whenOrNull(
+              failure: _onSwapException,
+              success: (route) {
+                print(route);
+                swapVerifierBloc.add(
+                  SwapVerifierEvent.swapRequested(jupiterRoute: route),
+                );
+              },
             ),
             builder: (context, state) => SwapScreen(
               inputAmount: state.inputAmount,
               outputAmount: state.outputAmount,
               slippage: state.slippage,
+              maxAmountAvailable: createSwapBloc.calculateMaxAmount(),
               loading: false,
               displayToken: state.requestToken,
               onSlippageChanged: _onSlippageUpdate,
