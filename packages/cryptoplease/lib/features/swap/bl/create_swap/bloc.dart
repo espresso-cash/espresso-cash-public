@@ -45,11 +45,11 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         _analyticsManager = analyticsManager,
         super(const CreateSwapState.none()) {
     on<Init>(_onInit);
-    on<OutputUpdated>(_onOutputUpdated);
     on<SlippageUpdated>(_onSlippageUpdated);
-    on<AmountUpdated>(_onAmountUpdated);
-    on<OutputInvalidated>(
-      _onOutputInvalidated,
+    on<InputUpdated>(_onInputUpdated);
+    on<OutputUpdated>(_onOutputUpdated);
+    on<RouteInvalidated>(
+      _onRouteInvalidated,
       transformer: (events, mapper) => events
           .debounceTime(const Duration(milliseconds: 300))
           .switchMap(mapper),
@@ -73,43 +73,45 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
 
     try {
       final routeMap = await _jupiterClient.getIndexedRouteMap();
-
       final mintKeys = routeMap.mintKeys;
       final jupiterTokens = mintKeys.map(_tokenList.findTokenByMint);
 
-      // TODO: remove
       final inputTokens = (await compute(
         _computeInputTokens,
         _Input(tokens: jupiterTokens, balances: _balances),
       ))
+          // TODO: remove
           .toList()
         ..add(Token.usdcProd);
 
-      final token = inputTokens.firstWhere(
+      final input = inputTokens.firstWhere(
         (token) => token == event.input,
-        orElse: () => throw const SwapException.inputNotFound(),
+        orElse: () => throw const SwapException.routeNotFound(),
       );
 
-      // TODO: remove
-      final outputTokens = (await _getOutputTokens(routeMap, token)).toList()
+      final outputTokens = (await compute(
+        _computeOutputTokens,
+        _Output(map: routeMap, input: input, tokenList: _tokenList),
+      ))
+          // TODO: remove
+          .toList()
         ..add(Token.usdcProd);
 
       final output = outputTokens.firstWhere(
         (token) => token == event.output,
-        orElse: () => throw const SwapException.outputNotFound(),
-      );
-
-      final zero = CryptoAmount(
-        currency: CryptoCurrency(token: token),
-        value: 0,
+        orElse: () => throw const SwapException.routeNotFound(),
       );
 
       final state = CreateSwapState.initialized(
-        inputAmount: zero,
+        inputAmount: CryptoAmount(
+          currency: CryptoCurrency(token: input),
+          value: 0,
+        ),
+        outputAmount: CryptoAmount(
+          currency: CryptoCurrency(token: output),
+          value: 0,
+        ),
         slippage: event.slippage,
-        output: output,
-        outputTokens: outputTokens,
-        routeMap: routeMap,
       );
 
       emit(state);
@@ -118,7 +120,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     }
   }
 
-  Future<void> _onOutputInvalidated(OutputInvalidated _, _Emitter emit) async =>
+  Future<void> _onRouteInvalidated(RouteInvalidated _, _Emitter emit) async =>
       state.mapOrNull(
         initialized: (state) async {
           if (state.inputAmount.value == 0) {
@@ -158,21 +160,25 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         },
       );
 
-  Future<void> _onOutputUpdated(OutputUpdated event, _Emitter emit) async =>
-      _updateInput((state) {
-        emit(state.copyWith(output: event.token));
-      });
-
   Future<void> _onSlippageUpdated(SlippageUpdated event, _Emitter emit) async =>
       _updateInput((state) {
         emit(state.copyWith(slippage: event.slippage));
       });
 
-  Future<void> _onAmountUpdated(AmountUpdated event, _Emitter emit) async =>
+  Future<void> _onInputUpdated(InputUpdated event, _Emitter emit) async =>
       _updateInput((state) {
         emit(
           state.copyWith(
             inputAmount: state.inputAmount.copyWithDecimal(event.decimal),
+          ),
+        );
+      });
+
+  Future<void> _onOutputUpdated(OutputUpdated event, _Emitter emit) async =>
+      _updateInput((state) {
+        emit(
+          state.copyWith(
+            outputAmount: state.outputAmount.copyWithDecimal(event.decimal),
           ),
         );
       });
@@ -197,22 +203,13 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         },
       );
 
-  Future<Iterable<Token>> _getOutputTokens(
-    JupiterIndexedRouteMap routeMap,
-    Token input,
-  ) =>
-      compute(
-        _computeOutputTokens,
-        _Output(map: routeMap, input: input, tokenList: _tokenList),
-      );
-
   Future<void> _updateInput(
     FutureOr<void> Function(Initialized state) block,
   ) async =>
       state.mapOrNull(
         initialized: (state) async {
           await block(state);
-          add(const CreateSwapEvent.outputInvalidated());
+          add(const CreateSwapEvent.routeInvalidated());
         },
       );
 }

@@ -24,6 +24,7 @@ class SwapScreen extends StatefulWidget {
     required this.slippage,
     required this.onSlippageChanged,
     required this.onAmountChanged,
+    required this.onToggleEditingMode,
     required this.onSubmit,
     required this.loading,
   }) : super(key: key);
@@ -34,6 +35,7 @@ class SwapScreen extends StatefulWidget {
   final ValueSetter<Decimal> onSlippageChanged;
   final ValueSetter<Decimal> onAmountChanged;
   final VoidCallback onSubmit;
+  final VoidCallback onToggleEditingMode;
   final bool loading;
 
   @override
@@ -100,7 +102,7 @@ class _SwapScreenState extends State<SwapScreen> {
                   _TokenDropDown(
                     current: widget.inputAmount.token,
                     availableTokens: <Token>[].lock,
-                    onTokenChanged: print,
+                    onTokenChanged: (_) => widget.onToggleEditingMode(),
                   ),
                   _AvailableBalance(token: widget.inputAmount.token),
                   _SlippageInfo(

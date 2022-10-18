@@ -6,10 +6,6 @@ part 'swap_exception.freezed.dart';
 
 @freezed
 class SwapException with _$SwapException implements Exception {
-  const factory SwapException.inputNotFound() = InputNotFound;
-
-  const factory SwapException.outputNotFound() = OutputNotFound;
-
   const factory SwapException.routeNotFound() = RouteNotFound;
 
   const factory SwapException.setupFailed(

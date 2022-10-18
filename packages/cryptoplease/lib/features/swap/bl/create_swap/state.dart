@@ -6,10 +6,8 @@ class CreateSwapState with _$CreateSwapState {
 
   const factory CreateSwapState.initialized({
     required CryptoAmount inputAmount,
-    required Token output,
+    required CryptoAmount outputAmount,
     required Decimal slippage,
-    required Iterable<Token> outputTokens,
-    required JupiterIndexedRouteMap routeMap,
     JupiterRoute? bestRoute,
     @Default(ProcessingState.none())
         ProcessingState<SwapException> processingState,
@@ -24,6 +22,7 @@ class CreateSwapState with _$CreateSwapState {
 
 extension InitializedExt on Initialized {
   Token get input => inputAmount.token;
+  Token get output => outputAmount.token;
 
   Either<SwapException, JupiterRoute> validate(Balances balances) {
     final token = input;
@@ -84,26 +83,26 @@ extension InitializedExt on Initialized {
 }
 
 extension CreateSwapStateExt on CreateSwapState {
-  CryptoAmount? get convertedAmount => maybeMap(
-        initialized: (s) {
-          final route = s.bestRoute;
-          if (route == null) return null;
+  // CryptoAmount? get convertedAmount => maybeMap(
+  //       initialized: (s) {
+  //         final route = s.bestRoute;
+  //         if (route == null) return null;
 
-          return CryptoAmount(
-            value: route.outAmount,
-            currency: CryptoCurrency(token: s.output),
-          );
-        },
-        orElse: () => null,
-      );
+  //         return CryptoAmount(
+  //           value: route.outAmount,
+  //           currency: CryptoCurrency(token: s.output),
+  //         );
+  //       },
+  //       orElse: () => null,
+  //     );
 
   Token? get input => maybeMap(
-        initialized: (s) => s.input,
+        initialized: (s) => s.inputAmount.token,
         orElse: () => null,
       );
 
   Token? get output => maybeMap(
-        initialized: (s) => s.output,
+        initialized: (s) => s.outputAmount.token,
         orElse: () => null,
       );
 
@@ -112,15 +111,15 @@ extension CreateSwapStateExt on CreateSwapState {
         orElse: F,
       );
 
-  Iterable<Token> get inputTokens => maybeMap(
-        initialized: (s) => s.inputTokens,
-        orElse: () => const [],
-      );
+  // Iterable<Token> get inputTokens => maybeMap(
+  //       initialized: (s) => s.inputTokens,
+  //       orElse: () => const [],
+  //     );
 
-  Iterable<Token> get outputTokens => maybeMap(
-        initialized: (s) => s.outputTokens,
-        orElse: () => const [],
-      );
+  // Iterable<Token> get outputTokens => maybeMap(
+  //       initialized: (s) => s.outputTokens,
+  //       orElse: () => const [],
+  //     );
 
   JupiterRoute? get bestRoute => maybeMap(
         initialized: (s) => s.bestRoute,
@@ -132,21 +131,26 @@ extension CreateSwapStateExt on CreateSwapState {
         orElse: () => null,
       );
 
-  CryptoAmount? get outputAmount {
-    final route = bestRoute;
-    final token = output;
-    if (route == null || token == null) return null;
+  // CryptoAmount? get outputAmount {
+  //   final route = bestRoute;
+  //   final token = output;
+  //   if (route == null || token == null) return null;
 
-    return CryptoAmount(
-      value: route.outAmount,
-      currency: CryptoCurrency(token: token),
-    );
-  }
+  //   return CryptoAmount(
+  //     value: route.outAmount,
+  //     currency: CryptoCurrency(token: token),
+  //   );
+  // }
 
   Decimal? get slippage => maybeMap(
         initialized: (s) => s.slippage,
         orElse: () => null,
       );
 
-  bool get canSwap => outputAmount != null && !isLoadingRoute;
+  bool get canSwap =>
+      !isLoadingRoute &&
+      maybeMap(
+        orElse: F,
+        initialized: (state) => state.bestRoute != null,
+      );
 }

@@ -8,6 +8,7 @@ import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
 import 'package:cryptoplease/features/swap/bl/swap_verifier/bloc.dart';
@@ -39,6 +40,8 @@ extension SwapFlowExt on BuildContext {
       );
 }
 
+enum EditingMode { input, output }
+
 class SwapFlowScreen extends StatefulWidget {
   const SwapFlowScreen({
     Key? key,
@@ -58,17 +61,19 @@ class SwapFlowScreen extends StatefulWidget {
 class _FlowState extends State<SwapFlowScreen> {
   late final SwapVerifierBloc swapVerifierBloc;
   late final CreateSwapBloc createSwapBloc;
+  late EditingMode editingMode;
 
   @override
   void initState() {
     super.initState();
+    editingMode = EditingMode.input;
     createSwapBloc = CreateSwapBloc(
-      jupiterAggregatorClient: context.read<JupiterAggregatorClient>(),
-      tokenList: context.read<TokenList>(),
+      jupiterAggregatorClient: sl<JupiterAggregatorClient>(),
+      tokenList: sl<TokenList>(),
       balances: context.read<BalancesBloc>().state.balances.lock,
-      analyticsManager: context.read<AnalyticsManager>(),
+      analyticsManager: sl<AnalyticsManager>(),
     )..add(
-        CreateSwapEvent.init(
+        CreateSwapEvent.initialized(
           widget.inputToken,
           widget.outputToken,
           widget.slippage,
@@ -76,9 +81,9 @@ class _FlowState extends State<SwapFlowScreen> {
       );
 
     swapVerifierBloc = SwapVerifierBloc(
-      jupiterAggregatorClient: context.read<JupiterAggregatorClient>(),
+      jupiterAggregatorClient: sl<JupiterAggregatorClient>(),
       myAccount: context.read<MyAccount>(),
-      solanaClient: context.read<SolanaClient>(),
+      solanaClient: sl<SolanaClient>(),
     );
   }
 
@@ -88,10 +93,20 @@ class _FlowState extends State<SwapFlowScreen> {
     createSwapBloc.add(CreateSwapEvent.slippageUpdated(value));
   }
 
+  void _onToggleEditingMode() => setState(
+        () => editingMode = editingMode == EditingMode.input
+            ? EditingMode.output
+            : EditingMode.input,
+      );
+
   void _onAmountUpdate(Amount amount, Decimal value) {
     if (value == amount.decimal) return;
 
-    createSwapBloc.add(CreateSwapEvent.amountUpdated(value));
+    final event = editingMode == EditingMode.input
+        ? CreateSwapEvent.inputUpdated(value)
+        : CreateSwapEvent.outputUpdated(value);
+
+    createSwapBloc.add(event);
   }
 
   void _onSwapException(SwapException e) => showErrorDialog(
@@ -126,14 +141,13 @@ class _FlowState extends State<SwapFlowScreen> {
                   currency: CryptoCurrency(token: widget.inputToken),
                 ),
               );
-
-              final outputAmount = state.outputAmount ??
-                  CryptoAmount(
-                    value: 0,
-                    currency: CryptoCurrency(
-                      token: state.output ?? widget.outputToken,
-                    ),
-                  );
+              final outputAmount = state.maybeMap(
+                initialized: (state) => state.outputAmount,
+                orElse: () => CryptoAmount(
+                  value: 0,
+                  currency: CryptoCurrency(token: widget.outputToken),
+                ),
+              );
 
               return SwapScreen(
                 inputAmount: inputAmount,
@@ -143,6 +157,7 @@ class _FlowState extends State<SwapFlowScreen> {
                 onSlippageChanged: _onSlippageUpdate,
                 onAmountChanged: (value) => _onAmountUpdate(inputAmount, value),
                 onSubmit: _onSubmit,
+                onToggleEditingMode: _onToggleEditingMode,
               );
             },
           ),
