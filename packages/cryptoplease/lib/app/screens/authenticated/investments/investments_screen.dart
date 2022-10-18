@@ -1,6 +1,5 @@
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/balance_list_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/investments/components/popular_tokens.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/stablecoin_empty_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/total_balance_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/wallet_tab_bar.dart';
@@ -42,40 +41,27 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 headerAppBar: const _AppBarContent(),
                 headerContent: TotalBalanceWidget(balance: total),
                 stickyBottomHeader: const WalletTabBar(),
-                child: CustomScrollView(
-                  primary: true,
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 425,
-                        child: TabBarView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            BalanceListWidget(
-                              tokens: state.nonStableTokens,
-                              isLoading: isLoading,
-                              emptyWidget: CpEmptyMessageWidget(
-                                message: context.l10n.noDataPullToRefresh,
-                              ),
-                            ),
-                            BalanceListWidget(
-                              tokens: state.stableTokens,
-                              isLoading: isLoading,
-                              emptyWidget: const StableCoinEmptyWidget(),
-                            ),
-                            BalanceListWidget(
-                              tokens: state.userTokens,
-                              isLoading: isLoading,
-                              emptyWidget: CpEmptyMessageWidget(
-                                message: context.l10n.noDataPullToRefresh,
-                              ),
-                            ),
-                          ],
-                        ),
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    BalanceListWidget(
+                      tokens: state.nonStableTokens,
+                      isLoading: isLoading,
+                      emptyWidget: CpEmptyMessageWidget(
+                        message: context.l10n.noDataPullToRefresh,
                       ),
                     ),
-                    const SliverToBoxAdapter(
-                      child: PopularTokens(),
+                    BalanceListWidget(
+                      tokens: state.stableTokens,
+                      isLoading: isLoading,
+                      emptyWidget: const StableCoinEmptyWidget(),
+                    ),
+                    BalanceListWidget(
+                      tokens: state.userTokens,
+                      isLoading: isLoading,
+                      emptyWidget: CpEmptyMessageWidget(
+                        message: context.l10n.noDataPullToRefresh,
+                      ),
                     ),
                   ],
                 ),

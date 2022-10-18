@@ -1,3 +1,4 @@
+import 'package:cryptoplease/app/screens/authenticated/investments/components/popular_tokens.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -24,7 +25,7 @@ class BalanceListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpHeaderedListContent(
-        padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
+        padding: const EdgeInsets.only(bottom: cpNavigationBarheight, top: 8),
         itemCount: tokens.length,
         itemBuilder: (context, index) => _BalanceItem(
           token: tokens.elementAt(index),
@@ -33,6 +34,8 @@ class BalanceListWidget extends StatelessWidget {
             ? CpEmptyMessageWidget(message: context.l10n.loading)
             : emptyWidget,
         showDivider: false,
+        footer: const PopularTokens(),
+        primary: true,
       );
 }
 
