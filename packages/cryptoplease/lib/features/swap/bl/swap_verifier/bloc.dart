@@ -46,11 +46,11 @@ class SwapVerifierBloc extends Bloc<_Event, _State> {
             emit(const SwapVerifierState.preparing());
 
             final publicKey = _myAccount.publicKey.toBase58();
-
-            final transaction = await _jupiterClient.getSwapTransactions(
+            final dto = SwapRequestDto(
               route: event.jupiterRoute,
               userPublicKey: publicKey,
             );
+            final transaction = await _jupiterClient.getSwapTransactions(dto);
 
             await _executeTransactions(tx: transaction, emit: emit);
           } on Exception catch (e) {

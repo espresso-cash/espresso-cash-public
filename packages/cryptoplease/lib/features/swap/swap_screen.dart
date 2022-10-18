@@ -12,7 +12,6 @@ import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:decimal/decimal.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,6 +20,7 @@ class SwapScreen extends StatefulWidget {
     Key? key,
     required this.inputAmount,
     required this.outputAmount,
+    required this.displayToken,
     required this.slippage,
     required this.onSlippageChanged,
     required this.onAmountChanged,
@@ -31,6 +31,7 @@ class SwapScreen extends StatefulWidget {
 
   final CryptoAmount inputAmount;
   final CryptoAmount outputAmount;
+  final Token displayToken;
   final Decimal slippage;
   final ValueSetter<Decimal> onSlippageChanged;
   final ValueSetter<Decimal> onAmountChanged;
@@ -66,7 +67,7 @@ class _SwapScreenState extends State<SwapScreen> {
     final currentAmount = _amountController.text.toDecimalOrZero(locale);
     if (newAmount != oldWidget.inputAmount.decimal &&
         newAmount != currentAmount) {
-      _amountController.text = newAmount.toString();
+      // _amountController.text = newAmount.toString();
     }
   }
 
@@ -100,9 +101,8 @@ class _SwapScreenState extends State<SwapScreen> {
                     loading: widget.loading,
                   ),
                   _TokenDropDown(
-                    current: widget.inputAmount.token,
-                    availableTokens: <Token>[].lock,
-                    onTokenChanged: (_) => widget.onToggleEditingMode(),
+                    current: widget.displayToken,
+                    onTokenChanged: widget.onToggleEditingMode,
                   ),
                   _AvailableBalance(token: widget.inputAmount.token),
                   _SlippageInfo(
@@ -186,13 +186,11 @@ class _TokenDropDown extends StatelessWidget {
   const _TokenDropDown({
     Key? key,
     required this.current,
-    required this.availableTokens,
     required this.onTokenChanged,
   }) : super(key: key);
 
   final Token current;
-  final IList<Token> availableTokens;
-  final ValueSetter<Token> onTokenChanged;
+  final VoidCallback onTokenChanged;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -203,20 +201,23 @@ class _TokenDropDown extends StatelessWidget {
           shape: StadiumBorder(),
           color: CpColors.greenDropdown,
         ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Center(
-              child: Text(
-                current.symbol,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
+        child: InkWell(
+          onTap: onTokenChanged,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Center(
+                child: Text(
+                  current.symbol,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-            ),
-            const Positioned(right: 0, child: Icon(Icons.expand_more)),
-          ],
+              const Positioned(right: 0, child: Icon(Icons.expand_more)),
+            ],
+          ),
         ),
       );
 }

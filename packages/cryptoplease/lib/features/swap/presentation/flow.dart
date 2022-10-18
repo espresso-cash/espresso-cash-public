@@ -3,19 +3,16 @@ import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/analytics/analytics_manager.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
-import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
+import 'package:cryptoplease/features/swap/bl/repository.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
 import 'package:cryptoplease/features/swap/bl/swap_verifier/bloc.dart';
 import 'package:cryptoplease/features/swap/swap_screen.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana.dart';
@@ -40,8 +37,6 @@ extension SwapFlowExt on BuildContext {
       );
 }
 
-enum EditingMode { input, output }
-
 class SwapFlowScreen extends StatefulWidget {
   const SwapFlowScreen({
     Key? key,
@@ -61,23 +56,23 @@ class SwapFlowScreen extends StatefulWidget {
 class _FlowState extends State<SwapFlowScreen> {
   late final SwapVerifierBloc swapVerifierBloc;
   late final CreateSwapBloc createSwapBloc;
-  late EditingMode editingMode;
 
   @override
   void initState() {
     super.initState();
-    editingMode = EditingMode.input;
-    createSwapBloc = CreateSwapBloc(
-      jupiterAggregatorClient: sl<JupiterAggregatorClient>(),
+    final jupiterRepo = JupiterRepository(
+      jupiterAggregatorClient: JupiterAggregatorClient(),
+      solanaClient: sl<SolanaClient>(),
       tokenList: sl<TokenList>(),
-      balances: context.read<BalancesBloc>().state.balances.lock,
-      analyticsManager: sl<AnalyticsManager>(),
+    );
+
+    createSwapBloc = CreateSwapBloc(
+      input: widget.inputToken,
+      output: widget.outputToken,
+      initialSlippage: Decimal.one,
+      jupiterRepository: jupiterRepo,
     )..add(
-        CreateSwapEvent.initialized(
-          widget.inputToken,
-          widget.outputToken,
-          widget.slippage,
-        ),
+        const CreateSwapEvent.initialized(),
       );
 
     swapVerifierBloc = SwapVerifierBloc(
@@ -93,19 +88,18 @@ class _FlowState extends State<SwapFlowScreen> {
     createSwapBloc.add(CreateSwapEvent.slippageUpdated(value));
   }
 
-  void _onToggleEditingMode() => setState(
-        () => editingMode = editingMode == EditingMode.input
-            ? EditingMode.output
-            : EditingMode.input,
-      );
+  void _onToggleEditingMode() {
+    const event = CreateSwapEvent.editingModeToggled();
+    createSwapBloc.add(event);
+  }
 
-  void _onAmountUpdate(Amount amount, Decimal value) {
+  void _onAmountUpdate(
+    Amount amount,
+    Decimal value,
+  ) {
     if (value == amount.decimal) return;
 
-    final event = editingMode == EditingMode.input
-        ? CreateSwapEvent.inputUpdated(value)
-        : CreateSwapEvent.outputUpdated(value);
-
+    final event = CreateSwapEvent.amountUpdated(value);
     createSwapBloc.add(event);
   }
 
@@ -124,42 +118,31 @@ class _FlowState extends State<SwapFlowScreen> {
           ),
           child: BlocConsumer<CreateSwapBloc, CreateSwapState>(
             bloc: createSwapBloc,
-            listener: (context, state) => state.whenOrNull(
-              failure: _onSwapException,
-              success: (route) {
-                print(route);
-                swapVerifierBloc.add(
-                  SwapVerifierEvent.swapRequested(jupiterRoute: route),
-                );
-              },
+            listenWhen: (previous, current) =>
+                previous.processingState != current.processingState,
+            listener: (context, state) => state.processingState.whenOrNull(
+              error: _onSwapException,
+              // success: (route) {
+              //   print(route);
+              //   swapVerifierBloc.add(
+              //     SwapVerifierEvent.swapRequested(jupiterRoute: route),
+              //   );
+              // },
             ),
-            builder: (context, state) {
-              final inputAmount = state.maybeMap(
-                initialized: (state) => state.inputAmount,
-                orElse: () => CryptoAmount(
-                  value: 0,
-                  currency: CryptoCurrency(token: widget.inputToken),
-                ),
-              );
-              final outputAmount = state.maybeMap(
-                initialized: (state) => state.outputAmount,
-                orElse: () => CryptoAmount(
-                  value: 0,
-                  currency: CryptoCurrency(token: widget.outputToken),
-                ),
-              );
-
-              return SwapScreen(
-                inputAmount: inputAmount,
-                outputAmount: outputAmount,
-                slippage: state.slippage ?? widget.slippage,
-                loading: state.isLoadingRoute,
-                onSlippageChanged: _onSlippageUpdate,
-                onAmountChanged: (value) => _onAmountUpdate(inputAmount, value),
-                onSubmit: _onSubmit,
-                onToggleEditingMode: _onToggleEditingMode,
-              );
-            },
+            builder: (context, state) => SwapScreen(
+              inputAmount: state.inputAmount,
+              outputAmount: state.outputAmount,
+              slippage: state.slippage,
+              loading: false,
+              displayToken: state.requestToken,
+              onSlippageChanged: _onSlippageUpdate,
+              onAmountChanged: (value) => _onAmountUpdate(
+                state.inputAmount,
+                value,
+              ),
+              onSubmit: _onSubmit,
+              onToggleEditingMode: _onToggleEditingMode,
+            ),
           ),
         ),
       );
