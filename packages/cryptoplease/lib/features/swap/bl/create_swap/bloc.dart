@@ -8,6 +8,7 @@ import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/swap/bl/balances.dart';
 import 'package:cryptoplease/features/swap/bl/repository.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
+import 'package:cryptoplease/features/swap/presentation/flow.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -31,6 +32,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     required Token output,
     required Decimal initialSlippage,
     required Map<Token, Amount> balances,
+    required SwapOperation swapOperation,
   })  : _jupiterRepository = jupiterRepository,
         _balances = balances.lock.add(
           Token.wrappedSol,
@@ -41,6 +43,9 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         ),
         super(
           CreateSwapState(
+            editingMode: swapOperation == SwapOperation.buy
+                ? const SwapEditingMode.output()
+                : const SwapEditingMode.input(),
             inputAmount: CryptoAmount(
               value: 0,
               currency: CryptoCurrency(token: input),
@@ -95,7 +100,6 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onRouteInvalidated(RouteInvalidated _, _Emitter emit) async {
-    print('kkkk');
     final amount = state.requestAmount;
 
     if (amount.value == 0) {
@@ -114,33 +118,34 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
 
     try {
       final bestRoute = await _jupiterRepository.bestRoute(
-        amount,
-        state.input,
-        state.output,
-        state.slippage,
+        amount: amount,
+        inputToken: state.input,
+        outputToken: state.output,
+        slippage: state.slippage,
       );
 
-      if (state.editingMode == SwapEditingMode.input) {
-        emit(
-          state.copyWith(
-            bestRoute: bestRoute,
-            flowState: const Flow.initial(),
-            outputAmount: state.outputAmount.copyWith(
-              value: bestRoute.outAmount,
-            ),
-          ),
-        );
-      } else {
-        emit(
-          state.copyWith(
-            bestRoute: bestRoute,
-            flowState: const Flow.initial(),
-            inputAmount: state.inputAmount.copyWith(
-              value: bestRoute.inAmount,
-            ),
-          ),
-        );
-      }
+      final outputAmount = state.editingMode.map(
+        input: (_) => state.outputAmount,
+        output: (_) => state.outputAmount.copyWith(
+          value: bestRoute.outAmount,
+        ),
+      );
+
+      final inputAmount = state.editingMode.map(
+        input: (_) => state.inputAmount,
+        output: (_) => state.inputAmount.copyWith(
+          value: bestRoute.inAmount,
+        ),
+      );
+
+      emit(
+        state.copyWith(
+          bestRoute: bestRoute,
+          outputAmount: outputAmount,
+          inputAmount: inputAmount,
+          flowState: const Flow.initial(),
+        ),
+      );
     } on SwapException catch (e) {
       emit(
         state.copyWith(
@@ -170,48 +175,47 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       _updateRoute((state) {
         emit(
           state.copyWith(
-            editingMode: state.editingMode == SwapEditingMode.input
-                ? SwapEditingMode.output
-                : SwapEditingMode.input,
+            editingMode: state.editingMode.map(
+              input: (_) => const SwapEditingMode.output(),
+              output: (_) => const SwapEditingMode.input(),
+            ),
           ),
         );
       });
 
-  Future<void> _onAmountUpdated(AmountUpdated event, _Emitter emit) async =>
-      _updateRoute((state) {
-        final CreateSwapState newState;
-        if (state.editingMode == SwapEditingMode.input) {
-          newState = state.copyWith(
-            inputAmount: state.inputAmount.copyWithDecimal(event.decimal),
-          );
-        } else {
-          newState = state.copyWith(
-            outputAmount: state.outputAmount.copyWithDecimal(event.decimal),
-          );
-        }
-
-        emit(newState);
-      });
+  void _onAmountUpdated(AmountUpdated event, _Emitter emit) => _updateRoute(
+        (state) => emit(
+          state.editingMode.map(
+            input: (_) => state.copyWith(
+              inputAmount: state.inputAmount.copyWithDecimal(event.decimal),
+            ),
+            output: (_) => state.copyWith(
+              outputAmount: state.outputAmount.copyWithDecimal(event.decimal),
+            ),
+          ),
+        ),
+      );
 
   Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
-    state.validate(_balances).fold(
-      (e) {
-        emit(state.copyWith(flowState: Flow.failure(e)));
-        emit(state.copyWith(flowState: const Flow.initial()));
-      },
-      (s) {
-        // _analyticsManager.swapTransactionCreated(
-        //   from: state.input.symbol,
-        //   to: state.output.symbol,
-        //   amount: state.inputAmount.value,
-        // );
-        emit(
-          state.copyWith(
-            flowState: Flow.success(s),
-          ),
-        );
-      },
+    // state.validate(_balances).fold(
+    //   (e) {
+    //     emit(state.copyWith(flowState: Flow.failure(e)));
+    //     emit(state.copyWith(flowState: const Flow.initial()));
+    //   },
+    //   (s) {
+    // _analyticsManager.swapTransactionCreated(
+    //   from: state.input.symbol,
+    //   to: state.output.symbol,
+    //   amount: state.inputAmount.value,
+    // );
+    emit(
+      state.copyWith(
+        // flowState: Flow.success(s),
+        flowState: Flow.success(state.bestRoute!),
+      ),
     );
+    // },
+    // );
   }
 
   Future<void> _updateRoute(
@@ -229,7 +233,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     final balance = _balances.balanceFromToken(state.input);
 
     return state.input == Token.sol
-        ? balance - state._calculateFee() as CryptoAmount
+        ? balance - state.fee as CryptoAmount
         : balance;
   }
 }

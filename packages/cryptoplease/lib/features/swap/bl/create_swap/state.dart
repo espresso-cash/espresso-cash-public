@@ -1,6 +1,10 @@
 part of 'bloc.dart';
 
-enum SwapEditingMode { input, output }
+@freezed
+class SwapEditingMode with _$SwapEditingMode {
+  const factory SwapEditingMode.input() = _InputSwapMode;
+  const factory SwapEditingMode.output() = _OutputSwapMode;
+}
 
 @freezed
 class CreateSwapState with _$CreateSwapState {
@@ -8,29 +12,26 @@ class CreateSwapState with _$CreateSwapState {
     required CryptoAmount inputAmount,
     required CryptoAmount outputAmount,
     required Decimal slippage,
-    @Default(SwapEditingMode.input) SwapEditingMode editingMode,
+    @Default(SwapEditingMode.input()) SwapEditingMode editingMode,
     JupiterRoute? bestRoute,
     @Default(Flow<SwapException, JupiterRoute>.initial())
         Flow<SwapException, JupiterRoute> flowState,
   }) = Initialized;
 }
 
-extension InitializedExt on CreateSwapState {
+extension CreateSwapExt on CreateSwapState {
   Token get input => inputAmount.token;
   Token get output => outputAmount.token;
 
   Token get requestToken => requestAmount.token;
 
-  CryptoAmount get requestAmount =>
-      editingMode == SwapEditingMode.input ? inputAmount : outputAmount;
-
-  SwapMode get swapMode => editingMode == SwapEditingMode.input
-      ? SwapMode.exactIn
-      : SwapMode.exactOut;
+  CryptoAmount get requestAmount => editingMode.map(
+        input: (_) => inputAmount,
+        output: (_) => outputAmount,
+      );
 
   Either<SwapException, JupiterRoute> validate(IMap<Token, Amount> balances) {
     final tokenBalance = balances.balanceFromToken(input);
-    final fee = _calculateFee();
 
     // Check if the total amount doesn't exceed the user's balance.
     final totalAmount = input == Token.wrappedSol
@@ -62,7 +63,7 @@ extension InitializedExt on CreateSwapState {
     return Either.right(route);
   }
 
-  CryptoAmount _calculateFee() {
+  CryptoAmount get fee {
     const baseFee = lamportsPerSignature + tokenProgramRent;
 
     // Base fee for the transaction multiplied by 3 since it's the max of

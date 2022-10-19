@@ -27,12 +27,12 @@ class JupiterRepository {
     return routeMap.indexedRouteMap[inputIndex]?.contains(outputIndex) ?? false;
   }
 
-  Future<JupiterRoute> bestRoute(
-    CryptoAmount amount,
-    Token inputToken,
-    Token outputToken,
-    Decimal slippage,
-  ) async {
+  Future<JupiterRoute> bestRoute({
+    required CryptoAmount amount,
+    required Token inputToken,
+    required Token outputToken,
+    required Decimal slippage,
+  }) async {
     final swapMode =
         amount.token == inputToken ? SwapMode.exactIn : SwapMode.exactOut;
     final requestDto = QuoteRequestDto(

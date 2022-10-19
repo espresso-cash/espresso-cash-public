@@ -2,15 +2,17 @@ import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/app_lock/presentation/components/pin_keypad.dart';
 import 'package:cryptoplease/features/swap/presentation/components/slippage_bottom_sheet.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/ui/amount_keypad/amount_keypad.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,26 +21,28 @@ class SwapScreen extends StatefulWidget {
     Key? key,
     required this.inputAmount,
     required this.outputAmount,
+    required this.displayAmount,
     required this.maxAmountAvailable,
-    required this.displayToken,
     required this.slippage,
     required this.onSlippageChanged,
     required this.onAmountChanged,
-    required this.onToggleEditingMode,
+    required this.onRequestTokenChanged,
     required this.onSubmit,
     required this.loading,
+    required this.title,
   }) : super(key: key);
 
   final CryptoAmount inputAmount;
   final CryptoAmount outputAmount;
+  final CryptoAmount displayAmount;
   final CryptoAmount maxAmountAvailable;
-  final Token displayToken;
   final Decimal slippage;
+  final VoidCallback onSubmit;
   final ValueSetter<Decimal> onSlippageChanged;
   final ValueSetter<Decimal> onAmountChanged;
-  final VoidCallback onSubmit;
-  final VoidCallback onToggleEditingMode;
+  final ValueSetter<Token> onRequestTokenChanged;
   final bool loading;
+  final String title;
 
   @override
   State<SwapScreen> createState() => _SwapScreenState();
@@ -56,6 +60,7 @@ class _SwapScreenState extends State<SwapScreen> {
   void _updateValue() {
     final locale = DeviceLocale.localeOf(context);
     final amount = _amountController.text.toDecimalOrZero(locale);
+    if (amount.toString() == widget.displayAmount.decimal.toString()) return;
     widget.onAmountChanged(amount);
   }
 
@@ -63,12 +68,16 @@ class _SwapScreenState extends State<SwapScreen> {
   void didUpdateWidget(covariant SwapScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    final newAmount = widget.inputAmount.decimal;
+    final newAmount = widget.displayAmount.decimal;
     final locale = DeviceLocale.localeOf(context);
     final currentAmount = _amountController.text.toDecimalOrZero(locale);
-    if (newAmount != oldWidget.inputAmount.decimal &&
+    if (newAmount != oldWidget.displayAmount.decimal &&
         newAmount != currentAmount) {
-      // _amountController.text = newAmount.toString();
+      _amountController.text = widget.displayAmount.format(
+        locale,
+        skipSymbol: true,
+        decimals: 2,
+      );
     }
   }
 
@@ -86,6 +95,10 @@ class _SwapScreenState extends State<SwapScreen> {
         child: CpTheme.dark(
           child: Scaffold(
             backgroundColor: CpColors.darkBackground,
+            appBar: CpAppBar(
+              leading: const CloseButton(),
+              title: Text(widget.title),
+            ),
             body: SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,13 +110,18 @@ class _SwapScreenState extends State<SwapScreen> {
                     ),
                   ),
                   _Equivalent(
+                    displayAmount: widget.displayAmount,
                     inputAmount: widget.inputAmount,
                     outputAmount: widget.outputAmount,
                     loading: widget.loading,
                   ),
                   _TokenDropDown(
-                    current: widget.displayToken,
-                    onTokenChanged: widget.onToggleEditingMode,
+                    current: widget.displayAmount.token,
+                    onTokenChanged: widget.onRequestTokenChanged,
+                    availableTokens: [
+                      widget.inputAmount.token,
+                      widget.outputAmount.token,
+                    ],
                   ),
                   _AvailableBalance(
                     maxAmountAvailable: widget.maxAmountAvailable,
@@ -114,9 +132,11 @@ class _SwapScreenState extends State<SwapScreen> {
                   ),
                   Flexible(
                     child: LayoutBuilder(
-                      builder: (context, constraints) => PinKeypad(
+                      builder: (context, constraints) => AmountKeypad(
+                        height: constraints.maxHeight,
+                        width: constraints.maxWidth,
                         controller: _amountController,
-                        maxDigits: widget.inputAmount.token.decimals,
+                        maxDecimals: widget.displayAmount.token.decimals,
                       ),
                     ),
                   ),
@@ -189,39 +209,61 @@ class _TokenDropDown extends StatelessWidget {
     Key? key,
     required this.current,
     required this.onTokenChanged,
+    required this.availableTokens,
   }) : super(key: key);
 
   final Token current;
-  final VoidCallback onTokenChanged;
+  final ValueSetter<Token> onTokenChanged;
+  final Iterable<Token> availableTokens;
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: 55,
-        margin: const EdgeInsets.symmetric(horizontal: 70, vertical: 32),
-        padding: const EdgeInsets.all(16),
-        decoration: const ShapeDecoration(
-          shape: StadiumBorder(),
-          color: CpColors.greenDropdown,
-        ),
-        child: InkWell(
-          onTap: onTokenChanged,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Center(
-                child: Text(
-                  current.symbol,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                  ),
+  Widget build(BuildContext context) {
+    const style = TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.w700,
+    );
+
+    return Container(
+      height: 55,
+      margin: const EdgeInsets.symmetric(horizontal: 70, vertical: 24),
+      padding: const EdgeInsets.all(16),
+      decoration: const ShapeDecoration(
+        shape: StadiumBorder(),
+        color: CpColors.greenDropdown,
+      ),
+      child: DropdownButton(
+        value: current,
+        underline: const SizedBox.shrink(),
+        isExpanded: true,
+        icon: const Icon(Icons.expand_more),
+        dropdownColor: CpColors.greenDropdown,
+        style: style,
+        items: availableTokens
+            .map(
+              (e) => DropdownMenuItem(
+                value: e,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Center(child: Text(e.symbol)),
                 ),
               ),
-              const Positioned(right: 0, child: Icon(Icons.expand_more)),
-            ],
-          ),
-        ),
-      );
+            )
+            .toList(),
+        onChanged: (Token? t) => t == null ? ignore : onTokenChanged(t),
+        selectedItemBuilder: (context) => availableTokens
+            .map(
+              (t) => Padding(
+                padding: const EdgeInsets.only(left: 24),
+                child: Center(child: Text(t.symbol)),
+              ),
+            )
+            .toList(),
+        // InkWell(
+        //   onTap: onTokenChanged,
+        //   child:
+      ),
+    );
+  }
 }
 
 class _Header extends StatelessWidget {
@@ -236,31 +278,18 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final displayAmount = inputController.text.formatted(context);
 
-    return SizedBox(
-      width: double.infinity,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
-            child: FittedBox(
-              child: Text(
-                displayAmount,
-                maxLines: 1,
-                style: const TextStyle(
-                  fontSize: 80,
-                  fontWeight: FontWeight.w700,
-                  height: 1.5,
-                ),
-              ),
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: FittedBox(
+        child: Text(
+          displayAmount,
+          maxLines: 1,
+          style: const TextStyle(
+            fontSize: 80,
+            fontWeight: FontWeight.w700,
+            height: 1,
           ),
-          const Positioned(
-            top: 4,
-            left: 4,
-            child: CloseButton(),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -270,11 +299,13 @@ class _Equivalent extends StatelessWidget {
   const _Equivalent({
     Key? key,
     required this.inputAmount,
+    required this.displayAmount,
     required this.outputAmount,
     required this.loading,
   }) : super(key: key);
 
   final CryptoAmount inputAmount;
+  final CryptoAmount displayAmount;
   final CryptoAmount outputAmount;
   final bool loading;
 
@@ -303,8 +334,9 @@ class _Equivalent extends StatelessWidget {
       );
     }
 
-    return SizedBox(
+    return Container(
       height: 16,
+      margin: const EdgeInsets.all(8),
       child: content,
     );
   }

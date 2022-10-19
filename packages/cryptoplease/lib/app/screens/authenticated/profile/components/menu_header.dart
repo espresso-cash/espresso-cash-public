@@ -61,7 +61,7 @@ class MenuHeader extends StatelessWidget {
               ),
             ),
             // TODO: remove
-            onCashOut: () => context.navigateToSellToken(Token.sol),
+            onCashOut: () => context.navigateToBuyToken(Token.sol),
           ),
         ],
       ),
