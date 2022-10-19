@@ -13,7 +13,7 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://quote-api.jup.ag/v1';
+    baseUrl ??= 'https://quote-api.jup.ag/v3';
   }
 
   final Dio _dio;
@@ -21,9 +21,10 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
   String? baseUrl;
 
   @override
-  Future<JupiterIndexedRouteMap> getIndexedRouteMap() async {
+  Future<JupiterIndexedRouteMap> getIndexedRouteMap(routeMapRequestDto) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(routeMapRequestDto.toJson());
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -71,9 +72,9 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
   Future<JupiterSwapTransactions> getSwapTransactions(swapRequestDto) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(swapRequestDto.toJson());
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
+    _data.addAll(swapRequestDto.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<JupiterSwapTransactions>(Options(
       method: 'POST',
