@@ -26,8 +26,8 @@ extension CreateSwapExt on CreateSwapState {
   Token get requestToken => requestAmount.token;
 
   CryptoAmount get requestAmount => editingMode.map(
-        input: (_) => inputAmount,
-        output: (_) => outputAmount,
+        input: always(inputAmount),
+        output: always(outputAmount),
       );
 
   Either<SwapException, JupiterRoute> validate(IMap<Token, Amount> balances) {
@@ -69,6 +69,7 @@ extension CreateSwapExt on CreateSwapState {
 
     if (routeFee == null) return zeroFee;
 
+    /// Jupiter v3 returns the fee on route if userPublicKey is provided
     return zeroFee.copyWith(
       value: routeFee.totalFeeAndDeposits.toInt(),
     );

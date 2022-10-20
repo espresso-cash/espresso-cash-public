@@ -6,10 +6,8 @@ import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/flow.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/swap/bl/balances.dart';
 import 'package:cryptoplease/features/swap/bl/repository.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
-import 'package:cryptoplease/features/swap/presentation/flow.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -25,6 +23,8 @@ part 'state.dart';
 typedef _Event = CreateSwapEvent;
 typedef _State = CreateSwapState;
 typedef _Emitter = Emitter<_State>;
+
+enum SwapOperation { buy, sell }
 
 class CreateSwapBloc extends Bloc<_Event, _State> {
   CreateSwapBloc({
@@ -78,11 +78,10 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
 
   final JupiterRepository _jupiterRepository;
   final AnalyticsManager _analyticsManager;
-  final Balances _balances;
+  final IMap<Token, Amount> _balances;
   final MyAccount _myAccount;
 
-  bool isValidInput(Token token, Balances balances) =>
-      balances.isPositive(token);
+  bool isValidInput(Token token) => _balances.isPositive(token);
 
   Future<void> _onInit(Init _, _Emitter emit) async {
     try {
@@ -119,8 +118,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         emit(
           state.copyWith(
             editingMode: state.editingMode.map(
-              input: (_) => const SwapEditingMode.output(),
-              output: (_) => const SwapEditingMode.input(),
+              input: always(const SwapEditingMode.output()),
+              output: always(const SwapEditingMode.input()),
             ),
           ),
         );
@@ -129,11 +128,15 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   void _onAmountUpdated(AmountUpdated event, _Emitter emit) => _updateRoute(
         (state) => emit(
           state.editingMode.map(
-            input: (_) => state.copyWith(
-              inputAmount: state.inputAmount.copyWithDecimal(event.decimal),
+            input: always(
+              state.copyWith(
+                inputAmount: state.inputAmount.copyWithDecimal(event.decimal),
+              ),
             ),
-            output: (_) => state.copyWith(
-              outputAmount: state.outputAmount.copyWithDecimal(event.decimal),
+            output: always(
+              state.copyWith(
+                outputAmount: state.outputAmount.copyWithDecimal(event.decimal),
+              ),
             ),
           ),
         ),
@@ -189,21 +192,25 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       if (routes.isEmpty) throw const SwapException.routeNotFound();
 
       final bestRoute = state.editingMode.map(
-        input: (_) => routes.first,
-        output: (_) => routes.last,
+        input: always(routes.first),
+        output: always(routes.last),
       );
 
       final outputAmount = state.editingMode.map(
-        input: (_) => state.outputAmount,
-        output: (_) => state.outputAmount.copyWith(
-          value: int.parse(bestRoute.outAmount),
+        input: always(state.outputAmount),
+        output: always(
+          state.outputAmount.copyWith(
+            value: int.parse(bestRoute.outAmount),
+          ),
         ),
       );
 
       final inputAmount = state.editingMode.map(
-        input: (_) => state.inputAmount,
-        output: (_) => state.inputAmount.copyWith(
-          value: int.parse(bestRoute.inAmount),
+        input: always(state.inputAmount),
+        output: always(
+          state.inputAmount.copyWith(
+            value: int.parse(bestRoute.inAmount),
+          ),
         ),
       );
 
@@ -249,5 +256,20 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     return state.input == Token.sol
         ? balance - state.fee as CryptoAmount
         : balance;
+  }
+}
+
+extension BalanceExt on IMap<Token, Amount> {
+  bool isPositive(Token token) {
+    final balance = this[token];
+
+    return balance != null && balance.value > 0;
+  }
+
+  CryptoAmount balanceFromToken(Token token) {
+    final balance = this[token];
+    final value = balance?.value ?? 0;
+
+    return CryptoAmount(value: value, currency: CryptoCurrency(token: token));
   }
 }

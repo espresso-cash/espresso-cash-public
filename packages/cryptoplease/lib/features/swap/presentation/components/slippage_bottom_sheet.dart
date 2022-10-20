@@ -1,3 +1,4 @@
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:decimal/decimal.dart';
@@ -41,19 +42,19 @@ class SlippageBottomSheet extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Slippage tolerance',
-              style: TextStyle(
+            Text(
+              context.l10n.swapSlippageTitle,
+              style: const TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w700,
                 height: 1.3,
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              'Slippage is the difference observed due to  changing market conditions between the moment the transaction is submitted and its verification.',
+            Text(
+              context.l10n.swapSlippageExplanation,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14.5,
                 height: 1.25,
               ),

@@ -1,52 +1,37 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
 import 'package:cryptoplease/features/swap/bl/repository.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
+import 'package:cryptoplease/features/swap/presentation/components/swap_exception_dialog.dart';
 import 'package:cryptoplease/features/swap/swap_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solana/solana.dart';
 
-enum SwapOperation { buy, sell }
-
-extension on SwapOperation {
-  String label(BuildContext context, Token input, Token output) {
-    switch (this) {
-      case SwapOperation.buy:
-        return context.l10n.buyToken(output.symbol);
-      case SwapOperation.sell:
-        return context.l10n.sellToken(input.symbol);
-    }
-  }
-}
-
-extension SwapFlowExt on BuildContext {
+extension BuyTokenExt on BuildContext {
   void navigateToBuyToken(Token token) => navigateTo(
         SwapFlowRoute(
-          // TODO: remove
-          inputToken: Token.usdcProd,
+          inputToken: Token.usdc,
           outputToken: token,
           slippage: Decimal.one,
           operation: SwapOperation.buy,
         ),
       );
+}
 
+extension SellTokenExt on BuildContext {
   void navigateToSellToken(Token token) => navigateTo(
         SwapFlowRoute(
           inputToken: token,
-          // TODO: remove
-          outputToken: Token.usdcProd,
+          outputToken: Token.usdc,
           slippage: Decimal.one,
           operation: SwapOperation.sell,
         ),
@@ -77,17 +62,11 @@ class _FlowState extends State<SwapFlowScreen> {
   @override
   void initState() {
     super.initState();
-    final jupiterRepo = JupiterRepository(
-      jupiterAggregatorClient: JupiterAggregatorClient(),
-      solanaClient: sl<SolanaClient>(),
-      tokenList: sl<TokenList>(),
-    );
-
     createSwapBloc = CreateSwapBloc(
       input: widget.inputToken,
       output: widget.outputToken,
       initialSlippage: Decimal.one,
-      jupiterRepository: jupiterRepo,
+      jupiterRepository: sl<JupiterRepository>(),
       myAccount: context.read<MyAccount>(),
       balances: context.read<BalancesBloc>().state.balances,
       analyticsManager: sl<AnalyticsManager>(),
@@ -97,10 +76,14 @@ class _FlowState extends State<SwapFlowScreen> {
       );
   }
 
-  void _onSubmit() => createSwapBloc.add(const CreateSwapEvent.submitted());
+  void _onSubmit() {
+    const event = CreateSwapEvent.submitted();
+    createSwapBloc.add(event);
+  }
 
   void _onSlippageUpdate(Decimal value) {
-    createSwapBloc.add(CreateSwapEvent.slippageUpdated(value));
+    final event = CreateSwapEvent.slippageUpdated(value);
+    createSwapBloc.add(event);
   }
 
   void _onEditingModeToggled() {
@@ -113,26 +96,30 @@ class _FlowState extends State<SwapFlowScreen> {
     createSwapBloc.add(event);
   }
 
-  void _onSwapException(SwapException e) => showErrorDialog(
+  void _onSwapException(SwapException e) => showSwapExceptionDialog(
         context,
-        'Failed',
+        context.l10n.swapErrorTitle,
         e,
+      );
+
+  void _onRouteReady(JupiterRoute route) => context.router.replace(
+        SwapStatusRoute(
+          route: route,
+          operation: widget.operation,
+        ),
       );
 
   @override
   Widget build(BuildContext context) =>
       BlocConsumer<CreateSwapBloc, CreateSwapState>(
         bloc: createSwapBloc,
-        listenWhen: (previous, current) =>
-            previous.flowState != current.flowState,
+        listenWhen: (prev, cur) => prev.flowState != cur.flowState,
         listener: (context, state) => state.flowState.whenOrNull(
           failure: _onSwapException,
-          success: (r) => context.router.navigate(
-            SwapTokenProcessRoute(route: r),
-          ),
+          success: _onRouteReady,
         ),
         builder: (context, state) => SwapScreen(
-          title: widget.operation.label(context, state.input, state.output),
+          title: widget.operation.title(context, state.input, state.output),
           inputAmount: state.inputAmount,
           outputAmount: state.outputAmount,
           displayAmount: state.requestAmount,
@@ -145,4 +132,15 @@ class _FlowState extends State<SwapFlowScreen> {
           onEditingModeToggled: _onEditingModeToggled,
         ),
       );
+}
+
+extension on SwapOperation {
+  String title(BuildContext context, Token input, Token output) {
+    switch (this) {
+      case SwapOperation.buy:
+        return context.l10n.buyToken(output.symbol);
+      case SwapOperation.sell:
+        return context.l10n.sellToken(input.symbol);
+    }
+  }
 }

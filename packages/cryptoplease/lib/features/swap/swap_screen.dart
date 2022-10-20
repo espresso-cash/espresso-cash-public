@@ -5,6 +5,7 @@ import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/swap/presentation/components/slippage_bottom_sheet.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/amount_keypad/amount_keypad.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/button.dart';
@@ -168,8 +169,7 @@ class _SlippageInfo extends StatelessWidget {
           onTap: () => SlippageBottomSheet.show(context, onSlippageChanged),
           child: Text.rich(
             TextSpan(
-              text:
-                  'Your transaction will be cancelled\nif the price varies more than ',
+              text: context.l10n.swapSlippageWarning,
               children: [
                 TextSpan(
                   text: '$slippage%',
@@ -200,7 +200,10 @@ class _AvailableBalance extends StatelessWidget {
     final locale = DeviceLocale.localeOf(context);
     final formatted = maxAmountAvailable.format(locale, roundInteger: true);
 
-    return Text('$formatted available for use.', style: _descriptionStyle);
+    return Text(
+      context.l10n.swapAmountAvailable(formatted),
+      style: _descriptionStyle,
+    );
   }
 }
 
@@ -324,7 +327,7 @@ class _Equivalent extends StatelessWidget {
 
       content = FittedBox(
         child: Text(
-          'For $formattedInput you will get aprox. $formattedOutput',
+          context.l10n.swapEquivalent(formattedInput, formattedOutput),
           maxLines: 1,
           style: const TextStyle(fontSize: 15),
         ),
@@ -366,7 +369,7 @@ class _Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpContentPadding(
         child: CpButton(
-          text: 'Press & hold to submit',
+          text: context.l10n.pressAndHoldToSubmit,
           mechanic: CpButtonMechanic.hold,
           width: double.infinity,
           size: CpButtonSize.big,

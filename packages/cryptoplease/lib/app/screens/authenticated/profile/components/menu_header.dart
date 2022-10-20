@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
@@ -6,7 +7,6 @@ import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/swap/presentation/flow.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -60,8 +60,11 @@ class MenuHeader extends StatelessWidget {
                 token: Token.usdc,
               ),
             ),
-            // TODO: remove
-            onCashOut: () => context.navigateToBuyToken(Token.sol),
+            onCashOut: () => showWarningDialog(
+              context,
+              title: context.l10n.cashOut,
+              message: context.l10n.comingSoon,
+            ),
           ),
         ],
       ),

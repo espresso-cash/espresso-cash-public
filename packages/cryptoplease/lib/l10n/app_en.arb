@@ -73,7 +73,7 @@
   "splitKeyErrorMessage1": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyErrorRetry": "Please retry.",
-  "splitKeyProgressOngoing" : "Sending {amount} using secure links...",
+  "splitKeyProgressOngoing": "Sending {amount} using secure links...",
   "@splitKeyProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -81,11 +81,11 @@
       }
     }
   },
-  "splitKeyProgressCreated" : "Links are created",
-  "splitKeyProgressWaiting" : "Waiting for the receiver to withdraw the funds",
-  "splitKeyProgressWithdrawn" : "Funds are withdrawn",
-  "splitKeyProgressSuccess" : "Money has been successfully received",
-  "resendLink" : "Resend Links",
+  "splitKeyProgressCreated": "Links are created",
+  "splitKeyProgressWaiting": "Waiting for the receiver to withdraw the funds",
+  "splitKeyProgressWithdrawn": "Funds are withdrawn",
+  "splitKeyProgressSuccess": "Money has been successfully received",
+  "resendLink": "Resend Links",
   "buy": "Buy",
   "paymentRequestInitialNotificationTitle": "You requested {amount} from {payer}",
   "@paymentRequestInitialNotificationTitle": {
@@ -257,8 +257,8 @@
   "yourLinkIsReady": "Your link is ready",
   "sendAs": "Send as",
   "investments": "INVESTMENTS",
-  "popularCryptoTitle" : "Popular Crypto",
-  "popularCryptoSubtitle" : "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
+  "popularCryptoTitle": "Popular Crypto",
+  "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
   "all": "All",
   "buyToken": "Buy {symbol}",
   "@buyToken": {
@@ -275,5 +275,62 @@
         "type": "String"
       }
     }
-  }
+  },
+  "swapTitle": "PROCESSING",
+  "swapBuyFail": "There was an issue with buying your tokens.",
+  "swapSellFail": "There was an issue with selling your tokens.",
+  "swapBuySuccess": "Your purchase was successful.",
+  "swapSellSuccess": "Your sale was successful.",
+  "swapPreparing": "Preparing your transaction",
+  "swapErrorTitle": "An error ocurred",
+  "swapFailRouteNotFound": "No routes found for given tokens and amount!",
+  "swapFailSetupFailed": "An error ocurred while setting up your transaction",
+  "swapFailCleanUpFailed": "An error ocurred while cleaning up your transaction",
+  "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
+  "insufficientFundsForFeeMessage": "You don't have enough {feeToken} to pay for the network fee, you need at least {amount}.",
+  "@insufficientFundsForFeeMessage": {
+    "placeholders": {
+      "feeToken": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
+  "@insufficientFundsMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "swapSlippageTitle": "Slippage tolerance",
+  "swapSlippageExplanation": "Slippage is the difference observed due to  changing market conditions between the moment the transaction is submitted and its verification.",
+  "swapSlippageWarning": "Your transaction will be cancelled\nif the price varies more than ",
+  "swapAmountAvailable": "{amount} available for use.",
+  "@swapAmountAvailable": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "swapEquivalent": "For {input} you will get aprox. {output}",
+  "@swapEquivalent": {
+    "placeholders": {
+      "input": {
+        "type": "String"
+      },
+      "output": {
+        "type": "String"
+      }
+    }
+  },
+  "pressAndHoldToSubmit": "Press & hold to submit"
+
 }

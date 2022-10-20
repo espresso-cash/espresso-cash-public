@@ -21,3 +21,7 @@ class SwapVerifierState with _$SwapVerifierState {
 
   const SwapVerifierState._();
 }
+
+extension SwapVerifierExt on SwapVerifierState {
+  bool get isProcessing => maybeMap(finished: F, failed: F, orElse: T);
+}

@@ -1,22 +1,14 @@
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
-import 'package:solana/solana.dart';
 
 class JupiterRepository {
   JupiterRepository({
     required JupiterAggregatorClient jupiterAggregatorClient,
-    required SolanaClient solanaClient,
-    required TokenList tokenList,
-  })  : _jupiterClient = jupiterAggregatorClient,
-        _solanaClient = solanaClient,
-        _tokenList = tokenList;
+  }) : _jupiterClient = jupiterAggregatorClient;
 
   final JupiterAggregatorClient _jupiterClient;
-  final SolanaClient _solanaClient;
-  final TokenList _tokenList;
 
   Future<bool> routeExists(Token input, Token output) async {
     const dto = IndexedRouteMapRequestDto();
@@ -52,13 +44,5 @@ class JupiterRepository {
 }
 
 extension on Token {
-  // Token get forJupiter => this == Token.sol ? Token.wrappedSol : this;
-
-  // TODO: dev impl
-  Token get forJupiter {
-    if (this == Token.sol) return Token.wrappedSol;
-    if (this == Token.usdc) return Token.usdcProd;
-
-    return this;
-  }
+  Token get forJupiter => this == Token.sol ? Token.wrappedSol : this;
 }
