@@ -47,6 +47,6 @@ abstract class AppModule {
 
   @lazySingleton
   JupiterRepository get jupiterRepository => JupiterRepository(
-        jupiterAggregatorClient: JupiterAggregatorClient(),
+        jupiterAggregatorClient: sl<JupiterAggregatorClient>(),
       );
 }
