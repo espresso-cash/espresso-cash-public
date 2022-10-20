@@ -4,10 +4,49 @@ import 'package:cryptoplease/ui/colors.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
+class SlippageInfo extends StatelessWidget {
+  const SlippageInfo({
+    Key? key,
+    required this.slippage,
+    required this.onSlippageChanged,
+  }) : super(key: key);
+
+  final Decimal slippage;
+  final ValueSetter<Decimal> onSlippageChanged;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(8),
+        child: GestureDetector(
+          onTap: () => _SlippageBottomSheet.show(context, onSlippageChanged),
+          child: Text.rich(
+            TextSpan(
+              text: context.l10n.swapSlippageWarning,
+              children: [
+                TextSpan(
+                  text: '$slippage%',
+                  style: const TextStyle(
+                    color: CpColors.yellowDarkAccentColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            style: const TextStyle(
+              height: 1.3,
+              fontSize: 14.5,
+              color: CpColors.greyDarkAccentColor,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+}
+
 final _options = ['0.1', '0.5', '1.0'].map(Decimal.parse);
 
-class SlippageBottomSheet extends StatelessWidget {
-  const SlippageBottomSheet({
+class _SlippageBottomSheet extends StatelessWidget {
+  const _SlippageBottomSheet({
     Key? key,
     required this.onSlippageChange,
   }) : super(key: key);
@@ -20,7 +59,8 @@ class SlippageBottomSheet extends StatelessWidget {
   ) =>
       showModalBottomSheet(
         context: context,
-        builder: (_) => SlippageBottomSheet(onSlippageChange: onSlippageChange),
+        builder: (_) =>
+            _SlippageBottomSheet(onSlippageChange: onSlippageChange),
         backgroundColor: CpColors.darkBackground,
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
