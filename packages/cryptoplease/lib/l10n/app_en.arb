@@ -259,5 +259,6 @@
   "investments": "INVESTMENTS",
   "popularCryptoTitle" : "Popular Crypto",
   "popularCryptoSubtitle" : "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
-  "all": "All"
+  "all": "All",
+  "myPortfolio": "MY PORTFOLIO"
 }

@@ -40,27 +40,52 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 onRefresh: onRefresh,
                 headerAppBar: const _AppBarContent(),
                 headerContent: TotalBalanceWidget(balance: total),
-                stickyBottomHeader: const WalletTabBar(),
-                child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BalanceListWidget(
-                      tokens: state.nonStableTokens,
-                      isLoading: isLoading,
-                      emptyWidget: CpEmptyMessageWidget(
-                        message: context.l10n.noDataPullToRefresh,
+                    const SizedBox(height: 100),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 24.0,
+                      ),
+                      child: Text(
+                        context.l10n.myPortfolio,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
-                    BalanceListWidget(
-                      tokens: state.stableTokens,
-                      isLoading: isLoading,
-                      emptyWidget: const StableCoinEmptyWidget(),
-                    ),
-                    BalanceListWidget(
-                      tokens: state.userTokens,
-                      isLoading: isLoading,
-                      emptyWidget: CpEmptyMessageWidget(
-                        message: context.l10n.noDataPullToRefresh,
+                    const WalletTabBar(),
+                    Expanded(
+                      child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          BalanceListWidget(
+                            tokens: state.nonStableTokens,
+                            isLoading: isLoading,
+                            emptyWidget: CpEmptyMessageWidget(
+                              message: context.l10n.noDataPullToRefresh,
+                            ),
+                          ),
+                          BalanceListWidget(
+                            tokens: state.stableTokens,
+                            isLoading: isLoading,
+                            emptyWidget: const StableCoinEmptyWidget(),
+                          ),
+                          BalanceListWidget(
+                            tokens: [
+                              ...state.userTokens,
+                              ...state.userTokens,
+                              ...state.userTokens
+                            ],
+                            isLoading: isLoading,
+                            emptyWidget: CpEmptyMessageWidget(
+                              message: context.l10n.noDataPullToRefresh,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

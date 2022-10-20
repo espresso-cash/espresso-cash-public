@@ -30,7 +30,7 @@ class HeaderedListHeader extends StatelessWidget {
         pinned: true,
         delegate: _HeaderDelegate(
           stickyBottomHeader: stickyBottomHeader,
-          minHeight: minHeight,
+          minHeight: minHeight + 10,
           appBarHeight: kToolbarHeight,
           buttonsHeight: _buttonRowHeight,
           subContent: subContent,
@@ -105,10 +105,12 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
+    final topPadding = MediaQuery.of(context).padding.top;
     final percent = math.min(shrinkOffset / (_stackHeight - minHeight), 1.0);
     final topOffset = 0 - percent * 2 * minHeight;
     final bottomOpacity = Curves.easeInExpo.transform(1 - percent);
-    final topDisplacement = math.max(topOffset + appBarHeight, 0.0);
+    final topDisplacement =
+        math.max(topOffset + appBarHeight - topPadding, 0.0);
     final bottomDisplacement = buttonsWidget != null
         ? buttonsHeight +
             _buttonBottomOffset -
@@ -125,7 +127,11 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
             child: Stack(
               children: [
                 _buildAppBar(topOffset),
-                _buildBalance(percent, topDisplacement, bottomDisplacement),
+                _buildBalance(
+                  percent,
+                  topDisplacement,
+                  bottomDisplacement,
+                ),
                 if (subContent != null)
                   _buildSubContent(
                     topDisplacement,
@@ -198,4 +204,4 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
 }
 
 const double _buttonBottomOffset = 16;
-const double _stackHeight = 300;
+const double _stackHeight = 255;

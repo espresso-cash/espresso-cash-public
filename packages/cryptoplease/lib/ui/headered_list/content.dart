@@ -11,7 +11,7 @@ class CpHeaderedListContent extends StatelessWidget {
     this.padding,
     this.showDivider = true,
     this.footer,
-    this.primary,
+    this.addTopPadding = true,
   }) : super(key: key);
 
   final int itemCount;
@@ -20,7 +20,7 @@ class CpHeaderedListContent extends StatelessWidget {
   final EdgeInsets? padding;
   final bool showDivider;
   final Widget? footer;
-  final bool? primary;
+  final bool addTopPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +50,13 @@ class CpHeaderedListContent extends StatelessWidget {
       child: Material(
         color: Colors.white,
         child: CustomScrollView(
-          primary: primary,
           slivers: [
-            SliverOverlapInjector(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                context,
+            if (addTopPadding)
+              SliverOverlapInjector(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                  context,
+                ),
               ),
-            ),
             if (padding == null)
               content
             else

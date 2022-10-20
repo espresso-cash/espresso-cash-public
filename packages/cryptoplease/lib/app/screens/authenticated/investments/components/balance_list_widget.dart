@@ -34,8 +34,8 @@ class BalanceListWidget extends StatelessWidget {
             ? CpEmptyMessageWidget(message: context.l10n.loading)
             : emptyWidget,
         showDivider: false,
+        addTopPadding: false,
         footer: const PopularTokens(),
-        primary: true,
       );
 }
 

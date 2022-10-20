@@ -2,7 +2,7 @@ import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/tab_bar.dart';
 import 'package:flutter/material.dart';
 
-class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
+class WalletTabBar extends StatelessWidget {
   const WalletTabBar({Key? key}) : super(key: key);
 
   @override
@@ -13,7 +13,4 @@ class WalletTabBar extends StatelessWidget implements PreferredSizeWidget {
           Tab(text: context.l10n.all)
         ],
       );
-
-  @override
-  Size get preferredSize => const Size.fromHeight(68);
 }
