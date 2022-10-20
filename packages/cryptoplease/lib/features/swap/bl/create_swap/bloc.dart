@@ -110,22 +110,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         emit(state.copyWith(slippage: event.slippage));
       });
 
-  Future<void> _onEditingModeToggled(
-    EditingModeToggled _,
-    _Emitter emit,
-  ) async =>
-      _updateRoute((state) {
-        emit(
-          state.copyWith(
-            editingMode: state.editingMode.map(
-              input: always(const SwapEditingMode.output()),
-              output: always(const SwapEditingMode.input()),
-            ),
-          ),
-        );
-      });
-
-  void _onAmountUpdated(AmountUpdated event, _Emitter emit) => _updateRoute(
+  Future<void> _onAmountUpdated(AmountUpdated event, _Emitter emit) async =>
+      _updateRoute(
         (state) => emit(
           state.editingMode.map(
             input: always(
@@ -141,6 +127,21 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
           ),
         ),
       );
+
+  Future<void> _onEditingModeToggled(
+    EditingModeToggled _,
+    _Emitter emit,
+  ) async =>
+      _updateRoute((state) {
+        emit(
+          state.copyWith(
+            editingMode: state.editingMode.map(
+              input: always(const SwapEditingMode.output()),
+              output: always(const SwapEditingMode.input()),
+            ),
+          ),
+        );
+      });
 
   Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
     state.validate(_balances).fold(

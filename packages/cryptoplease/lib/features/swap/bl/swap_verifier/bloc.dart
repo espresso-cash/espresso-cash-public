@@ -41,25 +41,22 @@ class SwapVerifierBloc extends Bloc<_Event, _State> {
         retryRequested: (e) => _onRetryRequested(e, emit),
       );
 
-  Future<void> _onSwapRequested(SwapRequested event, _Emitter emit) async =>
-      state.mapOrNull(
-        idle: (state) async {
-          try {
-            emit(const SwapVerifierState.preparing());
+  Future<void> _onSwapRequested(SwapRequested event, _Emitter emit) async {
+    try {
+      emit(const SwapVerifierState.preparing());
 
-            final publicKey = _myAccount.publicKey.toBase58();
-            final dto = SwapRequestDto(
-              route: event.jupiterRoute,
-              userPublicKey: publicKey,
-            );
-            final transaction = await _jupiterClient.getSwapTransactions(dto);
-
-            await _executeTransactions(tx: transaction, emit: emit);
-          } on Exception catch (e) {
-            emit(SwapVerifierState.failed(SwapException.other(e)));
-          }
-        },
+      final publicKey = _myAccount.publicKey.toBase58();
+      final dto = SwapRequestDto(
+        route: event.jupiterRoute,
+        userPublicKey: publicKey,
       );
+      final transaction = await _jupiterClient.getSwapTransactions(dto);
+
+      await _executeTransactions(tx: transaction, emit: emit);
+    } on Exception catch (e) {
+      emit(SwapVerifierState.failed(SwapException.other(e)));
+    }
+  }
 
   Future<void> _onRetryRequested(RetryRequested _, _Emitter emit) async =>
       state.maybeMap(

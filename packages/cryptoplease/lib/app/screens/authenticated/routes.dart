@@ -8,6 +8,7 @@ import 'package:cryptoplease/app/screens/authenticated/profile/help_screen.dart'
 import 'package:cryptoplease/app/screens/authenticated/profile/menu_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/profile_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/receive_flow/routes.dart';
+import 'package:cryptoplease/app/screens/authenticated/swap_flow/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_flow_screen.dart';
 import 'package:cryptoplease/features/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/features/app_lock/presentation/routes.dart';
@@ -18,7 +19,6 @@ import 'package:cryptoplease/features/outgoing_direct_payments/presentation/rout
 import 'package:cryptoplease/features/outgoing_split_key_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_screen.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_flow/routes.dart';
 
 const authenticatedFlowRoutes = AutoRoute<dynamic>(
   page: AuthenticatedFlowScreen,
