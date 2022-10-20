@@ -2,7 +2,7 @@ import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/swap/presentation/components/slippage_bottom_sheet.dart';
+import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/slippage_bottom_sheet.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';

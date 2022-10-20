@@ -6,6 +6,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -18,11 +19,12 @@ typedef _State = SwapVerifierState;
 typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
+@injectable
 class SwapVerifierBloc extends Bloc<_Event, _State> {
   SwapVerifierBloc({
     required SolanaClient solanaClient,
     required JupiterAggregatorClient jupiterAggregatorClient,
-    required MyAccount myAccount,
+    @factoryParam required MyAccount myAccount,
   })  : _solanaClient = solanaClient,
         _jupiterClient = jupiterAggregatorClient,
         _myAccount = myAccount,
