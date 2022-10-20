@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/accounts/bl/account.dart';
+import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
@@ -87,7 +88,9 @@ class _FlowState extends State<SwapFlowScreen> {
       output: widget.outputToken,
       initialSlippage: Decimal.one,
       jupiterRepository: jupiterRepo,
+      myAccount: context.read<MyAccount>(),
       balances: context.read<BalancesBloc>().state.balances,
+      analyticsManager: sl<AnalyticsManager>(),
       swapOperation: widget.operation,
     )..add(
         const CreateSwapEvent.initialized(),
@@ -100,17 +103,12 @@ class _FlowState extends State<SwapFlowScreen> {
     createSwapBloc.add(CreateSwapEvent.slippageUpdated(value));
   }
 
-  void _onRequestTokenChanged(Token _) {
+  void _onEditingModeToggled() {
     const event = CreateSwapEvent.editingModeToggled();
     createSwapBloc.add(event);
   }
 
-  void _onAmountUpdate(
-    Amount amount,
-    Decimal value,
-  ) {
-    if (value == amount.decimal) return;
-
+  void _onAmountUpdate(Decimal value) {
     final event = CreateSwapEvent.amountUpdated(value);
     createSwapBloc.add(event);
   }
@@ -140,14 +138,11 @@ class _FlowState extends State<SwapFlowScreen> {
           displayAmount: state.requestAmount,
           slippage: state.slippage,
           maxAmountAvailable: createSwapBloc.calculateMaxAmount(),
-          loading: state.flowState.isProcessing(),
+          isLoadingRoute: state.flowState.isProcessing(),
           onSlippageChanged: _onSlippageUpdate,
-          onAmountChanged: (value) => _onAmountUpdate(
-            state.inputAmount,
-            value,
-          ),
+          onAmountChanged: _onAmountUpdate,
           onSubmit: _onSubmit,
-          onRequestTokenChanged: _onRequestTokenChanged,
+          onEditingModeToggled: _onEditingModeToggled,
         ),
       );
 }

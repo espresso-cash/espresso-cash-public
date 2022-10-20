@@ -26,9 +26,9 @@ class SwapScreen extends StatefulWidget {
     required this.slippage,
     required this.onSlippageChanged,
     required this.onAmountChanged,
-    required this.onRequestTokenChanged,
+    required this.onEditingModeToggled,
     required this.onSubmit,
-    required this.loading,
+    required this.isLoadingRoute,
     required this.title,
   }) : super(key: key);
 
@@ -40,8 +40,8 @@ class SwapScreen extends StatefulWidget {
   final VoidCallback onSubmit;
   final ValueSetter<Decimal> onSlippageChanged;
   final ValueSetter<Decimal> onAmountChanged;
-  final ValueSetter<Token> onRequestTokenChanged;
-  final bool loading;
+  final VoidCallback onEditingModeToggled;
+  final bool isLoadingRoute;
   final String title;
 
   @override
@@ -49,7 +49,7 @@ class SwapScreen extends StatefulWidget {
 }
 
 class _SwapScreenState extends State<SwapScreen> {
-  final _amountController = TextEditingController(text: '0');
+  final _amountController = TextEditingController();
 
   @override
   void initState() {
@@ -105,19 +105,19 @@ class _SwapScreenState extends State<SwapScreen> {
                 children: [
                   ValueListenableBuilder<TextEditingValue>(
                     valueListenable: _amountController,
-                    builder: (context, _, __) => _Header(
-                      inputController: _amountController,
+                    builder: (context, value, __) => _Header(
+                      displayAmount: value.text,
                     ),
                   ),
                   _Equivalent(
                     displayAmount: widget.displayAmount,
                     inputAmount: widget.inputAmount,
                     outputAmount: widget.outputAmount,
-                    loading: widget.loading,
+                    isLoadingRoute: widget.isLoadingRoute,
                   ),
                   _TokenDropDown(
                     current: widget.displayAmount.token,
-                    onTokenChanged: widget.onRequestTokenChanged,
+                    onTap: widget.onEditingModeToggled,
                     availableTokens: [
                       widget.inputAmount.token,
                       widget.outputAmount.token,
@@ -208,12 +208,12 @@ class _TokenDropDown extends StatelessWidget {
   const _TokenDropDown({
     Key? key,
     required this.current,
-    required this.onTokenChanged,
+    required this.onTap,
     required this.availableTokens,
   }) : super(key: key);
 
   final Token current;
-  final ValueSetter<Token> onTokenChanged;
+  final VoidCallback onTap;
   final Iterable<Token> availableTokens;
 
   @override
@@ -231,7 +231,7 @@ class _TokenDropDown extends StatelessWidget {
         shape: StadiumBorder(),
         color: CpColors.greenDropdown,
       ),
-      child: DropdownButton(
+      child: DropdownButton<Token>(
         value: current,
         underline: const SizedBox.shrink(),
         isExpanded: true,
@@ -249,7 +249,7 @@ class _TokenDropDown extends StatelessWidget {
               ),
             )
             .toList(),
-        onChanged: (Token? t) => t == null ? ignore : onTokenChanged(t),
+        onChanged: (t) => t == null ? ignore : onTap(),
         selectedItemBuilder: (context) => availableTokens
             .map(
               (t) => Padding(
@@ -258,9 +258,6 @@ class _TokenDropDown extends StatelessWidget {
               ),
             )
             .toList(),
-        // InkWell(
-        //   onTap: onTokenChanged,
-        //   child:
       ),
     );
   }
@@ -269,20 +266,20 @@ class _TokenDropDown extends StatelessWidget {
 class _Header extends StatelessWidget {
   const _Header({
     Key? key,
-    required this.inputController,
+    required this.displayAmount,
   }) : super(key: key);
 
-  final TextEditingController inputController;
+  final String displayAmount;
 
   @override
   Widget build(BuildContext context) {
-    final displayAmount = inputController.text.formatted(context);
+    final formatted = displayAmount.formatted(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: FittedBox(
         child: Text(
-          displayAmount,
+          formatted,
           maxLines: 1,
           style: const TextStyle(
             fontSize: 80,
@@ -301,19 +298,19 @@ class _Equivalent extends StatelessWidget {
     required this.inputAmount,
     required this.displayAmount,
     required this.outputAmount,
-    required this.loading,
+    required this.isLoadingRoute,
   }) : super(key: key);
 
   final CryptoAmount inputAmount;
   final CryptoAmount displayAmount;
   final CryptoAmount outputAmount;
-  final bool loading;
+  final bool isLoadingRoute;
 
   @override
   Widget build(BuildContext context) {
     Widget content;
-    if (loading) {
-      content = const _Loading();
+    if (isLoadingRoute) {
+      content = const _isLoadingRoute();
     } else if (inputAmount.value == 0) {
       content = const SizedBox.shrink();
     } else {
@@ -348,8 +345,8 @@ const _descriptionStyle = TextStyle(
   color: CpColors.greyDarkAccentColor,
 );
 
-class _Loading extends StatelessWidget {
-  const _Loading({Key? key}) : super(key: key);
+class _isLoadingRoute extends StatelessWidget {
+  const _isLoadingRoute({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => const SizedBox.square(

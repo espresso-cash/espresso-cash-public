@@ -64,12 +64,13 @@ extension CreateSwapExt on CreateSwapState {
   }
 
   CryptoAmount get fee {
-    const baseFee = lamportsPerSignature + tokenProgramRent;
+    final routeFee = bestRoute?.fees;
+    const zeroFee = CryptoAmount(value: 0, currency: Currency.sol);
 
-    // Base fee for the transaction multiplied by 3 since it's the max of
-    // transactions that might happen
-    final fee = input == Token.sol ? baseFee * 3 : baseFee;
+    if (routeFee == null) return zeroFee;
 
-    return CryptoAmount(value: fee, currency: Currency.sol);
+    return zeroFee.copyWith(
+      value: routeFee.totalFeeAndDeposits.toInt(),
+    );
   }
 }

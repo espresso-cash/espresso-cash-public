@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:cryptoplease/config.dart';
+import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/flow.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -27,13 +28,17 @@ typedef _Emitter = Emitter<_State>;
 
 class CreateSwapBloc extends Bloc<_Event, _State> {
   CreateSwapBloc({
-    required JupiterRepository jupiterRepository,
     required Token input,
     required Token output,
     required Decimal initialSlippage,
-    required Map<Token, Amount> balances,
     required SwapOperation swapOperation,
+    required MyAccount myAccount,
+    required Map<Token, Amount> balances,
+    required JupiterRepository jupiterRepository,
+    required AnalyticsManager analyticsManager,
   })  : _jupiterRepository = jupiterRepository,
+        _myAccount = myAccount,
+        _analyticsManager = analyticsManager,
         _balances = balances.lock.add(
           Token.wrappedSol,
           balances[Token.sol] ??
@@ -72,7 +77,9 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   }
 
   final JupiterRepository _jupiterRepository;
+  final AnalyticsManager _analyticsManager;
   final Balances _balances;
+  final MyAccount _myAccount;
 
   bool isValidInput(Token token, Balances balances) =>
       balances.isPositive(token);
@@ -94,70 +101,6 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       emit(
         state.copyWith(
           flowState: Flow.failure(e),
-        ),
-      );
-    }
-  }
-
-  Future<void> _onRouteInvalidated(RouteInvalidated _, _Emitter emit) async {
-    final amount = state.requestAmount;
-
-    if (amount.value == 0) {
-      emit(
-        state.copyWith(
-          bestRoute: null,
-          inputAmount: state.inputAmount.copyWith(value: 0),
-          outputAmount: state.outputAmount.copyWith(value: 0),
-        ),
-      );
-
-      return;
-    }
-
-    emit(state.copyWith(flowState: const Flow.processing()));
-
-    try {
-      final bestRoute = await _jupiterRepository.bestRoute(
-        amount: amount,
-        inputToken: state.input,
-        outputToken: state.output,
-        slippage: state.slippage,
-      );
-
-      final outputAmount = state.editingMode.map(
-        input: (_) => state.outputAmount,
-        output: (_) => state.outputAmount.copyWith(
-          value: bestRoute.outAmount,
-        ),
-      );
-
-      final inputAmount = state.editingMode.map(
-        input: (_) => state.inputAmount,
-        output: (_) => state.inputAmount.copyWith(
-          value: bestRoute.inAmount,
-        ),
-      );
-
-      emit(
-        state.copyWith(
-          bestRoute: bestRoute,
-          outputAmount: outputAmount,
-          inputAmount: inputAmount,
-          flowState: const Flow.initial(),
-        ),
-      );
-    } on SwapException catch (e) {
-      emit(
-        state.copyWith(
-          flowState: Flow.failure(e),
-          bestRoute: null,
-        ),
-      );
-    } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          flowState: Flow.failure(SwapException.other(e)),
-          bestRoute: null,
         ),
       );
     }
@@ -197,25 +140,96 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
-    // state.validate(_balances).fold(
-    //   (e) {
-    //     emit(state.copyWith(flowState: Flow.failure(e)));
-    //     emit(state.copyWith(flowState: const Flow.initial()));
-    //   },
-    //   (s) {
-    // _analyticsManager.swapTransactionCreated(
-    //   from: state.input.symbol,
-    //   to: state.output.symbol,
-    //   amount: state.inputAmount.value,
-    // );
-    emit(
-      state.copyWith(
-        // flowState: Flow.success(s),
-        flowState: Flow.success(state.bestRoute!),
-      ),
+    state.validate(_balances).fold(
+      (e) {
+        emit(state.copyWith(flowState: Flow.failure(e)));
+        emit(state.copyWith(flowState: const Flow.initial()));
+      },
+      (s) {
+        _analyticsManager.swapTransactionCreated(
+          from: state.input.symbol,
+          to: state.output.symbol,
+          amount: state.inputAmount.value,
+        );
+        emit(
+          state.copyWith(
+            flowState: Flow.success(s),
+          ),
+        );
+      },
     );
-    // },
-    // );
+  }
+
+  Future<void> _onRouteInvalidated(RouteInvalidated _, _Emitter emit) async {
+    final amount = state.requestAmount;
+
+    if (amount.value == 0) {
+      emit(
+        state.copyWith(
+          bestRoute: null,
+          inputAmount: state.inputAmount.copyWith(value: 0),
+          outputAmount: state.outputAmount.copyWith(value: 0),
+        ),
+      );
+
+      return;
+    }
+
+    emit(state.copyWith(flowState: const Flow.processing()));
+
+    try {
+      final routes = await _jupiterRepository.findRoutes(
+        amount: amount,
+        inputToken: state.input,
+        outputToken: state.output,
+        slippage: state.slippage,
+        userPublickKey: _myAccount.address,
+      );
+
+      if (routes.isEmpty) throw const SwapException.routeNotFound();
+
+      final bestRoute = state.editingMode.map(
+        input: (_) => routes.first,
+        output: (_) => routes.last,
+      );
+
+      final outputAmount = state.editingMode.map(
+        input: (_) => state.outputAmount,
+        output: (_) => state.outputAmount.copyWith(
+          value: int.parse(bestRoute.outAmount),
+        ),
+      );
+
+      final inputAmount = state.editingMode.map(
+        input: (_) => state.inputAmount,
+        output: (_) => state.inputAmount.copyWith(
+          value: int.parse(bestRoute.inAmount),
+        ),
+      );
+
+      emit(
+        state.copyWith(
+          bestRoute: bestRoute,
+          outputAmount: outputAmount,
+          inputAmount: inputAmount,
+          flowState: const Flow.initial(),
+        ),
+      );
+    } on SwapException catch (e) {
+      emit(
+        state.copyWith(
+          flowState: Flow.failure(e),
+          bestRoute: null,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          flowState: Flow.failure(SwapException.other(e)),
+          bestRoute: null,
+        ),
+      );
+    }
   }
 
   Future<void> _updateRoute(
