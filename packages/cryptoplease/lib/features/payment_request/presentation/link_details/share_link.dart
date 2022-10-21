@@ -53,9 +53,12 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
       textSpan: TextSpan(
         children: [
           WidgetSpan(
-            child: ShareMessageHeader(amount: amount),
+            child: ShareMessageHeader(
+              intro: context.l10n.sharePaymentRequestLinkIntro,
+              amount: amount,
+            ),
           ),
-          _newLine,
+          const WidgetSpan(child: _Instructions()),
           WidgetSpan(child: _Links(link: request.dynamicLink)),
         ],
       ),
@@ -86,6 +89,22 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class _Instructions extends StatelessWidget {
+  const _Instructions({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Text.rich(
+        TextSpan(
+          children: [
+            _newLine,
+            TextSpan(text: context.l10n.sharePaymentRequestLinkInstructions),
+            _newLine,
+          ],
+          style: const TextStyle(fontSize: 18),
+        ),
+      );
 }
 
 class _Links extends StatelessWidget {
