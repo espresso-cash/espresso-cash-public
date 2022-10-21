@@ -25,7 +25,6 @@ class _ShareMessageWrapperState extends State<ShareMessageWrapper> {
   @override
   Widget build(BuildContext context) => CpRoundedRectangle(
         margin: const EdgeInsets.symmetric(vertical: 24),
-        // padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 4),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 32,
