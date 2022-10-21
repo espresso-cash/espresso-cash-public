@@ -75,11 +75,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                             emptyWidget: const StableCoinEmptyWidget(),
                           ),
                           BalanceListWidget(
-                            tokens: [
-                              ...state.userTokens,
-                              ...state.userTokens,
-                              ...state.userTokens
-                            ],
+                            tokens: state.userTokens,
                             isLoading: isLoading,
                             emptyWidget: CpEmptyMessageWidget(
                               message: context.l10n.noDataPullToRefresh,
