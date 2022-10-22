@@ -12,6 +12,7 @@ import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_flow_s
 import 'package:cryptoplease/features/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/features/app_lock/presentation/routes.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/routes.dart';
+import 'package:cryptoplease/features/cash_out/routes.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/legal/legal_document_view.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
@@ -39,6 +40,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<QrScannerRequest>(page: QrScannerScreen),
     ...receiveFlowRoutes,
     ...addFundsRoutes,
+    ...cashOutRoutes,
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),

@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/features/add_funds/presentation/flow.dart';
+import 'package:cryptoplease/features/cash_out/flow.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -14,7 +15,6 @@ import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/icon_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MenuHeader extends StatelessWidget {
   const MenuHeader({
@@ -53,13 +53,8 @@ class MenuHeader extends StatelessWidget {
           ),
           const _TokenDisplay(token: token),
           _Buttons(
-            onAddCash: () => context.router.navigate(
-              AddFundsRoute(
-                wallet: context.read<MyAccount>().wallet,
-                token: Token.usdc,
-              ),
-            ),
-            onCashOut: () => context.router.navigate(const CashOutRoute()),
+            onAddCash: () => context.navigateToAddCash(),
+            onCashOut: () => context.navigateToCashOut(),
           ),
         ],
       ),

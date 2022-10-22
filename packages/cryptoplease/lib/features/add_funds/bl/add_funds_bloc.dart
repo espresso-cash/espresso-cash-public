@@ -13,8 +13,8 @@ part 'add_funds_bloc.freezed.dart';
 @injectable
 class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
   AddFundsBloc({
-    required Token token,
-    required Wallet wallet,
+    @factoryParam required Token token,
+    @factoryParam required Wallet wallet,
     required AddFundsRepository repository,
   })  : _repository = repository,
         _wallet = wallet,
