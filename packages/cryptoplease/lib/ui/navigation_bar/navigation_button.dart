@@ -30,7 +30,6 @@ class CpNavigationButton extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               icon.svg(
-                height: 24,
                 color: active ? CpColors.yellowColor : Colors.white,
               ),
               if (badge != null && badge > 0)
