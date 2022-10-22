@@ -1,18 +1,19 @@
-import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 class ShareMessageHeader extends StatelessWidget {
   const ShareMessageHeader({
     Key? key,
+    required this.intro,
     required this.amount,
   }) : super(key: key);
 
+  final String intro;
   final String amount;
 
   @override
   Widget build(BuildContext context) => Text.rich(
         TextSpan(
-          text: context.l10n.shareIntroFt,
+          text: intro,
           children: [
             TextSpan(
               text: amount,
