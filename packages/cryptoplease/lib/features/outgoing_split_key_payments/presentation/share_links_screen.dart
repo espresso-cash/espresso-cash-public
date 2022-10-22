@@ -36,7 +36,10 @@ class ShareLinksScreen extends StatelessWidget {
       textSpan: TextSpan(
         children: [
           WidgetSpan(
-            child: ShareMessageHeader(amount: formattedAmount),
+            child: ShareMessageHeader(
+              intro: context.l10n.shareIntroFt,
+              amount: formattedAmount,
+            ),
           ),
           const WidgetSpan(child: _Instructions()),
           WidgetSpan(
