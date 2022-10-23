@@ -72,31 +72,30 @@ class _BalanceListState extends State<_BalanceList> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _tabController?.removeListener(_handleTabUpdate);
-    _tabController = DefaultTabController.of(context);
-    _tabController?.addListener(_handleTabUpdate);
-    _handleTabUpdate();
+    _tabController = DefaultTabController.of(context)
+      ?..addListener(_handleTabUpdate);
+    _updateItems();
   }
 
   @override
   void didUpdateWidget(covariant _BalanceList oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.tokens != widget.tokens) {
-      _handleTabUpdate();
+      _updateItems();
     }
   }
 
-  void _handleTabUpdate() {
-    final tab = _tabController?.index ?? 0;
+  void _handleTabUpdate() => setState(_updateItems);
 
-    setState(() {
-      _items = [
-        for (final token in widget.tokens)
-          if (tab == 0 && !token.isStablecoin ||
-              tab == 1 && token.isStablecoin ||
-              tab == 2)
-            _BalanceItem(token: token),
-      ];
-    });
+  void _updateItems() {
+    final tab = _tabController?.index ?? 0;
+    _items = [
+      for (final token in widget.tokens)
+        if (tab == 0 && !token.isStablecoin ||
+            tab == 1 && token.isStablecoin ||
+            tab == 2)
+          _BalanceItem(token: token),
+    ];
   }
 
   @override
