@@ -1,3 +1,6 @@
+import 'package:cryptoplease/di.dart';
+import 'package:cryptoplease/storybook/stories/app/investments/popular_crypto_header.dart';
+import 'package:cryptoplease/storybook/stories/app/investments/portfolio_widget.dart';
 import 'package:cryptoplease/storybook/stories/app/wallet_main_screen.dart';
 import 'package:cryptoplease/storybook/stories/app_bar.dart';
 import 'package:cryptoplease/storybook/stories/background_gradient.dart';
@@ -23,7 +26,9 @@ import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
   runApp(const StorybookApp());
 }
 
@@ -56,6 +61,8 @@ class StorybookApp extends StatelessWidget {
         ),
         stories: [
           appWalletMainScreen,
+          appPopularCryptoHeader,
+          appPortfolioWidget,
           cpAppBar,
           cpBackgroundGradient,
           cpBottomButton,

@@ -57,6 +57,7 @@ dependencies:
   sentry_flutter: ^6.9.1
   share: ^2.0.4
   shared_preferences: ^2.0.15
+  sliver_tools: ^0.2.8
   solana:
     path: ../solana/
   sqlite3_flutter_libs: ^0.5.10
