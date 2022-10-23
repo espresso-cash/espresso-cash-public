@@ -264,5 +264,16 @@
   "all": "All",
   "myPortfolio": "MY PORTFOLIO",
   "requestOrSendPayment": "Request or send a payment",
-  "noActivity": "No activity yet!"
+  "noActivity": "No activity yet!",
+  "activityDate": "On {date} at {time}",
+  "@activityDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }
