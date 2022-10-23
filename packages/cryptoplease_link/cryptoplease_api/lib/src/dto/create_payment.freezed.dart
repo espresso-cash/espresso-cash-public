@@ -693,6 +693,7 @@ CreateDirectPaymentRequestDto _$CreateDirectPaymentRequestDtoFromJson(
 mixin _$CreateDirectPaymentRequestDto {
   String get senderAccount => throw _privateConstructorUsedError;
   String get receiverAccount => throw _privateConstructorUsedError;
+  String? get referenceAccount => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
   Cluster get cluster => throw _privateConstructorUsedError;
 
@@ -711,6 +712,7 @@ abstract class $CreateDirectPaymentRequestDtoCopyWith<$Res> {
   $Res call(
       {String senderAccount,
       String receiverAccount,
+      String? referenceAccount,
       int amount,
       Cluster cluster});
 }
@@ -728,6 +730,7 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
   $Res call({
     Object? senderAccount = freezed,
     Object? receiverAccount = freezed,
+    Object? referenceAccount = freezed,
     Object? amount = freezed,
     Object? cluster = freezed,
   }) {
@@ -740,6 +743,10 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
           ? _value.receiverAccount
           : receiverAccount // ignore: cast_nullable_to_non_nullable
               as String,
+      referenceAccount: referenceAccount == freezed
+          ? _value.referenceAccount
+          : referenceAccount // ignore: cast_nullable_to_non_nullable
+              as String?,
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -763,6 +770,7 @@ abstract class _$$_CreateDirectPaymentRequestDtoCopyWith<$Res>
   $Res call(
       {String senderAccount,
       String receiverAccount,
+      String? referenceAccount,
       int amount,
       Cluster cluster});
 }
@@ -784,6 +792,7 @@ class __$$_CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
   $Res call({
     Object? senderAccount = freezed,
     Object? receiverAccount = freezed,
+    Object? referenceAccount = freezed,
     Object? amount = freezed,
     Object? cluster = freezed,
   }) {
@@ -796,6 +805,10 @@ class __$$_CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
           ? _value.receiverAccount
           : receiverAccount // ignore: cast_nullable_to_non_nullable
               as String,
+      referenceAccount: referenceAccount == freezed
+          ? _value.referenceAccount
+          : referenceAccount // ignore: cast_nullable_to_non_nullable
+              as String?,
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -815,6 +828,7 @@ class _$_CreateDirectPaymentRequestDto
   const _$_CreateDirectPaymentRequestDto(
       {required this.senderAccount,
       required this.receiverAccount,
+      required this.referenceAccount,
       required this.amount,
       required this.cluster});
 
@@ -827,13 +841,15 @@ class _$_CreateDirectPaymentRequestDto
   @override
   final String receiverAccount;
   @override
+  final String? referenceAccount;
+  @override
   final int amount;
   @override
   final Cluster cluster;
 
   @override
   String toString() {
-    return 'CreateDirectPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, amount: $amount, cluster: $cluster)';
+    return 'CreateDirectPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, referenceAccount: $referenceAccount, amount: $amount, cluster: $cluster)';
   }
 
   @override
@@ -845,6 +861,8 @@ class _$_CreateDirectPaymentRequestDto
                 .equals(other.senderAccount, senderAccount) &&
             const DeepCollectionEquality()
                 .equals(other.receiverAccount, receiverAccount) &&
+            const DeepCollectionEquality()
+                .equals(other.referenceAccount, referenceAccount) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
             const DeepCollectionEquality().equals(other.cluster, cluster));
   }
@@ -855,6 +873,7 @@ class _$_CreateDirectPaymentRequestDto
       runtimeType,
       const DeepCollectionEquality().hash(senderAccount),
       const DeepCollectionEquality().hash(receiverAccount),
+      const DeepCollectionEquality().hash(referenceAccount),
       const DeepCollectionEquality().hash(amount),
       const DeepCollectionEquality().hash(cluster));
 
@@ -877,6 +896,7 @@ abstract class _CreateDirectPaymentRequestDto
   const factory _CreateDirectPaymentRequestDto(
       {required final String senderAccount,
       required final String receiverAccount,
+      required final String? referenceAccount,
       required final int amount,
       required final Cluster cluster}) = _$_CreateDirectPaymentRequestDto;
 
@@ -887,6 +907,8 @@ abstract class _CreateDirectPaymentRequestDto
   String get senderAccount;
   @override
   String get receiverAccount;
+  @override
+  String? get referenceAccount;
   @override
   int get amount;
   @override

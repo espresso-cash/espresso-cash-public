@@ -43,9 +43,18 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                   final item = snapshot.data![i];
 
                   return item.map(
-                    outgoingPaymentRequest: (p) => PaymentRequestTile(id: p.id),
-                    outgoingDirectPayment: (p) => ODPTile(activity: p),
-                    outgoingSplitKeyPayment: (item) => OSKPTile(activity: item),
+                    outgoingPaymentRequest: (p) => PaymentRequestTile(
+                      key: ValueKey(p.id),
+                      id: p.id,
+                    ),
+                    outgoingDirectPayment: (p) => ODPTile(
+                      key: ValueKey(p.id),
+                      activity: p,
+                    ),
+                    outgoingSplitKeyPayment: (p) => OSKPTile(
+                      key: ValueKey(p.id),
+                      activity: p,
+                    ),
                   );
                 },
                 itemCount: snapshot.data?.length ?? 0,

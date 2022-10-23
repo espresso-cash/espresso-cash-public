@@ -74,6 +74,7 @@ _$_CreateDirectPaymentRequestDto _$$_CreateDirectPaymentRequestDtoFromJson(
     _$_CreateDirectPaymentRequestDto(
       senderAccount: json['senderAccount'] as String,
       receiverAccount: json['receiverAccount'] as String,
+      referenceAccount: json['referenceAccount'] as String?,
       amount: json['amount'] as int,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
     );
@@ -83,6 +84,7 @@ Map<String, dynamic> _$$_CreateDirectPaymentRequestDtoToJson(
     <String, dynamic>{
       'senderAccount': instance.senderAccount,
       'receiverAccount': instance.receiverAccount,
+      'referenceAccount': instance.referenceAccount,
       'amount': instance.amount,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
     };

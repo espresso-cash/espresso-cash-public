@@ -38,7 +38,7 @@ class PendingActivitiesRepository {
         .map((rows) => rows.map((r) => r.toPendingActivity(_tokens)))
         .asyncMap(Future.wait);
 
-    return Rx.zip3<_L, _L, _L, IList<PendingActivity>>(
+    return Rx.combineLatest3<_L, _L, _L, IList<PendingActivity>>(
       oprStream,
       odpStream,
       oskpStream,
