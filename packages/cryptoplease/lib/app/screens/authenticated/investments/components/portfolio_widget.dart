@@ -88,15 +88,15 @@ class _BalanceListState extends State<_BalanceList> {
   void _handleTabUpdate() {
     final tab = _tabController?.index ?? 0;
 
-    _items = [
-      for (final token in widget.tokens)
-        if (tab == 0 && !token.isStablecoin ||
-            tab == 1 && token.isStablecoin ||
-            tab == 2)
-          _BalanceItem(token: token),
-    ];
-
-    setState(() {});
+    setState(() {
+      _items = [
+        for (final token in widget.tokens)
+          if (tab == 0 && !token.isStablecoin ||
+              tab == 1 && token.isStablecoin ||
+              tab == 2)
+            _BalanceItem(token: token),
+      ];
+    });
   }
 
   @override
