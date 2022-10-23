@@ -7,7 +7,6 @@ import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/button.dart';
@@ -68,15 +67,6 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           final isProcessing = payment != null &&
               context.watch<OSKPBloc>().state.contains(payment.id);
-
-          final SvgGenImage logo = payment?.status.mapOrNull(
-                success: always(Assets.icons.logoBgGreen),
-                txFailure: always(Assets.icons.logoBgRed),
-                txSendFailure: always(Assets.icons.logoBgRed),
-                txWaitFailure: always(Assets.icons.logoBgRed),
-                txLinksFailure: always(Assets.icons.logoBgRed),
-              ) ??
-              Assets.icons.logoBgOrange;
 
           final CpStatusType statusType = isProcessing
               ? CpStatusType.info
@@ -162,7 +152,6 @@ class _OSKPScreenState extends State<OSKPScreen> {
             onBackButtonPressed: () => context.router.pop(),
             title: context.l10n.splitKeyTransferTitle,
             statusType: statusType,
-            backgroundImage: logo.svg(alignment: Alignment.bottomCenter),
             statusTitle: statusTitle?.let(Text.new),
             statusContent: Text(statusContent),
             content: CpContentPadding(

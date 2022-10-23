@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/status_screen.dart';
@@ -23,8 +22,6 @@ class TransferError extends StatelessWidget {
           '${context.l10n.splitKeyErrorMessage2} ${context.l10n.splitKeyErrorRetry}',
         ),
         statusType: CpStatusType.error,
-        backgroundImage:
-            Assets.icons.logoBgRed.svg(alignment: Alignment.bottomCenter),
         content: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
