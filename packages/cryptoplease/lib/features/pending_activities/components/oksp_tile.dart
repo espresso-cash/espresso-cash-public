@@ -31,7 +31,7 @@ class OSKPTile extends StatelessWidget {
           ],
         ),
         subtitle: Text(activity.created.toString(), style: subtitleStyle),
-        leading: Assets.icons.oskpActivitySent.svg(),
+        leading: Assets.icons.outgoing.svg(),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );
 }
