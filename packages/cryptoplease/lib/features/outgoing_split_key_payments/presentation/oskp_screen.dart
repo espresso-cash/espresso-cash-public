@@ -161,14 +161,13 @@ class _OSKPScreenState extends State<OSKPScreen> {
             content: CpContentPadding(
               child: Column(
                 children: [
-                  const SizedBox(height: 60),
-                  Expanded(
-                    child: CpTimeline(
-                      status: timelineStatus,
-                      items: items,
-                      active: activeItem,
-                    ),
+                  const Spacer(flex: 1),
+                  CpTimeline(
+                    status: timelineStatus,
+                    items: items,
+                    active: activeItem,
                   ),
+                  const Spacer(flex: 4),
                   if (payment != null && payment.shouldRetry)
                     CpButton(
                       size: CpButtonSize.big,
@@ -195,7 +194,6 @@ class _OSKPScreenState extends State<OSKPScreen> {
                           ],
                         ) ??
                         [],
-                  const SizedBox(height: 60),
                 ],
               ),
             ),
