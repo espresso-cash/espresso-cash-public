@@ -6,10 +6,11 @@ import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/token_icon.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-final popularTokenList = <Token>[
+final _popularTokenList = <Token>[
   Token.sol,
 ];
 
@@ -19,7 +20,7 @@ class PopularTokenList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SliverList(
         delegate: SliverChildListDelegate(
-          popularTokenList.map(_TokenItem.new).toList(),
+          _popularTokenList.map(_TokenItem.new).toList(),
         ),
       );
 }
@@ -31,18 +32,10 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-
-    final conversionRate =
-        context.watchConversionRate(from: token, to: fiatCurrency);
-
-    Amount? tokenRate;
-
-    if (conversionRate != null) {
-      tokenRate =
-          Amount.fromDecimal(value: conversionRate, currency: fiatCurrency);
-    }
+    final Amount? tokenRate = context
+        .watchConversionRate(from: token, to: fiatCurrency)
+        ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),

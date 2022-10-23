@@ -10,7 +10,6 @@ import 'package:cryptoplease/storybook/stories/button.dart';
 import 'package:cryptoplease/storybook/stories/chip.dart';
 import 'package:cryptoplease/storybook/stories/content_padding.dart';
 import 'package:cryptoplease/storybook/stories/empty_message_widget.dart';
-import 'package:cryptoplease/storybook/stories/headered_list.dart';
 import 'package:cryptoplease/storybook/stories/icon_button.dart';
 import 'package:cryptoplease/storybook/stories/info_widget.dart';
 import 'package:cryptoplease/storybook/stories/loader.dart';
@@ -71,7 +70,6 @@ class StorybookApp extends StatelessWidget {
           cpChip,
           cpContentPadding,
           cpEmptyMessageWidget,
-          cpHeaderedList,
           cpIconButton,
           cpInfoWidget,
           cpLoader,
