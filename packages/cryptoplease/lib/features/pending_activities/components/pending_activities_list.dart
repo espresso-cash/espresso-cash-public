@@ -1,11 +1,10 @@
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/pending_activities/components/no_activity.dart';
+import 'package:cryptoplease/features/pending_activities/components/odp_tile.dart';
 import 'package:cryptoplease/features/pending_activities/components/oksp_tile.dart';
 import 'package:cryptoplease/features/pending_activities/components/payment_request_tile.dart';
-import 'package:cryptoplease/features/pending_activities/components/styles.dart';
 import 'package:cryptoplease/features/pending_activities/pending_activities_repository.dart';
 import 'package:cryptoplease/features/pending_activities/pending_activity.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 
@@ -45,15 +44,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
 
                   return item.map(
                     outgoingPaymentRequest: (p) => PaymentRequestTile(id: p.id),
-                    outgoingDirectPayment: (p) => ListTile(
-                      title: const Text('Direct payment', style: titleStyle),
-                      subtitle:
-                          Text(p.created.toString(), style: subtitleStyle),
-                      leading: CircleAvatar(
-                        radius: 21,
-                        child: Assets.icons.outgoing.svg(),
-                      ),
-                    ),
+                    outgoingDirectPayment: (p) => ODPTile(activity: p),
                     outgoingSplitKeyPayment: (item) => OSKPTile(activity: item),
                   );
                 },

@@ -55,7 +55,7 @@ enum ODPStatusDto {
   txWaitFailure,
 }
 
-extension on ODPRow {
+extension ODPRowExt on ODPRow {
   OutgoingDirectPayment toModel(TokenList tokens) => OutgoingDirectPayment(
         id: id,
         receiver: Ed25519HDPublicKey.fromBase58(receiver),
