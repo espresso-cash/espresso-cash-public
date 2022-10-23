@@ -66,6 +66,9 @@ class _OSKPScreenState extends State<OSKPScreen> {
           final payment = snapshot.data;
           final locale = DeviceLocale.localeOf(context);
 
+          final isProcessing = payment != null &&
+              context.watch<OSKPBloc>().state.contains(payment.id);
+
           final SvgGenImage logo = payment?.status.mapOrNull(
                 success: always(Assets.icons.logoBgGreen),
                 txFailure: always(Assets.icons.logoBgRed),
@@ -75,14 +78,16 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ) ??
               Assets.icons.logoBgOrange;
 
-          final CpStatusType statusType = payment?.status.mapOrNull(
-                success: always(CpStatusType.success),
-                txFailure: always(CpStatusType.error),
-                txSendFailure: always(CpStatusType.error),
-                txWaitFailure: always(CpStatusType.error),
-                txLinksFailure: always(CpStatusType.error),
-              ) ??
-              CpStatusType.info;
+          final CpStatusType statusType = isProcessing
+              ? CpStatusType.info
+              : payment?.status.mapOrNull(
+                    success: always(CpStatusType.success),
+                    txFailure: always(CpStatusType.error),
+                    txSendFailure: always(CpStatusType.error),
+                    txWaitFailure: always(CpStatusType.error),
+                    txLinksFailure: always(CpStatusType.error),
+                  ) ??
+                  CpStatusType.info;
 
           final String? statusTitle = payment?.status.mapOrNull(
             success: always(context.l10n.splitKeySuccessMessage1),
@@ -103,14 +108,16 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   ),
                 );
 
-          final CpTimelineStatus timelineStatus = payment?.status.mapOrNull(
-                success: always(CpTimelineStatus.success),
-                txFailure: always(CpTimelineStatus.failure),
-                txSendFailure: always(CpTimelineStatus.failure),
-                txWaitFailure: always(CpTimelineStatus.failure),
-                txLinksFailure: always(CpTimelineStatus.failure),
-              ) ??
-              CpTimelineStatus.inProgress;
+          final CpTimelineStatus timelineStatus = isProcessing
+              ? CpTimelineStatus.inProgress
+              : payment?.status.mapOrNull(
+                    success: always(CpTimelineStatus.success),
+                    txFailure: always(CpTimelineStatus.failure),
+                    txSendFailure: always(CpTimelineStatus.failure),
+                    txWaitFailure: always(CpTimelineStatus.failure),
+                    txLinksFailure: always(CpTimelineStatus.failure),
+                  ) ??
+                  CpTimelineStatus.inProgress;
 
           final int activeItem = payment?.status.mapOrNull(
                 success: always(2),
@@ -173,9 +180,11 @@ class _OSKPScreenState extends State<OSKPScreen> {
                       size: CpButtonSize.big,
                       width: double.infinity,
                       text: context.l10n.retry,
-                      onPressed: () => context
-                          .read<OSKPBloc>()
-                          .add(OSKPEvent.process(payment.id)),
+                      onPressed: isProcessing
+                          ? null
+                          : () => context
+                              .read<OSKPBloc>()
+                              .add(OSKPEvent.process(payment.id)),
                     ),
                   if (payment != null)
                     ...payment.status.mapOrNull(
