@@ -29,6 +29,7 @@ void main() {
     final payment = await createDirectPayment(
       aSender: sender.publicKey,
       aReceiver: receiver.publicKey,
+      aReference: null,
       mint: mint,
       amount: transferAmount,
       platform: platform,
@@ -87,6 +88,7 @@ void main() {
     final payment = await createDirectPayment(
       aSender: sender.publicKey,
       aReceiver: receiver.publicKey,
+      aReference: null,
       mint: mint,
       amount: transferAmount,
       platform: platform,

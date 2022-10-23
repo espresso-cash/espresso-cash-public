@@ -39,9 +39,18 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                     floating: false,
                     elevation: 0,
                     backgroundColor: Colors.white,
-                    expandedHeight: 200,
-                    collapsedHeight: 100,
-                    flexibleSpace: const TotalBalanceWidget(),
+                    expandedHeight: MediaQuery.of(context).padding.top +
+                        kToolbarHeight +
+                        100,
+                    collapsedHeight: kToolbarHeight + 40,
+                    flexibleSpace: Padding(
+                      padding: EdgeInsets.only(
+                        top:
+                            MediaQuery.of(context).padding.top + kToolbarHeight,
+                        bottom: 16,
+                      ),
+                      child: const TotalBalanceWidget(),
+                    ),
                   ),
                   SliverPadding(
                     padding: const EdgeInsets.only(left: 24, right: 24),

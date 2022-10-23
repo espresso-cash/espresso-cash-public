@@ -73,7 +73,7 @@
   "splitKeyErrorMessage1": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyErrorRetry": "Please retry.",
-  "splitKeyProgressOngoing" : "Sending {amount} using secure links...",
+  "splitKeyProgressOngoing": "Sending {amount} using secure links...",
   "@splitKeyProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -81,11 +81,11 @@
       }
     }
   },
-  "splitKeyProgressCreated" : "Links are created",
-  "splitKeyProgressWaiting" : "Waiting for the receiver to withdraw the funds",
-  "splitKeyProgressWithdrawn" : "Funds are withdrawn",
-  "splitKeyProgressSuccess" : "Money has been successfully received",
-  "resendLink" : "Resend Links",
+  "splitKeyProgressCreated": "Links are created",
+  "splitKeyProgressWaiting": "Waiting for the receiver to withdraw the funds",
+  "splitKeyProgressWithdrawn": "Funds are withdrawn",
+  "splitKeyProgressSuccess": "Money has been successfully received",
+  "resendLink": "Resend Links",
   "buy": "Buy",
   "paymentRequestInitialNotificationTitle": "You requested {amount} from {payer}",
   "@paymentRequestInitialNotificationTitle": {
@@ -259,8 +259,21 @@
   "yourLinkIsReady": "Your link is ready",
   "sendAs": "Send as",
   "investments": "INVESTMENTS",
-  "popularCryptoTitle" : "Popular Crypto",
-  "popularCryptoSubtitle" : "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
+  "popularCryptoTitle": "Popular Crypto",
+  "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
   "all": "All",
-  "myPortfolio": "MY PORTFOLIO"
+  "myPortfolio": "MY PORTFOLIO",
+  "requestOrSendPayment": "Request or send a payment",
+  "noActivity": "No activity yet!",
+  "activityDate": "On {date} at {time}",
+  "@activityDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }

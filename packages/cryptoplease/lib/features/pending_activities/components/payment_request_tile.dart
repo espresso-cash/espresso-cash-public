@@ -1,4 +1,5 @@
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/core/presentation/format_date.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request_verifier/bloc.dart';
@@ -90,7 +91,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
               ),
               title: Text(title(), style: titleStyle),
               subtitle: Text(
-                data.created.toString(),
+                context.formatDate(data.created),
                 style: subtitleStyle,
               ),
             ),

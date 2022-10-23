@@ -73,6 +73,7 @@ Future<void> main() async {
         ODPEvent.create(
           id: const Uuid().v4(),
           receiver: receiver.publicKey,
+          reference: null,
           amount: testAmount,
         ),
       );
@@ -102,6 +103,7 @@ Future<void> main() async {
         ODPEvent.create(
           id: const Uuid().v4(),
           receiver: receiver.publicKey,
+          reference: null,
           amount: testAmount,
         ),
       );

@@ -68,6 +68,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
     context.createAndOpenDirectPayment(
       amountInUsdc: confirmedAmount,
       receiver: request.recipient,
+      reference: request.reference?.firstOrNull,
     );
   }
 

@@ -33,6 +33,7 @@ class CpTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView.builder(
+        shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: items.length,
         itemBuilder: (context, index) {
