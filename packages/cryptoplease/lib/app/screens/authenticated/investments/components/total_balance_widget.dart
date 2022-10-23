@@ -16,18 +16,15 @@ class TotalBalanceWidget extends StatelessWidget {
     );
 
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(top: kToolbarHeight + 48, bottom: 16),
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            balance.format(DeviceLocale.localeOf(context)),
-            style: Theme.of(context).textTheme.headline2?.copyWith(
-                  fontSize: 57.5,
-                  fontWeight: FontWeight.w700,
-                  color: CpColors.menuPrimaryTextColor,
-                ),
-          ),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          balance.format(DeviceLocale.localeOf(context)),
+          style: Theme.of(context).textTheme.headline2?.copyWith(
+                fontSize: 57.5,
+                fontWeight: FontWeight.w700,
+                color: CpColors.menuPrimaryTextColor,
+              ),
         ),
       ),
     );
