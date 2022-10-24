@@ -1,6 +1,8 @@
 import 'package:cryptoplease/features/pending_activities/components/pending_activities_list.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/ui/tab_bar.dart';
 import 'package:flutter/material.dart' hide Notification;
 
@@ -43,8 +45,22 @@ class ActivitiesScreen extends StatelessWidget {
                   ),
                   _Wrapper(
                     // TODO(KB): Replace with TransactionsList
-                    child: PendingActivitiesList(
-                      padding: insets,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 44),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Spacer(),
+                            Assets.images.logoIcon.image(height: 101),
+                            const SizedBox(height: 21),
+                            const Text('Coming soon!'),
+                            const Spacer(),
+                            const SizedBox(height: cpNavigationBarheight),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],

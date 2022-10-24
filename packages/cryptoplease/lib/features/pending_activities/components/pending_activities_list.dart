@@ -33,31 +33,36 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
   @override
   Widget build(BuildContext context) => StreamBuilder<IList<PendingActivity>>(
         stream: _stream,
-        initialData: const IListConst([]),
-        builder: (context, snapshot) => snapshot.data?.isEmpty == true
-            ? const Center(child: NoActivity())
-            : ListView.builder(
-                padding: widget.padding,
-                itemBuilder: (context, i) {
-                  // ignore: avoid-non-null-assertion, cannot be null here
-                  final item = snapshot.data![i];
+        builder: (context, snapshot) {
+          final data = snapshot.data;
 
-                  return item.map(
-                    outgoingPaymentRequest: (p) => PaymentRequestTile(
-                      key: ValueKey(p.id),
-                      id: p.id,
-                    ),
-                    outgoingDirectPayment: (p) => ODPTile(
-                      key: ValueKey(p.id),
-                      activity: p,
-                    ),
-                    outgoingSplitKeyPayment: (p) => OSKPTile(
-                      key: ValueKey(p.id),
-                      activity: p,
-                    ),
-                  );
-                },
-                itemCount: snapshot.data?.length ?? 0,
-              ),
+          if (data == null) return const SizedBox.shrink();
+
+          return data.isEmpty
+              ? const Center(child: NoActivity())
+              : ListView.builder(
+                  padding: widget.padding,
+                  itemBuilder: (context, i) {
+                    // ignore: avoid-non-null-assertion, cannot be null here
+                    final item = snapshot.data![i];
+
+                    return item.map(
+                      outgoingPaymentRequest: (p) => PaymentRequestTile(
+                        key: ValueKey(p.id),
+                        id: p.id,
+                      ),
+                      outgoingDirectPayment: (p) => ODPTile(
+                        key: ValueKey(p.id),
+                        activity: p,
+                      ),
+                      outgoingSplitKeyPayment: (p) => OSKPTile(
+                        key: ValueKey(p.id),
+                        activity: p,
+                      ),
+                    );
+                  },
+                  itemCount: snapshot.data?.length ?? 0,
+                );
+        },
       );
 }
