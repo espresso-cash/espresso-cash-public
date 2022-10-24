@@ -1,4 +1,5 @@
 import 'package:cryptoplease/features/pending_activities/components/pending_activities_list.dart';
+import 'package:cryptoplease/features/transaction/components/transaction_activities_list.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/tab_bar.dart';
@@ -40,7 +41,7 @@ class ActivitiesScreen extends StatelessWidget {
                   ),
                   _Wrapper(
                     // TODO(KB): Replace with TransactionsList
-                    child: PendingActivitiesList(
+                    child: TransactionActivitiesList(
                       padding: insets,
                     ),
                   ),
