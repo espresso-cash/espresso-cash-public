@@ -1,3 +1,10 @@
+## 1.46.0
+
+ - **FIX**: share message wrapper layout (#548).
+ - **FIX**: nav bar icon size (#547).
+ - **FEAT**: add oskp verifier (#550).
+ - **FEAT**: coming soon label for transactions (#549).
+
 ## 1.45.0
 
  - **FIX**: NoActivity layout.
