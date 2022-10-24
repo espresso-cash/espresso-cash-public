@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/screens/authenticated/activities/activities_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/authenticated_flow_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/home_screen.dart';
-import 'package:cryptoplease/app/screens/authenticated/investments/investments_screen.dart';
+import 'package:cryptoplease/app/screens/authenticated/investments/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/edit_profile_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/help_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/menu_screen.dart';
@@ -28,7 +28,12 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
       children: [
         CustomRoute<void>(path: '', page: MenuScreen, maintainState: false),
         CustomRoute<void>(page: WalletFlowScreen, maintainState: false),
-        CustomRoute<void>(page: InvestmentsScreen, maintainState: false),
+        CustomRoute<void>(
+          name: 'InvestmentsRouter',
+          page: EmptyRouterScreen,
+          maintainState: false,
+          children: investmentRoutes,
+        ),
         CustomRoute<void>(page: ActivitiesScreen, maintainState: false),
       ],
     ),

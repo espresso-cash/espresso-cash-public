@@ -275,5 +275,18 @@
         "type": "String"
       }
     }
-  }
+  },
+  "marketCapRank": "Market Cap Rank",
+  "aboutTokenLabel": "About {name}",
+  "@aboutTokenLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "more" : "more",
+  "less" : "less",
+  "swap" : "Swap",
+  "send" : "Send"
 }

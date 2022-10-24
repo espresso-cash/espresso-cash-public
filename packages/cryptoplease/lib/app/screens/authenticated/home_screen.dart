@@ -52,7 +52,7 @@ final _pages = [
     icon: Assets.icons.wallet,
   ),
   _Page(
-    route: const InvestmentsRoute(),
+    route: const InvestmentsRouter(),
     overlayStyle: SystemUiOverlayStyle.light,
     icon: Assets.icons.investments,
   ),

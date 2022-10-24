@@ -19,6 +19,7 @@ import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:cryptoplease/ui/token_icon.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -83,16 +84,9 @@ class _Header extends StatelessWidget {
     final Amount? fiatAmount = context.watchUserFiatBalance(token);
 
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-
-    final conversionRate =
-        context.watchConversionRate(from: token, to: fiatCurrency);
-
-    Amount? tokenRate;
-
-    if (conversionRate != null) {
-      tokenRate =
-          Amount.fromDecimal(value: conversionRate, currency: fiatCurrency);
-    }
+    final Amount? tokenRate = context
+        .watchConversionRate(from: token, to: fiatCurrency)
+        ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
