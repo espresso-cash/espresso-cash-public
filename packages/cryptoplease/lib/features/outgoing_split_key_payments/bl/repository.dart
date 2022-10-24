@@ -35,6 +35,15 @@ class OSKPRepository {
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel(_tokens));
   }
 
+  Stream<List<OutgoingSplitKeyPayment>> watchWithReadyLinks() {
+    final query = _db.select(_db.oSKPRows)
+      ..where((p) => p.status.equalsValue(OSKPStatusDto.linksReady));
+
+    return query.watch().asyncMap(
+          (rows) => Future.wait(rows.map((row) => row.toModel(_tokens))),
+        );
+  }
+
   Future<void> clear() => _db.delete(_db.oSKPRows).go();
 }
 
