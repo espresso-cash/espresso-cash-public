@@ -3,7 +3,7 @@ import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_reposi
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
-import 'package:cryptoplease/features/transaction/bl/repository.dart';
+import 'package:cryptoplease/features/transaction/bl/transaction_retrieved_repository.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
@@ -26,7 +26,7 @@ const _tables = [
   ODPRows,
   OSKPRows,
   ISKPRows,
-  TransactionActivityRows,
+  TransactionRetrievedRows,
 ];
 
 @lazySingleton
@@ -70,7 +70,7 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oDPRows, oDPRows.reference);
           }
           if (from < 19) {
-            await m.createTable(transactionActivityRows);
+            await m.createTable(transactionRetrievedRows);
           }
         },
       );
