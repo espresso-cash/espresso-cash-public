@@ -83,6 +83,8 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
       await _solanaClient.validateSolanaPayTransaction(
         signature: id,
         recipient: _request.payRequest.recipient,
+        splToken: _request.payRequest.splToken,
+        reference: _request.payRequest.reference,
         amount: _request.payRequest.amount ?? Decimal.zero,
         commitment: Commitment.confirmed,
       );

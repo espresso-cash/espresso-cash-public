@@ -73,7 +73,7 @@
   "splitKeyErrorMessage1": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyErrorRetry": "Please retry.",
-  "splitKeyProgressOngoing" : "Sending {amount} using secure links...",
+  "splitKeyProgressOngoing": "Sending {amount} using secure links...",
   "@splitKeyProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -81,11 +81,11 @@
       }
     }
   },
-  "splitKeyProgressCreated" : "Links are created",
-  "splitKeyProgressWaiting" : "Waiting for the receiver to withdraw the funds",
-  "splitKeyProgressWithdrawn" : "Funds are withdrawn",
-  "splitKeyProgressSuccess" : "Money has been successfully received",
-  "resendLink" : "Resend Links",
+  "splitKeyProgressCreated": "Links are created",
+  "splitKeyProgressWaiting": "Waiting for the receiver to withdraw the funds",
+  "splitKeyProgressWithdrawn": "Funds are withdrawn",
+  "splitKeyProgressSuccess": "Money has been successfully received",
+  "resendLink": "Resend Links",
   "buy": "Buy",
   "paymentRequestInitialNotificationTitle": "You requested {amount} from {payer}",
   "@paymentRequestInitialNotificationTitle": {
@@ -264,5 +264,19 @@
   "all": "All",
   "addCashTitle": "Payment",
   "addCashSubtitle": "Complete your purchase with one\nof our secure partners.",
-  "cashOutSubtitle": "Complete your withdrawal with one\nof our secure partners."
+  "cashOutSubtitle": "Complete your withdrawal with one\nof our secure partners.",
+  "myPortfolio": "MY PORTFOLIO",
+  "requestOrSendPayment": "Request or send a payment",
+  "noActivity": "No activity yet!",
+  "activityDate": "On {date} at {time}",
+  "@activityDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }

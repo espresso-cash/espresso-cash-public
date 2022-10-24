@@ -28,14 +28,17 @@ class PendingActivitiesRepository {
     final oskp = _db.select(_db.oSKPRows)
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.success).not());
 
-    final oprStream = opr.watch().map((rows) => rows.map((r) => r.toModel()));
-    final odpStream = odp.watch().map((rows) => rows.map((r) => r.toModel()));
+    final oprStream =
+        opr.watch().map((rows) => rows.map((r) => r.toPendingActivity()));
+    final odpStream = odp
+        .watch()
+        .map((rows) => rows.map((r) => r.toPendingActivity(_tokens)));
     final oskpStream = oskp
         .watch()
         .map((rows) => rows.map((r) => r.toPendingActivity(_tokens)))
         .asyncMap(Future.wait);
 
-    return Rx.zip3<_L, _L, _L, IList<PendingActivity>>(
+    return Rx.combineLatest3<_L, _L, _L, IList<PendingActivity>>(
       oprStream,
       odpStream,
       oskpStream,
@@ -47,16 +50,18 @@ class PendingActivitiesRepository {
 }
 
 extension on PaymentRequestRow {
-  PendingActivity toModel() => PendingActivity.outgoingPaymentRequest(
+  PendingActivity toPendingActivity() => PendingActivity.outgoingPaymentRequest(
         id: id,
         created: created,
       );
 }
 
 extension on ODPRow {
-  PendingActivity toModel() => PendingActivity.outgoingDirectPayment(
+  PendingActivity toPendingActivity(TokenList tokens) =>
+      PendingActivity.outgoingDirectPayment(
         id: id,
         created: created,
+        data: toModel(tokens),
       );
 }
 

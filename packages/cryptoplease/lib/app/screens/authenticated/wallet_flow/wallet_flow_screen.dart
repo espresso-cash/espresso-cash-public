@@ -66,6 +66,7 @@ class _State extends State<WalletFlowScreen> {
       context.createAndOpenDirectPayment(
         amountInUsdc: amount,
         receiver: Ed25519HDPublicKey.fromBase58(address),
+        reference: null,
       );
     }
   }
