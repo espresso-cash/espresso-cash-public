@@ -38,7 +38,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
 
           if (data == null) return const SizedBox.shrink();
 
-          return data.isEmpty == true
+          return data.isEmpty
               ? const Center(child: NoActivity())
               : ListView.builder(
                   padding: widget.padding,
