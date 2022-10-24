@@ -27,6 +27,7 @@ class DirectPaymentResult with _$DirectPaymentResult {
 Future<DirectPaymentResult> createDirectPayment({
   required Ed25519HDPublicKey aSender,
   required Ed25519HDPublicKey aReceiver,
+  required Ed25519HDPublicKey? aReference,
   required Ed25519HDPublicKey mint,
   required int amount,
   required Ed25519HDKeyPair platform,
@@ -67,6 +68,10 @@ Future<DirectPaymentResult> createDirectPayment({
     destination: ataReceiver,
     owner: aSender,
   );
+  if (aReference != null) {
+    iTransfer.accounts
+        .add(AccountMeta.readonly(pubKey: aReference, isSigner: false));
+  }
   instructions.add(iTransfer);
 
   final fee =

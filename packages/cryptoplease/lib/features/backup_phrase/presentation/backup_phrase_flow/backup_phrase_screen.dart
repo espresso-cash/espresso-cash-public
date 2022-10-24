@@ -51,6 +51,7 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
               RecoveryPhraseTextView(
                 phrase: _phrase,
               ),
+              const SizedBox(height: 16),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

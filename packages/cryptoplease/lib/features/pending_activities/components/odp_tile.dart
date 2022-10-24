@@ -8,10 +8,10 @@ import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:flutter/material.dart';
 
-class OSKPTile extends StatelessWidget {
-  const OSKPTile({super.key, required this.activity});
+class ODPTile extends StatelessWidget {
+  const ODPTile({super.key, required this.activity});
 
-  final OSKPPendingActivity activity;
+  final ODPPendingActivity activity;
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -19,7 +19,7 @@ class OSKPTile extends StatelessWidget {
           children: [
             const Expanded(
               child: Text(
-                'Sent via link',
+                'Sent directly',
                 style: titleStyle,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -36,6 +36,6 @@ class OSKPTile extends StatelessWidget {
           style: subtitleStyle,
         ),
         leading: Assets.icons.outgoing.svg(),
-        onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
+        onTap: () => context.router.navigate(ODPDetailsRoute(id: activity.id)),
       );
 }

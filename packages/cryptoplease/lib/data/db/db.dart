@@ -18,7 +18,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 18;
+const int latestVersion = 19;
 
 const _tables = [
   OutgoingTransferRows,
@@ -65,7 +65,11 @@ class MyDatabase extends _$MyDatabase {
           if (from < 17) {
             await m.createTable(iSKPRows);
           }
-          if (from < 18) {
+
+          if (from >= 15 && from < 18) {
+            await m.addColumn(oDPRows, oDPRows.reference);
+          }
+          if (from < 19) {
             await m.createTable(transactionActivityRows);
           }
         },

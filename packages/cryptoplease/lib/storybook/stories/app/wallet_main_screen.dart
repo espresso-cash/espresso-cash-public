@@ -6,7 +6,7 @@ import 'package:cryptoplease/ui/theme.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 final appWalletMainScreen = Story(
-  name: 'app/WalletMainScreen',
+  name: 'App/WalletMainScreen',
   builder: (context) => AppWrapper(
     child: CpTheme.dark(
       child: WalletMainScreen(

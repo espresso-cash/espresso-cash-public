@@ -16,7 +16,7 @@ class AppWrapper extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             debugShowCheckedModeBanner: false,
-            title: 'Crypto Please',
+            title: 'EspressoCash',
             theme: context.watch<CpThemeData>().toMaterialTheme(),
             home: child,
           ),

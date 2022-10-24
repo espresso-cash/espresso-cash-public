@@ -4,6 +4,7 @@ import 'package:cryptoplease_link/src/payments/create_direct_payment.dart';
 import 'package:cryptoplease_link/src/payments/create_payment.dart';
 import 'package:cryptoplease_link/src/payments/receive_payment.dart';
 import 'package:cryptoplease_link/src/utils.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:solana/solana.dart';
@@ -65,6 +66,7 @@ Future<Response> createDirectPaymentHandler(Request request) async =>
         final payment = await createDirectPayment(
           aSender: Ed25519HDPublicKey.fromBase58(data.senderAccount),
           aReceiver: Ed25519HDPublicKey.fromBase58(data.receiverAccount),
+          aReference: data.referenceAccount?.let(Ed25519HDPublicKey.fromBase58),
           mint: cluster.mint,
           amount: data.amount,
           platform: await cluster.platformAccount,
