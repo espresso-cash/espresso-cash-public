@@ -9,7 +9,7 @@ class BalancesState with _$BalancesState implements StateWithProcessingState {
 }
 
 extension BalancesStateExt on BalancesState {
-  Set<Token> get userTokens => balances.keys.toSet();
+  Set<Token> get userTokens => {...balances.keys, Token.sol, Token.usdc};
 
   Set<Token> get stableTokens =>
       userTokens.where((t) => t.isStablecoin).toSet();

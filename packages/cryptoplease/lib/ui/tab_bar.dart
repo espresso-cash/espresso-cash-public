@@ -8,10 +8,6 @@ class CpTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.only(
-          left: _barPadding,
-          right: _barPadding,
-        ),
         height: 50,
         clipBehavior: Clip.antiAlias,
         decoration: const ShapeDecoration(
@@ -35,5 +31,3 @@ class CpTabBar extends StatelessWidget {
         ),
       );
 }
-
-const double _barPadding = 16;

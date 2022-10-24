@@ -24,11 +24,14 @@ class ActivitiesScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            const CpTabBar(
-              tabs: [
-                Tab(text: 'Pending'),
-                Tab(text: 'Transactions'),
-              ],
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: CpTabBar(
+                tabs: [
+                  Tab(text: 'Pending'),
+                  Tab(text: 'Transactions'),
+                ],
+              ),
             ),
             Expanded(
               child: TabBarView(

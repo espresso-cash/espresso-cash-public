@@ -1,86 +1,29 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
 import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/ui/token_icon.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-final popularTokenList = <Token>[
+final _popularTokenList = <Token>[
   Token.sol,
 ];
 
-class PopularTokens extends StatefulWidget {
-  const PopularTokens({super.key});
+class PopularTokenList extends StatelessWidget {
+  const PopularTokenList({super.key});
 
   @override
-  State<PopularTokens> createState() => _PopularTokensState();
-}
-
-class _PopularTokensState extends State<PopularTokens> {
-  @override
-  void initState() {
-    super.initState();
-    _updateConversionRates();
-  }
-
-  void _updateConversionRates() {
-    final bloc = context.read<ConversionRatesBloc>();
-    final currency = context.read<UserPreferences>().fiatCurrency;
-
-    final conversionEvent = ConversionRatesEvent.refreshRequested(
-      currency: currency,
-      tokens: popularTokenList,
-    );
-
-    bloc.add(conversionEvent);
-  }
-
-  @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          Text(
-            context.l10n.popularCryptoTitle,
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 33,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.popularCryptoSubtitle,
-            style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 24.0, bottom: 24),
-            child: Assets.images.portfolioGraph.svg(),
-          ),
-          ListView.builder(
-            padding: EdgeInsets.zero,
-            primary: false,
-            shrinkWrap: true,
-            itemCount: popularTokenList.length,
-            itemBuilder: (context, index) {
-              final token = popularTokenList[index];
-
-              return _TokenItem(token);
-            },
-          ),
-          const SizedBox(height: cpNavigationBarheight + 16),
-        ],
+  Widget build(BuildContext context) => SliverList(
+        delegate: SliverChildListDelegate(
+          _popularTokenList.map(_TokenItem.new).toList(),
+        ),
       );
 }
 
@@ -91,18 +34,10 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-
-    final conversionRate =
-        context.watchConversionRate(from: token, to: fiatCurrency);
-
-    Amount? tokenRate;
-
-    if (conversionRate != null) {
-      tokenRate =
-          Amount.fromDecimal(value: conversionRate, currency: fiatCurrency);
-    }
+    final Amount? tokenRate = context
+        .watchConversionRate(from: token, to: fiatCurrency)
+        ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),

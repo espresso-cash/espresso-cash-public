@@ -39,6 +39,7 @@ class ODPRepository {
 
 class ODPRows extends Table with AmountMixin, EntityMixin {
   TextColumn get receiver => text()();
+  TextColumn get reference => text().nullable()();
   IntColumn get status => intEnum<ODPStatusDto>()();
 
   // Status fields
@@ -55,10 +56,11 @@ enum ODPStatusDto {
   txWaitFailure,
 }
 
-extension on ODPRow {
+extension ODPRowExt on ODPRow {
   OutgoingDirectPayment toModel(TokenList tokens) => OutgoingDirectPayment(
         id: id,
         receiver: Ed25519HDPublicKey.fromBase58(receiver),
+        reference: reference?.let(Ed25519HDPublicKey.fromBase58),
         amount: CryptoAmount(
           value: amount,
           currency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
@@ -91,6 +93,7 @@ extension on OutgoingDirectPayment {
   ODPRow toDto() => ODPRow(
         id: id,
         receiver: receiver.toBase58(),
+        reference: reference?.toBase58(),
         amount: amount.value,
         token: amount.currency.token.address,
         created: created,

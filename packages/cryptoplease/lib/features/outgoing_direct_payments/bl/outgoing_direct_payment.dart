@@ -13,6 +13,7 @@ class OutgoingDirectPayment with _$OutgoingDirectPayment {
     required CryptoAmount amount,
     required DateTime created,
     required ODPStatus status,
+    Ed25519HDPublicKey? reference,
   }) = _OutgoingDirectPayment;
 }
 

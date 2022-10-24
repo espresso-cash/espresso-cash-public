@@ -18,7 +18,6 @@ import 'package:cryptoplease/features/outgoing_direct_payments/presentation/rout
 import 'package:cryptoplease/features/outgoing_split_key_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_screen.dart';
-import 'package:cryptoplease/features/token_details/presentation/token_details_screen.dart';
 
 const authenticatedFlowRoutes = AutoRoute<dynamic>(
   page: AuthenticatedFlowScreen,
@@ -27,11 +26,10 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
       path: '',
       page: HomeScreen,
       children: [
-        CustomRoute<void>(path: '', page: MenuScreen),
-        CustomRoute<void>(page: WalletFlowScreen),
-        CustomRoute<void>(page: InvestmentsScreen),
-        CustomRoute<void>(page: ActivitiesScreen),
-        CustomRoute<void>(page: TokenDetailsScreen),
+        CustomRoute<void>(path: '', page: MenuScreen, maintainState: false),
+        CustomRoute<void>(page: WalletFlowScreen, maintainState: false),
+        CustomRoute<void>(page: InvestmentsScreen, maintainState: false),
+        CustomRoute<void>(page: ActivitiesScreen, maintainState: false),
       ],
     ),
     ...backupPhraseRoutes,
