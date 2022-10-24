@@ -1,3 +1,22 @@
+## 1.45.0
+
+ - **FIX**: NoActivity layout.
+ - **FIX**: remove retry delay on OSKP page.
+ - **FIX**: OSKP details layout.
+ - **FIX**: update investments header layout.
+ - **FIX**: unify icons.
+ - **FIX**: investment page ui fixes (#539).
+ - **FIX**: remove shadow artefact on onboarding screen (#495).
+ - **FIX**: share link layout margin (#538).
+ - **FIX**: navigation bar icons (#540).
+ - **FIX**: share payment request copy (#541).
+ - **FEAT**: listen for status update on payment request.
+ - **FEAT**: format date in activity tiles.
+ - **FEAT**: add link to ODPDetails page.
+ - **FEAT**: move status screen bg to widget.
+ - **FEAT**: update app name.
+ - **FEAT**: add NoActivity widget.
+
 ## 1.44.0
 
  - **REFACTOR**: merge storybook into cryptoplease.
