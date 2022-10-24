@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/dto.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 part 'bloc.freezed.dart';
@@ -49,7 +50,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         final transactions = await _client.rpcClient.getMultipleTransactions(
           signatures,
           commitment: Commitment.finalized,
-          encoding: Encoding.jsonParsed,
+          encoding: Encoding.base64,
         );
 
         final activities = transactions.map(_toActivity);
@@ -80,19 +81,16 @@ class TransactionEvent with _$TransactionEvent {
   const factory TransactionEvent.fetch() = _Fetch;
 }
 
-TransactionActivity _toActivity(TransactionDetails details) =>
-    TransactionActivity(
-      id: details.transaction.txId,
-      status: const TransactionActivityStatus.pending(),
-      encodedTx: details.transaction.encoded,
-      created: details.blockTime?.let(
-        (blockTime) => DateTime.fromMillisecondsSinceEpoch(1000 * blockTime),
-      ),
-    );
+TransactionActivity _toActivity(TransactionDetails details) {
+  final rawTx = details.transaction as RawTransaction;
+  final tx = SignedTx.fromBytes(rawTx.data);
 
-extension on Transaction {
-  String get txId => (this as ParsedTransaction).signatures.first;
-
-  // TODO(rhbrunetto): fix it
-  String get encoded => '';
+  return TransactionActivity(
+    id: tx.id,
+    status: const TransactionActivityStatus.pending(),
+    encodedTx: tx.encode(),
+    created: details.blockTime?.let(
+      (blockTime) => DateTime.fromMillisecondsSinceEpoch(1000 * blockTime),
+    ),
+  );
 }
