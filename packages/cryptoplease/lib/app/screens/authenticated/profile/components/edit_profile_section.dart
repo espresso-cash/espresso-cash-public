@@ -13,15 +13,11 @@ class EditProfileSection extends StatelessWidget {
           ),
           ProfileButton(
             label: context.l10n.termsOfUse,
-            onPressed: () => context.router.navigate(
-              const TermsOfServiceRoute(),
-            ),
+            onPressed: () => context.navigateToTermsOfUse(),
           ),
           ProfileButton(
             label: context.l10n.privacyPolicy,
-            onPressed: () => context.router.navigate(
-              const PrivacyPolicyRoute(),
-            ),
+            onPressed: () => context.navigateToPrivacyPolicy(),
           ),
         ],
       );
