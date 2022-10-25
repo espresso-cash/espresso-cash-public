@@ -73,6 +73,7 @@ class HelpBottomSheet extends StatelessWidget {
                   scheme: 'mailto',
                   path: context.l10n.supportEmail,
                 ).toString();
+                Navigator.of(context).pop();
                 await context.openLink(uri);
               },
             ),
