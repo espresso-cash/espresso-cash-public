@@ -1,16 +1,16 @@
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/data/db/db.dart';
+import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
+import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:cryptoplease/features/transaction/transaction_activity.dart';
-import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 
 typedef _L = Iterable<TransactionActivity>;
 
-typedef TABuilder<D> = TransactionActivity Function(D, TransactionRetrievedRow);
+typedef TABuilder<D> = Future<TransactionActivity> Function(D);
 
 @injectable
 class TransactionActivityRepository {
@@ -19,39 +19,50 @@ class TransactionActivityRepository {
   final MyDatabase _db;
   final TokenList _tokens;
 
-  Future<List<TransactionActivity>> _query<T extends HasResultSet, D>({
+  Stream<List<TransactionActivity>> _query<T extends HasResultSet, D>({
     required ResultSetImplementation<T, D> table,
     required GeneratedColumn<String?> txIdColumn,
     required TABuilder<D> builder,
-  }) async {
+  }) {
     final query = _db.select(_db.transactionRetrievedRows).join([
-      innerJoin(
+      leftOuterJoin(
         table as Table,
         txIdColumn.equalsExp(_db.transactionRetrievedRows.id),
       ),
     ]);
 
     return query
-        .map(
-          (row) => builder(
-            row.readTable(table),
-            row.readTable(_db.transactionRetrievedRows),
-          ),
-        )
-        .get();
+        .watch()
+        .map((results) => results.map((e) => builder(e.readTable(table))))
+        .asyncMap(Future.wait);
   }
 
-  Future<List<TransactionActivity>> readAll() async {
-    final opr = _query<$PaymentRequestRowsTable, PaymentRequestRow>(
+  Stream<IList<TransactionActivity>> readAll() {
+    final oprStream = _query<$PaymentRequestRowsTable, PaymentRequestRow>(
       table: _db.paymentRequestRows,
       txIdColumn: _db.paymentRequestRows.transactionId,
-      builder: (opr, _) => opr.toActivity(),
+      builder: (opr) => Future.value(opr.toActivity()),
     );
 
-    final odp = _query<$ODPRowsTable, ODPRow>(
+    final odpStream = _query<$ODPRowsTable, ODPRow>(
       table: _db.oDPRows,
       txIdColumn: _db.oDPRows.txId,
-      // builder: (p0, p1) => ,
+      builder: (odp) => Future.value(odp.toActivity(_tokens)),
+    );
+
+    final oskpStream = _query<$OSKPRowsTable, OSKPRow>(
+      table: _db.oSKPRows,
+      txIdColumn: _db.oSKPRows.txId,
+      builder: (oskp) => oskp.toActivity(_tokens),
+    );
+
+    return Rx.combineLatest3<_L, _L, _L, IList<TransactionActivity>>(
+      oprStream,
+      odpStream,
+      oskpStream,
+      (a, b, c) => [...a, ...b, ...c]
+          .toIList()
+          .sortOrdered((a, b) => b.created.compareTo(a.created)),
     );
 
     // final
@@ -88,22 +99,6 @@ class TransactionActivityRepository {
   }
 }
 
-Amount? _buildAmount(
-  String? value,
-  String? tokenAddress,
-  TokenList tokenList,
-) =>
-    value?.let(Decimal.parse).let(
-          (decimal) => tokenAddress?.let(tokenList.findTokenByMint).let(
-                (foundToken) => foundToken?.let(
-                  (token) => Amount.fromDecimal(
-                    value: decimal,
-                    currency: CryptoCurrency(token: token),
-                  ),
-                ),
-              ),
-        );
-
 extension on PaymentRequestRow {
   TransactionActivity toActivity() =>
       TransactionActivity.outgoingPaymentRequest(
@@ -112,6 +107,25 @@ extension on PaymentRequestRow {
         payerName: payerName,
       );
 }
+
+extension on ODPRow {
+  TransactionActivity toActivity(TokenList tokens) =>
+      TransactionActivity.outgoingDirectPayment(
+        id: id,
+        created: created,
+        data: toModel(tokens),
+      );
+}
+
+extension on OSKPRow {
+  Future<TransactionActivity> toActivity(TokenList tokens) async =>
+      TransactionActivity.outgoingSplitKeyPayment(
+        id: id,
+        created: created,
+        data: await toModel(tokens),
+      );
+}
+
 
 // final oprQuery = _db.select(_db.transactionRetrievedRows).join([
 //       innerJoin(
