@@ -99,13 +99,16 @@ class _InputDisplay extends StatelessWidget {
     final amount = input.formatted(context);
     final formatted = '$sign$amount';
 
-    return FittedBox(
-      child: Text(
-        formatted,
-        textAlign: TextAlign.right,
-        style: TextStyle(
-          fontSize: fontSize,
-          fontWeight: FontWeight.w700,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: FittedBox(
+        child: Text(
+          formatted,
+          textAlign: TextAlign.right,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
