@@ -25,7 +25,7 @@ const solanaWebSocketUrl = String.fromEnvironment(
 
 const twitterUrl = 'https://twitter.com/cryptopleasecom';
 
-const faqUrl = 'https://learn.cryptoplease.com/';
+const faqUrl = 'https://www.espressocash.com/docs/intro/';
 
 const sentryDsn = String.fromEnvironment('SENTRY_DSN', defaultValue: '');
 
