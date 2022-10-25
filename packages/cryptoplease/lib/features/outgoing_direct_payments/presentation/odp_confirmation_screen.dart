@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/components/number_formatter.dart';
+import 'package:cryptoplease/app/components/usdc_info.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/odp_header.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
@@ -9,8 +10,6 @@ import 'package:cryptoplease/ui/amount_keypad/amount_keypad.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/chip.dart';
 import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/info_icon.dart';
-import 'package:cryptoplease/ui/info_widget.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -81,13 +80,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                 collapsed: true,
               ),
               const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 55),
-                child: CpInfoWidget(
-                  icon: const CpInfoIcon(),
-                  message: Text(context.l10n.usdcExplanation),
-                ),
-              ),
+              const UsdcInfoWidget(),
               const SizedBox(height: 8),
               Flexible(
                 flex: 3,
