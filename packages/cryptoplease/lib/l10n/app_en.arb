@@ -275,5 +275,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "recoveryWarningInfo" : "Please read carefully the information below before viewing your secret recovery phrase",
+  "recoveryWarningParagraph" : "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application."
 }
