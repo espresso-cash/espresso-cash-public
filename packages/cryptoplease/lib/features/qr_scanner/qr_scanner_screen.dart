@@ -127,22 +127,21 @@ class _ContentState extends State<_Content> {
                     key: _qrKey,
                     overlay: QrScannerOverlayShape(
                       cutOutSize: 250,
-                      borderWidth: 5,
-                      borderRadius: 70,
-                      borderLength: 0,
+                      borderColor: Colors.transparent,
+                      cutOutBottomOffset: 80,
                     ),
                     onQRViewCreated: _onQRViewCreated,
                     onPermissionSet: _onPermissionSet,
                   ),
                   Align(
-                    alignment: Alignment.center,
+                    alignment: const Alignment(0, -0.3),
                     child: Assets.images.qrFrame.svg(
                       height: 250,
                       alignment: Alignment.center,
                     ),
                   ),
                   Align(
-                    alignment: const Alignment(0, -0.5),
+                    alignment: const Alignment(0, -0.7),
                     child: GestureDetector(
                       onTap: _onQRToggleFlash,
                       child: _flashStatus
