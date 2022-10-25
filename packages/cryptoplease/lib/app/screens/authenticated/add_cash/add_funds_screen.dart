@@ -26,14 +26,14 @@ class AddFundsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           PartnerButton(
-            onTap: onMoonpaySelected,
-            image: Assets.images.logoMoonpay,
-            backgroundColor: const Color(0xff6800f3),
-          ),
-          PartnerButton(
             onTap: onKadoSelected,
             image: Assets.images.logoKado,
             backgroundColor: const Color(0xff5272d6),
+          ),
+          PartnerButton(
+            onTap: onMoonpaySelected,
+            image: Assets.images.logoMoonpay,
+            backgroundColor: const Color(0xff6800f3),
           ),
           PartnerButton(
             onTap: onFtxSelected,
