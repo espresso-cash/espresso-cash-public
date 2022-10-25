@@ -9,6 +9,7 @@ class TransactionActivity with _$TransactionActivity {
   const factory TransactionActivity.outgoingPaymentRequest({
     required String id,
     required DateTime created,
+    required String payerName,
   }) = OPRTransactionActivity;
 
   const factory TransactionActivity.outgoingDirectPayment({

@@ -3,14 +3,50 @@ import 'package:cryptoplease/features/transaction/transaction_retrieved.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
+import 'package:solana/dto.dart';
+import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 @injectable
 class TransactionRetrievedRepository {
-  TransactionRetrievedRepository(this._db);
+  TransactionRetrievedRepository(this._db, this._client);
 
   final MyDatabase _db;
+  final SolanaClient _client;
 
-  Future<TransactionRetrieved?> mostRecentTx() async {
+  Future<void> clear() => _db.delete(_db.transactionRetrievedRows).go();
+
+  Future<void> fetchFromWalletAddress(String walletAddress) async {
+    final mostRecentActivity = await _mostRecentTx();
+    final mostRecentSignature = mostRecentActivity?.id;
+
+    final signatures = await _client.rpcClient.getSignaturesForAddress(
+      limit: 100,
+      walletAddress,
+      until: mostRecentSignature,
+    );
+
+    if (signatures.isNotEmpty) {
+      final transactions = await _client.rpcClient.getMultipleTransactions(
+        signatures,
+        commitment: Commitment.finalized,
+        encoding: Encoding.base64,
+      );
+
+      final activities = transactions.map(_toRetrieved);
+      await _saveAll(activities);
+
+      final hasGap = mostRecentSignature != null && activities.length == 100;
+
+      if (hasGap) {
+        await _discardAndMarkAllAsFetched();
+      } else {
+        await _markAllAsFetched();
+      }
+    }
+  }
+
+  Future<TransactionRetrieved?> _mostRecentTx() async {
     final query = _db.select(_db.transactionRetrievedRows)
       ..orderBy([(t) => OrderingTerm.desc(t.created)])
       ..limit(1);
@@ -20,31 +56,29 @@ class TransactionRetrievedRepository {
     return result?.toTransactionRetrieved();
   }
 
-  Future<void> discardAndMarkAllAsFetched() => _db.transaction(() async {
+  Future<void> _discardAndMarkAllAsFetched() => _db.transaction(() async {
         final deleteQuery = _db.delete(_db.transactionRetrievedRows)
           ..where(
             (t) => t.status.equalsValue(TransactionRetrievedStatusDto.fetched),
           );
         await deleteQuery.go();
-        await markAllAsFetched();
+        await _markAllAsFetched();
       });
 
-  Future<void> markAllAsFetched() =>
+  Future<void> _markAllAsFetched() =>
       _db.update(_db.transactionRetrievedRows).write(
             const TransactionRetrievedRowsCompanion(
               status: Value(TransactionRetrievedStatusDto.fetched),
             ),
           );
 
-  Future<void> saveAll(Iterable<TransactionRetrieved> activities) => _db.batch(
+  Future<void> _saveAll(Iterable<TransactionRetrieved> retrieved) => _db.batch(
         (batch) => batch.insertAll(
           _db.transactionRetrievedRows,
-          activities.map((e) => e.toRow()),
+          retrieved.map((e) => e.toRow()),
           mode: InsertMode.insertOrReplace,
         ),
       );
-
-  Future<void> clear() => _db.delete(_db.transactionRetrievedRows).go();
 }
 
 enum TransactionRetrievedStatusDto { pending, fetched }
@@ -93,4 +127,18 @@ extension on TransactionRetrievedStatusDto {
         return const TransactionRetrievedStatus.fetched();
     }
   }
+}
+
+TransactionRetrieved _toRetrieved(TransactionDetails details) {
+  final rawTx = details.transaction as RawTransaction;
+  final tx = SignedTx.fromBytes(rawTx.data);
+
+  return TransactionRetrieved(
+    id: tx.id,
+    status: const TransactionRetrievedStatus.pending(),
+    encodedTx: tx.encode(),
+    created: details.blockTime?.let(
+      (blockTime) => DateTime.fromMillisecondsSinceEpoch(1000 * blockTime),
+    ),
+  );
 }
