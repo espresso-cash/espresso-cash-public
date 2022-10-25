@@ -115,7 +115,10 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ) ??
               0;
 
-          final creatingLinks = CpTimelineItem(title: 'Creating links');
+          final creatingLinks = CpTimelineItem(
+            title: 'Creating links',
+            trailing: payment?.amount.format(locale),
+          );
           final linksCreated = CpTimelineItem(
             title: context.l10n.splitKeyProgressCreated,
             trailing: payment?.amount.format(locale),

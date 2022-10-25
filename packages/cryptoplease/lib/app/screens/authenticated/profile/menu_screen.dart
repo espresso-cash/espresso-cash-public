@@ -1,7 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
+import 'package:cryptoplease/app/routes.dart';
+import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_button.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_header.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_section.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -21,23 +27,13 @@ class MenuScreen extends StatelessWidget {
             child: DecoratedBox(
               decoration: _menuScreenBackground,
               child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  color: Colors.white,
-                  child: SafeArea(
-                    bottom: false,
-                    child: ColoredBox(
-                      color: CpColors.lightGreyBackground,
-                      child: ListView(
-                        physics: const ClampingScrollPhysics(),
-                        children: const [
-                          MenuHeader(),
-                          MenuSection(),
-                        ],
-                      ),
-                    ),
-                  ),
+                padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
+                child: Column(
+                  children: const [
+                    MenuHeader(),
+                    _SecuritySection(),
+                    _AboutSection(),
+                  ],
                 ),
               ),
             ),
@@ -57,3 +53,49 @@ const _menuScreenBackground = BoxDecoration(
     ],
   ),
 );
+
+class _SecuritySection extends StatelessWidget {
+  const _SecuritySection();
+
+  @override
+  Widget build(BuildContext context) => MenuSection(
+        title: context.l10n.securitySectionTitle,
+        children: [
+          MenuButton(
+            title: context.l10n.appLock,
+            description: context.l10n.appLockDescription,
+            icon: Assets.icons.lock,
+            onTap: () => context.router.push(const AppLockSetupFlowRoute()),
+          ),
+          MenuButton(
+            title: context.l10n.viewRecoveryPhrase,
+            description: context.l10n.viewRecoveryPhraseDescription,
+            icon: Assets.icons.secret,
+            onTap: () => context.router.push(const BackupWarningRoute()),
+          ),
+        ],
+      );
+}
+
+class _AboutSection extends StatelessWidget {
+  const _AboutSection();
+
+  @override
+  Widget build(BuildContext context) => MenuSection(
+        title: context.l10n.yourAccountSectionTitle,
+        children: [
+          MenuButton(
+            title: context.l10n.editProfile,
+            description: context.l10n.editProfileDescription,
+            icon: Assets.icons.visibility,
+            onTap: () => context.router.push(const EditProfileRoute()),
+          ),
+          MenuButton(
+            title: context.l10n.learnAboutCrypto,
+            description: context.l10n.learnAboutCryptoDescription,
+            icon: Assets.icons.info,
+            onTap: () => context.router.push(const HelpRoute()),
+          ),
+        ],
+      );
+}
