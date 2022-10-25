@@ -31,6 +31,9 @@ const sentryDsn = String.fromEnvironment('SENTRY_DSN', defaultValue: '');
 
 const lamportsPerSignature = 5000;
 
+const termsUrl = 'https://espressocash.com/docs/legal/terms';
+const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
+
 /// Currently, the rent cost is fixed at the genesis. However, it's anticipated
 /// to be dynamic, reflecting the underlying hardware storage cost at the time.
 /// So the price is generally expected to decrease as the hardware cost declines
