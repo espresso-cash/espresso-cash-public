@@ -92,13 +92,14 @@ class _ScreenState extends State<ODPConfirmationScreen> {
               Flexible(
                 flex: 3,
                 child: LayoutBuilder(
-                  builder: (context, constraints) => AmountKeypad(
-                    height: constraints.maxHeight,
-                    width: width,
-                    controller: _amountController,
-                    maxDecimals: 2,
-                    isEnabled: widget.isEnabled,
-                  ),
+                  builder: (context, constraints) => widget.isEnabled
+                      ? AmountKeypad(
+                          height: constraints.maxHeight,
+                          width: width,
+                          controller: _amountController,
+                          maxDecimals: 2,
+                        )
+                      : SizedBox(height: constraints.maxHeight),
                 ),
               ),
               const SizedBox(height: 16),
