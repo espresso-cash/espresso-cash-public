@@ -4,8 +4,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_bloc.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +31,7 @@ class _Content extends StatefulWidget {
 
 class _ContentState extends State<_Content> {
   late final StreamSubscription<Barcode> _subscription;
+  bool _flashStatus = false;
 
   @override
   void initState() {
@@ -68,6 +69,14 @@ class _ContentState extends State<_Content> {
 
     _qrViewController = controller;
     _qrViewController.resumeCamera();
+  }
+
+  void _onQRToggleFlash() {
+    _qrViewController.toggleFlash().then((_) {
+      setState(() {
+        _flashStatus = !_flashStatus;
+      });
+    });
   }
 
   void _onBlocChange(BuildContext context, QrScannerState state) {
@@ -112,20 +121,47 @@ class _ContentState extends State<_Content> {
           ),
           child: CpTheme.dark(
             child: Scaffold(
-              appBar: CpAppBar(
-                leading: BackButton(
-                  onPressed: _onCloseButtonPressed,
-                ),
-                title: Text(context.l10n.scanQRTitle.toUpperCase()),
-              ),
-              body: Container(
-                color: Colors.white,
-                child: QRView(
-                  key: _qrKey,
-                  overlay: QrScannerOverlayShape(),
-                  onQRViewCreated: _onQRViewCreated,
-                  onPermissionSet: _onPermissionSet,
-                ),
+              body: Stack(
+                children: [
+                  QRView(
+                    key: _qrKey,
+                    overlay: QrScannerOverlayShape(
+                      cutOutSize: 250,
+                      borderWidth: 5,
+                      borderRadius: 70,
+                      borderLength: 0,
+                    ),
+                    onQRViewCreated: _onQRViewCreated,
+                    onPermissionSet: _onPermissionSet,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Assets.images.qrFrame.svg(
+                      height: 250,
+                      alignment: Alignment.center,
+                    ),
+                  ),
+                  Align(
+                    alignment: const Alignment(0, -0.5),
+                    child: GestureDetector(
+                      onTap: _onQRToggleFlash,
+                      child: _flashStatus
+                          ? Assets.images.flashOn.svg()
+                          : Assets.images.flashOff.svg(),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).padding.top + 16,
+                        right: 24,
+                      ),
+                      icon: const Icon(Icons.close, size: 28),
+                      onPressed: _onCloseButtonPressed,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
