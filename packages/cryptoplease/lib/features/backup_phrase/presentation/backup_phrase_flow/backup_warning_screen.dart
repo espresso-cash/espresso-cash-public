@@ -1,21 +1,22 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/onboarding_screen.dart';
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
+import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/info_icon.dart';
 import 'package:cryptoplease/ui/info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:provider/provider.dart';
 
-class RecoveryWarningScreen extends StatelessWidget {
-  const RecoveryWarningScreen({Key? key}) : super(key: key);
+class BackupWarningScreen extends StatelessWidget {
+  const BackupWarningScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => OnboardingScreen(
         title: '',
         nextLabel: context.l10n.iUnderstand,
-        onNextPressed: () =>
-            context.read<SignUpRouter>().onRecoveryPhraseWarningCompleted(),
+        onNextPressed: () => context.router.push(
+          const BackupPhraseFlowRoute(),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

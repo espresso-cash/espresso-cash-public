@@ -35,11 +35,6 @@ class _SignUpFlowScreenState extends State<SignUpFlowScreen>
 
   @override
   void onExplainNoEmailAndPasswordCompleted() {
-    context.router.push(const RecoveryWarningRoute());
-  }
-
-  @override
-  void onRecoveryPhraseWarningCompleted() {
     context.router.push(const CreateRecoveryPhraseRoute());
   }
 
@@ -71,7 +66,6 @@ abstract class SignUpRouter {
   void onSignIn();
   void onReadTerms();
   void onExplainNoEmailAndPasswordCompleted();
-  void onRecoveryPhraseWarningCompleted();
   void onMnemonicConfirmed();
   void onRegistered(MyAccount account);
 }

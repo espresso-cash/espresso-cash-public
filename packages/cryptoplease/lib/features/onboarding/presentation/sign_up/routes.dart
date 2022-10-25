@@ -5,7 +5,6 @@ import 'package:cryptoplease/features/onboarding/presentation/sign_up/create_pro
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/create_recovery_phrase_screen.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/get_started_screen.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/no_email_and_password_screen.dart';
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/recovery_warning_screen.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
 
 const signUpFlowRoutes = AutoRoute<void>(
@@ -13,7 +12,6 @@ const signUpFlowRoutes = AutoRoute<void>(
   children: [
     AutoRoute<void>(path: '', page: GetStartedScreen),
     AutoRoute<void>(page: NoEmailAndPasswordScreen),
-    AutoRoute<void>(page: RecoveryWarningScreen),
     AutoRoute<void>(page: TermsOfServiceScreen),
     AutoRoute<void>(page: PrivacyPolicyScreen),
     AutoRoute<void>(page: CreateRecoveryPhraseScreen),

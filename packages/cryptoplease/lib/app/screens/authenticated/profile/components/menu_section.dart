@@ -30,9 +30,7 @@ class MenuSection extends StatelessWidget {
                 title: context.l10n.viewRecoveryPhrase,
                 description: context.l10n.viewRecoveryPhraseDescription,
                 icon: Assets.icons.secret,
-                onTap: () => context.router.push(
-                  const BackupPhraseFlowRoute(),
-                ),
+                onTap: () => context.router.push(const BackupWarningRoute()),
               ),
             ],
           ),
