@@ -68,6 +68,7 @@ class _ScreenState extends State<WalletMainScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
@@ -79,7 +80,9 @@ class _ScreenState extends State<WalletMainScreen> {
             collapsed: false,
           ),
           const SizedBox(height: 8),
-          const UsdcInfoWidget(),
+          UsdcInfoWidget(
+            isSmall: height < 700,
+          ),
           Flexible(
             child: LayoutBuilder(
               builder: (context, constraints) => AmountKeypad(

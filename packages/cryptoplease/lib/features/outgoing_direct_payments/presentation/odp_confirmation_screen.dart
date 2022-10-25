@@ -61,6 +61,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return CpTheme.dark(
       child: Scaffold(
@@ -80,7 +81,9 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                 collapsed: true,
               ),
               const SizedBox(height: 16),
-              const UsdcInfoWidget(),
+              UsdcInfoWidget(
+                isSmall: height < 700 && widget.isEnabled,
+              ),
               const SizedBox(height: 8),
               Flexible(
                 flex: 3,
