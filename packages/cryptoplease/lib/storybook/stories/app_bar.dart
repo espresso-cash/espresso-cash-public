@@ -7,7 +7,7 @@ final cpAppBar = Story(
   builder: (context) => Scaffold(
     appBar: CpAppBar(title: const Text('App bar')),
     body: const Center(
-      child: Text('EspressoCash'),
+      child: Text('Espresso Cash'),
     ),
   ),
 );
