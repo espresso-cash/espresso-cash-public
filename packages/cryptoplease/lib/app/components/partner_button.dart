@@ -18,10 +18,7 @@ class PartnerButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 85,
-            vertical: 25,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 85, vertical: 25),
           decoration: ShapeDecoration(
             color: backgroundColor,
             shape: const StadiumBorder(),
@@ -29,8 +26,7 @@ class PartnerButton extends StatelessWidget {
           child: SizedBox(
             height: 52,
             child: image.image(
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
-                  Container(
+              frameBuilder: (context, child, _, __) => Container(
                 padding: const EdgeInsets.all(8),
                 decoration: const ShapeDecoration(
                   shape: StadiumBorder(),

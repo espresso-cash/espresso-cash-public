@@ -59,6 +59,6 @@ const link2Host = 'solana2.$cpLinkDomain';
 const solanaPayHost = 'solanapay.$cpLinkDomain';
 const moonpayHost = 'moonpay.$cpLinkDomain';
 
-const kadoBaseUrl = String.fromEnvironment('KADO_BASE_URL');
+const kadoBaseUrl = 'https://app.kado.money/';
 const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
-const ftxSupportUrl = String.fromEnvironment('FTX_SUPPORT_URL');
+const ftxSupportUrl = 'https://help.ftx.com/hc/en-us/articles/360027668372';

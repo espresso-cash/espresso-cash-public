@@ -48,7 +48,7 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
       'network': 'SOLANA',
       'onPayCurrency': 'usd',
       'onRevCurrency': _token.symbol,
-      'onToAddress': Uri.encodeComponent(_wallet.address),
+      'onToAddress': _wallet.address,
     });
 
     emit(AddFundsState.success(url.toString()));

@@ -5,8 +5,7 @@ import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/add_funds/presentation/flow.dart';
-import 'package:cryptoplease/features/cash_out/flow.dart';
+import 'package:cryptoplease/features/add_funds/presentation/add_funds_screen.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -54,7 +53,7 @@ class MenuHeader extends StatelessWidget {
           const _TokenDisplay(token: token),
           _Buttons(
             onAddCash: () => context.navigateToAddCash(),
-            onCashOut: () => context.navigateToCashOut(),
+            onCashOut: () => context.router.navigate(const CashOutRoute()),
           ),
         ],
       ),

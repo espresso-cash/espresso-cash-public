@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/screens/authenticated/activities/activities_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/authenticated_flow_screen.dart';
+import 'package:cryptoplease/app/screens/authenticated/cash_out/cash_out_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/home_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/investments_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/edit_profile_screen.dart';
@@ -12,7 +13,6 @@ import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_flow_s
 import 'package:cryptoplease/features/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/features/app_lock/presentation/routes.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/routes.dart';
-import 'package:cryptoplease/features/cash_out/routes.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/legal/legal_document_view.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
@@ -40,7 +40,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<QrScannerRequest>(page: QrScannerScreen),
     ...receiveFlowRoutes,
     ...addFundsRoutes,
-    ...cashOutRoutes,
+    AutoRoute<void>(page: CashOutScreen, fullscreenDialog: true),
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),
