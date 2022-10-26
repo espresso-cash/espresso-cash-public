@@ -1,3 +1,15 @@
+## 1.47.0
+
+ - **FIX**: add amount to "creating links".
+ - **FIX**: menu screen layout.
+ - **FIX**: add horizontal padding on input amount (#553).
+ - **FEAT**: update date formatting.
+ - **FEAT**: update Contact Us sheet (#559).
+ - **FEAT**: update QR-scanner UI (#554).
+ - **FEAT**: add recovery phrase warning page  (#551).
+ - **FEAT**: change help center url (#560).
+ - **FEAT**: redirect privacy policy and terms of use to webpages (#561).
+
 ## 1.46.0
 
  - **FIX**: share message wrapper layout (#548).

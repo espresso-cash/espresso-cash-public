@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/features/legal/legal_document_view.dart';
 import 'package:cryptoplease/features/onboarding/presentation/login/restore_account_screen.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/create_profile_screen.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/create_recovery_phrase_screen.dart';
@@ -12,8 +11,6 @@ const signUpFlowRoutes = AutoRoute<void>(
   children: [
     AutoRoute<void>(path: '', page: GetStartedScreen),
     AutoRoute<void>(page: NoEmailAndPasswordScreen),
-    AutoRoute<void>(page: TermsOfServiceScreen),
-    AutoRoute<void>(page: PrivacyPolicyScreen),
     AutoRoute<void>(page: CreateRecoveryPhraseScreen),
     AutoRoute<void>(page: CreateProfileScreen),
     AutoRoute<void>(page: RestoreAccountScreen),

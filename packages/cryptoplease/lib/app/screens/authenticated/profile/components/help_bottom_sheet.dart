@@ -12,6 +12,7 @@ class HelpBottomSheet extends StatelessWidget {
   static Future<void> show(BuildContext context) => showModalBottomSheet(
         context: context,
         builder: (_) => const HelpBottomSheet(),
+        backgroundColor: CpColors.darkBackground,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24),
@@ -22,54 +23,60 @@ class HelpBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              context.l10n.supportSubtitle,
+              context.l10n.contactUs,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w500,
-                color: CpColors.secondaryTextColor,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              context.l10n.supportEmail,
-              style: const TextStyle(
-                fontSize: 22,
+                fontSize: 31,
                 fontWeight: FontWeight.bold,
-                color: CpColors.primaryTextColor,
+                color: CpColors.lightButtonBackgroundColor,
               ),
             ),
-            const SizedBox(height: 24),
-            Flex(
-              direction: Axis.horizontal,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CpButton(
-                  text: context.l10n.copy,
-                  onPressed: () {
-                    Clipboard.setData(
-                      ClipboardData(text: context.l10n.supportEmail),
-                    );
-                    showClipboardSnackbar(context);
-                  },
+            const SizedBox(height: 30),
+            Text.rich(
+              TextSpan(
+                text: '${context.l10n.supportSubtitle}\n',
+                children: [
+                  TextSpan(
+                    text: context.l10n.supportEmail,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+                style: const TextStyle(
+                  fontSize: 21,
+                  color: CpColors.lightButtonBackgroundColor,
                 ),
-                CpButton(
-                  text: context.l10n.openEmailApp,
-                  onPressed: () async {
-                    final uri = Uri(
-                      scheme: 'mailto',
-                      path: context.l10n.supportEmail,
-                    ).toString();
-                    await context.openLink(uri);
-                  },
-                ),
-              ],
-            )
+              ),
+            ),
+            const SizedBox(height: 30),
+            CpButton(
+              text: context.l10n.copy,
+              minWidth: 250,
+              onPressed: () {
+                Clipboard.setData(
+                  ClipboardData(text: context.l10n.supportEmail),
+                );
+                showClipboardSnackbar(context);
+                Navigator.of(context).pop();
+              },
+            ),
+            const SizedBox(height: 12),
+            CpButton(
+              text: context.l10n.openEmailApp,
+              minWidth: 250,
+              onPressed: () async {
+                final uri = Uri(
+                  scheme: 'mailto',
+                  path: context.l10n.supportEmail,
+                ).toString();
+                Navigator.of(context).pop();
+                await context.openLink(uri);
+              },
+            ),
           ],
         ),
       );

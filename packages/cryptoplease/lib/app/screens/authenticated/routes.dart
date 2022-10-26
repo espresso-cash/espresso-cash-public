@@ -13,7 +13,6 @@ import 'package:cryptoplease/features/add_funds/presentation/routes.dart';
 import 'package:cryptoplease/features/app_lock/presentation/routes.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/routes.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/presentation/routes.dart';
-import 'package:cryptoplease/features/legal/legal_document_view.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/presentation/routes.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
@@ -42,8 +41,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),
-    AutoRoute<void>(page: TermsOfServiceScreen),
-    AutoRoute<void>(page: PrivacyPolicyScreen),
     AutoRoute<void>(page: HelpScreen),
   ],
 );

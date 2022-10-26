@@ -3,6 +3,7 @@ import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/data/files.dart';
+import 'package:cryptoplease/features/legal/flow.dart';
 import 'package:cryptoplease/features/onboarding/bl/sign_up_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -20,7 +21,7 @@ class _SignUpFlowScreenState extends State<SignUpFlowScreen>
     implements SignUpRouter {
   @override
   void onReadTerms() {
-    context.router.push(const TermsOfServiceRoute());
+    context.navigateToTermsOfUse();
   }
 
   @override
