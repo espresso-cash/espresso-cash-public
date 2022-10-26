@@ -275,5 +275,14 @@
         "type": "String"
       }
     }
+  },
+  "transactionFetchFailed": "Failed to fetch transactions",
+  "transactionTitle": "Transaction {signature}",
+  "@transactionTitle": {
+    "placeholders": {
+      "signature": {
+        "type": "String"
+      }
+    }
   }
 }

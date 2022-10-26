@@ -1,10 +1,10 @@
 import 'package:cryptoplease/di.dart';
+import 'package:cryptoplease/features/pending_activities/activity.dart';
 import 'package:cryptoplease/features/pending_activities/components/no_activity.dart';
 import 'package:cryptoplease/features/pending_activities/components/odp_tile.dart';
 import 'package:cryptoplease/features/pending_activities/components/oksp_tile.dart';
 import 'package:cryptoplease/features/pending_activities/components/payment_request_tile.dart';
 import 'package:cryptoplease/features/pending_activities/pending_activities_repository.dart';
-import 'package:cryptoplease/features/pending_activities/pending_activity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 
@@ -21,7 +21,7 @@ class PendingActivitiesList extends StatefulWidget {
 }
 
 class _PendingActivitiesListState extends State<PendingActivitiesList> {
-  late final Stream<IList<PendingActivity>> _stream;
+  late final Stream<IList<Activity>> _stream;
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<IList<PendingActivity>>(
+  Widget build(BuildContext context) => StreamBuilder<IList<Activity>>(
         stream: _stream,
         initialData: const IListConst([]),
         builder: (context, snapshot) => snapshot.data?.isEmpty == true

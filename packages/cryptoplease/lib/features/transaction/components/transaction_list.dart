@@ -1,6 +1,9 @@
+import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/transaction/bl/bloc.dart';
+import 'package:cryptoplease/features/transaction/components/transaction_item.dart';
+import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,29 +32,28 @@ class _TransactionActivitiesListState extends State<TransactionActivitiesList> {
     )..add(const TransactionEvent.fetch());
   }
 
-// TODO(rhbrunetto): fix it
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<TransactionBloc, TransactionState>(
+      BlocConsumer<TransactionBloc, TransactionState>(
         bloc: transactionBloc,
+        listener: (context, state) => state.maybeWhen(
+          failure: (error) => showErrorDialog(
+            context,
+            context.l10n.transactionFetchFailed,
+            error,
+          ),
+          orElse: ignore,
+        ),
         builder: (context, state) => state.maybeMap(
-          orElse: always(
-            const Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-          failure: (state) => Center(
-            child: Text(state.error.toString()),
-          ),
           success: (state) => ListView.builder(
             padding: widget.padding,
-            itemBuilder: (context, i) {
-              final item = state.result.elementAt(i);
-
-              return ListTile(title: Text(item.toString()));
-            },
+            itemBuilder: (context, i) => TransactionItem(
+              txFetched: state.result.elementAt(i),
+            ),
             itemCount: state.result.length,
           ),
+          processing: always(const Center(child: CircularProgressIndicator())),
+          orElse: always(const SizedBox.shrink()),
         ),
       );
 }

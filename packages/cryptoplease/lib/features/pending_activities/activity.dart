@@ -2,24 +2,24 @@ import 'package:cryptoplease/features/outgoing_direct_payments/bl/outgoing_direc
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'pending_activity.freezed.dart';
+part 'activity.freezed.dart';
 
 @freezed
-class PendingActivity with _$PendingActivity {
-  const factory PendingActivity.outgoingPaymentRequest({
+class Activity with _$Activity {
+  const factory Activity.outgoingPaymentRequest({
     required String id,
     required DateTime created,
-  }) = OPRPendingActivity;
+  }) = OPRActivity;
 
-  const factory PendingActivity.outgoingDirectPayment({
+  const factory Activity.outgoingDirectPayment({
     required String id,
     required DateTime created,
     required OutgoingDirectPayment data,
-  }) = ODPPendingActivity;
+  }) = ODPActivity;
 
-  const factory PendingActivity.outgoingSplitKeyPayment({
+  const factory Activity.outgoingSplitKeyPayment({
     required String id,
     required DateTime created,
     required OutgoingSplitKeyPayment data,
-  }) = OSKPPendingActivity;
+  }) = OSKPActivity;
 }

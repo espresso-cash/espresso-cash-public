@@ -10,7 +10,7 @@ import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_reposi
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
-import 'package:cryptoplease/features/transaction/bl/transaction_retrieved_repository.dart';
+import 'package:cryptoplease/features/transaction/bl/transaction_fetched_repository.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/colors.dart';
