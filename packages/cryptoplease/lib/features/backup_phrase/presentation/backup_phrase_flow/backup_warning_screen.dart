@@ -14,9 +14,7 @@ class BackupWarningScreen extends StatelessWidget {
   Widget build(BuildContext context) => OnboardingScreen(
         title: '',
         nextLabel: context.l10n.iUnderstand,
-        onNextPressed: () => context.router.push(
-          const BackupPhraseFlowRoute(),
-        ),
+        onNextPressed: () => context.router.push(const BackupPhraseFlowRoute()),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -24,11 +22,7 @@ class BackupWarningScreen extends StatelessWidget {
               icon: const CpInfoIcon(),
               message: Text(
                 context.l10n.recoveryWarningInfo,
-                textAlign: TextAlign.justify,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+                textAlign: TextAlign.left,
               ),
             ),
             const SizedBox(height: 18),
@@ -37,7 +31,10 @@ class BackupWarningScreen extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 styleSheet: MarkdownStyleSheet(
-                  p: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  p: const TextStyle(
+                    fontSize: 14.5,
+                    fontWeight: FontWeight.w500,
+                  ),
                   textAlign: WrapAlignment.start,
                 ),
                 data: context.l10n.recoveryWarningParagraph,

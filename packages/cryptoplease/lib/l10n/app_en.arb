@@ -87,7 +87,7 @@
   "splitKeyProgressSuccess": "Money has been successfully received",
   "resendLink": "Resend Links",
   "buy": "Buy",
-  "paymentRequestInitialNotificationTitle": "You requested {amount} from {payer}",
+  "paymentRequestInitialNotificationTitle": "You requested {amount} for {payer}",
   "@paymentRequestInitialNotificationTitle": {
     "placeholders": {
       "amount": {
@@ -140,7 +140,7 @@
   "copiedToClipboard": "Copied!",
   "scanQRTitle": "Scan a QR code",
   "supportEmail": "contact@espressocash.com",
-  "contactUs" : "Contact Us",
+  "contactUs": "Contact Us",
   "supportSubtitle": "You can send us an email to",
   "openEmailApp": "Open email app",
   "cameraPermissionsTitle": "Camera Permissions",
@@ -260,8 +260,8 @@
   "yourLinkIsReady": "Your link is ready",
   "sendAs": "Send as",
   "investments": "INVESTMENTS",
-  "popularCryptoTitle" : "Popular Crypto",
-  "popularCryptoSubtitle" : "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
+  "popularCryptoTitle": "Popular Crypto",
+  "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
   "all": "All",
   "addCashTitle": "Payment",
   "addCashSubtitle": "Complete your purchase with one\nof our secure partners.",
@@ -288,6 +288,9 @@
       }
     }
   },
-  "recoveryWarningInfo" : "Please read carefully the information below before viewing your secret recovery phrase",
-  "recoveryWarningParagraph" : "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application."
+  "recoveryWarningInfo": "Please read carefully the information below before viewing your secret recovery phrase",
+  "recoveryWarningParagraph": "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application.",
+  "requestNoteRequesting": "Requesting",
+  "requestNoteFor": "For",
+  "requestNotePlaceholder": "Add a note for your request"
 }
