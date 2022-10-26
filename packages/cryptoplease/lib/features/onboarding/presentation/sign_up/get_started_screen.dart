@@ -4,7 +4,6 @@ import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/bullet_item.dart';
 import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,41 +14,36 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          body: DecoratedBox(
-            decoration: const BoxDecoration(color: CpColors.primaryColor),
-            child: Stack(
-              children: [
-                Align(
+          body: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Assets.icons.logoDark.svg(
                   alignment: Alignment.bottomCenter,
-                  child: Assets.icons.logoDark
-                      .svg(alignment: Alignment.bottomCenter),
                 ),
-                SafeArea(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) => SingleChildScrollView(
-                      physics: const RangeMaintainingScrollPhysics(),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: constraints.maxHeight,
-                        ),
-                        child: IntrinsicHeight(
-                          child: Column(
-                            children: const [
-                              _Header(),
-                              Expanded(child: _Body()),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: _Footer(),
-                              ),
-                            ],
+              ),
+              LayoutBuilder(
+                builder: (context, constraints) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: constraints.copyWith(
+                      minHeight: constraints.maxHeight,
+                      maxHeight: double.infinity,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: const [
+                          _Header(),
+                          _Body(),
+                          Expanded(
+                            child: _Footer(),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
@@ -105,6 +99,7 @@ class _Footer extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const TermsDisclaimer(),
+            const SizedBox(height: 24),
           ],
         ),
       );
