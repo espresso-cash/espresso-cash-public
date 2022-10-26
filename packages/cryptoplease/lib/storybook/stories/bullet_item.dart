@@ -4,6 +4,6 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 final cpBulletItem = Story(
   name: 'CpBulletItem',
   builder: (context) => const CpBulletItemWidget(
-    text: 'EspressoCash Bullet Item Widget',
+    text: 'Espresso Cash Bullet Item Widget',
   ),
 );
