@@ -41,18 +41,11 @@ class _RequestNoteScreenState extends State<RequestNoteScreen> {
             children: [
               CpBorderedRow(
                 title: Text(context.l10n.requestNoteRequesting),
-                content: Expanded(
-                  child: Wrap(
-                    children: [
-                      CpChip(
-                        padding: CpChipPadding.small,
-                        child: Text(
-                          widget.amount.format(DeviceLocale.localeOf(context)),
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                content: BorderedRowChip(
+                  child: Text(
+                    widget.amount.format(DeviceLocale.localeOf(context)),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
