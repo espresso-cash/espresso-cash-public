@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_button.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_header.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_section.dart';
+import 'package:cryptoplease/core/balances/presentation/refresh_balance_wrapper.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/colors.dart';

@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/onboarding_screen.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/info_icon.dart';
 import 'package:cryptoplease/ui/info_widget.dart';
+import 'package:cryptoplease/ui/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 

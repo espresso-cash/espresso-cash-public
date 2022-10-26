@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/di.dart';
@@ -8,6 +7,7 @@ import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/dialogs.dart';
 import 'package:cryptoplease/ui/loader.dart';
 import 'package:cryptoplease/ui/partner_button.dart';
 import 'package:cryptoplease/ui/theme.dart';

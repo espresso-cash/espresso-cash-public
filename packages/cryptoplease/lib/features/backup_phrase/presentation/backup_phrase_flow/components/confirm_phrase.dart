@@ -1,5 +1,5 @@
-import 'package:cryptoplease/app/components/recovery_phrase_text_view.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/components/grid_phrase.dart';
+import 'package:cryptoplease/ui/recovery_phrase_text_view.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmPhrase extends StatefulWidget {

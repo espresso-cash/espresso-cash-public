@@ -1,10 +1,10 @@
-import 'package:cryptoplease/app/components/decorated_window.dart';
-import 'package:cryptoplease/app/components/snackbars.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/decorated_window/decorated_window.dart';
+import 'package:cryptoplease/ui/snackbar.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
