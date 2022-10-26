@@ -1,8 +1,8 @@
 import 'package:cryptoplease/ui/rounded_rectangle.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class ShareMessageWrapper extends StatefulWidget {
-  const ShareMessageWrapper({
+class ShareMessageBubble extends StatefulWidget {
+  const ShareMessageBubble({
     Key? key,
     required this.textSpan,
   }) : super(key: key);
@@ -10,10 +10,10 @@ class ShareMessageWrapper extends StatefulWidget {
   final TextSpan textSpan;
 
   @override
-  State<ShareMessageWrapper> createState() => _ShareMessageWrapperState();
+  State<ShareMessageBubble> createState() => _ShareMessageBubbleState();
 }
 
-class _ShareMessageWrapperState extends State<ShareMessageWrapper> {
+class _ShareMessageBubbleState extends State<ShareMessageBubble> {
   final _scrollController = ScrollController();
 
   @override
