@@ -1,8 +1,4 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/dialogs.dart';
-import 'package:cryptoplease/app/components/partner_button.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/di.dart';
@@ -13,20 +9,12 @@ import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
 import 'package:cryptoplease/ui/loader.dart';
+import 'package:cryptoplease/ui/partner_button.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana.dart';
-
-extension AddCashFlowExt on BuildContext {
-  void navigateToAddCash() => router.navigate(
-        AddFundsRoute(
-          wallet: read<MyAccount>().wallet,
-          token: Token.usdc,
-        ),
-      );
-}
 
 class AddFundsScreen extends StatelessWidget {
   const AddFundsScreen({
