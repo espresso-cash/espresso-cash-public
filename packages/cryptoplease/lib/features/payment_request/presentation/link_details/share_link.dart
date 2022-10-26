@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/components/share_message/header.dart';
 import 'package:cryptoplease/app/components/share_message_wrapper.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
@@ -118,7 +119,7 @@ class _Links extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text.rich(
         TextSpan(
-          text: link,
+          text: link.withZeroWidthSpaces(),
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,

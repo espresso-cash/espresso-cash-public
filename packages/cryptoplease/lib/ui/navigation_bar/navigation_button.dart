@@ -29,8 +29,14 @@ class CpNavigationButton extends StatelessWidget {
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              icon.svg(
-                color: active ? CpColors.yellowColor : Colors.white,
+              SizedBox.square(
+                dimension: 40,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: icon.svg(
+                    color: active ? CpColors.yellowColor : Colors.white,
+                  ),
+                ),
               ),
               if (badge != null && badge > 0)
                 Positioned(

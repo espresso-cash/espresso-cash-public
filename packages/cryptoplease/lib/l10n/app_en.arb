@@ -139,8 +139,9 @@
   "incorrectPasscode": "Incorrect passcode. Retry again",
   "copiedToClipboard": "Copied!",
   "scanQRTitle": "Scan a QR code",
-  "supportEmail": "support@cryptoplease.com",
-  "supportSubtitle": "Do you still need help?\nWrite us an email, we will get back to you shortly.",
+  "supportEmail": "contact@espressocash.com",
+  "contactUs" : "Contact Us",
+  "supportSubtitle": "You can send us an email to",
   "openEmailApp": "Open email app",
   "cameraPermissionsTitle": "Camera Permissions",
   "cameraPermissionsContent": "We need access to your camera. Please provide the necessary permissions by going to your application settings.",
@@ -276,6 +277,14 @@
       }
     }
   },
+  "todayAt": "Today at {time}",
+  "@todayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "marketCapRank": "Market Cap Rank",
   "aboutTokenLabel": "About {name}",
   "@aboutTokenLabel": {
@@ -288,5 +297,7 @@
   "more" : "more",
   "less" : "less",
   "swap" : "Swap",
-  "send" : "Send"
+  "send" : "Send",
+  "recoveryWarningInfo" : "Please read carefully the information below before viewing your secret recovery phrase",
+  "recoveryWarningParagraph" : "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application."
 }

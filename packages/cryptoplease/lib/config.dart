@@ -25,11 +25,14 @@ const solanaWebSocketUrl = String.fromEnvironment(
 
 const twitterUrl = 'https://twitter.com/cryptopleasecom';
 
-const faqUrl = 'https://learn.cryptoplease.com/';
+const faqUrl = 'https://www.espressocash.com/docs/intro/';
 
 const sentryDsn = String.fromEnvironment('SENTRY_DSN', defaultValue: '');
 
 const lamportsPerSignature = 5000;
+
+const termsUrl = 'https://espressocash.com/docs/legal/terms';
+const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
 
 /// Currently, the rent cost is fixed at the genesis. However, it's anticipated
 /// to be dynamic, reflecting the underlying hardware storage cost at the time.

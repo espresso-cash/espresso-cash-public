@@ -2,6 +2,7 @@ import 'package:cryptoplease/app/components/share_message/header.dart';
 import 'package:cryptoplease/app/components/share_message_wrapper.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
@@ -104,11 +105,17 @@ class _Links extends StatelessWidget {
           children: [
             TextSpan(text: context.l10n.shareStep1),
             _newLine,
-            TextSpan(text: firstLink.toString(), style: _linkStyle),
+            TextSpan(
+              text: firstLink.toString().withZeroWidthSpaces(),
+              style: _linkStyle,
+            ),
             _newLine,
             TextSpan(text: context.l10n.shareStep2),
             _newLine,
-            TextSpan(text: secondLink.toString(), style: _linkStyle),
+            TextSpan(
+              text: secondLink.toString().withZeroWidthSpaces(),
+              style: _linkStyle,
+            ),
           ],
           style: _baseStyle,
         ),
