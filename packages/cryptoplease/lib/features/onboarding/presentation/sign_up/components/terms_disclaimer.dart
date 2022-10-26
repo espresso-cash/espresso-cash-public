@@ -1,5 +1,4 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
+import 'package:cryptoplease/features/legal/flow.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/gestures.dart';
@@ -16,8 +15,7 @@ class TermsDisclaimer extends StatelessWidget {
             TextSpan(
               text: context.l10n.terms,
               recognizer: TapGestureRecognizer()
-                ..onTap =
-                    () => context.router.push(const TermsOfServiceRoute()),
+                ..onTap = () => context.navigateToTermsOfUse(),
               style: const TextStyle(
                 color: CpColors.yellowColor,
               ),
@@ -26,7 +24,7 @@ class TermsDisclaimer extends StatelessWidget {
             TextSpan(
               text: context.l10n.privacyPolicy,
               recognizer: TapGestureRecognizer()
-                ..onTap = () => context.router.push(const PrivacyPolicyRoute()),
+                ..onTap = () => context.navigateToPrivacyPolicy(),
               style: const TextStyle(
                 color: CpColors.yellowColor,
               ),

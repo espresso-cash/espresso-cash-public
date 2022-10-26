@@ -8,8 +8,8 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TransactionActivitiesList extends StatefulWidget {
-  const TransactionActivitiesList({
+class TransactionList extends StatefulWidget {
+  const TransactionList({
     Key? key,
     this.padding,
   }) : super(key: key);
@@ -17,11 +17,10 @@ class TransactionActivitiesList extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   @override
-  State<TransactionActivitiesList> createState() =>
-      _TransactionActivitiesListState();
+  State<TransactionList> createState() => _TransactionListState();
 }
 
-class _TransactionActivitiesListState extends State<TransactionActivitiesList> {
+class _TransactionListState extends State<TransactionList> {
   late final TransactionBloc transactionBloc;
 
   @override

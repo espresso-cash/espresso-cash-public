@@ -17,7 +17,6 @@ Future<Response> _handler(Request request) async =>
       (data) async {
         final url = Uri.parse(moonpayBaseUrl).addParams({
           'apiKey': moonpayApiKey,
-          'baseCurrencyAmount': data.value,
           'walletAddress': Uri.encodeComponent(data.receiverAddress),
           'currencyCode': data.tokenSymbol,
           'baseCurrencyCode': 'usd',

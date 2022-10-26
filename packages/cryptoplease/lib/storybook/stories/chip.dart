@@ -11,6 +11,6 @@ final cpChip = Story(
       initial: CpChipPadding.normal,
       options: CpChipPadding.values.toOptions(),
     ),
-    child: const Text('EspressoCash'),
+    child: const Text('Espresso Cash'),
   ),
 );

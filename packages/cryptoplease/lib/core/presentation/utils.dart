@@ -31,7 +31,7 @@ extension ClipboardExt on BuildContext {
 }
 
 // TODO(rhbrunetto): use this extension app-wide
-extension AddressFormatterExt on String {
+extension StringExt on String {
   String toShortAddress() {
     if (length < 8) return this;
 
@@ -39,4 +39,7 @@ extension AddressFormatterExt on String {
         '\u2026'
         '${substring(this, length - 4)}';
   }
+
+  String withZeroWidthSpaces() =>
+      splitMapJoin('', onMatch: (m) => '${m.group(0)}\u200b');
 }

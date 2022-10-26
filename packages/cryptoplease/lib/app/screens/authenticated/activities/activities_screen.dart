@@ -43,8 +43,7 @@ class ActivitiesScreen extends StatelessWidget {
                     ),
                   ),
                   _Wrapper(
-                    // TODO(KB): Replace with TransactionsList
-                    child: TransactionActivitiesList(
+                    child: TransactionList(
                       padding: insets,
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
+import 'package:cryptoplease/features/legal/flow.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
