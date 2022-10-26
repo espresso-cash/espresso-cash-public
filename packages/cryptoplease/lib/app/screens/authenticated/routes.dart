@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/screens/authenticated/activities/activities_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/authenticated_flow_screen.dart';
+import 'package:cryptoplease/app/screens/authenticated/cash_out/cash_out_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/home_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/investments_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/profile/edit_profile_screen.dart';
@@ -38,6 +39,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<QrScannerRequest>(page: QrScannerScreen),
     ...receiveFlowRoutes,
     ...addFundsRoutes,
+    AutoRoute<void>(page: CashOutScreen, fullscreenDialog: true),
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),
