@@ -5,6 +5,7 @@ import 'package:cryptoplease/app/screens/authenticated/profile/components/profil
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
+import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/icon_button.dart';
 import 'package:cryptoplease/ui/user_avatar.dart';
@@ -68,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               top: 0,
                               right: 0,
                               child: CpIconButton(
-                                icon: Icons.close_outlined,
+                                icon: Assets.icons.closeButtonIcon.svg(),
                                 onPressed: Navigator.of(context).pop,
                               ),
                             ),
@@ -110,8 +111,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-const double _buttonSpacing = 24;
-const double _imageSize = 100;
+const double _buttonSpacing = 22;
+const double _imageSize = 88;
 
 class _QrCodeWidget extends StatelessWidget {
   const _QrCodeWidget({
