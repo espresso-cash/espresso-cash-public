@@ -157,7 +157,7 @@ class _AppBarContent extends StatelessWidget {
               right: 0,
               bottom: 0,
               child: CpIconButton(
-                icon: Icons.settings,
+                icon: Assets.icons.settingsButtonIcon.svg(),
                 onPressed: () => context.router.push(const ProfileRoute()),
               ),
             ),

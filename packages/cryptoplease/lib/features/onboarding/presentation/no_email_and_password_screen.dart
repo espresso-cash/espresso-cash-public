@@ -1,7 +1,6 @@
 import 'package:cryptoplease/features/onboarding/presentation/onboarding_flow_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/info_icon.dart';
 import 'package:cryptoplease/ui/info_widget.dart';
 import 'package:cryptoplease/ui/onboarding_screen.dart';
 import 'package:cryptoplease/ui/theme.dart';
@@ -24,15 +23,7 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
               const OnboardingLogo(),
               OnboardingPadding(
                 child: CpInfoWidget(
-                  icon: const CpInfoIcon(),
-                  message: Text(
-                    context.l10n.noEmailInCryptoInfo,
-                    textAlign: TextAlign.justify,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  message: Text(context.l10n.noEmailInCryptoInfo),
                 ),
               ),
               const SizedBox(height: 38),
