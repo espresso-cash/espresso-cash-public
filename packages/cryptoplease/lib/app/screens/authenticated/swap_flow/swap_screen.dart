@@ -91,7 +91,6 @@ class _SwapScreenState extends State<SwapScreen> {
               ),
             ),
             EquivalentHeader(
-              displayAmount: widget.displayAmount,
               inputAmount: widget.inputAmount,
               outputAmount: widget.outputAmount,
               isLoadingRoute: widget.isLoadingRoute,

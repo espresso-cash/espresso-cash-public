@@ -8,13 +8,11 @@ class EquivalentHeader extends StatelessWidget {
   const EquivalentHeader({
     Key? key,
     required this.inputAmount,
-    required this.displayAmount,
     required this.outputAmount,
     required this.isLoadingRoute,
   }) : super(key: key);
 
   final CryptoAmount inputAmount;
-  final CryptoAmount displayAmount;
   final CryptoAmount outputAmount;
   final bool isLoadingRoute;
 
