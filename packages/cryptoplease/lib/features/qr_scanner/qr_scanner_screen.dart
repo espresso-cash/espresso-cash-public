@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/qr_scanner/qr_scanner_bloc.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/dialogs.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

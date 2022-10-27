@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cryptoplease/app/components/snackbars.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/snackbar.dart';
 import 'package:flutter/services.dart';

@@ -43,7 +43,7 @@
   "retry": "Retry",
   "search": "Search",
   "noEmailInCryptoInfo": "With Espresso Cash, there’s no need for an email and password to access your money!",
-  "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\n\n\nKeep them safe! ",
+  "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe! ",
   "iUnderstand": "I Understand",
   "termsOfService": "Terms of Service",
   "failToLoadTerms": "Failed to load Terms of Service, something unexpected happened!",
@@ -87,7 +87,7 @@
   "splitKeyProgressSuccess": "Money has been successfully received",
   "resendLink": "Resend Links",
   "buy": "Buy",
-  "paymentRequestInitialNotificationTitle": "You requested {amount} from {payer}",
+  "paymentRequestInitialNotificationTitle": "You requested {amount} for {payer}",
   "@paymentRequestInitialNotificationTitle": {
     "placeholders": {
       "amount": {
@@ -140,7 +140,7 @@
   "copiedToClipboard": "Copied!",
   "scanQRTitle": "Scan a QR code",
   "supportEmail": "contact@espressocash.com",
-  "contactUs" : "Contact Us",
+  "contactUs": "Contact Us",
   "supportSubtitle": "You can send us an email to",
   "openEmailApp": "Open email app",
   "cameraPermissionsTitle": "Camera Permissions",
@@ -263,6 +263,9 @@
   "popularCryptoTitle": "Popular Crypto",
   "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
   "all": "All",
+  "addCashTitle": "Payment",
+  "addCashSubtitle": "Complete your purchase with one\nof our secure partners.",
+  "cashOutSubtitle": "Complete your withdrawal with one\nof our secure partners.",
   "myPortfolio": "MY PORTFOLIO",
   "requestOrSendPayment": "Request or send a payment",
   "noActivity": "No activity yet!",
@@ -298,6 +301,9 @@
   "less" : "less",
   "swap" : "Swap",
   "send" : "Send",
-  "recoveryWarningInfo" : "Please read carefully the information below before viewing your secret recovery phrase",
-  "recoveryWarningParagraph" : "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application."
+  "recoveryWarningInfo": "Please read carefully the information below before viewing your secret recovery phrase",
+  "recoveryWarningParagraph": "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application.",
+  "requestNoteRequesting": "Requesting",
+  "requestNoteFor": "For",
+  "requestNotePlaceholder": "Add a note for your request"
 }

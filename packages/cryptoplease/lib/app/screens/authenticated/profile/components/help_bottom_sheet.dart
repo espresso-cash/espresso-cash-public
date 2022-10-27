@@ -1,8 +1,8 @@
-import 'package:cryptoplease/app/components/snackbars.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,7 +12,6 @@ class HelpBottomSheet extends StatelessWidget {
   static Future<void> show(BuildContext context) => showModalBottomSheet(
         context: context,
         builder: (_) => const HelpBottomSheet(),
-        backgroundColor: CpColors.darkBackground,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24),
@@ -28,18 +27,18 @@ class HelpBottomSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              context.l10n.contactUs,
+              context.l10n.contactUs.toUpperCase(),
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 31,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
-                color: CpColors.lightButtonBackgroundColor,
+                color: CpColors.darkBackground,
               ),
             ),
             const SizedBox(height: 30),
             Text.rich(
               TextSpan(
-                text: '${context.l10n.supportSubtitle}\n',
+                text: '${context.l10n.supportSubtitle} ',
                 children: [
                   TextSpan(
                     text: context.l10n.supportEmail,
@@ -47,10 +46,11 @@ class HelpBottomSheet extends StatelessWidget {
                   ),
                 ],
                 style: const TextStyle(
-                  fontSize: 21,
-                  color: CpColors.lightButtonBackgroundColor,
+                  fontSize: 17,
+                  color: CpColors.darkBackground,
                 ),
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 30),
             CpButton(

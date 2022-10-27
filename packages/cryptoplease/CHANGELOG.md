@@ -1,3 +1,18 @@
+## 1.48.0
+
+ - **REFACTOR**: remove unused code.
+ - **REFACTOR**: update onboarding screen.
+ - **REFACTOR**: move app components to UI.
+ - **REFACTOR**: update cash in/out flows.
+ - **REFACTOR**: add ShareMessageBubble.
+ - **FIX**: update ODP confirmation screen.
+ - **FIX**: update Contact Us layout.
+ - **FIX**: update BackupWarningScreen layout.
+ - **FIX**: remove keypad visibility if not enabled (#562).
+ - **FEAT**: update payment request note screen.
+ - **FEAT**: new add cash and cash out flows (#512).
+ - **FEAT**: update app name (#564).
+
 ## 1.47.0
 
  - **FIX**: add amount to "creating links".

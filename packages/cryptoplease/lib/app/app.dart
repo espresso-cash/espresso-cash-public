@@ -44,7 +44,7 @@ class _CryptopleaseAppState extends State<CryptopleaseApp> {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           debugShowCheckedModeBanner: false,
-          title: 'EspressoCash',
+          title: 'Espresso Cash',
           theme: context.watch<CpThemeData>().toMaterialTheme(),
           builder: (context, child) => AppLockModule(child: child),
         ),

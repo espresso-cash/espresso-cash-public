@@ -1,5 +1,3 @@
-import 'package:cryptoplease/app/components/share_message/header.dart';
-import 'package:cryptoplease/app/components/share_message_wrapper.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/presentation/utils.dart';
@@ -9,6 +7,8 @@ import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/share_message/share_message_bubble.dart';
+import 'package:cryptoplease/ui/share_message/share_message_header.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
@@ -33,14 +33,12 @@ class ShareLinksScreen extends StatelessWidget {
       status.link2,
     );
 
-    final messageWrapper = ShareMessageWrapper(
+    final messageBubble = ShareMessageBubble(
       textSpan: TextSpan(
         children: [
-          WidgetSpan(
-            child: ShareMessageHeader(
-              intro: context.l10n.shareIntroFt,
-              amount: formattedAmount,
-            ),
+          ShareMessageHeader(
+            intro: context.l10n.shareIntroFt,
+            amount: formattedAmount,
           ),
           const WidgetSpan(child: _Instructions()),
           WidgetSpan(
@@ -78,7 +76,7 @@ class ShareLinksScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: subTitle,
               ),
-              Flexible(child: messageWrapper),
+              Flexible(child: messageBubble),
               const SizedBox(height: 24),
               shareButton,
             ],

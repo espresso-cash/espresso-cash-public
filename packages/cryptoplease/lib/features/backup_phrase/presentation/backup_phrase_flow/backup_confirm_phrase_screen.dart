@@ -1,9 +1,10 @@
-import 'package:cryptoplease/app/components/decorated_window.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
-import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/components/confirm_phrase.dart';
+import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/components/grid_phrase.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/onboarding_screen.dart';
+import 'package:cryptoplease/ui/recovery_phrase_text_view.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,40 +32,35 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
   Widget build(BuildContext context) {
     final correctPhrase = widget.correctPhrase;
 
-    return DecoratedWindow(
-      isScrollable: false,
-      hasLogo: true,
-      backgroundStyle: BackgroundStyle.dark,
-      message: context.l10n.completeThePuzzle,
-      child: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: CpContentPadding(
-              bottom: false,
-              child: ConfirmPhrase(
-                correctPhrase: correctPhrase,
-                currentPhrase: _currentPhrase,
-                onPhraseChanged: (phrase) =>
-                    setState(() => _currentPhrase = phrase),
+    return CpTheme.dark(
+      child: Scaffold(
+        body: OnboardingScreen(
+          footer: FooterButton(
+            text: context.l10n.next,
+            onPressed: _currentPhrase == correctPhrase ? _onConfirmed : null,
+          ),
+          children: [
+            CpAppBar(),
+            const OnboardingLogo(),
+            OnboardingDescription(text: context.l10n.completeThePuzzle),
+            OnboardingPadding(
+              child: RecoveryPhraseTextView(
+                phrase: _currentPhrase,
+                hasCopyButton: false,
               ),
             ),
-          ),
-          const SizedBox(height: 32),
-          Expanded(
-            child: Column(
-              children: [
-                CpButton(
-                  text: context.l10n.next,
-                  size: CpButtonSize.big,
-                  minWidth: 300,
-                  onPressed:
-                      _currentPhrase == correctPhrase ? _onConfirmed : null,
+            const SizedBox(height: 32),
+            SizedBox(
+              height: 200,
+              child: OnboardingPadding(
+                child: GridPhrase(
+                  correctPhrase: widget.correctPhrase,
+                  callback: (phrase) => setState(() => _currentPhrase = phrase),
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

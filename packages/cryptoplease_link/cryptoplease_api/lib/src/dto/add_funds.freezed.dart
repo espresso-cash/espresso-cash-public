@@ -158,7 +158,6 @@ AddFundsRequestDto _$AddFundsRequestDtoFromJson(Map<String, dynamic> json) {
 mixin _$AddFundsRequestDto {
   String get receiverAddress => throw _privateConstructorUsedError;
   String get tokenSymbol => throw _privateConstructorUsedError;
-  String get value => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -171,7 +170,7 @@ abstract class $AddFundsRequestDtoCopyWith<$Res> {
   factory $AddFundsRequestDtoCopyWith(
           AddFundsRequestDto value, $Res Function(AddFundsRequestDto) then) =
       _$AddFundsRequestDtoCopyWithImpl<$Res>;
-  $Res call({String receiverAddress, String tokenSymbol, String value});
+  $Res call({String receiverAddress, String tokenSymbol});
 }
 
 /// @nodoc
@@ -187,7 +186,6 @@ class _$AddFundsRequestDtoCopyWithImpl<$Res>
   $Res call({
     Object? receiverAddress = freezed,
     Object? tokenSymbol = freezed,
-    Object? value = freezed,
   }) {
     return _then(_value.copyWith(
       receiverAddress: receiverAddress == freezed
@@ -197,10 +195,6 @@ class _$AddFundsRequestDtoCopyWithImpl<$Res>
       tokenSymbol: tokenSymbol == freezed
           ? _value.tokenSymbol
           : tokenSymbol // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: value == freezed
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -213,7 +207,7 @@ abstract class _$$_AddFundsRequestDtoCopyWith<$Res>
           $Res Function(_$_AddFundsRequestDto) then) =
       __$$_AddFundsRequestDtoCopyWithImpl<$Res>;
   @override
-  $Res call({String receiverAddress, String tokenSymbol, String value});
+  $Res call({String receiverAddress, String tokenSymbol});
 }
 
 /// @nodoc
@@ -231,7 +225,6 @@ class __$$_AddFundsRequestDtoCopyWithImpl<$Res>
   $Res call({
     Object? receiverAddress = freezed,
     Object? tokenSymbol = freezed,
-    Object? value = freezed,
   }) {
     return _then(_$_AddFundsRequestDto(
       receiverAddress: receiverAddress == freezed
@@ -242,10 +235,6 @@ class __$$_AddFundsRequestDtoCopyWithImpl<$Res>
           ? _value.tokenSymbol
           : tokenSymbol // ignore: cast_nullable_to_non_nullable
               as String,
-      value: value == freezed
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -254,9 +243,7 @@ class __$$_AddFundsRequestDtoCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AddFundsRequestDto implements _AddFundsRequestDto {
   const _$_AddFundsRequestDto(
-      {required this.receiverAddress,
-      required this.tokenSymbol,
-      required this.value});
+      {required this.receiverAddress, required this.tokenSymbol});
 
   factory _$_AddFundsRequestDto.fromJson(Map<String, dynamic> json) =>
       _$$_AddFundsRequestDtoFromJson(json);
@@ -265,12 +252,10 @@ class _$_AddFundsRequestDto implements _AddFundsRequestDto {
   final String receiverAddress;
   @override
   final String tokenSymbol;
-  @override
-  final String value;
 
   @override
   String toString() {
-    return 'AddFundsRequestDto(receiverAddress: $receiverAddress, tokenSymbol: $tokenSymbol, value: $value)';
+    return 'AddFundsRequestDto(receiverAddress: $receiverAddress, tokenSymbol: $tokenSymbol)';
   }
 
   @override
@@ -281,8 +266,7 @@ class _$_AddFundsRequestDto implements _AddFundsRequestDto {
             const DeepCollectionEquality()
                 .equals(other.receiverAddress, receiverAddress) &&
             const DeepCollectionEquality()
-                .equals(other.tokenSymbol, tokenSymbol) &&
-            const DeepCollectionEquality().equals(other.value, value));
+                .equals(other.tokenSymbol, tokenSymbol));
   }
 
   @JsonKey(ignore: true)
@@ -290,8 +274,7 @@ class _$_AddFundsRequestDto implements _AddFundsRequestDto {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(receiverAddress),
-      const DeepCollectionEquality().hash(tokenSymbol),
-      const DeepCollectionEquality().hash(value));
+      const DeepCollectionEquality().hash(tokenSymbol));
 
   @JsonKey(ignore: true)
   @override
@@ -310,8 +293,7 @@ class _$_AddFundsRequestDto implements _AddFundsRequestDto {
 abstract class _AddFundsRequestDto implements AddFundsRequestDto {
   const factory _AddFundsRequestDto(
       {required final String receiverAddress,
-      required final String tokenSymbol,
-      required final String value}) = _$_AddFundsRequestDto;
+      required final String tokenSymbol}) = _$_AddFundsRequestDto;
 
   factory _AddFundsRequestDto.fromJson(Map<String, dynamic> json) =
       _$_AddFundsRequestDto.fromJson;
@@ -320,8 +302,6 @@ abstract class _AddFundsRequestDto implements AddFundsRequestDto {
   String get receiverAddress;
   @override
   String get tokenSymbol;
-  @override
-  String get value;
   @override
   @JsonKey(ignore: true)
   _$$_AddFundsRequestDtoCopyWith<_$_AddFundsRequestDto> get copyWith =>

@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:cryptoplease/app/components/decorated_window.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/pick_profile_picture.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/bottom_button.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/loader.dart';
+import 'package:cryptoplease/ui/onboarding_screen.dart';
 import 'package:cryptoplease/ui/text_field.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,16 +52,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       listener: (context, state) => _closeFlow(),
       child: CpLoader(
         isLoading: isLoading,
-        child: DecoratedWindow(
-          backgroundStyle: BackgroundStyle.dark,
-          bottomButton: CpBottomButton(
-            text: context.l10n.save,
-            onPressed: _updateProfile,
-          ),
-          backButton: BackButton(onPressed: _closeFlow),
-          child: CpContentPadding(
-            child: Column(
+        child: CpTheme.dark(
+          child: Scaffold(
+            body: OnboardingScreen(
+              footer: FooterButton(
+                text: context.l10n.save,
+                onPressed: _updateProfile,
+              ),
               children: [
+                CpAppBar(leading: BackButton(onPressed: _closeFlow)),
                 PickProfilePicture(
                   onChanged: (photo) => setState(() {
                     _photo = photo;
@@ -80,12 +79,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   photo: _photo,
                 ),
                 const SizedBox(height: 32),
-                CpTextField(
-                  margin: const EdgeInsets.only(top: 16),
-                  placeholder: context.l10n.yourFirstNamePlaceholder,
-                  controller: _controller,
-                  disabled: isLoading,
-                )
+                OnboardingPadding(
+                  child: CpTextField(
+                    margin: const EdgeInsets.only(top: 16),
+                    placeholder: context.l10n.yourFirstNamePlaceholder,
+                    controller: _controller,
+                    disabled: isLoading,
+                  ),
+                ),
               ],
             ),
           ),
