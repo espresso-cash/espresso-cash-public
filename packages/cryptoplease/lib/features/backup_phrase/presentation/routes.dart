@@ -17,11 +17,11 @@ const List<AutoRoute<dynamic>> backupPhraseRoutes = [
       AutoRoute<void>(page: PuzzleReminderSetupScreen),
     ],
   ),
-  AutoRoute<void>(path: '', page: BackupWarningScreen),
   AutoRoute<bool>(
     page: BackupPhraseFlowScreen,
     children: [
-      AutoRoute<void>(path: '', page: BackupPhraseScreen),
+      AutoRoute<void>(path: '', page: BackupWarningScreen),
+      AutoRoute<void>(page: BackupPhraseScreen),
       AutoRoute<void>(page: BackupConfirmPhraseScreen),
       AutoRoute<void>(page: BackupPhraseSuccessScreen),
     ],

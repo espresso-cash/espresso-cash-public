@@ -71,7 +71,7 @@ class _SecuritySection extends StatelessWidget {
             title: context.l10n.viewRecoveryPhrase,
             description: context.l10n.viewRecoveryPhraseDescription,
             icon: Assets.icons.secret,
-            onTap: () => context.router.push(const BackupWarningRoute()),
+            onTap: () => context.router.push(const BackupPhraseFlowRoute()),
           ),
         ],
       );
