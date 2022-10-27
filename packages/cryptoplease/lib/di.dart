@@ -1,7 +1,6 @@
 import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:cryptoplease/di.config.dart';
-import 'package:cryptoplease/features/swap/bl/repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -44,9 +43,4 @@ abstract class AppModule {
 
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
-
-  @lazySingleton
-  JupiterRepository get jupiterRepository => JupiterRepository(
-        jupiterAggregatorClient: sl<JupiterAggregatorClient>(),
-      );
 }

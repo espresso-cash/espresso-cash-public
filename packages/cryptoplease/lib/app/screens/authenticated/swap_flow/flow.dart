@@ -3,13 +3,12 @@ import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/swap_exception_dialog.dart';
 import 'package:cryptoplease/app/screens/authenticated/swap_flow/swap_screen.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
-import 'package:cryptoplease/features/swap/bl/repository.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
+import 'package:cryptoplease/features/swap/bl/swap_operation.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/colors.dart';
@@ -25,8 +24,6 @@ extension BuyTokenExt on BuildContext {
         SwapFlowRoute(
           inputToken: Token.usdc,
           outputToken: token,
-          slippage: Decimal.one,
-          operation: SwapOperation.buy,
         ),
       );
 }
@@ -36,8 +33,6 @@ extension SellTokenExt on BuildContext {
         SwapFlowRoute(
           inputToken: token,
           outputToken: Token.usdc,
-          slippage: Decimal.one,
-          operation: SwapOperation.sell,
         ),
       );
 }
@@ -47,14 +42,10 @@ class SwapFlowScreen extends StatefulWidget {
     Key? key,
     required this.inputToken,
     required this.outputToken,
-    required this.slippage,
-    required this.operation,
   }) : super(key: key);
 
   final Token inputToken;
   final Token outputToken;
-  final Decimal slippage;
-  final SwapOperation operation;
 
   @override
   State<SwapFlowScreen> createState() => _FlowState();
@@ -62,19 +53,24 @@ class SwapFlowScreen extends StatefulWidget {
 
 class _FlowState extends State<SwapFlowScreen> {
   late final CreateSwapBloc createSwapBloc;
+  late final SwapOperation operation;
 
   @override
   void initState() {
     super.initState();
-    createSwapBloc = CreateSwapBloc(
-      input: widget.inputToken,
-      output: widget.outputToken,
-      initialSlippage: Decimal.one,
-      jupiterRepository: sl<JupiterRepository>(),
-      myAccount: context.read<MyAccount>(),
-      balances: context.read<BalancesBloc>().state.balances,
-      analyticsManager: sl<AnalyticsManager>(),
-      swapOperation: widget.operation,
+
+    operation = widget.inputToken == Token.usdc
+        ? SwapOperation.buy
+        : SwapOperation.sell;
+
+    createSwapBloc = sl<CreateSwapBloc>(
+      param1: SwapSetup(
+        input: widget.inputToken,
+        output: widget.outputToken,
+        initialEditingMode: operation.toInitialEditingMode(),
+        destinationWallet: context.read<MyAccount>().wallet,
+      ),
+      param2: context.read<BalancesBloc>().state.balances,
     )..add(
         const CreateSwapEvent.initialized(),
       );
@@ -109,7 +105,7 @@ class _FlowState extends State<SwapFlowScreen> {
   void _onRouteReady(JupiterRoute route) => context.router.replace(
         SwapStatusRoute(
           route: route,
-          operation: widget.operation,
+          operation: operation,
         ),
       );
 
@@ -132,7 +128,7 @@ class _FlowState extends State<SwapFlowScreen> {
               appBar: CpAppBar(
                 leading: const CloseButton(),
                 title: Text(
-                  widget.operation.title(context, state.input, state.output),
+                  operation.title(context, state.input, state.output),
                 ),
               ),
               body: SwapScreen(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/currency.dart';
@@ -14,7 +13,9 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:solana/solana.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';
@@ -24,21 +25,26 @@ typedef _Event = CreateSwapEvent;
 typedef _State = CreateSwapState;
 typedef _Emitter = Emitter<_State>;
 
-enum SwapOperation { buy, sell }
-
-class CreateSwapBloc extends Bloc<_Event, _State> {
-  CreateSwapBloc({
+@freezed
+class SwapSetup with _$SwapSetup {
+  const factory SwapSetup({
     required Token input,
     required Token output,
-    required Decimal initialSlippage,
-    required SwapOperation swapOperation,
-    required MyAccount myAccount,
-    required Map<Token, Amount> balances,
+    required SwapEditingMode initialEditingMode,
+    required Wallet destinationWallet,
+  }) = _SwapSetup;
+}
+
+@injectable
+class CreateSwapBloc extends Bloc<_Event, _State> {
+  CreateSwapBloc({
+    @factoryParam required SwapSetup setup,
+    @factoryParam required Map<Token, Amount> balances,
     required JupiterRepository jupiterRepository,
     required AnalyticsManager analyticsManager,
   })  : _jupiterRepository = jupiterRepository,
-        _myAccount = myAccount,
         _analyticsManager = analyticsManager,
+        _destinationWallet = setup.destinationWallet,
         _balances = balances.lock.add(
           Token.wrappedSol,
           balances[Token.sol] ??
@@ -48,37 +54,29 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         ),
         super(
           CreateSwapState(
-            editingMode: swapOperation == SwapOperation.buy
-                ? const SwapEditingMode.output()
-                : const SwapEditingMode.input(),
-            inputAmount: CryptoAmount(
-              value: 0,
-              currency: CryptoCurrency(token: input),
-            ),
-            outputAmount: CryptoAmount(
-              value: 0,
-              currency: CryptoCurrency(token: output),
-            ),
-            slippage: initialSlippage,
+            editingMode: setup.initialEditingMode,
+            inputAmount: setup.input.toZeroAmount(),
+            outputAmount: setup.output.toZeroAmount(),
+            slippage: Decimal.one,
           ),
         ) {
     on<Init>(_onInit);
     on<SlippageUpdated>(_onSlippageUpdated);
     on<EditingModeToggled>(_onEditingModeToggled);
     on<AmountUpdated>(_onAmountUpdated);
+    on<Submitted>(_onSubmitted);
     on<RouteInvalidated>(
       _onRouteInvalidated,
       transformer: (events, mapper) => events
           .debounceTime(const Duration(milliseconds: 300))
           .switchMap(mapper),
     );
-    on<Submitted>(_onSubmitted);
   }
 
   final JupiterRepository _jupiterRepository;
   final AnalyticsManager _analyticsManager;
   final IMap<Token, Amount> _balances;
-  final MyAccount _myAccount;
+  final Wallet _destinationWallet;
 
   bool isValidInput(Token token) => _balances.isPositive(token);
 
@@ -171,7 +169,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         inputToken: state.input,
         outputToken: state.output,
         slippage: state.slippage,
-        userPublickKey: _myAccount.address,
+        userPublickKey: _destinationWallet.address,
       );
 
       if (routes.isEmpty) throw const SwapException.routeNotFound();
@@ -266,5 +264,12 @@ extension on CreateSwapState {
           input: always(const SwapEditingMode.output()),
           output: always(const SwapEditingMode.input()),
         ),
+      );
+}
+
+extension on Token {
+  CryptoAmount toZeroAmount() => CryptoAmount(
+        value: 0,
+        currency: CryptoCurrency(token: this),
       );
 }

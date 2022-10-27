@@ -12,7 +12,7 @@ class CreateSwapState with _$CreateSwapState {
     required CryptoAmount inputAmount,
     required CryptoAmount outputAmount,
     required Decimal slippage,
-    @Default(SwapEditingMode.input()) SwapEditingMode editingMode,
+    required SwapEditingMode editingMode,
     JupiterRoute? bestRoute,
     @Default(Flow<SwapException, JupiterRoute>.initial())
         Flow<SwapException, JupiterRoute> flowState,

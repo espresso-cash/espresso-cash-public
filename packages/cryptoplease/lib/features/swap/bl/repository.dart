@@ -2,7 +2,9 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class JupiterRepository {
   JupiterRepository({
     required JupiterAggregatorClient jupiterAggregatorClient,
