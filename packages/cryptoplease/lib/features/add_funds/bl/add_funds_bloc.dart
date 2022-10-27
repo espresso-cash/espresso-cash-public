@@ -36,7 +36,7 @@ class AddFundsBloc extends Bloc<AddFundsEvent, AddFundsState> {
 
   void _onFtxRequested(Emitter<AddFundsState> emit) {
     emit(const AddFundsState.initial());
-    emit(const AddFundsState.success(ftxSupportUrl));
+    emit(const AddFundsState.success(ftxAddCashSupportUrl));
   }
 
   void _onKadoRequested(Emitter<AddFundsState> emit) {
