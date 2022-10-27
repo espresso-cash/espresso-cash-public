@@ -24,9 +24,11 @@ class MenuScreen extends StatelessWidget {
             onRefresh: onRefresh,
             backgroundColor: Colors.white,
             color: CpColors.primaryColor,
-            child: DecoratedBox(
+            child: Container(
+              height: double.infinity,
               decoration: _menuScreenBackground,
               child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
                 child: Column(
                   children: const [
