@@ -17,8 +17,7 @@ class BackupWarningScreen extends StatelessWidget {
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
               text: context.l10n.iUnderstand,
-              onPressed: () =>
-                  context.router.push(const BackupPhraseFlowRoute()),
+              onPressed: () => context.router.push(const BackupPhraseRoute()),
             ),
             children: [
               CpAppBar(),
