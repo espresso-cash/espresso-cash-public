@@ -23,14 +23,7 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
               const OnboardingLogo(),
               OnboardingPadding(
                 child: CpInfoWidget(
-                  message: Text(
-                    context.l10n.noEmailInCryptoInfo,
-                    textAlign: TextAlign.justify,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  message: Text(context.l10n.noEmailInCryptoInfo),
                 ),
               ),
               const SizedBox(height: 38),

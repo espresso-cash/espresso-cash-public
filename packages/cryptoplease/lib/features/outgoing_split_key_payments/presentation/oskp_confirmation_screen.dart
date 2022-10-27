@@ -81,9 +81,7 @@ class _TokenCreateLinkContent extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: CpInfoWidget(
-              message: Text(context.l10n.sendExplanation),
-            ),
+            child: CpInfoWidget(message: Text(context.l10n.sendExplanation)),
           ),
           const Spacer(),
         ],

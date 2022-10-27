@@ -23,10 +23,7 @@ class BackupWarningScreen extends StatelessWidget {
               const OnboardingLogo(),
               OnboardingPadding(
                 child: CpInfoWidget(
-                  message: Text(
-                    context.l10n.recoveryWarningInfo,
-                    textAlign: TextAlign.left,
-                  ),
+                  message: Text(context.l10n.recoveryWarningInfo),
                 ),
               ),
               const SizedBox(height: 38),
