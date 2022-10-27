@@ -1,3 +1,4 @@
+import 'package:cryptoplease/ui/chip.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class CpBorderedRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 74,
+        height: MediaQuery.of(context).size.height < 700 ? 56 : 74,
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -38,6 +39,24 @@ class CpBorderedRow extends StatelessWidget {
               content,
             ],
           ),
+        ),
+      );
+}
+
+class BorderedRowChip extends StatelessWidget {
+  const BorderedRowChip({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Expanded(
+        child: Wrap(
+          children: [
+            CpChip(
+              padding: CpChipPadding.small,
+              child: child,
+            ),
+          ],
         ),
       );
 }

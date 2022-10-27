@@ -6,7 +6,6 @@ import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/bordered_row.dart';
 import 'package:cryptoplease/ui/bottom_button.dart';
-import 'package:cryptoplease/ui/chip.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
 import 'package:cryptoplease/ui/theme.dart';
@@ -41,18 +40,11 @@ class _RequestNoteScreenState extends State<RequestNoteScreen> {
             children: [
               CpBorderedRow(
                 title: Text(context.l10n.requestNoteRequesting),
-                content: Expanded(
-                  child: Wrap(
-                    children: [
-                      CpChip(
-                        padding: CpChipPadding.small,
-                        child: Text(
-                          widget.amount.format(DeviceLocale.localeOf(context)),
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                content: BorderedRowChip(
+                  child: Text(
+                    widget.amount.format(DeviceLocale.localeOf(context)),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),

@@ -1,9 +1,9 @@
-import 'package:cryptoplease/app/components/refresh_balance_wrapper.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/popular_crypto_header.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/popular_token_list.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/portfolio_widget.dart';
 import 'package:cryptoplease/app/screens/authenticated/investments/components/total_balance_widget.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
+import 'package:cryptoplease/core/balances/presentation/refresh_balance_wrapper.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';

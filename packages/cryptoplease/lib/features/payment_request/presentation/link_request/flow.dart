@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
@@ -9,6 +8,7 @@ import 'package:cryptoplease/features/payment_request/bl/create_payment_request/
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/presentation/link_details/flow.dart';
 import 'package:cryptoplease/features/payment_request/presentation/link_request/request_note_screen.dart';
+import 'package:cryptoplease/ui/dialogs.dart';
 import 'package:cryptoplease/ui/loader.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';

@@ -11,6 +11,7 @@ const List<AutoRoute<dynamic>> backupPhraseRoutes = [
   AutoRoute<void>(
     name: 'PuzzleReminderRoute',
     page: EmptyRouterPage,
+    fullscreenDialog: true,
     children: [
       AutoRoute<void>(path: '', page: PuzzleReminderMessageScreen),
       AutoRoute<void>(page: PuzzleReminderSetupScreen),

@@ -1,12 +1,14 @@
 import 'dart:io';
 
-import 'package:cryptoplease/app/components/dialogs.dart';
-import 'package:cryptoplease/app/components/onboarding_screen.dart';
 import 'package:cryptoplease/features/onboarding/bl/sign_up_bloc.dart';
 import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/pick_profile_picture.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/dialogs.dart';
 import 'package:cryptoplease/ui/loader.dart';
+import 'package:cryptoplease/ui/onboarding_screen.dart';
 import 'package:cryptoplease/ui/text_field.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,27 +71,34 @@ class _EnterFirstNameState extends State<EnterFirstName> {
   bool get _isValid => _controller.text.isNotEmpty;
 
   @override
-  Widget build(BuildContext context) => OnboardingScreen(
-        onNextPressed: _isValid ? _onSubmitted : null,
-        nextLabel: context.l10n.next,
-        child: Column(
-          children: [
-            PickProfilePicture(
-              photo: _photo,
-              label: context.l10n.uploadPhoto,
-              onChanged: (File? value) => setState(() {
-                _photo = value;
-              }),
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: Scaffold(
+          body: OnboardingScreen(
+            footer: FooterButton(
+              text: context.l10n.next,
+              onPressed: _isValid ? _onSubmitted : null,
             ),
-            const SizedBox(height: 32),
-            CpTextField(
-              key: keyCreateProfileName,
-              margin: const EdgeInsets.only(top: 16),
-              placeholder: context.l10n.yourFirstNamePlaceholder,
-              controller: _controller,
-              backgroundColor: Colors.white,
-            ),
-          ],
+            children: [
+              CpAppBar(),
+              PickProfilePicture(
+                photo: _photo,
+                label: context.l10n.uploadPhoto,
+                onChanged: (File? value) => setState(() {
+                  _photo = value;
+                }),
+              ),
+              const SizedBox(height: 32),
+              OnboardingPadding(
+                child: CpTextField(
+                  key: keyCreateProfileName,
+                  margin: const EdgeInsets.only(top: 16),
+                  placeholder: context.l10n.yourFirstNamePlaceholder,
+                  controller: _controller,
+                  backgroundColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }

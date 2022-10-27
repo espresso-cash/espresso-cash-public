@@ -43,7 +43,7 @@
   "retry": "Retry",
   "search": "Search",
   "noEmailInCryptoInfo": "With Espresso Cash, there’s no need for an email and password to access your money!",
-  "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\n\n\nKeep them safe! ",
+  "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe! ",
   "iUnderstand": "I Understand",
   "termsOfService": "Terms of Service",
   "failToLoadTerms": "Failed to load Terms of Service, something unexpected happened!",
