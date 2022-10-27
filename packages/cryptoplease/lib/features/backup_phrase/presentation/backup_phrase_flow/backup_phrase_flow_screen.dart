@@ -13,31 +13,42 @@ class BackupPhraseFlowScreen extends StatefulWidget {
 
 class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>
     implements BackupPhraseRouter {
+  final _navigatorKey = GlobalKey<AutoRouterState>();
+
+  @override
+  void onWarningConfirmed() {
+    _navigatorKey.currentState?.controller?.replace(const BackupPhraseRoute());
+  }
+
   @override
   void onGoToConfirmationScreen(String phrase) {
-    context.router.push(BackupConfirmPhraseRoute(correctPhrase: phrase));
+    _navigatorKey.currentState?.controller
+        ?.push(BackupConfirmPhraseRoute(correctPhrase: phrase));
   }
 
   @override
   void onConfirmed() {
     context.read<PuzzleReminderBloc>().add(const PuzzleReminderEvent.solved());
 
-    context.router.replaceAll([const BackupPhraseSuccessRoute()]);
+    _navigatorKey.currentState?.controller
+        ?.replaceAll([const BackupPhraseSuccessRoute()]);
   }
 
   @override
   void closeFlow({required bool solved}) {
-    Navigator.of(context).pop(solved);
+    context.router.pop(solved);
   }
 
   @override
   Widget build(BuildContext context) => Provider<BackupPhraseRouter>.value(
         value: this,
-        child: const AutoRouter(),
+        child: AutoRouter(key: _navigatorKey),
       );
 }
 
 abstract class BackupPhraseRouter {
+  void onWarningConfirmed();
+
   void onGoToConfirmationScreen(String phrase);
 
   void onConfirmed();
