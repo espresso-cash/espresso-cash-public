@@ -11,9 +11,13 @@ import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
 import 'package:cryptoplease/features/swap/bl/repository.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/colors.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 extension BuyTokenExt on BuildContext {
@@ -118,18 +122,33 @@ class _FlowState extends State<SwapFlowScreen> {
           failure: _onSwapException,
           success: _onRouteReady,
         ),
-        builder: (context, state) => SwapScreen(
-          title: widget.operation.title(context, state.input, state.output),
-          inputAmount: state.inputAmount,
-          outputAmount: state.outputAmount,
-          displayAmount: state.requestAmount,
-          slippage: state.slippage,
-          maxAmountAvailable: createSwapBloc.calculateMaxAmount(),
-          isLoadingRoute: state.flowState.isProcessing(),
-          onSlippageChanged: _onSlippageUpdate,
-          onAmountChanged: _onAmountUpdate,
-          onSubmit: _onSubmit,
-          onEditingModeToggled: _onEditingModeToggled,
+        builder: (context, state) => AnnotatedRegion(
+          value: SystemUiOverlayStyle.light.copyWith(
+            statusBarBrightness: Brightness.dark,
+          ),
+          child: CpTheme.dark(
+            child: Scaffold(
+              backgroundColor: CpColors.darkBackground,
+              appBar: CpAppBar(
+                leading: const CloseButton(),
+                title: Text(
+                  widget.operation.title(context, state.input, state.output),
+                ),
+              ),
+              body: SwapScreen(
+                inputAmount: state.inputAmount,
+                outputAmount: state.outputAmount,
+                displayAmount: state.requestAmount,
+                slippage: state.slippage,
+                maxAmountAvailable: createSwapBloc.calculateMaxAmount(),
+                isLoadingRoute: state.flowState.isProcessing(),
+                onSlippageChanged: _onSlippageUpdate,
+                onAmountChanged: _onAmountUpdate,
+                onSubmit: _onSubmit,
+                onEditingModeToggled: _onEditingModeToggled,
+              ),
+            ),
+          ),
         ),
       );
 }

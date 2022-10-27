@@ -8,15 +8,11 @@ import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/amount_keypad/amount_keypad.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
 import 'package:cryptoplease/ui/number_formatter.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class SwapScreen extends StatefulWidget {
   const SwapScreen({
@@ -31,7 +27,6 @@ class SwapScreen extends StatefulWidget {
     required this.onEditingModeToggled,
     required this.onSubmit,
     required this.isLoadingRoute,
-    required this.title,
   }) : super(key: key);
 
   final CryptoAmount inputAmount;
@@ -44,7 +39,6 @@ class SwapScreen extends StatefulWidget {
   final ValueSetter<Decimal> onAmountChanged;
   final VoidCallback onEditingModeToggled;
   final bool isLoadingRoute;
-  final String title;
 
   @override
   State<SwapScreen> createState() => _SwapScreenState();
@@ -90,65 +84,51 @@ class _SwapScreenState extends State<SwapScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => AnnotatedRegion(
-        value: SystemUiOverlayStyle.light.copyWith(
-          statusBarBrightness: Brightness.dark,
-        ),
-        child: CpTheme.dark(
-          child: Scaffold(
-            backgroundColor: CpColors.darkBackground,
-            appBar: CpAppBar(
-              leading: const CloseButton(),
-              title: Text(widget.title),
-            ),
-            body: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ValueListenableBuilder<TextEditingValue>(
-                    valueListenable: _amountController,
-                    builder: (context, value, __) => _DisplayHeader(
-                      displayAmount: value.text,
-                    ),
-                  ),
-                  EquivalentHeader(
-                    displayAmount: widget.displayAmount,
-                    inputAmount: widget.inputAmount,
-                    outputAmount: widget.outputAmount,
-                    isLoadingRoute: widget.isLoadingRoute,
-                  ),
-                  TokenDropDown(
-                    current: widget.displayAmount.token,
-                    onTokenChanged: (_) => widget.onEditingModeToggled(),
-                    availableTokens: [
-                      widget.inputAmount.token,
-                      widget.outputAmount.token,
-                    ],
-                  ),
-                  AvailableBalance(
-                    maxAmountAvailable: widget.maxAmountAvailable,
-                  ),
-                  SlippageInfo(
-                    slippage: widget.slippage,
-                    onSlippageChanged: widget.onSlippageChanged,
-                  ),
-                  Flexible(
-                    child: LayoutBuilder(
-                      builder: (context, constraints) => AmountKeypad(
-                        height: constraints.maxHeight,
-                        width: constraints.maxWidth,
-                        controller: _amountController,
-                        maxDecimals: widget.displayAmount.token.decimals,
-                      ),
-                    ),
-                  ),
-                  _Button(
-                    onSubmit: widget.onSubmit,
-                  ),
-                ],
+  Widget build(BuildContext context) => SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ValueListenableBuilder<TextEditingValue>(
+              valueListenable: _amountController,
+              builder: (context, value, __) => _DisplayHeader(
+                displayAmount: value.text,
               ),
             ),
-          ),
+            EquivalentHeader(
+              displayAmount: widget.displayAmount,
+              inputAmount: widget.inputAmount,
+              outputAmount: widget.outputAmount,
+              isLoadingRoute: widget.isLoadingRoute,
+            ),
+            TokenDropDown(
+              current: widget.displayAmount.token,
+              onTokenChanged: (_) => widget.onEditingModeToggled(),
+              availableTokens: [
+                widget.inputAmount.token,
+                widget.outputAmount.token,
+              ],
+            ),
+            AvailableBalance(
+              maxAmountAvailable: widget.maxAmountAvailable,
+            ),
+            SlippageInfo(
+              slippage: widget.slippage,
+              onSlippageChanged: widget.onSlippageChanged,
+            ),
+            Flexible(
+              child: LayoutBuilder(
+                builder: (context, constraints) => AmountKeypad(
+                  height: constraints.maxHeight,
+                  width: constraints.maxWidth,
+                  controller: _amountController,
+                  maxDecimals: widget.displayAmount.token.decimals,
+                ),
+              ),
+            ),
+            _Button(
+              onSubmit: widget.onSubmit,
+            ),
+          ],
         ),
       );
 }
