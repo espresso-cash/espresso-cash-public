@@ -1,3 +1,7 @@
+## 1.49.1
+
+ - **FIX**: backup flow routing (#577).
+
 ## 1.49.0
 
  - **REFACTOR**: remove icon parameter from InfoWidget.
