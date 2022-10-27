@@ -23,7 +23,6 @@ _$_AddFundsRequestDto _$$_AddFundsRequestDtoFromJson(
     _$_AddFundsRequestDto(
       receiverAddress: json['receiverAddress'] as String,
       tokenSymbol: json['tokenSymbol'] as String,
-      value: json['value'] as String,
     );
 
 Map<String, dynamic> _$$_AddFundsRequestDtoToJson(
@@ -31,5 +30,4 @@ Map<String, dynamic> _$$_AddFundsRequestDtoToJson(
     <String, dynamic>{
       'receiverAddress': instance.receiverAddress,
       'tokenSymbol': instance.tokenSymbol,
-      'value': instance.value,
     };
