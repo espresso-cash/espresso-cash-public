@@ -64,4 +64,7 @@ const moonpayHost = 'moonpay.$cpLinkDomain';
 
 const kadoBaseUrl = 'https://app.kado.money/';
 const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
-const ftxSupportUrl = 'https://help.ftx.com/hc/en-us/articles/360027668372';
+const ftxAddCashSupportUrl =
+    'http://www.espressocash.com/docs/using-the-app/add-cash-ftx-com';
+const ftxCashoutSupportUrl =
+    'http://www.espressocash.com/docs/using-the-app/cash-out-ftx-com';

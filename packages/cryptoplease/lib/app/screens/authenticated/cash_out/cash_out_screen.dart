@@ -31,7 +31,7 @@ class CashOutScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 PartnerButton(
-                  onTap: () => context.openLink(ftxSupportUrl),
+                  onTap: () => context.openLink(ftxCashoutSupportUrl),
                   image: Assets.images.logoFtx,
                   backgroundColor: const Color(0xff12a8c9),
                 ),
