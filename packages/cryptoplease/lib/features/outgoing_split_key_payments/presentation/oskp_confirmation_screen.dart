@@ -9,7 +9,6 @@ import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/chip.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/info_icon.dart';
 import 'package:cryptoplease/ui/info_widget.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:dfunc/dfunc.dart';
@@ -83,7 +82,6 @@ class _TokenCreateLinkContent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: CpInfoWidget(
-              icon: const CpInfoIcon(),
               message: Text(context.l10n.sendExplanation),
             ),
           ),
