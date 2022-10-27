@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:cryptoplease/features/onboarding/bl/sign_up_bloc.dart';
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/pick_profile_picture.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:cryptoplease/features/onboarding/bl/onboarding_bloc.dart';
+import 'package:cryptoplease/features/onboarding/presentation/components/pick_profile_picture.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/dialogs.dart';
@@ -17,7 +18,8 @@ class CreateProfileScreen extends StatelessWidget {
   const CreateProfileScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => BlocConsumer<SignUpBloc, SignUpState>(
+  Widget build(BuildContext context) =>
+      BlocConsumer<OnboardingBloc, OnboardingState>(
         listener: (context, state) => state.processingState.maybeWhen(
           error: (e) => showErrorDialog(context, 'Error', e),
           orElse: ignore,
@@ -27,10 +29,10 @@ class CreateProfileScreen extends StatelessWidget {
           child: EnterFirstName(
             onSubmitted: (name, photo) async {
               context
-                  .read<SignUpBloc>()
-                  .add(SignUpEvent.submitted(name: name, photo: photo));
+                  .read<OnboardingBloc>()
+                  .add(OnboardingEvent.submitted(name: name, photo: photo));
             },
-            onBackButtonPressed: () => Navigator.of(context).pop(),
+            onBackButtonPressed: () => context.router.pop(),
           ),
         ),
       );
@@ -66,7 +68,7 @@ class _EnterFirstNameState extends State<EnterFirstName> {
     super.dispose();
   }
 
-  void _onSubmitted() => widget.onSubmitted(_controller.text, _photo);
+  void _handleSubmitted() => widget.onSubmitted(_controller.text, _photo);
 
   bool get _isValid => _controller.text.isNotEmpty;
 
@@ -74,18 +76,16 @@ class _EnterFirstNameState extends State<EnterFirstName> {
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           body: OnboardingScreen(
-            footer: FooterButton(
+            footer: OnboardingFooterButton(
               text: context.l10n.next,
-              onPressed: _isValid ? _onSubmitted : null,
+              onPressed: _isValid ? _handleSubmitted : null,
             ),
             children: [
               CpAppBar(),
               PickProfilePicture(
                 photo: _photo,
                 label: context.l10n.uploadPhoto,
-                onChanged: (File? value) => setState(() {
-                  _photo = value;
-                }),
+                onChanged: (File? value) => setState(() => _photo = value),
               ),
               const SizedBox(height: 32),
               OnboardingPadding(

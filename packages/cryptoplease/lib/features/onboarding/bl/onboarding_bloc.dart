@@ -10,40 +10,40 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'sign_up_bloc.freezed.dart';
+part 'onboarding_bloc.freezed.dart';
 
-class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  SignUpBloc(
+class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
+  OnboardingBloc(
     this._copyFile,
     this._accountsBloc,
-  ) : super(const SignUpState()) {
-    on<SignUpEvent>(_eventHander, transformer: sequential());
+  ) : super(const OnboardingState()) {
+    on<OnboardingEvent>(_eventHander, transformer: sequential());
   }
 
   final CopyFileToAppDir _copyFile;
   final AccountsBloc _accountsBloc;
 
-  EventHandler<SignUpEvent, SignUpState> get _eventHander =>
+  EventHandler<OnboardingEvent, OnboardingState> get _eventHander =>
       (event, emit) => event.map(
             phraseRequested: (_) => _onPhraseRequested(emit),
             phraseUpdated: (event) => _onPhraseUpdated(event, emit),
             submitted: (event) => _onSubmitted(event, emit),
           );
 
-  Future<void> _onPhraseRequested(Emitter<SignUpState> emit) async {
+  Future<void> _onPhraseRequested(Emitter<OnboardingState> emit) async {
     emit(state.copyWith(phrase: bip39.generateMnemonic()));
   }
 
   Future<void> _onPhraseUpdated(
-    SignUpPhraseUpdated event,
-    Emitter<SignUpState> emit,
+    OnboardingPhraseUpdated event,
+    Emitter<OnboardingState> emit,
   ) async {
     emit(state.copyWith(phrase: event.phrase));
   }
 
   Future<void> _onSubmitted(
-    SignUpSubmitted event,
-    Emitter<SignUpState> emit,
+    OnboardingSubmitted event,
+    Emitter<OnboardingState> emit,
   ) async {
     emit(state.copyWith(processingState: const ProcessingState.processing()));
     try {
@@ -68,22 +68,23 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 bool validateMnemonic(String mnemonic) => bip39.validateMnemonic(mnemonic);
 
 @freezed
-class SignUpState with _$SignUpState {
-  const factory SignUpState({
+class OnboardingState with _$OnboardingState {
+  const factory OnboardingState({
     @Default('') String phrase,
     @Default(ProcessingStateNone<Exception>())
         ProcessingState<Exception> processingState,
-  }) = _SignUpState;
+  }) = _OnboardingState;
 }
 
 @freezed
-class SignUpEvent with _$SignUpEvent {
-  const factory SignUpEvent.phraseRequested() = SignUpPhraseRequested;
+class OnboardingEvent with _$OnboardingEvent {
+  const factory OnboardingEvent.phraseRequested() = OnboardingPhraseRequested;
 
-  const factory SignUpEvent.phraseUpdated(String phrase) = SignUpPhraseUpdated;
+  const factory OnboardingEvent.phraseUpdated(String phrase) =
+      OnboardingPhraseUpdated;
 
-  const factory SignUpEvent.submitted({
+  const factory OnboardingEvent.submitted({
     required String name,
     File? photo,
-  }) = SignUpSubmitted;
+  }) = OnboardingSubmitted;
 }

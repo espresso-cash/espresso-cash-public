@@ -35,7 +35,7 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
     return CpTheme.dark(
       child: Scaffold(
         body: OnboardingScreen(
-          footer: FooterButton(
+          footer: OnboardingFooterButton(
             text: context.l10n.next,
             onPressed: _currentPhrase == correctPhrase ? _onConfirmed : null,
           ),

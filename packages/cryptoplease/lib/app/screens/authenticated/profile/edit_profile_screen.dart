@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/pick_profile_picture.dart';
+import 'package:cryptoplease/features/onboarding/presentation/components/pick_profile_picture.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/loader.dart';
@@ -55,7 +55,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: CpTheme.dark(
           child: Scaffold(
             body: OnboardingScreen(
-              footer: FooterButton(
+              footer: OnboardingFooterButton(
                 text: context.l10n.save,
                 onPressed: _updateProfile,
               ),

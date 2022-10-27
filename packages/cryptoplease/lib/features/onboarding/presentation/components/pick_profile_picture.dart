@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/pick_image_container.dart';
+import 'package:cryptoplease/features/onboarding/presentation/components/pick_image_container.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
