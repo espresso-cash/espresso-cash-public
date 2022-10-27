@@ -9,7 +9,7 @@ final cpBottomButton = Story(
     appBar: CpAppBar(title: const Text('Bottom button')),
     body: Column(
       children: [
-        const Expanded(child: Center(child: Text('Crypto Please'))),
+        const Expanded(child: Center(child: Text('Espresso Cash'))),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: CpBottomButton(

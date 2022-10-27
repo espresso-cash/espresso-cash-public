@@ -1,10 +1,10 @@
-import 'package:cryptoplease/app/components/decorated_window.dart';
-import 'package:cryptoplease/app/components/recovery_phrase_text_view.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
+import 'package:cryptoplease/ui/onboarding_screen.dart';
+import 'package:cryptoplease/ui/recovery_phrase_text_view.dart';
+import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -38,32 +38,19 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => DecoratedWindow(
-        backButton: BackButton(onPressed: _closeFlow),
-        title: context.l10n.yourRecoveryPhrase,
-        message: context.l10n.recoverySubHeading,
-        backgroundStyle: BackgroundStyle.dark,
-        hasLogo: true,
-        child: CpContentPadding(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: Scaffold(
+          body: OnboardingScreen(
+            footer: OnboardingFooterButton(
+              text: context.l10n.next,
+              onPressed: _goToConfirmPage,
+            ),
             children: [
-              RecoveryPhraseTextView(
-                phrase: _phrase,
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CpButton(
-                      text: context.l10n.next,
-                      size: CpButtonSize.big,
-                      minWidth: 300,
-                      onPressed: _goToConfirmPage,
-                    ),
-                  ],
-                ),
-              ),
+              CpAppBar(leading: BackButton(onPressed: _closeFlow)),
+              const OnboardingLogo(),
+              OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
+              OnboardingDescription(text: context.l10n.recoverySubHeading),
+              OnboardingPadding(child: RecoveryPhraseTextView(phrase: _phrase)),
             ],
           ),
         ),

@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
@@ -15,7 +14,7 @@ import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/icon_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class MenuHeader extends StatelessWidget {
   const MenuHeader({
@@ -60,11 +59,7 @@ class MenuHeader extends StatelessWidget {
                 token: Token.usdc,
               ),
             ),
-            onCashOut: () => showWarningDialog(
-              context,
-              title: context.l10n.cashOut,
-              message: context.l10n.comingSoon,
-            ),
+            onCashOut: () => context.router.navigate(const CashOutRoute()),
           ),
         ],
       ),

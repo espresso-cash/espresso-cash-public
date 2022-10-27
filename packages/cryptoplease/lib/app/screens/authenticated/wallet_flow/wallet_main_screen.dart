@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/features/outgoing_direct_payments/presentation/odp_header.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
@@ -6,9 +5,9 @@ import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/amount_keypad/amount_keypad.dart';
 import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/info_icon.dart';
-import 'package:cryptoplease/ui/info_widget.dart';
 import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
+import 'package:cryptoplease/ui/number_formatter.dart';
+import 'package:cryptoplease/ui/usdc_info.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
@@ -69,6 +68,7 @@ class _ScreenState extends State<WalletMainScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
@@ -80,7 +80,9 @@ class _ScreenState extends State<WalletMainScreen> {
             collapsed: false,
           ),
           const SizedBox(height: 8),
-          const _InfoWidget(),
+          UsdcInfoWidget(
+            isSmall: height < 700,
+          ),
           Flexible(
             child: LayoutBuilder(
               builder: (context, constraints) => AmountKeypad(
@@ -117,36 +119,6 @@ class _ScreenState extends State<WalletMainScreen> {
           ),
           const SizedBox(height: cpNavigationBarheight + 24),
         ],
-      ),
-    );
-  }
-}
-
-class _InfoWidget extends StatelessWidget {
-  const _InfoWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    // Samsung Galaxy S20 and larger are good enough to show the full-size
-    // version of the widget.
-    final isSmall = screenHeight < 800;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: isSmall ? 4 : 8,
-        horizontal: isSmall ? 20 : 40,
-      ),
-      child: CpInfoWidget(
-        icon: const CpInfoIcon(),
-        message: Text(
-          context.l10n.usdcExplanation,
-          style: TextStyle(
-            fontSize: isSmall ? 12 : 14,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        padding: EdgeInsets.all(isSmall ? 12 : 20),
       ),
     );
   }

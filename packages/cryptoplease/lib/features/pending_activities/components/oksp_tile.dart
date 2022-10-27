@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
+import 'package:cryptoplease/core/presentation/format_date.dart';
 import 'package:cryptoplease/features/pending_activities/components/styles.dart';
 import 'package:cryptoplease/features/pending_activities/pending_activity.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
@@ -30,8 +31,11 @@ class OSKPTile extends StatelessWidget {
             )
           ],
         ),
-        subtitle: Text(activity.created.toString(), style: subtitleStyle),
-        leading: Assets.icons.oskpActivitySent.svg(),
+        subtitle: Text(
+          context.formatDate(activity.created),
+          style: subtitleStyle,
+        ),
+        leading: Assets.icons.outgoing.svg(),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );
 }

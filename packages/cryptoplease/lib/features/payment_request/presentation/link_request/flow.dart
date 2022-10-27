@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/dialogs.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
@@ -8,7 +7,8 @@ import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/payment_request/bl/create_payment_request/bloc.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/presentation/link_details/flow.dart';
-import 'package:cryptoplease/features/payment_request/presentation/link_request/payer_name_screen.dart';
+import 'package:cryptoplease/features/payment_request/presentation/link_request/request_note_screen.dart';
+import 'package:cryptoplease/ui/dialogs.dart';
 import 'package:cryptoplease/ui/loader.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +18,10 @@ import 'package:provider/provider.dart';
 class LinkRequestFlowScreen extends StatefulWidget {
   const LinkRequestFlowScreen({
     Key? key,
-    this.initialAmount,
+    required this.initialAmount,
   }) : super(key: key);
 
-  final CryptoAmount? initialAmount;
+  final CryptoAmount initialAmount;
 
   @override
   State<LinkRequestFlowScreen> createState() => _LinkRequestFlowScreenState();
@@ -41,36 +41,34 @@ class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
       conversionRatesRepository: sl<ConversionRatesRepository>(),
     );
 
-    if (amount != null) {
-      paymentRequestBloc.add(
-        CreatePaymentRequestEvent.tokenAmountUpdated(
-          amount.decimal,
-        ),
-      );
-    }
+    paymentRequestBloc.add(
+      CreatePaymentRequestEvent.tokenAmountUpdated(amount.decimal),
+    );
   }
 
   @override
   Widget build(BuildContext context) =>
       Provider<CreatePaymentRequestBloc>.value(
         value: paymentRequestBloc,
-        child: const _Content(),
+        child: _Content(amount: widget.initialAmount),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key}) : super(key: key);
+  const _Content({Key? key, required this.amount}) : super(key: key);
+
+  final Amount amount;
 
   @override
   State<_Content> createState() => _ContentState();
 }
 
-class _ContentState extends State<_Content> implements PayerNameSetter {
+class _ContentState extends State<_Content> implements NoteSetter {
   @override
-  void onPayerNameSubmitted(String name) {
+  void onNoteSubmitted(String name) {
     context
         .read<CreatePaymentRequestBloc>()
-        .add(CreatePaymentRequestEvent.payerNameUpdated(name));
+        .add(CreatePaymentRequestEvent.labelUpdated(name));
 
     final state = context.read<CreatePaymentRequestBloc>().state;
 
@@ -85,7 +83,7 @@ class _ContentState extends State<_Content> implements PayerNameSetter {
   @override
   Widget build(BuildContext context) => MultiProvider(
         providers: [
-          Provider<PayerNameSetter>.value(value: this),
+          Provider<NoteSetter>.value(value: this),
         ],
         child:
             BlocConsumer<CreatePaymentRequestBloc, CreatePaymentRequestState>(
@@ -104,7 +102,7 @@ class _ContentState extends State<_Content> implements PayerNameSetter {
           ),
           builder: (context, state) => CpLoader(
             isLoading: state.flow.isProcessing(),
-            child: const AutoRouter(),
+            child: RequestNoteScreen(amount: widget.amount),
           ),
           buildWhen: (s1, s2) => s1.flow != s2.flow,
         ),

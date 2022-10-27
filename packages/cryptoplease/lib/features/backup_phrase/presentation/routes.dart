@@ -3,6 +3,7 @@ import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_f
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_success_screen.dart';
+import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_warning_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/puzzle_reminder_message_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/puzzle_reminder_setup_screen.dart';
 
@@ -10,11 +11,13 @@ const List<AutoRoute<dynamic>> backupPhraseRoutes = [
   AutoRoute<void>(
     name: 'PuzzleReminderRoute',
     page: EmptyRouterPage,
+    fullscreenDialog: true,
     children: [
       AutoRoute<void>(path: '', page: PuzzleReminderMessageScreen),
       AutoRoute<void>(page: PuzzleReminderSetupScreen),
     ],
   ),
+  AutoRoute<void>(path: '', page: BackupWarningScreen),
   AutoRoute<bool>(
     page: BackupPhraseFlowScreen,
     children: [

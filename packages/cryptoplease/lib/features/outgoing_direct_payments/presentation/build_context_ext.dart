@@ -13,6 +13,7 @@ extension OdpRoutesExt on BuildContext {
   void createAndOpenDirectPayment({
     required Decimal amountInUsdc,
     required Ed25519HDPublicKey receiver,
+    required Ed25519HDPublicKey? reference,
   }) {
     const currency = Currency.usdc;
     final id = const Uuid().v4();
@@ -25,6 +26,7 @@ extension OdpRoutesExt on BuildContext {
           value: currency.decimalToInt(amountInUsdc),
           currency: currency,
         ),
+        reference: reference,
       ),
     );
 

@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/available_balance.dart';
 import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/equivalent_header.dart';
 import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/slippage_info.dart';
@@ -13,6 +12,7 @@ import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
+import 'package:cryptoplease/ui/number_formatter.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';

@@ -1,10 +1,10 @@
-import 'package:cryptoplease/app/components/number_formatter.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/l10n/decimal_separator.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/chip.dart';
+import 'package:cryptoplease/ui/number_formatter.dart';
 import 'package:flutter/material.dart';
 
 class ODPHeader extends StatelessWidget {
@@ -99,13 +99,16 @@ class _InputDisplay extends StatelessWidget {
     final amount = input.formatted(context);
     final formatted = '$sign$amount';
 
-    return FittedBox(
-      child: Text(
-        formatted,
-        textAlign: TextAlign.right,
-        style: TextStyle(
-          fontSize: fontSize,
-          fontWeight: FontWeight.w700,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: FittedBox(
+        child: Text(
+          formatted,
+          textAlign: TextAlign.right,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );

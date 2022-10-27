@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cryptoplease/app/components/snackbars.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/snackbar.dart';
 import 'package:flutter/services.dart';
@@ -27,4 +26,9 @@ extension ClipboardExt on BuildContext {
     Clipboard.setData(data);
     showClipboardSnackbar(this);
   }
+}
+
+extension StringExt on String {
+  String withZeroWidthSpaces() =>
+      splitMapJoin('', onMatch: (m) => '${m.group(0)}\u200b');
 }

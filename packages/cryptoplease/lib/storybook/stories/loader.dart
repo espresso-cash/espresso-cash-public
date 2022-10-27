@@ -6,6 +6,6 @@ final cpLoader = Story(
   name: 'CpLoader',
   builder: (context) => CpLoader(
     isLoading: context.knobs.boolean(label: 'Loading', initial: true),
-    child: const Center(child: Text('Crypto Please')),
+    child: const Center(child: Text('Espresso Cash')),
   ),
 );

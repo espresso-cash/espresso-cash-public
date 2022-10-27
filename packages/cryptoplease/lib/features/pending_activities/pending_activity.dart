@@ -1,3 +1,4 @@
+import 'package:cryptoplease/features/outgoing_direct_payments/bl/outgoing_direct_payment.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,6 +14,7 @@ class PendingActivity with _$PendingActivity {
   const factory PendingActivity.outgoingDirectPayment({
     required String id,
     required DateTime created,
+    required OutgoingDirectPayment data,
   }) = ODPPendingActivity;
 
   const factory PendingActivity.outgoingSplitKeyPayment({

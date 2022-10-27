@@ -4,6 +4,6 @@ import 'package:cryptoplease/core/amount.dart';
 import 'package:flutter/material.dart';
 
 extension ReceiveFlowExt on BuildContext {
-  void navigateToReceiveByLink({CryptoAmount? amount}) =>
+  void navigateToReceiveByLink({required CryptoAmount amount}) =>
       navigateTo(LinkRequestFlowRoute(initialAmount: amount));
 }

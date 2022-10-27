@@ -7,7 +7,7 @@ final cpBackgroundGradient = Story(
   builder: (context) => const CpBackgroundGradient(
     child: Center(
       child: Text(
-        'Crypto Please',
+        'Espresso Cash',
         style: TextStyle(fontSize: 20, color: Colors.white),
       ),
     ),

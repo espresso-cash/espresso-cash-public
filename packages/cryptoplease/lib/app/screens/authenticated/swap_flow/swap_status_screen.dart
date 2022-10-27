@@ -1,6 +1,6 @@
-import 'package:cryptoplease/app/components/swap_status/swap_error.dart';
-import 'package:cryptoplease/app/components/swap_status/swap_progress.dart';
-import 'package:cryptoplease/app/components/swap_status/swap_success.dart';
+import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/status/swap_error.dart';
+import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/status/swap_progress.dart';
+import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/status/swap_success.dart';
 import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
 import 'package:cryptoplease/features/swap/bl/swap_verifier/bloc.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';

@@ -21,6 +21,7 @@ class ODPEvent with _$ODPEvent {
   const factory ODPEvent.create({
     required String id,
     required Ed25519HDPublicKey receiver,
+    required Ed25519HDPublicKey? reference,
     required CryptoAmount amount,
   }) = ODPEventCreate;
 
@@ -63,7 +64,11 @@ class ODPBloc extends Bloc<_Event, _State> {
       throw ArgumentError('Only USDC is supported');
     }
 
-    final status = await _createTx(event.receiver, event.amount);
+    final status = await _createTx(
+      event.receiver,
+      event.amount,
+      reference: event.reference,
+    );
 
     final payment = OutgoingDirectPayment(
       id: event.id,
@@ -92,7 +97,11 @@ class ODPBloc extends Bloc<_Event, _State> {
       txCreated: (status) => _sendTx(status.tx),
       txSent: (status) => _waitTx(status.txId),
       success: (status) async => status,
-      txFailure: (_) => _createTx(payment.receiver, payment.amount),
+      txFailure: (_) => _createTx(
+        payment.receiver,
+        payment.amount,
+        reference: payment.reference,
+      ),
       txSendFailure: (status) => _sendTx(status.tx),
       txWaitFailure: (status) => _waitTx(status.txId),
     );
@@ -113,12 +122,14 @@ class ODPBloc extends Bloc<_Event, _State> {
 
   Future<ODPStatus> _createTx(
     Ed25519HDPublicKey receiver,
-    Amount amount,
-  ) async {
+    Amount amount, {
+    required Ed25519HDPublicKey? reference,
+  }) async {
     try {
       final dto = CreateDirectPaymentRequestDto(
         senderAccount: _account.address,
         receiverAccount: receiver.toBase58(),
+        referenceAccount: reference?.toBase58(),
         amount: amount.value,
         cluster: apiCluster,
       );

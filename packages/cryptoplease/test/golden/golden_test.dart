@@ -1,5 +1,5 @@
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/get_started_screen.dart';
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/no_email_and_password_screen.dart';
+import 'package:cryptoplease/features/onboarding/presentation/get_started_screen.dart';
+import 'package:cryptoplease/features/onboarding/presentation/no_email_and_password_screen.dart';
 
 import 'utils.dart';
 

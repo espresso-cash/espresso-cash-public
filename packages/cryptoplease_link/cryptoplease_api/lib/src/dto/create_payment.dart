@@ -53,6 +53,7 @@ class CreateDirectPaymentRequestDto with _$CreateDirectPaymentRequestDto {
   const factory CreateDirectPaymentRequestDto({
     required String senderAccount,
     required String receiverAccount,
+    required String? referenceAccount,
     required int amount,
     required Cluster cluster,
   }) = _CreateDirectPaymentRequestDto;

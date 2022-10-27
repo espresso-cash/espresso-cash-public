@@ -25,11 +25,14 @@ const solanaWebSocketUrl = String.fromEnvironment(
 
 const twitterUrl = 'https://twitter.com/cryptopleasecom';
 
-const faqUrl = 'https://learn.cryptoplease.com/';
+const faqUrl = 'https://www.espressocash.com/docs/intro/';
 
 const sentryDsn = String.fromEnvironment('SENTRY_DSN', defaultValue: '');
 
 const lamportsPerSignature = 5000;
+
+const termsUrl = 'https://espressocash.com/docs/legal/terms';
+const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
 
 /// Currently, the rent cost is fixed at the genesis. However, it's anticipated
 /// to be dynamic, reflecting the underlying hardware storage cost at the time.
@@ -57,3 +60,11 @@ const cpLinkDomain = 'cryptoplease.link';
 const link1Host = 'solana1.$cpLinkDomain';
 const link2Host = 'solana2.$cpLinkDomain';
 const solanaPayHost = 'solanapay.$cpLinkDomain';
+const moonpayHost = 'moonpay.$cpLinkDomain';
+
+const kadoBaseUrl = 'https://app.kado.money/';
+const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
+const ftxAddCashSupportUrl =
+    'http://www.espressocash.com/docs/using-the-app/add-cash-ftx-com';
+const ftxCashoutSupportUrl =
+    'http://www.espressocash.com/docs/using-the-app/cash-out-ftx-com';

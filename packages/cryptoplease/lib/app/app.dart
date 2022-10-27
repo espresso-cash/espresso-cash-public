@@ -38,13 +38,13 @@ class _CryptopleaseAppState extends State<CryptopleaseApp> {
               else if (isLoading)
                 const SplashRoute()
               else
-                const SignUpFlowRoute(),
+                const OnboardingFlowRoute(),
             ],
           ),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           debugShowCheckedModeBanner: false,
-          title: 'Crypto Please',
+          title: 'Espresso Cash',
           theme: context.watch<CpThemeData>().toMaterialTheme(),
           builder: (context, child) => AppLockModule(child: child),
         ),
