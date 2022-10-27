@@ -47,10 +47,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         _destinationWallet = setup.destinationWallet,
         _balances = balances.lock.add(
           Token.wrappedSol,
-          balances[Token.sol] ??
-              Amount.zero(
-                currency: const Currency.crypto(token: Token.wrappedSol),
-              ),
+          balances[Token.sol] ?? Token.wrappedSol.toZeroAmount(),
         ),
         super(
           CreateSwapState(
