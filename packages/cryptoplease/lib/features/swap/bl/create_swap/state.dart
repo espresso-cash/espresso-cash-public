@@ -64,6 +64,7 @@ extension CreateSwapExt on CreateSwapState {
   }
 
   CryptoAmount get fee {
+    // TODO(rhbrunetto): fee (in USDC) will be retrieved after user submit
     final routeFee = bestRoute?.fees;
     const zeroFee = CryptoAmount(value: 0, currency: Currency.sol);
 

@@ -25,6 +25,17 @@ extension FormatAmountWithFiatExt on CryptoAmount {
 }
 
 extension FormatAmountExt on Amount {
+  String shortFormat(
+    Locale? locale, {
+    bool skipSymbol = true,
+  }) =>
+      format(
+        locale,
+        skipSymbol: skipSymbol,
+        roundInteger: true,
+        decimals: 2,
+      );
+
   String format(
     Locale? locale, {
     bool skipSymbol = false,

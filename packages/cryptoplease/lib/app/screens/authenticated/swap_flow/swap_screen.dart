@@ -69,11 +69,7 @@ class _SwapScreenState extends State<SwapScreen> {
     final currentAmount = _amountController.text.toDecimalOrZero(locale);
     if (newAmount != oldWidget.displayAmount.decimal &&
         newAmount != currentAmount) {
-      _amountController.text = widget.displayAmount.format(
-        locale,
-        skipSymbol: true,
-        decimals: 2,
-      );
+      _amountController.text = widget.displayAmount.shortFormat(locale);
     }
   }
 

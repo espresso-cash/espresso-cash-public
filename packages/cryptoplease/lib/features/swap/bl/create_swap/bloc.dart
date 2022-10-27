@@ -60,7 +60,6 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
               currency: CryptoCurrency(token: output),
             ),
             slippage: initialSlippage,
-            flowState: const Flow.processing(),
           ),
         ) {
     on<Init>(_onInit);
@@ -85,6 +84,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
 
   Future<void> _onInit(Init _, _Emitter emit) async {
     try {
+      emit(state.processing());
+
       final input = state.input;
       final output = state.output;
       final routeExists = await _jupiterRepository.routeExists(input, output);
@@ -97,11 +98,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         ),
       );
     } on SwapException catch (e) {
-      emit(
-        state.copyWith(
-          flowState: Flow.failure(e),
-        ),
-      );
+      emit(state.error(e));
     }
   }
 
@@ -132,16 +129,9 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     EditingModeToggled _,
     _Emitter emit,
   ) async =>
-      _updateRoute((state) {
-        emit(
-          state.copyWith(
-            editingMode: state.editingMode.map(
-              input: always(const SwapEditingMode.output()),
-              output: always(const SwapEditingMode.input()),
-            ),
-          ),
-        );
-      });
+      _updateRoute(
+        (state) => emit(state.toggleEditingMode()),
+      );
 
   Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
     state.validate(_balances).fold(
@@ -149,7 +139,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         emit(state.copyWith(flowState: Flow.failure(e)));
         emit(state.copyWith(flowState: const Flow.initial()));
       },
-      (s) {
+      (r) {
         _analyticsManager.swapTransactionCreated(
           from: state.input.symbol,
           to: state.output.symbol,
@@ -157,7 +147,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         );
         emit(
           state.copyWith(
-            flowState: Flow.success(s),
+            flowState: Flow.success(r),
           ),
         );
       },
@@ -168,18 +158,12 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     final amount = state.requestAmount;
 
     if (amount.value == 0) {
-      emit(
-        state.copyWith(
-          bestRoute: null,
-          inputAmount: state.inputAmount.copyWith(value: 0),
-          outputAmount: state.outputAmount.copyWith(value: 0),
-        ),
-      );
+      emit(state.reset());
 
       return;
     }
 
-    emit(state.copyWith(flowState: const Flow.processing()));
+    emit(state.processing());
 
     try {
       final routes = await _jupiterRepository.findRoutes(
@@ -192,51 +176,20 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
 
       if (routes.isEmpty) throw const SwapException.routeNotFound();
 
-      final bestRoute = state.editingMode.map(
-        input: always(routes.first),
-        output: always(routes.last),
-      );
+      final bestRoute = routes.first;
 
-      final outputAmount = state.editingMode.map(
-        input: always(state.outputAmount),
-        output: always(
-          state.outputAmount.copyWith(
-            value: int.parse(bestRoute.outAmount),
-          ),
+      state.editingMode.when(
+        input: always(
+          emit(state.updateOutputFromRoute(bestRoute)),
         ),
-      );
-
-      final inputAmount = state.editingMode.map(
-        input: always(state.inputAmount),
         output: always(
-          state.inputAmount.copyWith(
-            value: int.parse(bestRoute.inAmount),
-          ),
-        ),
-      );
-
-      emit(
-        state.copyWith(
-          bestRoute: bestRoute,
-          outputAmount: outputAmount,
-          inputAmount: inputAmount,
-          flowState: const Flow.initial(),
+          emit(state.updateInputFromRoute(bestRoute)),
         ),
       );
     } on SwapException catch (e) {
-      emit(
-        state.copyWith(
-          flowState: Flow.failure(e),
-          bestRoute: null,
-        ),
-      );
+      emit(state.error(e));
     } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          flowState: Flow.failure(SwapException.other(e)),
-          bestRoute: null,
-        ),
-      );
+      emit(state.error(SwapException.other(e)));
     }
   }
 
@@ -273,4 +226,45 @@ extension BalanceExt on IMap<Token, Amount> {
 
     return CryptoAmount(value: value, currency: CryptoCurrency(token: token));
   }
+}
+
+extension on CreateSwapState {
+  CreateSwapState processing() => copyWith(
+        flowState: const Flow.processing(),
+      );
+
+  CreateSwapState error(SwapException e) => copyWith(
+        bestRoute: null,
+        flowState: Flow.failure(e),
+      );
+
+  CreateSwapState reset() => copyWith(
+        bestRoute: null,
+        inputAmount: inputAmount.copyWith(value: 0),
+        outputAmount: outputAmount.copyWith(value: 0),
+        flowState: const Flow.initial(),
+      );
+
+  CreateSwapState updateInputFromRoute(JupiterRoute bestRoute) => copyWith(
+        bestRoute: bestRoute,
+        flowState: const Flow.initial(),
+        inputAmount: inputAmount.copyWith(
+          value: int.parse(bestRoute.inAmount),
+        ),
+      );
+
+  CreateSwapState updateOutputFromRoute(JupiterRoute bestRoute) => copyWith(
+        bestRoute: bestRoute,
+        flowState: const Flow.initial(),
+        outputAmount: outputAmount.copyWith(
+          value: int.parse(bestRoute.outAmount),
+        ),
+      );
+
+  CreateSwapState toggleEditingMode() => copyWith(
+        editingMode: editingMode.map(
+          input: always(const SwapEditingMode.output()),
+          output: always(const SwapEditingMode.input()),
+        ),
+      );
 }

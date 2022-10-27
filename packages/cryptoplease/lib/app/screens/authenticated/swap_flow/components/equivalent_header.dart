@@ -28,10 +28,9 @@ class EquivalentHeader extends StatelessWidget {
     } else {
       final locale = DeviceLocale.localeOf(context);
       final formattedInput = inputAmount.format(locale, roundInteger: true);
-      final formattedOutput = outputAmount.format(
+      final formattedOutput = outputAmount.shortFormat(
         locale,
-        decimals: 2,
-        roundInteger: true,
+        skipSymbol: false,
       );
 
       content = FittedBox(
