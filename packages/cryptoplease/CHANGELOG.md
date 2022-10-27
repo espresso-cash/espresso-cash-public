@@ -1,3 +1,15 @@
+## 1.49.0
+
+ - **REFACTOR**: remove icon parameter from InfoWidget.
+ - **REFACTOR**: update backup phrase routes (#572).
+ - **REFACTOR**: update payment request naming (#571).
+ - **REFACTOR**: update onboarding flow structure (#569).
+ - **FIX**: text style in InfoWidget (#576).
+ - **FIX**: menu screen.
+ - **FIX**: update icon button.
+ - **FIX**: update keypad.
+ - **FEAT**: update ftx support urls (#568).
+
 ## 1.48.0
 
  - **REFACTOR**: remove unused code.
