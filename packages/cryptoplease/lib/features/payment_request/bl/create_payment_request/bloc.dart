@@ -41,7 +41,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   final ConversionRatesRepository _conversionRatesRepository;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
-        payerNameUpdated: (event) => _onPayerNameUpdated(event, emit),
+        labelUpdated: (event) => _onLabelUpdated(event, emit),
         tokenAmountUpdated: (event) => _onAmountUpdated(event, emit),
         fiatAmountUpdated: (event) => _onFiatAmountUpdated(event, emit),
         submitted: (event) => _onSubmitted(event, emit),
@@ -60,11 +60,11 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
         ratesRepository: _conversionRatesRepository,
       );
 
-  Future<void> _onPayerNameUpdated(
-    PayerNameUpdated event,
+  Future<void> _onLabelUpdated(
+    LabelUpdated event,
     _Emitter emit,
   ) async {
-    emit(state.copyWith(payerName: event.value));
+    emit(state.copyWith(label: event.value));
   }
 
   Future<void> _onAmountUpdated(
@@ -94,7 +94,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onSubmitted(Submitted event, _Emitter emit) async {
-    if (state.payerName.isEmpty) throw StateError('Payer name is empty.');
+    if (state.label.isEmpty) throw StateError('Label is empty.');
 
     emit(state.copyWith(flow: const Flow.processing()));
 
@@ -112,7 +112,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
     final paymentRequest = PaymentRequest(
       id: const Uuid().v4(),
       created: DateTime.now(),
-      payerName: state.payerName,
+      label: state.label,
       payRequest: request,
       dynamicLink: request.toUniversalLink().toString(),
       state: const PaymentRequestState.initial(),

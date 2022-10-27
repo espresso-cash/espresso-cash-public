@@ -68,7 +68,7 @@ class _ContentState extends State<_Content> implements NoteSetter {
   void onNoteSubmitted(String name) {
     context
         .read<CreatePaymentRequestBloc>()
-        .add(CreatePaymentRequestEvent.payerNameUpdated(name));
+        .add(CreatePaymentRequestEvent.labelUpdated(name));
 
     final state = context.read<CreatePaymentRequestBloc>().state;
 

@@ -78,7 +78,7 @@ extension on PaymentRequestRow {
   PaymentRequest toPaymentRequest() => PaymentRequest(
         id: id,
         created: created,
-        payerName: payerName,
+        label: payerName,
         payRequest: SolanaPayRequest(
           amount: amount?.let(Decimal.parse),
           recipient: Ed25519HDPublicKey.fromBase58(recipient),
@@ -99,7 +99,7 @@ extension on PaymentRequest {
   PaymentRequestRow toRow() => PaymentRequestRow(
         id: id,
         created: created,
-        payerName: payerName,
+        payerName: label,
         dynamicLink: dynamicLink,
         state: state.toPaymentRequestStateDto(),
         transactionId: state.transactionIdOrNull,
