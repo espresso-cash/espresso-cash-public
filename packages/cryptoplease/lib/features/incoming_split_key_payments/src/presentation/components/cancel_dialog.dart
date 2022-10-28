@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/theme.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/colors.dart';
+import '../../../../../ui/theme.dart';
 
 void showCancelDialog(BuildContext context, VoidCallback onCancel) {
   showDialog<void>(

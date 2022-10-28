@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../di.dart';
-import '../../../ui/transfer_status/transfer_error.dart';
-import '../../../ui/transfer_status/transfer_progress.dart';
-import '../../../ui/transfer_status/transfer_success.dart';
+import '../../../../di.dart';
+import '../../../../ui/transfer_status/transfer_error.dart';
+import '../../../../ui/transfer_status/transfer_progress.dart';
+import '../../../../ui/transfer_status/transfer_success.dart';
 import '../bl/incoming_split_key_payment.dart';
 import '../bl/iskp_bloc.dart';
 import '../bl/iskp_repository.dart';

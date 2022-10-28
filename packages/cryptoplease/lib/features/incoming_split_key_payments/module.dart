@@ -5,7 +5,11 @@ import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/account.dart';
 import '../../di.dart';
-import 'bl/iskp_bloc.dart';
+import 'src/bl/iskp_bloc.dart';
+import 'src/presentation/pending_iskp_listener.dart';
+
+export 'src/bl/iskp_repository.dart';
+export 'src/presentation/routes.dart';
 
 class ISKPModule extends SingleChildStatelessWidget {
   const ISKPModule({Key? key, Widget? child}) : super(key: key, child: child);
@@ -19,6 +23,6 @@ class ISKPModule extends SingleChildStatelessWidget {
             ),
           ),
         ],
-        child: child,
+        child: PendingISKPListener(child: child ?? const SizedBox.shrink()),
       );
 }

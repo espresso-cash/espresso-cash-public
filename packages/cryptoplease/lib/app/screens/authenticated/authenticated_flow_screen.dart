@@ -12,7 +12,6 @@ import '../../../core/conversion_rates/module.dart';
 import '../../../core/user_preferences.dart';
 import '../../../features/backup_phrase/module.dart';
 import '../../../features/incoming_split_key_payments/module.dart';
-import '../../../features/incoming_split_key_payments/presentation/pending_iskp_listener.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
 import '../../../features/outgoing_direct_payments/presentation/link_listener.dart';
 import '../../../features/outgoing_split_key_payments/module.dart';
@@ -61,9 +60,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const ISKPModule(),
               ],
               child: ODPLinkListener(
-                child: PendingISKPListener(
-                  child: AutoRouter(key: _homeRouterKey),
-                ),
+                child: AutoRouter(key: _homeRouterKey),
               ),
             );
           },

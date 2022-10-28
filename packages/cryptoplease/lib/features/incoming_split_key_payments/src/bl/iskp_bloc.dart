@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../config.dart';
-import '../../../core/transactions/resign_tx.dart';
-import '../../../core/transactions/tx_sender.dart';
+import '../../../../config.dart';
+import '../../../../core/transactions/resign_tx.dart';
+import '../../../../core/transactions/tx_sender.dart';
 import 'incoming_split_key_payment.dart';
 import 'iskp_repository.dart';
 

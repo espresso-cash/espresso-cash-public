@@ -7,8 +7,8 @@ import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../data/db/db.dart';
-import '../../../data/db/mixins.dart';
+import '../../../../data/db/db.dart';
+import '../../../../data/db/mixins.dart';
 import 'incoming_split_key_payment.dart';
 
 @injectable

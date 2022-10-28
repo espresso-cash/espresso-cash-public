@@ -7,7 +7,7 @@ import '../../../../../config.dart';
 import '../../../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../../../core/presentation/utils.dart';
 import '../../../../../di.dart';
-import '../../../../../features/incoming_split_key_payments/bl/iskp_repository.dart';
+import '../../../../../features/incoming_split_key_payments/module.dart';
 import '../../../../../features/legal/flow.dart';
 import '../../../../../features/outgoing_direct_payments/bl/repository.dart';
 import '../../../../../features/outgoing_split_key_payments/bl/repository.dart';
