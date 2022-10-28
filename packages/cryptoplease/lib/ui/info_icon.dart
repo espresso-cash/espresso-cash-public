@@ -1,6 +1,7 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../gen/assets.gen.dart';
+import 'colors.dart';
 
 class CpInfoIcon extends StatelessWidget {
   const CpInfoIcon({Key? key}) : super(key: key);

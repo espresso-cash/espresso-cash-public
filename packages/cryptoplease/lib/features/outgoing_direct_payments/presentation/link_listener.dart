@@ -1,18 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/dynamic_links_notifier.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/presentation/build_context_ext.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
+
+import '../../../app/routes.dart';
+import '../../../config.dart';
+import '../../../core/amount.dart';
+import '../../../core/currency.dart';
+import '../../../core/dynamic_links_notifier.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../core/tokens/token.dart';
+import '../../../l10n/device_locale.dart';
+import 'build_context_ext.dart';
 
 class ODPLinkListener extends StatefulWidget {
   const ODPLinkListener({super.key, required this.child});

@@ -1,6 +1,7 @@
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/info_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../l10n/l10n.dart';
+import 'info_widget.dart';
 
 class UsdcInfoWidget extends StatelessWidget {
   const UsdcInfoWidget({

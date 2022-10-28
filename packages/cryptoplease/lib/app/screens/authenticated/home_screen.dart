@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/ui/navigation_bar/navigation_button.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../../../gen/assets.gen.dart';
+import '../../../ui/navigation_bar/navigation_bar.dart';
+import '../../../ui/navigation_bar/navigation_button.dart';
+import '../../routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

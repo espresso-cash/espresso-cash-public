@@ -1,13 +1,14 @@
-import 'package:cryptoplease/app/screens/authenticated/investments/components/portfolio_widget.dart';
-import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
-import 'package:cryptoplease/core/user_preferences.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/storybook/stories/app/app_wrapper.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../../../app/screens/authenticated/investments/components/portfolio_widget.dart';
+import '../../../../core/conversion_rates/bl/repository.dart';
+import '../../../../core/tokens/token_list.dart';
+import '../../../../core/user_preferences.dart';
+import '../../../../di.dart';
+import '../app_wrapper.dart';
 
 final appPortfolioWidget = Story(
   name: 'App/Investments/PortfolioWidget',

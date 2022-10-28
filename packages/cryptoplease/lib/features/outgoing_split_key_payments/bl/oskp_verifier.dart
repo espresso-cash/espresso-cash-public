@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
+
+import 'outgoing_split_key_payment.dart';
+import 'repository.dart';
 
 @injectable
 class OSKPVerifier {

@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.gr.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../app/routes.gr.dart';
+import '../../../core/amount.dart';
+import '../../../core/currency.dart';
+import '../bl/bloc.dart';
 
 extension OdpRoutesExt on BuildContext {
   void createAndOpenDirectPayment({

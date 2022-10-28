@@ -1,8 +1,9 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/decimal_separator.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../gen/assets.gen.dart';
+import '../../l10n/decimal_separator.dart';
+import '../../l10n/device_locale.dart';
+import '../theme.dart';
 
 class _NumericKey extends KeypadKey {
   const _NumericKey({Key? key, required this.number}) : super(key: key);

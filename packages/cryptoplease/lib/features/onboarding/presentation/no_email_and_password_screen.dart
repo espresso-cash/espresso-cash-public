@@ -1,10 +1,11 @@
-import 'package:cryptoplease/features/onboarding/presentation/onboarding_flow_screen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/info_widget.dart';
-import 'package:cryptoplease/ui/onboarding_screen.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/info_widget.dart';
+import '../../../ui/onboarding_screen.dart';
+import '../../../ui/theme.dart';
+import 'onboarding_flow_screen.dart';
 
 class NoEmailAndPasswordScreen extends StatelessWidget {
   const NoEmailAndPasswordScreen({Key? key}) : super(key: key);

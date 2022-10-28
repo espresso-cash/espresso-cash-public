@@ -1,18 +1,19 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/features/onboarding/bl/onboarding_bloc.dart';
-import 'package:cryptoplease/features/onboarding/presentation/components/pick_profile_picture.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/dialogs.dart';
-import 'package:cryptoplease/ui/loader.dart';
-import 'package:cryptoplease/ui/onboarding_screen.dart';
-import 'package:cryptoplease/ui/text_field.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
+import '../../../ui/onboarding_screen.dart';
+import '../../../ui/text_field.dart';
+import '../../../ui/theme.dart';
+import '../bl/onboarding_bloc.dart';
+import 'components/pick_profile_picture.dart';
 
 class CreateProfileScreen extends StatelessWidget {
   const CreateProfileScreen({Key? key}) : super(key: key);

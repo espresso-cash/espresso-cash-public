@@ -1,12 +1,13 @@
-import 'package:cryptoplease/features/onboarding/bl/onboarding_bloc.dart';
-import 'package:cryptoplease/features/onboarding/presentation/onboarding_flow_screen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/onboarding_screen.dart';
-import 'package:cryptoplease/ui/recovery_phrase_text_view.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/onboarding_screen.dart';
+import '../../../ui/recovery_phrase_text_view.dart';
+import '../../../ui/theme.dart';
+import '../bl/onboarding_bloc.dart';
+import 'onboarding_flow_screen.dart';
 
 class CreateRecoveryPhraseScreen extends StatefulWidget {
   const CreateRecoveryPhraseScreen({Key? key}) : super(key: key);

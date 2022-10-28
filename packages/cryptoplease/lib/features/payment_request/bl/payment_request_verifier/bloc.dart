@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
-import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +10,9 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
+
+import '../payment_request.dart';
+import '../repository.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';

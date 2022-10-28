@@ -1,10 +1,11 @@
-import 'package:cryptoplease/features/pending_activities/components/pending_activities_list.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/ui/tab_bar.dart';
 import 'package:flutter/material.dart' hide Notification;
+
+import '../../../../features/pending_activities/components/pending_activities_list.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/navigation_bar/navigation_bar.dart';
+import '../../../../ui/tab_bar.dart';
 
 class ActivitiesScreen extends StatelessWidget {
   const ActivitiesScreen({Key? key}) : super(key: key);

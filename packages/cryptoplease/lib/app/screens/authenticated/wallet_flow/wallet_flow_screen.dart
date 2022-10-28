@@ -1,22 +1,23 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
-import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_main_screen.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/presentation/build_context_ext.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/dialogs.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../core/amount.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../features/outgoing_direct_payments/presentation/build_context_ext.dart';
+import '../../../../features/outgoing_split_key_payments/bl/bloc.dart';
+import '../../../../features/qr_scanner/module.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/dialogs.dart';
+import '../../../../ui/theme.dart';
+import '../../../routes.dart';
+import '../receive_flow/flow.dart';
+import 'wallet_main_screen.dart';
 
 class WalletFlowScreen extends StatefulWidget {
   const WalletFlowScreen({

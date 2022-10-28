@@ -1,8 +1,9 @@
-import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'conversion_rates/bl/repository.dart';
+import 'currency.dart';
+import 'tokens/token.dart';
 
 part 'amount.freezed.dart';
 

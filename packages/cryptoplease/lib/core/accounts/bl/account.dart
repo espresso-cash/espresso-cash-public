@@ -1,9 +1,10 @@
-import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
-import 'package:cryptoplease/core/wallet.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
+
+import '../../wallet.dart';
+import 'accounts_bloc.dart';
 
 part 'account.freezed.dart';
 

@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
-import 'package:cryptoplease/features/app_lock/module.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
+import '../core/accounts/bl/accounts_bloc.dart';
+import '../features/app_lock/module.dart';
+import '../ui/theme.dart';
+import 'routes.dart';
 
 class CryptopleaseApp extends StatefulWidget {
   const CryptopleaseApp({Key? key}) : super(key: key);

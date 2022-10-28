@@ -1,19 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cryptoplease/app/screens/authenticated/profile/components/profile_section.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/core/presentation/utils.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/icon_button.dart';
-import 'package:cryptoplease/ui/user_avatar.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../../../core/accounts/bl/account.dart';
+import '../../../../core/presentation/utils.dart';
+import '../../../../features/qr_scanner/module.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/icon_button.dart';
+import '../../../../ui/user_avatar.dart';
+import 'components/profile_section.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -126,9 +127,8 @@ class _QrCodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final qrData = jsonEncode(
-      QrAddressData(address: address, name: name).toJson(),
-    );
+    final qrData =
+        jsonEncode(QrAddressData(address: address, name: name).toJson());
 
     return InkWell(
       onTap: () => context.copyToClipboard(address),

@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/loader.dart';
 
 final cpLoader = Story(
   name: 'CpLoader',

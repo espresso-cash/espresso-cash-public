@@ -1,7 +1,8 @@
-import 'package:cryptoplease/core/tokens/tag.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/version.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'tag.dart';
+import 'token.dart';
+import 'version.dart';
 
 part 'parsed_content.g.dart';
 

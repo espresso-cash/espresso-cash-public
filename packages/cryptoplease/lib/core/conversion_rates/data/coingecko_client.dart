@@ -1,4 +1,3 @@
-import 'package:cryptoplease/core/currency.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
@@ -6,6 +5,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+
+import '../../currency.dart';
 
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';

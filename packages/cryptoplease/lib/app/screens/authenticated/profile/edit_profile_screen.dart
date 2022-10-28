@@ -1,15 +1,16 @@
 import 'dart:io';
 
-import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
-import 'package:cryptoplease/features/onboarding/presentation/components/pick_profile_picture.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/loader.dart';
-import 'package:cryptoplease/ui/onboarding_screen.dart';
-import 'package:cryptoplease/ui/text_field.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../../features/onboarding/presentation/components/pick_profile_picture.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/loader.dart';
+import '../../../../ui/onboarding_screen.dart';
+import '../../../../ui/text_field.dart';
+import '../../../../ui/theme.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);

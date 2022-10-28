@@ -1,5 +1,6 @@
-import 'package:cryptoplease/ui/button.dart';
 import 'package:flutter/material.dart';
+
+import 'button.dart';
 
 class CpBottomButton extends StatelessWidget {
   const CpBottomButton({

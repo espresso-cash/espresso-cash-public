@@ -1,4 +1,4 @@
-import 'package:cryptoplease/core/currency.dart';
+import 'currency.dart';
 
 class UserPreferences {
   UserPreferences({this.fiatCurrency = Currency.usd});

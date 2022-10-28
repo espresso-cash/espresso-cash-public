@@ -1,21 +1,21 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
-import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_bloc.dart';
-import 'package:cryptoplease/core/conversion_rates/module.dart';
-import 'package:cryptoplease/core/user_preferences.dart';
-import 'package:cryptoplease/features/backup_phrase/module.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/module.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/presentation/pending_iskp_listener.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/module.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/presentation/link_listener.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/module.dart';
-import 'package:cryptoplease/features/payment_request/module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
+import '../../../core/accounts/bl/account.dart';
+import '../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../core/balances/bl/balances_bloc.dart';
+import '../../../core/conversion_rates/bl/conversion_rates_bloc.dart';
+import '../../../core/conversion_rates/module.dart';
+import '../../../core/user_preferences.dart';
+import '../../../features/backup_phrase/module.dart';
+import '../../../features/incoming_split_key_payments/module.dart';
+import '../../../features/outgoing_direct_payments/module.dart';
+import '../../../features/outgoing_direct_payments/presentation/link_listener.dart';
+import '../../../features/outgoing_split_key_payments/module.dart';
+import '../../../features/payment_request/module.dart';
 
 @immutable
 class HomeRouterKey {
@@ -60,9 +60,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const ISKPModule(),
               ],
               child: ODPLinkListener(
-                child: PendingISKPListener(
-                  child: AutoRouter(key: _homeRouterKey),
-                ),
+                child: AutoRouter(key: _homeRouterKey),
               ),
             );
           },

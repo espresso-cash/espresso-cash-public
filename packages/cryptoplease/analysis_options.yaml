@@ -1,5 +1,9 @@
 include: package:mews_pedantic/analysis_options.yaml
 
+linter:
+  rules:
+    - prefer_relative_imports
+
 analyzer:
   exclude:
     - "**/*.mocks.dart"
@@ -8,9 +12,19 @@ analyzer:
     - "lib/di.config.dart"
 
   errors:
+    always_use_package_imports: ignore
+    avoid_relative_lib_imports: ignore
     deprecated_member_use_from_same_package: ignore
 
 dart_code_metrics:
+  rules:
+    avoid-banned-imports:
+      severity: error
+      entries:
+        - paths: [".*/lib/.+\\.dart"]
+          deny: ["[^./]+/src/.*"]
+          message: "Do not import from src directory outside of the module."
+
   rules-exclude:
     - "**/*.gr.dart"
     - "**/generated_plugin_registrant.dart"

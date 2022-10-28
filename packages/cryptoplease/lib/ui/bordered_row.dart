@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/chip.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'chip.dart';
+import 'colors.dart';
 
 class CpBorderedRow extends StatelessWidget {
   const CpBorderedRow({

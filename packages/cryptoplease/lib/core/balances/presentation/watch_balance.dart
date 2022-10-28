@@ -1,11 +1,12 @@
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
-import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../amount.dart';
+import '../../conversion_rates/presentation/conversion_rates.dart';
+import '../../currency.dart';
+import '../../tokens/token.dart';
+import '../../user_preferences.dart';
+import '../bl/balances_bloc.dart';
 
 extension WatchBalance on BuildContext {
   Amount watchUserCryptoBalance(Token token) =>

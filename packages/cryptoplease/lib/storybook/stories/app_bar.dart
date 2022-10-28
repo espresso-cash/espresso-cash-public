@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/app_bar.dart';
 
 final cpAppBar = Story(
   name: 'CpAppBar',

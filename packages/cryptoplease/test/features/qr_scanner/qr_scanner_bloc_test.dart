@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_scanner_bloc.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
+import 'package:cryptoplease/features/qr_scanner/src/qr_address_data.dart';
+import 'package:cryptoplease/features/qr_scanner/src/qr_scanner_bloc.dart';
+import 'package:cryptoplease/features/qr_scanner/src/qr_scanner_request.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
 

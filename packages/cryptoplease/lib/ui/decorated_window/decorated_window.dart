@@ -1,8 +1,9 @@
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/background_gradient.dart';
-import 'package:cryptoplease/ui/decorated_window/decorated_window_header.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../app_bar.dart';
+import '../background_gradient.dart';
+import '../theme.dart';
+import 'decorated_window_header.dart';
 
 enum BackgroundStyle { gradient, light, dark }
 

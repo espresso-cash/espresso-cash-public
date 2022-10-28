@@ -1,10 +1,13 @@
-import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/app_lock/bl/app_lock_bloc.dart';
-import 'package:cryptoplease/features/app_lock/presentation/app_lock_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
+
+import '../../core/accounts/bl/accounts_bloc.dart';
+import '../../di.dart';
+import 'src/bl/app_lock_bloc.dart';
+import 'src/presentation/app_lock_screen.dart';
+
+export 'src/presentation/routes.dart';
 
 class AppLockModule extends SingleChildStatelessWidget {
   const AppLockModule({Key? key, Widget? child})

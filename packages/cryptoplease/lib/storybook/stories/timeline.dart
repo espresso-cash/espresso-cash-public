@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/timeline.dart';
 
 final cpTimeline = Story(
   name: 'CpTimeline',
