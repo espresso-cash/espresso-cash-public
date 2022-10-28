@@ -109,13 +109,13 @@
       }
     }
   },
-  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} from {payer}",
+  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
       "amount": {
         "type": "String"
       },
-      "payer": {
+      "label": {
         "type": "String"
       }
     }

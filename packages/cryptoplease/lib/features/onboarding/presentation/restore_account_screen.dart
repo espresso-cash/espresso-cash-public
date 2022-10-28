@@ -1,6 +1,6 @@
-import 'package:cryptoplease/features/onboarding/bl/sign_up_bloc.dart';
-import 'package:cryptoplease/features/onboarding/presentation/login/mnemonic_input_formatter.dart';
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
+import 'package:cryptoplease/features/onboarding/bl/onboarding_bloc.dart';
+import 'package:cryptoplease/features/onboarding/presentation/components/mnemonic_input_formatter.dart';
+import 'package:cryptoplease/features/onboarding/presentation/onboarding_flow_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/colors.dart';
@@ -22,24 +22,22 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
 
   void _restoreAccount() {
     context
-        .read<SignUpBloc>()
-        .add(SignUpEvent.phraseUpdated(_controller.text.trim()));
-    context.read<SignUpRouter>().onMnemonicConfirmed();
-  }
-
-  void _onTextChange() {
-    final isValid = validateMnemonic(_controller.text.trim());
-
-    if (isValid != _mnemonicIsValid) {
-      setState(() => _mnemonicIsValid = isValid);
-    }
+        .read<OnboardingBloc>()
+        .add(OnboardingEvent.phraseUpdated(_controller.text.trim()));
+    context.onboardingRouter.onMnemonicConfirmed();
   }
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
-    _controller.addListener(_onTextChange);
+    _controller.addListener(() {
+      final isValid = validateMnemonic(_controller.text.trim());
+
+      if (isValid != _mnemonicIsValid) {
+        setState(() => _mnemonicIsValid = isValid);
+      }
+    });
   }
 
   @override
@@ -52,7 +50,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           body: OnboardingScreen(
-            footer: FooterButton(
+            footer: OnboardingFooterButton(
               text: context.l10n.next,
               onPressed: _mnemonicIsValid ? _restoreAccount : null,
             ),
@@ -65,8 +63,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
                 child: TextField(
                   controller: _controller,
                   decoration: const InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+                    contentPadding: EdgeInsets.all(24),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       borderSide: BorderSide.none,

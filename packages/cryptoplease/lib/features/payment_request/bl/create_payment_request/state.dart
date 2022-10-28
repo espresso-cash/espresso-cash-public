@@ -3,7 +3,7 @@ part of 'bloc.dart';
 @freezed
 class CreatePaymentRequestState with _$CreatePaymentRequestState {
   const factory CreatePaymentRequestState({
-    @Default('') String payerName,
+    @Default('') String label,
     required CryptoAmount tokenAmount,
     required FiatAmount fiatAmount,
     @Default(Flow<Exception, PaymentRequest>.initial())

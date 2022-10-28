@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/components/grid_phrase.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -35,12 +36,14 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
     return CpTheme.dark(
       child: Scaffold(
         body: OnboardingScreen(
-          footer: FooterButton(
+          footer: OnboardingFooterButton(
             text: context.l10n.next,
             onPressed: _currentPhrase == correctPhrase ? _onConfirmed : null,
           ),
           children: [
-            CpAppBar(),
+            CpAppBar(
+              leading: BackButton(onPressed: () => context.router.pop()),
+            ),
             const OnboardingLogo(),
             OnboardingDescription(text: context.l10n.completeThePuzzle),
             OnboardingPadding(

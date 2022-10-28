@@ -1,9 +1,9 @@
 import 'package:cryptoplease/core/transactions/create_transaction_link.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
+import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/colors.dart';
 import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/decorated_window/decorated_window.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
@@ -31,8 +31,9 @@ class TxResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Builder(
-          builder: (context) => DecoratedWindow(
-            child: CpContentPadding(
+          builder: (context) => Scaffold(
+            appBar: CpAppBar(),
+            body: CpContentPadding(
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

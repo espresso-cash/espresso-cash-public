@@ -1,5 +1,5 @@
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/create_profile_screen.dart';
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/get_started_screen.dart';
+import 'package:cryptoplease/features/onboarding/presentation/create_profile_screen.dart';
+import 'package:cryptoplease/features/onboarding/presentation/get_started_screen.dart';
 import 'package:cryptoplease/main.dart' as app;
 import 'package:cryptoplease/ui/bottom_button.dart';
 import 'package:cryptoplease/ui/recovery_phrase_text_view.dart';

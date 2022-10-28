@@ -24,9 +24,11 @@ class MenuScreen extends StatelessWidget {
             onRefresh: onRefresh,
             backgroundColor: Colors.white,
             color: CpColors.primaryColor,
-            child: DecoratedBox(
+            child: Container(
+              height: double.infinity,
               decoration: _menuScreenBackground,
               child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
                 child: Column(
                   children: const [
@@ -71,7 +73,7 @@ class _SecuritySection extends StatelessWidget {
             title: context.l10n.viewRecoveryPhrase,
             description: context.l10n.viewRecoveryPhraseDescription,
             icon: Assets.icons.secret,
-            onTap: () => context.router.push(const BackupWarningRoute()),
+            onTap: () => context.router.push(const BackupPhraseFlowRoute()),
           ),
         ],
       );

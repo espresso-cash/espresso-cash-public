@@ -63,17 +63,17 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
               initial: () =>
                   context.l10n.paymentRequestInitialNotificationTitle(
                 formattedAmount,
-                data.payerName,
+                data.label,
               ),
               completed: (_) =>
                   context.l10n.paymentRequestSuccessNotificationTitle(
                 formattedAmount,
-                data.payerName,
+                data.label,
               ),
               failure: () =>
                   context.l10n.paymentRequestFailureNotificationTitle(
                 formattedAmount,
-                data.payerName,
+                data.label,
               ),
             );
           }

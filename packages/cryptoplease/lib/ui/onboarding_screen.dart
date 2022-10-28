@@ -110,8 +110,8 @@ class OnboardingLogo extends StatelessWidget {
       );
 }
 
-class FooterButton extends StatelessWidget {
-  const FooterButton({
+class OnboardingFooterButton extends StatelessWidget {
+  const OnboardingFooterButton({
     super.key,
     required this.text,
     required this.onPressed,

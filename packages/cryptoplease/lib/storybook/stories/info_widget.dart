@@ -7,7 +7,6 @@ final cpInfoWidget = Story(
   name: 'CpInfoWidget',
   builder: (context) => CpContentPadding(
     child: CpInfoWidget(
-      icon: const Icon(Icons.info),
       message: Text(
         context.knobs.text(label: 'Message', initial: 'Info message!'),
       ),

@@ -13,7 +13,7 @@ class PaymentRequest with _$PaymentRequest {
   const factory PaymentRequest({
     required String id,
     required DateTime created,
-    required String payerName,
+    required String label,
     required SolanaPayRequest payRequest,
     required String dynamicLink,
     required PaymentRequestState state,

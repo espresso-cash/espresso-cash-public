@@ -38,7 +38,7 @@ class _CryptopleaseAppState extends State<CryptopleaseApp> {
               else if (isLoading)
                 const SplashRoute()
               else
-                const SignUpFlowRoute(),
+                const OnboardingFlowRoute(),
             ],
           ),
           localizationsDelegates: AppLocalizations.localizationsDelegates,

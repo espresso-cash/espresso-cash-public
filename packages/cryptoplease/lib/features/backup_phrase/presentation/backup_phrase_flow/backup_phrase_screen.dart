@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -33,20 +34,18 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
     context.read<BackupPhraseRouter>().onGoToConfirmationScreen(_phrase);
   }
 
-  void _closeFlow() {
-    context.read<BackupPhraseRouter>().closeFlow(solved: false);
-  }
-
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           body: OnboardingScreen(
-            footer: FooterButton(
+            footer: OnboardingFooterButton(
               text: context.l10n.next,
               onPressed: _goToConfirmPage,
             ),
             children: [
-              CpAppBar(leading: BackButton(onPressed: _closeFlow)),
+              CpAppBar(
+                leading: BackButton(onPressed: () => context.router.pop()),
+              ),
               const OnboardingLogo(),
               OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
               OnboardingDescription(text: context.l10n.recoverySubHeading),

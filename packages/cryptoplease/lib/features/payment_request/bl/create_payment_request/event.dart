@@ -2,8 +2,8 @@ part of 'bloc.dart';
 
 @freezed
 class CreatePaymentRequestEvent with _$CreatePaymentRequestEvent {
-  const factory CreatePaymentRequestEvent.payerNameUpdated(String value) =
-      PayerNameUpdated;
+  const factory CreatePaymentRequestEvent.labelUpdated(String value) =
+      LabelUpdated;
 
   const factory CreatePaymentRequestEvent.tokenAmountUpdated(
     Decimal amount,

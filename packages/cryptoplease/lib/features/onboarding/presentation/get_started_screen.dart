@@ -1,12 +1,11 @@
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/components/terms_disclaimer.dart';
-import 'package:cryptoplease/features/onboarding/presentation/sign_up/sign_up_flow_screen.dart';
+import 'package:cryptoplease/features/onboarding/presentation/components/terms_disclaimer.dart';
+import 'package:cryptoplease/features/onboarding/presentation/onboarding_flow_screen.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/bullet_item.dart';
 import 'package:cryptoplease/ui/button.dart';
 import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({Key? key}) : super(key: key);
@@ -34,9 +33,7 @@ class GetStartedScreen extends StatelessWidget {
                         children: const [
                           _Header(),
                           _Body(),
-                          Expanded(
-                            child: _Footer(),
-                          ),
+                          Expanded(child: _Footer()),
                         ],
                       ),
                     ),
@@ -63,10 +60,12 @@ class _Header extends StatelessWidget {
               child: Text(
                 context.l10n.getStarted,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline2?.copyWith(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w500,
-                    ),
+                style: const TextStyle(
+                  fontSize: 28,
+                  letterSpacing: .25,
+                  height: 1.3,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ],
@@ -87,7 +86,7 @@ class _Footer extends StatelessWidget {
               key: keyCreateWalletButton,
               text: context.l10n.signUp,
               width: double.infinity,
-              onPressed: () => context.read<SignUpRouter>().onSignUp(),
+              onPressed: () => context.onboardingRouter.onSignUp(),
             ),
             const SizedBox(height: 24),
             CpButton(
@@ -95,7 +94,7 @@ class _Footer extends StatelessWidget {
               text: context.l10n.signIn,
               width: double.infinity,
               variant: CpButtonVariant.light,
-              onPressed: () => context.read<SignUpRouter>().onSignIn(),
+              onPressed: () => context.onboardingRouter.onSignIn(),
             ),
             const SizedBox(height: 24),
             const TermsDisclaimer(),
