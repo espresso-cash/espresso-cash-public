@@ -6,7 +6,9 @@ import 'package:nested/nested.dart';
 import '../../app/routes.dart';
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
-import 'bl/puzzle_reminder_bloc.dart';
+import 'src/bl/puzzle_reminder_bloc.dart';
+
+export 'src/routes.dart';
 
 class BackupPhraseModule extends SingleChildStatelessWidget {
   const BackupPhraseModule({Key? key, Widget? child})

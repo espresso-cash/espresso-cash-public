@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/content_padding.dart';
-import '../../../../ui/theme.dart';
+import '../../../../../gen/assets.gen.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/button.dart';
+import '../../../../../ui/content_padding.dart';
+import '../../../../../ui/theme.dart';
 import 'backup_phrase_flow_screen.dart';
 
 class BackupPhraseSuccessScreen extends StatelessWidget {

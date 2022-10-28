@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/message_info_widget.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/button.dart';
+import '../../../../../ui/colors.dart';
+import '../../../../../ui/message_info_widget.dart';
 import '../../bl/puzzle_reminder_bloc.dart';
 import 'components/puzzle_screen.dart';
 

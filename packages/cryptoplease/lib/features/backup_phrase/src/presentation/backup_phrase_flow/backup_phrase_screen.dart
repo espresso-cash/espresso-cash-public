@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../../core/accounts/bl/account.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/onboarding_screen.dart';
-import '../../../../ui/recovery_phrase_text_view.dart';
-import '../../../../ui/theme.dart';
+import '../../../../../core/accounts/bl/account.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/onboarding_screen.dart';
+import '../../../../../ui/recovery_phrase_text_view.dart';
+import '../../../../../ui/theme.dart';
 import 'backup_phrase_flow_screen.dart';
 
 class BackupPhraseScreen extends StatefulWidget {

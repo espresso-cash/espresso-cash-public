@@ -21,7 +21,7 @@ dart_code_metrics:
     avoid-banned-imports:
       severity: error
       entries:
-        - paths: ["lib/.*\\.dart"]
+        - paths: [".*/lib/.+\\.dart"]
           deny: ["[^./]+/src/.*"]
           message: "Do not import from src directory outside of the module."
 
