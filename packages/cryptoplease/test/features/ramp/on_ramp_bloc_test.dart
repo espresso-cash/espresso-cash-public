@@ -1,46 +1,46 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/add_funds/bl/add_funds_bloc.dart';
-import 'package:cryptoplease/features/add_funds/bl/repository.dart';
+import 'package:cryptoplease/features/ramp/src/bl/on_ramp_bloc.dart';
+import 'package:cryptoplease/features/ramp/src/bl/repository.dart';
 import 'package:solana/solana.dart';
 
 void main() {
   late Wallet wallet;
 
-  blocTest<AddFundsBloc, AddFundsState>(
+  blocTest<OnRampBloc, OnRampState>(
     'Creates correct payment URL',
     setUp: () async => wallet = await Wallet.random(),
-    build: () => AddFundsBloc(
+    build: () => OnRampBloc(
       repository: _ConstantAddFundsRepository(),
       token: Token.usdc,
       wallet: wallet,
     ),
-    act: (bloc) => bloc.add(const AddFundsEvent.moonpayRequested()),
+    act: (bloc) => bloc.add(const OnRampEvent.moonpayRequested()),
     expect: () => [
-      const AddFundsState.processing(),
-      const AddFundsState.success('SIGNED_URL'),
+      const OnRampState.processing(),
+      const OnRampState.success('SIGNED_URL'),
     ],
   );
 
-  blocTest<AddFundsBloc, AddFundsState>(
+  blocTest<OnRampBloc, OnRampState>(
     'Emits failure state on signature error',
     setUp: () async => wallet = await Wallet.random(),
-    build: () => AddFundsBloc(
+    build: () => OnRampBloc(
       repository: _ThrowAddFundsRepository(),
       token: Token.usdc,
       wallet: wallet,
     ),
-    act: (bloc) => bloc.add(const AddFundsEvent.moonpayRequested()),
+    act: (bloc) => bloc.add(const OnRampEvent.moonpayRequested()),
     expect: () => [
-      const AddFundsState.processing(),
-      AddFundsState.failure(_testException),
+      const OnRampState.processing(),
+      OnRampState.failure(_testException),
     ],
   );
 }
 
 final _testException = Exception();
 
-class _ConstantAddFundsRepository implements AddFundsRepository {
+class _ConstantAddFundsRepository implements OnRampRepository {
   @override
   Future<String> signFundsRequest({
     required String address,
@@ -49,7 +49,7 @@ class _ConstantAddFundsRepository implements AddFundsRepository {
       'SIGNED_URL';
 }
 
-class _ThrowAddFundsRepository implements AddFundsRepository {
+class _ThrowAddFundsRepository implements OnRampRepository {
   @override
   Future<String> signFundsRequest({
     required String address,

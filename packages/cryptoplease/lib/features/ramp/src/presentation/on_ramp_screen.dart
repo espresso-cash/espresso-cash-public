@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/presentation/utils.dart';
-import '../../../core/tokens/token.dart';
-import '../../../di.dart';
-import '../../../gen/assets.gen.dart';
-import '../../../l10n/l10n.dart';
-import '../../../ui/app_bar.dart';
-import '../../../ui/colors.dart';
-import '../../../ui/content_padding.dart';
-import '../../../ui/dialogs.dart';
-import '../../../ui/loader.dart';
-import '../../../ui/partner_button.dart';
-import '../../../ui/theme.dart';
-import '../bl/add_funds_bloc.dart';
+import '../../../../core/presentation/utils.dart';
+import '../../../../core/tokens/token.dart';
+import '../../../../di.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/content_padding.dart';
+import '../../../../ui/dialogs.dart';
+import '../../../../ui/loader.dart';
+import '../../../../ui/partner_button.dart';
+import '../../../../ui/theme.dart';
+import '../bl/on_ramp_bloc.dart';
 
-class AddFundsScreen extends StatelessWidget {
-  const AddFundsScreen({
+class OnRampScreen extends StatelessWidget {
+  const OnRampScreen({
     Key? key,
     required this.token,
     required this.wallet,
@@ -28,12 +28,12 @@ class AddFundsScreen extends StatelessWidget {
   final Wallet wallet;
 
   @override
-  Widget build(BuildContext context) => BlocProvider<AddFundsBloc>(
-        create: (_) => sl<AddFundsBloc>(
+  Widget build(BuildContext context) => BlocProvider<OnRampBloc>(
+        create: (_) => sl<OnRampBloc>(
           param1: token,
           param2: wallet,
         ),
-        child: BlocConsumer<AddFundsBloc, AddFundsState>(
+        child: BlocConsumer<OnRampBloc, OnRampState>(
           listener: (context, state) => state.maybeWhen(
             failure: (_) => showWarningDialog(
               context,
@@ -64,22 +64,22 @@ class AddFundsScreen extends StatelessWidget {
                       const SizedBox(height: 24),
                       PartnerButton(
                         onTap: () => context
-                            .read<AddFundsBloc>()
-                            .add(const AddFundsEvent.kadoRequested()),
+                            .read<OnRampBloc>()
+                            .add(const OnRampEvent.kadoRequested()),
                         image: Assets.images.logoKado,
                         backgroundColor: const Color(0xff5272d6),
                       ),
                       PartnerButton(
                         onTap: () => context
-                            .read<AddFundsBloc>()
-                            .add(const AddFundsEvent.moonpayRequested()),
+                            .read<OnRampBloc>()
+                            .add(const OnRampEvent.moonpayRequested()),
                         image: Assets.images.logoMoonpay,
                         backgroundColor: const Color(0xff6800f3),
                       ),
                       PartnerButton(
                         onTap: () => context
-                            .read<AddFundsBloc>()
-                            .add(const AddFundsEvent.ftxRequested()),
+                            .read<OnRampBloc>()
+                            .add(const OnRampEvent.ftxRequested()),
                         image: Assets.images.logoFtx,
                         backgroundColor: const Color(0xff12a8c9),
                       ),

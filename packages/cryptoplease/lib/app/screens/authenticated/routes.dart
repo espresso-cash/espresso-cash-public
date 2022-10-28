@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 
-import '../../../features/add_funds/presentation/add_funds_screen.dart';
 import '../../../features/app_lock/module.dart';
 import '../../../features/backup_phrase/module.dart';
 import '../../../features/incoming_split_key_payments/presentation/routes.dart';
@@ -8,9 +7,9 @@ import '../../../features/outgoing_direct_payments/presentation/routes.dart';
 import '../../../features/outgoing_split_key_payments/presentation/routes.dart';
 import '../../../features/qr_scanner/qr_scanner_request.dart';
 import '../../../features/qr_scanner/qr_scanner_screen.dart';
+import '../../../features/ramp/module.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
-import 'cash_out/cash_out_screen.dart';
 import 'home_screen.dart';
 import 'investments/investments_screen.dart';
 import 'profile/edit_profile_screen.dart';
@@ -39,8 +38,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...iskpRoutes,
     AutoRoute<QrScannerRequest>(page: QrScannerScreen),
     ...receiveFlowRoutes,
-    AutoRoute<void>(page: AddFundsScreen, fullscreenDialog: true),
-    AutoRoute<void>(page: CashOutScreen, fullscreenDialog: true),
+    ...rampRoutes,
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),

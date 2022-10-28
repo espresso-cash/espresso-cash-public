@@ -1,11 +1,11 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/tokens/token.dart';
+import '../../../../core/tokens/token.dart';
 
 @injectable
-class AddFundsRepository {
-  AddFundsRepository(this._client);
+class OnRampRepository {
+  OnRampRepository(this._client);
 
   final CryptopleaseClient _client;
 

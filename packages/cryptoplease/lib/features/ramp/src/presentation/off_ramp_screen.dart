@@ -10,8 +10,8 @@ import '../../../../ui/content_padding.dart';
 import '../../../../ui/partner_button.dart';
 import '../../../../ui/theme.dart';
 
-class CashOutScreen extends StatelessWidget {
-  const CashOutScreen({super.key});
+class OffRampScreen extends StatelessWidget {
+  const OffRampScreen({super.key});
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
