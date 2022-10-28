@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:cryptoplease/core/split_key_payments.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../core/split_key_payments.dart';
 
 @injectable
 class PendingISKPRepository {

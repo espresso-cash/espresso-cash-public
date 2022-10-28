@@ -1,13 +1,14 @@
-import 'package:cryptoplease/core/conversion_rates/data/coingecko_client.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../currency.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
+import '../data/coingecko_client.dart';
 
 @lazySingleton
 class ConversionRatesRepository extends ChangeNotifier {

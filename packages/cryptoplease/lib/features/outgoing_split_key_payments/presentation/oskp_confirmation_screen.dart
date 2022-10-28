@@ -1,18 +1,19 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/chip.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/info_widget.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/amount.dart';
+import '../../../core/conversion_rates/presentation/conversion_rates.dart';
+import '../../../core/currency.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/button.dart';
+import '../../../ui/chip.dart';
+import '../../../ui/content_padding.dart';
+import '../../../ui/info_widget.dart';
+import '../../../ui/theme.dart';
 
 class OSKPConfirmationScreen extends StatelessWidget {
   const OSKPConfirmationScreen({

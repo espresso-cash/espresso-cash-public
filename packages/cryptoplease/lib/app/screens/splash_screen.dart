@@ -1,6 +1,7 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/ui/background_gradient.dart';
 import 'package:flutter/material.dart';
+
+import '../../gen/assets.gen.dart';
+import '../../ui/background_gradient.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);

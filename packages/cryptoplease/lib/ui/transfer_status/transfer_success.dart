@@ -1,8 +1,9 @@
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/status_screen.dart';
-import 'package:cryptoplease/ui/status_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../../l10n/l10n.dart';
+import '../button.dart';
+import '../status_screen.dart';
+import '../status_widget.dart';
 
 class TransferSuccess extends StatelessWidget {
   const TransferSuccess({

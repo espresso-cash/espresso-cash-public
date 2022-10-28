@@ -1,6 +1,7 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/ui/button.dart';
 import 'package:flutter/material.dart';
+
+import '../gen/assets.gen.dart';
+import 'button.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({

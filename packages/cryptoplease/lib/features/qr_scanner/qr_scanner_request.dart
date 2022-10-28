@@ -1,6 +1,7 @@
-import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana_pay.dart';
+
+import 'qr_address_data.dart';
 
 part 'qr_scanner_request.freezed.dart';
 

@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
-import 'package:cryptoplease/core/processing_state.dart';
-import 'package:cryptoplease/core/wallet.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../core/accounts/bl/account.dart';
+import '../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../core/processing_state.dart';
+import '../../../core/wallet.dart';
 
 part 'onboarding_bloc.freezed.dart';
 

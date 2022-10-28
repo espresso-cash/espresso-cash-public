@@ -1,13 +1,14 @@
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/presentation/utils.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/partner_button.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../config.dart';
+import '../../../../core/presentation/utils.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/content_padding.dart';
+import '../../../../ui/partner_button.dart';
+import '../../../../ui/theme.dart';
 
 class CashOutScreen extends StatelessWidget {
   const CashOutScreen({super.key});

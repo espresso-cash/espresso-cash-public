@@ -1,12 +1,6 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/processing_state.dart';
-import 'package:cryptoplease/core/solana_helpers.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,6 +8,13 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
+
+import '../../amount.dart';
+import '../../currency.dart';
+import '../../processing_state.dart';
+import '../../solana_helpers.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 
 part 'balances_bloc.freezed.dart';
 part 'balances_event.dart';

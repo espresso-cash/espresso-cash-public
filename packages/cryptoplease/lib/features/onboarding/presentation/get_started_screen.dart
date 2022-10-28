@@ -1,11 +1,12 @@
-import 'package:cryptoplease/features/onboarding/presentation/components/terms_disclaimer.dart';
-import 'package:cryptoplease/features/onboarding/presentation/onboarding_flow_screen.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/bullet_item.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/bullet_item.dart';
+import '../../../ui/button.dart';
+import '../../../ui/theme.dart';
+import 'components/terms_disclaimer.dart';
+import 'onboarding_flow_screen.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({Key? key}) : super(key: key);

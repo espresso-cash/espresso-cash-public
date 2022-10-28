@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/info_widget.dart';
-import 'package:cryptoplease/ui/onboarding_screen.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/info_widget.dart';
+import '../../../../ui/onboarding_screen.dart';
+import '../../../../ui/theme.dart';
+import 'backup_phrase_flow_screen.dart';
 
 class BackupWarningScreen extends StatelessWidget {
   const BackupWarningScreen({Key? key}) : super(key: key);

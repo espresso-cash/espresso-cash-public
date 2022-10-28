@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/features/backup_phrase/bl/puzzle_reminder_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../app/routes.dart';
+import '../../bl/puzzle_reminder_bloc.dart';
 
 class BackupPhraseFlowScreen extends StatefulWidget {
   const BackupPhraseFlowScreen({Key? key}) : super(key: key);

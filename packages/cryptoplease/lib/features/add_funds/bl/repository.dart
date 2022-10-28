@@ -1,6 +1,7 @@
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../../core/tokens/token.dart';
 
 @injectable
 class AddFundsRepository {

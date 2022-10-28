@@ -1,12 +1,13 @@
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
-import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+
+import '../../features/payment_request/bl/payment_request.dart';
+import '../../l10n/device_locale.dart';
+import '../amount.dart';
+import '../conversion_rates/presentation/conversion_rates.dart';
+import '../currency.dart';
+import '../tokens/token_list.dart';
 
 extension FormatAmountWithFiatExt on CryptoAmount {
   String formatWithFiat(BuildContext context) {

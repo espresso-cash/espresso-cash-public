@@ -1,22 +1,23 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/dynamic_links_notifier.dart';
-import 'package:cryptoplease/core/split_key_payments.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_bloc.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/bl/pending_iskp_repository.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/presentation/components/cancel_dialog.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../app/routes.dart';
+import '../../../core/dynamic_links_notifier.dart';
+import '../../../core/split_key_payments.dart';
+import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/theme.dart';
+import '../bl/iskp_bloc.dart';
+import '../bl/pending_iskp_repository.dart';
+import 'components/cancel_dialog.dart';
 
 class FirstPartReadyScreen extends StatefulWidget {
   const FirstPartReadyScreen({super.key, required this.onCancel});

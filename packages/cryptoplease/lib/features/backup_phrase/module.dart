@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/backup_phrase/bl/puzzle_reminder_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
+
+import '../../app/routes.dart';
+import '../../core/accounts/bl/accounts_bloc.dart';
+import '../../di.dart';
+import 'bl/puzzle_reminder_bloc.dart';
 
 class BackupPhraseModule extends SingleChildStatelessWidget {
   const BackupPhraseModule({Key? key, Widget? child})

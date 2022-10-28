@@ -1,9 +1,10 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+
+import 'qr_scanner_request.dart';
 
 part 'qr_scanner_bloc.freezed.dart';
 part 'qr_scanner_event.dart';

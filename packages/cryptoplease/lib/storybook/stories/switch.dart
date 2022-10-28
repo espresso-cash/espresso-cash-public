@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/switch.dart';
 
 final cpSwitch = Story(
   name: 'CpSwitch',

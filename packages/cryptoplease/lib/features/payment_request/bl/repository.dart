@@ -1,5 +1,3 @@
-import 'package:cryptoplease/data/db/db.dart';
-import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
@@ -7,6 +5,9 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
+
+import '../../../data/db/db.dart';
+import 'payment_request.dart';
 
 @injectable
 class PaymentRequestRepository {

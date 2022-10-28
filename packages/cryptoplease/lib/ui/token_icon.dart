@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path/path.dart';
+
+import '../core/tokens/token.dart';
+import '../gen/assets.gen.dart';
 
 class CpTokenIcon extends StatelessWidget {
   const CpTokenIcon({

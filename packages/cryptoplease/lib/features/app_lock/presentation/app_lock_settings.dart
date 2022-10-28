@@ -1,11 +1,12 @@
-import 'package:cryptoplease/features/app_lock/bl/app_lock_bloc.dart';
-import 'package:cryptoplease/features/app_lock/presentation/app_lock_setup_flow_screen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/switch.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/switch.dart';
+import '../../../ui/theme.dart';
+import '../bl/app_lock_bloc.dart';
+import 'app_lock_setup_flow_screen.dart';
 
 class AppLockSettingsScreen extends StatelessWidget {
   const AppLockSettingsScreen({Key? key}) : super(key: key);

@@ -1,15 +1,16 @@
-import 'package:cryptoplease/app/screens/authenticated/investments/components/popular_crypto_header.dart';
-import 'package:cryptoplease/app/screens/authenticated/investments/components/popular_token_list.dart';
-import 'package:cryptoplease/app/screens/authenticated/investments/components/portfolio_widget.dart';
-import 'package:cryptoplease/app/screens/authenticated/investments/components/total_balance_widget.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
-import 'package:cryptoplease/core/balances/presentation/refresh_balance_wrapper.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/balances/bl/balances_bloc.dart';
+import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/navigation_bar/navigation_bar.dart';
+import 'components/popular_crypto_header.dart';
+import 'components/popular_token_list.dart';
+import 'components/portfolio_widget.dart';
+import 'components/total_balance_widget.dart';
 
 class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({Key? key}) : super(key: key);

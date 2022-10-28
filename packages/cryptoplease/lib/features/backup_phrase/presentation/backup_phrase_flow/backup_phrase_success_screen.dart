@@ -1,11 +1,12 @@
-import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/content_padding.dart';
+import '../../../../ui/theme.dart';
+import 'backup_phrase_flow_screen.dart';
 
 class BackupPhraseSuccessScreen extends StatelessWidget {
   const BackupPhraseSuccessScreen({Key? key}) : super(key: key);

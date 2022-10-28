@@ -1,20 +1,21 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/core/presentation/utils.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/share_message/share_message_bubble.dart';
-import 'package:cryptoplease/ui/share_message/share_message_header.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/presentation/utils.dart';
+import '../../../../core/tokens/token_list.dart';
+import '../../../../di.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/content_padding.dart';
+import '../../../../ui/share_message/share_message_bubble.dart';
+import '../../../../ui/share_message/share_message_header.dart';
+import '../../../../ui/theme.dart';
+import '../../bl/payment_request.dart';
 
 class SharePaymentRequestLinkScreen extends StatelessWidget {
   const SharePaymentRequestLinkScreen({Key? key}) : super(key: key);

@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/features/backup_phrase/bl/puzzle_reminder_bloc.dart';
-import 'package:cryptoplease/features/backup_phrase/presentation/puzzle_reminder/components/puzzle_screen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/message_info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/message_info_widget.dart';
+import '../../bl/puzzle_reminder_bloc.dart';
+import 'components/puzzle_screen.dart';
 
 class PuzzleReminderSetupScreen extends StatefulWidget {
   const PuzzleReminderSetupScreen({Key? key}) : super(key: key);

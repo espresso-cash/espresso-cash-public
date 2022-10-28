@@ -1,7 +1,8 @@
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
+
+import '../config.dart';
+import 'tokens/token.dart';
 
 part 'split_key_payments.freezed.dart';
 part 'split_key_payments.g.dart';

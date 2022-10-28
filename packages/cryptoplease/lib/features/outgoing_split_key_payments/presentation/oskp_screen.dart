@@ -1,22 +1,23 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/status_screen.dart';
-import 'package:cryptoplease/ui/status_widget.dart';
-import 'package:cryptoplease/ui/timeline.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../app/routes.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../di.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../../ui/content_padding.dart';
+import '../../../ui/status_screen.dart';
+import '../../../ui/status_widget.dart';
+import '../../../ui/timeline.dart';
+import '../bl/bloc.dart';
+import '../bl/outgoing_split_key_payment.dart';
+import '../bl/repository.dart';
 
 class OSKPScreen extends StatefulWidget {
   const OSKPScreen({super.key, required this.id});

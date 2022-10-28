@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/features/app_lock/bl/app_lock_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../app/routes.dart';
+import '../bl/app_lock_bloc.dart';
 
 class AppLockSetupFlowScreen extends StatefulWidget {
   const AppLockSetupFlowScreen({Key? key}) : super(key: key);

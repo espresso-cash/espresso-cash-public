@@ -1,13 +1,14 @@
-import 'package:cryptoplease/features/onboarding/bl/onboarding_bloc.dart';
-import 'package:cryptoplease/features/onboarding/presentation/components/mnemonic_input_formatter.dart';
-import 'package:cryptoplease/features/onboarding/presentation/onboarding_flow_screen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/onboarding_screen.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/onboarding_screen.dart';
+import '../../../ui/theme.dart';
+import '../bl/onboarding_bloc.dart';
+import 'components/mnemonic_input_formatter.dart';
+import 'onboarding_flow_screen.dart';
 
 class RestoreAccountScreen extends StatefulWidget {
   const RestoreAccountScreen({Key? key}) : super(key: key);

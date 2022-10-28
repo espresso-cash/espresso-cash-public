@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/core/presentation/format_date.dart';
-import 'package:cryptoplease/features/pending_activities/components/styles.dart';
-import 'package:cryptoplease/features/pending_activities/pending_activity.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:flutter/material.dart';
+
+import '../../../app/routes.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../core/presentation/format_date.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/device_locale.dart';
+import '../pending_activity.dart';
+import 'styles.dart';
 
 class OSKPTile extends StatelessWidget {
   const OSKPTile({super.key, required this.activity});

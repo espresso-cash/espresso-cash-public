@@ -1,11 +1,3 @@
-import 'package:cryptoplease/app/app.dart';
-import 'package:cryptoplease/app/screens/splash_screen.dart';
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/accounts/module.dart';
-import 'package:cryptoplease/core/balances/module.dart';
-import 'package:cryptoplease/core/dynamic_links_notifier.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/logging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +7,15 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'app/app.dart';
+import 'app/screens/splash_screen.dart';
+import 'config.dart';
+import 'core/accounts/module.dart';
+import 'core/balances/module.dart';
+import 'core/dynamic_links_notifier.dart';
+import 'di.dart';
+import 'logging.dart';
 
 Future<void> main() {
   runApp(

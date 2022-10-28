@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/features/app_lock/presentation/app_lock_disable_screen.dart';
-import 'package:cryptoplease/features/app_lock/presentation/app_lock_enable_screen.dart';
-import 'package:cryptoplease/features/app_lock/presentation/app_lock_settings.dart';
-import 'package:cryptoplease/features/app_lock/presentation/app_lock_setup_flow_screen.dart';
+
+import 'app_lock_disable_screen.dart';
+import 'app_lock_enable_screen.dart';
+import 'app_lock_settings.dart';
+import 'app_lock_setup_flow_screen.dart';
 
 const appLockSetupFlowRoutes = AutoRoute<void>(
   page: AppLockSetupFlowScreen,

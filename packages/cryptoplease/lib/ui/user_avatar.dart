@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
 
 class CpUserAvatar extends StatelessWidget {
   const CpUserAvatar({

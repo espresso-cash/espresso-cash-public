@@ -1,14 +1,15 @@
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/oskp_verifier.dart';
-import 'package:cryptoplease/features/pending_activities/components/no_activity.dart';
-import 'package:cryptoplease/features/pending_activities/components/odp_tile.dart';
-import 'package:cryptoplease/features/pending_activities/components/oksp_tile.dart';
-import 'package:cryptoplease/features/pending_activities/components/payment_request_tile.dart';
-import 'package:cryptoplease/features/pending_activities/pending_activities_repository.dart';
-import 'package:cryptoplease/features/pending_activities/pending_activity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:provider/provider.dart';
+
+import '../../../di.dart';
+import '../../outgoing_split_key_payments/bl/oskp_verifier.dart';
+import '../pending_activities_repository.dart';
+import '../pending_activity.dart';
+import 'no_activity.dart';
+import 'odp_tile.dart';
+import 'oksp_tile.dart';
+import 'payment_request_tile.dart';
 
 class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({

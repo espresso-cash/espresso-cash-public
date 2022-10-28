@@ -1,5 +1,6 @@
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
 
 /// Container that has all but top-right corner rounded.
 class CpRoundedRectangle extends StatefulWidget {

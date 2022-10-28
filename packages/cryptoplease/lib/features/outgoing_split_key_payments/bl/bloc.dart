@@ -1,12 +1,3 @@
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/split_key_payments.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/transactions/resign_tx.dart';
-import 'package:cryptoplease/core/transactions/tx_sender.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/link_shortener.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -16,6 +7,16 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+
+import '../../../config.dart';
+import '../../../core/amount.dart';
+import '../../../core/split_key_payments.dart';
+import '../../../core/tokens/token.dart';
+import '../../../core/transactions/resign_tx.dart';
+import '../../../core/transactions/tx_sender.dart';
+import 'link_shortener.dart';
+import 'outgoing_split_key_payment.dart';
+import 'repository.dart';
 
 part 'bloc.freezed.dart';
 

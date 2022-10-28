@@ -1,16 +1,17 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_scanner_bloc.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/dialogs.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../../di.dart';
+import '../../gen/assets.gen.dart';
+import '../../l10n/l10n.dart';
+import '../../ui/dialogs.dart';
+import '../../ui/theme.dart';
+import 'qr_scanner_bloc.dart';
 
 class QrScannerScreen extends StatelessWidget {
   const QrScannerScreen({Key? key}) : super(key: key);

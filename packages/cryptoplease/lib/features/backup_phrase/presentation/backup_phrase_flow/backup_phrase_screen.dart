@@ -1,14 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/features/backup_phrase/presentation/backup_phrase_flow/backup_phrase_flow_screen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/onboarding_screen.dart';
-import 'package:cryptoplease/ui/recovery_phrase_text_view.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../../../../core/accounts/bl/account.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/onboarding_screen.dart';
+import '../../../../ui/recovery_phrase_text_view.dart';
+import '../../../../ui/theme.dart';
+import 'backup_phrase_flow_screen.dart';
 
 class BackupPhraseScreen extends StatefulWidget {
   const BackupPhraseScreen({Key? key}) : super(key: key);

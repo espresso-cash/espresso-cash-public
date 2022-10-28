@@ -1,12 +1,13 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/flow.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/add_funds/bl/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
+
+import '../../../config.dart';
+import '../../../core/flow.dart';
+import '../../../core/tokens/token.dart';
+import 'repository.dart';
 
 part 'add_funds_bloc.freezed.dart';
 

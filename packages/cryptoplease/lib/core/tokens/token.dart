@@ -1,8 +1,9 @@
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/tokens/extensions.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:solana/solana.dart';
+
+import '../../config.dart';
+import 'extensions.dart';
 
 part 'token.g.dart';
 

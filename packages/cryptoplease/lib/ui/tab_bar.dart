@@ -1,5 +1,6 @@
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
 
 class CpTabBar extends StatelessWidget {
   const CpTabBar({super.key, required this.tabs});

@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/screens/authenticated/routes.dart';
-import 'package:cryptoplease/app/screens/splash_screen.dart';
-import 'package:cryptoplease/features/onboarding/presentation/routes.dart';
+
+import '../features/onboarding/presentation/routes.dart';
+import 'screens/authenticated/routes.dart';
+import 'screens/splash_screen.dart';
 
 export 'package:cryptoplease/app/routes.gr.dart';
 

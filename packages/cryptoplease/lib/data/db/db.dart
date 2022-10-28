@@ -1,10 +1,11 @@
-import 'package:cryptoplease/data/db/open_connection.dart';
-import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_repository.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
-import 'package:cryptoplease/features/payment_request/bl/repository.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../features/incoming_split_key_payments/bl/iskp_repository.dart';
+import '../../features/outgoing_direct_payments/bl/repository.dart';
+import '../../features/outgoing_split_key_payments/bl/repository.dart';
+import '../../features/payment_request/bl/repository.dart';
+import 'open_connection.dart';
 
 part 'db.g.dart';
 

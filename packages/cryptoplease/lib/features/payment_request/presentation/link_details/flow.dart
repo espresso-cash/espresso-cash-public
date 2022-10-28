@@ -1,19 +1,20 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/payment_request/bl/payment_request.dart';
-import 'package:cryptoplease/features/payment_request/bl/payment_request_verifier/bloc.dart';
-import 'package:cryptoplease/features/payment_request/bl/repository.dart';
-import 'package:cryptoplease/features/payment_request/presentation/link_details/tx_result_screen.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../app/routes.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../di.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/theme.dart';
+import '../../bl/payment_request.dart';
+import '../../bl/payment_request_verifier/bloc.dart';
+import '../../bl/repository.dart';
+import 'tx_result_screen.dart';
 
 extension LinkDetailsFlowExt on BuildContext {
   void navigateToPaymentRequest(String id) =>
