@@ -1,6 +1,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
+import 'package:cryptoplease/features/swap/bl/swap_transaction_set.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
@@ -23,16 +24,16 @@ typedef _Emitter = Emitter<_State>;
 class SwapVerifierBloc extends Bloc<_Event, _State> {
   SwapVerifierBloc({
     required SolanaClient solanaClient,
-    required JupiterAggregatorClient jupiterAggregatorClient,
+    required CryptopleaseClient cryptopleaseClient,
     @factoryParam required MyAccount myAccount,
   })  : _solanaClient = solanaClient,
-        _jupiterClient = jupiterAggregatorClient,
+        _cpClient = cryptopleaseClient,
         _myAccount = myAccount,
         super(const SwapVerifierState.idle()) {
     on<_Event>(_eventHandler, transformer: droppable());
   }
 
-  final JupiterAggregatorClient _jupiterClient;
+  final CryptopleaseClient _cpClient;
   final MyAccount _myAccount;
   final SolanaClient _solanaClient;
 
@@ -50,9 +51,10 @@ class SwapVerifierBloc extends Bloc<_Event, _State> {
         route: event.jupiterRoute,
         userPublicKey: publicKey,
       );
-      final transaction = await _jupiterClient.getSwapTransactions(dto);
+      final transaction = await _cpClient.createSwapTransaction(dto);
+      final txSet = transaction.toTxSet();
 
-      await _executeTransactions(tx: transaction, emit: emit);
+      await _executeTransactions(tx: txSet, emit: emit);
     } on Exception catch (e) {
       emit(SwapVerifierState.failed(SwapException.other(e)));
     }
@@ -61,14 +63,14 @@ class SwapVerifierBloc extends Bloc<_Event, _State> {
   Future<void> _onRetryRequested(RetryRequested _, _Emitter emit) async =>
       state.maybeMap(
         failed: (e) => e.error.maybeMap(
-          setupFailed: (s) => _executeTransactions(tx: s.tx, emit: emit),
+          setupFailed: (s) => _executeTransactions(tx: s.txSet, emit: emit),
           swapFailed: (s) => _executeTransactions(
-            tx: s.tx,
+            tx: s.txSet,
             emit: emit,
             skipSetup: true,
           ),
           cleanupFailed: (s) => _executeTransactions(
-            tx: s.tx,
+            tx: s.txSet,
             emit: emit,
             skipSetup: true,
             skipSwap: true,
@@ -79,7 +81,7 @@ class SwapVerifierBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _executeTransactions({
-    required JupiterSwapTransactions tx,
+    required SwapTransactionSet tx,
     required _Emitter emit,
     bool skipSetup = false,
     bool skipSwap = false,
@@ -146,4 +148,12 @@ class SwapVerifierBloc extends Bloc<_Event, _State> {
       onError(e);
     }
   }
+}
+
+extension on SwapResponseDto {
+  SwapTransactionSet toTxSet() => SwapTransactionSet(
+        cleanupTransaction: cleanupTransaction,
+        setupTransaction: setupTransaction,
+        swapTransaction: swapTransaction,
+      );
 }

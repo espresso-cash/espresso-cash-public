@@ -37,9 +37,11 @@ class JupiterSwapTransactions with _$JupiterSwapTransactions {
 
 @freezed
 class JupiterRoute with _$JupiterRoute {
+  @JsonSerializable(explicitToJson: true)
   const factory JupiterRoute({
     required String inAmount,
     required String outAmount,
+    required String amount,
     required String otherAmountThreshold,
     required int slippageBps,
     required num priceImpactPct,
@@ -65,6 +67,7 @@ extension JupiterRouteExt on JupiterRoute {
 
 @freezed
 class JupiterMarket with _$JupiterMarket {
+  @JsonSerializable(explicitToJson: true)
   const factory JupiterMarket({
     required String id,
     required String label,
@@ -86,6 +89,7 @@ class JupiterMarket with _$JupiterMarket {
 
 @freezed
 class JupiterMarketFee with _$JupiterMarketFee {
+  @JsonSerializable(explicitToJson: true)
   const factory JupiterMarketFee({
     required String amount,
     required String mint,
@@ -98,6 +102,7 @@ class JupiterMarketFee with _$JupiterMarketFee {
 
 @freezed
 class JupiterRouteFee with _$JupiterRouteFee {
+  @JsonSerializable(explicitToJson: true)
   const factory JupiterRouteFee({
     required num signatureFee,
     required List<num> openOrdersDeposits,
@@ -132,6 +137,7 @@ class IndexedRouteMapRequestDto with _$IndexedRouteMapRequestDto {
 
 @freezed
 class QuoteRequestDto with _$QuoteRequestDto {
+  @JsonSerializable(explicitToJson: true)
   const factory QuoteRequestDto({
     required String inputMint,
     required String outputMint,
@@ -150,6 +156,7 @@ class QuoteRequestDto with _$QuoteRequestDto {
 
 @freezed
 class SwapRequestDto with _$SwapRequestDto {
+  @JsonSerializable(explicitToJson: true)
   const factory SwapRequestDto({
     required String userPublicKey,
     required JupiterRoute route,

@@ -1,5 +1,5 @@
 import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease_api/cryptoplease_api.dart';
+import 'package:cryptoplease/features/swap/bl/swap_transaction_set.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'swap_exception.freezed.dart';
@@ -9,17 +9,17 @@ class SwapException with _$SwapException implements Exception {
   const factory SwapException.routeNotFound() = RouteNotFound;
 
   const factory SwapException.setupFailed(
-    JupiterSwapTransactions tx,
+    SwapTransactionSet txSet,
     Exception e,
   ) = SetupFailed;
 
   const factory SwapException.swapFailed(
-    JupiterSwapTransactions tx,
+    SwapTransactionSet txSet,
     Exception e,
   ) = SwapFailed;
 
   const factory SwapException.cleanupFailed(
-    JupiterSwapTransactions tx,
+    SwapTransactionSet txSet,
     Exception e,
   ) = CleanupFailed;
 

@@ -388,6 +388,7 @@ JupiterRoute _$JupiterRouteFromJson(Map<String, dynamic> json) {
 mixin _$JupiterRoute {
   String get inAmount => throw _privateConstructorUsedError;
   String get outAmount => throw _privateConstructorUsedError;
+  String get amount => throw _privateConstructorUsedError;
   String get otherAmountThreshold => throw _privateConstructorUsedError;
   int get slippageBps => throw _privateConstructorUsedError;
   num get priceImpactPct => throw _privateConstructorUsedError;
@@ -410,6 +411,7 @@ abstract class $JupiterRouteCopyWith<$Res> {
   $Res call(
       {String inAmount,
       String outAmount,
+      String amount,
       String otherAmountThreshold,
       int slippageBps,
       num priceImpactPct,
@@ -435,6 +437,7 @@ class _$JupiterRouteCopyWithImpl<$Res, $Val extends JupiterRoute>
   $Res call({
     Object? inAmount = null,
     Object? outAmount = null,
+    Object? amount = null,
     Object? otherAmountThreshold = null,
     Object? slippageBps = null,
     Object? priceImpactPct = null,
@@ -450,6 +453,10 @@ class _$JupiterRouteCopyWithImpl<$Res, $Val extends JupiterRoute>
       outAmount: null == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
               as String,
       otherAmountThreshold: null == otherAmountThreshold
           ? _value.otherAmountThreshold
@@ -502,6 +509,7 @@ abstract class _$$_JupiterRouteCopyWith<$Res>
   $Res call(
       {String inAmount,
       String outAmount,
+      String amount,
       String otherAmountThreshold,
       int slippageBps,
       num priceImpactPct,
@@ -526,6 +534,7 @@ class __$$_JupiterRouteCopyWithImpl<$Res>
   $Res call({
     Object? inAmount = null,
     Object? outAmount = null,
+    Object? amount = null,
     Object? otherAmountThreshold = null,
     Object? slippageBps = null,
     Object? priceImpactPct = null,
@@ -541,6 +550,10 @@ class __$$_JupiterRouteCopyWithImpl<$Res>
       outAmount: null == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
               as String,
       otherAmountThreshold: null == otherAmountThreshold
           ? _value.otherAmountThreshold
@@ -571,11 +584,13 @@ class __$$_JupiterRouteCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_JupiterRoute implements _JupiterRoute {
   const _$_JupiterRoute(
       {required this.inAmount,
       required this.outAmount,
+      required this.amount,
       required this.otherAmountThreshold,
       required this.slippageBps,
       required this.priceImpactPct,
@@ -591,6 +606,8 @@ class _$_JupiterRoute implements _JupiterRoute {
   final String inAmount;
   @override
   final String outAmount;
+  @override
+  final String amount;
   @override
   final String otherAmountThreshold;
   @override
@@ -611,7 +628,7 @@ class _$_JupiterRoute implements _JupiterRoute {
 
   @override
   String toString() {
-    return 'JupiterRoute(inAmount: $inAmount, outAmount: $outAmount, otherAmountThreshold: $otherAmountThreshold, slippageBps: $slippageBps, priceImpactPct: $priceImpactPct, marketInfos: $marketInfos, swapMode: $swapMode, fees: $fees)';
+    return 'JupiterRoute(inAmount: $inAmount, outAmount: $outAmount, amount: $amount, otherAmountThreshold: $otherAmountThreshold, slippageBps: $slippageBps, priceImpactPct: $priceImpactPct, marketInfos: $marketInfos, swapMode: $swapMode, fees: $fees)';
   }
 
   @override
@@ -623,6 +640,7 @@ class _$_JupiterRoute implements _JupiterRoute {
                 other.inAmount == inAmount) &&
             (identical(other.outAmount, outAmount) ||
                 other.outAmount == outAmount) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.otherAmountThreshold, otherAmountThreshold) ||
                 other.otherAmountThreshold == otherAmountThreshold) &&
             (identical(other.slippageBps, slippageBps) ||
@@ -642,6 +660,7 @@ class _$_JupiterRoute implements _JupiterRoute {
       runtimeType,
       inAmount,
       outAmount,
+      amount,
       otherAmountThreshold,
       slippageBps,
       priceImpactPct,
@@ -667,6 +686,7 @@ abstract class _JupiterRoute implements JupiterRoute {
   const factory _JupiterRoute(
       {required final String inAmount,
       required final String outAmount,
+      required final String amount,
       required final String otherAmountThreshold,
       required final int slippageBps,
       required final num priceImpactPct,
@@ -681,6 +701,8 @@ abstract class _JupiterRoute implements JupiterRoute {
   String get inAmount;
   @override
   String get outAmount;
+  @override
+  String get amount;
   @override
   String get otherAmountThreshold;
   @override
@@ -949,7 +971,8 @@ class __$$_JupiterMarketCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_JupiterMarket implements _JupiterMarket {
   const _$_JupiterMarket(
       {required this.id,
@@ -1208,7 +1231,8 @@ class __$$_JupiterMarketFeeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_JupiterMarketFee implements _JupiterMarketFee {
   const _$_JupiterMarketFee(
       {required this.amount, required this.mint, required this.pct});
@@ -1412,7 +1436,8 @@ class __$$_JupiterRouteFeeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_JupiterRouteFee implements _JupiterRouteFee {
   const _$_JupiterRouteFee(
       {required this.signatureFee,
@@ -2010,7 +2035,8 @@ class __$$_QuoteRequestDtoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuoteRequestDto implements _QuoteRequestDto {
   const _$_QuoteRequestDto(
       {required this.inputMint,
@@ -2303,7 +2329,8 @@ class __$$_SwapRequestDtoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_SwapRequestDto implements _SwapRequestDto {
   const _$_SwapRequestDto(
       {required this.userPublicKey,

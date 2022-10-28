@@ -44,6 +44,7 @@ _$_JupiterRoute _$$_JupiterRouteFromJson(Map<String, dynamic> json) =>
     _$_JupiterRoute(
       inAmount: json['inAmount'] as String,
       outAmount: json['outAmount'] as String,
+      amount: json['amount'] as String,
       otherAmountThreshold: json['otherAmountThreshold'] as String,
       slippageBps: json['slippageBps'] as int,
       priceImpactPct: json['priceImpactPct'] as num,
@@ -60,12 +61,13 @@ Map<String, dynamic> _$$_JupiterRouteToJson(_$_JupiterRoute instance) =>
     <String, dynamic>{
       'inAmount': instance.inAmount,
       'outAmount': instance.outAmount,
+      'amount': instance.amount,
       'otherAmountThreshold': instance.otherAmountThreshold,
       'slippageBps': instance.slippageBps,
       'priceImpactPct': instance.priceImpactPct,
-      'marketInfos': instance.marketInfos,
+      'marketInfos': instance.marketInfos.map((e) => e.toJson()).toList(),
       'swapMode': _$SwapModeEnumMap[instance.swapMode]!,
-      'fees': instance.fees,
+      'fees': instance.fees?.toJson(),
     };
 
 const _$SwapModeEnumMap = {
@@ -102,8 +104,8 @@ Map<String, dynamic> _$$_JupiterMarketToJson(_$_JupiterMarket instance) =>
       'priceImpactPct': instance.priceImpactPct,
       'minInAmount': instance.minInAmount,
       'minOutAmount': instance.minOutAmount,
-      'lpFee': instance.lpFee,
-      'platformFee': instance.platformFee,
+      'lpFee': instance.lpFee.toJson(),
+      'platformFee': instance.platformFee.toJson(),
     };
 
 _$_JupiterMarketFee _$$_JupiterMarketFeeFromJson(Map<String, dynamic> json) =>
@@ -221,7 +223,7 @@ _$_SwapRequestDto _$$_SwapRequestDtoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_SwapRequestDtoToJson(_$_SwapRequestDto instance) {
   final val = <String, dynamic>{
     'userPublicKey': instance.userPublicKey,
-    'route': instance.route,
+    'route': instance.route.toJson(),
   };
 
   void writeNotNull(String key, dynamic value) {

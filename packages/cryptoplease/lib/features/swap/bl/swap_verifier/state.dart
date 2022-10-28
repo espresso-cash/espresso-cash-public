@@ -6,13 +6,11 @@ class SwapVerifierState with _$SwapVerifierState {
 
   const factory SwapVerifierState.preparing() = Preparing;
 
-  const factory SwapVerifierState.settingUp(JupiterSwapTransactions tx) =
-      SettingUp;
+  const factory SwapVerifierState.settingUp(SwapTransactionSet tx) = SettingUp;
 
-  const factory SwapVerifierState.swapping(JupiterSwapTransactions tx) =
-      Swapping;
+  const factory SwapVerifierState.swapping(SwapTransactionSet tx) = Swapping;
 
-  const factory SwapVerifierState.cleaningUp(JupiterSwapTransactions tx) =
+  const factory SwapVerifierState.cleaningUp(SwapTransactionSet tx) =
       CleaningUp;
 
   const factory SwapVerifierState.finished() = Finished;
