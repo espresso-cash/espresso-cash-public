@@ -5,8 +5,7 @@ import '../../../features/backup_phrase/module.dart';
 import '../../../features/incoming_split_key_payments/module.dart';
 import '../../../features/outgoing_direct_payments/presentation/routes.dart';
 import '../../../features/outgoing_split_key_payments/presentation/routes.dart';
-import '../../../features/qr_scanner/qr_scanner_request.dart';
-import '../../../features/qr_scanner/qr_scanner_screen.dart';
+import '../../../features/qr_scanner/module.dart';
 import '../../../features/ramp/module.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
@@ -36,7 +35,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...odpRoutes,
     ...oskpRoutes,
     ...iskpRoutes,
-    AutoRoute<QrScannerRequest>(page: QrScannerScreen),
+    ...qrScannerRoutes,
     ...receiveFlowRoutes,
     ...rampRoutes,
     appLockSetupFlowRoutes,

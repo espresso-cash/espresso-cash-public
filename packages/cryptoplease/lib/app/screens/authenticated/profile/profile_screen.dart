@@ -9,7 +9,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/presentation/utils.dart';
-import '../../../../features/qr_scanner/qr_address_data.dart';
+import '../../../../features/qr_scanner/module.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/icon_button.dart';
@@ -127,9 +127,8 @@ class _QrCodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final qrData = jsonEncode(
-      QrAddressData(address: address, name: name).toJson(),
-    );
+    final qrData =
+        jsonEncode(QrAddressData(address: address, name: name).toJson());
 
     return InkWell(
       onTap: () => context.copyToClipboard(address),
