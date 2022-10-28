@@ -16,58 +16,56 @@ class ActivitiesScreen extends StatelessWidget {
       bottom: MediaQuery.of(context).padding.bottom,
     );
 
-    return Scaffold(
-      appBar: CpAppBar(
-        title: Text(context.l10n.activitiesTitle.toUpperCase()),
-      ),
-      body: DefaultTabController(
-        length: 2,
-        initialIndex: 0,
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: CpTabBar(
-                tabs: [
-                  Tab(text: 'Pending'),
-                  Tab(text: 'Transactions'),
-                ],
-              ),
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Column(
+        children: [
+          CpAppBar(
+            title: Text(context.l10n.activitiesTitle.toUpperCase()),
+          ),
+          const SizedBox(height: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: CpTabBar(
+              tabs: [
+                Tab(text: 'Pending'),
+                Tab(text: 'Transactions'),
+              ],
             ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  _Wrapper(
-                    child: PendingActivitiesList(
-                      padding: insets,
-                    ),
+          ),
+          Expanded(
+            child: TabBarView(
+              children: [
+                _Wrapper(
+                  child: PendingActivitiesList(
+                    padding: insets,
                   ),
-                  _Wrapper(
-                    // TODO(KB): Replace with TransactionsList
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 44),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Spacer(),
-                            Assets.images.logoIcon.image(height: 101),
-                            const SizedBox(height: 21),
-                            const Text('Coming soon!'),
-                            const Spacer(),
-                            const SizedBox(height: cpNavigationBarheight),
-                          ],
-                        ),
+                ),
+                _Wrapper(
+                  // TODO(KB): Replace with TransactionsList
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 44),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Spacer(),
+                          Assets.images.logoIcon.image(height: 101),
+                          const SizedBox(height: 21),
+                          const Text('Coming soon!'),
+                          const Spacer(),
+                          const SizedBox(height: cpNavigationBarheight),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

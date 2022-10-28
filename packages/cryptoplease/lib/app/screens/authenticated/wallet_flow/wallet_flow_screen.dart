@@ -118,14 +118,12 @@ class _State extends State<WalletFlowScreen> {
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
-        child: Scaffold(
-          body: WalletMainScreen(
-            onScan: _onQrScanner,
-            onAmountChanged: _onAmountUpdate,
-            onRequest: _onRequest,
-            onPay: _onPay,
-            amount: _amount,
-          ),
+        child: WalletMainScreen(
+          onScan: _onQrScanner,
+          onAmountChanged: _onAmountUpdate,
+          onRequest: _onRequest,
+          onPay: _onPay,
+          amount: _amount,
         ),
       );
 }
