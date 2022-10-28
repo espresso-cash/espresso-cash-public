@@ -25,4 +25,9 @@ abstract class CryptopleaseClient {
   Future<CreateDirectPaymentResponseDto> createDirectPayment(
     @Body() CreateDirectPaymentRequestDto request,
   );
+
+  @POST('/createSwapTransaction')
+  Future<SwapResponseDto> createSwapTransaction(
+    @Body() SwapRequestDto request,
+  );
 }
