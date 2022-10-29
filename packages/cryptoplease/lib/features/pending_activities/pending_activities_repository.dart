@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../core/tokens/token_list.dart';
 import '../../data/db/db.dart';
-import '../outgoing_direct_payments/bl/repository.dart';
+import '../outgoing_direct_payments/module.dart';
 import '../outgoing_split_key_payments/bl/repository.dart';
 import '../payment_request/bl/repository.dart';
 import 'pending_activity.dart';

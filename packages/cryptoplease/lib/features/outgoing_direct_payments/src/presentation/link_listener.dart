@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../app/routes.dart';
-import '../../../config.dart';
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
-import '../../../core/dynamic_links_notifier.dart';
-import '../../../core/presentation/format_amount.dart';
-import '../../../core/tokens/token.dart';
-import '../../../l10n/device_locale.dart';
+import '../../../../app/routes.dart';
+import '../../../../config.dart';
+import '../../../../core/amount.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/dynamic_links_notifier.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/tokens/token.dart';
+import '../../../../l10n/device_locale.dart';
 import 'build_context_ext.dart';
 
 class ODPLinkListener extends StatefulWidget {

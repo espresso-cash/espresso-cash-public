@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../outgoing_direct_payments/bl/outgoing_direct_payment.dart';
+import '../outgoing_direct_payments/module.dart';
 import '../outgoing_split_key_payments/bl/outgoing_split_key_payment.dart';
 
 part 'pending_activity.freezed.dart';

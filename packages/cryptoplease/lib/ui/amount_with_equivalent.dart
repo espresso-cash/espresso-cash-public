@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/currency.dart';
-import '../../../core/tokens/token.dart';
-import '../../../l10n/decimal_separator.dart';
-import '../../../l10n/device_locale.dart';
-import '../../../l10n/l10n.dart';
-import '../../../ui/chip.dart';
-import '../../../ui/number_formatter.dart';
+import '../core/currency.dart';
+import '../core/tokens/token.dart';
+import '../l10n/decimal_separator.dart';
+import '../l10n/device_locale.dart';
+import '../l10n/l10n.dart';
+import 'chip.dart';
+import 'number_formatter.dart';
 
-class ODPHeader extends StatelessWidget {
-  const ODPHeader({
+class AmountWithEquivalent extends StatelessWidget {
+  const AmountWithEquivalent({
     Key? key,
     required this.inputController,
     required this.token,

@@ -2,11 +2,11 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
-import '../../../../features/outgoing_direct_payments/presentation/odp_header.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/amount_keypad/amount_keypad.dart';
+import '../../../../ui/amount_with_equivalent.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/number_formatter.dart';
@@ -75,7 +75,7 @@ class _ScreenState extends State<WalletMainScreen> {
       appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
       body: Column(
         children: [
-          ODPHeader(
+          AmountWithEquivalent(
             inputController: _amountController,
             token: widget.amount.currency.token,
             collapsed: false,

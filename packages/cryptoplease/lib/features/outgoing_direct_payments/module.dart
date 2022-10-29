@@ -5,7 +5,13 @@ import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/account.dart';
 import '../../di.dart';
-import 'bl/bloc.dart';
+import 'src/bl/bloc.dart';
+import 'src/presentation/link_listener.dart';
+
+export 'src/bl/outgoing_direct_payment.dart';
+export 'src/bl/repository.dart';
+export 'src/presentation/build_context_ext.dart';
+export 'src/presentation/routes.dart';
 
 class ODPModule extends SingleChildStatelessWidget {
   const ODPModule({Key? key, Widget? child}) : super(key: key, child: child);
@@ -19,6 +25,6 @@ class ODPModule extends SingleChildStatelessWidget {
             ),
           ),
         ],
-        child: child,
+        child: ODPLinkListener(child: child ?? const SizedBox.shrink()),
       );
 }
