@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../ui/colors.dart';
+import '../../../../ui/colors.dart';
 
 const titleStyle = TextStyle(
   fontSize: 16,

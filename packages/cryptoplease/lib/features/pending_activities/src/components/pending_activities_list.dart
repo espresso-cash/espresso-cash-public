@@ -2,8 +2,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:provider/provider.dart';
 
-import '../../../di.dart';
-import '../../outgoing_split_key_payments/module.dart';
+import '../../../../di.dart';
+import '../../../outgoing_split_key_payments/module.dart';
 import '../pending_activities_repository.dart';
 import '../pending_activity.dart';
 import 'no_activity.dart';

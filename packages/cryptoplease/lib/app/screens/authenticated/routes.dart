@@ -4,7 +4,7 @@ import '../../../features/app_lock/module.dart';
 import '../../../features/backup_phrase/module.dart';
 import '../../../features/incoming_split_key_payments/module.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
-import '../../../features/outgoing_split_key_payments/src/presentation/routes.dart';
+import '../../../features/outgoing_split_key_payments/module.dart';
 import '../../../features/payment_request/module.dart';
 import '../../../features/qr_scanner/module.dart';
 import '../../../features/ramp/module.dart';

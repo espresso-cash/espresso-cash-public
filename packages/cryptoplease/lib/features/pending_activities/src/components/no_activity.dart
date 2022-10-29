@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../app/routes.dart';
-import '../../../gen/assets.gen.dart';
-import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
-import '../../../ui/navigation_bar/navigation_bar.dart';
+import '../../../../app/routes.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/navigation_bar/navigation_bar.dart';
 
 class NoActivity extends StatelessWidget {
   const NoActivity({super.key});
