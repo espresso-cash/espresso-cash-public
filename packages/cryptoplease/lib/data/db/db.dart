@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
-import '../../features/payment_request/bl/repository.dart';
+import '../../features/payment_request/module.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';

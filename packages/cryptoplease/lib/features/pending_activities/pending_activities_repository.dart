@@ -7,7 +7,7 @@ import '../../core/tokens/token_list.dart';
 import '../../data/db/db.dart';
 import '../outgoing_direct_payments/module.dart';
 import '../outgoing_split_key_payments/module.dart';
-import '../payment_request/bl/repository.dart';
+import '../payment_request/module.dart';
 import 'pending_activity.dart';
 
 typedef _L = Iterable<PendingActivity>;

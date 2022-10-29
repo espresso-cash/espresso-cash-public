@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../config.dart';
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
+import '../../../../config.dart';
+import '../../../../core/amount.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/tokens/token.dart';
+import '../../../../core/tokens/token_list.dart';
 
 part 'payment_request.freezed.dart';
 

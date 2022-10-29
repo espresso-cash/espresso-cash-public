@@ -11,7 +11,7 @@ import '../../../../../features/incoming_split_key_payments/module.dart';
 import '../../../../../features/legal/flow.dart';
 import '../../../../../features/outgoing_direct_payments/module.dart';
 import '../../../../../features/outgoing_split_key_payments/module.dart';
-import '../../../../../features/payment_request/bl/repository.dart';
+import '../../../../../features/payment_request/module.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/colors.dart';

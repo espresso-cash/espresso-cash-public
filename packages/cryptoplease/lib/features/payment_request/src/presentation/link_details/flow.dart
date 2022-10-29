@@ -3,23 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../app/routes.dart';
-import '../../../../core/presentation/format_amount.dart';
-import '../../../../di.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/device_locale.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/theme.dart';
+import '../../../../../core/presentation/format_amount.dart';
+import '../../../../../di.dart';
+import '../../../../../gen/assets.gen.dart';
+import '../../../../../l10n/device_locale.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/theme.dart';
 import '../../bl/payment_request.dart';
 import '../../bl/payment_request_verifier/bloc.dart';
 import '../../bl/repository.dart';
 import 'tx_result_screen.dart';
-
-extension LinkDetailsFlowExt on BuildContext {
-  void navigateToPaymentRequest(String id) =>
-      navigateTo(LinkDetailsFlowRoute(id: id));
-}
 
 class LinkDetailsFlowScreen extends StatefulWidget {
   const LinkDetailsFlowScreen({

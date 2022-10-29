@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/accounts/bl/account.dart';
-import '../../../../core/amount.dart';
-import '../../../../core/conversion_rates/bl/repository.dart';
-import '../../../../core/user_preferences.dart';
-import '../../../../di.dart';
-import '../../../../ui/dialogs.dart';
-import '../../../../ui/loader.dart';
+import '../../../../../app/routes.dart';
+import '../../../../../core/accounts/bl/account.dart';
+import '../../../../../core/amount.dart';
+import '../../../../../core/conversion_rates/bl/repository.dart';
+import '../../../../../core/user_preferences.dart';
+import '../../../../../di.dart';
+import '../../../../../ui/dialogs.dart';
+import '../../../../../ui/loader.dart';
+import '../../../module.dart';
 import '../../bl/create_payment_request/bloc.dart';
-import '../../bl/repository.dart';
-import '../link_details/flow.dart';
 import 'request_note_screen.dart';
 
 class LinkRequestFlowScreen extends StatefulWidget {
@@ -97,7 +97,7 @@ class _ContentState extends State<_Content> implements NoteSetter {
             ),
             success: (request) {
               context.router.popUntilRoot();
-              context.navigateToPaymentRequest(request.id);
+              context.navigateTo(LinkDetailsFlowRoute(id: request.id));
             },
             orElse: ignore,
           ),

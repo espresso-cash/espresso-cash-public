@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/transactions/create_transaction_link.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/content_padding.dart';
-import '../../../../ui/theme.dart';
+import '../../../../../core/transactions/create_transaction_link.dart';
+import '../../../../../gen/assets.gen.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/colors.dart';
+import '../../../../../ui/content_padding.dart';
+import '../../../../../ui/theme.dart';
 
 class TxResultScreen extends StatelessWidget {
   const TxResultScreen({

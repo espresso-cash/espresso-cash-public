@@ -5,6 +5,7 @@ import '../../../features/backup_phrase/module.dart';
 import '../../../features/incoming_split_key_payments/module.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
 import '../../../features/outgoing_split_key_payments/src/presentation/routes.dart';
+import '../../../features/payment_request/module.dart';
 import '../../../features/qr_scanner/module.dart';
 import '../../../features/ramp/module.dart';
 import 'activities/activities_screen.dart';
@@ -15,7 +16,6 @@ import 'profile/edit_profile_screen.dart';
 import 'profile/help_screen.dart';
 import 'profile/menu_screen.dart';
 import 'profile/profile_screen.dart';
-import 'receive_flow/routes.dart';
 import 'wallet_flow/wallet_flow_screen.dart';
 
 const authenticatedFlowRoutes = AutoRoute<dynamic>(
@@ -36,7 +36,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...oskpRoutes,
     ...iskpRoutes,
     ...qrScannerRoutes,
-    ...receiveFlowRoutes,
+    ...paymentRequestRoutes,
     ...rampRoutes,
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),

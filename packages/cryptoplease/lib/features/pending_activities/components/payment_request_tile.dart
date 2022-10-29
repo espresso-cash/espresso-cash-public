@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../app/routes.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/format_date.dart';
 import '../../../di.dart';
@@ -8,10 +10,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
-import '../../payment_request/bl/payment_request.dart';
-import '../../payment_request/bl/payment_request_verifier/bloc.dart';
-import '../../payment_request/bl/repository.dart';
-import '../../payment_request/presentation/link_details/flow.dart';
+import '../../payment_request/module.dart';
 import 'styles.dart';
 
 class PaymentRequestTile extends StatefulWidget {
@@ -84,7 +83,8 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
             create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
             lazy: false,
             child: ListTile(
-              onTap: () => context.navigateToPaymentRequest(data.id),
+              onTap: () =>
+                  context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
               leading: CircleAvatar(
                 radius: 21,
                 backgroundColor: CpColors.yellowColor,
