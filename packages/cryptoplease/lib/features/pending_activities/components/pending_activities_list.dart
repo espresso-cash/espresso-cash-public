@@ -3,7 +3,7 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:provider/provider.dart';
 
 import '../../../di.dart';
-import '../../outgoing_split_key_payments/bl/oskp_verifier.dart';
+import '../../outgoing_split_key_payments/module.dart';
 import '../pending_activities_repository.dart';
 import '../pending_activity.dart';
 import 'no_activity.dart';

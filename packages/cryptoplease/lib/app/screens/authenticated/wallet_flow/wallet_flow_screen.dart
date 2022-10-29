@@ -1,15 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../features/outgoing_direct_payments/module.dart';
-import '../../../../features/outgoing_split_key_payments/bl/bloc.dart';
+import '../../../../features/outgoing_split_key_payments/module.dart';
 import '../../../../features/qr_scanner/module.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -101,9 +99,7 @@ class _State extends State<WalletFlowScreen> {
           currency: Currency.usdc,
         ),
         onSubmit: () {
-          final id = const Uuid().v4();
-          final event = OSKPEvent.create(amount: _amount, id: id);
-          context.read<OSKPBloc>().add(event);
+          final id = context.createOSKP(amount: _amount);
           context.router.replace(OSKPRoute(id: id));
           setState(() => _amount = _amount.copyWith(value: 0));
         },

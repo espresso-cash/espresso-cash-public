@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/presentation/format_amount.dart';
-import '../../../core/presentation/utils.dart';
-import '../../../l10n/l10n.dart';
-import '../../../ui/app_bar.dart';
-import '../../../ui/button.dart';
-import '../../../ui/colors.dart';
-import '../../../ui/content_padding.dart';
-import '../../../ui/share_message/share_message_bubble.dart';
-import '../../../ui/share_message/share_message_header.dart';
-import '../../../ui/theme.dart';
+import '../../../../core/amount.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/presentation/utils.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/content_padding.dart';
+import '../../../../ui/share_message/share_message_bubble.dart';
+import '../../../../ui/share_message/share_message_header.dart';
+import '../../../../ui/theme.dart';
 import '../bl/outgoing_split_key_payment.dart';
 
 class ShareLinksScreen extends StatelessWidget {

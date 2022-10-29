@@ -8,12 +8,12 @@ import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../config.dart';
-import '../../../core/amount.dart';
-import '../../../core/split_key_payments.dart';
-import '../../../core/tokens/token.dart';
-import '../../../core/transactions/resign_tx.dart';
-import '../../../core/transactions/tx_sender.dart';
+import '../../../../config.dart';
+import '../../../../core/amount.dart';
+import '../../../../core/split_key_payments.dart';
+import '../../../../core/tokens/token.dart';
+import '../../../../core/transactions/resign_tx.dart';
+import '../../../../core/transactions/tx_sender.dart';
 import 'link_shortener.dart';
 import 'outgoing_split_key_payment.dart';
 import 'repository.dart';

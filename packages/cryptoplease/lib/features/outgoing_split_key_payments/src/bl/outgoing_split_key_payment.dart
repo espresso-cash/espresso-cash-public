@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/amount.dart';
+import '../../../../core/amount.dart';
 
 part 'outgoing_split_key_payment.freezed.dart';
 
