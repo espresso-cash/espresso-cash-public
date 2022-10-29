@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../gen/assets.gen.dart';
-import '../../../l10n/l10n.dart';
-import '../../../ui/bullet_item.dart';
-import '../../../ui/button.dart';
-import '../../../ui/theme.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/bullet_item.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/theme.dart';
 import 'components/terms_disclaimer.dart';
 import 'onboarding_flow_screen.dart';
 

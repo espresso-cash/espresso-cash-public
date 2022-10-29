@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 
-import '../features/onboarding/presentation/routes.dart';
+import '../features/onboarding/module.dart';
 import 'screens/authenticated/routes.dart';
 import 'screens/splash_screen.dart';
 

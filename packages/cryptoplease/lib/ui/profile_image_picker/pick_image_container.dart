@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
-import '../../../../gen/assets.gen.dart';
-import '../../../../ui/button.dart';
+import '../../gen/assets.gen.dart';
+import '../button.dart';
 
 class PickImageContainer extends StatelessWidget {
   const PickImageContainer({

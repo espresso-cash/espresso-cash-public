@@ -4,9 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/routes.dart';
-import '../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../data/files.dart';
+import '../../../../app/routes.dart';
+import '../../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../../data/files.dart';
 import '../bl/onboarding_bloc.dart';
 
 class OnboardingFlowScreen extends StatefulWidget {
