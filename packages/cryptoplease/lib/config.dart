@@ -23,7 +23,7 @@ const solanaWebSocketUrl = String.fromEnvironment(
 
 // Environment independent constants
 
-const twitterUrl = 'https://twitter.com/cryptopleasecom';
+const twitterUrl = 'https://twitter.com/espresso_cash';
 
 const faqUrl = 'https://www.espressocash.com/docs/intro/';
 
