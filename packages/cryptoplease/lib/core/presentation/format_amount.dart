@@ -2,7 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-import '../../features/payment_request/bl/payment_request.dart';
+import '../../features/payment_request/module.dart';
 import '../../l10n/device_locale.dart';
 import '../amount.dart';
 import '../conversion_rates/presentation/conversion_rates.dart';

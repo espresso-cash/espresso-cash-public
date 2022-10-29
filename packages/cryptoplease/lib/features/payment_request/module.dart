@@ -4,7 +4,18 @@ import 'package:nested/nested.dart';
 
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
-import 'bl/repository.dart';
+import 'src/bl/repository.dart';
+import 'src/presentation/link_details/routes.dart';
+import 'src/presentation/link_request/routes.dart';
+
+export 'src/bl/payment_request.dart';
+export 'src/bl/payment_request_verifier/bloc.dart';
+export 'src/bl/repository.dart';
+
+const paymentRequestRoutes = [
+  ...linkDetailsRoutes,
+  ...linkRequestRoutes,
+];
 
 class PaymentRequestModule extends SingleChildStatelessWidget {
   const PaymentRequestModule({Key? key, Widget? child})
