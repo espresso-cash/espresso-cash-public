@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
-import '../../../../features/outgoing_direct_payments/presentation/build_context_ext.dart';
+import '../../../../features/outgoing_direct_payments/module.dart';
 import '../../../../features/outgoing_split_key_payments/bl/bloc.dart';
 import '../../../../features/qr_scanner/module.dart';
 import '../../../../l10n/device_locale.dart';
