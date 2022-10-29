@@ -6,10 +6,10 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../core/accounts/bl/account.dart';
-import '../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../core/processing_state.dart';
-import '../../../core/wallet.dart';
+import '../../../../core/accounts/bl/account.dart';
+import '../../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../../core/processing_state.dart';
+import '../../../../core/wallet.dart';
 
 part 'onboarding_bloc.freezed.dart';
 

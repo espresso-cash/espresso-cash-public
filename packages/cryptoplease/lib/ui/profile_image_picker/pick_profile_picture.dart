@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../l10n/l10n.dart';
+import '../../l10n/l10n.dart';
 import 'pick_image_container.dart';
 
-class PickProfilePicture extends StatefulWidget {
-  const PickProfilePicture({
+class ProfileImagePicker extends StatefulWidget {
+  const ProfileImagePicker({
     Key? key,
     required this.onChanged,
     required this.label,
@@ -23,10 +23,10 @@ class PickProfilePicture extends StatefulWidget {
   final String label;
 
   @override
-  State<PickProfilePicture> createState() => _PickProfilePictureState();
+  State<ProfileImagePicker> createState() => _ProfileImagePickerState();
 }
 
-class _PickProfilePictureState extends State<PickProfilePicture> {
+class _ProfileImagePickerState extends State<ProfileImagePicker> {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _onImageButtonPressed(

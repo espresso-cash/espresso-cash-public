@@ -5,15 +5,15 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../l10n/l10n.dart';
-import '../../../ui/app_bar.dart';
-import '../../../ui/dialogs.dart';
-import '../../../ui/loader.dart';
-import '../../../ui/onboarding_screen.dart';
-import '../../../ui/text_field.dart';
-import '../../../ui/theme.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/dialogs.dart';
+import '../../../../ui/loader.dart';
+import '../../../../ui/onboarding_screen.dart';
+import '../../../../ui/profile_image_picker/pick_profile_picture.dart';
+import '../../../../ui/text_field.dart';
+import '../../../../ui/theme.dart';
 import '../bl/onboarding_bloc.dart';
-import 'components/pick_profile_picture.dart';
 
 class CreateProfileScreen extends StatelessWidget {
   const CreateProfileScreen({Key? key}) : super(key: key);
@@ -83,7 +83,7 @@ class _EnterFirstNameState extends State<EnterFirstName> {
             ),
             children: [
               CpAppBar(),
-              PickProfilePicture(
+              ProfileImagePicker(
                 photo: _photo,
                 label: context.l10n.uploadPhoto,
                 onChanged: (File? value) => setState(() => _photo = value),
