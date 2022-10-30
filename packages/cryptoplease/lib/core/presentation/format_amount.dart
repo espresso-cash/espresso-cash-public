@@ -2,12 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-import '../../features/payment_request/module.dart';
 import '../../l10n/device_locale.dart';
 import '../amount.dart';
 import '../conversion_rates/presentation/conversion_rates.dart';
 import '../currency.dart';
-import '../tokens/token_list.dart';
 
 extension FormatAmountWithFiatExt on CryptoAmount {
   String formatWithFiat(BuildContext context) {
@@ -44,11 +42,6 @@ extension FormatAmountExt on Amount {
           prefixedSymbol: false,
         ),
       );
-}
-
-extension PaymentRequestFormatAmountExt on PaymentRequest {
-  String formattedAmount(Locale? locale) =>
-      payRequest.cryptoAmount(TokenList())?.format(locale) ?? '';
 }
 
 String _formatAmount({

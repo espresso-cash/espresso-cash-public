@@ -8,6 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../../core/file_manager.dart';
 import '../../../../core/processing_state.dart';
 import '../../../../core/wallet.dart';
 
@@ -15,13 +16,13 @@ part 'onboarding_bloc.freezed.dart';
 
 class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   OnboardingBloc(
-    this._copyFile,
+    this._fileManager,
     this._accountsBloc,
   ) : super(const OnboardingState()) {
     on<OnboardingEvent>(_eventHander, transformer: sequential());
   }
 
-  final CopyFileToAppDir _copyFile;
+  final FileManager _fileManager;
   final AccountsBloc _accountsBloc;
 
   EventHandler<OnboardingEvent, OnboardingState> get _eventHander =>
@@ -49,7 +50,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     emit(state.copyWith(processingState: const ProcessingState.processing()));
     try {
       final wallet = await createWallet(mnemonic: state.phrase, account: 0);
-      final photo = await event.photo?.let(_copyFile);
+      final photo = await event.photo?.let(_fileManager.copyToAppDir);
       final myAccount = MyAccount(
         firstName: event.name,
         photoPath: photo?.path,

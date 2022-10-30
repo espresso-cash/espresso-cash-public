@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../app/routes.dart';
+import '../../../../routes.dart';
 import '../bl/app_lock_bloc.dart';
 
 class AppLockSetupFlowScreen extends StatefulWidget {

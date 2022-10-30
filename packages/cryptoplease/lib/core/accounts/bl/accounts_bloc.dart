@@ -8,7 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 
-import '../../../data/files.dart';
+import '../../file_manager.dart';
 import 'account.dart';
 
 part 'accounts_bloc.freezed.dart';
@@ -22,12 +22,15 @@ typedef LoadFileFromAppDir = Future<File> Function(String path);
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   AccountsBloc({
     required FlutterSecureStorage storage,
+    required FileManager fileManager,
   })  : _storage = storage,
+        _fileManager = fileManager,
         super(const AccountsState(isProcessing: true)) {
     on<AccountsEvent>(_eventHandler, transformer: sequential());
   }
 
   final FlutterSecureStorage _storage;
+  final FileManager _fileManager;
 
   EventHandler<AccountsEvent, AccountsState> get _eventHandler =>
       (event, emit) => event.map(
@@ -47,7 +50,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   Future<void> _onInitialize(Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
     try {
-      final account = await loadAccount(_storage, loadFromAppDir);
+      final account = await loadAccount(_storage, _fileManager.loadFromAppDir);
       emit(state.copyWith(account: account, isProcessing: false));
     } on Exception {
       emit(state.copyWith(isProcessing: false));
@@ -74,7 +77,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     ProfileUpdated event,
     Emitter<AccountsState> emit,
   ) async {
-    final photo = await event.photo?.let(copyToAppDir);
+    final photo = await event.photo?.let(_fileManager.copyToAppDir);
     emit(state.copyWith(isProcessing: true));
 
     await _saveNameAndPhoto(name: event.name, photo: photo?.path);
