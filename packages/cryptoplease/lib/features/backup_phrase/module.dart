@@ -2,23 +2,35 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
 import '../../routes.dart';
+import 'src/bl/mnemonic_getter.dart';
 import 'src/bl/puzzle_reminder_bloc.dart';
 
 export 'src/routes.dart';
 
 class BackupPhraseModule extends SingleChildStatelessWidget {
-  const BackupPhraseModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const BackupPhraseModule({
+    Key? key,
+    Widget? child,
+    required this.mnemonic,
+  }) : super(key: key, child: child);
+
+  final Future<String> mnemonic;
 
   @override
-  Widget buildWithChild(BuildContext context, Widget? child) =>
-      BlocProvider<PuzzleReminderBloc>(
-        create: (_) => sl<PuzzleReminderBloc>(),
-        child: _Content(child: child),
+  Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
+        providers: [
+          BlocProvider<PuzzleReminderBloc>(
+            create: (_) => sl<PuzzleReminderBloc>(),
+            child: _Content(child: child),
+          ),
+          Provider<MnemonicGetter>(create: (_) => MnemonicGetter(mnemonic)),
+        ],
+        child: child,
       );
 }
 
