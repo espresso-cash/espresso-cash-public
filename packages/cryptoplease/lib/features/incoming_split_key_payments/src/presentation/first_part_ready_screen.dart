@@ -6,12 +6,12 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../app/routes.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/split_key_payments.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../routes.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';

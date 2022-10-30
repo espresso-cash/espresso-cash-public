@@ -4,9 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../app/routes.dart';
 import '../../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../../data/files.dart';
+import '../../../../core/file_manager.dart';
+import '../../../../di.dart';
+import '../../../../routes.dart';
 import '../bl/onboarding_bloc.dart';
 
 class OnboardingFlowScreen extends StatefulWidget {
@@ -41,7 +42,7 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
         providers: [
           BlocProvider(
             create: (_) => OnboardingBloc(
-              copyToAppDir,
+              sl<FileManager>(),
               context.read<AccountsBloc>(),
             ),
           ),

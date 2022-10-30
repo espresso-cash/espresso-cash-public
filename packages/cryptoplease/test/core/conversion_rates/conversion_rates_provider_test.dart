@@ -1,5 +1,5 @@
+import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_client.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
-import 'package:cryptoplease/core/conversion_rates/data/coingecko_client.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/extensions.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
@@ -11,9 +11,9 @@ import 'package:mockito/mockito.dart';
 
 import 'conversion_rates_provider_test.mocks.dart';
 
-@GenerateMocks([CoingeckoClient])
+@GenerateMocks([ConversionRatesClient])
 void main() {
-  final client = MockCoingeckoClient();
+  final client = MockConversionRatesClient();
 
   tearDown(() {
     reset(client);

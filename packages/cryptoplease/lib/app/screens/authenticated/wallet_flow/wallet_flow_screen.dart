@@ -11,10 +11,9 @@ import '../../../../features/outgoing_split_key_payments/module.dart';
 import '../../../../features/qr_scanner/module.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../routes.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
-import '../../../routes.dart';
-import '../receive_flow/flow.dart';
 import 'wallet_main_screen.dart';
 
 class WalletFlowScreen extends StatefulWidget {
@@ -81,7 +80,7 @@ class _State extends State<WalletFlowScreen> {
       return _showZeroAmountDialog(_Operation.request);
     }
 
-    context.navigateToReceiveByLink(amount: _amount);
+    context.navigateTo(LinkRequestFlowRoute(initialAmount: _amount));
     setState(() => _amount = _amount.copyWith(value: 0));
   }
 

@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../app/routes.gr.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../routes.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/message_info_widget.dart';
 import 'components/puzzle_screen.dart';

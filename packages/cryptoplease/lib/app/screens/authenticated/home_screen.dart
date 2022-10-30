@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../gen/assets.gen.dart';
+import '../../../routes.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
-import '../../routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
