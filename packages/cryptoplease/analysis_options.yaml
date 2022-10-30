@@ -23,7 +23,10 @@ dart_code_metrics:
       entries:
         - paths: [".*/lib/.+\\.dart"]
           deny: ["[^./]+/src/.*"]
-          message: "Do not import from src directory outside of the module."
+          message: "Do not import from src directory outside of the module"
+        - paths: [".*/lib/.+\\.dart"]
+          deny: ["routes.gr.dart"]
+          message: "Import routes.dart instead"
 
   rules-exclude:
     - "**/*.gr.dart"

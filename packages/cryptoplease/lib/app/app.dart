@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../core/accounts/bl/accounts_bloc.dart';
 import '../features/app_lock/module.dart';
+import '../routes.dart';
 import '../ui/theme.dart';
-import 'routes.dart';
 
 class CryptopleaseApp extends StatefulWidget {
   const CryptopleaseApp({Key? key}) : super(key: key);

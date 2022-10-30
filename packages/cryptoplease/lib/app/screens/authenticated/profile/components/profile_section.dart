@@ -14,9 +14,9 @@ import '../../../../../features/outgoing_split_key_payments/module.dart';
 import '../../../../../features/payment_request/module.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../routes.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
-import '../../../../routes.dart';
 import 'profile_button.dart';
 
 part 'danger_section.dart';
