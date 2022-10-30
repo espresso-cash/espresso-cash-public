@@ -9,7 +9,7 @@ import '../../../../../core/amount.dart';
 import '../../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../../core/user_preferences.dart';
 import '../../../../../di.dart';
-import '../../../../../routes.dart';
+import '../../../../../routes.gr.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/loader.dart';
 import '../../bl/create_payment_request/bloc.dart';

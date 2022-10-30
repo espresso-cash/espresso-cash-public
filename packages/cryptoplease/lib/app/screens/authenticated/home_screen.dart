@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../gen/assets.gen.dart';
-import '../../../routes.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
 

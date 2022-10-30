@@ -7,8 +7,6 @@ import '../../di.dart';
 import 'src/bl/app_lock_bloc.dart';
 import 'src/presentation/app_lock_screen.dart';
 
-export 'src/presentation/routes.dart';
-
 class AppLockModule extends SingleChildStatelessWidget {
   const AppLockModule({Key? key, Widget? child})
       : super(key: key, child: child);

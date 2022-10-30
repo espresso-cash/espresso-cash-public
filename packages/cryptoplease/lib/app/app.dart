@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../core/accounts/bl/accounts_bloc.dart';
 import '../features/app_lock/module.dart';
-import '../routes.dart';
+import '../routes.gr.dart';
 import '../ui/theme.dart';
 
 class CryptopleaseApp extends StatefulWidget {

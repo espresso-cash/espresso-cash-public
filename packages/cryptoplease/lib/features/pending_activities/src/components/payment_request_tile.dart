@@ -7,7 +7,7 @@ import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.dart';
+import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
 import '../../../payment_request/module.dart';
 import 'styles.dart';

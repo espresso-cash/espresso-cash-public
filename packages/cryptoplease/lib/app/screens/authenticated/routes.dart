@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 
-import '../../../features/app_lock/module.dart';
-import '../../../features/backup_phrase/module.dart';
-import '../../../features/incoming_split_key_payments/module.dart';
-import '../../../features/outgoing_direct_payments/module.dart';
-import '../../../features/outgoing_split_key_payments/module.dart';
-import '../../../features/payment_request/module.dart';
-import '../../../features/qr_scanner/module.dart';
-import '../../../features/ramp/module.dart';
+import '../../../features/app_lock/routes.dart';
+import '../../../features/backup_phrase/routes.dart';
+import '../../../features/incoming_split_key_payments/routes.dart';
+import '../../../features/outgoing_direct_payments/routes.dart';
+import '../../../features/outgoing_split_key_payments/routes.dart';
+import '../../../features/payment_request/routes.dart';
+import '../../../features/qr_scanner/routes.dart';
+import '../../../features/ramp/routes.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
 import 'home_screen.dart';

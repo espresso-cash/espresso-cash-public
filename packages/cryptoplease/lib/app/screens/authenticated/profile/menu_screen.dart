@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.dart';
+import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/theme.dart';

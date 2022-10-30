@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 
 import 'app/screens/authenticated/routes.dart';
-import 'features/onboarding/module.dart';
+import 'features/onboarding/routes.dart';
 import 'ui/splash_screen.dart';
-
-export 'routes.gr.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Screen,Route',

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.dart';
+import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 

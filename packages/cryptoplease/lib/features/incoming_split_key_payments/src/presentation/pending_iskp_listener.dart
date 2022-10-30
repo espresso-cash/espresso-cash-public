@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/split_key_payments.dart';
 import '../../../../di.dart';
-import '../../../../routes.dart';
+import '../../../../routes.gr.dart';
 import '../bl/pending_iskp_repository.dart';
 
 class PendingISKPListener extends StatefulWidget {
