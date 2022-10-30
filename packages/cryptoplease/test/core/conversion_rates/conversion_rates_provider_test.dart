@@ -1,7 +1,6 @@
 import 'package:cryptoplease/core/conversion_rates/bl/conversion_rates_client.dart';
 import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/tokens/extensions.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';

@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 import 'package:solana/solana.dart';
 
 import '../../config.dart';
-import 'extensions.dart';
 
 part 'token.g.dart';
 
@@ -161,4 +160,75 @@ class _UsdcDevToken extends SplToken {
           name: 'USD Coin',
           symbol: 'USDC',
         );
+}
+
+@JsonSerializable()
+class Extensions {
+  const Extensions({
+    this.coingeckoId,
+  });
+
+  factory Extensions.fromJson(Map<String, dynamic> data) =>
+      _$ExtensionsFromJson(data);
+
+  Map<String, dynamic> toJson() {
+    throw const FormatException('cannot convert token to json');
+  }
+
+  final String? coingeckoId;
+}
+
+@JsonSerializable(createToJson: false)
+class ParsedContent {
+  const ParsedContent({
+    required this.name,
+    required this.logoURI,
+    required this.keywords,
+    required this.tags,
+    required this.timestamp,
+    required this.tokens,
+    required this.version,
+  });
+
+  factory ParsedContent.fromJson(Map<String, dynamic> json) =>
+      _$ParsedContentFromJson(json);
+
+  final String name;
+  final String? logoURI;
+  final List<String> keywords;
+  final Map<String, Tag> tags;
+  final DateTime timestamp;
+  final List<Token> tokens;
+  final Version version;
+}
+
+@JsonSerializable(createToJson: false)
+class Tag {
+  const Tag({
+    required this.name,
+    required this.description,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> data) => _$TagFromJson(data);
+
+  final String name;
+  final String description;
+}
+
+
+
+@JsonSerializable(createToJson: false)
+class Version {
+  const Version({
+    required this.major,
+    required this.minor,
+    required this.patch,
+  });
+
+  factory Version.fromJson(Map<String, dynamic> data) =>
+      _$VersionFromJson(data);
+
+  final int major;
+  final int minor;
+  final int patch;
 }

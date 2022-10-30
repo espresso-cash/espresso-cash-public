@@ -3,7 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
 
 import '../../config.dart';
-import 'parsed_content.dart';
 import 'token.dart';
 
 part 'token_list.g.dart';
