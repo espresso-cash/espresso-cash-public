@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../amount.dart';
-import '../../conversion_rates/presentation/conversion_rates.dart';
+import '../../conversion_rates/context_ext.dart';
 import '../../currency.dart';
 import '../../tokens/token.dart';
 import '../../user_preferences.dart';

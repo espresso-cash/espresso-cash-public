@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../l10n/device_locale.dart';
 import '../amount.dart';
-import '../conversion_rates/presentation/conversion_rates.dart';
+import '../conversion_rates/context_ext.dart';
 import '../currency.dart';
 
 extension FormatAmountWithFiatExt on CryptoAmount {
