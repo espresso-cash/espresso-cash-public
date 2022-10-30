@@ -12,8 +12,8 @@ import '../../../../../di.dart';
 import '../../../../../routes.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/loader.dart';
-import '../../../module.dart';
 import '../../bl/create_payment_request/bloc.dart';
+import '../../bl/repository.dart';
 import 'request_note_screen.dart';
 
 class LinkRequestFlowScreen extends StatefulWidget {
