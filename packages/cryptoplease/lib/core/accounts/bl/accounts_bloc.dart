@@ -9,14 +9,12 @@ import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 
 import '../../file_manager.dart';
+import '../../wallet.dart';
 import 'account.dart';
 
 part 'accounts_bloc.freezed.dart';
 part 'accounts_event.dart';
 part 'accounts_state.dart';
-
-typedef CopyFileToAppDir = Future<File> Function(File file);
-typedef LoadFileFromAppDir = Future<File> Function(String path);
 
 @injectable
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
@@ -50,7 +48,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   Future<void> _onInitialize(Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
     try {
-      final account = await loadAccount(_storage, _fileManager.loadFromAppDir);
+      final account = await _fileManager.loadAccount(_storage);
       emit(state.copyWith(account: account, isProcessing: false));
     } on Exception {
       emit(state.copyWith(isProcessing: false));
@@ -92,3 +90,34 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     );
   }
 }
+
+Future<String> loadMnemonic(FlutterSecureStorage storage) =>
+    storage.read(key: mnemonicKey).then((value) => value ?? '');
+
+extension on FileManager {
+  /// Loads existing account if wallet data exist in [storage].
+  Future<MyAccount?> loadAccount(FlutterSecureStorage storage) async {
+    final mnemonic = await loadMnemonic(storage);
+    if (mnemonic.isEmpty) return null;
+
+    final photoPath = await storage.read(key: photoKey);
+
+    return MyAccount(
+      firstName: (await storage.read(key: nameKey)) ?? '',
+      photoPath: (await photoPath?.let(loadFromAppDir))?.path,
+      wallet: await createWallet(
+        mnemonic: mnemonic,
+        account: 0,
+      ),
+    );
+  }
+}
+
+@visibleForTesting
+const mnemonicKey = 'mnemonic';
+
+@visibleForTesting
+const nameKey = 'name';
+
+@visibleForTesting
+const photoKey = 'photo';

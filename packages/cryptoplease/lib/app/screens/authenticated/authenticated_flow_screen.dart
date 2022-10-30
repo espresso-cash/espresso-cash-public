@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/accounts/bl/account.dart';
@@ -10,6 +11,7 @@ import '../../../core/balances/bl/balances_bloc.dart';
 import '../../../core/conversion_rates/bl/conversion_rates_bloc.dart';
 import '../../../core/conversion_rates/module.dart';
 import '../../../core/user_preferences.dart';
+import '../../../di.dart';
 import '../../../features/backup_phrase/module.dart';
 import '../../../features/incoming_split_key_payments/module.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
@@ -48,7 +50,9 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
             return MultiProvider(
               providers: [
                 Provider<MyAccount>.value(value: account),
-                const BackupPhraseModule(),
+                BackupPhraseModule(
+                  mnemonic: loadMnemonic(sl<FlutterSecureStorage>()),
+                ),
                 const PaymentRequestModule(),
                 _balanceListener,
                 Provider<HomeRouterKey>(

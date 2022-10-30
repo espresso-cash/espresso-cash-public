@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/amount.dart';
-import '../../../../../core/conversion_rates/presentation/conversion_rates.dart';
+import '../../../../../core/conversion_rates/context_ext.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../core/user_preferences.dart';
