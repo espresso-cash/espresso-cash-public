@@ -215,8 +215,6 @@ class Tag {
   final String description;
 }
 
-
-
 @JsonSerializable(createToJson: false)
 class Version {
   const Version({
