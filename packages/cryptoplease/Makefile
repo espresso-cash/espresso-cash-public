@@ -26,7 +26,7 @@ flutter_test:
 	@$(MAKE) -f ../../Makefile $@
 
 deps_graph_all:
-	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,ui/**,data/**,di.config.dart}" --metrics > all.dot
+	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,data/**,di.config.dart,gen/**,routes.gr.dart}" --metrics > deps.dot
 
-deps_graph_core:
-	lakos lib/core -i "{**.freezed.dart,**.g.dart,storybook/**,ui/**,data/**,di.config.dart}" --metrics > core.dot
+deps_cycles:
+	python3 ./tool/cycles.py deps.dot --only-shortest

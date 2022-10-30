@@ -11,7 +11,7 @@ import '../../../../../core/tokens/token.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
-import '../../../../../routes.dart';
+import '../../../../../routes.gr.dart';
 import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';

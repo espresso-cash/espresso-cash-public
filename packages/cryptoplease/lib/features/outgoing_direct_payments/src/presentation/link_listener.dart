@@ -12,7 +12,7 @@ import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
-import '../../../../routes.dart';
+import '../../../../routes.gr.dart';
 import 'build_context_ext.dart';
 
 class ODPLinkListener extends StatefulWidget {

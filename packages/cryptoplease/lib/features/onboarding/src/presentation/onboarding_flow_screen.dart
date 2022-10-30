@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../../core/file_manager.dart';
 import '../../../../di.dart';
-import '../../../../routes.dart';
+import '../../../../routes.gr.dart';
 import '../bl/onboarding_bloc.dart';
 
 class OnboardingFlowScreen extends StatefulWidget {

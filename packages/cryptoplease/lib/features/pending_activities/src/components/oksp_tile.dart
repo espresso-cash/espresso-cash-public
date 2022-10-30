@@ -5,7 +5,7 @@ import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
-import '../../../../routes.dart';
+import '../../../../routes.gr.dart';
 import '../pending_activity.dart';
 import 'styles.dart';
 

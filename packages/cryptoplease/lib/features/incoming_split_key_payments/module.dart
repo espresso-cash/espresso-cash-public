@@ -9,7 +9,6 @@ import 'src/bl/iskp_bloc.dart';
 import 'src/presentation/pending_iskp_listener.dart';
 
 export 'src/bl/iskp_repository.dart';
-export 'src/presentation/routes.dart';
 
 class ISKPModule extends SingleChildStatelessWidget {
   const ISKPModule({Key? key, Widget? child}) : super(key: key, child: child);

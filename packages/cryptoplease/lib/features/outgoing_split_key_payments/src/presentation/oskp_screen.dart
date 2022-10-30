@@ -9,7 +9,7 @@ import '../../../../core/presentation/format_amount.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.dart';
+import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/status_screen.dart';

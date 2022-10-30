@@ -25,10 +25,6 @@ dart_code_metrics:
           deny: ["[^./]+/src/.*"]
           message: "Do not import from src directory outside of the module"
 
-        - paths: [".*/lib/.+\\.dart"]
-          deny: ["routes.gr.dart"]
-          message: "Import routes.dart instead"
-
         - paths: [".*/lib/core/.+\\.dart"]
           deny: ["/(app|data|features|storybook)/"]
           message: "Core should not depend on these modules"
