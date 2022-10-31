@@ -11,6 +11,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
+import 'qr_scanner_background.dart';
 import 'qr_scanner_bloc.dart';
 
 class QrScannerScreen extends StatelessWidget {
@@ -66,9 +67,11 @@ class _ContentState extends State<_Content> {
     state.map(
       initial: (_) {},
       done: (d) {
+        _qrViewController.stop();
         context.router.pop(d.request);
       },
       error: (_) {
+        _qrViewController.stop();
         _onQRScanError();
 
         context.router.pop();
@@ -77,6 +80,7 @@ class _ContentState extends State<_Content> {
   }
 
   void _onCloseButtonPressed() {
+    _qrViewController.stop();
     context.router.pop();
   }
 
@@ -110,16 +114,12 @@ class _ContentState extends State<_Content> {
             child: Scaffold(
               body: Stack(
                 children: [
-                  MobileScanner(
-                    key: _qrKey,
-                    onDetect: _onDetected,
-                    onPermissionSet: _onPermissionSet,
-                  ),
-                  Align(
-                    alignment: const Alignment(0, -0.3),
-                    child: Assets.images.qrFrame.svg(
-                      height: 250,
-                      alignment: Alignment.center,
+                  QrScannerBackground(
+                    child: MobileScanner(
+                      key: _qrKey,
+                      controller: _qrViewController,
+                      onDetect: _onDetected,
+                      onPermissionSet: _onPermissionSet,
                     ),
                   ),
                   Align(
