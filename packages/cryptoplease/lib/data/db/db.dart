@@ -5,7 +5,6 @@ import '../../../../core/transactions/tx_sender.dart';
 import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
-import '../../features/outgoing_split_key_payments/routes.dart';
 import '../../features/payment_request/module.dart';
 import 'open_connection.dart';
 
