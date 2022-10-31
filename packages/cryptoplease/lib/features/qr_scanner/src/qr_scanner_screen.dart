@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -31,20 +31,19 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
-  late final StreamSubscription<Barcode> _subscription;
   bool _flashStatus = false;
 
   @override
   void initState() {
     super.initState();
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
+    _qrViewController = MobileScannerController();
   }
 
   @override
   void dispose() {
     super.dispose();
     _qrViewController.dispose();
-    _subscription.cancel();
   }
 
   void _onQRScanError() {
@@ -55,25 +54,8 @@ class _ContentState extends State<_Content> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    final bloc = context.read<QrScannerBloc>();
-
-    _subscription = controller.scannedDataStream.listen((scanData) {
-      final code = scanData.code;
-      if (code != null) {
-        // Once we read it, let's stop this immediately. Otherwise
-        // it keeps filling up memory until the system kills the app
-        _subscription.cancel();
-        bloc.add(QrScannerEvent.received(code));
-      }
-    });
-
-    _qrViewController = controller;
-    _qrViewController.resumeCamera();
-  }
-
   void _onQRToggleFlash() {
-    _qrViewController.toggleFlash().then((_) {
+    _qrViewController.toggleTorch().then((_) {
       setState(() {
         _flashStatus = !_flashStatus;
       });
@@ -84,11 +66,9 @@ class _ContentState extends State<_Content> {
     state.map(
       initial: (_) {},
       done: (d) {
-        _qrViewController.stopCamera();
         context.router.pop(d.request);
       },
       error: (_) {
-        _qrViewController.stopCamera();
         _onQRScanError();
 
         context.router.pop();
@@ -97,11 +77,10 @@ class _ContentState extends State<_Content> {
   }
 
   void _onCloseButtonPressed() {
-    _qrViewController.stopCamera();
     context.router.pop();
   }
 
-  Future<void> _onPermissionSet(QRViewController _, bool allowed) async {
+  Future<void> _onPermissionSet(bool allowed) async {
     if (!allowed) {
       await showWarningDialog(
         context,
@@ -110,6 +89,13 @@ class _ContentState extends State<_Content> {
       );
 
       await context.router.pop();
+    }
+  }
+
+  void _onDetected(Barcode barcode, MobileScannerArguments? _) {
+    final code = barcode.rawValue;
+    if (code != null) {
+      context.read<QrScannerBloc>().add(QrScannerEvent.received(code));
     }
   }
 
@@ -124,14 +110,9 @@ class _ContentState extends State<_Content> {
             child: Scaffold(
               body: Stack(
                 children: [
-                  QRView(
+                  MobileScanner(
                     key: _qrKey,
-                    overlay: QrScannerOverlayShape(
-                      cutOutSize: 250,
-                      borderColor: Colors.transparent,
-                      cutOutBottomOffset: 80,
-                    ),
-                    onQRViewCreated: _onQRViewCreated,
+                    onDetect: _onDetected,
                     onPermissionSet: _onPermissionSet,
                   ),
                   Align(
@@ -169,5 +150,5 @@ class _ContentState extends State<_Content> {
       );
 
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
-  late final QRViewController _qrViewController;
+  late final MobileScannerController _qrViewController;
 }
