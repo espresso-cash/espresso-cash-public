@@ -50,7 +50,7 @@ class _Painter extends CustomPainter {
     final frameSize = Size.square(dimension);
 
     final topDisplacement = min(
-      180.0,
+      200.0,
       (size.height / 2) - (frameSize.height / 2),
     );
 
