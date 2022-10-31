@@ -15,21 +15,11 @@ class OnRampRepository {
   }) async {
     final requestDto = AddFundsRequestDto(
       receiverAddress: address,
-      tokenSymbol: token.moonpaySymbol,
+      tokenSymbol: token.symbol,
     );
 
     final response = await _client.addFunds(requestDto);
 
     return response.signedUrl;
-  }
-}
-
-extension on Token {
-  String get moonpaySymbol {
-    if (address == Token.usdc.address) {
-      return 'usdc_sol';
-    } else {
-      return symbol;
-    }
   }
 }
