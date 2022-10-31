@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/transactions/tx_sender.dart';
 import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
@@ -18,7 +19,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 18;
+const int latestVersion = 19;
 
 const _tables = [
   OutgoingTransferRows,
@@ -66,6 +67,12 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from >= 15 && from < 18) {
             await m.addColumn(oDPRows, oDPRows.reference);
+          }
+          if (from >= 15 && from < 19) {
+            await m.addColumn(oDPRows, oDPRows.txFailureReason);
+          }
+          if (from >= 16 && from < 19) {
+            await m.addColumn(oSKPRows, oSKPRows.txFailureReason);
           }
         },
       );

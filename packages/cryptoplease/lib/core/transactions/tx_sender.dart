@@ -22,6 +22,11 @@ class TxSender {
 
       return const TxSendResult.sent();
     } on JsonRpcException catch (e) {
+      if (e.isInsufficientFunds) {
+        return const TxSendResult.failure(
+          reason: TxFailureReason.insufficientFunds,
+        );
+      }
       switch (e.transactionError) {
         case TransactionError.alreadyProcessed:
           return const TxSendResult.sent();
@@ -52,7 +57,7 @@ class TxSender {
 class TxSendResult with _$TxSendResult {
   const factory TxSendResult.sent() = TxSendSent;
   const factory TxSendResult.invalidBlockhash() = TxSendInvalidBlockhash;
-  const factory TxSendResult.failure() = TxSendFailure;
+  const factory TxSendResult.failure({TxFailureReason? reason}) = TxSendFailure;
   const factory TxSendResult.networkError() = TxSendNetworkError;
 }
 
@@ -61,4 +66,26 @@ class TxWaitResult with _$TxWaitResult {
   const factory TxWaitResult.success() = TxWaitSuccess;
   const factory TxWaitResult.failure() = TxWaitFailure;
   const factory TxWaitResult.networkError() = TxWaitNetworkError;
+}
+
+enum TxFailureReason { insufficientFunds }
+
+extension on JsonRpcException {
+  // TODO(KB): Think about some better error handling
+  bool get isInsufficientFunds {
+    final data = this.data;
+    if (data is! Map<String, dynamic>) return false;
+
+    final error = data['err'];
+    if (error is! Map<String, dynamic>) return false;
+
+    final instructionError = error['InstructionError'];
+    if (instructionError is! List<dynamic>) return false;
+    if (instructionError.length < 2) return false;
+
+    final instructionErrorData = instructionError[1];
+    if (instructionErrorData is! Map<String, dynamic>) return false;
+
+    return instructionErrorData['Custom'] == 1;
+  }
 }

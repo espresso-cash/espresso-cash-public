@@ -9,6 +9,7 @@ import 'package:solana/solana.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/tokens/token_list.dart';
+import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
 import 'outgoing_direct_payment.dart';
@@ -46,6 +47,7 @@ class ODPRows extends Table with AmountMixin, EntityMixin {
   // Status fields
   TextColumn get tx => text().nullable()();
   TextColumn get txId => text().nullable()();
+  IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
 }
 
 enum ODPStatusDto {
@@ -81,7 +83,7 @@ extension on ODPStatusDto {
       case ODPStatusDto.success:
         return ODPStatus.success(txId: row.txId!);
       case ODPStatusDto.txFailure:
-        return const ODPStatus.txFailure();
+        return ODPStatus.txFailure(reason: row.txFailureReason);
       case ODPStatusDto.txSendFailure:
         return ODPStatus.txSendFailure(SignedTx.decode(row.tx!));
       case ODPStatusDto.txWaitFailure:
@@ -101,6 +103,7 @@ extension on OutgoingDirectPayment {
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
+        txFailureReason: status.toTxFailureReason(),
       );
 }
 
@@ -123,5 +126,9 @@ extension on ODPStatus {
         txSent: (it) => it.txId,
         txWaitFailure: (it) => it.txId,
         success: (it) => it.txId,
+      );
+
+  TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
+        txFailure: (it) => it.reason,
       );
 }

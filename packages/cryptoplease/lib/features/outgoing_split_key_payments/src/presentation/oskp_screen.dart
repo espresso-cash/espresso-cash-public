@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/transactions/tx_sender.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -88,7 +89,11 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ? context.l10n.loading
               : payment.status.maybeMap(
                   success: always(context.l10n.splitKeySuccessMessage2),
-                  txFailure: always(context.l10n.splitKeyErrorMessage2),
+                  txFailure: (it) => [
+                    context.l10n.splitKeyErrorMessage2,
+                    if (it.reason == TxFailureReason.insufficientFunds)
+                      context.l10n.errorMessageInsufficientFunds,
+                  ].join(' '),
                   txSendFailure: always(context.l10n.splitKeyErrorMessage2),
                   txWaitFailure: always(context.l10n.splitKeyErrorMessage2),
                   txLinksFailure: always(context.l10n.splitKeyErrorMessage2),

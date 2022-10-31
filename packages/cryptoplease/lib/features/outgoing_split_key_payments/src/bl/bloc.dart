@@ -160,7 +160,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
     return result.map(
       sent: (_) => OSKPStatus.txSent(tx.id, escrow: escrow),
       invalidBlockhash: (_) => const OSKPStatus.txFailure(),
-      failure: (_) => const OSKPStatus.txFailure(),
+      failure: (it) => OSKPStatus.txFailure(reason: it.reason),
       networkError: (_) => OSKPStatus.txSendFailure(tx, escrow: escrow),
     );
   }
