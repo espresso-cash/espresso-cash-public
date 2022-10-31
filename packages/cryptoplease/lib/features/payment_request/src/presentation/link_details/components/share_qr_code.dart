@@ -1,4 +1,12 @@
-part of '../share_request.dart';
+import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../../../../../core/presentation/format_amount.dart';
+import '../../../../../../core/tokens/token_list.dart';
+import '../../../../../../di.dart';
+import '../../../../../../l10n/l10n.dart';
+import '../../../../../../ui/rounded_rectangle.dart';
+import '../../../bl/payment_request.dart';
 
 class ShareQrCode extends StatelessWidget {
   const ShareQrCode({
@@ -76,4 +84,20 @@ class _QrCodeWrapper extends StatelessWidget {
       ),
     );
   }
+}
+
+class _Subtitle extends StatelessWidget {
+  const _Subtitle({Key? key, required this.text}) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+        ),
+      );
 }

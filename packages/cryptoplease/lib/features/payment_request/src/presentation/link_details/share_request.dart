@@ -1,27 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:share/share.dart';
 
-import '../../../../../core/presentation/format_amount.dart';
-import '../../../../../core/presentation/utils.dart';
-import '../../../../../core/tokens/token_list.dart';
-import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
-import '../../../../../ui/button.dart';
-import '../../../../../ui/colors.dart';
 import '../../../../../ui/content_padding.dart';
-import '../../../../../ui/rounded_rectangle.dart';
-import '../../../../../ui/share_message/share_message_bubble.dart';
-import '../../../../../ui/share_message/share_message_header.dart';
 import '../../../../../ui/tab_bar.dart';
 import '../../../../../ui/theme.dart';
 import '../../bl/payment_request.dart';
-
-part 'components/share_link.dart';
-part 'components/share_qr_code.dart';
+import 'components/share_link.dart';
+import 'components/share_qr_code.dart';
 
 class SharePaymentRequestScreen extends StatelessWidget {
   const SharePaymentRequestScreen({Key? key}) : super(key: key);
@@ -71,20 +59,4 @@ class SharePaymentRequestScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class _Subtitle extends StatelessWidget {
-  const _Subtitle({Key? key, required this.text}) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-        ),
-      );
 }

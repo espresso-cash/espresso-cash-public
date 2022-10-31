@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/solana_pay.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
@@ -154,5 +153,3 @@ extension on _Operation {
     }
   }
 }
-
-extension on SolanaPayRequest {}

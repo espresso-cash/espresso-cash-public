@@ -1,4 +1,16 @@
-part of '../share_request.dart';
+import 'package:flutter/material.dart';
+import 'package:share/share.dart';
+
+import '../../../../../../core/presentation/format_amount.dart';
+import '../../../../../../core/presentation/utils.dart';
+import '../../../../../../core/tokens/token_list.dart';
+import '../../../../../../di.dart';
+import '../../../../../../l10n/l10n.dart';
+import '../../../../../../ui/button.dart';
+import '../../../../../../ui/colors.dart';
+import '../../../../../../ui/share_message/share_message_bubble.dart';
+import '../../../../../../ui/share_message/share_message_header.dart';
+import '../../../bl/payment_request.dart';
 
 class ShareLink extends StatelessWidget {
   const ShareLink({
@@ -85,6 +97,22 @@ class _Links extends StatelessWidget {
             fontWeight: FontWeight.w600,
             color: CpColors.linkColor,
           ),
+        ),
+      );
+}
+
+class _Subtitle extends StatelessWidget {
+  const _Subtitle({Key? key, required this.text}) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
       );
 }
