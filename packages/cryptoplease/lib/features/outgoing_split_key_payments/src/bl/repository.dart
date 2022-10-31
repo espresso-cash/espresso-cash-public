@@ -10,6 +10,7 @@ import 'package:solana/solana.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/tokens/token_list.dart';
+import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
 import 'outgoing_split_key_payment.dart';
@@ -57,6 +58,7 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   TextColumn get privateKey => text().nullable()();
   TextColumn get link1 => text().nullable()();
   TextColumn get link2 => text().nullable()();
+  IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
 }
 
 enum OSKPStatusDto {
@@ -110,7 +112,7 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.success:
         return OSKPStatus.success(txId: txId!);
       case OSKPStatusDto.txFailure:
-        return const OSKPStatus.txFailure();
+        return OSKPStatus.txFailure(reason: row.txFailureReason);
       case OSKPStatusDto.txSendFailure:
         return OSKPStatus.txSendFailure(tx!, escrow: escrow!);
       case OSKPStatusDto.txWaitFailure:
@@ -133,6 +135,7 @@ extension on OutgoingSplitKeyPayment {
         privateKey: await status.toPrivateKey(),
         link1: status.toLink1(),
         link2: status.toLink2(),
+        txFailureReason: status.toTxFailureReason(),
       );
 }
 
@@ -185,5 +188,9 @@ extension on OSKPStatus {
 
   String? toLink2() => mapOrNull(
         linksReady: (it) => it.link2.toString(),
+      );
+
+  TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
+        txFailure: (it) => it.reason,
       );
 }

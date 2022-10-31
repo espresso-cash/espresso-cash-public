@@ -4,6 +4,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
+import '../../../../core/transactions/tx_sender.dart';
 
 part 'outgoing_split_key_payment.freezed.dart';
 
@@ -53,7 +54,8 @@ class OSKPStatus with _$OSKPStatus {
     required String txId,
   }) = OSKPStatusSuccess;
 
-  const factory OSKPStatus.txFailure() = OSKPStatusTxFailure;
+  const factory OSKPStatus.txFailure({TxFailureReason? reason}) =
+      OSKPStatusTxFailure;
 
   const factory OSKPStatus.txSendFailure(
     SignedTx tx, {
