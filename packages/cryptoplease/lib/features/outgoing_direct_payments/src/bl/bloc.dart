@@ -152,7 +152,7 @@ class ODPBloc extends Bloc<_Event, _State> {
     return result.map(
       sent: (_) => ODPStatus.txSent(tx.id),
       invalidBlockhash: (_) => const ODPStatus.txFailure(),
-      failure: (_) => const ODPStatus.txFailure(),
+      failure: (it) => ODPStatus.txFailure(reason: it.reason),
       networkError: (_) => ODPStatus.txSendFailure(tx),
     );
   }
