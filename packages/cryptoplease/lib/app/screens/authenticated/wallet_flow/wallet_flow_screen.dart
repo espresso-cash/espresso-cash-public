@@ -2,12 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/tokens/token_list.dart';
+import '../../../../di.dart';
 import '../../../../features/outgoing_direct_payments/module.dart';
 import '../../../../features/outgoing_split_key_payments/module.dart';
+import '../../../../features/payment_request/module.dart';
 import '../../../../features/qr_scanner/module.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -40,13 +44,26 @@ class _State extends State<WalletFlowScreen> {
       solanaPay: (r) => r.request.label,
       address: (r) => r.addressData.name,
     );
+    final requestAmount = request?.mapOrNull(
+      solanaPay: (r) {
+        final tokenList = sl<TokenList>();
+
+        return r.request.cryptoAmount(tokenList);
+      },
+    );
+
     if (!mounted) return;
 
     if (address == null) return;
 
-    final formatted = _amount.value == 0
+    final isEnabled = requestAmount == null || requestAmount.value == 0;
+    final initialAmount = requestAmount ?? _amount;
+    final formatted = initialAmount.value == 0
         ? ''
-        : _amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
+        : initialAmount.format(
+            DeviceLocale.localeOf(context),
+            skipSymbol: true,
+          );
 
     final amount = await context.router.push<Decimal>(
       ODPConfirmationRoute(
@@ -54,6 +71,7 @@ class _State extends State<WalletFlowScreen> {
         recipient: address,
         label: name,
         token: _amount.token,
+        isEnabled: isEnabled,
       ),
     );
     if (!mounted) return;
@@ -136,3 +154,5 @@ extension on _Operation {
     }
   }
 }
+
+extension on SolanaPayRequest {}

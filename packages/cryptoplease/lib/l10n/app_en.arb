@@ -169,6 +169,7 @@
   "receiveFlowPayerNamePlaceholder": "Name of the payer",
   "sharePaymentRequestLinkTitle": "Request has been created!",
   "sharePaymentRequestLinkDescription": "The recipient will need to click the link below to pay you.",
+  "sharePaymentRequestQrCodeDescription": "The recipient will need to scan the QR code below to pay you.",
   "sharePaymentRequestLinkIntro": "Hi!\n\nI have sent a request of ",
   "sharePaymentRequestLinkInstructions": "To pay me with one click, visit:",
   "sharePaymentRequestLinkMessage": "Hi!\n\nI have sent a request of {amount}. To pay me with one click, visit:\n\n{link}",

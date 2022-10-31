@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 
 import '../../../../../core/presentation/format_amount.dart';
@@ -12,56 +15,25 @@ import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/content_padding.dart';
+import '../../../../../ui/rounded_rectangle.dart';
 import '../../../../../ui/share_message/share_message_bubble.dart';
 import '../../../../../ui/share_message/share_message_header.dart';
+import '../../../../../ui/tab_bar.dart';
 import '../../../../../ui/theme.dart';
 import '../../bl/payment_request.dart';
+
+part 'components/share_link.dart';
+part 'components/share_qr_code.dart';
 
 class SharePaymentRequestLinkScreen extends StatelessWidget {
   const SharePaymentRequestLinkScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final tokenlist = sl<TokenList>();
     final request = context.watch<PaymentRequest>();
-    final amount =
-        request.payRequest.cryptoAmount(tokenlist)?.formatWithFiat(context) ??
-            '';
-
-    final message = context.l10n.sharePaymentRequestLinkMessage(
-      amount,
-      request.dynamicLink,
-    );
-
     final title = Text(
       context.l10n.sharePaymentRequestLinkTitle.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
-    );
-
-    final subtitle = Text(
-      context.l10n.sharePaymentRequestLinkDescription,
-      textAlign: TextAlign.center,
-      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-    );
-
-    final shareButton = CpButton(
-      text: context.l10n.share,
-      width: double.infinity,
-      size: CpButtonSize.big,
-      onPressed: () => Share.share(message),
-    );
-
-    final messageBubble = ShareMessageBubble(
-      textSpan: TextSpan(
-        children: [
-          ShareMessageHeader(
-            intro: context.l10n.sharePaymentRequestLinkIntro,
-            amount: amount,
-          ),
-          const WidgetSpan(child: _Instructions()),
-          WidgetSpan(child: _Links(link: request.dynamicLink)),
-        ],
-      ),
     );
 
     return CpTheme.dark(
@@ -70,20 +42,35 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
           title: title,
           leading: BackButton(onPressed: () => context.router.pop()),
         ),
-        body: CpContentPadding(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
+        body: DefaultTabController(
+          length: 2,
+          initialIndex: 0,
+          child: CpContentPadding(
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(24, 8, 24, 16),
+                  child: CpTabBar(
+                    variant: CpTabBarVariant.inverted,
+                    tabs: [
+                      Tab(text: 'Share Link'),
+                      Tab(text: 'Share QR Code'),
+                    ],
+                  ),
                 ),
-                child: subtitle,
-              ),
-              Flexible(child: messageBubble),
-              const SizedBox(height: 24),
-              shareButton,
-            ],
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      ShareLink(paymentRequest: request),
+                      ShareQrCode(paymentRequest: request),
+                    ],
+                  ),
+                ),
+                // Flexible(child: messageBubble),
+                // const SizedBox(height: 24),
+                // shareButton,
+              ],
+            ),
           ),
         ),
       ),
@@ -91,41 +78,18 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
   }
 }
 
-class _Instructions extends StatelessWidget {
-  const _Instructions({Key? key}) : super(key: key);
+class _Subtitle extends StatelessWidget {
+  const _Subtitle({Key? key, required this.text}) : super(key: key);
+
+  final String text;
 
   @override
-  Widget build(BuildContext context) => Text.rich(
-        TextSpan(
-          children: [
-            _newLine,
-            TextSpan(text: context.l10n.sharePaymentRequestLinkInstructions),
-            _newLine,
-          ],
-          style: const TextStyle(fontSize: 18),
-        ),
-      );
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(16),
+    child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+      ),
+  );
 }
-
-class _Links extends StatelessWidget {
-  const _Links({
-    Key? key,
-    required this.link,
-  }) : super(key: key);
-
-  final String link;
-
-  @override
-  Widget build(BuildContext context) => Text.rich(
-        TextSpan(
-          text: link.withZeroWidthSpaces(),
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: CpColors.linkColor,
-          ),
-        ),
-      );
-}
-
-const _newLine = TextSpan(text: '\n\n');
