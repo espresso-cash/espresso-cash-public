@@ -1,4 +1,4 @@
-part of '../share_link.dart';
+part of '../share_request.dart';
 
 class ShareQrCode extends StatelessWidget {
   const ShareQrCode({

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,14 +23,14 @@ import '../../bl/payment_request.dart';
 part 'components/share_link.dart';
 part 'components/share_qr_code.dart';
 
-class SharePaymentRequestLinkScreen extends StatelessWidget {
-  const SharePaymentRequestLinkScreen({Key? key}) : super(key: key);
+class SharePaymentRequestScreen extends StatelessWidget {
+  const SharePaymentRequestScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final request = context.watch<PaymentRequest>();
     final title = Text(
-      context.l10n.sharePaymentRequestLinkTitle.toUpperCase(),
+      context.l10n.sharePaymentRequestTitle.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
     );
 
@@ -48,13 +46,13 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
           child: CpContentPadding(
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(24, 8, 24, 16),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
                   child: CpTabBar(
                     variant: CpTabBarVariant.inverted,
                     tabs: [
-                      Tab(text: 'Share Link'),
-                      Tab(text: 'Share QR Code'),
+                      Tab(text: context.l10n.sharePaymentRequestLinkTitle),
+                      Tab(text: context.l10n.sharePaymentRequestQrCodeTitle),
                     ],
                   ),
                 ),
@@ -66,9 +64,6 @@ class SharePaymentRequestLinkScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Flexible(child: messageBubble),
-                // const SizedBox(height: 24),
-                // shareButton,
               ],
             ),
           ),
@@ -85,11 +80,11 @@ class _Subtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(16),
-    child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-      ),
-  );
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+        ),
+      );
 }
