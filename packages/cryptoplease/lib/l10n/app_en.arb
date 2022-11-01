@@ -296,5 +296,21 @@
   "requestNoteRequesting": "Requesting",
   "requestNoteFor": "For",
   "requestNotePlaceholder": "Add a note for your request",
-  "errorMessageInsufficientFunds": "You do not have enough funds."
+  "errorMessageInsufficientFunds": "You do not have enough funds.",
+  "minimumAmountToSend": "{amount} is the minimum to send",
+  "@minimumAmountToSend": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "minimumAmountToRequest": "{amount} is the minimum to request",
+  "@minimumAmountToRequest": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }
