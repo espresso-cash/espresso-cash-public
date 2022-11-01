@@ -230,7 +230,7 @@
       }
     }
   },
-  "feeAmount": "(Fee: {value})",
+  "feeAmount": "Fee: {value}",
   "@feeAmount": {
     "placeholders": {
       "value": {
