@@ -12,7 +12,7 @@ import '../../../../features/qr_scanner/module.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
-import '../../../../ui/dialogs.dart';
+import '../../../../ui/shake.dart';
 import '../../../../ui/theme.dart';
 import 'wallet_main_screen.dart';
 
@@ -26,7 +26,10 @@ class WalletFlowScreen extends StatefulWidget {
 }
 
 class _State extends State<WalletFlowScreen> {
+  final _shakeKey = GlobalKey<ShakeState>();
+
   CryptoAmount _amount = const CryptoAmount(value: 0, currency: Currency.usdc);
+  String _errorMessage = '';
 
   Future<void> _onQrScanner() async {
     final request =
@@ -72,12 +75,15 @@ class _State extends State<WalletFlowScreen> {
   void _onAmountUpdate(Decimal value) {
     if (value == _amount.decimal) return;
 
-    setState(() => _amount = _amount.copyWithDecimal(value));
+    setState(() {
+      _amount = _amount.copyWithDecimal(value);
+      _errorMessage = '';
+    });
   }
 
   void _onRequest() {
-    if (_amount.value == 0) {
-      return _showZeroAmountDialog(_Operation.request);
+    if (_amount.decimal < Decimal.parse('0.1')) {
+      return _handleSmallAmount(_Operation.request);
     }
 
     context.navigateTo(LinkRequestFlowRoute(initialAmount: _amount));
@@ -85,8 +91,8 @@ class _State extends State<WalletFlowScreen> {
   }
 
   void _onPay() {
-    if (_amount.value == 0) {
-      return _showZeroAmountDialog(_Operation.pay);
+    if (_amount.decimal < Decimal.parse('0.1')) {
+      return _handleSmallAmount(_Operation.pay);
     }
 
     context.router.push(
@@ -106,33 +112,32 @@ class _State extends State<WalletFlowScreen> {
     );
   }
 
-  void _showZeroAmountDialog(_Operation operation) => showWarningDialog(
-        context,
-        title: context.l10n.zeroAmountTitle,
-        message: context.l10n.zeroAmountMessage(operation.buildText(context)),
-      );
+  void _handleSmallAmount(_Operation operation) {
+    _shakeKey.currentState?.shake();
+    setState(() {
+      switch (operation) {
+        case _Operation.request:
+          _errorMessage = context.l10n.minimumAmountToRequest(r'$0.10');
+          break;
+        case _Operation.pay:
+          _errorMessage = context.l10n.minimumAmountToSend(r'$0.10');
+          break;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: WalletMainScreen(
+          shakeKey: _shakeKey,
           onScan: _onQrScanner,
           onAmountChanged: _onAmountUpdate,
           onRequest: _onRequest,
           onPay: _onPay,
           amount: _amount,
+          error: _errorMessage,
         ),
       );
 }
 
 enum _Operation { request, pay }
-
-extension on _Operation {
-  String buildText(BuildContext context) {
-    switch (this) {
-      case _Operation.pay:
-        return context.l10n.operationSend;
-      case _Operation.request:
-        return context.l10n.operationRequest;
-    }
-  }
-}
