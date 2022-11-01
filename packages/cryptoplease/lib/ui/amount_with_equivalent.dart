@@ -6,7 +6,9 @@ import '../l10n/decimal_separator.dart';
 import '../l10n/device_locale.dart';
 import '../l10n/l10n.dart';
 import 'chip.dart';
+import 'colors.dart';
 import 'number_formatter.dart';
+import 'shake.dart';
 
 class AmountWithEquivalent extends StatelessWidget {
   const AmountWithEquivalent({
@@ -14,11 +16,15 @@ class AmountWithEquivalent extends StatelessWidget {
     required this.inputController,
     required this.token,
     required this.collapsed,
+    this.shakeKey,
+    this.error = '',
   }) : super(key: key);
 
   final TextEditingController inputController;
   final Token token;
   final bool collapsed;
+  final Key? shakeKey;
+  final String error;
 
   @override
   Widget build(BuildContext context) =>
@@ -26,16 +32,26 @@ class AmountWithEquivalent extends StatelessWidget {
         valueListenable: inputController,
         builder: (context, value, _) => Column(
           children: [
-            _InputDisplay(
-              input: value.text,
-              fontSize: collapsed ? 57 : 80,
+            Shake(
+              key: shakeKey,
+              child: _InputDisplay(
+                input: value.text,
+                fontSize: collapsed ? 57 : 80,
+              ),
             ),
             if (!collapsed)
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: _EquivalentDisplay(
-                  input: value.text,
-                  token: token,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: error.isNotEmpty
+                      ? _DisplayChip(
+                          key: ValueKey(error),
+                          value: error,
+                          shouldDisplay: true,
+                          backgroundColor: CpColors.errorChipColor,
+                        )
+                      : _EquivalentDisplay(input: value.text, token: token),
                 ),
               )
           ],
@@ -62,26 +78,43 @@ class _EquivalentDisplay extends StatelessWidget {
     final amount = shouldDisplay ? input : '0';
     final formatted = context.l10n.tokenEquivalent(amount, symbol);
 
-    return SizedBox(
-      height: 50,
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 200),
-        opacity: shouldDisplay ? 1 : 0,
-        child: CpChip(
-          padding: CpChipPadding.small,
-          child: Text(
-            formatted.toUpperCase(),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
+    return _DisplayChip(shouldDisplay: shouldDisplay, value: formatted);
+  }
+}
+
+class _DisplayChip extends StatelessWidget {
+  const _DisplayChip({
+    super.key,
+    required this.shouldDisplay,
+    required this.value,
+    this.backgroundColor,
+  });
+
+  final bool shouldDisplay;
+  final String value;
+  final Color? backgroundColor;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        height: 50,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 200),
+          opacity: shouldDisplay ? 1 : 0,
+          child: CpChip(
+            padding: CpChipPadding.small,
+            backgroundColor: backgroundColor,
+            child: Text(
+              value.toUpperCase(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class _InputDisplay extends StatelessWidget {

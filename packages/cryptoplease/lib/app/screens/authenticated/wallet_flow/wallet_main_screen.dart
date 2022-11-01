@@ -20,6 +20,8 @@ class WalletMainScreen extends StatefulWidget {
     required this.onRequest,
     required this.onPay,
     required this.amount,
+    this.shakeKey,
+    this.error = '',
   });
 
   final VoidCallback onScan;
@@ -27,6 +29,8 @@ class WalletMainScreen extends StatefulWidget {
   final VoidCallback onPay;
   final ValueSetter<Decimal> onAmountChanged;
   final CryptoAmount amount;
+  final Key? shakeKey;
+  final String error;
 
   @override
   State<WalletMainScreen> createState() => _ScreenState();
@@ -79,6 +83,8 @@ class _ScreenState extends State<WalletMainScreen> {
             inputController: _amountController,
             token: widget.amount.currency.token,
             collapsed: false,
+            shakeKey: widget.shakeKey,
+            error: widget.error,
           ),
           const SizedBox(height: 8),
           UsdcInfoWidget(
