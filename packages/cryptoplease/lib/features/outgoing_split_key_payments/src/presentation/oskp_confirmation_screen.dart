@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/conversion_rates/context_ext.dart';
 import '../../../../core/currency.dart';
+import '../../../../core/fee_label.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -48,9 +49,17 @@ class OSKPConfirmationScreen extends StatelessWidget {
           ),
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: CpButton(
-              onPressed: onSubmit,
-              text: context.l10n.create,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const FeeLabel(type: FeeType.splitKey()),
+                const SizedBox(height: 21),
+                CpButton(
+                  width: double.infinity,
+                  onPressed: onSubmit,
+                  text: context.l10n.create,
+                ),
+              ],
             ),
           ),
         ),
@@ -76,10 +85,7 @@ class _TokenCreateLinkContent extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 40),
-          _AmountFeeView(
-            amount: amount,
-            fee: fee,
-          ),
+          _AmountView(amount: amount),
           Padding(
             padding: const EdgeInsets.all(16),
             child: CpInfoWidget(message: Text(context.l10n.sendExplanation)),
@@ -94,15 +100,13 @@ const _mediumTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 
-class _AmountFeeView extends StatelessWidget {
-  const _AmountFeeView({
+class _AmountView extends StatelessWidget {
+  const _AmountView({
     Key? key,
     required this.amount,
-    required this.fee,
   }) : super(key: key);
 
   final Amount amount;
-  final Amount fee;
 
   @override
   Widget build(BuildContext context) {
@@ -115,19 +119,9 @@ class _AmountFeeView extends StatelessWidget {
       fiat: identity,
     );
 
-    final fiatFee = fee.map(
-      crypto: (crypto) => context.convertToFiat(
-        fiatCurrency: Currency.usd,
-        token: crypto.token,
-        amount: crypto.value,
-      ),
-      fiat: identity,
-    );
-
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = amount.format(locale);
     final formattedFiatAmount = fiatAmount.formatMinimum(locale);
-    final formattedFiatFee = fiatFee.formatMinimum(locale);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -158,14 +152,6 @@ class _AmountFeeView extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
-                  ),
-                if (formattedFiatFee != null)
-                  Text(
-                    context.l10n.feeAmount(formattedFiatFee),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
                     ),
                   ),
               ],

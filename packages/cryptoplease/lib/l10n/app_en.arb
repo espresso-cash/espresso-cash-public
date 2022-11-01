@@ -230,7 +230,7 @@
       }
     }
   },
-  "feeAmount": "(Fee: {value})",
+  "feeAmount": "Fee: {value}",
   "@feeAmount": {
     "placeholders": {
       "value": {
@@ -238,6 +238,8 @@
       }
     }
   },
+  "feesCalculating": "calculating...",
+  "feesFailed": "failed to load",
   "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the links.",
   "shareIntroFt": "Hi!\n\nI’ve just sent you ",
   "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
