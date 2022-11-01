@@ -57,7 +57,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
     final confirmedAmount = await context.router.push<Decimal>(
       ODPConfirmationRoute(
         initialAmount: formatted,
-        recipient: request.recipient.toBase58(),
+        recipient: request.recipient,
         label: request.label,
         token: Token.usdc,
         isEnabled: amount.value == 0,

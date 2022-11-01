@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/conversion_rates/context_ext.dart';
 import '../../../../core/currency.dart';
+import '../../../../core/fee_label.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -51,14 +52,7 @@ class OSKPConfirmationScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  context.l10n
-                      .feeAmount(fee.format(DeviceLocale.localeOf(context))),
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                const FeeLabel(type: FeeType.splitKey()),
                 const SizedBox(height: 21),
                 CpButton(
                   width: double.infinity,
