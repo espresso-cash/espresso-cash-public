@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -15,6 +16,7 @@ import '../../../../ui/dialogs.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/theme.dart';
 import '../../../../ui/usdc_info.dart';
+import '../bl/fee.dart';
 
 class ODPConfirmationScreen extends StatefulWidget {
   const ODPConfirmationScreen({
@@ -95,8 +97,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
             const SizedBox(height: 16),
             UsdcInfoWidget(isSmall: height < 700 && widget.isEnabled),
             const SizedBox(height: 8),
-            Flexible(
-              flex: 3,
+            Expanded(
               child: LayoutBuilder(
                 builder: (context, constraints) => widget.isEnabled
                     ? AmountKeypad(
@@ -109,6 +110,15 @@ class _ScreenState extends State<ODPConfirmationScreen> {
               ),
             ),
             const SizedBox(height: 16),
+            Text(
+              context.l10n
+                  .maxFeeAmount(maxFee.format(DeviceLocale.localeOf(context))),
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 21),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: CpButton(

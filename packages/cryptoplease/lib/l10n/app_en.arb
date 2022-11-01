@@ -238,6 +238,14 @@
       }
     }
   },
+  "maxFeeAmount": "Maximum fee: {value}",
+  "@maxFeeAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the links.",
   "shareIntroFt": "Hi!\n\nI’ve just sent you ",
   "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
