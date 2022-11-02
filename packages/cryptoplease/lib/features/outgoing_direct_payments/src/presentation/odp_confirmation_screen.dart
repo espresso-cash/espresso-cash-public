@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:solana/solana.dart';
 
+import '../../../../core/fee_label.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -27,7 +29,7 @@ class ODPConfirmationScreen extends StatefulWidget {
   }) : super(key: key);
 
   final String initialAmount;
-  final String recipient;
+  final Ed25519HDPublicKey recipient;
   final String? label;
   final Token token;
   final bool isEnabled;
@@ -63,7 +65,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final address = widget.recipient;
+    final address = widget.recipient.toBase58();
 
     return CpTheme.dark(
       child: Scaffold(
@@ -95,8 +97,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
             const SizedBox(height: 16),
             UsdcInfoWidget(isSmall: height < 700 && widget.isEnabled),
             const SizedBox(height: 8),
-            Flexible(
-              flex: 3,
+            Expanded(
               child: LayoutBuilder(
                 builder: (context, constraints) => widget.isEnabled
                     ? AmountKeypad(
@@ -109,6 +110,8 @@ class _ScreenState extends State<ODPConfirmationScreen> {
               ),
             ),
             const SizedBox(height: 16),
+            FeeLabel(type: FeeType.direct(widget.recipient)),
+            const SizedBox(height: 21),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: CpButton(

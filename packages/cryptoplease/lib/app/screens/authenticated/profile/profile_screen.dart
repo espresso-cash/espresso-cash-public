@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:solana/solana.dart';
 
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/presentation/utils.dart';
@@ -29,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final state = context.watch<MyAccount>();
     final name = state.firstName;
     final photoPath = state.photoPath;
-    final address = state.address;
+    final address = state.publicKey;
 
     return Scaffold(
       body: Material(
@@ -122,7 +123,7 @@ class _QrCodeWidget extends StatelessWidget {
     required this.name,
   }) : super(key: key);
 
-  final String address;
+  final Ed25519HDPublicKey address;
   final String name;
 
   @override
@@ -131,7 +132,7 @@ class _QrCodeWidget extends StatelessWidget {
         jsonEncode(QrAddressData(address: address, name: name).toJson());
 
     return InkWell(
-      onTap: () => context.copyToClipboard(address),
+      onTap: () => context.copyToClipboard(address.toBase58()),
       child: Container(
         height: 150,
         alignment: Alignment.center,
@@ -147,7 +148,7 @@ class _QrCodeWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 24),
                 child: Text(
-                  address,
+                  address.toBase58(),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

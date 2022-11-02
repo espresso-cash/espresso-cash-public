@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
@@ -39,7 +38,7 @@ class _State extends State<WalletFlowScreen> {
         await context.router.push<QrScannerRequest>(const QrScannerRoute());
 
     final address = request?.map(
-      solanaPay: (r) => r.request.recipient.toBase58(),
+      solanaPay: (r) => r.request.recipient,
       address: (r) => r.addressData.address,
     );
     final name = request?.map(
@@ -83,7 +82,7 @@ class _State extends State<WalletFlowScreen> {
 
       context.createAndOpenDirectPayment(
         amountInUsdc: amount,
-        receiver: Ed25519HDPublicKey.fromBase58(address),
+        receiver: address,
         reference: null,
       );
     }
