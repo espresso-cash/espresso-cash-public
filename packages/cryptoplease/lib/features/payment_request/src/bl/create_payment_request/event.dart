@@ -15,5 +15,6 @@ class CreatePaymentRequestEvent with _$CreatePaymentRequestEvent {
 
   const factory CreatePaymentRequestEvent.submitted({
     required Ed25519HDPublicKey recipient,
+    required String? label,
   }) = Submitted;
 }
