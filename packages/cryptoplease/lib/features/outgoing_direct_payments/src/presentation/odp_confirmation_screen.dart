@@ -13,7 +13,6 @@ import '../../../../ui/amount_with_equivalent.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/bordered_row.dart';
 import '../../../../ui/button.dart';
-import '../../../../ui/colors.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/theme.dart';
@@ -76,7 +75,11 @@ class _ScreenState extends State<ODPConfirmationScreen> {
             CpBorderedRow(
               title: Text(context.l10n.to),
               content: BorderedRowChip(
-                child: _RecipientRow(address: address, label: widget.label),
+                child: Text(
+                  '${substring(address, 0, 4)}'
+                  '\u2026'
+                  '${substring(address, address.length - 4)}',
+                ),
               ),
             ),
             CpBorderedRow(
@@ -130,44 +133,3 @@ const _textStyle = TextStyle(
   fontSize: 17,
   fontWeight: FontWeight.w500,
 );
-
-class _RecipientRow extends StatelessWidget {
-  const _RecipientRow({
-    Key? key,
-    required this.address,
-    required this.label,
-  }) : super(key: key);
-
-  final String address;
-  final String? label;
-
-  @override
-  Widget build(BuildContext context) {
-    final formattedAddress = '${substring(address, 0, 4)}'
-        '\u2026'
-        '${substring(address, address.length - 4)}';
-
-    return Text.rich(
-      TextSpan(
-        children: [
-          if (label != null) ...[
-            TextSpan(
-              text: label,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const WidgetSpan(child: SizedBox(width: 16)),
-          ],
-          TextSpan(
-            text: formattedAddress,
-            style: const TextStyle(
-              color: CpColors.disabledColor,
-            ),
-          ),
-        ],
-      ),
-      maxLines: 1,
-      style: _textStyle,
-      overflow: TextOverflow.ellipsis,
-    );
-  }
-}

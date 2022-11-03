@@ -74,10 +74,8 @@ class _ContentState extends State<_Content> implements NoteSetter {
     final state = context.read<CreatePaymentRequestBloc>().state;
 
     if (state.tokenAmount.value != 0) {
-      final myAccount = context.read<MyAccount>();
       final event = CreatePaymentRequestEvent.submitted(
-        recipient: myAccount.wallet.publicKey,
-        label: myAccount.firstName,
+        recipient: context.read<MyAccount>().wallet.publicKey,
       );
       context.read<CreatePaymentRequestBloc>().add(event);
     }

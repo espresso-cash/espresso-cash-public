@@ -107,7 +107,6 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
     final request = SolanaPayRequest(
       recipient: event.recipient,
       amount: amount,
-      label: event.label,
       splToken: token == Token.sol ? null : token.publicKey,
       reference: [reference],
     );
