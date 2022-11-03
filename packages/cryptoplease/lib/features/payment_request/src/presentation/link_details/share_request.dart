@@ -2,9 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../../core/presentation/format_amount.dart';
-import '../../../../../core/tokens/token_list.dart';
-import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/content_padding.dart';
@@ -19,19 +16,16 @@ class SharePaymentRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokenlist = sl<TokenList>();
     final request = context.watch<PaymentRequest>();
-    final link = request.dynamicLink;
-    final amount =
-        request.payRequest.cryptoAmount(tokenlist)?.formatWithFiat(context);
+    final title = Text(
+      context.l10n.sharePaymentRequestTitle.toUpperCase(),
+      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+    );
 
     return CpTheme.dark(
       child: Scaffold(
         appBar: CpAppBar(
-          title: Text(
-            context.l10n.sharePaymentRequestTitle.toUpperCase(),
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
-          ),
+          title: title,
           leading: BackButton(onPressed: () => context.router.pop()),
         ),
         body: DefaultTabController(
@@ -53,14 +47,8 @@ class SharePaymentRequestScreen extends StatelessWidget {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      ShareLink(
-                        link: link,
-                        amount: amount,
-                      ),
-                      ShareQrCode(
-                        link: link,
-                        amount: amount,
-                      ),
+                      ShareLink(paymentRequest: request),
+                      ShareQrCode(paymentRequest: request),
                     ],
                   ),
                 ),
