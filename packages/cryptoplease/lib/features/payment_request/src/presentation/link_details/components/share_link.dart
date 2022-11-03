@@ -1,38 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
-import '../../../../../../core/presentation/format_amount.dart';
 import '../../../../../../core/presentation/utils.dart';
-import '../../../../../../core/tokens/token_list.dart';
-import '../../../../../../di.dart';
 import '../../../../../../l10n/l10n.dart';
 import '../../../../../../ui/button.dart';
 import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/share_message/share_message_bubble.dart';
 import '../../../../../../ui/share_message/share_message_header.dart';
-import '../../../bl/payment_request.dart';
 
 class ShareLink extends StatelessWidget {
   const ShareLink({
     Key? key,
-    required this.paymentRequest,
+    required this.amount,
+    required this.link,
   }) : super(key: key);
 
-  final PaymentRequest paymentRequest;
+  final String? amount;
+  final String link;
 
   @override
   Widget build(BuildContext context) {
-    final tokenlist = sl<TokenList>();
-
-    final amount = paymentRequest.payRequest
-            .cryptoAmount(tokenlist)
-            ?.formatWithFiat(context) ??
-        '';
-
-    final message = context.l10n.sharePaymentRequestLinkMessage(
-      amount,
-      paymentRequest.dynamicLink,
-    );
+    final amount = this.amount ?? '';
+    final message = context.l10n.sharePaymentRequestLinkMessage(amount, link);
 
     final shareButton = CpButton(
       text: context.l10n.share,
@@ -49,7 +38,7 @@ class ShareLink extends StatelessWidget {
             amount: amount,
           ),
           const WidgetSpan(child: _Instructions()),
-          WidgetSpan(child: _Links(link: paymentRequest.dynamicLink)),
+          WidgetSpan(child: _Links(link: link)),
         ],
       ),
     );

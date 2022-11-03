@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 
 import 'src/presentation/link_details/flow.dart';
-import 'src/presentation/link_details/share_request.dart';
+import 'src/presentation/link_details/share_payment_request.dart';
 import 'src/presentation/link_request/flow.dart';
 
 const paymentRequestRoutes = [
