@@ -1,3 +1,7 @@
+## 1.51.0
+
+ - **FEAT**: share qr code on payment request (#589).
+
 ## 1.50.0
 
  - **REFACTOR**: remove remaining cycles.
