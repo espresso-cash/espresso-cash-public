@@ -1,33 +1,33 @@
 PODS:
-  - Firebase/AnalyticsWithoutAdIdSupport (9.5.0):
+  - Firebase/AnalyticsWithoutAdIdSupport (9.6.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics/WithoutAdIdSupport (~> 9.5.0)
-  - Firebase/CoreOnly (9.5.0):
-    - FirebaseCore (= 9.5.0)
-  - Firebase/DynamicLinks (9.5.0):
+    - FirebaseAnalytics/WithoutAdIdSupport (~> 9.6.0)
+  - Firebase/CoreOnly (9.6.0):
+    - FirebaseCore (= 9.6.0)
+  - Firebase/DynamicLinks (9.6.0):
     - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 9.5.0)
-  - firebase_analytics (9.3.5):
-    - Firebase/AnalyticsWithoutAdIdSupport (= 9.5.0)
+    - FirebaseDynamicLinks (~> 9.6.0)
+  - firebase_analytics (9.3.8):
+    - Firebase/AnalyticsWithoutAdIdSupport (= 9.6.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.22.0):
-    - Firebase/CoreOnly (= 9.5.0)
+  - firebase_core (1.24.0):
+    - Firebase/CoreOnly (= 9.6.0)
     - Flutter
   - firebase_dynamic_links (4.3.11):
-    - Firebase/DynamicLinks (= 9.5.0)
+    - Firebase/DynamicLinks (= 9.6.0)
     - firebase_core
     - Flutter
-  - FirebaseAnalytics/WithoutAdIdSupport (9.5.0):
+  - FirebaseAnalytics/WithoutAdIdSupport (9.6.0):
     - FirebaseCore (~> 9.0)
     - FirebaseInstallations (~> 9.0)
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 9.5.0)
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 9.6.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - FirebaseCore (9.5.0):
+  - FirebaseCore (9.6.0):
     - FirebaseCoreDiagnostics (~> 9.0)
     - FirebaseCoreInternal (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
@@ -39,7 +39,7 @@ PODS:
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - FirebaseCoreInternal (9.6.0):
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-  - FirebaseDynamicLinks (9.5.0):
+  - FirebaseDynamicLinks (9.6.0):
     - FirebaseCore (~> 9.0)
   - FirebaseInstallations (9.6.0):
     - FirebaseCore (~> 9.0)
@@ -54,7 +54,7 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - GoogleAppMeasurement/WithoutAdIdSupport (9.5.0):
+  - GoogleAppMeasurement/WithoutAdIdSupport (9.6.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
@@ -261,21 +261,21 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
-  Firebase: 800f16f07af493d98d017446a315c27af0552f41
-  firebase_analytics: ab2d3712067e55da57484cbbb641aa66e8aece27
-  firebase_core: 31872a49ffe0bf6f834e7044c7334e433536735a
-  firebase_dynamic_links: ec24e3c38dbee2b97032363a3d0ef539ce2c018f
-  FirebaseAnalytics: 1b60984a408320dda637306f3f733699ef8473d7
-  FirebaseCore: 25c0400b670fd1e2f2104349cd3b5dcce8d9418f
+  Firebase: 5ae8b7cf8efce559a653aef0ad95bab3f427c351
+  firebase_analytics: 412a89aa9bdc3c35549b3e27f8d102fd82295ff6
+  firebase_core: 7c28ecc1e5dd74e03829ac3e9ff5ba3314e737a9
+  firebase_dynamic_links: 8fc870871acfbbd39172cb430e4a04c0fe2be4c7
+  FirebaseAnalytics: 89ad762c6c3852a685794174757e2c60a36b6a82
+  FirebaseCore: 2082fffcd855f95f883c0a1641133eb9bbe76d40
   FirebaseCoreDiagnostics: 99a495094b10a57eeb3ae8efa1665700ad0bdaa6
   FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
-  FirebaseDynamicLinks: e2805928aefebd742288161f99469ab84d4aa8c8
+  FirebaseDynamicLinks: 894ee3b4e56a77abee067d371c9a23e7b5a3c686
   FirebaseInstallations: 0a115432c4e223c5ab20b0dbbe4cbefa793a0e8e
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  GoogleAppMeasurement: 6ee231473fbd75c11221dfce489894334024eead
+  GoogleAppMeasurement: 6de2b1a69e4326eb82ee05d138f6a5cb7311bcb1
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleMLKit: 0017a6a8372e1a182139b9def4d89be5d87ca5a7
   GoogleToolboxForMac: 8bef7c7c5cf7291c687cf5354f39f9db6399ad34
