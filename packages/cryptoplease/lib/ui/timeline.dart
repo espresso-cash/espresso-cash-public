@@ -1,5 +1,6 @@
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
 
 class CpTimelineItem {
   CpTimelineItem({
@@ -33,6 +34,7 @@ class CpTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView.builder(
+        shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: items.length,
         itemBuilder: (context, index) {

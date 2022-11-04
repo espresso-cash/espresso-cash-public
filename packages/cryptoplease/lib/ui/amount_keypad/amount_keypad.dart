@@ -1,8 +1,9 @@
-import 'package:cryptoplease/l10n/decimal_separator.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/ui/amount_keypad/keypad_key.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+
+import '../../l10n/decimal_separator.dart';
+import '../../l10n/device_locale.dart';
+import 'keypad_key.dart';
 
 class AmountKeypad extends StatelessWidget {
   const AmountKeypad({

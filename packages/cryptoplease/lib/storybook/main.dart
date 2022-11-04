@@ -1,29 +1,34 @@
-import 'package:cryptoplease/storybook/stories/app/wallet_main_screen.dart';
-import 'package:cryptoplease/storybook/stories/app_bar.dart';
-import 'package:cryptoplease/storybook/stories/background_gradient.dart';
-import 'package:cryptoplease/storybook/stories/bottom_button.dart';
-import 'package:cryptoplease/storybook/stories/bullet_item.dart';
-import 'package:cryptoplease/storybook/stories/button.dart';
-import 'package:cryptoplease/storybook/stories/chip.dart';
-import 'package:cryptoplease/storybook/stories/content_padding.dart';
-import 'package:cryptoplease/storybook/stories/empty_message_widget.dart';
-import 'package:cryptoplease/storybook/stories/headered_list.dart';
-import 'package:cryptoplease/storybook/stories/icon_button.dart';
-import 'package:cryptoplease/storybook/stories/info_widget.dart';
-import 'package:cryptoplease/storybook/stories/loader.dart';
-import 'package:cryptoplease/storybook/stories/rounded_rectangle.dart';
-import 'package:cryptoplease/storybook/stories/snackbar.dart';
-import 'package:cryptoplease/storybook/stories/status_screen.dart';
-import 'package:cryptoplease/storybook/stories/status_widget.dart';
-import 'package:cryptoplease/storybook/stories/switch.dart';
-import 'package:cryptoplease/storybook/stories/text_field.dart';
-import 'package:cryptoplease/storybook/stories/timeline.dart';
-import 'package:cryptoplease/storybook/stories/user_avatar.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-void main() {
+import '../di.dart';
+import '../ui/theme.dart';
+import 'stories/app/investments/popular_crypto_header.dart';
+import 'stories/app/investments/portfolio_widget.dart';
+import 'stories/app/wallet_main_screen.dart';
+import 'stories/app_bar.dart';
+import 'stories/background_gradient.dart';
+import 'stories/bottom_button.dart';
+import 'stories/bullet_item.dart';
+import 'stories/button.dart';
+import 'stories/chip.dart';
+import 'stories/content_padding.dart';
+import 'stories/empty_message_widget.dart';
+import 'stories/icon_button.dart';
+import 'stories/info_widget.dart';
+import 'stories/loader.dart';
+import 'stories/rounded_rectangle.dart';
+import 'stories/snackbar.dart';
+import 'stories/status_screen.dart';
+import 'stories/status_widget.dart';
+import 'stories/switch.dart';
+import 'stories/text_field.dart';
+import 'stories/timeline.dart';
+import 'stories/user_avatar.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
   runApp(const StorybookApp());
 }
 
@@ -56,6 +61,8 @@ class StorybookApp extends StatelessWidget {
         ),
         stories: [
           appWalletMainScreen,
+          appPopularCryptoHeader,
+          appPortfolioWidget,
           cpAppBar,
           cpBackgroundGradient,
           cpBottomButton,
@@ -64,7 +71,6 @@ class StorybookApp extends StatelessWidget {
           cpChip,
           cpContentPadding,
           cpEmptyMessageWidget,
-          cpHeaderedList,
           cpIconButton,
           cpInfoWidget,
           cpLoader,

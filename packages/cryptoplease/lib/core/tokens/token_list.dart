@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/tokens/parsed_content.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
+
+import '../../config.dart';
+import 'token.dart';
 
 part 'token_list.g.dart';
 

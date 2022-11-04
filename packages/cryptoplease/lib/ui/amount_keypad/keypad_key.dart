@@ -1,8 +1,9 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/decimal_separator.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../gen/assets.gen.dart';
+import '../../l10n/decimal_separator.dart';
+import '../../l10n/device_locale.dart';
+import '../theme.dart';
 
 class _NumericKey extends KeypadKey {
   const _NumericKey({Key? key, required this.number}) : super(key: key);
@@ -15,7 +16,7 @@ class _NumericKey extends KeypadKey {
   @override
   Widget build(BuildContext context) => Text(
         value,
-        style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 24),
+        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       );
 }
 
@@ -26,8 +27,8 @@ class _BackspaceKey extends KeypadKey {
   String get value => '<';
 
   @override
-  Widget build(BuildContext context) => Assets.icons.back.svg(
-        height: 27,
+  Widget build(BuildContext context) => Assets.icons.keyDelete.svg(
+        height: 22,
         color: CpTheme.of(context).primaryTextColor,
       );
 }
@@ -41,7 +42,7 @@ class _DecimalSeparatorKey extends KeypadKey {
   @override
   Widget build(BuildContext context) => Text(
         getDecimalSeparator(DeviceLocale.localeOf(context)),
-        style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 34),
+        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
       );
 }
 

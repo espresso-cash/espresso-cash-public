@@ -1,6 +1,7 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../gen/assets.gen.dart';
+import '../../../../../ui/colors.dart';
 
 class MenuButton extends StatelessWidget {
   const MenuButton({

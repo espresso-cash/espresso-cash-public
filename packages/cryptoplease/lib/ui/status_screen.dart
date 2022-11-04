@@ -1,8 +1,10 @@
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/status_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../gen/assets.gen.dart';
+import 'app_bar.dart';
+import 'colors.dart';
+import 'content_padding.dart';
+import 'status_widget.dart';
 
 class StatusScreen extends StatelessWidget {
   const StatusScreen({
@@ -13,7 +15,6 @@ class StatusScreen extends StatelessWidget {
     this.onBackButtonPressed,
     this.statusTitle,
     required this.statusContent,
-    this.backgroundImage,
   }) : super(key: key);
 
   final CpStatusType statusType;
@@ -21,8 +22,18 @@ class StatusScreen extends StatelessWidget {
   final String? title;
   final Widget? statusTitle;
   final Widget statusContent;
-  final Widget? backgroundImage;
   final VoidCallback? onBackButtonPressed;
+
+  SvgGenImage get backgroundImage {
+    switch (statusType) {
+      case CpStatusType.success:
+        return Assets.icons.logoBgGreen;
+      case CpStatusType.info:
+        return Assets.icons.logoBgOrange;
+      case CpStatusType.error:
+        return Assets.icons.logoBgRed;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +54,10 @@ class StatusScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          if (backgroundImage != null)
-            SizedBox(
-              height: double.infinity,
-              child: backgroundImage,
-            ),
+          SizedBox(
+            height: double.infinity,
+            child: backgroundImage.svg(alignment: Alignment.bottomCenter),
+          ),
           SizedBox(
             width: double.infinity,
             child: Column(

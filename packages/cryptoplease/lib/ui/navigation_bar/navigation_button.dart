@@ -1,6 +1,7 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../gen/assets.gen.dart';
+import '../colors.dart';
 
 class CpNavigationButton extends StatelessWidget {
   const CpNavigationButton({
@@ -29,9 +30,14 @@ class CpNavigationButton extends StatelessWidget {
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              icon.svg(
-                height: 24,
-                color: active ? CpColors.yellowColor : Colors.white,
+              SizedBox.square(
+                dimension: 40,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: icon.svg(
+                    color: active ? CpColors.yellowColor : Colors.white,
+                  ),
+                ),
               ),
               if (badge != null && badge > 0)
                 Positioned(

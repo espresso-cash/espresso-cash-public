@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/rounded_rectangle.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
+import 'rounded_rectangle.dart';
 
 enum CpStatusType { success, info, error }
 

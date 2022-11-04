@@ -1,7 +1,8 @@
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/rounded_rectangle.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/colors.dart';
+import '../../ui/rounded_rectangle.dart';
 
 final cpRoundedRectangle = Story(
   name: 'CpRoundedRectangle',

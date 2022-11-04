@@ -1,7 +1,8 @@
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/bottom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/app_bar.dart';
+import '../../ui/bottom_button.dart';
 
 final cpBottomButton = Story(
   name: 'CpBottomButton',
@@ -9,7 +10,7 @@ final cpBottomButton = Story(
     appBar: CpAppBar(title: const Text('Bottom button')),
     body: Column(
       children: [
-        const Expanded(child: Center(child: Text('Crypto Please'))),
+        const Expanded(child: Center(child: Text('Espresso Cash'))),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: CpBottomButton(

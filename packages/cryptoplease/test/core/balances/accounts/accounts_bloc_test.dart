@@ -2,6 +2,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
+import 'package:cryptoplease/core/file_manager.dart';
 import 'package:cryptoplease/core/wallet.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,6 +17,7 @@ Future<void> main() async {
   final mnemonic = bip39.generateMnemonic();
   final wallet = await createWallet(mnemonic: mnemonic, account: 0);
   final testAccount = MyAccount(wallet: wallet, firstName: 'Test');
+  final fileManager = FileManager();
 
   tearDown(() {
     reset(storage);
@@ -28,7 +30,7 @@ Future<void> main() async {
           .thenAnswer((_) async => null);
       when(storage.write()).thenAnswer((_) async {});
     },
-    build: () => AccountsBloc(storage: storage),
+    build: () => AccountsBloc(storage: storage, fileManager: fileManager),
     act: (b) {
       b.add(const AccountsEvent.initialize());
     },
@@ -57,7 +59,7 @@ Future<void> main() async {
       ).thenAnswer((_) async => null);
       when(storage.write()).thenAnswer((_) async {});
     },
-    build: () => AccountsBloc(storage: storage),
+    build: () => AccountsBloc(storage: storage, fileManager: fileManager),
     act: (b) {
       b.add(const AccountsEvent.initialize());
     },
@@ -78,7 +80,7 @@ Future<void> main() async {
     setUp: () {
       when(storage.write()).thenAnswer((_) async {});
     },
-    build: () => AccountsBloc(storage: storage),
+    build: () => AccountsBloc(storage: storage, fileManager: fileManager),
     act: (b) {
       b.add(AccountsEvent.created(mnemonic: mnemonic, account: testAccount));
     },

@@ -17,9 +17,8 @@ Future<Response> _handler(Request request) async =>
       (data) async {
         final url = Uri.parse(moonpayBaseUrl).addParams({
           'apiKey': moonpayApiKey,
-          'baseCurrencyAmount': data.value,
           'walletAddress': Uri.encodeComponent(data.receiverAddress),
-          'currencyCode': data.tokenSymbol,
+          'currencyCode': data.tokenSymbol.toMoonpaySymbol(),
           'baseCurrencyCode': 'usd',
         });
         final parameters = '?${url.query}';
@@ -44,4 +43,14 @@ extension on Uri {
           ...params,
         },
       );
+}
+
+extension on String {
+  String toMoonpaySymbol() {
+    if (toLowerCase() == 'usdc') {
+      return 'usdc_sol';
+    } else {
+      return this;
+    }
+  }
 }

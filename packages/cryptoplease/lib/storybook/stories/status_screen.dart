@@ -1,11 +1,11 @@
-import 'package:cryptoplease/storybook/utils.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/status_screen.dart';
-import 'package:cryptoplease/ui/status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/button.dart';
+import '../../ui/content_padding.dart';
+import '../../ui/status_screen.dart';
+import '../../ui/status_widget.dart';
+import '../utils.dart';
 
 final cpStatusScreen = Story(
   name: 'CpStatusScreen',
@@ -53,17 +53,6 @@ final cpStatusScreen = Story(
           Option(
             label: 'With Back Button',
             value: () {},
-          ),
-          const Option(label: 'Null', value: null),
-        ],
-      ),
-      backgroundImage: context.knobs.options(
-        label: 'Background Image',
-        initial: null,
-        options: [
-          const Option(
-            label: 'With Background Image',
-            value: Placeholder(color: CpColors.successBackgroundColor),
           ),
           const Option(label: 'Null', value: null),
         ],

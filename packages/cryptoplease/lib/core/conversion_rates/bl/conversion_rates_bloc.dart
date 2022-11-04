@@ -1,19 +1,18 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/processing_state.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
+import '../../currency.dart';
+import '../../processing_state.dart';
+import '../../tokens/token.dart';
+import 'repository.dart';
+
 part 'conversion_rates_bloc.freezed.dart';
-part 'conversion_rates_event.dart';
-part 'conversion_rates_state.dart';
 
 final _logger = Logger('ConversionRatesBloc');
 
@@ -55,3 +54,20 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
 }
 
 class ConversionRatesRequestException implements Exception {}
+
+@freezed
+class ConversionRatesEvent with _$ConversionRatesEvent {
+  const factory ConversionRatesEvent.refreshRequested({
+    required FiatCurrency currency,
+    required Iterable<Token> tokens,
+  }) = RefreshRequested;
+}
+
+@freezed
+class ConversionRatesState
+    with _$ConversionRatesState
+    implements StateWithProcessingState {
+  const factory ConversionRatesState({
+    @Default(ProcessingStateNone()) ProcessingState processingState,
+  }) = _ConversionRatesState;
+}

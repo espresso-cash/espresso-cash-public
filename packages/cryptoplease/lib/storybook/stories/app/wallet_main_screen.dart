@@ -1,12 +1,13 @@
-import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_main_screen.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/storybook/stories/app/app_wrapper.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
+import '../../../app/screens/authenticated/wallet_flow/wallet_main_screen.dart';
+import '../../../core/amount.dart';
+import '../../../core/currency.dart';
+import '../../../ui/theme.dart';
+import 'app_wrapper.dart';
+
 final appWalletMainScreen = Story(
-  name: 'app/WalletMainScreen',
+  name: 'App/WalletMainScreen',
   builder: (context) => AppWrapper(
     child: CpTheme.dark(
       child: WalletMainScreen(

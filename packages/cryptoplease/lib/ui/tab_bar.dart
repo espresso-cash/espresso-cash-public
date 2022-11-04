@@ -1,34 +1,38 @@
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 
-class CpTabBar extends StatelessWidget {
-  const CpTabBar({super.key, required this.tabs});
+import 'colors.dart';
 
+enum CpTabBarVariant { dark, inverted }
+
+class CpTabBar extends StatelessWidget {
+  const CpTabBar({
+    super.key,
+    this.variant = CpTabBarVariant.dark,
+    required this.tabs,
+  });
+
+  final CpTabBarVariant variant;
   final List<Widget> tabs;
 
   @override
   Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.only(
-          left: _barPadding,
-          right: _barPadding,
-        ),
         height: 50,
         clipBehavior: Clip.antiAlias,
-        decoration: const ShapeDecoration(
-          color: CpColors.darkBackground,
-          shape: StadiumBorder(),
+        decoration: ShapeDecoration(
+          color: _backgroundColor(variant),
+          shape: const StadiumBorder(),
         ),
         child: TabBar(
           indicatorColor: Colors.transparent,
-          unselectedLabelColor: CpColors.disabledTabColor,
-          labelColor: Colors.black,
+          unselectedLabelColor: _unselectedLabelColor(variant),
+          labelColor: _labelColor(variant),
           labelStyle: Theme.of(context).textTheme.headline3?.copyWith(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),
-          indicator: const ShapeDecoration(
-            color: Colors.white,
-            shape: StadiumBorder(),
+          indicator: ShapeDecoration(
+            color: _indicatorBackground(variant),
+            shape: const StadiumBorder(),
           ),
           padding: const EdgeInsets.all(6),
           tabs: tabs,
@@ -36,4 +40,38 @@ class CpTabBar extends StatelessWidget {
       );
 }
 
-const double _barPadding = 16;
+Color _backgroundColor(CpTabBarVariant variant) {
+  switch (variant) {
+    case CpTabBarVariant.dark:
+      return CpColors.darkBackground;
+    case CpTabBarVariant.inverted:
+      return CpColors.yellowColor;
+  }
+}
+
+Color _indicatorBackground(CpTabBarVariant variant) {
+  switch (variant) {
+    case CpTabBarVariant.dark:
+      return Colors.white;
+    case CpTabBarVariant.inverted:
+      return Colors.black;
+  }
+}
+
+Color _labelColor(CpTabBarVariant variant) {
+  switch (variant) {
+    case CpTabBarVariant.dark:
+      return Colors.black;
+    case CpTabBarVariant.inverted:
+      return Colors.white;
+  }
+}
+
+Color _unselectedLabelColor(CpTabBarVariant variant) {
+  switch (variant) {
+    case CpTabBarVariant.dark:
+      return CpColors.disabledTabColor;
+    case CpTabBarVariant.inverted:
+      return Colors.black;
+  }
+}

@@ -1,7 +1,8 @@
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import 'colors.dart';
 
 class CpTheme extends StatelessWidget {
   const CpTheme({
@@ -151,3 +152,12 @@ class CpThemeData {
         dividerColor: dividerColor,
       );
 }
+
+const twelveWordsTextStyle = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 17,
+  color: Colors.white,
+  letterSpacing: 0.09,
+  wordSpacing: 2,
+  height: 1.411,
+);

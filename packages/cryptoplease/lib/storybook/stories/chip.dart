@@ -1,7 +1,8 @@
-import 'package:cryptoplease/storybook/utils.dart';
-import 'package:cryptoplease/ui/chip.dart';
 import 'package:flutter/widgets.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/chip.dart';
+import '../utils.dart';
 
 final cpChip = Story(
   name: 'CpChip',
@@ -11,6 +12,6 @@ final cpChip = Story(
       initial: CpChipPadding.normal,
       options: CpChipPadding.values.toOptions(),
     ),
-    child: const Text('Crypto Please'),
+    child: const Text('Espresso Cash'),
   ),
 );

@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
-import 'package:cryptoplease/features/app_lock/module.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
+import '../core/accounts/bl/accounts_bloc.dart';
+import '../features/app_lock/module.dart';
+import '../routes.gr.dart';
+import '../ui/theme.dart';
 
 class CryptopleaseApp extends StatefulWidget {
   const CryptopleaseApp({Key? key}) : super(key: key);
@@ -38,13 +39,13 @@ class _CryptopleaseAppState extends State<CryptopleaseApp> {
               else if (isLoading)
                 const SplashRoute()
               else
-                const SignUpFlowRoute(),
+                const OnboardingFlowRoute(),
             ],
           ),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           debugShowCheckedModeBanner: false,
-          title: 'Crypto Please',
+          title: 'Espresso Cash',
           theme: context.watch<CpThemeData>().toMaterialTheme(),
           builder: (context, child) => AppLockModule(child: child),
         ),
