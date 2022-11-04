@@ -14,7 +14,7 @@ class SwapModule extends SingleChildStatelessWidget {
         providers: [
           BlocProvider<SwapVerifierBloc>(
             create: (context) => sl<SwapVerifierBloc>(
-              param1: context.read<MyAccount>(),
+              param1: context.read<MyAccount>().wallet,
             ),
           ),
         ],

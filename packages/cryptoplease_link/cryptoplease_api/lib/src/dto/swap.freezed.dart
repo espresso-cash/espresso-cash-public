@@ -20,9 +20,7 @@ SwapResponseDto _$SwapResponseDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SwapResponseDto {
-  String? get setupTransaction => throw _privateConstructorUsedError;
   String get swapTransaction => throw _privateConstructorUsedError;
-  String? get cleanupTransaction => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,10 +33,7 @@ abstract class $SwapResponseDtoCopyWith<$Res> {
   factory $SwapResponseDtoCopyWith(
           SwapResponseDto value, $Res Function(SwapResponseDto) then) =
       _$SwapResponseDtoCopyWithImpl<$Res>;
-  $Res call(
-      {String? setupTransaction,
-      String swapTransaction,
-      String? cleanupTransaction});
+  $Res call({String swapTransaction});
 }
 
 /// @nodoc
@@ -52,23 +47,13 @@ class _$SwapResponseDtoCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? setupTransaction = freezed,
     Object? swapTransaction = freezed,
-    Object? cleanupTransaction = freezed,
   }) {
     return _then(_value.copyWith(
-      setupTransaction: setupTransaction == freezed
-          ? _value.setupTransaction
-          : setupTransaction // ignore: cast_nullable_to_non_nullable
-              as String?,
       swapTransaction: swapTransaction == freezed
           ? _value.swapTransaction
           : swapTransaction // ignore: cast_nullable_to_non_nullable
               as String,
-      cleanupTransaction: cleanupTransaction == freezed
-          ? _value.cleanupTransaction
-          : cleanupTransaction // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -80,10 +65,7 @@ abstract class _$$_SwapResponseDtoCopyWith<$Res>
           _$_SwapResponseDto value, $Res Function(_$_SwapResponseDto) then) =
       __$$_SwapResponseDtoCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String? setupTransaction,
-      String swapTransaction,
-      String? cleanupTransaction});
+  $Res call({String swapTransaction});
 }
 
 /// @nodoc
@@ -99,23 +81,13 @@ class __$$_SwapResponseDtoCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? setupTransaction = freezed,
     Object? swapTransaction = freezed,
-    Object? cleanupTransaction = freezed,
   }) {
     return _then(_$_SwapResponseDto(
-      setupTransaction: setupTransaction == freezed
-          ? _value.setupTransaction
-          : setupTransaction // ignore: cast_nullable_to_non_nullable
-              as String?,
       swapTransaction: swapTransaction == freezed
           ? _value.swapTransaction
           : swapTransaction // ignore: cast_nullable_to_non_nullable
               as String,
-      cleanupTransaction: cleanupTransaction == freezed
-          ? _value.cleanupTransaction
-          : cleanupTransaction // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -123,24 +95,17 @@ class __$$_SwapResponseDtoCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_SwapResponseDto implements _SwapResponseDto {
-  const _$_SwapResponseDto(
-      {required this.setupTransaction,
-      required this.swapTransaction,
-      required this.cleanupTransaction});
+  const _$_SwapResponseDto({required this.swapTransaction});
 
   factory _$_SwapResponseDto.fromJson(Map<String, dynamic> json) =>
       _$$_SwapResponseDtoFromJson(json);
 
   @override
-  final String? setupTransaction;
-  @override
   final String swapTransaction;
-  @override
-  final String? cleanupTransaction;
 
   @override
   String toString() {
-    return 'SwapResponseDto(setupTransaction: $setupTransaction, swapTransaction: $swapTransaction, cleanupTransaction: $cleanupTransaction)';
+    return 'SwapResponseDto(swapTransaction: $swapTransaction)';
   }
 
   @override
@@ -149,20 +114,13 @@ class _$_SwapResponseDto implements _SwapResponseDto {
         (other.runtimeType == runtimeType &&
             other is _$_SwapResponseDto &&
             const DeepCollectionEquality()
-                .equals(other.setupTransaction, setupTransaction) &&
-            const DeepCollectionEquality()
-                .equals(other.swapTransaction, swapTransaction) &&
-            const DeepCollectionEquality()
-                .equals(other.cleanupTransaction, cleanupTransaction));
+                .equals(other.swapTransaction, swapTransaction));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(setupTransaction),
-      const DeepCollectionEquality().hash(swapTransaction),
-      const DeepCollectionEquality().hash(cleanupTransaction));
+      runtimeType, const DeepCollectionEquality().hash(swapTransaction));
 
   @JsonKey(ignore: true)
   @override
@@ -178,20 +136,14 @@ class _$_SwapResponseDto implements _SwapResponseDto {
 }
 
 abstract class _SwapResponseDto implements SwapResponseDto {
-  const factory _SwapResponseDto(
-      {required final String? setupTransaction,
-      required final String swapTransaction,
-      required final String? cleanupTransaction}) = _$_SwapResponseDto;
+  const factory _SwapResponseDto({required final String swapTransaction}) =
+      _$_SwapResponseDto;
 
   factory _SwapResponseDto.fromJson(Map<String, dynamic> json) =
       _$_SwapResponseDto.fromJson;
 
   @override
-  String? get setupTransaction;
-  @override
   String get swapTransaction;
-  @override
-  String? get cleanupTransaction;
   @override
   @JsonKey(ignore: true)
   _$$_SwapResponseDtoCopyWith<_$_SwapResponseDto> get copyWith =>

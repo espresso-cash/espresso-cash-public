@@ -28,26 +28,26 @@ class _SwapStatusScreenState extends State<SwapStatusScreen> {
     super.initState();
     context
         .read<SwapVerifierBloc>()
-        .add(SwapVerifierEvent.swapRequested(jupiterRoute: widget.route));
+        .add(SwapVerifierEvent.create(widget.route));
   }
 
   void _onRetry() {
-    context
-        .read<SwapVerifierBloc>()
-        .add(const SwapVerifierEvent.retryRequested());
+    // context
+    //     .read<SwapVerifierBloc>()
+    //     .add(const SwapVerifierEvent.retryRequested());
   }
 
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<SwapVerifierBloc, SwapVerifierState>(
         builder: (context, state) => state.maybeMap(
-          failed: always(
+          failure: always(
             SwapError(
               onRetry: _onRetry,
               operation: widget.operation,
             ),
           ),
-          finished: always(
+          success: always(
             SwapSuccess(
               swapOperation: widget.operation,
             ),

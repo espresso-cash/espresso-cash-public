@@ -1,10 +1,8 @@
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
+import 'package:cryptoplease/core/flow.dart';
+import 'package:cryptoplease/core/transactions/resign_tx.dart';
+import 'package:cryptoplease/core/transactions/tx_sender.dart';
 import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
-import 'package:cryptoplease/features/swap/bl/swap_transaction_set.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
-import 'package:dfunc/dfunc.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -12,148 +10,57 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 part 'bloc.freezed.dart';
-part 'event.dart';
-part 'state.dart';
+
+@freezed
+class SwapVerifierEvent with _$SwapVerifierEvent {
+  const factory SwapVerifierEvent.create(JupiterRoute route) = SwapCreated;
+}
+
+typedef SwapVerifierState = Flow<SwapException, String>;
 
 typedef _Event = SwapVerifierEvent;
 typedef _State = SwapVerifierState;
-typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
 @injectable
 class SwapVerifierBloc extends Bloc<_Event, _State> {
   SwapVerifierBloc({
-    required SolanaClient solanaClient,
-    required CryptopleaseClient cryptopleaseClient,
-    @factoryParam required MyAccount myAccount,
-  })  : _solanaClient = solanaClient,
-        _cpClient = cryptopleaseClient,
-        _myAccount = myAccount,
-        super(const SwapVerifierState.idle()) {
-    on<_Event>(_eventHandler, transformer: droppable());
+    required CryptopleaseClient client,
+    @factoryParam required Ed25519HDKeyPair account,
+    required TxSender txSender,
+  })  : _client = client,
+        _account = account,
+        _txSender = txSender,
+        super(const SwapVerifierState.initial()) {
+    on<_Event>(_handler);
   }
 
-  final CryptopleaseClient _cpClient;
-  final MyAccount _myAccount;
-  final SolanaClient _solanaClient;
+  final CryptopleaseClient _client;
+  final Ed25519HDKeyPair _account;
+  final TxSender _txSender;
 
-  _EventHandler get _eventHandler => (event, emit) => event.map(
-        swapRequested: (e) => _onSwapRequested(e, emit),
-        retryRequested: (e) => _onRetryRequested(e, emit),
+  EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
+        create: (e) => _onCreate(e, emit),
       );
 
-  Future<void> _onSwapRequested(SwapRequested event, _Emitter emit) async {
+  Future<void> _onCreate(SwapCreated event, _Emitter _) async {
     try {
-      emit(const SwapVerifierState.preparing());
-
-      final publicKey = _myAccount.publicKey.toBase58();
       final dto = SwapRequestDto(
-        route: event.jupiterRoute,
-        userPublicKey: publicKey,
+        userPublicKey: _account.publicKey.toBase58(),
+        route: event.route,
       );
-      final transaction = await _cpClient.createSwapTransaction(dto);
-      final txSet = transaction.toTxSet();
+      final tx = await _client
+          .createSwapTransaction(dto)
+          .then((r) => r.swapTransaction)
+          .then(SignedTx.decode)
+          .then((swap) => swap.resign(_account));
 
-      await _executeTransactions(tx: txSet, emit: emit);
+      final result = await _txSender.send(tx);
+      final status = await _txSender.wait(tx.id);
+
+      emit(SwapVerifierState.success(tx.id));
     } on Exception catch (e) {
-      emit(SwapVerifierState.failed(SwapException.other(e)));
+      emit(SwapVerifierState.failure(SwapException.other(e)));
     }
   }
-
-  Future<void> _onRetryRequested(RetryRequested _, _Emitter emit) async =>
-      state.maybeMap(
-        failed: (e) => e.error.maybeMap(
-          setupFailed: (s) => _executeTransactions(tx: s.txSet, emit: emit),
-          swapFailed: (s) => _executeTransactions(
-            tx: s.txSet,
-            emit: emit,
-            skipSetup: true,
-          ),
-          cleanupFailed: (s) => _executeTransactions(
-            tx: s.txSet,
-            emit: emit,
-            skipSetup: true,
-            skipSwap: true,
-          ),
-          orElse: ignore,
-        ),
-        orElse: ignore,
-      );
-
-  Future<void> _executeTransactions({
-    required SwapTransactionSet tx,
-    required _Emitter emit,
-    bool skipSetup = false,
-    bool skipSwap = false,
-  }) async {
-    try {
-      await _maybeExecuteTx(
-        tx: skipSetup ? null : tx.setupTransaction,
-        onSetup: () => emit(SwapVerifierState.settingUp(tx)),
-        onError: (e) => throw SwapException.setupFailed(tx, e),
-      );
-
-      await _maybeExecuteTx(
-        tx: skipSwap ? null : tx.swapTransaction,
-        onSetup: () => emit(SwapVerifierState.swapping(tx)),
-        onError: (e) => throw SwapException.swapFailed(tx, e),
-      );
-
-      await _maybeExecuteTx(
-        tx: tx.cleanupTransaction,
-        onSetup: () => emit(SwapVerifierState.cleaningUp(tx)),
-        onError: (e) => throw SwapException.cleanupFailed(tx, e),
-      );
-
-      emit(const SwapVerifierState.finished());
-    } on SwapException catch (e) {
-      emit(SwapVerifierState.failed(e));
-    }
-  }
-
-  Future<String?> _maybeExecuteTx({
-    required String? tx,
-    required VoidCallback onSetup,
-    required ValueSetter<Exception> onError,
-  }) async {
-    try {
-      if (tx == null) return null;
-      onSetup();
-
-      final message = SignedTx.decode(tx).message;
-      final recent = await _solanaClient.rpcClient.getRecentBlockhash();
-      final recompiled = message.compile(recentBlockhash: recent.blockhash);
-      final wallet = _myAccount.wallet;
-
-      final signedTx = SignedTx(
-        messageBytes: recompiled.data,
-        signatures: [await wallet.sign(recompiled.data)],
-      );
-
-      final transaction = signedTx.encode();
-
-      final signature = await _solanaClient.rpcClient.sendTransaction(
-        transaction,
-        preflightCommitment: Commitment.confirmed,
-      );
-
-      await _solanaClient.waitForSignatureStatus(
-        signature,
-        status: Commitment.confirmed,
-        timeout: const Duration(minutes: 1),
-      );
-
-      return signature;
-    } on Exception catch (e) {
-      onError(e);
-    }
-  }
-}
-
-extension on SwapResponseDto {
-  SwapTransactionSet toTxSet() => SwapTransactionSet(
-        cleanupTransaction: cleanupTransaction,
-        setupTransaction: setupTransaction,
-        swapTransaction: swapTransaction,
-      );
 }

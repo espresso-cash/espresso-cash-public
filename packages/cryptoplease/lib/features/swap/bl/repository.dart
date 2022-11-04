@@ -38,6 +38,7 @@ class JupiterRepository {
       slippageBps: slippage.ceil().toDouble().toInt() * 100,
       swapMode: swapMode,
       userPublicKey: userPublickKey,
+      enforceSingleTx: true,
     );
     final responseDto = await _jupiterClient.getQuote(requestDto);
 
