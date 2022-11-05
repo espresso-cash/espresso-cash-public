@@ -98,18 +98,18 @@
       }
     }
   },
-  "paymentRequestSuccessNotificationTitle": "{payer} paid your request of {amount}",
+  "paymentRequestSuccessNotificationTitle": "Your request of {amount} for {label} was paid.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
         "type": "String"
       },
-      "payer": {
+      "label": {
         "type": "String"
       }
     }
   },
-  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}",
+  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
       "amount": {
