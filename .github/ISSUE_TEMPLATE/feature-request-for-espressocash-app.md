@@ -1,5 +1,5 @@
 ---
-name: Feature request for CryptoPlease app
+name: Feature request for Espresso Cash app
 about: Suggest an idea for this project
 title: ''
 labels: mobile-app
