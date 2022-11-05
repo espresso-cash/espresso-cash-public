@@ -1,5 +1,5 @@
 ---
-name: Bug report for CryptoPlease app
+name: Bug report for Espresso Cash app
 about: Create a report to help us improve
 title: ''
 labels: bug, mobile-app
