@@ -9,7 +9,8 @@ Future<void> main() async {
   const name = 'Cofre #514';
   const symbol = 'COFR';
 
-  final client = createTestSolanaClient();
+  // TODO(KB): Setup localnet with the metaplex program deployed.
+  final client = createTestSolanaClient(useLocal: false);
   final owner = await Ed25519HDKeyPair.random();
   await client.requestAirdrop(
     address: owner.publicKey,
