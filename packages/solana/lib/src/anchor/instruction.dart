@@ -16,6 +16,18 @@ class AnchorInstruction extends Instruction {
           data: data,
         );
 
+  factory AnchorInstruction.withDiscriminator({
+    required Ed25519HDPublicKey programId,
+    required ByteArray discriminator,
+    required List<AccountMeta> accounts,
+    ByteArray arguments = const ByteArray.empty(),
+  }) =>
+      AnchorInstruction._(
+        programId: programId,
+        accounts: accounts,
+        data: ByteArray(discriminator.followedBy(arguments)),
+      );
+
   static Future<AnchorInstruction> forMethod({
     required Ed25519HDPublicKey programId,
     required String method,
