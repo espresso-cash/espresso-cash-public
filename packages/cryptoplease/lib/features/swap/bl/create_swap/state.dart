@@ -14,8 +14,8 @@ class CreateSwapState with _$CreateSwapState {
     required Decimal slippage,
     required SwapEditingMode editingMode,
     JupiterRoute? bestRoute,
-    @Default(Flow<SwapException, JupiterRoute>.initial())
-        Flow<SwapException, JupiterRoute> flowState,
+    @Default(Flow<CreateSwapException, JupiterRoute>.initial())
+        Flow<CreateSwapException, JupiterRoute> flowState,
   }) = Initialized;
 }
 
@@ -30,7 +30,9 @@ extension CreateSwapExt on CreateSwapState {
         output: always(outputAmount),
       );
 
-  Either<SwapException, JupiterRoute> validate(IMap<Token, Amount> balances) {
+  Either<CreateSwapException, JupiterRoute> validate(
+    IMap<Token, Amount> balances,
+  ) {
     final tokenBalance = balances.balanceFromToken(input);
 
     // Check if the total amount doesn't exceed the user's balance.
@@ -39,7 +41,7 @@ extension CreateSwapExt on CreateSwapState {
         : inputAmount;
     if (tokenBalance < totalAmount) {
       return Either.left(
-        SwapException.insufficientBalance(
+        CreateSwapException.insufficientBalance(
           balance: tokenBalance,
           amount: totalAmount,
         ),
@@ -52,12 +54,12 @@ extension CreateSwapExt on CreateSwapState {
     // always paid in SOL.
     final solBalance = balances.balanceFromToken(Token.sol);
     if (solBalance < fee) {
-      return Either.left(SwapException.insufficientFee(fee: fee));
+      return Either.left(CreateSwapException.insufficientFee(fee: fee));
     }
 
     final route = bestRoute;
     if (route == null) {
-      return const Either.left(SwapException.routeNotFound());
+      return const Either.left(CreateSwapException.routeNotFound());
     }
 
     return Either.right(route);
@@ -75,4 +77,20 @@ extension CreateSwapExt on CreateSwapState {
       value: routeFee.totalFeeAndDeposits.toInt(),
     );
   }
+}
+
+@freezed
+class CreateSwapException with _$CreateSwapException implements Exception {
+  const factory CreateSwapException.other(Exception e) = OtherException;
+
+  const factory CreateSwapException.routeNotFound() = RouteNotFound;
+
+  const factory CreateSwapException.insufficientBalance({
+    required CryptoAmount balance,
+    required CryptoAmount amount,
+  }) = InsufficientBalance;
+
+  const factory CreateSwapException.insufficientFee({
+    required CryptoAmount fee,
+  }) = InsufficientFee;
 }

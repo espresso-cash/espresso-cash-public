@@ -5,8 +5,7 @@ import 'package:cryptoplease/core/analytics/analytics_manager.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/flow.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/swap/bl/repository.dart';
-import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
+import 'package:cryptoplease/features/swap/bl/create_swap/jupiter_repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -85,14 +84,14 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       final output = state.output;
       final routeExists = await _jupiterRepository.routeExists(input, output);
 
-      if (!routeExists) throw const SwapException.routeNotFound();
+      if (!routeExists) throw const CreateSwapException.routeNotFound();
 
       emit(
         state.copyWith(
           flowState: const Flow.initial(),
         ),
       );
-    } on SwapException catch (e) {
+    } on CreateSwapException catch (e) {
       emit(state.error(e));
     }
   }
@@ -169,7 +168,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         userPublickKey: _destinationWallet.address,
       );
 
-      if (routes.isEmpty) throw const SwapException.routeNotFound();
+      if (routes.isEmpty) throw const CreateSwapException.routeNotFound();
 
       final bestRoute = routes.first;
 
@@ -181,10 +180,10 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
           emit(state.updateInputFromRoute(bestRoute)),
         ),
       );
-    } on SwapException catch (e) {
+    } on CreateSwapException catch (e) {
       emit(state.error(e));
     } on Exception catch (e) {
-      emit(state.error(SwapException.other(e)));
+      emit(state.error(CreateSwapException.other(e)));
     }
   }
 
@@ -228,7 +227,7 @@ extension on CreateSwapState {
         flowState: const Flow.processing(),
       );
 
-  CreateSwapState error(SwapException e) => copyWith(
+  CreateSwapState error(CreateSwapException e) => copyWith(
         bestRoute: null,
         flowState: Flow.failure(e),
       );
