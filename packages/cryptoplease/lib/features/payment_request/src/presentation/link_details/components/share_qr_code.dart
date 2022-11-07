@@ -53,36 +53,35 @@ class _QrCodeWrapper extends StatelessWidget {
     final amount = this.amount;
 
     return Flexible(
-      child: SizedBox(
-        child: CpRoundedRectangle(
-          scrollable: true,
-          margin: const EdgeInsets.symmetric(vertical: 24),
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (amount != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 32),
-                  child: Text(
-                    amount,
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+      child: CpRoundedRectangle(
+        scrollable: false,
+        margin: const EdgeInsets.symmetric(vertical: 24),
+        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 42),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (amount != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 32),
+                child: Text(
+                  amount,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              QrImage(
+              ),
+            Flexible(
+              child: QrImage(
                 data: qrData,
-                size: 220,
                 padding: EdgeInsets.zero,
                 foregroundColor: Colors.white,
               ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
