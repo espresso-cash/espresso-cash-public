@@ -1,14 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.dart';
 import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/swap_exception_dialog.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_flow/swap_screen.dart';
+import 'package:cryptoplease/app/screens/authenticated/swap_flow/create_swap_screen.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
-import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
-import 'package:cryptoplease/features/swap/bl/swap_operation.dart';
+import 'package:cryptoplease/features/swap/bl/create_swap/operation.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:cryptoplease/ui/colors.dart';
@@ -96,17 +95,14 @@ class _FlowState extends State<SwapFlowScreen> {
     createSwapBloc.add(event);
   }
 
-  void _onSwapException(SwapException e) => showSwapExceptionDialog(
+  void _onSwapException(CreateSwapException e) => showSwapExceptionDialog(
         context,
         context.l10n.swapErrorTitle,
         e,
       );
 
   void _onRouteReady(JupiterRoute route) => context.router.replace(
-        SwapStatusRoute(
-          route: route,
-          operation: operation,
-        ),
+        ProcessSwapRoute(route: route),
       );
 
   @override
@@ -131,7 +127,7 @@ class _FlowState extends State<SwapFlowScreen> {
                   operation.title(context, state.input, state.output),
                 ),
               ),
-              body: SwapScreen(
+              body: CreateSwapScreen(
                 inputAmount: state.inputAmount,
                 outputAmount: state.outputAmount,
                 displayAmount: state.requestAmount,

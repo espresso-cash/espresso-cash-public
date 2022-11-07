@@ -287,8 +287,6 @@
   "swapPreparing": "Preparing your transaction",
   "swapErrorTitle": "An error ocurred",
   "swapFailRouteNotFound": "No routes found for given tokens and amount!",
-  "swapFailSetupFailed": "An error ocurred while setting up your transaction",
-  "swapFailCleanUpFailed": "An error ocurred while cleaning up your transaction",
   "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
   "insufficientFundsForFeeMessage": "You don't have enough {feeToken} to pay for the network fee, you need at least {amount}.",
   "@insufficientFundsForFeeMessage": {

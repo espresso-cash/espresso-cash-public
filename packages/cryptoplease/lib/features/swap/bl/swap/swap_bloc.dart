@@ -67,14 +67,14 @@ class SwapBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onProcess(_SwapProcess event, _Emitter emit) async {
-    final payment = await _repository.load(event.id);
+    final swap = await _repository.load(event.id);
 
-    if (payment == null) return;
-    if (state.contains(payment.id)) return;
+    if (swap == null) return;
+    if (state.contains(swap.id)) return;
 
-    emit(state.add(payment.id));
+    emit(state.add(swap.id));
 
-    final SwapStatus newStatus = await payment.status.map(
+    final SwapStatus newStatus = await swap.status.map(
       txCreated: (status) => _sendTx(status.tx),
       txSent: (status) => _waitTx(status.txId),
       success: (status) async => status,
@@ -83,13 +83,13 @@ class SwapBloc extends Bloc<_Event, _State> {
       txWaitFailure: (status) => _waitTx(status.txId),
     );
 
-    await _repository.save(payment.copyWith(status: newStatus));
+    await _repository.save(swap.copyWith(status: newStatus));
 
-    emit(state.remove(payment.id));
+    emit(state.remove(swap.id));
 
     newStatus.map(
-      txCreated: (_) => add(SwapEvent.process(payment.id)),
-      txSent: (_) => add(SwapEvent.process(payment.id)),
+      txCreated: (_) => add(SwapEvent.process(swap.id)),
+      txSent: (_) => add(SwapEvent.process(swap.id)),
       success: ignore,
       txFailure: ignore,
       txSendFailure: ignore,

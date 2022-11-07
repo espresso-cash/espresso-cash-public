@@ -14,8 +14,8 @@ import 'package:cryptoplease/ui/number_formatter.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
-class SwapScreen extends StatefulWidget {
-  const SwapScreen({
+class CreateSwapScreen extends StatefulWidget {
+  const CreateSwapScreen({
     Key? key,
     required this.inputAmount,
     required this.outputAmount,
@@ -41,10 +41,10 @@ class SwapScreen extends StatefulWidget {
   final bool isLoadingRoute;
 
   @override
-  State<SwapScreen> createState() => _SwapScreenState();
+  State<CreateSwapScreen> createState() => _CreateSwapScreenState();
 }
 
-class _SwapScreenState extends State<SwapScreen> {
+class _CreateSwapScreenState extends State<CreateSwapScreen> {
   final _amountController = TextEditingController();
 
   @override
@@ -61,7 +61,7 @@ class _SwapScreenState extends State<SwapScreen> {
   }
 
   @override
-  void didUpdateWidget(covariant SwapScreen oldWidget) {
+  void didUpdateWidget(covariant CreateSwapScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     final newAmount = widget.displayAmount.decimal;

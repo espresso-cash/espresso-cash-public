@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cryptoplease/app/routes.gr.dart';
+import 'package:cryptoplease/app/screens/authenticated/swap_flow/flow.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/format_amount.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
+import 'package:cryptoplease/core/tokens/token_list.dart';
+import 'package:cryptoplease/di.dart';
 import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
@@ -59,7 +62,14 @@ class MenuHeader extends StatelessWidget {
                 token: Token.usdc,
               ),
             ),
-            onCashOut: () => context.router.navigate(const CashOutRoute()),
+            onCashOut: () async {
+              final token = sl<TokenList>().findTokenByMint(
+                '2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk',
+              );
+              if (token == null) return;
+              context.navigateToBuyToken(token);
+              // return context.router.navigate(const CashOutRoute());
+            },
           ),
         ],
       ),

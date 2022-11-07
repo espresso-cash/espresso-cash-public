@@ -3,6 +3,7 @@ import 'package:cryptoplease/features/incoming_split_key_payments/bl/iskp_reposi
 import 'package:cryptoplease/features/outgoing_direct_payments/bl/repository.dart';
 import 'package:cryptoplease/features/outgoing_split_key_payments/bl/repository.dart';
 import 'package:cryptoplease/features/payment_request/bl/repository.dart';
+import 'package:cryptoplease/features/swap/bl/swap/swap_repository.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
@@ -17,7 +18,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 18;
+const int latestVersion = 20;
 
 const _tables = [
   OutgoingTransferRows,
@@ -25,6 +26,7 @@ const _tables = [
   ODPRows,
   OSKPRows,
   ISKPRows,
+  SwapRows,
 ];
 
 @lazySingleton
@@ -65,6 +67,9 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from >= 15 && from < 18) {
             await m.addColumn(oDPRows, oDPRows.reference);
+          }
+          if (from < 20) {
+            await m.createTable(swapRows);
           }
         },
       );

@@ -1,5 +1,5 @@
 import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/features/swap/bl/swap_exception.dart';
+import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
 import 'package:cryptoplease/l10n/device_locale.dart';
 import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:dfunc/dfunc.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 void showSwapExceptionDialog(
   BuildContext context,
   String title,
-  SwapException exception,
+  CreateSwapException exception,
 ) =>
     showDialog<void>(
       context: context,
@@ -27,12 +27,9 @@ void showSwapExceptionDialog(
       ),
     );
 
-extension SwapExceptionExt on SwapException {
+extension SwapExceptionExt on CreateSwapException {
   String description(BuildContext context) => this.map(
         routeNotFound: always(context.l10n.swapFailRouteNotFound),
-        setupFailed: always(context.l10n.swapFailSetupFailed),
-        swapFailed: always(context.l10n.swapFailUnknown),
-        cleanupFailed: always(context.l10n.swapFailCleanUpFailed),
         insufficientBalance: (e) => context.l10n.insufficientFundsMessage(
           e.amount.format(DeviceLocale.localeOf(context)),
           e.balance.format(DeviceLocale.localeOf(context)),
