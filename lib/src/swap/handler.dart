@@ -23,7 +23,7 @@ Future<Response> _handler(Request request) async =>
           transactions.setupTransaction,
           transactions.swapTransaction,
           transactions.cleanupTransaction,
-        ].singleOrNull;
+        ].whereNotNull().singleOrNull;
 
         if (tx == null) {
           throw Exception('Swap only supports single transaction');
