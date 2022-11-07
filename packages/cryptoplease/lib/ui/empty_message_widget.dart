@@ -1,5 +1,6 @@
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
+
+import 'theme.dart';
 
 class CpEmptyMessageWidget extends StatelessWidget {
   const CpEmptyMessageWidget({

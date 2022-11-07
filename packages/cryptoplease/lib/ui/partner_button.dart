@@ -1,5 +1,6 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+
+import '../gen/assets.gen.dart';
 
 class PartnerButton extends StatelessWidget {
   const PartnerButton({

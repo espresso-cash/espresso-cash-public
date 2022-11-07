@@ -1,7 +1,3 @@
-import 'package:cryptoplease/core/conversion_rates/data/coingecko_client.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -9,16 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../currency.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
+import 'conversion_rates_client.dart';
+
 @lazySingleton
 class ConversionRatesRepository extends ChangeNotifier {
   ConversionRatesRepository({
-    required CoingeckoClient coingeckoClient,
+    required ConversionRatesClient coingeckoClient,
   })  : _maxCoingeckoIds = 30,
         _coingeckoClient = coingeckoClient;
 
   @visibleForTesting
   ConversionRatesRepository.test({
-    required CoingeckoClient coingeckoClient,
+    required ConversionRatesClient coingeckoClient,
     required int maxCoingeckoIds,
   })  : _maxCoingeckoIds = maxCoingeckoIds,
         _coingeckoClient = coingeckoClient;
@@ -27,7 +28,7 @@ class ConversionRatesRepository extends ChangeNotifier {
       _value = BehaviorSubject.seeded(const IMapConst({}));
 
   final int _maxCoingeckoIds;
-  final CoingeckoClient _coingeckoClient;
+  final ConversionRatesClient _coingeckoClient;
 
   Decimal? readRate(CryptoCurrency crypto, {required FiatCurrency to}) =>
       _value.value[to]?[crypto];

@@ -1,16 +1,17 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_button.dart';
-import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_header.dart';
-import 'package:cryptoplease/app/screens/authenticated/profile/components/menu_section.dart';
-import 'package:cryptoplease/core/balances/presentation/refresh_balance_wrapper.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../routes.gr.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/navigation_bar/navigation_bar.dart';
+import '../../../../ui/theme.dart';
+import 'components/menu_button.dart';
+import 'components/menu_header.dart';
+import 'components/menu_section.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({Key? key}) : super(key: key);

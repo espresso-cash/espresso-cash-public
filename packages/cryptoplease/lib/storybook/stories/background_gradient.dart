@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/background_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/background_gradient.dart';
 
 final cpBackgroundGradient = Story(
   name: 'CpBackgroundGradient',

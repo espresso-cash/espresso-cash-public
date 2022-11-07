@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/user_avatar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/user_avatar.dart';
 
 final cpUserAvatar = Story(
   name: 'CpUserAvatar',

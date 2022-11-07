@@ -1,10 +1,11 @@
-import 'package:cryptoplease/app/screens/authenticated/profile/components/help_bottom_sheet.dart';
-import 'package:cryptoplease/app/screens/authenticated/profile/components/profile_button.dart';
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/presentation/utils.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../config.dart';
+import '../../../../core/presentation/utils.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import 'components/help_bottom_sheet.dart';
+import 'components/profile_button.dart';
 
 class HelpScreen extends StatelessWidget {
   const HelpScreen({Key? key}) : super(key: key);

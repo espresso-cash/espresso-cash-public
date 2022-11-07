@@ -1,7 +1,8 @@
-import 'package:cryptoplease/storybook/utils.dart';
-import 'package:cryptoplease/ui/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/text_field.dart';
+import '../utils.dart';
 
 final cpTextField = Story(
   name: 'CpTextField',

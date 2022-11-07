@@ -1,3 +1,8 @@
+## 0.26.2
+
+ - **FEAT**: add metaplex CreateMetadataAccountV3 (#603).
+ - **DOCS**: update twitter links.
+
 ## 0.26.1
 
 - **FEAT**: add SignedTx.decode (#388).

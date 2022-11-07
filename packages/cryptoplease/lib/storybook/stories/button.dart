@@ -1,6 +1,7 @@
-import 'package:cryptoplease/storybook/utils.dart';
-import 'package:cryptoplease/ui/button.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/button.dart';
+import '../utils.dart';
 
 final cpButton = Story(
   name: 'CpButton',

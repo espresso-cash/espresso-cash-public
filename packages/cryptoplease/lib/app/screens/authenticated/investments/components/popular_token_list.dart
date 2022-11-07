@@ -1,16 +1,17 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/conversion_rates/presentation/conversion_rates.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/core/user_preferences.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/token_icon.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../core/amount.dart';
+import '../../../../../core/conversion_rates/context_ext.dart';
+import '../../../../../core/presentation/format_amount.dart';
+import '../../../../../core/tokens/token.dart';
+import '../../../../../core/user_preferences.dart';
+import '../../../../../l10n/device_locale.dart';
+import '../../../../../routes.gr.dart';
+import '../../../../../ui/colors.dart';
+import '../../../../../ui/token_icon.dart';
 
 final _popularTokenList = <Token>[
   Token.sol,

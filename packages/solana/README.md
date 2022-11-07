@@ -1,6 +1,6 @@
 [![Pub Version](https://img.shields.io/pub/v/solana)](https://pub.dev/packages/solana)
 [![codecov](https://codecov.io/gh/cryptoplease/cryptoplease-dart/branch/master/graph/badge.svg?token=8UF2LVQMS7)](https://codecov.io/gh/cryptoplease/cryptoplease-dart)
-[![Twitter Follow](https://img.shields.io/twitter/follow/cryptopleasecom?style=social)](https://twitter.com/cryptopleasecom)
+[![Twitter Follow](https://img.shields.io/twitter/follow/espresso_cash?style=social)](https://twitter.com/espresso_cash)
 [![Discord](https://img.shields.io/discord/943071824525262849?label=Discord)](https://discord.gg/wK6WX7974J)
 
 ### Dart library for Solana
@@ -10,11 +10,11 @@ Implements the following features:
 - Complete implementation of the [JSON RPC api](https://docs.solana.com/developing/clients/jsonrpc-api).
 - Complete implementation of a subscription client (using the JSON RPC subscription variant of the API).
 - Complete implementation of the following programs
-    - System Program
-    - Token Program
-    - Memo Program
-    - Stake Program
-    - Associated Token Account Program
+  - System Program
+  - Token Program
+  - Memo Program
+  - Stake Program
+  - Associated Token Account Program
 - Support for key generation/importing using Hierarchical Deterministic derivation.
 - Support for importing keys by using a bip39 seed phrase.
 - Support for importing keys by using raw private key bytes.

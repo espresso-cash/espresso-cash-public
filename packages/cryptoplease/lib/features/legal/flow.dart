@@ -1,6 +1,7 @@
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/presentation/utils.dart';
 import 'package:flutter/material.dart';
+
+import '../../config.dart';
+import '../../core/presentation/utils.dart';
 
 extension LegalDocumentsFlowExt on BuildContext {
   void navigateToTermsOfUse() => openLink(termsUrl);
