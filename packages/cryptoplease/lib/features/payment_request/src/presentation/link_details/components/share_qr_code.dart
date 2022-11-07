@@ -26,11 +26,14 @@ class ShareQrCode extends StatelessWidget {
 
     final qrData = paymentRequest.payRequest.toUrl();
 
-    return Column(
-      children: [
-        _Subtitle(text: context.l10n.sharePaymentRequestQrCodeDescription),
-        _QrCodeWrapper(amount: amount, qrData: qrData),
-      ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      child: Column(
+        children: [
+          _Subtitle(text: context.l10n.sharePaymentRequestQrCodeDescription),
+          _QrCodeWrapper(amount: amount, qrData: qrData),
+        ],
+      ),
     );
   }
 }
