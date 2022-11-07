@@ -1,9 +1,10 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cryptoplease/core/processing_state.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/token_details/bl/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../core/processing_state.dart';
+import '../../../core/tokens/token.dart';
+import 'repository.dart';
 
 part 'token_details_bloc.freezed.dart';
 part 'token_details_event.dart';

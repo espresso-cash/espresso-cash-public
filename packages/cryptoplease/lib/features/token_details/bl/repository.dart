@@ -1,7 +1,8 @@
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/token_details/data/coingecko_client.dart';
-import 'package:cryptoplease/features/token_details/presentation/components/chart_widget.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../../core/tokens/token.dart';
+import '../data/coingecko_client.dart';
+import '../presentation/components/chart_widget.dart';
 
 @lazySingleton
 class TokenDetailsRepository {

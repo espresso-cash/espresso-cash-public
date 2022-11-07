@@ -1,11 +1,12 @@
-import 'package:cryptoplease/core/user_preferences.dart';
-import 'package:cryptoplease/features/token_details/bl/token_chart_bloc.dart';
-import 'package:cryptoplease/features/token_details/data/coingecko_client.dart';
-import 'package:cryptoplease/features/token_details/presentation/components/loading.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/user_preferences.dart';
+import '../../../../ui/colors.dart';
+import '../../bl/token_chart_bloc.dart';
+import '../../data/coingecko_client.dart';
+import 'loading.dart';
 
 enum ChartInterval {
   oneDay('1D', '1'),
