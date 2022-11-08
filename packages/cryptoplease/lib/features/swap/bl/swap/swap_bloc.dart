@@ -61,9 +61,9 @@ class SwapBloc extends Bloc<_Event, _State> {
 
     await _repository.save(swap);
 
-    status.whenOrNull(
-      txCreated: (_) => add(SwapEvent.process(swap.id)),
-    );
+    if (status is SwapStatusTxCreated) {
+      add(SwapEvent.process(swap.id));
+    }
   }
 
   Future<void> _onProcess(_SwapProcess event, _Emitter emit) async {

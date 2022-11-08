@@ -35,13 +35,15 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
   @override
   Widget build(BuildContext context) => BlocListener<SwapBloc, SwapState>(
         listenWhen: (prev, curr) => prev.isEmpty && curr.isNotEmpty,
-        listener: (context, state) => _swap = sl<SwapRepository>().watch(
-          state.single,
-        ),
+        listener: (_, state) {
+          setState(() {
+            _swap = sl<SwapRepository>().watch(state.single);
+          });
+        },
         child: StreamBuilder<Swap?>(
           stream: _swap,
-          builder: (context, state) {
-            final swap = state.data;
+          builder: (context, snapshot) {
+            final swap = snapshot.data;
 
             return BlocBuilder<SwapBloc, SwapState>(
               builder: (context, state) {
