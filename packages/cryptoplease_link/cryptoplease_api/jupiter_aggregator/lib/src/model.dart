@@ -37,7 +37,6 @@ class JupiterSwapTransactions with _$JupiterSwapTransactions {
 
 @freezed
 class JupiterRoute with _$JupiterRoute {
-  @JsonSerializable(explicitToJson: true)
   const factory JupiterRoute({
     required String inAmount,
     required String outAmount,
@@ -67,7 +66,6 @@ extension JupiterRouteExt on JupiterRoute {
 
 @freezed
 class JupiterMarket with _$JupiterMarket {
-  @JsonSerializable(explicitToJson: true)
   const factory JupiterMarket({
     required String id,
     required String label,
@@ -89,7 +87,6 @@ class JupiterMarket with _$JupiterMarket {
 
 @freezed
 class JupiterMarketFee with _$JupiterMarketFee {
-  @JsonSerializable(explicitToJson: true)
   const factory JupiterMarketFee({
     required String amount,
     required String mint,
@@ -102,7 +99,6 @@ class JupiterMarketFee with _$JupiterMarketFee {
 
 @freezed
 class JupiterRouteFee with _$JupiterRouteFee {
-  @JsonSerializable(explicitToJson: true)
   const factory JupiterRouteFee({
     required num signatureFee,
     required List<num> openOrdersDeposits,
@@ -128,7 +124,7 @@ class QuoteResponseDto with _$QuoteResponseDto {
 @freezed
 class IndexedRouteMapRequestDto with _$IndexedRouteMapRequestDto {
   const factory IndexedRouteMapRequestDto({
-    @JsonKey(includeIfNull: false) bool? onlyDirectRoutes,
+    bool? onlyDirectRoutes,
   }) = _IndexedRouteMapRequestDto;
 
   factory IndexedRouteMapRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -137,17 +133,16 @@ class IndexedRouteMapRequestDto with _$IndexedRouteMapRequestDto {
 
 @freezed
 class QuoteRequestDto with _$QuoteRequestDto {
-  @JsonSerializable(explicitToJson: true)
   const factory QuoteRequestDto({
     required String inputMint,
     required String outputMint,
     required String amount,
     @Default(SwapMode.exactIn) SwapMode swapMode,
-    @JsonKey(includeIfNull: false) int? slippageBps,
-    @JsonKey(includeIfNull: false) int? feeBps,
-    @JsonKey(includeIfNull: false) bool? onlyDirectRoutes,
-    @JsonKey(includeIfNull: false) String? userPublicKey,
-    @JsonKey(includeIfNull: false) bool? enforceSingleTx,
+    int? slippageBps,
+    int? feeBps,
+    bool? onlyDirectRoutes,
+    String? userPublicKey,
+    bool? enforceSingleTx,
   }) = _QuoteRequestDto;
 
   factory QuoteRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -156,13 +151,12 @@ class QuoteRequestDto with _$QuoteRequestDto {
 
 @freezed
 class SwapRequestDto with _$SwapRequestDto {
-  @JsonSerializable(explicitToJson: true)
   const factory SwapRequestDto({
     required String userPublicKey,
     required JupiterRoute route,
-    @JsonKey(includeIfNull: false) bool? wrapUnwrapSOL,
-    @JsonKey(includeIfNull: false) String? feeAccount,
-    @JsonKey(includeIfNull: false) String? destinationWallet,
+    bool? wrapUnwrapSOL,
+    String? feeAccount,
+    String? destinationWallet,
   }) = _SwapRequestDto;
 
   factory SwapRequestDto.fromJson(Map<String, dynamic> json) =>
