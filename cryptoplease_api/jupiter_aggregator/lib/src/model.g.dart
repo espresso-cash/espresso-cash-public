@@ -33,12 +33,20 @@ _$_JupiterSwapTransactions _$$_JupiterSwapTransactionsFromJson(
     );
 
 Map<String, dynamic> _$$_JupiterSwapTransactionsToJson(
-        _$_JupiterSwapTransactions instance) =>
-    <String, dynamic>{
-      'setupTransaction': instance.setupTransaction,
-      'swapTransaction': instance.swapTransaction,
-      'cleanupTransaction': instance.cleanupTransaction,
-    };
+    _$_JupiterSwapTransactions instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('setupTransaction', instance.setupTransaction);
+  val['swapTransaction'] = instance.swapTransaction;
+  writeNotNull('cleanupTransaction', instance.cleanupTransaction);
+  return val;
+}
 
 _$_JupiterRoute _$$_JupiterRouteFromJson(Map<String, dynamic> json) =>
     _$_JupiterRoute(
@@ -57,18 +65,27 @@ _$_JupiterRoute _$$_JupiterRouteFromJson(Map<String, dynamic> json) =>
           : JupiterRouteFee.fromJson(json['fees'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_JupiterRouteToJson(_$_JupiterRoute instance) =>
-    <String, dynamic>{
-      'inAmount': instance.inAmount,
-      'outAmount': instance.outAmount,
-      'amount': instance.amount,
-      'otherAmountThreshold': instance.otherAmountThreshold,
-      'slippageBps': instance.slippageBps,
-      'priceImpactPct': instance.priceImpactPct,
-      'marketInfos': instance.marketInfos.map((e) => e.toJson()).toList(),
-      'swapMode': _$SwapModeEnumMap[instance.swapMode]!,
-      'fees': instance.fees?.toJson(),
-    };
+Map<String, dynamic> _$$_JupiterRouteToJson(_$_JupiterRoute instance) {
+  final val = <String, dynamic>{
+    'inAmount': instance.inAmount,
+    'outAmount': instance.outAmount,
+    'amount': instance.amount,
+    'otherAmountThreshold': instance.otherAmountThreshold,
+    'slippageBps': instance.slippageBps,
+    'priceImpactPct': instance.priceImpactPct,
+    'marketInfos': instance.marketInfos.map((e) => e.toJson()).toList(),
+    'swapMode': _$SwapModeEnumMap[instance.swapMode]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fees', instance.fees?.toJson());
+  return val;
+}
 
 const _$SwapModeEnumMap = {
   SwapMode.exactIn: 'ExactIn',
@@ -92,21 +109,30 @@ _$_JupiterMarket _$$_JupiterMarketFromJson(Map<String, dynamic> json) =>
           json['platformFee'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_JupiterMarketToJson(_$_JupiterMarket instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'label': instance.label,
-      'inputMint': instance.inputMint,
-      'outputMint': instance.outputMint,
-      'notEnoughLiquidity': instance.notEnoughLiquidity,
-      'inAmount': instance.inAmount,
-      'outAmount': instance.outAmount,
-      'priceImpactPct': instance.priceImpactPct,
-      'minInAmount': instance.minInAmount,
-      'minOutAmount': instance.minOutAmount,
-      'lpFee': instance.lpFee.toJson(),
-      'platformFee': instance.platformFee.toJson(),
-    };
+Map<String, dynamic> _$$_JupiterMarketToJson(_$_JupiterMarket instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'label': instance.label,
+    'inputMint': instance.inputMint,
+    'outputMint': instance.outputMint,
+    'notEnoughLiquidity': instance.notEnoughLiquidity,
+    'inAmount': instance.inAmount,
+    'outAmount': instance.outAmount,
+    'priceImpactPct': instance.priceImpactPct,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('minInAmount', instance.minInAmount);
+  writeNotNull('minOutAmount', instance.minOutAmount);
+  val['lpFee'] = instance.lpFee.toJson();
+  val['platformFee'] = instance.platformFee.toJson();
+  return val;
+}
 
 _$_JupiterMarketFee _$$_JupiterMarketFeeFromJson(Map<String, dynamic> json) =>
     _$_JupiterMarketFee(
@@ -152,7 +178,7 @@ _$_QuoteResponseDto _$$_QuoteResponseDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_QuoteResponseDtoToJson(_$_QuoteResponseDto instance) =>
     <String, dynamic>{
-      'data': instance.routes,
+      'data': instance.routes.map((e) => e.toJson()).toList(),
     };
 
 _$_IndexedRouteMapRequestDto _$$_IndexedRouteMapRequestDtoFromJson(
