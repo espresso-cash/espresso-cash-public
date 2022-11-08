@@ -1,18 +1,19 @@
-import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/available_balance.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/equivalent_header.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/slippage_info.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/token_dropdown.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/l10n/decimal_separator.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/amount_keypad/amount_keypad.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/content_padding.dart';
-import 'package:cryptoplease/ui/number_formatter.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/amount.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../l10n/decimal_separator.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/amount_keypad/amount_keypad.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/content_padding.dart';
+import '../../../../ui/number_formatter.dart';
+import 'components/available_balance.dart';
+import 'components/equivalent_header.dart';
+import 'components/slippage_info.dart';
+import 'components/token_dropdown.dart';
 
 class CreateSwapScreen extends StatefulWidget {
   const CreateSwapScreen({

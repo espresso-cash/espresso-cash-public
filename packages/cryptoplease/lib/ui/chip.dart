@@ -1,5 +1,6 @@
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
 
 enum CpChipPadding { small, normal }
 
@@ -8,16 +9,18 @@ class CpChip extends StatelessWidget {
     Key? key,
     required this.child,
     this.padding = CpChipPadding.normal,
+    this.backgroundColor,
   }) : super(key: key);
 
   final Widget child;
   final CpChipPadding padding;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: CpColors.darkBackground,
-          shape: StadiumBorder(),
+        decoration: ShapeDecoration(
+          color: backgroundColor ?? CpColors.darkBackground,
+          shape: const StadiumBorder(),
         ),
         child: Center(
           widthFactor: 1,

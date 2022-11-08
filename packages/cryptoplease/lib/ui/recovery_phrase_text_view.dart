@@ -1,10 +1,11 @@
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/snackbar.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../l10n/l10n.dart';
+import 'button.dart';
+import 'colors.dart';
+import 'snackbar.dart';
+import 'theme.dart';
 
 class RecoveryPhraseTextView extends StatelessWidget {
   const RecoveryPhraseTextView({

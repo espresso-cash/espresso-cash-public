@@ -1,14 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/swap/bl/swap.dart';
-import 'package:cryptoplease/features/swap/bl/swap/swap_bloc.dart';
-import 'package:cryptoplease/features/swap/bl/swap/swap_repository.dart';
-import 'package:cryptoplease/ui/transfer_status/transfer_error.dart';
-import 'package:cryptoplease/ui/transfer_status/transfer_progress.dart';
-import 'package:cryptoplease/ui/transfer_status/transfer_success.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../di.dart';
+import '../../../../features/swap/bl/swap.dart';
+import '../../../../features/swap/bl/swap/swap_bloc.dart';
+import '../../../../features/swap/bl/swap/swap_repository.dart';
+import '../../../../ui/transfer_status/transfer_error.dart';
+import '../../../../ui/transfer_status/transfer_progress.dart';
+import '../../../../ui/transfer_status/transfer_success.dart';
 
 class ProcessSwapScreen extends StatefulWidget {
   const ProcessSwapScreen({

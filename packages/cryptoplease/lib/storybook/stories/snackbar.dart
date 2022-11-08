@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/snackbar.dart';
 
 final cpSnackbar = Story(
   name: 'CpSnackbar',

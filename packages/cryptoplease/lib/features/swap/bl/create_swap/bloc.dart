@@ -1,11 +1,5 @@
 import 'dart:async';
 
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/analytics/analytics_manager.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/flow.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/swap/bl/create_swap/jupiter_repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -15,6 +9,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
+
+import '../../../../core/amount.dart';
+import '../../../../core/analytics/analytics_manager.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/flow.dart';
+import '../../../../core/tokens/token.dart';
+import 'jupiter_repository.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';

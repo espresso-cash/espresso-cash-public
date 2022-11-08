@@ -1,6 +1,7 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../gen/assets.gen.dart';
+import '../../../../../l10n/l10n.dart';
 
 class PopularCryptoHeader extends StatelessWidget {
   const PopularCryptoHeader({super.key});

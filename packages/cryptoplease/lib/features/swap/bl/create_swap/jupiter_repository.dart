@@ -1,8 +1,9 @@
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../../../core/amount.dart';
+import '../../../../core/tokens/token.dart';
 
 @injectable
 class JupiterRepository {

@@ -44,6 +44,7 @@ abstract class CpColors {
   static const infoBackgroundColor = Color(0xfff2bd1a);
   static const disabledColor = Color(0xffbbbbbb);
   static const accentDisabledColor = Color(0xffff8666);
+  static const errorChipColor = Color(0xffe8452f);
 
   static const lightPillBackgroundColor = Color(0xffeaeaea);
 }

@@ -11,7 +11,8 @@ Future<Response> processRequest<T, R>(
 
   final T dto;
   try {
-    final data = json.decode(body) as Map<String, dynamic>;
+    final Map<String, dynamic> data =
+        body.isEmpty ? {} : json.decode(body) as Map<String, dynamic>;
     dto = parse(data);
   } on Object {
     return Response.badRequest(body: 'Invalid JSON');

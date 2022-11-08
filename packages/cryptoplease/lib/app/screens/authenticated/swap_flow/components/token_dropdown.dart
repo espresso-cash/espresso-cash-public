@@ -1,7 +1,8 @@
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../core/tokens/token.dart';
+import '../../../../../ui/colors.dart';
 
 class TokenDropDown extends StatelessWidget {
   const TokenDropDown({

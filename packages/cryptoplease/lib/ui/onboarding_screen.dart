@@ -1,6 +1,7 @@
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/ui/button.dart';
 import 'package:flutter/material.dart';
+
+import '../gen/assets.gen.dart';
+import 'button.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({
@@ -121,17 +122,14 @@ class OnboardingFooterButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 28),
-            child: CpButton(
-              minWidth: 166,
-              text: text,
-              onPressed: onPressed,
-            ),
+  Widget build(BuildContext context) => Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 28),
+          child: CpButton(
+            minWidth: 166,
+            text: text,
+            onPressed: onPressed,
           ),
-        ],
+        ),
       );
 }

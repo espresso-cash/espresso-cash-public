@@ -1,22 +1,23 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_flow/components/swap_exception_dialog.dart';
-import 'package:cryptoplease/app/screens/authenticated/swap_flow/create_swap_screen.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/swap/bl/create_swap/bloc.dart';
-import 'package:cryptoplease/features/swap/bl/create_swap/operation.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/accounts/bl/account.dart';
+import '../../../../core/balances/bl/balances_bloc.dart';
+import '../../../../core/tokens/token.dart';
+import '../../../../di.dart';
+import '../../../../features/swap/bl/create_swap/bloc.dart';
+import '../../../../features/swap/bl/create_swap/operation.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../routes.gr.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/theme.dart';
+import 'components/swap_exception_dialog.dart';
+import 'create_swap_screen.dart';
 
 extension BuyTokenExt on BuildContext {
   void navigateToBuyToken(Token token) => navigateTo(

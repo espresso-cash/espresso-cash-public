@@ -1,7 +1,3 @@
-import 'package:cryptoplease/core/transactions/resign_tx.dart';
-import 'package:cryptoplease/core/transactions/tx_sender.dart';
-import 'package:cryptoplease/features/swap/bl/swap.dart';
-import 'package:cryptoplease/features/swap/bl/swap/swap_repository.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -11,6 +7,11 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../core/transactions/resign_tx.dart';
+import '../../../../core/transactions/tx_sender.dart';
+import '../swap.dart';
+import 'swap_repository.dart';
 
 part 'swap_bloc.freezed.dart';
 

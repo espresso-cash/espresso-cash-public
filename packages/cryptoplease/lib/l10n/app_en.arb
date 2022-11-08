@@ -98,18 +98,18 @@
       }
     }
   },
-  "paymentRequestSuccessNotificationTitle": "{payer} paid your request of {amount}",
+  "paymentRequestSuccessNotificationTitle": "Your request of {amount} for {label} was paid.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
         "type": "String"
       },
-      "payer": {
+      "label": {
         "type": "String"
       }
     }
   },
-  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}",
+  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
       "amount": {
@@ -167,8 +167,11 @@
   "receiveFlowLinkDescription": "You can request money to anyone by email, whatsapp, signal, telegram.",
   "receiveFlowPayerNameLabel": "Request to",
   "receiveFlowPayerNamePlaceholder": "Name of the payer",
-  "sharePaymentRequestLinkTitle": "Request has been created!",
+  "sharePaymentRequestTitle": "Request has been created!",
   "sharePaymentRequestLinkDescription": "The recipient will need to click the link below to pay you.",
+  "sharePaymentRequestQrCodeDescription": "The recipient can pay you with Espresso Cash (or another Solana Pay wallet) by scanning the QR code below.",
+  "sharePaymentRequestLinkTitle": "Share Link",
+  "sharePaymentRequestQrCodeTitle": "Share QR Code",
   "sharePaymentRequestLinkIntro": "Hi!\n\nI have sent a request of ",
   "sharePaymentRequestLinkInstructions": "To pay me with one click, visit:",
   "sharePaymentRequestLinkMessage": "Hi!\n\nI have sent a request of {amount}. To pay me with one click, visit:\n\n{link}",
@@ -230,7 +233,7 @@
       }
     }
   },
-  "feeAmount": "(Fee: {value})",
+  "feeAmount": "Fee: {value}",
   "@feeAmount": {
     "placeholders": {
       "value": {
@@ -238,6 +241,8 @@
       }
     }
   },
+  "feesCalculating": "calculating...",
+  "feesFailed": "failed to load",
   "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the links.",
   "shareIntroFt": "Hi!\n\nI’ve just sent you ",
   "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
@@ -362,5 +367,22 @@
   "recoveryWarningParagraph": "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application.",
   "requestNoteRequesting": "Requesting",
   "requestNoteFor": "For",
-  "requestNotePlaceholder": "Add a note for your request"
+  "requestNotePlaceholder": "Add a note for your request",
+  "errorMessageInsufficientFunds": "You do not have enough funds.",
+  "minimumAmountToSend": "{amount} is the minimum to send",
+  "@minimumAmountToSend": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "minimumAmountToRequest": "{amount} is the minimum to request",
+  "@minimumAmountToRequest": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

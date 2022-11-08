@@ -1,9 +1,10 @@
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../core/amount.dart';
+import '../../../../../core/presentation/format_amount.dart';
+import '../../../../../l10n/device_locale.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/colors.dart';
 
 class AvailableBalance extends StatelessWidget {
   const AvailableBalance({

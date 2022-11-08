@@ -1,10 +1,16 @@
-import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/di.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/bl/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
+
+import '../../core/accounts/bl/account.dart';
+import '../../di.dart';
+import 'src/bl/bloc.dart';
+import 'src/presentation/link_listener.dart';
+
+export 'src/bl/outgoing_direct_payment.dart';
+export 'src/bl/repository.dart';
+export 'src/presentation/build_context_ext.dart';
 
 class ODPModule extends SingleChildStatelessWidget {
   const ODPModule({Key? key, Widget? child}) : super(key: key, child: child);
@@ -18,6 +24,6 @@ class ODPModule extends SingleChildStatelessWidget {
             ),
           ),
         ],
-        child: child,
+        child: ODPLinkListener(child: child ?? const SizedBox.shrink()),
       );
 }

@@ -1,6 +1,3 @@
-import 'package:cryptoplease/config.dart';
-import 'package:cryptoplease/core/tokens/token_list.dart';
-import 'package:cryptoplease/di.config.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,6 +5,10 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solana/solana.dart';
+
+import 'config.dart';
+import 'core/tokens/token_list.dart';
+import 'di.config.dart';
 
 final sl = GetIt.instance;
 

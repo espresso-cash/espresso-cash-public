@@ -1,7 +1,8 @@
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/info_icon.dart';
-import 'package:cryptoplease/ui/rounded_rectangle.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
+import 'info_icon.dart';
+import 'rounded_rectangle.dart';
 
 class CpInfoWidget extends StatelessWidget {
   const CpInfoWidget({

@@ -81,5 +81,3 @@ class _StructReader {
   final ByteBuffer _buffer;
   int _offset;
 }
-
-const metaplexMetadataProgramId = 'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s';

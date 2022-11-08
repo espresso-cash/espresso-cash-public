@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import 'colors.dart';
 
 class CpIconButton extends StatelessWidget {
   const CpIconButton({
