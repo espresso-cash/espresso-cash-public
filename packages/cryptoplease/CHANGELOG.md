@@ -1,3 +1,68 @@
+## 1.51.0
+
+ - **FEAT**: share qr code on payment request (#589).
+
+## 1.50.0
+
+ - **REFACTOR**: remove remaining cycles.
+ - **REFACTOR**: remove cycles from features.
+ - **REFACTOR**: conversion rates module.
+ - **REFACTOR**: tokens module structure.
+ - **REFACTOR**: remove cyclic dependencies in account.
+ - **REFACTOR**: restrict dependencies (#586).
+ - **REFACTOR**: pending_activities module.
+ - **REFACTOR**: payment_request module.
+ - **REFACTOR**: OSKP module.
+ - **REFACTOR**: odp module (#583).
+ - **REFACTOR**: onboarding module (#582).
+ - **REFACTOR**: qr_scanner module.
+ - **REFACTOR**: iskp module.
+ - **REFACTOR**: ramp module.
+ - **REFACTOR**: app_lock module.
+ - **REFACTOR**: backup_phrase module.
+ - **REFACTOR**: migrate to relative imports.
+ - **REFACTOR**: remove unused solana client extensions.
+ - **FIX**: add https for ftx url (#590).
+ - **FIX**: update layout (#580).
+ - **FEAT**: calculate fee dynamically.
+ - **FEAT**: add fee label to ODP.
+ - **FEAT**: update fee label for OSKP.
+ - **FEAT**: add animated error to wallet flow (#595).
+ - **FEAT**: add insufficient funds error label (#593).
+ - **FEAT**: update twitter link.
+ - **DOCS**: update twitter links.
+
+## 1.49.1
+
+ - **FIX**: backup flow routing (#577).
+
+## 1.49.0
+
+ - **REFACTOR**: remove icon parameter from InfoWidget.
+ - **REFACTOR**: update backup phrase routes (#572).
+ - **REFACTOR**: update payment request naming (#571).
+ - **REFACTOR**: update onboarding flow structure (#569).
+ - **FIX**: text style in InfoWidget (#576).
+ - **FIX**: menu screen.
+ - **FIX**: update icon button.
+ - **FIX**: update keypad.
+ - **FEAT**: update ftx support urls (#568).
+
+## 1.48.0
+
+ - **REFACTOR**: remove unused code.
+ - **REFACTOR**: update onboarding screen.
+ - **REFACTOR**: move app components to UI.
+ - **REFACTOR**: update cash in/out flows.
+ - **REFACTOR**: add ShareMessageBubble.
+ - **FIX**: update ODP confirmation screen.
+ - **FIX**: update Contact Us layout.
+ - **FIX**: update BackupWarningScreen layout.
+ - **FIX**: remove keypad visibility if not enabled (#562).
+ - **FEAT**: update payment request note screen.
+ - **FEAT**: new add cash and cash out flows (#512).
+ - **FEAT**: update app name (#564).
+
 ## 1.47.0
 
  - **FIX**: add amount to "creating links".

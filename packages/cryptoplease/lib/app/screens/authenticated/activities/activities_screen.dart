@@ -1,9 +1,9 @@
-import 'package:cryptoplease/features/pending_activities/components/pending_activities_list.dart';
-import 'package:cryptoplease/features/transaction/components/transaction_list.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/app_bar.dart';
-import 'package:cryptoplease/ui/tab_bar.dart';
 import 'package:flutter/material.dart' hide Notification;
+
+import '../../../../features/pending_activities/module.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/tab_bar.dart';
 
 class ActivitiesScreen extends StatelessWidget {
   const ActivitiesScreen({Key? key}) : super(key: key);
@@ -15,43 +15,41 @@ class ActivitiesScreen extends StatelessWidget {
       bottom: MediaQuery.of(context).padding.bottom,
     );
 
-    return Scaffold(
-      appBar: CpAppBar(
-        title: Text(context.l10n.activitiesTitle.toUpperCase()),
-      ),
-      body: DefaultTabController(
-        length: 2,
-        initialIndex: 0,
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: CpTabBar(
-                tabs: [
-                  Tab(text: 'Pending'),
-                  Tab(text: 'Transactions'),
-                ],
-              ),
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Column(
+        children: [
+          CpAppBar(
+            title: Text(context.l10n.activitiesTitle.toUpperCase()),
+          ),
+          const SizedBox(height: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: CpTabBar(
+              tabs: [
+                Tab(text: 'Pending'),
+                Tab(text: 'Transactions'),
+              ],
             ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  _Wrapper(
-                    child: PendingActivitiesList(
-                      padding: insets,
-                    ),
+          ),
+          Expanded(
+            child: TabBarView(
+              children: [
+                _Wrapper(
+                  child: PendingActivitiesList(
+                    padding: insets,
                   ),
-                  _Wrapper(
-                    child: TransactionList(
-                      padding: insets,
-                    ),
+                ),
+                _Wrapper(
+                  child: TransactionList(
+                    padding: insets,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

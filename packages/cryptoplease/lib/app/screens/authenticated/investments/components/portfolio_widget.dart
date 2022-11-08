@@ -1,15 +1,16 @@
-import 'package:cryptoplease/core/balances/presentation/watch_balance.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/empty_message_widget.dart';
-import 'package:cryptoplease/ui/tab_bar.dart';
-import 'package:cryptoplease/ui/token_icon.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+
+import '../../../../../core/balances/presentation/watch_balance.dart';
+import '../../../../../core/presentation/format_amount.dart';
+import '../../../../../core/tokens/token.dart';
+import '../../../../../l10n/device_locale.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/colors.dart';
+import '../../../../../ui/empty_message_widget.dart';
+import '../../../../../ui/tab_bar.dart';
+import '../../../../../ui/token_icon.dart';
 
 class PortfolioWidget extends StatelessWidget {
   const PortfolioWidget({super.key, required this.tokens});

@@ -1,6 +1,7 @@
-import 'package:cryptoplease/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../l10n/l10n.dart';
 
 extension FormatDate on BuildContext {
   String formatDate(DateTime date) {

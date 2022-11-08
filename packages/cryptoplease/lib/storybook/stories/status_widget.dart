@@ -1,7 +1,8 @@
-import 'package:cryptoplease/storybook/utils.dart';
-import 'package:cryptoplease/ui/status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/status_widget.dart';
+import '../utils.dart';
 
 final cpStatus = Story(
   name: 'CpStatusWidget',

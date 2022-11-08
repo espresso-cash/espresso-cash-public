@@ -1,5 +1,6 @@
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
 
 class CpBackgroundGradient extends StatelessWidget {
   const CpBackgroundGradient({

@@ -1,22 +1,22 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease/app/components/dialogs.dart';
-import 'package:cryptoplease/app/routes.dart';
-import 'package:cryptoplease/app/screens/authenticated/receive_flow/flow.dart';
-import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_main_screen.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/core/currency.dart';
-import 'package:cryptoplease/core/presentation/format_amount.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/presentation/build_context_ext.dart';
-import 'package:cryptoplease/features/outgoing_split_key_payments/bl/bloc.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_scanner_request.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/theme.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
+
+import '../../../../core/amount.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/tokens/token_list.dart';
+import '../../../../di.dart';
+import '../../../../features/outgoing_direct_payments/module.dart';
+import '../../../../features/outgoing_split_key_payments/module.dart';
+import '../../../../features/payment_request/module.dart';
+import '../../../../features/qr_scanner/module.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../routes.gr.dart';
+import '../../../../ui/shake.dart';
+import '../../../../ui/theme.dart';
+import 'wallet_main_screen.dart';
 
 class WalletFlowScreen extends StatefulWidget {
   const WalletFlowScreen({
@@ -28,27 +28,43 @@ class WalletFlowScreen extends StatefulWidget {
 }
 
 class _State extends State<WalletFlowScreen> {
+  final _shakeKey = GlobalKey<ShakeState>();
+
   CryptoAmount _amount = const CryptoAmount(value: 0, currency: Currency.usdc);
+  String _errorMessage = '';
 
   Future<void> _onQrScanner() async {
     final request =
         await context.router.push<QrScannerRequest>(const QrScannerRoute());
 
     final address = request?.map(
-      solanaPay: (r) => r.request.recipient.toBase58(),
+      solanaPay: (r) => r.request.recipient,
       address: (r) => r.addressData.address,
     );
     final name = request?.map(
       solanaPay: (r) => r.request.label,
       address: (r) => r.addressData.name,
     );
+    final requestAmount = request?.mapOrNull(
+      solanaPay: (r) {
+        final tokenList = sl<TokenList>();
+
+        return r.request.cryptoAmount(tokenList);
+      },
+    );
+
     if (!mounted) return;
 
     if (address == null) return;
 
-    final formatted = _amount.value == 0
+    final isEnabled = requestAmount == null || requestAmount.value == 0;
+    final initialAmount = requestAmount ?? _amount;
+    final formatted = initialAmount.value == 0
         ? ''
-        : _amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
+        : initialAmount.format(
+            DeviceLocale.localeOf(context),
+            skipSymbol: true,
+          );
 
     final amount = await context.router.push<Decimal>(
       ODPConfirmationRoute(
@@ -56,6 +72,7 @@ class _State extends State<WalletFlowScreen> {
         recipient: address,
         label: name,
         token: _amount.token,
+        isEnabled: isEnabled,
       ),
     );
     if (!mounted) return;
@@ -65,7 +82,7 @@ class _State extends State<WalletFlowScreen> {
 
       context.createAndOpenDirectPayment(
         amountInUsdc: amount,
-        receiver: Ed25519HDPublicKey.fromBase58(address),
+        receiver: address,
         reference: null,
       );
     }
@@ -74,21 +91,24 @@ class _State extends State<WalletFlowScreen> {
   void _onAmountUpdate(Decimal value) {
     if (value == _amount.decimal) return;
 
-    setState(() => _amount = _amount.copyWithDecimal(value));
+    setState(() {
+      _amount = _amount.copyWithDecimal(value);
+      _errorMessage = '';
+    });
   }
 
   void _onRequest() {
-    if (_amount.value == 0) {
-      return _showZeroAmountDialog(_Operation.request);
+    if (_amount.decimal < Decimal.parse('0.1')) {
+      return _handleSmallAmount(_Operation.request);
     }
 
-    context.navigateToReceiveByLink(amount: _amount);
+    context.navigateTo(LinkRequestFlowRoute(initialAmount: _amount));
     setState(() => _amount = _amount.copyWith(value: 0));
   }
 
   void _onPay() {
-    if (_amount.value == 0) {
-      return _showZeroAmountDialog(_Operation.pay);
+    if (_amount.decimal < Decimal.parse('0.1')) {
+      return _handleSmallAmount(_Operation.pay);
     }
 
     context.router.push(
@@ -100,9 +120,7 @@ class _State extends State<WalletFlowScreen> {
           currency: Currency.usdc,
         ),
         onSubmit: () {
-          final id = const Uuid().v4();
-          final event = OSKPEvent.create(amount: _amount, id: id);
-          context.read<OSKPBloc>().add(event);
+          final id = context.createOSKP(amount: _amount);
           context.router.replace(OSKPRoute(id: id));
           setState(() => _amount = _amount.copyWith(value: 0));
         },
@@ -110,35 +128,32 @@ class _State extends State<WalletFlowScreen> {
     );
   }
 
-  void _showZeroAmountDialog(_Operation operation) => showWarningDialog(
-        context,
-        title: context.l10n.zeroAmountTitle,
-        message: context.l10n.zeroAmountMessage(operation.buildText(context)),
-      );
+  void _handleSmallAmount(_Operation operation) {
+    _shakeKey.currentState?.shake();
+    setState(() {
+      switch (operation) {
+        case _Operation.request:
+          _errorMessage = context.l10n.minimumAmountToRequest(r'$0.10');
+          break;
+        case _Operation.pay:
+          _errorMessage = context.l10n.minimumAmountToSend(r'$0.10');
+          break;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
-        child: Scaffold(
-          body: WalletMainScreen(
-            onScan: _onQrScanner,
-            onAmountChanged: _onAmountUpdate,
-            onRequest: _onRequest,
-            onPay: _onPay,
-            amount: _amount,
-          ),
+        child: WalletMainScreen(
+          shakeKey: _shakeKey,
+          onScan: _onQrScanner,
+          onAmountChanged: _onAmountUpdate,
+          onRequest: _onRequest,
+          onPay: _onPay,
+          amount: _amount,
+          error: _errorMessage,
         ),
       );
 }
 
 enum _Operation { request, pay }
-
-extension on _Operation {
-  String buildText(BuildContext context) {
-    switch (this) {
-      case _Operation.pay:
-        return context.l10n.operationSend;
-      case _Operation.request:
-        return context.l10n.operationRequest;
-    }
-  }
-}

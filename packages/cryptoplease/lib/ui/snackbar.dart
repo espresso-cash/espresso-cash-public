@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/l10n.dart';
+
 void showCpSnackbar(
   BuildContext context, {
   required String message,
@@ -38,4 +40,10 @@ void showCpErrorSnackbar(BuildContext context, {required String message}) =>
       context,
       message: message,
       icon: const Icon(Icons.error, color: Colors.red),
+    );
+
+void showClipboardSnackbar(BuildContext context) => showCpSnackbar(
+      context,
+      message: context.l10n.copiedToClipboard,
+      icon: const Icon(Icons.check, color: Colors.green),
     );

@@ -1,6 +1,7 @@
-import 'package:cryptoplease/ui/content_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+
+import '../../ui/content_padding.dart';
 
 final cpContentPadding = Story(
   name: 'CpContentPadding',

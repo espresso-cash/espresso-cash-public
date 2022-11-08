@@ -1,15 +1,16 @@
-import 'package:cryptoplease/app/components/number_formatter.dart';
-import 'package:cryptoplease/app/components/usdc_info.dart';
-import 'package:cryptoplease/core/amount.dart';
-import 'package:cryptoplease/features/outgoing_direct_payments/presentation/odp_header.dart';
-import 'package:cryptoplease/gen/assets.gen.dart';
-import 'package:cryptoplease/l10n/device_locale.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/amount_keypad/amount_keypad.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/navigation_bar/navigation_bar.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/amount.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/amount_keypad/amount_keypad.dart';
+import '../../../../ui/amount_with_equivalent.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/navigation_bar/navigation_bar.dart';
+import '../../../../ui/number_formatter.dart';
+import '../../../../ui/usdc_info.dart';
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({
@@ -19,6 +20,8 @@ class WalletMainScreen extends StatefulWidget {
     required this.onRequest,
     required this.onPay,
     required this.amount,
+    this.shakeKey,
+    this.error = '',
   });
 
   final VoidCallback onScan;
@@ -26,6 +29,8 @@ class WalletMainScreen extends StatefulWidget {
   final VoidCallback onPay;
   final ValueSetter<Decimal> onAmountChanged;
   final CryptoAmount amount;
+  final Key? shakeKey;
+  final String error;
 
   @override
   State<WalletMainScreen> createState() => _ScreenState();
@@ -74,10 +79,12 @@ class _ScreenState extends State<WalletMainScreen> {
       appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
       body: Column(
         children: [
-          ODPHeader(
+          AmountWithEquivalent(
             inputController: _amountController,
             token: widget.amount.currency.token,
             collapsed: false,
+            shakeKey: widget.shakeKey,
+            error: widget.error,
           ),
           const SizedBox(height: 8),
           UsdcInfoWidget(

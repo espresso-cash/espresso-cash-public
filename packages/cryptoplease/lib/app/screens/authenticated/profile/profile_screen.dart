@@ -1,18 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cryptoplease/app/screens/authenticated/profile/components/profile_section.dart';
-import 'package:cryptoplease/core/accounts/bl/account.dart';
-import 'package:cryptoplease/core/presentation/utils.dart';
-import 'package:cryptoplease/features/qr_scanner/qr_address_data.dart';
-import 'package:cryptoplease/ui/colors.dart';
-import 'package:cryptoplease/ui/icon_button.dart';
-import 'package:cryptoplease/ui/user_avatar.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:solana/solana.dart';
+
+import '../../../../core/accounts/bl/account.dart';
+import '../../../../core/presentation/utils.dart';
+import '../../../../features/qr_scanner/module.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/icon_button.dart';
+import '../../../../ui/user_avatar.dart';
+import 'components/profile_section.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -27,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final state = context.watch<MyAccount>();
     final name = state.firstName;
     final photoPath = state.photoPath;
-    final address = state.address;
+    final address = state.publicKey;
 
     return Scaffold(
       body: Material(
@@ -68,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               top: 0,
                               right: 0,
                               child: CpIconButton(
-                                icon: Icons.close_outlined,
+                                icon: Assets.icons.closeButtonIcon.svg(),
                                 onPressed: Navigator.of(context).pop,
                               ),
                             ),
@@ -110,8 +113,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-const double _buttonSpacing = 24;
-const double _imageSize = 100;
+const double _buttonSpacing = 22;
+const double _imageSize = 88;
 
 class _QrCodeWidget extends StatelessWidget {
   const _QrCodeWidget({
@@ -120,17 +123,16 @@ class _QrCodeWidget extends StatelessWidget {
     required this.name,
   }) : super(key: key);
 
-  final String address;
+  final Ed25519HDPublicKey address;
   final String name;
 
   @override
   Widget build(BuildContext context) {
-    final qrData = jsonEncode(
-      QrAddressData(address: address, name: name).toJson(),
-    );
+    final qrData =
+        jsonEncode(QrAddressData(address: address, name: name).toJson());
 
     return InkWell(
-      onTap: () => context.copyToClipboard(address),
+      onTap: () => context.copyToClipboard(address.toBase58()),
       child: Container(
         height: 150,
         alignment: Alignment.center,
@@ -146,7 +148,7 @@ class _QrCodeWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 24),
                 child: Text(
-                  address,
+                  address.toBase58(),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

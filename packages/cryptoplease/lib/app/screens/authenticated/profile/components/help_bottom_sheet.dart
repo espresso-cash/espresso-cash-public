@@ -1,10 +1,11 @@
-import 'package:cryptoplease/app/components/snackbars.dart';
-import 'package:cryptoplease/core/presentation/utils.dart';
-import 'package:cryptoplease/l10n/l10n.dart';
-import 'package:cryptoplease/ui/button.dart';
-import 'package:cryptoplease/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../../../../../core/presentation/utils.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/button.dart';
+import '../../../../../ui/colors.dart';
+import '../../../../../ui/snackbar.dart';
 
 class HelpBottomSheet extends StatelessWidget {
   const HelpBottomSheet({Key? key}) : super(key: key);

@@ -23,7 +23,7 @@ const solanaWebSocketUrl = String.fromEnvironment(
 
 // Environment independent constants
 
-const twitterUrl = 'https://twitter.com/cryptopleasecom';
+const twitterUrl = 'https://twitter.com/espresso_cash';
 
 const faqUrl = 'https://www.espressocash.com/docs/intro/';
 
@@ -64,4 +64,7 @@ const moonpayHost = 'moonpay.$cpLinkDomain';
 
 const kadoBaseUrl = 'https://app.kado.money/';
 const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
-const ftxSupportUrl = 'https://help.ftx.com/hc/en-us/articles/360027668372';
+const ftxAddCashSupportUrl =
+    'https://www.espressocash.com/docs/using-the-app/add-cash-ftx-com';
+const ftxCashoutSupportUrl =
+    'https://www.espressocash.com/docs/using-the-app/cash-out-ftx-com';
