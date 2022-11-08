@@ -584,8 +584,7 @@ class __$$_JupiterRouteCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$_JupiterRoute implements _JupiterRoute {
   const _$_JupiterRoute(
       {required this.inAmount,
@@ -971,8 +970,7 @@ class __$$_JupiterMarketCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$_JupiterMarket implements _JupiterMarket {
   const _$_JupiterMarket(
       {required this.id,
@@ -1231,8 +1229,7 @@ class __$$_JupiterMarketFeeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$_JupiterMarketFee implements _JupiterMarketFee {
   const _$_JupiterMarketFee(
       {required this.amount, required this.mint, required this.pct});
@@ -1436,8 +1433,7 @@ class __$$_JupiterRouteFeeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$_JupiterRouteFee implements _JupiterRouteFee {
   const _$_JupiterRouteFee(
       {required this.signatureFee,
@@ -1701,7 +1697,6 @@ IndexedRouteMapRequestDto _$IndexedRouteMapRequestDtoFromJson(
 
 /// @nodoc
 mixin _$IndexedRouteMapRequestDto {
-  @JsonKey(includeIfNull: false)
   bool? get onlyDirectRoutes => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1716,7 +1711,7 @@ abstract class $IndexedRouteMapRequestDtoCopyWith<$Res> {
           $Res Function(IndexedRouteMapRequestDto) then) =
       _$IndexedRouteMapRequestDtoCopyWithImpl<$Res, IndexedRouteMapRequestDto>;
   @useResult
-  $Res call({@JsonKey(includeIfNull: false) bool? onlyDirectRoutes});
+  $Res call({bool? onlyDirectRoutes});
 }
 
 /// @nodoc
@@ -1753,7 +1748,7 @@ abstract class _$$_IndexedRouteMapRequestDtoCopyWith<$Res>
       __$$_IndexedRouteMapRequestDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(includeIfNull: false) bool? onlyDirectRoutes});
+  $Res call({bool? onlyDirectRoutes});
 }
 
 /// @nodoc
@@ -1783,14 +1778,12 @@ class __$$_IndexedRouteMapRequestDtoCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_IndexedRouteMapRequestDto implements _IndexedRouteMapRequestDto {
-  const _$_IndexedRouteMapRequestDto(
-      {@JsonKey(includeIfNull: false) this.onlyDirectRoutes});
+  const _$_IndexedRouteMapRequestDto({this.onlyDirectRoutes});
 
   factory _$_IndexedRouteMapRequestDto.fromJson(Map<String, dynamic> json) =>
       _$$_IndexedRouteMapRequestDtoFromJson(json);
 
   @override
-  @JsonKey(includeIfNull: false)
   final bool? onlyDirectRoutes;
 
   @override
@@ -1827,15 +1820,13 @@ class _$_IndexedRouteMapRequestDto implements _IndexedRouteMapRequestDto {
 }
 
 abstract class _IndexedRouteMapRequestDto implements IndexedRouteMapRequestDto {
-  const factory _IndexedRouteMapRequestDto(
-          {@JsonKey(includeIfNull: false) final bool? onlyDirectRoutes}) =
+  const factory _IndexedRouteMapRequestDto({final bool? onlyDirectRoutes}) =
       _$_IndexedRouteMapRequestDto;
 
   factory _IndexedRouteMapRequestDto.fromJson(Map<String, dynamic> json) =
       _$_IndexedRouteMapRequestDto.fromJson;
 
   @override
-  @JsonKey(includeIfNull: false)
   bool? get onlyDirectRoutes;
   @override
   @JsonKey(ignore: true)
@@ -1853,15 +1844,10 @@ mixin _$QuoteRequestDto {
   String get outputMint => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
   SwapMode get swapMode => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
   int? get slippageBps => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
   int? get feeBps => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
   bool? get onlyDirectRoutes => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
   String? get userPublicKey => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
   bool? get enforceSingleTx => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1881,11 +1867,11 @@ abstract class $QuoteRequestDtoCopyWith<$Res> {
       String outputMint,
       String amount,
       SwapMode swapMode,
-      @JsonKey(includeIfNull: false) int? slippageBps,
-      @JsonKey(includeIfNull: false) int? feeBps,
-      @JsonKey(includeIfNull: false) bool? onlyDirectRoutes,
-      @JsonKey(includeIfNull: false) String? userPublicKey,
-      @JsonKey(includeIfNull: false) bool? enforceSingleTx});
+      int? slippageBps,
+      int? feeBps,
+      bool? onlyDirectRoutes,
+      String? userPublicKey,
+      bool? enforceSingleTx});
 }
 
 /// @nodoc
@@ -1965,11 +1951,11 @@ abstract class _$$_QuoteRequestDtoCopyWith<$Res>
       String outputMint,
       String amount,
       SwapMode swapMode,
-      @JsonKey(includeIfNull: false) int? slippageBps,
-      @JsonKey(includeIfNull: false) int? feeBps,
-      @JsonKey(includeIfNull: false) bool? onlyDirectRoutes,
-      @JsonKey(includeIfNull: false) String? userPublicKey,
-      @JsonKey(includeIfNull: false) bool? enforceSingleTx});
+      int? slippageBps,
+      int? feeBps,
+      bool? onlyDirectRoutes,
+      String? userPublicKey,
+      bool? enforceSingleTx});
 }
 
 /// @nodoc
@@ -2035,19 +2021,18 @@ class __$$_QuoteRequestDtoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$_QuoteRequestDto implements _QuoteRequestDto {
   const _$_QuoteRequestDto(
       {required this.inputMint,
       required this.outputMint,
       required this.amount,
       this.swapMode = SwapMode.exactIn,
-      @JsonKey(includeIfNull: false) this.slippageBps,
-      @JsonKey(includeIfNull: false) this.feeBps,
-      @JsonKey(includeIfNull: false) this.onlyDirectRoutes,
-      @JsonKey(includeIfNull: false) this.userPublicKey,
-      @JsonKey(includeIfNull: false) this.enforceSingleTx});
+      this.slippageBps,
+      this.feeBps,
+      this.onlyDirectRoutes,
+      this.userPublicKey,
+      this.enforceSingleTx});
 
   factory _$_QuoteRequestDto.fromJson(Map<String, dynamic> json) =>
       _$$_QuoteRequestDtoFromJson(json);
@@ -2062,19 +2047,14 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
   @JsonKey()
   final SwapMode swapMode;
   @override
-  @JsonKey(includeIfNull: false)
   final int? slippageBps;
   @override
-  @JsonKey(includeIfNull: false)
   final int? feeBps;
   @override
-  @JsonKey(includeIfNull: false)
   final bool? onlyDirectRoutes;
   @override
-  @JsonKey(includeIfNull: false)
   final String? userPublicKey;
   @override
-  @JsonKey(includeIfNull: false)
   final bool? enforceSingleTx;
 
   @override
@@ -2135,16 +2115,15 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
 
 abstract class _QuoteRequestDto implements QuoteRequestDto {
   const factory _QuoteRequestDto(
-          {required final String inputMint,
-          required final String outputMint,
-          required final String amount,
-          final SwapMode swapMode,
-          @JsonKey(includeIfNull: false) final int? slippageBps,
-          @JsonKey(includeIfNull: false) final int? feeBps,
-          @JsonKey(includeIfNull: false) final bool? onlyDirectRoutes,
-          @JsonKey(includeIfNull: false) final String? userPublicKey,
-          @JsonKey(includeIfNull: false) final bool? enforceSingleTx}) =
-      _$_QuoteRequestDto;
+      {required final String inputMint,
+      required final String outputMint,
+      required final String amount,
+      final SwapMode swapMode,
+      final int? slippageBps,
+      final int? feeBps,
+      final bool? onlyDirectRoutes,
+      final String? userPublicKey,
+      final bool? enforceSingleTx}) = _$_QuoteRequestDto;
 
   factory _QuoteRequestDto.fromJson(Map<String, dynamic> json) =
       _$_QuoteRequestDto.fromJson;
@@ -2158,19 +2137,14 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
   @override
   SwapMode get swapMode;
   @override
-  @JsonKey(includeIfNull: false)
   int? get slippageBps;
   @override
-  @JsonKey(includeIfNull: false)
   int? get feeBps;
   @override
-  @JsonKey(includeIfNull: false)
   bool? get onlyDirectRoutes;
   @override
-  @JsonKey(includeIfNull: false)
   String? get userPublicKey;
   @override
-  @JsonKey(includeIfNull: false)
   bool? get enforceSingleTx;
   @override
   @JsonKey(ignore: true)
@@ -2186,11 +2160,8 @@ SwapRequestDto _$SwapRequestDtoFromJson(Map<String, dynamic> json) {
 mixin _$SwapRequestDto {
   String get userPublicKey => throw _privateConstructorUsedError;
   JupiterRoute get route => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
   bool? get wrapUnwrapSOL => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
   String? get feeAccount => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
   String? get destinationWallet => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2208,9 +2179,9 @@ abstract class $SwapRequestDtoCopyWith<$Res> {
   $Res call(
       {String userPublicKey,
       JupiterRoute route,
-      @JsonKey(includeIfNull: false) bool? wrapUnwrapSOL,
-      @JsonKey(includeIfNull: false) String? feeAccount,
-      @JsonKey(includeIfNull: false) String? destinationWallet});
+      bool? wrapUnwrapSOL,
+      String? feeAccount,
+      String? destinationWallet});
 
   $JupiterRouteCopyWith<$Res> get route;
 }
@@ -2278,9 +2249,9 @@ abstract class _$$_SwapRequestDtoCopyWith<$Res>
   $Res call(
       {String userPublicKey,
       JupiterRoute route,
-      @JsonKey(includeIfNull: false) bool? wrapUnwrapSOL,
-      @JsonKey(includeIfNull: false) String? feeAccount,
-      @JsonKey(includeIfNull: false) String? destinationWallet});
+      bool? wrapUnwrapSOL,
+      String? feeAccount,
+      String? destinationWallet});
 
   @override
   $JupiterRouteCopyWith<$Res> get route;
@@ -2329,15 +2300,14 @@ class __$$_SwapRequestDtoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$_SwapRequestDto implements _SwapRequestDto {
   const _$_SwapRequestDto(
       {required this.userPublicKey,
       required this.route,
-      @JsonKey(includeIfNull: false) this.wrapUnwrapSOL,
-      @JsonKey(includeIfNull: false) this.feeAccount,
-      @JsonKey(includeIfNull: false) this.destinationWallet});
+      this.wrapUnwrapSOL,
+      this.feeAccount,
+      this.destinationWallet});
 
   factory _$_SwapRequestDto.fromJson(Map<String, dynamic> json) =>
       _$$_SwapRequestDtoFromJson(json);
@@ -2347,13 +2317,10 @@ class _$_SwapRequestDto implements _SwapRequestDto {
   @override
   final JupiterRoute route;
   @override
-  @JsonKey(includeIfNull: false)
   final bool? wrapUnwrapSOL;
   @override
-  @JsonKey(includeIfNull: false)
   final String? feeAccount;
   @override
-  @JsonKey(includeIfNull: false)
   final String? destinationWallet;
 
   @override
@@ -2398,12 +2365,11 @@ class _$_SwapRequestDto implements _SwapRequestDto {
 
 abstract class _SwapRequestDto implements SwapRequestDto {
   const factory _SwapRequestDto(
-          {required final String userPublicKey,
-          required final JupiterRoute route,
-          @JsonKey(includeIfNull: false) final bool? wrapUnwrapSOL,
-          @JsonKey(includeIfNull: false) final String? feeAccount,
-          @JsonKey(includeIfNull: false) final String? destinationWallet}) =
-      _$_SwapRequestDto;
+      {required final String userPublicKey,
+      required final JupiterRoute route,
+      final bool? wrapUnwrapSOL,
+      final String? feeAccount,
+      final String? destinationWallet}) = _$_SwapRequestDto;
 
   factory _SwapRequestDto.fromJson(Map<String, dynamic> json) =
       _$_SwapRequestDto.fromJson;
@@ -2413,13 +2379,10 @@ abstract class _SwapRequestDto implements SwapRequestDto {
   @override
   JupiterRoute get route;
   @override
-  @JsonKey(includeIfNull: false)
   bool? get wrapUnwrapSOL;
   @override
-  @JsonKey(includeIfNull: false)
   String? get feeAccount;
   @override
-  @JsonKey(includeIfNull: false)
   String? get destinationWallet;
   @override
   @JsonKey(ignore: true)
