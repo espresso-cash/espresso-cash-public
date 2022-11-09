@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
+import '../../../../core/fee_label.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../l10n/decimal_separator.dart';
 import '../../../../l10n/device_locale.dart';
@@ -96,6 +97,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               outputAmount: widget.outputAmount,
               isLoadingRoute: widget.isLoadingRoute,
             ),
+            const FeeLabel(type: FeeType.swap()),
             TokenDropDown(
               current: widget.displayAmount.token,
               onTokenChanged: (_) => widget.onEditingModeToggled(),

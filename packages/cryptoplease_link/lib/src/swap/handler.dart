@@ -29,14 +29,8 @@ Future<Response> _handler(Request request) async =>
           throw Exception('Swap only supports single transaction');
         }
 
-        final solFees = data.route.fees?.totalFeeAndDeposits.toInt();
-        if (solFees == null) {
-          throw Exception('Invalid route');
-        }
-
         final swapWithFeePayer = await createSwap(
           encodedTx: tx,
-          swapFees: solFees,
           aSender: Ed25519HDPublicKey.fromBase58(data.userPublicKey),
           platform: await _mainnetPlatform,
           client: _mainnetClient,

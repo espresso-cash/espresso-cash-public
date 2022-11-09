@@ -13,6 +13,7 @@ class CreateSwapState with _$CreateSwapState {
     required CryptoAmount outputAmount,
     required Decimal slippage,
     required SwapEditingMode editingMode,
+    required CryptoAmount fee,
     JupiterRoute? bestRoute,
     @Default(Flow<CreateSwapException, JupiterRoute>.initial())
         Flow<CreateSwapException, JupiterRoute> flowState,
@@ -36,9 +37,8 @@ extension CreateSwapExt on CreateSwapState {
     final tokenBalance = balances.balanceFromToken(input);
 
     // Check if the total amount doesn't exceed the user's balance.
-    final totalAmount = input == Token.wrappedSol
-        ? inputAmount + fee as CryptoAmount
-        : inputAmount;
+    final totalAmount =
+        input == Token.usdc ? inputAmount + fee as CryptoAmount : inputAmount;
     if (tokenBalance < totalAmount) {
       return Either.left(
         CreateSwapException.insufficientBalance(
@@ -48,12 +48,12 @@ extension CreateSwapExt on CreateSwapState {
       );
     }
 
-    // Check if the user has enough SOL balance to pay the fee. If the outgoing
-    // token is SOL, it will always succeed since the total amount was checked
+    // Check if the user has enough USDC balance to pay the fee. If the outgoing
+    // token is USDC, it will always succeed since the total amount was checked
     // before, but for other tokens, we need to check the fee as the fee is
-    // always paid in SOL.
-    final solBalance = balances.balanceFromToken(Token.sol);
-    if (solBalance < fee) {
+    // always paid in USDC.
+    final usdcBalance = balances.balanceFromToken(Token.usdc);
+    if (usdcBalance < fee) {
       return Either.left(CreateSwapException.insufficientFee(fee: fee));
     }
 
@@ -63,19 +63,6 @@ extension CreateSwapExt on CreateSwapState {
     }
 
     return Either.right(route);
-  }
-
-  CryptoAmount get fee {
-    // TODO(rhbrunetto): fee (in USDC) will be retrieved after user submit
-    final routeFee = bestRoute?.fees;
-    const zeroFee = CryptoAmount(value: 0, currency: Currency.sol);
-
-    if (routeFee == null) return zeroFee;
-
-    /// Jupiter v3 returns the fee on route if userPublicKey is provided
-    return zeroFee.copyWith(
-      value: routeFee.totalFeeAndDeposits.toInt(),
-    );
   }
 }
 

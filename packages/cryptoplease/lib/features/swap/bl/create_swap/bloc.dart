@@ -13,6 +13,7 @@ import 'package:solana/solana.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/currency.dart';
+import '../../../../core/fee_label.dart';
 import '../../../../core/flow.dart';
 import '../../../../core/tokens/token.dart';
 import 'jupiter_repository.dart';
@@ -42,8 +43,10 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     @factoryParam required Map<Token, Amount> balances,
     required JupiterRepository jupiterRepository,
     required AnalyticsManager analyticsManager,
+    required FeeCalculator feeCalculator,
   })  : _jupiterRepository = jupiterRepository,
         _analyticsManager = analyticsManager,
+        _feeCalculator = feeCalculator,
         _destinationWallet = setup.destinationWallet,
         _balances = balances.lock.add(
           Token.wrappedSol,
@@ -55,6 +58,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
             inputAmount: setup.input.toZeroAmount(),
             outputAmount: setup.output.toZeroAmount(),
             slippage: Decimal.one,
+            fee: const CryptoAmount(value: 0, currency: Currency.usdc),
           ),
         ) {
     on<Init>(_onInit);
@@ -70,6 +74,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     );
   }
 
+  final FeeCalculator _feeCalculator;
   final JupiterRepository _jupiterRepository;
   final AnalyticsManager _analyticsManager;
   final IMap<Token, Amount> _balances;
@@ -87,8 +92,11 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
 
       if (!routeExists) throw const CreateSwapException.routeNotFound();
 
+      final fee = await _feeCalculator(const FeeType.swap()) as CryptoAmount;
+
       emit(
         state.copyWith(
+          fee: fee,
           flowState: const Flow.initial(),
         ),
       );
@@ -195,17 +203,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     add(const CreateSwapEvent.routeInvalidated());
   }
 
-  /// Calculates max swap amount for the selected token.
-  ///
-  /// It takes into account the fee, so for SOL the maximum possible amount is
-  /// lesser than the user's balance.
-  CryptoAmount calculateMaxAmount() {
-    final balance = _balances.balanceFromToken(state.input);
-
-    return state.input == Token.sol
-        ? balance - state.fee as CryptoAmount
-        : balance;
-  }
+  CryptoAmount calculateMaxAmount() => _balances.balanceFromToken(state.input);
 }
 
 extension BalanceExt on IMap<Token, Amount> {

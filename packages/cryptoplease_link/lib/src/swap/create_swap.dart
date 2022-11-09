@@ -1,38 +1,35 @@
-import 'package:cryptoplease_link/src/constants.dart';
-import 'package:cryptoplease_link/src/payments/create_direct_payment.dart';
+import 'package:cryptoplease_link/src/swap/create_swap_fee_payment.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 Future<SignedTx> createSwap({
   required String encodedTx,
-  required int swapFees,
   required Ed25519HDKeyPair platform,
   required Ed25519HDPublicKey aSender,
   required SolanaClient client,
   required Commitment commitment,
 }) async {
-  final feePaymentTx = await createDirectPayment(
-    aSender: aSender,
-    aReceiver: platform.publicKey,
-    mint: mainnetUsdc,
-    amount: swapFees,
-    platform: platform,
+  final feePayer = platform.publicKey;
+  final feeMessage = await createSwapFeePaymentMessage(
     client: client,
+    aSender: aSender,
+    aReceiver: feePayer,
     commitment: commitment,
-    aReference: null,
   );
 
   final message = encodedTx
       .let(SignedTx.decode)
       .let((tx) => tx.message)
       .let((message) => message.changeAtaIxsFunder(platform.publicKey))
-      .let((message) => message.merge(feePaymentTx.transaction.message));
+      .let((message) => message.merge(feeMessage));
 
-  final recentBlockhash = await client.rpcClient.getRecentBlockhash();
+  final recentBlockhash = await client.rpcClient.getRecentBlockhash(
+    commitment: commitment,
+  );
   final compiled = message.compile(
     recentBlockhash: recentBlockhash.blockhash,
-    feePayer: platform.publicKey,
+    feePayer: feePayer,
   );
 
   return SignedTx(
