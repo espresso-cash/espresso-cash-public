@@ -31,15 +31,25 @@ class _CpLoaderState extends State<CpLoader> {
                 child,
                 Container(
                   color: Colors.black38,
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      color: CpColors.yellowColor,
-                    ),
-                  ),
+                  child: const LoadingIndicator(),
                 ),
               ],
             ),
           )
         : child;
   }
+}
+
+class LoadingIndicator extends StatelessWidget {
+  const LoadingIndicator({super.key});
+
+  @override
+  Widget build(BuildContext context) => const Center(
+        child: SizedBox.square(
+          dimension: 20,
+          child: CircularProgressIndicator(
+            color: CpColors.yellowColor,
+          ),
+        ),
+      );
 }
