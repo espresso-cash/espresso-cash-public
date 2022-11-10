@@ -61,8 +61,6 @@ class TokenDetailsScreen extends StatelessWidget {
                     children: const [
                       _Header(),
                       TokenChart(),
-                      // TODO(JE): Readd buttons after implementing Swap
-                      // _Buttons(),
                       _TokenDetails(),
                     ],
                   ),
@@ -134,40 +132,6 @@ class _Header extends StatelessWidget {
     );
   }
 }
-
-// class _Buttons extends StatelessWidget {
-//   const _Buttons();
-
-//   @override
-//   Widget build(BuildContext context) => Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-//         child: Row(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             Expanded(
-//               child: Padding(
-//                 padding: const EdgeInsets.symmetric(horizontal: 16),
-//                 child: CpButton(
-//                   text: context.l10n.swap,
-//                   // onPressed: () => context.router.navigate(
-//                   //   SwapTokenFlowRoute(token: token),
-//                   // ),
-//                 ),
-//               ),
-//             ),
-//             Expanded(
-//               child: Padding(
-//                 padding: const EdgeInsets.symmetric(horizontal: 16),
-//                 child: CpButton(
-//                   text: context.l10n.send,
-//                   // onPressed: () => context.navigateToSendFt(token),
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//       );
-// }
 
 class _TokenDetails extends StatelessWidget {
   const _TokenDetails();

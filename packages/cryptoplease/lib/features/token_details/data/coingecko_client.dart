@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -27,7 +29,6 @@ abstract class TokenCoingeckoClient {
 
 @freezed
 class TokenDetailsRequestDto with _$TokenDetailsRequestDto {
-  // ignore: invalid_annotation_target, it's valid
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TokenDetailsRequestDto({
     @Default(false) bool localization,
@@ -44,7 +45,6 @@ class TokenDetailsRequestDto with _$TokenDetailsRequestDto {
 
 @freezed
 class TokenDetailsResponseDto with _$TokenDetailsResponseDto {
-  // ignore: invalid_annotation_target, it's valid
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TokenDetailsResponseDto({
     String? id,
@@ -62,7 +62,6 @@ class TokenDetailsResponseDto with _$TokenDetailsResponseDto {
 
 @freezed
 class TokenChartRequestDto with _$TokenChartRequestDto {
-  // ignore: invalid_annotation_target, it's valid
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TokenChartRequestDto({
     @Default('usd') String vsCurrency,
@@ -77,7 +76,6 @@ class TokenChartRequestDto with _$TokenChartRequestDto {
 @freezed
 class TokenChartResponseDto with _$TokenChartResponseDto {
   const factory TokenChartResponseDto({
-    // ignore: invalid_annotation_target, its' valid
     @JsonKey(fromJson: _parseChartResponse) List<TokenChartItem>? prices,
   }) = _TokenChartResponseDto;
 

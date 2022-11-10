@@ -8,10 +8,11 @@ import '../../../features/outgoing_split_key_payments/routes.dart';
 import '../../../features/payment_request/routes.dart';
 import '../../../features/qr_scanner/routes.dart';
 import '../../../features/ramp/routes.dart';
+import '../../../features/token_details/presentation/token_details_screen.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
 import 'home_screen.dart';
-import 'investments/routes.dart';
+import 'investments/investments_screen.dart';
 import 'profile/edit_profile_screen.dart';
 import 'profile/help_screen.dart';
 import 'profile/menu_screen.dart';
@@ -31,7 +32,14 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
           name: 'InvestmentsRouter',
           page: EmptyRouterScreen,
           maintainState: false,
-          children: investmentRoutes,
+          children: [
+            CustomRoute<void>(
+              initial: true,
+              page: InvestmentsScreen,
+              maintainState: false,
+            ),
+            AutoRoute<void>(page: TokenDetailsScreen, maintainState: false),
+          ],
         ),
         CustomRoute<void>(page: ActivitiesScreen, maintainState: false),
       ],
