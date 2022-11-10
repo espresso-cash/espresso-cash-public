@@ -37,10 +37,9 @@ class TokenDetailsBloc extends Bloc<_Event, _State> {
   Future<void> _onRefreshRequested(_, _Emitter emit) async {
     emit(const Flow.processing());
 
-    final _State newState = await _repository.getTokenDetails(token).foldAsync(
-          Flow.failure,
-          Flow.success,
-        );
+    final _State newState = await _repository
+        .getTokenDetails(token)
+        .foldAsync(Flow.failure, Flow.success);
 
     emit(newState);
   }

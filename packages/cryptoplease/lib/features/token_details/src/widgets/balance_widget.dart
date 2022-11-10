@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/amount.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../l10n/device_locale.dart';
 import '../../../../ui/colors.dart';
 
 class BalancePillWidget extends StatelessWidget {
@@ -8,10 +11,10 @@ class BalancePillWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final String amount;
+  final Amount amount;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
+  Widget build(BuildContext context) => IntrinsicHeight(
         child: Container(
           padding: const EdgeInsets.symmetric(
             vertical: 6,
@@ -24,7 +27,7 @@ class BalancePillWidget extends StatelessWidget {
           child: Center(
             widthFactor: 1,
             child: Text(
-              amount,
+              amount.format(DeviceLocale.localeOf(context)),
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,

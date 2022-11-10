@@ -1,17 +1,14 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/amount.dart';
 import '../../core/balances/presentation/watch_balance.dart';
-import '../../core/conversion_rates/context_ext.dart';
-import '../../core/presentation/format_amount.dart';
+import '../../core/conversion_rates/widgets/token_rate_text.dart';
 import '../../core/tokens/token.dart';
-import '../../core/user_preferences.dart';
 import '../../di.dart';
-import '../../l10n/device_locale.dart';
+import '../../l10n/l10n.dart';
 import '../../ui/colors.dart';
 import '../../ui/loader.dart';
 import '../../ui/navigation_bar/navigation_bar.dart';
@@ -49,6 +46,22 @@ class TokenDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       _Header(token: token),
+                      const SizedBox(height: 5),
+                      Text(
+                        token.name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 26,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      TokenRateText(
+                        token: token,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                        ),
+                      ),
                       TokenChart(token: token),
                       _Content(token: token),
                     ],
@@ -66,58 +79,36 @@ class _Header extends StatelessWidget {
 
   final Token token;
 
+  static const double _tokenSize = 68;
+
   @override
   Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
-
     final Amount? fiatAmount = context.watchUserFiatBalance(token);
-
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final Amount? tokenRate = context
-        .watchConversionRate(from: token, to: fiatCurrency)
-        ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                CpTokenIcon(token: token, size: 60),
-                const SizedBox(height: 4),
-                Text(
-                  token.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 26,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  tokenRate?.format(locale) ?? '-',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: BackButton(onPressed: () => context.router.pop()),
-          ),
-          if (fiatAmount != null && fiatAmount.value != 0)
+      child: SizedBox(
+        height: _tokenSize,
+        child: Stack(
+          children: [
             Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BalancePillWidget(fiatAmount.format(locale)),
-              ),
-            )
-        ],
+              alignment: Alignment.center,
+              child: CpTokenIcon(token: token, size: _tokenSize),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: BackButton(onPressed: () => context.router.pop()),
+            ),
+            if (fiatAmount != null && fiatAmount.value != 0)
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: BalancePillWidget(fiatAmount),
+                ),
+              )
+          ],
+        ),
       ),
     );
   }
@@ -143,7 +134,7 @@ class _Content extends StatelessWidget {
             failure: (_) => TokenDetailsWidget(
               data: TokenDetails(
                 name: token.name,
-                description: 'Failed to load description',
+                description: context.l10n.failedToLoadDescription,
                 marketCapRank: null,
               ),
             ),
