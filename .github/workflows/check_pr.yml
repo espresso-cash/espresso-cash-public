@@ -50,7 +50,7 @@ jobs:
     env:
       DEVNET_RPC_URL: "http://solana:8899"
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
-      SCOPE: --scope="cryptoplease_link" --scope="cryptoplease_api"
+      SCOPE: --scope="cryptoplease_link" --scope="cryptoplease_api" --scope="jupiter_aggregator"
     container:
       image: ghcr.io/cryptoplease/flutter:3.3.0
     services:
