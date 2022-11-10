@@ -1,63 +1,58 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/user_preferences.dart';
 import '../../../../ui/colors.dart';
-import '../../bl/token_chart_bloc.dart';
-import '../../data/coingecko_client.dart';
-import 'loading.dart';
-
-enum ChartInterval {
-  oneDay('1D', '1'),
-  oneWeek('1W', '7'),
-  oneMonth('1M', '30'),
-  threeMonth('3M', '90'),
-  oneYear('1Y', '365'),
-  all('ALL', 'max');
-
-  const ChartInterval(this.label, this.value);
-
-  final String label;
-  final String value;
-}
+import '../../core/tokens/token.dart';
+import '../../di.dart';
+import '../../ui/loader.dart';
+import 'src/bloc.dart';
+import 'src/chart_interval.dart';
+import 'src/token_chart_item.dart';
 
 class TokenChart extends StatelessWidget {
-  const TokenChart({super.key});
+  const TokenChart({super.key, required this.token});
+
+  final Token token;
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<TokenChartBloc, TokenChartState>(
-        builder: (context, state) {
-          final data = state.chart;
-          final isLoading = state.processingState.isProcessing;
+  Widget build(BuildContext context) => BlocProvider<TokenChartBloc>(
+        create: (_) => sl<TokenChartBloc>(param1: token)
+          ..add(const FetchChartRequested(interval: ChartInterval.oneMonth)),
+        child: BlocBuilder<TokenChartBloc, TokenChartState>(
+          builder: (context, state) {
+            final data = state.chart;
+            final isLoading = state.processingState.isProcessing;
 
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            height: 350,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Stack(
-                    children: [
-                      _ChartWidget(data: data),
-                      if (isLoading) const TokenLoadingIndicator()
-                    ],
+            return Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              height: 350,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        _ChartWidget(data: data),
+                        if (isLoading) const LoadingIndicator()
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                _ChartRangeSelector(
-                  interval: state.interval,
-                  onItemSelected: (interval) {
-                    context.read<TokenChartBloc>().add(
-                          FetchChartRequested(interval: interval),
-                        );
-                  },
-                ),
-              ],
-            ),
-          );
-        },
+                  const SizedBox(height: 8),
+                  _ChartRangeSelector(
+                    interval: state.interval,
+                    onItemSelected: (interval) {
+                      context.read<TokenChartBloc>().add(
+                            FetchChartRequested(interval: interval),
+                          );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       );
 }
 
@@ -67,7 +62,7 @@ class _ChartWidget extends StatelessWidget {
     required this.data,
   }) : super(key: key);
 
-  final List<TokenChartItem> data;
+  final IList<TokenChartItem> data;
 
   @override
   Widget build(BuildContext context) {
@@ -181,4 +176,23 @@ class _ChartRangeSelector extends StatelessWidget {
               .toList(),
         ],
       );
+}
+
+extension on ChartInterval {
+  String get label {
+    switch (this) {
+      case ChartInterval.oneDay:
+        return '1D';
+      case ChartInterval.oneWeek:
+        return '1W';
+      case ChartInterval.oneMonth:
+        return '1M';
+      case ChartInterval.threeMonth:
+        return '3M';
+      case ChartInterval.oneYear:
+        return '1Y';
+      case ChartInterval.all:
+        return 'ALL';
+    }
+  }
 }

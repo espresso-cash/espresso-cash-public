@@ -1,4 +1,5 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -19,6 +20,9 @@ Future<void> configureDependencies() async => $initGetIt(sl);
 abstract class AppModule {
   @lazySingleton
   FlutterSecureStorage get secureStorage => const FlutterSecureStorage();
+
+  @lazySingleton
+  Dio get dio => Dio();
 
   @lazySingleton
   TokenList get tokenList => TokenList();

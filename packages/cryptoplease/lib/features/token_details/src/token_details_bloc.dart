@@ -1,26 +1,28 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
-import '../../../core/processing_state.dart';
+import '../../../core/flow.dart';
 import '../../../core/tokens/token.dart';
-import 'repository.dart';
+import '../src/repository.dart';
+import 'token_details.dart';
 
 part 'token_details_bloc.freezed.dart';
-part 'token_details_event.dart';
-part 'token_details_state.dart';
 
 typedef _Event = TokenDetailEvent;
-typedef _State = TokenDetailState;
+typedef _State = TokenDetailsState;
 typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
+@injectable
 class TokenDetailsBloc extends Bloc<_Event, _State> {
   TokenDetailsBloc({
-    required this.token,
+    @factoryParam required this.token,
     required TokenDetailsRepository repository,
   })  : _repository = repository,
-        super(const _State()) {
+        super(const Flow.initial()) {
     on<_Event>(_eventHandler, transformer: droppable());
   }
 
@@ -33,29 +35,20 @@ class TokenDetailsBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _onRefreshRequested(_, _Emitter emit) async {
-    emit(state.copyWith(processingState: const ProcessingState.processing()));
+    emit(const Flow.processing());
 
-    final resp = await _repository.getTokenDetails(token);
+    final _State newState = await _repository.getTokenDetails(token).foldAsync(
+          Flow.failure,
+          Flow.success,
+        );
 
-    final description = _removeHtmlTags(resp.description?['en'] as String);
-
-    emit(
-      state.copyWith(
-        processingState: const ProcessingState.none(),
-        name: resp.name,
-        description: description,
-        marketCap: resp.marketCapRank,
-      ),
-    );
+    emit(newState);
   }
 }
 
-String _removeHtmlTags(String htmlText) {
-  final RegExp exp = RegExp(
-    r'<[^>]*>',
-    multiLine: true,
-    caseSensitive: true,
-  );
-
-  return htmlText.replaceAll(exp, '');
+@freezed
+class TokenDetailEvent with _$TokenDetailEvent {
+  const factory TokenDetailEvent.infoRequested() = FetchDetailsRequested;
 }
+
+typedef TokenDetailsState = Flow<Exception, TokenDetails>;
