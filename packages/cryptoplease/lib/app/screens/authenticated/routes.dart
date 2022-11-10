@@ -11,6 +11,7 @@ import '../../../features/ramp/routes.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
 import 'home_screen.dart';
+import 'investments/components/investment_settings.dart';
 import 'investments/investments_screen.dart';
 import 'profile/edit_profile_screen.dart';
 import 'profile/help_screen.dart';
@@ -42,5 +43,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),
     AutoRoute<void>(page: HelpScreen),
+    AutoRoute<void>(page: InvestmentSettingsScreen, fullscreenDialog: true),
   ],
 );

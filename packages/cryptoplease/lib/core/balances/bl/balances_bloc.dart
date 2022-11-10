@@ -10,7 +10,6 @@ import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 import '../../amount.dart';
-import '../../currency.dart';
 import '../../processing_state.dart';
 import '../../solana_helpers.dart';
 import '../../tokens/token.dart';
@@ -52,7 +51,8 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
     try {
       emit(state.copyWith(processingState: const ProcessingState.processing()));
       balances[Token.sol] = await _solanaClient.getSolBalance(event.address);
-      balances[Token.usdc] = Amount.zero(currency: Currency.usdc);
+      balances[_tokens.tokens.first] = Amount.fromToken(
+          value: 0, token: _tokens.tokens.first); //TODO remove after testing
 
       final allAccounts = await _solanaClient.getSplAccounts(
         event.address,
