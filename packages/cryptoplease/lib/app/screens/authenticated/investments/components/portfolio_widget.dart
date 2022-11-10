@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -7,6 +8,7 @@ import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/empty_message_widget.dart';
 import '../../../../../ui/tab_bar.dart';
@@ -124,6 +126,7 @@ class _BalanceItem extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),

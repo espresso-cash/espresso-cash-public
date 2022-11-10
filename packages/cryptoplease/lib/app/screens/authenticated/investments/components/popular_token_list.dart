@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../core/user_preferences.dart';
 import '../../../../../l10n/device_locale.dart';
+import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
 
@@ -41,6 +43,7 @@ class _TokenItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
       child: ListTile(
+        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
         leading: CpTokenIcon(token: token, size: 37),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
