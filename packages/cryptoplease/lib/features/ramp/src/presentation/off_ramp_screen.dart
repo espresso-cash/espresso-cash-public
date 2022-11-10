@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../config.dart';
-import '../../../../core/presentation/utils.dart';
-import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/content_padding.dart';
-import '../../../../ui/partner_button.dart';
 import '../../../../ui/theme.dart';
 
 class OffRampScreen extends StatelessWidget {
@@ -31,11 +27,6 @@ class OffRampScreen extends StatelessWidget {
                   style: const TextStyle(fontSize: 14.5),
                 ),
                 const SizedBox(height: 24),
-                PartnerButton(
-                  onTap: () => context.openLink(ftxCashoutSupportUrl),
-                  image: Assets.images.logoFtx,
-                  backgroundColor: const Color(0xff12a8c9),
-                ),
               ],
             ),
           ),
