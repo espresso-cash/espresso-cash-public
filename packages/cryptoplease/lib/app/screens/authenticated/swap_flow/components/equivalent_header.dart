@@ -27,8 +27,9 @@ class EquivalentHeader extends StatelessWidget {
     } else {
       final locale = DeviceLocale.localeOf(context);
       final formattedInput = inputAmount.format(locale, roundInteger: true);
-      final formattedOutput = outputAmount.shortFormat(
+      final formattedOutput = outputAmount.format(
         locale,
+        roundInteger: true,
         skipSymbol: false,
       );
 
