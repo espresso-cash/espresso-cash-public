@@ -1286,7 +1286,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.26.1"
+    version: "0.26.2"
   source_gen:
     dependency: transitive
     description:
