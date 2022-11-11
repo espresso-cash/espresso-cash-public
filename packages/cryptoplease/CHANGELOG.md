@@ -1,3 +1,10 @@
+## 1.52.0
+
+ - **FIX**: update successful payment label (#602).
+ - **FEAT**: add token details screen (#511).
+ - **FEAT**: add jupiter v3 client (#605).
+ - **DOCS**: update discord links.
+
 ## 1.51.0
 
  - **FEAT**: share qr code on payment request (#589).
