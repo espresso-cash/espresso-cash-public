@@ -23,38 +23,42 @@ Future<void> main() async {
     commitment: Commitment.confirmed,
   );
 
-  test('creates metadata account', () async {
-    final data = CreateMetadataAccountV3Data(
-      name: name,
-      symbol: symbol,
-      uri: uri,
-      sellerFeeBasisPoints: 550,
-      isMutable: false,
-      colectionDetails: false,
-    );
-    final instruction = await createMetadataAccountV3(
-      mint: mint.address,
-      mintAuthority: owner.publicKey,
-      payer: owner.publicKey,
-      updateAuthority: owner.publicKey,
-      data: data,
-    );
+  test(
+    'creates metadata account',
+    () async {
+      final data = CreateMetadataAccountV3Data(
+        name: name,
+        symbol: symbol,
+        uri: uri,
+        sellerFeeBasisPoints: 550,
+        isMutable: false,
+        colectionDetails: false,
+      );
+      final instruction = await createMetadataAccountV3(
+        mint: mint.address,
+        mintAuthority: owner.publicKey,
+        payer: owner.publicKey,
+        updateAuthority: owner.publicKey,
+        data: data,
+      );
 
-    final message = Message.only(instruction);
+      final message = Message.only(instruction);
 
-    await client.sendAndConfirmTransaction(
-      message: message,
-      signers: [owner],
-      commitment: Commitment.confirmed,
-    );
+      await client.sendAndConfirmTransaction(
+        message: message,
+        signers: [owner],
+        commitment: Commitment.confirmed,
+      );
 
-    final metadata = await client.rpcClient.getMetadata(
-      mint: mint.address,
-      commitment: Commitment.confirmed,
-    );
+      final metadata = await client.rpcClient.getMetadata(
+        mint: mint.address,
+        commitment: Commitment.confirmed,
+      );
 
-    expect(metadata?.name, name);
-    expect(metadata?.symbol, symbol);
-    expect(metadata?.uri, uri);
-  });
+      expect(metadata?.name, name);
+      expect(metadata?.symbol, symbol);
+      expect(metadata?.uri, uri);
+    },
+    skip: 'Setup localnet with the metaplex program deployed.',
+  );
 }
