@@ -37,7 +37,7 @@ class InvestmentSettingsBloc
 
     await _sharedPreferences.setBool(_hideBalanceKey, !hideZeroBalanceToggle);
 
-    emit(InvestmentSettings(hideZeroBalances: !hideZeroBalanceToggle));
+    emit(state.copyWith(hideZeroBalances: !hideZeroBalanceToggle));
   }
 }
 
