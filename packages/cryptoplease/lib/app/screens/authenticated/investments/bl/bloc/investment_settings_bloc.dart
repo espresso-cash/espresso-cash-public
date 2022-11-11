@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'investment_settings_bloc.freezed.dart';
 part 'investment_settings_event.dart';
-part 'investment_settings_state.dart';
 
 typedef _Emitter = Emitter<InvestmentSettingsState>;
 
@@ -40,6 +39,13 @@ class InvestmentSettingsBloc
 
     emit(InvestmentSettings(hideZeroBalances: !hideZeroBalanceToggle));
   }
+}
+
+@freezed
+class InvestmentSettingsState with _$InvestmentSettingsState {
+  const factory InvestmentSettingsState.settings({
+    @Default(false) bool hideZeroBalances,
+  }) = InvestmentSettings;
 }
 
 const _hideBalanceKey = 'hideBalanceKey';

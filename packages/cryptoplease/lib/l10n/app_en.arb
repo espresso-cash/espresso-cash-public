@@ -328,5 +328,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "settings" : "Settings",
+  "hideZeroBalanceToggle" : "Hide Zero balances tokens"
 }
