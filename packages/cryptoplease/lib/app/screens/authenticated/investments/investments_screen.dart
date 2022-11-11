@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../features/popular_tokens/popular_token_list.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import 'components/popular_crypto_header.dart';
-import 'components/popular_token_list.dart';
 import 'components/portfolio_widget.dart';
 import 'components/total_balance_widget.dart';
 

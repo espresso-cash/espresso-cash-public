@@ -1,10 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/amount.dart';
-import '../../../../../core/conversion_rates/context_ext.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../core/user_preferences.dart';
@@ -12,33 +11,64 @@ import '../../../../../l10n/device_locale.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
+import '../../di.dart';
+import '../../ui/loader.dart';
+import 'src/market_bloc.dart';
+import 'src/market_token.dart';
 
-final _popularTokenList = <Token>[
+final _defaultTokens = <Token>[
   Token.sol,
+  Token.usdc,
 ];
 
 class PopularTokenList extends StatelessWidget {
   const PopularTokenList({super.key});
 
   @override
-  Widget build(BuildContext context) => SliverList(
-        delegate: SliverChildListDelegate(
-          _popularTokenList.map(_TokenItem.new).toList(),
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => sl<MarketBloc>()..add(const MarketEventFetch()),
+        child: BlocBuilder<MarketBloc, MarketDetailsState>(
+          builder: (context, state) {
+            const loader = SliverToBoxAdapter(
+              child: SizedBox(
+                height: 80,
+                child: LoadingIndicator(),
+              ),
+            );
+
+            return state.when(
+              initial: () => loader,
+              processing: () => loader,
+              // failure: (_) => SliverList(
+              //   delegate: SliverChildListDelegate(
+              //     _defaultTokens.map(_TokenItem.new).toList(),
+              //   ),
+              // ),
+              failure: (_) => loader,
+              success: (data) => SliverList(
+                delegate: SliverChildListDelegate(
+                  data.map(_TokenItem.new).toList(),
+                ),
+              ),
+            );
+          },
         ),
       );
 }
 
 class _TokenItem extends StatelessWidget {
   const _TokenItem(this.token);
-  final Token token;
+  final CoingeckoToken token;
 
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final Amount? tokenRate = context
-        .watchConversionRate(from: token, to: fiatCurrency)
-        ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
+
+    final Amount tokenRate = Amount.fromDecimal(
+      currency: fiatCurrency,
+      value: Decimal.parse(token.currentPrice.toString()),
+    );
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
@@ -64,7 +94,7 @@ class _TokenItem extends StatelessWidget {
           ],
         ),
         trailing: Text(
-          tokenRate?.format(locale) ?? ' -',
+          tokenRate.format(locale),
           style: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 15,
