@@ -1,9 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
@@ -43,20 +40,13 @@ class _State extends State<WalletFlowScreen> {
     if (request == null) return;
     if (!mounted) return;
 
-    final address = request.map(
-      solanaPay: (r) => r.request.recipient,
-      address: (r) => r.addressData.address,
-    );
+    final recipient = request.recipient;
     final name = request.map(
       solanaPay: (r) => r.request.label,
       address: (r) => r.addressData.name,
     );
-    final requestAmount = request.mapOrNull(
-      solanaPay: (r) {
-        final tokenList = sl<TokenList>();
-
-        return r.request.cryptoAmount(tokenList);
-      },
+    final requestAmount = request.whenOrNull(
+      solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
     );
 
     final isEnabled = requestAmount == null || requestAmount.value == 0;
@@ -71,7 +61,7 @@ class _State extends State<WalletFlowScreen> {
     final amount = await context.router.push<Decimal>(
       ODPConfirmationRoute(
         initialAmount: formatted,
-        recipient: address,
+        recipient: recipient,
         label: name,
         token: _amount.token,
         isEnabled: isEnabled,
@@ -84,11 +74,8 @@ class _State extends State<WalletFlowScreen> {
 
       context.createAndOpenDirectPayment(
         amountInUsdc: amount,
-        receiver: address,
-        reference: request.when<Ed25519HDPublicKey?>(
-          solanaPay: (r) => r.reference?.firstOrNull,
-          address: always(null),
-        ),
+        receiver: recipient,
+        reference: request.reference,
       );
     }
   }
