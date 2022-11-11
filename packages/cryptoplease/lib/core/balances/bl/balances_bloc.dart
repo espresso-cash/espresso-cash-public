@@ -51,8 +51,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
     try {
       emit(state.copyWith(processingState: const ProcessingState.processing()));
       balances[Token.sol] = await _solanaClient.getSolBalance(event.address);
-      balances[_tokens.tokens.first] = Amount.fromToken(
-          value: 0, token: _tokens.tokens.first); //TODO remove after testing
 
       final allAccounts = await _solanaClient.getSplAccounts(
         event.address,
