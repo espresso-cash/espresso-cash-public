@@ -25,7 +25,7 @@ class ISKPStatus with _$ISKPStatus {
   const factory ISKPStatus.txCreated(SignedTx tx) = ISKPStatusTxCreated;
 
   /// Tx is successfully sent.
-  const factory ISKPStatus.txSent(String txId) = ISKPStatusTxSent;
+  const factory ISKPStatus.txSent(SignedTx tx) = ISKPStatusTxSent;
 
   /// Final state. Tx is successfully confirmed and payment is claimed.
   const factory ISKPStatus.success({required String txId}) = ISKPStatusSuccess;
@@ -37,7 +37,7 @@ class ISKPStatus with _$ISKPStatus {
   const factory ISKPStatus.txSendFailure(SignedTx tx) = ISKPStatusTxSendFailure;
 
   /// Failed to get the confirmation about tx, waiting should be retried.
-  const factory ISKPStatus.txWaitFailure(String txId) = ISKPStatusTxWaitFailure;
+  const factory ISKPStatus.txWaitFailure(SignedTx tx) = ISKPStatusTxWaitFailure;
 
   /// Final state. Tx is failed to be confirmed and payment could not be claimed
   /// either due to invalid links or it was already claimed by someone else.

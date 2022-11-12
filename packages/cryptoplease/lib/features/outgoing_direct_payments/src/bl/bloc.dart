@@ -96,7 +96,7 @@ class ODPBloc extends Bloc<_Event, _State> {
 
     final ODPStatus newStatus = await payment.status.map(
       txCreated: (status) => _sendTx(status.tx),
-      txSent: (status) => _waitTx(status.txId),
+      txSent: (status) => _waitTx(status.tx),
       success: (status) async => status,
       txFailure: (_) => _createTx(
         payment.receiver,
@@ -104,7 +104,7 @@ class ODPBloc extends Bloc<_Event, _State> {
         reference: payment.reference,
       ),
       txSendFailure: (status) => _sendTx(status.tx),
-      txWaitFailure: (status) => _waitTx(status.txId),
+      txWaitFailure: (status) => _waitTx(status.tx),
     );
 
     await _repository.save(payment.copyWith(status: newStatus));
@@ -150,20 +150,20 @@ class ODPBloc extends Bloc<_Event, _State> {
     final result = await _txSender.send(tx);
 
     return result.map(
-      sent: (_) => ODPStatus.txSent(tx.id),
+      sent: (_) => ODPStatus.txSent(tx),
       invalidBlockhash: (_) => const ODPStatus.txFailure(),
       failure: (it) => ODPStatus.txFailure(reason: it.reason),
       networkError: (_) => ODPStatus.txSendFailure(tx),
     );
   }
 
-  Future<ODPStatus> _waitTx(String txId) async {
-    final result = await _txSender.wait(txId);
+  Future<ODPStatus> _waitTx(SignedTx tx) async {
+    final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => ODPStatus.success(txId: txId),
+      success: (_) => ODPStatus.success(txId: tx.id),
       failure: (_) => const ODPStatus.txFailure(),
-      networkError: (_) => ODPStatus.txWaitFailure(txId),
+      networkError: (_) => ODPStatus.txWaitFailure(tx),
     );
   }
 }
