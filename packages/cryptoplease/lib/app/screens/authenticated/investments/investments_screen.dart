@@ -5,13 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../di.dart';
+import '../../../../features/investments_settings/module.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/icon_button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
-import 'bl/bloc/investment_settings_bloc.dart';
 import 'components/popular_crypto_header.dart';
 import 'components/popular_token_list.dart';
 import 'components/portfolio_widget.dart';
@@ -30,7 +31,8 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
         builder: (context, onRefresh) =>
             BlocBuilder<BalancesBloc, BalancesState>(
           builder: (context, state) {
-            final settings = context.watch<InvestmentSettingsBloc>().state;
+            final hideZeroBalances =
+                sl<InvestmentSettingsRepository>().hideZeroBalances;
 
             return RefreshIndicator(
               displacement: 80,
@@ -63,7 +65,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                     padding: const EdgeInsets.only(left: 24, right: 24),
                     sliver: PortfolioWidget(
                       tokens: IList(
-                        settings.hideZeroBalances
+                        hideZeroBalances
                             ? state.userTokensFiltered
                             : state.userTokens,
                       ),
