@@ -12,24 +12,21 @@ Future<void> main() async {
   // TODO(KB): Setup localnet with the metaplex program deployed.
   final client = createTestSolanaClient(useLocal: false);
   final owner = await Ed25519HDKeyPair.random();
-  late final Mint mint;
-
-  setUpAll(() async {
-    await client.requestAirdrop(
-      address: owner.publicKey,
-      lamports: 1 * lamportsPerSol,
-      commitment: Commitment.confirmed,
-    );
-    mint = await client.initializeMint(
-      mintAuthority: owner,
-      decimals: 0,
-      commitment: Commitment.confirmed,
-    );
-  });
 
   test(
     'creates metadata account',
     () async {
+      await client.requestAirdrop(
+        address: owner.publicKey,
+        lamports: 1 * lamportsPerSol,
+        commitment: Commitment.confirmed,
+      );
+      final mint = await client.initializeMint(
+        mintAuthority: owner,
+        decimals: 0,
+        commitment: Commitment.confirmed,
+      );
+
       final data = CreateMetadataAccountV3Data(
         name: name,
         symbol: symbol,
