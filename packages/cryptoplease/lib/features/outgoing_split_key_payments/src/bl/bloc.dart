@@ -95,7 +95,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
     final OSKPStatus newStatus = await payment.status.map(
       txCreated: (status) => _sendTx(status.tx, escrow: status.escrow),
-      txSent: (status) => _waitTx(status.txId, escrow: status.escrow),
+      txSent: (status) => _waitTx(status.tx, escrow: status.escrow),
       txConfirmed: (status) => _createLinks(
         escrow: status.escrow,
         token: payment.amount.token,
@@ -104,7 +104,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
       success: (status) async => status,
       txFailure: (_) => _createTx(payment.amount),
       txSendFailure: (status) => _sendTx(status.tx, escrow: status.escrow),
-      txWaitFailure: (status) => _waitTx(status.txId, escrow: status.escrow),
+      txWaitFailure: (status) => _waitTx(status.tx, escrow: status.escrow),
       txLinksFailure: (status) => _createLinks(
         escrow: status.escrow,
         token: payment.amount.token,
@@ -158,7 +158,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
     final result = await _txSender.send(tx);
 
     return result.map(
-      sent: (_) => OSKPStatus.txSent(tx.id, escrow: escrow),
+      sent: (_) => OSKPStatus.txSent(tx, escrow: escrow),
       invalidBlockhash: (_) => const OSKPStatus.txFailure(),
       failure: (it) => OSKPStatus.txFailure(reason: it.reason),
       networkError: (_) => OSKPStatus.txSendFailure(tx, escrow: escrow),
@@ -166,15 +166,15 @@ class OSKPBloc extends Bloc<_Event, _State> {
   }
 
   Future<OSKPStatus> _waitTx(
-    String txId, {
+    SignedTx tx, {
     required Ed25519HDKeyPair escrow,
   }) async {
-    final result = await _txSender.wait(txId);
+    final result = await _txSender.wait(tx);
 
     return result.map(
       success: (_) => OSKPStatus.txConfirmed(escrow: escrow),
       failure: (_) => const OSKPStatus.txFailure(),
-      networkError: (_) => OSKPStatus.txWaitFailure(txId, escrow: escrow),
+      networkError: (_) => OSKPStatus.txWaitFailure(tx, escrow: escrow),
     );
   }
 
