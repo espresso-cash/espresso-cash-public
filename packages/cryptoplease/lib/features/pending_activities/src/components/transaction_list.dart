@@ -33,27 +33,32 @@ class _TransactionListState extends State<TransactionList> {
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<IList<String>>(
-        stream: _txs,
-        builder: (context, snapshot) {
-          final data = snapshot.data;
+  Widget build(BuildContext context) => RefreshIndicator(
+        onRefresh: () => context.read<TxUpdaterBloc>().update(),
+        child: StreamBuilder<IList<String>>(
+          stream: _txs,
+          builder: (context, snapshot) {
+            final data = snapshot.data;
 
-          if (data == null) return const SizedBox.shrink();
+            if (data == null) return const SizedBox.shrink();
 
-          final isLoading = context
-              .select<TxUpdaterBloc, bool>((value) => value.state.isProcessing);
-
-          if (data.isEmpty) {
-            return Center(
-              child: isLoading ? const LoadingIndicator() : const NoActivity(),
+            final isLoading = context.select<TxUpdaterBloc, bool>(
+              (value) => value.state.isProcessing,
             );
-          }
 
-          return ListView.builder(
-            padding: widget.padding,
-            itemBuilder: (context, i) => TransactionItem(tx: data[i]),
-            itemCount: data.length,
-          );
-        },
+            if (data.isEmpty) {
+              return Center(
+                child:
+                    isLoading ? const LoadingIndicator() : const NoActivity(),
+              );
+            }
+
+            return ListView.builder(
+              padding: widget.padding,
+              itemBuilder: (context, i) => TransactionItem(tx: data[i]),
+              itemCount: data.length,
+            );
+          },
+        ),
       );
 }

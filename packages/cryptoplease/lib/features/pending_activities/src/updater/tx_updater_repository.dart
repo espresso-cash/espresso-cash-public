@@ -26,6 +26,7 @@ class TxUpdaterRepository {
       publicKey,
       until: mostRecentSignature,
       encoding: Encoding.base64,
+      commitment: Commitment.confirmed,
     );
 
     if (details.isNotEmpty) {
