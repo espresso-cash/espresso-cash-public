@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' hide Notification;
 
-import '../../../../features/pending_activities/module.dart';
+import '../../../../features/activities/module.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/tab_bar.dart';
