@@ -41,18 +41,23 @@ extension RpcClientExt on RpcClient {
   Future<Iterable<TransactionDetails>> getTransactionsList(
     Ed25519HDPublicKey address, {
     int limit = 10,
+    String? before,
+    String? until,
     Commitment? commitment,
+    Encoding? encoding,
   }) async {
     final signatures = await getSignaturesForAddress(
       address.toBase58(),
       limit: limit,
+      before: before,
+      until: until,
       commitment: commitment,
     );
 
     return getMultipleTransactions(
       signatures,
       commitment: commitment,
-      encoding: Encoding.jsonParsed,
+      encoding: encoding ?? Encoding.jsonParsed,
     );
   }
 
