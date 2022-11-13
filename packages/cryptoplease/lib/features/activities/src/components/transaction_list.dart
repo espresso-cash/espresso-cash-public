@@ -53,12 +53,49 @@ class _TransactionListState extends State<TransactionList> {
               );
             }
 
-            return ListView.builder(
+            return ListView.custom(
               padding: widget.padding,
-              itemBuilder: (context, i) => TransactionItem(tx: data[i]),
-              itemCount: data.length,
+              childrenDelegate: SliverChildBuilderDelegate(
+                (context, i) => _KeepAlive(
+                  key: ValueKey(data[i]),
+                  child: TransactionItem(tx: data[i]),
+                ),
+                childCount: data.length,
+                findChildIndexCallback: (Key key) {
+                  final ValueKey<String> valueKey = key as ValueKey<String>;
+                  final String keyValue = valueKey.value;
+                  final index = data.indexOf(keyValue);
+
+                  return index == -1 ? null : index;
+                },
+              ),
             );
           },
         ),
       );
+}
+
+class _KeepAlive extends StatefulWidget {
+  const _KeepAlive({
+    required Key key,
+    required this.child,
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  State<_KeepAlive> createState() => _KeepAliveState();
+}
+
+class _KeepAliveState extends State<_KeepAlive>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return widget.child;
+  }
 }
