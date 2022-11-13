@@ -7,6 +7,7 @@ import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
 import 'incoming_split_key_payment.dart';
@@ -81,7 +82,7 @@ extension on ISKPStatusDto {
       case ISKPStatusDto.txCreated:
         return ISKPStatus.txCreated(tx!);
       case ISKPStatusDto.txSent:
-        return ISKPStatus.txSent(txId!);
+        return ISKPStatus.txSent(tx ?? StubSignedTx(txId!));
       case ISKPStatusDto.success:
         return ISKPStatus.success(txId: txId!);
       case ISKPStatusDto.txFailure:
@@ -89,7 +90,7 @@ extension on ISKPStatusDto {
       case ISKPStatusDto.txSendFailure:
         return ISKPStatus.txSendFailure(tx!);
       case ISKPStatusDto.txWaitFailure:
-        return ISKPStatus.txWaitFailure(txId!);
+        return ISKPStatus.txWaitFailure(tx ?? StubSignedTx(txId!));
       case ISKPStatusDto.txEscrowFailure:
         return const ISKPStatus.txEscrowFailure();
     }
@@ -123,11 +124,11 @@ extension on ISKPStatus {
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
         txSendFailure: (it) => it.tx.encode(),
+        txSent: (it) => it.tx.encode(),
+        txWaitFailure: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
-        txSent: (it) => it.txId,
         success: (it) => it.txId,
-        txWaitFailure: (it) => it.txId,
       );
 }

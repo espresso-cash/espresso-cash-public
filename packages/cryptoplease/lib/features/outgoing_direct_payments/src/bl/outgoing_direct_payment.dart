@@ -22,10 +22,10 @@ class OutgoingDirectPayment with _$OutgoingDirectPayment {
 @freezed
 class ODPStatus with _$ODPStatus {
   const factory ODPStatus.txCreated(SignedTx tx) = ODPStatusTxCreated;
-  const factory ODPStatus.txSent(String txId) = ODPStatusTxSent;
+  const factory ODPStatus.txSent(SignedTx tx) = ODPStatusTxSent;
   const factory ODPStatus.success({required String txId}) = ODPStatusSuccess;
   const factory ODPStatus.txFailure({TxFailureReason? reason}) =
       ODPStatusTxFailure;
   const factory ODPStatus.txSendFailure(SignedTx tx) = ODPStatusTxSendFailure;
-  const factory ODPStatus.txWaitFailure(String txId) = ODPStatusTxWaitFailure;
+  const factory ODPStatus.txWaitFailure(SignedTx tx) = ODPStatusTxWaitFailure;
 }

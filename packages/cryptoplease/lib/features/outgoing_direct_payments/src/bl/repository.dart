@@ -75,11 +75,13 @@ extension ODPRowExt on ODPRow {
 
 extension on ODPStatusDto {
   ODPStatus toModel(ODPRow row) {
+    final tx = row.tx?.let(SignedTx.decode);
+
     switch (this) {
       case ODPStatusDto.txCreated:
-        return ODPStatus.txCreated(SignedTx.decode(row.tx!));
+        return ODPStatus.txCreated(tx!);
       case ODPStatusDto.txSent:
-        return ODPStatus.txSent(row.txId!);
+        return ODPStatus.txSent(tx ?? StubSignedTx(row.txId!));
       case ODPStatusDto.success:
         return ODPStatus.success(txId: row.txId!);
       case ODPStatusDto.txFailure:
@@ -87,7 +89,7 @@ extension on ODPStatusDto {
       case ODPStatusDto.txSendFailure:
         return ODPStatus.txSendFailure(SignedTx.decode(row.tx!));
       case ODPStatusDto.txWaitFailure:
-        return ODPStatus.txWaitFailure(row.txId!);
+        return ODPStatus.txWaitFailure(tx ?? StubSignedTx(row.txId!));
     }
   }
 }
@@ -120,11 +122,11 @@ extension on ODPStatus {
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
         txSendFailure: (it) => it.tx.encode(),
+        txSent: (it) => it.tx.encode(),
+        txWaitFailure: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
-        txSent: (it) => it.txId,
-        txWaitFailure: (it) => it.txId,
         success: (it) => it.txId,
       );
 

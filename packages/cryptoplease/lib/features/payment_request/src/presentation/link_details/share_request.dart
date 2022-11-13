@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
-import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/tab_bar.dart';
 import '../../../../../ui/theme.dart';
 import '../../bl/payment_request.dart';
@@ -31,29 +30,27 @@ class SharePaymentRequestScreen extends StatelessWidget {
         body: DefaultTabController(
           length: 2,
           initialIndex: 0,
-          child: CpContentPadding(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
-                  child: CpTabBar(
-                    variant: CpTabBarVariant.inverted,
-                    tabs: [
-                      Tab(text: context.l10n.sharePaymentRequestLinkTitle),
-                      Tab(text: context.l10n.sharePaymentRequestQrCodeTitle),
-                    ],
-                  ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(48, 32, 48, 16),
+                child: CpTabBar(
+                  variant: CpTabBarVariant.inverted,
+                  tabs: [
+                    Tab(text: context.l10n.sharePaymentRequestLinkTitle),
+                    Tab(text: context.l10n.sharePaymentRequestQrCodeTitle),
+                  ],
                 ),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      ShareLink(paymentRequest: request),
-                      ShareQrCode(paymentRequest: request),
-                    ],
-                  ),
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    ShareLink(paymentRequest: request),
+                    ShareQrCode(paymentRequest: request),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
