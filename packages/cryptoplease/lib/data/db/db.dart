@@ -28,7 +28,7 @@ const _tables = [
   ODPRows,
   OSKPRows,
   ISKPRows,
-  TransactionFetchedRows,
+  TransactionRows,
 ];
 
 @lazySingleton
@@ -80,7 +80,7 @@ class MyDatabase extends _$MyDatabase {
           }
 
           if (from < 20) {
-            await m.createTable(transactionFetchedRows);
+            await m.createTable(transactionRows);
           }
         },
       );

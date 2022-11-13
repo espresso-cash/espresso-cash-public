@@ -20,9 +20,9 @@ class CommonTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final signature = txCommon.fetched.id;
+    final signature = txCommon.tx.id;
     final formattedSignature = signature.toShortAddress();
-    final formattedDate = txCommon.fetched.created?.let(context.formatDate);
+    final formattedDate = txCommon.created?.let(context.formatDate);
 
     return ListTile(
       title: Text(
