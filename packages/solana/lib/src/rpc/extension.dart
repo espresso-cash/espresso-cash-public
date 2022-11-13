@@ -54,6 +54,8 @@ extension RpcClientExt on RpcClient {
       commitment: commitment,
     );
 
+    if (signatures.isEmpty) return [];
+
     return getMultipleTransactions(
       signatures,
       commitment: commitment,
