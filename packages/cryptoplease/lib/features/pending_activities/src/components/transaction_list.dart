@@ -3,9 +3,10 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:provider/provider.dart';
 
 import '../../../../di.dart';
-import '../transaction.dart';
+import '../../../../ui/loader.dart';
 import '../transaction_repository.dart';
 import '../updater/bloc.dart';
+import 'no_activity.dart';
 import 'transaction_item.dart';
 
 class TransactionList extends StatefulWidget {
@@ -21,7 +22,7 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
-  late final Stream<IList<Transaction>> _txs;
+  late final Stream<IList<String>> _txs;
 
   @override
   void initState() {
@@ -32,12 +33,21 @@ class _TransactionListState extends State<TransactionList> {
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<IList<Transaction>>(
+  Widget build(BuildContext context) => StreamBuilder<IList<String>>(
         stream: _txs,
         builder: (context, snapshot) {
           final data = snapshot.data;
 
           if (data == null) return const SizedBox.shrink();
+
+          final isLoading = context
+              .select<TxUpdaterBloc, bool>((value) => value.state.isProcessing);
+
+          if (data.isEmpty) {
+            return Center(
+              child: isLoading ? const LoadingIndicator() : const NoActivity(),
+            );
+          }
 
           return ListView.builder(
             padding: widget.padding,

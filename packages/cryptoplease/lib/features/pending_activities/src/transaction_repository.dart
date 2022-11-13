@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -20,16 +21,21 @@ class TransactionRepository {
   final MyDatabase _db;
   final TokenList _tokens;
 
-  Stream<IList<Transaction>> watchAll() {
+  Stream<IList<String>> watchAll() {
     final query = _db.select(_db.transactionRows)
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
-    final result = query.watch();
+    return query
+        .map((row) => row.id)
+        .watch()
+        .map((event) => event.whereNotNull().toIList());
+  }
 
-    return result.asyncMap(
-      (rows) => Future.wait(rows.map((row) => _match(row.toModel())))
-          .then((txs) => txs.toIList()),
-    );
+  Stream<Transaction> watch(String id) {
+    final query = _db.select(_db.transactionRows)
+      ..where((tbl) => tbl.id.equals(id));
+
+    return query.watchSingle().asyncMap((row) => _match(row.toModel()));
   }
 
   Future<Transaction> _match(TxCommon fetched) =>
