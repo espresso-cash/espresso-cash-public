@@ -1,3 +1,7 @@
+## 1.53.0
+
+ - **FEAT**: add transaction tab to activity screen (#544).
+
 ## 1.52.1
 
  - **FIX**: TxSender correctly waits for old txs (#612).
