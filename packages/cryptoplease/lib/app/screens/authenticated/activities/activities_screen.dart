@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart' hide Notification;
 
+import '../../../../core/feature_flags.dart';
+import '../../../../di.dart';
 import '../../../../features/activities/module.dart';
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
+import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/tab_bar.dart';
 
 class ActivitiesScreen extends StatelessWidget {
@@ -37,14 +41,12 @@ class ActivitiesScreen extends StatelessWidget {
             child: TabBarView(
               children: [
                 _Wrapper(
-                  child: PendingActivitiesList(
-                    padding: insets,
-                  ),
+                  child: PendingActivitiesList(padding: insets),
                 ),
                 _Wrapper(
-                  child: TransactionList(
-                    padding: insets,
-                  ),
+                  child: sl<FeatureFlagsManager>().isTransactionsTabEnabled
+                      ? TransactionList(padding: insets)
+                      : const _ComingSoon(),
                 ),
               ],
             ),
@@ -56,6 +58,29 @@ class ActivitiesScreen extends StatelessWidget {
 }
 
 const double _padding = 40;
+
+class _ComingSoon extends StatelessWidget {
+  const _ComingSoon();
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 44),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Spacer(),
+              Assets.images.logoIcon.image(height: 101),
+              const SizedBox(height: 21),
+              const Text('Coming soon!'),
+              const Spacer(),
+              const SizedBox(height: cpNavigationBarheight),
+            ],
+          ),
+        ),
+      );
+}
 
 class _Wrapper extends StatelessWidget {
   const _Wrapper({required this.child});
