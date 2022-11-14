@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import 'qr_address_data.dart';
@@ -13,6 +15,8 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
+  const QrScannerRequest._();
+
   static QrScannerRequest? parse(String code) {
     final address = QrAddressData.tryParse(code);
     if (address != null) {
@@ -24,4 +28,13 @@ class QrScannerRequest with _$QrScannerRequest {
       }
     }
   }
+
+  Ed25519HDPublicKey get recipient => map(
+        solanaPay: (r) => r.request.recipient,
+        address: (r) => r.addressData.address,
+      );
+
+  Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(
+        solanaPay: (r) => r.reference?.firstOrNull,
+      );
 }

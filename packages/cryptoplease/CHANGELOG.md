@@ -1,3 +1,13 @@
+## 1.53.0
+
+ - **FEAT**: add transaction tab to activity screen (#544).
+
+## 1.52.1
+
+ - **FIX**: TxSender correctly waits for old txs (#612).
+ - **FIX**: update request page layout (#604).
+ - **FIX**: take reference into account when scanning QR code (#610).
+
 ## 1.52.0
 
  - **FIX**: update successful payment label (#602).

@@ -100,7 +100,7 @@ Future<void> main() async {
     );
 
     await service.send(tx);
-    final result = await service.wait(tx.id);
+    final result = await service.wait(tx);
 
     expect(result, const TxWaitResult.success());
   });
@@ -121,7 +121,7 @@ Future<void> main() async {
 
     await service.send(tx);
     await client.waitForSignatureStatus(tx.id, status: Commitment.confirmed);
-    final result = await service.wait(tx.id);
+    final result = await service.wait(tx);
 
     expect(result, const TxWaitResult.success());
   });

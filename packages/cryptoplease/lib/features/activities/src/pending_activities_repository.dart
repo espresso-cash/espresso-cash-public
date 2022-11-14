@@ -8,9 +8,10 @@ import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_split_key_payments/module.dart';
 import '../../payment_request/module.dart';
-import 'pending_activity.dart';
+import 'activity.dart';
+import 'activity_builder.dart';
 
-typedef _L = Iterable<PendingActivity>;
+typedef _L = Iterable<Activity>;
 
 @injectable
 class PendingActivitiesRepository {
@@ -19,7 +20,7 @@ class PendingActivitiesRepository {
   final MyDatabase _db;
   final TokenList _tokens;
 
-  Stream<IList<PendingActivity>> watchAll() {
+  Stream<IList<Activity>> watchAll() {
     final opr = _db.select(_db.paymentRequestRows)
       ..where(
         (tbl) => tbl.state.equalsValue(PaymentRequestStateDto.completed).not(),
@@ -30,16 +31,15 @@ class PendingActivitiesRepository {
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.success).not());
 
     final oprStream =
-        opr.watch().map((rows) => rows.map((r) => r.toPendingActivity()));
-    final odpStream = odp
-        .watch()
-        .map((rows) => rows.map((r) => r.toPendingActivity(_tokens)));
+        opr.watch().map((rows) => rows.map((r) => r.toActivity()));
+    final odpStream =
+        odp.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
     final oskpStream = oskp
         .watch()
-        .map((rows) => rows.map((r) => r.toPendingActivity(_tokens)))
+        .map((rows) => rows.map((r) => r.toActivity(_tokens)))
         .asyncMap(Future.wait);
 
-    return Rx.combineLatest3<_L, _L, _L, IList<PendingActivity>>(
+    return Rx.combineLatest3<_L, _L, _L, IList<Activity>>(
       oprStream,
       odpStream,
       oskpStream,
@@ -48,29 +48,4 @@ class PendingActivitiesRepository {
           .sortOrdered((a, b) => b.created.compareTo(a.created)),
     );
   }
-}
-
-extension on PaymentRequestRow {
-  PendingActivity toPendingActivity() => PendingActivity.outgoingPaymentRequest(
-        id: id,
-        created: created,
-      );
-}
-
-extension on ODPRow {
-  PendingActivity toPendingActivity(TokenList tokens) =>
-      PendingActivity.outgoingDirectPayment(
-        id: id,
-        created: created,
-        data: toModel(tokens),
-      );
-}
-
-extension on OSKPRow {
-  Future<PendingActivity> toPendingActivity(TokenList tokens) async =>
-      PendingActivity.outgoingSplitKeyPayment(
-        id: id,
-        created: created,
-        data: await toModel(tokens),
-      );
 }

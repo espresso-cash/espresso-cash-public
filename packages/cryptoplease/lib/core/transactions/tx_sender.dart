@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:solana/base58.dart';
+import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -40,9 +42,28 @@ class TxSender {
     }
   }
 
-  Future<TxWaitResult> wait(String txId) async {
+  Future<TxWaitResult> wait(SignedTx tx) async {
     try {
-      await _client.waitForSignatureStatus(txId, status: Commitment.confirmed);
+      final t = await _client.rpcClient.getSignatureStatuses(
+        [tx.id],
+        searchTransactionHistory: true,
+      ).then((value) => value.first);
+
+      if (t == null) {
+        final bh = tx.blockhash;
+        final isValidBlockhash = await _client.rpcClient
+            .getFeeCalculatorForBlockhash(bh, commitment: Commitment.confirmed)
+            .then((it) => it != null);
+        if (!isValidBlockhash) return const TxWaitResult.failure();
+      } else {
+        if (t.err != null) return const TxWaitResult.failure();
+
+        if (t.confirmationStatus.index >= ConfirmationStatus.confirmed.index) {
+          return const TxWaitResult.success();
+        }
+      }
+
+      await _client.waitForSignatureStatus(tx.id, status: Commitment.confirmed);
 
       return const TxWaitResult.success();
     } on SubscriptionClientException {
@@ -51,6 +72,36 @@ class TxSender {
       return const TxWaitResult.networkError();
     }
   }
+}
+
+// TODO(KB): should be removed after full migration to waiting status with
+// SignedTx
+class StubSignedTx implements SignedTx {
+  StubSignedTx(this.id);
+
+  @override
+  List<AccountMeta> get accounts => throw UnimplementedError();
+
+  @override
+  String get blockhash => base58encode(List.filled(32, 0));
+
+  @override
+  Iterable<Signature> get signatures => throw UnimplementedError();
+
+  @override
+  String encode() => throw UnimplementedError();
+
+  @override
+  final String id;
+
+  @override
+  Message get message => throw UnimplementedError();
+
+  @override
+  ByteArray get messageBytes => throw UnimplementedError();
+
+  @override
+  ByteArray toByteArray() => throw UnimplementedError();
 }
 
 @freezed
