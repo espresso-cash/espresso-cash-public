@@ -10,6 +10,16 @@ class VersionSection extends StatefulWidget {
 class _VersionSectionState extends State<VersionSection> {
   late final _packageInfo = PackageInfo.fromPlatform();
 
+  Future<void> _copyFID() async {
+    final id = await FirebaseInstallations.instance.getId();
+    await Clipboard.setData(ClipboardData(text: id));
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Copied FID: $id')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => FutureBuilder<PackageInfo>(
         future: _packageInfo,
@@ -22,11 +32,14 @@ class _VersionSectionState extends State<VersionSection> {
               : SizedBox(
                   height: kToolbarHeight,
                   child: Center(
-                    child: Text(
-                      'Version $version ($buildNumber)',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                    child: GestureDetector(
+                      onLongPress: _copyFID,
+                      child: Text(
+                        'Version $version ($buildNumber)',
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),
