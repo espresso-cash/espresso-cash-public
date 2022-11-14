@@ -100,7 +100,7 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.txCreated:
         return OSKPStatus.txCreated(tx!, escrow: escrow!);
       case OSKPStatusDto.txSent:
-        return OSKPStatus.txSent(txId!, escrow: escrow!);
+        return OSKPStatus.txSent(tx ?? StubSignedTx(txId!), escrow: escrow!);
       case OSKPStatusDto.txConfirmed:
         return OSKPStatus.txConfirmed(escrow: escrow!);
       case OSKPStatusDto.linksReady:
@@ -116,7 +116,10 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.txSendFailure:
         return OSKPStatus.txSendFailure(tx!, escrow: escrow!);
       case OSKPStatusDto.txWaitFailure:
-        return OSKPStatus.txWaitFailure(txId!, escrow: escrow!);
+        return OSKPStatus.txWaitFailure(
+          tx ?? StubSignedTx(txId!),
+          escrow: escrow!,
+        );
       case OSKPStatusDto.txLinksFailure:
         return OSKPStatus.txLinksFailure(escrow: escrow!);
     }
@@ -155,12 +158,12 @@ extension on OSKPStatus {
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
         txSendFailure: (it) => it.tx.encode(),
+        txSent: (it) => it.tx.encode(),
+        txWaitFailure: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
-        txSent: (it) => it.txId,
         success: (it) => it.txId,
-        txWaitFailure: (it) => it.txId,
       );
 
   Future<String?> toPrivateKey() async => this.map(

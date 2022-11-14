@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../di.dart';
 import '../../../outgoing_split_key_payments/module.dart';
+import '../activity.dart';
 import '../pending_activities_repository.dart';
-import '../pending_activity.dart';
 import 'no_activity.dart';
 import 'odp_tile.dart';
 import 'oksp_tile.dart';
@@ -24,7 +24,7 @@ class PendingActivitiesList extends StatefulWidget {
 }
 
 class _PendingActivitiesListState extends State<PendingActivitiesList> {
-  late final Stream<IList<PendingActivity>> _stream;
+  late final Stream<IList<Activity>> _stream;
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
         lazy: false,
         create: (_) => sl<OSKPVerifier>()..init(),
         dispose: (_, value) => value.dispose(),
-        child: StreamBuilder<IList<PendingActivity>>(
+        child: StreamBuilder<IList<Activity>>(
           stream: _stream,
           builder: (context, snapshot) {
             final data = snapshot.data;

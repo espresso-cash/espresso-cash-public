@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,7 +30,16 @@ extension ClipboardExt on BuildContext {
   }
 }
 
+// TODO(rhbrunetto): use this extension app-wide
 extension StringExt on String {
+  String toShortAddress() {
+    if (length < 8) return this;
+
+    return '${substring(this, 0, 4)}'
+        '\u2026'
+        '${substring(this, length - 4)}';
+  }
+
   String withZeroWidthSpaces() =>
       splitMapJoin('', onMatch: (m) => '${m.group(0)}\u200b');
 }

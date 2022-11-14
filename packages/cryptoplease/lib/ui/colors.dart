@@ -45,6 +45,10 @@ abstract class CpColors {
   static const errorChipColor = Color(0xffe8452f);
 
   static const lightPillBackgroundColor = Color(0xffeaeaea);
+
+  static const chartLineColor = Color(0xfff9653e);
+  static const lightBackgroundColor = Color(0xff464646);
+  static const darkBackgroundColor = Color(0xff181818);
 }
 
 const bgGradient = LinearGradient(
