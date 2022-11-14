@@ -285,6 +285,15 @@
       }
     }
   },
+  "transactionFetchFailed": "Failed to fetch transactions",
+  "transactionTitle": "Transaction {signature}",
+  "@transactionTitle": {
+    "placeholders": {
+      "signature": {
+        "type": "String"
+      }
+    }
+  },
   "todayAt": "Today at {time}",
   "@todayAt": {
     "placeholders": {

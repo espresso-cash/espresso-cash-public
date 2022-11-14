@@ -37,25 +37,17 @@ class _State extends State<WalletFlowScreen> {
     final request =
         await context.router.push<QrScannerRequest>(const QrScannerRoute());
 
-    final address = request?.map(
-      solanaPay: (r) => r.request.recipient,
-      address: (r) => r.addressData.address,
-    );
-    final name = request?.map(
+    if (request == null) return;
+    if (!mounted) return;
+
+    final recipient = request.recipient;
+    final name = request.map(
       solanaPay: (r) => r.request.label,
       address: (r) => r.addressData.name,
     );
-    final requestAmount = request?.mapOrNull(
-      solanaPay: (r) {
-        final tokenList = sl<TokenList>();
-
-        return r.request.cryptoAmount(tokenList);
-      },
+    final requestAmount = request.whenOrNull(
+      solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
     );
-
-    if (!mounted) return;
-
-    if (address == null) return;
 
     final isEnabled = requestAmount == null || requestAmount.value == 0;
     final initialAmount = requestAmount ?? _amount;
@@ -69,7 +61,7 @@ class _State extends State<WalletFlowScreen> {
     final amount = await context.router.push<Decimal>(
       ODPConfirmationRoute(
         initialAmount: formatted,
-        recipient: address,
+        recipient: recipient,
         label: name,
         token: _amount.token,
         isEnabled: isEnabled,
@@ -82,8 +74,8 @@ class _State extends State<WalletFlowScreen> {
 
       context.createAndOpenDirectPayment(
         amountInUsdc: amount,
-        receiver: address,
-        reference: null,
+        receiver: recipient,
+        reference: request.reference,
       );
     }
   }

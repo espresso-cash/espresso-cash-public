@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart' hide Notification;
 
-import '../../../../features/pending_activities/module.dart';
-import '../../../../gen/assets.gen.dart';
+import '../../../../features/activities/module.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
-import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/tab_bar.dart';
 
 class ActivitiesScreen extends StatelessWidget {
@@ -44,23 +42,8 @@ class ActivitiesScreen extends StatelessWidget {
                   ),
                 ),
                 _Wrapper(
-                  // TODO(KB): Replace with TransactionsList
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 44),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Spacer(),
-                          Assets.images.logoIcon.image(height: 101),
-                          const SizedBox(height: 21),
-                          const Text('Coming soon!'),
-                          const Spacer(),
-                          const SizedBox(height: cpNavigationBarheight),
-                        ],
-                      ),
-                    ),
+                  child: TransactionList(
+                    padding: insets,
                   ),
                 ),
               ],

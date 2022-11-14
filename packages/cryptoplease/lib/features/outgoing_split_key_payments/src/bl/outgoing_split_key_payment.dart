@@ -36,7 +36,7 @@ class OSKPStatus with _$OSKPStatus {
   }) = OSKPStatusTxCreated;
 
   const factory OSKPStatus.txSent(
-    String txId, {
+    SignedTx tx, {
     required Ed25519HDKeyPair escrow,
   }) = OSKPStatusTxSent;
 
@@ -63,7 +63,7 @@ class OSKPStatus with _$OSKPStatus {
   }) = OSKPStatusTxSendFailure;
 
   const factory OSKPStatus.txWaitFailure(
-    String txId, {
+    SignedTx tx, {
     required Ed25519HDKeyPair escrow,
   }) = OSKPStatusTxWaitFailure;
 
