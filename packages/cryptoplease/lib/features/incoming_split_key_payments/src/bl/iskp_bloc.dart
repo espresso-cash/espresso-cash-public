@@ -86,11 +86,11 @@ class ISKPBloc extends Bloc<_Event, _State> {
     final ISKPStatus newStatus = await payment.status.map(
       privateKeyReady: (_) => _createTx(payment.escrow),
       txCreated: (status) => _sendTx(status.tx),
-      txSent: (status) => _waitTx(status.txId),
+      txSent: (status) => _waitTx(status.tx),
       success: (status) async => status,
       txFailure: (_) => _createTx(payment.escrow),
       txSendFailure: (status) => _sendTx(status.tx),
-      txWaitFailure: (status) => _waitTx(status.txId),
+      txWaitFailure: (status) => _waitTx(status.tx),
       txEscrowFailure: (status) async => status,
     );
 
@@ -134,20 +134,20 @@ class ISKPBloc extends Bloc<_Event, _State> {
     final result = await _txSender.send(tx);
 
     return result.map(
-      sent: (_) => ISKPStatus.txSent(tx.id),
+      sent: (_) => ISKPStatus.txSent(tx),
       invalidBlockhash: (_) => const ISKPStatus.txFailure(),
       failure: (_) => const ISKPStatus.txEscrowFailure(),
       networkError: (_) => ISKPStatus.txSendFailure(tx),
     );
   }
 
-  Future<ISKPStatus> _waitTx(String txId) async {
-    final result = await _txSender.wait(txId);
+  Future<ISKPStatus> _waitTx(SignedTx tx) async {
+    final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => ISKPStatus.success(txId: txId),
+      success: (_) => ISKPStatus.success(txId: tx.id),
       failure: (_) => const ISKPStatus.txEscrowFailure(),
-      networkError: (_) => ISKPStatus.txWaitFailure(txId),
+      networkError: (_) => ISKPStatus.txWaitFailure(tx),
     );
   }
 }

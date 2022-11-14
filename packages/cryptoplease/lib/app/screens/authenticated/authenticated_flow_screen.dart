@@ -12,6 +12,7 @@ import '../../../core/conversion_rates/bl/conversion_rates_bloc.dart';
 import '../../../core/conversion_rates/module.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
+import '../../../features/activities/module.dart';
 import '../../../features/backup_phrase/module.dart';
 import '../../../features/incoming_split_key_payments/module.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
@@ -63,6 +64,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const OSKPModule(),
                 const ISKPModule(),
                 const SwapModule(),
+                const ActivitiesModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );

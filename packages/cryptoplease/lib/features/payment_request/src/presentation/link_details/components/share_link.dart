@@ -54,12 +54,15 @@ class ShareLink extends StatelessWidget {
       ),
     );
 
-    return Column(
-      children: [
-        _Subtitle(text: context.l10n.sharePaymentRequestLinkDescription),
-        Flexible(child: messageBubble),
-        shareButton,
-      ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      child: Column(
+        children: [
+          _Subtitle(text: context.l10n.sharePaymentRequestLinkDescription),
+          Flexible(child: messageBubble),
+          shareButton,
+        ],
+      ),
     );
   }
 }

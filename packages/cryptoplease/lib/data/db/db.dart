@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/transactions/tx_sender.dart';
+import '../../features/activities/module.dart';
 import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
@@ -20,7 +21,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 20;
+const int latestVersion = 21;
 
 const _tables = [
   OutgoingTransferRows,
@@ -29,6 +30,7 @@ const _tables = [
   OSKPRows,
   ISKPRows,
   SwapRows,
+  TransactionRows,
 ];
 
 @lazySingleton
@@ -67,9 +69,11 @@ class MyDatabase extends _$MyDatabase {
           if (from < 17) {
             await m.createTable(iSKPRows);
           }
+
           if (from >= 15 && from < 18) {
             await m.addColumn(oDPRows, oDPRows.reference);
           }
+
           if (from >= 15 && from < 19) {
             await m.addColumn(oDPRows, oDPRows.txFailureReason);
           }
@@ -77,6 +81,9 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.txFailureReason);
           }
           if (from < 20) {
+            await m.createTable(transactionRows);
+          }
+          if (from < 21) {
             await m.createTable(swapRows);
           }
         },

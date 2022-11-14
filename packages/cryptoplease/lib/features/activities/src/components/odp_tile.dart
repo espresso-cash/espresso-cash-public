@@ -6,13 +6,13 @@ import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../routes.gr.dart';
-import '../pending_activity.dart';
+import '../activity.dart';
 import 'styles.dart';
 
-class OSKPTile extends StatelessWidget {
-  const OSKPTile({super.key, required this.activity});
+class ODPTile extends StatelessWidget {
+  const ODPTile({super.key, required this.activity});
 
-  final OSKPPendingActivity activity;
+  final ODPActivity activity;
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -20,7 +20,7 @@ class OSKPTile extends StatelessWidget {
           children: [
             const Expanded(
               child: Text(
-                'Sent via link',
+                'Sent directly',
                 style: titleStyle,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -37,6 +37,6 @@ class OSKPTile extends StatelessWidget {
           style: subtitleStyle,
         ),
         leading: Assets.icons.outgoing.svg(),
-        onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
+        onTap: () => context.router.navigate(ODPDetailsRoute(id: activity.id)),
       );
 }
