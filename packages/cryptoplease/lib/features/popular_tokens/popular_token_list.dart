@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/presentation/format_amount.dart';
-import '../../../../../core/tokens/token.dart';
 import '../../../../../core/user_preferences.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../routes.gr.dart';
@@ -16,17 +15,14 @@ import '../../ui/loader.dart';
 import 'src/market_bloc.dart';
 import 'src/market_token.dart';
 
-final _defaultTokens = <Token>[
-  Token.sol,
-  Token.usdc,
-];
-
 class PopularTokenList extends StatelessWidget {
   const PopularTokenList({super.key});
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => sl<MarketBloc>()..add(const MarketEventFetch()),
+        create: (context) => sl<MarketBloc>(
+          param1: context.read<UserPreferences>().fiatCurrency,
+        )..add(const MarketEventFetch()),
         child: BlocBuilder<MarketBloc, MarketDetailsState>(
           builder: (context, state) {
             const loader = SliverToBoxAdapter(
@@ -39,12 +35,7 @@ class PopularTokenList extends StatelessWidget {
             return state.when(
               initial: () => loader,
               processing: () => loader,
-              // failure: (_) => SliverList(
-              //   delegate: SliverChildListDelegate(
-              //     _defaultTokens.map(_TokenItem.new).toList(),
-              //   ),
-              // ),
-              failure: (_) => loader,
+              failure: (_) => loader, // Update
               success: (data) => SliverList(
                 delegate: SliverChildListDelegate(
                   data.map(_TokenItem.new).toList(),
@@ -71,7 +62,7 @@ class _TokenItem extends StatelessWidget {
     );
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 18),
       child: ListTile(
         onTap: () => context.router.push(TokenDetailsRoute(token: token)),
         leading: CpTokenIcon(token: token, size: 37),
@@ -79,7 +70,7 @@ class _TokenItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              width: 90,
+              width: 100,
               child: Text(
                 token.name,
                 style: const TextStyle(
@@ -136,6 +127,7 @@ class _TokenSymbolWidget extends StatelessWidget {
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
               ),
+              textAlign: TextAlign.center,
               maxLines: 1,
             ),
           ),

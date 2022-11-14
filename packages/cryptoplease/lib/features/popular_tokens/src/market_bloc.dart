@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../core/currency.dart';
 import '../../../core/flow.dart';
 import 'market_token.dart';
 import 'repository.dart';
@@ -13,10 +14,15 @@ typedef _EventHandler = EventHandler<MarketEvent, MarketDetailsState>;
 
 @injectable
 class MarketBloc extends Bloc<MarketEvent, MarketDetailsState> {
-  MarketBloc(this._repository) : super(const Flow.initial()) {
+  MarketBloc({
+    @factoryParam required this.userCurrency,
+    required MarketDetailsRepository repository,
+  })  : _repository = repository,
+        super(const Flow.initial()) {
     on<MarketEvent>(_eventHandler);
   }
 
+  final FiatCurrency userCurrency;
   final MarketDetailsRepository _repository;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
@@ -26,8 +32,12 @@ class MarketBloc extends Bloc<MarketEvent, MarketDetailsState> {
   Future<void> _onRefreshRequested(Emitter<MarketDetailsState> emit) async {
     emit(const Flow.processing());
 
-    final MarketDetailsState newState =
-        await _repository.getMarketInfo().foldAsync(Flow.failure, Flow.success);
+    final MarketDetailsState newState = await _repository
+        .getTopMarketTokens(
+          currency: userCurrency.symbol,
+          noOfTokens: 20,
+        )
+        .foldAsync(Flow.failure, Flow.success);
 
     emit(newState);
   }

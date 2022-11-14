@@ -60,7 +60,7 @@ extension MarketsResponseDtoExt on MarketsResponseDto {
   CoingeckoToken fromCoingecko() => CoingeckoToken(
         chainId: currentChainId,
         address: id ?? '',
-        symbol: symbol ?? '',
+        symbol: symbol?.toUpperCase() ?? '',
         name: name ?? '',
         decimals: 0,
         logoURI: image,

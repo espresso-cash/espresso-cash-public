@@ -45,6 +45,7 @@ class TokenDetailsResponseDto with _$TokenDetailsResponseDto {
     String? name,
     Map<String, String>? description,
     int? marketCapRank,
+    Map<String, dynamic>? marketData,
   }) = _TokenDetailsResponseDto;
 
   const TokenDetailsResponseDto._();
