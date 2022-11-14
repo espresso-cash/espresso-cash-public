@@ -77,11 +77,11 @@ class SwapBloc extends Bloc<_Event, _State> {
 
     final SwapStatus newStatus = await swap.status.map(
       txCreated: (status) => _sendTx(status.tx),
-      txSent: (status) => _waitTx(status.txId),
+      txSent: (status) => _waitTx(status.tx),
       success: (status) async => status,
       txFailure: (status) async => status,
       txSendFailure: (status) => _sendTx(status.tx),
-      txWaitFailure: (status) => _waitTx(status.txId),
+      txWaitFailure: (status) => _waitTx(status.tx),
     );
 
     await _repository.save(swap.copyWith(status: newStatus));
@@ -120,20 +120,20 @@ class SwapBloc extends Bloc<_Event, _State> {
     final result = await _txSender.send(tx);
 
     return result.map(
-      sent: (_) => SwapStatus.txSent(tx.id),
+      sent: (_) => SwapStatus.txSent(tx),
       invalidBlockhash: (_) => const SwapStatus.txFailure(),
       failure: (_) => const SwapStatus.txFailure(),
       networkError: (_) => SwapStatus.txSendFailure(tx),
     );
   }
 
-  Future<SwapStatus> _waitTx(String txId) async {
-    final result = await _txSender.wait(txId);
+  Future<SwapStatus> _waitTx(SignedTx tx) async {
+    final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => SwapStatus.success(txId: txId),
+      success: (_) => SwapStatus.success(txId: tx.id),
       failure: (_) => const SwapStatus.txFailure(),
-      networkError: (_) => SwapStatus.txWaitFailure(txId),
+      networkError: (_) => SwapStatus.txWaitFailure(tx),
     );
   }
 }

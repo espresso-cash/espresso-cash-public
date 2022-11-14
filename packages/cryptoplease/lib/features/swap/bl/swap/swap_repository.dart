@@ -67,7 +67,7 @@ extension on SwapStatusDto {
       case SwapStatusDto.txCreated:
         return SwapStatus.txCreated(tx!);
       case SwapStatusDto.txSent:
-        return SwapStatus.txSent(txId!);
+        return SwapStatus.txSent(tx!);
       case SwapStatusDto.success:
         return SwapStatus.success(txId: txId!);
       case SwapStatusDto.txFailure:
@@ -75,7 +75,7 @@ extension on SwapStatusDto {
       case SwapStatusDto.txSendFailure:
         return SwapStatus.txSendFailure(tx!);
       case SwapStatusDto.txWaitFailure:
-        return SwapStatus.txWaitFailure(txId!);
+        return SwapStatus.txWaitFailure(tx!);
     }
   }
 }
@@ -106,8 +106,8 @@ extension on SwapStatus {
       );
 
   String? toTxId() => mapOrNull(
-        txSent: (it) => it.txId,
+        txSent: (it) => it.tx.id,
         success: (it) => it.txId,
-        txWaitFailure: (it) => it.txId,
+        txWaitFailure: (it) => it.tx.id,
       );
 }

@@ -18,7 +18,7 @@ class SwapStatus with _$SwapStatus {
   const factory SwapStatus.txCreated(SignedTx tx) = SwapStatusTxCreated;
 
   /// Tx is successfully sent.
-  const factory SwapStatus.txSent(String txId) = SwapStatusTxSent;
+  const factory SwapStatus.txSent(SignedTx tx) = SwapStatusTxSent;
 
   /// Final state. Tx is successfully confirmed and payment is claimed.
   const factory SwapStatus.success({required String txId}) = SwapStatusSuccess;
@@ -30,5 +30,5 @@ class SwapStatus with _$SwapStatus {
   const factory SwapStatus.txSendFailure(SignedTx tx) = SwapStatusTxSendFailure;
 
   /// Failed to get the confirmation about tx, waiting should be retried.
-  const factory SwapStatus.txWaitFailure(String txId) = SwapStatusTxWaitFailure;
+  const factory SwapStatus.txWaitFailure(SignedTx tx) = SwapStatusTxWaitFailure;
 }
