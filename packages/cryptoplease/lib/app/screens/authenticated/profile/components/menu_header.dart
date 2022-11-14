@@ -15,6 +15,7 @@ import '../../../../../routes.gr.dart';
 import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
+import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/icon_button.dart';
 
 class MenuHeader extends StatelessWidget {
@@ -60,7 +61,11 @@ class MenuHeader extends StatelessWidget {
                 token: Token.usdc,
               ),
             ),
-            onCashOut: () => context.router.navigate(const OffRampRoute()),
+            onCashOut: () => showWarningDialog(
+              context,
+              title: context.l10n.cashOut,
+              message: context.l10n.comingSoon,
+            ),
           ),
         ],
       ),
