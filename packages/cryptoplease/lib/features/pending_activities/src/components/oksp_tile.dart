@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_amount.dart';
@@ -38,5 +39,14 @@ class OSKPTile extends StatelessWidget {
         ),
         leading: Assets.icons.outgoing.svg(),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
+      );
+}
+
+extension on OSKPPendingActivity {
+  bool canCancel() => data.status.maybeMap(
+        txCreated: T,
+        txSent: T,
+        linksReady: T,
+        orElse: F,
       );
 }
