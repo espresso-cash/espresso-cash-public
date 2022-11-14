@@ -1,8 +1,8 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../core/tokens/token.dart';
 import 'data/coingecko_client.dart';
-import 'market_token.dart';
 
 @injectable
 class MarketDetailsRepository {
@@ -12,7 +12,7 @@ class MarketDetailsRepository {
 
   final MarketsCoingeckoClient _coingeckoClient;
 
-  AsyncResult<List<CoingeckoToken>> getTopMarketTokens({
+  AsyncResult<Map<Token, double>> getTopMarketTokens({
     required String currency,
     required int noOfTokens,
   }) async =>
@@ -26,6 +26,8 @@ class MarketDetailsRepository {
           )
           .toEither()
           .mapAsync(
-            (response) => response.map((e) => e.fromCoingecko()).toList(),
+            (response) => {
+              for (var e in response) e.fromCoingecko(): e.currentPrice ?? 0
+            },
           );
 }

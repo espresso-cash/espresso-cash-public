@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../core/currency.dart';
 import '../../../core/flow.dart';
-import 'market_token.dart';
+import '../../../core/tokens/token.dart';
 import 'repository.dart';
 
 part 'market_bloc.freezed.dart';
@@ -48,4 +48,4 @@ class MarketEvent with _$MarketEvent {
   const factory MarketEvent.fetched() = MarketEventFetch;
 }
 
-typedef MarketDetailsState = Flow<Exception, List<CoingeckoToken>>;
+typedef MarketDetailsState = Flow<Exception, Map<Token, double>>;

@@ -7,7 +7,6 @@ import 'package:retrofit/retrofit.dart';
 
 import '../../../../config.dart';
 import '../../../../core/tokens/token.dart';
-import '../market_token.dart';
 
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
@@ -57,7 +56,7 @@ class MarketsResponseDto with _$MarketsResponseDto {
 }
 
 extension MarketsResponseDtoExt on MarketsResponseDto {
-  CoingeckoToken fromCoingecko() => CoingeckoToken(
+  Token fromCoingecko() => Token(
         chainId: currentChainId,
         address: id ?? '',
         symbol: symbol?.toUpperCase() ?? '',
@@ -66,7 +65,5 @@ extension MarketsResponseDtoExt on MarketsResponseDto {
         logoURI: image,
         tags: const [],
         extensions: Extensions(coingeckoId: id),
-        currentPrice: currentPrice ?? 0,
-        marketCapRank: marketCapRank ?? 0,
       );
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/presentation/format_amount.dart';
+import '../../../../../core/tokens/token.dart';
 import '../../../../../core/user_preferences.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../routes.gr.dart';
@@ -13,7 +14,11 @@ import '../../../../../ui/token_icon.dart';
 import '../../di.dart';
 import '../../ui/loader.dart';
 import 'src/market_bloc.dart';
-import 'src/market_token.dart';
+
+final _defaultTokens = [
+  Token.sol,
+  Token.usdc,
+];
 
 class PopularTokenList extends StatelessWidget {
   const PopularTokenList({super.key});
@@ -35,10 +40,14 @@ class PopularTokenList extends StatelessWidget {
             return state.when(
               initial: () => loader,
               processing: () => loader,
-              failure: (_) => loader, // Update
+              failure: (_) => SliverList(
+                delegate: SliverChildListDelegate(
+                  _defaultTokens.map((e) => _TokenItem(e, 0.0)).toList(),
+                ),
+              ),
               success: (data) => SliverList(
                 delegate: SliverChildListDelegate(
-                  data.map(_TokenItem.new).toList(),
+                  data.entries.map((e) => _TokenItem(e.key, e.value)).toList(),
                 ),
               ),
             );
@@ -48,8 +57,10 @@ class PopularTokenList extends StatelessWidget {
 }
 
 class _TokenItem extends StatelessWidget {
-  const _TokenItem(this.token);
-  final CoingeckoToken token;
+  const _TokenItem(this.token, this.currentPrice);
+
+  final Token token;
+  final double currentPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +69,7 @@ class _TokenItem extends StatelessWidget {
 
     final Amount tokenRate = Amount.fromDecimal(
       currency: fiatCurrency,
-      value: Decimal.parse(token.currentPrice.toString()),
+      value: Decimal.parse(currentPrice.toString()),
     );
 
     return Container(
