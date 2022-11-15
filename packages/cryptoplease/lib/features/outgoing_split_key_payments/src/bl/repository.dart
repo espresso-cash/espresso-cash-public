@@ -51,7 +51,6 @@ class OSKPRepository {
 
 class OSKPRows extends Table with AmountMixin, EntityMixin {
   IntColumn get status => intEnum<OSKPStatusDto>()();
-  IntColumn get cancelStatus => intEnum<OSKPCancelStatusDto>().nullable()();
 
   // Status fields
   TextColumn get tx => text().nullable()();
@@ -72,16 +71,6 @@ enum OSKPStatusDto {
   txSendFailure,
   txWaitFailure,
   txLinksFailure,
-  cancel,
-}
-
-enum OSKPCancelStatusDto {
-  txCreated,
-  txSent,
-  txSendFailure,
-  txWaitFailure,
-  success,
-  txFailure,
 }
 
 extension OSKPRowExt on OSKPRow {
@@ -130,30 +119,6 @@ extension on OSKPStatusDto {
         return OSKPStatus.txWaitFailure(txId!, escrow: escrow!);
       case OSKPStatusDto.txLinksFailure:
         return OSKPStatus.txLinksFailure(escrow: escrow!);
-      case OSKPStatusDto.cancel:
-        return OSKPStatus.cancel(
-          escrow: escrow!,
-          cancelStatus: row.cancelStatus!.toOSKPCancelStatus(tx),
-        );
-    }
-  }
-}
-
-extension on OSKPCancelStatusDto {
-  OSKPCancelStatus toOSKPCancelStatus(SignedTx? tx) {
-    switch (this) {
-      case OSKPCancelStatusDto.txCreated:
-        return OSKPCancelStatus.txCreated(tx!);
-      case OSKPCancelStatusDto.txSent:
-        return OSKPCancelStatus.txSent(tx!);
-      case OSKPCancelStatusDto.txSendFailure:
-        return OSKPCancelStatus.txSendFailure(tx!);
-      case OSKPCancelStatusDto.txWaitFailure:
-        return OSKPCancelStatus.txWaitFailure(tx!);
-      case OSKPCancelStatusDto.success:
-        return OSKPCancelStatus.success(tx!.id);
-      case OSKPCancelStatusDto.txFailure:
-        return const OSKPCancelStatus.txFailure();
     }
   }
 }
@@ -171,7 +136,6 @@ extension on OutgoingSplitKeyPayment {
         link1: status.toLink1(),
         link2: status.toLink2(),
         txFailureReason: status.toTxFailureReason(),
-        cancelStatus: status.toCancelDto(),
       );
 }
 
@@ -186,18 +150,6 @@ extension on OSKPStatus {
         txSendFailure: always(OSKPStatusDto.txSendFailure),
         txWaitFailure: always(OSKPStatusDto.txWaitFailure),
         txLinksFailure: always(OSKPStatusDto.txLinksFailure),
-        cancel: always(OSKPStatusDto.cancel),
-      );
-
-  OSKPCancelStatusDto? toCancelDto() => mapOrNull(
-        cancel: (c) => c.cancelStatus.map(
-          txCreated: always(OSKPCancelStatusDto.txCreated),
-          txSent: always(OSKPCancelStatusDto.txSent),
-          txSendFailure: always(OSKPCancelStatusDto.txSendFailure),
-          txWaitFailure: always(OSKPCancelStatusDto.txWaitFailure),
-          success: always(OSKPCancelStatusDto.success),
-          txFailure: always(OSKPCancelStatusDto.txFailure),
-        ),
       );
 
   String? toTx() => mapOrNull(
@@ -227,8 +179,6 @@ extension on OSKPStatus {
         txWaitFailure: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
         txLinksFailure: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        cancel: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
       );
 

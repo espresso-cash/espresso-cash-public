@@ -70,22 +70,4 @@ class OSKPStatus with _$OSKPStatus {
   const factory OSKPStatus.txLinksFailure({
     required Ed25519HDKeyPair escrow,
   }) = OSKPStatusTxLinksFailure;
-
-  const factory OSKPStatus.cancel({
-    required Ed25519HDKeyPair escrow,
-    required OSKPCancelStatus cancelStatus,
-  }) = OSKPStatusTxCanceled;
-}
-
-@freezed
-class OSKPCancelStatus with _$OSKPCancelStatus {
-  const factory OSKPCancelStatus.txCreated(SignedTx tx) =
-      OSKPCancelStatusTxCreated;
-  const factory OSKPCancelStatus.txSent(SignedTx tx) = OSKPCancelStatusTxSent;
-  const factory OSKPCancelStatus.txSendFailure(SignedTx tx) =
-      OSKPCancelStatusTxSent;
-  const factory OSKPCancelStatus.txWaitFailure(SignedTx tx) =
-      OSKPCancelStatusTxWaitFailure;
-  const factory OSKPCancelStatus.success(String txId) = OSKPCancelStatusSucess;
-  const factory OSKPCancelStatus.txFailure() = OSKPCancelStatusTxFailure;
 }
