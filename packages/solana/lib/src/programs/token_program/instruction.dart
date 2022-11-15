@@ -191,6 +191,9 @@ class TokenInstruction extends Instruction {
       );
 
   /// Sets a new authority of a mint or account.
+  ///
+  /// The [newAuthority] is optional and can be used to specify a new
+  /// authority for this token.
   factory TokenInstruction.setAuthority({
     required Ed25519HDPublicKey mintOrAccount,
     required Ed25519HDPublicKey currentAuthority,
