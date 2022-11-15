@@ -257,4 +257,17 @@ void main() {
       completes,
     );
   });
+
+  test('Set Authority having no new authority', () async {
+    final instruction = TokenInstruction.setAuthority(
+      mintOrAccount: mint.publicKey,
+      authorityType: AuthorityType.mintTokens,
+      currentAuthority: mintAuthority.publicKey,
+    );
+
+    expect(
+      sendMessage(Message.only(instruction), [mintAuthority]),
+      completes,
+    );
+  });
 }

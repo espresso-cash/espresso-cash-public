@@ -195,7 +195,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mintOrAccount,
     required Ed25519HDPublicKey currentAuthority,
     required AuthorityType authorityType,
-    required Ed25519HDPublicKey newAuthority,
+    Ed25519HDPublicKey? newAuthority,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
@@ -212,7 +212,10 @@ class TokenInstruction extends Instruction {
         data: ByteArray.merge([
           TokenProgram.setAuthorityInstructionIndex,
           ByteArray.u32(authorityType.value),
-          newAuthority.toByteArray(),
+          if (newAuthority != null)
+            newAuthority.toByteArray()
+          else
+            ByteArray(List<int>.filled(32, 0)),
         ]),
       );
 
