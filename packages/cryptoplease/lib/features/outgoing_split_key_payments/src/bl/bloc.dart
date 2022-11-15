@@ -109,6 +109,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
         escrow: status.escrow,
         token: payment.amount.token,
       ),
+      cancel: (status) async => status,
     );
 
     await _repository.save(payment.copyWith(status: newStatus));
@@ -125,6 +126,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
       txSendFailure: ignore,
       txWaitFailure: ignore,
       txLinksFailure: ignore,
+      cancel: ignore,
     );
   }
 
