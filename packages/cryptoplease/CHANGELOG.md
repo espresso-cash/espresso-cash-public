@@ -1,3 +1,8 @@
+## 1.54.0
+
+ - **FEAT**: hide transactions tab behind FF (#623).
+ - **FEAT**: remove ftx from off ramp flow (#608).
+
 ## 1.53.0
 
  - **FEAT**: add transaction tab to activity screen (#544).
