@@ -2,6 +2,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/accounts/bl/accounts_bloc.dart';
+import 'package:cryptoplease/core/accounts/bl/mnemonic.dart';
 import 'package:cryptoplease/core/file_manager.dart';
 import 'package:cryptoplease/core/wallet.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -82,7 +83,12 @@ Future<void> main() async {
     },
     build: () => AccountsBloc(storage: storage, fileManager: fileManager),
     act: (b) {
-      b.add(AccountsEvent.created(mnemonic: mnemonic, account: testAccount));
+      b.add(
+        AccountsEvent.created(
+          mnemonic: Mnemonic.generated(mnemonic),
+          account: testAccount,
+        ),
+      );
     },
     expect: () => [
       const AccountsState(isProcessing: true),
