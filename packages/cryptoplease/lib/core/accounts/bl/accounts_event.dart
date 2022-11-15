@@ -8,7 +8,7 @@ class AccountsEvent with _$AccountsEvent {
 
   const factory AccountsEvent.created({
     required MyAccount account,
-    required Seed mnemonic,
+    required Mnemonic mnemonic,
   }) = Created;
 
   const factory AccountsEvent.profileUpdated({

@@ -12,7 +12,7 @@ import 'package:path/path.dart';
 import '../../file_manager.dart';
 import '../../wallet.dart';
 import 'account.dart';
-import 'seed.dart';
+import 'mnemonic.dart';
 
 part 'accounts_bloc.freezed.dart';
 part 'accounts_event.dart';

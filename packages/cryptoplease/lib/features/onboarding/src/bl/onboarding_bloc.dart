@@ -8,7 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../../core/accounts/bl/seed.dart';
+import '../../../../core/accounts/bl/mnemonic.dart';
 import '../../../../core/file_manager.dart';
 import '../../../../core/processing_state.dart';
 import '../../../../core/wallet.dart';
@@ -34,14 +34,14 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
           );
 
   Future<void> _onPhraseRequested(Emitter<OnboardingState> emit) async {
-    emit(state.copyWith(seed: Seed.generated(bip39.generateMnemonic())));
+    emit(state.copyWith(seed: Mnemonic.generated(bip39.generateMnemonic())));
   }
 
   Future<void> _onPhraseUpdated(
     OnboardingPhraseUpdated event,
     Emitter<OnboardingState> emit,
   ) async {
-    emit(state.copyWith(seed: Seed.typed(event.phrase)));
+    emit(state.copyWith(seed: Mnemonic.typed(event.phrase)));
   }
 
   Future<void> _onSubmitted(
@@ -73,7 +73,7 @@ bool validateMnemonic(String mnemonic) => bip39.validateMnemonic(mnemonic);
 @freezed
 class OnboardingState with _$OnboardingState {
   const factory OnboardingState({
-    @Default(Seed.empty()) Seed seed,
+    @Default(Mnemonic.empty()) Mnemonic seed,
     @Default(ProcessingStateNone<Exception>())
         ProcessingState<Exception> processingState,
   }) = _OnboardingState;
