@@ -142,6 +142,8 @@ extension on OSKPStatusDto {
 extension on OSKPCancelStatusDto {
   OSKPCancelStatus toOSKPCancelStatus(SignedTx? tx) {
     switch (this) {
+      case OSKPCancelStatusDto.txCreated:
+        return OSKPCancelStatus.txCreated(tx!);
       case OSKPCancelStatusDto.txSent:
         return OSKPCancelStatus.txSent(tx!);
       case OSKPCancelStatusDto.txSendFailure:
@@ -189,6 +191,7 @@ extension on OSKPStatus {
 
   OSKPCancelStatusDto? toCancelDto() => mapOrNull(
         cancel: (c) => c.cancelStatus.map(
+          txCreated: always(OSKPCancelStatusDto.txCreated),
           txSent: always(OSKPCancelStatusDto.txSent),
           txSendFailure: always(OSKPCancelStatusDto.txSendFailure),
           txWaitFailure: always(OSKPCancelStatusDto.txWaitFailure),
