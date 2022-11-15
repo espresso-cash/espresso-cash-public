@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -11,6 +12,7 @@ import 'package:path/path.dart';
 import '../../file_manager.dart';
 import '../../wallet.dart';
 import 'account.dart';
+import 'seed.dart';
 
 part 'accounts_bloc.freezed.dart';
 part 'accounts_event.dart';
@@ -49,7 +51,15 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     emit(state.copyWith(isProcessing: true));
     try {
       final account = await _fileManager.loadAccount(_storage);
-      emit(state.copyWith(account: account, isProcessing: false));
+      final accessMode = account?.let(always(const AccessMode.loaded()));
+
+      emit(
+        state.copyWith(
+          account: account,
+          isProcessing: false,
+          accessMode: accessMode,
+        ),
+      );
     } on Exception {
       emit(state.copyWith(isProcessing: false));
     }
@@ -57,13 +67,25 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
   Future<void> _onCreated(Created event, Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
-    await _storage.write(key: mnemonicKey, value: event.mnemonic);
+    await _storage.write(key: mnemonicKey, value: event.mnemonic.phrase);
 
     await _saveNameAndPhoto(
       name: event.account.firstName,
       photo: event.account.photoPath,
     );
-    emit(state.copyWith(account: event.account, isProcessing: false));
+
+    final accessMode = event.mnemonic.whenOrNull(
+      typed: always(const AccessMode.seedInputted()),
+      generated: always(const AccessMode.created()),
+    );
+
+    emit(
+      state.copyWith(
+        account: event.account,
+        isProcessing: false,
+        accessMode: accessMode,
+      ),
+    );
   }
 
   Future<void> _onLoggedOut(Emitter<AccountsState> emit) async {
@@ -86,6 +108,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
           photoPath: photo?.path,
         ),
         isProcessing: false,
+        accessMode: state.accessMode,
       ),
     );
   }
