@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
-import '../../../../di.dart';
 import '../../../../features/investments_settings/module.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
@@ -32,7 +31,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
             BlocBuilder<BalancesBloc, BalancesState>(
           builder: (context, state) {
             final hideZeroBalances =
-                sl<InvestmentSettingsRepository>().hideZeroBalances;
+                context.watch<InvestmentSettingsRepository>().hideZeroBalances;
 
             return RefreshIndicator(
               displacement: 80,
