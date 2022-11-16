@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 
+import '../../../features/activities/src/oskp_cancel_screen.dart';
 import '../../../features/app_lock/routes.dart';
 import '../../../features/backup_phrase/routes.dart';
 import '../../../features/incoming_split_key_payments/routes.dart';
@@ -38,6 +39,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
           ],
         ),
         CustomRoute<void>(page: ActivitiesScreen, maintainState: false),
+        CustomRoute<void>(page: OSKPCancelScreen, maintainState: false),
       ],
     ),
     ...backupPhraseRoutes,
