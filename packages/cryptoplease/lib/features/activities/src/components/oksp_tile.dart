@@ -36,7 +36,9 @@ class OSKPTile extends StatelessWidget {
         ),
         subtitle: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 4),
             Text(
               context.formatDate(activity.created),
               style: subtitleStyle,
@@ -44,6 +46,7 @@ class OSKPTile extends StatelessWidget {
             if (activity.isCancelable)
               CpButton(
                 text: 'Cancel',
+                size: CpButtonSize.micro,
                 onPressed: () => context.router.push(
                   OSKPCancelRoute(payment: activity.data),
                 ),

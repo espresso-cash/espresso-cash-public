@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 
-import '../../../features/activities/src/oskp_cancel_screen.dart';
 import '../../../features/app_lock/routes.dart';
 import '../../../features/backup_phrase/routes.dart';
 import '../../../features/incoming_split_key_payments/routes.dart';
@@ -11,6 +10,7 @@ import '../../../features/qr_scanner/routes.dart';
 import '../../../features/ramp/routes.dart';
 import '../../../features/token_details/token_details_screen.dart';
 import 'activities/activities_screen.dart';
+import 'activities/oskp_cancel_screen.dart';
 import 'authenticated_flow_screen.dart';
 import 'home_screen.dart';
 import 'investments/investments_screen.dart';
@@ -39,7 +39,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
           ],
         ),
         CustomRoute<void>(page: ActivitiesScreen, maintainState: false),
-        CustomRoute<void>(page: OSKPCancelScreen, maintainState: false),
       ],
     ),
     ...backupPhraseRoutes,
@@ -53,5 +52,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),
     AutoRoute<void>(page: HelpScreen),
+    CustomRoute<void>(page: OSKPCancelScreen, maintainState: false),
   ],
 );
