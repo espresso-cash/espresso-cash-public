@@ -8,6 +8,7 @@ import '../../di.dart';
 import 'src/bl/iskp_bloc.dart';
 import 'src/presentation/pending_iskp_listener.dart';
 
+export 'src/bl/incoming_split_key_payment.dart';
 export 'src/bl/iskp_repository.dart';
 
 class ISKPModule extends SingleChildStatelessWidget {

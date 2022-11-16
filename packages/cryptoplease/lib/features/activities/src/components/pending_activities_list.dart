@@ -6,6 +6,7 @@ import '../../../../di.dart';
 import '../../../outgoing_split_key_payments/module.dart';
 import '../activity.dart';
 import '../pending_activities_repository.dart';
+import 'iskp_tile.dart';
 import 'no_activity.dart';
 import 'odp_tile.dart';
 import 'oksp_tile.dart';
@@ -54,6 +55,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                       final item = snapshot.data![i];
 
                       return item.map(
+                        incomingSplitKeyPayment: (p) => ISKPTile(
+                          key: ValueKey(p.id),
+                          activity: p,
+                        ),
                         outgoingPaymentRequest: (p) => PaymentRequestTile(
                           key: ValueKey(p.id),
                           id: p.id,

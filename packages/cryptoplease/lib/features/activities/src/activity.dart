@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../incoming_split_key_payments/module.dart';
 import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_split_key_payments/module.dart';
 
@@ -23,4 +24,10 @@ class Activity with _$Activity {
     required DateTime created,
     required OutgoingSplitKeyPayment data,
   }) = OSKPActivity;
+
+  const factory Activity.incomingSplitKeyPayment({
+    required String id,
+    required DateTime created,
+    required IncomingSplitKeyPayment data,
+  }) = ISKPActivity;
 }
