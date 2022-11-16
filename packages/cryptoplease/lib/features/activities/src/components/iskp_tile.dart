@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../routes.gr.dart';
+import '../../../../ui/activity_tile.dart';
 import '../activity.dart';
-import 'styles.dart';
 
 class ISKPTile extends StatelessWidget {
   const ISKPTile({super.key, required this.activity});
@@ -14,30 +14,10 @@ class ISKPTile extends StatelessWidget {
 
   // TODO(rhbrunetto): not ready
   @override
-  Widget build(BuildContext context) => ListTile(
-        title: Row(
-          children: const [
-            Expanded(
-              child: Text(
-                'Received via link',
-                style: titleStyle,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-        subtitle: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Text(
-              context.formatDate(activity.created),
-              style: subtitleStyle,
-            ),
-          ],
-        ),
-        leading: Assets.icons.outgoing.svg(),
+  Widget build(BuildContext context) => ActivityTile(
+        title: 'Received via link',
+        subtitle: context.formatDate(activity.created),
+        icon: Assets.icons.outgoing.svg(),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );
 }

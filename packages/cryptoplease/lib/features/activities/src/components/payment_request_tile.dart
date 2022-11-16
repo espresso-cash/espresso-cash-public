@@ -8,9 +8,9 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
+import '../../../../ui/activity_tile.dart';
 import '../../../../ui/colors.dart';
 import '../../../payment_request/module.dart';
-import 'styles.dart';
 
 class PaymentRequestTile extends StatefulWidget {
   const PaymentRequestTile({
@@ -40,17 +40,14 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
           final data = snapshot.data;
 
           if (data == null) {
-            return ListTile(
+            return ActivityTile(
               key: ValueKey(widget.id),
-              leading: CircleAvatar(
+              icon: CircleAvatar(
                 radius: 21,
                 child: Assets.icons.incoming.svg(),
               ),
-              title: const Text('', style: titleStyle),
-              subtitle: Text(
-                context.l10n.paymentRequestNotificationSubtitle,
-                style: subtitleStyle,
-              ),
+              title: '',
+              subtitle: context.l10n.paymentRequestNotificationSubtitle,
             );
           }
 
@@ -81,19 +78,16 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
             key: ValueKey(widget.id),
             create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
             lazy: false,
-            child: ListTile(
+            child: ActivityTile(
               onTap: () =>
                   context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
-              leading: CircleAvatar(
+              icon: CircleAvatar(
                 radius: 21,
                 backgroundColor: CpColors.yellowColor,
                 child: Assets.icons.incoming.svg(),
               ),
-              title: Text(title(), style: titleStyle),
-              subtitle: Text(
-                context.formatDate(data.created),
-                style: subtitleStyle,
-              ),
+              title: title(),
+              subtitle: context.formatDate(data.created),
             ),
           );
         },

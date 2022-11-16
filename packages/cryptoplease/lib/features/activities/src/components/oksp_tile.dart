@@ -6,8 +6,8 @@ import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../routes.gr.dart';
+import '../../../../ui/activity_tile.dart';
 import '../activity.dart';
-import 'styles.dart';
 
 class OSKPTile extends StatelessWidget {
   const OSKPTile({super.key, required this.activity});
@@ -15,28 +15,12 @@ class OSKPTile extends StatelessWidget {
   final OSKPActivity activity;
 
   @override
-  Widget build(BuildContext context) => ListTile(
-        title: Row(
-          children: [
-            const Expanded(
-              child: Text(
-                'Sent via link',
-                style: titleStyle,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
-              style: titleStyle,
-            )
-          ],
-        ),
-        subtitle: Text(
-          context.formatDate(activity.created),
-          style: subtitleStyle,
-        ),
-        leading: Assets.icons.outgoing.svg(),
+  Widget build(BuildContext context) => ActivityTile(
+        title: 'Sent via link',
+        amount:
+            '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
+        subtitle: context.formatDate(activity.created),
+        icon: Assets.icons.outgoing.svg(),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );
 }
