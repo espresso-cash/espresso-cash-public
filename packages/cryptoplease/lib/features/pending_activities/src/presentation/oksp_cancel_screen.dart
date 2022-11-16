@@ -25,12 +25,3 @@ class _OSKPCancelScreenState extends State<OSKPCancelScreen> {
         body: Container(),
       );
 }
-
-class _RevertSecondPart extends StatelessWidget {
-  const _RevertSecondPart({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Container(
-        child: const Text('Reverting second part'),
-      );
-}

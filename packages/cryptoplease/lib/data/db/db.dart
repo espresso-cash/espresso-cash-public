@@ -6,6 +6,7 @@ import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
 import '../../features/payment_request/module.dart';
+import '../../features/pending_activities/module.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';
@@ -19,7 +20,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 19;
+const int latestVersion = 20;
 
 const _tables = [
   OutgoingTransferRows,
@@ -27,6 +28,7 @@ const _tables = [
   ODPRows,
   OSKPRows,
   ISKPRows,
+  OSKPCancelRows,
 ];
 
 @lazySingleton
@@ -73,6 +75,9 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from >= 16 && from < 19) {
             await m.addColumn(oSKPRows, oSKPRows.txFailureReason);
+          }
+          if (from < 20) {
+            await m.createTable(oSKPCancelRows);
           }
         },
       );
