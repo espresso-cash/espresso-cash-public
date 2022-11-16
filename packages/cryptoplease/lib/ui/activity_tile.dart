@@ -33,14 +33,14 @@ class ActivityTile extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: titleStyle,
+              style: _titleStyle,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           if (amount != null)
             Padding(
               padding: const EdgeInsets.only(left: 8),
-              child: Text(amount, style: titleStyle),
+              child: Text(amount, style: _titleStyle),
             ),
         ],
       ),
@@ -49,7 +49,7 @@ class ActivityTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 4),
-          Text(subtitle, style: subtitleStyle),
+          Text(subtitle, style: _subtitleStyle),
           Wrap(spacing: 14, children: actions),
         ],
       ),
@@ -57,14 +57,14 @@ class ActivityTile extends StatelessWidget {
   }
 }
 
-const titleStyle = TextStyle(
+const _titleStyle = TextStyle(
   fontSize: 16,
   letterSpacing: .23,
   color: CpColors.menuPrimaryTextColor,
   fontWeight: FontWeight.w500,
 );
 
-const subtitleStyle = TextStyle(
+const _subtitleStyle = TextStyle(
   fontSize: 14,
   color: CpColors.menuPrimaryTextColor,
   letterSpacing: .19,
