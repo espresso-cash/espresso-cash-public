@@ -91,6 +91,16 @@ class _ChartWidget extends StatelessWidget {
         titlesData: FlTitlesData(show: false),
         lineTouchData: LineTouchData(
           enabled: true,
+          touchCallback: (event, lineResponse) {
+            final selectedIndex = lineResponse?.lineBarSpots?.first.spotIndex;
+
+            if (selectedIndex == null) return;
+
+            final price = data[selectedIndex].price ?? 0;
+            final date = data[selectedIndex].date ?? 0;
+
+            print('$date - $price');
+          },
           getTouchedSpotIndicator: (
             LineChartBarData barData,
             List<int> indicators,
@@ -110,6 +120,7 @@ class _ChartWidget extends StatelessWidget {
             },
           ).toList(),
           touchTooltipData: LineTouchTooltipData(
+            fitInsideHorizontally: true,
             tooltipBgColor: CpColors.lightBackgroundColor,
             getTooltipItems: (touchedSpots) => touchedSpots.map(
               (LineBarSpot touchedSpot) {
