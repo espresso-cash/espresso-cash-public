@@ -9,6 +9,7 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
+import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../payment_request/module.dart';
 
@@ -79,8 +80,6 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
             create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
             lazy: false,
             child: ActivityTile(
-              onTap: () =>
-                  context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
               icon: CircleAvatar(
                 radius: 21,
                 backgroundColor: CpColors.yellowColor,
@@ -88,6 +87,22 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
               ),
               title: title(),
               subtitle: context.formatDate(data.created),
+              actions: [
+                CpButton(
+                  text: 'Share',
+                  minWidth: 120,
+                  size: CpButtonSize.micro,
+                  onPressed: () =>
+                      context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
+                ),
+                CpButton(
+                  text: 'Cancel',
+                  minWidth: 120,
+                  size: CpButtonSize.micro,
+                  variant: CpButtonVariant.secondary,
+                  onPressed: () {},
+                ),
+              ],
             ),
           );
         },

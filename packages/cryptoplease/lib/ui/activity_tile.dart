@@ -27,6 +27,7 @@ class ActivityTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       leading: icon,
+      isThreeLine: actions.isNotEmpty,
       title: Row(
         children: [
           Expanded(
@@ -49,7 +50,7 @@ class ActivityTile extends StatelessWidget {
         children: [
           const SizedBox(height: 4),
           Text(subtitle, style: subtitleStyle),
-          Row(children: actions),
+          Wrap(spacing: 14, children: actions),
         ],
       ),
     );

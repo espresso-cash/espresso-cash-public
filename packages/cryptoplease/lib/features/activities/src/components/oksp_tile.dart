@@ -7,6 +7,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
+import '../../../../ui/button.dart';
 import '../activity.dart';
 
 class OSKPTile extends StatelessWidget {
@@ -21,6 +22,14 @@ class OSKPTile extends StatelessWidget {
             '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
         subtitle: context.formatDate(activity.created),
         icon: Assets.icons.outgoing.svg(),
-        onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
+        actions: [
+          // TODO(rhbrunetto): add cancel after merge
+          CpButton(
+            text: 'View',
+            size: CpButtonSize.micro,
+            onPressed: () =>
+                context.router.navigate(OSKPRoute(id: activity.id)),
+          ),
+        ],
       );
 }
