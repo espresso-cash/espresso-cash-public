@@ -14,7 +14,7 @@ import '../../../outgoing_split_key_payments/module.dart';
 import 'oskp_cancel.dart';
 import 'repository.dart';
 
-part 'oskp_cancel_bloc.freezed.dart';
+part 'bloc.freezed.dart';
 
 @freezed
 class OSKPCancelException with _$OSKPCancelException implements Exception {
@@ -162,7 +162,7 @@ class OSKPCancelBloc extends Bloc<_Event, _State> {
   }
 
   Future<OSKPCancelStatus> _waitTx(SignedTx tx) async {
-    final result = await _txSender.wait(tx.id);
+    final result = await _txSender.wait(tx);
 
     return result.map(
       success: (_) => OSKPCancelStatus.success(txId: tx.id),

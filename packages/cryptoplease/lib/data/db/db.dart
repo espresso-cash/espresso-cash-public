@@ -1,13 +1,12 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/transactions/tx_sender.dart';
+import '../../core/transactions/tx_sender.dart';
 import '../../features/activities/module.dart';
 import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
 import '../../features/payment_request/module.dart';
-import '../../features/pending_activities/module.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';

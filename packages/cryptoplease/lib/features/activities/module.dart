@@ -10,6 +10,7 @@ import 'src/updater/bloc.dart';
 
 export 'src/components/pending_activities_list.dart';
 export 'src/components/transaction_list.dart';
+export 'src/oskp_cancel/repository.dart';
 export 'src/transaction.dart';
 export 'src/updater/tx_updater_repository.dart' show TransactionRows;
 
