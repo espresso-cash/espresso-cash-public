@@ -93,8 +93,6 @@ class OSKPCancelBloc extends Bloc<_Event, _State> {
     }
   }
 
-  // TODO(rhbrunetto): add a validation step, so we can make sure we're not
-  // cancelling an oskp that was already claimed
   Future<void> _onProcess(_Process event, _Emitter emit) async {
     final cancel = await _repository.load(event.id);
 

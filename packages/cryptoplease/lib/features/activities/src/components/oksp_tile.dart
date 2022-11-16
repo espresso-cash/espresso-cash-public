@@ -58,7 +58,6 @@ class OSKPTile extends StatelessWidget {
       );
 }
 
-// TODO(rhbrunetto): include cancel info on OSKPActivity (read from repo)
 extension on OSKPActivity {
   bool get isCancelable => data.status.maybeMap(
         txCreated: T,
