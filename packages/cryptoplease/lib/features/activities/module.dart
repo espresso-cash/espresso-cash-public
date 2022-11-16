@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../core/accounts/bl/account.dart';
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
+import 'src/oskp_cancel/bloc.dart';
 import 'src/updater/bloc.dart';
 
 export 'src/components/pending_activities_list.dart';
@@ -23,6 +24,11 @@ class ActivitiesModule extends SingleChildStatelessWidget {
         providers: [
           BlocProvider<TxUpdaterBloc>(
             create: (context) => sl<TxUpdaterBloc>(
+              param1: context.read<MyAccount>().wallet,
+            ),
+          ),
+          BlocProvider<OSKPCancelBloc>(
+            create: (context) => sl<OSKPCancelBloc>(
               param1: context.read<MyAccount>().wallet,
             ),
           ),
