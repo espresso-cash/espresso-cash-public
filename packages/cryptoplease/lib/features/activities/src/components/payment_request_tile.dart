@@ -89,7 +89,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
               subtitle: context.formatDate(data.created),
               actions: [
                 CpButton(
-                  text: 'Share',
+                  text: 'Remind me',
                   minWidth: 120,
                   size: CpButtonSize.micro,
                   onPressed: () =>
@@ -100,7 +100,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                   minWidth: 120,
                   size: CpButtonSize.micro,
                   variant: CpButtonVariant.secondary,
-                  onPressed: () {},
+                  onPressed: () => sl<PaymentRequestRepository>().delete(data),
                 ),
               ],
             ),
