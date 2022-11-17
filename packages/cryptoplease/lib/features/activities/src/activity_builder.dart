@@ -1,6 +1,5 @@
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
-import '../../incoming_split_key_payments/module.dart';
 import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_split_key_payments/module.dart';
 import 'activity.dart';
@@ -35,13 +34,5 @@ extension OSKPRowToActivityExt on OSKPRow {
         id: id,
         created: created,
         data: await toModel(tokens),
-      );
-}
-
-extension ISKPRowToActivityExt on ISKPRow {
-  Future<Activity> toActivity() async => Activity.incomingSplitKeyPayment(
-        id: id,
-        created: created,
-        data: await toModel(),
       );
 }

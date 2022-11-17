@@ -4,7 +4,6 @@ import '../../../../di.dart';
 import '../transaction.dart';
 import '../transaction_repository.dart';
 import 'common_tile.dart';
-import 'iskp_tile.dart';
 import 'odp_request_tile.dart';
 import 'odp_tile.dart';
 import 'oksp_tile.dart';
@@ -44,10 +43,6 @@ class _TransactionItemState extends State<TransactionItem> {
               txCommon: t,
             ),
             activity: (txActivity) => txActivity.activity.map(
-              incomingSplitKeyPayment: (p) => ISKPTile(
-                key: ValueKey(p.id),
-                activity: p,
-              ),
               outgoingPaymentRequest: (p) => PaymentRequestTile(
                 key: ValueKey(p.id),
                 id: p.id,
