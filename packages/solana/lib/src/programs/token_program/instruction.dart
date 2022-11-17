@@ -214,11 +214,12 @@ class TokenInstruction extends Instruction {
         ],
         data: ByteArray.merge([
           TokenProgram.setAuthorityInstructionIndex,
-          ByteArray.u32(authorityType.value),
-          if (newAuthority != null)
-            newAuthority.toByteArray()
-          else
-            ByteArray(List<int>.filled(32, 0)),
+          ByteArray.u8(authorityType.value),
+          if (newAuthority != null) ...[
+            ByteArray.u8(1),
+            newAuthority.toByteArray(),
+          ] else
+            ByteArray.u8(0),
         ]),
       );
 
