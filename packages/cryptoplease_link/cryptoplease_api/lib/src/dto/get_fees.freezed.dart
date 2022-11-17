@@ -22,6 +22,7 @@ GetFeesResponseDto _$GetFeesResponseDtoFromJson(Map<String, dynamic> json) {
 mixin _$GetFeesResponseDto {
   DirectPaymentFeeDto get directPayment => throw _privateConstructorUsedError;
   int get splitKeyPayment => throw _privateConstructorUsedError;
+  int get swap => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $GetFeesResponseDtoCopyWith<$Res> {
   factory $GetFeesResponseDtoCopyWith(
           GetFeesResponseDto value, $Res Function(GetFeesResponseDto) then) =
       _$GetFeesResponseDtoCopyWithImpl<$Res>;
-  $Res call({DirectPaymentFeeDto directPayment, int splitKeyPayment});
+  $Res call({DirectPaymentFeeDto directPayment, int splitKeyPayment, int swap});
 
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
 }
@@ -52,6 +53,7 @@ class _$GetFeesResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? directPayment = freezed,
     Object? splitKeyPayment = freezed,
+    Object? swap = freezed,
   }) {
     return _then(_value.copyWith(
       directPayment: directPayment == freezed
@@ -61,6 +63,10 @@ class _$GetFeesResponseDtoCopyWithImpl<$Res>
       splitKeyPayment: splitKeyPayment == freezed
           ? _value.splitKeyPayment
           : splitKeyPayment // ignore: cast_nullable_to_non_nullable
+              as int,
+      swap: swap == freezed
+          ? _value.swap
+          : swap // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -80,7 +86,7 @@ abstract class _$$_GetFeesResponseDtoCopyWith<$Res>
           $Res Function(_$_GetFeesResponseDto) then) =
       __$$_GetFeesResponseDtoCopyWithImpl<$Res>;
   @override
-  $Res call({DirectPaymentFeeDto directPayment, int splitKeyPayment});
+  $Res call({DirectPaymentFeeDto directPayment, int splitKeyPayment, int swap});
 
   @override
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
@@ -101,6 +107,7 @@ class __$$_GetFeesResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? directPayment = freezed,
     Object? splitKeyPayment = freezed,
+    Object? swap = freezed,
   }) {
     return _then(_$_GetFeesResponseDto(
       directPayment: directPayment == freezed
@@ -111,6 +118,10 @@ class __$$_GetFeesResponseDtoCopyWithImpl<$Res>
           ? _value.splitKeyPayment
           : splitKeyPayment // ignore: cast_nullable_to_non_nullable
               as int,
+      swap: swap == freezed
+          ? _value.swap
+          : swap // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -119,7 +130,9 @@ class __$$_GetFeesResponseDtoCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GetFeesResponseDto implements _GetFeesResponseDto {
   const _$_GetFeesResponseDto(
-      {required this.directPayment, required this.splitKeyPayment});
+      {required this.directPayment,
+      required this.splitKeyPayment,
+      required this.swap});
 
   factory _$_GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>
       _$$_GetFeesResponseDtoFromJson(json);
@@ -128,10 +141,12 @@ class _$_GetFeesResponseDto implements _GetFeesResponseDto {
   final DirectPaymentFeeDto directPayment;
   @override
   final int splitKeyPayment;
+  @override
+  final int swap;
 
   @override
   String toString() {
-    return 'GetFeesResponseDto(directPayment: $directPayment, splitKeyPayment: $splitKeyPayment)';
+    return 'GetFeesResponseDto(directPayment: $directPayment, splitKeyPayment: $splitKeyPayment, swap: $swap)';
   }
 
   @override
@@ -142,7 +157,8 @@ class _$_GetFeesResponseDto implements _GetFeesResponseDto {
             const DeepCollectionEquality()
                 .equals(other.directPayment, directPayment) &&
             const DeepCollectionEquality()
-                .equals(other.splitKeyPayment, splitKeyPayment));
+                .equals(other.splitKeyPayment, splitKeyPayment) &&
+            const DeepCollectionEquality().equals(other.swap, swap));
   }
 
   @JsonKey(ignore: true)
@@ -150,7 +166,8 @@ class _$_GetFeesResponseDto implements _GetFeesResponseDto {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(directPayment),
-      const DeepCollectionEquality().hash(splitKeyPayment));
+      const DeepCollectionEquality().hash(splitKeyPayment),
+      const DeepCollectionEquality().hash(swap));
 
   @JsonKey(ignore: true)
   @override
@@ -169,7 +186,8 @@ class _$_GetFeesResponseDto implements _GetFeesResponseDto {
 abstract class _GetFeesResponseDto implements GetFeesResponseDto {
   const factory _GetFeesResponseDto(
       {required final DirectPaymentFeeDto directPayment,
-      required final int splitKeyPayment}) = _$_GetFeesResponseDto;
+      required final int splitKeyPayment,
+      required final int swap}) = _$_GetFeesResponseDto;
 
   factory _GetFeesResponseDto.fromJson(Map<String, dynamic> json) =
       _$_GetFeesResponseDto.fromJson;
@@ -178,6 +196,8 @@ abstract class _GetFeesResponseDto implements GetFeesResponseDto {
   DirectPaymentFeeDto get directPayment;
   @override
   int get splitKeyPayment;
+  @override
+  int get swap;
   @override
   @JsonKey(ignore: true)
   _$$_GetFeesResponseDtoCopyWith<_$_GetFeesResponseDto> get copyWith =>
