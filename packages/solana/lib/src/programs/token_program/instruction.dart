@@ -191,11 +191,14 @@ class TokenInstruction extends Instruction {
       );
 
   /// Sets a new authority of a mint or account.
+  ///
+  /// The [newAuthority] is optional and can be used to specify a new
+  /// authority for this token.
   factory TokenInstruction.setAuthority({
     required Ed25519HDPublicKey mintOrAccount,
     required Ed25519HDPublicKey currentAuthority,
     required AuthorityType authorityType,
-    required Ed25519HDPublicKey newAuthority,
+    Ed25519HDPublicKey? newAuthority,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
   }) =>
       TokenInstruction._(
@@ -211,8 +214,12 @@ class TokenInstruction extends Instruction {
         ],
         data: ByteArray.merge([
           TokenProgram.setAuthorityInstructionIndex,
-          ByteArray.u32(authorityType.value),
-          newAuthority.toByteArray(),
+          ByteArray.u8(authorityType.value),
+          if (newAuthority != null) ...[
+            ByteArray.u8(1),
+            newAuthority.toByteArray(),
+          ] else
+            ByteArray.u8(0),
         ]),
       );
 
