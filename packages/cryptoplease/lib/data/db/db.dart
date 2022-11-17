@@ -29,7 +29,7 @@ const _tables = [
   OSKPRows,
   ISKPRows,
   TransactionRows,
-  SolanaPayRows,
+  ODPRequestRows,
 ];
 
 @lazySingleton
@@ -85,7 +85,7 @@ class MyDatabase extends _$MyDatabase {
           }
 
           if (from < 21) {
-            await m.createTable(solanaPayRows);
+            await m.createTable(odpRequestRows);
           }
         },
       );

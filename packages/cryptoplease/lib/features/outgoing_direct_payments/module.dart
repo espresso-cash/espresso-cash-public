@@ -8,9 +8,9 @@ import '../../di.dart';
 import 'src/bl/bloc.dart';
 import 'src/presentation/link_listener.dart';
 
+export 'src/bl/odp_request_repository.dart';
 export 'src/bl/outgoing_direct_payment.dart';
 export 'src/bl/repository.dart';
-export 'src/bl/solana_pay_repository.dart';
 export 'src/presentation/build_context_ext.dart';
 
 class ODPModule extends SingleChildStatelessWidget {

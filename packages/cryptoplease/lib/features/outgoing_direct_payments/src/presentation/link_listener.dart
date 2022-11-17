@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../config.dart';
-import '../../../../core/amount.dart';
-import '../../../../core/currency.dart';
 import '../../../../core/dynamic_links_notifier.dart';
-import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token.dart';
-import '../../../../l10n/device_locale.dart';
-import '../../../../routes.gr.dart';
-import 'build_context_ext.dart';
+import 'odp_request_flow.dart';
 
 class ODPLinkListener extends StatefulWidget {
   const ODPLinkListener({super.key, required this.child});
@@ -46,31 +40,16 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
   }
 
   Future<void> _processSolanaPayRequest(SolanaPayRequest request) async {
-    final amount = Amount.fromDecimal(
-      value: request.amount ?? Decimal.zero,
-      currency: Currency.usdc,
-    );
-    final formatted = amount.value == 0
-        ? ''
-        : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
-
-    final confirmedAmount = await context.router.push<Decimal>(
-      ODPConfirmationRoute(
-        initialAmount: formatted,
-        recipient: request.recipient,
-        label: request.label,
-        token: Token.usdc,
-        isEnabled: amount.value == 0,
-      ),
-    );
-    if (confirmedAmount == null) return;
-    if (!mounted) return;
-
-    context.createAndOpenDirectPayment(
-      amountInUsdc: confirmedAmount,
+    final odpRequest = await createAndSaveODPRequest(
+      amountInUsdc: request.amount ?? Decimal.zero,
       receiver: request.recipient,
       reference: request.reference?.firstOrNull,
+      label: request.label,
     );
+
+    if (!mounted) return;
+
+    await context.confirmODPRequest(odpRequest);
   }
 
   @override
