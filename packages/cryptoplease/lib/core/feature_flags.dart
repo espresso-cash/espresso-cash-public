@@ -1,7 +1,7 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@lazySingleton
 class FeatureFlagsManager {
   FeatureFlagsManager() {
     _init();
