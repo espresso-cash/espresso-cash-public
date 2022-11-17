@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,6 +64,13 @@ Future<void> _start() async {
     await const FlutterSecureStorage().deleteAll();
   }
   await sharedPreferences.setBool(_firstRunKey, true);
+
+  await Intercom.instance.initialize(
+    intercomAppId,
+    iosApiKey: intercomIosKey,
+    androidApiKey: intercomAndroidKey,
+  );
+  await Intercom.instance.loginUnidentifiedUser();
 
   final app = MultiProvider(
     providers: [
