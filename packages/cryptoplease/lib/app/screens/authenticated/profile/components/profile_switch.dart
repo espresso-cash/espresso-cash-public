@@ -43,6 +43,7 @@ class ProfileSwitch extends StatelessWidget {
             )
           : null,
       trailing: CupertinoSwitch(
+        //TODO update to CpSwitch when merged
         value: value,
         onChanged: onChanged,
         thumbColor: value ? const Color(0xffFCC829) : Colors.white,
