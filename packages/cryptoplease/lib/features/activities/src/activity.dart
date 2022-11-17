@@ -30,4 +30,10 @@ class Activity with _$Activity {
     required DateTime created,
     required IncomingSplitKeyPayment data,
   }) = ISKPActivity;
+
+  const factory Activity.outgoingDirectPaymentRequest({
+    required String id,
+    required DateTime created,
+    required ODPRequest data,
+  }) = ODPRequestActivity;
 }

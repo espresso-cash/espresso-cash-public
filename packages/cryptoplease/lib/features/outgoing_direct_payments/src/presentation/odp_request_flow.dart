@@ -12,9 +12,8 @@ import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../routes.gr.dart';
 import '../../module.dart';
-import '../bl/odp_request.dart';
 
-extension ConfirmOdpRequestExt on BuildContext {
+extension ODPRequestConfirmExt on BuildContext {
   Future<void> confirmODPRequest(ODPRequest request) async {
     final formatted = request.amount.value == 0
         ? ''
@@ -63,4 +62,8 @@ Future<ODPRequest> createAndSaveODPRequest({
   await sl<ODPRequestRepository>().save(request);
 
   return request;
+}
+
+Future<void> declineODPRequest(ODPRequest request) async {
+  await sl<ODPRequestRepository>().delete(request);
 }

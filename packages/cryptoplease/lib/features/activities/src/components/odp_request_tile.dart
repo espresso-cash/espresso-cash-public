@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/presentation/format_date.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/activity_tile.dart';
+import '../../../../ui/button.dart';
+import '../../../outgoing_direct_payments/module.dart';
+import '../activity.dart';
+
+class ODPRequestTile extends StatelessWidget {
+  const ODPRequestTile({super.key, required this.activity});
+
+  final ODPRequestActivity activity;
+
+  @override
+  Widget build(BuildContext context) => ActivityTile(
+        title: context.l10n.odpRequestTitle(
+          activity.data.amount.format(DeviceLocale.localeOf(context)),
+          activity.data.label ?? '',
+        ),
+        subtitle: context.formatDate(activity.created),
+        icon: Assets.icons.outgoing.svg(),
+        actions: [
+          CpButton(
+            text: 'Pay',
+            minWidth: 120,
+            onPressed: () => context.confirmODPRequest(activity.data),
+          ),
+          CpButton(
+            text: 'Decline',
+            minWidth: 120,
+            variant: CpButtonVariant.inverted,
+            onPressed: () => declineODPRequest(activity.data),
+          ),
+        ],
+      );
+}

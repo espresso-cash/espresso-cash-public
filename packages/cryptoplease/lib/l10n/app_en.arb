@@ -337,5 +337,16 @@
         "type": "String"
       }
     }
+  },
+  "odpRequestTitle": "Request for {amount} for {payer}",
+  "@odpRequestTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "payer": {
+        "type": "String"
+      }
+    }
   }
 }

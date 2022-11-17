@@ -5,6 +5,15 @@ import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_split_key_payments/module.dart';
 import 'activity.dart';
 
+extension ODPRequestRowToActivityExt on ODPRequestRow {
+  Activity toActivity(TokenList tokens) =>
+      Activity.outgoingDirectPaymentRequest(
+        id: id,
+        created: created,
+        data: toModel(tokens),
+      );
+}
+
 extension PaymentRequestRowToActivityExt on PaymentRequestRow {
   Activity toActivity() => Activity.outgoingPaymentRequest(
         id: id,
