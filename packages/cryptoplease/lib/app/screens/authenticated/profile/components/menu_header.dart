@@ -16,6 +16,7 @@ import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/icon_button.dart';
+import 'off_ramp_bottom_sheet.dart';
 
 class MenuHeader extends StatelessWidget {
   const MenuHeader({
@@ -60,7 +61,7 @@ class MenuHeader extends StatelessWidget {
                 token: Token.usdc,
               ),
             ),
-            onCashOut: () => context.router.navigate(const OffRampRoute()),
+            onCashOut: () => OffRampBottomSheet.show(context),
           ),
         ],
       ),
