@@ -79,7 +79,7 @@ class OnboardingState with _$OnboardingState {
   }) = _OnboardingState;
 }
 
-extension OnbardingStateExt on OnboardingState {
+extension OnboardingStateExt on OnboardingState {
   String get phrase => seed.phrase;
 }
 
