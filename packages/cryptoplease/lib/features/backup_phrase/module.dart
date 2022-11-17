@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
@@ -47,21 +46,10 @@ class _ContentState extends State<_Content> {
     super.initState();
 
     final accessMode = context.read<AccountsBloc>().state.accessMode;
-    final event = accessMode?.when(
-      // Don't set a reminder if user logged in (they already know the seed)
-      seedInputted: always(const PuzzleReminderEvent.solved()),
-      // Postpone the reminder by 1 day if user created account now
-      created: always(
-        const PuzzleReminderEvent.postponed(
-          postponedBy: Duration(days: 1),
-        ),
-      ),
-      // Check for reminder if user account was loaded from storage
-      loaded: always(const PuzzleReminderEvent.checkRequested()),
-    );
-
-    if (event != null) {
-      context.read<PuzzleReminderBloc>().add(event);
+    if (accessMode != null) {
+      context
+          .read<PuzzleReminderBloc>()
+          .add(PuzzleReminderEvent.checkRequested(accessMode));
     }
   }
 
