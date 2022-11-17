@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,11 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
 import '../../../../features/investments_settings/module.dart';
-import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
-import '../../../../ui/icon_button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import 'components/popular_crypto_header.dart';
 import 'components/popular_token_list.dart';
@@ -30,8 +26,9 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
         builder: (context, onRefresh) =>
             BlocBuilder<BalancesBloc, BalancesState>(
           builder: (context, state) {
-            final hideZeroBalances =
-                context.watch<InvestmentSettingsRepository>().hideZeroBalances;
+            final displayEmptyBalances = context
+                .read<InvestmentSettingsRepository>()
+                .displayEmptyBalances;
 
             return RefreshIndicator(
               displacement: 80,
@@ -41,7 +38,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 slivers: [
                   SliverAppBar(
                     shape: const Border(),
-                    title: const _AppBarContent(),
+                    title: Text(context.l10n.investments),
                     pinned: true,
                     snap: false,
                     floating: false,
@@ -64,9 +61,9 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                     padding: const EdgeInsets.only(left: 24, right: 24),
                     sliver: PortfolioWidget(
                       tokens: IList(
-                        hideZeroBalances
-                            ? state.userTokensFiltered
-                            : state.userTokens,
+                        displayEmptyBalances
+                            ? state.userTokens
+                            : state.userTokensFiltered,
                       ),
                     ),
                   ),
@@ -84,32 +81,6 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
               ),
             );
           },
-        ),
-      );
-}
-
-class _AppBarContent extends StatelessWidget {
-  const _AppBarContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => SizedBox(
-        height: kToolbarHeight,
-        child: Stack(
-          children: [
-            Center(
-              child: Text(context.l10n.investments),
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              bottom: 0,
-              child: CpIconButton(
-                icon: Assets.icons.settingsButtonIcon.svg(),
-                onPressed: () =>
-                    context.router.push(const InvestmentSettingsRoute()),
-              ),
-            ),
-          ],
         ),
       );
 }

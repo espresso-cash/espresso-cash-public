@@ -10,6 +10,7 @@ import '../../../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../../../core/presentation/utils.dart';
 import '../../../../../di.dart';
 import '../../../../../features/incoming_split_key_payments/module.dart';
+import '../../../../../features/investments_settings/module.dart';
 import '../../../../../features/legal/flow.dart';
 import '../../../../../features/outgoing_direct_payments/module.dart';
 import '../../../../../features/outgoing_split_key_payments/module.dart';
@@ -20,6 +21,7 @@ import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
 import 'profile_button.dart';
+import 'profile_switch.dart';
 
 part 'danger_section.dart';
 part 'edit_profile_section.dart';
@@ -45,9 +47,12 @@ class ProfileSection extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(30)),
           child: Material(
             color: color,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: actions,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 4.0, bottom: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: actions,
+              ),
             ),
           ),
         ),

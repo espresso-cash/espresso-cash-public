@@ -339,5 +339,6 @@
     }
   },
   "settings" : "Settings",
-  "hideZeroBalanceToggle" : "Hide Zero balances tokens"
+  "displayEmptyBalanceTitle" : "Display Empty Balances",
+  "displayEmptyBalanceSubtitle" : "Show your crypto with zero balances"
 }
