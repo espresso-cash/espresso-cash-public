@@ -76,13 +76,6 @@ class OnRampScreen extends StatelessWidget {
                         image: Assets.images.logoMoonpay,
                         backgroundColor: const Color(0xff6800f3),
                       ),
-                      PartnerButton(
-                        onTap: () => context
-                            .read<OnRampBloc>()
-                            .add(const OnRampEvent.ftxRequested()),
-                        image: Assets.images.logoFtx,
-                        backgroundColor: const Color(0xff12a8c9),
-                      ),
                     ],
                   ),
                 ),

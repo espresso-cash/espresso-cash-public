@@ -37,6 +37,7 @@ Future<void> main() {
 
 Future<void> _start() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   await configureDependencies();
 
@@ -51,8 +52,6 @@ Future<void> _start() async {
       ),
     );
   }
-
-  await Firebase.initializeApp();
 
   Bloc.observer = Observer();
 
