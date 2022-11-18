@@ -21,17 +21,32 @@ class AppLockSettingsScreen extends StatelessWidget {
             ),
           ),
           body: BlocBuilder<AppLockBloc, AppLockState>(
-            builder: (context, state) => CpSwitch(
+            builder: (context, state) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              title: context.l10n.enableSecurity,
-              value: state is AppLockStateEnabled,
-              onChanged: (value) {
-                if (value) {
-                  context.read<AppLockSetupRouter>().onEnable();
-                } else {
-                  context.read<AppLockSetupRouter>().onDisable();
-                }
-              },
+              child: Flex(
+                direction: Axis.horizontal,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      context.l10n.enableSecurity,
+                      style: Theme.of(context).textTheme.subtitle2,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  CpSwitch(
+                    value: state is AppLockStateEnabled,
+                    onChanged: (value) {
+                      if (value) {
+                        context.read<AppLockSetupRouter>().onEnable();
+                      } else {
+                        context.read<AppLockSetupRouter>().onDisable();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
