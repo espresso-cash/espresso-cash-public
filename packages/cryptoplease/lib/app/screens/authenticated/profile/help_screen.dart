@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intercom_flutter/intercom_flutter.dart';
 
 import '../../../../config.dart';
+import '../../../../core/intercom.dart';
 import '../../../../core/presentation/utils.dart';
+import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import 'components/profile_button.dart';
@@ -26,12 +27,8 @@ class HelpScreen extends StatelessWidget {
                 onPressed: () => context.openLink(faqUrl),
               ),
               ProfileButton(
-                // label: context.l10n.sendUsEmail,
-                label: 'Contact Us',
-                // onPressed: () => HelpBottomSheet.show(context),
-                onPressed: () async {
-                  await Intercom.instance.displayMessenger();
-                },
+                label: context.l10n.contactUs,
+                onPressed: () => sl<IntercomService>().displayMessenger(),
               ),
             ],
           ),
