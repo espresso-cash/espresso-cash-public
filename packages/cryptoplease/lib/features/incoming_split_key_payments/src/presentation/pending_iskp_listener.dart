@@ -49,7 +49,7 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
       final firstPart = SplitKeyFirstLink.tryParse(link);
       if (firstPart != null) {
         sl<PendingISKPRepository>().save(firstPart);
-        sl<AnalyticsManager>().secondLinkReceived();
+        sl<AnalyticsManager>().firstLinkReceived();
         _openFirstPartReadyScreen();
 
         return true;
