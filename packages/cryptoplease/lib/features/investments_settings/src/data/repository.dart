@@ -15,6 +15,8 @@ class InvestmentSettingsRepository extends ChangeNotifier {
     await _sharedPreferences.setBool(_hideZeroBalanceKey, value);
     notifyListeners();
   }
+
+  Future<void> clear() => _sharedPreferences.remove(_hideZeroBalanceKey);
 }
 
 const _hideZeroBalanceKey = 'displayEmptyBalancesKey';
