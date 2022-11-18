@@ -30,15 +30,9 @@ class OnRampBloc extends Bloc<OnRampEvent, OnRampState> {
 
   EventHandler<OnRampEvent, OnRampState> get _eventHandler =>
       (event, emit) => event.map(
-            ftxRequested: (_) => _onFtxRequested(emit),
             kadoRequested: (_) => _onKadoRequested(emit),
             moonpayRequested: (_) => _onMoonpayRequested(emit),
           );
-
-  void _onFtxRequested(Emitter<OnRampState> emit) {
-    emit(const OnRampState.initial());
-    emit(const OnRampState.success(ftxAddCashSupportUrl));
-  }
 
   void _onKadoRequested(Emitter<OnRampState> emit) {
     emit(const OnRampState.initial());
@@ -72,8 +66,6 @@ class OnRampBloc extends Bloc<OnRampEvent, OnRampState> {
 @freezed
 class OnRampEvent with _$OnRampEvent {
   const factory OnRampEvent.moonpayRequested() = _MoonpayRequested;
-
-  const factory OnRampEvent.ftxRequested() = _FtxRequested;
 
   const factory OnRampEvent.kadoRequested() = _KadoRequested;
 }
