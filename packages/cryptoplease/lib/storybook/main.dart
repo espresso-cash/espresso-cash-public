@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
+import '../di.dart';
 import '../ui/theme.dart';
 import 'stories/app/investments/popular_crypto_header.dart';
 import 'stories/app/investments/portfolio_widget.dart';
@@ -27,7 +28,7 @@ import 'stories/user_avatar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await configureDependencies();
+  await configureDependencies();
   runApp(const StorybookApp());
 }
 
