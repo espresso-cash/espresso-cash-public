@@ -5,6 +5,8 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:solana/base58.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../core/tokens/token_list.dart';
@@ -39,12 +41,14 @@ class TransactionRepository {
   }
 
   Future<Transaction> _match(TxCommon fetched) =>
-      _matchActivity(fetched.tx.id).letAsync(
+      _matchActivity(fetched).letAsync(
         (activity) =>
             activity != null ? Transaction.activity(activity) : fetched,
       );
 
-  Future<Activity?> _matchActivity(TransactionId txId) async {
+  Future<Activity?> _matchActivity(TxCommon fetched) async {
+    final txId = fetched.tx.id;
+
     final pr = await _db.paymentRequestRows.findActivityOrNull(
       (row) => row.transactionId.equals(txId),
       (pr) => pr.toActivity(),
@@ -57,10 +61,12 @@ class TransactionRepository {
     );
     if (odp != null) return odp;
 
-    final oskp = await _db.oSKPRows.findActivityOrNull(
-      (row) => row.txId.equals(txId),
-      (pr) => pr.toActivity(_tokens),
-    );
+    final oskp = await _db.oSKPRows
+        .select()
+        .get()
+        .then((rows) => rows.matchTx(fetched.tx))
+        .then((row) async => row?.toActivity(_tokens));
+
     if (oskp != null) return oskp;
 
     return null;
@@ -78,5 +84,22 @@ extension Q<T extends HasResultSet, D> on ResultSetImplementation<T, D> {
     final result = await query.getSingleOrNull();
 
     return result?.let(builder);
+  }
+}
+
+extension on Iterable<OSKPRow> {
+  Future<OSKPRow?> matchTx(SignedTx tx) async {
+    for (final row in this) {
+      final escrow = await row.privateKey
+          ?.let(base58decode)
+          .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
+      if (escrow == null) continue;
+
+      if (tx.accounts.map((a) => a.pubKey).contains(escrow.publicKey)) {
+        return row;
+      }
+    }
+
+    return null;
   }
 }

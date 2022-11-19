@@ -52,6 +52,7 @@ class OSKPStatus with _$OSKPStatus {
 
   const factory OSKPStatus.success({
     required String txId,
+    required Ed25519HDKeyPair escrow,
   }) = OSKPStatusSuccess;
 
   const factory OSKPStatus.txFailure({TxFailureReason? reason}) =
