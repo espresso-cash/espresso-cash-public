@@ -22,8 +22,7 @@ class OSKPVerifier {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
         void onSuccess(String txId) {
-          final escrow = payment.status.mapOrNull(linksReady: (s) => s.escrow);
-          final newStatus = OSKPStatus.success(txId: txId, escrow: escrow!);
+          final newStatus = OSKPStatus.success(txId: txId);
           _repository.save(payment.copyWith(status: newStatus));
           _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);

@@ -110,7 +110,7 @@ extension on OSKPStatusDto {
           escrow: escrow!,
         );
       case OSKPStatusDto.success:
-        return OSKPStatus.success(txId: txId!, escrow: escrow!);
+        return OSKPStatus.success(txId: txId!);
       case OSKPStatusDto.txFailure:
         return OSKPStatus.txFailure(reason: row.txFailureReason);
       case OSKPStatusDto.txSendFailure:
