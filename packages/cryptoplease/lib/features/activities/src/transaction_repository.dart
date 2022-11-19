@@ -66,7 +66,6 @@ class TransactionRepository {
         .get()
         .then((rows) => rows.matchTx(fetched.tx))
         .then((row) async => row?.toActivity(_tokens));
-
     if (oskp != null) return oskp;
 
     return null;
@@ -92,10 +91,12 @@ extension on Iterable<OSKPRow> {
     for (final row in this) {
       final escrow = await row.privateKey
           ?.let(base58decode)
-          .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
+          .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it))
+          .then((it) => it.publicKey);
+
       if (escrow == null) continue;
 
-      if (tx.accounts.map((a) => a.pubKey).contains(escrow.publicKey)) {
+      if (tx.accounts.firstWhereOrNull((a) => a.pubKey == escrow) != null) {
         return row;
       }
     }
