@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/split_key_payments.dart';
 import '../../../../di.dart';
@@ -48,6 +49,7 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
       final firstPart = SplitKeyFirstLink.tryParse(link);
       if (firstPart != null) {
         sl<PendingISKPRepository>().save(firstPart);
+        sl<AnalyticsManager>().firstLinkReceived();
         _openFirstPartReadyScreen();
 
         return true;

@@ -6,6 +6,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/split_key_payments.dart';
 import '../../../../di.dart';
@@ -35,6 +36,7 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
     context.watch<DynamicLinksNotifier>().processLink((link) {
       final secondPart = SplitKeySecondLink.tryParse(link);
       if (secondPart != null) {
+        sl<AnalyticsManager>().secondLinkReceived();
         _processSecondPart(secondPart);
 
         return true;
