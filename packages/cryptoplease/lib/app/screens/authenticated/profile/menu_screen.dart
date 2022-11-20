@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../features/app_lock/module.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
@@ -12,6 +14,7 @@ import '../../../../ui/theme.dart';
 import 'components/menu_button.dart';
 import 'components/menu_header.dart';
 import 'components/menu_section.dart';
+import 'components/menu_switch.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -64,11 +67,28 @@ class _SecuritySection extends StatelessWidget {
   Widget build(BuildContext context) => MenuSection(
         title: context.l10n.securitySectionTitle,
         children: [
-          MenuButton(
-            title: context.l10n.appLock,
-            description: context.l10n.appLockDescription,
-            icon: Assets.icons.lock,
-            onTap: () => context.router.push(const AppLockSetupFlowRoute()),
+          BlocBuilder<AppLockBloc, AppLockState>(
+            builder: (context, state) => MenuSwitch(
+              title: context.l10n.appLock,
+              description: context.l10n.appLockDescription,
+              icon: Assets.icons.lock,
+              value: state is AppLockStateEnabled,
+              onChanged: (value) {
+                if (value) {
+                  context.router.push(
+                    const AppLockSetupFlowRoute(
+                      children: [AppLockEnableRoute()],
+                    ),
+                  );
+                } else {
+                  context.router.push(
+                    const AppLockSetupFlowRoute(
+                      children: [AppLockDisableRoute()],
+                    ),
+                  );
+                }
+              },
+            ),
           ),
           MenuButton(
             title: context.l10n.viewRecoveryPhrase,
