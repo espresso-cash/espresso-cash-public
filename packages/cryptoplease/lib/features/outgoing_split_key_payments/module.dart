@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../core/accounts/bl/account.dart';
 import '../../core/amount.dart';
+import '../../core/analytics/analytics_manager.dart';
 import '../../di.dart';
 import 'src/bl/bloc.dart';
 
@@ -34,6 +35,8 @@ extension BuildContextExt on BuildContext {
     final id = const Uuid().v4();
     final event = OSKPEvent.create(amount: amount, id: id);
     read<OSKPBloc>().add(event);
+
+    sl<AnalyticsManager>().linksCreated();
 
     return id;
   }
