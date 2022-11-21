@@ -149,3 +149,139 @@ abstract class _SwapResponseDto implements SwapResponseDto {
   _$$_SwapResponseDtoCopyWith<_$_SwapResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+SwapRequestDto _$SwapRequestDtoFromJson(Map<String, dynamic> json) {
+  return _SwapRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SwapRequestDto {
+  String get swapTransaction => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SwapRequestDtoCopyWith<SwapRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SwapRequestDtoCopyWith<$Res> {
+  factory $SwapRequestDtoCopyWith(
+          SwapRequestDto value, $Res Function(SwapRequestDto) then) =
+      _$SwapRequestDtoCopyWithImpl<$Res>;
+  $Res call({String swapTransaction});
+}
+
+/// @nodoc
+class _$SwapRequestDtoCopyWithImpl<$Res>
+    implements $SwapRequestDtoCopyWith<$Res> {
+  _$SwapRequestDtoCopyWithImpl(this._value, this._then);
+
+  final SwapRequestDto _value;
+  // ignore: unused_field
+  final $Res Function(SwapRequestDto) _then;
+
+  @override
+  $Res call({
+    Object? swapTransaction = freezed,
+  }) {
+    return _then(_value.copyWith(
+      swapTransaction: swapTransaction == freezed
+          ? _value.swapTransaction
+          : swapTransaction // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_SwapRequestDtoCopyWith<$Res>
+    implements $SwapRequestDtoCopyWith<$Res> {
+  factory _$$_SwapRequestDtoCopyWith(
+          _$_SwapRequestDto value, $Res Function(_$_SwapRequestDto) then) =
+      __$$_SwapRequestDtoCopyWithImpl<$Res>;
+  @override
+  $Res call({String swapTransaction});
+}
+
+/// @nodoc
+class __$$_SwapRequestDtoCopyWithImpl<$Res>
+    extends _$SwapRequestDtoCopyWithImpl<$Res>
+    implements _$$_SwapRequestDtoCopyWith<$Res> {
+  __$$_SwapRequestDtoCopyWithImpl(
+      _$_SwapRequestDto _value, $Res Function(_$_SwapRequestDto) _then)
+      : super(_value, (v) => _then(v as _$_SwapRequestDto));
+
+  @override
+  _$_SwapRequestDto get _value => super._value as _$_SwapRequestDto;
+
+  @override
+  $Res call({
+    Object? swapTransaction = freezed,
+  }) {
+    return _then(_$_SwapRequestDto(
+      swapTransaction: swapTransaction == freezed
+          ? _value.swapTransaction
+          : swapTransaction // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_SwapRequestDto implements _SwapRequestDto {
+  const _$_SwapRequestDto({required this.swapTransaction});
+
+  factory _$_SwapRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$$_SwapRequestDtoFromJson(json);
+
+  @override
+  final String swapTransaction;
+
+  @override
+  String toString() {
+    return 'SwapRequestDto(swapTransaction: $swapTransaction)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_SwapRequestDto &&
+            const DeepCollectionEquality()
+                .equals(other.swapTransaction, swapTransaction));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(swapTransaction));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_SwapRequestDtoCopyWith<_$_SwapRequestDto> get copyWith =>
+      __$$_SwapRequestDtoCopyWithImpl<_$_SwapRequestDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_SwapRequestDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SwapRequestDto implements SwapRequestDto {
+  const factory _SwapRequestDto({required final String swapTransaction}) =
+      _$_SwapRequestDto;
+
+  factory _SwapRequestDto.fromJson(Map<String, dynamic> json) =
+      _$_SwapRequestDto.fromJson;
+
+  @override
+  String get swapTransaction;
+  @override
+  @JsonKey(ignore: true)
+  _$$_SwapRequestDtoCopyWith<_$_SwapRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}

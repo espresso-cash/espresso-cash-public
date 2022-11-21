@@ -12,3 +12,13 @@ class SwapResponseDto with _$SwapResponseDto {
   factory SwapResponseDto.fromJson(Map<String, dynamic> json) =>
       _$SwapResponseDtoFromJson(json);
 }
+
+@freezed
+class SwapRequestDto with _$SwapRequestDto {
+  const factory SwapRequestDto({
+    required String swapTransaction,
+  }) = _SwapRequestDto;
+
+  factory SwapRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapRequestDtoFromJson(json);
+}
