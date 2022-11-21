@@ -191,28 +191,28 @@ abstract class _JupiterIndexedRouteMap implements JupiterIndexedRouteMap {
       throw _privateConstructorUsedError;
 }
 
-JupiterSwapTransactions _$JupiterSwapTransactionsFromJson(
+JupiterSwapResponseDto _$JupiterSwapResponseDtoFromJson(
     Map<String, dynamic> json) {
-  return _JupiterSwapTransactions.fromJson(json);
+  return _JupiterSwapResponseDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$JupiterSwapTransactions {
+mixin _$JupiterSwapResponseDto {
   String? get setupTransaction => throw _privateConstructorUsedError;
   String get swapTransaction => throw _privateConstructorUsedError;
   String? get cleanupTransaction => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $JupiterSwapTransactionsCopyWith<JupiterSwapTransactions> get copyWith =>
+  $JupiterSwapResponseDtoCopyWith<JupiterSwapResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $JupiterSwapTransactionsCopyWith<$Res> {
-  factory $JupiterSwapTransactionsCopyWith(JupiterSwapTransactions value,
-          $Res Function(JupiterSwapTransactions) then) =
-      _$JupiterSwapTransactionsCopyWithImpl<$Res, JupiterSwapTransactions>;
+abstract class $JupiterSwapResponseDtoCopyWith<$Res> {
+  factory $JupiterSwapResponseDtoCopyWith(JupiterSwapResponseDto value,
+          $Res Function(JupiterSwapResponseDto) then) =
+      _$JupiterSwapResponseDtoCopyWithImpl<$Res, JupiterSwapResponseDto>;
   @useResult
   $Res call(
       {String? setupTransaction,
@@ -221,10 +221,10 @@ abstract class $JupiterSwapTransactionsCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$JupiterSwapTransactionsCopyWithImpl<$Res,
-        $Val extends JupiterSwapTransactions>
-    implements $JupiterSwapTransactionsCopyWith<$Res> {
-  _$JupiterSwapTransactionsCopyWithImpl(this._value, this._then);
+class _$JupiterSwapResponseDtoCopyWithImpl<$Res,
+        $Val extends JupiterSwapResponseDto>
+    implements $JupiterSwapResponseDtoCopyWith<$Res> {
+  _$JupiterSwapResponseDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -256,11 +256,11 @@ class _$JupiterSwapTransactionsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_JupiterSwapTransactionsCopyWith<$Res>
-    implements $JupiterSwapTransactionsCopyWith<$Res> {
-  factory _$$_JupiterSwapTransactionsCopyWith(_$_JupiterSwapTransactions value,
-          $Res Function(_$_JupiterSwapTransactions) then) =
-      __$$_JupiterSwapTransactionsCopyWithImpl<$Res>;
+abstract class _$$_JupiterSwapResponseDtoCopyWith<$Res>
+    implements $JupiterSwapResponseDtoCopyWith<$Res> {
+  factory _$$_JupiterSwapResponseDtoCopyWith(_$_JupiterSwapResponseDto value,
+          $Res Function(_$_JupiterSwapResponseDto) then) =
+      __$$_JupiterSwapResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -270,12 +270,12 @@ abstract class _$$_JupiterSwapTransactionsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_JupiterSwapTransactionsCopyWithImpl<$Res>
-    extends _$JupiterSwapTransactionsCopyWithImpl<$Res,
-        _$_JupiterSwapTransactions>
-    implements _$$_JupiterSwapTransactionsCopyWith<$Res> {
-  __$$_JupiterSwapTransactionsCopyWithImpl(_$_JupiterSwapTransactions _value,
-      $Res Function(_$_JupiterSwapTransactions) _then)
+class __$$_JupiterSwapResponseDtoCopyWithImpl<$Res>
+    extends _$JupiterSwapResponseDtoCopyWithImpl<$Res,
+        _$_JupiterSwapResponseDto>
+    implements _$$_JupiterSwapResponseDtoCopyWith<$Res> {
+  __$$_JupiterSwapResponseDtoCopyWithImpl(_$_JupiterSwapResponseDto _value,
+      $Res Function(_$_JupiterSwapResponseDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -285,7 +285,7 @@ class __$$_JupiterSwapTransactionsCopyWithImpl<$Res>
     Object? swapTransaction = null,
     Object? cleanupTransaction = freezed,
   }) {
-    return _then(_$_JupiterSwapTransactions(
+    return _then(_$_JupiterSwapResponseDto(
       setupTransaction: freezed == setupTransaction
           ? _value.setupTransaction
           : setupTransaction // ignore: cast_nullable_to_non_nullable
@@ -304,14 +304,14 @@ class __$$_JupiterSwapTransactionsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JupiterSwapTransactions implements _JupiterSwapTransactions {
-  const _$_JupiterSwapTransactions(
+class _$_JupiterSwapResponseDto implements _JupiterSwapResponseDto {
+  const _$_JupiterSwapResponseDto(
       {required this.setupTransaction,
       required this.swapTransaction,
       required this.cleanupTransaction});
 
-  factory _$_JupiterSwapTransactions.fromJson(Map<String, dynamic> json) =>
-      _$$_JupiterSwapTransactionsFromJson(json);
+  factory _$_JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_JupiterSwapResponseDtoFromJson(json);
 
   @override
   final String? setupTransaction;
@@ -322,14 +322,14 @@ class _$_JupiterSwapTransactions implements _JupiterSwapTransactions {
 
   @override
   String toString() {
-    return 'JupiterSwapTransactions(setupTransaction: $setupTransaction, swapTransaction: $swapTransaction, cleanupTransaction: $cleanupTransaction)';
+    return 'JupiterSwapResponseDto(setupTransaction: $setupTransaction, swapTransaction: $swapTransaction, cleanupTransaction: $cleanupTransaction)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JupiterSwapTransactions &&
+            other is _$_JupiterSwapResponseDto &&
             (identical(other.setupTransaction, setupTransaction) ||
                 other.setupTransaction == setupTransaction) &&
             (identical(other.swapTransaction, swapTransaction) ||
@@ -346,27 +346,26 @@ class _$_JupiterSwapTransactions implements _JupiterSwapTransactions {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JupiterSwapTransactionsCopyWith<_$_JupiterSwapTransactions>
-      get copyWith =>
-          __$$_JupiterSwapTransactionsCopyWithImpl<_$_JupiterSwapTransactions>(
-              this, _$identity);
+  _$$_JupiterSwapResponseDtoCopyWith<_$_JupiterSwapResponseDto> get copyWith =>
+      __$$_JupiterSwapResponseDtoCopyWithImpl<_$_JupiterSwapResponseDto>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JupiterSwapTransactionsToJson(
+    return _$$_JupiterSwapResponseDtoToJson(
       this,
     );
   }
 }
 
-abstract class _JupiterSwapTransactions implements JupiterSwapTransactions {
-  const factory _JupiterSwapTransactions(
+abstract class _JupiterSwapResponseDto implements JupiterSwapResponseDto {
+  const factory _JupiterSwapResponseDto(
       {required final String? setupTransaction,
       required final String swapTransaction,
-      required final String? cleanupTransaction}) = _$_JupiterSwapTransactions;
+      required final String? cleanupTransaction}) = _$_JupiterSwapResponseDto;
 
-  factory _JupiterSwapTransactions.fromJson(Map<String, dynamic> json) =
-      _$_JupiterSwapTransactions.fromJson;
+  factory _JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_JupiterSwapResponseDto.fromJson;
 
   @override
   String? get setupTransaction;
@@ -376,8 +375,8 @@ abstract class _JupiterSwapTransactions implements JupiterSwapTransactions {
   String? get cleanupTransaction;
   @override
   @JsonKey(ignore: true)
-  _$$_JupiterSwapTransactionsCopyWith<_$_JupiterSwapTransactions>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_JupiterSwapResponseDtoCopyWith<_$_JupiterSwapResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 JupiterRoute _$JupiterRouteFromJson(Map<String, dynamic> json) {
@@ -2152,12 +2151,13 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
       throw _privateConstructorUsedError;
 }
 
-SwapRequestDto _$SwapRequestDtoFromJson(Map<String, dynamic> json) {
-  return _SwapRequestDto.fromJson(json);
+JupiterSwapRequestDto _$JupiterSwapRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _JupiterSwapRequestDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SwapRequestDto {
+mixin _$JupiterSwapRequestDto {
   String get userPublicKey => throw _privateConstructorUsedError;
   JupiterRoute get route => throw _privateConstructorUsedError;
   bool? get wrapUnwrapSOL => throw _privateConstructorUsedError;
@@ -2166,15 +2166,15 @@ mixin _$SwapRequestDto {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SwapRequestDtoCopyWith<SwapRequestDto> get copyWith =>
+  $JupiterSwapRequestDtoCopyWith<JupiterSwapRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SwapRequestDtoCopyWith<$Res> {
-  factory $SwapRequestDtoCopyWith(
-          SwapRequestDto value, $Res Function(SwapRequestDto) then) =
-      _$SwapRequestDtoCopyWithImpl<$Res, SwapRequestDto>;
+abstract class $JupiterSwapRequestDtoCopyWith<$Res> {
+  factory $JupiterSwapRequestDtoCopyWith(JupiterSwapRequestDto value,
+          $Res Function(JupiterSwapRequestDto) then) =
+      _$JupiterSwapRequestDtoCopyWithImpl<$Res, JupiterSwapRequestDto>;
   @useResult
   $Res call(
       {String userPublicKey,
@@ -2187,9 +2187,10 @@ abstract class $SwapRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SwapRequestDtoCopyWithImpl<$Res, $Val extends SwapRequestDto>
-    implements $SwapRequestDtoCopyWith<$Res> {
-  _$SwapRequestDtoCopyWithImpl(this._value, this._then);
+class _$JupiterSwapRequestDtoCopyWithImpl<$Res,
+        $Val extends JupiterSwapRequestDto>
+    implements $JupiterSwapRequestDtoCopyWith<$Res> {
+  _$JupiterSwapRequestDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -2239,11 +2240,11 @@ class _$SwapRequestDtoCopyWithImpl<$Res, $Val extends SwapRequestDto>
 }
 
 /// @nodoc
-abstract class _$$_SwapRequestDtoCopyWith<$Res>
-    implements $SwapRequestDtoCopyWith<$Res> {
-  factory _$$_SwapRequestDtoCopyWith(
-          _$_SwapRequestDto value, $Res Function(_$_SwapRequestDto) then) =
-      __$$_SwapRequestDtoCopyWithImpl<$Res>;
+abstract class _$$_JupiterSwapRequestDtoCopyWith<$Res>
+    implements $JupiterSwapRequestDtoCopyWith<$Res> {
+  factory _$$_JupiterSwapRequestDtoCopyWith(_$_JupiterSwapRequestDto value,
+          $Res Function(_$_JupiterSwapRequestDto) then) =
+      __$$_JupiterSwapRequestDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -2258,11 +2259,11 @@ abstract class _$$_SwapRequestDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SwapRequestDtoCopyWithImpl<$Res>
-    extends _$SwapRequestDtoCopyWithImpl<$Res, _$_SwapRequestDto>
-    implements _$$_SwapRequestDtoCopyWith<$Res> {
-  __$$_SwapRequestDtoCopyWithImpl(
-      _$_SwapRequestDto _value, $Res Function(_$_SwapRequestDto) _then)
+class __$$_JupiterSwapRequestDtoCopyWithImpl<$Res>
+    extends _$JupiterSwapRequestDtoCopyWithImpl<$Res, _$_JupiterSwapRequestDto>
+    implements _$$_JupiterSwapRequestDtoCopyWith<$Res> {
+  __$$_JupiterSwapRequestDtoCopyWithImpl(_$_JupiterSwapRequestDto _value,
+      $Res Function(_$_JupiterSwapRequestDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2274,7 +2275,7 @@ class __$$_SwapRequestDtoCopyWithImpl<$Res>
     Object? feeAccount = freezed,
     Object? destinationWallet = freezed,
   }) {
-    return _then(_$_SwapRequestDto(
+    return _then(_$_JupiterSwapRequestDto(
       userPublicKey: null == userPublicKey
           ? _value.userPublicKey
           : userPublicKey // ignore: cast_nullable_to_non_nullable
@@ -2301,16 +2302,16 @@ class __$$_SwapRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SwapRequestDto implements _SwapRequestDto {
-  const _$_SwapRequestDto(
+class _$_JupiterSwapRequestDto implements _JupiterSwapRequestDto {
+  const _$_JupiterSwapRequestDto(
       {required this.userPublicKey,
       required this.route,
       this.wrapUnwrapSOL,
       this.feeAccount,
       this.destinationWallet});
 
-  factory _$_SwapRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_SwapRequestDtoFromJson(json);
+  factory _$_JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$$_JupiterSwapRequestDtoFromJson(json);
 
   @override
   final String userPublicKey;
@@ -2325,14 +2326,14 @@ class _$_SwapRequestDto implements _SwapRequestDto {
 
   @override
   String toString() {
-    return 'SwapRequestDto(userPublicKey: $userPublicKey, route: $route, wrapUnwrapSOL: $wrapUnwrapSOL, feeAccount: $feeAccount, destinationWallet: $destinationWallet)';
+    return 'JupiterSwapRequestDto(userPublicKey: $userPublicKey, route: $route, wrapUnwrapSOL: $wrapUnwrapSOL, feeAccount: $feeAccount, destinationWallet: $destinationWallet)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SwapRequestDto &&
+            other is _$_JupiterSwapRequestDto &&
             (identical(other.userPublicKey, userPublicKey) ||
                 other.userPublicKey == userPublicKey) &&
             (identical(other.route, route) || other.route == route) &&
@@ -2352,27 +2353,28 @@ class _$_SwapRequestDto implements _SwapRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SwapRequestDtoCopyWith<_$_SwapRequestDto> get copyWith =>
-      __$$_SwapRequestDtoCopyWithImpl<_$_SwapRequestDto>(this, _$identity);
+  _$$_JupiterSwapRequestDtoCopyWith<_$_JupiterSwapRequestDto> get copyWith =>
+      __$$_JupiterSwapRequestDtoCopyWithImpl<_$_JupiterSwapRequestDto>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SwapRequestDtoToJson(
+    return _$$_JupiterSwapRequestDtoToJson(
       this,
     );
   }
 }
 
-abstract class _SwapRequestDto implements SwapRequestDto {
-  const factory _SwapRequestDto(
+abstract class _JupiterSwapRequestDto implements JupiterSwapRequestDto {
+  const factory _JupiterSwapRequestDto(
       {required final String userPublicKey,
       required final JupiterRoute route,
       final bool? wrapUnwrapSOL,
       final String? feeAccount,
-      final String? destinationWallet}) = _$_SwapRequestDto;
+      final String? destinationWallet}) = _$_JupiterSwapRequestDto;
 
-  factory _SwapRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_SwapRequestDto.fromJson;
+  factory _JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =
+      _$_JupiterSwapRequestDto.fromJson;
 
   @override
   String get userPublicKey;
@@ -2386,6 +2388,6 @@ abstract class _SwapRequestDto implements SwapRequestDto {
   String? get destinationWallet;
   @override
   @JsonKey(ignore: true)
-  _$$_SwapRequestDtoCopyWith<_$_SwapRequestDto> get copyWith =>
+  _$$_JupiterSwapRequestDtoCopyWith<_$_JupiterSwapRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
 }

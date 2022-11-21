@@ -24,15 +24,15 @@ class JupiterIndexedRouteMap with _$JupiterIndexedRouteMap {
 }
 
 @freezed
-class JupiterSwapTransactions with _$JupiterSwapTransactions {
-  const factory JupiterSwapTransactions({
+class JupiterSwapResponseDto with _$JupiterSwapResponseDto {
+  const factory JupiterSwapResponseDto({
     required String? setupTransaction,
     required String swapTransaction,
     required String? cleanupTransaction,
-  }) = _JupiterSwapTransactions;
+  }) = _JupiterSwapResponseDto;
 
-  factory JupiterSwapTransactions.fromJson(Map<String, dynamic> json) =>
-      _$JupiterSwapTransactionsFromJson(json);
+  factory JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$JupiterSwapResponseDtoFromJson(json);
 }
 
 @freezed
@@ -150,15 +150,15 @@ class QuoteRequestDto with _$QuoteRequestDto {
 }
 
 @freezed
-class SwapRequestDto with _$SwapRequestDto {
-  const factory SwapRequestDto({
+class JupiterSwapRequestDto with _$JupiterSwapRequestDto {
+  const factory JupiterSwapRequestDto({
     required String userPublicKey,
     required JupiterRoute route,
     bool? wrapUnwrapSOL,
     String? feeAccount,
     String? destinationWallet,
-  }) = _SwapRequestDto;
+  }) = _JupiterSwapRequestDto;
 
-  factory SwapRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$SwapRequestDtoFromJson(json);
+  factory JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$JupiterSwapRequestDtoFromJson(json);
 }

@@ -69,14 +69,14 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
   }
 
   @override
-  Future<JupiterSwapTransactions> getSwapTransactions(swapRequestDto) async {
+  Future<JupiterSwapResponseDto> getSwapTransactions(swapRequestDto) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(swapRequestDto.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<JupiterSwapTransactions>(Options(
+        _setStreamType<JupiterSwapResponseDto>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -88,7 +88,7 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = JupiterSwapTransactions.fromJson(_result.data!);
+    final value = JupiterSwapResponseDto.fromJson(_result.data!);
     return value;
   }
 

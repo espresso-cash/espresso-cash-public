@@ -24,7 +24,7 @@ abstract class JupiterAggregatorClient {
 
   /// Get swap serialized transactions for a route
   @POST('/swap')
-  Future<JupiterSwapTransactions> getSwapTransactions(
-    @Body() SwapRequestDto swapRequestDto,
+  Future<JupiterSwapResponseDto> getSwapTransactions(
+    @Body() JupiterSwapRequestDto swapRequestDto,
   );
 }
