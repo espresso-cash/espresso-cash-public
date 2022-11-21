@@ -8,6 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../../core/accounts/bl/mnemonic.dart';
 import '../../../../core/file_manager.dart';
 import '../../../../core/processing_state.dart';
 import '../../../../core/wallet.dart';
@@ -33,14 +34,14 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
           );
 
   Future<void> _onPhraseRequested(Emitter<OnboardingState> emit) async {
-    emit(state.copyWith(phrase: bip39.generateMnemonic()));
+    emit(state.copyWith(seed: Mnemonic.generated(bip39.generateMnemonic())));
   }
 
   Future<void> _onPhraseUpdated(
     OnboardingPhraseUpdated event,
     Emitter<OnboardingState> emit,
   ) async {
-    emit(state.copyWith(phrase: event.phrase));
+    emit(state.copyWith(seed: Mnemonic.typed(event.phrase)));
   }
 
   Future<void> _onSubmitted(
@@ -51,13 +52,21 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     try {
       final wallet = await createWallet(mnemonic: state.phrase, account: 0);
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
+
+      final accessMode = state.seed.when(
+        typed: always(const AccessMode.seedInputted()),
+        generated: always(const AccessMode.created()),
+        empty: () => throw StateError('Seed is empty during submission.'),
+      );
+
       final myAccount = MyAccount(
         firstName: event.name,
         photoPath: photo?.path,
         wallet: wallet,
+        accessMode: accessMode,
       );
       _accountsBloc.add(
-        AccountsEvent.created(account: myAccount, mnemonic: state.phrase),
+        AccountsEvent.created(account: myAccount, mnemonic: state.seed),
       );
     } on Exception catch (e) {
       emit(state.copyWith(processingState: ProcessingState.error(e)));
@@ -72,10 +81,14 @@ bool validateMnemonic(String mnemonic) => bip39.validateMnemonic(mnemonic);
 @freezed
 class OnboardingState with _$OnboardingState {
   const factory OnboardingState({
-    @Default('') String phrase,
+    @Default(Mnemonic.empty()) Mnemonic seed,
     @Default(ProcessingStateNone<Exception>())
         ProcessingState<Exception> processingState,
   }) = _OnboardingState;
+}
+
+extension OnboardingStateExt on OnboardingState {
+  String get phrase => seed.phrase;
 }
 
 @freezed
