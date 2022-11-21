@@ -7,13 +7,21 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
 Handler addSwapHandler() =>
-    shelf_router.Router()..post('/getSwapFee', _handler);
+    shelf_router.Router()..post('/getSwapFee', _swapFeeHandler);
 
-Future<Response> _handler(Request request) async =>
+Future<Response> _swapFeeHandler(Request request) async =>
     processRequest<GetSwapFeeRequestDto, GetSwapFeeResponseDto>(
       request,
       GetSwapFeeRequestDto.fromJson,
-      (data) async => GetSwapFeeResponseDto(
-        feeInUsdc: await convertToUsdc(data.routeFee),
-      ),
+      (data) async {
+        final totalFeeInSol = data.route.fees?.totalFeeAndDeposits;
+
+        if (totalFeeInSol == null) {
+          throw Exception('Route has no fee object');
+        }
+
+        return GetSwapFeeResponseDto(
+          feeInUsdc: await convertSolToUsdc(totalFeeInSol),
+        );
+      },
     );

@@ -1,3 +1,4 @@
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'get_swap_fee.freezed.dart';
@@ -16,7 +17,7 @@ class GetSwapFeeResponseDto with _$GetSwapFeeResponseDto {
 @freezed
 class GetSwapFeeRequestDto with _$GetSwapFeeRequestDto {
   const factory GetSwapFeeRequestDto({
-    required int routeFee,
+    required JupiterRoute route,
   }) = _GetSwapFeeRequestDto;
 
   factory GetSwapFeeRequestDto.fromJson(Map<String, dynamic> json) =>

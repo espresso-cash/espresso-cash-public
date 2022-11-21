@@ -4,7 +4,7 @@ import 'package:cryptoplease_link/src/handlers/association_handlers.dart';
 import 'package:cryptoplease_link/src/handlers/solana_handler.dart';
 import 'package:cryptoplease_link/src/moonpay/handler.dart';
 import 'package:cryptoplease_link/src/payments/handler.dart';
-import 'package:cryptoplease_link/src/swap/hanlder.dart';
+import 'package:cryptoplease_link/src/swap/handler.dart';
 import 'package:cryptoplease_link/src/tokens.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -43,6 +43,6 @@ final _apiV1 = shelf_router.Router()
     Cascade() //
         .add(paymentHandler())
         .add(addFundsHandler())
-        .add(addSwapFeeHanlder())
+        .add(addSwapHandler())
         .handler,
   );

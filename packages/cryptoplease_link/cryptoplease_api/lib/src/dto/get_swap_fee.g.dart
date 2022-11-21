@@ -21,11 +21,11 @@ Map<String, dynamic> _$$_GetSwapFeeResponseDtoToJson(
 _$_GetSwapFeeRequestDto _$$_GetSwapFeeRequestDtoFromJson(
         Map<String, dynamic> json) =>
     _$_GetSwapFeeRequestDto(
-      routeFee: json['routeFee'] as int,
+      route: JupiterRoute.fromJson(json['route'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_GetSwapFeeRequestDtoToJson(
         _$_GetSwapFeeRequestDto instance) =>
     <String, dynamic>{
-      'routeFee': instance.routeFee,
+      'route': instance.route,
     };

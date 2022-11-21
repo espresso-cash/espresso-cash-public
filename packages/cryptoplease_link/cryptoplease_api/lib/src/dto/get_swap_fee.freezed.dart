@@ -158,7 +158,7 @@ GetSwapFeeRequestDto _$GetSwapFeeRequestDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GetSwapFeeRequestDto {
-  int get routeFee => throw _privateConstructorUsedError;
+  JupiterRoute get route => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -171,7 +171,9 @@ abstract class $GetSwapFeeRequestDtoCopyWith<$Res> {
   factory $GetSwapFeeRequestDtoCopyWith(GetSwapFeeRequestDto value,
           $Res Function(GetSwapFeeRequestDto) then) =
       _$GetSwapFeeRequestDtoCopyWithImpl<$Res>;
-  $Res call({int routeFee});
+  $Res call({JupiterRoute route});
+
+  $JupiterRouteCopyWith<$Res> get route;
 }
 
 /// @nodoc
@@ -185,14 +187,21 @@ class _$GetSwapFeeRequestDtoCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? routeFee = freezed,
+    Object? route = freezed,
   }) {
     return _then(_value.copyWith(
-      routeFee: routeFee == freezed
-          ? _value.routeFee
-          : routeFee // ignore: cast_nullable_to_non_nullable
-              as int,
+      route: route == freezed
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as JupiterRoute,
     ));
+  }
+
+  @override
+  $JupiterRouteCopyWith<$Res> get route {
+    return $JupiterRouteCopyWith<$Res>(_value.route, (value) {
+      return _then(_value.copyWith(route: value));
+    });
   }
 }
 
@@ -203,7 +212,10 @@ abstract class _$$_GetSwapFeeRequestDtoCopyWith<$Res>
           $Res Function(_$_GetSwapFeeRequestDto) then) =
       __$$_GetSwapFeeRequestDtoCopyWithImpl<$Res>;
   @override
-  $Res call({int routeFee});
+  $Res call({JupiterRoute route});
+
+  @override
+  $JupiterRouteCopyWith<$Res> get route;
 }
 
 /// @nodoc
@@ -219,13 +231,13 @@ class __$$_GetSwapFeeRequestDtoCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? routeFee = freezed,
+    Object? route = freezed,
   }) {
     return _then(_$_GetSwapFeeRequestDto(
-      routeFee: routeFee == freezed
-          ? _value.routeFee
-          : routeFee // ignore: cast_nullable_to_non_nullable
-              as int,
+      route: route == freezed
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as JupiterRoute,
     ));
   }
 }
@@ -233,17 +245,17 @@ class __$$_GetSwapFeeRequestDtoCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GetSwapFeeRequestDto implements _GetSwapFeeRequestDto {
-  const _$_GetSwapFeeRequestDto({required this.routeFee});
+  const _$_GetSwapFeeRequestDto({required this.route});
 
   factory _$_GetSwapFeeRequestDto.fromJson(Map<String, dynamic> json) =>
       _$$_GetSwapFeeRequestDtoFromJson(json);
 
   @override
-  final int routeFee;
+  final JupiterRoute route;
 
   @override
   String toString() {
-    return 'GetSwapFeeRequestDto(routeFee: $routeFee)';
+    return 'GetSwapFeeRequestDto(route: $route)';
   }
 
   @override
@@ -251,13 +263,13 @@ class _$_GetSwapFeeRequestDto implements _GetSwapFeeRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_GetSwapFeeRequestDto &&
-            const DeepCollectionEquality().equals(other.routeFee, routeFee));
+            const DeepCollectionEquality().equals(other.route, route));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(routeFee));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(route));
 
   @JsonKey(ignore: true)
   @override
@@ -274,14 +286,14 @@ class _$_GetSwapFeeRequestDto implements _GetSwapFeeRequestDto {
 }
 
 abstract class _GetSwapFeeRequestDto implements GetSwapFeeRequestDto {
-  const factory _GetSwapFeeRequestDto({required final int routeFee}) =
+  const factory _GetSwapFeeRequestDto({required final JupiterRoute route}) =
       _$_GetSwapFeeRequestDto;
 
   factory _GetSwapFeeRequestDto.fromJson(Map<String, dynamic> json) =
       _$_GetSwapFeeRequestDto.fromJson;
 
   @override
-  int get routeFee;
+  JupiterRoute get route;
   @override
   @JsonKey(ignore: true)
   _$$_GetSwapFeeRequestDtoCopyWith<_$_GetSwapFeeRequestDto> get copyWith =>
