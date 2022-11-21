@@ -52,12 +52,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     try {
       final account = await _fileManager.loadAccount(_storage);
 
-      emit(
-        state.copyWith(
-          account: account,
-          isProcessing: false,
-        ),
-      );
+      emit(state.copyWith(account: account, isProcessing: false));
     } on Exception {
       emit(state.copyWith(isProcessing: false));
     }
@@ -72,12 +67,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       photo: event.account.photoPath,
     );
 
-    emit(
-      state.copyWith(
-        account: event.account,
-        isProcessing: false,
-      ),
-    );
+    emit(state.copyWith(account: event.account, isProcessing: false));
   }
 
   Future<void> _onLoggedOut(Emitter<AccountsState> emit) async {
