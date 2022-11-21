@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:retrofit/retrofit.dart';
@@ -26,5 +28,28 @@ abstract class JupiterAggregatorClient {
   @POST('/swap')
   Future<JupiterSwapTransactions> getSwapTransactions(
     @Body() SwapRequestDto swapRequestDto,
+  );
+}
+
+/// For docs head to https://docs.jup.ag/jupiter-api/price-api-for-solana
+@RestApi(baseUrl: 'https://price.jup.ag/v1')
+abstract class JupiterPriceClient {
+  factory JupiterPriceClient() => _JupiterPriceClient(
+        Dio()
+          ..interceptors.add(
+            InterceptorsWrapper(
+              onResponse: (response, handler) {
+                final content = response.data;
+                if (content is String) response.data = json.decode(content);
+                handler.next(response);
+              },
+            ),
+          ),
+      );
+
+  /// Get quote for a given input mint, output mint and amount
+  @GET('/price')
+  Future<PriceResponseDto> getPrice(
+    @Queries() PriceRequestDto priceRequestDto,
   );
 }

@@ -13,13 +13,13 @@ Handler paymentHandler() => shelf_router.Router()
   ..post('/createPayment', createPaymentHandler)
   ..post('/receivePayment', receivePaymentHandler)
   ..post('/createDirectPayment', createDirectPaymentHandler)
-  ..post('/getFees', getFeesHandler);
+  ..post('/getFees', getPaymentFeesHandler);
 
-Future<Response> getFeesHandler(Request request) =>
-    processRequest<void, GetFeesResponseDto>(
+Future<Response> getPaymentFeesHandler(Request request) =>
+    processRequest<void, GetPaymentFeesResponseDto>(
       request,
       ignore,
-      (_) async => const GetFeesResponseDto(
+      (_) async => const GetPaymentFeesResponseDto(
         directPayment: DirectPaymentFeeDto(
           ataExists: directPaymentFee,
           ataDoesNotExist: directPaymentWithAccountCreationFee,

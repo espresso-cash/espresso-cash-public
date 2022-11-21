@@ -117,13 +117,13 @@ class _CryptopleaseClient implements CryptopleaseClient {
   }
 
   @override
-  Future<GetFeesResponseDto> getFees() async {
+  Future<GetPaymentFeesResponseDto> getPaymentFees() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<GetFeesResponseDto>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetPaymentFeesResponseDto>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -135,7 +135,31 @@ class _CryptopleaseClient implements CryptopleaseClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetFeesResponseDto.fromJson(_result.data!);
+    final value = GetPaymentFeesResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetSwapFeeResponseDto> getSwapFee(request) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetSwapFeeResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/getSwapFee',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetSwapFeeResponseDto.fromJson(_result.data!);
     return value;
   }
 
