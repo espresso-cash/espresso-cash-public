@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/dto.dart';
