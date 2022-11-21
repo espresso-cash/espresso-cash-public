@@ -5,9 +5,8 @@ import 'package:injectable/injectable.dart';
 class AnalyticsManager {
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
-  /// User pressed on the first shareable link.
-  void shareableLinkPressed() =>
-      _analytics.logEvent(name: 'shareableLinkPressed');
+  FirebaseAnalyticsObserver get analyticsObserver =>
+      FirebaseAnalyticsObserver(analytics: _analytics);
 
   void swapTransactionCreated({
     required String from,
@@ -22,4 +21,13 @@ class AnalyticsManager {
           'amount': amount,
         },
       );
+
+  // User creates shareable link.
+  void linksCreated() => _analytics.logEvent(name: 'linksCreated');
+
+  // User pressed on the first shareable link.
+  void firstLinkReceived() => _analytics.logEvent(name: 'firstLinkReceived');
+
+  // User pressed on the second shareable link.
+  void secondLinkReceived() => _analytics.logEvent(name: 'secondLinkReceived');
 }
