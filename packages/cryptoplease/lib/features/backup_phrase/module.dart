@@ -45,7 +45,7 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
 
-    final accessMode = context.read<AccountsBloc>().state.accessMode;
+    final accessMode = context.read<AccountsBloc>().state.account?.accessMode;
     if (accessMode != null) {
       context
           .read<PuzzleReminderBloc>()

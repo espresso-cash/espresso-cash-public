@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../../core/accounts/bl/account.dart';
 
 part 'puzzle_reminder_bloc.freezed.dart';
 part 'puzzle_reminder_bloc.g.dart';

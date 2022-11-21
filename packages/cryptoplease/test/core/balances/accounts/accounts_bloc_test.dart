@@ -17,7 +17,11 @@ Future<void> main() async {
   final storage = MockFlutterSecureStorage();
   final mnemonic = bip39.generateMnemonic();
   final wallet = await createWallet(mnemonic: mnemonic, account: 0);
-  final testAccount = MyAccount(wallet: wallet, firstName: 'Test');
+  final testAccount = MyAccount(
+    wallet: wallet,
+    firstName: 'Test',
+    accessMode: const AccessMode.loaded(),
+  );
   final fileManager = FileManager();
 
   tearDown(() {

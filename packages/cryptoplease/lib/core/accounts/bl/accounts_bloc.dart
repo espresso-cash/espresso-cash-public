@@ -51,13 +51,11 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     emit(state.copyWith(isProcessing: true));
     try {
       final account = await _fileManager.loadAccount(_storage);
-      final accessMode = account?.let(always(const AccessMode.loaded()));
 
       emit(
         state.copyWith(
           account: account,
           isProcessing: false,
-          accessMode: accessMode,
         ),
       );
     } on Exception {
@@ -74,16 +72,10 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       photo: event.account.photoPath,
     );
 
-    final accessMode = event.mnemonic.whenOrNull(
-      typed: always(const AccessMode.seedInputted()),
-      generated: always(const AccessMode.created()),
-    );
-
     emit(
       state.copyWith(
         account: event.account,
         isProcessing: false,
-        accessMode: accessMode,
       ),
     );
   }
@@ -108,7 +100,6 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
           photoPath: photo?.path,
         ),
         isProcessing: false,
-        accessMode: state.accessMode,
       ),
     );
   }
@@ -128,6 +119,7 @@ extension on FileManager {
     return MyAccount(
       firstName: (await storage.read(key: nameKey)) ?? '',
       photoPath: (await photoPath?.let(loadFromAppDir))?.path,
+      accessMode: const AccessMode.loaded(),
       wallet: await createWallet(
         mnemonic: mnemonic,
         account: 0,

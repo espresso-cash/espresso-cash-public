@@ -52,10 +52,18 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     try {
       final wallet = await createWallet(mnemonic: state.phrase, account: 0);
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
+
+      final accessMode = state.seed.whenOrNull(
+        typed: always(const AccessMode.seedInputted()),
+        generated: always(const AccessMode.created()),
+      );
+
       final myAccount = MyAccount(
         firstName: event.name,
         photoPath: photo?.path,
         wallet: wallet,
+        // ignore: avoid-non-null-assertion, should not be null here
+        accessMode: accessMode!,
       );
       _accountsBloc.add(
         AccountsEvent.created(account: myAccount, mnemonic: state.seed),
