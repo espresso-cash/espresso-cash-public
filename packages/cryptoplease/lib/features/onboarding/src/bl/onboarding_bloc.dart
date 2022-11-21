@@ -53,17 +53,17 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
       final wallet = await createWallet(mnemonic: state.phrase, account: 0);
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
 
-      final accessMode = state.seed.whenOrNull(
+      final accessMode = state.seed.when(
         typed: always(const AccessMode.seedInputted()),
         generated: always(const AccessMode.created()),
+        empty: () => throw StateError('Seed is empty during submission.'),
       );
 
       final myAccount = MyAccount(
         firstName: event.name,
         photoPath: photo?.path,
         wallet: wallet,
-        // ignore: avoid-non-null-assertion, should not be null here
-        accessMode: accessMode!,
+        accessMode: accessMode,
       );
       _accountsBloc.add(
         AccountsEvent.created(account: myAccount, mnemonic: state.seed),
