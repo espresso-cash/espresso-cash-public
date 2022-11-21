@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -51,7 +50,6 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     emit(state.copyWith(isProcessing: true));
     try {
       final account = await _fileManager.loadAccount(_storage);
-
       emit(state.copyWith(account: account, isProcessing: false));
     } on Exception {
       emit(state.copyWith(isProcessing: false));
@@ -66,7 +64,6 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       name: event.account.firstName,
       photo: event.account.photoPath,
     );
-
     emit(state.copyWith(account: event.account, isProcessing: false));
   }
 
