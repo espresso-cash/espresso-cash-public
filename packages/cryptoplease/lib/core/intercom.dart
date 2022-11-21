@@ -18,8 +18,10 @@ class IntercomService {
       androidApiKey: intercomAndroidKey,
     );
 
-    await _intercom.loginUnidentifiedUser();
+    login();
   }
+
+  void login() => _intercom.loginUnidentifiedUser();
 
   void logout() => _intercom.logout();
 
