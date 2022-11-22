@@ -12,13 +12,9 @@ import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
 import '../../di.dart';
+import '../../l10n/l10n.dart';
 import '../../ui/loader.dart';
 import 'src/market_bloc.dart';
-
-final _defaultTokens = [
-  Token.sol,
-  Token.usdc,
-];
 
 class PopularTokenList extends StatelessWidget {
   const PopularTokenList({super.key});
@@ -40,10 +36,8 @@ class PopularTokenList extends StatelessWidget {
             return state.when(
               initial: () => loader,
               processing: () => loader,
-              failure: (_) => SliverList(
-                delegate: SliverChildListDelegate(
-                  _defaultTokens.map((e) => _TokenItem(e, 0.0)).toList(),
-                ),
+              failure: (_) => SliverToBoxAdapter(
+                child: Center(child: Text(context.l10n.failedToLoadTokens)),
               ),
               success: (data) => SliverList(
                 delegate: SliverChildListDelegate(

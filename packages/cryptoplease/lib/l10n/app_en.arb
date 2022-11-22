@@ -337,5 +337,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "failedToLoadTokens": "Failed to load tokens"
 }
