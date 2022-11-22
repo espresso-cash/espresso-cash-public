@@ -45,7 +45,11 @@ void main() {
             Provider<BalancesBloc>.value(value: balancesBloc),
             Provider(create: (_) => UserPreferences()),
             Provider(
-              create: (_) => MyAccount(wallet: wallet, firstName: 'Test'),
+              create: (_) => MyAccount(
+                wallet: wallet,
+                firstName: 'Test',
+                accessMode: const AccessMode.created(),
+              ),
             ),
           ],
           child: child,
