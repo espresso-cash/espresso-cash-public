@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/accounts/module.dart';
 import '../../di.dart';
 import 'src/data/repository.dart';
 
-export 'src/data/repository.dart';
 export 'src/presentation/components/portfolio_widget.dart';
 export 'src/presentation/portfolio.dart';
 export 'src/presentation/settings.dart';
@@ -17,9 +17,13 @@ class InvestmentModule extends SingleChildStatelessWidget {
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
-          ChangeNotifierProvider.value(
-            value: sl<InvestmentSettingsRepository>(),
-          )
+          ChangeNotifierProvider<InvestmentSettingsRepository>(
+            create: (context) => sl<InvestmentSettingsRepository>(),
+          ),
+          LogoutListener(
+            onLogout: () =>
+                context.read<InvestmentSettingsRepository>().clear(),
+          ),
         ],
         child: child,
       );

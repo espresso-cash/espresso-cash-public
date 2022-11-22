@@ -13,14 +13,15 @@ class MyPortfolioWidget extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<BalancesBloc, BalancesState>(
         builder: (context, state) {
-          final displayEmptyBalances =
-              context.read<InvestmentSettingsRepository>().displayEmptyBalances;
+          final displayEmptyBalances = context
+              .watch<InvestmentSettingsRepository>()
+              .displayEmptyBalances;
 
           return PortfolioWidget(
             tokens: IList(
               displayEmptyBalances
                   ? state.userTokens
-                  : state.userTokensFiltered,
+                  : state.userTokensWithPositiveBalance,
             ),
           );
         },

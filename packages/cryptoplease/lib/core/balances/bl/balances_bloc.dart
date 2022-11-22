@@ -28,7 +28,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
     required TokenList tokens,
   })  : _solanaClient = solanaClient,
         _tokens = tokens,
-        super(const BalancesState()) {
+        super(BalancesState()) {
     on<BalancesEvent>(_eventHandler);
   }
 

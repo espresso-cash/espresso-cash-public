@@ -16,3 +16,25 @@ class AccountsModule extends SingleChildStatelessWidget {
         child: child,
       );
 }
+
+class LogoutListener extends SingleChildStatelessWidget {
+  const LogoutListener({
+    Key? key,
+    Widget? child,
+    required this.onLogout,
+  }) : super(key: key, child: child);
+
+  final VoidCallback onLogout;
+
+  @override
+  Widget buildWithChild(BuildContext context, Widget? child) =>
+      BlocListener<AccountsBloc, AccountsState>(
+        listenWhen: (s1, s2) => s1.account != s2.account,
+        listener: (context, state) {
+          if (state.account == null) {
+            onLogout();
+          }
+        },
+        child: child,
+      );
+}

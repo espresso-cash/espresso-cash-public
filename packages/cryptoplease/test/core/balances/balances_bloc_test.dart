@@ -61,7 +61,7 @@ void main() {
           BalancesEvent.requested(address: account.address),
         ),
         expect: () => [
-          const BalancesState(processingState: ProcessingState.processing()),
+          BalancesState(processingState: const ProcessingState.processing()),
           BalancesState(
             processingState: const ProcessingState.none(),
             balances: <Token, Amount>{
