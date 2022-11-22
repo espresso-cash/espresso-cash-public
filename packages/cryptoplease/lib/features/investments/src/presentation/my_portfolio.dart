@@ -6,8 +6,8 @@ import '../../../../core/balances/bl/balances_bloc.dart';
 import '../data/repository.dart';
 import 'components/portfolio_widget.dart';
 
-class MyPortfolioWidget extends StatelessWidget {
-  const MyPortfolioWidget({super.key});
+class MyPortfolio extends StatelessWidget {
+  const MyPortfolio({super.key});
 
   @override
   Widget build(BuildContext context) =>

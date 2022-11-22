@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../data/repository.dart';
-import 'components/switch.dart';
+import 'components/profile_switch.dart';
 
 class InvestmentsZeroBalanceSwitch extends StatelessWidget {
   const InvestmentsZeroBalanceSwitch({super.key});
@@ -14,7 +14,7 @@ class InvestmentsZeroBalanceSwitch extends StatelessWidget {
           label: context.l10n.displayEmptyBalanceTitle,
           subtitle: context.l10n.displayEmptyBalanceSubtitle,
           value: state.displayEmptyBalances,
-          onChanged: (val) => state.toggleDisplayEmptyBalances(val),
+          onChanged: state.toggleDisplayEmptyBalances,
         ),
       );
 }

@@ -7,8 +7,8 @@ import '../../di.dart';
 import 'src/data/repository.dart';
 
 export 'src/presentation/components/portfolio_widget.dart';
-export 'src/presentation/portfolio.dart';
-export 'src/presentation/settings.dart';
+export 'src/presentation/investments_zero_balance_switch.dart';
+export 'src/presentation/my_portfolio.dart';
 
 class InvestmentModule extends SingleChildStatelessWidget {
   const InvestmentModule({Key? key, Widget? child})

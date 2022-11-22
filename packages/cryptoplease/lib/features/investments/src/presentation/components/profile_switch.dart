@@ -10,14 +10,14 @@ class ProfileSwitch extends StatelessWidget {
     this.color = CpColors.primaryTextColor,
     required this.value,
     required this.onChanged,
-    this.subtitle,
+    required this.subtitle,
   }) : super(key: key);
 
   final String label;
-  final String? subtitle;
+  final String subtitle;
   final Color color;
   final bool value;
-  final void Function(bool) onChanged;
+  final ValueSetter<bool> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -32,20 +32,15 @@ class ProfileSwitch extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      subtitle: subtitle != null
-          ? Text(
-              subtitle,
-              style: TextStyle(
-                color: color,
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          : null,
-      trailing: CpSwitch(
-        value: value,
-        onChanged: onChanged,
+      subtitle: Text(
+        subtitle,
+        style: TextStyle(
+          color: color,
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+        ),
       ),
+      trailing: CpSwitch(value: value, onChanged: onChanged),
     );
   }
 }

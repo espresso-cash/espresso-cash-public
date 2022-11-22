@@ -46,7 +46,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
               ),
               const SliverPadding(
                 padding: EdgeInsets.only(left: 24, right: 24),
-                sliver: MyPortfolioWidget(),
+                sliver: MyPortfolio(),
               ),
               const SliverToBoxAdapter(
                 child: Padding(
