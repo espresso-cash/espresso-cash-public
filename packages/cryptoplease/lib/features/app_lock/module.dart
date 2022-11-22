@@ -1,13 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
+import '../../gen/assets.gen.dart';
+import '../../l10n/l10n.dart';
+import '../../routes.gr.dart';
 import 'src/bl/app_lock_bloc.dart';
 import 'src/presentation/app_lock_screen.dart';
-
-export 'src/bl/app_lock_bloc.dart';
+import 'src/presentation/components/switch.dart';
 
 class AppLockModule extends SingleChildStatelessWidget {
   const AppLockModule({Key? key, Widget? child})
@@ -74,4 +77,33 @@ class _ContentState extends State<_Content>
       ),
     );
   }
+}
+
+class AppLockMenuItem extends StatelessWidget {
+  const AppLockMenuItem({super.key});
+
+  @override
+  Widget build(BuildContext context) => BlocBuilder<AppLockBloc, AppLockState>(
+        builder: (context, state) => MenuSwitch(
+          title: context.l10n.appLock,
+          description: context.l10n.appLockDescription,
+          icon: Assets.icons.lock,
+          value: state is AppLockStateEnabled,
+          onChanged: (value) {
+            if (value) {
+              context.router.push(
+                const AppLockSetupFlowRoute(
+                  children: [AppLockEnableRoute()],
+                ),
+              );
+            } else {
+              context.router.push(
+                const AppLockSetupFlowRoute(
+                  children: [AppLockDisableRoute()],
+                ),
+              );
+            }
+          },
+        ),
+      );
 }
