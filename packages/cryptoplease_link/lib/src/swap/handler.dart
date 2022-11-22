@@ -17,7 +17,12 @@ Future<Response> _handler(Request request) async =>
       request,
       SwapRequestDto.fromJson,
       (data) async {
-        final transactions = await _swapClient.getSwapTransactions(data);
+        final transactions = await _swapClient.getSwapTransactions(
+          JupiterSwapRequestDto(
+            userPublicKey: data.userPublicKey,
+            route: data.route,
+          ),
+        );
 
         final tx = [
           transactions.setupTransaction,

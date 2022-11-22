@@ -18,10 +18,12 @@ Map<String, dynamic> _$$_SwapResponseDtoToJson(_$_SwapResponseDto instance) =>
 
 _$_SwapRequestDto _$$_SwapRequestDtoFromJson(Map<String, dynamic> json) =>
     _$_SwapRequestDto(
-      swapTransaction: json['swapTransaction'] as String,
+      userPublicKey: json['userPublicKey'] as String,
+      route: JupiterRoute.fromJson(json['route'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_SwapRequestDtoToJson(_$_SwapRequestDto instance) =>
     <String, dynamic>{
-      'swapTransaction': instance.swapTransaction,
+      'userPublicKey': instance.userPublicKey,
+      'route': instance.route,
     };

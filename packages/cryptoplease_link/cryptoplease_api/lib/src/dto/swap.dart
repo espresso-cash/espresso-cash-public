@@ -1,3 +1,4 @@
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'swap.freezed.dart';
@@ -16,7 +17,8 @@ class SwapResponseDto with _$SwapResponseDto {
 @freezed
 class SwapRequestDto with _$SwapRequestDto {
   const factory SwapRequestDto({
-    required String swapTransaction,
+    required String userPublicKey,
+    required JupiterRoute route,
   }) = _SwapRequestDto;
 
   factory SwapRequestDto.fromJson(Map<String, dynamic> json) =>

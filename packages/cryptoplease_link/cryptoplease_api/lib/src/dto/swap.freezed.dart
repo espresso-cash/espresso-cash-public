@@ -156,7 +156,8 @@ SwapRequestDto _$SwapRequestDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SwapRequestDto {
-  String get swapTransaction => throw _privateConstructorUsedError;
+  String get userPublicKey => throw _privateConstructorUsedError;
+  JupiterRoute get route => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -169,7 +170,9 @@ abstract class $SwapRequestDtoCopyWith<$Res> {
   factory $SwapRequestDtoCopyWith(
           SwapRequestDto value, $Res Function(SwapRequestDto) then) =
       _$SwapRequestDtoCopyWithImpl<$Res>;
-  $Res call({String swapTransaction});
+  $Res call({String userPublicKey, JupiterRoute route});
+
+  $JupiterRouteCopyWith<$Res> get route;
 }
 
 /// @nodoc
@@ -183,14 +186,26 @@ class _$SwapRequestDtoCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? swapTransaction = freezed,
+    Object? userPublicKey = freezed,
+    Object? route = freezed,
   }) {
     return _then(_value.copyWith(
-      swapTransaction: swapTransaction == freezed
-          ? _value.swapTransaction
-          : swapTransaction // ignore: cast_nullable_to_non_nullable
+      userPublicKey: userPublicKey == freezed
+          ? _value.userPublicKey
+          : userPublicKey // ignore: cast_nullable_to_non_nullable
               as String,
+      route: route == freezed
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as JupiterRoute,
     ));
+  }
+
+  @override
+  $JupiterRouteCopyWith<$Res> get route {
+    return $JupiterRouteCopyWith<$Res>(_value.route, (value) {
+      return _then(_value.copyWith(route: value));
+    });
   }
 }
 
@@ -201,7 +216,10 @@ abstract class _$$_SwapRequestDtoCopyWith<$Res>
           _$_SwapRequestDto value, $Res Function(_$_SwapRequestDto) then) =
       __$$_SwapRequestDtoCopyWithImpl<$Res>;
   @override
-  $Res call({String swapTransaction});
+  $Res call({String userPublicKey, JupiterRoute route});
+
+  @override
+  $JupiterRouteCopyWith<$Res> get route;
 }
 
 /// @nodoc
@@ -217,13 +235,18 @@ class __$$_SwapRequestDtoCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? swapTransaction = freezed,
+    Object? userPublicKey = freezed,
+    Object? route = freezed,
   }) {
     return _then(_$_SwapRequestDto(
-      swapTransaction: swapTransaction == freezed
-          ? _value.swapTransaction
-          : swapTransaction // ignore: cast_nullable_to_non_nullable
+      userPublicKey: userPublicKey == freezed
+          ? _value.userPublicKey
+          : userPublicKey // ignore: cast_nullable_to_non_nullable
               as String,
+      route: route == freezed
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as JupiterRoute,
     ));
   }
 }
@@ -231,17 +254,19 @@ class __$$_SwapRequestDtoCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_SwapRequestDto implements _SwapRequestDto {
-  const _$_SwapRequestDto({required this.swapTransaction});
+  const _$_SwapRequestDto({required this.userPublicKey, required this.route});
 
   factory _$_SwapRequestDto.fromJson(Map<String, dynamic> json) =>
       _$$_SwapRequestDtoFromJson(json);
 
   @override
-  final String swapTransaction;
+  final String userPublicKey;
+  @override
+  final JupiterRoute route;
 
   @override
   String toString() {
-    return 'SwapRequestDto(swapTransaction: $swapTransaction)';
+    return 'SwapRequestDto(userPublicKey: $userPublicKey, route: $route)';
   }
 
   @override
@@ -250,13 +275,16 @@ class _$_SwapRequestDto implements _SwapRequestDto {
         (other.runtimeType == runtimeType &&
             other is _$_SwapRequestDto &&
             const DeepCollectionEquality()
-                .equals(other.swapTransaction, swapTransaction));
+                .equals(other.userPublicKey, userPublicKey) &&
+            const DeepCollectionEquality().equals(other.route, route));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(swapTransaction));
+      runtimeType,
+      const DeepCollectionEquality().hash(userPublicKey),
+      const DeepCollectionEquality().hash(route));
 
   @JsonKey(ignore: true)
   @override
@@ -272,14 +300,17 @@ class _$_SwapRequestDto implements _SwapRequestDto {
 }
 
 abstract class _SwapRequestDto implements SwapRequestDto {
-  const factory _SwapRequestDto({required final String swapTransaction}) =
-      _$_SwapRequestDto;
+  const factory _SwapRequestDto(
+      {required final String userPublicKey,
+      required final JupiterRoute route}) = _$_SwapRequestDto;
 
   factory _SwapRequestDto.fromJson(Map<String, dynamic> json) =
       _$_SwapRequestDto.fromJson;
 
   @override
-  String get swapTransaction;
+  String get userPublicKey;
+  @override
+  JupiterRoute get route;
   @override
   @JsonKey(ignore: true)
   _$$_SwapRequestDtoCopyWith<_$_SwapRequestDto> get copyWith =>
