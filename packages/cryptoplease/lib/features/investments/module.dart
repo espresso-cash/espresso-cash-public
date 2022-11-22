@@ -6,6 +6,8 @@ import '../../di.dart';
 import 'src/data/repository.dart';
 
 export 'src/data/repository.dart';
+export 'src/presentation/components/portfolio_widget.dart';
+export 'src/presentation/portfolio.dart';
 export 'src/presentation/settings.dart';
 
 class InvestmentModule extends SingleChildStatelessWidget {

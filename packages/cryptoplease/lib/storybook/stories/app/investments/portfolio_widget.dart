@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../../app/screens/authenticated/investments/components/portfolio_widget.dart';
 import '../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../core/user_preferences.dart';
 import '../../../../di.dart';
+import '../../../../features/investments/module.dart';
 import '../app_wrapper.dart';
 
 final appPortfolioWidget = Story(
