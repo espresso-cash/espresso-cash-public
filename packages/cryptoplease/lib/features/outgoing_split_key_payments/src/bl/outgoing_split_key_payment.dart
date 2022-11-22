@@ -51,7 +51,7 @@ class OSKPStatus with _$OSKPStatus {
   }) = OSKPStatusLinksReady;
 
   const factory OSKPStatus.success({
-    required String txId,
+    required String withdrawTxId,
   }) = OSKPStatusSuccess;
 
   const factory OSKPStatus.txFailure({TxFailureReason? reason}) =

@@ -5,9 +5,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
-import 'package:solana/base58.dart';
-import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
@@ -56,16 +53,15 @@ class TransactionRepository {
     if (pr != null) return pr;
 
     final odp = await _db.oDPRows.findActivityOrNull(
-      (row) => row.txId.equals(txId),
+      (row) => row.id.equals(txId),
       (pr) => pr.toActivity(_tokens),
     );
     if (odp != null) return odp;
 
-    final oskp = await _db.oSKPRows
-        .select()
-        .get()
-        .then((rows) => rows.matchTx(fetched.tx))
-        .then((row) async => row?.toActivity(_tokens));
+    final oskp = await _db.oSKPRows.findActivityOrNull(
+      (row) => row.txId.equals(txId),
+      (pr) => pr.toActivity(_tokens),
+    );
     if (oskp != null) return oskp;
 
     return null;
@@ -83,24 +79,5 @@ extension Q<T extends HasResultSet, D> on ResultSetImplementation<T, D> {
     final result = await query.getSingleOrNull();
 
     return result?.let(builder);
-  }
-}
-
-extension on Iterable<OSKPRow> {
-  Future<OSKPRow?> matchTx(SignedTx tx) async {
-    for (final row in this) {
-      final escrow = await row.privateKey
-          ?.let(base58decode)
-          .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it))
-          .then((it) => it.publicKey);
-
-      if (escrow == null) continue;
-
-      if (tx.accounts.firstWhereOrNull((a) => a.pubKey == escrow) != null) {
-        return row;
-      }
-    }
-
-    return null;
   }
 }

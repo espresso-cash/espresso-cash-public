@@ -22,7 +22,7 @@ class OSKPVerifier {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
         void onSuccess(String txId) {
-          final newStatus = OSKPStatus.success(txId: txId);
+          final newStatus = OSKPStatus.success(withdrawTxId: txId);
           _repository.save(payment.copyWith(status: newStatus));
           _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);

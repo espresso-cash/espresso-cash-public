@@ -55,6 +55,7 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   // Status fields
   TextColumn get tx => text().nullable()();
   TextColumn get txId => text().nullable()();
+  TextColumn get withdrawTxId => text().nullable()();
   TextColumn get privateKey => text().nullable()();
   TextColumn get link1 => text().nullable()();
   TextColumn get link2 => text().nullable()();
@@ -90,6 +91,7 @@ extension on OSKPStatusDto {
   Future<OSKPStatus> toOSKPStatus(OSKPRow row) async {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
+    final withdrawTxId = row.withdrawTxId;
     final escrow = await row.privateKey
         ?.let(base58decode)
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
@@ -110,7 +112,7 @@ extension on OSKPStatusDto {
           escrow: escrow!,
         );
       case OSKPStatusDto.success:
-        return OSKPStatus.success(txId: txId!);
+        return OSKPStatus.success(withdrawTxId: withdrawTxId!);
       case OSKPStatusDto.txFailure:
         return OSKPStatus.txFailure(reason: row.txFailureReason);
       case OSKPStatusDto.txSendFailure:
@@ -135,6 +137,7 @@ extension on OutgoingSplitKeyPayment {
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
+        withdrawTxId: status.toWithdrawTxId(),
         privateKey: await status.toPrivateKey(),
         link1: status.toLink1(),
         link2: status.toLink2(),
@@ -163,7 +166,14 @@ extension on OSKPStatus {
       );
 
   String? toTxId() => mapOrNull(
-        success: (it) => it.txId,
+        txCreated: (it) => it.tx.id,
+        txSent: (it) => it.tx.id,
+        txSendFailure: (it) => it.tx.id,
+        txWaitFailure: (it) => it.tx.id,
+      );
+
+  String? toWithdrawTxId() => mapOrNull(
+        success: (it) => it.withdrawTxId,
       );
 
   Future<String?> toPrivateKey() async => this.map(
