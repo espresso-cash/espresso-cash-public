@@ -19,14 +19,7 @@ class EditProfileSection extends StatelessWidget {
             label: context.l10n.privacyPolicy,
             onPressed: () => context.navigateToPrivacyPolicy(),
           ),
-          Consumer<InvestmentSettingsRepository>(
-            builder: (context, state, child) => ProfileSwitch(
-              label: context.l10n.displayEmptyBalanceTitle,
-              subtitle: context.l10n.displayEmptyBalanceSubtitle,
-              value: state.displayEmptyBalances,
-              onChanged: (val) => state.toggleDisplayEmptyBalances(val),
-            ),
-          ),
+          const InvestmentsZeroBalanceSwitch(),
         ],
       );
 }

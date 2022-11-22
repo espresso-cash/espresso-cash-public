@@ -15,7 +15,7 @@ import '../../../di.dart';
 import '../../../features/activities/module.dart';
 import '../../../features/backup_phrase/module.dart';
 import '../../../features/incoming_split_key_payments/module.dart';
-import '../../../features/investments_settings/module.dart';
+import '../../../features/investments/module.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
 import '../../../features/outgoing_split_key_payments/module.dart';
 import '../../../features/payment_request/module.dart';
@@ -63,7 +63,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const ODPModule(),
                 const OSKPModule(),
                 const ISKPModule(),
-                const InvestmentSettingsModule(),
+                const InvestmentModule(),
                 const ActivitiesModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),

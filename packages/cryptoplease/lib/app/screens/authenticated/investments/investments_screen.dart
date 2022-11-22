@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
-import '../../../../features/investments_settings/module.dart';
+import '../../../../features/investments/module.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
@@ -29,6 +29,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
             final displayEmptyBalances = context
                 .read<InvestmentSettingsRepository>()
                 .displayEmptyBalances;
+            //TODO move
 
             return RefreshIndicator(
               displacement: 80,

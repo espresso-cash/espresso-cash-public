@@ -6,9 +6,10 @@ import '../../di.dart';
 import 'src/data/repository.dart';
 
 export 'src/data/repository.dart';
+export 'src/presentation/settings.dart';
 
-class InvestmentSettingsModule extends SingleChildStatelessWidget {
-  const InvestmentSettingsModule({Key? key, Widget? child})
+class InvestmentModule extends SingleChildStatelessWidget {
+  const InvestmentModule({Key? key, Widget? child})
       : super(key: key, child: child);
 
   @override
