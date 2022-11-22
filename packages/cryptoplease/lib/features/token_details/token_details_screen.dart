@@ -1,13 +1,17 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/amount.dart';
 import '../../core/balances/presentation/watch_balance.dart';
-import '../../core/conversion_rates/widgets/token_rate_text.dart';
+import '../../core/conversion_rates/context_ext.dart';
+import '../../core/presentation/format_amount.dart';
 import '../../core/tokens/token.dart';
+import '../../core/user_preferences.dart';
 import '../../di.dart';
+import '../../l10n/device_locale.dart';
 import '../../l10n/l10n.dart';
 import '../../ui/colors.dart';
 import '../../ui/loader.dart';
@@ -46,7 +50,7 @@ class TokenDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       _Header(token: token),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 4),
                       Text(
                         token.name,
                         style: const TextStyle(
@@ -75,40 +79,24 @@ class _Header extends StatelessWidget {
   static const double _tokenSize = 68;
 
   @override
-  Widget build(BuildContext context) {
-    final Amount? fiatAmount = context.watchUserFiatBalance(token);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SizedBox(
-        height: _tokenSize,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: CpTokenIcon(token: token, size: _tokenSize),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: BackButton(onPressed: () => context.router.pop()),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: BackButton(onPressed: () => context.router.pop()),
-            ),
-            if (fiatAmount != null && fiatAmount.value != 0)
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: SizedBox(
+          height: _tokenSize,
+          child: Stack(
+            children: [
               Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: BalancePillWidget(fiatAmount),
-                ),
-              )
-          ],
+                alignment: Alignment.center,
+                child: CpTokenIcon(token: token, size: _tokenSize),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: BackButton(onPressed: () => context.router.pop()),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class _Content extends StatelessWidget {
@@ -154,32 +142,63 @@ class __ChartState extends State<_Chart> {
   TokenChartItem? _selected;
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          if (_selected == null)
-            TokenRateText(
-              token: widget.token,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
+  Widget build(BuildContext context) {
+    final Amount? fiatAmount = context.watchUserFiatBalance(widget.token);
+
+    final locale = DeviceLocale.localeOf(context);
+
+    //TODO update to value from coingecko api
+    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final Amount? tokenRate = context
+        .watchConversionRate(from: widget.token, to: fiatCurrency)
+        ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
+
+    return Column(
+      children: [
+        if (_selected == null)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PriceWidget(
+                label: context.l10n.price,
+                amount: tokenRate?.format(locale) ?? '-',
               ),
-            )
-          else
-            Text(
-              '\$${_selected?.price?.toStringAsFixed(2) ?? '-'}',
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
-              ),
+              if (fiatAmount != null && fiatAmount.value != 0) ...[
+                const SizedBox(width: 24),
+                PriceWidget(
+                  label: context.l10n.yourBalance,
+                  amount: fiatAmount.format(DeviceLocale.localeOf(context)),
+                ),
+              ]
+            ],
+          )
+        else
+          Text(
+            '\$${_selected?.price?.toStringAsFixed(2) ?? '-'}',
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
             ),
-          TokenChart(
-            token: widget.token,
-            onSelect: (item) {
-              setState(() {
-                _selected = item;
-              });
-            },
           ),
-        ],
-      );
+        const SizedBox(height: 6),
+        //TODO
+        const Text(
+          // r'+$1.15 (2.95%) Past Week',
+          '',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 13,
+          ),
+        ),
+        TokenChart(
+          token: widget.token,
+          onSelect: (item) {
+            setState(() {
+              _selected = item;
+            });
+          },
+        ),
+      ],
+    );
+  }
 }

@@ -337,5 +337,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "price": "Price",
+  "yourBalance": "Your balance"
 }

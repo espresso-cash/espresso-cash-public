@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../ui/colors.dart';
-import '../../core/presentation/format_date.dart';
 import '../../core/tokens/token.dart';
 import '../../di.dart';
 import '../../ui/loader.dart';
 import 'src/bloc.dart';
 import 'src/chart_interval.dart';
+import 'src/date_format.dart';
 import 'src/token_chart_item.dart';
 
 export 'src/token_chart_item.dart';
@@ -138,16 +138,16 @@ class _ChartWidget extends StatelessWidget {
                 fitInsideHorizontally: true,
                 tooltipBgColor: Colors.transparent,
                 showOnTopOfTheChartBoxArea: true,
-                tooltipMargin: 3,
+                tooltipMargin: 10,
                 getTooltipItems: (touchedSpots) => touchedSpots.map(
                   (LineBarSpot touchedSpot) {
                     final date = data[touchedSpot.spotIndex].date;
 
                     return LineTooltipItem(
-                      date != null ? context.formatDate(date) : '-',
+                      date != null ? formatDate(date) : '-',
                       const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),
                     );
