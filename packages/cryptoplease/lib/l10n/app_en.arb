@@ -337,5 +337,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "settings" : "Settings",
+  "displayEmptyBalanceTitle" : "Display Empty Balances",
+  "displayEmptyBalanceSubtitle" : "Show your crypto with zero balances"
 }
