@@ -17,7 +17,7 @@ class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>
   @override
   void onEnableFinished(String pin) {
     context.read<AppLockBloc>().add(AppLockEvent.enable(pin));
-    context.router.replaceAll([const AppLockSettingsRoute()]);
+    context.router.pop();
   }
 
   @override
@@ -32,7 +32,7 @@ class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>
 
   @override
   void onDisableFinished() {
-    context.router.replaceAll([const AppLockSettingsRoute()]);
+    context.router.pop();
   }
 
   @override
