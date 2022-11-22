@@ -3,8 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/user_preferences.dart';
 import '../../../../ui/colors.dart';
+import '../../core/presentation/format_date.dart';
 import '../../core/tokens/token.dart';
 import '../../di.dart';
 import '../../ui/loader.dart';
@@ -12,10 +12,13 @@ import 'src/bloc.dart';
 import 'src/chart_interval.dart';
 import 'src/token_chart_item.dart';
 
+export 'src/token_chart_item.dart';
+
 class TokenChart extends StatelessWidget {
-  const TokenChart({super.key, required this.token});
+  const TokenChart({super.key, required this.token, this.onSelect});
 
   final Token token;
+  final void Function(TokenChartItem?)? onSelect;
 
   @override
   Widget build(BuildContext context) => BlocProvider<TokenChartBloc>(
@@ -34,7 +37,10 @@ class TokenChart extends StatelessWidget {
                   Expanded(
                     child: Stack(
                       children: [
-                        _ChartWidget(data: data),
+                        _ChartWidget(
+                          data: data,
+                          onSelect: onSelect,
+                        ),
                         if (isLoading) const LoadingIndicator()
                       ],
                     ),
@@ -60,89 +66,100 @@ class _ChartWidget extends StatelessWidget {
   const _ChartWidget({
     Key? key,
     required this.data,
+    this.onSelect,
   }) : super(key: key);
 
   final IList<TokenChartItem> data;
+  final void Function(TokenChartItem?)? onSelect;
 
   @override
-  Widget build(BuildContext context) {
-    final sign = context.read<UserPreferences>().fiatCurrency.sign;
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 32.0),
+        child: LineChart(
+          LineChartData(
+            lineBarsData: [
+              LineChartBarData(
+                spots: data
+                    .map(
+                      (e) => FlSpot(
+                        e.date?.millisecondsSinceEpoch.toDouble() ?? 0.0,
+                        e.price ?? 0,
+                      ),
+                    )
+                    .toList(),
+                isCurved: true,
+                dotData: FlDotData(show: false),
+                color: CpColors.chartLineColor,
+                barWidth: 4,
+              )
+            ],
+            gridData: FlGridData(show: false),
+            borderData: FlBorderData(show: false),
+            titlesData: FlTitlesData(show: false),
+            lineTouchData: LineTouchData(
+              enabled: true,
+              touchCallback: (event, lineResponse) {
+                final selectedIndex =
+                    lineResponse?.lineBarSpots?.first.spotIndex;
 
-    return LineChart(
-      LineChartData(
-        lineBarsData: [
-          LineChartBarData(
-            spots: data
-                .map(
-                  (e) => FlSpot(
-                    e.date?.millisecondsSinceEpoch.toDouble() ?? 0.0,
-                    e.price ?? 0,
-                  ),
-                )
-                .toList(),
-            isCurved: true,
-            dotData: FlDotData(show: false),
-            color: CpColors.chartLineColor,
-            barWidth: 4,
-          )
-        ],
-        gridData: FlGridData(show: false),
-        borderData: FlBorderData(show: false),
-        titlesData: FlTitlesData(show: false),
-        lineTouchData: LineTouchData(
-          enabled: true,
-          touchCallback: (event, lineResponse) {
-            final selectedIndex = lineResponse?.lineBarSpots?.first.spotIndex;
-
-            if (selectedIndex == null) return;
-
-            final price = data[selectedIndex].price ?? 0;
-            final date = data[selectedIndex].date ?? 0;
-
-            print('$date - $price');
-          },
-          getTouchedSpotIndicator: (
-            LineChartBarData barData,
-            List<int> indicators,
-          ) =>
-              indicators.map(
-            (int index) {
-              final line = FlLine(
-                color: Colors.grey,
-                strokeWidth: 1,
-                dashArray: [2, 4],
-              );
-
-              return TouchedSpotIndicatorData(
-                line,
-                FlDotData(show: true),
-              );
-            },
-          ).toList(),
-          touchTooltipData: LineTouchTooltipData(
-            fitInsideHorizontally: true,
-            tooltipBgColor: CpColors.lightBackgroundColor,
-            getTooltipItems: (touchedSpots) => touchedSpots.map(
-              (LineBarSpot touchedSpot) {
-                final price = data[touchedSpot.spotIndex].price ?? 0;
-
-                return LineTooltipItem(
-                  '$sign${price.toStringAsFixed(2)}',
-                  const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  ),
-                );
+                if (onSelect != null) {
+                  if (selectedIndex == null ||
+                      event is FlTapUpEvent ||
+                      event is FlLongPressEnd) {
+                    onSelect?.call(null);
+                  } else {
+                    onSelect?.call(data[selectedIndex]);
+                  }
+                }
               },
-            ).toList(),
+              getTouchedSpotIndicator: (
+                LineChartBarData barData,
+                List<int> indicators,
+              ) =>
+                  indicators.map(
+                (int index) {
+                  final line = FlLine(
+                    color: Colors.white,
+                    strokeWidth: 1,
+                    dashArray: [5, 5],
+                  );
+
+                  final dot = FlDotData(
+                    getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
+                      radius: 5,
+                      color: CpColors.yellowColor,
+                    ),
+                  );
+
+                  return TouchedSpotIndicatorData(line, dot);
+                },
+              ).toList(),
+              touchTooltipData: LineTouchTooltipData(
+                fitInsideHorizontally: true,
+                tooltipBgColor: Colors.transparent,
+                showOnTopOfTheChartBoxArea: true,
+                tooltipMargin: 3,
+                getTooltipItems: (touchedSpots) => touchedSpots.map(
+                  (LineBarSpot touchedSpot) {
+                    final date = data[touchedSpot.spotIndex].date;
+
+                    return LineTooltipItem(
+                      date != null ? context.formatDate(date) : '-',
+                      const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    );
+                  },
+                ).toList(),
+              ),
+              getTouchLineEnd: (_, __) => double.infinity,
+            ),
           ),
-          getTouchLineEnd: (_, __) => 0,
+          swapAnimationDuration: Duration.zero,
         ),
-      ),
-      swapAnimationDuration: Duration.zero,
-    );
-  }
+      );
 }
 
 class _ChartRangeSelector extends StatelessWidget {

@@ -55,14 +55,7 @@ class TokenDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      TokenRateText(
-                        token: token,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                        ),
-                      ),
-                      TokenChart(token: token),
+                      _Chart(token: token),
                       _Content(token: token),
                     ],
                   ),
@@ -97,6 +90,10 @@ class _Header extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.centerLeft,
+              child: BackButton(onPressed: () => context.router.pop()),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
               child: BackButton(onPressed: () => context.router.pop()),
             ),
             if (fiatAmount != null && fiatAmount.value != 0)
@@ -141,5 +138,48 @@ class _Content extends StatelessWidget {
             success: (data) => TokenDetailsWidget(data: data),
           );
         },
+      );
+}
+
+class _Chart extends StatefulWidget {
+  const _Chart({required this.token});
+
+  final Token token;
+
+  @override
+  State<_Chart> createState() => __ChartState();
+}
+
+class __ChartState extends State<_Chart> {
+  TokenChartItem? _selected;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          if (_selected == null)
+            TokenRateText(
+              token: widget.token,
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+              ),
+            )
+          else
+            Text(
+              '\$${_selected?.price?.toStringAsFixed(2) ?? '-'}',
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+              ),
+            ),
+          TokenChart(
+            token: widget.token,
+            onSelect: (item) {
+              setState(() {
+                _selected = item;
+              });
+            },
+          ),
+        ],
       );
 }
