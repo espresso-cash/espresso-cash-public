@@ -3,7 +3,7 @@ part of 'puzzle_reminder_bloc.dart';
 @freezed
 class PuzzleReminderEvent with _$PuzzleReminderEvent {
   /// Indicates that the state of resolution has to be checked
-  const factory PuzzleReminderEvent.checkRequested() =
+  const factory PuzzleReminderEvent.checkRequested(AccessMode accessMode) =
       PuzzleReminderEventCheckRequested;
 
   /// Indicates that the user solved the puzzle

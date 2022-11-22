@@ -51,7 +51,11 @@ void main() {
             Provider<AppLockBloc>.value(value: appLockBloc),
             Provider(create: (_) => UserPreferences()),
             Provider(
-              create: (_) => MyAccount(wallet: wallet, firstName: 'Test'),
+              create: (_) => MyAccount(
+                wallet: wallet,
+                firstName: 'Test',
+                accessMode: const AccessMode.created(),
+              ),
             ),
           ],
           child: child,

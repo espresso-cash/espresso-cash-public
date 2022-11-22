@@ -27,7 +27,11 @@ void main() {
       setUpAll(() async {
         final wallet = await Wallet.random();
 
-        account = MyAccount(firstName: 'Tester', wallet: wallet);
+        account = MyAccount(
+          firstName: 'Tester',
+          wallet: wallet,
+          accessMode: const AccessMode.created(),
+        );
         await solanaClient.requestAirdrop(
           address: wallet.publicKey,
           lamports: initialAmount,
