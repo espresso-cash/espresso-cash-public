@@ -22,9 +22,12 @@ import 'package:solana/solana.dart';
 import 'golden_test.mocks.dart';
 import 'utils.dart';
 
-@GenerateMocks(
-  [ConversionRatesRepository, ConversionRatesBloc, BalancesBloc, AppLockBloc],
-)
+@GenerateMocks([
+  ConversionRatesRepository,
+  ConversionRatesBloc,
+  BalancesBloc,
+  AppLockBloc,
+])
 void main() {
   testGoldensWidget('Get started screen', const GetStartedScreen());
 

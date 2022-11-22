@@ -90,19 +90,10 @@ class AppLockMenuItem extends StatelessWidget {
           icon: Assets.icons.lock,
           value: state is AppLockStateEnabled,
           onChanged: (value) {
-            if (value) {
-              context.router.push(
-                const AppLockSetupFlowRoute(
-                  children: [AppLockEnableRoute()],
-                ),
-              );
-            } else {
-              context.router.push(
-                const AppLockSetupFlowRoute(
-                  children: [AppLockDisableRoute()],
-                ),
-              );
-            }
+            final screen = value
+                ? const AppLockEnableRoute()
+                : const AppLockDisableRoute();
+            context.router.push(AppLockSetupFlowRoute(children: [screen]));
           },
         ),
       );
