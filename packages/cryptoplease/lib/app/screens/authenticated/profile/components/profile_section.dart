@@ -41,13 +41,13 @@ class ProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
+        padding: const EdgeInsets.only(bottom: 16),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(30)),
           child: Material(
             color: color,
             child: Padding(
-              padding: const EdgeInsets.only(left: 4.0, bottom: 4),
+              padding: const EdgeInsets.only(left: 4, bottom: 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: actions,
