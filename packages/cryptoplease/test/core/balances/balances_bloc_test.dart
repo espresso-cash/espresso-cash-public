@@ -3,7 +3,6 @@ import 'package:cryptoplease/config.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
 import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
-import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/processing_state.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/tokens/token_list.dart';
@@ -62,7 +61,7 @@ void main() {
           BalancesEvent.requested(address: account.address),
         ),
         expect: () => [
-          const BalancesState(processingState: ProcessingState.processing()),
+          BalancesState(processingState: const ProcessingState.processing()),
           BalancesState(
             processingState: const ProcessingState.none(),
             balances: <Token, Amount>{
@@ -72,7 +71,6 @@ void main() {
                     initialAmount - tokenProgramRent - 2 * lamportsPerSignature,
               ),
               token: Amount.fromToken(value: 10000, token: token),
-              Token.usdc: Amount.zero(currency: Currency.usdc),
             },
           ),
         ],
