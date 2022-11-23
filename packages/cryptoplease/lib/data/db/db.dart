@@ -83,7 +83,7 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(transactionRows);
           }
 
-          if (from >= 15 && from < 21) {
+          if (from >= 16 && from < 21) {
             await m.addColumn(oSKPRows, oSKPRows.withdrawTxId);
           }
         },
