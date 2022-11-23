@@ -11,6 +11,7 @@ import '../../../../../core/intercom.dart';
 import '../../../../../core/presentation/utils.dart';
 import '../../../../../di.dart';
 import '../../../../../features/incoming_split_key_payments/module.dart';
+import '../../../../../features/investments/module.dart';
 import '../../../../../features/legal/flow.dart';
 import '../../../../../features/outgoing_direct_payments/module.dart';
 import '../../../../../features/outgoing_split_key_payments/module.dart';
@@ -41,14 +42,17 @@ class ProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
+        padding: const EdgeInsets.only(bottom: 16),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(30)),
           child: Material(
             color: color,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: actions,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 4, bottom: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: actions,
+              ),
             ),
           ),
         ),
