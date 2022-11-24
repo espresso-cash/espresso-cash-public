@@ -71,7 +71,7 @@ class FeeCalculator {
   final SolanaClient _solanaClient;
 
   Future<Amount> call(FeeType type) => _cryptopleaseClient
-      .getPaymentFees()
+      .getFees()
       .then(
         (fees) async => type.map(
           direct: (type) async {

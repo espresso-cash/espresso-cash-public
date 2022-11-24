@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'get_payment_fees.dart';
+part of 'get_fees.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,40 +14,39 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-GetPaymentFeesResponseDto _$GetPaymentFeesResponseDtoFromJson(
-    Map<String, dynamic> json) {
-  return _GetPaymentFeesResponseDto.fromJson(json);
+GetFeesResponseDto _$GetFeesResponseDtoFromJson(Map<String, dynamic> json) {
+  return _GetFeesResponseDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$GetPaymentFeesResponseDto {
+mixin _$GetFeesResponseDto {
   DirectPaymentFeeDto get directPayment => throw _privateConstructorUsedError;
   int get splitKeyPayment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $GetPaymentFeesResponseDtoCopyWith<GetPaymentFeesResponseDto> get copyWith =>
+  $GetFeesResponseDtoCopyWith<GetFeesResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GetPaymentFeesResponseDtoCopyWith<$Res> {
-  factory $GetPaymentFeesResponseDtoCopyWith(GetPaymentFeesResponseDto value,
-          $Res Function(GetPaymentFeesResponseDto) then) =
-      _$GetPaymentFeesResponseDtoCopyWithImpl<$Res>;
+abstract class $GetFeesResponseDtoCopyWith<$Res> {
+  factory $GetFeesResponseDtoCopyWith(
+          GetFeesResponseDto value, $Res Function(GetFeesResponseDto) then) =
+      _$GetFeesResponseDtoCopyWithImpl<$Res>;
   $Res call({DirectPaymentFeeDto directPayment, int splitKeyPayment});
 
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
 }
 
 /// @nodoc
-class _$GetPaymentFeesResponseDtoCopyWithImpl<$Res>
-    implements $GetPaymentFeesResponseDtoCopyWith<$Res> {
-  _$GetPaymentFeesResponseDtoCopyWithImpl(this._value, this._then);
+class _$GetFeesResponseDtoCopyWithImpl<$Res>
+    implements $GetFeesResponseDtoCopyWith<$Res> {
+  _$GetFeesResponseDtoCopyWithImpl(this._value, this._then);
 
-  final GetPaymentFeesResponseDto _value;
+  final GetFeesResponseDto _value;
   // ignore: unused_field
-  final $Res Function(GetPaymentFeesResponseDto) _then;
+  final $Res Function(GetFeesResponseDto) _then;
 
   @override
   $Res call({
@@ -75,12 +74,11 @@ class _$GetPaymentFeesResponseDtoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$$_GetPaymentFeesResponseDtoCopyWith<$Res>
-    implements $GetPaymentFeesResponseDtoCopyWith<$Res> {
-  factory _$$_GetPaymentFeesResponseDtoCopyWith(
-          _$_GetPaymentFeesResponseDto value,
-          $Res Function(_$_GetPaymentFeesResponseDto) then) =
-      __$$_GetPaymentFeesResponseDtoCopyWithImpl<$Res>;
+abstract class _$$_GetFeesResponseDtoCopyWith<$Res>
+    implements $GetFeesResponseDtoCopyWith<$Res> {
+  factory _$$_GetFeesResponseDtoCopyWith(_$_GetFeesResponseDto value,
+          $Res Function(_$_GetFeesResponseDto) then) =
+      __$$_GetFeesResponseDtoCopyWithImpl<$Res>;
   @override
   $Res call({DirectPaymentFeeDto directPayment, int splitKeyPayment});
 
@@ -89,24 +87,22 @@ abstract class _$$_GetPaymentFeesResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_GetPaymentFeesResponseDtoCopyWithImpl<$Res>
-    extends _$GetPaymentFeesResponseDtoCopyWithImpl<$Res>
-    implements _$$_GetPaymentFeesResponseDtoCopyWith<$Res> {
-  __$$_GetPaymentFeesResponseDtoCopyWithImpl(
-      _$_GetPaymentFeesResponseDto _value,
-      $Res Function(_$_GetPaymentFeesResponseDto) _then)
-      : super(_value, (v) => _then(v as _$_GetPaymentFeesResponseDto));
+class __$$_GetFeesResponseDtoCopyWithImpl<$Res>
+    extends _$GetFeesResponseDtoCopyWithImpl<$Res>
+    implements _$$_GetFeesResponseDtoCopyWith<$Res> {
+  __$$_GetFeesResponseDtoCopyWithImpl(
+      _$_GetFeesResponseDto _value, $Res Function(_$_GetFeesResponseDto) _then)
+      : super(_value, (v) => _then(v as _$_GetFeesResponseDto));
 
   @override
-  _$_GetPaymentFeesResponseDto get _value =>
-      super._value as _$_GetPaymentFeesResponseDto;
+  _$_GetFeesResponseDto get _value => super._value as _$_GetFeesResponseDto;
 
   @override
   $Res call({
     Object? directPayment = freezed,
     Object? splitKeyPayment = freezed,
   }) {
-    return _then(_$_GetPaymentFeesResponseDto(
+    return _then(_$_GetFeesResponseDto(
       directPayment: directPayment == freezed
           ? _value.directPayment
           : directPayment // ignore: cast_nullable_to_non_nullable
@@ -121,12 +117,12 @@ class __$$_GetPaymentFeesResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GetPaymentFeesResponseDto implements _GetPaymentFeesResponseDto {
-  const _$_GetPaymentFeesResponseDto(
+class _$_GetFeesResponseDto implements _GetFeesResponseDto {
+  const _$_GetFeesResponseDto(
       {required this.directPayment, required this.splitKeyPayment});
 
-  factory _$_GetPaymentFeesResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_GetPaymentFeesResponseDtoFromJson(json);
+  factory _$_GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_GetFeesResponseDtoFromJson(json);
 
   @override
   final DirectPaymentFeeDto directPayment;
@@ -135,14 +131,14 @@ class _$_GetPaymentFeesResponseDto implements _GetPaymentFeesResponseDto {
 
   @override
   String toString() {
-    return 'GetPaymentFeesResponseDto(directPayment: $directPayment, splitKeyPayment: $splitKeyPayment)';
+    return 'GetFeesResponseDto(directPayment: $directPayment, splitKeyPayment: $splitKeyPayment)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GetPaymentFeesResponseDto &&
+            other is _$_GetFeesResponseDto &&
             const DeepCollectionEquality()
                 .equals(other.directPayment, directPayment) &&
             const DeepCollectionEquality()
@@ -158,25 +154,25 @@ class _$_GetPaymentFeesResponseDto implements _GetPaymentFeesResponseDto {
 
   @JsonKey(ignore: true)
   @override
-  _$$_GetPaymentFeesResponseDtoCopyWith<_$_GetPaymentFeesResponseDto>
-      get copyWith => __$$_GetPaymentFeesResponseDtoCopyWithImpl<
-          _$_GetPaymentFeesResponseDto>(this, _$identity);
+  _$$_GetFeesResponseDtoCopyWith<_$_GetFeesResponseDto> get copyWith =>
+      __$$_GetFeesResponseDtoCopyWithImpl<_$_GetFeesResponseDto>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GetPaymentFeesResponseDtoToJson(
+    return _$$_GetFeesResponseDtoToJson(
       this,
     );
   }
 }
 
-abstract class _GetPaymentFeesResponseDto implements GetPaymentFeesResponseDto {
-  const factory _GetPaymentFeesResponseDto(
+abstract class _GetFeesResponseDto implements GetFeesResponseDto {
+  const factory _GetFeesResponseDto(
       {required final DirectPaymentFeeDto directPayment,
-      required final int splitKeyPayment}) = _$_GetPaymentFeesResponseDto;
+      required final int splitKeyPayment}) = _$_GetFeesResponseDto;
 
-  factory _GetPaymentFeesResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_GetPaymentFeesResponseDto.fromJson;
+  factory _GetFeesResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_GetFeesResponseDto.fromJson;
 
   @override
   DirectPaymentFeeDto get directPayment;
@@ -184,8 +180,8 @@ abstract class _GetPaymentFeesResponseDto implements GetPaymentFeesResponseDto {
   int get splitKeyPayment;
   @override
   @JsonKey(ignore: true)
-  _$$_GetPaymentFeesResponseDtoCopyWith<_$_GetPaymentFeesResponseDto>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_GetFeesResponseDtoCopyWith<_$_GetFeesResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 DirectPaymentFeeDto _$DirectPaymentFeeDtoFromJson(Map<String, dynamic> json) {

@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'get_payment_fees.dart';
+part of 'get_fees.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_GetPaymentFeesResponseDto _$$_GetPaymentFeesResponseDtoFromJson(
+_$_GetFeesResponseDto _$$_GetFeesResponseDtoFromJson(
         Map<String, dynamic> json) =>
-    _$_GetPaymentFeesResponseDto(
+    _$_GetFeesResponseDto(
       directPayment: DirectPaymentFeeDto.fromJson(
           json['directPayment'] as Map<String, dynamic>),
       splitKeyPayment: json['splitKeyPayment'] as int,
     );
 
-Map<String, dynamic> _$$_GetPaymentFeesResponseDtoToJson(
-        _$_GetPaymentFeesResponseDto instance) =>
+Map<String, dynamic> _$$_GetFeesResponseDtoToJson(
+        _$_GetFeesResponseDto instance) =>
     <String, dynamic>{
       'directPayment': instance.directPayment,
       'splitKeyPayment': instance.splitKeyPayment,
