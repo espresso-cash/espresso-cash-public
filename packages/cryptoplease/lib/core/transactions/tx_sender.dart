@@ -16,6 +16,17 @@ class TxSender {
   final SolanaClient _client;
 
   Future<TxSendResult> send(SignedTx tx) async {
+    Future<TxSendResult> checkSubmittedTx(String txId) =>
+        _client.rpcClient.getSignatureStatuses(
+          [txId],
+          searchTransactionHistory: true,
+        ).then(
+          (value) => value.first == null
+              ? const TxSendResult.invalidBlockhash()
+              : const TxSendResult.sent(),
+          onError: (_) => const TxSendResult.networkError(),
+        );
+
     try {
       await _client.rpcClient.sendTransaction(
         tx.encode(),
@@ -33,7 +44,7 @@ class TxSender {
         case TransactionError.alreadyProcessed:
           return const TxSendResult.sent();
         case TransactionError.blockhashNotFound:
-          return const TxSendResult.invalidBlockhash();
+          return checkSubmittedTx(tx.id);
         default:
           return const TxSendResult.failure();
       }

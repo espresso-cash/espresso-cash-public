@@ -1,18 +1,17 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'get_fees.freezed.dart';
-part 'get_fees.g.dart';
+part 'get_payment_fees.freezed.dart';
+part 'get_payment_fees.g.dart';
 
 @freezed
-class GetFeesResponseDto with _$GetFeesResponseDto {
-  const factory GetFeesResponseDto({
+class GetPaymentFeesResponseDto with _$GetPaymentFeesResponseDto {
+  const factory GetPaymentFeesResponseDto({
     required DirectPaymentFeeDto directPayment,
     required int splitKeyPayment,
-    required int swap,
-  }) = _GetFeesResponseDto;
+  }) = _GetPaymentFeesResponseDto;
 
-  factory GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$GetFeesResponseDtoFromJson(json);
+  factory GetPaymentFeesResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$GetPaymentFeesResponseDtoFromJson(json);
 }
 
 @freezed

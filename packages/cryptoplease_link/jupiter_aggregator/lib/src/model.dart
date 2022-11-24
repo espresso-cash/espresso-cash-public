@@ -162,3 +162,26 @@ class JupiterSwapRequestDto with _$JupiterSwapRequestDto {
   factory JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =>
       _$JupiterSwapRequestDtoFromJson(json);
 }
+
+@freezed
+class PriceRequestDto with _$PriceRequestDto {
+  const factory PriceRequestDto({
+    required String id,
+  }) = _PriceRequestDto;
+
+  factory PriceRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$PriceRequestDtoFromJson(json);
+}
+
+@freezed
+class PriceResponseDto with _$PriceResponseDto {
+  const factory PriceResponseDto({
+    @JsonKey(name: 'data', readValue: _readPrice) required double price,
+  }) = _PriceResponseDto;
+
+  factory PriceResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$PriceResponseDtoFromJson(json);
+}
+
+dynamic _readPrice(Map<dynamic, dynamic> map, String key) =>
+    (map[key] as Map)['price'] as double;

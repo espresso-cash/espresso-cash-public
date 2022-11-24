@@ -32,5 +32,10 @@ abstract class CryptopleaseClient {
   );
 
   @POST('/getFees')
-  Future<GetFeesResponseDto> getFees();
+  Future<GetPaymentFeesResponseDto> getPaymentFees();
+
+  @POST('/getSwapFee')
+  Future<GetSwapFeeResponseDto> getSwapFee(
+    @Body() GetSwapFeeRequestDto request,
+  );
 }

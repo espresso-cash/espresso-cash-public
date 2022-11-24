@@ -265,3 +265,23 @@ Map<String, dynamic> _$$_JupiterSwapRequestDtoToJson(
   writeNotNull('destinationWallet', instance.destinationWallet);
   return val;
 }
+
+_$_PriceRequestDto _$$_PriceRequestDtoFromJson(Map<String, dynamic> json) =>
+    _$_PriceRequestDto(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$$_PriceRequestDtoToJson(_$_PriceRequestDto instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+_$_PriceResponseDto _$$_PriceResponseDtoFromJson(Map<String, dynamic> json) =>
+    _$_PriceResponseDto(
+      price: (_readPrice(json, 'data') as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$_PriceResponseDtoToJson(_$_PriceResponseDto instance) =>
+    <String, dynamic>{
+      'data': instance.price,
+    };
