@@ -117,7 +117,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
   }
 
   @override
-  Future<GetFeesResponseDto> getPaymentFees() async {
+  Future<GetFeesResponseDto> getFees() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -140,7 +140,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
   }
 
   @override
-  Future<SwapRouteResponseDto> getSwapFee(request) async {
+  Future<SwapRouteResponseDto> getSwapRoute(request) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -164,7 +164,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
   }
 
   @override
-  Future<SwapTxResponseDto> createSwapTransaction(request) async {
+  Future<SwapTxResponseDto> getSwapTransaction(request) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
