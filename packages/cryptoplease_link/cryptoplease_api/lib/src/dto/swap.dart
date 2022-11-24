@@ -4,23 +4,53 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'swap.freezed.dart';
 part 'swap.g.dart';
 
-@freezed
-class SwapResponseDto with _$SwapResponseDto {
-  const factory SwapResponseDto({
-    required String swapTransaction,
-  }) = _SwapResponseDto;
+enum SwapMatch { inAmount, outAmount }
 
-  factory SwapResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$SwapResponseDtoFromJson(json);
+enum SwapSlippage { zpOne, zpFive, onePercent }
+
+@freezed
+class SwapRouteRequestDto with _$SwapRouteRequestDto {
+  const factory SwapRouteRequestDto({
+    required String inputToken,
+    required String outputToken,
+    required String amount,
+    required SwapMatch match,
+    required SwapSlippage slippage,
+    required String userAccount,
+  }) = _SwapRouteRequestDto;
+
+  factory SwapRouteRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapRouteRequestDtoFromJson(json);
 }
 
 @freezed
-class SwapRequestDto with _$SwapRequestDto {
-  const factory SwapRequestDto({
-    required String userPublicKey,
-    required JupiterRoute route,
-  }) = _SwapRequestDto;
+class SwapRouteResponseDto with _$SwapRouteResponseDto {
+  const factory SwapRouteResponseDto({
+    required JupiterRoute? bestRoute,
+    required int feeInUsdc,
+  }) = _SwapRouteResponseDto;
 
-  factory SwapRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$SwapRequestDtoFromJson(json);
+  factory SwapRouteResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapRouteResponseDtoFromJson(json);
+}
+
+@freezed
+class SwapTxResponseDto with _$SwapTxResponseDto {
+  const factory SwapTxResponseDto({
+    required String swapTransaction,
+  }) = _SwapTxResponseDto;
+
+  factory SwapTxResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapTxResponseDtoFromJson(json);
+}
+
+@freezed
+class SwapTxRequestDto with _$SwapTxRequestDto {
+  const factory SwapTxRequestDto({
+    required String userAccount,
+    required JupiterRoute route,
+  }) = _SwapTxRequestDto;
+
+  factory SwapTxRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapTxRequestDtoFromJson(json);
 }

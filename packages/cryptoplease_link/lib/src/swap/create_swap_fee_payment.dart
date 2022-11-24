@@ -7,10 +7,10 @@ Future<Message> createSwapFeePaymentMessage({
   required Ed25519HDPublicKey aReceiver,
   required Ed25519HDPublicKey aSender,
   required Commitment commitment,
+  required int amount,
 }) async {
   // Swap fee is always paid in mainnet USDC
   final mint = mainnetUsdc;
-  const amount = swapFee;
 
   final shouldCreateAta = !await client.hasAssociatedTokenAccount(
     owner: aReceiver,

@@ -9,6 +9,7 @@ Future<SignedTx> createSwap({
   required Ed25519HDPublicKey aSender,
   required SolanaClient client,
   required Commitment commitment,
+  required int feeAmount,
 }) async {
   final feePayer = platform.publicKey;
   final feeMessage = await createSwapFeePaymentMessage(
@@ -16,6 +17,7 @@ Future<SignedTx> createSwap({
     aSender: aSender,
     aReceiver: feePayer,
     commitment: commitment,
+    amount: feeAmount,
   );
 
   final message = encodedTx
