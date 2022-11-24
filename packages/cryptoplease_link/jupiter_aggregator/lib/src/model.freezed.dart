@@ -2535,7 +2535,6 @@ PriceResponseDto _$PriceResponseDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PriceResponseDto {
-  @JsonKey(name: 'data')
   PriceDto get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2550,7 +2549,7 @@ abstract class $PriceResponseDtoCopyWith<$Res> {
           PriceResponseDto value, $Res Function(PriceResponseDto) then) =
       _$PriceResponseDtoCopyWithImpl<$Res, PriceResponseDto>;
   @useResult
-  $Res call({@JsonKey(name: 'data') PriceDto data});
+  $Res call({PriceDto data});
 
   $PriceDtoCopyWith<$Res> get data;
 }
@@ -2595,7 +2594,7 @@ abstract class _$$_PriceResponseDtoCopyWith<$Res>
       __$$_PriceResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'data') PriceDto data});
+  $Res call({PriceDto data});
 
   @override
   $PriceDtoCopyWith<$Res> get data;
@@ -2626,13 +2625,12 @@ class __$$_PriceResponseDtoCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_PriceResponseDto implements _PriceResponseDto {
-  const _$_PriceResponseDto({@JsonKey(name: 'data') required this.data});
+  const _$_PriceResponseDto({required this.data});
 
   factory _$_PriceResponseDto.fromJson(Map<String, dynamic> json) =>
       _$$_PriceResponseDtoFromJson(json);
 
   @override
-  @JsonKey(name: 'data')
   final PriceDto data;
 
   @override
@@ -2667,15 +2665,13 @@ class _$_PriceResponseDto implements _PriceResponseDto {
 }
 
 abstract class _PriceResponseDto implements PriceResponseDto {
-  const factory _PriceResponseDto(
-          {@JsonKey(name: 'data') required final PriceDto data}) =
+  const factory _PriceResponseDto({required final PriceDto data}) =
       _$_PriceResponseDto;
 
   factory _PriceResponseDto.fromJson(Map<String, dynamic> json) =
       _$_PriceResponseDto.fromJson;
 
   @override
-  @JsonKey(name: 'data')
   PriceDto get data;
   @override
   @JsonKey(ignore: true)
