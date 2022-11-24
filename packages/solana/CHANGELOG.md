@@ -1,3 +1,10 @@
+## 0.26.3
+
+ - **FIX**: new authority is optional in SetAuthority (#625).
+ - **FIX**: getTransactionsList for empty list (#615).
+ - **FIX**: TxSender correctly waits for old txs (#612).
+ - **FEAT**: add parameters to getTransactionsList (#613).
+
 ## 0.26.2
 
  - **FEAT**: add metaplex CreateMetadataAccountV3 (#603).
