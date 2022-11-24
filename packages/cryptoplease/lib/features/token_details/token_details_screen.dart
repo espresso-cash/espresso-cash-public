@@ -18,7 +18,7 @@ import '../../ui/loader.dart';
 import '../../ui/navigation_bar/navigation_bar.dart';
 import '../../ui/theme.dart';
 import '../../ui/token_icon.dart';
-import '../token_chart/token_chart.dart';
+import '../token_chart/module.dart';
 import 'src/token_details.dart';
 import 'src/token_details_bloc.dart';
 import 'src/widgets/balance_widget.dart';
@@ -36,6 +36,7 @@ class TokenDetailsScreen extends StatelessWidget {
             create: (context) => sl<TokenDetailsBloc>(param1: token)
               ..add(const FetchDetailsRequested()),
           ),
+          TokenChartModule(token),
         ],
         child: CpTheme.dark(
           child: Scaffold(
@@ -181,15 +182,7 @@ class __ChartState extends State<_Chart> {
             ),
           ),
         const SizedBox(height: 6),
-        //TODO
-        const Text(
-          // r'+$1.15 (2.95%) Past Week',
-          '',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 13,
-          ),
-        ),
+        const TokenOverview(),
         TokenChart(
           token: widget.token,
           onSelect: (item) {
