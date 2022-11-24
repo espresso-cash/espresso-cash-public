@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/user_preferences.dart';
 import '../bloc.dart';
 import 'token_chart.dart';
 
 export '../token_chart_item.dart';
 
-class TokenOverview extends StatelessWidget {
-  const TokenOverview({super.key});
+class ChartPriceOverview extends StatelessWidget {
+  const ChartPriceOverview({super.key});
 
   @override
   Widget build(BuildContext context) =>
@@ -18,7 +19,7 @@ class TokenOverview extends StatelessWidget {
           final data = state.chart;
 
           if (isLoading || data.isEmpty) {
-            return const Text('');
+            return const Text('', style: TextStyle(fontSize: 13));
           }
 
           final first = data.first.price ?? 0;
@@ -27,7 +28,7 @@ class TokenOverview extends StatelessWidget {
           final valueChange = last - first;
           final percentageChange = ((last - first) / first) * 100;
 
-          return _Text(
+          return _PriceOverviewWidget(
             value: valueChange,
             percent: percentageChange,
             timeFrame: state.interval.timeFrameLabel,
@@ -36,8 +37,8 @@ class TokenOverview extends StatelessWidget {
       );
 }
 
-class _Text extends StatelessWidget {
-  const _Text({
+class _PriceOverviewWidget extends StatelessWidget {
+  const _PriceOverviewWidget({
     required this.value,
     required this.percent,
     required this.timeFrame,
@@ -49,14 +50,16 @@ class _Text extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+
     final isNegative = value.isNegative;
     final prefix = isNegative ? '-' : '';
-    const currency = r'$';
+    final sign = fiatCurrency.sign;
 
     return Text.rich(
       TextSpan(
         text:
-            '$prefix$currency${value.abs().toStringAsFixed(2)} (${percent.abs().toStringAsFixed(2)}%)',
+            '$prefix$sign${value.abs().toStringAsFixed(2)} (${percent.abs().toStringAsFixed(2)}%)',
         children: [
           TextSpan(
             text: ' $timeFrame',

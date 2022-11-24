@@ -175,14 +175,14 @@ class __ChartState extends State<_Chart> {
           )
         else
           Text(
-            '\$${_selected?.price?.toStringAsFixed(2) ?? '-'}',
+            '${fiatCurrency.sign}${_selected?.price?.toStringAsFixed(2) ?? '-'}',
             style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 18,
             ),
           ),
-        const SizedBox(height: 6),
-        const TokenOverview(),
+        const SizedBox(height: 8),
+        const ChartPriceOverview(),
         TokenChart(
           token: widget.token,
           onSelect: (item) {
