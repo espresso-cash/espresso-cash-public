@@ -1,3 +1,13 @@
+## 1.55.0
+
+ - **FIX**: check if tx with expired bh already submitted (#640).
+ - **FIX**: update chart range selector hitbox (#616).
+ - **FEAT**: add toggle to hide zero balance tokens (#609).
+ - **FEAT**: update app lock ui (#636).
+ - **FEAT**: update puzzle reminder trigger (#611).
+ - **FEAT**: update analytics (#624).
+ - **FEAT**: update CpSwitch design (#629).
+
 ## 1.54.0
 
  - **FEAT**: hide transactions tab behind FF (#623).
