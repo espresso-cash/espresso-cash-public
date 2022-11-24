@@ -176,7 +176,7 @@ class PriceRequestDto with _$PriceRequestDto {
 @freezed
 class PriceResponseDto with _$PriceResponseDto {
   const factory PriceResponseDto({
-    @JsonKey(name: 'data') required PriceDto data,
+    required PriceDto data,
   }) = _PriceResponseDto;
 
   factory PriceResponseDto.fromJson(Map<String, dynamic> json) =>
