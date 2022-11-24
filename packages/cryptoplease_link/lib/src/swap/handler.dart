@@ -10,15 +10,16 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:solana/solana.dart';
 
-Handler addSwapHandler() => shelf_router.Router()
-  ..post('/getSwapRoute', _swapRouteHandler)
-  ..post('/getSwapTransaction', _swapTxHandler);
+Handler addSwapHandler() =>
+    shelf_router.Router()..post('/getSwapRoute', _swapRouteHandler);
 
 Future<Response> _swapRouteHandler(Request request) async =>
     processRequest<SwapRouteRequestDto, SwapRouteResponseDto>(
       request,
       SwapRouteRequestDto.fromJson,
       (data) async {
+        final account = data.userAccount;
+
         final quote = await _swapClient.getQuote(
           QuoteRequestDto(
             amount: data.amount,
@@ -26,7 +27,7 @@ Future<Response> _swapRouteHandler(Request request) async =>
             outputMint: data.outputToken,
             slippageBps: data.slippage.toBps(),
             swapMode: data.match.toMode(),
-            userPublicKey: data.userAccount,
+            userPublicKey: account,
             enforceSingleTx: true,
           ),
         );
@@ -37,46 +38,40 @@ Future<Response> _swapRouteHandler(Request request) async =>
           throw Exception('No route found for given input and output');
         }
 
-        return SwapRouteResponseDto(
-          bestRoute: bestRoute,
-          feeInUsdc: await extractFee(bestRoute),
-        );
-      },
-    );
-
-Future<Response> _swapTxHandler(Request request) async =>
-    processRequest<SwapTxRequestDto, SwapTxResponseDto>(
-      request,
-      SwapTxRequestDto.fromJson,
-      (data) async {
-        final transactions = await _swapClient.getSwapTransactions(
+        final jupiterTxs = await _swapClient.getSwapTransactions(
           SwapRequestDto(
-            userPublicKey: data.userAccount,
-            route: data.route,
+            userPublicKey: account,
+            route: bestRoute,
           ),
         );
 
         final tx = [
-          transactions.setupTransaction,
-          transactions.swapTransaction,
-          transactions.cleanupTransaction,
+          jupiterTxs.setupTransaction,
+          jupiterTxs.swapTransaction,
+          jupiterTxs.cleanupTransaction,
         ].whereNotNull().singleOrNull;
 
         if (tx == null) {
           throw Exception('Swap only supports single transaction');
         }
 
-        final swapWithFeePayer = await createSwap(
+        final fee = await extractFee(bestRoute);
+
+        final transaction = await createSwap(
           encodedTx: tx,
           aSender: Ed25519HDPublicKey.fromBase58(data.userAccount),
           platform: await _mainnetPlatform,
           client: _mainnetClient,
           commitment: Commitment.confirmed,
-          feeAmount: await extractFee(data.route),
+          feeAmount: fee,
         );
 
-        return SwapTxResponseDto(
-          swapTransaction: swapWithFeePayer.encode(),
+        return SwapRouteResponseDto(
+          amount: bestRoute.amount,
+          inAmount: bestRoute.inAmount,
+          outAmount: bestRoute.outAmount,
+          feeInUsdc: fee,
+          encodedTx: transaction.encode(),
         );
       },
     );

@@ -33,9 +33,4 @@ abstract class CryptopleaseClient {
   Future<SwapRouteResponseDto> getSwapRoute(
     @Body() SwapRouteRequestDto request,
   );
-
-  @POST('/getSwapTransaction')
-  Future<SwapTxResponseDto> getSwapTransaction(
-    @Body() SwapTxRequestDto request,
-  );
 }

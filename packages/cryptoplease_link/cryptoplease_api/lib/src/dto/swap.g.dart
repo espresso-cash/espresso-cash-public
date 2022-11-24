@@ -42,38 +42,19 @@ const _$SwapSlippageEnumMap = {
 _$_SwapRouteResponseDto _$$_SwapRouteResponseDtoFromJson(
         Map<String, dynamic> json) =>
     _$_SwapRouteResponseDto(
-      bestRoute: json['bestRoute'] == null
-          ? null
-          : JupiterRoute.fromJson(json['bestRoute'] as Map<String, dynamic>),
+      inAmount: json['inAmount'] as String,
+      outAmount: json['outAmount'] as String,
+      amount: json['amount'] as String,
+      encodedTx: json['encodedTx'] as String,
       feeInUsdc: json['feeInUsdc'] as int,
     );
 
 Map<String, dynamic> _$$_SwapRouteResponseDtoToJson(
         _$_SwapRouteResponseDto instance) =>
     <String, dynamic>{
-      'bestRoute': instance.bestRoute,
+      'inAmount': instance.inAmount,
+      'outAmount': instance.outAmount,
+      'amount': instance.amount,
+      'encodedTx': instance.encodedTx,
       'feeInUsdc': instance.feeInUsdc,
-    };
-
-_$_SwapTxResponseDto _$$_SwapTxResponseDtoFromJson(Map<String, dynamic> json) =>
-    _$_SwapTxResponseDto(
-      swapTransaction: json['swapTransaction'] as String,
-    );
-
-Map<String, dynamic> _$$_SwapTxResponseDtoToJson(
-        _$_SwapTxResponseDto instance) =>
-    <String, dynamic>{
-      'swapTransaction': instance.swapTransaction,
-    };
-
-_$_SwapTxRequestDto _$$_SwapTxRequestDtoFromJson(Map<String, dynamic> json) =>
-    _$_SwapTxRequestDto(
-      userAccount: json['userAccount'] as String,
-      route: JupiterRoute.fromJson(json['route'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$_SwapTxRequestDtoToJson(_$_SwapTxRequestDto instance) =>
-    <String, dynamic>{
-      'userAccount': instance.userAccount,
-      'route': instance.route,
     };
