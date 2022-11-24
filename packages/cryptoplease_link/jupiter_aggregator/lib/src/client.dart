@@ -47,7 +47,7 @@ abstract class JupiterPriceClient {
           ),
       );
 
-  /// Get quote for a given input mint, output mint and amount
+  /// Get the current USDC price for a given coin id
   @GET('/price')
   Future<PriceResponseDto> getPrice(
     @Queries() PriceRequestDto priceRequestDto,
