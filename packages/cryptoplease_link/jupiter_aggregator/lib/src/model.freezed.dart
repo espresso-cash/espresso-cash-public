@@ -2535,8 +2535,8 @@ PriceResponseDto _$PriceResponseDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PriceResponseDto {
-  @JsonKey(name: 'data', readValue: _readPrice)
-  double get price => throw _privateConstructorUsedError;
+  @JsonKey(name: 'data')
+  PriceDto get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2550,13 +2550,165 @@ abstract class $PriceResponseDtoCopyWith<$Res> {
           PriceResponseDto value, $Res Function(PriceResponseDto) then) =
       _$PriceResponseDtoCopyWithImpl<$Res, PriceResponseDto>;
   @useResult
-  $Res call({@JsonKey(name: 'data', readValue: _readPrice) double price});
+  $Res call({@JsonKey(name: 'data') PriceDto data});
+
+  $PriceDtoCopyWith<$Res> get data;
 }
 
 /// @nodoc
 class _$PriceResponseDtoCopyWithImpl<$Res, $Val extends PriceResponseDto>
     implements $PriceResponseDtoCopyWith<$Res> {
   _$PriceResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_value.copyWith(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as PriceDto,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PriceDtoCopyWith<$Res> get data {
+    return $PriceDtoCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$_PriceResponseDtoCopyWith<$Res>
+    implements $PriceResponseDtoCopyWith<$Res> {
+  factory _$$_PriceResponseDtoCopyWith(
+          _$_PriceResponseDto value, $Res Function(_$_PriceResponseDto) then) =
+      __$$_PriceResponseDtoCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'data') PriceDto data});
+
+  @override
+  $PriceDtoCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$_PriceResponseDtoCopyWithImpl<$Res>
+    extends _$PriceResponseDtoCopyWithImpl<$Res, _$_PriceResponseDto>
+    implements _$$_PriceResponseDtoCopyWith<$Res> {
+  __$$_PriceResponseDtoCopyWithImpl(
+      _$_PriceResponseDto _value, $Res Function(_$_PriceResponseDto) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_$_PriceResponseDto(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as PriceDto,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_PriceResponseDto implements _PriceResponseDto {
+  const _$_PriceResponseDto({@JsonKey(name: 'data') required this.data});
+
+  factory _$_PriceResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_PriceResponseDtoFromJson(json);
+
+  @override
+  @JsonKey(name: 'data')
+  final PriceDto data;
+
+  @override
+  String toString() {
+    return 'PriceResponseDto(data: $data)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_PriceResponseDto &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_PriceResponseDtoCopyWith<_$_PriceResponseDto> get copyWith =>
+      __$$_PriceResponseDtoCopyWithImpl<_$_PriceResponseDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PriceResponseDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PriceResponseDto implements PriceResponseDto {
+  const factory _PriceResponseDto(
+          {@JsonKey(name: 'data') required final PriceDto data}) =
+      _$_PriceResponseDto;
+
+  factory _PriceResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_PriceResponseDto.fromJson;
+
+  @override
+  @JsonKey(name: 'data')
+  PriceDto get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$_PriceResponseDtoCopyWith<_$_PriceResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PriceDto _$PriceDtoFromJson(Map<String, dynamic> json) {
+  return _PriceDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PriceDto {
+  double get price => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PriceDtoCopyWith<PriceDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PriceDtoCopyWith<$Res> {
+  factory $PriceDtoCopyWith(PriceDto value, $Res Function(PriceDto) then) =
+      _$PriceDtoCopyWithImpl<$Res, PriceDto>;
+  @useResult
+  $Res call({double price});
+}
+
+/// @nodoc
+class _$PriceDtoCopyWithImpl<$Res, $Val extends PriceDto>
+    implements $PriceDtoCopyWith<$Res> {
+  _$PriceDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -2578,22 +2730,21 @@ class _$PriceResponseDtoCopyWithImpl<$Res, $Val extends PriceResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_PriceResponseDtoCopyWith<$Res>
-    implements $PriceResponseDtoCopyWith<$Res> {
-  factory _$$_PriceResponseDtoCopyWith(
-          _$_PriceResponseDto value, $Res Function(_$_PriceResponseDto) then) =
-      __$$_PriceResponseDtoCopyWithImpl<$Res>;
+abstract class _$$_PriceDtoCopyWith<$Res> implements $PriceDtoCopyWith<$Res> {
+  factory _$$_PriceDtoCopyWith(
+          _$_PriceDto value, $Res Function(_$_PriceDto) then) =
+      __$$_PriceDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'data', readValue: _readPrice) double price});
+  $Res call({double price});
 }
 
 /// @nodoc
-class __$$_PriceResponseDtoCopyWithImpl<$Res>
-    extends _$PriceResponseDtoCopyWithImpl<$Res, _$_PriceResponseDto>
-    implements _$$_PriceResponseDtoCopyWith<$Res> {
-  __$$_PriceResponseDtoCopyWithImpl(
-      _$_PriceResponseDto _value, $Res Function(_$_PriceResponseDto) _then)
+class __$$_PriceDtoCopyWithImpl<$Res>
+    extends _$PriceDtoCopyWithImpl<$Res, _$_PriceDto>
+    implements _$$_PriceDtoCopyWith<$Res> {
+  __$$_PriceDtoCopyWithImpl(
+      _$_PriceDto _value, $Res Function(_$_PriceDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2601,7 +2752,7 @@ class __$$_PriceResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? price = null,
   }) {
-    return _then(_$_PriceResponseDto(
+    return _then(_$_PriceDto(
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -2612,27 +2763,25 @@ class __$$_PriceResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PriceResponseDto implements _PriceResponseDto {
-  const _$_PriceResponseDto(
-      {@JsonKey(name: 'data', readValue: _readPrice) required this.price});
+class _$_PriceDto implements _PriceDto {
+  const _$_PriceDto({required this.price});
 
-  factory _$_PriceResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_PriceResponseDtoFromJson(json);
+  factory _$_PriceDto.fromJson(Map<String, dynamic> json) =>
+      _$$_PriceDtoFromJson(json);
 
   @override
-  @JsonKey(name: 'data', readValue: _readPrice)
   final double price;
 
   @override
   String toString() {
-    return 'PriceResponseDto(price: $price)';
+    return 'PriceDto(price: $price)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PriceResponseDto &&
+            other is _$_PriceDto &&
             (identical(other.price, price) || other.price == price));
   }
 
@@ -2643,30 +2792,26 @@ class _$_PriceResponseDto implements _PriceResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PriceResponseDtoCopyWith<_$_PriceResponseDto> get copyWith =>
-      __$$_PriceResponseDtoCopyWithImpl<_$_PriceResponseDto>(this, _$identity);
+  _$$_PriceDtoCopyWith<_$_PriceDto> get copyWith =>
+      __$$_PriceDtoCopyWithImpl<_$_PriceDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PriceResponseDtoToJson(
+    return _$$_PriceDtoToJson(
       this,
     );
   }
 }
 
-abstract class _PriceResponseDto implements PriceResponseDto {
-  const factory _PriceResponseDto(
-      {@JsonKey(name: 'data', readValue: _readPrice)
-          required final double price}) = _$_PriceResponseDto;
+abstract class _PriceDto implements PriceDto {
+  const factory _PriceDto({required final double price}) = _$_PriceDto;
 
-  factory _PriceResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_PriceResponseDto.fromJson;
+  factory _PriceDto.fromJson(Map<String, dynamic> json) = _$_PriceDto.fromJson;
 
   @override
-  @JsonKey(name: 'data', readValue: _readPrice)
   double get price;
   @override
   @JsonKey(ignore: true)
-  _$$_PriceResponseDtoCopyWith<_$_PriceResponseDto> get copyWith =>
+  _$$_PriceDtoCopyWith<_$_PriceDto> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -278,10 +278,19 @@ Map<String, dynamic> _$$_PriceRequestDtoToJson(_$_PriceRequestDto instance) =>
 
 _$_PriceResponseDto _$$_PriceResponseDtoFromJson(Map<String, dynamic> json) =>
     _$_PriceResponseDto(
-      price: (_readPrice(json, 'data') as num).toDouble(),
+      data: PriceDto.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_PriceResponseDtoToJson(_$_PriceResponseDto instance) =>
     <String, dynamic>{
-      'data': instance.price,
+      'data': instance.data.toJson(),
+    };
+
+_$_PriceDto _$$_PriceDtoFromJson(Map<String, dynamic> json) => _$_PriceDto(
+      price: (json['price'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$_PriceDtoToJson(_$_PriceDto instance) =>
+    <String, dynamic>{
+      'price': instance.price,
     };

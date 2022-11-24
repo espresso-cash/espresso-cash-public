@@ -176,12 +176,19 @@ class PriceRequestDto with _$PriceRequestDto {
 @freezed
 class PriceResponseDto with _$PriceResponseDto {
   const factory PriceResponseDto({
-    @JsonKey(name: 'data', readValue: _readPrice) required double price,
+    @JsonKey(name: 'data') required PriceDto data,
   }) = _PriceResponseDto;
 
   factory PriceResponseDto.fromJson(Map<String, dynamic> json) =>
       _$PriceResponseDtoFromJson(json);
 }
 
-dynamic _readPrice(Map<dynamic, dynamic> map, String key) =>
-    (map[key] as Map)['price'] as double;
+@freezed
+class PriceDto with _$PriceDto {
+  const factory PriceDto({
+    required double price,
+  }) = _PriceDto;
+
+  factory PriceDto.fromJson(Map<String, dynamic> json) =>
+      _$PriceDtoFromJson(json);
+}
