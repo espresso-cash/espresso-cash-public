@@ -24,15 +24,15 @@ class JupiterIndexedRouteMap with _$JupiterIndexedRouteMap {
 }
 
 @freezed
-class JupiterSwapResponseDto with _$JupiterSwapResponseDto {
-  const factory JupiterSwapResponseDto({
+class JupiterSwapTransactions with _$JupiterSwapTransactions {
+  const factory JupiterSwapTransactions({
     required String? setupTransaction,
     required String swapTransaction,
     required String? cleanupTransaction,
-  }) = _JupiterSwapResponseDto;
+  }) = _JupiterSwapTransactions;
 
-  factory JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$JupiterSwapResponseDtoFromJson(json);
+  factory JupiterSwapTransactions.fromJson(Map<String, dynamic> json) =>
+      _$JupiterSwapTransactionsFromJson(json);
 }
 
 @freezed
@@ -150,38 +150,15 @@ class QuoteRequestDto with _$QuoteRequestDto {
 }
 
 @freezed
-class JupiterSwapRequestDto with _$JupiterSwapRequestDto {
-  const factory JupiterSwapRequestDto({
+class SwapRequestDto with _$SwapRequestDto {
+  const factory SwapRequestDto({
     required String userPublicKey,
     required JupiterRoute route,
     bool? wrapUnwrapSOL,
     String? feeAccount,
     String? destinationWallet,
-  }) = _JupiterSwapRequestDto;
+  }) = _SwapRequestDto;
 
-  factory JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$JupiterSwapRequestDtoFromJson(json);
+  factory SwapRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapRequestDtoFromJson(json);
 }
-
-@freezed
-class PriceRequestDto with _$PriceRequestDto {
-  const factory PriceRequestDto({
-    required String id,
-  }) = _PriceRequestDto;
-
-  factory PriceRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$PriceRequestDtoFromJson(json);
-}
-
-@freezed
-class PriceResponseDto with _$PriceResponseDto {
-  const factory PriceResponseDto({
-    @JsonKey(name: 'data', readValue: _readPrice) required double price,
-  }) = _PriceResponseDto;
-
-  factory PriceResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$PriceResponseDtoFromJson(json);
-}
-
-dynamic _readPrice(Map<dynamic, dynamic> map, String key) =>
-    (map[key] as Map)['price'] as double;

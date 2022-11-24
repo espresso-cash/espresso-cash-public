@@ -1,5 +1,4 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
-import 'package:cryptoplease_link/src/constants.dart';
 
 Future<int> extractFee(JupiterRoute route) async {
   final totalFeeInSol = route.fees?.totalFeeAndDeposits;
@@ -11,10 +10,7 @@ Future<int> extractFee(JupiterRoute route) async {
   return convertSolToUsdc(totalFeeInSol);
 }
 
-Future<int> convertSolToUsdc(num amountInSol) async {
-  final response = await _client.getPrice(const PriceRequestDto(id: 'SOL'));
-
-  return (amountInSol * response.price / solDecimals * usdcDecimals).round();
+// TODO(rhbrunetto): implement after jupiter price API
+Future<int> convertSolToUsdc(num _) async {
+  throw UnimplementedError();
 }
-
-final _client = JupiterPriceClient();

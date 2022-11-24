@@ -50,7 +50,7 @@ Future<Response> _swapTxHandler(Request request) async =>
       SwapTxRequestDto.fromJson,
       (data) async {
         final transactions = await _swapClient.getSwapTransactions(
-          JupiterSwapRequestDto(
+          SwapRequestDto(
             userPublicKey: data.userAccount,
             route: data.route,
           ),

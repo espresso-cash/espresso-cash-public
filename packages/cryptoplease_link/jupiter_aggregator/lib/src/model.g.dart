@@ -24,16 +24,16 @@ Map<String, dynamic> _$$_JupiterIndexedRouteMapToJson(
       'indexedRouteMap': instance.indexedRouteMap,
     };
 
-_$_JupiterSwapResponseDto _$$_JupiterSwapResponseDtoFromJson(
+_$_JupiterSwapTransactions _$$_JupiterSwapTransactionsFromJson(
         Map<String, dynamic> json) =>
-    _$_JupiterSwapResponseDto(
+    _$_JupiterSwapTransactions(
       setupTransaction: json['setupTransaction'] as String?,
       swapTransaction: json['swapTransaction'] as String,
       cleanupTransaction: json['cleanupTransaction'] as String?,
     );
 
-Map<String, dynamic> _$$_JupiterSwapResponseDtoToJson(
-    _$_JupiterSwapResponseDto instance) {
+Map<String, dynamic> _$$_JupiterSwapTransactionsToJson(
+    _$_JupiterSwapTransactions instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -237,9 +237,8 @@ Map<String, dynamic> _$$_QuoteRequestDtoToJson(_$_QuoteRequestDto instance) {
   return val;
 }
 
-_$_JupiterSwapRequestDto _$$_JupiterSwapRequestDtoFromJson(
-        Map<String, dynamic> json) =>
-    _$_JupiterSwapRequestDto(
+_$_SwapRequestDto _$$_SwapRequestDtoFromJson(Map<String, dynamic> json) =>
+    _$_SwapRequestDto(
       userPublicKey: json['userPublicKey'] as String,
       route: JupiterRoute.fromJson(json['route'] as Map<String, dynamic>),
       wrapUnwrapSOL: json['wrapUnwrapSOL'] as bool?,
@@ -247,8 +246,7 @@ _$_JupiterSwapRequestDto _$$_JupiterSwapRequestDtoFromJson(
       destinationWallet: json['destinationWallet'] as String?,
     );
 
-Map<String, dynamic> _$$_JupiterSwapRequestDtoToJson(
-    _$_JupiterSwapRequestDto instance) {
+Map<String, dynamic> _$$_SwapRequestDtoToJson(_$_SwapRequestDto instance) {
   final val = <String, dynamic>{
     'userPublicKey': instance.userPublicKey,
     'route': instance.route.toJson(),
@@ -265,23 +263,3 @@ Map<String, dynamic> _$$_JupiterSwapRequestDtoToJson(
   writeNotNull('destinationWallet', instance.destinationWallet);
   return val;
 }
-
-_$_PriceRequestDto _$$_PriceRequestDtoFromJson(Map<String, dynamic> json) =>
-    _$_PriceRequestDto(
-      id: json['id'] as String,
-    );
-
-Map<String, dynamic> _$$_PriceRequestDtoToJson(_$_PriceRequestDto instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-_$_PriceResponseDto _$$_PriceResponseDtoFromJson(Map<String, dynamic> json) =>
-    _$_PriceResponseDto(
-      price: (_readPrice(json, 'data') as num).toDouble(),
-    );
-
-Map<String, dynamic> _$$_PriceResponseDtoToJson(_$_PriceResponseDto instance) =>
-    <String, dynamic>{
-      'data': instance.price,
-    };
