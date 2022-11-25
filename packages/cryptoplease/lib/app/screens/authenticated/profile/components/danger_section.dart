@@ -13,7 +13,6 @@ class DangerSection extends StatelessWidget {
           sl<ISKPRepository>().clear();
           sl<ODPRepository>().clear();
           sl<OSKPRepository>().clear();
-          sl<IntercomService>().logout();
         },
       );
 

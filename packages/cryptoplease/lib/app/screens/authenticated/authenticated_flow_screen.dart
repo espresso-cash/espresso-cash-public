@@ -10,6 +10,7 @@ import '../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../core/balances/bl/balances_bloc.dart';
 import '../../../core/conversion_rates/bl/conversion_rates_bloc.dart';
 import '../../../core/conversion_rates/module.dart';
+import '../../../core/intercom.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../features/activities/module.dart';
@@ -65,6 +66,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const ISKPModule(),
                 const InvestmentModule(),
                 const ActivitiesModule(),
+                const IntercomModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );
