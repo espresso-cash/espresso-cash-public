@@ -21,7 +21,7 @@ class FavoriteTokenRepository {
     await query.go();
   }
 
-  Stream<List<Token>> stream() {
+  Stream<List<Token>> watch() {
     final query = _db.select(_db.favoriteTokenRows);
 
     return query.watch().map((e) => e.map((e) => e.toModel()).toList());

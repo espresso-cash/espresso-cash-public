@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../features/favorite_tokens/module.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
@@ -53,6 +54,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                   padding: const EdgeInsets.only(left: 24, right: 24),
                   sliver: PortfolioWidget(tokens: IList(state.userTokens)),
                 ),
+                const FavoriteTokenList(),
                 const SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.only(top: 54, bottom: 24),
