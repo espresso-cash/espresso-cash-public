@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 
 import '../../di.dart';
+import '../callback.dart';
 import 'bl/accounts_bloc.dart';
 
 class AccountsModule extends SingleChildStatelessWidget {
@@ -24,7 +25,7 @@ class LogoutListener extends SingleChildStatelessWidget {
     required this.onLogout,
   }) : super(key: key, child: child);
 
-  final VoidCallback onLogout;
+  final Callback1<BuildContext> onLogout;
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) =>
@@ -32,7 +33,7 @@ class LogoutListener extends SingleChildStatelessWidget {
         listenWhen: (s1, s2) => s1.account != s2.account,
         listener: (context, state) {
           if (state.account == null) {
-            onLogout();
+            onLogout(context);
           }
         },
         child: child,
