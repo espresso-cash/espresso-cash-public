@@ -3,8 +3,8 @@ import 'dart:core';
 import 'package:collection/collection.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:cryptoplease_link/src/constants.dart';
-import 'package:cryptoplease_link/src/swap/amount_converter.dart';
 import 'package:cryptoplease_link/src/swap/create_swap.dart';
+import 'package:cryptoplease_link/src/swap/jupiter_extension.dart';
 import 'package:cryptoplease_link/src/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
@@ -20,42 +20,49 @@ Future<Response> _swapRouteHandler(Request request) async =>
       (data) async {
         final account = data.userAccount;
 
-        final quote = await _swapClient.getQuote(
-          QuoteRequestDto(
-            amount: data.amount,
-            inputMint: data.inputToken,
-            outputMint: data.outputToken,
-            slippageBps: data.slippage.toBps(),
-            swapMode: data.match.toMode(),
-            userPublicKey: account,
-            enforceSingleTx: true,
-          ),
+        final futures = await Future.wait(
+          [
+            _swapClient.getQuote(
+              QuoteRequestDto(
+                amount: data.amount,
+                inputMint: data.inputToken,
+                outputMint: data.outputToken,
+                slippageBps: data.slippage.toJupiterBps(),
+                swapMode: data.match.toJupiterMode(),
+                userPublicKey: account,
+                enforceSingleTx: true,
+              ),
+            ),
+            _priceClient.getPrice(
+              const PriceRequestDto(id: 'SOL'),
+            ),
+          ],
         );
+        final route = (futures.first as QuoteResponseDto).routes.firstOrNull;
+        final price = (futures.last as PriceResponseDto).data.price;
 
-        final bestRoute = quote.routes.firstOrNull;
-
-        if (bestRoute == null) {
+        if (route == null) {
           throw Exception('No route found for given input and output');
         }
 
-        final jupiterTxs = await _swapClient.getSwapTransactions(
-          JupiterSwapRequestDto(
-            userPublicKey: account,
-            route: bestRoute,
-          ),
-        );
-
-        final tx = [
-          jupiterTxs.setupTransaction,
-          jupiterTxs.swapTransaction,
-          jupiterTxs.cleanupTransaction,
-        ].whereNotNull().singleOrNull;
+        final tx = await _swapClient
+            .getSwapTransactions(
+              JupiterSwapRequestDto(userPublicKey: account, route: route),
+            )
+            .then(
+              (jupiterTxs) => [
+                jupiterTxs.setupTransaction,
+                jupiterTxs.swapTransaction,
+                jupiterTxs.cleanupTransaction,
+              ],
+            )
+            .then((txs) => txs.whereNotNull().singleOrNull);
 
         if (tx == null) {
           throw Exception('Swap only supports single transaction');
         }
 
-        final fee = await extractFee(bestRoute);
+        final fee = _calculateFee(route, price);
 
         final transaction = await createSwap(
           encodedTx: tx,
@@ -67,47 +74,27 @@ Future<Response> _swapRouteHandler(Request request) async =>
         );
 
         return SwapRouteResponseDto(
-          amount: bestRoute.amount,
-          inAmount: bestRoute.inAmount,
-          outAmount: bestRoute.outAmount,
+          amount: route.amount,
+          inAmount: route.inAmount,
+          outAmount: route.outAmount,
           feeInUsdc: fee,
           encodedTx: transaction.encode(),
         );
       },
     );
 
-extension on SwapSlippage {
-  int toBps() {
-    double slippage;
-    switch (this) {
-      case SwapSlippage.zpOne:
-        slippage = 0.1;
-        break;
-      case SwapSlippage.zpFive:
-        slippage = 0.5;
-        break;
-      case SwapSlippage.onePercent:
-        slippage = 1.0;
-        break;
-    }
+int _calculateFee(JupiterRoute route, double price) {
+  final feeInSol = route.fees?.totalFeeAndDeposits;
 
-    return slippage.ceil().toDouble().toInt() * 100;
+  if (feeInSol == null) {
+    throw Exception('Route has no fee object');
   }
-}
 
-extension on SwapMatch {
-  SwapMode toMode() {
-    switch (this) {
-      case SwapMatch.inAmount:
-        return SwapMode.exactIn;
-      case SwapMatch.outAmount:
-        return SwapMode.exactOut;
-    }
-  }
+  return (feeInSol * price / solDecimals * usdcDecimals).round();
 }
 
 final _swapClient = JupiterAggregatorClient();
-
+final _priceClient = JupiterPriceClient();
 final _mainnetClient = SolanaClient(
   rpcUrl: Uri.parse(mainnetRpcUrl),
   websocketUrl: Uri.parse(mainnetWsUrl),
