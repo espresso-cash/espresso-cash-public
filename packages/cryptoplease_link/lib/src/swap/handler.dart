@@ -39,7 +39,7 @@ Future<Response> _swapRouteHandler(Request request) async =>
         }
 
         final jupiterTxs = await _swapClient.getSwapTransactions(
-          SwapRequestDto(
+          JupiterSwapRequestDto(
             userPublicKey: account,
             route: bestRoute,
           ),
