@@ -48,13 +48,17 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
             ),
           );
 
-  AsyncResult<void> _updateConversionRates() {
+  AsyncResult<void> _updateConversionRates() async {
     final bloc = context.read<ConversionRatesBloc>();
     final currency = context.read<UserPreferences>().fiatCurrency;
 
+    // final favorites = await sl<FavoriteTokenRepository>().fetch(); //TODO
+
     final conversionEvent = ConversionRatesEvent.refreshRequested(
       currency: currency,
-      tokens: context.read<BalancesBloc>().state.userTokens,
+      tokens: [
+        ...context.read<BalancesBloc>().state.userTokens,
+      ],
     );
     bloc.add(conversionEvent);
 

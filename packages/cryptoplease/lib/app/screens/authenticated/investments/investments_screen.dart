@@ -49,12 +49,6 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 padding: EdgeInsets.only(left: 24, right: 24),
                 sliver: MyPortfolio(),
               ),
-              const SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 54, bottom: 24),
-                  child: PopularCryptoHeader(),
-                ),
-              ),
               const FavoriteTokenList(),
               const SliverToBoxAdapter(
                 child: Padding(

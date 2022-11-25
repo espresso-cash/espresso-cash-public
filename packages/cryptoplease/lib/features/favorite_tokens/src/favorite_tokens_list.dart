@@ -109,14 +109,5 @@ class _TokenItem extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        // trailing: Text(
-        //   tokenRate?.format(locale) ?? ' -',
-        //   style: const TextStyle(
-        //     fontWeight: FontWeight.w500,
-        //     fontSize: 15,
-        //     color: Colors.black,
-        //   ),
-        //   overflow: TextOverflow.ellipsis,
-        // ),
       );
 }

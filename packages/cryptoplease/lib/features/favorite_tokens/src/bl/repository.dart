@@ -27,6 +27,12 @@ class FavoriteTokenRepository {
     return query.watch().map((e) => e.map((e) => e.toModel()).toList());
   }
 
+  Future<List<Token>> fetch() async {
+    final query = _db.select(_db.favoriteTokenRows);
+
+    return query.get().then((e) => e.map((e) => e.toModel()).toList());
+  }
+
   Future<bool> isFavorite(Token token) {
     final query = _db.select(_db.favoriteTokenRows)
       ..where((p) => p.id.equals(token.extensions?.coingeckoId ?? token.name));
