@@ -15,7 +15,7 @@ class RouteInfo with _$RouteInfo {
   }) = _RouteInfo;
 }
 
-Future<RouteInfo> getJupiterRoute({
+Future<RouteInfo> getJupiterRouteAndTransaction({
   required String amount,
   required String inputToken,
   required String outputToken,

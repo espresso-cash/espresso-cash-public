@@ -19,7 +19,7 @@ Future<Response> _swapRouteHandler(Request request) async =>
       SwapRouteRequestDto.fromJson,
       (data) async {
         final reponses = await Future.wait([
-          getJupiterRoute(
+          getJupiterRouteAndTransaction(
             amount: data.amount,
             inputToken: data.inputToken,
             outputToken: data.outputToken,
