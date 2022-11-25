@@ -21,7 +21,8 @@ class InvestmentModule extends SingleChildStatelessWidget {
             create: (context) => sl<InvestmentSettingsRepository>(),
           ),
           LogoutListener(
-            onLogout: () => sl<InvestmentSettingsRepository>().clear(),
+            onLogout: (context) =>
+                context.read<InvestmentSettingsRepository>().clear(),
           ),
         ],
         child: child,

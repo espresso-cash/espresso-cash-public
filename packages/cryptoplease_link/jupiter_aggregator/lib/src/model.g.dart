@@ -24,30 +24,6 @@ Map<String, dynamic> _$$_JupiterIndexedRouteMapToJson(
       'indexedRouteMap': instance.indexedRouteMap,
     };
 
-_$_JupiterSwapTransactions _$$_JupiterSwapTransactionsFromJson(
-        Map<String, dynamic> json) =>
-    _$_JupiterSwapTransactions(
-      setupTransaction: json['setupTransaction'] as String?,
-      swapTransaction: json['swapTransaction'] as String,
-      cleanupTransaction: json['cleanupTransaction'] as String?,
-    );
-
-Map<String, dynamic> _$$_JupiterSwapTransactionsToJson(
-    _$_JupiterSwapTransactions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('setupTransaction', instance.setupTransaction);
-  val['swapTransaction'] = instance.swapTransaction;
-  writeNotNull('cleanupTransaction', instance.cleanupTransaction);
-  return val;
-}
-
 _$_JupiterRoute _$$_JupiterRouteFromJson(Map<String, dynamic> json) =>
     _$_JupiterRoute(
       inAmount: json['inAmount'] as String,
@@ -237,8 +213,9 @@ Map<String, dynamic> _$$_QuoteRequestDtoToJson(_$_QuoteRequestDto instance) {
   return val;
 }
 
-_$_SwapRequestDto _$$_SwapRequestDtoFromJson(Map<String, dynamic> json) =>
-    _$_SwapRequestDto(
+_$_JupiterSwapRequestDto _$$_JupiterSwapRequestDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_JupiterSwapRequestDto(
       userPublicKey: json['userPublicKey'] as String,
       route: JupiterRoute.fromJson(json['route'] as Map<String, dynamic>),
       wrapUnwrapSOL: json['wrapUnwrapSOL'] as bool?,
@@ -246,7 +223,8 @@ _$_SwapRequestDto _$$_SwapRequestDtoFromJson(Map<String, dynamic> json) =>
       destinationWallet: json['destinationWallet'] as String?,
     );
 
-Map<String, dynamic> _$$_SwapRequestDtoToJson(_$_SwapRequestDto instance) {
+Map<String, dynamic> _$$_JupiterSwapRequestDtoToJson(
+    _$_JupiterSwapRequestDto instance) {
   final val = <String, dynamic>{
     'userPublicKey': instance.userPublicKey,
     'route': instance.route.toJson(),
@@ -263,3 +241,56 @@ Map<String, dynamic> _$$_SwapRequestDtoToJson(_$_SwapRequestDto instance) {
   writeNotNull('destinationWallet', instance.destinationWallet);
   return val;
 }
+
+_$_JupiterSwapResponseDto _$$_JupiterSwapResponseDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_JupiterSwapResponseDto(
+      setupTransaction: json['setupTransaction'] as String?,
+      swapTransaction: json['swapTransaction'] as String,
+      cleanupTransaction: json['cleanupTransaction'] as String?,
+    );
+
+Map<String, dynamic> _$$_JupiterSwapResponseDtoToJson(
+    _$_JupiterSwapResponseDto instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('setupTransaction', instance.setupTransaction);
+  val['swapTransaction'] = instance.swapTransaction;
+  writeNotNull('cleanupTransaction', instance.cleanupTransaction);
+  return val;
+}
+
+_$_PriceRequestDto _$$_PriceRequestDtoFromJson(Map<String, dynamic> json) =>
+    _$_PriceRequestDto(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$$_PriceRequestDtoToJson(_$_PriceRequestDto instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+_$_PriceResponseDto _$$_PriceResponseDtoFromJson(Map<String, dynamic> json) =>
+    _$_PriceResponseDto(
+      data: PriceDto.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$_PriceResponseDtoToJson(_$_PriceResponseDto instance) =>
+    <String, dynamic>{
+      'data': instance.data.toJson(),
+    };
+
+_$_PriceDto _$$_PriceDtoFromJson(Map<String, dynamic> json) => _$_PriceDto(
+      price: (json['price'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$_PriceDtoToJson(_$_PriceDto instance) =>
+    <String, dynamic>{
+      'price': instance.price,
+    };
