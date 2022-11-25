@@ -16,7 +16,7 @@ class FavoriteTokenRepository {
 
   Future<void> remove(Token token) async {
     final query = _db.delete(_db.favoriteTokenRows)
-      ..where((p) => p.id.equals(token.symbol));
+      ..where((p) => p.id.equals(token.extensions?.coingeckoId ?? token.name));
 
     await query.go();
   }
@@ -29,7 +29,7 @@ class FavoriteTokenRepository {
 
   Future<bool> isFavorite(Token token) {
     final query = _db.select(_db.favoriteTokenRows)
-      ..where((p) => p.id.equals(token.symbol));
+      ..where((p) => p.id.equals(token.extensions?.coingeckoId ?? token.name));
 
     return query.getSingleOrNull().then((p) => p != null);
   }
@@ -50,7 +50,7 @@ class FavoriteTokenRows extends Table {
 
 extension on Token {
   FavoriteTokenRow toDto() => FavoriteTokenRow(
-        id: symbol.toUpperCase(),
+        id: extensions?.coingeckoId ?? name,
         name: name,
         symbol: symbol,
         logoUri: logoURI,

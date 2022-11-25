@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/conversion_rates/context_ext.dart';
@@ -13,6 +14,7 @@ import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../module.dart';
 
 class FavoriteTokenList extends StatefulWidget {
@@ -43,9 +45,45 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
             );
           }
 
-          return SliverList(
-            delegate: SliverChildListDelegate(
-              data.map(_TokenItem.new).toList(),
+          return SliverPadding(
+            padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+            sliver: MultiSliver(
+              children: [
+                SliverToBoxAdapter(
+                  child: Text(
+                    context.l10n.following,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13,
+                      letterSpacing: 0.17,
+                      color: CpColors.menuPrimaryTextColor,
+                    ),
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(top: 16),
+                  sliver: SliverStack(
+                    children: [
+                      const SliverPositioned.fill(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Color(0xffF5F5F5),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        sliver: SliverList(
+                          delegate: SliverChildListDelegate(
+                            data.map(_TokenItem.new).toList(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         },
@@ -64,75 +102,27 @@ class _TokenItem extends StatelessWidget {
         .watchConversionRate(from: token, to: fiatCurrency)
         ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
 
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
-      child: ListTile(
-        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
-        leading: CpTokenIcon(token: token, size: 37),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 90,
-              child: Text(
-                token.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            _TokenSymbolWidget(token.symbol),
-          ],
+    return ListTile(
+      onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+      leading: CpTokenIcon(token: token, size: 37),
+      title: Text(
+        token.name,
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 15,
+          color: Colors.black,
         ),
-        trailing: Text(
-          tokenRate?.format(locale) ?? ' -',
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 15,
-            color: Colors.black,
-          ),
-          overflow: TextOverflow.ellipsis,
+        overflow: TextOverflow.ellipsis,
+      ),
+      trailing: Text(
+        tokenRate?.format(locale) ?? ' -',
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 15,
+          color: Colors.black,
         ),
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
-}
-
-class _TokenSymbolWidget extends StatelessWidget {
-  const _TokenSymbolWidget(
-    this.symbol, {
-    Key? key,
-  }) : super(key: key);
-
-  final String symbol;
-
-  @override
-  Widget build(BuildContext context) => SizedBox(
-        width: 57,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 6,
-            horizontal: 6,
-          ),
-          decoration: const ShapeDecoration(
-            shape: StadiumBorder(),
-            color: CpColors.lightPillBackgroundColor,
-          ),
-          child: Center(
-            widthFactor: 1,
-            child: Text(
-              symbol.toUpperCase(),
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
-              maxLines: 1,
-            ),
-          ),
-        ),
-      );
 }

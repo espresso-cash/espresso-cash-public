@@ -339,5 +339,8 @@
     }
   },
   "price": "Price",
-  "yourBalance": "Your balance"
+  "yourBalance": "Your balance",
+  "following": "FOLLOWING",
+  "favoritesAddNotice" : "Added to favorites!",
+  "favoritesRemoveNotice" : "Removed from favorites!" 
 }
