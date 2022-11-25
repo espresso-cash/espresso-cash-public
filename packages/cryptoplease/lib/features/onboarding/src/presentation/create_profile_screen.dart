@@ -5,8 +5,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/intercom.dart';
-import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/dialogs.dart';
@@ -31,7 +29,6 @@ class CreateProfileScreen extends StatelessWidget {
           isLoading: state.processingState.isProcessing,
           child: EnterFirstName(
             onSubmitted: (name, photo) async {
-              sl<IntercomService>().login();
               context
                   .read<OnboardingBloc>()
                   .add(OnboardingEvent.submitted(name: name, photo: photo));
