@@ -1,18 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-import '../../../../../core/amount.dart';
-import '../../../../../core/conversion_rates/context_ext.dart';
-import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
-import '../../../../../core/user_preferences.dart';
-import '../../../../../l10n/device_locale.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
+import '../../../core/conversion_rates/widgets/token_rate_text.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../module.dart';
@@ -95,34 +89,34 @@ class _TokenItem extends StatelessWidget {
   final Token token;
 
   @override
-  Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final Amount? tokenRate = context
-        .watchConversionRate(from: token, to: fiatCurrency)
-        ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
-
-    return ListTile(
-      onTap: () => context.router.push(TokenDetailsRoute(token: token)),
-      leading: CpTokenIcon(token: token, size: 37),
-      title: Text(
-        token.name,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          color: Colors.black,
+  Widget build(BuildContext context) => ListTile(
+        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+        leading: CpTokenIcon(token: token, size: 37),
+        title: Text(
+          token.name,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+            color: Colors.black,
+          ),
+          overflow: TextOverflow.ellipsis,
         ),
-        overflow: TextOverflow.ellipsis,
-      ),
-      trailing: Text(
-        tokenRate?.format(locale) ?? ' -',
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          color: Colors.black,
+        trailing: TokenRateText(
+          token: token,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+            color: Colors.black,
+          ),
         ),
-        overflow: TextOverflow.ellipsis,
-      ),
-    );
-  }
+        // trailing: Text(
+        //   tokenRate?.format(locale) ?? ' -',
+        //   style: const TextStyle(
+        //     fontWeight: FontWeight.w500,
+        //     fontSize: 15,
+        //     color: Colors.black,
+        //   ),
+        //   overflow: TextOverflow.ellipsis,
+        // ),
+      );
 }
