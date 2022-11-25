@@ -38,7 +38,7 @@ class IntercomModule extends SingleChildStatelessWidget {
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => LogoutListener(
-        onLogout: () => sl<IntercomService>().logout(),
+        onLogout: (_) => sl<IntercomService>().logout(),
         child: child,
       );
 }
