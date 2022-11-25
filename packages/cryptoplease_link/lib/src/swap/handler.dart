@@ -18,8 +18,17 @@ Future<Response> _swapRouteHandler(Request request) async =>
       request,
       SwapRouteRequestDto.fromJson,
       (data) async {
-        final reponses =
-            await Future.wait([getJupiterRoute(data), getUsdcPrice()]);
+        final reponses = await Future.wait([
+          getJupiterRoute(
+            amount: data.amount,
+            inputToken: data.inputToken,
+            outputToken: data.outputToken,
+            slippageBps: data.slippage.toJupiterBps(),
+            swapMode: data.match.toJupiterMode(),
+            account: data.userAccount,
+          ),
+          getUsdcPrice(),
+        ]);
         final route = reponses.first as RouteInfo;
         final price = reponses.last as double;
 

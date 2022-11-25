@@ -15,16 +15,21 @@ class RouteInfo with _$RouteInfo {
   }) = _RouteInfo;
 }
 
-Future<RouteInfo> getJupiterRoute(SwapRouteRequestDto request) async {
-  final account = request.userAccount;
-
+Future<RouteInfo> getJupiterRoute({
+  required String amount,
+  required String inputToken,
+  required String outputToken,
+  required int slippageBps,
+  required SwapMode swapMode,
+  required String account,
+}) async {
   final quote = await _swapClient.getQuote(
     QuoteRequestDto(
-      amount: request.amount,
-      inputMint: request.inputToken,
-      outputMint: request.outputToken,
-      slippageBps: request.slippage.toJupiterBps(),
-      swapMode: request.match.toJupiterMode(),
+      amount: amount,
+      inputMint: inputToken,
+      outputMint: outputToken,
+      slippageBps: slippageBps,
+      swapMode: swapMode,
       userPublicKey: account,
       enforceSingleTx: true,
     ),
