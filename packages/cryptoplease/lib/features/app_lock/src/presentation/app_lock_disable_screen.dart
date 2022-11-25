@@ -17,6 +17,9 @@ class AppLockDisableScreen extends StatelessWidget {
               context.read<AppLockSetupRouter>().onDisableFinished(),
         ),
         builder: (context, state) => DecoratedWindow(
+          backButton: BackButton(
+            onPressed: () => context.read<AppLockSetupRouter>().closeFlow(),
+          ),
           hasLogo: true,
           backgroundStyle: BackgroundStyle.dark,
           child: PinInputDisplayWidget(
