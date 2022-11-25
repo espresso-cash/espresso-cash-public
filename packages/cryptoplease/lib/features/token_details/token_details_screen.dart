@@ -148,7 +148,6 @@ class __ChartState extends State<_Chart> {
 
     final locale = DeviceLocale.localeOf(context);
 
-    //TODO update to value from coingecko api
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
     final Amount? tokenRate = context
         .watchConversionRate(from: widget.token, to: fiatCurrency)
