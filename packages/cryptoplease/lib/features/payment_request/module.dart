@@ -16,7 +16,7 @@ class PaymentRequestModule extends SingleChildStatelessWidget {
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => LogoutListener(
-        onLogout: () => sl<PaymentRequestRepository>().clear(),
+        onLogout: (_) => sl<PaymentRequestRepository>().clear(),
         child: child,
       );
 }
