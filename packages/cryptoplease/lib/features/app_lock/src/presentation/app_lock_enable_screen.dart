@@ -39,6 +39,9 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
 
   @override
   Widget build(BuildContext context) => DecoratedWindow(
+        backButton: BackButton(
+          onPressed: () => context.read<AppLockSetupRouter>().closeFlow(),
+        ),
         hasLogo: true,
         backgroundStyle: BackgroundStyle.dark,
         child: PinInputDisplayWidget(
