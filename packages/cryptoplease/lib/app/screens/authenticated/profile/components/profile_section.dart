@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../../config.dart';
 import '../../../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../../../core/intercom.dart';
 import '../../../../../core/presentation/utils.dart';
 import '../../../../../di.dart';
 import '../../../../../features/incoming_split_key_payments/module.dart';
