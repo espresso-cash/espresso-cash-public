@@ -182,14 +182,13 @@ class _ChartRangeSelector extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
-                      horizontal: 16,
+                      horizontal: 18,
                     ),
-                    decoration: interval == e
-                        ? const ShapeDecoration(
-                            shape: StadiumBorder(),
-                            color: CpColors.darkBackgroundColor,
-                          )
-                        : null,
+                    decoration: ShapeDecoration(
+                      shape: const StadiumBorder(),
+                      color:
+                          interval == e ? CpColors.darkBackgroundColor : null,
+                    ),
                     child: Text(
                       e.label,
                       style: const TextStyle(

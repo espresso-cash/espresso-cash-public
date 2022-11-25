@@ -11,6 +11,7 @@ import 'package:path/path.dart';
 import '../../file_manager.dart';
 import '../../wallet.dart';
 import 'account.dart';
+import 'mnemonic.dart';
 
 part 'accounts_bloc.freezed.dart';
 part 'accounts_event.dart';
@@ -57,7 +58,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
   Future<void> _onCreated(Created event, Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
-    await _storage.write(key: mnemonicKey, value: event.mnemonic);
+    await _storage.write(key: mnemonicKey, value: event.mnemonic.phrase);
 
     await _saveNameAndPhoto(
       name: event.account.firstName,
@@ -105,6 +106,7 @@ extension on FileManager {
     return MyAccount(
       firstName: (await storage.read(key: nameKey)) ?? '',
       photoPath: (await photoPath?.let(loadFromAppDir))?.path,
+      accessMode: const AccessMode.loaded(),
       wallet: await createWallet(
         mnemonic: mnemonic,
         account: 0,

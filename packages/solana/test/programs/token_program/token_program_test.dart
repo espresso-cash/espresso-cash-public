@@ -12,8 +12,7 @@ void main() {
   late final Ed25519HDKeyPair randomRecipient;
   late final Ed25519HDKeyPair newAuthority;
 
-  final rpcClient = RpcClient(devnetRpcUrl);
-  final subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
+  final client = createTestSolanaClient();
 
   setUpAll(() async {
     mint = await Ed25519HDKeyPair.random();
@@ -23,15 +22,15 @@ void main() {
     randomRecipient = await Ed25519HDKeyPair.random();
     newAuthority = await Ed25519HDKeyPair.random();
 
-    final signature = await rpcClient.requestAirdrop(
-      mintAuthority.address,
-      10 * lamportsPerSol,
+    await client.requestAirdrop(
+      address: mintAuthority.publicKey,
+      lamports: lamportsPerSol,
       commitment: Commitment.confirmed,
     );
-
-    await subscriptionClient.waitForSignatureStatus(
-      signature,
-      status: ConfirmationStatus.confirmed,
+    await client.requestAirdrop(
+      address: newAuthority.publicKey,
+      lamports: lamportsPerSol,
+      commitment: Commitment.confirmed,
     );
   });
 
@@ -39,19 +38,15 @@ void main() {
     Message message,
     List<Ed25519HDKeyPair> signers,
   ) async {
-    final signature = await rpcClient.signAndSendTransaction(
-      message,
-      signers,
+    await client.sendAndConfirmTransaction(
+      message: message,
+      signers: signers,
       commitment: Commitment.confirmed,
-    );
-    await subscriptionClient.waitForSignatureStatus(
-      signature,
-      status: ConfirmationStatus.confirmed,
     );
   }
 
   test('Initialize Mint', () async {
-    final rent = await rpcClient
+    final rent = await client.rpcClient
         .getMinimumBalanceForRentExemption(TokenProgram.neededMintAccountSpace);
     // Not throwing is sufficient as test, we need the mint to exist
     final instructions = TokenInstruction.createAccountAndInitializeMint(
@@ -69,7 +64,7 @@ void main() {
   });
 
   test('Create Account', () async {
-    final rent = await rpcClient
+    final rent = await client.rpcClient
         .getMinimumBalanceForRentExemption(TokenProgram.neededAccountSpace);
     final instructions = TokenInstruction.createAndInitializeAccount(
       mint: mint.publicKey,
@@ -252,9 +247,43 @@ void main() {
       newAuthority: newAuthority.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
+    await sendMessage(Message.only(instruction), [mintAuthority]);
+
+    final accountInfo = await client.rpcClient.getAccountInfo(
+      mint.publicKey.toBase58(),
+      commitment: Commitment.confirmed,
+      encoding: Encoding.jsonParsed,
     );
+
+    expect(accountInfo?.data, _hasMintAuthority(newAuthority.address));
+  });
+
+  test('Set Authority having no new authority', () async {
+    final instruction = TokenInstruction.setAuthority(
+      mintOrAccount: mint.publicKey,
+      authorityType: AuthorityType.mintTokens,
+      currentAuthority: newAuthority.publicKey,
+    );
+
+    await sendMessage(Message.only(instruction), [newAuthority]);
+
+    final accountInfo = await client.rpcClient.getAccountInfo(
+      mint.publicKey.toBase58(),
+      commitment: Commitment.confirmed,
+      encoding: Encoding.jsonParsed,
+    );
+
+    expect(accountInfo?.data, _hasMintAuthority(null));
   });
 }
+
+Matcher _hasMintAuthority(String? address) =>
+    isA<ParsedSplTokenProgramAccountData>().having(
+      (it) => it.parsed,
+      'parsed',
+      isA<MintAccountData>().having(
+        (it) => it.info.mintAuthority,
+        'mintAuthority',
+        address,
+      ),
+    );

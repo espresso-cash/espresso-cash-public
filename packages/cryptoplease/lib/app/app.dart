@@ -5,6 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../core/accounts/bl/accounts_bloc.dart';
+import '../core/analytics/analytics_manager.dart';
+import '../di.dart';
 import '../features/app_lock/module.dart';
 import '../routes.gr.dart';
 import '../ui/theme.dart';
@@ -40,6 +42,9 @@ class _CryptopleaseAppState extends State<CryptopleaseApp> {
                 const SplashRoute()
               else
                 const OnboardingFlowRoute(),
+            ],
+            navigatorObservers: () => [
+              sl<AnalyticsManager>().analyticsObserver,
             ],
           ),
           localizationsDelegates: AppLocalizations.localizationsDelegates,

@@ -24,17 +24,19 @@ class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          CpSwitch(
-            title: 'Switch 1',
-            value: _switch1,
-            onChanged: (value) => setState(() => _switch1 = value),
-            padding: const EdgeInsets.all(16),
+          ListTile(
+            title: const Text('Switch 1'),
+            trailing: CpSwitch(
+              value: _switch1,
+              onChanged: (value) => setState(() => _switch1 = value),
+            ),
           ),
-          CpSwitch(
-            title: 'Switch 2',
-            value: _switch2,
-            onChanged: (value) => setState(() => _switch2 = value),
-            padding: const EdgeInsets.all(16),
+          ListTile(
+            title: const Text('Switch 2'),
+            trailing: CpSwitch(
+              value: _switch2,
+              onChanged: (value) => setState(() => _switch2 = value),
+            ),
           ),
         ],
       );

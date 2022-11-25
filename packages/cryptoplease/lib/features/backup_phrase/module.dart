@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/accounts/bl/account.dart';
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
 import '../../routes.gr.dart';
@@ -24,11 +25,10 @@ class BackupPhraseModule extends SingleChildStatelessWidget {
         providers: [
           BlocProvider<PuzzleReminderBloc>(
             create: (_) => sl<PuzzleReminderBloc>(),
-            child: _Content(child: child),
           ),
           Provider<MnemonicGetter>(create: (_) => MnemonicGetter(mnemonic)),
         ],
-        child: child,
+        child: _Content(child: child),
       );
 }
 
@@ -45,9 +45,11 @@ class _ContentState extends State<_Content> {
   @override
   void initState() {
     super.initState();
+
+    final accessMode = context.read<MyAccount>().accessMode;
     context
         .read<PuzzleReminderBloc>()
-        .add(const PuzzleReminderEvent.checkRequested());
+        .add(PuzzleReminderEvent.checkRequested(accessMode));
   }
 
   void _showPuzzleReminderDialog() {
