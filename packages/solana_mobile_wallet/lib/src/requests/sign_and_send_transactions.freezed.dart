@@ -288,6 +288,7 @@ mixin _$SignaturesResult {
     required TResult Function(List<bool> valid) invalidPayloads,
     required TResult Function() tooManyPayloads,
     required TResult Function() authorizationNotValid,
+    required TResult Function(List<Uint8List> signatures) notSubmitted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -297,6 +298,7 @@ mixin _$SignaturesResult {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -306,6 +308,7 @@ mixin _$SignaturesResult {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -317,6 +320,7 @@ mixin _$SignaturesResult {
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
     required TResult Function(_AuthorizationNotValid value)
         authorizationNotValid,
+    required TResult Function(_NotSubmitted value) notSubmitted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -326,6 +330,7 @@ mixin _$SignaturesResult {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -335,6 +340,7 @@ mixin _$SignaturesResult {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -434,6 +440,7 @@ class _$_SignaturesResult extends _SignaturesResult {
     required TResult Function(List<bool> valid) invalidPayloads,
     required TResult Function() tooManyPayloads,
     required TResult Function() authorizationNotValid,
+    required TResult Function(List<Uint8List> signatures) notSubmitted,
   }) {
     return $default(signatures);
   }
@@ -446,6 +453,7 @@ class _$_SignaturesResult extends _SignaturesResult {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
   }) {
     return $default?.call(signatures);
   }
@@ -458,6 +466,7 @@ class _$_SignaturesResult extends _SignaturesResult {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -475,6 +484,7 @@ class _$_SignaturesResult extends _SignaturesResult {
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
     required TResult Function(_AuthorizationNotValid value)
         authorizationNotValid,
+    required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return $default(this);
   }
@@ -487,6 +497,7 @@ class _$_SignaturesResult extends _SignaturesResult {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
   }) {
     return $default?.call(this);
   }
@@ -499,6 +510,7 @@ class _$_SignaturesResult extends _SignaturesResult {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -565,6 +577,7 @@ class _$_RequestDeclined extends _RequestDeclined {
     required TResult Function(List<bool> valid) invalidPayloads,
     required TResult Function() tooManyPayloads,
     required TResult Function() authorizationNotValid,
+    required TResult Function(List<Uint8List> signatures) notSubmitted,
   }) {
     return requestDeclined();
   }
@@ -577,6 +590,7 @@ class _$_RequestDeclined extends _RequestDeclined {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
   }) {
     return requestDeclined?.call();
   }
@@ -589,6 +603,7 @@ class _$_RequestDeclined extends _RequestDeclined {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
     required TResult orElse(),
   }) {
     if (requestDeclined != null) {
@@ -606,6 +621,7 @@ class _$_RequestDeclined extends _RequestDeclined {
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
     required TResult Function(_AuthorizationNotValid value)
         authorizationNotValid,
+    required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return requestDeclined(this);
   }
@@ -618,6 +634,7 @@ class _$_RequestDeclined extends _RequestDeclined {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
   }) {
     return requestDeclined?.call(this);
   }
@@ -630,6 +647,7 @@ class _$_RequestDeclined extends _RequestDeclined {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
     required TResult orElse(),
   }) {
     if (requestDeclined != null) {
@@ -720,6 +738,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
     required TResult Function(List<bool> valid) invalidPayloads,
     required TResult Function() tooManyPayloads,
     required TResult Function() authorizationNotValid,
+    required TResult Function(List<Uint8List> signatures) notSubmitted,
   }) {
     return invalidPayloads(valid);
   }
@@ -732,6 +751,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
   }) {
     return invalidPayloads?.call(valid);
   }
@@ -744,6 +764,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
     required TResult orElse(),
   }) {
     if (invalidPayloads != null) {
@@ -761,6 +782,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
     required TResult Function(_AuthorizationNotValid value)
         authorizationNotValid,
+    required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return invalidPayloads(this);
   }
@@ -773,6 +795,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
   }) {
     return invalidPayloads?.call(this);
   }
@@ -785,6 +808,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
     required TResult orElse(),
   }) {
     if (invalidPayloads != null) {
@@ -851,6 +875,7 @@ class _$_TooManyPayloads extends _TooManyPayloads {
     required TResult Function(List<bool> valid) invalidPayloads,
     required TResult Function() tooManyPayloads,
     required TResult Function() authorizationNotValid,
+    required TResult Function(List<Uint8List> signatures) notSubmitted,
   }) {
     return tooManyPayloads();
   }
@@ -863,6 +888,7 @@ class _$_TooManyPayloads extends _TooManyPayloads {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
   }) {
     return tooManyPayloads?.call();
   }
@@ -875,6 +901,7 @@ class _$_TooManyPayloads extends _TooManyPayloads {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
     required TResult orElse(),
   }) {
     if (tooManyPayloads != null) {
@@ -892,6 +919,7 @@ class _$_TooManyPayloads extends _TooManyPayloads {
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
     required TResult Function(_AuthorizationNotValid value)
         authorizationNotValid,
+    required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return tooManyPayloads(this);
   }
@@ -904,6 +932,7 @@ class _$_TooManyPayloads extends _TooManyPayloads {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
   }) {
     return tooManyPayloads?.call(this);
   }
@@ -916,6 +945,7 @@ class _$_TooManyPayloads extends _TooManyPayloads {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
     required TResult orElse(),
   }) {
     if (tooManyPayloads != null) {
@@ -977,6 +1007,7 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
     required TResult Function(List<bool> valid) invalidPayloads,
     required TResult Function() tooManyPayloads,
     required TResult Function() authorizationNotValid,
+    required TResult Function(List<Uint8List> signatures) notSubmitted,
   }) {
     return authorizationNotValid();
   }
@@ -989,6 +1020,7 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
   }) {
     return authorizationNotValid?.call();
   }
@@ -1001,6 +1033,7 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
     TResult Function(List<bool> valid)? invalidPayloads,
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
     required TResult orElse(),
   }) {
     if (authorizationNotValid != null) {
@@ -1018,6 +1051,7 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
     required TResult Function(_AuthorizationNotValid value)
         authorizationNotValid,
+    required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return authorizationNotValid(this);
   }
@@ -1030,6 +1064,7 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
   }) {
     return authorizationNotValid?.call(this);
   }
@@ -1042,6 +1077,7 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
     TResult Function(_InvalidPayloads value)? invalidPayloads,
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
     required TResult orElse(),
   }) {
     if (authorizationNotValid != null) {
@@ -1054,4 +1090,172 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
 abstract class _AuthorizationNotValid extends SignaturesResult {
   const factory _AuthorizationNotValid() = _$_AuthorizationNotValid;
   const _AuthorizationNotValid._() : super._();
+}
+
+/// @nodoc
+abstract class _$$_NotSubmittedCopyWith<$Res> {
+  factory _$$_NotSubmittedCopyWith(
+          _$_NotSubmitted value, $Res Function(_$_NotSubmitted) then) =
+      __$$_NotSubmittedCopyWithImpl<$Res>;
+  $Res call({List<Uint8List> signatures});
+}
+
+/// @nodoc
+class __$$_NotSubmittedCopyWithImpl<$Res>
+    extends _$SignaturesResultCopyWithImpl<$Res>
+    implements _$$_NotSubmittedCopyWith<$Res> {
+  __$$_NotSubmittedCopyWithImpl(
+      _$_NotSubmitted _value, $Res Function(_$_NotSubmitted) _then)
+      : super(_value, (v) => _then(v as _$_NotSubmitted));
+
+  @override
+  _$_NotSubmitted get _value => super._value as _$_NotSubmitted;
+
+  @override
+  $Res call({
+    Object? signatures = freezed,
+  }) {
+    return _then(_$_NotSubmitted(
+      signatures: signatures == freezed
+          ? _value._signatures
+          : signatures // ignore: cast_nullable_to_non_nullable
+              as List<Uint8List>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_NotSubmitted extends _NotSubmitted {
+  const _$_NotSubmitted({required final List<Uint8List> signatures})
+      : _signatures = signatures,
+        super._();
+
+  final List<Uint8List> _signatures;
+  @override
+  List<Uint8List> get signatures {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_signatures);
+  }
+
+  @override
+  String toString() {
+    return 'SignaturesResult.notSubmitted(signatures: $signatures)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_NotSubmitted &&
+            const DeepCollectionEquality()
+                .equals(other._signatures, _signatures));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_signatures));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_NotSubmittedCopyWith<_$_NotSubmitted> get copyWith =>
+      __$$_NotSubmittedCopyWithImpl<_$_NotSubmitted>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(List<Uint8List> signatures) $default, {
+    required TResult Function() requestDeclined,
+    required TResult Function(List<bool> valid) invalidPayloads,
+    required TResult Function() tooManyPayloads,
+    required TResult Function() authorizationNotValid,
+    required TResult Function(List<Uint8List> signatures) notSubmitted,
+  }) {
+    return notSubmitted(signatures);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult Function(List<Uint8List> signatures)? $default, {
+    TResult Function()? requestDeclined,
+    TResult Function(List<bool> valid)? invalidPayloads,
+    TResult Function()? tooManyPayloads,
+    TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
+  }) {
+    return notSubmitted?.call(signatures);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(List<Uint8List> signatures)? $default, {
+    TResult Function()? requestDeclined,
+    TResult Function(List<bool> valid)? invalidPayloads,
+    TResult Function()? tooManyPayloads,
+    TResult Function()? authorizationNotValid,
+    TResult Function(List<Uint8List> signatures)? notSubmitted,
+    required TResult orElse(),
+  }) {
+    if (notSubmitted != null) {
+      return notSubmitted(signatures);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_SignaturesResult value) $default, {
+    required TResult Function(_RequestDeclined value) requestDeclined,
+    required TResult Function(_InvalidPayloads value) invalidPayloads,
+    required TResult Function(_TooManyPayloads value) tooManyPayloads,
+    required TResult Function(_AuthorizationNotValid value)
+        authorizationNotValid,
+    required TResult Function(_NotSubmitted value) notSubmitted,
+  }) {
+    return notSubmitted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult Function(_SignaturesResult value)? $default, {
+    TResult Function(_RequestDeclined value)? requestDeclined,
+    TResult Function(_InvalidPayloads value)? invalidPayloads,
+    TResult Function(_TooManyPayloads value)? tooManyPayloads,
+    TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
+  }) {
+    return notSubmitted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_SignaturesResult value)? $default, {
+    TResult Function(_RequestDeclined value)? requestDeclined,
+    TResult Function(_InvalidPayloads value)? invalidPayloads,
+    TResult Function(_TooManyPayloads value)? tooManyPayloads,
+    TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult Function(_NotSubmitted value)? notSubmitted,
+    required TResult orElse(),
+  }) {
+    if (notSubmitted != null) {
+      return notSubmitted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _NotSubmitted extends SignaturesResult {
+  const factory _NotSubmitted({required final List<Uint8List> signatures}) =
+      _$_NotSubmitted;
+  const _NotSubmitted._() : super._();
+
+  List<Uint8List> get signatures;
+  @JsonKey(ignore: true)
+  _$$_NotSubmittedCopyWith<_$_NotSubmitted> get copyWith =>
+      throw _privateConstructorUsedError;
 }

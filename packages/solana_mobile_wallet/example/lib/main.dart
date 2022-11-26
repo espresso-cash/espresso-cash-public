@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:solana/base58.dart';
+import 'package:solana/solana.dart';
 import 'package:solana_mobile_wallet_example/mobile_wallet/bloc.dart';
 import 'package:solana_mobile_wallet_example/screens/auth_screen.dart';
 import 'package:solana_mobile_wallet_example/screens/send_transactions_screen.dart';
 import 'package:solana_mobile_wallet_example/screens/sign_payloads_screen.dart';
 import 'package:solana_mobile_wallet_example/screens/sign_transactions_for_sending.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final prefs = await SharedPreferences.getInstance();
+  final key = prefs.getString('key');
+
+  final Ed25519HDKeyPair pair;
+  if (key == null) {
+    pair = await Ed25519HDKeyPair.random();
+    final privateKey =
+        await pair.extract().then((value) => value.bytes).then(base58encode);
+    await prefs.setString('key', privateKey);
+  } else {
+    final privateKey = base58decode(key);
+    pair = await Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: privateKey);
+  }
+
   runApp(
     BlocProvider(
-      create: (_) => MobileWalletBloc(),
+      create: (_) => MobileWalletBloc(pair),
       child: const MyApp(),
     ),
   );
