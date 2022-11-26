@@ -19,6 +19,7 @@ class EditProfileSection extends StatelessWidget {
             label: context.l10n.privacyPolicy,
             onPressed: () => context.navigateToPrivacyPolicy(),
           ),
+          const InvestmentsZeroBalanceSwitch(),
         ],
       );
 }

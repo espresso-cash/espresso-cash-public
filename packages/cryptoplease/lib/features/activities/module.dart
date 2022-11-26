@@ -4,7 +4,7 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/account.dart';
-import '../../core/accounts/bl/accounts_bloc.dart';
+import '../../core/accounts/module.dart';
 import '../../di.dart';
 import 'src/updater/bloc.dart';
 
@@ -26,13 +26,9 @@ class ActivitiesModule extends SingleChildStatelessWidget {
             ),
           ),
         ],
-        child: BlocListener<AccountsBloc, AccountsState>(
-          listenWhen: (s1, s2) => s1.account != s2.account,
-          listener: (context, state) {
-            if (state.account == null) {
-              context.read<TxUpdaterBloc>().add(const TxUpdaterEvent.clear());
-            }
-          },
+        child: LogoutListener(
+          onLogout: (context) =>
+              context.read<TxUpdaterBloc>().add(const TxUpdaterEvent.clear()),
           child: child,
         ),
       );
