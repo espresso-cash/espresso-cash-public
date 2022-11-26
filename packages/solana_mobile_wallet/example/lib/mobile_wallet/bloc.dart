@@ -25,6 +25,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
         supportsSignAndSendTransactions: true,
         maxTransactionsPerSigningRequest: 10,
         maxMessagesPerSigningRequest: 10,
+        supportedTransactionVersions: ['legacy'],
       ),
       issuerConfig: const AuthIssuerConfig(name: 'example_wallet'),
       callbacks: this,
