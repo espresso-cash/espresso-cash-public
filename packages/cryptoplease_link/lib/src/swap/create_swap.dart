@@ -13,10 +13,8 @@ Future<SignedTx> createSwap({
 }) async {
   final feePayer = platform.publicKey;
   final feeMessage = await createSwapFeePaymentMessage(
-    client: client,
     aSender: aSender,
     aReceiver: feePayer,
-    commitment: commitment,
     amount: feeAmount,
   );
 
