@@ -239,6 +239,10 @@ class Api implements ApiFlutter {
       authorizationNotValid: () => SignaturesResultDto(
         error: MobileWalletAdapterServerException.authorizationNotValid,
       ),
+      notSubmitted: (signatures) => SignaturesResultDto(
+        error: MobileWalletAdapterServerException.notSubmitted,
+        signatures: signatures,
+      ),
     );
   }
 

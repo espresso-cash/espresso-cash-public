@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
@@ -12,12 +13,15 @@ part 'state.dart';
 
 class MobileWalletBloc extends Cubit<MobileWalletState>
     implements ScenarioCallbacks {
-  MobileWalletBloc() : super(const MobileWalletState.none()) {
+  MobileWalletBloc(this._keyPair) : super(const MobileWalletState.none()) {
     _init();
   }
 
   Scenario? _scenario;
   Completer<Object?>? _completer;
+
+  final Ed25519HDKeyPair _keyPair;
+  late final _client = RpcClient('https://api.testnet.solana.com');
 
   Future<void> _init() async {
     _scenario = await Scenario.create(
@@ -47,9 +51,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     if (isAuthorized) {
       _completer?.complete(
         AuthorizeResult(
-          publicKey: Uint8List.fromList(
-            (await Ed25519HDKeyPair.random()).publicKey.bytes,
-          ),
+          publicKey: Uint8List.fromList(_keyPair.publicKey.bytes),
           accountLabel: 'FlutterWallet',
           walletUriBase: null,
           scope: Uint8List.fromList(
@@ -63,7 +65,36 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   Future<void> signPayloadsSimulateSign() async {
-    throw UnimplementedError();
+    final request =
+        state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
+
+    if (request == null) return;
+
+    final payloads = request.payloads;
+
+    final transactions = await Future.wait(
+      request.map(
+        transactions: (request) => payloads.map(
+          (e) async {
+            final tx = SignedTx.fromBytes(e);
+
+            return SignedTx(
+              messageBytes: tx.messageBytes,
+              signatures: [await _keyPair.sign(tx.messageBytes)],
+            ).toByteArray().toList();
+          },
+        ),
+        messages: (request) => payloads.map(
+          (e) async => e + await _keyPair.sign(e).then((value) => value.bytes),
+        ),
+      ),
+    );
+
+    final result = SignedPayloadResult(
+      signedPayloads: transactions.map(Uint8List.fromList).toList(),
+    );
+
+    _completer?.complete(result);
   }
 
   Future<void> signPayloadsDeclined() async {
@@ -104,7 +135,40 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   Future<void> signAndSendTransactionsSimulateSign() async {
-    throw UnimplementedError();
+    final request = state
+        .whenOrNull(remote: (r) => r)
+        ?.whenOrNull(signTransactionsForSending: (r) => r);
+
+    if (request == null) return;
+
+    final transactions = await Future.wait(
+      request.transactions.map(
+        (e) async {
+          final tx = SignedTx.fromBytes(e);
+
+          return SignedTx(
+            messageBytes: tx.messageBytes,
+            signatures: [await _keyPair.sign(tx.messageBytes)],
+          );
+        },
+      ),
+    );
+
+    emit(
+      MobileWalletState.remote(
+        RemoteRequest.sendTransactions(
+          request: request,
+          signatures: transactions
+              .map((e) => e.signatures.first.bytes)
+              .map(Uint8List.fromList)
+              .toList(),
+          signedTransactions: transactions
+              .map((e) => e.toByteArray().toList())
+              .map(Uint8List.fromList)
+              .toList(),
+        ),
+      ),
+    );
   }
 
   Future<void> signAndSendTransactionsDeclined() async {
@@ -149,19 +213,57 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   Future<void> signAndSendTransactionsSubmitted() async {
-    throw UnimplementedError();
+    final request = state
+        .whenOrNull(remote: (r) => r)
+        ?.mapOrNull(sendTransactions: (r) => r);
+
+    if (request == null) return;
+
+    final result = SignaturesResult(signatures: request.signatures);
+
+    _completer?.complete(result);
   }
 
   Future<void> signAndSendTransactionsNotSubmitted() async {
-    throw UnimplementedError();
+    final request = state
+        .whenOrNull(remote: (r) => r)
+        ?.mapOrNull(sendTransactions: (r) => r);
+
+    if (request == null) return;
+
+    final result =
+        SignaturesResult.notSubmitted(signatures: request.signatures);
+
+    _completer?.complete(result);
   }
 
   Future<void> signAndSendTransactionsSend() async {
-    throw UnimplementedError();
+    final request = state
+        .whenOrNull(remote: (r) => r)
+        ?.mapOrNull(sendTransactions: (r) => r);
+
+    if (request == null) return;
+
+    final results = await Future.wait(
+      request.signedTransactions.map(base64.encode).map(
+            (e) => _client
+                .sendTransaction(e)
+                .then((_) => true, onError: (_) => false),
+          ),
+    );
+
+    final result = results.any((e) => !e)
+        ? SignaturesResult.invalidPayloads(valid: results)
+        : SignaturesResult(signatures: request.signatures);
+
+    _completer?.complete(result);
   }
 
   void _cancelCurrentRequest() {
-    _completer?.complete(null);
+    final completer = _completer;
+    if (completer != null && !completer.isCompleted) {
+      completer.complete(null);
+    }
     _completer = null;
   }
 
