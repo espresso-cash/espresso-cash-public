@@ -7,12 +7,12 @@ part of 'create_master_edition.dart';
 // **************************************************************************
 
 mixin _$CreateMasterEditionV3Data {
-  int? get maxSupply => throw UnimplementedError();
+  BigInt? get maxSupply => throw UnimplementedError();
 
   Uint8List toBorsh() {
     final writer = BinaryWriter();
 
-    const BOption(BU16()).write(writer, maxSupply);
+    const BOption(BU64()).write(writer, maxSupply);
 
     return writer.toArray();
   }
@@ -23,7 +23,7 @@ class _CreateMasterEditionV3Data extends CreateMasterEditionV3Data {
     this.maxSupply,
   }) : super._();
 
-  final int? maxSupply;
+  final BigInt? maxSupply;
 }
 
 class BCreateMasterEditionV3Data implements BType<CreateMasterEditionV3Data> {
@@ -37,7 +37,7 @@ class BCreateMasterEditionV3Data implements BType<CreateMasterEditionV3Data> {
   @override
   CreateMasterEditionV3Data read(BinaryReader reader) {
     return CreateMasterEditionV3Data(
-      maxSupply: const BOption(BU16()).read(reader),
+      maxSupply: const BOption(BU64()).read(reader),
     );
   }
 }

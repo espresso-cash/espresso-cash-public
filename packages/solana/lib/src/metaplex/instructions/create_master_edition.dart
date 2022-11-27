@@ -2,8 +2,6 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/anchor.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/borsh_ext.dart';
-import 'package:solana/src/metaplex/instructions/fixed_string.dart';
 import 'package:solana/src/metaplex/utils.dart';
 
 part 'create_master_edition.g.dart';
@@ -13,10 +11,10 @@ Future<AnchorInstruction> createMasterEditionV3({
   required Ed25519HDPublicKey updateAuthority,
   required Ed25519HDPublicKey mintAuthority,
   required Ed25519HDPublicKey payer,
-  required Ed25519HDPublicKey metadataAccount,
   required CreateMasterEditionV3Data data,
 }) async {
   final programAddress = await findMetaplexEditionProgramAddress(mint);
+  final metadataAccount = await findMetaplexMetadataProgramAddress(mint);
 
   return AnchorInstruction.withDiscriminator(
     programId: Ed25519HDPublicKey.fromBase58(metaplexMetadataProgramId),
@@ -42,7 +40,7 @@ Future<AnchorInstruction> createMasterEditionV3({
 @BorshSerializable()
 abstract class CreateMasterEditionV3Data with _$CreateMasterEditionV3Data {
   factory CreateMasterEditionV3Data({
-    @BOption(BU16()) int? maxSupply,
+    @BOption(BU64()) BigInt? maxSupply,
   }) = _CreateMasterEditionV3Data;
 
   CreateMasterEditionV3Data._();

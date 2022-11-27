@@ -1,6 +1,5 @@
 import 'package:solana/metaplex.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/metaplex/instructions/create_master_edition.dart';
 import 'package:test/test.dart';
 
 import '../../config.dart';
@@ -24,7 +23,23 @@ Future<void> main() async {
       );
       final mint = await client.initializeMint(
         mintAuthority: owner,
+        freezeAuthority: owner.publicKey,
         decimals: 0,
+        commitment: Commitment.confirmed,
+      );
+      await client.createAssociatedTokenAccount(
+        mint: mint.address,
+        funder: owner,
+        commitment: Commitment.confirmed,
+      );
+      await client.mintTo(
+        mint: mint.address,
+        destination: await findAssociatedTokenAddress(
+          owner: owner.publicKey,
+          mint: mint.address,
+        ),
+        amount: 1,
+        authority: owner,
         commitment: Commitment.confirmed,
       );
 
@@ -52,13 +67,12 @@ Future<void> main() async {
         commitment: Commitment.confirmed,
       );
 
-      final dataMaster = CreateMasterEditionV3Data(maxSupply: 0);
+      final dataMaster = CreateMasterEditionV3Data(maxSupply: BigInt.zero);
       final instructionMaster = await createMasterEditionV3(
         mint: mint.address,
         updateAuthority: owner.publicKey,
         mintAuthority: owner.publicKey,
         payer: owner.publicKey,
-        metadataAccount: mint.address,
         data: dataMaster,
       );
 
@@ -70,14 +84,14 @@ Future<void> main() async {
         commitment: Commitment.confirmed,
       );
 
-      final metadata = await client.rpcClient.getMetadata(
+      final masterEdition = await client.rpcClient.getMasterEdition(
         mint: mint.address,
         commitment: Commitment.confirmed,
       );
 
-      expect(metadata?.name, name);
-      expect(metadata?.symbol, symbol);
-      expect(metadata?.uri, uri);
+      expect(masterEdition?.supply, BigInt.zero);
+      expect(masterEdition?.maxSupply, BigInt.zero);
     },
+    skip: 'Setup localnet with the metaplex program deployed.',
   );
 }
