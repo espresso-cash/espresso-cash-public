@@ -4,7 +4,6 @@ import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:cryptoplease_link/src/constants.dart';
 import 'package:cryptoplease_link/src/swap/create_swap.dart';
 import 'package:cryptoplease_link/src/swap/jupiter_repository.dart';
-import 'package:cryptoplease_link/src/swap/price.dart';
 import 'package:cryptoplease_link/src/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
@@ -18,37 +17,24 @@ Future<Response> _swapRouteHandler(Request request) async =>
       request,
       SwapRouteRequestDto.fromJson,
       (data) async {
-        final reponses = await Future.wait([
-          getJupiterRouteAndTransaction(
-            amount: data.amount,
-            inputToken: data.inputToken,
-            outputToken: data.outputToken,
-            slippageBps: data.slippage.toJupiterBps(),
-            swapMode: data.match.toJupiterMode(),
-            account: data.userAccount,
-          ),
-          getUsdcPrice(),
-        ]);
-        final route = reponses.first as RouteInfo;
-        final price = reponses.last as double;
-
-        final fee = convert(route.totalFees, price);
-
-        final transaction = await createSwap(
-          encodedTx: route.jupiterTx,
+        final tx = await createSwap(
           aSender: Ed25519HDPublicKey.fromBase58(data.userAccount),
           platform: await _mainnetPlatform,
           client: _mainnetClient,
           commitment: Commitment.confirmed,
-          feeAmount: fee,
+          amount: data.amount,
+          inputToken: data.inputToken,
+          outputToken: data.outputToken,
+          mode: data.match.toJupiterMode(),
+          slippage: data.slippage.toJupiterBps(),
         );
 
         return SwapRouteResponseDto(
-          amount: route.amount,
-          inAmount: route.inAmount,
-          outAmount: route.outAmount,
-          feeInUsdc: fee,
-          encodedTx: transaction.encode(),
+          amount: tx.amount,
+          inAmount: tx.inAmount,
+          outAmount: tx.outAmount,
+          feeInUsdc: tx.fee,
+          encodedTx: tx.transaction.encode(),
         );
       },
     );

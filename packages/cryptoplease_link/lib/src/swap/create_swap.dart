@@ -1,24 +1,60 @@
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:cryptoplease_link/src/constants.dart';
+import 'package:cryptoplease_link/src/swap/jupiter_repository.dart';
+import 'package:cryptoplease_link/src/swap/price.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-Future<SignedTx> createSwap({
-  required String encodedTx,
+part 'create_swap.freezed.dart';
+
+@freezed
+class SwapTransaction with _$SwapTransaction {
+  const factory SwapTransaction({
+    required String amount,
+    required String inAmount,
+    required String outAmount,
+    required int fee,
+    required SignedTx transaction,
+  }) = _SwapTransaction;
+}
+
+Future<SwapTransaction> createSwap({
+  required String amount,
+  required String inputToken,
+  required String outputToken,
+  required int slippage,
+  required SwapMode mode,
   required Ed25519HDKeyPair platform,
   required Ed25519HDPublicKey aSender,
   required SolanaClient client,
   required Commitment commitment,
-  required int feeAmount,
 }) async {
+  final reponses = await Future.wait([
+    getJupiterRouteAndTransaction(
+      amount: amount,
+      inputToken: inputToken,
+      outputToken: outputToken,
+      slippageBps: slippage,
+      swapMode: mode,
+      account: aSender.toBase58(),
+    ),
+    getUsdcPrice(),
+  ]);
+  final route = reponses.first as RouteInfo;
+  final price = reponses.last as double;
+
+  final fee = convert(route.totalFees, price);
+
   final feePayer = platform.publicKey;
   final feeIx = await _createSwapFeePayment(
     aSender: aSender,
     aReceiver: feePayer,
-    amount: feeAmount,
+    amount: fee,
   );
 
-  final message = encodedTx
+  final message = route.jupiterTx
       .let(SignedTx.decode)
       .let((tx) => tx.message)
       .let((message) => message.changeAtaIxsFunder(platform.publicKey))
@@ -32,12 +68,20 @@ Future<SignedTx> createSwap({
     feePayer: feePayer,
   );
 
-  return SignedTx(
+  final tx = SignedTx(
     messageBytes: compiled.data,
     signatures: [
       await platform.sign(compiled.data),
       Signature(List.filled(64, 0), publicKey: aSender),
     ],
+  );
+
+  return SwapTransaction(
+    amount: amount,
+    inAmount: route.inAmount,
+    outAmount: route.outAmount,
+    fee: fee,
+    transaction: tx,
   );
 }
 
