@@ -1,6 +1,5 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/metaplex/accounts/master_edition.dart';
 import 'package:solana/src/metaplex/metaplex.dart';
 import 'package:solana/src/metaplex/utils.dart';
 import 'package:solana/src/rpc/dto/account_data/binary_account_data.dart';
