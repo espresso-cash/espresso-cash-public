@@ -87,8 +87,8 @@ abstract class MetadataCollection with _$MetadataCollection {
 abstract class MetadataUses with _$MetadataUses {
   factory MetadataUses({
     @BU8() required int useMethod,
-    @BU32() required int remaining,
-    @BU32() required int total,
+    @BU64() required BigInt remaining,
+    @BU64() required BigInt total,
   }) = _MetadataUses;
 
   MetadataUses._();

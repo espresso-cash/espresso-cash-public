@@ -191,15 +191,15 @@ MetadataCollection _$MetadataCollectionFromBorsh(Uint8List data) {
 
 mixin _$MetadataUses {
   int get useMethod => throw UnimplementedError();
-  int get remaining => throw UnimplementedError();
-  int get total => throw UnimplementedError();
+  BigInt get remaining => throw UnimplementedError();
+  BigInt get total => throw UnimplementedError();
 
   Uint8List toBorsh() {
     final writer = BinaryWriter();
 
     const BU8().write(writer, useMethod);
-    const BU32().write(writer, remaining);
-    const BU32().write(writer, total);
+    const BU64().write(writer, remaining);
+    const BU64().write(writer, total);
 
     return writer.toArray();
   }
@@ -213,8 +213,8 @@ class _MetadataUses extends MetadataUses {
   }) : super._();
 
   final int useMethod;
-  final int remaining;
-  final int total;
+  final BigInt remaining;
+  final BigInt total;
 }
 
 class BMetadataUses implements BType<MetadataUses> {
@@ -229,8 +229,8 @@ class BMetadataUses implements BType<MetadataUses> {
   MetadataUses read(BinaryReader reader) {
     return MetadataUses(
       useMethod: const BU8().read(reader),
-      remaining: const BU32().read(reader),
-      total: const BU32().read(reader),
+      remaining: const BU64().read(reader),
+      total: const BU64().read(reader),
     );
   }
 }
