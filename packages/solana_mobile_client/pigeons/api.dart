@@ -40,6 +40,20 @@ abstract class ApiLocalAssociationScenario {
 
   @async
   SignPayloadsResultDto signTransactions(int id, List<Uint8List> transactions);
+
+  @async
+  SignPayloadsResultDto signMessages(
+    int id,
+    List<Uint8List> messages,
+    List<Uint8List> addresses,
+  );
+
+  @async
+  SignAndSendTransactionsResultDto signAndSendTransactions(
+    int id,
+    List<Uint8List> transactions,
+    int? minContextSlot,
+  );
 }
 
 class GetCapabilitiesResultDto {
@@ -76,4 +90,12 @@ class SignPayloadsResultDto {
   });
 
   final List<Uint8List?> signedPayloads;
+}
+
+class SignAndSendTransactionsResultDto {
+  SignAndSendTransactionsResultDto({
+    required this.signatures,
+  });
+
+  final List<Uint8List?> signatures;
 }
