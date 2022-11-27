@@ -47,5 +47,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.solanamobile:mobile-wallet-adapter-clientlib:0.9.0"
+    implementation "com.solanamobile:mobile-wallet-adapter-clientlib:1.0.0"
 }
