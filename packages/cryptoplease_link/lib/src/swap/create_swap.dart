@@ -55,7 +55,7 @@ class CreateSwap {
     final route = responses.first as RouteInfo;
     final price = responses.last as double;
 
-    final fee = convert(route.totalFees, price);
+    final fee = _convert(route.totalFees, price);
 
     final feePayer = _platform.publicKey;
     final feeIx = await _createSwapFeePayment(
@@ -144,5 +144,5 @@ Future<Instruction> _createSwapFeePayment({
   );
 }
 
-int convert(num amountInSol, double price) =>
+int _convert(num amountInSol, double price) =>
     (amountInSol * price / solDecimals * usdcDecimals).round();
