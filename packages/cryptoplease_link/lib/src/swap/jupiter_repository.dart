@@ -15,65 +15,72 @@ class RouteInfo with _$RouteInfo {
   }) = _RouteInfo;
 }
 
-Future<RouteInfo> getJupiterRouteAndTransaction({
-  required String amount,
-  required String inputToken,
-  required String outputToken,
-  required int slippageBps,
-  required SwapMode swapMode,
-  required String account,
-}) async {
-  final quote = await _swapClient.getQuote(
-    QuoteRequestDto(
-      amount: amount,
-      inputMint: inputToken,
-      outputMint: outputToken,
-      slippageBps: slippageBps,
-      swapMode: swapMode,
-      userPublicKey: account,
-      enforceSingleTx: true,
-    ),
-  );
+class JupiterRepository {
+  final _swapClient = JupiterAggregatorClient();
+  final _priceClient = JupiterPriceClient();
 
-  final bestRoute = quote.routes.firstOrNull;
+  Future<RouteInfo> getJupiterRouteAndTransaction({
+    required String amount,
+    required String inputToken,
+    required String outputToken,
+    required int slippageBps,
+    required SwapMode swapMode,
+    required String account,
+  }) async {
+    final quote = await _swapClient.getQuote(
+      QuoteRequestDto(
+        amount: amount,
+        inputMint: inputToken,
+        outputMint: outputToken,
+        slippageBps: slippageBps,
+        swapMode: swapMode,
+        userPublicKey: account,
+        enforceSingleTx: true,
+      ),
+    );
 
-  if (bestRoute == null) {
-    throw Exception('No route found for given input and output');
+    final bestRoute = quote.routes.firstOrNull;
+
+    if (bestRoute == null) {
+      throw Exception('No route found for given input and output');
+    }
+
+    final feeInSol = bestRoute.fees?.totalFeeAndDeposits;
+
+    if (feeInSol == null) {
+      throw Exception('Route has no fee object');
+    }
+
+    final tx = await _swapClient
+        .getSwapTransactions(
+          JupiterSwapRequestDto(userPublicKey: account, route: bestRoute),
+        )
+        .then(
+          (jupiterTxs) => [
+            jupiterTxs.setupTransaction,
+            jupiterTxs.swapTransaction,
+            jupiterTxs.cleanupTransaction,
+          ],
+        )
+        .then((txs) => txs.whereNotNull().singleOrNull);
+
+    if (tx == null) {
+      throw Exception('Swap only supports single transaction');
+    }
+
+    return RouteInfo(
+      amount: bestRoute.amount,
+      inAmount: bestRoute.inAmount,
+      outAmount: bestRoute.outAmount,
+      jupiterTx: tx,
+      totalFees: feeInSol,
+    );
   }
 
-  final feeInSol = bestRoute.fees?.totalFeeAndDeposits;
-
-  if (feeInSol == null) {
-    throw Exception('Route has no fee object');
-  }
-
-  final tx = await _swapClient
-      .getSwapTransactions(
-        JupiterSwapRequestDto(userPublicKey: account, route: bestRoute),
-      )
-      .then(
-        (jupiterTxs) => [
-          jupiterTxs.setupTransaction,
-          jupiterTxs.swapTransaction,
-          jupiterTxs.cleanupTransaction,
-        ],
-      )
-      .then((txs) => txs.whereNotNull().singleOrNull);
-
-  if (tx == null) {
-    throw Exception('Swap only supports single transaction');
-  }
-
-  return RouteInfo(
-    amount: bestRoute.amount,
-    inAmount: bestRoute.inAmount,
-    outAmount: bestRoute.outAmount,
-    jupiterTx: tx,
-    totalFees: feeInSol,
-  );
+  Future<double> getUsdcPrice() async => _priceClient
+      .getPrice(const PriceRequestDto(id: 'SOL'))
+      .then((response) => response.data.price);
 }
-
-final _swapClient = JupiterAggregatorClient();
 
 extension SwapSlippageExt on SwapSlippage {
   int toJupiterBps() {

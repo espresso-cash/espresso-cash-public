@@ -17,10 +17,14 @@ Future<Response> _swapRouteHandler(Request request) async =>
       request,
       SwapRouteRequestDto.fromJson,
       (data) async {
+        final createSwap = CreateSwap(
+          client: _mainnetClient,
+          repository: JupiterRepository(),
+          platform: await _mainnetPlatform,
+        );
+
         final tx = await createSwap(
           aSender: Ed25519HDPublicKey.fromBase58(data.userAccount),
-          platform: await _mainnetPlatform,
-          client: _mainnetClient,
           commitment: Commitment.confirmed,
           amount: data.amount,
           inputToken: data.inputToken,
