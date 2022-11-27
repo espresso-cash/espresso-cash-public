@@ -100,6 +100,40 @@ class MobileWalletAdapterClient {
       return const SignPayloadsResult(signedPayloads: []);
     }
   }
+
+  Future<SignPayloadsResult> signMessages({
+    required List<Uint8List> messages,
+    required List<Uint8List> addresses,
+  }) async {
+    try {
+      final result = await api.signMessages(_scenarioId, messages, addresses);
+
+      return SignPayloadsResult(
+        signedPayloads: result.signedPayloads.whereType<Uint8List>().toList(),
+      );
+    } on PlatformException {
+      return const SignPayloadsResult(signedPayloads: []);
+    }
+  }
+
+  Future<SignAndSendTransactionsResult> signAndSendTransactions({
+    required List<Uint8List> transactions,
+    int? minContextSlot,
+  }) async {
+    try {
+      final result = await api.signAndSendTransactions(
+        _scenarioId,
+        transactions,
+        minContextSlot,
+      );
+
+      return SignAndSendTransactionsResult(
+        signatures: result.signatures.whereType<Uint8List>().toList(),
+      );
+    } on PlatformException {
+      return const SignAndSendTransactionsResult(signatures: []);
+    }
+  }
 }
 
 @freezed
@@ -127,4 +161,11 @@ class SignPayloadsResult with _$SignPayloadsResult {
   const factory SignPayloadsResult({
     required List<Uint8List> signedPayloads,
   }) = _SignPayloadsResult;
+}
+
+@freezed
+class SignAndSendTransactionsResult with _$SignAndSendTransactionsResult {
+  const factory SignAndSendTransactionsResult({
+    required List<Uint8List> signatures,
+  }) = _SignAndSendTransactionsResult;
 }

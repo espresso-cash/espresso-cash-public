@@ -521,3 +521,134 @@ abstract class _SignPayloadsResult implements SignPayloadsResult {
   _$$_SignPayloadsResultCopyWith<_$_SignPayloadsResult> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$SignAndSendTransactionsResult {
+  List<Uint8List> get signatures => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SignAndSendTransactionsResultCopyWith<SignAndSendTransactionsResult>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SignAndSendTransactionsResultCopyWith<$Res> {
+  factory $SignAndSendTransactionsResultCopyWith(
+          SignAndSendTransactionsResult value,
+          $Res Function(SignAndSendTransactionsResult) then) =
+      _$SignAndSendTransactionsResultCopyWithImpl<$Res>;
+  $Res call({List<Uint8List> signatures});
+}
+
+/// @nodoc
+class _$SignAndSendTransactionsResultCopyWithImpl<$Res>
+    implements $SignAndSendTransactionsResultCopyWith<$Res> {
+  _$SignAndSendTransactionsResultCopyWithImpl(this._value, this._then);
+
+  final SignAndSendTransactionsResult _value;
+  // ignore: unused_field
+  final $Res Function(SignAndSendTransactionsResult) _then;
+
+  @override
+  $Res call({
+    Object? signatures = freezed,
+  }) {
+    return _then(_value.copyWith(
+      signatures: signatures == freezed
+          ? _value.signatures
+          : signatures // ignore: cast_nullable_to_non_nullable
+              as List<Uint8List>,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_SignAndSendTransactionsResultCopyWith<$Res>
+    implements $SignAndSendTransactionsResultCopyWith<$Res> {
+  factory _$$_SignAndSendTransactionsResultCopyWith(
+          _$_SignAndSendTransactionsResult value,
+          $Res Function(_$_SignAndSendTransactionsResult) then) =
+      __$$_SignAndSendTransactionsResultCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Uint8List> signatures});
+}
+
+/// @nodoc
+class __$$_SignAndSendTransactionsResultCopyWithImpl<$Res>
+    extends _$SignAndSendTransactionsResultCopyWithImpl<$Res>
+    implements _$$_SignAndSendTransactionsResultCopyWith<$Res> {
+  __$$_SignAndSendTransactionsResultCopyWithImpl(
+      _$_SignAndSendTransactionsResult _value,
+      $Res Function(_$_SignAndSendTransactionsResult) _then)
+      : super(_value, (v) => _then(v as _$_SignAndSendTransactionsResult));
+
+  @override
+  _$_SignAndSendTransactionsResult get _value =>
+      super._value as _$_SignAndSendTransactionsResult;
+
+  @override
+  $Res call({
+    Object? signatures = freezed,
+  }) {
+    return _then(_$_SignAndSendTransactionsResult(
+      signatures: signatures == freezed
+          ? _value._signatures
+          : signatures // ignore: cast_nullable_to_non_nullable
+              as List<Uint8List>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SignAndSendTransactionsResult
+    implements _SignAndSendTransactionsResult {
+  const _$_SignAndSendTransactionsResult(
+      {required final List<Uint8List> signatures})
+      : _signatures = signatures;
+
+  final List<Uint8List> _signatures;
+  @override
+  List<Uint8List> get signatures {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_signatures);
+  }
+
+  @override
+  String toString() {
+    return 'SignAndSendTransactionsResult(signatures: $signatures)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_SignAndSendTransactionsResult &&
+            const DeepCollectionEquality()
+                .equals(other._signatures, _signatures));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_signatures));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_SignAndSendTransactionsResultCopyWith<_$_SignAndSendTransactionsResult>
+      get copyWith => __$$_SignAndSendTransactionsResultCopyWithImpl<
+          _$_SignAndSendTransactionsResult>(this, _$identity);
+}
+
+abstract class _SignAndSendTransactionsResult
+    implements SignAndSendTransactionsResult {
+  const factory _SignAndSendTransactionsResult(
+          {required final List<Uint8List> signatures}) =
+      _$_SignAndSendTransactionsResult;
+
+  @override
+  List<Uint8List> get signatures;
+  @override
+  @JsonKey(ignore: true)
+  _$$_SignAndSendTransactionsResultCopyWith<_$_SignAndSendTransactionsResult>
+      get copyWith => throw _privateConstructorUsedError;
+}

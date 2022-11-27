@@ -9,6 +9,7 @@ class MobileWalletAdapterConfig with _$MobileWalletAdapterConfig {
     required bool supportsSignAndSendTransactions,
     required int maxTransactionsPerSigningRequest,
     required int maxMessagesPerSigningRequest,
+    required List<Object> supportedTransactionVersions,
   }) = _MobileWalletAdapterConfig;
 
   factory MobileWalletAdapterConfig.fromJson(Map<String, dynamic> json) =>
