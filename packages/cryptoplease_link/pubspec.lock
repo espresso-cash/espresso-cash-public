@@ -259,7 +259,7 @@ packages:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -354,10 +354,10 @@ packages:
   jupiter_aggregator:
     dependency: transitive
     description:
-      name: jupiter_aggregator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
+      path: jupiter_aggregator
+      relative: true
+    source: path
+    version: "0.0.3"
   logging:
     dependency: transitive
     description:
@@ -518,7 +518,7 @@ packages:
       name: solana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.26.0"
+    version: "0.26.3"
   source_gen:
     dependency: transitive
     description:
