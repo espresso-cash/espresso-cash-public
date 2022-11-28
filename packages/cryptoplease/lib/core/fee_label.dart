@@ -20,7 +20,6 @@ part 'fee_label.freezed.dart';
 class FeeType with _$FeeType {
   const factory FeeType.direct(Ed25519HDPublicKey address) = _FeeTypeDirect;
   const factory FeeType.splitKey() = _FeeTypeSplitKey;
-  const factory FeeType.swap() = _FeeTypeSwap;
 }
 
 class FeeLabel extends StatefulWidget {
@@ -86,7 +85,6 @@ class FeeCalculator {
                 : fees.directPayment.ataDoesNotExist;
           },
           splitKey: (_) async => fees.splitKeyPayment,
-          swap: (_) async => fees.swap,
         ),
       )
       .then((fee) => Amount(value: fee, currency: Currency.usdc));

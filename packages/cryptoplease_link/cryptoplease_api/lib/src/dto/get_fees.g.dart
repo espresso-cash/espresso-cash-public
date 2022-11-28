@@ -12,7 +12,6 @@ _$_GetFeesResponseDto _$$_GetFeesResponseDtoFromJson(
       directPayment: DirectPaymentFeeDto.fromJson(
           json['directPayment'] as Map<String, dynamic>),
       splitKeyPayment: json['splitKeyPayment'] as int,
-      swap: json['swap'] as int,
     );
 
 Map<String, dynamic> _$$_GetFeesResponseDtoToJson(
@@ -20,7 +19,6 @@ Map<String, dynamic> _$$_GetFeesResponseDtoToJson(
     <String, dynamic>{
       'directPayment': instance.directPayment,
       'splitKeyPayment': instance.splitKeyPayment,
-      'swap': instance.swap,
     };
 
 _$_DirectPaymentFeeDto _$$_DirectPaymentFeeDtoFromJson(

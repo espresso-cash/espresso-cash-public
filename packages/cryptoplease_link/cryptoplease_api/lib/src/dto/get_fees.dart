@@ -8,7 +8,6 @@ class GetFeesResponseDto with _$GetFeesResponseDto {
   const factory GetFeesResponseDto({
     required DirectPaymentFeeDto directPayment,
     required int splitKeyPayment,
-    required int swap,
   }) = _GetFeesResponseDto;
 
   factory GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>
