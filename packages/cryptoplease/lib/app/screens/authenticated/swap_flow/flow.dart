@@ -68,7 +68,7 @@ class _FlowState extends State<SwapFlowScreen> {
         input: widget.inputToken,
         output: widget.outputToken,
         initialEditingMode: operation.toInitialEditingMode(),
-        destinationWallet: context.read<MyAccount>().wallet,
+        userAccount: context.read<MyAccount>().wallet.publicKey,
       ),
       param2: context.read<BalancesBloc>().state.balances,
     )..add(

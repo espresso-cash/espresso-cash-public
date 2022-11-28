@@ -1,15 +1,13 @@
-import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
+import '../route.dart';
 import '../swap.dart';
 import 'swap_repository.dart';
 
@@ -17,7 +15,7 @@ part 'swap_bloc.freezed.dart';
 
 @freezed
 class SwapEvent with _$SwapEvent {
-  const factory SwapEvent.create(JupiterRoute route) = _SwapCreated;
+  const factory SwapEvent.create(SwapRoute route) = _SwapCreated;
   const factory SwapEvent.process(String id) = _SwapProcess;
 }
 
@@ -30,20 +28,14 @@ typedef _Emitter = Emitter<_State>;
 @injectable
 class SwapBloc extends Bloc<_Event, _State> {
   SwapBloc({
-    required CryptopleaseClient client,
     required SwapRepository repository,
-    @factoryParam required Ed25519HDKeyPair account,
     required TxSender txSender,
-  })  : _client = client,
-        _account = account,
-        _txSender = txSender,
+  })  : _txSender = txSender,
         _repository = repository,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
 
-  final CryptopleaseClient _client;
-  final Ed25519HDKeyPair _account;
   final TxSender _txSender;
   final SwapRepository _repository;
 
@@ -53,18 +45,16 @@ class SwapBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _onCreate(_SwapCreated event, _Emitter _) async {
-    final status = await _createTx(event.route);
+    final tx = SignedTx.decode(event.route.encodedTx);
     final swap = Swap(
       id: const Uuid().v4(),
       created: DateTime.now(),
-      status: status,
+      status: SwapStatus.txCreated(tx),
     );
 
     await _repository.save(swap);
 
-    if (status is SwapStatusTxCreated) {
-      add(SwapEvent.process(swap.id));
-    }
+    add(SwapEvent.process(swap.id));
   }
 
   Future<void> _onProcess(_SwapProcess event, _Emitter emit) async {
@@ -96,24 +86,6 @@ class SwapBloc extends Bloc<_Event, _State> {
       txSendFailure: ignore,
       txWaitFailure: ignore,
     );
-  }
-
-  Future<SwapStatus> _createTx(JupiterRoute route) async {
-    try {
-      final dto = SwapRequestDto(
-        userPublicKey: _account.publicKey.toBase58(),
-        route: route,
-      );
-      final tx = await _client
-          .createSwapTransaction(dto)
-          .then((r) => r.swapTransaction)
-          .then(SignedTx.decode)
-          .then((swap) => swap.resign(_account));
-
-      return SwapStatus.txCreated(tx);
-    } on Exception {
-      return const SwapStatus.txFailure();
-    }
   }
 
   Future<SwapStatus> _sendTx(SignedTx tx) async {

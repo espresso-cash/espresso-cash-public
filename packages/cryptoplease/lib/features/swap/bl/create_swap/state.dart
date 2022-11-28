@@ -11,12 +11,12 @@ class CreateSwapState with _$CreateSwapState {
   const factory CreateSwapState({
     required CryptoAmount inputAmount,
     required CryptoAmount outputAmount,
-    required Decimal slippage,
+    required Slippage slippage,
     required SwapEditingMode editingMode,
     required CryptoAmount fee,
-    JupiterRoute? bestRoute,
-    @Default(Flow<CreateSwapException, JupiterRoute>.initial())
-        Flow<CreateSwapException, JupiterRoute> flowState,
+    SwapRoute? bestRoute,
+    @Default(Flow<CreateSwapException, SwapRoute>.initial())
+        Flow<CreateSwapException, SwapRoute> flowState,
   }) = Initialized;
 }
 
@@ -31,7 +31,7 @@ extension CreateSwapExt on CreateSwapState {
         output: always(outputAmount),
       );
 
-  Either<CreateSwapException, JupiterRoute> validate(
+  Either<CreateSwapException, SwapRoute> validate(
     IMap<Token, Amount> balances,
   ) {
     final tokenBalance = balances.balanceFromToken(input);

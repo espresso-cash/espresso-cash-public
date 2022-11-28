@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -16,7 +15,8 @@ import '../../../../core/currency.dart';
 import '../../../../core/fee_label.dart';
 import '../../../../core/flow.dart';
 import '../../../../core/tokens/token.dart';
-import 'jupiter_repository.dart';
+import '../route.dart';
+import 'route_repository.dart';
 
 part 'bloc.freezed.dart';
 part 'event.dart';
@@ -32,7 +32,7 @@ class SwapSetup with _$SwapSetup {
     required Token input,
     required Token output,
     required SwapEditingMode initialEditingMode,
-    required Wallet destinationWallet,
+    required Ed25519HDPublicKey userAccount,
   }) = _SwapSetup;
 }
 
@@ -41,13 +41,13 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   CreateSwapBloc({
     @factoryParam required SwapSetup setup,
     @factoryParam required Map<Token, Amount> balances,
-    required JupiterRepository jupiterRepository,
+    required RouteRepository routeRepository,
     required AnalyticsManager analyticsManager,
     required FeeCalculator feeCalculator,
-  })  : _jupiterRepository = jupiterRepository,
+  })  : _jupiterRepository = routeRepository,
         _analyticsManager = analyticsManager,
         _feeCalculator = feeCalculator,
-        _destinationWallet = setup.destinationWallet,
+        _userAccount = setup.userAccount,
         _balances = balances.lock.add(
           Token.wrappedSol,
           balances[Token.sol] ?? Token.wrappedSol.toZeroAmount(),
@@ -57,7 +57,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
             editingMode: setup.initialEditingMode,
             inputAmount: setup.input.toZeroAmount(),
             outputAmount: setup.output.toZeroAmount(),
-            slippage: Decimal.one,
+            slippage: Slippage.onePercent,
             fee: const CryptoAmount(value: 0, currency: Currency.usdc),
           ),
         ) {
@@ -75,10 +75,10 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   }
 
   final FeeCalculator _feeCalculator;
-  final JupiterRepository _jupiterRepository;
+  final RouteRepository _jupiterRepository;
   final AnalyticsManager _analyticsManager;
   final IMap<Token, Amount> _balances;
-  final Wallet _destinationWallet;
+  final Ed25519HDPublicKey _userAccount;
 
   bool isValidInput(Token token) => _balances.isPositive(token);
 
@@ -169,17 +169,13 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     emit(state.processing());
 
     try {
-      final routes = await _jupiterRepository.findRoutes(
+      final bestRoute = await _jupiterRepository.findRoute(
         amount: amount,
         inputToken: state.input,
         outputToken: state.output,
         slippage: state.slippage,
-        userPublickKey: _destinationWallet.address,
+        userPublickKey: _userAccount.toBase58(),
       );
-
-      if (routes.isEmpty) throw const CreateSwapException.routeNotFound();
-
-      final bestRoute = routes.first;
 
       state.editingMode.when(
         input: always(
@@ -238,20 +234,16 @@ extension on CreateSwapState {
         flowState: const Flow.initial(),
       );
 
-  CreateSwapState updateInputFromRoute(JupiterRoute bestRoute) => copyWith(
+  CreateSwapState updateInputFromRoute(SwapRoute bestRoute) => copyWith(
         bestRoute: bestRoute,
         flowState: const Flow.initial(),
-        inputAmount: inputAmount.copyWith(
-          value: int.parse(bestRoute.inAmount),
-        ),
+        inputAmount: inputAmount.copyWithDecimal(bestRoute.inAmount),
       );
 
-  CreateSwapState updateOutputFromRoute(JupiterRoute bestRoute) => copyWith(
+  CreateSwapState updateOutputFromRoute(SwapRoute bestRoute) => copyWith(
         bestRoute: bestRoute,
         flowState: const Flow.initial(),
-        outputAmount: outputAmount.copyWith(
-          value: int.parse(bestRoute.outAmount),
-        ),
+        outputAmount: outputAmount.copyWithDecimal(bestRoute.outAmount),
       );
 
   CreateSwapState toggleEditingMode() => copyWith(

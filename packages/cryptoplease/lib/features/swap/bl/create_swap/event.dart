@@ -8,7 +8,7 @@ class CreateSwapEvent with _$CreateSwapEvent {
 
   const factory CreateSwapEvent.editingModeToggled() = EditingModeToggled;
 
-  const factory CreateSwapEvent.slippageUpdated(Decimal slippage) =
+  const factory CreateSwapEvent.slippageUpdated(Slippage slippage) =
       SlippageUpdated;
 
   const factory CreateSwapEvent.submitted() = Submitted;
