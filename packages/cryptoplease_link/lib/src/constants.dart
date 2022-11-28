@@ -16,7 +16,6 @@ const moonpayHost = 'moonpay.$cpLinkDomain';
 const shareableLinkPaymentFee = 100000; // 0.1 USDC
 const directPaymentFee = 10000; // 0.01 USDC
 const directPaymentWithAccountCreationFee = 100000; // 0.1 USDC
-const swapFee = 100000; // 0.1 USDC
 
 const solDecimals = 1000000000;
 const usdcDecimals = 1000000;
