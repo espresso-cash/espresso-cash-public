@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +10,7 @@ import '../../../../core/tokens/token.dart';
 import '../../../../di.dart';
 import '../../../../features/swap/bl/create_swap/bloc.dart';
 import '../../../../features/swap/bl/create_swap/operation.dart';
+import '../../../../features/swap/bl/route.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
@@ -81,7 +81,7 @@ class _FlowState extends State<SwapFlowScreen> {
     createSwapBloc.add(event);
   }
 
-  void _onSlippageUpdate(Decimal value) {
+  void _onSlippageUpdate(Slippage value) {
     final event = CreateSwapEvent.slippageUpdated(value);
     createSwapBloc.add(event);
   }
@@ -102,7 +102,7 @@ class _FlowState extends State<SwapFlowScreen> {
         e,
       );
 
-  void _onRouteReady(JupiterRoute route) => context.router.replace(
+  void _onRouteReady(SwapRoute route) => context.router.replace(
         ProcessSwapRoute(route: route),
       );
 

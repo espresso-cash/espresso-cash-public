@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../di.dart';
+import '../../../../features/swap/bl/route.dart';
 import '../../../../features/swap/bl/swap.dart';
 import '../../../../features/swap/bl/swap/swap_bloc.dart';
 import '../../../../features/swap/bl/swap/swap_repository.dart';
@@ -17,7 +17,7 @@ class ProcessSwapScreen extends StatefulWidget {
     required this.route,
   }) : super(key: key);
 
-  final JupiterRoute route;
+  final SwapRoute route;
 
   @override
   State<ProcessSwapScreen> createState() => _ProcessSwapScreenState();

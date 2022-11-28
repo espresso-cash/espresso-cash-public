@@ -1,6 +1,6 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../features/swap/bl/route.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
@@ -12,8 +12,8 @@ class SlippageInfo extends StatelessWidget {
     required this.onSlippageChanged,
   }) : super(key: key);
 
-  final Decimal slippage;
-  final ValueSetter<Decimal> onSlippageChanged;
+  final Slippage slippage;
+  final ValueSetter<Slippage> onSlippageChanged;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -25,7 +25,7 @@ class SlippageInfo extends StatelessWidget {
               text: context.l10n.swapSlippageWarning,
               children: [
                 TextSpan(
-                  text: '$slippage%',
+                  text: slippage.label,
                   style: const TextStyle(
                     color: CpColors.yellowDarkAccentColor,
                     fontWeight: FontWeight.w600,
@@ -44,7 +44,20 @@ class SlippageInfo extends StatelessWidget {
       );
 }
 
-final _options = ['0.1', '0.5', '1.0'].map(Decimal.parse);
+const _options = Slippage.values;
+
+extension on Slippage {
+  String get label {
+    switch (this) {
+      case Slippage.zpOne:
+        return '0.1%';
+      case Slippage.zpFive:
+        return '0.5%';
+      case Slippage.onePercent:
+        return '1.0%';
+    }
+  }
+}
 
 class _SlippageBottomSheet extends StatelessWidget {
   const _SlippageBottomSheet({
@@ -52,11 +65,11 @@ class _SlippageBottomSheet extends StatelessWidget {
     required this.onSlippageChange,
   }) : super(key: key);
 
-  final ValueSetter<Decimal> onSlippageChange;
+  final ValueSetter<Slippage> onSlippageChange;
 
   static Future<void> show(
     BuildContext context,
-    ValueSetter<Decimal> onSlippageChange,
+    ValueSetter<Slippage> onSlippageChange,
   ) =>
       showModalBottomSheet(
         context: context,
@@ -72,7 +85,7 @@ class _SlippageBottomSheet extends StatelessWidget {
         ),
       );
 
-  void _onTap(BuildContext context, Decimal slippage) {
+  void _onTap(BuildContext context, Slippage slippage) {
     onSlippageChange(slippage);
     Navigator.of(context).pop();
   }
@@ -110,10 +123,9 @@ class _SlippageBottomSheet extends StatelessWidget {
                 itemCount: _options.length,
                 itemBuilder: (context, index) {
                   final slippage = _options.elementAt(index);
-                  final label = '$slippage%';
 
                   return CpButton(
-                    text: label,
+                    text: slippage.label,
                     onPressed: () => _onTap(context, slippage),
                   );
                 },
