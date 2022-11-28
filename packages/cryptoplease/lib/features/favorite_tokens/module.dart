@@ -16,7 +16,7 @@ class FavoriteTokensModule extends SingleChildStatelessWidget {
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => LogoutListener(
-        onLogout: () => sl<FavoriteTokenRepository>().clear(),
+        onLogout: (_) => sl<FavoriteTokenRepository>().clear(),
         child: child,
       );
 }

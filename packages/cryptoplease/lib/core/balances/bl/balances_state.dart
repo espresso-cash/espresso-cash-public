@@ -12,7 +12,7 @@ class BalancesState with _$BalancesState implements StateWithProcessingState {
   late final Set<Token> userTokens = {...balances.keys, Token.sol, Token.usdc};
 
   late final Set<Token> userTokensWithPositiveBalance = {
-    ...balances.entries.where((e) => e.value.value != 0).map((e) => e.key),
+    ...balances.entries.where((e) => e.value.value >= 0.001).map((e) => e.key),
     Token.sol,
     Token.usdc
   };
