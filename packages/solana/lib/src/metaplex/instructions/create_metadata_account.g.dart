@@ -15,7 +15,7 @@ mixin _$CreateMetadataAccountV3Data {
   MetadataCollection? get collection => throw UnimplementedError();
   MetadataUses? get uses => throw UnimplementedError();
   bool get isMutable => throw UnimplementedError();
-  bool get colectionDetails => throw UnimplementedError();
+  CollectionDetailsV1? get collectionDetails => throw UnimplementedError();
 
   Uint8List toBorsh() {
     final writer = BinaryWriter();
@@ -28,7 +28,7 @@ mixin _$CreateMetadataAccountV3Data {
     const BOption(BMetadataCollection()).write(writer, collection);
     const BOption(BMetadataUses()).write(writer, uses);
     const BBool().write(writer, isMutable);
-    const BBool().write(writer, colectionDetails);
+    const BOption(BCollectionDetailsV1()).write(writer, collectionDetails);
 
     return writer.toArray();
   }
@@ -44,7 +44,7 @@ class _CreateMetadataAccountV3Data extends CreateMetadataAccountV3Data {
     this.collection,
     this.uses,
     required this.isMutable,
-    required this.colectionDetails,
+    this.collectionDetails,
   }) : super._();
 
   final String name;
@@ -55,7 +55,7 @@ class _CreateMetadataAccountV3Data extends CreateMetadataAccountV3Data {
   final MetadataCollection? collection;
   final MetadataUses? uses;
   final bool isMutable;
-  final bool colectionDetails;
+  final CollectionDetailsV1? collectionDetails;
 }
 
 class BCreateMetadataAccountV3Data
@@ -78,7 +78,7 @@ class BCreateMetadataAccountV3Data
       collection: const BOption(BMetadataCollection()).read(reader),
       uses: const BOption(BMetadataUses()).read(reader),
       isMutable: const BBool().read(reader),
-      colectionDetails: const BBool().read(reader),
+      collectionDetails: const BOption(BCollectionDetailsV1()).read(reader),
     );
   }
 }
@@ -239,4 +239,46 @@ MetadataUses _$MetadataUsesFromBorsh(Uint8List data) {
   final reader = BinaryReader(data.buffer.asByteData());
 
   return const BMetadataUses().read(reader);
+}
+
+mixin _$CollectionDetailsV1 {
+  BigInt get size => throw UnimplementedError();
+
+  Uint8List toBorsh() {
+    final writer = BinaryWriter();
+
+    const BU64().write(writer, size);
+
+    return writer.toArray();
+  }
+}
+
+class _CollectionDetailsV1 extends CollectionDetailsV1 {
+  _CollectionDetailsV1({
+    required this.size,
+  }) : super._();
+
+  final BigInt size;
+}
+
+class BCollectionDetailsV1 implements BType<CollectionDetailsV1> {
+  const BCollectionDetailsV1();
+
+  @override
+  void write(BinaryWriter writer, CollectionDetailsV1 value) {
+    writer.writeStruct(value.toBorsh());
+  }
+
+  @override
+  CollectionDetailsV1 read(BinaryReader reader) {
+    return CollectionDetailsV1(
+      size: const BU64().read(reader),
+    );
+  }
+}
+
+CollectionDetailsV1 _$CollectionDetailsV1FromBorsh(Uint8List data) {
+  final reader = BinaryReader(data.buffer.asByteData());
+
+  return const BCollectionDetailsV1().read(reader);
 }

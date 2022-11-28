@@ -47,7 +47,7 @@ abstract class CreateMetadataAccountV3Data with _$CreateMetadataAccountV3Data {
     @BOption(BMetadataCollection()) MetadataCollection? collection,
     @BOption(BMetadataUses()) MetadataUses? uses,
     @BBool() required bool isMutable,
-    @BBool() required bool colectionDetails,
+    @BOption(BCollectionDetailsV1()) CollectionDetailsV1? collectionDetails,
   }) = _CreateMetadataAccountV3Data;
 
   CreateMetadataAccountV3Data._();
@@ -95,4 +95,16 @@ abstract class MetadataUses with _$MetadataUses {
 
   factory MetadataUses.fromBorsh(Uint8List data) =>
       _$MetadataUsesFromBorsh(data);
+}
+
+@BorshSerializable()
+abstract class CollectionDetailsV1 with _$CollectionDetailsV1 {
+  factory CollectionDetailsV1({
+    @BU64() required BigInt size,
+  }) = _CollectionDetailsV1;
+
+  CollectionDetailsV1._();
+
+  factory CollectionDetailsV1.fromBorsh(Uint8List data) =>
+      _$CollectionDetailsV1FromBorsh(data);
 }
