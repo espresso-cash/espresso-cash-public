@@ -12,7 +12,6 @@ import 'package:solana/solana.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/currency.dart';
-import '../../../../core/fee_label.dart';
 import '../../../../core/flow.dart';
 import '../../../../core/tokens/token.dart';
 import '../route.dart';
@@ -43,10 +42,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     @factoryParam required Map<Token, Amount> balances,
     required RouteRepository routeRepository,
     required AnalyticsManager analyticsManager,
-    required FeeCalculator feeCalculator,
   })  : _jupiterRepository = routeRepository,
         _analyticsManager = analyticsManager,
-        _feeCalculator = feeCalculator,
         _userAccount = setup.userAccount,
         _balances = balances.lock.add(
           Token.wrappedSol,
@@ -73,7 +70,6 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     );
   }
 
-  final FeeCalculator _feeCalculator;
   final RouteRepository _jupiterRepository;
   final AnalyticsManager _analyticsManager;
   final IMap<Token, Amount> _balances;
