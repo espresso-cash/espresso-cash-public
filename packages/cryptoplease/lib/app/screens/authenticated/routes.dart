@@ -8,6 +8,7 @@ import '../../../features/outgoing_split_key_payments/routes.dart';
 import '../../../features/payment_request/routes.dart';
 import '../../../features/qr_scanner/routes.dart';
 import '../../../features/ramp/routes.dart';
+import '../../../features/search/routes.dart';
 import '../../../features/token_details/token_details_screen.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
@@ -51,5 +52,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),
     AutoRoute<void>(page: HelpScreen),
+    ...tokenSearchRoutes,
   ],
 );

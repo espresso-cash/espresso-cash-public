@@ -21,6 +21,7 @@ class CpTextField extends StatelessWidget {
     this.prefix,
     this.suffix,
     this.border = CpTextFieldBorder.stadium,
+    this.prefixWidget,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -35,11 +36,13 @@ class CpTextField extends StatelessWidget {
   final TextInputType? inputType;
   final String? prefix;
   final Widget? suffix;
+  final Widget? prefixWidget;
   final CpTextFieldBorder border;
 
   @override
   Widget build(BuildContext context) {
     final prefix = this.prefix;
+    final prefixWidget = this.prefixWidget;
 
     return Container(
       margin: margin,
@@ -73,7 +76,10 @@ class CpTextField extends StatelessWidget {
         keyboardAppearance: Theme.of(context).brightness,
         placeholderStyle: TextStyle(color: placeholderColor),
         prefix: prefix == null
-            ? null
+            ? Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: prefixWidget,
+              )
             : Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: Text(
