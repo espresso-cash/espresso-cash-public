@@ -1,10 +1,10 @@
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../features/swap/bl/route.dart';
-import '../../../../l10n/decimal_separator.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/amount_keypad/amount_keypad.dart';
@@ -12,7 +12,9 @@ import '../../../../ui/button.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/number_formatter.dart';
 import 'components/available_balance.dart';
+import 'components/display_header.dart';
 import 'components/equivalent_header.dart';
+import 'components/route_duration_wrapper.dart';
 import 'components/slippage_info.dart';
 import 'components/swap_fee.dart';
 import 'components/token_dropdown.dart';
@@ -26,11 +28,13 @@ class CreateSwapScreen extends StatefulWidget {
     required this.fee,
     required this.maxAmountAvailable,
     required this.slippage,
+    required this.isLoadingRoute,
+    required this.routeFetchedAt,
     required this.onSlippageChanged,
     required this.onAmountChanged,
     required this.onEditingModeToggled,
+    required this.onRouteExpired,
     required this.onSubmit,
-    required this.isLoadingRoute,
   }) : super(key: key);
 
   final CryptoAmount inputAmount;
@@ -39,11 +43,13 @@ class CreateSwapScreen extends StatefulWidget {
   final CryptoAmount fee;
   final CryptoAmount maxAmountAvailable;
   final Slippage slippage;
-  final VoidCallback onSubmit;
+  final bool isLoadingRoute;
+  final DateTime? routeFetchedAt;
   final ValueSetter<Slippage> onSlippageChanged;
   final ValueSetter<Decimal> onAmountChanged;
   final VoidCallback onEditingModeToggled;
-  final bool isLoadingRoute;
+  final VoidCallback onRouteExpired;
+  final VoidCallback onSubmit;
 
   @override
   State<CreateSwapScreen> createState() => _CreateSwapScreenState();
@@ -95,7 +101,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
           children: [
             ValueListenableBuilder<TextEditingValue>(
               valueListenable: _amountController,
-              builder: (context, value, __) => _DisplayHeader(
+              builder: (context, value, __) => DisplayHeader(
                 displayAmount: value.text,
               ),
             ),
@@ -130,75 +136,42 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 ),
               ),
             ),
-            _Button(
-              onSubmit: widget.onSubmit,
+            RouteDurationWrapper(
+              start: widget.routeFetchedAt,
+              onTimeout: widget.onRouteExpired,
+              builder: (context, remaining) => _Button(
+                countdown: remaining,
+                onSubmit: widget.onSubmit,
+              ),
             ),
           ],
         ),
       );
 }
 
-class _DisplayHeader extends StatelessWidget {
-  const _DisplayHeader({
-    Key? key,
-    required this.displayAmount,
-  }) : super(key: key);
-
-  final String displayAmount;
-
-  @override
-  Widget build(BuildContext context) {
-    final formatted = displayAmount.formatted(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: FittedBox(
-        child: Text(
-          formatted,
-          maxLines: 1,
-          style: const TextStyle(
-            fontSize: 80,
-            fontWeight: FontWeight.w700,
-            height: 1,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _Button extends StatelessWidget {
   const _Button({
     Key? key,
+    required this.countdown,
     required this.onSubmit,
   }) : super(key: key);
 
+  final Duration? countdown;
   final VoidCallback onSubmit;
 
   @override
-  Widget build(BuildContext context) => CpContentPadding(
-        child: CpButton(
-          text: context.l10n.pressAndHoldToSubmit,
-          mechanics: CpButtonMechanics.pressAndHold,
-          width: double.infinity,
-          size: CpButtonSize.big,
-          onPressed: onSubmit,
-        ),
-      );
-}
+  Widget build(BuildContext context) {
+    final label = context.l10n.pressAndHoldToSubmit;
+    final formatted = countdown?.let((d) => '(${d.inSeconds}s)');
 
-extension on String {
-  String formatted(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
-    final decimalSeparator = getDecimalSeparator(locale);
-    final value = toDecimalOrZero(locale);
-
-    if (contains(decimalSeparator)) {
-      return this;
-    } else if (value.toDouble() == 0) {
-      return '0';
-    }
-
-    return this;
+    return CpContentPadding(
+      child: CpButton(
+        text: formatted.let((d) => '$label $d').ifNull(() => label),
+        mechanics: CpButtonMechanics.pressAndHold,
+        width: double.infinity,
+        size: CpButtonSize.big,
+        onPressed: countdown != null ? onSubmit : null,
+      ),
+    );
   }
 }

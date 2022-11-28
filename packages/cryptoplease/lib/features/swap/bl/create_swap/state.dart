@@ -14,6 +14,7 @@ class CreateSwapState with _$CreateSwapState {
     required Slippage slippage,
     required SwapEditingMode editingMode,
     SwapRoute? bestRoute,
+    DateTime? fetchedAt,
     @Default(Flow<CreateSwapException, SwapRoute>.initial())
         Flow<CreateSwapException, SwapRoute> flowState,
   }) = Initialized;

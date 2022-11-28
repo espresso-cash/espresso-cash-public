@@ -78,6 +78,11 @@ class _FlowState extends State<SwapFlowScreen> {
     createSwapBloc.add(event);
   }
 
+  void _onRouteExpired() {
+    const event = CreateSwapEvent.routeInvalidated();
+    createSwapBloc.add(event);
+  }
+
   void _onSwapException(CreateSwapException e) => showSwapExceptionDialog(
         context,
         context.l10n.swapErrorTitle,
@@ -116,12 +121,14 @@ class _FlowState extends State<SwapFlowScreen> {
                 displayAmount: state.requestAmount,
                 fee: state.fee,
                 slippage: state.slippage,
+                routeFetchedAt: state.fetchedAt,
                 maxAmountAvailable: createSwapBloc.calculateMaxAmount(),
                 isLoadingRoute: state.flowState.isProcessing(),
                 onSlippageChanged: _onSlippageUpdate,
                 onAmountChanged: _onAmountUpdate,
                 onSubmit: _onSubmit,
                 onEditingModeToggled: _onEditingModeToggled,
+                onRouteExpired: _onRouteExpired,
               ),
             ),
           ),

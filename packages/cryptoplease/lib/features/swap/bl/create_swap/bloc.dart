@@ -170,12 +170,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       );
 
       state.editingMode.when(
-        input: always(
-          emit(state.updateOutputFromRoute(bestRoute)),
-        ),
-        output: always(
-          emit(state.updateInputFromRoute(bestRoute)),
-        ),
+        input: () => emit(state.updateOutputFromRoute(bestRoute)),
+        output: () => emit(state.updateInputFromRoute(bestRoute)),
       );
     } on CreateSwapException catch (e) {
       emit(state.error(e));
@@ -224,18 +220,21 @@ extension on CreateSwapState {
         inputAmount: inputAmount.copyWith(value: 0),
         outputAmount: outputAmount.copyWith(value: 0),
         flowState: const Flow.initial(),
+        fetchedAt: null,
       );
 
   CreateSwapState updateInputFromRoute(SwapRoute bestRoute) => copyWith(
         bestRoute: bestRoute,
         flowState: const Flow.initial(),
         inputAmount: inputAmount.copyWith(value: bestRoute.inAmount),
+        fetchedAt: DateTime.now(),
       );
 
   CreateSwapState updateOutputFromRoute(SwapRoute bestRoute) => copyWith(
         bestRoute: bestRoute,
         flowState: const Flow.initial(),
         outputAmount: outputAmount.copyWith(value: bestRoute.outAmount),
+        fetchedAt: DateTime.now(),
       );
 
   CreateSwapState toggleEditingMode() => copyWith(
