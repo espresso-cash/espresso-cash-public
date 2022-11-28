@@ -1,5 +1,4 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
-import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/amount.dart';
@@ -50,9 +49,8 @@ class RouteRepository {
     );
 
     return SwapRoute(
-      amount: Decimal.parse(route.amount),
-      inAmount: Decimal.parse(route.inAmount),
-      outAmount: Decimal.parse(route.outAmount),
+      inAmount: int.parse(route.inAmount),
+      outAmount: int.parse(route.outAmount),
       fee: CryptoAmount(currency: Currency.usdc, value: route.feeInUsdc),
       encodedTx: route.encodedTx,
     );

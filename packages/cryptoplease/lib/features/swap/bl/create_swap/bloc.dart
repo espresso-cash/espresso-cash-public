@@ -237,13 +237,13 @@ extension on CreateSwapState {
   CreateSwapState updateInputFromRoute(SwapRoute bestRoute) => copyWith(
         bestRoute: bestRoute,
         flowState: const Flow.initial(),
-        inputAmount: inputAmount.copyWithDecimal(bestRoute.inAmount),
+        inputAmount: inputAmount.copyWith(value: bestRoute.inAmount),
       );
 
   CreateSwapState updateOutputFromRoute(SwapRoute bestRoute) => copyWith(
         bestRoute: bestRoute,
         flowState: const Flow.initial(),
-        outputAmount: outputAmount.copyWithDecimal(bestRoute.outAmount),
+        outputAmount: outputAmount.copyWith(value: bestRoute.outAmount),
       );
 
   CreateSwapState toggleEditingMode() => copyWith(

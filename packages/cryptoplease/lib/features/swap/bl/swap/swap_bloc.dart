@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../route.dart';
 import '../swap.dart';
@@ -30,14 +32,17 @@ class SwapBloc extends Bloc<_Event, _State> {
   SwapBloc({
     required SwapRepository repository,
     required TxSender txSender,
+    @factoryParam required Wallet wallet,
   })  : _txSender = txSender,
         _repository = repository,
+        _wallet = wallet,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
 
   final TxSender _txSender;
   final SwapRepository _repository;
+  final Wallet _wallet;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
@@ -45,11 +50,11 @@ class SwapBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _onCreate(_SwapCreated event, _Emitter _) async {
-    final tx = SignedTx.decode(event.route.encodedTx);
+    final status = await _createTx(event.route.encodedTx);
     final swap = Swap(
       id: const Uuid().v4(),
       created: DateTime.now(),
-      status: SwapStatus.txCreated(tx),
+      status: status,
     );
 
     await _repository.save(swap);
@@ -86,6 +91,16 @@ class SwapBloc extends Bloc<_Event, _State> {
       txSendFailure: ignore,
       txWaitFailure: ignore,
     );
+  }
+
+  Future<SwapStatus> _createTx(String encodedTx) async {
+    try {
+      return SwapStatus.txCreated(
+        await SignedTx.decode(encodedTx).resign(_wallet),
+      );
+    } on Exception {
+      return const SwapStatus.txFailure();
+    }
   }
 
   Future<SwapStatus> _sendTx(SignedTx tx) async {
