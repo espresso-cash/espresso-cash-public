@@ -109,6 +109,7 @@ enum MobileWalletAdapterServerException {
   invalidPayloads,
   tooManyPayloads,
   authorizationNotValid,
+  notSubmitted,
 }
 
 class RequestDeclinedException {}

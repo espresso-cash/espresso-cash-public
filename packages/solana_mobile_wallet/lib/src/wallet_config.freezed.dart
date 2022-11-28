@@ -26,6 +26,8 @@ mixin _$MobileWalletAdapterConfig {
   int get maxTransactionsPerSigningRequest =>
       throw _privateConstructorUsedError;
   int get maxMessagesPerSigningRequest => throw _privateConstructorUsedError;
+  List<Object> get supportedTransactionVersions =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +43,8 @@ abstract class $MobileWalletAdapterConfigCopyWith<$Res> {
   $Res call(
       {bool supportsSignAndSendTransactions,
       int maxTransactionsPerSigningRequest,
-      int maxMessagesPerSigningRequest});
+      int maxMessagesPerSigningRequest,
+      List<Object> supportedTransactionVersions});
 }
 
 /// @nodoc
@@ -58,6 +61,7 @@ class _$MobileWalletAdapterConfigCopyWithImpl<$Res>
     Object? supportsSignAndSendTransactions = freezed,
     Object? maxTransactionsPerSigningRequest = freezed,
     Object? maxMessagesPerSigningRequest = freezed,
+    Object? supportedTransactionVersions = freezed,
   }) {
     return _then(_value.copyWith(
       supportsSignAndSendTransactions: supportsSignAndSendTransactions ==
@@ -74,6 +78,10 @@ class _$MobileWalletAdapterConfigCopyWithImpl<$Res>
           ? _value.maxMessagesPerSigningRequest
           : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
               as int,
+      supportedTransactionVersions: supportedTransactionVersions == freezed
+          ? _value.supportedTransactionVersions
+          : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
+              as List<Object>,
     ));
   }
 }
@@ -89,7 +97,8 @@ abstract class _$$_MobileWalletAdapterConfigCopyWith<$Res>
   $Res call(
       {bool supportsSignAndSendTransactions,
       int maxTransactionsPerSigningRequest,
-      int maxMessagesPerSigningRequest});
+      int maxMessagesPerSigningRequest,
+      List<Object> supportedTransactionVersions});
 }
 
 /// @nodoc
@@ -110,6 +119,7 @@ class __$$_MobileWalletAdapterConfigCopyWithImpl<$Res>
     Object? supportsSignAndSendTransactions = freezed,
     Object? maxTransactionsPerSigningRequest = freezed,
     Object? maxMessagesPerSigningRequest = freezed,
+    Object? supportedTransactionVersions = freezed,
   }) {
     return _then(_$_MobileWalletAdapterConfig(
       supportsSignAndSendTransactions: supportsSignAndSendTransactions ==
@@ -126,6 +136,10 @@ class __$$_MobileWalletAdapterConfigCopyWithImpl<$Res>
           ? _value.maxMessagesPerSigningRequest
           : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
               as int,
+      supportedTransactionVersions: supportedTransactionVersions == freezed
+          ? _value._supportedTransactionVersions
+          : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
+              as List<Object>,
     ));
   }
 }
@@ -136,7 +150,9 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
   const _$_MobileWalletAdapterConfig(
       {required this.supportsSignAndSendTransactions,
       required this.maxTransactionsPerSigningRequest,
-      required this.maxMessagesPerSigningRequest});
+      required this.maxMessagesPerSigningRequest,
+      required final List<Object> supportedTransactionVersions})
+      : _supportedTransactionVersions = supportedTransactionVersions;
 
   factory _$_MobileWalletAdapterConfig.fromJson(Map<String, dynamic> json) =>
       _$$_MobileWalletAdapterConfigFromJson(json);
@@ -147,10 +163,16 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
   final int maxTransactionsPerSigningRequest;
   @override
   final int maxMessagesPerSigningRequest;
+  final List<Object> _supportedTransactionVersions;
+  @override
+  List<Object> get supportedTransactionVersions {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_supportedTransactionVersions);
+  }
 
   @override
   String toString() {
-    return 'MobileWalletAdapterConfig(supportsSignAndSendTransactions: $supportsSignAndSendTransactions, maxTransactionsPerSigningRequest: $maxTransactionsPerSigningRequest, maxMessagesPerSigningRequest: $maxMessagesPerSigningRequest)';
+    return 'MobileWalletAdapterConfig(supportsSignAndSendTransactions: $supportsSignAndSendTransactions, maxTransactionsPerSigningRequest: $maxTransactionsPerSigningRequest, maxMessagesPerSigningRequest: $maxMessagesPerSigningRequest, supportedTransactionVersions: $supportedTransactionVersions)';
   }
 
   @override
@@ -166,7 +188,10 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
                 maxTransactionsPerSigningRequest) &&
             const DeepCollectionEquality().equals(
                 other.maxMessagesPerSigningRequest,
-                maxMessagesPerSigningRequest));
+                maxMessagesPerSigningRequest) &&
+            const DeepCollectionEquality().equals(
+                other._supportedTransactionVersions,
+                _supportedTransactionVersions));
   }
 
   @JsonKey(ignore: true)
@@ -175,7 +200,8 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
       runtimeType,
       const DeepCollectionEquality().hash(supportsSignAndSendTransactions),
       const DeepCollectionEquality().hash(maxTransactionsPerSigningRequest),
-      const DeepCollectionEquality().hash(maxMessagesPerSigningRequest));
+      const DeepCollectionEquality().hash(maxMessagesPerSigningRequest),
+      const DeepCollectionEquality().hash(_supportedTransactionVersions));
 
   @JsonKey(ignore: true)
   @override
@@ -195,7 +221,8 @@ abstract class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
   const factory _MobileWalletAdapterConfig(
           {required final bool supportsSignAndSendTransactions,
           required final int maxTransactionsPerSigningRequest,
-          required final int maxMessagesPerSigningRequest}) =
+          required final int maxMessagesPerSigningRequest,
+          required final List<Object> supportedTransactionVersions}) =
       _$_MobileWalletAdapterConfig;
 
   factory _MobileWalletAdapterConfig.fromJson(Map<String, dynamic> json) =
@@ -207,6 +234,8 @@ abstract class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
   int get maxTransactionsPerSigningRequest;
   @override
   int get maxMessagesPerSigningRequest;
+  @override
+  List<Object> get supportedTransactionVersions;
   @override
   @JsonKey(ignore: true)
   _$$_MobileWalletAdapterConfigCopyWith<_$_MobileWalletAdapterConfig>
