@@ -1,4 +1,5 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../core/tokens/token.dart';
@@ -12,7 +13,7 @@ class MarketDetailsRepository {
 
   final MarketsCoingeckoClient _coingeckoClient;
 
-  AsyncResult<Map<Token, double>> getTopMarketTokens({
+  AsyncResult<IMap<Token, double>> getTopMarketTokens({
     required String currency,
     required int noOfTokens,
   }) async =>
@@ -28,6 +29,6 @@ class MarketDetailsRepository {
           .mapAsync(
             (response) => {
               for (var e in response) e.fromCoingecko(): e.currentPrice ?? 0
-            },
+            }.toIMap(),
           );
 }

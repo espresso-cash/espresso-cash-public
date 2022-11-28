@@ -1,4 +1,5 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -48,4 +49,4 @@ class MarketEvent with _$MarketEvent {
   const factory MarketEvent.fetched() = MarketEventFetch;
 }
 
-typedef MarketDetailsState = Flow<Exception, Map<Token, double>>;
+typedef MarketDetailsState = Flow<Exception, IMap<Token, double>>;
