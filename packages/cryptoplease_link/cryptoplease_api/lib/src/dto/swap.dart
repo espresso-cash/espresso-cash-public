@@ -3,12 +3,35 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'swap.freezed.dart';
 part 'swap.g.dart';
 
-@freezed
-class SwapResponseDto with _$SwapResponseDto {
-  const factory SwapResponseDto({
-    required String swapTransaction,
-  }) = _SwapResponseDto;
+enum SwapMatch { inAmount, outAmount }
 
-  factory SwapResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$SwapResponseDtoFromJson(json);
+enum SwapSlippage { zpOne, zpFive, onePercent }
+
+@freezed
+class SwapRouteRequestDto with _$SwapRouteRequestDto {
+  const factory SwapRouteRequestDto({
+    required String inputToken,
+    required String outputToken,
+    required String amount,
+    required SwapMatch match,
+    required SwapSlippage slippage,
+    required String userAccount,
+  }) = _SwapRouteRequestDto;
+
+  factory SwapRouteRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapRouteRequestDtoFromJson(json);
+}
+
+@freezed
+class SwapRouteResponseDto with _$SwapRouteResponseDto {
+  const factory SwapRouteResponseDto({
+    required String inAmount,
+    required String outAmount,
+    required String amount,
+    required String encodedTx,
+    required int feeInUsdc,
+  }) = _SwapRouteResponseDto;
+
+  factory SwapRouteResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapRouteResponseDtoFromJson(json);
 }

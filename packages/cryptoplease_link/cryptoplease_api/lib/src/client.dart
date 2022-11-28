@@ -26,11 +26,11 @@ abstract class CryptopleaseClient {
     @Body() CreateDirectPaymentRequestDto request,
   );
 
-  @POST('/createSwapTransaction')
-  Future<SwapResponseDto> createSwapTransaction(
-    @Body() SwapRequestDto request,
-  );
-
   @POST('/getFees')
   Future<GetFeesResponseDto> getFees();
+
+  @POST('/getSwapRoute')
+  Future<SwapRouteResponseDto> getSwapRoute(
+    @Body() SwapRouteRequestDto request,
+  );
 }

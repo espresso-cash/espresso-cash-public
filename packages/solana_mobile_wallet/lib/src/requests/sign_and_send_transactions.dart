@@ -34,6 +34,10 @@ class SignaturesResult with _$SignaturesResult {
   const factory SignaturesResult.authorizationNotValid() =
       _AuthorizationNotValid;
 
+  const factory SignaturesResult.notSubmitted({
+    required List<Uint8List> signatures,
+  }) = _NotSubmitted;
+
   const SignaturesResult._();
 
   int get numResults => maybeWhen(

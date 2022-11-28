@@ -8,6 +8,7 @@ import 'package:cryptoplease/core/conversion_rates/bl/repository.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
+import 'package:cryptoplease/features/app_lock/src/bl/app_lock_bloc.dart';
 import 'package:cryptoplease/features/onboarding/src/presentation/get_started_screen.dart';
 import 'package:cryptoplease/features/onboarding/src/presentation/no_email_and_password_screen.dart';
 import 'package:decimal/decimal.dart';
@@ -21,7 +22,12 @@ import 'package:solana/solana.dart';
 import 'golden_test.mocks.dart';
 import 'utils.dart';
 
-@GenerateMocks([ConversionRatesRepository, ConversionRatesBloc, BalancesBloc])
+@GenerateMocks([
+  ConversionRatesRepository,
+  ConversionRatesBloc,
+  BalancesBloc,
+  AppLockBloc,
+])
 void main() {
   testGoldensWidget('Get started screen', const GetStartedScreen());
 
@@ -34,6 +40,8 @@ void main() {
     final conversionRatesRepository = MockConversionRatesRepository();
     final conversionRatesBloc = MockConversionRatesBloc();
     final balancesBloc = MockBalancesBloc();
+    final appLockBloc = MockAppLockBloc();
+
     late Ed25519HDKeyPair wallet;
 
     Widget withProviders(Widget child) => MultiProvider(
@@ -43,9 +51,14 @@ void main() {
             ),
             Provider<ConversionRatesBloc>.value(value: conversionRatesBloc),
             Provider<BalancesBloc>.value(value: balancesBloc),
+            Provider<AppLockBloc>.value(value: appLockBloc),
             Provider(create: (_) => UserPreferences()),
             Provider(
-              create: (_) => MyAccount(wallet: wallet, firstName: 'Test'),
+              create: (_) => MyAccount(
+                wallet: wallet,
+                firstName: 'Test',
+                accessMode: const AccessMode.created(),
+              ),
             ),
           ],
           child: child,
@@ -68,12 +81,17 @@ void main() {
       );
       when(conversionRatesRepository.readRate(any, to: anyNamed('to')))
           .thenReturn(Decimal.one);
+      whenListen(
+        appLockBloc,
+        initialState: const AppLockStateNone(),
+      );
     });
 
     tearDown(() {
       reset(conversionRatesRepository);
       reset(conversionRatesBloc);
       reset(balancesBloc);
+      reset(appLockBloc);
     });
 
     testGoldensWidget(

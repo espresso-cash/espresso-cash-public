@@ -129,6 +129,10 @@ PODS:
     - Flutter
   - integration_test (0.0.1):
     - Flutter
+  - Intercom (14.0.0)
+  - intercom_flutter (7.5.0):
+    - Flutter
+    - Intercom (~> 14.0.0)
   - MLImage (1.0.0-beta3)
   - MLKitBarcodeScanning (2.2.0):
     - MLKitCommon (~> 8.0)
@@ -208,6 +212,7 @@ DEPENDENCIES:
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - intercom_flutter (from `.symlinks/plugins/intercom_flutter/ios`)
   - mobile_scanner (from `.symlinks/plugins/mobile_scanner/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
@@ -238,6 +243,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GoogleUtilitiesComponents
     - GTMSessionFetcher
+    - Intercom
     - MLImage
     - MLKitBarcodeScanning
     - MLKitCommon
@@ -269,6 +275,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
+  intercom_flutter:
+    :path: ".symlinks/plugins/intercom_flutter/ios"
   mobile_scanner:
     :path: ".symlinks/plugins/mobile_scanner/ios"
   package_info_plus:
@@ -318,6 +326,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
+  Intercom: 4faacb977c2fbdb876f5b3813671167662c1b572
+  intercom_flutter: ec8dfd52d3d25c36e4655ef23a0255947f8cbad7
   MLImage: 489dfec109f21da8621b28d476401aaf7a0d4ff4
   MLKitBarcodeScanning: d92fe1911001ec36870162c5a0eb206f612b7169
   MLKitCommon: f6da6c5659618c070b50a80db01248ebe2964175
@@ -338,6 +348,6 @@ SPEC CHECKSUMS:
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
-PODFILE CHECKSUM: 03107842c868bab8900bb1d70b93dd5ff6dc8d55
+PODFILE CHECKSUM: b1a1fdb4bd4a90c27be2011a976780b9bf25412f
 
 COCOAPODS: 1.11.3

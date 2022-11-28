@@ -3,6 +3,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../features/app_lock/module.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
@@ -64,12 +65,7 @@ class _SecuritySection extends StatelessWidget {
   Widget build(BuildContext context) => MenuSection(
         title: context.l10n.securitySectionTitle,
         children: [
-          MenuButton(
-            title: context.l10n.appLock,
-            description: context.l10n.appLockDescription,
-            icon: Assets.icons.lock,
-            onTap: () => context.router.push(const AppLockSetupFlowRoute()),
-          ),
+          const AppLockMenuItem(),
           MenuButton(
             title: context.l10n.viewRecoveryPhrase,
             description: context.l10n.viewRecoveryPhraseDescription,
