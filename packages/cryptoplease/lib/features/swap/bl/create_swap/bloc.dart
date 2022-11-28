@@ -58,7 +58,6 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
             inputAmount: setup.input.toZeroAmount(),
             outputAmount: setup.output.toZeroAmount(),
             slippage: Slippage.onePercent,
-            fee: const CryptoAmount(value: 0, currency: Currency.usdc),
           ),
         ) {
     on<Init>(_onInit);
@@ -92,11 +91,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
 
       if (!routeExists) throw const CreateSwapException.routeNotFound();
 
-      final fee = await _feeCalculator(const FeeType.swap()) as CryptoAmount;
-
       emit(
         state.copyWith(
-          fee: fee,
           flowState: const Flow.initial(),
         ),
       );

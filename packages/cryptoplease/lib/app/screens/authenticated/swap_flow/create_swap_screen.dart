@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
-import '../../../../core/fee_label.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../features/swap/bl/route.dart';
 import '../../../../l10n/decimal_separator.dart';
@@ -15,6 +14,7 @@ import '../../../../ui/number_formatter.dart';
 import 'components/available_balance.dart';
 import 'components/equivalent_header.dart';
 import 'components/slippage_info.dart';
+import 'components/swap_fee.dart';
 import 'components/token_dropdown.dart';
 
 class CreateSwapScreen extends StatefulWidget {
@@ -23,6 +23,7 @@ class CreateSwapScreen extends StatefulWidget {
     required this.inputAmount,
     required this.outputAmount,
     required this.displayAmount,
+    required this.fee,
     required this.maxAmountAvailable,
     required this.slippage,
     required this.onSlippageChanged,
@@ -35,6 +36,7 @@ class CreateSwapScreen extends StatefulWidget {
   final CryptoAmount inputAmount;
   final CryptoAmount outputAmount;
   final CryptoAmount displayAmount;
+  final CryptoAmount fee;
   final CryptoAmount maxAmountAvailable;
   final Slippage slippage;
   final VoidCallback onSubmit;
@@ -102,7 +104,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               outputAmount: widget.outputAmount,
               isLoadingRoute: widget.isLoadingRoute,
             ),
-            const FeeLabel(type: FeeType.swap()),
+            SwapFee(amount: widget.fee),
             TokenDropDown(
               current: widget.displayAmount.token,
               onTokenChanged: (_) => widget.onEditingModeToggled(),

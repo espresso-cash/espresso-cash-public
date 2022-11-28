@@ -13,7 +13,6 @@ class CreateSwapState with _$CreateSwapState {
     required CryptoAmount outputAmount,
     required Slippage slippage,
     required SwapEditingMode editingMode,
-    required CryptoAmount fee,
     SwapRoute? bestRoute,
     @Default(Flow<CreateSwapException, SwapRoute>.initial())
         Flow<CreateSwapException, SwapRoute> flowState,
@@ -21,6 +20,9 @@ class CreateSwapState with _$CreateSwapState {
 }
 
 extension CreateSwapExt on CreateSwapState {
+  CryptoAmount get fee =>
+      bestRoute?.fee ?? const CryptoAmount(value: 0, currency: Currency.usdc);
+
   Token get input => inputAmount.token;
   Token get output => outputAmount.token;
 

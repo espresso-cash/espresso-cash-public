@@ -87,6 +87,7 @@
   "splitKeyProgressSuccess": "Money has been successfully received",
   "resendLink": "Resend Links",
   "buy": "Buy",
+  "sell": "Sell",
   "paymentRequestInitialNotificationTitle": "You requested {amount} for {payer}",
   "@paymentRequestInitialNotificationTitle": {
     "placeholders": {

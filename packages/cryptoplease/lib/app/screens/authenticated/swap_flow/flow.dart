@@ -19,24 +19,6 @@ import '../../../../ui/theme.dart';
 import 'components/swap_exception_dialog.dart';
 import 'create_swap_screen.dart';
 
-extension BuyTokenExt on BuildContext {
-  void navigateToBuyToken(Token token) => navigateTo(
-        SwapFlowRoute(
-          inputToken: Token.usdc,
-          outputToken: token,
-        ),
-      );
-}
-
-extension SellTokenExt on BuildContext {
-  void navigateToSellToken(Token token) => navigateTo(
-        SwapFlowRoute(
-          inputToken: token,
-          outputToken: Token.usdc,
-        ),
-      );
-}
-
 class SwapFlowScreen extends StatefulWidget {
   const SwapFlowScreen({
     Key? key,
@@ -132,6 +114,7 @@ class _FlowState extends State<SwapFlowScreen> {
                 inputAmount: state.inputAmount,
                 outputAmount: state.outputAmount,
                 displayAmount: state.requestAmount,
+                fee: state.fee,
                 slippage: state.slippage,
                 maxAmountAvailable: createSwapBloc.calculateMaxAmount(),
                 isLoadingRoute: state.flowState.isProcessing(),
