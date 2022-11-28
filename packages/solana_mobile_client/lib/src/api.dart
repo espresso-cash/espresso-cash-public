@@ -101,6 +101,28 @@ class SignPayloadsResultDto {
   }
 }
 
+class SignAndSendTransactionsResultDto {
+  SignAndSendTransactionsResultDto({
+    required this.signatures,
+  });
+
+  List<Uint8List?> signatures;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['signatures'] = signatures;
+    return pigeonMap;
+  }
+
+  static SignAndSendTransactionsResultDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return SignAndSendTransactionsResultDto(
+      signatures:
+          (pigeonMap['signatures'] as List<Object?>?)!.cast<Uint8List?>(),
+    );
+  }
+}
+
 class _ApiLocalAssociationScenarioCodec extends StandardMessageCodec {
   const _ApiLocalAssociationScenarioCodec();
   @override
@@ -111,8 +133,11 @@ class _ApiLocalAssociationScenarioCodec extends StandardMessageCodec {
     } else if (value is GetCapabilitiesResultDto) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    } else if (value is SignPayloadsResultDto) {
+    } else if (value is SignAndSendTransactionsResultDto) {
       buffer.putUint8(130);
+      writeValue(buffer, value.encode());
+    } else if (value is SignPayloadsResultDto) {
+      buffer.putUint8(131);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -129,6 +154,9 @@ class _ApiLocalAssociationScenarioCodec extends StandardMessageCodec {
         return GetCapabilitiesResultDto.decode(readValue(buffer)!);
 
       case 130:
+        return SignAndSendTransactionsResultDto.decode(readValue(buffer)!);
+
+      case 131:
         return SignPayloadsResultDto.decode(readValue(buffer)!);
 
       default:
@@ -405,6 +433,69 @@ class ApiLocalAssociationScenario {
       );
     } else {
       return (replyMap['result'] as SignPayloadsResultDto?)!;
+    }
+  }
+
+  Future<SignPayloadsResultDto> signMessages(int arg_id,
+      List<Uint8List?> arg_messages, List<Uint8List?> arg_addresses) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiLocalAssociationScenario.signMessages', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_id, arg_messages, arg_addresses])
+            as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as SignPayloadsResultDto?)!;
+    }
+  }
+
+  Future<SignAndSendTransactionsResultDto> signAndSendTransactions(int arg_id,
+      List<Uint8List?> arg_transactions, int? arg_minContextSlot) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiLocalAssociationScenario.signAndSendTransactions',
+        codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+            .send(<Object?>[arg_id, arg_transactions, arg_minContextSlot])
+        as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as SignAndSendTransactionsResultDto?)!;
     }
   }
 }

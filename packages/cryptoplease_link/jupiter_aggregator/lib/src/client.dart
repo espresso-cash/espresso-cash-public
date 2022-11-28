@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:retrofit/retrofit.dart';
@@ -24,7 +26,30 @@ abstract class JupiterAggregatorClient {
 
   /// Get swap serialized transactions for a route
   @POST('/swap')
-  Future<JupiterSwapTransactions> getSwapTransactions(
-    @Body() SwapRequestDto swapRequestDto,
+  Future<JupiterSwapResponseDto> getSwapTransactions(
+    @Body() JupiterSwapRequestDto swapRequestDto,
+  );
+}
+
+/// For docs head to https://docs.jup.ag/jupiter-api/price-api-for-solana
+@RestApi(baseUrl: 'https://price.jup.ag/v1')
+abstract class JupiterPriceClient {
+  factory JupiterPriceClient() => _JupiterPriceClient(
+        Dio()
+          ..interceptors.add(
+            InterceptorsWrapper(
+              onResponse: (response, handler) {
+                final content = response.data;
+                if (content is String) response.data = json.decode(content);
+                handler.next(response);
+              },
+            ),
+          ),
+      );
+
+  /// Get the current USDC price for a given coin id
+  @GET('/price')
+  Future<PriceResponseDto> getPrice(
+    @Queries() PriceRequestDto priceRequestDto,
   );
 }

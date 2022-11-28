@@ -36,7 +36,7 @@ class ActivitiesModule extends SingleChildStatelessWidget {
           ),
         ],
         child: LogoutListener(
-          onLogout: () =>
+          onLogout: (context) =>
               context.read<TxUpdaterBloc>().add(const TxUpdaterEvent.clear()),
           child: child,
         ),

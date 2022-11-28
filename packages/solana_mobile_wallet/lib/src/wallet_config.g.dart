@@ -14,6 +14,10 @@ _$_MobileWalletAdapterConfig _$$_MobileWalletAdapterConfigFromJson(
       maxTransactionsPerSigningRequest:
           json['maxTransactionsPerSigningRequest'] as int,
       maxMessagesPerSigningRequest: json['maxMessagesPerSigningRequest'] as int,
+      supportedTransactionVersions:
+          (json['supportedTransactionVersions'] as List<dynamic>)
+              .map((e) => e as Object)
+              .toList(),
     );
 
 Map<String, dynamic> _$$_MobileWalletAdapterConfigToJson(
@@ -24,4 +28,5 @@ Map<String, dynamic> _$$_MobileWalletAdapterConfigToJson(
       'maxTransactionsPerSigningRequest':
           instance.maxTransactionsPerSigningRequest,
       'maxMessagesPerSigningRequest': instance.maxMessagesPerSigningRequest,
+      'supportedTransactionVersions': instance.supportedTransactionVersions,
     };

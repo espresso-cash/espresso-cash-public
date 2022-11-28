@@ -124,6 +124,7 @@ class Callbacks(
                     Api.MobileWalletAdapterServerException.tooManyPayloads -> request.completeWithTooManyPayloads()
                     Api.MobileWalletAdapterServerException.authorizationNotValid -> request.completeWithAuthorizationNotValid()
                     null -> request.completeWithSignedPayloads(it.payloads!!.toTypedArray())
+                    else -> request.completeWithInternalError(IllegalArgumentException(it.error.toString()))
                 }
             }
         }
@@ -147,6 +148,7 @@ class Callbacks(
                     Api.MobileWalletAdapterServerException.tooManyPayloads -> request.completeWithTooManyPayloads()
                     Api.MobileWalletAdapterServerException.authorizationNotValid -> request.completeWithAuthorizationNotValid()
                     null -> request.completeWithSignedPayloads(it.payloads!!.toTypedArray())
+                    else -> request.completeWithInternalError(IllegalArgumentException(it.error.toString()))
                 }
             }
         }
@@ -171,6 +173,7 @@ class Callbacks(
                     Api.MobileWalletAdapterServerException.invalidPayloads -> request.completeWithInvalidSignatures(it.validSignatures!!.toBooleanArray())
                     Api.MobileWalletAdapterServerException.tooManyPayloads -> request.completeWithTooManyPayloads()
                     Api.MobileWalletAdapterServerException.authorizationNotValid -> request.completeWithAuthorizationNotValid()
+                    Api.MobileWalletAdapterServerException.notSubmitted -> request.completeWithNotSubmitted(it.signatures!!.toTypedArray())
                     null -> request.completeWithSignatures(it.signatures!!.toTypedArray())
                 }
             }
