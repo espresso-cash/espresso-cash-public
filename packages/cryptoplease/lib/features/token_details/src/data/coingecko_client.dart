@@ -45,11 +45,22 @@ class TokenDetailsResponseDto with _$TokenDetailsResponseDto {
     String? name,
     Map<String, String>? description,
     int? marketCapRank,
-    Map<String, dynamic>? marketData,
+    MarketData? marketData,
   }) = _TokenDetailsResponseDto;
 
   const TokenDetailsResponseDto._();
 
   factory TokenDetailsResponseDto.fromJson(Map<String, dynamic> json) =>
       _$TokenDetailsResponseDtoFromJson(json);
+}
+
+@freezed
+class MarketData with _$MarketData {
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory MarketData({
+    required Map<String, double>? currentPrice,
+  }) = _MarketData;
+
+  factory MarketData.fromJson(Map<String, dynamic> json) =>
+      _$MarketDataFromJson(json);
 }

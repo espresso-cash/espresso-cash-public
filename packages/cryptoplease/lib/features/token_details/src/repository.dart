@@ -25,15 +25,13 @@ class TokenDetailsRepository {
           .toEither()
           .mapAsync(
         (response) {
-          final marketData = Map<String, num>.from(
-            response.marketData?['current_price'] as Map,
-          );
+          final marketData = response.marketData?.currentPrice;
 
           return TokenDetails(
             name: response.name ?? token.name,
             description: _removeHtmlTags(response.description?['en'] ?? ''),
             marketCapRank: response.marketCapRank,
-            marketPrice: marketData[fiatCurrency] as double,
+            marketPrice: marketData?[fiatCurrency],
           );
         },
       );
