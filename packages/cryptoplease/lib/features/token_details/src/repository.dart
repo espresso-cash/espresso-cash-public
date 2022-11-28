@@ -23,18 +23,16 @@ class TokenDetailsRepository {
             const TokenDetailsRequestDto(marketData: true),
           )
           .toEither()
-          .mapAsync(
-        (response) {
-          final marketData = response.marketData?.currentPrice;
+          .mapAsync((response) {
+        final marketData = response.marketData?.currentPrice;
 
-          return TokenDetails(
-            name: response.name ?? token.name,
-            description: _removeHtmlTags(response.description?['en'] ?? ''),
-            marketCapRank: response.marketCapRank,
-            marketPrice: marketData?[fiatCurrency],
-          );
-        },
-      );
+        return TokenDetails(
+          name: response.name ?? token.name,
+          description: _removeHtmlTags(response.description?['en'] ?? ''),
+          marketCapRank: response.marketCapRank,
+          marketPrice: marketData?[fiatCurrency],
+        );
+      });
 }
 
 String _removeHtmlTags(String htmlText) {

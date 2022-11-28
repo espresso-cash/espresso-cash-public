@@ -2,6 +2,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../config.dart';
 import '../../../core/tokens/token.dart';
 import 'data/coingecko_client.dart';
 
@@ -27,8 +28,21 @@ class MarketDetailsRepository {
           )
           .toEither()
           .mapAsync(
-            (response) => {
-              for (var e in response) e.fromCoingecko(): e.currentPrice ?? 0
-            }.toIMap(),
+            (responses) => IMap({
+              for (var e in responses) e.fromCoingecko(): e.currentPrice ?? 0
+            }),
           );
+}
+
+extension on MarketsResponseDto {
+  Token fromCoingecko() => Token(
+        chainId: currentChainId,
+        address: id ?? '',
+        symbol: symbol?.toUpperCase() ?? '',
+        name: name ?? '',
+        decimals: 0,
+        logoURI: image,
+        tags: const [],
+        extensions: Extensions(coingeckoId: id),
+      );
 }
