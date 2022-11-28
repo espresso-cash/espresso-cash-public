@@ -195,6 +195,51 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         }
     }
 
+    override fun signMessages(
+        id: Long,
+        messages: MutableList<ByteArray>,
+        addresses: MutableList<ByteArray>,
+        result: Api.Result<Api.SignPayloadsResultDto>?
+    ) {
+        val client = getClient(id)
+
+        client.signMessages(messages.toTypedArray(), addresses.toTypedArray()).notifyOnComplete {
+            try {
+                val response = it.get()
+                val dto = Api.SignPayloadsResultDto.Builder()
+                    .setSignedPayloads(response.signedPayloads.toList())
+                    .build()
+
+                activity?.runOnUiThread { result?.success(dto) }
+            } catch (e: Throwable) {
+                activity?.runOnUiThread { result?.error(e) }
+            }
+        }
+    }
+
+    override fun signAndSendTransactions(
+        id: Long,
+        transactions: MutableList<ByteArray>,
+        minContextSlot: Long?,
+        result: Api.Result<Api.SignAndSendTransactionsResultDto>?
+    ) {
+        val client = getClient(id)
+
+        client.signAndSendTransactions(transactions.toTypedArray(), minContextSlot?.toInt())
+            .notifyOnComplete {
+                try {
+                    val response = it.get()
+                    val dto = Api.SignAndSendTransactionsResultDto.Builder()
+                        .setSignatures(response.signatures.toList())
+                        .build()
+
+                    activity?.runOnUiThread { result?.success(dto) }
+                } catch (e: Throwable) {
+                    activity?.runOnUiThread { result?.error(e) }
+                }
+            }
+    }
+
     private fun getScenario(id: Long): LocalAssociationScenario =
         scenarios[id] ?: throw IllegalStateException("No scenario with id $id registered")
 

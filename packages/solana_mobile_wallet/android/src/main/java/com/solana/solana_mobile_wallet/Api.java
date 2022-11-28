@@ -26,7 +26,8 @@ public class Api {
     requestDeclined(0),
     invalidPayloads(1),
     tooManyPayloads(2),
-    authorizationNotValid(3);
+    authorizationNotValid(3),
+    notSubmitted(4);
 
     private int index;
     private MobileWalletAdapterServerException(final int index) {

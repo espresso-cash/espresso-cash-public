@@ -6,3 +6,4 @@ export 'src/client.dart';
 export 'src/dto/add_funds.dart';
 export 'src/dto/create_payment.dart';
 export 'src/dto/get_fees.dart';
+export 'src/dto/swap.dart';
