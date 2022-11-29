@@ -1,13 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/amount.dart';
 import '../../core/balances/presentation/watch_balance.dart';
-import '../../core/conversion_rates/context_ext.dart';
 import '../../core/presentation/format_amount.dart';
 import '../../core/tokens/token.dart';
 import '../../core/user_preferences.dart';
@@ -110,18 +108,10 @@ class _TokenPrice extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<TokenDetailsBloc, TokenDetailsState>(
         builder: (context, state) {
-          const loader = Text(
-            '-',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-            ),
-          );
-
-          return state.maybeWhen(
-            orElse: () => loader,
+          final tokenRate = state.maybeWhen(
+            orElse: () => '-',
             success: (data) {
-              if (data.marketPrice == null) return loader;
+              if (data.marketPrice == null) return '-';
 
               final locale = DeviceLocale.localeOf(context);
               final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
@@ -131,14 +121,13 @@ class _TokenPrice extends StatelessWidget {
                 value: Decimal.parse(data.marketPrice?.toString() ?? '0'),
               );
 
-              return Text(
-                tokenRate.format(locale),
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
-                ),
-              );
+              return tokenRate.format(locale);
             },
+          );
+
+          return PriceWidget(
+            label: context.l10n.price,
+            amount: tokenRate,
           );
         },
       );
@@ -190,12 +179,7 @@ class __ChartState extends State<_Chart> {
   Widget build(BuildContext context) {
     final Amount? fiatAmount = context.watchUserFiatBalance(widget.token);
 
-    final locale = DeviceLocale.localeOf(context);
-
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final Amount? tokenRate = context
-        .watchConversionRate(from: widget.token, to: fiatCurrency)
-        ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
 
     return Column(
       children: [
@@ -203,10 +187,7 @@ class __ChartState extends State<_Chart> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              PriceWidget(
-                label: context.l10n.price,
-                amount: tokenRate?.format(locale) ?? '-',
-              ),
+              const _TokenPrice(),
               if (fiatAmount != null && fiatAmount.value != 0) ...[
                 const SizedBox(width: 24),
                 PriceWidget(

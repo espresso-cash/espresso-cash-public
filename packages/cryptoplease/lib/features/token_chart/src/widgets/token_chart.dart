@@ -86,7 +86,7 @@ class _ChartWidget extends StatelessWidget {
                 isCurved: true,
                 dotData: FlDotData(show: false),
                 color: CpColors.chartLineColor,
-                barWidth: 6,
+                barWidth: 5,
               )
             ],
             gridData: FlGridData(show: false),
