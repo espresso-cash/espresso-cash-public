@@ -74,6 +74,7 @@ class ODPBloc extends Bloc<_Event, _State> {
     final payment = OutgoingDirectPayment(
       id: event.id,
       receiver: event.receiver,
+      reference: event.reference,
       amount: event.amount,
       created: DateTime.now(),
       status: status,

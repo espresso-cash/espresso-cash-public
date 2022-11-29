@@ -7,6 +7,7 @@ class TokenDetails with _$TokenDetails {
   const factory TokenDetails({
     required String name,
     required String description,
+    double? marketPrice,
     int? marketCapRank,
   }) = _TokenDetails;
 }

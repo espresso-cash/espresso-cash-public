@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_annotation_target
 
 import 'package:dio/dio.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -43,12 +44,24 @@ class TokenDetailsResponseDto with _$TokenDetailsResponseDto {
   const factory TokenDetailsResponseDto({
     String? id,
     String? name,
-    Map<String, String>? description,
+    IMap<String, String>? description,
     int? marketCapRank,
+    MarketData? marketData,
   }) = _TokenDetailsResponseDto;
 
   const TokenDetailsResponseDto._();
 
   factory TokenDetailsResponseDto.fromJson(Map<String, dynamic> json) =>
       _$TokenDetailsResponseDtoFromJson(json);
+}
+
+@freezed
+class MarketData with _$MarketData {
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory MarketData({
+    required IMap<String, double>? currentPrice,
+  }) = _MarketData;
+
+  factory MarketData.fromJson(Map<String, dynamic> json) =>
+      _$MarketDataFromJson(json);
 }
