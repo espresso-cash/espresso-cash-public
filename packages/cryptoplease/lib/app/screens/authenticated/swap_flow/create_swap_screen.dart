@@ -166,11 +166,11 @@ class _Button extends StatelessWidget {
 
     return CpContentPadding(
       child: CpButton(
-        text: formatted.let((d) => '$label $d').ifNull(() => label),
+        text: formatted == null ? label : '$label $formatted',
         mechanics: CpButtonMechanics.pressAndHold,
         width: double.infinity,
         size: CpButtonSize.big,
-        onPressed: countdown != null ? onSubmit : null,
+        onPressed: countdown != null ? onSubmit : ignore,
       ),
     );
   }

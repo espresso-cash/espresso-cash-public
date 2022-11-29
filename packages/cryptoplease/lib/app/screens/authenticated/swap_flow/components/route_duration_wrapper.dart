@@ -52,8 +52,7 @@ class _RouteDurationWrapperState extends State<RouteDurationWrapper> {
   @override
   void didUpdateWidget(covariant RouteDurationWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final start = widget.start;
-    if (start != null && start != oldWidget.start) _initTimer();
+    if (widget.start != null && widget.start != oldWidget.start) _initTimer();
   }
 
   @override
