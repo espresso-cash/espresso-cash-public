@@ -85,7 +85,7 @@ extension SearchResponseDataDtoExt on SearchResponseDataDto {
         chainId: 0,
         address: '0',
         decimals: 0,
-        logoURI: thumb,
+        logoURI: large,
         tags: const [],
       );
 }

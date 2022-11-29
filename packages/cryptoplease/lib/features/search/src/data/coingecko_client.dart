@@ -42,7 +42,7 @@ class SearchResponseDataDto with _$SearchResponseDataDto {
     required String name,
     required String symbol,
     int? marketCapRank,
-    required String thumb,
+    required String large,
   }) = _SearchResponseDataDto;
 
   factory SearchResponseDataDto.fromJson(Map<String, dynamic> data) =>
