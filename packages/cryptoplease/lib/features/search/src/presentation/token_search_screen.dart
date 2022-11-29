@@ -45,18 +45,16 @@ class _ContentState extends State<_Content> {
   final TextEditingController _controller = TextEditingController();
   CryptoCategories? _selected;
 
-  void onCategoryTap(CryptoCategories category) {
-    setState(() {
-      _selected = _selected != category ? category : null;
-    });
-
-    context.read<TokenSearchBloc>().add(SearchCategoryRequest(category));
+  void onCategoryTap(CryptoCategories val) {
+    _selected = _selected != val ? val : null;
+    context.read<TokenSearchBloc>().add(SearchCategoryRequest(_selected));
   }
 
   @override
   void initState() {
     super.initState();
     _controller.addListener(() {
+      _selected = null;
       context.read<TokenSearchBloc>().add(SearchTextRequest(_controller.text));
     });
   }
@@ -69,7 +67,7 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: Column(
           children: [
             CpTextField(
@@ -83,32 +81,36 @@ class _ContentState extends State<_Content> {
               prefixWidget: Assets.icons.searchButtonIcon.svg(),
             ),
             const SizedBox(height: 16),
-            // DiscoverHeader(
-            //   selected: _selected,
-            //   onTap: onCategoryTap,
-            // ),
             Expanded(
               child: BlocBuilder<TokenSearchBloc, TokenSearchState>(
-                builder: (context, state) => Center(
-                  child: state.when(
-                    failure: (_) => Text(context.l10n.failedToSearch),
-                    initial: () => DiscoverHeader(
-                      selected: _selected,
-                      onTap: onCategoryTap,
-                    ),
-                    processing: LoadingIndicator.new,
-                    success: (result) {
-                      if (result.isEmpty) {
-                        return Text(context.l10n.emptySearch);
-                      }
+                builder: (context, state) => Column(
+                  children: [
+                    if (_selected != null || state.isInitial())
+                      DiscoverHeader(
+                        selected: _selected,
+                        onTap: onCategoryTap,
+                      ),
+                    Expanded(
+                      child: Center(
+                        child: state.when(
+                          failure: (_) => Text(context.l10n.failedToSearch),
+                          initial: Container.new,
+                          processing: LoadingIndicator.new,
+                          success: (result) {
+                            if (result.isEmpty) {
+                              return Text(context.l10n.emptySearch);
+                            }
 
-                      return ListView.builder(
-                        itemCount: result.length,
-                        itemBuilder: (context, index) =>
-                            _TokenItem(result[index]),
-                      );
-                    },
-                  ),
+                            return ListView.builder(
+                              itemCount: result.length,
+                              itemBuilder: (context, index) =>
+                                  _TokenItem(result[index]),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -152,7 +154,15 @@ class _TokenItem extends StatelessWidget {
               _TokenSymbolWidget(token.symbol),
             ],
           ),
-          trailing: const Icon(Icons.favorite), //TODO update to favorite button
+          trailing: SizedBox.square(
+            //TODO update to favorite button
+            dimension: 26,
+            child: IconButton(
+              onPressed: () {},
+              icon: Assets.icons.unfavoriteLight.svg(),
+              padding: EdgeInsets.zero,
+            ),
+          ),
         ),
       );
 }

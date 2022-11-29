@@ -57,10 +57,14 @@ class TokenSearchBloc extends Bloc<_Event, _State> {
     SearchCategoryRequest event,
     _Emitter emit,
   ) async {
+    final category = event.category;
+
+    if (category == null) return emit(const Flow.initial());
+
     emit(const Flow.processing());
 
     final _State newState = await _repository
-        .category(event.category)
+        .category(category)
         .foldAsync(Flow.failure, Flow.success);
 
     emit(newState);
@@ -70,7 +74,7 @@ class TokenSearchBloc extends Bloc<_Event, _State> {
 @freezed
 class TokenSearchEvent with _$TokenSearchEvent {
   const factory TokenSearchEvent.textSearch(String query) = SearchTextRequest;
-  const factory TokenSearchEvent.categorySearch(CryptoCategories category) =
+  const factory TokenSearchEvent.categorySearch(CryptoCategories? category) =
       SearchCategoryRequest;
 }
 

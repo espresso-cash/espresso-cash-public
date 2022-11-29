@@ -7,7 +7,7 @@ enum CryptoCategories {
   ethereum,
   stablecoins,
   defi,
-  wrappedTokens,
+  amm,
   solana,
 }
 
@@ -31,7 +31,7 @@ class DiscoverHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          if (selected == null) ...[
+          if (selected == null)
             Text(
               context.l10n.discover,
               style: const TextStyle(
@@ -39,8 +39,7 @@ class DiscoverHeader extends StatelessWidget {
                 fontSize: 13,
               ),
             ),
-            const SizedBox(height: 8),
-          ],
+          const SizedBox(height: 8),
           if (selected == null)
             Wrap(
               runSpacing: 4,
@@ -60,6 +59,7 @@ class DiscoverHeader extends StatelessWidget {
               text: selected.label,
               size: CpButtonSize.small,
               onPressed: () => onTap.call(selected),
+              variant: CpButtonVariant.inverted,
             )
         ],
       ),
@@ -74,12 +74,12 @@ extension on CryptoCategories {
         return 'Ethereum';
       case CryptoCategories.stablecoins:
         return 'Stablecoins';
-      case CryptoCategories.wrappedTokens:
-        return 'Wrapped-Tokens';
       case CryptoCategories.solana:
         return 'Solana Ecosystem';
       case CryptoCategories.defi:
         return 'DeFi';
+      case CryptoCategories.amm:
+        return 'Automated Market Maker (AMM)';
     }
   }
 }

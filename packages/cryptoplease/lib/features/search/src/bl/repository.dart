@@ -66,12 +66,12 @@ extension on CryptoCategories {
         return 'ethereum-ecosystem';
       case CryptoCategories.stablecoins:
         return 'stablecoins';
-      case CryptoCategories.wrappedTokens:
-        return 'wrapped-tokens';
       case CryptoCategories.solana:
         return 'solana-ecosystem';
       case CryptoCategories.defi:
         return 'decentralized-finance-defi';
+      case CryptoCategories.amm:
+        return 'automated-market-maker-amm';
     }
   }
 }
