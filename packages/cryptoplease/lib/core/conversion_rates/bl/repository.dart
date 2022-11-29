@@ -30,16 +30,6 @@ class ConversionRatesRepository extends ChangeNotifier {
   final int _maxCoingeckoIds;
   final ConversionRatesClient _coingeckoClient;
 
-  Decimal? testReadRate(CryptoCurrency crypto, {required FiatCurrency to}) =>
-      _value.value[to]
-          ?.where(
-            (key, value) =>
-                crypto.token.extensions?.coingeckoId ==
-                key.token.extensions?.coingeckoId,
-          )
-          .values
-          .first;
-
   Decimal? readRate(CryptoCurrency crypto, {required FiatCurrency to}) =>
       _value.value[to]?[crypto];
 
