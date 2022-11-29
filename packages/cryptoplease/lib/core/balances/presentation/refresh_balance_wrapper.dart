@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
-import '../../../di.dart';
-import '../../../features/favorite_tokens/module.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
@@ -50,16 +48,13 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
             ),
           );
 
-  AsyncResult<void> _updateConversionRates() async {
+  AsyncResult<void> _updateConversionRates() {
     final bloc = context.read<ConversionRatesBloc>();
     final currency = context.read<UserPreferences>().fiatCurrency;
 
-    final userTokens = context.read<BalancesBloc>().state.userTokens;
-    final favorites = await sl<FavoriteTokenRepository>().fetch();
-
     final conversionEvent = ConversionRatesEvent.refreshRequested(
       currency: currency,
-      tokens: [...userTokens, ...favorites],
+      tokens: context.read<BalancesBloc>().state.userTokens,
     );
     bloc.add(conversionEvent);
 
