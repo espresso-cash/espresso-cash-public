@@ -161,12 +161,14 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = context.l10n.pressAndHoldToSubmit;
-    final formatted = countdown?.let((d) => '(${d.inSeconds}s)');
+    final title = context.l10n.pressAndHoldToSubmit;
+    final label = countdown
+        .maybeMap((d) => '$title (${d.inSeconds}s)')
+        .ifNull(() => title);
 
     return CpContentPadding(
       child: CpButton(
-        text: formatted == null ? label : '$label $formatted',
+        text: label,
         mechanics: CpButtonMechanics.pressAndHold,
         width: double.infinity,
         size: CpButtonSize.big,
