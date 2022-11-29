@@ -242,12 +242,12 @@ MetadataUses _$MetadataUsesFromBorsh(Uint8List data) {
 }
 
 mixin _$CollectionDetailsV1 {
-  BigInt get size => throw UnimplementedError();
+  V1 get V1 => throw UnimplementedError();
 
   Uint8List toBorsh() {
     final writer = BinaryWriter();
 
-    const BU64().write(writer, size);
+    const BV1().write(writer, V1);
 
     return writer.toArray();
   }
@@ -255,10 +255,10 @@ mixin _$CollectionDetailsV1 {
 
 class _CollectionDetailsV1 extends CollectionDetailsV1 {
   _CollectionDetailsV1({
-    required this.size,
+    required this.V1,
   }) : super._();
 
-  final BigInt size;
+  final V1 V1;
 }
 
 class BCollectionDetailsV1 implements BType<CollectionDetailsV1> {
@@ -272,7 +272,7 @@ class BCollectionDetailsV1 implements BType<CollectionDetailsV1> {
   @override
   CollectionDetailsV1 read(BinaryReader reader) {
     return CollectionDetailsV1(
-      size: const BU64().read(reader),
+      V1: const BV1().read(reader),
     );
   }
 }
@@ -281,4 +281,46 @@ CollectionDetailsV1 _$CollectionDetailsV1FromBorsh(Uint8List data) {
   final reader = BinaryReader(data.buffer.asByteData());
 
   return const BCollectionDetailsV1().read(reader);
+}
+
+mixin _$V1 {
+  BigInt get size => throw UnimplementedError();
+
+  Uint8List toBorsh() {
+    final writer = BinaryWriter();
+
+    const BU64().write(writer, size);
+
+    return writer.toArray();
+  }
+}
+
+class _V1 extends V1 {
+  _V1({
+    required this.size,
+  }) : super._();
+
+  final BigInt size;
+}
+
+class BV1 implements BType<V1> {
+  const BV1();
+
+  @override
+  void write(BinaryWriter writer, V1 value) {
+    writer.writeStruct(value.toBorsh());
+  }
+
+  @override
+  V1 read(BinaryReader reader) {
+    return V1(
+      size: const BU64().read(reader),
+    );
+  }
+}
+
+V1 _$V1FromBorsh(Uint8List data) {
+  final reader = BinaryReader(data.buffer.asByteData());
+
+  return const BV1().read(reader);
 }

@@ -100,11 +100,22 @@ abstract class MetadataUses with _$MetadataUses {
 @BorshSerializable()
 abstract class CollectionDetailsV1 with _$CollectionDetailsV1 {
   factory CollectionDetailsV1({
-    @BU64() required BigInt size,
+    @BV1() required V1 V1,
   }) = _CollectionDetailsV1;
 
   CollectionDetailsV1._();
 
   factory CollectionDetailsV1.fromBorsh(Uint8List data) =>
       _$CollectionDetailsV1FromBorsh(data);
+}
+
+@BorshSerializable()
+abstract class V1 with _$V1 {
+  factory V1({
+    @BU64() required BigInt size,
+  }) = _V1;
+
+  V1._();
+
+  factory V1.fromBorsh(Uint8List data) => _$V1FromBorsh(data);
 }
