@@ -175,6 +175,16 @@ class _Chart extends StatefulWidget {
 class __ChartState extends State<_Chart> {
   TokenChartItem? _selected;
 
+  String formatPrice(double? price) {
+    if (price == null) return '-';
+
+    if (price < 0.01) {
+      return price.toStringAsFixed(8);
+    } else {
+      return price.toStringAsFixed(2);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Amount? fiatAmount = context.watchUserFiatBalance(widget.token);
@@ -199,7 +209,7 @@ class __ChartState extends State<_Chart> {
           )
         else
           Text(
-            '${fiatCurrency.sign}${_selected?.price?.toStringAsFixed(2) ?? '-'}',
+            '${fiatCurrency.sign}${formatPrice(_selected?.price)}',
             style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 18,
