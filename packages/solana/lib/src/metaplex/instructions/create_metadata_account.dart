@@ -100,7 +100,7 @@ abstract class MetadataUses with _$MetadataUses {
 @BorshSerializable()
 abstract class CollectionDetailsV1 with _$CollectionDetailsV1 {
   factory CollectionDetailsV1({
-    @BV1() required V1 V1,
+    @BV1() required V1 v1,
   }) = _CollectionDetailsV1;
 
   CollectionDetailsV1._();

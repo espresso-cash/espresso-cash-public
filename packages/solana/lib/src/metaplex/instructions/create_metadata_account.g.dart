@@ -242,12 +242,12 @@ MetadataUses _$MetadataUsesFromBorsh(Uint8List data) {
 }
 
 mixin _$CollectionDetailsV1 {
-  V1 get V1 => throw UnimplementedError();
+  V1 get v1 => throw UnimplementedError();
 
   Uint8List toBorsh() {
     final writer = BinaryWriter();
 
-    const BV1().write(writer, V1);
+    const BV1().write(writer, v1);
 
     return writer.toArray();
   }
@@ -255,10 +255,10 @@ mixin _$CollectionDetailsV1 {
 
 class _CollectionDetailsV1 extends CollectionDetailsV1 {
   _CollectionDetailsV1({
-    required this.V1,
+    required this.v1,
   }) : super._();
 
-  final V1 V1;
+  final V1 v1;
 }
 
 class BCollectionDetailsV1 implements BType<CollectionDetailsV1> {
@@ -272,7 +272,7 @@ class BCollectionDetailsV1 implements BType<CollectionDetailsV1> {
   @override
   CollectionDetailsV1 read(BinaryReader reader) {
     return CollectionDetailsV1(
-      V1: const BV1().read(reader),
+      v1: const BV1().read(reader),
     );
   }
 }
