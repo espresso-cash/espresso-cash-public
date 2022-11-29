@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,8 +34,10 @@ class TokenDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<TokenDetailsBloc>(param1: token)
-              ..add(const FetchDetailsRequested()),
+            create: (context) => sl<TokenDetailsBloc>(
+              param1: token,
+              param2: context.read<UserPreferences>().fiatCurrency,
+            )..add(const FetchDetailsRequested()),
           ),
           TokenChartModule(token),
         ],
@@ -97,6 +100,47 @@ class _Header extends StatelessWidget {
             ],
           ),
         ),
+      );
+}
+
+class _TokenPrice extends StatelessWidget {
+  const _TokenPrice();
+
+  @override
+  Widget build(BuildContext context) =>
+      BlocBuilder<TokenDetailsBloc, TokenDetailsState>(
+        builder: (context, state) {
+          const loader = Text(
+            '-',
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+            ),
+          );
+
+          return state.maybeWhen(
+            orElse: () => loader,
+            success: (data) {
+              if (data.marketPrice == null) return loader;
+
+              final locale = DeviceLocale.localeOf(context);
+              final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+
+              final Amount tokenRate = Amount.fromDecimal(
+                currency: fiatCurrency,
+                value: Decimal.parse(data.marketPrice?.toString() ?? '0'),
+              );
+
+              return Text(
+                tokenRate.format(locale),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                ),
+              );
+            },
+          );
+        },
       );
 }
 
