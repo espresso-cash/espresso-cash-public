@@ -13,20 +13,26 @@ class TokenDetailsRepository {
 
   final DetailsCoingeckoClient _coingeckoClient;
 
-  AsyncResult<TokenDetails> getTokenDetails(Token crypto) async =>
+  AsyncResult<TokenDetails> getTokenDetails({
+    required Token token,
+    required String fiatCurrency,
+  }) async =>
       _coingeckoClient
           .getCoinDetails(
-            crypto.extensions?.coingeckoId ?? crypto.name,
-            const TokenDetailsRequestDto(),
+            token.extensions?.coingeckoId ?? token.name,
+            const TokenDetailsRequestDto(marketData: true),
           )
           .toEither()
-          .mapAsync(
-            (response) => TokenDetails(
-              name: response.name ?? crypto.name,
-              description: _removeHtmlTags(response.description?['en'] ?? ''),
-              marketCapRank: response.marketCapRank,
-            ),
-          );
+          .mapAsync((response) {
+        final marketData = response.marketData?.currentPrice;
+
+        return TokenDetails(
+          name: response.name ?? token.name,
+          description: _removeHtmlTags(response.description?['en'] ?? ''),
+          marketCapRank: response.marketCapRank,
+          marketPrice: marketData?[fiatCurrency],
+        );
+      });
 }
 
 String _removeHtmlTags(String htmlText) {
