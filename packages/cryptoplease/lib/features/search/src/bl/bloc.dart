@@ -59,11 +59,11 @@ class TokenSearchBloc extends Bloc<_Event, _State> {
   ) async {
     emit(const Flow.processing());
 
-    // final _State newState = await _repository
-    //     .search(event.query)
-    //     .foldAsync(Flow.failure, Flow.success);
+    final _State newState = await _repository
+        .category(event.category)
+        .foldAsync(Flow.failure, Flow.success);
 
-    // emit(newState);
+    emit(newState);
   }
 }
 

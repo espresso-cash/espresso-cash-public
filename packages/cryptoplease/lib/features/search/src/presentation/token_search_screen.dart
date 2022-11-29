@@ -83,6 +83,10 @@ class _ContentState extends State<_Content> {
               prefixWidget: Assets.icons.searchButtonIcon.svg(),
             ),
             const SizedBox(height: 16),
+            // DiscoverHeader(
+            //   selected: _selected,
+            //   onTap: onCategoryTap,
+            // ),
             Expanded(
               child: BlocBuilder<TokenSearchBloc, TokenSearchState>(
                 builder: (context, state) => Center(

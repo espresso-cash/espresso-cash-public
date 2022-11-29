@@ -2,6 +2,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../config.dart';
 import '../../../../core/tokens/token.dart';
 import '../data/coingecko_client.dart';
 import '../data/search_cache.dart';
@@ -27,7 +28,7 @@ class SearchRepository {
 
     return _coingeckoClient.search(query).toEither().mapAsync(
       (response) {
-        final res = response.coins.map((e) => e.toModel()).toIList();
+        final res = response.coins.map((e) => e.fromCoingecko()).toIList();
 
         _cache.set(query, res);
 
@@ -48,7 +49,7 @@ class SearchRepository {
         .toEither()
         .mapAsync(
       (response) {
-        final res = response.coins.map((e) => e.toModel()).toIList();
+        final res = response.map((e) => e.fromCoingecko()).toIList();
 
         _cache.set(category.dtoId, res);
 
@@ -73,4 +74,32 @@ extension on CryptoCategories {
         return 'decentralized-finance-defi';
     }
   }
+}
+
+//TODO
+extension SearchResponseDataDtoExt on SearchResponseDataDto {
+  Token fromCoingecko() => Token(
+        symbol: symbol,
+        name: name,
+        extensions: Extensions(coingeckoId: id),
+        chainId: 0,
+        address: '0',
+        decimals: 0,
+        logoURI: thumb,
+        tags: const [],
+      );
+}
+
+//TODO
+extension on CategorySearchResponseDto {
+  Token fromCoingecko() => Token(
+        chainId: currentChainId,
+        address: id ?? '',
+        symbol: symbol?.toUpperCase() ?? '',
+        name: name ?? '',
+        decimals: 0,
+        logoURI: image,
+        tags: const [],
+        extensions: Extensions(coingeckoId: id),
+      );
 }

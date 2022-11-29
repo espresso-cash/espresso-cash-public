@@ -22,22 +22,26 @@ class DiscoverHeader extends StatelessWidget {
   final void Function(CryptoCategories) onTap;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            if (selected == null) ...[
-              Text(
-                context.l10n.discover,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13,
-                ),
+  Widget build(BuildContext context) {
+    final selected = this.selected;
+
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          if (selected == null) ...[
+            Text(
+              context.l10n.discover,
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
               ),
-              const SizedBox(height: 8),
-            ],
+            ),
+            const SizedBox(height: 8),
+          ],
+          if (selected == null)
             Wrap(
               runSpacing: 4,
               spacing: 4,
@@ -50,10 +54,17 @@ class DiscoverHeader extends StatelessWidget {
                     ),
                   )
                   .toList(),
-            ),
-          ],
-        ),
-      );
+            )
+          else
+            CpButton(
+              text: selected.label,
+              size: CpButtonSize.small,
+              onPressed: () => onTap.call(selected),
+            )
+        ],
+      ),
+    );
+  }
 }
 
 extension on CryptoCategories {
