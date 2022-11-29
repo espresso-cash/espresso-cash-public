@@ -338,9 +338,6 @@
       }
     }
   },
-  "settings": "Settings",
-  "displayEmptyBalanceTitle": "Display Empty Balances",
-  "displayEmptyBalanceSubtitle": "Show your crypto with zero balances",
   "odpRequestTitle": "Request for {amount} for {payer}",
   "@odpRequestTitle": {
     "placeholders": {
@@ -351,5 +348,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "failedToLoadTokens": "Failed to load tokens",
+  "settings" : "Settings",
+  "displayEmptyBalanceTitle" : "Display Empty Balances",
+  "displayEmptyBalanceSubtitle" : "Show your crypto with zero balances"
 }
