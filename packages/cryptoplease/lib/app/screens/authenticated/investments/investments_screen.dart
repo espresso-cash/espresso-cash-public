@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
 import '../../../../features/favorite_tokens/module.dart';
@@ -22,7 +23,11 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
   Widget build(BuildContext context) => RefreshBalancesWrapper(
         builder: (context, onRefresh) => RefreshIndicator(
           displacement: 80,
-          onRefresh: onRefresh,
+          onRefresh: () {
+            context.read<FavoritesBloc>().add(const RefreshRequested());
+
+            return onRefresh();
+          },
           color: CpColors.primaryColor,
           child: CustomScrollView(
             slivers: [

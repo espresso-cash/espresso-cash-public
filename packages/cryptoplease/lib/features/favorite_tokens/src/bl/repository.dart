@@ -69,10 +69,10 @@ extension on FavoriteTokenRow {
         name: name,
         symbol: symbol,
         logoURI: logoUri,
-        chainId: 0,
-        address: id,
-        decimals: 0,
         extensions: Extensions(coingeckoId: id),
+        address: id,
+        chainId: 0,
+        decimals: 0,
         tags: const [],
       );
 }
