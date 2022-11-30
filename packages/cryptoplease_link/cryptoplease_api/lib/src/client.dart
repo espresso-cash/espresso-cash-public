@@ -28,4 +28,9 @@ abstract class CryptopleaseClient {
 
   @POST('/getFees')
   Future<GetFeesResponseDto> getFees();
+
+  @POST('/getSwapRoute')
+  Future<SwapRouteResponseDto> getSwapRoute(
+    @Body() SwapRouteRequestDto request,
+  );
 }
