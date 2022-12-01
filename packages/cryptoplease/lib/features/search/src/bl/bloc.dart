@@ -3,7 +3,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stream_transform/stream_transform.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/flow.dart';
 import '../../../../core/tokens/token.dart';
@@ -20,7 +20,7 @@ typedef _Emitter = Emitter<_State>;
 const _duration = Duration(milliseconds: 300);
 
 EventTransformer<Event> debounce<Event>(Duration duration) =>
-    (events, mapper) => events.debounce(duration).switchMap(mapper);
+    (events, mapper) => events.debounceTime(duration).asyncExpand(mapper);
 
 @injectable
 class TokenSearchBloc extends Bloc<_Event, _State> {

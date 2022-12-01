@@ -155,10 +155,11 @@ class _TokenItem extends StatelessWidget {
             ],
           ),
           trailing: SizedBox.square(
-            //TODO update to favorite button
             dimension: 26,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                // TODO(JE): Update once favorites PR is merged
+              },
               icon: Assets.icons.unfavoriteLight.svg(),
               padding: EdgeInsets.zero,
             ),

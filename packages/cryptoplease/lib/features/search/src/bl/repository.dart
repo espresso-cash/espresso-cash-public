@@ -2,7 +2,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../config.dart';
 import '../../../../core/tokens/token.dart';
 import '../data/coingecko_client.dart';
 import '../data/search_cache.dart';
@@ -76,30 +75,20 @@ extension on CryptoCategories {
   }
 }
 
-//TODO
 extension SearchResponseDataDtoExt on SearchResponseDataDto {
-  Token fromCoingecko() => Token(
+  Token fromCoingecko() => Token.fromCoingecko(
+        id: id,
         symbol: symbol,
         name: name,
-        extensions: Extensions(coingeckoId: id),
-        chainId: 0,
-        address: '0',
-        decimals: 0,
         logoURI: large,
-        tags: const [],
       );
 }
 
-//TODO
 extension on CategorySearchResponseDto {
-  Token fromCoingecko() => Token(
-        chainId: currentChainId,
-        address: id ?? '',
-        symbol: symbol?.toUpperCase() ?? '',
-        name: name ?? '',
-        decimals: 0,
+  Token fromCoingecko() => Token.fromCoingecko(
+        id: id,
+        symbol: symbol,
+        name: name,
         logoURI: image,
-        tags: const [],
-        extensions: Extensions(coingeckoId: id),
       );
 }

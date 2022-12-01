@@ -35,6 +35,23 @@ class Token {
     required Extensions? extensions,
   }) = SplToken;
 
+  factory Token.fromCoingecko({
+    required String? id,
+    required String? symbol,
+    required String? name,
+    required String? logoURI,
+  }) =>
+      Token(
+        symbol: symbol?.toUpperCase() ?? '',
+        name: name ?? '',
+        logoURI: logoURI,
+        extensions: Extensions(coingeckoId: id),
+        address: id ?? '0',
+        chainId: 0,
+        decimals: 0,
+        tags: const ['coingecko'],
+      );
+
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
 
   static const usdc = isProd ? _UsdcMainToken() : _UsdcDevToken();
