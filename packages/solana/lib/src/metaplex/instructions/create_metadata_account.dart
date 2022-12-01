@@ -47,7 +47,7 @@ abstract class CreateMetadataAccountV3Data with _$CreateMetadataAccountV3Data {
     @BOption(BMetadataCollection()) MetadataCollection? collection,
     @BOption(BMetadataUses()) MetadataUses? uses,
     @BBool() required bool isMutable,
-    @BOption(BU64()) BU64? collectionDetails,
+    @BOption(BU64()) BigInt? collectionDetails,
   }) = _CreateMetadataAccountV3Data;
 
   CreateMetadataAccountV3Data._();

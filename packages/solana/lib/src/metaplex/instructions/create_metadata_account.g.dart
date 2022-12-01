@@ -15,7 +15,7 @@ mixin _$CreateMetadataAccountV3Data {
   MetadataCollection? get collection => throw UnimplementedError();
   MetadataUses? get uses => throw UnimplementedError();
   bool get isMutable => throw UnimplementedError();
-  BU64? get collectionDetails => throw UnimplementedError();
+  BigInt? get collectionDetails => throw UnimplementedError();
 
   Uint8List toBorsh() {
     final writer = BinaryWriter();
@@ -55,7 +55,7 @@ class _CreateMetadataAccountV3Data extends CreateMetadataAccountV3Data {
   final MetadataCollection? collection;
   final MetadataUses? uses;
   final bool isMutable;
-  final BU64? collectionDetails;
+  final BigInt? collectionDetails;
 }
 
 class BCreateMetadataAccountV3Data
