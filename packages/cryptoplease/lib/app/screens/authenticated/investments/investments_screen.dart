@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
 import '../../../../features/investments/module.dart';
-import '../../../../features/popular_tokens/popular_token_list.dart';
+import '../../../../features/popular_tokens/module.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
@@ -21,7 +22,11 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
   Widget build(BuildContext context) => RefreshBalancesWrapper(
         builder: (context, onRefresh) => RefreshIndicator(
           displacement: 80,
-          onRefresh: onRefresh,
+          onRefresh: () {
+            context.read<PopularTokenBloc>().add(const Fetch());
+
+            return onRefresh();
+          },
           color: CpColors.primaryColor,
           child: CustomScrollView(
             slivers: [

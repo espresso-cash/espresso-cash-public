@@ -25,7 +25,7 @@ class MarketsRequestDto with _$MarketsRequestDto {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory MarketsRequestDto({
     required String vsCurrency,
-    required String order,
+    @Default('market_cap_desc') String order,
     required int perPage,
     @Default(1) int page,
   }) = _TokenDetailsRequestDto;

@@ -3,50 +3,45 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/amount.dart';
-import '../../../../../core/presentation/format_amount.dart';
-import '../../../../../core/tokens/token.dart';
-import '../../../../../core/user_preferences.dart';
-import '../../../../../l10n/device_locale.dart';
-import '../../../../../routes.gr.dart';
-import '../../../../../ui/colors.dart';
-import '../../../../../ui/token_icon.dart';
-import '../../di.dart';
-import '../../l10n/l10n.dart';
-import '../../ui/loader.dart';
-import 'src/market_bloc.dart';
+import '../../../../../../core/amount.dart';
+import '../../../../../../core/presentation/format_amount.dart';
+import '../../../../../../core/tokens/token.dart';
+import '../../../../../../core/user_preferences.dart';
+import '../../../../../../l10n/device_locale.dart';
+import '../../../../../../routes.gr.dart';
+import '../../../../../../ui/colors.dart';
+import '../../../../../../ui/token_icon.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/loader.dart';
+import 'bl/bloc.dart';
 
 class PopularTokenList extends StatelessWidget {
   const PopularTokenList({super.key});
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (context) => sl<MarketBloc>(
-          param1: context.read<UserPreferences>().fiatCurrency,
-        )..add(const MarketEventFetch()),
-        child: BlocBuilder<MarketBloc, MarketDetailsState>(
-          builder: (context, state) {
-            const loader = SliverToBoxAdapter(
-              child: SizedBox(
-                height: 80,
-                child: LoadingIndicator(),
-              ),
-            );
+  Widget build(BuildContext context) =>
+      BlocBuilder<PopularTokenBloc, PopularTokenState>(
+        builder: (context, state) {
+          const loader = SliverToBoxAdapter(
+            child: SizedBox(
+              height: 80,
+              child: LoadingIndicator(),
+            ),
+          );
 
-            return state.when(
-              initial: () => loader,
-              processing: () => loader,
-              failure: (_) => SliverToBoxAdapter(
-                child: Center(child: Text(context.l10n.failedToLoadTokens)),
+          return state.when(
+            initial: () => loader,
+            processing: () => loader,
+            failure: (_) => SliverToBoxAdapter(
+              child: Center(child: Text(context.l10n.failedToLoadTokens)),
+            ),
+            success: (data) => SliverList(
+              delegate: SliverChildListDelegate(
+                data.entries.map((e) => _TokenItem(e.key, e.value)).toList(),
               ),
-              success: (data) => SliverList(
-                delegate: SliverChildListDelegate(
-                  data.entries.map((e) => _TokenItem(e.key, e.value)).toList(),
-                ),
-              ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       );
 }
 
