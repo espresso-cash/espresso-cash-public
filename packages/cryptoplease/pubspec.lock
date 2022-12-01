@@ -814,7 +814,7 @@ packages:
       name: injectable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.3"
+    version: "1.5.4"
   injectable_generator:
     dependency: "direct dev"
     description:
