@@ -87,11 +87,40 @@ class MyApp extends StatelessWidget {
                   onPressed: () =>
                       context.read<ClientBloc>().authorizeAndSignTransactions(),
                   text: 'Combined authorize and sign txn x1',
-                )
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                      flex: 3,
+                      child: SignMsgButton(count: 1, text: 'Sign msg x1'),
+                    ),
+                    Expanded(child: SignMsgButton(count: 3, text: 'x3')),
+                    Expanded(child: SignMsgButton(count: 20, text: 'x20')),
+                  ],
+                ),
               ],
             ),
           ),
         ),
+      );
+}
+
+class SignMsgButton extends StatelessWidget {
+  const SignMsgButton({
+    super.key,
+    required this.text,
+    required this.count,
+  });
+
+  final String text;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) => Button(
+        onPressed: context.watch<ClientBloc>().state.isAuthorized
+            ? () => context.read<ClientBloc>().signMessages(count)
+            : null,
+        text: text,
       );
 }
 

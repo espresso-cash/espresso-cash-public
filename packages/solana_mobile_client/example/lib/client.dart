@@ -80,6 +80,26 @@ class ClientBloc extends Cubit<ClientState> {
     }
   }
 
+  Future<void> signMessages(int number) async {
+    final session = await LocalAssociationScenario.create();
+
+    session.startActivityForResult(null).ignore();
+
+    final client = await session.start();
+    if (await _doReauthorize(client)) {
+      final signer = state.publicKey as Ed25519HDPublicKey;
+
+      final addresses = [signer.bytes].map(Uint8List.fromList).toList();
+      final messages = _generateMessages(number: number, signer: signer)
+          .map((e) => e.compile(recentBlockhash: '').data.toList())
+          .map(Uint8List.fromList)
+          .toList();
+
+      await client.signMessages(messages: messages, addresses: addresses);
+    }
+    await session.close();
+  }
+
   Future<void> signTransactions(int number) async {
     final session = await LocalAssociationScenario.create();
 
@@ -205,3 +225,12 @@ Future<List<SignedTx>> _generateTransactions({
       )
       .toList();
 }
+
+List<Message> _generateMessages({
+  required int number,
+  required Ed25519HDPublicKey signer,
+}) =>
+    List.generate(
+      number,
+      (index) => MemoInstruction(signers: [signer], memo: 'Memo #$index'),
+    ).map(Message.only).toList();
