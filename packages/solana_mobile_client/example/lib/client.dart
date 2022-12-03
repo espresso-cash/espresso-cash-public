@@ -100,6 +100,32 @@ class ClientBloc extends Cubit<ClientState> {
     await session.close();
   }
 
+  Future<void> signAndSendTransactions(int number) async {
+    final session = await LocalAssociationScenario.create();
+
+    session.startActivityForResult(null).ignore();
+
+    final client = await session.start();
+    if (await _doReauthorize(client)) {
+      final signer = state.publicKey as Ed25519HDPublicKey;
+
+      final blockhash = await _solanaClient.rpcClient
+          .getRecentBlockhash()
+          .then((value) => value.blockhash);
+      final txs = await _generateTransactions(
+        number: number,
+        signer: signer,
+        blockhash: blockhash,
+      )
+          .thenMap((e) => e.toByteArray().toList())
+          .thenMap(Uint8List.fromList)
+          .then((value) => value.toList());
+
+      await client.signAndSendTransactions(transactions: txs);
+    }
+    await session.close();
+  }
+
   Future<void> signTransactions(int number) async {
     final session = await LocalAssociationScenario.create();
 
