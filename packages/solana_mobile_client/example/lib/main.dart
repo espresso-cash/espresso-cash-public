@@ -113,6 +113,11 @@ class MyApp extends StatelessWidget {
                     ),
                   ],
                 ),
+                Footer(
+                  hasAuthToken: state.isAuthorized,
+                  accountName: state.authorizationResult?.accountLabel,
+                  walletUriPrefix: state.authorizationResult?.walletUriBase,
+                ),
               ],
             ),
           ),
@@ -196,6 +201,67 @@ class Button extends StatelessWidget {
           ),
           onPressed: onPressed,
           child: Text(text),
+        ),
+      );
+}
+
+class Footer extends StatelessWidget {
+  const Footer({
+    Key? key,
+    required this.hasAuthToken,
+    required this.accountName,
+    required this.walletUriPrefix,
+  }) : super(key: key);
+
+  final bool hasAuthToken;
+  final String? accountName;
+  final Uri? walletUriPrefix;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FooterRow(
+              title: 'Has auth token?',
+              value: SizedBox.square(
+                dimension: 18,
+                child: Checkbox(value: hasAuthToken, onChanged: null),
+              ),
+            ),
+            FooterRow(
+              title: 'Account Name:',
+              value: Text(accountName ?? '<none>'),
+            ),
+            FooterRow(
+              title: 'Wallet Uri Prefix:',
+              value: Text(walletUriPrefix?.toString() ?? '<none>'),
+            ),
+          ],
+        ),
+      );
+}
+
+class FooterRow extends StatelessWidget {
+  const FooterRow({
+    Key? key,
+    required this.title,
+    required this.value,
+  }) : super(key: key);
+
+  final String title;
+  final Widget value;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Row(
+          children: [
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(width: 4),
+            value,
+          ],
         ),
       );
 }
