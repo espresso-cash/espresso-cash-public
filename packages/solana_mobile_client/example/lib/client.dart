@@ -30,15 +30,8 @@ class ClientBloc extends Cubit<ClientState> {
     session.startActivityForResult(null).ignore();
 
     final client = await session.start();
-    final result = await client.authorize(
-      identityUri: Uri.parse('https://solana.com'),
-      iconUri: Uri.parse('favicon.ico'),
-      identityName: 'Solana',
-      cluster: 'testnet',
-    );
+    await _doAuthorize(client);
     await session.close();
-
-    emit(state.copyWith(authorizationResult: result));
   }
 
   Future<void> reauthorize() async {
@@ -94,24 +87,55 @@ class ClientBloc extends Cubit<ClientState> {
 
     final client = await session.start();
     if (await _doReauthorize(client)) {
-      final signer = state.publicKey as Ed25519HDPublicKey;
-
-      final blockhash = await _solanaClient.rpcClient
-          .getRecentBlockhash()
-          .then((value) => value.blockhash);
-      final txs = await _generateTransactions(
-        number: number,
-        signer: signer,
-        blockhash: blockhash,
-      )
-          .thenMap((e) => e.toByteArray().toList())
-          .thenMap(Uint8List.fromList)
-          .then((value) => value.toList());
-
-      await client.signTransactions(transactions: txs);
+      await _doGenerateAndSignTransactions(client, number);
     }
-
     await session.close();
+  }
+
+  Future<void> authorizeAndSignTransactions() async {
+    final session = await LocalAssociationScenario.create();
+
+    session.startActivityForResult(null).ignore();
+
+    final client = await session.start();
+    if (await _doAuthorize(client)) {
+      await _doGenerateAndSignTransactions(client, 1);
+    }
+    await session.close();
+  }
+
+  Future<void> _doGenerateAndSignTransactions(
+    MobileWalletAdapterClient client,
+    int number,
+  ) async {
+    final signer = state.publicKey as Ed25519HDPublicKey;
+
+    final blockhash = await _solanaClient.rpcClient
+        .getRecentBlockhash()
+        .then((value) => value.blockhash);
+    final txs = await _generateTransactions(
+      number: number,
+      signer: signer,
+      blockhash: blockhash,
+    )
+        .thenMap((e) => e.toByteArray().toList())
+        .thenMap(Uint8List.fromList)
+        .then((value) => value.toList());
+
+    await client.signTransactions(transactions: txs);
+  }
+
+  Future<bool> _doAuthorize(MobileWalletAdapterClient client) async {
+    final result = await client.authorize(
+      identityUri: Uri.parse('https://solana.com'),
+      iconUri: Uri.parse('favicon.ico'),
+      identityName: 'Solana',
+      cluster: 'testnet',
+    );
+
+    emit(state.copyWith(authorizationResult: result));
+
+    return result != null;
   }
 
   Future<bool> _doReauthorize(MobileWalletAdapterClient client) async {

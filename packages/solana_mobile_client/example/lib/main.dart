@@ -83,6 +83,11 @@ class MyApp extends StatelessWidget {
                     Expanded(child: SignTxButton(count: 20, text: 'x20')),
                   ],
                 ),
+                Button(
+                  onPressed: () =>
+                      context.read<ClientBloc>().authorizeAndSignTransactions(),
+                  text: 'Combined authorize and sign txn x1',
+                )
               ],
             ),
           ),
