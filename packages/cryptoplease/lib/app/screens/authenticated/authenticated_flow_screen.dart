@@ -19,6 +19,7 @@ import '../../../features/intercom/module.dart';
 import '../../../features/investments/module.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
 import '../../../features/outgoing_split_key_payments/module.dart';
+import '../../../features/outgoing_tip_payments/module.dart';
 import '../../../features/payment_request/module.dart';
 
 @immutable
@@ -67,6 +68,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const InvestmentModule(),
                 const ActivitiesModule(),
                 const IntercomModule(),
+                const OTPModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );

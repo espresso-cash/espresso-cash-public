@@ -19,6 +19,7 @@ class WalletMainScreen extends StatefulWidget {
     required this.onAmountChanged,
     required this.onRequest,
     required this.onPay,
+    required this.onTip,
     required this.amount,
     this.shakeKey,
     this.error = '',
@@ -27,6 +28,7 @@ class WalletMainScreen extends StatefulWidget {
   final VoidCallback onScan;
   final VoidCallback onRequest;
   final VoidCallback onPay;
+  final VoidCallback onTip;
   final ValueSetter<Decimal> onAmountChanged;
   final CryptoAmount amount;
   final Key? shakeKey;
@@ -104,6 +106,15 @@ class _ScreenState extends State<WalletMainScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Row(
               children: [
+                Flexible(
+                  child: CpButton(
+                    text: context.l10n.tip,
+                    minWidth: width,
+                    onPressed: widget.onTip,
+                    size: CpButtonSize.big,
+                  ),
+                ),
+                const SizedBox(width: 24),
                 Flexible(
                   child: CpButton(
                     text: context.l10n.receive,

@@ -6,6 +6,7 @@ import '../../features/activities/module.dart';
 import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
+import '../../features/outgoing_tip_payments/module.dart';
 import '../../features/payment_request/module.dart';
 import 'open_connection.dart';
 
@@ -29,6 +30,7 @@ const _tables = [
   OSKPRows,
   ISKPRows,
   TransactionRows,
+  OutgoingTipRows,
 ];
 
 @lazySingleton
@@ -81,6 +83,10 @@ class MyDatabase extends _$MyDatabase {
 
           if (from < 20) {
             await m.createTable(transactionRows);
+          }
+
+          if (from < 21) {
+            await m.createTable(outgoingTipRows);
           }
         },
       );

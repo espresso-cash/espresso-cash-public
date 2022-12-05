@@ -9,6 +9,7 @@ import '../../../../core/tokens/token_list.dart';
 import '../../../../di.dart';
 import '../../../../features/outgoing_direct_payments/module.dart';
 import '../../../../features/outgoing_split_key_payments/module.dart';
+import '../../../../features/outgoing_tip_payments/module.dart';
 import '../../../../features/payment_request/module.dart';
 import '../../../../features/qr_scanner/module.dart';
 import '../../../../l10n/device_locale.dart';
@@ -120,6 +121,32 @@ class _State extends State<WalletFlowScreen> {
     );
   }
 
+  void _onTip() {
+    if (_amount.decimal < Decimal.parse('0.1')) {
+      return _handleSmallAmount(_Operation.tip);
+    }
+
+    if (_amount.decimal > Decimal.parse('5.0')) {
+      return _handleMaxTip(_Operation.tip);
+    }
+
+    context.router.push(
+      OTPConfirmationRoute(
+        tokenAmount: _amount,
+        // TODO(KB): do not hardcode
+        fee: Amount.fromDecimal(
+          value: Decimal.parse('0.1'),
+          currency: Currency.usdc,
+        ),
+        onSubmit: () {
+          final id = context.createOTP(amount: _amount);
+          context.router.replace(OutgoingTipRoute(id: id));
+          setState(() => _amount = _amount.copyWith(value: 0));
+        },
+      ),
+    );
+  }
+
   void _handleSmallAmount(_Operation operation) {
     _shakeKey.currentState?.shake();
     setState(() {
@@ -129,6 +156,23 @@ class _State extends State<WalletFlowScreen> {
           break;
         case _Operation.pay:
           _errorMessage = context.l10n.minimumAmountToSend(r'$0.10');
+          break;
+        case _Operation.tip:
+          _errorMessage = context.l10n.minimumAmountToTip(r'$0.10');
+          break;
+      }
+    });
+  }
+
+  void _handleMaxTip(_Operation operation) {
+    _shakeKey.currentState?.shake();
+    setState(() {
+      switch (operation) {
+        case _Operation.request:
+        case _Operation.pay:
+          break;
+        case _Operation.tip:
+          _errorMessage = context.l10n.maximumAmountToTip(r'$5.00');
           break;
       }
     });
@@ -142,10 +186,11 @@ class _State extends State<WalletFlowScreen> {
           onAmountChanged: _onAmountUpdate,
           onRequest: _onRequest,
           onPay: _onPay,
+          onTip: _onTip,
           amount: _amount,
           error: _errorMessage,
         ),
       );
 }
 
-enum _Operation { request, pay }
+enum _Operation { request, pay, tip }
