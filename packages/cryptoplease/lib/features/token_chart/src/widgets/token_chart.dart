@@ -14,10 +14,14 @@ import '../token_chart_item.dart';
 export '../token_chart_item.dart';
 
 class TokenChart extends StatelessWidget {
-  const TokenChart({super.key, required this.token, this.onSelect});
+  const TokenChart({
+    super.key,
+    required this.token,
+    required this.onSelect,
+  });
 
   final Token token;
-  final void Function(TokenChartItem?)? onSelect;
+  final ValueSetter<TokenChartItem?> onSelect;
 
   @override
   Widget build(BuildContext context) =>
@@ -34,10 +38,7 @@ class TokenChart extends StatelessWidget {
                 Expanded(
                   child: Stack(
                     children: [
-                      _ChartWidget(
-                        data: data,
-                        onSelect: onSelect,
-                      ),
+                      _ChartWidget(data: data, onSelect: onSelect),
                       if (isLoading) const LoadingIndicator()
                     ],
                   ),
@@ -45,11 +46,9 @@ class TokenChart extends StatelessWidget {
                 const SizedBox(height: 8),
                 _ChartRangeSelector(
                   interval: state.interval,
-                  onItemSelected: (interval) {
-                    context.read<TokenChartBloc>().add(
-                          FetchChartRequested(interval: interval),
-                        );
-                  },
+                  onItemSelected: (interval) => context
+                      .read<TokenChartBloc>()
+                      .add(FetchChartRequested(interval: interval)),
                 ),
               ],
             ),
@@ -62,100 +61,96 @@ class _ChartWidget extends StatelessWidget {
   const _ChartWidget({
     Key? key,
     required this.data,
-    this.onSelect,
+    required this.onSelect,
   }) : super(key: key);
 
   final IList<TokenChartItem> data;
-  final void Function(TokenChartItem?)? onSelect;
+  final ValueSetter<TokenChartItem?> onSelect;
 
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 32.0),
-        child: LineChart(
-          LineChartData(
-            lineBarsData: [
-              LineChartBarData(
-                spots: data
-                    .map(
-                      (e) => FlSpot(
-                        e.date?.millisecondsSinceEpoch.toDouble() ?? 0.0,
-                        e.price ?? 0,
-                      ),
-                    )
-                    .toList(),
-                isCurved: true,
-                dotData: FlDotData(show: false),
-                color: CpColors.chartLineColor,
-                barWidth: 5,
-              )
-            ],
-            gridData: FlGridData(show: false),
-            borderData: FlBorderData(show: false),
-            titlesData: FlTitlesData(show: false),
-            lineTouchData: LineTouchData(
-              enabled: true,
-              touchCallback: (event, lineResponse) {
-                final selectedIndex =
-                    lineResponse?.lineBarSpots?.first.spotIndex;
+  static final _touchedSpotIndicatorData = TouchedSpotIndicatorData(
+    FlLine(
+      color: Colors.white,
+      strokeWidth: 1,
+      dashArray: [5, 5],
+    ),
+    FlDotData(
+      getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
+        radius: 5,
+        color: CpColors.yellowColor,
+      ),
+    ),
+  );
 
-                if (onSelect != null) {
-                  if (selectedIndex == null ||
-                      event is FlTapUpEvent ||
-                      event is FlLongPressEnd) {
-                    onSelect?.call(null);
-                  } else {
-                    onSelect?.call(data[selectedIndex]);
-                  }
-                }
-              },
-              getTouchedSpotIndicator: (
-                LineChartBarData barData,
-                List<int> indicators,
-              ) =>
-                  indicators.map(
-                (int index) {
-                  final line = FlLine(
-                    color: Colors.white,
-                    strokeWidth: 1,
-                    dashArray: [5, 5],
-                  );
+  LineTouchTooltipData _createTooltipData() {
+    LineTooltipItem createTooltipItem(LineBarSpot touchedSpot) {
+      final date = data[touchedSpot.spotIndex].date;
 
-                  final dot = FlDotData(
-                    getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
-                      radius: 5,
-                      color: CpColors.yellowColor,
-                    ),
-                  );
-
-                  return TouchedSpotIndicatorData(line, dot);
-                },
-              ).toList(),
-              touchTooltipData: LineTouchTooltipData(
-                fitInsideHorizontally: true,
-                tooltipBgColor: Colors.transparent,
-                showOnTopOfTheChartBoxArea: true,
-                tooltipMargin: 12,
-                getTooltipItems: (touchedSpots) => touchedSpots.map(
-                  (LineBarSpot touchedSpot) {
-                    final date = data[touchedSpot.spotIndex].date;
-
-                    return LineTooltipItem(
-                      date != null ? formatDate(date) : '-',
-                      const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
-              getTouchLineEnd: (_, __) => double.infinity,
-            ),
-          ),
-          swapAnimationDuration: Duration.zero,
+      return LineTooltipItem(
+        date != null ? formatDate(date) : '-',
+        const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
         ),
       );
+    }
+
+    return LineTouchTooltipData(
+      fitInsideHorizontally: true,
+      tooltipBgColor: Colors.transparent,
+      showOnTopOfTheChartBoxArea: true,
+      tooltipMargin: 12,
+      getTooltipItems: (touchedSpots) =>
+          touchedSpots.map(createTooltipItem).toList(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    FlSpot createSpot(TokenChartItem e) => FlSpot(
+          e.date?.millisecondsSinceEpoch.toDouble() ?? 0.0,
+          e.price ?? 0,
+        );
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 32.0),
+      child: LineChart(
+        LineChartData(
+          lineBarsData: [
+            LineChartBarData(
+              spots: data.map(createSpot).toList(),
+              isCurved: true,
+              dotData: FlDotData(show: false),
+              color: CpColors.chartLineColor,
+              barWidth: 5,
+            )
+          ],
+          gridData: FlGridData(show: false),
+          borderData: FlBorderData(show: false),
+          titlesData: FlTitlesData(show: false),
+          lineTouchData: LineTouchData(
+            enabled: true,
+            touchCallback: (event, lineResponse) {
+              final selectedIndex = lineResponse?.lineBarSpots?.first.spotIndex;
+
+              if (selectedIndex == null ||
+                  event is FlTapUpEvent ||
+                  event is FlLongPressEnd) {
+                onSelect(null);
+              } else {
+                onSelect(data[selectedIndex]);
+              }
+            },
+            getTouchedSpotIndicator: (_, indicators) =>
+                indicators.map((_) => _touchedSpotIndicatorData).toList(),
+            touchTooltipData: _createTooltipData(),
+            getTouchLineEnd: (_, __) => double.infinity,
+          ),
+        ),
+        swapAnimationDuration: Duration.zero,
+      ),
+    );
+  }
 }
 
 class _ChartRangeSelector extends StatelessWidget {
@@ -164,7 +159,7 @@ class _ChartRangeSelector extends StatelessWidget {
     required this.interval,
   });
 
-  final void Function(ChartInterval) onItemSelected;
+  final ValueSetter<ChartInterval> onItemSelected;
   final ChartInterval interval;
 
   @override
