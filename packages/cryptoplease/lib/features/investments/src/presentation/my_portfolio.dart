@@ -7,10 +7,10 @@ import '../../../../core/balances/presentation/watch_balance.dart';
 import '../data/repository.dart';
 import 'components/portfolio_widget.dart';
 
-const minimumUsdAmount = 0.01;
-
 class MyPortfolio extends StatelessWidget {
   const MyPortfolio({super.key});
+
+  static const _minimumUsdAmount = 0.01;
 
   @override
   Widget build(BuildContext context) =>
@@ -20,20 +20,16 @@ class MyPortfolio extends StatelessWidget {
               .watch<InvestmentSettingsRepository>()
               .displayEmptyBalances;
 
-          final zeroAmountTokens = state.balances.keys
-              .where(
-                (token) =>
-                    (context.watchUserFiatBalance(token)?.value ?? 0) <
-                    minimumUsdAmount,
-              )
-              .toList();
-
           return PortfolioWidget(
             tokens: IList(
               displayEmptyBalances
                   ? state.userTokens
-                  : state.userTokens
-                      .where((token) => !zeroAmountTokens.contains(token)),
+                  : state.userTokens.where((token) {
+                      final balance =
+                          context.watchUserFiatBalance(token)?.value ?? 0;
+
+                      return balance >= _minimumUsdAmount;
+                    }),
             ),
           );
         },
