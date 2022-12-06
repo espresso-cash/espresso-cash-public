@@ -84,13 +84,19 @@ abstract class ScenarioCallbacks {
 }
 
 class Api implements ApiFlutter {
+  Api();
+
   Api._() {
     ApiFlutter.setup(this);
   }
 
-  static final _instance = Api._();
+  static var _instance = Api._();
 
+  // Needed for testing
+  // ignore: unnecessary_getters_setters
   static Api get instance => _instance;
+
+  static set instance(Api api) => _instance = api;
 
   static final _scenarios = <int, Scenario>{};
 
