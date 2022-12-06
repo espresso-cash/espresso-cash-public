@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/balances/presentation/watch_balance.dart';
+import '../../../../core/tokens/token.dart';
 import '../data/repository.dart';
 import 'components/portfolio_widget.dart';
+
+final _defaultTokens = {Token.sol, Token.usdc};
 
 class MyPortfolio extends StatelessWidget {
   const MyPortfolio({super.key});
@@ -25,6 +28,8 @@ class MyPortfolio extends StatelessWidget {
               displayEmptyBalances
                   ? state.userTokens
                   : state.userTokens.where((token) {
+                      if (_defaultTokens.contains(token)) return true;
+
                       final balance =
                           context.watchUserFiatBalance(token)?.value ?? 0;
 
