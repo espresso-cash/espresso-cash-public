@@ -15,7 +15,7 @@ mixin _$CreateMetadataAccountV3Data {
   MetadataCollection? get collection => throw UnimplementedError();
   MetadataUses? get uses => throw UnimplementedError();
   bool get isMutable => throw UnimplementedError();
-  V1? get collectionDetails => throw UnimplementedError();
+  int? get collectionDetails => throw UnimplementedError();
 
   Uint8List toBorsh() {
     final writer = BinaryWriter();
@@ -28,7 +28,7 @@ mixin _$CreateMetadataAccountV3Data {
     const BOption(BMetadataCollection()).write(writer, collection);
     const BOption(BMetadataUses()).write(writer, uses);
     const BBool().write(writer, isMutable);
-    const BOption(BV1()).write(writer, collectionDetails);
+    const BOption(BU16()).write(writer, collectionDetails);
 
     return writer.toArray();
   }
@@ -55,7 +55,7 @@ class _CreateMetadataAccountV3Data extends CreateMetadataAccountV3Data {
   final MetadataCollection? collection;
   final MetadataUses? uses;
   final bool isMutable;
-  final V1? collectionDetails;
+  final int? collectionDetails;
 }
 
 class BCreateMetadataAccountV3Data
@@ -78,7 +78,7 @@ class BCreateMetadataAccountV3Data
       collection: const BOption(BMetadataCollection()).read(reader),
       uses: const BOption(BMetadataUses()).read(reader),
       isMutable: const BBool().read(reader),
-      collectionDetails: const BOption(BV1()).read(reader),
+      collectionDetails: const BOption(BU16()).read(reader),
     );
   }
 }
@@ -239,46 +239,4 @@ MetadataUses _$MetadataUsesFromBorsh(Uint8List data) {
   final reader = BinaryReader(data.buffer.asByteData());
 
   return const BMetadataUses().read(reader);
-}
-
-mixin _$V1 {
-  BigInt get size => throw UnimplementedError();
-
-  Uint8List toBorsh() {
-    final writer = BinaryWriter();
-
-    const BU64().write(writer, size);
-
-    return writer.toArray();
-  }
-}
-
-class _V1 extends V1 {
-  _V1({
-    required this.size,
-  }) : super._();
-
-  final BigInt size;
-}
-
-class BV1 implements BType<V1> {
-  const BV1();
-
-  @override
-  void write(BinaryWriter writer, V1 value) {
-    writer.writeStruct(value.toBorsh());
-  }
-
-  @override
-  V1 read(BinaryReader reader) {
-    return V1(
-      size: const BU64().read(reader),
-    );
-  }
-}
-
-V1 _$V1FromBorsh(Uint8List data) {
-  final reader = BinaryReader(data.buffer.asByteData());
-
-  return const BV1().read(reader);
 }
