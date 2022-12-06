@@ -139,7 +139,7 @@ class _State extends State<WalletFlowScreen> {
           currency: Currency.usdc,
         ),
         onSubmit: () {
-          final id = context.createOTP(amount: _amount);
+          final id = context.createOT(amount: _amount);
           context.router.replace(OutgoingTipRoute(id: id));
           setState(() => _amount = _amount.copyWith(value: 0));
         },

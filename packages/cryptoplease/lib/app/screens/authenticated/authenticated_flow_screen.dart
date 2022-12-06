@@ -68,7 +68,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const InvestmentModule(),
                 const ActivitiesModule(),
                 const IntercomModule(),
-                const OTPModule(),
+                const OTModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );

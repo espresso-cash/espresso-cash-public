@@ -36,7 +36,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
   @override
   void initState() {
     super.initState();
-    final repository = sl<OutgoingTipRepository>();
+    final repository = sl<OTRepository>();
     _payment = repository.watch(widget.id);
 
     _shareLinksSubscription = repository
@@ -68,10 +68,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
           final locale = DeviceLocale.localeOf(context);
 
           final isProcessing = payment != null &&
-              context
-                  .watch<OutgoingTipPaymentBloc>()
-                  .state
-                  .contains(payment.id);
+              context.watch<OTBloc>().state.contains(payment.id);
 
           final CpStatusType statusType = isProcessing
               ? CpStatusType.info
@@ -129,17 +126,18 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
             trailing: payment?.amount.format(locale),
           );
           final linkCreated = CpTimelineItem(
-            title: context.l10n.splitKeyProgressCreated,
+            title: context.l10n.splitKeyProgressCreated, //TODO
             trailing: payment?.amount.format(locale),
           );
           final waitingForReceiver = CpTimelineItem(
+            //TODO
             title: context.l10n.splitKeyProgressWaiting,
           );
           final fundsWithdrawn = CpTimelineItem(
-            title: context.l10n.splitKeyProgressWithdrawn,
+            title: context.l10n.splitKeyProgressWithdrawn, //TODO
           );
           final paymentSuccess = CpTimelineItem(
-            title: context.l10n.splitKeyProgressSuccess,
+            title: context.l10n.splitKeyProgressSuccess, //TODO
           );
 
           final items = payment?.status.mapOrNull(
@@ -184,8 +182,8 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                       onPressed: isProcessing
                           ? null
                           : () => context
-                              .read<OutgoingTipPaymentBloc>()
-                              .add(OutgoingTipPaymentEvent.process(payment.id)),
+                              .read<OTBloc>()
+                              .add(OTEvent.process(payment.id)),
                     ),
                   if (payment != null)
                     ...payment.status.mapOrNull(

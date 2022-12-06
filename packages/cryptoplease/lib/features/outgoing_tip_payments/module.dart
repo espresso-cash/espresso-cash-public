@@ -14,14 +14,14 @@ export 'src/bl/outgoing_tip_payment.dart';
 export 'src/bl/outgoing_tip_verifier.dart';
 export 'src/bl/repository.dart';
 
-class OTPModule extends SingleChildStatelessWidget {
-  const OTPModule({Key? key, Widget? child}) : super(key: key, child: child);
+class OTModule extends SingleChildStatelessWidget {
+  const OTModule({Key? key, Widget? child}) : super(key: key, child: child);
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
-          BlocProvider<OutgoingTipPaymentBloc>(
-            create: (context) => sl<OutgoingTipPaymentBloc>(
+          BlocProvider<OTBloc>(
+            create: (context) => sl<OTBloc>(
               param1: context.read<MyAccount>().wallet,
             ),
           ),
@@ -31,10 +31,10 @@ class OTPModule extends SingleChildStatelessWidget {
 }
 
 extension BuildContextExt on BuildContext {
-  String createOTP({required CryptoAmount amount}) {
+  String createOT({required CryptoAmount amount}) {
     final id = const Uuid().v4();
-    final event = OutgoingTipPaymentEvent.create(amount: amount, id: id);
-    read<OutgoingTipPaymentBloc>().add(event);
+    final event = OTEvent.create(amount: amount, id: id);
+    read<OTBloc>().add(event);
 
     sl<AnalyticsManager>().tipLinkCreated();
 

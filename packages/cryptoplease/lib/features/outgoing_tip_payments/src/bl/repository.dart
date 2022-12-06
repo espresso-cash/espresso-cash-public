@@ -16,8 +16,8 @@ import '../../../../data/db/mixins.dart';
 import 'outgoing_tip_payment.dart';
 
 @injectable
-class OutgoingTipRepository {
-  OutgoingTipRepository(this._db, this._tokens);
+class OTRepository {
+  OTRepository(this._db, this._tokens);
 
   final MyDatabase _db;
   final TokenList _tokens;

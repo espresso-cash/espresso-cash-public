@@ -48,7 +48,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...qrScannerRoutes,
     ...paymentRequestRoutes,
     ...rampRoutes,
-    ...otpRoutes,
+    ...otRoutes,
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),

@@ -10,7 +10,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
-import '../../../../core/split_key_payments.dart';
+import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -21,28 +21,27 @@ import 'repository.dart';
 part 'bloc.freezed.dart';
 
 @freezed
-class OutgoingTipPaymentEvent with _$OutgoingTipPaymentEvent {
-  const factory OutgoingTipPaymentEvent.create({
+class OTEvent with _$OTEvent {
+  const factory OTEvent.create({
     required CryptoAmount amount,
     required String id,
-  }) = OutgoingTipPaymentEventCreate;
+  }) = OTEventCreate;
 
-  const factory OutgoingTipPaymentEvent.process(String id) =
-      OutgoingTipPaymentEventProcess;
+  const factory OTEvent.process(String id) = OTEventProcess;
 }
 
-typedef OutgoingTipPaymentState = ISet<String>;
+typedef OTState = ISet<String>;
 
-typedef _Event = OutgoingTipPaymentEvent;
-typedef _State = OutgoingTipPaymentState;
+typedef _Event = OTEvent;
+typedef _State = OTState;
 typedef _Emitter = Emitter<_State>;
 
 @injectable
-class OutgoingTipPaymentBloc extends Bloc<_Event, _State> {
-  OutgoingTipPaymentBloc({
+class OTBloc extends Bloc<_Event, _State> {
+  OTBloc({
     @factoryParam required Ed25519HDKeyPair account,
     required CryptopleaseClient client,
-    required OutgoingTipRepository repository,
+    required OTRepository repository,
     required TxSender txSender,
     required LinkShortener linkShortener,
   })  : _account = account,
@@ -56,7 +55,7 @@ class OutgoingTipPaymentBloc extends Bloc<_Event, _State> {
 
   final Ed25519HDKeyPair _account;
   final CryptopleaseClient _client;
-  final OutgoingTipRepository _repository;
+  final OTRepository _repository;
   final TxSender _txSender;
   final LinkShortener _linkShortener;
 
@@ -66,7 +65,7 @@ class OutgoingTipPaymentBloc extends Bloc<_Event, _State> {
       );
 
   Future<void> _onCreate(
-    OutgoingTipPaymentEventCreate event,
+    OTEventCreate event,
     _Emitter _,
   ) async {
     if (event.amount.token != Token.usdc) {
@@ -85,12 +84,12 @@ class OutgoingTipPaymentBloc extends Bloc<_Event, _State> {
     await _repository.save(payment);
 
     if (status is OutgoingTipTxCreated) {
-      add(OutgoingTipPaymentEvent.process(payment.id));
+      add(OTEvent.process(payment.id));
     }
   }
 
   Future<void> _onProcess(
-    OutgoingTipPaymentEventProcess event,
+    OTEventProcess event,
     _Emitter emit,
   ) async {
     final payment = await _repository.load(event.id);
@@ -123,9 +122,9 @@ class OutgoingTipPaymentBloc extends Bloc<_Event, _State> {
     emit(state.remove(payment.id));
 
     newStatus.map(
-      txCreated: (_) => add(OutgoingTipPaymentEvent.process(payment.id)),
-      txSent: (_) => add(OutgoingTipPaymentEvent.process(payment.id)),
-      txConfirmed: (_) => add(OutgoingTipPaymentEvent.process(payment.id)),
+      txCreated: (_) => add(OTEvent.process(payment.id)),
+      txSent: (_) => add(OTEvent.process(payment.id)),
+      txConfirmed: (_) => add(OTEvent.process(payment.id)),
       linkReady: ignore,
       success: ignore,
       txFailure: ignore,
@@ -192,8 +191,7 @@ class OutgoingTipPaymentBloc extends Bloc<_Event, _State> {
     final privateKey = await escrow.extract().then((value) => value.bytes.lock);
     final key = base58encode(privateKey.toList());
 
-    final rawFirstLink = SplitKeyFirstLink(
-      //TODO
+    final rawFirstLink = TipPaymentLink(
       key: key,
       token: token.publicKey,
     ).toUri();
@@ -209,12 +207,3 @@ class OutgoingTipPaymentBloc extends Bloc<_Event, _State> {
     );
   }
 }
-
-// List<String> _splitKey(IList<int> privateKey) {
-//   final parts = privateKey.splitAt(privateKey.length ~/ 2);
-
-//   return [
-//     base58encode(parts.first.toList()),
-//     base58encode(parts.second.toList()),
-//   ];
-// }

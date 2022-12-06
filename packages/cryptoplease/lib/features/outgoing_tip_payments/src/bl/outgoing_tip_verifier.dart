@@ -13,7 +13,7 @@ class OTPVerifier {
   OTPVerifier(this._client, this._repository);
 
   final SolanaClient _client;
-  final OutgoingTipRepository _repository;
+  final OTRepository _repository;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   StreamSubscription<void>? _repoSubscription;
