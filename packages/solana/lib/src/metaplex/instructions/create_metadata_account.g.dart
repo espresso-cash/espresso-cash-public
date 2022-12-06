@@ -15,7 +15,7 @@ mixin _$CreateMetadataAccountV3Data {
   MetadataCollection? get collection => throw UnimplementedError();
   MetadataUses? get uses => throw UnimplementedError();
   bool get isMutable => throw UnimplementedError();
-  int? get collectionDetails => throw UnimplementedError();
+  BigInt? get collectionDetails => throw UnimplementedError();
 
   Uint8List toBorsh() {
     final writer = BinaryWriter();
@@ -28,7 +28,7 @@ mixin _$CreateMetadataAccountV3Data {
     const BOption(BMetadataCollection()).write(writer, collection);
     const BOption(BMetadataUses()).write(writer, uses);
     const BBool().write(writer, isMutable);
-    const BOption(BU16()).write(writer, collectionDetails);
+    const BOption(BU64()).write(writer, collectionDetails);
 
     return writer.toArray();
   }
@@ -55,7 +55,7 @@ class _CreateMetadataAccountV3Data extends CreateMetadataAccountV3Data {
   final MetadataCollection? collection;
   final MetadataUses? uses;
   final bool isMutable;
-  final int? collectionDetails;
+  final BigInt? collectionDetails;
 }
 
 class BCreateMetadataAccountV3Data
@@ -78,7 +78,7 @@ class BCreateMetadataAccountV3Data
       collection: const BOption(BMetadataCollection()).read(reader),
       uses: const BOption(BMetadataUses()).read(reader),
       isMutable: const BBool().read(reader),
-      collectionDetails: const BOption(BU16()).read(reader),
+      collectionDetails: const BOption(BU64()).read(reader),
     );
   }
 }

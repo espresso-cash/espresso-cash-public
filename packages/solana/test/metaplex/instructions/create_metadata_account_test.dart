@@ -33,7 +33,7 @@ Future<void> main() async {
         uri: uri,
         sellerFeeBasisPoints: 550,
         isMutable: false,
-        collectionDetails: 0,
+        collectionDetails: BigInt.one,
       );
       final instruction = await createMetadataAccountV3(
         mint: mint.address,
