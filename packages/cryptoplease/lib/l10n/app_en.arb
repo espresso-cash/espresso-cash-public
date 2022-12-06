@@ -338,6 +338,8 @@
       }
     }
   },
+  "price": "Price",
+  "yourBalance": "Your balance",
   "failedToLoadTokens": "Failed to load tokens",
   "settings" : "Settings",
   "displayEmptyBalanceTitle" : "Display Empty Balances",
