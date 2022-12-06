@@ -14,17 +14,20 @@ class ExchangeButtons extends StatelessWidget {
   final Token token;
 
   @override
-  Widget build(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          CpButton(
-            text: context.l10n.buy,
-            onPressed: () => context.navigateToBuyToken(token),
-          ),
-          CpButton(
-            text: context.l10n.sell,
-            onPressed: () => context.navigateToSellToken(token),
-          ),
-        ],
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            CpButton(
+              text: context.l10n.buy,
+              onPressed: () => context.navigateToBuyToken(token),
+            ),
+            CpButton(
+              text: context.l10n.sell,
+              onPressed: () => context.navigateToSellToken(token),
+            ),
+          ],
+        ),
       );
 }

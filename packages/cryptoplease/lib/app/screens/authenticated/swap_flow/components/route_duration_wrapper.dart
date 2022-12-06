@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 typedef WidgetTimerBuilder = Widget Function(
   BuildContext context,
@@ -24,43 +25,58 @@ class RouteDurationWrapper extends StatefulWidget {
 }
 
 class _RouteDurationWrapperState extends State<RouteDurationWrapper> {
-  late Stream<Duration?> _stream;
+  Stream<Duration?>? stream;
 
   @override
   void initState() {
     super.initState();
-    _stream = const Stream.empty();
     if (widget.start != null) _initTimer();
   }
 
   void _initTimer() {
-    _stream = Stream.periodic(_interval, _onTick).take(_routeDuration + 1);
+    stream = Stream.periodic(const Duration(seconds: 1), _onTick)
+        .take(_routeDuration.inSeconds)
+        .startWith(_routeDuration);
   }
 
-  void _onTimeout() => widget.onTimeout();
+  void _stopTimer() {
+    stream = null;
+  }
+
+  void _onTimeout() {
+    widget.onTimeout();
+    _stopTimer();
+  }
 
   Duration? _onTick(int ticks) {
-    if (ticks == _routeDuration) {
+    if (ticks == _totalTicks) {
       _onTimeout();
 
       return null;
     } else {
-      return Duration(seconds: _routeDuration - ticks);
+      return Duration(seconds: _totalTicks - ticks);
     }
   }
 
   @override
   void didUpdateWidget(covariant RouteDurationWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.start != null && widget.start != oldWidget.start) _initTimer();
+    if (widget.start == null) {
+      _stopTimer();
+    } else if (widget.start != oldWidget.start) {
+      _initTimer();
+    }
   }
 
   @override
   Widget build(BuildContext context) => StreamBuilder<Duration?>(
-        stream: _stream,
-        builder: (context, snapshot) => widget.builder(context, snapshot.data),
+        stream: stream,
+        builder: (context, snapshot) => widget.builder(
+          context,
+          stream == null ? null : snapshot.data,
+        ),
       );
 }
 
-const _interval = Duration(seconds: 1);
-final _routeDuration = const Duration(seconds: 15).inSeconds;
+const _routeDuration = Duration(seconds: 15);
+final _totalTicks = _routeDuration.inSeconds - 1;
