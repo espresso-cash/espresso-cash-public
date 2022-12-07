@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../config.dart';
-import '../../../../core/tokens/token.dart';
+import '../config.dart';
+import 'tokens/token.dart';
 
 part 'tip_payments.freezed.dart';
 part 'tip_payments.g.dart';
@@ -20,9 +20,7 @@ class TipPaymentData with _$TipPaymentData {
   const TipPaymentData._();
 
   static TipPaymentData? tryParse(Uri link) {
-    final correctSchemeAndHost =
-        link.scheme == 'cryptoplease-sol' && link.host == '1' ||
-            link.scheme == 'https' && link.host == link1Host; //TODO
+    final correctSchemeAndHost = link.scheme == 'https' && link.host == tipHost;
     if (!correctSchemeAndHost) return null;
 
     final tokenAddress = link.queryParameters['token'];
@@ -42,7 +40,7 @@ class TipPaymentData with _$TipPaymentData {
 
   Uri toUri() => Uri(
         scheme: 'https',
-        host: link1Host, //TODO host
+        host: tipHost,
         path: '/',
         queryParameters: <String, String>{
           'key': key,

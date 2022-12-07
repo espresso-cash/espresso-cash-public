@@ -61,6 +61,7 @@ const link1Host = 'solana1.$cpLinkDomain';
 const link2Host = 'solana2.$cpLinkDomain';
 const solanaPayHost = 'solanapay.$cpLinkDomain';
 const moonpayHost = 'moonpay.$cpLinkDomain';
+const tipHost = 'tip.$cpLinkDomain';
 
 const kadoBaseUrl = 'https://app.kado.money/';
 const kadoApiKey = String.fromEnvironment('KADO_API_KEY');

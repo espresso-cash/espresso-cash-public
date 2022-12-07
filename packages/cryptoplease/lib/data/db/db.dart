@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../features/activities/module.dart';
 import '../../features/incoming_split_key_payments/module.dart';
+import '../../features/incoming_tip_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
 import '../../features/outgoing_tip_payments/module.dart';
@@ -21,7 +22,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 20;
+const int latestVersion = 21;
 
 const _tables = [
   OutgoingTransferRows,
@@ -31,6 +32,7 @@ const _tables = [
   ISKPRows,
   TransactionRows,
   OutgoingTipRows,
+  IncomingTipRows,
 ];
 
 @lazySingleton
@@ -87,6 +89,7 @@ class MyDatabase extends _$MyDatabase {
 
           if (from < 21) {
             await m.createTable(outgoingTipRows);
+            await m.createTable(incomingTipRows);
           }
         },
       );

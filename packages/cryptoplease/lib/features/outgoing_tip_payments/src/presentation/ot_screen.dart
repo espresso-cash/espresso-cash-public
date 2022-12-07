@@ -121,11 +121,11 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
               0;
 
           final creatingLink = CpTimelineItem(
-            title: 'Creating link',
+            title: 'Creating QR Code',
             trailing: payment?.amount.format(locale),
           );
           final linkCreated = CpTimelineItem(
-            title: context.l10n.splitKeyProgressCreated, //TODO
+            title: 'QR Code created', //TODO
             trailing: payment?.amount.format(locale),
           );
           final waitingForReceiver = CpTimelineItem(
@@ -190,7 +190,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                             CpButton(
                               size: CpButtonSize.big,
                               width: double.infinity,
-                              text: context.l10n.resendLink,
+                              text: 'View QR Code',
                               onPressed: () => context.router.push(
                                 ShareQRRoute(
                                   amount: payment.amount,

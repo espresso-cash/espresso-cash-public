@@ -7,6 +7,7 @@ import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../di.dart';
+import '../../../../features/incoming_tip_payments/module.dart';
 import '../../../../features/outgoing_direct_payments/module.dart';
 import '../../../../features/outgoing_split_key_payments/module.dart';
 import '../../../../features/outgoing_tip_payments/module.dart';
@@ -41,7 +42,13 @@ class _State extends State<WalletFlowScreen> {
     if (request == null) return;
     if (!mounted) return;
 
-    final recipient = request.recipient!; //TODO
+    if (request is QrScannerTipRequest) {
+      await context.processIT(request.tipData);
+
+      return;
+    }
+
+    final recipient = request.recipient!;
     final name = request.mapOrNull(
       solanaPay: (r) => r.request.label,
       address: (r) => r.addressData.name,
@@ -69,8 +76,6 @@ class _State extends State<WalletFlowScreen> {
       ),
     );
     if (!mounted) return;
-
-    // TODO redirect to tip
 
     if (amount != null) {
       setState(() => _amount = _amount.copyWith(value: 0));

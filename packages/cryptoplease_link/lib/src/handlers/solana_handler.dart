@@ -12,6 +12,8 @@ Future<Response> Function(Request) createSolanaHandler({
         return _solanaShareableHandler(request);
       } else if (host == solanaPayHost) {
         return _solanaPayHandler(request, tokens);
+      } else if (host == tipHost) {
+        return _solanaShareableHandler(request);
       }
 
       return Response.notFound(null);

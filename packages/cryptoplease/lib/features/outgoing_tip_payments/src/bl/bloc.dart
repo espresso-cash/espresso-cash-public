@@ -10,13 +10,13 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import 'link_shortener.dart';
 import 'outgoing_tip_payment.dart';
 import 'repository.dart';
-import 'tip_payments.dart';
 
 part 'bloc.freezed.dart';
 
@@ -196,13 +196,16 @@ class OTBloc extends Bloc<_Event, _State> {
       token: token.publicKey,
     ).toUri();
 
-    final link = await _linkShortener.shorten(rawFirstLink);
-    if (link == null) {
-      return OutgoingTipStatus.txLinksFailure(escrow: escrow);
-    }
+    print(rawFirstLink.toString());
+
+    // final link = await _linkShortener.shorten(rawFirstLink); //TODO
+    // if (link == null) {
+    //   return OutgoingTipStatus.txLinksFailure(escrow: escrow);
+    // }
 
     return OutgoingTipStatus.linkReady(
-      link: link,
+      // link: link,
+      link: rawFirstLink,
       escrow: escrow,
     );
   }

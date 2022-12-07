@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class LinkShortener {
+  //TODO to delete if not gonna use
   const LinkShortener();
 
   Future<Uri?> shorten(Uri link) async {
