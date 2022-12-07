@@ -49,6 +49,10 @@ class TokenList {
       ? Token.sol
       : tokens.firstWhereOrNull((t) => t.address == mint);
 
+  Token? findTokenBySymbol(String symbol) => symbol == Token.sol.symbol
+      ? Token.sol
+      : tokens.firstWhereOrNull((t) => t.symbol.toLowerCase() == symbol);
+
   Iterable<Token> findTokensByCoingeckoId(String coingeckoId) =>
       tokens.where((t) => t.coingeckoId == coingeckoId);
 }

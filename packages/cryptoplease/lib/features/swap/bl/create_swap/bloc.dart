@@ -94,6 +94,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       );
     } on CreateSwapException catch (e) {
       emit(state.error(e));
+    } on Exception catch (e) {
+      emit(state.error(CreateSwapException.other(e)));
     }
   }
 
@@ -175,8 +177,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       );
     } on CreateSwapException catch (e) {
       emit(state.error(e));
-    } on Exception catch (e) {
-      emit(state.error(CreateSwapException.other(e)));
+    } on Exception {
+      emit(state.error(const CreateSwapException.routeNotFound()));
     }
   }
 
