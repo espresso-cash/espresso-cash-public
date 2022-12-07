@@ -10,7 +10,10 @@ import '../../../../ui/amount_with_equivalent.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/number_formatter.dart';
+import '../../../../ui/tab_bar.dart';
 import '../../../../ui/usdc_info.dart';
+
+enum WalletAction { pay, request, tip }
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({
@@ -40,6 +43,9 @@ class WalletMainScreen extends StatefulWidget {
 
 class _ScreenState extends State<WalletMainScreen> {
   late final TextEditingController _amountController;
+  TabController? _tabController;
+
+  WalletAction _action = WalletAction.pay;
 
   @override
   void initState() {
@@ -51,6 +57,7 @@ class _ScreenState extends State<WalletMainScreen> {
   @override
   void dispose() {
     _amountController.removeListener(_updateValue);
+    _tabController?.removeListener(_handleTabUpdate);
     super.dispose();
   }
 
@@ -66,10 +73,27 @@ class _ScreenState extends State<WalletMainScreen> {
     }
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _tabController?.removeListener(_handleTabUpdate);
+    _tabController = DefaultTabController.of(context)
+      ?..addListener(_handleTabUpdate);
+    _updateItems();
+  }
+
   void _updateValue() {
     final locale = DeviceLocale.localeOf(context);
     final amount = _amountController.text.toDecimalOrZero(locale);
     widget.onAmountChanged(amount);
+  }
+
+  void _handleTabUpdate() => setState(_updateItems);
+
+  void _updateItems() {
+    final tab = _tabController?.index ?? 0;
+
+    _action = WalletAction.values[tab];
   }
 
   @override
@@ -81,6 +105,7 @@ class _ScreenState extends State<WalletMainScreen> {
       appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
       body: Column(
         children: [
+          const SizedBox(height: 24),
           AmountWithEquivalent(
             inputController: _amountController,
             token: widget.amount.currency.token,
@@ -104,35 +129,23 @@ class _ScreenState extends State<WalletMainScreen> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Row(
-              children: [
-                Flexible(
-                  child: CpButton(
-                    text: context.l10n.tip,
-                    minWidth: width,
-                    onPressed: widget.onTip,
-                    size: CpButtonSize.big,
-                  ),
-                ),
-                const SizedBox(width: 24),
-                Flexible(
-                  child: CpButton(
-                    text: context.l10n.receive,
-                    minWidth: width,
-                    onPressed: widget.onRequest,
-                    size: CpButtonSize.big,
-                  ),
-                ),
-                const SizedBox(width: 24),
-                Flexible(
-                  child: CpButton(
-                    text: context.l10n.pay,
-                    minWidth: width,
-                    onPressed: widget.onPay,
-                    size: CpButtonSize.big,
-                  ),
-                ),
-              ],
+            child: CpButton(
+              text: _action.buttonLabel(context),
+              minWidth: width,
+              onPressed: () {
+                switch (_action) {
+                  case WalletAction.pay:
+                    widget.onPay();
+                    break;
+                  case WalletAction.request:
+                    widget.onRequest();
+                    break;
+                  case WalletAction.tip:
+                    widget.onTip();
+                    break;
+                }
+              },
+              size: CpButtonSize.big,
             ),
           ),
           const SizedBox(height: cpNavigationBarheight + 24),
@@ -157,18 +170,50 @@ class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) => SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 28, top: 12),
-          child: Row(
-            children: [
-              SizedBox.square(
-                dimension: 26,
-                child: IconButton(
-                  onPressed: onQrScanner,
-                  icon: Assets.icons.qrScanner.svg(height: 26),
-                  padding: EdgeInsets.zero,
+          child: SizedBox(
+            height: kToolbarHeight - 10,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox.square(
+                    dimension: 26,
+                    child: IconButton(
+                      onPressed: onQrScanner,
+                      icon: Assets.icons.qrScanner.svg(height: 26),
+                      padding: EdgeInsets.zero,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                Align(
+                  child: SizedBox(
+                    width: 254,
+                    child: CpTabBar(
+                      tabs: [
+                        Tab(text: context.l10n.pay),
+                        Tab(text: context.l10n.receive),
+                        Tab(text: context.l10n.tip),
+                      ],
+                      variant: CpTabBarVariant.light,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );
+}
+
+extension on WalletAction {
+  String buttonLabel(BuildContext context) {
+    switch (this) {
+      case WalletAction.pay:
+        return context.l10n.pay;
+      case WalletAction.request:
+        return context.l10n.receive;
+      case WalletAction.tip:
+        return context.l10n.tipButtonLabel;
+    }
+  }
 }

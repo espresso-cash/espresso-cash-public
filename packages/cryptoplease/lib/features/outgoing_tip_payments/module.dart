@@ -13,6 +13,7 @@ import 'src/bl/bloc.dart';
 export 'src/bl/outgoing_tip_payment.dart';
 export 'src/bl/outgoing_tip_verifier.dart';
 export 'src/bl/repository.dart';
+export 'src/bl/tip_payments.dart';
 
 class OTModule extends SingleChildStatelessWidget {
   const OTModule({Key? key, Widget? child}) : super(key: key, child: child);

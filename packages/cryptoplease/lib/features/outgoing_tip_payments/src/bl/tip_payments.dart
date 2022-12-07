@@ -1,25 +1,25 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
-import '../config.dart';
-import 'tokens/token.dart';
+import '../../../../config.dart';
+import '../../../../core/tokens/token.dart';
 
 part 'tip_payments.freezed.dart';
 part 'tip_payments.g.dart';
 
 @freezed
-class TipPaymentLink with _$TipPaymentLink {
-  const factory TipPaymentLink({
+class TipPaymentData with _$TipPaymentData {
+  const factory TipPaymentData({
     required String key,
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey token,
   }) = _TipPaymentLink;
 
-  factory TipPaymentLink.fromJson(Map<String, dynamic> json) =>
-      _$TipPaymentLinkFromJson(json);
+  factory TipPaymentData.fromJson(Map<String, dynamic> json) =>
+      _$TipPaymentDataFromJson(json);
 
-  const TipPaymentLink._();
+  const TipPaymentData._();
 
-  static TipPaymentLink? tryParse(Uri link) {
+  static TipPaymentData? tryParse(Uri link) {
     final correctSchemeAndHost =
         link.scheme == 'cryptoplease-sol' && link.host == '1' ||
             link.scheme == 'https' && link.host == link1Host; //TODO
@@ -28,14 +28,14 @@ class TipPaymentLink with _$TipPaymentLink {
     final tokenAddress = link.queryParameters['token'];
     if (tokenAddress == null || tokenAddress != Token.usdc.address) return null;
 
-    final firstPart = link.queryParameters['key'];
-    if (firstPart == null) return null;
+    final key = link.queryParameters['key'];
+    if (key == null) return null;
 
     final apiVersion = link.queryParameters['v'];
     if (apiVersion != 'v2') return null;
 
-    return TipPaymentLink(
-      key: firstPart,
+    return TipPaymentData(
+      key: key,
       token: Ed25519HDPublicKey.fromBase58(tokenAddress),
     );
   }

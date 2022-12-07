@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/conversion_rates/context_ext.dart';
 import '../../../../core/currency.dart';
-import '../../../../core/fee_label.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -33,7 +32,7 @@ class OTPConfirmationScreen extends StatelessWidget {
         child: Scaffold(
           appBar: CpAppBar(
             title: Text(
-              context.l10n.pay.toUpperCase(),
+              context.l10n.tip.toUpperCase(),
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17,
@@ -52,7 +51,7 @@ class OTPConfirmationScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const FeeLabel(type: FeeType.splitKey()),
+                // const FeeLabel(type: FeeType.splitKey()), //TODO ask regarding fees
                 const SizedBox(height: 21),
                 CpButton(
                   width: double.infinity,
@@ -79,16 +78,20 @@ class _TokenCreateLinkContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          Text(
-            context.l10n.youAreCreatingUniqueLink,
+          const Text(
+            "You're creating a QR code for a tip of",
             style: _mediumTextStyle,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 40),
           _AmountView(amount: amount),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: CpInfoWidget(message: Text(context.l10n.sendExplanation)),
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: CpInfoWidget(
+              message: Text(
+                "Once you've created the QR code, you can share it with the person you want to tip.",
+              ),
+            ),
           ),
           const Spacer(),
         ],

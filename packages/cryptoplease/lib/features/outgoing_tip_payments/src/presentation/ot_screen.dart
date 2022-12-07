@@ -48,8 +48,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
 
       final status = payment.status as OutgoingTipLinkReady;
 
-      context.router
-          .push(ShareLinkRoute(amount: payment.amount, status: status));
+      context.router.push(ShareQRRoute(amount: payment.amount, status: status));
       _shareLinksSubscription?.cancel();
     });
   }
@@ -193,7 +192,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                               width: double.infinity,
                               text: context.l10n.resendLink,
                               onPressed: () => context.router.push(
-                                ShareLinkRoute(
+                                ShareQRRoute(
                                   amount: payment.amount,
                                   status: s,
                                 ),

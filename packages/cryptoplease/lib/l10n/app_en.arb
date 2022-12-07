@@ -360,5 +360,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "tipPaymentSubtitle" : "The recipient will receive your tip by scanning this QR Code:",
+  "tipButtonLabel" : "Tip QR Code"
 }

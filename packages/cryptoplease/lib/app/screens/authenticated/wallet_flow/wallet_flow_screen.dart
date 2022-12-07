@@ -41,8 +41,8 @@ class _State extends State<WalletFlowScreen> {
     if (request == null) return;
     if (!mounted) return;
 
-    final recipient = request.recipient;
-    final name = request.map(
+    final recipient = request.recipient!; //TODO
+    final name = request.mapOrNull(
       solanaPay: (r) => r.request.label,
       address: (r) => r.addressData.name,
     );
@@ -69,6 +69,8 @@ class _State extends State<WalletFlowScreen> {
       ),
     );
     if (!mounted) return;
+
+    // TODO redirect to tip
 
     if (amount != null) {
       setState(() => _amount = _amount.copyWith(value: 0));
@@ -180,15 +182,18 @@ class _State extends State<WalletFlowScreen> {
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
-        child: WalletMainScreen(
-          shakeKey: _shakeKey,
-          onScan: _onQrScanner,
-          onAmountChanged: _onAmountUpdate,
-          onRequest: _onRequest,
-          onPay: _onPay,
-          onTip: _onTip,
-          amount: _amount,
-          error: _errorMessage,
+        child: DefaultTabController(
+          length: 3,
+          child: WalletMainScreen(
+            shakeKey: _shakeKey,
+            onScan: _onQrScanner,
+            onAmountChanged: _onAmountUpdate,
+            onRequest: _onRequest,
+            onPay: _onPay,
+            onTip: _onTip,
+            amount: _amount,
+            error: _errorMessage,
+          ),
         ),
       );
 }

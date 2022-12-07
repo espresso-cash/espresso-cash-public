@@ -10,13 +10,13 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
-import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import 'link_shortener.dart';
 import 'outgoing_tip_payment.dart';
 import 'repository.dart';
+import 'tip_payments.dart';
 
 part 'bloc.freezed.dart';
 
@@ -191,7 +191,7 @@ class OTBloc extends Bloc<_Event, _State> {
     final privateKey = await escrow.extract().then((value) => value.bytes.lock);
     final key = base58encode(privateKey.toList());
 
-    final rawFirstLink = TipPaymentLink(
+    final rawFirstLink = TipPaymentData(
       key: key,
       token: token.publicKey,
     ).toUri();
