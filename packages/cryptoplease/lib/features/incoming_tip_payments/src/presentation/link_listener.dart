@@ -3,10 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/tip_payments.dart';
-import '../../../../di.dart';
 import '../../module.dart';
 
 class TipLinkListener extends StatefulWidget {
@@ -26,7 +24,6 @@ class _TipLinkListenerState extends State<TipLinkListener> {
       final tip = TipPaymentData.tryParse(link);
 
       if (tip != null) {
-        sl<AnalyticsManager>().tipLinkReceived();
         context.processIT(tip);
 
         return true;

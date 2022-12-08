@@ -99,7 +99,7 @@ class _State extends State<WalletFlowScreen> {
 
   void _onRequest() {
     if (_amount.decimal < Decimal.parse('0.1')) {
-      return _handleSmallAmount(_Operation.request);
+      return _handleSmallAmount(WalletOperation.request);
     }
 
     context.navigateTo(LinkRequestFlowRoute(initialAmount: _amount));
@@ -108,7 +108,7 @@ class _State extends State<WalletFlowScreen> {
 
   void _onPay() {
     if (_amount.decimal < Decimal.parse('0.1')) {
-      return _handleSmallAmount(_Operation.pay);
+      return _handleSmallAmount(WalletOperation.pay);
     }
 
     context.router.push(
@@ -130,11 +130,11 @@ class _State extends State<WalletFlowScreen> {
 
   void _onTip() {
     if (_amount.decimal < Decimal.parse('0.1')) {
-      return _handleSmallAmount(_Operation.tip);
+      return _handleSmallAmount(WalletOperation.tip);
     }
 
     if (_amount.decimal > Decimal.parse('5.0')) {
-      return _handleMaxTip(_Operation.tip);
+      return _handleMaxTip(WalletOperation.tip);
     }
 
     context.router.push(
@@ -154,31 +154,31 @@ class _State extends State<WalletFlowScreen> {
     );
   }
 
-  void _handleSmallAmount(_Operation operation) {
+  void _handleSmallAmount(WalletOperation operation) {
     _shakeKey.currentState?.shake();
     setState(() {
       switch (operation) {
-        case _Operation.request:
+        case WalletOperation.request:
           _errorMessage = context.l10n.minimumAmountToRequest(r'$0.10');
           break;
-        case _Operation.pay:
+        case WalletOperation.pay:
           _errorMessage = context.l10n.minimumAmountToSend(r'$0.10');
           break;
-        case _Operation.tip:
+        case WalletOperation.tip:
           _errorMessage = context.l10n.minimumAmountToTip(r'$0.10');
           break;
       }
     });
   }
 
-  void _handleMaxTip(_Operation operation) {
+  void _handleMaxTip(WalletOperation operation) {
     _shakeKey.currentState?.shake();
     setState(() {
       switch (operation) {
-        case _Operation.request:
-        case _Operation.pay:
+        case WalletOperation.request:
+        case WalletOperation.pay:
           break;
-        case _Operation.tip:
+        case WalletOperation.tip:
           _errorMessage = context.l10n.maximumAmountToTip(r'$5.00');
           break;
       }
@@ -203,4 +203,4 @@ class _State extends State<WalletFlowScreen> {
       );
 }
 
-enum _Operation { request, pay, tip }
+enum WalletOperation { request, pay, tip }

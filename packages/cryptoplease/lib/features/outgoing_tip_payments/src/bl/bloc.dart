@@ -14,7 +14,6 @@ import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import 'link_shortener.dart';
 import 'outgoing_tip_payment.dart';
 import 'repository.dart';
 
@@ -43,12 +42,10 @@ class OTBloc extends Bloc<_Event, _State> {
     required CryptopleaseClient client,
     required OTRepository repository,
     required TxSender txSender,
-    required LinkShortener linkShortener,
   })  : _account = account,
         _client = client,
         _repository = repository,
         _txSender = txSender,
-        _linkShortener = linkShortener,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
@@ -57,7 +54,6 @@ class OTBloc extends Bloc<_Event, _State> {
   final CryptopleaseClient _client;
   final OTRepository _repository;
   final TxSender _txSender;
-  final LinkShortener _linkShortener;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
@@ -146,7 +142,7 @@ class OTBloc extends Bloc<_Event, _State> {
       );
 
       final tx = await _client
-          .createPayment(dto) //TODO
+          .createPayment(dto)
           .then((it) => it.transaction)
           .then(SignedTx.decode)
           .then((it) => it.resign(_account));
@@ -191,21 +187,13 @@ class OTBloc extends Bloc<_Event, _State> {
     final privateKey = await escrow.extract().then((value) => value.bytes.lock);
     final key = base58encode(privateKey.toList());
 
-    final rawFirstLink = TipPaymentData(
+    final link = TipPaymentData(
       key: key,
       token: token.publicKey,
     ).toUri();
 
-    print(rawFirstLink.toString());
-
-    // final link = await _linkShortener.shorten(rawFirstLink); //TODO
-    // if (link == null) {
-    //   return OutgoingTipStatus.txLinksFailure(escrow: escrow);
-    // }
-
     return OutgoingTipStatus.linkReady(
-      // link: link,
-      link: rawFirstLink,
+      link: link,
       escrow: escrow,
     );
   }

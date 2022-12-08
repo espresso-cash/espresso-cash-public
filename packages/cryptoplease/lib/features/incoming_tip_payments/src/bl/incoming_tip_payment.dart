@@ -16,7 +16,7 @@ class IncomingTipPayment with _$IncomingTipPayment {
 
 @freezed
 class ITStatus with _$ITStatus {
-  /// Both parts of the key are successfully retrieved from the URL.
+  /// Private key is successfully retrieved from the URL.
   ///
   /// Private key is restored and the payment is ready to be claimed.
   const factory ITStatus.privateKeyReady() = ITStatusPrivateKeyReady;
@@ -40,6 +40,6 @@ class ITStatus with _$ITStatus {
   const factory ITStatus.txWaitFailure(SignedTx tx) = ITStatusTxWaitFailure;
 
   /// Final state. Tx is failed to be confirmed and payment could not be claimed
-  /// either due to invalid links or it was already claimed by someone else.
+  /// either due to invalid link or it was already claimed by someone else.
   const factory ITStatus.txEscrowFailure() = ITStatusTxEscrowFailure;
 }

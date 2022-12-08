@@ -12,8 +12,7 @@ import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/tab_bar.dart';
 import '../../../../ui/usdc_info.dart';
-
-enum WalletAction { pay, request, tip }
+import 'wallet_flow_screen.dart';
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({
@@ -45,7 +44,7 @@ class _ScreenState extends State<WalletMainScreen> {
   late final TextEditingController _amountController;
   TabController? _tabController;
 
-  WalletAction _action = WalletAction.pay;
+  WalletOperation _action = WalletOperation.pay;
 
   @override
   void initState() {
@@ -79,7 +78,7 @@ class _ScreenState extends State<WalletMainScreen> {
     _tabController?.removeListener(_handleTabUpdate);
     _tabController = DefaultTabController.of(context)
       ?..addListener(_handleTabUpdate);
-    _updateItems();
+    _updateAction();
   }
 
   void _updateValue() {
@@ -88,12 +87,12 @@ class _ScreenState extends State<WalletMainScreen> {
     widget.onAmountChanged(amount);
   }
 
-  void _handleTabUpdate() => setState(_updateItems);
+  void _handleTabUpdate() => setState(_updateAction);
 
-  void _updateItems() {
+  void _updateAction() {
     final tab = _tabController?.index ?? 0;
 
-    _action = WalletAction.values[tab];
+    _action = WalletOperation.values[tab];
   }
 
   @override
@@ -134,13 +133,13 @@ class _ScreenState extends State<WalletMainScreen> {
               minWidth: width,
               onPressed: () {
                 switch (_action) {
-                  case WalletAction.pay:
+                  case WalletOperation.pay:
                     widget.onPay();
                     break;
-                  case WalletAction.request:
+                  case WalletOperation.request:
                     widget.onRequest();
                     break;
-                  case WalletAction.tip:
+                  case WalletOperation.tip:
                     widget.onTip();
                     break;
                 }
@@ -205,14 +204,14 @@ class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
       );
 }
 
-extension on WalletAction {
+extension on WalletOperation {
   String buttonLabel(BuildContext context) {
     switch (this) {
-      case WalletAction.pay:
+      case WalletOperation.pay:
         return context.l10n.pay;
-      case WalletAction.request:
+      case WalletOperation.request:
         return context.l10n.receive;
-      case WalletAction.tip:
+      case WalletOperation.tip:
         return context.l10n.tipButtonLabel;
     }
   }

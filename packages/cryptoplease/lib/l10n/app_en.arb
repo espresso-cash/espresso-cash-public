@@ -362,5 +362,8 @@
     }
   },
   "tipPaymentSubtitle" : "The recipient will receive your tip by scanning this QR Code:",
-  "tipButtonLabel" : "Tip QR Code"
+  "tipButtonLabel" : "Tip QR Code",
+  "tipViewQr" : "View QR Code",
+  "tipCreatingQr" : "Creating QR Code",
+  "tipCreatedQr" : "QR Code created"
 }

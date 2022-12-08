@@ -121,22 +121,21 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
               0;
 
           final creatingLink = CpTimelineItem(
-            title: 'Creating QR Code',
+            title: context.l10n.tipCreatingQr,
             trailing: payment?.amount.format(locale),
           );
           final linkCreated = CpTimelineItem(
-            title: 'QR Code created', //TODO
+            title: context.l10n.tipCreatedQr,
             trailing: payment?.amount.format(locale),
           );
           final waitingForReceiver = CpTimelineItem(
-            //TODO
             title: context.l10n.splitKeyProgressWaiting,
           );
           final fundsWithdrawn = CpTimelineItem(
-            title: context.l10n.splitKeyProgressWithdrawn, //TODO
+            title: context.l10n.splitKeyProgressWithdrawn,
           );
           final paymentSuccess = CpTimelineItem(
-            title: context.l10n.splitKeyProgressSuccess, //TODO
+            title: context.l10n.splitKeyProgressSuccess,
           );
 
           final items = payment?.status.mapOrNull(
@@ -190,7 +189,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                             CpButton(
                               size: CpButtonSize.big,
                               width: double.infinity,
-                              text: 'View QR Code',
+                              text: context.l10n.tipViewQr,
                               onPressed: () => context.router.push(
                                 ShareQRRoute(
                                   amount: payment.amount,
