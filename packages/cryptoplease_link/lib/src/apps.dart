@@ -1,9 +1,9 @@
 import 'package:cryptoplease_link/src/app.dart';
 
-final cryptoPleaseApp = App(
-  id: 'cp',
-  name: 'Crypto Please',
-  url: Uri.parse('https://cryptoplease.com'),
+final espressoCashApp = App(
+  id: 'ec',
+  name: 'Espresso Cash',
+  url: Uri.parse('https://www.espressocash.com'),
   androidOptions: const AndroidOptions(
     package: 'com.pleasecrypto.flutter',
     sha256Fingerprints: [
@@ -20,10 +20,10 @@ final cryptoPleaseApp = App(
   appDisplayStyle: const AppDisplayStyle(
     textColor: '#000000',
     backgroundColor: '#FACF48',
-    logoUri: 'icons/cp-icon.png',
+    logoUri: 'icons/ec-icon.png',
   ),
 );
 
 final apps = [
-  cryptoPleaseApp,
+  espressoCashApp,
 ];
