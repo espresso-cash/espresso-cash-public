@@ -36,7 +36,7 @@ class ITRepository {
       .into(_db.incomingTipRows)
       .insertOnConflictUpdate(await payment.toDto());
 
-  Future<void> clear() => _db.delete(_db.iSKPRows).go();
+  Future<void> clear() => _db.delete(_db.incomingTipRows).go();
 }
 
 class IncomingTipRows extends Table with EntityMixin {

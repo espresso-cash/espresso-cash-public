@@ -48,7 +48,7 @@ class _State extends State<WalletFlowScreen> {
       return;
     }
 
-    final recipient = request.recipient!;
+    final recipient = request.recipient;
     final name = request.mapOrNull(
       solanaPay: (r) => r.request.label,
       address: (r) => r.addressData.name,
@@ -56,6 +56,8 @@ class _State extends State<WalletFlowScreen> {
     final requestAmount = request.whenOrNull(
       solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
     );
+
+    if (recipient == null) return;
 
     final isEnabled = requestAmount == null || requestAmount.value == 0;
     final initialAmount = requestAmount ?? _amount;
