@@ -12,7 +12,6 @@ const protocolMap = {
   link2Host: '2',
 };
 const moonpayHost = 'moonpay.$cpLinkDomain';
-const tipHost = 'tip.$cpLinkDomain';
 
 const shareableLinkPaymentFee = 100000; // 0.1 USDC
 const directPaymentFee = 10000; // 0.01 USDC

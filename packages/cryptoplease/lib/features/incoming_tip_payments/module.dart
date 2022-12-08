@@ -10,7 +10,7 @@ import '../../core/tip_payments.dart';
 import '../../di.dart';
 import '../../routes.gr.dart';
 import 'src/bl/it_bloc.dart';
-import 'src/presentation/tip_ready_screen.dart';
+import 'src/presentation/link_listener.dart';
 
 export 'src/bl/it_repository.dart';
 
@@ -26,7 +26,7 @@ class ITModule extends SingleChildStatelessWidget {
             ),
           ),
         ],
-        child: child,
+        child: TipLinkListener(child: child ?? const SizedBox.shrink()),
       );
 }
 

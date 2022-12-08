@@ -20,7 +20,9 @@ class TipPaymentData with _$TipPaymentData {
   const TipPaymentData._();
 
   static TipPaymentData? tryParse(Uri link) {
-    final correctSchemeAndHost = link.scheme == 'https' && link.host == tipHost;
+    final correctSchemeAndHost =
+        link.scheme == 'cryptoplease-sol' && link.host == '1' ||
+            link.scheme == 'https' && link.host == link1Host;
     if (!correctSchemeAndHost) return null;
 
     final tokenAddress = link.queryParameters['token'];
@@ -28,6 +30,9 @@ class TipPaymentData with _$TipPaymentData {
 
     final key = link.queryParameters['key'];
     if (key == null) return null;
+
+    final type = link.queryParameters['type'];
+    if (type != 'tip') return null;
 
     final apiVersion = link.queryParameters['v'];
     if (apiVersion != 'v2') return null;
@@ -40,12 +45,13 @@ class TipPaymentData with _$TipPaymentData {
 
   Uri toUri() => Uri(
         scheme: 'https',
-        host: tipHost,
+        host: link1Host,
         path: '/',
         queryParameters: <String, String>{
           'key': key,
           if (token != Token.sol.publicKey) 'token': token.toBase58(),
           'v': 'v2',
+          'type': 'tip'
         },
       );
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/conversion_rates/context_ext.dart';
 import '../../../../core/currency.dart';
+import '../../../../core/fee_label.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -51,7 +52,7 @@ class OTPConfirmationScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // const FeeLabel(type: FeeType.splitKey()), //TODO ask regarding fees
+                const FeeLabel(type: FeeType.splitKey()),
                 const SizedBox(height: 21),
                 CpButton(
                   width: double.infinity,
@@ -79,7 +80,7 @@ class _TokenCreateLinkContent extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: [
           const Text(
-            "You're creating a QR code for a tip of",
+            "You're creating a QR code for a tip of:",
             style: _mediumTextStyle,
             textAlign: TextAlign.center,
           ),
