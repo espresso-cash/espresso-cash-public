@@ -365,5 +365,13 @@
   "tipButtonLabel" : "Tip QR Code",
   "tipViewQr" : "View QR Code",
   "tipCreatingQr" : "Creating QR Code",
-  "tipCreatedQr" : "QR Code created"
+  "tipCreatedQr" : "QR Code created",
+  "tipProgressOngoing": "Tipping {amount} using secure link...",
+  "@tipProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

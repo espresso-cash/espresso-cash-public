@@ -97,7 +97,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                   txWaitFailure: always(context.l10n.splitKeyErrorMessage2),
                   txLinksFailure: always(context.l10n.splitKeyErrorMessage2),
                   orElse: always(
-                    context.l10n.splitKeyProgressOngoing(
+                    context.l10n.tipProgressOngoing(
                       payment.amount.format(locale),
                     ),
                   ),
