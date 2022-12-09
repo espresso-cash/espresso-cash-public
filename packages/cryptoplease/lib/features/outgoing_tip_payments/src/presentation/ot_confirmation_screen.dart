@@ -16,8 +16,8 @@ import '../../../../ui/content_padding.dart';
 import '../../../../ui/info_widget.dart';
 import '../../../../ui/theme.dart';
 
-class OTPConfirmationScreen extends StatelessWidget {
-  const OTPConfirmationScreen({
+class OTConfirmationScreen extends StatelessWidget {
+  const OTConfirmationScreen({
     super.key,
     required this.tokenAmount,
     required this.fee,

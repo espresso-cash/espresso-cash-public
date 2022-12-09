@@ -22,14 +22,14 @@ class OTPVerifier {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
         void onSuccess(String txId) {
-          final newStatus = OutgoingTipStatus.success(txId: txId);
+          final newStatus = OTStatus.success(txId: txId);
           _repository.save(payment.copyWith(status: newStatus));
           _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);
         }
 
         final status = payment.status;
-        if (status is! OutgoingTipLinkReady) continue;
+        if (status is! OTLinkReady) continue;
 
         if (!_subscriptions.containsKey(payment.id)) {
           _subscriptions[payment.id] =

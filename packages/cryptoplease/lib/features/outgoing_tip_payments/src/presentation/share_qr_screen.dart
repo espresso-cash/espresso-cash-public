@@ -18,7 +18,7 @@ class ShareQRScreen extends StatelessWidget {
   }) : super(key: key);
 
   final CryptoAmount amount;
-  final OutgoingTipLinkReady status;
+  final OTLinkReady status;
 
   @override
   Widget build(BuildContext context) {

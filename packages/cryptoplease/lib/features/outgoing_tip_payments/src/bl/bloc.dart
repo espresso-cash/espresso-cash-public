@@ -79,7 +79,7 @@ class OTBloc extends Bloc<_Event, _State> {
 
     await _repository.save(payment);
 
-    if (status is OutgoingTipTxCreated) {
+    if (status is OTTxCreated) {
       add(OTEvent.process(payment.id));
     }
   }
@@ -95,7 +95,7 @@ class OTBloc extends Bloc<_Event, _State> {
 
     emit(state.add(payment.id));
 
-    final OutgoingTipStatus newStatus = await payment.status.map(
+    final OTStatus newStatus = await payment.status.map(
       txCreated: (status) => _sendTx(status.tx, escrow: status.escrow),
       txSent: (status) => _waitTx(status.tx, escrow: status.escrow),
       txConfirmed: (status) => _createLink(
@@ -130,7 +130,7 @@ class OTBloc extends Bloc<_Event, _State> {
     );
   }
 
-  Future<OutgoingTipStatus> _createTx(Amount amount) async {
+  Future<OTStatus> _createTx(Amount amount) async {
     try {
       final escrowAccount = await Ed25519HDKeyPair.random();
 
@@ -147,40 +147,40 @@ class OTBloc extends Bloc<_Event, _State> {
           .then(SignedTx.decode)
           .then((it) => it.resign(_account));
 
-      return OutgoingTipStatus.txCreated(tx, escrow: escrowAccount);
+      return OTStatus.txCreated(tx, escrow: escrowAccount);
     } on Exception {
-      return const OutgoingTipStatus.txFailure();
+      return const OTStatus.txFailure();
     }
   }
 
-  Future<OutgoingTipStatus> _sendTx(
+  Future<OTStatus> _sendTx(
     SignedTx tx, {
     required Ed25519HDKeyPair escrow,
   }) async {
     final result = await _txSender.send(tx);
 
     return result.map(
-      sent: (_) => OutgoingTipStatus.txSent(tx, escrow: escrow),
-      invalidBlockhash: (_) => const OutgoingTipStatus.txFailure(),
-      failure: (it) => OutgoingTipStatus.txFailure(reason: it.reason),
-      networkError: (_) => OutgoingTipStatus.txSendFailure(tx, escrow: escrow),
+      sent: (_) => OTStatus.txSent(tx, escrow: escrow),
+      invalidBlockhash: (_) => const OTStatus.txFailure(),
+      failure: (it) => OTStatus.txFailure(reason: it.reason),
+      networkError: (_) => OTStatus.txSendFailure(tx, escrow: escrow),
     );
   }
 
-  Future<OutgoingTipStatus> _waitTx(
+  Future<OTStatus> _waitTx(
     SignedTx tx, {
     required Ed25519HDKeyPair escrow,
   }) async {
     final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => OutgoingTipStatus.txConfirmed(escrow: escrow),
-      failure: (_) => const OutgoingTipStatus.txFailure(),
-      networkError: (_) => OutgoingTipStatus.txWaitFailure(tx, escrow: escrow),
+      success: (_) => OTStatus.txConfirmed(escrow: escrow),
+      failure: (_) => const OTStatus.txFailure(),
+      networkError: (_) => OTStatus.txWaitFailure(tx, escrow: escrow),
     );
   }
 
-  Future<OutgoingTipStatus> _createLink({
+  Future<OTStatus> _createLink({
     required Ed25519HDKeyPair escrow,
     required Token token,
   }) async {
@@ -192,7 +192,7 @@ class OTBloc extends Bloc<_Event, _State> {
       token: token.publicKey,
     ).toUri();
 
-    return OutgoingTipStatus.linkReady(
+    return OTStatus.linkReady(
       link: link,
       escrow: escrow,
     );

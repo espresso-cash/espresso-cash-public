@@ -30,9 +30,9 @@ class PendingActivitiesRepository {
       ..where((tbl) => tbl.status.equalsValue(ODPStatusDto.success).not());
     final oskp = _db.select(_db.oSKPRows)
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.success).not());
-    final otp = _db.select(_db.outgoingTipRows)
+    final otp = _db.select(_db.oTRows)
       ..where(
-        (tbl) => tbl.status.equalsValue(OutgoingTipStatusDto.success).not(),
+        (tbl) => tbl.status.equalsValue(OTStatusDto.success).not(),
       );
 
     final oprStream =

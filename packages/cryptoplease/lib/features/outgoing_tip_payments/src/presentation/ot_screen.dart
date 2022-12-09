@@ -42,11 +42,11 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
     _shareLinksSubscription = repository
         .watch(widget.id)
         .skip(1)
-        .where((payment) => payment?.status is OutgoingTipLinkReady)
+        .where((payment) => payment?.status is OTLinkReady)
         .listen((payment) {
       if (payment == null) throw StateError('Payment is null');
 
-      final status = payment.status as OutgoingTipLinkReady;
+      final status = payment.status as OTLinkReady;
 
       context.router.push(ShareQRRoute(amount: payment.amount, status: status));
       _shareLinksSubscription?.cancel();

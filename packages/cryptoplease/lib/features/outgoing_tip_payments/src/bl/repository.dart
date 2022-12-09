@@ -23,37 +23,34 @@ class OTRepository {
   final TokenList _tokens;
 
   Future<OutgoingTipPayment?> load(String id) {
-    final query = _db.select(_db.outgoingTipRows)
-      ..where((p) => p.id.equals(id));
+    final query = _db.select(_db.oTRows)..where((p) => p.id.equals(id));
 
     return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
   }
 
-  Future<void> save(OutgoingTipPayment payment) async => _db
-      .into(_db.outgoingTipRows)
-      .insertOnConflictUpdate(await payment.toDto());
+  Future<void> save(OutgoingTipPayment payment) async =>
+      _db.into(_db.oTRows).insertOnConflictUpdate(await payment.toDto());
 
   Stream<OutgoingTipPayment?> watch(String id) {
-    final query = _db.select(_db.outgoingTipRows)
-      ..where((p) => p.id.equals(id));
+    final query = _db.select(_db.oTRows)..where((p) => p.id.equals(id));
 
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel(_tokens));
   }
 
   Stream<List<OutgoingTipPayment>> watchWithReadyLinks() {
-    final query = _db.select(_db.outgoingTipRows)
-      ..where((p) => p.status.equalsValue(OutgoingTipStatusDto.linkReady));
+    final query = _db.select(_db.oTRows)
+      ..where((p) => p.status.equalsValue(OTStatusDto.linkReady));
 
     return query.watch().asyncMap(
           (rows) => Future.wait(rows.map((row) => row.toModel(_tokens))),
         );
   }
 
-  Future<void> clear() => _db.delete(_db.outgoingTipRows).go();
+  Future<void> clear() => _db.delete(_db.oTRows).go();
 }
 
-class OutgoingTipRows extends Table with AmountMixin, EntityMixin {
-  IntColumn get status => intEnum<OutgoingTipStatusDto>()();
+class OTRows extends Table with AmountMixin, EntityMixin {
+  IntColumn get status => intEnum<OTStatusDto>()();
 
   // Status fields
   TextColumn get tx => text().nullable()();
@@ -63,7 +60,7 @@ class OutgoingTipRows extends Table with AmountMixin, EntityMixin {
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
 }
 
-enum OutgoingTipStatusDto {
+enum OTStatusDto {
   txCreated,
   txSent,
   txConfirmed,
@@ -75,7 +72,7 @@ enum OutgoingTipStatusDto {
   txLinksFailure,
 }
 
-extension OutgoingTipRowExt on OutgoingTipRow {
+extension OutgoingTipRowExt on OTRow {
   Future<OutgoingTipPayment> toModel(TokenList tokens) async =>
       OutgoingTipPayment(
         id: id,
@@ -88,8 +85,8 @@ extension OutgoingTipRowExt on OutgoingTipRow {
       );
 }
 
-extension on OutgoingTipStatusDto {
-  Future<OutgoingTipStatus> toOutgoingTipStatus(OutgoingTipRow row) async {
+extension on OTStatusDto {
+  Future<OTStatus> toOutgoingTipStatus(OTRow row) async {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
     final escrow = await row.privateKey
@@ -98,39 +95,39 @@ extension on OutgoingTipStatusDto {
     final link1 = row.link?.let(Uri.parse);
 
     switch (this) {
-      case OutgoingTipStatusDto.txCreated:
-        return OutgoingTipStatus.txCreated(tx!, escrow: escrow!);
-      case OutgoingTipStatusDto.txSent:
-        return OutgoingTipStatus.txSent(
+      case OTStatusDto.txCreated:
+        return OTStatus.txCreated(tx!, escrow: escrow!);
+      case OTStatusDto.txSent:
+        return OTStatus.txSent(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
         );
-      case OutgoingTipStatusDto.txConfirmed:
-        return OutgoingTipStatus.txConfirmed(escrow: escrow!);
-      case OutgoingTipStatusDto.linkReady:
-        return OutgoingTipStatus.linkReady(
+      case OTStatusDto.txConfirmed:
+        return OTStatus.txConfirmed(escrow: escrow!);
+      case OTStatusDto.linkReady:
+        return OTStatus.linkReady(
           link: link1!,
           escrow: escrow!,
         );
-      case OutgoingTipStatusDto.success:
-        return OutgoingTipStatus.success(txId: txId!);
-      case OutgoingTipStatusDto.txFailure:
-        return OutgoingTipStatus.txFailure(reason: row.txFailureReason);
-      case OutgoingTipStatusDto.txSendFailure:
-        return OutgoingTipStatus.txSendFailure(tx!, escrow: escrow!);
-      case OutgoingTipStatusDto.txWaitFailure:
-        return OutgoingTipStatus.txWaitFailure(
+      case OTStatusDto.success:
+        return OTStatus.success(txId: txId!);
+      case OTStatusDto.txFailure:
+        return OTStatus.txFailure(reason: row.txFailureReason);
+      case OTStatusDto.txSendFailure:
+        return OTStatus.txSendFailure(tx!, escrow: escrow!);
+      case OTStatusDto.txWaitFailure:
+        return OTStatus.txWaitFailure(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
         );
-      case OutgoingTipStatusDto.txLinksFailure:
-        return OutgoingTipStatus.txLinksFailure(escrow: escrow!);
+      case OTStatusDto.txLinksFailure:
+        return OTStatus.txLinksFailure(escrow: escrow!);
     }
   }
 }
 
 extension on OutgoingTipPayment {
-  Future<OutgoingTipRow> toDto() async => OutgoingTipRow(
+  Future<OTRow> toDto() async => OTRow(
         amount: amount.value,
         token: amount.currency.token.address,
         id: id,
@@ -144,17 +141,17 @@ extension on OutgoingTipPayment {
       );
 }
 
-extension on OutgoingTipStatus {
-  OutgoingTipStatusDto toDto() => this.map(
-        txCreated: always(OutgoingTipStatusDto.txCreated),
-        txSent: always(OutgoingTipStatusDto.txSent),
-        txConfirmed: always(OutgoingTipStatusDto.txConfirmed),
-        linkReady: always(OutgoingTipStatusDto.linkReady),
-        success: always(OutgoingTipStatusDto.success),
-        txFailure: always(OutgoingTipStatusDto.txFailure),
-        txSendFailure: always(OutgoingTipStatusDto.txSendFailure),
-        txWaitFailure: always(OutgoingTipStatusDto.txWaitFailure),
-        txLinksFailure: always(OutgoingTipStatusDto.txLinksFailure),
+extension on OTStatus {
+  OTStatusDto toDto() => this.map(
+        txCreated: always(OTStatusDto.txCreated),
+        txSent: always(OTStatusDto.txSent),
+        txConfirmed: always(OTStatusDto.txConfirmed),
+        linkReady: always(OTStatusDto.linkReady),
+        success: always(OTStatusDto.success),
+        txFailure: always(OTStatusDto.txFailure),
+        txSendFailure: always(OTStatusDto.txSendFailure),
+        txWaitFailure: always(OTStatusDto.txWaitFailure),
+        txLinksFailure: always(OTStatusDto.txLinksFailure),
       );
 
   String? toTx() => mapOrNull(

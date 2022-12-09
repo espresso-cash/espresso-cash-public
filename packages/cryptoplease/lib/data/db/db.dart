@@ -31,8 +31,8 @@ const _tables = [
   OSKPRows,
   ISKPRows,
   TransactionRows,
-  OutgoingTipRows,
-  IncomingTipRows,
+  OTRows,
+  ITRows,
 ];
 
 @lazySingleton
@@ -88,8 +88,8 @@ class MyDatabase extends _$MyDatabase {
           }
 
           if (from < 21) {
-            await m.createTable(outgoingTipRows);
-            await m.createTable(incomingTipRows);
+            await m.createTable(oTRows);
+            await m.createTable(iTRows);
           }
         },
       );

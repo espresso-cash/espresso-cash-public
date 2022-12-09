@@ -29,7 +29,7 @@ extension OSKPRowToActivityExt on OSKPRow {
       );
 }
 
-extension OTRowToActivityExt on OutgoingTipRow {
+extension OTRowToActivityExt on OTRow {
   Future<Activity> toActivity(TokenList tokens) async =>
       Activity.outgoingTipPayment(
         id: id,

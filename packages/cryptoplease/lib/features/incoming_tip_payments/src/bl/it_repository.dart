@@ -19,27 +19,24 @@ class ITRepository {
   final MyDatabase _db;
 
   Future<IncomingTipPayment?> load(String id) {
-    final query = _db.select(_db.incomingTipRows)
-      ..where((p) => p.id.equals(id));
+    final query = _db.select(_db.iTRows)..where((p) => p.id.equals(id));
 
     return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
   Stream<IncomingTipPayment?> watch(String id) {
-    final query = _db.select(_db.incomingTipRows)
-      ..where((p) => p.id.equals(id));
+    final query = _db.select(_db.iTRows)..where((p) => p.id.equals(id));
 
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
   }
 
-  Future<void> save(IncomingTipPayment payment) async => _db
-      .into(_db.incomingTipRows)
-      .insertOnConflictUpdate(await payment.toDto());
+  Future<void> save(IncomingTipPayment payment) async =>
+      _db.into(_db.iTRows).insertOnConflictUpdate(await payment.toDto());
 
-  Future<void> clear() => _db.delete(_db.incomingTipRows).go();
+  Future<void> clear() => _db.delete(_db.iTRows).go();
 }
 
-class IncomingTipRows extends Table with EntityMixin {
+class ITRows extends Table with EntityMixin {
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ITStatusDto>()();
 
@@ -59,7 +56,7 @@ enum ITStatusDto {
   txEscrowFailure,
 }
 
-extension on IncomingTipRow {
+extension on ITRow {
   Future<IncomingTipPayment> toModel() async {
     final escrow = await privateKey
         .let(base58decode)
@@ -75,7 +72,7 @@ extension on IncomingTipRow {
 }
 
 extension on ITStatusDto {
-  ITStatus toModel(IncomingTipRow row) {
+  ITStatus toModel(ITRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
 
@@ -101,7 +98,7 @@ extension on ITStatusDto {
 }
 
 extension on IncomingTipPayment {
-  Future<IncomingTipRow> toDto() async => IncomingTipRow(
+  Future<ITRow> toDto() async => ITRow(
         id: id,
         created: created,
         privateKey:

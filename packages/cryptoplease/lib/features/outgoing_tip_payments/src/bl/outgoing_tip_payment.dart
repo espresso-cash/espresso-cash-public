@@ -14,7 +14,7 @@ class OutgoingTipPayment with _$OutgoingTipPayment {
     required String id,
     required CryptoAmount amount,
     required DateTime created,
-    required OutgoingTipStatus status,
+    required OTStatus status,
   }) = _OutgoingTipPayment;
 
   const OutgoingTipPayment._();
@@ -29,44 +29,43 @@ class OutgoingTipPayment with _$OutgoingTipPayment {
 }
 
 @freezed
-class OutgoingTipStatus with _$OutgoingTipStatus {
-  const factory OutgoingTipStatus.txCreated(
+class OTStatus with _$OTStatus {
+  const factory OTStatus.txCreated(
     SignedTx tx, {
     required Ed25519HDKeyPair escrow,
-  }) = OutgoingTipTxCreated;
+  }) = OTTxCreated;
 
-  const factory OutgoingTipStatus.txSent(
+  const factory OTStatus.txSent(
     SignedTx tx, {
     required Ed25519HDKeyPair escrow,
-  }) = OutgoingTipTxSent;
+  }) = OTTxSent;
 
-  const factory OutgoingTipStatus.txConfirmed({
+  const factory OTStatus.txConfirmed({
     required Ed25519HDKeyPair escrow,
-  }) = OutgoingTipTxConfirmed;
+  }) = OTTxConfirmed;
 
-  const factory OutgoingTipStatus.linkReady({
+  const factory OTStatus.linkReady({
     required Uri link,
     required Ed25519HDKeyPair escrow,
-  }) = OutgoingTipLinkReady;
+  }) = OTLinkReady;
 
-  const factory OutgoingTipStatus.success({
+  const factory OTStatus.success({
     required String txId,
-  }) = OutgoingTipSuccess;
+  }) = OTSuccess;
 
-  const factory OutgoingTipStatus.txFailure({TxFailureReason? reason}) =
-      OutgoingTipTxFailure;
+  const factory OTStatus.txFailure({TxFailureReason? reason}) = OTTxFailure;
 
-  const factory OutgoingTipStatus.txSendFailure(
+  const factory OTStatus.txSendFailure(
     SignedTx tx, {
     required Ed25519HDKeyPair escrow,
-  }) = OutgoingTipTxSendFailure;
+  }) = OTTxSendFailure;
 
-  const factory OutgoingTipStatus.txWaitFailure(
+  const factory OTStatus.txWaitFailure(
     SignedTx tx, {
     required Ed25519HDKeyPair escrow,
-  }) = OutgoingTipTxWaitFailure;
+  }) = OTTxWaitFailure;
 
-  const factory OutgoingTipStatus.txLinksFailure({
+  const factory OTStatus.txLinksFailure({
     required Ed25519HDKeyPair escrow,
-  }) = OutgoingTipTxLinksFailure;
+  }) = OTTxLinksFailure;
 }

@@ -6,6 +6,6 @@ import 'src/presentation/share_qr_screen.dart';
 
 const outgoingTipRoutes = [
   AutoRoute<void>(page: OutgoingTipScreen),
-  AutoRoute<void>(page: OTPConfirmationScreen),
+  AutoRoute<void>(page: OTConfirmationScreen),
   AutoRoute<void>(page: ShareQRScreen),
 ];

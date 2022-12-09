@@ -140,7 +140,7 @@ class _State extends State<WalletFlowScreen> {
     }
 
     context.router.push(
-      OTPConfirmationRoute(
+      OTConfirmationRoute(
         tokenAmount: _amount,
         // TODO(KB): do not hardcode
         fee: Amount.fromDecimal(
