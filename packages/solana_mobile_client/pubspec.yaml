@@ -1,6 +1,6 @@
 name: solana_mobile_client
 description: A reference implementation of the Mobile Wallet Adapter (Client) specification for Flutter.
-version: 0.0.2
+version: 0.0.3
 repository: https://github.com/cryptoplease/cryptoplease-dart/tree/master/packages/solana_mobile_client
 issue_tracker: https://github.com/cryptoplease/cryptoplease-dart/issues
 
