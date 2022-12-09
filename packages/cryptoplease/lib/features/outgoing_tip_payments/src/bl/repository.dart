@@ -37,7 +37,7 @@ class OTRepository {
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel(_tokens));
   }
 
-  Stream<List<OutgoingTipPayment>> watchWithReadyLinks() {
+  Stream<List<OutgoingTipPayment>> watchWithReadyLink() {
     final query = _db.select(_db.oTRows)
       ..where((p) => p.status.equalsValue(OTStatusDto.linkReady));
 

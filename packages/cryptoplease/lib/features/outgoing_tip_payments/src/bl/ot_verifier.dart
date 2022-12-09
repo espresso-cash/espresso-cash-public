@@ -19,7 +19,7 @@ class OTVerifier {
   StreamSubscription<void>? _repoSubscription;
 
   void init() {
-    _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
+    _repoSubscription = _repository.watchWithReadyLink().listen((payments) {
       for (final payment in payments) {
         void onSuccess(String txId) {
           final newStatus = OTStatus.success(txId: txId);
