@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
@@ -33,11 +34,24 @@ class MarketDetailsRepository {
           .mapAsync(
             (responses) => responses
                 .map(
-                  (r) => r.symbol
-                      ?.let(_tokenList.findTokenBySymbol)
+                  (r) => r
+                      .toToken(_tokenList)
                       ?.let((t) => MapEntry(t, r.currentPrice ?? 0)),
                 )
                 .compact(),
           )
           .mapAsync(IMap.fromEntries);
+}
+
+extension on MarketsResponseDto {
+  Token? toToken(TokenList tokenList) {
+    final id = this.id;
+    final symbol = this.symbol;
+
+    if (id == null) return null;
+
+    return tokenList.tokens.firstWhereOrNull(
+      (t) => t.symbol.toLowerCase() == symbol && t.coingeckoId == id,
+    );
+  }
 }
