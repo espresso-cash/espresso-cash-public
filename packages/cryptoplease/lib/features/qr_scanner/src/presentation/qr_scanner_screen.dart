@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +12,7 @@ import '../../../../ui/button.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
 import '../bl/qr_scanner_bloc.dart';
+import '../qr_scanner_flow.dart';
 import 'qr_scanner_background.dart';
 
 class QrScannerScreen extends StatelessWidget {
@@ -69,31 +69,25 @@ class _ContentState extends State<_Content> {
       initial: (_) {},
       done: (d) {
         _qrViewController.stop();
-        context.router.pop(d.request);
+        context.read<QrScannerFlow>().onScanComplete(d.request);
       },
       error: (_) {
         _qrViewController.stop();
         _onQRScanError();
 
-        context.router.pop();
+        context.read<QrScannerFlow>().onClose();
       },
     );
   }
 
   void _onCloseButtonPressed() {
     _qrViewController.stop();
-    context.router.pop();
+    context.read<QrScannerFlow>().onClose();
   }
 
   Future<void> _onPermissionSet(bool allowed) async {
     if (!allowed) {
-      await showWarningDialog(
-        context,
-        title: context.l10n.cameraPermissionsTitle,
-        message: context.l10n.cameraPermissionsContent,
-      );
-
-      await context.router.pop();
+      context.read<QrScannerFlow>().onCameraPermissionFailure();
     }
   }
 
@@ -103,6 +97,9 @@ class _ContentState extends State<_Content> {
       context.read<QrScannerBloc>().add(QrScannerEvent.received(code));
     }
   }
+
+  void _onManualInputRequested() =>
+      context.read<QrScannerFlow>().onManualInputRequested();
 
   @override
   Widget build(BuildContext _) => BlocListener<QrScannerBloc, QrScannerState>(
@@ -123,10 +120,6 @@ class _ContentState extends State<_Content> {
                       onPermissionSet: _onPermissionSet,
                     ),
                   ),
-                  CpButton(
-                    text: 'Input address',
-                    onPressed: _onManuallyInput,
-                  ),
                   Align(
                     alignment: const Alignment(0, -0.7),
                     child: GestureDetector(
@@ -134,6 +127,16 @@ class _ContentState extends State<_Content> {
                       child: _flashStatus
                           ? Assets.images.flashOn.svg()
                           : Assets.images.flashOff.svg(),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: CpButton(
+                        text: 'Let me type!',
+                        onPressed: _onManualInputRequested,
+                      ),
                     ),
                   ),
                   Align(
