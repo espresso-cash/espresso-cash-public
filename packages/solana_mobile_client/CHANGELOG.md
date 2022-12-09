@@ -1,3 +1,7 @@
+## 0.0.3
+
+ - **FEAT**: update library to 1.0.0 (#647).
+
 ## 0.0.2
 
  - **FEAT**: add signTransactions.
