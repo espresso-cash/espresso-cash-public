@@ -9,6 +9,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../ui/button.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
 import '../bl/qr_scanner_bloc.dart';
@@ -121,6 +122,10 @@ class _ContentState extends State<_Content> {
                       onDetect: _onDetected,
                       onPermissionSet: _onPermissionSet,
                     ),
+                  ),
+                  CpButton(
+                    text: 'Input address',
+                    onPressed: _onManuallyInput,
                   ),
                   Align(
                     alignment: const Alignment(0, -0.7),
