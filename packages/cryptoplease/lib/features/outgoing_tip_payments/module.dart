@@ -10,6 +10,7 @@ import '../../core/analytics/analytics_manager.dart';
 import '../../di.dart';
 import 'src/bl/bloc.dart';
 
+export 'src/bl/ot_verifier.dart';
 export 'src/bl/outgoing_tip_payment.dart';
 export 'src/bl/outgoing_tip_verifier.dart';
 export 'src/bl/repository.dart';
