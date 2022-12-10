@@ -1,11 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/tip_payments.dart';
-import '../../module.dart';
+import '../../../../di.dart';
+import '../../../../routes.gr.dart';
+import '../bl/it_bloc.dart';
 
 class TipLinkListener extends StatefulWidget {
   const TipLinkListener({super.key, required this.child});
@@ -24,13 +30,27 @@ class _TipLinkListenerState extends State<TipLinkListener> {
       final tip = TipPaymentData.tryParse(link);
 
       if (tip != null) {
-        context.processIT(tip);
+        _processIncomingTip(tip);
 
         return true;
       }
 
       return false;
     });
+  }
+
+  Future<void> _processIncomingTip(TipPaymentData tipPayment) async {
+    final key = tipPayment.key;
+
+    final escrow = await walletFromKey(encodedKey: key);
+
+    final id = const Uuid().v4();
+
+    sl<AnalyticsManager>().tipLinkReceived();
+
+    if (!mounted) return;
+    context.read<ITBloc>().add(ITEvent.create(escrow, id: id));
+    await context.router.push(IncomingTipRoute(id: id));
   }
 
   @override

@@ -12,7 +12,6 @@ import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/tab_bar.dart';
 import '../../../../ui/usdc_info.dart';
-import 'wallet_flow_screen.dart';
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({
@@ -216,3 +215,5 @@ extension on WalletOperation {
     }
   }
 }
+
+enum WalletOperation { pay, request, tip }

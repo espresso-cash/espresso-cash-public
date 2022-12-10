@@ -204,5 +204,3 @@ class _State extends State<WalletFlowScreen> {
         ),
       );
 }
-
-enum WalletOperation { pay, request, tip }
