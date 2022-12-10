@@ -38,7 +38,7 @@ dependencies:
   freezed_annotation: ^2.1.0
   get_it: ^7.2.0
   http: ^0.13.5
-  image_picker: ^0.8.5+3
+  image_picker: ^0.8.6
   injectable: ^1.5.4
   intercom_flutter: ^7.6.0
   intl: ^0.17.0
