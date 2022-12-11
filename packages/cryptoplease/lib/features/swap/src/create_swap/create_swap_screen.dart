@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/presentation/format_amount.dart';
-import '../../../../features/swap/bl/route.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/number_formatter.dart';
-import 'components/available_balance.dart';
+import '../route.dart';
+import 'available_balance.dart';
 import 'components/display_header.dart';
 import 'components/equivalent_header.dart';
 import 'components/route_duration_wrapper.dart';
@@ -172,7 +172,7 @@ class _Button extends StatelessWidget {
         mechanics: CpButtonMechanics.pressAndHold,
         width: double.infinity,
         size: CpButtonSize.big,
-        onPressed: countdown != null ? onSubmit : ignore,
+        onPressed: countdown != null ? onSubmit : null,
       ),
     );
   }

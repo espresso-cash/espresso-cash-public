@@ -8,16 +8,16 @@ import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../di.dart';
-import '../../../../features/swap/bl/create_swap/bloc.dart';
-import '../../../../features/swap/bl/create_swap/operation.dart';
-import '../../../../features/swap/bl/route.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
 import 'components/swap_exception_dialog.dart';
-import 'create_swap_screen.dart';
+import 'create_swap/bloc.dart';
+import 'create_swap/create_swap_screen.dart';
+import 'create_swap/operation.dart';
+import 'route.dart';
 
 class SwapFlowScreen extends StatefulWidget {
   const SwapFlowScreen({

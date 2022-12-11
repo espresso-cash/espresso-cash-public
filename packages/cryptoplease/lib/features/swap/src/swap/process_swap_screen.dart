@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../di.dart';
-import '../../../../features/swap/bl/route.dart';
-import '../../../../features/swap/bl/swap.dart';
-import '../../../../features/swap/bl/swap/swap_bloc.dart';
-import '../../../../features/swap/bl/swap/swap_repository.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
+import '../route.dart';
+import '../swap.dart';
+import 'swap_bloc.dart';
+import 'swap_repository.dart';
 
 class ProcessSwapScreen extends StatefulWidget {
   const ProcessSwapScreen({

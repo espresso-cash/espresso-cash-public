@@ -7,7 +7,7 @@ import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
 import '../../features/payment_request/module.dart';
-import '../../features/swap/bl/swap/swap_repository.dart';
+import '../../features/swap/module.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';

@@ -1,9 +1,9 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../core/currency.dart';
-import '../../../../core/tokens/token.dart';
+import '../../../../../core/amount.dart';
+import '../../../../../core/currency.dart';
+import '../../../../../core/tokens/token.dart';
 import '../route.dart';
 
 @injectable

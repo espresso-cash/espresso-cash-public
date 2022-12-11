@@ -1,10 +1,10 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/presentation/format_amount.dart';
-import '../../../../../features/swap/bl/create_swap/bloc.dart';
-import '../../../../../l10n/device_locale.dart';
-import '../../../../../l10n/l10n.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
+import '../create_swap/bloc.dart';
 
 void showSwapExceptionDialog(
   BuildContext context,

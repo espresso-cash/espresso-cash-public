@@ -8,6 +8,7 @@ import '../../../features/outgoing_split_key_payments/routes.dart';
 import '../../../features/payment_request/routes.dart';
 import '../../../features/qr_scanner/routes.dart';
 import '../../../features/ramp/routes.dart';
+import '../../../features/swap/module.dart';
 import '../../../features/token_details/token_details_screen.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
@@ -17,7 +18,6 @@ import 'profile/edit_profile_screen.dart';
 import 'profile/help_screen.dart';
 import 'profile/menu_screen.dart';
 import 'profile/profile_screen.dart';
-import 'swap_flow/routes.dart';
 import 'wallet_flow/wallet_flow_screen.dart';
 
 const authenticatedFlowRoutes = AutoRoute<dynamic>(

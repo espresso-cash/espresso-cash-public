@@ -8,7 +8,10 @@ import '../../core/accounts/bl/account.dart';
 import '../../core/tokens/token.dart';
 import '../../di.dart';
 import '../../routes.gr.dart';
-import 'bl/swap/swap_bloc.dart';
+import 'src/swap/swap_bloc.dart';
+
+export 'src/routes.dart';
+export 'src/swap/swap_repository.dart';
 
 extension BuyTokenExt on BuildContext {
   void navigateToBuyToken(Token token) => navigateTo(

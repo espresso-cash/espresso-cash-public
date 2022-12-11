@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../core/amount.dart';
+import '../../../../core/amount.dart';
 
 part 'route.freezed.dart';
 
