@@ -215,6 +215,8 @@ extension on CreateSwapState {
           input: always(const SwapEditingMode.output()),
           output: always(const SwapEditingMode.input()),
         ),
+        inputAmount: inputAmount.copyWithDecimal(outputAmount.decimal),
+        outputAmount: outputAmount.copyWithDecimal(inputAmount.decimal),
       );
 }
 
