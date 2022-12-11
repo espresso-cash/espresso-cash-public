@@ -62,31 +62,6 @@ class _FlowState extends State<SwapFlowScreen> {
     super.dispose();
   }
 
-  void _onSubmit() {
-    const event = CreateSwapEvent.submitted();
-    createSwapBloc.add(event);
-  }
-
-  void _onSlippageUpdate(Slippage value) {
-    final event = CreateSwapEvent.slippageUpdated(value);
-    createSwapBloc.add(event);
-  }
-
-  void _onEditingModeToggled() {
-    const event = CreateSwapEvent.editingModeToggled();
-    createSwapBloc.add(event);
-  }
-
-  void _onAmountUpdate(Decimal value) {
-    final event = CreateSwapEvent.amountUpdated(value);
-    createSwapBloc.add(event);
-  }
-
-  void _onRouteExpired() {
-    const event = CreateSwapEvent.routeInvalidated();
-    createSwapBloc.add(event);
-  }
-
   void _onSwapException(CreateSwapException e) => showSwapExceptionDialog(
         context,
         context.l10n.swapErrorTitle,
@@ -99,14 +74,14 @@ class _FlowState extends State<SwapFlowScreen> {
 
   @override
   Widget build(BuildContext context) =>
-      BlocConsumer<CreateSwapBloc, CreateSwapState>(
+      BlocListener<CreateSwapBloc, CreateSwapState>(
         bloc: createSwapBloc,
         listenWhen: (prev, cur) => prev.flowState != cur.flowState,
         listener: (context, state) => state.flowState.whenOrNull(
           failure: _onSwapException,
           success: _onRouteReady,
         ),
-        builder: (context, state) => AnnotatedRegion(
+        child: AnnotatedRegion(
           value: SystemUiOverlayStyle.light.copyWith(
             statusBarBrightness: Brightness.dark,
           ),
@@ -116,23 +91,16 @@ class _FlowState extends State<SwapFlowScreen> {
               appBar: CpAppBar(
                 leading: const CloseButton(),
                 title: Text(
-                  operation.title(context, state.input, state.output),
+                  operation.title(
+                    context,
+                    widget.inputToken,
+                    widget.outputToken,
+                  ),
                 ),
               ),
-              body: CreateSwapScreen(
-                inputAmount: state.inputAmount,
-                outputAmount: state.outputAmount,
-                displayAmount: state.requestAmount,
-                fee: state.fee,
-                slippage: state.slippage,
-                routeFetchedAt: state.fetchedAt,
-                maxAmountAvailable: createSwapBloc.calculateMaxAmount(),
-                isLoadingRoute: state.flowState.isProcessing(),
-                onSlippageChanged: _onSlippageUpdate,
-                onAmountChanged: _onAmountUpdate,
-                onSubmit: _onSubmit,
-                onEditingModeToggled: _onEditingModeToggled,
-                onRouteExpired: _onRouteExpired,
+              body: BlocProvider<CreateSwapBloc>.value(
+                value: createSwapBloc,
+                child: const CreateSwapScreen(),
               ),
             ),
           ),
