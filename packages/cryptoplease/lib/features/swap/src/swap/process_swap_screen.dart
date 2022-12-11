@@ -6,8 +6,8 @@ import '../../../../di.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
-import '../route.dart';
 import '../swap.dart';
+import '../swap_route.dart';
 import 'swap_bloc.dart';
 import 'swap_repository.dart';
 

@@ -1,4 +1,4 @@
-part of 'bloc.dart';
+part of 'create_swap_bloc.dart';
 
 @freezed
 class CreateSwapEvent with _$CreateSwapEvent {

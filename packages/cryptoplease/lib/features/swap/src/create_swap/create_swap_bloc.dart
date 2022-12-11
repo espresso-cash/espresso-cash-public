@@ -14,12 +14,12 @@ import '../../../../../core/analytics/analytics_manager.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../core/flow.dart';
 import '../../../../../core/tokens/token.dart';
-import '../route.dart';
+import '../swap_route.dart';
 import 'route_repository.dart';
 
-part 'bloc.freezed.dart';
-part 'event.dart';
-part 'state.dart';
+part 'create_swap_bloc.freezed.dart';
+part 'create_swap_event.dart';
+part 'create_swap_state.dart';
 
 typedef _Event = CreateSwapEvent;
 typedef _State = CreateSwapState;
@@ -65,7 +65,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     on<RouteInvalidated>(
       _onRouteInvalidated,
       transformer: (events, mapper) => events
-          .debounceTime(const Duration(milliseconds: 300))
+          .debounceTime(const Duration(milliseconds: 500))
           .switchMap(mapper),
     );
   }

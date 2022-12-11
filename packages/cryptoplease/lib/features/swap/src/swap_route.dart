@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/amount.dart';
 
-part 'route.freezed.dart';
+part 'swap_route.freezed.dart';
 
 enum Slippage { zpOne, zpFive, onePercent }
 

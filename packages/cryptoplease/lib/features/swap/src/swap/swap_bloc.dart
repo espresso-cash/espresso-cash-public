@@ -9,8 +9,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import '../route.dart';
 import '../swap.dart';
+import '../swap_route.dart';
 import 'swap_repository.dart';
 
 part 'swap_bloc.freezed.dart';
