@@ -45,19 +45,19 @@ class MarketDetailsRepository {
 extension on MarketsResponseDto {
   Token toToken(TokenList tokenList) {
     final id = this.id;
-    final symbol = this.symbol;
+    final symbol = this.symbol?.toLowerCase();
 
-    if (id == null) return _fromCoingecko();
+    if (id == null) return _createStubToken();
     if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
 
     return tokenList.tokens
         .singleWhereOrNull(
           (t) => t.symbol.toLowerCase() == symbol && t.coingeckoId == id,
         )
-        .ifNull(_fromCoingecko);
+        .ifNull(_createStubToken);
   }
 
-  Token _fromCoingecko() => Token(
+  Token _createStubToken() => Token(
         chainId: currentChainId,
         address: '',
         symbol: symbol?.toUpperCase() ?? '',

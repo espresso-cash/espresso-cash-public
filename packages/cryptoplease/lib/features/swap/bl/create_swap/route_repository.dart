@@ -9,23 +9,10 @@ import '../route.dart';
 @injectable
 class RouteRepository {
   RouteRepository({
-    required JupiterAggregatorClient jupiterAggregatorClient,
     required CryptopleaseClient cryptopleaseClient,
-  })  : _jupiterClient = jupiterAggregatorClient,
-        _cpClient = cryptopleaseClient;
+  }) : _cpClient = cryptopleaseClient;
 
-  final JupiterAggregatorClient _jupiterClient;
   final CryptopleaseClient _cpClient;
-
-  Future<bool> routeExists(Token input, Token output) async {
-    const dto = IndexedRouteMapRequestDto();
-    final routeMap = await _jupiterClient.getIndexedRouteMap(dto);
-    final mintKeys = routeMap.mintKeys;
-    final outputIndex = mintKeys.indexOf(output.forJupiter.address);
-    final inputIndex = mintKeys.indexOf(input.forJupiter.address).toString();
-
-    return routeMap.indexedRouteMap[inputIndex]?.contains(outputIndex) ?? false;
-  }
 
   Future<SwapRoute> findRoute({
     required CryptoAmount amount,

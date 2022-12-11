@@ -53,9 +53,13 @@ class _FlowState extends State<SwapFlowScreen> {
         userAccount: context.read<MyAccount>().wallet.publicKey,
       ),
       param2: context.read<BalancesBloc>().state.balances,
-    )..add(
-        const CreateSwapEvent.initialized(),
-      );
+    );
+  }
+
+  @override
+  void dispose() {
+    createSwapBloc.close();
+    super.dispose();
   }
 
   void _onSubmit() {

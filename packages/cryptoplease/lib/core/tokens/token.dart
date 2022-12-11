@@ -84,7 +84,7 @@ class _SolanaToken extends Token {
           chainId: currentChainId,
           tags: const [],
           decimals: 9,
-          name: 'SOL',
+          name: 'Solana',
           symbol: 'SOL',
         );
 }
