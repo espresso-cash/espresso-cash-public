@@ -53,7 +53,7 @@ class TransactionRepository {
     if (pr != null) return pr;
 
     final odp = await _db.oDPRows.findActivityOrNull(
-      (row) => row.id.equals(txId),
+      (row) => row.txId.equals(txId),
       (pr) => pr.toActivity(_tokens),
     );
     if (odp != null) return odp;
