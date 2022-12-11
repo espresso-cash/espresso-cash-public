@@ -33,13 +33,11 @@ class MarketDetailsRepository {
           )
           .toEither()
           .mapAsync(
-            (responses) => responses
-                .map(
-                  (r) => r
-                      .toToken(_tokenList)
-                      .let((t) => MapEntry(t, r.currentPrice ?? 0)),
-                )
-                .compact(),
+            (responses) => responses.map(
+              (r) => r
+                  .toToken(_tokenList)
+                  .let((t) => MapEntry(t, r.currentPrice ?? 0)),
+            ),
           )
           .mapAsync(IMap.fromEntries);
 }
@@ -61,7 +59,7 @@ extension on MarketsResponseDto {
 
   Token _fromCoingecko() => Token(
         chainId: currentChainId,
-        address: id ?? '',
+        address: '',
         symbol: symbol?.toUpperCase() ?? '',
         name: name ?? '',
         decimals: 0,
