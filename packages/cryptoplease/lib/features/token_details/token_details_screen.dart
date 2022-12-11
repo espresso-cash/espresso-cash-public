@@ -3,7 +3,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:solana/solana.dart';
 
 import '../../core/amount.dart';
 import '../../core/balances/presentation/watch_balance.dart';
@@ -64,8 +63,7 @@ class TokenDetailsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       _Chart(token: token),
-                      if (isValidAddress(token.address))
-                        ExchangeButtons(token: token),
+                      if (token.hasRealAddress) ExchangeButtons(token: token),
                       _Content(token: token),
                     ],
                   ),
@@ -232,4 +230,8 @@ class __ChartState extends State<_Chart> {
       ],
     );
   }
+}
+
+extension on Token {
+  bool get hasRealAddress => address.isNotEmpty;
 }

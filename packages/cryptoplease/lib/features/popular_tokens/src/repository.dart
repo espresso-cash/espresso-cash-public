@@ -50,6 +50,7 @@ extension on MarketsResponseDto {
     final symbol = this.symbol;
 
     if (id == null) return _fromCoingecko();
+    if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
 
     return tokenList.tokens
         .singleWhereOrNull(
