@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
@@ -41,9 +42,10 @@ class QrScannerRequest with _$QrScannerRequest {
     }
   }
 
-  Ed25519HDPublicKey? get recipient => mapOrNull(
+  Ed25519HDPublicKey? get recipient => this.map(
         solanaPay: (r) => r.request.recipient,
         address: (r) => r.addressData.address,
+        tip: always(null),
       );
 
   Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(
