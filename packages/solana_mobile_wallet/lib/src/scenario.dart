@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:meta/meta.dart';
 import 'package:solana_mobile_wallet/src/api.dart';
 import 'package:solana_mobile_wallet/src/auth_issuer_config.dart';
 import 'package:solana_mobile_wallet/src/requests/authorize.dart';
@@ -84,13 +85,19 @@ abstract class ScenarioCallbacks {
 }
 
 class Api implements ApiFlutter {
+  @visibleForTesting
+  Api();
+
   Api._() {
     ApiFlutter.setup(this);
   }
 
-  static final _instance = Api._();
+  static var _instance = Api._();
 
   static Api get instance => _instance;
+
+  @visibleForTesting
+  static set instance(Api api) => _instance = api;
 
   static final _scenarios = <int, Scenario>{};
 
