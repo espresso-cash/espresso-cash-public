@@ -79,7 +79,7 @@ class _Footer extends StatelessWidget {
               width: double.infinity,
               onPressed: () => context.onboardingRouter.onSignUp(),
             ),
-            const SizedBox(height: 18),
+            const SizedBox(height: 16),
             Text.rich(
               TextSpan(
                 text: context.l10n.signIn1,
@@ -100,8 +100,11 @@ class _Footer extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 42),
-            const TermsDisclaimer(),
-            const SizedBox(height: 18),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: TermsDisclaimer(),
+            ),
+            const SizedBox(height: 22),
           ],
         ),
       );
@@ -120,7 +123,7 @@ class _Body extends StatelessWidget {
               context.l10n.onboardingIntro.toUpperCase(),
               style: const TextStyle(
                 fontWeight: FontWeight.w900,
-                fontSize: 50,
+                fontSize: 43,
                 height: 0.9,
               ),
             ),

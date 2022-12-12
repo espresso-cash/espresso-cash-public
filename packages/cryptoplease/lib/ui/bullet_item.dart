@@ -16,11 +16,10 @@ class CpBulletItemWidget extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                height: 55,
                 width: 20,
                 margin: const EdgeInsets.only(right: 12, top: 2),
                 decoration: const ShapeDecoration(
