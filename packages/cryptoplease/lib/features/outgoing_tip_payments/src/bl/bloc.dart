@@ -10,6 +10,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/link_shortener.dart';
 import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
@@ -42,10 +43,12 @@ class OTBloc extends Bloc<_Event, _State> {
     required CryptopleaseClient client,
     required OTRepository repository,
     required TxSender txSender,
+    required LinkShortener linkShortener,
   })  : _account = account,
         _client = client,
         _repository = repository,
         _txSender = txSender,
+        _linkShortener = linkShortener,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
@@ -54,6 +57,7 @@ class OTBloc extends Bloc<_Event, _State> {
   final CryptopleaseClient _client;
   final OTRepository _repository;
   final TxSender _txSender;
+  final LinkShortener _linkShortener;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
@@ -187,10 +191,15 @@ class OTBloc extends Bloc<_Event, _State> {
     final privateKey = await escrow.extract().then((value) => value.bytes.lock);
     final key = base58encode(privateKey.toList());
 
-    final link = TipPaymentData(
+    final rawLink = TipPaymentData(
       key: key,
       token: token.publicKey,
     ).toUri();
+
+    final link = await _linkShortener.shorten(rawLink);
+    if (link == null) {
+      return OTStatus.txLinksFailure(escrow: escrow);
+    }
 
     return OTStatus.linkReady(
       link: link,
