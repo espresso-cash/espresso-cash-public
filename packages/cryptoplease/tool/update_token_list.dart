@@ -8,26 +8,6 @@ import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:http/http.dart' as http;
 
-typedef _CoinMap = Map<String, _CoinData>;
-typedef _Json = Map<String, dynamic>;
-
-class _CoinData {
-  _CoinData(this.coingeckoId, this.isStablecoin);
-
-  final String coingeckoId;
-  final bool isStablecoin;
-}
-
-const _path = 'lib/core/tokens/solana.tokenlist.json';
-
-const _mainnetChainId = 101;
-
-const _stablecoinsUrl =
-    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=stablecoins';
-const _tokenListUrl = 'https://tokens.coingecko.com/solana/all.json';
-const _coinsUrl =
-    'https://api.coingecko.com/api/v3/coins/list?include_platform=true';
-
 void main() {
   _fetchCoins().then(_matchTokens).then(_writeToFile);
 }
@@ -125,3 +105,23 @@ extension on String {
     return uri.toString();
   }
 }
+
+typedef _CoinMap = Map<String, _CoinData>;
+typedef _Json = Map<String, dynamic>;
+
+class _CoinData {
+  _CoinData(this.coingeckoId, this.isStablecoin);
+
+  final String coingeckoId;
+  final bool isStablecoin;
+}
+
+const _path = 'lib/core/tokens/solana.tokenlist.json';
+
+const _mainnetChainId = 101;
+
+const _stablecoinsUrl =
+    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=stablecoins';
+const _tokenListUrl = 'https://tokens.coingecko.com/solana/all.json';
+const _coinsUrl =
+    'https://api.coingecko.com/api/v3/coins/list?include_platform=true';
