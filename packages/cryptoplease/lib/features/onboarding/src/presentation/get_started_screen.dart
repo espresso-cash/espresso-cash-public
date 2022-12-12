@@ -58,7 +58,7 @@ class _Header extends StatelessWidget {
         padding: const EdgeInsets.only(top: 24),
         child: Column(
           children: [
-            Assets.images.logo.image(height: 120, width: 210),
+            Assets.images.logo.image(height: 110, width: 210),
           ],
         ),
       );
@@ -123,7 +123,7 @@ class _Body extends StatelessWidget {
               context.l10n.onboardingIntro.toUpperCase(),
               style: const TextStyle(
                 fontWeight: FontWeight.w900,
-                fontSize: 43,
+                fontSize: 45,
                 height: 0.9,
               ),
             ),
