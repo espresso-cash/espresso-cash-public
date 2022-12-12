@@ -235,5 +235,6 @@ class __ChartState extends State<_Chart> {
 extension on Token {
   /// Since buy and sell a token actually swaps it for USDC, makes no sense
   /// buying or selling USDC through this same flow as would not exist a match.
-  bool get canBeSwapped => address.isNotEmpty && address != Token.usdc.address;
+  bool get canBeSwapped =>
+      address != coingeckoId && address != Token.usdc.address;
 }

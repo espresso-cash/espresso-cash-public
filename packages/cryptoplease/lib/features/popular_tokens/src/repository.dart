@@ -59,7 +59,7 @@ extension on MarketsResponseDto {
 
   Token _createStubToken() => Token(
         chainId: currentChainId,
-        address: '',
+        address: id ?? '',
         symbol: symbol?.toUpperCase() ?? '',
         name: name ?? '',
         decimals: 0,
