@@ -34,21 +34,23 @@ void main() {
 
 Future<_CoinMap> _fetchCoins() async {
   final responses = await Future.wait(
-    [_coinsUrl, _stablecoinsUrl].map(Uri.parse).map(http.get),
+    [_coinsUrl, _stablecoinsUrl].map(Uri.parse).map(http.get).map(
+          (it) => it
+              .letAsync((response) => response.body.let(jsonDecode))
+              .letAsync((data) => (data as List).whereType<_Json>()),
+        ),
   );
 
-  final coins = responses.first.body.let(jsonDecode) as List;
-  final stablecoins =
-      (responses.last.body.let(jsonDecode) as List).whereType<_Json>();
+  final coins = responses.first;
+  final stablecoins = responses.last;
 
   return coins
       .map(
         (coin) {
-          final data = coin as _Json;
-          final solAddress = (data['platforms'] as Map)['solana'];
+          final solAddress = (coin['platforms'] as Map)['solana'];
           if (solAddress is! String) return null;
 
-          final coingeckoId = data['id'];
+          final coingeckoId = coin['id'];
           if (coingeckoId is! String) return null;
 
           final isStablecoin = stablecoins.any((st) => st['id'] == coingeckoId);
@@ -104,21 +106,12 @@ extension on _Json {
     final coingeckoId = coinData?.coingeckoId;
     final isStablecoin = coinData?.isStablecoin ?? false;
 
-    if (isStablecoin) {
-      update('tags', identity, ifAbsent: () => const ['stablecoin']);
-    }
+    if (coingeckoId != null) this['extensions'] = {'coingeckoId': coingeckoId};
+    if (isStablecoin) this['tags'] = const ['stablecoin'];
 
     return this
       ..update('chainId', (_) => _mainnetChainId)
-      ..update(
-        'logoURI',
-        (logoUri) => logoUri is String ? logoUri.updateLogoUri() : '',
-      )
-      ..update(
-        'extensions',
-        identity,
-        ifAbsent: () => {'coingeckoId': coingeckoId},
-      );
+      ..update('logoURI', (it) => it is String ? it.updateLogoUri() : '');
   }
 }
 
