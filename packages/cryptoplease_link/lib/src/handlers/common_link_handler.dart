@@ -18,14 +18,14 @@ Future<Response> commonHandler(
   final platform = request.platform;
 
   final candidate =
-      apps.firstWhereOrNull((a) => a.id == appId) ?? cryptoPleaseApp;
+      apps.firstWhereOrNull((a) => a.id == appId) ?? espressoCashApp;
   final App app;
   switch (platform) {
     case Platform.android:
-      app = candidate.androidOptions == null ? cryptoPleaseApp : candidate;
+      app = candidate.androidOptions == null ? espressoCashApp : candidate;
       break;
     case Platform.ios:
-      app = candidate.iOSOptions == null ? cryptoPleaseApp : candidate;
+      app = candidate.iOSOptions == null ? espressoCashApp : candidate;
       break;
     case Platform.web:
       app = candidate;
