@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 typedef WidgetTimerBuilder = Widget Function(
@@ -26,30 +25,26 @@ class RouteDurationWrapper extends StatefulWidget {
 
 class _RouteDurationWrapperState extends State<RouteDurationWrapper> {
   late final Stream<Duration?> stream;
-  late bool enabled;
+  DateTime? expiresAt;
 
   @override
   void initState() {
     super.initState();
-    enabled = false;
     stream = Stream.periodic(const Duration(seconds: 1), _onTick);
-    if (widget.end != null) _initTimer();
+    if (widget.end != null) expiresAt = widget.end;
   }
 
-  void _initTimer() => enabled = true;
-
-  void _stopTimer() => enabled = false;
-
   void _onTimeout() {
+    expiresAt = null;
     widget.onTimeout();
-    _stopTimer();
   }
 
   Duration? _onTick(_) {
-    if (!enabled) return null;
+    final expiresAt = this.expiresAt;
+    if (expiresAt == null) return null;
 
-    final remaining = widget.end?.let((d) => d.difference(DateTime.now()));
-    if (remaining == null || remaining.isNegative) {
+    final remaining = expiresAt.difference(DateTime.now());
+    if (remaining.isNegative) {
       _onTimeout();
 
       return null;
@@ -61,10 +56,11 @@ class _RouteDurationWrapperState extends State<RouteDurationWrapper> {
   @override
   void didUpdateWidget(covariant RouteDurationWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.end == null) {
-      _stopTimer();
-    } else if (widget.end != oldWidget.end) {
-      _initTimer();
+    final end = widget.end;
+    if (end == null || end.isBefore(DateTime.now())) {
+      expiresAt = null;
+    } else if (end != oldWidget.end) {
+      expiresAt = end;
     }
   }
 
@@ -73,7 +69,7 @@ class _RouteDurationWrapperState extends State<RouteDurationWrapper> {
         stream: stream,
         builder: (context, snapshot) => widget.builder(
           context,
-          enabled ? snapshot.data : null,
+          expiresAt == null ? null : snapshot.data,
         ),
       );
 }
