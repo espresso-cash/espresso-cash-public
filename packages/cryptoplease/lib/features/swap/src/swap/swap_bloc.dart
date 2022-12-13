@@ -5,7 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -19,7 +18,7 @@ part 'swap_bloc.freezed.dart';
 
 @freezed
 class SwapEvent with _$SwapEvent {
-  const factory SwapEvent.create(SwapRoute route) = _SwapCreated;
+  const factory SwapEvent.create(SwapRoute route, String id) = _SwapCreated;
   const factory SwapEvent.process(String id) = _SwapProcess;
 }
 
@@ -57,7 +56,7 @@ class SwapBloc extends Bloc<_Event, _State> {
   Future<void> _onCreate(_SwapCreated event, _Emitter _) async {
     final status = await _createTx(event.route.encodedTx);
     final swap = Swap(
-      id: const Uuid().v4(),
+      id: event.id,
       created: DateTime.now(),
       status: status,
       seed: event.route.seed,

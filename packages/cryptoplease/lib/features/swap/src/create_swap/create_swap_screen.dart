@@ -160,7 +160,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 ),
               ),
               RouteDurationWrapper(
-                start: state.fetchedAt,
+                end: state.expiresAt,
                 onTimeout: _onRouteExpired,
                 builder: (context, remaining) => _Button(
                   countdown: remaining,

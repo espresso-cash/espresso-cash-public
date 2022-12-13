@@ -196,21 +196,21 @@ extension on CreateSwapState {
         inputAmount: inputAmount.copyWith(value: 0),
         outputAmount: outputAmount.copyWith(value: 0),
         flowState: const Flow.initial(),
-        fetchedAt: null,
+        expiresAt: null,
       );
 
   CreateSwapState updateInputFromRoute(SwapRoute bestRoute) => copyWith(
         bestRoute: bestRoute,
         flowState: const Flow.initial(),
         inputAmount: inputAmount.copyWith(value: bestRoute.inAmount),
-        fetchedAt: DateTime.now(),
+        expiresAt: DateTime.now().add(_routeDuration),
       );
 
   CreateSwapState updateOutputFromRoute(SwapRoute bestRoute) => copyWith(
         bestRoute: bestRoute,
         flowState: const Flow.initial(),
         outputAmount: outputAmount.copyWith(value: bestRoute.outAmount),
-        fetchedAt: DateTime.now(),
+        expiresAt: DateTime.now().add(_routeDuration),
       );
 
   CreateSwapState toggleEditingMode() => copyWith(
@@ -229,3 +229,5 @@ extension on Token {
         currency: CryptoCurrency(token: this),
       );
 }
+
+const _routeDuration = Duration(seconds: 15);

@@ -7,64 +7,53 @@ import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
 import '../swap.dart';
-import '../swap_route.dart';
 import 'swap_bloc.dart';
 import 'swap_repository.dart';
 
 class ProcessSwapScreen extends StatefulWidget {
   const ProcessSwapScreen({
     Key? key,
-    required this.route,
+    required this.id,
   }) : super(key: key);
 
-  final SwapRoute route;
+  final String id;
 
   @override
   State<ProcessSwapScreen> createState() => _ProcessSwapScreenState();
 }
 
 class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
-  late Stream<Swap?> _swap;
+  late final Stream<Swap?> _swap;
 
   @override
   void initState() {
     super.initState();
-    _swap = const Stream.empty();
-    context.read<SwapBloc>().add(SwapEvent.create(widget.route));
+    _swap = sl<SwapRepository>().watch(widget.id);
   }
 
   @override
-  Widget build(BuildContext context) => BlocListener<SwapBloc, SwapState>(
-        listenWhen: (prev, curr) => prev.isEmpty && curr.isNotEmpty,
-        listener: (_, state) {
-          setState(() {
-            _swap = sl<SwapRepository>().watch(state.single);
-          });
+  Widget build(BuildContext context) => StreamBuilder<Swap?>(
+        stream: _swap,
+        builder: (context, snapshot) {
+          final swap = snapshot.data;
+
+          return BlocBuilder<SwapBloc, SwapState>(
+            builder: (context, state) {
+              if (swap == null) return const TransferProgress();
+              if (state.contains(swap.id)) return const TransferProgress();
+
+              return swap.status.maybeMap(
+                success: (_) => TransferSuccess(
+                  onOkPressed: () => context.router.pop(),
+                ),
+                orElse: () => TransferError(
+                  onBack: () => context.router.pop(),
+                  onRetry: () =>
+                      context.read<SwapBloc>().add(SwapEvent.process(swap.id)),
+                ),
+              );
+            },
+          );
         },
-        child: StreamBuilder<Swap?>(
-          stream: _swap,
-          builder: (context, snapshot) {
-            final swap = snapshot.data;
-
-            return BlocBuilder<SwapBloc, SwapState>(
-              builder: (context, state) {
-                if (swap == null) return const TransferProgress();
-                if (state.contains(swap.id)) return const TransferProgress();
-
-                return swap.status.maybeMap(
-                  success: (_) => TransferSuccess(
-                    onOkPressed: () => context.router.pop(),
-                  ),
-                  orElse: () => TransferError(
-                    onBack: () => context.router.pop(),
-                    onRetry: () => context
-                        .read<SwapBloc>()
-                        .add(SwapEvent.process(swap.id)),
-                  ),
-                );
-              },
-            );
-          },
-        ),
       );
 }

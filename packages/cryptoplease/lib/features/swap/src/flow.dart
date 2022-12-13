@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/l10n.dart';
@@ -9,6 +11,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
 import 'create_swap/create_swap_screen.dart';
+import 'swap/swap_bloc.dart';
 import 'swap_operation.dart';
 import 'swap_route.dart';
 
@@ -27,9 +30,11 @@ class SwapFlowScreen extends StatefulWidget {
 }
 
 class _FlowState extends State<SwapFlowScreen> {
-  void _onRouteReady(SwapRoute route) => context.router.replace(
-        ProcessSwapRoute(route: route),
-      );
+  void _onRouteReady(SwapRoute route) {
+    final id = const Uuid().v4();
+    context.read<SwapBloc>().add(SwapEvent.create(route, id));
+    context.router.replace(ProcessSwapRoute(id: id));
+  }
 
   @override
   Widget build(BuildContext context) {
