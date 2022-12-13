@@ -1,19 +1,26 @@
 import 'dart:async';
 
+import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
+import '../../../../core/solana_helpers.dart';
 import 'outgoing_split_key_payment.dart';
 import 'repository.dart';
 
 @injectable
 class OSKPVerifier {
-  OSKPVerifier(this._client, this._repository);
+  OSKPVerifier(
+    this._client,
+    this._repository, {
+    @factoryParam required Ed25519HDPublicKey userPublicKey,
+  }) : _userPublicKey = userPublicKey;
 
   final SolanaClient _client;
   final OSKPRepository _repository;
+  final Ed25519HDPublicKey _userPublicKey;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   StreamSubscription<void>? _repoSubscription;
@@ -21,10 +28,15 @@ class OSKPVerifier {
   void init() {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
-        void onSuccess(String txId) {
+        Future<void> onSuccess(String txId) async {
+          final isCancelled = await _client.isLoopbackTx(
+            txId,
+            _userPublicKey.toBase58(),
+          );
           final newStatus = OSKPStatus.success(withdrawTxId: txId);
-          _repository.save(payment.copyWith(status: newStatus));
-          _subscriptions[payment.id]?.cancel();
+
+          await _repository.save(payment.copyWith(status: newStatus));
+          await _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);
         }
 
@@ -77,4 +89,41 @@ class OSKPVerifier {
       subscription.cancel();
     }
   }
+}
+
+Future<bool> _isOSKPCancelled(
+  String txId,
+  SolanaClient client,
+  String user,
+) async {
+  final destinations = await client.rpcClient
+      .getTransaction(
+        txId,
+        commitment: Commitment.confirmed,
+        encoding: Encoding.jsonParsed,
+      )
+      .then((txDetails) => txDetails?.transaction as ParsedTransaction)
+      .letAsync((tx) => tx.message.instructions.cast<ParsedInstruction>())
+      .letAsync((it) => it.map((ix) => ix.getDestination()).compact());
+
+  if (destinations.isEmpty) return false;
+
+  return client
+      .getSplAccounts(user)
+      .then((it) => it.map((e) => e.pubkey))
+      .letAsync((it) => it.toSet().intersection(destinations.toSet()))
+      .letAsync((it) => it.isNotEmpty);
+}
+
+extension on ParsedInstruction {
+  String? getDestination() => mapOrNull<String?>(
+        system: (it) => it.parsed.mapOrNull(
+          transfer: (t) => t.info.destination,
+          transferChecked: (t) => t.info.destination,
+        ),
+        splToken: (it) => it.parsed.mapOrNull(
+          transfer: (t) => t.info.destination,
+          transferChecked: (t) => t.info.destination,
+        ),
+      );
 }

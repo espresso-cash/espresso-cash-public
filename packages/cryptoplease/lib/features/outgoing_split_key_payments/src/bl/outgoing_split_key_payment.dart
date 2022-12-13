@@ -51,6 +51,7 @@ class OSKPStatus with _$OSKPStatus {
   }) = OSKPStatusLinksReady;
 
   const factory OSKPStatus.success({
+    required String escrowTxId,
     required String withdrawTxId,
   }) = OSKPStatusSuccess;
 

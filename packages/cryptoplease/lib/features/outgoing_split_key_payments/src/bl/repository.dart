@@ -91,6 +91,7 @@ extension on OSKPStatusDto {
   Future<OSKPStatus> toOSKPStatus(OSKPRow row) async {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
+    print('${row.id}, $txId');
     final withdrawTxId = row.withdrawTxId;
     final escrow = await row.privateKey
         ?.let(base58decode)
