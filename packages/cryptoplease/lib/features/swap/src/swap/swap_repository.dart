@@ -5,26 +5,31 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 
+import '../../../../core/amount.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/tokens/token_list.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
 import '../swap.dart';
+import '../swap_seed.dart';
 
 @injectable
 class SwapRepository {
-  SwapRepository(this._db);
+  SwapRepository(this._db, this._tokens);
 
   final MyDatabase _db;
+  final TokenList _tokens;
 
   Future<Swap?> load(String id) {
     final query = _db.select(_db.swapRows)..where((p) => p.id.equals(id));
 
-    return query.getSingleOrNull().then((row) => row?.toModel());
+    return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
   }
 
   Stream<Swap?> watch(String id) {
     final query = _db.select(_db.swapRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
+    return query.watchSingleOrNull().asyncMap((row) => row?.toModel(_tokens));
   }
 
   Future<void> save(Swap payment) async =>
@@ -35,6 +40,11 @@ class SwapRepository {
 
 class SwapRows extends Table with EntityMixin {
   IntColumn get status => intEnum<SwapStatusDto>()();
+  IntColumn get amount => integer()();
+  TextColumn get token => text()();
+  TextColumn get inputMint => text()();
+  TextColumn get outputMint => text()();
+  IntColumn get slippage => intEnum<SlippageDto>()();
 
   // Status fields
   TextColumn get tx => text().nullable()();
@@ -50,11 +60,26 @@ enum SwapStatusDto {
   txWaitFailure,
 }
 
+enum SlippageDto {
+  zpOne,
+  zpFive,
+  onePercent,
+}
+
 extension on SwapRow {
-  Swap toModel() => Swap(
+  Swap toModel(TokenList tokens) => Swap(
         id: id,
         status: status.toModel(this),
         created: created,
+        seed: SwapSeed(
+          amount: CryptoAmount(
+            value: amount,
+            currency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+          ),
+          inputToken: tokens.findTokenByMint(inputMint)!,
+          outputToken: tokens.findTokenByMint(outputMint)!,
+          slippage: slippage.toModel(),
+        ),
       );
 }
 
@@ -80,6 +105,19 @@ extension on SwapStatusDto {
   }
 }
 
+extension on SlippageDto {
+  Slippage toModel() {
+    switch (this) {
+      case SlippageDto.zpOne:
+        return Slippage.zpOne;
+      case SlippageDto.zpFive:
+        return Slippage.zpFive;
+      case SlippageDto.onePercent:
+        return Slippage.onePercent;
+    }
+  }
+}
+
 extension on Swap {
   Future<SwapRow> toDto() async => SwapRow(
         id: id,
@@ -87,6 +125,11 @@ extension on Swap {
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
+        amount: seed.amount.value,
+        token: seed.amount.token.address,
+        inputMint: seed.inputToken.address,
+        outputMint: seed.outputToken.address,
+        slippage: seed.slippage.toDto(),
       );
 }
 
@@ -110,4 +153,17 @@ extension on SwapStatus {
         success: (it) => it.txId,
         txWaitFailure: (it) => it.tx.id,
       );
+}
+
+extension on Slippage {
+  SlippageDto toDto() {
+    switch (this) {
+      case Slippage.zpOne:
+        return SlippageDto.zpOne;
+      case Slippage.zpFive:
+        return SlippageDto.zpFive;
+      case Slippage.onePercent:
+        return SlippageDto.onePercent;
+    }
+  }
 }

@@ -17,6 +17,7 @@ import '../../../../ui/content_padding.dart';
 import '../../../../ui/number_formatter.dart';
 import '../swap_operation.dart';
 import '../swap_route.dart';
+import '../swap_seed.dart';
 import 'available_balance.dart';
 import 'components/display_header.dart';
 import 'components/equivalent_header.dart';

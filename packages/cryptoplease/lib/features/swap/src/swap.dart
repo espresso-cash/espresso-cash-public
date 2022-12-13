@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
+import 'swap_seed.dart';
+
 part 'swap.freezed.dart';
 
 @freezed
@@ -9,6 +11,7 @@ class Swap with _$Swap {
     required String id,
     required DateTime created,
     required SwapStatus status,
+    required SwapSeed seed,
   }) = _Swap;
 }
 

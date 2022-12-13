@@ -14,8 +14,9 @@ import '../../../../../core/analytics/analytics_manager.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../core/flow.dart';
 import '../../../../../core/tokens/token.dart';
+import '../route_repository.dart';
 import '../swap_route.dart';
-import 'route_repository.dart';
+import '../swap_seed.dart';
 
 part 'create_swap_bloc.freezed.dart';
 part 'create_swap_event.dart';
@@ -42,7 +43,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     @factoryParam required Map<Token, Amount> balances,
     required RouteRepository routeRepository,
     required AnalyticsManager analyticsManager,
-  })  : _jupiterRepository = routeRepository,
+  })  : _routeRepository = routeRepository,
         _analyticsManager = analyticsManager,
         _userAccount = setup.userAccount,
         _balances = balances.lock.add(
@@ -70,7 +71,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     );
   }
 
-  final RouteRepository _jupiterRepository;
+  final RouteRepository _routeRepository;
   final AnalyticsManager _analyticsManager;
   final IMap<Token, Amount> _balances;
   final Ed25519HDPublicKey _userAccount;
@@ -141,11 +142,13 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     emit(state.processing());
 
     try {
-      final bestRoute = await _jupiterRepository.findRoute(
-        amount: amount,
-        inputToken: state.input,
-        outputToken: state.output,
-        slippage: state.slippage,
+      final bestRoute = await _routeRepository.findRoute(
+        seed: SwapSeed(
+          amount: amount,
+          inputToken: state.input,
+          outputToken: state.output,
+          slippage: state.slippage,
+        ),
         userPublickKey: _userAccount.toBase58(),
       );
 

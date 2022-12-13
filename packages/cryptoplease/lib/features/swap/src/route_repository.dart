@@ -1,10 +1,11 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../core/amount.dart';
-import '../../../../../core/currency.dart';
-import '../../../../../core/tokens/token.dart';
-import '../swap_route.dart';
+import '../../../../core/amount.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/tokens/token.dart';
+import 'swap_route.dart';
+import 'swap_seed.dart';
 
 @injectable
 class RouteRepository {
@@ -15,27 +16,26 @@ class RouteRepository {
   final CryptopleaseClient _cpClient;
 
   Future<SwapRoute> findRoute({
-    required CryptoAmount amount,
-    required Token inputToken,
-    required Token outputToken,
+    required SwapSeed seed,
     required String userPublickKey,
-    required Slippage slippage,
   }) async {
-    final swapMode =
-        amount.token == inputToken ? SwapMatch.inAmount : SwapMatch.outAmount;
+    final swapMode = seed.amount.token == seed.inputToken
+        ? SwapMatch.inAmount
+        : SwapMatch.outAmount;
 
     final route = await _cpClient.getSwapRoute(
       SwapRouteRequestDto(
-        amount: amount.value.toString(),
-        inputToken: inputToken.forJupiter.address,
-        outputToken: outputToken.forJupiter.address,
-        slippage: slippage.toDto(),
+        amount: seed.amount.value.toString(),
+        inputToken: seed.inputToken.forJupiter.address,
+        outputToken: seed.outputToken.forJupiter.address,
+        slippage: seed.slippage.toDto(),
         match: swapMode,
         userAccount: userPublickKey,
       ),
     );
 
     return SwapRoute(
+      seed: seed,
       inAmount: int.parse(route.inAmount),
       outAmount: int.parse(route.outAmount),
       fee: CryptoAmount(currency: Currency.usdc, value: route.feeInUsdc),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
-import '../../swap_route.dart';
+import '../../swap_seed.dart';
 
 class SlippageInfo extends StatelessWidget {
   const SlippageInfo({

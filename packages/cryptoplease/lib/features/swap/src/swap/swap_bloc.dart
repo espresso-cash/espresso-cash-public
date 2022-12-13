@@ -9,9 +9,11 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
+import '../../module.dart';
+import '../route_repository.dart';
 import '../swap.dart';
 import '../swap_route.dart';
-import 'swap_repository.dart';
+import '../swap_seed.dart';
 
 part 'swap_bloc.freezed.dart';
 
@@ -30,18 +32,21 @@ typedef _Emitter = Emitter<_State>;
 @injectable
 class SwapBloc extends Bloc<_Event, _State> {
   SwapBloc({
-    required SwapRepository repository,
+    required SwapRepository swapRepository,
+    required RouteRepository routeRepository,
     required TxSender txSender,
     @factoryParam required Wallet wallet,
   })  : _txSender = txSender,
-        _repository = repository,
+        _swapRepository = swapRepository,
+        _routeRepository = routeRepository,
         _wallet = wallet,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
 
   final TxSender _txSender;
-  final SwapRepository _repository;
+  final SwapRepository _swapRepository;
+  final RouteRepository _routeRepository;
   final Wallet _wallet;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
@@ -55,15 +60,16 @@ class SwapBloc extends Bloc<_Event, _State> {
       id: const Uuid().v4(),
       created: DateTime.now(),
       status: status,
+      seed: event.route.seed,
     );
 
-    await _repository.save(swap);
+    await _swapRepository.save(swap);
 
     add(SwapEvent.process(swap.id));
   }
 
   Future<void> _onProcess(_SwapProcess event, _Emitter emit) async {
-    final swap = await _repository.load(event.id);
+    final swap = await _swapRepository.load(event.id);
 
     if (swap == null) return;
     if (state.contains(swap.id)) return;
@@ -74,12 +80,12 @@ class SwapBloc extends Bloc<_Event, _State> {
       txCreated: (status) => _sendTx(status.tx),
       txSent: (status) => _waitTx(status.tx),
       success: (status) async => status,
-      txFailure: (status) async => status,
+      txFailure: (_) async => _reCreateTx(swap.seed),
       txSendFailure: (status) => _sendTx(status.tx),
       txWaitFailure: (status) => _waitTx(status.tx),
     );
 
-    await _repository.save(swap.copyWith(status: newStatus));
+    await _swapRepository.save(swap.copyWith(status: newStatus));
 
     emit(state.remove(swap.id));
 
@@ -91,6 +97,19 @@ class SwapBloc extends Bloc<_Event, _State> {
       txSendFailure: ignore,
       txWaitFailure: ignore,
     );
+  }
+
+  Future<SwapStatus> _reCreateTx(SwapSeed seed) async {
+    try {
+      final route = await _routeRepository.findRoute(
+        seed: seed,
+        userPublickKey: _wallet.address,
+      );
+
+      return _createTx(route.encodedTx);
+    } on Exception {
+      return const SwapStatus.txFailure();
+    }
   }
 
   Future<SwapStatus> _createTx(String encodedTx) async {

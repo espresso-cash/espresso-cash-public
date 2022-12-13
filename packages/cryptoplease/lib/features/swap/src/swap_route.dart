@@ -1,10 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/amount.dart';
+import 'swap_seed.dart';
 
 part 'swap_route.freezed.dart';
-
-enum Slippage { zpOne, zpFive, onePercent }
 
 @freezed
 class SwapRoute with _$SwapRoute {
@@ -13,5 +12,6 @@ class SwapRoute with _$SwapRoute {
     required int outAmount,
     required CryptoAmount fee,
     required String encodedTx,
+    required SwapSeed seed,
   }) = _SwapRoute;
 }
