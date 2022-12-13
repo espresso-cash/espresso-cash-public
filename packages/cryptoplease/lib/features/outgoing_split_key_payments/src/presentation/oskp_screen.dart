@@ -73,7 +73,8 @@ class _OSKPScreenState extends State<OSKPScreen> {
           final CpStatusType statusType = isProcessing
               ? CpStatusType.info
               : payment?.status.mapOrNull(
-                    success: always(CpStatusType.success),
+                    withdrawn: always(CpStatusType.success),
+                    cancelled: always(CpStatusType.success),
                     txFailure: always(CpStatusType.error),
                     txSendFailure: always(CpStatusType.error),
                     txWaitFailure: always(CpStatusType.error),
@@ -82,13 +83,15 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   CpStatusType.info;
 
           final String? statusTitle = payment?.status.mapOrNull(
-            success: always(context.l10n.splitKeySuccessMessage1),
+            withdrawn: always(context.l10n.splitKeySuccessMessage1),
+            cancelled: always(context.l10n.splitKeyCancelledMessage1),
           );
 
           final String statusContent = payment == null
               ? context.l10n.loading
               : payment.status.maybeMap(
-                  success: always(context.l10n.splitKeySuccessMessage2),
+                  withdrawn: always(context.l10n.splitKeySuccessMessage2),
+                  cancelled: always(context.l10n.splitKeyCancelledMessage2),
                   txFailure: (it) => [
                     context.l10n.splitKeyErrorMessage2,
                     if (it.reason == TxFailureReason.insufficientFunds)
@@ -107,7 +110,8 @@ class _OSKPScreenState extends State<OSKPScreen> {
           final CpTimelineStatus timelineStatus = isProcessing
               ? CpTimelineStatus.inProgress
               : payment?.status.mapOrNull(
-                    success: always(CpTimelineStatus.success),
+                    withdrawn: always(CpTimelineStatus.success),
+                    cancelled: always(CpTimelineStatus.success),
                     txFailure: always(CpTimelineStatus.failure),
                     txSendFailure: always(CpTimelineStatus.failure),
                     txWaitFailure: always(CpTimelineStatus.failure),
@@ -116,7 +120,8 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   CpTimelineStatus.inProgress;
 
           final int activeItem = payment?.status.mapOrNull(
-                success: always(2),
+                withdrawn: always(2),
+                cancelled: always(2),
                 linksReady: always(1),
               ) ??
               0;
@@ -138,12 +143,19 @@ class _OSKPScreenState extends State<OSKPScreen> {
           final paymentSuccess = CpTimelineItem(
             title: context.l10n.splitKeyProgressSuccess,
           );
+          final paymentCancelled = CpTimelineItem(
+            title: context.l10n.splitKeyProgressCancelled,
+          );
 
           final items = payment?.status.mapOrNull(
-                success: always([
+                withdrawn: always([
                   creatingLinks,
                   fundsWithdrawn,
                   paymentSuccess,
+                ]),
+                cancelled: always([
+                  creatingLinks,
+                  paymentCancelled,
                 ]),
                 linksReady: always([
                   linksCreated,

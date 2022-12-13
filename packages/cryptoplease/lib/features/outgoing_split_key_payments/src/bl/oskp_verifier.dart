@@ -6,7 +6,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../core/solana_helpers.dart';
 import 'outgoing_split_key_payment.dart';
 import 'repository.dart';
 
@@ -29,11 +28,11 @@ class OSKPVerifier {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
         Future<void> onSuccess(String txId) async {
-          final isCancelled = await _client.isLoopbackTx(
-            txId,
-            _userPublicKey.toBase58(),
-          );
-          final newStatus = OSKPStatus.success(withdrawTxId: txId);
+          final newStatus = await _userPublicKey.isSigner(txId, _client).then(
+                (it) => it
+                    ? OSKPStatus.cancelled(txId: txId)
+                    : OSKPStatus.withdrawn(txId: txId),
+              );
 
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();
@@ -91,39 +90,11 @@ class OSKPVerifier {
   }
 }
 
-Future<bool> _isOSKPCancelled(
-  String txId,
-  SolanaClient client,
-  String user,
-) async {
-  final destinations = await client.rpcClient
-      .getTransaction(
-        txId,
-        commitment: Commitment.confirmed,
-        encoding: Encoding.jsonParsed,
-      )
+extension on Ed25519HDPublicKey {
+  Future<bool> isSigner(String txId, SolanaClient client) => client.rpcClient
+      .getTransaction(txId, commitment: Commitment.confirmed)
       .then((txDetails) => txDetails?.transaction as ParsedTransaction)
-      .letAsync((tx) => tx.message.instructions.cast<ParsedInstruction>())
-      .letAsync((it) => it.map((ix) => ix.getDestination()).compact());
-
-  if (destinations.isEmpty) return false;
-
-  return client
-      .getSplAccounts(user)
-      .then((it) => it.map((e) => e.pubkey))
-      .letAsync((it) => it.toSet().intersection(destinations.toSet()))
-      .letAsync((it) => it.isNotEmpty);
-}
-
-extension on ParsedInstruction {
-  String? getDestination() => mapOrNull<String?>(
-        system: (it) => it.parsed.mapOrNull(
-          transfer: (t) => t.info.destination,
-          transferChecked: (t) => t.info.destination,
-        ),
-        splToken: (it) => it.parsed.mapOrNull(
-          transfer: (t) => t.info.destination,
-          transferChecked: (t) => t.info.destination,
-        ),
-      );
+      .letAsync((tx) => tx.message.accountKeys)
+      .letAsync((it) => it.map((ix) => ix.pubkey))
+      .letAsync((signers) => toBase58().let(signers.contains));
 }

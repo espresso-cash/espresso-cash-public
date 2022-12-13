@@ -67,11 +67,12 @@ enum OSKPStatusDto {
   txSent,
   txConfirmed,
   linksReady,
-  success,
+  withdrawn,
   txFailure,
   txSendFailure,
   txWaitFailure,
   txLinksFailure,
+  cancelled,
 }
 
 extension OSKPRowExt on OSKPRow {
@@ -91,7 +92,6 @@ extension on OSKPStatusDto {
   Future<OSKPStatus> toOSKPStatus(OSKPRow row) async {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
-    print('${row.id}, $txId');
     final withdrawTxId = row.withdrawTxId;
     final escrow = await row.privateKey
         ?.let(base58decode)
@@ -112,8 +112,10 @@ extension on OSKPStatusDto {
           link2: link2!,
           escrow: escrow!,
         );
-      case OSKPStatusDto.success:
-        return OSKPStatus.success(withdrawTxId: withdrawTxId!);
+      case OSKPStatusDto.withdrawn:
+        return OSKPStatus.withdrawn(txId: withdrawTxId!);
+      case OSKPStatusDto.cancelled:
+        return OSKPStatus.withdrawn(txId: withdrawTxId!);
       case OSKPStatusDto.txFailure:
         return OSKPStatus.txFailure(reason: row.txFailureReason);
       case OSKPStatusDto.txSendFailure:
@@ -152,7 +154,8 @@ extension on OSKPStatus {
         txSent: always(OSKPStatusDto.txSent),
         txConfirmed: always(OSKPStatusDto.txConfirmed),
         linksReady: always(OSKPStatusDto.linksReady),
-        success: always(OSKPStatusDto.success),
+        withdrawn: always(OSKPStatusDto.withdrawn),
+        cancelled: always(OSKPStatusDto.cancelled),
         txFailure: always(OSKPStatusDto.txFailure),
         txSendFailure: always(OSKPStatusDto.txSendFailure),
         txWaitFailure: always(OSKPStatusDto.txWaitFailure),
@@ -174,7 +177,8 @@ extension on OSKPStatus {
       );
 
   String? toWithdrawTxId() => mapOrNull(
-        success: (it) => it.withdrawTxId,
+        withdrawn: (it) => it.txId,
+        cancelled: (it) => it.txId,
       );
 
   Future<String?> toPrivateKey() async => this.map(
@@ -186,7 +190,8 @@ extension on OSKPStatus {
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
         linksReady: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        success: (it) async => null,
+        withdrawn: (it) async => null,
+        cancelled: (it) async => null,
         txFailure: (it) async => null,
         txSendFailure: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),

@@ -50,10 +50,13 @@ class OSKPStatus with _$OSKPStatus {
     required Ed25519HDKeyPair escrow,
   }) = OSKPStatusLinksReady;
 
-  const factory OSKPStatus.success({
-    required String escrowTxId,
-    required String withdrawTxId,
-  }) = OSKPStatusSuccess;
+  const factory OSKPStatus.withdrawn({
+    required String txId,
+  }) = OSKPStatusWithdrawn;
+
+  const factory OSKPStatus.cancelled({
+    required String txId,
+  }) = OSKPStatusCancelled;
 
   const factory OSKPStatus.txFailure({TxFailureReason? reason}) =
       OSKPStatusTxFailure;
