@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../l10n/decimal_separator.dart';
@@ -37,11 +38,10 @@ extension on String {
   String formatted(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
     final decimalSeparator = getDecimalSeparator(locale);
-    final value = toDecimalOrZero(locale);
 
     if (contains(decimalSeparator)) {
       return this;
-    } else if (value.toDouble() == 0) {
+    } else if (toDecimalOrZero(locale) == Decimal.zero) {
       return '0';
     }
 
