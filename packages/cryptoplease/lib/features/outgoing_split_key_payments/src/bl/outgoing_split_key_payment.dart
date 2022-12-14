@@ -54,9 +54,9 @@ class OSKPStatus with _$OSKPStatus {
     required String txId,
   }) = OSKPStatusWithdrawn;
 
-  const factory OSKPStatus.cancelled({
+  const factory OSKPStatus.canceled({
     required String txId,
-  }) = OSKPStatusCancelled;
+  }) = OSKPStatusCanceled;
 
   const factory OSKPStatus.txFailure({TxFailureReason? reason}) =
       OSKPStatusTxFailure;

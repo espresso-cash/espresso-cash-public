@@ -72,7 +72,7 @@ enum OSKPStatusDto {
   txSendFailure,
   txWaitFailure,
   txLinksFailure,
-  cancelled,
+  canceled,
 }
 
 extension OSKPRowExt on OSKPRow {
@@ -114,8 +114,8 @@ extension on OSKPStatusDto {
         );
       case OSKPStatusDto.withdrawn:
         return OSKPStatus.withdrawn(txId: withdrawTxId!);
-      case OSKPStatusDto.cancelled:
-        return OSKPStatus.withdrawn(txId: withdrawTxId!);
+      case OSKPStatusDto.canceled:
+        return OSKPStatus.canceled(txId: withdrawTxId!);
       case OSKPStatusDto.txFailure:
         return OSKPStatus.txFailure(reason: row.txFailureReason);
       case OSKPStatusDto.txSendFailure:
@@ -155,7 +155,7 @@ extension on OSKPStatus {
         txConfirmed: always(OSKPStatusDto.txConfirmed),
         linksReady: always(OSKPStatusDto.linksReady),
         withdrawn: always(OSKPStatusDto.withdrawn),
-        cancelled: always(OSKPStatusDto.cancelled),
+        canceled: always(OSKPStatusDto.canceled),
         txFailure: always(OSKPStatusDto.txFailure),
         txSendFailure: always(OSKPStatusDto.txSendFailure),
         txWaitFailure: always(OSKPStatusDto.txWaitFailure),
@@ -178,7 +178,7 @@ extension on OSKPStatus {
 
   String? toWithdrawTxId() => mapOrNull(
         withdrawn: (it) => it.txId,
-        cancelled: (it) => it.txId,
+        canceled: (it) => it.txId,
       );
 
   Future<String?> toPrivateKey() async => this.map(
@@ -191,7 +191,7 @@ extension on OSKPStatus {
         linksReady: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
         withdrawn: (it) async => null,
-        cancelled: (it) async => null,
+        canceled: (it) async => null,
         txFailure: (it) async => null,
         txSendFailure: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),

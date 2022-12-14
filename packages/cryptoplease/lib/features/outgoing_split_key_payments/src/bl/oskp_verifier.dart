@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
+import '../../../../core/solana_helpers.dart';
 import 'outgoing_split_key_payment.dart';
 import 'repository.dart';
 
@@ -28,11 +28,13 @@ class OSKPVerifier {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
         Future<void> onSuccess(String txId) async {
-          final newStatus = await _userPublicKey.isSigner(txId, _client).then(
-                (it) => it
-                    ? OSKPStatus.cancelled(txId: txId)
-                    : OSKPStatus.withdrawn(txId: txId),
-              );
+          final newStatus = await _client.isTransactionDestination(
+            signature: txId,
+            address: _userPublicKey,
+            mint: payment.amount.currency.token.publicKey,
+          )
+              ? OSKPStatus.canceled(txId: txId)
+              : OSKPStatus.withdrawn(txId: txId);
 
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();
@@ -88,13 +90,4 @@ class OSKPVerifier {
       subscription.cancel();
     }
   }
-}
-
-extension on Ed25519HDPublicKey {
-  Future<bool> isSigner(String txId, SolanaClient client) => client.rpcClient
-      .getTransaction(txId, commitment: Commitment.confirmed)
-      .then((txDetails) => txDetails?.transaction as ParsedTransaction)
-      .letAsync((tx) => tx.message.accountKeys)
-      .letAsync((it) => it.map((ix) => ix.pubkey))
-      .letAsync((signers) => toBase58().let(signers.contains));
 }
