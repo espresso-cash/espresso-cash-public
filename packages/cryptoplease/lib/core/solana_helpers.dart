@@ -12,25 +12,17 @@ extension SolanaClientExt on SolanaClient {
         commitment: Commitment.confirmed,
         encoding: Encoding.jsonParsed,
       );
-  Future<bool> isTransactionDestination({
-    required String signature,
-    required Ed25519HDPublicKey address,
-    required Ed25519HDPublicKey mint,
-  }) =>
-      rpcClient
-          .getTransaction(
-            signature,
-            commitment: Commitment.confirmed,
-            encoding: Encoding.jsonParsed,
-          )
-          .then((txDetails) => txDetails?.transaction as ParsedTransaction)
-          .then((tx) => tx.message.instructions.cast<ParsedInstruction>())
-          .then((it) => it.map((ix) => ix.getDestination()).compact())
-          .then(
-            (it) async => findAssociatedTokenAddress(owner: address, mint: mint)
-                .then((it) => it.toBase58())
-                .then(it.contains),
-          );
+
+  /// Retrieves all destinations of a transaction
+  Future<Iterable<String>> getDestinations(String signature) => rpcClient
+      .getTransaction(
+        signature,
+        commitment: Commitment.confirmed,
+        encoding: Encoding.jsonParsed,
+      )
+      .then((txDetails) => txDetails?.transaction as ParsedTransaction)
+      .then((tx) => tx.message.instructions.cast<ParsedInstruction>())
+      .then((it) => it.map((ix) => ix.getDestination()).compact());
 }
 
 extension on ParsedInstruction {

@@ -28,11 +28,12 @@ class OSKPVerifier {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
         Future<void> onSuccess(String txId) async {
-          final newStatus = await _client.isTransactionDestination(
-            signature: txId,
-            address: _userPublicKey,
-            mint: payment.amount.currency.token.publicKey,
-          )
+          final newStatus = await _client.getDestinations(txId).then(
+                    (accounts) => findAssociatedTokenAddress(
+                      owner: _userPublicKey,
+                      mint: payment.amount.currency.token.publicKey,
+                    ).then((it) => it.toBase58()).then(accounts.contains),
+                  )
               ? OSKPStatus.canceled(txId: txId)
               : OSKPStatus.withdrawn(txId: txId);
 
