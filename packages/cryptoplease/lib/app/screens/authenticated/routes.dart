@@ -10,6 +10,7 @@ import '../../../features/outgoing_tip_payments/routes.dart';
 import '../../../features/payment_request/routes.dart';
 import '../../../features/qr_scanner/routes.dart';
 import '../../../features/ramp/routes.dart';
+import '../../../features/swap/module.dart';
 import '../../../features/token_details/token_details_screen.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
@@ -51,6 +52,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...rampRoutes,
     ...outgoingTipRoutes,
     ...incomingTipRoutes,
+    ...swapRoutes,
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
     AutoRoute<void>(page: EditProfileScreen),

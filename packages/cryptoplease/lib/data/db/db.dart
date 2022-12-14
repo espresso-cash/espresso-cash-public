@@ -9,6 +9,7 @@ import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
 import '../../features/outgoing_tip_payments/module.dart';
 import '../../features/payment_request/module.dart';
+import '../../features/swap/module.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';
@@ -22,7 +23,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 21;
+const int latestVersion = 22;
 
 const _tables = [
   OutgoingTransferRows,
@@ -30,6 +31,7 @@ const _tables = [
   ODPRows,
   OSKPRows,
   ISKPRows,
+  SwapRows,
   TransactionRows,
   OTRows,
   ITRows,
@@ -82,12 +84,15 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 16 && from < 19) {
             await m.addColumn(oSKPRows, oSKPRows.txFailureReason);
           }
-
           if (from < 20) {
             await m.createTable(transactionRows);
           }
 
           if (from < 21) {
+            await m.createTable(swapRows);
+          }
+
+          if (from < 22) {
             await m.createTable(oTRows);
             await m.createTable(iTRows);
           }
