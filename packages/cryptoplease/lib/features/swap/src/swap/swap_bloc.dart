@@ -102,7 +102,7 @@ class SwapBloc extends Bloc<_Event, _State> {
     try {
       final route = await _routeRepository.findRoute(
         seed: seed,
-        userPublickKey: _wallet.address,
+        userPublicKey: _wallet.address,
       );
 
       return _createTx(route.encodedTx);

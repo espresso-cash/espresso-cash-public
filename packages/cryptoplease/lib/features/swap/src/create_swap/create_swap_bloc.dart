@@ -149,7 +149,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
           outputToken: state.output,
           slippage: state.slippage,
         ),
-        userPublickKey: _userAccount.toBase58(),
+        userPublicKey: _userAccount.toBase58(),
       );
 
       state.editingMode.when(
