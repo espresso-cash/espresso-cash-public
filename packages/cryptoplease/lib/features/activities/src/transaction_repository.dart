@@ -5,6 +5,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:solana/solana.dart';
 
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
@@ -38,14 +39,12 @@ class TransactionRepository {
   }
 
   Future<Transaction> _match(TxCommon fetched) =>
-      _matchActivity(fetched).letAsync(
+      _matchActivity(fetched.tx.id).letAsync(
         (activity) =>
             activity != null ? Transaction.activity(activity) : fetched,
       );
 
-  Future<Activity?> _matchActivity(TxCommon fetched) async {
-    final txId = fetched.tx.id;
-
+  Future<Activity?> _matchActivity(TransactionId txId) async {
     final pr = await _db.paymentRequestRows.findActivityOrNull(
       (row) => row.transactionId.equals(txId),
       (pr) => pr.toActivity(),
