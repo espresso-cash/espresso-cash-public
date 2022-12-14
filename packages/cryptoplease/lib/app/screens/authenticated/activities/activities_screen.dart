@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart' hide Notification;
 
+import '../../../../core/feature_flags.dart';
+import '../../../../di.dart';
 import '../../../../features/activities/module.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
@@ -42,7 +44,9 @@ class ActivitiesScreen extends StatelessWidget {
                   child: PendingActivitiesList(padding: insets),
                 ),
                 _Wrapper(
-                  child: TransactionList(padding: insets),
+                  child: sl<FeatureFlagsManager>().isTransactionsTabEnabled
+                      ? TransactionList(padding: insets)
+                      : const _ComingSoon(),
                 ),
               ],
             ),
