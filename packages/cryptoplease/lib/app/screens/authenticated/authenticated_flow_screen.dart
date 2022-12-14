@@ -20,6 +20,7 @@ import '../../../features/investments/module.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
 import '../../../features/outgoing_split_key_payments/module.dart';
 import '../../../features/payment_request/module.dart';
+import '../../../features/swap/module.dart';
 
 @immutable
 class HomeRouterKey {
@@ -67,6 +68,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const InvestmentModule(),
                 const ActivitiesModule(),
                 const IntercomModule(),
+                const SwapModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );
