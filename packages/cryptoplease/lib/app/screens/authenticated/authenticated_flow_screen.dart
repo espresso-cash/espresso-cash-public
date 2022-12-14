@@ -15,10 +15,12 @@ import '../../../di.dart';
 import '../../../features/activities/module.dart';
 import '../../../features/backup_phrase/module.dart';
 import '../../../features/incoming_split_key_payments/module.dart';
+import '../../../features/incoming_tip_payments/module.dart';
 import '../../../features/intercom/module.dart';
 import '../../../features/investments/module.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
 import '../../../features/outgoing_split_key_payments/module.dart';
+import '../../../features/outgoing_tip_payments/module.dart';
 import '../../../features/payment_request/module.dart';
 import '../../../features/swap/module.dart';
 
@@ -68,6 +70,8 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const InvestmentModule(),
                 const ActivitiesModule(),
                 const IntercomModule(),
+                const OTModule(),
+                const ITModule(),
                 const SwapModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),

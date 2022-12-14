@@ -3,8 +3,10 @@ import 'package:auto_route/auto_route.dart';
 import '../../../features/app_lock/routes.dart';
 import '../../../features/backup_phrase/routes.dart';
 import '../../../features/incoming_split_key_payments/routes.dart';
+import '../../../features/incoming_tip_payments/routes.dart';
 import '../../../features/outgoing_direct_payments/routes.dart';
 import '../../../features/outgoing_split_key_payments/routes.dart';
+import '../../../features/outgoing_tip_payments/routes.dart';
 import '../../../features/payment_request/routes.dart';
 import '../../../features/qr_scanner/routes.dart';
 import '../../../features/ramp/routes.dart';
@@ -48,6 +50,8 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     ...qrScannerRoutes,
     ...paymentRequestRoutes,
     ...rampRoutes,
+    ...outgoingTipRoutes,
+    ...incomingTipRoutes,
     ...swapRoutes,
     appLockSetupFlowRoutes,
     AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
