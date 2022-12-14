@@ -152,7 +152,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           final items = payment?.status.mapOrNull(
                 withdrawn: always([
-                  creatingLinks,
+                  linksCreated,
                   fundsWithdrawn,
                   paymentSuccess,
                 ]),
