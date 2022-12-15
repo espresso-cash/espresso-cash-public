@@ -4,11 +4,13 @@ import 'package:provider/provider.dart';
 
 import '../../../../di.dart';
 import '../../../outgoing_split_key_payments/module.dart';
+import '../../../outgoing_tip_payments/module.dart';
 import '../activity.dart';
 import '../pending_activities_repository.dart';
 import 'no_activity.dart';
 import 'odp_tile.dart';
 import 'oksp_tile.dart';
+import 'ot_tile.dart';
 import 'payment_request_tile.dart';
 
 class PendingActivitiesList extends StatefulWidget {
@@ -34,10 +36,19 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
   }
 
   @override
-  Widget build(BuildContext context) => Provider<OSKPVerifier>(
-        lazy: false,
-        create: (_) => sl<OSKPVerifier>()..init(),
-        dispose: (_, value) => value.dispose(),
+  Widget build(BuildContext context) => MultiProvider(
+        providers: [
+          Provider<OSKPVerifier>(
+            lazy: false,
+            create: (_) => sl<OSKPVerifier>()..init(),
+            dispose: (_, value) => value.dispose(),
+          ),
+          Provider<OTVerifier>(
+            lazy: false,
+            create: (_) => sl<OTVerifier>()..init(),
+            dispose: (_, value) => value.dispose(),
+          ),
+        ],
         child: StreamBuilder<IList<Activity>>(
           stream: _stream,
           builder: (context, snapshot) {
@@ -63,6 +74,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                           activity: p,
                         ),
                         outgoingSplitKeyPayment: (p) => OSKPTile(
+                          key: ValueKey(p.id),
+                          activity: p,
+                        ),
+                        outgoingTipPayment: (p) => OTTile(
                           key: ValueKey(p.id),
                           activity: p,
                         ),

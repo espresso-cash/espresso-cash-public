@@ -34,6 +34,9 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
     final apiVersion = link.queryParameters['v'];
     if (apiVersion != 'v2') return null;
 
+    final type = link.queryParameters['type'];
+    if (type != null) return null;
+
     return SplitKeyFirstLink(
       key: firstPart,
       token: Ed25519HDPublicKey.fromBase58(tokenAddress),

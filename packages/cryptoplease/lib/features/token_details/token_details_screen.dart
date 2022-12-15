@@ -22,6 +22,7 @@ import '../token_chart/module.dart';
 import 'src/token_details.dart';
 import 'src/token_details_bloc.dart';
 import 'src/widgets/balance_widget.dart';
+import 'src/widgets/exchange_buttons.dart';
 import 'src/widgets/token_details_widget.dart';
 
 class TokenDetailsScreen extends StatelessWidget {
@@ -63,6 +64,7 @@ class TokenDetailsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       _Chart(token: token),
+                      if (token.canBeSwapped) ExchangeButtons(token: token),
                       _Content(token: token),
                     ],
                   ),
@@ -233,4 +235,11 @@ class __ChartState extends State<_Chart> {
       ],
     );
   }
+}
+
+extension on Token {
+  /// Since buy and sell a token actually swaps it for USDC, makes no sense
+  /// buying or selling USDC through this same flow as would not exist a match.
+  bool get canBeSwapped =>
+      address != coingeckoId && address != Token.usdc.address;
 }
