@@ -423,5 +423,35 @@
   "failedToLoadTokens": "Failed to load tokens",
   "settings" : "Settings",
   "displayEmptyBalanceTitle" : "Display Empty Balances",
-  "displayEmptyBalanceSubtitle" : "Show your crypto with zero balances"
+  "displayEmptyBalanceSubtitle" : "Show your crypto with zero balances",
+  "tip" : "Tip",
+  "minimumAmountToTip": "{amount} is the minimum to tip",
+  "@minimumAmountToTip": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "maximumAmountToTip": "{amount} is the maximum to tip",
+  "@maximumAmountToTip": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "tipPaymentSubtitle" : "The recipient will receive your tip by scanning this QR Code:",
+  "tipButtonLabel" : "Tip QR Code",
+  "tipViewQr" : "View QR Code",
+  "tipCreatingQr" : "Creating QR Code",
+  "tipCreatedQr" : "QR Code created",
+  "tipProgressOngoing": "Tipping {amount} using secure link...",
+  "@tipProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

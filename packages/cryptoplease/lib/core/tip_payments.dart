@@ -4,22 +4,22 @@ import 'package:solana/solana.dart';
 import '../config.dart';
 import 'tokens/token.dart';
 
-part 'split_key_payments.freezed.dart';
-part 'split_key_payments.g.dart';
+part 'tip_payments.freezed.dart';
+part 'tip_payments.g.dart';
 
 @freezed
-class SplitKeyFirstLink with _$SplitKeyFirstLink {
-  const factory SplitKeyFirstLink({
+class TipPaymentData with _$TipPaymentData {
+  const factory TipPaymentData({
     required String key,
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey token,
-  }) = _SplitKeyFirstLink;
+  }) = _TipPaymentLink;
 
-  factory SplitKeyFirstLink.fromJson(Map<String, dynamic> json) =>
-      _$SplitKeyFirstLinkFromJson(json);
+  factory TipPaymentData.fromJson(Map<String, dynamic> json) =>
+      _$TipPaymentDataFromJson(json);
 
-  const SplitKeyFirstLink._();
+  const TipPaymentData._();
 
-  static SplitKeyFirstLink? tryParse(Uri link) {
+  static TipPaymentData? tryParse(Uri link) {
     final correctSchemeAndHost =
         link.scheme == 'cryptoplease-sol' && link.host == '1' ||
             link.scheme == 'https' && link.host == link1Host;
@@ -28,17 +28,17 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
     final tokenAddress = link.queryParameters['token'];
     if (tokenAddress == null || tokenAddress != Token.usdc.address) return null;
 
-    final firstPart = link.queryParameters['key'];
-    if (firstPart == null) return null;
+    final key = link.queryParameters['key'];
+    if (key == null) return null;
+
+    final type = link.queryParameters['type'];
+    if (type != 'tip') return null;
 
     final apiVersion = link.queryParameters['v'];
     if (apiVersion != 'v2') return null;
 
-    final type = link.queryParameters['type'];
-    if (type != null) return null;
-
-    return SplitKeyFirstLink(
-      key: firstPart,
+    return TipPaymentData(
+      key: key,
       token: Ed25519HDPublicKey.fromBase58(tokenAddress),
     );
   }
@@ -51,33 +51,9 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
           'key': key,
           if (token != Token.sol.publicKey) 'token': token.toBase58(),
           'v': 'v2',
+          'type': 'tip'
         },
       );
-}
-
-@freezed
-class SplitKeySecondLink with _$SplitKeySecondLink {
-  const factory SplitKeySecondLink({
-    required String key,
-  }) = _SplitKeySecondLink;
-
-  const SplitKeySecondLink._();
-
-  static SplitKeySecondLink? tryParse(Uri uri) {
-    final String? secondPart;
-
-    if (uri.scheme == 'cryptoplease-sol' && uri.host == '2' ||
-        uri.scheme == 'https' && uri.host == link2Host) {
-      secondPart = uri.queryParameters['key'];
-      if (secondPart == null) return null;
-
-      return SplitKeySecondLink(key: secondPart);
-    } else {
-      return null;
-    }
-  }
-
-  Uri toUri() => Uri.parse('https://$link2Host/?key=$key');
 }
 
 class Ed25519HDPublicKeyConverter

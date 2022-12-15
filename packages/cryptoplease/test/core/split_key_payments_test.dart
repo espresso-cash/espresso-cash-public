@@ -20,7 +20,7 @@ void main() {
     );
   });
 
-  test('(v2) Valid first link 1', () {
+  test('Valid first link 1', () {
     expect(
       SplitKeyFirstLink.tryParse(
         Uri.parse(
@@ -28,6 +28,17 @@ void main() {
         ),
       ),
       SplitKeyFirstLink(key: '123', token: Token.usdc.publicKey),
+    );
+  });
+
+  test('Tip link is not Split Key link', () {
+    expect(
+      SplitKeyFirstLink.tryParse(
+        Uri.parse(
+          'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v2&type=tip',
+        ),
+      ),
+      null,
     );
   });
 

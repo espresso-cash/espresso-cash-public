@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
-enum CpTabBarVariant { dark, inverted }
+enum CpTabBarVariant { dark, inverted, light }
 
 class CpTabBar extends StatelessWidget {
   const CpTabBar({
@@ -46,6 +46,8 @@ Color _backgroundColor(CpTabBarVariant variant) {
       return CpColors.darkBackground;
     case CpTabBarVariant.inverted:
       return CpColors.yellowColor;
+    case CpTabBarVariant.light:
+      return CpColors.darkBackground;
   }
 }
 
@@ -55,6 +57,8 @@ Color _indicatorBackground(CpTabBarVariant variant) {
       return Colors.white;
     case CpTabBarVariant.inverted:
       return Colors.black;
+    case CpTabBarVariant.light:
+      return CpColors.yellowColor;
   }
 }
 
@@ -64,6 +68,8 @@ Color _labelColor(CpTabBarVariant variant) {
       return Colors.black;
     case CpTabBarVariant.inverted:
       return Colors.white;
+    case CpTabBarVariant.light:
+      return Colors.black;
   }
 }
 
@@ -73,5 +79,7 @@ Color _unselectedLabelColor(CpTabBarVariant variant) {
       return CpColors.disabledTabColor;
     case CpTabBarVariant.inverted:
       return Colors.black;
+    case CpTabBarVariant.light:
+      return Colors.white;
   }
 }

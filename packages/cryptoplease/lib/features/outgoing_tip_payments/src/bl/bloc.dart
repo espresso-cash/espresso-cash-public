@@ -11,37 +11,37 @@ import 'package:solana/solana.dart';
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/link_shortener.dart';
-import '../../../../core/split_key_payments.dart';
+import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import 'outgoing_split_key_payment.dart';
+import 'outgoing_tip_payment.dart';
 import 'repository.dart';
 
 part 'bloc.freezed.dart';
 
 @freezed
-class OSKPEvent with _$OSKPEvent {
-  const factory OSKPEvent.create({
+class OTEvent with _$OTEvent {
+  const factory OTEvent.create({
     required CryptoAmount amount,
     required String id,
-  }) = OSKPEventCreate;
+  }) = OTEventCreate;
 
-  const factory OSKPEvent.process(String id) = OSKPEventProcess;
+  const factory OTEvent.process(String id) = OTEventProcess;
 }
 
-typedef OSKPState = ISet<String>;
+typedef OTState = ISet<String>;
 
-typedef _Event = OSKPEvent;
-typedef _State = OSKPState;
+typedef _Event = OTEvent;
+typedef _State = OTState;
 typedef _Emitter = Emitter<_State>;
 
 @injectable
-class OSKPBloc extends Bloc<_Event, _State> {
-  OSKPBloc({
+class OTBloc extends Bloc<_Event, _State> {
+  OTBloc({
     @factoryParam required Ed25519HDKeyPair account,
     required CryptopleaseClient client,
-    required OSKPRepository repository,
+    required OTRepository repository,
     required TxSender txSender,
     required LinkShortener linkShortener,
   })  : _account = account,
@@ -55,7 +55,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
   final Ed25519HDKeyPair _account;
   final CryptopleaseClient _client;
-  final OSKPRepository _repository;
+  final OTRepository _repository;
   final TxSender _txSender;
   final LinkShortener _linkShortener;
 
@@ -64,14 +64,17 @@ class OSKPBloc extends Bloc<_Event, _State> {
         process: (e) => _onProcess(e, emit),
       );
 
-  Future<void> _onCreate(OSKPEventCreate event, _Emitter _) async {
+  Future<void> _onCreate(
+    OTEventCreate event,
+    _Emitter _,
+  ) async {
     if (event.amount.token != Token.usdc) {
       throw ArgumentError('Only USDC is supported');
     }
 
     final status = await _createTx(event.amount);
 
-    final payment = OutgoingSplitKeyPayment(
+    final payment = OutgoingTipPayment(
       id: event.id,
       amount: event.amount,
       created: DateTime.now(),
@@ -80,12 +83,15 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
     await _repository.save(payment);
 
-    if (status is OSKPStatusTxCreated) {
-      add(OSKPEvent.process(payment.id));
+    if (status is OTTxCreated) {
+      add(OTEvent.process(payment.id));
     }
   }
 
-  Future<void> _onProcess(OSKPEventProcess event, _Emitter emit) async {
+  Future<void> _onProcess(
+    OTEventProcess event,
+    _Emitter emit,
+  ) async {
     final payment = await _repository.load(event.id);
 
     if (payment == null) return;
@@ -93,20 +99,19 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
     emit(state.add(payment.id));
 
-    final OSKPStatus newStatus = await payment.status.map(
+    final OTStatus newStatus = await payment.status.map(
       txCreated: (status) => _sendTx(status.tx, escrow: status.escrow),
       txSent: (status) => _waitTx(status.tx, escrow: status.escrow),
-      txConfirmed: (status) => _createLinks(
+      txConfirmed: (status) => _createLink(
         escrow: status.escrow,
         token: payment.amount.token,
       ),
-      linksReady: (status) async => status,
-      withdrawn: (status) async => status,
-      canceled: (status) async => status,
+      linkReady: (status) async => status,
+      success: (status) async => status,
       txFailure: (_) => _createTx(payment.amount),
       txSendFailure: (status) => _sendTx(status.tx, escrow: status.escrow),
       txWaitFailure: (status) => _waitTx(status.tx, escrow: status.escrow),
-      txLinksFailure: (status) => _createLinks(
+      txLinksFailure: (status) => _createLink(
         escrow: status.escrow,
         token: payment.amount.token,
       ),
@@ -117,12 +122,11 @@ class OSKPBloc extends Bloc<_Event, _State> {
     emit(state.remove(payment.id));
 
     newStatus.map(
-      txCreated: (_) => add(OSKPEvent.process(payment.id)),
-      txSent: (_) => add(OSKPEvent.process(payment.id)),
-      txConfirmed: (_) => add(OSKPEvent.process(payment.id)),
-      linksReady: ignore,
-      withdrawn: ignore,
-      canceled: ignore,
+      txCreated: (_) => add(OTEvent.process(payment.id)),
+      txSent: (_) => add(OTEvent.process(payment.id)),
+      txConfirmed: (_) => add(OTEvent.process(payment.id)),
+      linkReady: ignore,
+      success: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,
@@ -130,7 +134,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
     );
   }
 
-  Future<OSKPStatus> _createTx(Amount amount) async {
+  Future<OTStatus> _createTx(Amount amount) async {
     try {
       final escrowAccount = await Ed25519HDKeyPair.random();
 
@@ -147,71 +151,59 @@ class OSKPBloc extends Bloc<_Event, _State> {
           .then(SignedTx.decode)
           .then((it) => it.resign(_account));
 
-      return OSKPStatus.txCreated(tx, escrow: escrowAccount);
+      return OTStatus.txCreated(tx, escrow: escrowAccount);
     } on Exception {
-      return const OSKPStatus.txFailure();
+      return const OTStatus.txFailure();
     }
   }
 
-  Future<OSKPStatus> _sendTx(
+  Future<OTStatus> _sendTx(
     SignedTx tx, {
     required Ed25519HDKeyPair escrow,
   }) async {
     final result = await _txSender.send(tx);
 
     return result.map(
-      sent: (_) => OSKPStatus.txSent(tx, escrow: escrow),
-      invalidBlockhash: (_) => const OSKPStatus.txFailure(),
-      failure: (it) => OSKPStatus.txFailure(reason: it.reason),
-      networkError: (_) => OSKPStatus.txSendFailure(tx, escrow: escrow),
+      sent: (_) => OTStatus.txSent(tx, escrow: escrow),
+      invalidBlockhash: (_) => const OTStatus.txFailure(),
+      failure: (it) => OTStatus.txFailure(reason: it.reason),
+      networkError: (_) => OTStatus.txSendFailure(tx, escrow: escrow),
     );
   }
 
-  Future<OSKPStatus> _waitTx(
+  Future<OTStatus> _waitTx(
     SignedTx tx, {
     required Ed25519HDKeyPair escrow,
   }) async {
     final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => OSKPStatus.txConfirmed(escrow: escrow),
-      failure: (_) => const OSKPStatus.txFailure(),
-      networkError: (_) => OSKPStatus.txWaitFailure(tx, escrow: escrow),
+      success: (_) => OTStatus.txConfirmed(escrow: escrow),
+      failure: (_) => const OTStatus.txFailure(),
+      networkError: (_) => OTStatus.txWaitFailure(tx, escrow: escrow),
     );
   }
 
-  Future<OSKPStatus> _createLinks({
+  Future<OTStatus> _createLink({
     required Ed25519HDKeyPair escrow,
     required Token token,
   }) async {
     final privateKey = await escrow.extract().then((value) => value.bytes.lock);
-    final keyParts = _splitKey(privateKey);
+    final key = base58encode(privateKey.toList());
 
-    final rawFirstLink = SplitKeyFirstLink(
-      key: keyParts.first,
+    final rawLink = TipPaymentData(
+      key: key,
       token: token.publicKey,
     ).toUri();
 
-    final firstLink = await _linkShortener.shorten(rawFirstLink);
-    if (firstLink == null) {
-      return OSKPStatus.txLinksFailure(escrow: escrow);
+    final link = await _linkShortener.shorten(rawLink);
+    if (link == null) {
+      return OTStatus.txLinksFailure(escrow: escrow);
     }
 
-    final secondLink = SplitKeySecondLink(key: keyParts.last).toUri();
-
-    return OSKPStatus.linksReady(
-      link1: firstLink,
-      link2: secondLink,
+    return OTStatus.linkReady(
+      link: link,
       escrow: escrow,
     );
   }
-}
-
-List<String> _splitKey(IList<int> privateKey) {
-  final parts = privateKey.splitAt(privateKey.length ~/ 2);
-
-  return [
-    base58encode(parts.first.toList()),
-    base58encode(parts.second.toList()),
-  ];
 }
