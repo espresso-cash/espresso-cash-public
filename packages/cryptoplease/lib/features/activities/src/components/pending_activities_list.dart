@@ -42,8 +42,8 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
           Provider<OSKPVerifier>(
             lazy: false,
             create: (_) => sl<OSKPVerifier>(
-          param1: context.read<MyAccount>().wallet.publicKey,
-        )..init(),
+              param1: context.read<MyAccount>().wallet.publicKey,
+            )..init(),
             dispose: (_, value) => value.dispose(),
           ),
           Provider<OTVerifier>(
