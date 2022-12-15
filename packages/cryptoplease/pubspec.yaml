@@ -1,7 +1,7 @@
 name: cryptoplease
 description: CryptoPlease mobile wallet for Solana
 publish_to: "none"
-version: 1.55.0
+version: 1.56.0
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -32,13 +32,13 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.6.12
-  flutter_secure_storage: ^6.0.0
+  flutter_secure_storage: ^6.1.0
   flutter_svg: ^1.1.5
   flutter_svg_provider: ^1.0.3
   freezed_annotation: ^2.1.0
   get_it: ^7.2.0
   http: ^0.13.5
-  image_picker: ^0.8.5+3
+  image_picker: ^0.8.6
   injectable: ^1.5.4
   intercom_flutter: ^7.6.0
   intl: ^0.17.0
@@ -75,7 +75,7 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^5.0.0
-  flutter_native_splash: ^2.2.10+1
+  flutter_native_splash: ^2.2.16
   flutter_test:
     sdk: flutter
   freezed: ^2.1.0+1

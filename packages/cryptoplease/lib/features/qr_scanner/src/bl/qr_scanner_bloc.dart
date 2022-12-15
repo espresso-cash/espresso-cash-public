@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/link_shortener.dart';
 import 'qr_scanner_request.dart';
 
 part 'qr_scanner_bloc.freezed.dart';
@@ -17,9 +18,14 @@ typedef _Emitter = Emitter<_State>;
 
 @injectable
 class QrScannerBloc extends Bloc<_Event, _State> {
-  QrScannerBloc() : super(const QrScannerState.initial()) {
+  QrScannerBloc({
+    required LinkShortener linkShortener,
+  })  : _linkShortener = linkShortener,
+        super(const QrScannerState.initial()) {
     on<_Event>(_eventHandler, transformer: sequential());
   }
+
+  final LinkShortener _linkShortener;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         received: (e) => _onReceived(e, emit),
@@ -31,9 +37,12 @@ class QrScannerBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onReceived(QrScannerReceivedEvent event, _Emitter emit) async {
-    final newState =
-        QrScannerRequest.parse(event.code).maybeMap(QrScannerState.done) ??
-            const QrScannerState.error();
+    final dynamicLink =
+        await _linkShortener.reverse(event.code).then((e) => e?.toString());
+
+    final newState = QrScannerRequest.parse(dynamicLink ?? event.code)
+            .maybeMap(QrScannerState.done) ??
+        const QrScannerState.error();
     emit(newState);
   }
 }
