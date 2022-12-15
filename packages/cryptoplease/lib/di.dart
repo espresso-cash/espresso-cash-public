@@ -43,6 +43,9 @@ abstract class AppModule {
   @lazySingleton
   CryptopleaseClient get cryptopleaseClient => CryptopleaseClient();
 
+  @lazySingleton
+  JupiterAggregatorClient get jupiterClient => JupiterAggregatorClient();
+
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 }

@@ -51,7 +51,11 @@ class AmountWithEquivalent extends StatelessWidget {
                           shouldDisplay: true,
                           backgroundColor: CpColors.errorChipColor,
                         )
-                      : _EquivalentDisplay(input: value.text, token: token),
+                      : _EquivalentDisplay(
+                          input: value.text,
+                          token: token,
+                          backgroundColor: CpColors.backgroundAccentColor,
+                        ),
                 ),
               )
           ],
@@ -64,10 +68,12 @@ class _EquivalentDisplay extends StatelessWidget {
     Key? key,
     required this.input,
     required this.token,
+    this.backgroundColor,
   }) : super(key: key);
 
   final String input;
   final Token token;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +84,11 @@ class _EquivalentDisplay extends StatelessWidget {
     final amount = shouldDisplay ? input : '0';
     final formatted = context.l10n.tokenEquivalent(amount, symbol);
 
-    return _DisplayChip(shouldDisplay: shouldDisplay, value: formatted);
+    return _DisplayChip(
+      shouldDisplay: shouldDisplay,
+      value: formatted,
+      backgroundColor: backgroundColor,
+    );
   }
 }
 
@@ -96,7 +106,7 @@ class _DisplayChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: 50,
+        height: 45,
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 200),
           opacity: shouldDisplay ? 1 : 0,

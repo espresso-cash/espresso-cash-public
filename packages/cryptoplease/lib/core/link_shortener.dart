@@ -29,4 +29,19 @@ class LinkShortener {
       return null;
     }
   }
+
+  Future<Uri?> reverse(String? link) async {
+    if (link == null) return null;
+
+    final url = Uri.tryParse(link);
+    if (url == null) return null;
+
+    try {
+      return FirebaseDynamicLinks.instance
+          .getDynamicLink(url)
+          .then((it) => it?.link);
+    } on Object {
+      return null;
+    }
+  }
 }
