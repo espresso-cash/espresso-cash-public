@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +22,6 @@ import '../swap_seed.dart';
 import 'available_balance.dart';
 import 'components/display_header.dart';
 import 'components/equivalent_header.dart';
-import 'components/route_duration_wrapper.dart';
 import 'components/slippage_info.dart';
 import 'components/swap_exception_dialog.dart';
 import 'components/swap_fee.dart';
@@ -48,6 +49,7 @@ class CreateSwapScreen extends StatefulWidget {
 class _CreateSwapScreenState extends State<CreateSwapScreen> {
   final _amountController = TextEditingController();
   late final CreateSwapBloc _bloc;
+  Timer? timer;
 
   @override
   void initState() {
@@ -62,6 +64,12 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
       param2: context.read<BalancesBloc>().state.balances,
     );
     _amountController.addListener(_updateValue);
+  }
+
+  void _resetTimer(DateTime? expiresAt) {
+    timer?.cancel();
+    if (expiresAt == null) return;
+    timer = Timer(expiresAt.difference(DateTime.now()), _onRouteExpired);
   }
 
   void _onSubmit() {
@@ -105,65 +113,67 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
   void dispose() {
     _amountController.removeListener(_updateValue);
     _bloc.close();
+    timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) =>
-      BlocConsumer<CreateSwapBloc, CreateSwapState>(
+      BlocListener<CreateSwapBloc, CreateSwapState>(
         bloc: _bloc,
-        listenWhen: (prev, cur) => prev.flowState != cur.flowState,
-        listener: (context, state) => state.flowState.whenOrNull(
-          failure: _onSwapException,
-          success: widget.onRouteReady,
-        ),
-        builder: (context, state) => SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ValueListenableBuilder<TextEditingValue>(
-                valueListenable: _amountController,
-                builder: (context, value, __) => DisplayHeader(
-                  displayAmount: value.text,
-                ),
-              ),
-              EquivalentHeader(
-                inputAmount: state.inputAmount,
-                outputAmount: state.outputAmount,
-                isLoadingRoute: state.flowState.isProcessing(),
-              ),
-              SwapFee(amount: state.fee),
-              TokenDropDown(
-                current: state.requestAmount.token,
-                onTokenChanged: (_) => _onEditingModeToggled(),
-                availableTokens: [
-                  state.inputAmount.token,
-                  state.outputAmount.token,
-                ],
-              ),
-              AvailableBalance(
-                maxAmountAvailable: _bloc.calculateMaxAmount(),
-              ),
-              SlippageInfo(
-                slippage: state.slippage,
-                onSlippageChanged: _onSlippageChanged,
-              ),
-              Flexible(
-                child: LayoutBuilder(
-                  builder: (context, constraints) => AmountKeypad(
-                    height: constraints.maxHeight,
-                    width: constraints.maxWidth,
-                    controller: _amountController,
-                    maxDecimals: state.requestAmount.token.decimals,
+        listenWhen: (prev, cur) => prev.expiresAt != cur.expiresAt,
+        listener: (context, state) => _resetTimer(state.expiresAt),
+        child: BlocConsumer<CreateSwapBloc, CreateSwapState>(
+          bloc: _bloc,
+          listenWhen: (prev, cur) => prev.flowState != cur.flowState,
+          listener: (context, state) => state.flowState.whenOrNull(
+            failure: _onSwapException,
+            success: widget.onRouteReady,
+          ),
+          builder: (context, state) => SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: _amountController,
+                  builder: (context, value, __) => DisplayHeader(
+                    displayAmount: value.text,
                   ),
                 ),
-              ),
-              RouteDurationWrapper(
-                end: state.expiresAt,
-                onTimeout: _onRouteExpired,
-                child: _Button(onSubmit: _onSubmit),
-              ),
-            ],
+                EquivalentHeader(
+                  inputAmount: state.inputAmount,
+                  outputAmount: state.outputAmount,
+                  isLoadingRoute: state.flowState.isProcessing(),
+                ),
+                SwapFee(amount: state.fee),
+                TokenDropDown(
+                  current: state.requestAmount.token,
+                  onTokenChanged: (_) => _onEditingModeToggled(),
+                  availableTokens: [
+                    state.inputAmount.token,
+                    state.outputAmount.token,
+                  ],
+                ),
+                AvailableBalance(
+                  maxAmountAvailable: _bloc.calculateMaxAmount(),
+                ),
+                SlippageInfo(
+                  slippage: state.slippage,
+                  onSlippageChanged: _onSlippageChanged,
+                ),
+                Flexible(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => AmountKeypad(
+                      height: constraints.maxHeight,
+                      width: constraints.maxWidth,
+                      controller: _amountController,
+                      maxDecimals: state.requestAmount.token.decimals,
+                    ),
+                  ),
+                ),
+                _Button(onSubmit: _onSubmit),
+              ],
+            ),
           ),
         ),
       );
