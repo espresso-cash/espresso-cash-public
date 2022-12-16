@@ -1,3 +1,16 @@
+## 1.56.0
+
+ - **FIX**: hide tokens based on fiat balance (#653).
+ - **FIX**: save reference in OutgoingDirectPayment.
+ - **FIX**: add BuildContext to LogoutListener callback (#645).
+ - **FIX**: add back button in app lock (#642).
+ - **FEAT**: add tip feature (#672).
+ - **FEAT**: add buy and sell flows to app (#537).
+ - **FEAT**: update token list (#677).
+ - **FEAT**: token detail page ui updates (#644).
+ - **FEAT**: add top tokens by market cap in popular tokens section (#617).
+ - **FEAT**: add Intercom support (#633).
+
 ## 1.55.0
 
  - **FIX**: check if tx with expired bh already submitted (#640).
