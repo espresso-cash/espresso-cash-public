@@ -444,5 +444,11 @@
         "type": "String"
       }
     }
-  }
+  },
+  "qrPermissionDialogTitle": "Camera permission failed",
+  "qrPermissionDialogMessage": "Explanation text that says camera is important, but we also allow user to input the address manually",
+  "qrInputAddressButton": "Enter crypto address",
+  "qrInputAddressTitle": "Send manually",
+  "qrInputAddressMessage": "Slippage is the difference observed due to  changing market conditions between the moment the transaction is submitted and its verification.",
+  "qrInputAddressHint": "Enter the crypto address here"
 }

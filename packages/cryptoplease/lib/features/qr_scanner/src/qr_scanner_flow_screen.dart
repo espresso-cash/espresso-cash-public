@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
-import '../../../ui/dialogs.dart';
 import 'bl/qr_scanner_request.dart';
+import 'presentation/components/permission_dialog.dart';
+import 'presentation/components/input_address_bottom_sheet.dart';
 import 'qr_scanner_flow.dart';
 
 class QrScannerFlowScreen extends StatefulWidget {
@@ -18,27 +18,14 @@ class QrScannerFlowScreen extends StatefulWidget {
 class _QrScannerFlowScreenState extends State<QrScannerFlowScreen>
     implements QrScannerFlow {
   @override
-  Future<void> onCameraPermissionFailure() async {
+  void onCameraPermissionFailure() {
     // TODO(rhbrunetto): redirect user to input address manually
-    await showWarningDialog(
-      context,
-      title: context.l10n.cameraPermissionsTitle,
-      message: context.l10n.cameraPermissionsContent,
-    );
-
-    await context.router.pop();
+    showPermissionDialog(context, onManualInputRequested);
   }
 
   @override
-  void onInputComplete(String address) =>
-      context.router.pop(QrScannerRequest.parse(address));
-
-  @override
-  void onManualInputRequested() =>
-      context.router.replace(const InputAddressRoute());
-
-  @override
-  void onScanRequested() => context.router.replace(const QrScannerRoute());
+  void onManualInputRequested() => InputAddressBottomSheet.show(context)
+      .then((r) => r?.let(QrScannerRequest.parse)?.let(onScanComplete));
 
   @override
   void onClose() => context.router.pop();

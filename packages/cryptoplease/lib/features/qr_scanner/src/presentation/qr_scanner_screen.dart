@@ -13,7 +13,7 @@ import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
 import '../bl/qr_scanner_bloc.dart';
 import '../qr_scanner_flow.dart';
-import 'qr_scanner_background.dart';
+import 'components/qr_scanner_background.dart';
 
 class QrScannerScreen extends StatelessWidget {
   const QrScannerScreen({Key? key}) : super(key: key);
@@ -57,6 +57,8 @@ class _ContentState extends State<_Content> {
   }
 
   void _onQRToggleFlash() {
+    context.read<QrScannerFlow>().onCameraPermissionFailure();
+
     _qrViewController.toggleTorch().then((_) {
       setState(() {
         _flashStatus = !_flashStatus;
@@ -113,6 +115,7 @@ class _ContentState extends State<_Content> {
               body: Stack(
                 children: [
                   QrScannerBackground(
+                    enabled: _qrViewController.args.value != null,
                     child: MobileScanner(
                       key: _qrKey,
                       controller: _qrViewController,
@@ -132,9 +135,9 @@ class _ContentState extends State<_Content> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      padding: const EdgeInsets.symmetric(vertical: 32.0),
                       child: CpButton(
-                        text: 'Let me type!',
+                        text: context.l10n.qrInputAddressButton,
                         onPressed: _onManualInputRequested,
                       ),
                     ),

@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../gen/assets.gen.dart';
+import '../../../../../gen/assets.gen.dart';
 
 class QrScannerBackground extends StatelessWidget {
   const QrScannerBackground({
     Key? key,
+    required this.enabled,
     required this.child,
   }) : super(key: key);
 
+  final bool enabled;
   final Widget child;
 
   Future<DrawableRoot> _readFrame() async {
@@ -23,13 +25,17 @@ class QrScannerBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FutureBuilder<DrawableRoot>(
         future: _readFrame(),
-        builder: (context, frame) => CustomPaint(
-          foregroundPainter: _Painter(
-            frame: frame.data,
-            dimension: 220,
-          ),
-          child: child,
-        ),
+        builder: (context, frame) {
+          if (!enabled) return child;
+
+          return CustomPaint(
+            foregroundPainter: _Painter(
+              frame: frame.data,
+              dimension: 220,
+            ),
+            child: child,
+          );
+        },
       );
 }
 
