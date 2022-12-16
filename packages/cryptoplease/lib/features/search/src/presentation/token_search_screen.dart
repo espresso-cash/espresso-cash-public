@@ -154,16 +154,15 @@ class _TokenItem extends StatelessWidget {
               _TokenSymbolWidget(token.symbol),
             ],
           ),
-          trailing: SizedBox.square(
-            dimension: 26,
-            child: IconButton(
-              onPressed: () {
-                // TODO(JE): Update once favorites PR is merged
-              },
-              icon: Assets.icons.unfavoriteLight.svg(),
-              padding: EdgeInsets.zero,
-            ),
-          ),
+          // TODO(JE): Add on Favorites PR
+          // trailing: SizedBox.square(
+          //   dimension: 26,
+          //   child: IconButton(
+          //     onPressed: () {},
+          //     icon: Assets.icons.unfavoriteLight.svg(),
+          //     padding: EdgeInsets.zero,
+          //   ),
+          // ),
         ),
       );
 }
