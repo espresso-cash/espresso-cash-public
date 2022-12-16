@@ -1,8 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../config.dart';
 import '../../../../core/tokens/token.dart';
+import '../../../../core/tokens/token_list.dart';
 import '../data/coingecko_client.dart';
 import '../data/search_cache.dart';
 import '../presentation/discover_header.dart';
@@ -12,11 +15,14 @@ class SearchRepository {
   SearchRepository({
     required SearchCoingeckoClient coingeckoClient,
     required SearchCache cache,
+    required TokenList tokenList,
   })  : _coingeckoClient = coingeckoClient,
-        _cache = cache;
+        _cache = cache,
+        _tokenList = tokenList;
 
   final SearchCoingeckoClient _coingeckoClient;
   final SearchCache _cache;
+  final TokenList _tokenList;
 
   AsyncResult<IList<Token>> search(String query) async {
     final cachedResult = _cache.get(query);
@@ -27,7 +33,7 @@ class SearchRepository {
 
     return _coingeckoClient.search(query).toEither().mapAsync(
       (response) {
-        final res = response.coins.map((e) => e.fromCoingecko()).toIList();
+        final res = response.coins.map((e) => e.toToken(_tokenList)).toIList();
 
         _cache.set(query, res);
 
@@ -48,7 +54,7 @@ class SearchRepository {
         .toEither()
         .mapAsync(
       (response) {
-        final res = response.map((e) => e.fromCoingecko()).toIList();
+        final res = response.map((e) => e.toToken(_tokenList)).toIList();
 
         _cache.set(category.dtoId, res);
 
@@ -76,19 +82,54 @@ extension on CryptoCategories {
 }
 
 extension SearchResponseDataDtoExt on SearchResponseDataDto {
-  Token fromCoingecko() => Token.fromCoingecko(
-        id: id,
-        symbol: symbol,
+  Token toToken(TokenList tokenList) {
+    final id = this.id;
+    final symbol = this.symbol.toLowerCase();
+
+    if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
+
+    return tokenList.tokens
+        .singleWhereOrNull(
+          (t) => t.symbol.toLowerCase() == symbol && t.coingeckoId == id,
+        )
+        .ifNull(_createStubToken);
+  }
+
+  Token _createStubToken() => Token(
+        chainId: currentChainId,
+        address: id,
+        symbol: symbol.toUpperCase(),
         name: name,
+        decimals: 0,
         logoURI: large,
+        tags: const [],
+        extensions: Extensions(coingeckoId: id),
       );
 }
 
 extension on CategorySearchResponseDto {
-  Token fromCoingecko() => Token.fromCoingecko(
-        id: id,
-        symbol: symbol,
-        name: name,
+  Token toToken(TokenList tokenList) {
+    final id = this.id;
+    final symbol = this.symbol?.toLowerCase();
+
+    if (id == null) return _createStubToken();
+    if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
+
+    return tokenList.tokens
+        .singleWhereOrNull(
+          (t) => t.symbol.toLowerCase() == symbol && t.coingeckoId == id,
+        )
+        .ifNull(_createStubToken);
+  }
+
+  Token _createStubToken() => Token(
+        chainId: currentChainId,
+        address: id ?? '',
+        symbol: symbol?.toUpperCase() ?? '',
+        name: name ?? '',
+        decimals: 0,
         logoURI: image,
+        tags: const [],
+        extensions: Extensions(coingeckoId: id),
       );
 }
