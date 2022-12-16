@@ -1,5 +1,4 @@
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -162,10 +161,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               RouteDurationWrapper(
                 end: state.expiresAt,
                 onTimeout: _onRouteExpired,
-                builder: (context, remaining) => _Button(
-                  countdown: remaining,
-                  onSubmit: _onSubmit,
-                ),
+                child: _Button(onSubmit: _onSubmit),
               ),
             ],
           ),
@@ -176,30 +172,21 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
 class _Button extends StatelessWidget {
   const _Button({
     Key? key,
-    required this.countdown,
     required this.onSubmit,
   }) : super(key: key);
 
-  final Duration? countdown;
   final VoidCallback onSubmit;
 
   @override
-  Widget build(BuildContext context) {
-    final title = context.l10n.pressAndHoldToSubmit;
-    final label = countdown
-        .maybeMap((d) => '$title (${d.inSeconds}s)')
-        .ifNull(() => title);
-
-    return CpContentPadding(
-      child: CpButton(
-        text: label,
-        mechanics: CpButtonMechanics.pressAndHold,
-        width: double.infinity,
-        size: CpButtonSize.big,
-        onPressed: countdown != null ? onSubmit : null,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => CpContentPadding(
+        child: CpButton(
+          text: context.l10n.pressAndHoldToSubmit,
+          mechanics: CpButtonMechanics.pressAndHold,
+          width: double.infinity,
+          size: CpButtonSize.big,
+          onPressed: onSubmit,
+        ),
+      );
 }
 
 extension on SwapOperation {

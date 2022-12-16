@@ -2,22 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-typedef WidgetTimerBuilder = Widget Function(
-  BuildContext context,
-  Duration? remaining,
-);
-
 class RouteDurationWrapper extends StatefulWidget {
   const RouteDurationWrapper({
     Key? key,
     required this.end,
     required this.onTimeout,
-    required this.builder,
+    required this.child,
   }) : super(key: key);
 
   final DateTime? end;
   final VoidCallback onTimeout;
-  final WidgetTimerBuilder builder;
+  final Widget child;
 
   @override
   State<RouteDurationWrapper> createState() => _RouteDurationWrapperState();
@@ -65,11 +60,5 @@ class _RouteDurationWrapperState extends State<RouteDurationWrapper> {
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<Duration?>(
-        stream: stream,
-        builder: (context, snapshot) => widget.builder(
-          context,
-          expiresAt == null ? null : snapshot.data,
-        ),
-      );
+  Widget build(BuildContext context) => widget.child;
 }
