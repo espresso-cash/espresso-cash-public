@@ -30,7 +30,8 @@ mixin _$RouteInfo {
 /// @nodoc
 abstract class $RouteInfoCopyWith<$Res> {
   factory $RouteInfoCopyWith(RouteInfo value, $Res Function(RouteInfo) then) =
-      _$RouteInfoCopyWithImpl<$Res>;
+      _$RouteInfoCopyWithImpl<$Res, RouteInfo>;
+  @useResult
   $Res call(
       {String amount,
       String inAmount,
@@ -40,43 +41,46 @@ abstract class $RouteInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RouteInfoCopyWithImpl<$Res> implements $RouteInfoCopyWith<$Res> {
+class _$RouteInfoCopyWithImpl<$Res, $Val extends RouteInfo>
+    implements $RouteInfoCopyWith<$Res> {
   _$RouteInfoCopyWithImpl(this._value, this._then);
 
-  final RouteInfo _value;
   // ignore: unused_field
-  final $Res Function(RouteInfo) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = freezed,
-    Object? inAmount = freezed,
-    Object? outAmount = freezed,
-    Object? jupiterTx = freezed,
-    Object? totalFees = freezed,
+    Object? amount = null,
+    Object? inAmount = null,
+    Object? outAmount = null,
+    Object? jupiterTx = null,
+    Object? totalFees = null,
   }) {
     return _then(_value.copyWith(
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      inAmount: inAmount == freezed
+      inAmount: null == inAmount
           ? _value.inAmount
           : inAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: outAmount == freezed
+      outAmount: null == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      jupiterTx: jupiterTx == freezed
+      jupiterTx: null == jupiterTx
           ? _value.jupiterTx
           : jupiterTx // ignore: cast_nullable_to_non_nullable
               as String,
-      totalFees: totalFees == freezed
+      totalFees: null == totalFees
           ? _value.totalFees
           : totalFees // ignore: cast_nullable_to_non_nullable
               as num,
-    ));
+    ) as $Val);
   }
 }
 
@@ -86,6 +90,7 @@ abstract class _$$_RouteInfoCopyWith<$Res> implements $RouteInfoCopyWith<$Res> {
           _$_RouteInfo value, $Res Function(_$_RouteInfo) then) =
       __$$_RouteInfoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String amount,
       String inAmount,
@@ -95,41 +100,40 @@ abstract class _$$_RouteInfoCopyWith<$Res> implements $RouteInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_RouteInfoCopyWithImpl<$Res> extends _$RouteInfoCopyWithImpl<$Res>
+class __$$_RouteInfoCopyWithImpl<$Res>
+    extends _$RouteInfoCopyWithImpl<$Res, _$_RouteInfo>
     implements _$$_RouteInfoCopyWith<$Res> {
   __$$_RouteInfoCopyWithImpl(
       _$_RouteInfo _value, $Res Function(_$_RouteInfo) _then)
-      : super(_value, (v) => _then(v as _$_RouteInfo));
+      : super(_value, _then);
 
-  @override
-  _$_RouteInfo get _value => super._value as _$_RouteInfo;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = freezed,
-    Object? inAmount = freezed,
-    Object? outAmount = freezed,
-    Object? jupiterTx = freezed,
-    Object? totalFees = freezed,
+    Object? amount = null,
+    Object? inAmount = null,
+    Object? outAmount = null,
+    Object? jupiterTx = null,
+    Object? totalFees = null,
   }) {
     return _then(_$_RouteInfo(
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      inAmount: inAmount == freezed
+      inAmount: null == inAmount
           ? _value.inAmount
           : inAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: outAmount == freezed
+      outAmount: null == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      jupiterTx: jupiterTx == freezed
+      jupiterTx: null == jupiterTx
           ? _value.jupiterTx
           : jupiterTx // ignore: cast_nullable_to_non_nullable
               as String,
-      totalFees: totalFees == freezed
+      totalFees: null == totalFees
           ? _value.totalFees
           : totalFees // ignore: cast_nullable_to_non_nullable
               as num,
@@ -168,24 +172,24 @@ class _$_RouteInfo implements _RouteInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RouteInfo &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.inAmount, inAmount) &&
-            const DeepCollectionEquality().equals(other.outAmount, outAmount) &&
-            const DeepCollectionEquality().equals(other.jupiterTx, jupiterTx) &&
-            const DeepCollectionEquality().equals(other.totalFees, totalFees));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.inAmount, inAmount) ||
+                other.inAmount == inAmount) &&
+            (identical(other.outAmount, outAmount) ||
+                other.outAmount == outAmount) &&
+            (identical(other.jupiterTx, jupiterTx) ||
+                other.jupiterTx == jupiterTx) &&
+            (identical(other.totalFees, totalFees) ||
+                other.totalFees == totalFees));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(inAmount),
-      const DeepCollectionEquality().hash(outAmount),
-      const DeepCollectionEquality().hash(jupiterTx),
-      const DeepCollectionEquality().hash(totalFees));
+      runtimeType, amount, inAmount, outAmount, jupiterTx, totalFees);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_RouteInfoCopyWith<_$_RouteInfo> get copyWith =>
       __$$_RouteInfoCopyWithImpl<_$_RouteInfo>(this, _$identity);
 }
