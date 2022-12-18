@@ -7,6 +7,7 @@ import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_split_key_payments/module.dart';
+import '../../outgoing_tip_payments/module.dart';
 import '../../payment_request/module.dart';
 import 'activity.dart';
 import 'activity_builder.dart';
@@ -30,6 +31,10 @@ class PendingActivitiesRepository {
     final oskp = _db.select(_db.oSKPRows)
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.success).not());
     final odpRequest = _db.select(_db.oDPRequestRows);
+    final otp = _db.select(_db.oTRows)
+      ..where(
+        (tbl) => tbl.status.equalsValue(OTStatusDto.success).not(),
+      );
 
     final oprStream =
         opr.watch().map((rows) => rows.map((r) => r.toActivity()));
@@ -42,13 +47,18 @@ class PendingActivitiesRepository {
     final odpRequestStream = odpRequest
         .watch()
         .map((rows) => rows.map((r) => r.toActivity(_tokens)));
+    final otStream = otp
+        .watch()
+        .map((rows) => rows.map((r) => r.toActivity(_tokens)))
+        .asyncMap(Future.wait);
 
-    return Rx.combineLatest4<_L, _L, _L, _L, IList<Activity>>(
+    return Rx.combineLatest5<_L, _L, _L, _L, _L, IList<Activity>>(
       oprStream,
       odpStream,
       oskpStream,
       odpRequestStream,
-      (a, b, c, d) => [...a, ...b, ...c, ...d]
+      otStream,
+      (a, b, c, d, e) => [...a, ...b, ...c, ...d, ...e]
           .toIList()
           .sortOrdered((a, b) => b.created.compareTo(a.created)),
     );

@@ -9,8 +9,10 @@
   "signOutConfirmation": "Are you sure you want to delete the wallet?",
   "cancel": "Cancel",
   "signUp": "Create Wallet",
-  "signIn": "Use Existing Wallet",
-  "getStarted": "Get started with",
+  "signIn1": "Already have a Solana wallet? ",
+  "signIn2": "Continue here",
+  "onboardingIntro": "A faster, simpler way to pay & receive money instantly.",
+  "onboardingBullet": "Crypto investing made simple whether you’re new or a seasoned pro!",
   "linkSubtitle": "The recipient will need to click on the two links below to redeem the money.",
   "enterYourSecretWords": "Enter Your Secret Recovery Phrase",
   "toRestoreYourAccount": "Please enter your secret recovery phrase below. This phrase is composed of random generated 12 words.",
@@ -87,6 +89,7 @@
   "splitKeyProgressSuccess": "Money has been successfully received",
   "resendLink": "Resend Links",
   "buy": "Buy",
+  "sell": "Sell",
   "paymentRequestInitialNotificationTitle": "You requested {amount} for {payer}",
   "@paymentRequestInitialNotificationTitle": {
     "placeholders": {
@@ -151,9 +154,6 @@
   "stablecoin": "Stablecoin",
   "stablecoinExplained": "Stablecoins are cryptocurrencies that mirror traditional currency or asset such as the dollar, euro.",
   "theyWillAppearHere": "They will appear here",
-  "startSendingAndReceiving": "Sending and receiving money using a simple & secure link.",
-  "fastOnboarding": "Fast onboarding.",
-  "supportAllDay": "24/7 Support.",
   "byCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
   "terms": "Terms",
   "and": " and ",
@@ -268,6 +268,42 @@
   "popularCryptoTitle": "Popular Crypto",
   "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
   "all": "All",
+  "buyToken": "Buy {symbol}",
+  "@buyToken": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
+  "sellToken": "Sell {symbol}",
+  "@sellToken": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
+  "swapTitle": "PROCESSING",
+  "swapBuyFail": "There was an issue with buying your tokens.",
+  "swapSellFail": "There was an issue with selling your tokens.",
+  "swapBuySuccess": "Your purchase was successful.",
+  "swapSellSuccess": "Your sale was successful.",
+  "swapPreparing": "Preparing your transaction",
+  "swapErrorTitle": "An error ocurred",
+  "swapFailRouteNotFound": "No routes found for given tokens and amount!",
+  "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
+  "insufficientFundsForFeeMessage": "You don't have enough {feeToken} to pay for the network fee, you need at least {amount}.",
+  "@insufficientFundsForFeeMessage": {
+    "placeholders": {
+      "feeToken": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "addCashTitle": "Payment",
   "addCashSubtitle": "Complete your purchase with one\nof our secure partners.",
   "cashOutSubtitle": "Complete your withdrawal with one\nof our secure partners.",
@@ -282,6 +318,17 @@
       },
       "time": {
         "type": "String"
+      }
+    }
+  },
+  "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
+  "@insufficientFundsMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "balance": {
+            "type": "String"
       }
     }
   },
@@ -302,6 +349,17 @@
       }
     }
   },
+  "swapSlippageTitle": "Slippage tolerance",
+  "swapSlippageExplanation": "Slippage is the difference observed due to  changing market conditions between the moment the transaction is submitted and its verification.",
+  "swapSlippageWarning": "Your transaction will be cancelled\nif the price varies more than ",
+  "swapAmountAvailable": "{amount} available for use.",
+  "@swapAmountAvailable": {
+    "placeholders": {
+      "amount": {
+            "type": "String"
+      }
+    }
+  },
   "marketCapRank": "Market Cap Rank",
   "aboutTokenLabel": "About {name}",
   "@aboutTokenLabel": {
@@ -311,6 +369,18 @@
       }
     }
   },
+  "swapEquivalent": "For {input} you will get aprox. {output}",
+  "@swapEquivalent": {
+    "placeholders": {
+      "input": {
+        "type": "String"
+      },
+      "output": {
+        "type": "String"
+      }
+    }
+  },
+  "pressAndHoldToSubmit": "Press & hold to submit",
   "more": "more",
   "less": "less",
   "swap": "Swap",
@@ -354,5 +424,35 @@
   "failedToLoadTokens": "Failed to load tokens",
   "settings" : "Settings",
   "displayEmptyBalanceTitle" : "Display Empty Balances",
-  "displayEmptyBalanceSubtitle" : "Show your crypto with zero balances"
+  "displayEmptyBalanceSubtitle" : "Show your crypto with zero balances",
+  "tip" : "Tip",
+  "minimumAmountToTip": "{amount} is the minimum to tip",
+  "@minimumAmountToTip": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "maximumAmountToTip": "{amount} is the maximum to tip",
+  "@maximumAmountToTip": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "tipPaymentSubtitle" : "The recipient will receive your tip by scanning this QR Code:",
+  "tipButtonLabel" : "Tip QR Code",
+  "tipViewQr" : "View QR Code",
+  "tipCreatingQr" : "Creating QR Code",
+  "tipCreatedQr" : "QR Code created",
+  "tipProgressOngoing": "Tipping {amount} using secure link...",
+  "@tipProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

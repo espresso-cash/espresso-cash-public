@@ -84,7 +84,7 @@ class _SolanaToken extends Token {
           chainId: currentChainId,
           tags: const [],
           decimals: 9,
-          name: 'SOL',
+          name: 'Solana',
           symbol: 'SOL',
         );
 }
@@ -184,7 +184,6 @@ class ParsedContent {
     required this.name,
     required this.logoURI,
     required this.keywords,
-    required this.tags,
     required this.timestamp,
     required this.tokens,
     required this.version,
@@ -196,23 +195,9 @@ class ParsedContent {
   final String name;
   final String? logoURI;
   final List<String> keywords;
-  final Map<String, Tag> tags;
   final DateTime timestamp;
   final List<Token> tokens;
   final Version version;
-}
-
-@JsonSerializable(createToJson: false)
-class Tag {
-  const Tag({
-    required this.name,
-    required this.description,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> data) => _$TagFromJson(data);
-
-  final String name;
-  final String description;
 }
 
 @JsonSerializable(createToJson: false)
