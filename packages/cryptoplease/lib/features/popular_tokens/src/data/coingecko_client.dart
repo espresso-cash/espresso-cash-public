@@ -5,6 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../../core/tokens/token.dart';
+import '../../../../core/tokens/token_list.dart';
+
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
@@ -50,4 +53,20 @@ class MarketsResponseDto with _$MarketsResponseDto {
 
   factory MarketsResponseDto.fromJson(Map<String, dynamic> json) =>
       _$MarketsResponseDtoFromJson(json);
+}
+
+extension MarketsResponseDtoExt on MarketsResponseDto {
+  Token toToken(TokenList tokenList) {
+    final id = this.id;
+    final symbol = this.symbol?.toLowerCase();
+
+    if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
+
+    return tokenList.fromCoingecko(
+      coingeckoId: id,
+      symbol: symbol,
+      name: name,
+      image: image,
+    );
+  }
 }
