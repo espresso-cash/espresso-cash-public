@@ -16,16 +16,16 @@ class PopularTokenCache {
       .get()
       .then((rows) => IMap({for (var e in rows) e.toModel(): e.price}));
 
-  Future<void> set(IMap<Token, double> result) async {
-    await remove();
+  Future<void> set(IMap<Token, double> result) => _db.transaction(() async {
+        await _db.delete(_db.popularTokenRows).go();
 
-    await _db.batch((batch) {
-      batch.insertAll(
-        _db.popularTokenRows,
-        result.entries.map((e) => e.key.toDto(e.value)).toList(),
-      );
-    });
-  }
+        await _db.batch((batch) {
+          batch.insertAll(
+            _db.popularTokenRows,
+            result.entries.map((e) => e.key.toDto(e.value)).toList(),
+          );
+        });
+      });
 
   Future<void> remove() => _db.delete(_db.popularTokenRows).go();
 }
