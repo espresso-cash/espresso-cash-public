@@ -22,11 +22,10 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
   Widget build(BuildContext context) => RefreshBalancesWrapper(
         builder: (context, onRefresh) => RefreshIndicator(
           displacement: 80,
-          onRefresh: () {
-            context.read<PopularTokenBloc>().add(const Fetch());
-
-            return onRefresh();
-          },
+          onRefresh: () => Future.wait([
+            onRefresh(),
+            context.read<PopularTokenBloc>().refresh(),
+          ]),
           color: CpColors.primaryColor,
           child: CustomScrollView(
             slivers: [

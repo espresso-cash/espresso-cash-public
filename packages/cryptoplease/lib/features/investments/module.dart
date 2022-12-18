@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../core/accounts/module.dart';
 import '../../di.dart';
-import '../popular_tokens/module.dart';
 import 'src/data/repository.dart';
 
 export 'src/presentation/components/portfolio_widget.dart';
@@ -21,7 +20,6 @@ class InvestmentModule extends SingleChildStatelessWidget {
           ChangeNotifierProvider<InvestmentSettingsRepository>(
             create: (context) => sl<InvestmentSettingsRepository>(),
           ),
-          const PopularTokensModule(),
           LogoutListener(
             onLogout: (context) =>
                 context.read<InvestmentSettingsRepository>().clear(),

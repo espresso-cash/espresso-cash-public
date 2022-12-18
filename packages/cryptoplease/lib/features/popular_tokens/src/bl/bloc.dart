@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/currency.dart';
-import '../../../../core/flow.dart';
+import '../../../../core/processing_state.dart';
 import '../../../../core/tokens/token.dart';
 import 'repository.dart';
 
@@ -16,15 +17,22 @@ typedef _EventHandler = EventHandler<PopularTokenEvent, PopularTokenState>;
 @injectable
 class PopularTokenBloc extends Bloc<PopularTokenEvent, PopularTokenState> {
   PopularTokenBloc({
-    @factoryParam required this.userCurrency,
+    @factoryParam required FiatCurrency userCurrency,
     required PopularTokenRepository repository,
   })  : _repository = repository,
-        super(const Flow.initial()) {
-    on<PopularTokenEvent>(_eventHandler);
+        _userCurrency = userCurrency,
+        super(const PopularTokenState()) {
+    on<PopularTokenEvent>(_eventHandler, transformer: restartable());
   }
 
-  final FiatCurrency userCurrency;
+  final FiatCurrency _userCurrency;
   final PopularTokenRepository _repository;
+
+  Future<void> refresh() {
+    add(const PopularTokenEvent.fetched());
+
+    return stream.firstWhere((state) => !state.processingState.isProcessing);
+  }
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         init: (event) => _onInit(emit),
@@ -32,22 +40,31 @@ class PopularTokenBloc extends Bloc<PopularTokenEvent, PopularTokenState> {
       );
 
   Future<void> _onInit(Emitter<PopularTokenState> emit) async {
-    emit(const Flow.processing());
+    emit(PopularTokenState(processingState: processing()));
 
-    final PopularTokenState newState = await _repository
-        .get(currency: userCurrency.symbol)
-        .foldAsync(Flow.failure, Flow.success);
+    final PopularTokenState newState =
+        await _repository.get(currency: _userCurrency.symbol).let(_toState);
 
     emit(newState);
   }
 
   Future<void> _onRefreshRequested(Emitter<PopularTokenState> emit) async {
-    final PopularTokenState newState = await _repository
-        .refresh(currency: userCurrency.symbol)
-        .foldAsync(Flow.failure, Flow.success);
+    emit(PopularTokenState(processingState: processing()));
+
+    final PopularTokenState newState =
+        await _repository.refresh(currency: _userCurrency.symbol).let(_toState);
 
     emit(newState);
   }
+
+  Future<PopularTokenState> _toState(AsyncResult<IMap<Token, double>> result) =>
+      result.foldAsync(
+        (e) => state.copyWith(processingState: ProcessingState.error(e)),
+        (tokens) => state.copyWith(
+          tokens: tokens,
+          processingState: const ProcessingState.none(),
+        ),
+      );
 }
 
 @freezed
@@ -56,4 +73,10 @@ class PopularTokenEvent with _$PopularTokenEvent {
   const factory PopularTokenEvent.fetched() = Fetch;
 }
 
-typedef PopularTokenState = Flow<Exception, IMap<Token, double>>;
+@freezed
+class PopularTokenState with _$PopularTokenState {
+  const factory PopularTokenState({
+    @Default(IMapConst<Token, double>({})) IMap<Token, double> tokens,
+    @Default(ProcessingState.none()) ProcessingState<Exception> processingState,
+  }) = _PopularTokenState;
+}

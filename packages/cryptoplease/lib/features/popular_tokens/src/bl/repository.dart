@@ -23,29 +23,22 @@ class PopularTokenRepository {
   final PopularTokenCache _cache;
   final TokenList _tokenList;
 
-  AsyncResult<IMap<Token, double>> get({
-    required String currency,
-    int noOfTokens = 20,
-  }) async {
+  static const _tokensCount = 10;
+
+  AsyncResult<IMap<Token, double>> get({required String currency}) async {
     final cachedResult = await _cache.get();
 
     if (cachedResult != null && cachedResult.isNotEmpty) {
       return Either.right(cachedResult);
     }
 
-    return refresh(currency: currency, noOfTokens: noOfTokens);
+    return refresh(currency: currency);
   }
 
-  AsyncResult<IMap<Token, double>> refresh({
-    required String currency,
-    int noOfTokens = 20,
-  }) async =>
+  AsyncResult<IMap<Token, double>> refresh({required String currency}) =>
       _coingeckoClient
           .getMarketTokens(
-            MarketsRequestDto(
-              vsCurrency: currency,
-              perPage: noOfTokens,
-            ),
+            MarketsRequestDto(vsCurrency: currency, perPage: _tokensCount),
           )
           .toEither()
           .mapAsync(
@@ -55,15 +48,8 @@ class PopularTokenRepository {
                   .let((t) => MapEntry(t, r.currentPrice ?? 0)),
             ),
           )
-          .mapAsync(
-        (responses) {
-          final res = IMap.fromEntries(responses);
-
-          _cache.set(res);
-
-          return res;
-        },
-      );
+          .mapAsync(IMap.fromEntries)
+          .doOnRightAsync(_cache.set);
 
   Future<void> clear() => _cache.remove();
 }
