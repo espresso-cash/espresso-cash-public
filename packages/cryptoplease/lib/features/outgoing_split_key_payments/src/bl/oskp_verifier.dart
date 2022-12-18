@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../core/solana_helpers.dart';
 import 'outgoing_split_key_payment.dart';
 import 'repository.dart';
 
@@ -27,8 +27,9 @@ class OSKPVerifier {
   void init() {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
-        Future<void> onSuccess(String txId) async {
-          final newStatus = await _client.getDestinations(txId).then(
+        Future<void> onSuccess(ParsedTransaction tx) async {
+          final txId = tx.id;
+          final newStatus = await tx.getDestinations().let(
                     (accounts) => findAssociatedTokenAddress(
                       owner: _userPublicKey,
                       mint: payment.amount.currency.token.publicKey,
@@ -53,17 +54,18 @@ class OSKPVerifier {
     });
   }
 
-  Stream<String> _createStream({
+  Stream<ParsedTransaction> _createStream({
     required Ed25519HDPublicKey account,
   }) {
     Duration backoff = const Duration(seconds: 1);
 
-    Stream<List<TransactionSignatureInformation>> streamSignatures(void _) =>
+    Stream<Iterable<TransactionDetails>> streamSignatures(void _) =>
         _client.rpcClient
-            .getSignaturesForAddress(
-              account.toBase58(),
+            .getTransactionsList(
+              account,
               limit: 2,
               commitment: Commitment.confirmed,
+              encoding: Encoding.jsonParsed,
             )
             .asStream();
 
@@ -79,8 +81,8 @@ class OSKPVerifier {
           .startWith(null)
           .flatMap(streamSignatures)
           .where((event) => event.length == 2)
-          .map((infos) => infos.first)
-          .map((info) => info.signature),
+          .map((details) => details.first)
+          .map((tx) => tx.transaction as ParsedTransaction),
       retryWhen,
     );
   }
@@ -91,4 +93,26 @@ class OSKPVerifier {
       subscription.cancel();
     }
   }
+}
+
+extension on ParsedTransaction {
+  /// Retrieves all destinations of a transaction
+  Iterable<String> getDestinations() => message.instructions
+      .let((it) => it.cast<ParsedInstruction>())
+      .let((it) => it.map((ix) => ix.getDestination()).compact());
+
+  String get id => signatures.first;
+}
+
+extension on ParsedInstruction {
+  String? getDestination() => mapOrNull<String?>(
+        system: (it) => it.parsed.mapOrNull(
+          transfer: (t) => t.info.destination,
+          transferChecked: (t) => t.info.destination,
+        ),
+        splToken: (it) => it.parsed.mapOrNull(
+          transfer: (t) => t.info.destination,
+          transferChecked: (t) => t.info.destination,
+        ),
+      );
 }
