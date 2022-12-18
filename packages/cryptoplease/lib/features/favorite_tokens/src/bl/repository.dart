@@ -1,9 +1,6 @@
-import 'package:collection/collection.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../config.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../data/db/db.dart';
@@ -78,27 +75,11 @@ extension on Token {
 }
 
 extension on FavoriteTokenRow {
-  Token toToken(TokenList tokenList) {
-    final id = this.id;
-    final symbol = this.symbol.toLowerCase();
-
-    if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
-
-    return tokenList.tokens
-        .singleWhereOrNull(
-          (t) => t.symbol.toLowerCase() == symbol && t.coingeckoId == id,
-        )
-        .ifNull(_createStubToken);
-  }
-
-  Token _createStubToken() => Token(
-        chainId: currentChainId,
-        address: id,
-        symbol: symbol.toUpperCase(),
+  Token toToken(TokenList tokenList) => Token.fromCoingecko(
+        id: id,
+        symbol: symbol,
         name: name,
-        decimals: 0,
-        logoURI: logoUri,
-        tags: const [],
-        extensions: Extensions(coingeckoId: id),
+        image: logoUri,
+        tokenList: tokenList,
       );
 }
