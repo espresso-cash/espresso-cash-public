@@ -45,7 +45,9 @@ class Token {
     required String? image,
     required TokenList tokenList,
   }) {
-    if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
+    if (symbol?.toLowerCase() == Token.sol.symbol.toLowerCase()) {
+      return Token.sol;
+    }
 
     return tokenList.tokens
         .singleWhereOrNull(
