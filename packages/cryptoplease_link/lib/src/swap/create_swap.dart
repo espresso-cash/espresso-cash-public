@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:cryptoplease_link/src/constants.dart';
 import 'package:cryptoplease_link/src/swap/jupiter_repository.dart';
@@ -55,7 +57,7 @@ class CreateSwap {
     final route = responses.first as RouteInfo;
     final price = responses.last as double;
 
-    final fee = _convert(route.totalFees, price);
+    final fee = max(_convert(route.totalFees, price), minimumSwapFee);
 
     final feePayer = _platform.publicKey;
     final feeIx = await _createSwapFeePayment(
