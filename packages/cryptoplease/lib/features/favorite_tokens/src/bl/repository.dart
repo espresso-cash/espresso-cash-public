@@ -75,11 +75,17 @@ extension on Token {
 }
 
 extension on FavoriteTokenRow {
-  Token toToken(TokenList tokenList) => Token.fromCoingecko(
-        id: id,
-        symbol: symbol,
-        name: name,
-        image: logoUri,
-        tokenList: tokenList,
-      );
+  Token toToken(TokenList tokenList) {
+    final id = this.id;
+    final symbol = this.symbol.toLowerCase();
+
+    if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
+
+    return tokenList.fromCoingecko(
+      coingeckoId: id,
+      symbol: symbol,
+      name: name,
+      image: logoUri,
+    );
+  }
 }

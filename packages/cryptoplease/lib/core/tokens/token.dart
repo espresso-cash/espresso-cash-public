@@ -1,11 +1,8 @@
-import 'package:collection/collection.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:solana/solana.dart';
 
 import '../../config.dart';
-import 'token_list.dart';
 
 part 'token.g.dart';
 
@@ -37,35 +34,6 @@ class Token {
     required List<String> tags,
     required Extensions? extensions,
   }) = SplToken;
-
-  factory Token.fromCoingecko({
-    required String? id,
-    required String? symbol,
-    required String? name,
-    required String? image,
-    required TokenList tokenList,
-  }) {
-    if (symbol?.toLowerCase() == Token.sol.symbol.toLowerCase()) {
-      return Token.sol;
-    }
-
-    return tokenList.tokens
-        .singleWhereOrNull(
-          (t) => t.symbol.toLowerCase() == symbol && t.coingeckoId == id,
-        )
-        .ifNull(
-          () => Token(
-            chainId: currentChainId,
-            address: id ?? '',
-            symbol: symbol?.toUpperCase() ?? '',
-            name: name ?? '',
-            decimals: 0,
-            logoURI: image,
-            tags: const [],
-            extensions: Extensions(coingeckoId: id),
-          ),
-        );
-  }
 
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
 
