@@ -10,21 +10,26 @@ class AvailableBalance extends StatelessWidget {
   const AvailableBalance({
     Key? key,
     required this.maxAmountAvailable,
+    required this.onMaxAmountRequested,
   }) : super(key: key);
 
   final CryptoAmount maxAmountAvailable;
+  final VoidCallback onMaxAmountRequested;
 
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
     final formatted = maxAmountAvailable.format(locale, roundInteger: true);
 
-    return Text(
-      context.l10n.swapAmountAvailable(formatted),
-      style: const TextStyle(
-        height: 1.3,
-        fontSize: 14.5,
-        color: CpColors.greyDarkAccentColor,
+    return InkWell(
+      onTap: onMaxAmountRequested,
+      child: Text(
+        context.l10n.swapAmountAvailable(formatted),
+        style: const TextStyle(
+          height: 1.3,
+          fontSize: 14.5,
+          color: CpColors.greyDarkAccentColor,
+        ),
       ),
     );
   }

@@ -8,6 +8,7 @@ import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/callback.dart';
+import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
@@ -97,6 +98,13 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
     _bloc.add(event);
   }
 
+  void _onMaxAmountRequested(Token displayToken) {
+    final amount = _bloc.calculateMaxAmount();
+    if (displayToken != amount.token) _onEditingModeToggled();
+    final locale = DeviceLocale.localeOf(context);
+    _amountController.text = amount.format(locale, skipSymbol: true);
+  }
+
   void _updateValue() {
     final locale = DeviceLocale.localeOf(context);
     final amount = _amountController.text.toDecimalOrZero(locale);
@@ -156,6 +164,9 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 ),
                 AvailableBalance(
                   maxAmountAvailable: _bloc.calculateMaxAmount(),
+                  onMaxAmountRequested: () => _onMaxAmountRequested(
+                    state.requestToken,
+                  ),
                 ),
                 SlippageInfo(
                   slippage: state.slippage,
