@@ -29,15 +29,14 @@ class SearchRepository {
       return Either.right(cachedResult);
     }
 
-    return _coingeckoClient.search(query).toEither().mapAsync(
-      (response) {
-        final res = response.coins.map((e) => e.toToken(_tokenList)).toIList();
-
-        _cache.set(query, res);
-
-        return res;
-      },
-    );
+    return _coingeckoClient
+        .search(query)
+        .toEither()
+        .mapAsync(
+          (response) =>
+              response.coins.map((e) => e.toToken(_tokenList)).toIList(),
+        )
+        .doOnRightAsync((e) => _cache.set(query, e));
   }
 
   AsyncResult<IList<Token>> category(CryptoCategories category) async {
@@ -51,14 +50,9 @@ class SearchRepository {
         .searchByCategory(CategorySearchRequestDto(category: category.dtoId))
         .toEither()
         .mapAsync(
-      (response) {
-        final res = response.map((e) => e.toToken(_tokenList)).toIList();
-
-        _cache.set(category.dtoId, res);
-
-        return res;
-      },
-    );
+          (response) => response.map((e) => e.toToken(_tokenList)).toIList(),
+        )
+        .doOnRightAsync((e) => _cache.set(category.dtoId, e));
   }
 }
 
@@ -77,24 +71,4 @@ extension on CryptoCategories {
         return 'automated-market-maker-amm';
     }
   }
-}
-
-extension SearchResponseDataDtoExt on SearchResponseDataDto {
-  Token toToken(TokenList tokenList) => Token.fromCoingecko(
-        id: id,
-        symbol: symbol,
-        name: name,
-        image: large,
-        tokenList: tokenList,
-      );
-}
-
-extension on CategorySearchResponseDto {
-  Token toToken(TokenList tokenList) => Token.fromCoingecko(
-        id: id,
-        symbol: symbol,
-        name: name,
-        image: image,
-        tokenList: tokenList,
-      );
 }
