@@ -10,6 +10,7 @@ import '../../features/outgoing_direct_payments/module.dart';
 import '../../features/outgoing_split_key_payments/module.dart';
 import '../../features/outgoing_tip_payments/module.dart';
 import '../../features/payment_request/module.dart';
+import '../../features/popular_tokens/module.dart';
 import '../../features/swap/module.dart';
 import 'open_connection.dart';
 
@@ -35,6 +36,7 @@ const _tables = [
   SwapRows,
   TransactionRows,
   FavoriteTokenRows,
+  PopularTokenRows,
   OTRows,
   ITRows,
 ];
@@ -100,7 +102,7 @@ class MyDatabase extends _$MyDatabase {
           }
 
           if (from < 23) {
-            await m.createTable(favoriteTokenRows);
+            await m.createTable(popularTokenRows);
           }
         },
       );
