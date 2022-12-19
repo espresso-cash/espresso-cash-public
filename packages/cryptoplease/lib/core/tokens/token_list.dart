@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
 
@@ -49,11 +50,46 @@ class TokenList {
       ? Token.sol
       : tokens.firstWhereOrNull((t) => t.address == mint);
 
-  Iterable<Token> findTokensByCoingeckoId(String coingeckoId) =>
-      tokens.where((t) => t.coingeckoId == coingeckoId);
+  Token fromCoingecko({
+    required String? coingeckoId,
+    required String? symbol,
+    required String? name,
+    required String? image,
+  }) =>
+      tokens
+          .singleWhereOrNull(
+            (t) =>
+                t.symbol.toLowerCase() == symbol &&
+                t.coingeckoId == coingeckoId,
+          )
+          .ifNull(
+            () => _createStubToken(
+              coingeckoId: coingeckoId,
+              symbol: symbol,
+              name: name,
+              image: image,
+            ),
+          );
 }
 
 extension TokenExt on Iterable<Token> {
   Iterable<String> get coingeckoIds =>
-      map((t) => t.coingeckoId).whereType<String>();
+      this.map((t) => t.coingeckoId).whereType<String>();
 }
+
+Token _createStubToken({
+  required String? coingeckoId,
+  required String? symbol,
+  required String? name,
+  required String? image,
+}) =>
+    Token(
+      chainId: currentChainId,
+      address: coingeckoId ?? '',
+      symbol: symbol?.toUpperCase() ?? '',
+      name: name ?? '',
+      decimals: 0,
+      logoURI: image,
+      tags: const [],
+      extensions: Extensions(coingeckoId: coingeckoId),
+    );

@@ -22,6 +22,7 @@ import '../../../features/outgoing_direct_payments/module.dart';
 import '../../../features/outgoing_split_key_payments/module.dart';
 import '../../../features/outgoing_tip_payments/module.dart';
 import '../../../features/payment_request/module.dart';
+import '../../../features/popular_tokens/module.dart';
 import '../../../features/swap/module.dart';
 
 @immutable
@@ -73,6 +74,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const OTModule(),
                 const ITModule(),
                 const SwapModule(),
+                const PopularTokensModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );

@@ -39,13 +39,3 @@ class MarketDetailsRepository {
           )
           .mapAsync(IMap.fromEntries);
 }
-
-extension on MarketsResponseDto {
-  Token toToken(TokenList tokenList) => Token.fromCoingecko(
-        id: id,
-        symbol: symbol,
-        name: name,
-        image: image,
-        tokenList: tokenList,
-      );
-}
