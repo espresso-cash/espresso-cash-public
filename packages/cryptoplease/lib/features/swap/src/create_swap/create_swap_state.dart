@@ -22,8 +22,7 @@ class CreateSwapState with _$CreateSwapState {
 
 extension CreateSwapExt on CreateSwapState {
   CryptoAmount get fee =>
-      bestRoute?.fee ??
-      const CryptoAmount(value: 10000, currency: Currency.usdc); // 0.01 USDC
+      bestRoute?.fee ?? const CryptoAmount(value: 0, currency: Currency.usdc);
 
   Token get input => inputAmount.token;
   Token get output => outputAmount.token;
