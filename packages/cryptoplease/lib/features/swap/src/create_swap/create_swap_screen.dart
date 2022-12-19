@@ -164,9 +164,9 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 ),
                 AvailableBalance(
                   maxAmountAvailable: _bloc.calculateMaxAmount(),
-                  onMaxAmountRequested: () => _onMaxAmountRequested(
-                    state.requestToken,
-                  ),
+                  onMaxAmountRequested: widget.operation == SwapOperation.buy
+                      ? null
+                      : () => _onMaxAmountRequested(state.requestToken),
                 ),
                 SlippageInfo(
                   slippage: state.slippage,

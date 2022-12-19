@@ -163,15 +163,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     }
   }
 
-  CryptoAmount calculateMaxAmount() {
-    final balance = _balances.balanceFromToken(state.input);
-    final fee = state.fee;
-    if (fee.token == balance.token) {
-      return balance - fee as CryptoAmount;
-    }
-
-    return balance;
-  }
+  CryptoAmount calculateMaxAmount() => _balances.balanceFromToken(state.input);
 }
 
 extension BalanceExt on IMap<Token, Amount> {

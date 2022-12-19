@@ -14,7 +14,7 @@ class AvailableBalance extends StatelessWidget {
   }) : super(key: key);
 
   final CryptoAmount maxAmountAvailable;
-  final VoidCallback onMaxAmountRequested;
+  final VoidCallback? onMaxAmountRequested;
 
   @override
   Widget build(BuildContext context) {
