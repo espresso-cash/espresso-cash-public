@@ -31,7 +31,8 @@ mixin _$SwapTransaction {
 abstract class $SwapTransactionCopyWith<$Res> {
   factory $SwapTransactionCopyWith(
           SwapTransaction value, $Res Function(SwapTransaction) then) =
-      _$SwapTransactionCopyWithImpl<$Res>;
+      _$SwapTransactionCopyWithImpl<$Res, SwapTransaction>;
+  @useResult
   $Res call(
       {String amount,
       String inAmount,
@@ -41,44 +42,46 @@ abstract class $SwapTransactionCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SwapTransactionCopyWithImpl<$Res>
+class _$SwapTransactionCopyWithImpl<$Res, $Val extends SwapTransaction>
     implements $SwapTransactionCopyWith<$Res> {
   _$SwapTransactionCopyWithImpl(this._value, this._then);
 
-  final SwapTransaction _value;
   // ignore: unused_field
-  final $Res Function(SwapTransaction) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = freezed,
-    Object? inAmount = freezed,
-    Object? outAmount = freezed,
-    Object? fee = freezed,
-    Object? transaction = freezed,
+    Object? amount = null,
+    Object? inAmount = null,
+    Object? outAmount = null,
+    Object? fee = null,
+    Object? transaction = null,
   }) {
     return _then(_value.copyWith(
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      inAmount: inAmount == freezed
+      inAmount: null == inAmount
           ? _value.inAmount
           : inAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: outAmount == freezed
+      outAmount: null == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      fee: fee == freezed
+      fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as int,
-      transaction: transaction == freezed
+      transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as SignedTx,
-    ));
+    ) as $Val);
   }
 }
 
@@ -89,6 +92,7 @@ abstract class _$$_SwapTransactionCopyWith<$Res>
           _$_SwapTransaction value, $Res Function(_$_SwapTransaction) then) =
       __$$_SwapTransactionCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String amount,
       String inAmount,
@@ -99,41 +103,39 @@ abstract class _$$_SwapTransactionCopyWith<$Res>
 
 /// @nodoc
 class __$$_SwapTransactionCopyWithImpl<$Res>
-    extends _$SwapTransactionCopyWithImpl<$Res>
+    extends _$SwapTransactionCopyWithImpl<$Res, _$_SwapTransaction>
     implements _$$_SwapTransactionCopyWith<$Res> {
   __$$_SwapTransactionCopyWithImpl(
       _$_SwapTransaction _value, $Res Function(_$_SwapTransaction) _then)
-      : super(_value, (v) => _then(v as _$_SwapTransaction));
+      : super(_value, _then);
 
-  @override
-  _$_SwapTransaction get _value => super._value as _$_SwapTransaction;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = freezed,
-    Object? inAmount = freezed,
-    Object? outAmount = freezed,
-    Object? fee = freezed,
-    Object? transaction = freezed,
+    Object? amount = null,
+    Object? inAmount = null,
+    Object? outAmount = null,
+    Object? fee = null,
+    Object? transaction = null,
   }) {
     return _then(_$_SwapTransaction(
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      inAmount: inAmount == freezed
+      inAmount: null == inAmount
           ? _value.inAmount
           : inAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: outAmount == freezed
+      outAmount: null == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      fee: fee == freezed
+      fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as int,
-      transaction: transaction == freezed
+      transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as SignedTx,
@@ -172,25 +174,23 @@ class _$_SwapTransaction implements _SwapTransaction {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SwapTransaction &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.inAmount, inAmount) &&
-            const DeepCollectionEquality().equals(other.outAmount, outAmount) &&
-            const DeepCollectionEquality().equals(other.fee, fee) &&
-            const DeepCollectionEquality()
-                .equals(other.transaction, transaction));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.inAmount, inAmount) ||
+                other.inAmount == inAmount) &&
+            (identical(other.outAmount, outAmount) ||
+                other.outAmount == outAmount) &&
+            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.transaction, transaction) ||
+                other.transaction == transaction));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(inAmount),
-      const DeepCollectionEquality().hash(outAmount),
-      const DeepCollectionEquality().hash(fee),
-      const DeepCollectionEquality().hash(transaction));
+  int get hashCode =>
+      Object.hash(runtimeType, amount, inAmount, outAmount, fee, transaction);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SwapTransactionCopyWith<_$_SwapTransaction> get copyWith =>
       __$$_SwapTransactionCopyWithImpl<_$_SwapTransaction>(this, _$identity);
 }
