@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
+import 'bl/bloc.dart';
 import 'bl/repository.dart';
 
 class FavoriteWidget extends StatefulWidget {
@@ -42,7 +44,10 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
                 if (isFavorite) {
                   await sl<FavoriteTokenRepository>().remove(widget.token);
                 } else {
+                  final bloc = context.read<FavoritesBloc>();
+
                   await sl<FavoriteTokenRepository>().add(widget.token);
+                  bloc.add(const FavoritesEvent.refreshRequested());
                 }
 
                 if (!mounted) return;

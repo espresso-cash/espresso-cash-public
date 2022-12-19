@@ -21,7 +21,8 @@ class FavoriteTokensModule extends SingleChildStatelessWidget {
       MultiBlocProvider(
         providers: [
           BlocProvider<FavoritesBloc>(
-            create: (context) => sl<FavoritesBloc>(),
+            create: (context) => sl<FavoritesBloc>()
+              ..add(const FavoritesEvent.refreshRequested()),
           ),
         ],
         child: LogoutListener(

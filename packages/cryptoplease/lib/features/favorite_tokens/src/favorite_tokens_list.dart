@@ -34,7 +34,7 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
 
   @override
   Widget build(BuildContext context) {
-    final conversionRates = context.watch<FavoritesBloc>().state;
+    final conversionRates = context.watch<FavoritesBloc>().state.tokens;
 
     return StreamBuilder<List<Token>>(
       stream: _stream,

@@ -27,6 +27,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
           onRefresh: () => Future.wait([
             onRefresh(),
             context.read<PopularTokenBloc>().refresh(),
+            context.read<FavoritesBloc>().refresh(),
           ]),
           color: CpColors.primaryColor,
           child: CustomScrollView(

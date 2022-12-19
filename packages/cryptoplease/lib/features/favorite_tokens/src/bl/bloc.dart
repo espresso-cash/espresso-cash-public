@@ -9,6 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/currency.dart';
+import '../../../../core/processing_state.dart';
 import '../../../../core/tokens/token.dart';
 import 'conversion_rates_repository.dart';
 import 'repository.dart';
@@ -27,9 +28,7 @@ class FavoritesBloc extends Bloc<_Event, _State> {
     required FavoriteTokenRepository favoriteTokenRepository,
   })  : _repository = repository,
         _favoriteTokenRepository = favoriteTokenRepository,
-        super(const IMapConst({})) {
-    _initListener();
-
+        super(const FavoritesState()) {
     on<_Event>(_eventHandler, transformer: restartable());
   }
 
@@ -41,10 +40,10 @@ class FavoritesBloc extends Bloc<_Event, _State> {
         fetchRates: (event) => _onFetchRates(event, emit),
       );
 
-  void _initListener() {
-    _favoriteTokenRepository.watch().listen((tokens) {
-      add(FetchRatesRequested(tokens));
-    });
+  Future<void> refresh() {
+    add(const FavoritesEvent.refreshRequested());
+
+    return stream.firstWhere((state) => !state.processingState.isProcessing);
   }
 
   Future<void> _onRefreshRequested() async {
@@ -57,15 +56,17 @@ class FavoritesBloc extends Bloc<_Event, _State> {
     FetchRatesRequested event,
     _Emitter emit,
   ) async {
+    emit(state.copyWith(processingState: processing()));
+
     final prev = state;
 
     final newState =
         await _repository.refresh(Currency.usd, event.tokens).foldAsync(
               (_) => state,
-              prev.addAll,
+              (e) => state.copyWith(tokens: prev.tokens.addAll(e)),
             );
 
-    emit(newState);
+    emit(newState.copyWith(processingState: const ProcessingState.none()));
   }
 }
 
@@ -76,4 +77,10 @@ class FavoritesEvent with _$FavoritesEvent {
       FetchRatesRequested;
 }
 
-typedef FavoritesState = IMap<Token, Decimal?>;
+@freezed
+class FavoritesState with _$FavoritesState {
+  const factory FavoritesState({
+    @Default(IMapConst<Token, Decimal?>({})) IMap<Token, Decimal?> tokens,
+    @Default(ProcessingState.none()) ProcessingState<Exception> processingState,
+  }) = _FavoritesState;
+}
