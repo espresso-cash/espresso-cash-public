@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,12 +32,16 @@ class _Content extends StatefulWidget {
 
 class _ContentState extends State<_Content> {
   bool _flashStatus = false;
+  bool _cameraEnabled = false;
 
   @override
   void initState() {
     super.initState();
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
-    _qrViewController = MobileScannerController();
+    _qrViewController = MobileScannerController(
+      autoResume: true,
+      onPermissionSet: _onPermissionSet,
+    );
   }
 
   @override
@@ -87,10 +89,8 @@ class _ContentState extends State<_Content> {
     context.read<QrScannerFlow>().onClose();
   }
 
-  Future<void> _onPermissionSet(bool allowed) async {
-    if (!allowed) {
-      context.read<QrScannerFlow>().onCameraPermissionFailure();
-    }
+  void _onPermissionSet(bool allowed) {
+    if (_cameraEnabled != allowed) setState(() => _cameraEnabled = allowed);
   }
 
   void _onDetected(Barcode barcode, MobileScannerArguments? _) {
@@ -115,29 +115,36 @@ class _ContentState extends State<_Content> {
               body: Stack(
                 children: [
                   QrScannerBackground(
-                    enabled: _qrViewController.args.value != null,
+                    enabled: _cameraEnabled,
                     child: MobileScanner(
                       key: _qrKey,
                       controller: _qrViewController,
                       onDetect: _onDetected,
-                      onPermissionSet: _onPermissionSet,
                     ),
                   ),
-                  Align(
-                    alignment: const Alignment(0, -0.7),
-                    child: GestureDetector(
-                      onTap: _onQRToggleFlash,
-                      child: _flashStatus
-                          ? Assets.images.flashOn.svg()
-                          : Assets.images.flashOff.svg(),
+                  if (_cameraEnabled)
+                    Align(
+                      alignment: const Alignment(0, -0.7),
+                      child: GestureDetector(
+                        onTap: _onQRToggleFlash,
+                        child: _flashStatus
+                            ? Assets.images.flashOn.svg()
+                            : Assets.images.flashOff.svg(),
+                      ),
                     ),
-                  ),
+                  if (!_cameraEnabled)
+                    const Align(
+                      alignment: Alignment(0, -0.3),
+                      child: _PermissionText(),
+                    ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 32.0),
                       child: CpButton(
-                        text: context.l10n.qrInputAddressButton,
+                        text: context.l10n.qrInputAddressTitle,
+                        size: CpButtonSize.big,
+                        minWidth: 250,
                         onPressed: _onManualInputRequested,
                       ),
                     ),
@@ -162,4 +169,32 @@ class _ContentState extends State<_Content> {
 
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   late final MobileScannerController _qrViewController;
+}
+
+class _PermissionText extends StatelessWidget {
+  const _PermissionText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(24),
+        child: AnimatedContainer(
+          duration: const Duration(seconds: 1),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                context.l10n.qrCameraPermissionTitle,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                context.l10n.qrCameraPermissionMessage,
+                textAlign: TextAlign.center,
+                style: const TextStyle(height: 1.3),
+              ),
+            ],
+          ),
+        ),
+      );
 }

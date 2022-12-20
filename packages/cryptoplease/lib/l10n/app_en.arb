@@ -445,10 +445,9 @@
       }
     }
   },
-  "qrPermissionDialogTitle": "Camera permission failed",
-  "qrPermissionDialogMessage": "Explanation text that says camera is important, but we also allow user to input the address manually",
-  "qrInputAddressButton": "Enter crypto address",
+  "qrCameraPermissionTitle": "Camera disabled",
+  "qrCameraPermissionMessage": "Allow camera access in your device settings to enable the QR Code reader.",
   "qrInputAddressTitle": "Send manually",
-  "qrInputAddressMessage": "Slippage is the difference observed due to  changing market conditions between the moment the transaction is submitted and its verification.",
+  "qrInputAddressMessage": "You can enter the receiver Solana wallet address to send money directly to them.",
   "qrInputAddressHint": "Enter the crypto address here"
 }

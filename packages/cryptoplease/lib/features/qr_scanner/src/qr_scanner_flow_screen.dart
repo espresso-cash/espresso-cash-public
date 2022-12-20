@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'bl/qr_scanner_request.dart';
-import 'presentation/components/permission_dialog.dart';
 import 'presentation/components/input_address_bottom_sheet.dart';
 import 'qr_scanner_flow.dart';
 
@@ -20,7 +19,7 @@ class _QrScannerFlowScreenState extends State<QrScannerFlowScreen>
   @override
   void onCameraPermissionFailure() {
     // TODO(rhbrunetto): redirect user to input address manually
-    showPermissionDialog(context, onManualInputRequested);
+    // showPermissionDialog(context, onManualInputRequested);
   }
 
   @override
