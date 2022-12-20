@@ -25,10 +25,13 @@ class AvailableBalance extends StatelessWidget {
       onTap: onMaxAmountRequested,
       child: Text(
         context.l10n.swapAmountAvailable(formatted),
-        style: const TextStyle(
+        style: TextStyle(
           height: 1.3,
           fontSize: 14.5,
           color: CpColors.greyDarkAccentColor,
+          decoration: onMaxAmountRequested == null
+              ? TextDecoration.none
+              : TextDecoration.underline,
         ),
       ),
     );
