@@ -37,7 +37,7 @@ class _State extends State<WalletFlowScreen> {
 
   Future<void> _onQrScanner() async {
     final request =
-        await context.router.push<QrScannerRequest>(const QrScannerFlowRoute());
+        await context.router.push<QrScannerRequest>(const QrScannerRoute());
 
     if (request == null) return;
     if (!mounted) return;

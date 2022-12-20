@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,8 +11,9 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
+import '../../module.dart';
 import '../bl/qr_scanner_bloc.dart';
-import '../qr_scanner_flow.dart';
+import 'components/input_address_bottom_sheet.dart';
 import 'components/qr_scanner_background.dart';
 
 class QrScannerScreen extends StatelessWidget {
@@ -41,7 +44,7 @@ class _ContentState extends State<_Content> {
     _qrViewController = MobileScannerController(
       autoResume: true,
       onPermissionSet: _onPermissionSet,
-    );
+    )..start();
   }
 
   @override
@@ -59,8 +62,6 @@ class _ContentState extends State<_Content> {
   }
 
   void _onQRToggleFlash() {
-    context.read<QrScannerFlow>().onCameraPermissionFailure();
-
     _qrViewController.toggleTorch().then((_) {
       setState(() {
         _flashStatus = !_flashStatus;
@@ -73,20 +74,20 @@ class _ContentState extends State<_Content> {
       initial: (_) {},
       done: (d) {
         _qrViewController.stop();
-        context.read<QrScannerFlow>().onScanComplete(d.request);
+        _onScanComplete(d.request);
       },
       error: (_) {
         _qrViewController.stop();
         _onQRScanError();
 
-        context.read<QrScannerFlow>().onClose();
+        context.router.pop();
       },
     );
   }
 
   void _onCloseButtonPressed() {
     _qrViewController.stop();
-    context.read<QrScannerFlow>().onClose();
+    context.router.pop();
   }
 
   void _onPermissionSet(bool allowed) {
@@ -100,8 +101,11 @@ class _ContentState extends State<_Content> {
     }
   }
 
-  void _onManualInputRequested() =>
-      context.read<QrScannerFlow>().onManualInputRequested();
+  void _onManualInputRequested() => InputAddressBottomSheet.show(context)
+      .then((r) => r?.let(QrScannerRequest.parse)?.let(_onScanComplete));
+
+  void _onScanComplete([QrScannerRequest? request]) =>
+      context.router.pop(request);
 
   @override
   Widget build(BuildContext _) => BlocListener<QrScannerBloc, QrScannerState>(
@@ -114,14 +118,14 @@ class _ContentState extends State<_Content> {
             child: Scaffold(
               body: Stack(
                 children: [
-                  QrScannerBackground(
-                    enabled: _cameraEnabled,
-                    child: MobileScanner(
-                      key: _qrKey,
-                      controller: _qrViewController,
-                      onDetect: _onDetected,
+                  if (_cameraEnabled)
+                    QrScannerBackground(
+                      child: MobileScanner(
+                        key: _qrKey,
+                        controller: _qrViewController,
+                        onDetect: _onDetected,
+                      ),
                     ),
-                  ),
                   if (_cameraEnabled)
                     Align(
                       alignment: const Alignment(0, -0.7),
