@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:collection/collection.dart';
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:cryptoplease_link/src/constants.dart';
 import 'package:cryptoplease_link/src/swap/jupiter_repository.dart';
@@ -57,7 +56,31 @@ class CreateSwap {
     final route = responses.first as RouteInfo;
     final price = responses.last as double;
 
-    final fee = max(_convert(route.totalFees, price), minimumSwapFee);
+    final jupiterMessage =
+        route.jupiterTx.let(SignedTx.decode).let((tx) => tx.message);
+
+    final nonClosedAtaCount =
+        jupiterMessage.createAtaCount() - jupiterMessage.closeAccountCount();
+
+    if (nonClosedAtaCount < 0) {
+      throw Exception(
+        'Invalid transaction: more ATA accounts closed than created',
+      );
+    }
+
+    final fees = sum([
+      lamportsPerSignature * 2,
+      nonClosedAtaCount * tokenProgramRent,
+    ]);
+
+    final fee = maxBy<int, int>(
+      [_convert(fees, price), _convert(fees, price), minimumSwapFee],
+      identity,
+    );
+
+    if (fee == null) {
+      throw StateError('Could not calculate fee');
+    }
 
     final feePayer = _platform.publicKey;
     final feeIx = await _createSwapFeePayment(
@@ -66,11 +89,19 @@ class CreateSwap {
       amount: fee,
     );
 
-    final message = route.jupiterTx
-        .let(SignedTx.decode)
-        .let((tx) => tx.message)
-        .let((message) => message.changeAtaIxsFunder(_platform.publicKey))
-        .let((message) => message.addInstruction(feeIx));
+    final wrappedSolAccount =
+        await findAssociatedTokenAddress(owner: aSender, mint: wrappedSol);
+
+    final message = jupiterMessage
+        .let((m) => m.changeAtaIxsFunder(_platform.publicKey))
+        .let(
+          (m) => m.changeCloseAccountDestination(
+            platform: _platform.publicKey,
+            wrappedSolAccount: wrappedSolAccount,
+            sender: aSender,
+          ),
+        )
+        .let((m) => m.addInstruction(feeIx));
 
     final recentBlockhash = await _client.rpcClient.getRecentBlockhash(
       commitment: commitment,
@@ -99,6 +130,20 @@ class CreateSwap {
 }
 
 extension on Message {
+  int createAtaCount() => instructions
+      .where((ix) => ix.programId == AssociatedTokenAccountProgram.id)
+      .length;
+
+  int closeAccountCount() => instructions
+      .where((ix) => ix.programId == TokenProgram.id)
+      .where(
+        (ix) => const DeepCollectionEquality().equals(
+          ix.data,
+          TokenProgram.closeAccountInstructionIndex,
+        ),
+      )
+      .length;
+
   Message changeAtaIxsFunder(Ed25519HDPublicKey funder) {
     final instructions = this.instructions.map((ix) {
       if (ix.programId != AssociatedTokenAccountProgram.id) return ix;
@@ -111,6 +156,45 @@ extension on Message {
         ],
         data: ix.data,
       );
+    }).toList();
+
+    return Message(instructions: instructions);
+  }
+
+  Message changeCloseAccountDestination({
+    required Ed25519HDPublicKey platform,
+    required Ed25519HDPublicKey wrappedSolAccount,
+    required Ed25519HDPublicKey sender,
+  }) {
+    final instructions = this.instructions.expand((ix) {
+      if (ix.programId != TokenProgram.id) return [ix];
+      if (!const DeepCollectionEquality().equals(
+        ix.data,
+        TokenProgram.closeAccountInstructionIndex,
+      )) return [ix];
+
+      if (ix.accounts.first.pubKey != wrappedSolAccount) {
+        return [
+          Instruction(
+            programId: ix.programId,
+            accounts: [
+              ix.accounts.first,
+              AccountMeta.writeable(pubKey: platform, isSigner: false),
+              ...ix.accounts.skip(2),
+            ],
+            data: ix.data,
+          ),
+        ];
+      } else {
+        return [
+          ix,
+          SystemInstruction.transfer(
+            fundingAccount: sender,
+            lamports: tokenProgramRent,
+            recipientAccount: platform,
+          ),
+        ];
+      }
     }).toList();
 
     return Message(instructions: instructions);
@@ -147,4 +231,4 @@ Future<Instruction> _createSwapFeePayment({
 }
 
 int _convert(num amountInSol, double price) =>
-    (amountInSol * price / solDecimals * usdcDecimals).round();
+    (amountInSol * price / solDecimals * 100).ceil() * usdcDecimals ~/ 100;
