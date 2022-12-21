@@ -4,6 +4,7 @@ import 'package:cryptoplease_link/src/constants.dart';
 import 'package:cryptoplease_link/src/swap/jupiter_repository.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sentry/sentry.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -68,13 +69,36 @@ class CreateSwap {
       );
     }
 
-    final fees = sum([
+    final feesFromTransaction = sum([
       lamportsPerSignature * 2,
       nonClosedAtaCount * tokenProgramRent,
     ]);
 
+    final feesFromJupiter = route.totalFees + lamportsPerSignature;
+
+    if (feesFromJupiter != feesFromTransaction) {
+      await Sentry.captureEvent(
+        SentryEvent(
+          level: SentryLevel.warning,
+          message: const SentryMessage(
+            'Fees from Jupiter and transaction do not match.',
+          ),
+          extra: {
+            'feesFromTransaction': feesFromTransaction,
+            'feesFromJupiter': feesFromJupiter,
+            'inputToken': inputToken,
+            'outputToken': outputToken,
+          },
+        ),
+      );
+    }
+
     final fee = maxBy<int, int>(
-      [_convert(fees, price), _convert(fees, price), minimumSwapFee],
+      [
+        _convert(feesFromTransaction, price),
+        _convert(feesFromJupiter, price),
+        minimumSwapFee,
+      ],
       identity,
     );
 
