@@ -1,4 +1,5 @@
 import 'dart:io' as io;
+import 'dart:io';
 
 import 'package:cryptoplease_link/src/handlers/association_handlers.dart';
 import 'package:cryptoplease_link/src/handlers/solana_handler.dart';
@@ -6,14 +7,28 @@ import 'package:cryptoplease_link/src/moonpay/handler.dart';
 import 'package:cryptoplease_link/src/payments/handler.dart';
 import 'package:cryptoplease_link/src/swap/handler.dart';
 import 'package:cryptoplease_link/src/tokens.dart';
+import 'package:sentry/sentry.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:shelf_static/shelf_static.dart' as shelf_static;
 
 Future<void> main() async {
+  await Sentry.init((options) {
+    options
+      ..dsn = Platform.environment['SENTRY_DSN']
+      ..tracesSampleRate = 1.0;
+  });
+
   final port = int.parse(io.Platform.environment['PORT'] ?? '8080');
   final solanaHandler = createSolanaHandler(tokens: tokens);
+
+  final errorReporter = createMiddleware(
+    errorHandler: (error, stacktrace) async {
+      await Sentry.captureException(error, stackTrace: stacktrace);
+      Error.throwWithStackTrace(error, stacktrace);
+    },
+  );
 
   final cascade = Cascade() //
       .add(_staticHandler)
@@ -22,7 +37,7 @@ Future<void> main() async {
       .add(solanaHandler);
 
   final server = await shelf_io.serve(
-    logRequests().addHandler(cascade.handler),
+    logRequests().addMiddleware(errorReporter).addHandler(cascade.handler),
     io.InternetAddress.anyIPv4,
     port,
   );

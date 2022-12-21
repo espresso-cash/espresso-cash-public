@@ -35,6 +35,7 @@ class JupiterRepository {
         slippageBps: slippageBps,
         swapMode: swapMode,
         userPublicKey: account,
+        onlyDirectRoutes: true,
         enforceSingleTx: true,
       ),
     );
