@@ -1,4 +1,4 @@
-package com.example.solana_seed_vault_example
+package com.example.wallet_example
 
 import io.flutter.embedding.android.FlutterActivity
 

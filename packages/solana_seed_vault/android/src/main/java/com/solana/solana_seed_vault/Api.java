@@ -21,6 +21,364 @@ import java.util.HashMap;
 /** Generated class from Pigeon. */
 @SuppressWarnings({"unused", "unchecked", "CodeBlock2Expr", "RedundantSuppression"})
 public class Api {
+
+  public enum Purpose {
+    signSolanaTransaction(0);
+
+    private int index;
+    private Purpose(final int index) {
+      this.index = index;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class AccountDto {
+    private @NonNull Long id;
+    public @NonNull Long getId() { return id; }
+    public void setId(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"id\" is null.");
+      }
+      this.id = setterArg;
+    }
+
+    private @NonNull String name;
+    public @NonNull String getName() { return name; }
+    public void setName(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"name\" is null.");
+      }
+      this.name = setterArg;
+    }
+
+    private @NonNull String derivationPath;
+    public @NonNull String getDerivationPath() { return derivationPath; }
+    public void setDerivationPath(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"derivationPath\" is null.");
+      }
+      this.derivationPath = setterArg;
+    }
+
+    private @NonNull String publicKeyEncoded;
+    public @NonNull String getPublicKeyEncoded() { return publicKeyEncoded; }
+    public void setPublicKeyEncoded(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"publicKeyEncoded\" is null.");
+      }
+      this.publicKeyEncoded = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private AccountDto() {}
+    public static final class Builder {
+      private @Nullable Long id;
+      public @NonNull Builder setId(@NonNull Long setterArg) {
+        this.id = setterArg;
+        return this;
+      }
+      private @Nullable String name;
+      public @NonNull Builder setName(@NonNull String setterArg) {
+        this.name = setterArg;
+        return this;
+      }
+      private @Nullable String derivationPath;
+      public @NonNull Builder setDerivationPath(@NonNull String setterArg) {
+        this.derivationPath = setterArg;
+        return this;
+      }
+      private @Nullable String publicKeyEncoded;
+      public @NonNull Builder setPublicKeyEncoded(@NonNull String setterArg) {
+        this.publicKeyEncoded = setterArg;
+        return this;
+      }
+      public @NonNull AccountDto build() {
+        AccountDto pigeonReturn = new AccountDto();
+        pigeonReturn.setId(id);
+        pigeonReturn.setName(name);
+        pigeonReturn.setDerivationPath(derivationPath);
+        pigeonReturn.setPublicKeyEncoded(publicKeyEncoded);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("id", id);
+      toMapResult.put("name", name);
+      toMapResult.put("derivationPath", derivationPath);
+      toMapResult.put("publicKeyEncoded", publicKeyEncoded);
+      return toMapResult;
+    }
+    static @NonNull AccountDto fromMap(@NonNull Map<String, Object> map) {
+      AccountDto pigeonResult = new AccountDto();
+      Object id = map.get("id");
+      pigeonResult.setId((id == null) ? null : ((id instanceof Integer) ? (Integer)id : (Long)id));
+      Object name = map.get("name");
+      pigeonResult.setName((String)name);
+      Object derivationPath = map.get("derivationPath");
+      pigeonResult.setDerivationPath((String)derivationPath);
+      Object publicKeyEncoded = map.get("publicKeyEncoded");
+      pigeonResult.setPublicKeyEncoded((String)publicKeyEncoded);
+      return pigeonResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class SeedDto {
+    private @NonNull Long authToken;
+    public @NonNull Long getAuthToken() { return authToken; }
+    public void setAuthToken(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"authToken\" is null.");
+      }
+      this.authToken = setterArg;
+    }
+
+    private @NonNull String name;
+    public @NonNull String getName() { return name; }
+    public void setName(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"name\" is null.");
+      }
+      this.name = setterArg;
+    }
+
+    private @NonNull Purpose purpose;
+    public @NonNull Purpose getPurpose() { return purpose; }
+    public void setPurpose(@NonNull Purpose setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"purpose\" is null.");
+      }
+      this.purpose = setterArg;
+    }
+
+    private @NonNull List<AccountDto> accounts;
+    public @NonNull List<AccountDto> getAccounts() { return accounts; }
+    public void setAccounts(@NonNull List<AccountDto> setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"accounts\" is null.");
+      }
+      this.accounts = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private SeedDto() {}
+    public static final class Builder {
+      private @Nullable Long authToken;
+      public @NonNull Builder setAuthToken(@NonNull Long setterArg) {
+        this.authToken = setterArg;
+        return this;
+      }
+      private @Nullable String name;
+      public @NonNull Builder setName(@NonNull String setterArg) {
+        this.name = setterArg;
+        return this;
+      }
+      private @Nullable Purpose purpose;
+      public @NonNull Builder setPurpose(@NonNull Purpose setterArg) {
+        this.purpose = setterArg;
+        return this;
+      }
+      private @Nullable List<AccountDto> accounts;
+      public @NonNull Builder setAccounts(@NonNull List<AccountDto> setterArg) {
+        this.accounts = setterArg;
+        return this;
+      }
+      public @NonNull SeedDto build() {
+        SeedDto pigeonReturn = new SeedDto();
+        pigeonReturn.setAuthToken(authToken);
+        pigeonReturn.setName(name);
+        pigeonReturn.setPurpose(purpose);
+        pigeonReturn.setAccounts(accounts);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("authToken", authToken);
+      toMapResult.put("name", name);
+      toMapResult.put("purpose", purpose == null ? null : purpose.index);
+      toMapResult.put("accounts", accounts);
+      return toMapResult;
+    }
+    static @NonNull SeedDto fromMap(@NonNull Map<String, Object> map) {
+      SeedDto pigeonResult = new SeedDto();
+      Object authToken = map.get("authToken");
+      pigeonResult.setAuthToken((authToken == null) ? null : ((authToken instanceof Integer) ? (Integer)authToken : (Long)authToken));
+      Object name = map.get("name");
+      pigeonResult.setName((String)name);
+      Object purpose = map.get("purpose");
+      pigeonResult.setPurpose(purpose == null ? null : Purpose.values()[(int)purpose]);
+      Object accounts = map.get("accounts");
+      pigeonResult.setAccounts((List<AccountDto>)accounts);
+      return pigeonResult;
+    }
+  }
+  private static class ApiHostCodec extends StandardMessageCodec {
+    public static final ApiHostCodec INSTANCE = new ApiHostCodec();
+    private ApiHostCodec() {}
+    @Override
+    protected Object readValueOfType(byte type, ByteBuffer buffer) {
+      switch (type) {
+        case (byte)128:         
+          return AccountDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)129:         
+          return SeedDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        default:        
+          return super.readValueOfType(type, buffer);
+        
+      }
+    }
+    @Override
+    protected void writeValue(ByteArrayOutputStream stream, Object value)     {
+      if (value instanceof AccountDto) {
+        stream.write(128);
+        writeValue(stream, ((AccountDto) value).toMap());
+      } else 
+      if (value instanceof SeedDto) {
+        stream.write(129);
+        writeValue(stream, ((SeedDto) value).toMap());
+      } else 
+{
+        super.writeValue(stream, value);
+      }
+    }
+  }
+
+  /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
+  public interface ApiHost {
+    @NonNull Map<String, Long> getImplementationLimitsForPurpose(@NonNull Purpose purpose);
+    @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Purpose purpose);
+    @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
+    @NonNull List<SeedDto> getAuthorizedSeeds();
+    @NonNull List<AccountDto> getAccounts(@NonNull Long authToken);
+
+    /** The codec used by ApiHost. */
+    static MessageCodec<Object> getCodec() {
+      return ApiHostCodec.INSTANCE;
+    }
+
+    /** Sets up an instance of `ApiHost` to handle messages through the `binaryMessenger`. */
+    static void setup(BinaryMessenger binaryMessenger, ApiHost api) {
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.getImplementationLimitsForPurpose", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Purpose purposeArg = args.get(0) == null ? null : Purpose.values()[(int)args.get(0)];
+              if (purposeArg == null) {
+                throw new NullPointerException("purposeArg unexpectedly null.");
+              }
+              Map<String, Long> output = api.getImplementationLimitsForPurpose(purposeArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.hasUnauthorizedSeedsForPurpose", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Purpose purposeArg = args.get(0) == null ? null : Purpose.values()[(int)args.get(0)];
+              if (purposeArg == null) {
+                throw new NullPointerException("purposeArg unexpectedly null.");
+              }
+              Boolean output = api.hasUnauthorizedSeedsForPurpose(purposeArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.isAvailable", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Boolean allowSimulatedArg = (Boolean)args.get(0);
+              if (allowSimulatedArg == null) {
+                throw new NullPointerException("allowSimulatedArg unexpectedly null.");
+              }
+              Boolean output = api.isAvailable(allowSimulatedArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.getAuthorizedSeeds", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              List<SeedDto> output = api.getAuthorizedSeeds();
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.getAccounts", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              List<AccountDto> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue());
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+    }
+  }
   private static Map<String, Object> wrapError(Throwable exception) {
     Map<String, Object> errorMap = new HashMap<>();
     errorMap.put("message", exception.toString());

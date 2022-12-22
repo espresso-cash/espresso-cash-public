@@ -1,6 +1,6 @@
-# solana_seed_vault_example
+# wallet_example
 
-Demonstrates how to use the solana_seed_vault plugin.
+A new Flutter project.
 
 ## Getting Started
 

@@ -1,7 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.solana_seed_vault_example">
+    package="com.example.wallet_example">
+
+    <!--Needed for wallet example to access seed vault-->
+    <uses-permission
+        android:name="om.solanamobile.seedvault.ACCESS_SEED_VAULT" />
+        
    <application
-        android:label="solana_seed_vault_example"
+        android:label="wallet_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

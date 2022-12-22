@@ -6,3 +6,252 @@ import 'dart:typed_data' show Uint8List, Int32List, Int64List, Float64List;
 
 import 'package:flutter/foundation.dart' show WriteBuffer, ReadBuffer;
 import 'package:flutter/services.dart';
+
+enum Purpose {
+  signSolanaTransaction,
+}
+
+class AccountDto {
+  AccountDto({
+    required this.id,
+    required this.name,
+    required this.derivationPath,
+    required this.publicKeyEncoded,
+  });
+
+  int id;
+  String name;
+  String derivationPath;
+  String publicKeyEncoded;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['id'] = id;
+    pigeonMap['name'] = name;
+    pigeonMap['derivationPath'] = derivationPath;
+    pigeonMap['publicKeyEncoded'] = publicKeyEncoded;
+    return pigeonMap;
+  }
+
+  static AccountDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return AccountDto(
+      id: pigeonMap['id']! as int,
+      name: pigeonMap['name']! as String,
+      derivationPath: pigeonMap['derivationPath']! as String,
+      publicKeyEncoded: pigeonMap['publicKeyEncoded']! as String,
+    );
+  }
+}
+
+class SeedDto {
+  SeedDto({
+    required this.authToken,
+    required this.name,
+    required this.purpose,
+    required this.accounts,
+  });
+
+  int authToken;
+  String name;
+  Purpose purpose;
+  List<AccountDto?> accounts;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['authToken'] = authToken;
+    pigeonMap['name'] = name;
+    pigeonMap['purpose'] = purpose.index;
+    pigeonMap['accounts'] = accounts;
+    return pigeonMap;
+  }
+
+  static SeedDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return SeedDto(
+      authToken: pigeonMap['authToken']! as int,
+      name: pigeonMap['name']! as String,
+      purpose: Purpose.values[pigeonMap['purpose']! as int]
+,
+      accounts: (pigeonMap['accounts'] as List<Object?>?)!.cast<AccountDto?>(),
+    );
+  }
+}
+
+class _ApiHostCodec extends StandardMessageCodec {
+  const _ApiHostCodec();
+  @override
+  void writeValue(WriteBuffer buffer, Object? value) {
+    if (value is AccountDto) {
+      buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is SeedDto) {
+      buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    } else 
+{
+      super.writeValue(buffer, value);
+    }
+  }
+  @override
+  Object? readValueOfType(int type, ReadBuffer buffer) {
+    switch (type) {
+      case 128:       
+        return AccountDto.decode(readValue(buffer)!);
+      
+      case 129:       
+        return SeedDto.decode(readValue(buffer)!);
+      
+      default:      
+        return super.readValueOfType(type, buffer);
+      
+    }
+  }
+}
+
+class ApiHost {
+  /// Constructor for [ApiHost].  The [binaryMessenger] named argument is
+  /// available for dependency injection.  If it is left null, the default
+  /// BinaryMessenger will be used which routes to the host platform.
+  ApiHost({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
+
+  final BinaryMessenger? _binaryMessenger;
+
+  static const MessageCodec<Object?> codec = _ApiHostCodec();
+
+  Future<Map<String?, int?>> getImplementationLimitsForPurpose(Purpose arg_purpose) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiHost.getImplementationLimitsForPurpose', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_purpose.index]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as Map<Object?, Object?>?)!.cast<String?, int?>();
+    }
+  }
+
+  Future<bool> hasUnauthorizedSeedsForPurpose(Purpose arg_purpose) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiHost.hasUnauthorizedSeedsForPurpose', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_purpose.index]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as bool?)!;
+    }
+  }
+
+  Future<bool> isAvailable(bool arg_allowSimulated) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiHost.isAvailable', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_allowSimulated]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as bool?)!;
+    }
+  }
+
+  Future<List<SeedDto?>> getAuthorizedSeeds() async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiHost.getAuthorizedSeeds', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(null) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as List<Object?>?)!.cast<SeedDto?>();
+    }
+  }
+
+  Future<List<AccountDto?>> getAccounts(int arg_authToken) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiHost.getAccounts', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_authToken]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as List<Object?>?)!.cast<AccountDto?>();
+    }
+  }
+}

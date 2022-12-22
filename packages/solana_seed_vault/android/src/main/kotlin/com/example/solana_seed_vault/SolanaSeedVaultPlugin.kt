@@ -1,24 +1,29 @@
 package com.example.solana_seed_vault
 
+import android.content.Context
+import android.content.Intent
 import androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** SolanaSeedVaultPlugin */
-class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
+class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var channel : MethodChannel
+  private var intent: Intent? = null
+  private lateinit var apiHost: ApiHost
+
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "solana_seed_vault")
     channel.setMethodCallHandler(this)
+    apiHost = ApiHost()
+    apiHost.init(flutterPluginBinding.binaryMessenger, flutterPluginBinding.applicationContext)
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
@@ -31,5 +36,19 @@ class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
+  }
+
+  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+    intent = binding.activity.intent
+  }
+
+  override fun onDetachedFromActivityForConfigChanges() = Unit
+
+  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) = Unit
+
+  override fun onDetachedFromActivity() = Unit
+
+  companion object {
+    private const val TAG = "SolanaMobileWalletPlugin"
   }
 }
