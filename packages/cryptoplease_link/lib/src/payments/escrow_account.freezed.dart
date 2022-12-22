@@ -29,39 +29,42 @@ mixin _$EscrowAccount {
 abstract class $EscrowAccountCopyWith<$Res> {
   factory $EscrowAccountCopyWith(
           EscrowAccount value, $Res Function(EscrowAccount) then) =
-      _$EscrowAccountCopyWithImpl<$Res>;
+      _$EscrowAccountCopyWithImpl<$Res, EscrowAccount>;
+  @useResult
   $Res call({Ed25519HDPublicKey address, Ed25519HDPublicKey mint, int amount});
 }
 
 /// @nodoc
-class _$EscrowAccountCopyWithImpl<$Res>
+class _$EscrowAccountCopyWithImpl<$Res, $Val extends EscrowAccount>
     implements $EscrowAccountCopyWith<$Res> {
   _$EscrowAccountCopyWithImpl(this._value, this._then);
 
-  final EscrowAccount _value;
   // ignore: unused_field
-  final $Res Function(EscrowAccount) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? mint = freezed,
-    Object? amount = freezed,
+    Object? address = null,
+    Object? mint = null,
+    Object? amount = null,
   }) {
     return _then(_value.copyWith(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      mint: mint == freezed
+      mint: null == mint
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 }
 
@@ -72,36 +75,35 @@ abstract class _$$_EscrowAccountCopyWith<$Res>
           _$_EscrowAccount value, $Res Function(_$_EscrowAccount) then) =
       __$$_EscrowAccountCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({Ed25519HDPublicKey address, Ed25519HDPublicKey mint, int amount});
 }
 
 /// @nodoc
 class __$$_EscrowAccountCopyWithImpl<$Res>
-    extends _$EscrowAccountCopyWithImpl<$Res>
+    extends _$EscrowAccountCopyWithImpl<$Res, _$_EscrowAccount>
     implements _$$_EscrowAccountCopyWith<$Res> {
   __$$_EscrowAccountCopyWithImpl(
       _$_EscrowAccount _value, $Res Function(_$_EscrowAccount) _then)
-      : super(_value, (v) => _then(v as _$_EscrowAccount));
+      : super(_value, _then);
 
-  @override
-  _$_EscrowAccount get _value => super._value as _$_EscrowAccount;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? mint = freezed,
-    Object? amount = freezed,
+    Object? address = null,
+    Object? mint = null,
+    Object? amount = null,
   }) {
     return _then(_$_EscrowAccount(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      mint: mint == freezed
+      mint: null == mint
           ? _value.mint
           : mint // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
@@ -132,20 +134,17 @@ class _$_EscrowAccount implements _EscrowAccount {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_EscrowAccount &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality().equals(other.mint, mint) &&
-            const DeepCollectionEquality().equals(other.amount, amount));
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.mint, mint) || other.mint == mint) &&
+            (identical(other.amount, amount) || other.amount == amount));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(address),
-      const DeepCollectionEquality().hash(mint),
-      const DeepCollectionEquality().hash(amount));
+  int get hashCode => Object.hash(runtimeType, address, mint, amount);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_EscrowAccountCopyWith<_$_EscrowAccount> get copyWith =>
       __$$_EscrowAccountCopyWithImpl<_$_EscrowAccount>(this, _$identity);
 }
