@@ -43,7 +43,7 @@ class FavoritesBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onRefreshRequested(RefreshRequested _, _Emitter emit) async {
-    final tokens = await _favoriteTokenRepository.fetch();
+    final tokens = await _favoriteTokenRepository.read();
 
     emit(processing());
 
