@@ -10,7 +10,7 @@ import '../../../../core/tokens/token.dart';
 import '../presentation/discover_header.dart';
 import 'repository.dart';
 
-part 'bloc.freezed.dart';
+part '../../../token_search/src/bl/bloc.freezed.dart';
 
 typedef _Event = TokenSearchEvent;
 typedef _State = TokenSearchState;
@@ -20,7 +20,7 @@ typedef _Emitter = Emitter<_State>;
 const _duration = Duration(milliseconds: 300);
 
 EventTransformer<Event> debounce<Event>(Duration duration) =>
-    (events, mapper) => events.debounceTime(duration).asyncExpand(mapper);
+    (events, mapper) => events.debounceTime(duration).switchMap(mapper);
 
 @injectable
 class TokenSearchBloc extends Bloc<_Event, _State> {

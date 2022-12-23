@@ -11,6 +11,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/loader.dart';
 import '../../../../ui/text_field.dart';
+import '../../../favorite_tokens/module.dart';
 import '../bl/bloc.dart';
 import 'discover_header.dart';
 
@@ -78,7 +79,7 @@ class _ContentState extends State<_Content> {
               placeholder: context.l10n.searchPlaceholder,
               backgroundColor: const Color(0xffEFEFEF),
               inputType: TextInputType.text,
-              prefixWidget: Assets.icons.searchButtonIcon.svg(),
+              prefix: Assets.icons.searchButtonIcon.svg(),
             ),
             const SizedBox(height: 16),
             Expanded(
@@ -154,15 +155,7 @@ class _TokenItem extends StatelessWidget {
               _TokenSymbolWidget(token.symbol),
             ],
           ),
-          // TODO(JE): Add on Favorites PR
-          // trailing: SizedBox.square(
-          //   dimension: 26,
-          //   child: IconButton(
-          //     onPressed: () {},
-          //     icon: Assets.icons.unfavoriteLight.svg(),
-          //     padding: EdgeInsets.zero,
-          //   ),
-          // ),
+          trailing: FavoriteButton(token: token),
         ),
       );
 }
