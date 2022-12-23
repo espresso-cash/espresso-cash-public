@@ -28,4 +28,4 @@ jobs:
             style
             test
           requireScope: false
-          validateSingleCommit: true
+          validateSingleCommit: false
