@@ -100,7 +100,7 @@ class _Header extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.centerRight,
-                child: FavoriteWidget(token: token),
+                child: FavoriteButton(token: token),
               ),
             ],
           ),

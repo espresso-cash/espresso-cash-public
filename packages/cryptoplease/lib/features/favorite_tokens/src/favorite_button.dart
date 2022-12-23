@@ -9,8 +9,8 @@ import '../../../ui/snackbar.dart';
 import 'bl/bloc.dart';
 import 'bl/repository.dart';
 
-class FavoriteWidget extends StatefulWidget {
-  const FavoriteWidget({
+class FavoriteButton extends StatefulWidget {
+  const FavoriteButton({
     super.key,
     required this.token,
   });
@@ -18,10 +18,10 @@ class FavoriteWidget extends StatefulWidget {
   final Token token;
 
   @override
-  State<FavoriteWidget> createState() => _FavoriteWidgetState();
+  State<FavoriteButton> createState() => _FavoriteButtonState();
 }
 
-class _FavoriteWidgetState extends State<FavoriteWidget> {
+class _FavoriteButtonState extends State<FavoriteButton> {
   late Future<bool> _isFavoriteFuture;
 
   @override
