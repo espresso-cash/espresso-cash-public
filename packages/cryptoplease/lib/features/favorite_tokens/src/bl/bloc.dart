@@ -52,10 +52,7 @@ class FavoritesBloc extends Bloc<_Event, _State> {
     add(FetchRatesRequested(tokens));
   }
 
-  Future<void> _onFetchRates(
-    FetchRatesRequested event,
-    _Emitter emit,
-  ) async {
+  Future<void> _onFetchRates(FetchRatesRequested event, _Emitter emit) async {
     emit(state.copyWith(processingState: processing()));
 
     final prev = state;
