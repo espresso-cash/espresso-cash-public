@@ -1,7 +1,7 @@
 name: cryptoplease
 description: CryptoPlease mobile wallet for Solana
 publish_to: "none"
-version: 1.56.0
+version: 1.57.0
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
