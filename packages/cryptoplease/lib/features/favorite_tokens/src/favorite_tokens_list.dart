@@ -10,13 +10,13 @@ import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
 import '../../../core/amount.dart';
-import '../../../core/conversion_rates/bl/conversion_rates_bloc.dart';
 import '../../../core/conversion_rates/context_ext.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../module.dart';
+import 'bl/bloc.dart';
+import 'bl/repository.dart';
 
 class FavoriteTokenList extends StatefulWidget {
   const FavoriteTokenList({super.key});
