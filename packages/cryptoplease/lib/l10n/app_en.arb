@@ -328,7 +328,7 @@
         "type": "String"
       },
       "balance": {
-            "type": "String"
+        "type": "String"
       }
     }
   },
@@ -356,7 +356,7 @@
   "@swapAmountAvailable": {
     "placeholders": {
       "amount": {
-            "type": "String"
+        "type": "String"
       }
     }
   },
@@ -411,13 +411,17 @@
   "price": "Price",
   "yourBalance": "Your balance",
   "failedToLoadTokens": "Failed to load tokens",
-  "settings" : "Settings",
-  "displayEmptyBalanceTitle" : "Display Empty Balances",
-  "displayEmptyBalanceSubtitle" : "Show your crypto with zero balances",
+  "settings": "Settings",
+  "displayEmptyBalanceTitle": "Display Empty Balances",
+  "displayEmptyBalanceSubtitle": "Show your crypto with zero balances",
   "following": "FOLLOWING",
-  "favoritesAddNotice" : "Added to favorites!",
-  "favoritesRemoveNotice" : "Removed from favorites!",
-  "tip" : "Tip",
+  "favoritesAddNotice": "Added to favorites!",
+  "favoritesRemoveNotice": "Removed from favorites!",
+  "searchPlaceholder": "Search...",
+  "failedToSearch": "Failed to search token",
+  "emptySearch": "Token not found",
+  "discover": "DISCOVER",
+  "tip": "Tip",
   "minimumAmountToTip": "{amount} is the minimum to tip",
   "@minimumAmountToTip": {
     "placeholders": {
@@ -434,11 +438,11 @@
       }
     }
   },
-  "tipPaymentSubtitle" : "The recipient will receive your tip by scanning this QR Code:",
-  "tipButtonLabel" : "Tip QR Code",
-  "tipViewQr" : "View QR Code",
-  "tipCreatingQr" : "Creating QR Code",
-  "tipCreatedQr" : "QR Code created",
+  "tipPaymentSubtitle": "The recipient will receive your tip by scanning this QR Code:",
+  "tipButtonLabel": "Tip QR Code",
+  "tipViewQr": "View QR Code",
+  "tipCreatingQr": "Creating QR Code",
+  "tipCreatedQr": "QR Code created",
   "tipProgressOngoing": "Tipping {amount} using secure link...",
   "@tipProgressOngoing": {
     "placeholders": {
