@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/transactions/tx_sender.dart';
 import '../../features/activities/module.dart';
+import '../../features/favorite_tokens/module.dart';
 import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/incoming_tip_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
@@ -24,7 +25,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 23;
+const int latestVersion = 24;
 
 const _tables = [
   OutgoingTransferRows,
@@ -34,6 +35,7 @@ const _tables = [
   ISKPRows,
   SwapRows,
   TransactionRows,
+  FavoriteTokenRows,
   PopularTokenRows,
   OTRows,
   ITRows,
@@ -101,6 +103,10 @@ class MyDatabase extends _$MyDatabase {
 
           if (from < 23) {
             await m.createTable(popularTokenRows);
+          }
+
+          if (from < 24) {
+            await m.createTable(favoriteTokenRows);
           }
         },
       );

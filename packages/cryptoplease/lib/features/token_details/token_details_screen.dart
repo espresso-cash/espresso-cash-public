@@ -17,6 +17,7 @@ import '../../ui/loader.dart';
 import '../../ui/navigation_bar/navigation_bar.dart';
 import '../../ui/theme.dart';
 import '../../ui/token_icon.dart';
+import '../favorite_tokens/module.dart';
 import '../token_chart/module.dart';
 import 'src/token_details.dart';
 import 'src/token_details_bloc.dart';
@@ -96,6 +97,10 @@ class _Header extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: BackButton(onPressed: () => context.router.pop()),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: FavoriteButton(token: token),
               ),
             ],
           ),
