@@ -43,11 +43,11 @@ class FavoriteTokenRepository {
         .then((e) => e.map((e) => e.toToken(_tokenList)).toList());
   }
 
-  Future<bool> isFavorite(Token token) {
+  Stream<bool> isFavorite(Token token) {
     final query = _db.select(_db.favoriteTokenRows)
       ..where((p) => p.id.equals(token.extensions?.coingeckoId ?? token.name));
 
-    return query.getSingleOrNull().then((p) => p != null);
+    return query.watchSingleOrNull().map((p) => p != null);
   }
 
   Future<void> clear() => _db.delete(_db.favoriteTokenRows).go();
