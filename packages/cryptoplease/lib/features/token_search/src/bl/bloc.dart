@@ -10,7 +10,7 @@ import '../../../../core/tokens/token.dart';
 import '../presentation/discover_header.dart';
 import 'repository.dart';
 
-part '../../../token_search/src/bl/bloc.freezed.dart';
+part 'bloc.freezed.dart';
 
 typedef _Event = TokenSearchEvent;
 typedef _State = TokenSearchState;
