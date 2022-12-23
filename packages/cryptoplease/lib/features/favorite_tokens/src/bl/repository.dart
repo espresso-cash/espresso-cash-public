@@ -58,7 +58,6 @@ class FavoriteTokenRows extends Table {
   TextColumn get name => text()();
   TextColumn get symbol => text()();
   TextColumn get logoUri => text().nullable()();
-  DateTimeColumn get created => dateTime()();
 
   @override
   Set<Column<dynamic>>? get primaryKey => {id};
@@ -70,7 +69,6 @@ extension on Token {
         name: name,
         symbol: symbol,
         logoUri: logoURI,
-        created: DateTime.now(),
       );
 }
 

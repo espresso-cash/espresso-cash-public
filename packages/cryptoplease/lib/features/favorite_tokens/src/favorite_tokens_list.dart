@@ -10,6 +10,8 @@ import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
 import '../../../core/amount.dart';
+import '../../../core/conversion_rates/bl/conversion_rates_bloc.dart';
+import '../../../core/conversion_rates/context_ext.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
@@ -29,12 +31,13 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
   @override
   void initState() {
     super.initState();
+    context.read<FavoritesBloc>().add(const FavoritesEvent.refreshRequested());
     _stream = sl<FavoriteTokenRepository>().watch();
   }
 
   @override
   Widget build(BuildContext context) {
-    final conversionRates = context.watch<FavoritesBloc>().state.tokens;
+    final currency = context.watch<UserPreferences>().fiatCurrency;
 
     return StreamBuilder<List<Token>>(
       stream: _stream,
@@ -47,8 +50,11 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
           );
         }
 
-        final items =
-            data.map((e) => _TokenItem(e, conversionRates[e])).toList();
+        final items = data.map((e) {
+          final price = context.watchConversionRate(from: e, to: currency);
+
+          return _TokenItem(e, price);
+        }).toList();
 
         return SliverPadding(
           padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
