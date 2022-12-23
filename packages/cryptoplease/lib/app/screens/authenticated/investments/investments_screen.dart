@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../features/favorite_tokens/module.dart';
 import '../../../../features/investments/module.dart';
 import '../../../../features/popular_tokens/module.dart';
 import '../../../../l10n/l10n.dart';
@@ -25,6 +27,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
           onRefresh: () => Future.wait([
             onRefresh(),
             context.read<PopularTokenBloc>().refresh(),
+            context.read<FavoritesBloc>().refresh(),
           ]),
           color: CpColors.primaryColor,
           child: CustomScrollView(
@@ -52,6 +55,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 padding: EdgeInsets.only(left: 24, right: 24),
                 sliver: MyPortfolio(),
               ),
+              const FavoriteTokenList(),
               const SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.only(top: 54, bottom: 24),
@@ -61,7 +65,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
               const PopularTokenList(),
               const SliverToBoxAdapter(
                 child: SizedBox(height: cpNavigationBarheight + 56),
-              )
+              ),
             ],
           ),
         ),
