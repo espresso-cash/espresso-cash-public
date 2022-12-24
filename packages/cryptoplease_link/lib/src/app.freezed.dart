@@ -30,7 +30,8 @@ mixin _$App {
 /// @nodoc
 abstract class $AppCopyWith<$Res> {
   factory $AppCopyWith(App value, $Res Function(App) then) =
-      _$AppCopyWithImpl<$Res>;
+      _$AppCopyWithImpl<$Res, App>;
+  @useResult
   $Res call(
       {String id,
       String name,
@@ -45,76 +46,81 @@ abstract class $AppCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AppCopyWithImpl<$Res> implements $AppCopyWith<$Res> {
+class _$AppCopyWithImpl<$Res, $Val extends App> implements $AppCopyWith<$Res> {
   _$AppCopyWithImpl(this._value, this._then);
 
-  final App _value;
   // ignore: unused_field
-  final $Res Function(App) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? url = freezed,
-    Object? appDisplayStyle = freezed,
+    Object? id = null,
+    Object? name = null,
+    Object? url = null,
+    Object? appDisplayStyle = null,
     Object? androidOptions = freezed,
     Object? iOSOptions = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
-      appDisplayStyle: appDisplayStyle == freezed
+      appDisplayStyle: null == appDisplayStyle
           ? _value.appDisplayStyle
           : appDisplayStyle // ignore: cast_nullable_to_non_nullable
               as AppDisplayStyle,
-      androidOptions: androidOptions == freezed
+      androidOptions: freezed == androidOptions
           ? _value.androidOptions
           : androidOptions // ignore: cast_nullable_to_non_nullable
               as AndroidOptions?,
-      iOSOptions: iOSOptions == freezed
+      iOSOptions: freezed == iOSOptions
           ? _value.iOSOptions
           : iOSOptions // ignore: cast_nullable_to_non_nullable
               as IOSOptions?,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AppDisplayStyleCopyWith<$Res> get appDisplayStyle {
     return $AppDisplayStyleCopyWith<$Res>(_value.appDisplayStyle, (value) {
-      return _then(_value.copyWith(appDisplayStyle: value));
+      return _then(_value.copyWith(appDisplayStyle: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AndroidOptionsCopyWith<$Res>? get androidOptions {
     if (_value.androidOptions == null) {
       return null;
     }
 
     return $AndroidOptionsCopyWith<$Res>(_value.androidOptions!, (value) {
-      return _then(_value.copyWith(androidOptions: value));
+      return _then(_value.copyWith(androidOptions: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $IOSOptionsCopyWith<$Res>? get iOSOptions {
     if (_value.iOSOptions == null) {
       return null;
     }
 
     return $IOSOptionsCopyWith<$Res>(_value.iOSOptions!, (value) {
-      return _then(_value.copyWith(iOSOptions: value));
+      return _then(_value.copyWith(iOSOptions: value) as $Val);
     });
   }
 }
@@ -124,6 +130,7 @@ abstract class _$$_AppCopyWith<$Res> implements $AppCopyWith<$Res> {
   factory _$$_AppCopyWith(_$_App value, $Res Function(_$_App) then) =
       __$$_AppCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String id,
       String name,
@@ -141,45 +148,43 @@ abstract class _$$_AppCopyWith<$Res> implements $AppCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AppCopyWithImpl<$Res> extends _$AppCopyWithImpl<$Res>
+class __$$_AppCopyWithImpl<$Res> extends _$AppCopyWithImpl<$Res, _$_App>
     implements _$$_AppCopyWith<$Res> {
   __$$_AppCopyWithImpl(_$_App _value, $Res Function(_$_App) _then)
-      : super(_value, (v) => _then(v as _$_App));
+      : super(_value, _then);
 
-  @override
-  _$_App get _value => super._value as _$_App;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? url = freezed,
-    Object? appDisplayStyle = freezed,
+    Object? id = null,
+    Object? name = null,
+    Object? url = null,
+    Object? appDisplayStyle = null,
     Object? androidOptions = freezed,
     Object? iOSOptions = freezed,
   }) {
     return _then(_$_App(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
-      appDisplayStyle: appDisplayStyle == freezed
+      appDisplayStyle: null == appDisplayStyle
           ? _value.appDisplayStyle
           : appDisplayStyle // ignore: cast_nullable_to_non_nullable
               as AppDisplayStyle,
-      androidOptions: androidOptions == freezed
+      androidOptions: freezed == androidOptions
           ? _value.androidOptions
           : androidOptions // ignore: cast_nullable_to_non_nullable
               as AndroidOptions?,
-      iOSOptions: iOSOptions == freezed
+      iOSOptions: freezed == iOSOptions
           ? _value.iOSOptions
           : iOSOptions // ignore: cast_nullable_to_non_nullable
               as IOSOptions?,
@@ -221,29 +226,24 @@ class _$_App implements _App {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_App &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.url, url) &&
-            const DeepCollectionEquality()
-                .equals(other.appDisplayStyle, appDisplayStyle) &&
-            const DeepCollectionEquality()
-                .equals(other.androidOptions, androidOptions) &&
-            const DeepCollectionEquality()
-                .equals(other.iOSOptions, iOSOptions));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.appDisplayStyle, appDisplayStyle) ||
+                other.appDisplayStyle == appDisplayStyle) &&
+            (identical(other.androidOptions, androidOptions) ||
+                other.androidOptions == androidOptions) &&
+            (identical(other.iOSOptions, iOSOptions) ||
+                other.iOSOptions == iOSOptions));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(url),
-      const DeepCollectionEquality().hash(appDisplayStyle),
-      const DeepCollectionEquality().hash(androidOptions),
-      const DeepCollectionEquality().hash(iOSOptions));
+      runtimeType, id, name, url, appDisplayStyle, androidOptions, iOSOptions);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AppCopyWith<_$_App> get copyWith =>
       __$$_AppCopyWithImpl<_$_App>(this, _$identity);
 }
@@ -289,39 +289,42 @@ mixin _$AppDisplayStyle {
 abstract class $AppDisplayStyleCopyWith<$Res> {
   factory $AppDisplayStyleCopyWith(
           AppDisplayStyle value, $Res Function(AppDisplayStyle) then) =
-      _$AppDisplayStyleCopyWithImpl<$Res>;
+      _$AppDisplayStyleCopyWithImpl<$Res, AppDisplayStyle>;
+  @useResult
   $Res call({String textColor, String backgroundColor, String logoUri});
 }
 
 /// @nodoc
-class _$AppDisplayStyleCopyWithImpl<$Res>
+class _$AppDisplayStyleCopyWithImpl<$Res, $Val extends AppDisplayStyle>
     implements $AppDisplayStyleCopyWith<$Res> {
   _$AppDisplayStyleCopyWithImpl(this._value, this._then);
 
-  final AppDisplayStyle _value;
   // ignore: unused_field
-  final $Res Function(AppDisplayStyle) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? textColor = freezed,
-    Object? backgroundColor = freezed,
-    Object? logoUri = freezed,
+    Object? textColor = null,
+    Object? backgroundColor = null,
+    Object? logoUri = null,
   }) {
     return _then(_value.copyWith(
-      textColor: textColor == freezed
+      textColor: null == textColor
           ? _value.textColor
           : textColor // ignore: cast_nullable_to_non_nullable
               as String,
-      backgroundColor: backgroundColor == freezed
+      backgroundColor: null == backgroundColor
           ? _value.backgroundColor
           : backgroundColor // ignore: cast_nullable_to_non_nullable
               as String,
-      logoUri: logoUri == freezed
+      logoUri: null == logoUri
           ? _value.logoUri
           : logoUri // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -332,36 +335,35 @@ abstract class _$$_AppDisplayStyleCopyWith<$Res>
           _$_AppDisplayStyle value, $Res Function(_$_AppDisplayStyle) then) =
       __$$_AppDisplayStyleCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String textColor, String backgroundColor, String logoUri});
 }
 
 /// @nodoc
 class __$$_AppDisplayStyleCopyWithImpl<$Res>
-    extends _$AppDisplayStyleCopyWithImpl<$Res>
+    extends _$AppDisplayStyleCopyWithImpl<$Res, _$_AppDisplayStyle>
     implements _$$_AppDisplayStyleCopyWith<$Res> {
   __$$_AppDisplayStyleCopyWithImpl(
       _$_AppDisplayStyle _value, $Res Function(_$_AppDisplayStyle) _then)
-      : super(_value, (v) => _then(v as _$_AppDisplayStyle));
+      : super(_value, _then);
 
-  @override
-  _$_AppDisplayStyle get _value => super._value as _$_AppDisplayStyle;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? textColor = freezed,
-    Object? backgroundColor = freezed,
-    Object? logoUri = freezed,
+    Object? textColor = null,
+    Object? backgroundColor = null,
+    Object? logoUri = null,
   }) {
     return _then(_$_AppDisplayStyle(
-      textColor: textColor == freezed
+      textColor: null == textColor
           ? _value.textColor
           : textColor // ignore: cast_nullable_to_non_nullable
               as String,
-      backgroundColor: backgroundColor == freezed
+      backgroundColor: null == backgroundColor
           ? _value.backgroundColor
           : backgroundColor // ignore: cast_nullable_to_non_nullable
               as String,
-      logoUri: logoUri == freezed
+      logoUri: null == logoUri
           ? _value.logoUri
           : logoUri // ignore: cast_nullable_to_non_nullable
               as String,
@@ -394,21 +396,20 @@ class _$_AppDisplayStyle implements _AppDisplayStyle {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AppDisplayStyle &&
-            const DeepCollectionEquality().equals(other.textColor, textColor) &&
-            const DeepCollectionEquality()
-                .equals(other.backgroundColor, backgroundColor) &&
-            const DeepCollectionEquality().equals(other.logoUri, logoUri));
+            (identical(other.textColor, textColor) ||
+                other.textColor == textColor) &&
+            (identical(other.backgroundColor, backgroundColor) ||
+                other.backgroundColor == backgroundColor) &&
+            (identical(other.logoUri, logoUri) || other.logoUri == logoUri));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(textColor),
-      const DeepCollectionEquality().hash(backgroundColor),
-      const DeepCollectionEquality().hash(logoUri));
+  int get hashCode =>
+      Object.hash(runtimeType, textColor, backgroundColor, logoUri);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AppDisplayStyleCopyWith<_$_AppDisplayStyle> get copyWith =>
       __$$_AppDisplayStyleCopyWithImpl<_$_AppDisplayStyle>(this, _$identity);
 }
@@ -445,34 +446,37 @@ mixin _$AndroidOptions {
 abstract class $AndroidOptionsCopyWith<$Res> {
   factory $AndroidOptionsCopyWith(
           AndroidOptions value, $Res Function(AndroidOptions) then) =
-      _$AndroidOptionsCopyWithImpl<$Res>;
+      _$AndroidOptionsCopyWithImpl<$Res, AndroidOptions>;
+  @useResult
   $Res call({String package, List<String> sha256Fingerprints});
 }
 
 /// @nodoc
-class _$AndroidOptionsCopyWithImpl<$Res>
+class _$AndroidOptionsCopyWithImpl<$Res, $Val extends AndroidOptions>
     implements $AndroidOptionsCopyWith<$Res> {
   _$AndroidOptionsCopyWithImpl(this._value, this._then);
 
-  final AndroidOptions _value;
   // ignore: unused_field
-  final $Res Function(AndroidOptions) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? package = freezed,
-    Object? sha256Fingerprints = freezed,
+    Object? package = null,
+    Object? sha256Fingerprints = null,
   }) {
     return _then(_value.copyWith(
-      package: package == freezed
+      package: null == package
           ? _value.package
           : package // ignore: cast_nullable_to_non_nullable
               as String,
-      sha256Fingerprints: sha256Fingerprints == freezed
+      sha256Fingerprints: null == sha256Fingerprints
           ? _value.sha256Fingerprints
           : sha256Fingerprints // ignore: cast_nullable_to_non_nullable
               as List<String>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -483,31 +487,30 @@ abstract class _$$_AndroidOptionsCopyWith<$Res>
           _$_AndroidOptions value, $Res Function(_$_AndroidOptions) then) =
       __$$_AndroidOptionsCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String package, List<String> sha256Fingerprints});
 }
 
 /// @nodoc
 class __$$_AndroidOptionsCopyWithImpl<$Res>
-    extends _$AndroidOptionsCopyWithImpl<$Res>
+    extends _$AndroidOptionsCopyWithImpl<$Res, _$_AndroidOptions>
     implements _$$_AndroidOptionsCopyWith<$Res> {
   __$$_AndroidOptionsCopyWithImpl(
       _$_AndroidOptions _value, $Res Function(_$_AndroidOptions) _then)
-      : super(_value, (v) => _then(v as _$_AndroidOptions));
+      : super(_value, _then);
 
-  @override
-  _$_AndroidOptions get _value => super._value as _$_AndroidOptions;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? package = freezed,
-    Object? sha256Fingerprints = freezed,
+    Object? package = null,
+    Object? sha256Fingerprints = null,
   }) {
     return _then(_$_AndroidOptions(
-      package: package == freezed
+      package: null == package
           ? _value.package
           : package // ignore: cast_nullable_to_non_nullable
               as String,
-      sha256Fingerprints: sha256Fingerprints == freezed
+      sha256Fingerprints: null == sha256Fingerprints
           ? _value._sha256Fingerprints
           : sha256Fingerprints // ignore: cast_nullable_to_non_nullable
               as List<String>,
@@ -541,19 +544,18 @@ class _$_AndroidOptions implements _AndroidOptions {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AndroidOptions &&
-            const DeepCollectionEquality().equals(other.package, package) &&
+            (identical(other.package, package) || other.package == package) &&
             const DeepCollectionEquality()
                 .equals(other._sha256Fingerprints, _sha256Fingerprints));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(package),
+  int get hashCode => Object.hash(runtimeType, package,
       const DeepCollectionEquality().hash(_sha256Fingerprints));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AndroidOptionsCopyWith<_$_AndroidOptions> get copyWith =>
       __$$_AndroidOptionsCopyWithImpl<_$_AndroidOptions>(this, _$identity);
 }
@@ -588,38 +590,42 @@ mixin _$IOSOptions {
 abstract class $IOSOptionsCopyWith<$Res> {
   factory $IOSOptionsCopyWith(
           IOSOptions value, $Res Function(IOSOptions) then) =
-      _$IOSOptionsCopyWithImpl<$Res>;
+      _$IOSOptionsCopyWithImpl<$Res, IOSOptions>;
+  @useResult
   $Res call({String appStoreId, String bundleId, String teamId});
 }
 
 /// @nodoc
-class _$IOSOptionsCopyWithImpl<$Res> implements $IOSOptionsCopyWith<$Res> {
+class _$IOSOptionsCopyWithImpl<$Res, $Val extends IOSOptions>
+    implements $IOSOptionsCopyWith<$Res> {
   _$IOSOptionsCopyWithImpl(this._value, this._then);
 
-  final IOSOptions _value;
   // ignore: unused_field
-  final $Res Function(IOSOptions) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? appStoreId = freezed,
-    Object? bundleId = freezed,
-    Object? teamId = freezed,
+    Object? appStoreId = null,
+    Object? bundleId = null,
+    Object? teamId = null,
   }) {
     return _then(_value.copyWith(
-      appStoreId: appStoreId == freezed
+      appStoreId: null == appStoreId
           ? _value.appStoreId
           : appStoreId // ignore: cast_nullable_to_non_nullable
               as String,
-      bundleId: bundleId == freezed
+      bundleId: null == bundleId
           ? _value.bundleId
           : bundleId // ignore: cast_nullable_to_non_nullable
               as String,
-      teamId: teamId == freezed
+      teamId: null == teamId
           ? _value.teamId
           : teamId // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -630,35 +636,35 @@ abstract class _$$_IOSOptionsCopyWith<$Res>
           _$_IOSOptions value, $Res Function(_$_IOSOptions) then) =
       __$$_IOSOptionsCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String appStoreId, String bundleId, String teamId});
 }
 
 /// @nodoc
-class __$$_IOSOptionsCopyWithImpl<$Res> extends _$IOSOptionsCopyWithImpl<$Res>
+class __$$_IOSOptionsCopyWithImpl<$Res>
+    extends _$IOSOptionsCopyWithImpl<$Res, _$_IOSOptions>
     implements _$$_IOSOptionsCopyWith<$Res> {
   __$$_IOSOptionsCopyWithImpl(
       _$_IOSOptions _value, $Res Function(_$_IOSOptions) _then)
-      : super(_value, (v) => _then(v as _$_IOSOptions));
+      : super(_value, _then);
 
-  @override
-  _$_IOSOptions get _value => super._value as _$_IOSOptions;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? appStoreId = freezed,
-    Object? bundleId = freezed,
-    Object? teamId = freezed,
+    Object? appStoreId = null,
+    Object? bundleId = null,
+    Object? teamId = null,
   }) {
     return _then(_$_IOSOptions(
-      appStoreId: appStoreId == freezed
+      appStoreId: null == appStoreId
           ? _value.appStoreId
           : appStoreId // ignore: cast_nullable_to_non_nullable
               as String,
-      bundleId: bundleId == freezed
+      bundleId: null == bundleId
           ? _value.bundleId
           : bundleId // ignore: cast_nullable_to_non_nullable
               as String,
-      teamId: teamId == freezed
+      teamId: null == teamId
           ? _value.teamId
           : teamId // ignore: cast_nullable_to_non_nullable
               as String,
@@ -689,21 +695,19 @@ class _$_IOSOptions implements _IOSOptions {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_IOSOptions &&
-            const DeepCollectionEquality()
-                .equals(other.appStoreId, appStoreId) &&
-            const DeepCollectionEquality().equals(other.bundleId, bundleId) &&
-            const DeepCollectionEquality().equals(other.teamId, teamId));
+            (identical(other.appStoreId, appStoreId) ||
+                other.appStoreId == appStoreId) &&
+            (identical(other.bundleId, bundleId) ||
+                other.bundleId == bundleId) &&
+            (identical(other.teamId, teamId) || other.teamId == teamId));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(appStoreId),
-      const DeepCollectionEquality().hash(bundleId),
-      const DeepCollectionEquality().hash(teamId));
+  int get hashCode => Object.hash(runtimeType, appStoreId, bundleId, teamId);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_IOSOptionsCopyWith<_$_IOSOptions> get copyWith =>
       __$$_IOSOptionsCopyWithImpl<_$_IOSOptions>(this, _$identity);
 }
