@@ -7,11 +7,13 @@ part of 'basic1.dart';
 // **************************************************************************
 
 mixin _$_AccountData {
+  List<int> get discriminator => throw UnimplementedError();
   BigInt get data => throw UnimplementedError();
 
   Uint8List toBorsh() {
     final writer = BinaryWriter();
 
+    const BFixedArray(8, BU8()).write(writer, discriminator);
     const BU64().write(writer, data);
 
     return writer.toArray();
@@ -20,9 +22,11 @@ mixin _$_AccountData {
 
 class __AccountData extends _AccountData {
   __AccountData({
+    required this.discriminator,
     required this.data,
   }) : super._();
 
+  final List<int> discriminator;
   final BigInt data;
 }
 
@@ -37,6 +41,7 @@ class B_AccountData implements BType<_AccountData> {
   @override
   _AccountData read(BinaryReader reader) {
     return _AccountData(
+      discriminator: const BFixedArray(8, BU8()).read(reader),
       data: const BU64().read(reader),
     );
   }

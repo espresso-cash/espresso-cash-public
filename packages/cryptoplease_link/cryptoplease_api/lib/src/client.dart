@@ -6,7 +6,10 @@ part 'client.g.dart';
 
 @RestApi(baseUrl: 'https://cryptoplease-link.web.app/api/v1')
 abstract class CryptopleaseClient {
-  factory CryptopleaseClient() => _CryptopleaseClient(Dio());
+  factory CryptopleaseClient({String? baseUrl}) => _CryptopleaseClient(
+        Dio(),
+        baseUrl: baseUrl,
+      );
 
   @POST('/addFunds')
   Future<AddFundsResponseDto> addFunds(@Body() AddFundsRequestDto request);
