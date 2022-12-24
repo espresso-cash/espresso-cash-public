@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/transactions/tx_sender.dart';
 import '../../features/activities/module.dart';
+import '../../features/favorite_tokens/module.dart';
 import '../../features/incoming_split_key_payments/module.dart';
 import '../../features/incoming_tip_payments/module.dart';
 import '../../features/outgoing_direct_payments/module.dart';
@@ -35,6 +36,7 @@ const _tables = [
   SwapRows,
   TransactionRows,
   ODPRequestRows,
+  FavoriteTokenRows,
   PopularTokenRows,
   OTRows,
   ITRows,
@@ -104,6 +106,9 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(popularTokenRows);
           }
           if (from < 24) {
+            await m.createTable(favoriteTokenRows);
+          }
+          if (from < 25) {
             await m.createTable(oDPRequestRows);
           }
         },
