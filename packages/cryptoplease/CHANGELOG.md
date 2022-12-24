@@ -1,3 +1,10 @@
+## 1.57.0
+
+ - **FEAT**: add token search (#654).
+ - **FEAT**: add favorites module (#655).
+ - **FEAT**: add cache to popular tokens (#656).
+ - **FEAT**: intro screen redesign (#673).
+
 ## 1.56.0
 
  - **FIX**: hide tokens based on fiat balance (#653).
