@@ -182,7 +182,9 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                     ),
                   ),
                 ),
-                _Button(onSubmit: _onSubmit),
+                _Button(
+                  onSubmit: state.inputAmount.value == 0 ? null : _onSubmit,
+                ),
               ],
             ),
           ),
@@ -196,7 +198,7 @@ class _Button extends StatelessWidget {
     required this.onSubmit,
   }) : super(key: key);
 
-  final VoidCallback onSubmit;
+  final VoidCallback? onSubmit;
 
   @override
   Widget build(BuildContext context) => CpContentPadding(
