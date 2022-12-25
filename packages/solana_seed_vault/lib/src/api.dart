@@ -117,34 +117,31 @@ class _ApiHostCodec extends StandardMessageCodec {
     if (value is AccountDto) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else 
-    if (value is ImplementationLimitsDto) {
+    } else if (value is ImplementationLimitsDto) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    } else 
-    if (value is SeedDto) {
+    } else if (value is SeedDto) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    } else 
-{
+    } else {
       super.writeValue(buffer, value);
     }
   }
+
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:       
+      case 128:
         return AccountDto.decode(readValue(buffer)!);
-      
-      case 129:       
+
+      case 129:
         return ImplementationLimitsDto.decode(readValue(buffer)!);
-      
-      case 130:       
+
+      case 130:
         return SeedDto.decode(readValue(buffer)!);
-      
-      default:      
+
+      default:
         return super.readValueOfType(type, buffer);
-      
     }
   }
 }
@@ -153,15 +150,18 @@ class ApiHost {
   /// Constructor for [ApiHost].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  ApiHost({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
+  ApiHost({BinaryMessenger? binaryMessenger})
+      : _binaryMessenger = binaryMessenger;
 
   final BinaryMessenger? _binaryMessenger;
 
   static const MessageCodec<Object?> codec = _ApiHostCodec();
 
-  Future<ImplementationLimitsDto> getImplementationLimitsForPurpose(int arg_purpose) async {
+  Future<ImplementationLimitsDto> getImplementationLimitsForPurpose(
+      int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.getImplementationLimitsForPurpose', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.ApiHost.getImplementationLimitsForPurpose', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -170,7 +170,8 @@ class ApiHost {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -188,7 +189,8 @@ class ApiHost {
 
   Future<bool> hasUnauthorizedSeedsForPurpose(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.hasUnauthorizedSeedsForPurpose', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.ApiHost.hasUnauthorizedSeedsForPurpose', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -197,7 +199,8 @@ class ApiHost {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -215,16 +218,18 @@ class ApiHost {
 
   Future<bool> isAvailable(bool arg_allowSimulated) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.isAvailable', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_allowSimulated]) as Map<Object?, Object?>?;
+        'dev.flutter.pigeon.ApiHost.isAvailable', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object?>[arg_allowSimulated]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -242,7 +247,8 @@ class ApiHost {
 
   Future<List<SeedDto?>> getAuthorizedSeeds() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.getAuthorizedSeeds', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.ApiHost.getAuthorizedSeeds', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -251,7 +257,8 @@ class ApiHost {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -269,7 +276,8 @@ class ApiHost {
 
   Future<List<AccountDto?>> getAccounts(int arg_authToken) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.getAccounts', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.ApiHost.getAccounts', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_authToken]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -278,7 +286,8 @@ class ApiHost {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -296,7 +305,8 @@ class ApiHost {
 
   Future<String> getAccountByLevel(int arg_bipLevel) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.getAccountByLevel', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.ApiHost.getAccountByLevel', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_bipLevel]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -305,7 +315,8 @@ class ApiHost {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
