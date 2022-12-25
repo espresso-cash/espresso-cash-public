@@ -22,15 +22,6 @@ import java.util.HashMap;
 @SuppressWarnings({"unused", "unchecked", "CodeBlock2Expr", "RedundantSuppression"})
 public class Api {
 
-  public enum Purpose {
-    signSolanaTransaction(0);
-
-    private int index;
-    private Purpose(final int index) {
-      this.index = index;
-    }
-  }
-
   /** Generated class from Pigeon that represents data sent in messages. */
   public static class AccountDto {
     private @NonNull Long id;
@@ -143,9 +134,9 @@ public class Api {
       this.name = setterArg;
     }
 
-    private @NonNull Purpose purpose;
-    public @NonNull Purpose getPurpose() { return purpose; }
-    public void setPurpose(@NonNull Purpose setterArg) {
+    private @NonNull Long purpose;
+    public @NonNull Long getPurpose() { return purpose; }
+    public void setPurpose(@NonNull Long setterArg) {
       if (setterArg == null) {
         throw new IllegalStateException("Nonnull field \"purpose\" is null.");
       }
@@ -174,8 +165,8 @@ public class Api {
         this.name = setterArg;
         return this;
       }
-      private @Nullable Purpose purpose;
-      public @NonNull Builder setPurpose(@NonNull Purpose setterArg) {
+      private @Nullable Long purpose;
+      public @NonNull Builder setPurpose(@NonNull Long setterArg) {
         this.purpose = setterArg;
         return this;
       }
@@ -197,7 +188,7 @@ public class Api {
       Map<String, Object> toMapResult = new HashMap<>();
       toMapResult.put("authToken", authToken);
       toMapResult.put("name", name);
-      toMapResult.put("purpose", purpose == null ? null : purpose.index);
+      toMapResult.put("purpose", purpose);
       toMapResult.put("accounts", accounts);
       return toMapResult;
     }
@@ -208,9 +199,107 @@ public class Api {
       Object name = map.get("name");
       pigeonResult.setName((String)name);
       Object purpose = map.get("purpose");
-      pigeonResult.setPurpose(purpose == null ? null : Purpose.values()[(int)purpose]);
+      pigeonResult.setPurpose((purpose == null) ? null : ((purpose instanceof Integer) ? (Integer)purpose : (Long)purpose));
       Object accounts = map.get("accounts");
       pigeonResult.setAccounts((List<AccountDto>)accounts);
+      return pigeonResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class ImplementationLimitsDto {
+    private @NonNull Long maxBip32PathDepth;
+    public @NonNull Long getMaxBip32PathDepth() { return maxBip32PathDepth; }
+    public void setMaxBip32PathDepth(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"maxBip32PathDepth\" is null.");
+      }
+      this.maxBip32PathDepth = setterArg;
+    }
+
+    private @Nullable Long maxSigningRequests;
+    public @Nullable Long getMaxSigningRequests() { return maxSigningRequests; }
+    public void setMaxSigningRequests(@Nullable Long setterArg) {
+      this.maxSigningRequests = setterArg;
+    }
+
+    private @Nullable Long maxRequestedSignatures;
+    public @Nullable Long getMaxRequestedSignatures() { return maxRequestedSignatures; }
+    public void setMaxRequestedSignatures(@Nullable Long setterArg) {
+      this.maxRequestedSignatures = setterArg;
+    }
+
+    private @Nullable Long maxRequestedPublicKeys;
+    public @Nullable Long getMaxRequestedPublicKeys() { return maxRequestedPublicKeys; }
+    public void setMaxRequestedPublicKeys(@Nullable Long setterArg) {
+      this.maxRequestedPublicKeys = setterArg;
+    }
+
+    private @Nullable Long authPurpose;
+    public @Nullable Long getAuthPurpose() { return authPurpose; }
+    public void setAuthPurpose(@Nullable Long setterArg) {
+      this.authPurpose = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private ImplementationLimitsDto() {}
+    public static final class Builder {
+      private @Nullable Long maxBip32PathDepth;
+      public @NonNull Builder setMaxBip32PathDepth(@NonNull Long setterArg) {
+        this.maxBip32PathDepth = setterArg;
+        return this;
+      }
+      private @Nullable Long maxSigningRequests;
+      public @NonNull Builder setMaxSigningRequests(@Nullable Long setterArg) {
+        this.maxSigningRequests = setterArg;
+        return this;
+      }
+      private @Nullable Long maxRequestedSignatures;
+      public @NonNull Builder setMaxRequestedSignatures(@Nullable Long setterArg) {
+        this.maxRequestedSignatures = setterArg;
+        return this;
+      }
+      private @Nullable Long maxRequestedPublicKeys;
+      public @NonNull Builder setMaxRequestedPublicKeys(@Nullable Long setterArg) {
+        this.maxRequestedPublicKeys = setterArg;
+        return this;
+      }
+      private @Nullable Long authPurpose;
+      public @NonNull Builder setAuthPurpose(@Nullable Long setterArg) {
+        this.authPurpose = setterArg;
+        return this;
+      }
+      public @NonNull ImplementationLimitsDto build() {
+        ImplementationLimitsDto pigeonReturn = new ImplementationLimitsDto();
+        pigeonReturn.setMaxBip32PathDepth(maxBip32PathDepth);
+        pigeonReturn.setMaxSigningRequests(maxSigningRequests);
+        pigeonReturn.setMaxRequestedSignatures(maxRequestedSignatures);
+        pigeonReturn.setMaxRequestedPublicKeys(maxRequestedPublicKeys);
+        pigeonReturn.setAuthPurpose(authPurpose);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("maxBip32PathDepth", maxBip32PathDepth);
+      toMapResult.put("maxSigningRequests", maxSigningRequests);
+      toMapResult.put("maxRequestedSignatures", maxRequestedSignatures);
+      toMapResult.put("maxRequestedPublicKeys", maxRequestedPublicKeys);
+      toMapResult.put("authPurpose", authPurpose);
+      return toMapResult;
+    }
+    static @NonNull ImplementationLimitsDto fromMap(@NonNull Map<String, Object> map) {
+      ImplementationLimitsDto pigeonResult = new ImplementationLimitsDto();
+      Object maxBip32PathDepth = map.get("maxBip32PathDepth");
+      pigeonResult.setMaxBip32PathDepth((maxBip32PathDepth == null) ? null : ((maxBip32PathDepth instanceof Integer) ? (Integer)maxBip32PathDepth : (Long)maxBip32PathDepth));
+      Object maxSigningRequests = map.get("maxSigningRequests");
+      pigeonResult.setMaxSigningRequests((maxSigningRequests == null) ? null : ((maxSigningRequests instanceof Integer) ? (Integer)maxSigningRequests : (Long)maxSigningRequests));
+      Object maxRequestedSignatures = map.get("maxRequestedSignatures");
+      pigeonResult.setMaxRequestedSignatures((maxRequestedSignatures == null) ? null : ((maxRequestedSignatures instanceof Integer) ? (Integer)maxRequestedSignatures : (Long)maxRequestedSignatures));
+      Object maxRequestedPublicKeys = map.get("maxRequestedPublicKeys");
+      pigeonResult.setMaxRequestedPublicKeys((maxRequestedPublicKeys == null) ? null : ((maxRequestedPublicKeys instanceof Integer) ? (Integer)maxRequestedPublicKeys : (Long)maxRequestedPublicKeys));
+      Object authPurpose = map.get("authPurpose");
+      pigeonResult.setAuthPurpose((authPurpose == null) ? null : ((authPurpose instanceof Integer) ? (Integer)authPurpose : (Long)authPurpose));
       return pigeonResult;
     }
   }
@@ -224,6 +313,9 @@ public class Api {
           return AccountDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)129:         
+          return ImplementationLimitsDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)130:         
           return SeedDto.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
@@ -237,8 +329,12 @@ public class Api {
         stream.write(128);
         writeValue(stream, ((AccountDto) value).toMap());
       } else 
-      if (value instanceof SeedDto) {
+      if (value instanceof ImplementationLimitsDto) {
         stream.write(129);
+        writeValue(stream, ((ImplementationLimitsDto) value).toMap());
+      } else 
+      if (value instanceof SeedDto) {
+        stream.write(130);
         writeValue(stream, ((SeedDto) value).toMap());
       } else 
 {
@@ -249,11 +345,12 @@ public class Api {
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface ApiHost {
-    @NonNull Map<String, Long> getImplementationLimitsForPurpose(@NonNull Purpose purpose);
-    @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Purpose purpose);
+    @NonNull ImplementationLimitsDto getImplementationLimitsForPurpose(@NonNull Long purpose);
+    @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
     @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
     @NonNull List<SeedDto> getAuthorizedSeeds();
     @NonNull List<AccountDto> getAccounts(@NonNull Long authToken);
+    @NonNull String getAccountByLevel(@NonNull Long bipLevel);
 
     /** The codec used by ApiHost. */
     static MessageCodec<Object> getCodec() {
@@ -270,11 +367,11 @@ public class Api {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
-              Purpose purposeArg = args.get(0) == null ? null : Purpose.values()[(int)args.get(0)];
+              Number purposeArg = (Number)args.get(0);
               if (purposeArg == null) {
                 throw new NullPointerException("purposeArg unexpectedly null.");
               }
-              Map<String, Long> output = api.getImplementationLimitsForPurpose(purposeArg);
+              ImplementationLimitsDto output = api.getImplementationLimitsForPurpose((purposeArg == null) ? null : purposeArg.longValue());
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -294,11 +391,11 @@ public class Api {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
-              Purpose purposeArg = args.get(0) == null ? null : Purpose.values()[(int)args.get(0)];
+              Number purposeArg = (Number)args.get(0);
               if (purposeArg == null) {
                 throw new NullPointerException("purposeArg unexpectedly null.");
               }
-              Boolean output = api.hasUnauthorizedSeedsForPurpose(purposeArg);
+              Boolean output = api.hasUnauthorizedSeedsForPurpose((purposeArg == null) ? null : purposeArg.longValue());
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -366,6 +463,30 @@ public class Api {
                 throw new NullPointerException("authTokenArg unexpectedly null.");
               }
               List<AccountDto> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue());
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.getAccountByLevel", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number bipLevelArg = (Number)args.get(0);
+              if (bipLevelArg == null) {
+                throw new NullPointerException("bipLevelArg unexpectedly null.");
+              }
+              String output = api.getAccountByLevel((bipLevelArg == null) ? null : bipLevelArg.longValue());
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

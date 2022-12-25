@@ -10,6 +10,7 @@ environment:
 
 
 dependencies:
+  dfunc: ^0.8.0+1
   flutter:
     sdk: flutter
   freezed_annotation: ^2.1.0

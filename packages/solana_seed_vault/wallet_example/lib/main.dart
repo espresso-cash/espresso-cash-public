@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     bloc = SeedVaultBloc(
-      ApiHost(),
+      Wallet.instance,
       RequestPermission.instace,
     )..init();
   }

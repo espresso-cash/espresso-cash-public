@@ -11,11 +11,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.solana.solana_seed_vault.Api
 import com.solana.solana_seed_vault.Api.AccountDto
-import com.solana.solana_seed_vault.Api.Purpose
+import com.solana.solana_seed_vault.Api.ImplementationLimitsDto
 import com.solana.solana_seed_vault.Api.SeedDto
-import com.solanamobile.seedvault.SeedVault
-import com.solanamobile.seedvault.Wallet
-import com.solanamobile.seedvault.WalletContractV1
+import com.solanamobile.seedvault.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -28,14 +26,20 @@ class ApiHost : Api.ApiHost {
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    override fun getImplementationLimitsForPurpose(purpose: Api.Purpose): MutableMap<String, Long> {
-        var x = Wallet.getImplementationLimitsForPurpose(context, purpose.ordinal)
-        Log.d(TAG, "$x")
-        return x
+    override fun getImplementationLimitsForPurpose(purpose: Long):ImplementationLimitsDto {
+        val limits =  Wallet.getImplementationLimitsForPurpose(context, purpose.toInt())
+
+        return ImplementationLimitsDto.Builder()
+            .setMaxBip32PathDepth(WalletContractV1.BIP32_URI_MAX_DEPTH.toLong())
+            .setMaxRequestedPublicKeys(limits[WalletContractV1.IMPLEMENTATION_LIMITS_MAX_REQUESTED_PUBLIC_KEYS])
+            .setAuthPurpose(limits[WalletContractV1.IMPLEMENTATION_LIMITS_AUTH_PURPOSE])
+            .setMaxSigningRequests(limits[WalletContractV1.IMPLEMENTATION_LIMITS_MAX_SIGNING_REQUESTS])
+            .setMaxRequestedSignatures(limits[WalletContractV1.IMPLEMENTATION_LIMITS_MAX_REQUESTED_SIGNATURES])
+            .build()
     }
 
-    override fun hasUnauthorizedSeedsForPurpose(purpose: Api.Purpose): Boolean {
-        return Wallet.hasUnauthorizedSeedsForPurpose(context, purpose.ordinal)
+    override fun hasUnauthorizedSeedsForPurpose(purpose: Long): Boolean {
+        return Wallet.hasUnauthorizedSeedsForPurpose(context, purpose.toInt())
     }
 
     override fun getAuthorizedSeeds(): MutableList<Api.SeedDto> {
@@ -55,7 +59,7 @@ class ApiHost : Api.ApiHost {
                 SeedDto.Builder()
                     .setAuthToken(authToken)
                     .setName(seedName.ifBlank { authToken.toString() })
-                    .setPurpose(Purpose.values().elementAt(authPurpose))
+                    .setPurpose(authPurpose.toLong())
                     .setAccounts(accounts)
                     .build()
             )
@@ -63,6 +67,12 @@ class ApiHost : Api.ApiHost {
         authorizedSeedsCursor.close()
 
         return seeds
+    }
+
+    override fun getAccountByLevel(bipLevel: Long): String {
+        return Bip32DerivationPath.newBuilder()
+            .appendLevel(BipLevel(bipLevel.toInt(), true)).build().toUri()
+            .toString()
     }
 
     override fun getAccounts(authToken: Long): MutableList<AccountDto> {

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:request_permission/request_permission.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
@@ -14,14 +13,17 @@ class SeedVaultState with _$SeedVaultState {
   const factory SeedVaultState.error(String err) = _Error;
   const factory SeedVaultState.unauthorized() = _Unauthorized;
   const factory SeedVaultState.loaded({
-    required List<SeedDto> seeds,
+    required List<Seed> seeds,
+    required ImplementationLimits limits,
     required bool hasUnauthorizedSeeds,
+    required Uri? firstRequestedPublicKey,
+    required Uri? lastRequestedPublicKey,
   }) = _Loaded;
 }
 
 class SeedVaultBloc extends Cubit<SeedVaultState> {
   SeedVaultBloc(
-    this._apiHost,
+    this._seedVault,
     this._permissions,
   ) : super(const SeedVaultState.none()) {
     _permissions.results.listen(
@@ -29,13 +31,13 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     );
   }
 
-  final ApiHost _apiHost;
+  final Wallet _seedVault;
   final RequestPermission _permissions;
 
   int? authToken;
 
   Future<void> init() async {
-    final isInstalled = await _apiHost.isAvailable(true);
+    final isInstalled = await _seedVault.isAvailable(true);
 
     if (!isInstalled) {
       return emit(const SeedVaultState.error('Seed vault not installed'));
@@ -54,17 +56,25 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   }
 
   Future<void> refresh() async {
-    final seeds =
-        await _apiHost.getAuthorizedSeeds().letAsync((it) => it.compact());
-
-    final hasUnauthorizedSeeds = await _apiHost
-        .hasUnauthorizedSeedsForPurpose(Purpose.signSolanaTransaction);
+    const purpose = Purpose.signSolanaTransaction;
+    final limits = await _seedVault.getImplementationLimitsForPurpose(purpose);
+    final firstRequestedPublicKey =
+        await _seedVault.getAccountByLevel(_firstRequestedPublicKeyIndex);
+    final lastRequestedPublicKey = await _seedVault.getAccountByLevel(
+      _firstRequestedPublicKeyIndex + limits.maxRequestedPublicKeys - 1,
+    );
 
     emit(
       SeedVaultState.loaded(
-        seeds: seeds.toList(),
-        hasUnauthorizedSeeds: hasUnauthorizedSeeds,
+        seeds: await _seedVault.getAuthorizedSeeds(),
+        limits: limits,
+        firstRequestedPublicKey: firstRequestedPublicKey,
+        lastRequestedPublicKey: lastRequestedPublicKey,
+        hasUnauthorizedSeeds:
+            await _seedVault.hasUnauthorizedSeedsForPurpose(purpose),
       ),
     );
   }
 }
+
+const _firstRequestedPublicKeyIndex = 1000;

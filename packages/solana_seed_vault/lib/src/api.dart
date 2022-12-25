@@ -7,10 +7,6 @@ import 'dart:typed_data' show Uint8List, Int32List, Int64List, Float64List;
 import 'package:flutter/foundation.dart' show WriteBuffer, ReadBuffer;
 import 'package:flutter/services.dart';
 
-enum Purpose {
-  signSolanaTransaction,
-}
-
 class AccountDto {
   AccountDto({
     required this.id,
@@ -54,14 +50,14 @@ class SeedDto {
 
   int authToken;
   String name;
-  Purpose purpose;
+  int purpose;
   List<AccountDto?> accounts;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
     pigeonMap['authToken'] = authToken;
     pigeonMap['name'] = name;
-    pigeonMap['purpose'] = purpose.index;
+    pigeonMap['purpose'] = purpose;
     pigeonMap['accounts'] = accounts;
     return pigeonMap;
   }
@@ -71,9 +67,45 @@ class SeedDto {
     return SeedDto(
       authToken: pigeonMap['authToken']! as int,
       name: pigeonMap['name']! as String,
-      purpose: Purpose.values[pigeonMap['purpose']! as int]
-,
+      purpose: pigeonMap['purpose']! as int,
       accounts: (pigeonMap['accounts'] as List<Object?>?)!.cast<AccountDto?>(),
+    );
+  }
+}
+
+class ImplementationLimitsDto {
+  ImplementationLimitsDto({
+    required this.maxBip32PathDepth,
+    this.maxSigningRequests,
+    this.maxRequestedSignatures,
+    this.maxRequestedPublicKeys,
+    this.authPurpose,
+  });
+
+  int maxBip32PathDepth;
+  int? maxSigningRequests;
+  int? maxRequestedSignatures;
+  int? maxRequestedPublicKeys;
+  int? authPurpose;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['maxBip32PathDepth'] = maxBip32PathDepth;
+    pigeonMap['maxSigningRequests'] = maxSigningRequests;
+    pigeonMap['maxRequestedSignatures'] = maxRequestedSignatures;
+    pigeonMap['maxRequestedPublicKeys'] = maxRequestedPublicKeys;
+    pigeonMap['authPurpose'] = authPurpose;
+    return pigeonMap;
+  }
+
+  static ImplementationLimitsDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return ImplementationLimitsDto(
+      maxBip32PathDepth: pigeonMap['maxBip32PathDepth']! as int,
+      maxSigningRequests: pigeonMap['maxSigningRequests'] as int?,
+      maxRequestedSignatures: pigeonMap['maxRequestedSignatures'] as int?,
+      maxRequestedPublicKeys: pigeonMap['maxRequestedPublicKeys'] as int?,
+      authPurpose: pigeonMap['authPurpose'] as int?,
     );
   }
 }
@@ -86,8 +118,12 @@ class _ApiHostCodec extends StandardMessageCodec {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
     } else 
-    if (value is SeedDto) {
+    if (value is ImplementationLimitsDto) {
       buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is SeedDto) {
+      buffer.putUint8(130);
       writeValue(buffer, value.encode());
     } else 
 {
@@ -101,6 +137,9 @@ class _ApiHostCodec extends StandardMessageCodec {
         return AccountDto.decode(readValue(buffer)!);
       
       case 129:       
+        return ImplementationLimitsDto.decode(readValue(buffer)!);
+      
+      case 130:       
         return SeedDto.decode(readValue(buffer)!);
       
       default:      
@@ -120,11 +159,11 @@ class ApiHost {
 
   static const MessageCodec<Object?> codec = _ApiHostCodec();
 
-  Future<Map<String?, int?>> getImplementationLimitsForPurpose(Purpose arg_purpose) async {
+  Future<ImplementationLimitsDto> getImplementationLimitsForPurpose(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.ApiHost.getImplementationLimitsForPurpose', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_purpose.index]) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -143,15 +182,15 @@ class ApiHost {
         message: 'Host platform returned null value for non-null return value.',
       );
     } else {
-      return (replyMap['result'] as Map<Object?, Object?>?)!.cast<String?, int?>();
+      return (replyMap['result'] as ImplementationLimitsDto?)!;
     }
   }
 
-  Future<bool> hasUnauthorizedSeedsForPurpose(Purpose arg_purpose) async {
+  Future<bool> hasUnauthorizedSeedsForPurpose(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.ApiHost.hasUnauthorizedSeedsForPurpose', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_purpose.index]) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -252,6 +291,33 @@ class ApiHost {
       );
     } else {
       return (replyMap['result'] as List<Object?>?)!.cast<AccountDto?>();
+    }
+  }
+
+  Future<String> getAccountByLevel(int arg_bipLevel) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiHost.getAccountByLevel', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_bipLevel]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as String?)!;
     }
   }
 }

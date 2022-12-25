@@ -21,7 +21,12 @@ mixin _$SeedVaultState {
     required TResult Function() none,
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
-    required TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)
+    required TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,7 +35,13 @@ mixin _$SeedVaultState {
     TResult? Function()? none,
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
-    TResult? Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult? Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,7 +49,13 @@ mixin _$SeedVaultState {
     TResult Function()? none,
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
-    TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,7 +143,12 @@ class _$_None implements _None {
     required TResult Function() none,
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
-    required TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)
+    required TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)
         loaded,
   }) {
     return none();
@@ -138,7 +160,13 @@ class _$_None implements _None {
     TResult? Function()? none,
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
-    TResult? Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult? Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
   }) {
     return none?.call();
   }
@@ -149,7 +177,13 @@ class _$_None implements _None {
     TResult Function()? none,
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
-    TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
     required TResult orElse(),
   }) {
     if (none != null) {
@@ -265,7 +299,12 @@ class _$_Error implements _Error {
     required TResult Function() none,
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
-    required TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)
+    required TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)
         loaded,
   }) {
     return error(err);
@@ -277,7 +316,13 @@ class _$_Error implements _Error {
     TResult? Function()? none,
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
-    TResult? Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult? Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
   }) {
     return error?.call(err);
   }
@@ -288,7 +333,13 @@ class _$_Error implements _Error {
     TResult Function()? none,
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
-    TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -385,7 +436,12 @@ class _$_Unauthorized implements _Unauthorized {
     required TResult Function() none,
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
-    required TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)
+    required TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)
         loaded,
   }) {
     return unauthorized();
@@ -397,7 +453,13 @@ class _$_Unauthorized implements _Unauthorized {
     TResult? Function()? none,
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
-    TResult? Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult? Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
   }) {
     return unauthorized?.call();
   }
@@ -408,7 +470,13 @@ class _$_Unauthorized implements _Unauthorized {
     TResult Function()? none,
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
-    TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
     required TResult orElse(),
   }) {
     if (unauthorized != null) {
@@ -464,7 +532,14 @@ abstract class _$$_LoadedCopyWith<$Res> {
   factory _$$_LoadedCopyWith(_$_Loaded value, $Res Function(_$_Loaded) then) =
       __$$_LoadedCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<SeedDto> seeds, bool hasUnauthorizedSeeds});
+  $Res call(
+      {List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey});
+
+  $ImplementationLimitsCopyWith<$Res> get limits;
 }
 
 /// @nodoc
@@ -478,18 +553,41 @@ class __$$_LoadedCopyWithImpl<$Res>
   @override
   $Res call({
     Object? seeds = null,
+    Object? limits = null,
     Object? hasUnauthorizedSeeds = null,
+    Object? firstRequestedPublicKey = freezed,
+    Object? lastRequestedPublicKey = freezed,
   }) {
     return _then(_$_Loaded(
       seeds: null == seeds
           ? _value._seeds
           : seeds // ignore: cast_nullable_to_non_nullable
-              as List<SeedDto>,
+              as List<Seed>,
+      limits: null == limits
+          ? _value.limits
+          : limits // ignore: cast_nullable_to_non_nullable
+              as ImplementationLimits,
       hasUnauthorizedSeeds: null == hasUnauthorizedSeeds
           ? _value.hasUnauthorizedSeeds
           : hasUnauthorizedSeeds // ignore: cast_nullable_to_non_nullable
               as bool,
+      firstRequestedPublicKey: freezed == firstRequestedPublicKey
+          ? _value.firstRequestedPublicKey
+          : firstRequestedPublicKey // ignore: cast_nullable_to_non_nullable
+              as Uri?,
+      lastRequestedPublicKey: freezed == lastRequestedPublicKey
+          ? _value.lastRequestedPublicKey
+          : lastRequestedPublicKey // ignore: cast_nullable_to_non_nullable
+              as Uri?,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ImplementationLimitsCopyWith<$Res> get limits {
+    return $ImplementationLimitsCopyWith<$Res>(_value.limits, (value) {
+      return _then(_value.copyWith(limits: value));
+    });
   }
 }
 
@@ -497,22 +595,32 @@ class __$$_LoadedCopyWithImpl<$Res>
 
 class _$_Loaded implements _Loaded {
   const _$_Loaded(
-      {required final List<SeedDto> seeds, required this.hasUnauthorizedSeeds})
+      {required final List<Seed> seeds,
+      required this.limits,
+      required this.hasUnauthorizedSeeds,
+      required this.firstRequestedPublicKey,
+      required this.lastRequestedPublicKey})
       : _seeds = seeds;
 
-  final List<SeedDto> _seeds;
+  final List<Seed> _seeds;
   @override
-  List<SeedDto> get seeds {
+  List<Seed> get seeds {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_seeds);
   }
 
   @override
+  final ImplementationLimits limits;
+  @override
   final bool hasUnauthorizedSeeds;
+  @override
+  final Uri? firstRequestedPublicKey;
+  @override
+  final Uri? lastRequestedPublicKey;
 
   @override
   String toString() {
-    return 'SeedVaultState.loaded(seeds: $seeds, hasUnauthorizedSeeds: $hasUnauthorizedSeeds)';
+    return 'SeedVaultState.loaded(seeds: $seeds, limits: $limits, hasUnauthorizedSeeds: $hasUnauthorizedSeeds, firstRequestedPublicKey: $firstRequestedPublicKey, lastRequestedPublicKey: $lastRequestedPublicKey)';
   }
 
   @override
@@ -521,13 +629,24 @@ class _$_Loaded implements _Loaded {
         (other.runtimeType == runtimeType &&
             other is _$_Loaded &&
             const DeepCollectionEquality().equals(other._seeds, _seeds) &&
+            (identical(other.limits, limits) || other.limits == limits) &&
             (identical(other.hasUnauthorizedSeeds, hasUnauthorizedSeeds) ||
-                other.hasUnauthorizedSeeds == hasUnauthorizedSeeds));
+                other.hasUnauthorizedSeeds == hasUnauthorizedSeeds) &&
+            (identical(
+                    other.firstRequestedPublicKey, firstRequestedPublicKey) ||
+                other.firstRequestedPublicKey == firstRequestedPublicKey) &&
+            (identical(other.lastRequestedPublicKey, lastRequestedPublicKey) ||
+                other.lastRequestedPublicKey == lastRequestedPublicKey));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_seeds), hasUnauthorizedSeeds);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_seeds),
+      limits,
+      hasUnauthorizedSeeds,
+      firstRequestedPublicKey,
+      lastRequestedPublicKey);
 
   @JsonKey(ignore: true)
   @override
@@ -541,10 +660,16 @@ class _$_Loaded implements _Loaded {
     required TResult Function() none,
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
-    required TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)
+    required TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)
         loaded,
   }) {
-    return loaded(seeds, hasUnauthorizedSeeds);
+    return loaded(seeds, limits, hasUnauthorizedSeeds, firstRequestedPublicKey,
+        lastRequestedPublicKey);
   }
 
   @override
@@ -553,9 +678,16 @@ class _$_Loaded implements _Loaded {
     TResult? Function()? none,
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
-    TResult? Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult? Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
   }) {
-    return loaded?.call(seeds, hasUnauthorizedSeeds);
+    return loaded?.call(seeds, limits, hasUnauthorizedSeeds,
+        firstRequestedPublicKey, lastRequestedPublicKey);
   }
 
   @override
@@ -564,11 +696,18 @@ class _$_Loaded implements _Loaded {
     TResult Function()? none,
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
-    TResult Function(List<SeedDto> seeds, bool hasUnauthorizedSeeds)? loaded,
+    TResult Function(
+            List<Seed> seeds,
+            ImplementationLimits limits,
+            bool hasUnauthorizedSeeds,
+            Uri? firstRequestedPublicKey,
+            Uri? lastRequestedPublicKey)?
+        loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(seeds, hasUnauthorizedSeeds);
+      return loaded(seeds, limits, hasUnauthorizedSeeds,
+          firstRequestedPublicKey, lastRequestedPublicKey);
     }
     return orElse();
   }
@@ -613,11 +752,17 @@ class _$_Loaded implements _Loaded {
 
 abstract class _Loaded implements SeedVaultState {
   const factory _Loaded(
-      {required final List<SeedDto> seeds,
-      required final bool hasUnauthorizedSeeds}) = _$_Loaded;
+      {required final List<Seed> seeds,
+      required final ImplementationLimits limits,
+      required final bool hasUnauthorizedSeeds,
+      required final Uri? firstRequestedPublicKey,
+      required final Uri? lastRequestedPublicKey}) = _$_Loaded;
 
-  List<SeedDto> get seeds;
+  List<Seed> get seeds;
+  ImplementationLimits get limits;
   bool get hasUnauthorizedSeeds;
+  Uri? get firstRequestedPublicKey;
+  Uri? get lastRequestedPublicKey;
   @JsonKey(ignore: true)
   _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
       throw _privateConstructorUsedError;

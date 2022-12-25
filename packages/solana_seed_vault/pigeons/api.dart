@@ -1,9 +1,5 @@
 import 'package:pigeon/pigeon.dart';
 
-enum Purpose {
-  signSolanaTransaction,
-}
-
 class AccountDto {
   const AccountDto({
     required this.id,
@@ -28,19 +24,40 @@ class SeedDto {
 
   final int authToken;
   final String name;
-  final Purpose purpose;
+  final int purpose;
   final List<AccountDto?> accounts;
+}
+
+class ImplementationLimitsDto {
+  const ImplementationLimitsDto({
+    required this.maxBip32PathDepth,
+    required this.maxSigningRequests,
+    required this.maxRequestedSignatures,
+    required this.maxRequestedPublicKeys,
+    required this.authPurpose,
+  });
+
+  final int maxBip32PathDepth;
+  final int? maxSigningRequests;
+  final int? maxRequestedSignatures;
+  final int? maxRequestedPublicKeys;
+  final int? authPurpose;
 }
 
 @HostApi()
 abstract class ApiHost {
-  Map<String, int> getImplementationLimitsForPurpose(Purpose purpose);
+  ImplementationLimitsDto getImplementationLimitsForPurpose(int purpose);
 
-  bool hasUnauthorizedSeedsForPurpose(Purpose purpose);
+  bool hasUnauthorizedSeedsForPurpose(int purpose);
 
   bool isAvailable(bool allowSimulated);
 
   List<SeedDto> getAuthorizedSeeds();
 
   List<AccountDto> getAccounts(int authToken);
+
+  // TODO(rhbrunetto): move to Bip32DerivationPath
+  String getAccountByLevel(int bipLevel);
+
+  String resolveDerivationPath(int bipLevel);
 }
