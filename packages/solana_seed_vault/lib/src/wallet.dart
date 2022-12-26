@@ -36,29 +36,45 @@ class Wallet {
     );
   }
 
+  Future<List<Seed>> getAuthorizedSeeds() async {
+    final seeds = await _platform.getAuthorizedSeeds();
+
+    return seeds
+        .compact()
+        .map(
+          (it) => Seed(
+            authToken: it.authToken,
+            name: it.name,
+            purpose: Purpose.values.elementAt(it.purpose),
+            accounts: it.accounts.toModelList(),
+          ),
+        )
+        .toList();
+  }
+
+  Future<List<Account>> getAccounts(int authToken) async {
+    final accounts = await _platform.getAccounts(authToken);
+
+    return accounts.toModelList();
+  }
+
+  Future<Uri> resolveDerivationPath({
+    required Uri derivationPath,
+    required Purpose purpose,
+  }) async {
+    final encoded = await _platform.resolveDerivationPath(
+      derivationPath.toString(),
+      purpose.index,
+    );
+
+    return Uri.parse(encoded);
+  }
+
   Future<bool> hasUnauthorizedSeedsForPurpose(Purpose purpose) =>
       _platform.hasUnauthorizedSeedsForPurpose(purpose.index);
 
   Future<bool> isAvailable(bool allowSimulated) =>
       _platform.isAvailable(allowSimulated);
-
-  Future<List<Seed>> getAuthorizedSeeds() =>
-      _platform.getAuthorizedSeeds().letAsync(
-            (dtos) => dtos
-                .compact()
-                .map(
-                  (it) => Seed(
-                    authToken: it.authToken,
-                    name: it.name,
-                    purpose: Purpose.values.elementAt(it.purpose),
-                    accounts: it.accounts.toModelList(),
-                  ),
-                )
-                .toList(),
-          );
-
-  Future<List<Account>> getAccounts(int authToken) =>
-      _platform.getAccounts(authToken).letAsync((dtos) => dtos.toModelList());
 }
 
 extension on List<AccountDto?> {

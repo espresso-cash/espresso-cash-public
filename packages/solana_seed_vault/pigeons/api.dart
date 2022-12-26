@@ -77,6 +77,8 @@ abstract class WalletApiHost {
   List<SeedDto> getAuthorizedSeeds();
 
   List<AccountDto> getAccounts(int authToken);
+
+  String resolveDerivationPath(String derivationPath, int purpose);
 }
 
 @HostApi()

@@ -69,6 +69,10 @@ class WalletApiHost : Api.WalletApiHost {
         return seeds
     }
 
+    override fun resolveDerivationPath(derivationPath: String, purpose: Long): String {
+        return Wallet.resolveDerivationPath(context, Uri.parse(derivationPath), purpose.toInt()).toString();
+    }
+
     override fun getAccounts(authToken: Long): MutableList<AccountDto> {
         val accounts = mutableListOf<AccountDto>()
 

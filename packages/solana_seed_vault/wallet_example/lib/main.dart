@@ -34,14 +34,6 @@ class _MyAppState extends State<MyApp> {
           body: Center(
             child: BlocBuilder<SeedVaultBloc, SeedVaultState>(
               bloc: bloc,
-              // listener: (context, state) => state.whenOrNull(
-              //   unauthorized: () => showDialog(
-              //     context: context,
-              //     builder: (context) => PermissionDialog(
-              //       onPermissionSet: bloc.onPermissionRequested,
-              //     ),
-              //   ),
-              // ),
               builder: (context, state) => Text(state.toString()),
             ),
           ),

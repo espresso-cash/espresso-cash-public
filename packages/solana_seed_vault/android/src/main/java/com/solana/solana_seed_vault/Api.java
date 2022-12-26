@@ -469,6 +469,7 @@ public class Api {
     @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
     @NonNull List<SeedDto> getAuthorizedSeeds();
     @NonNull List<AccountDto> getAccounts(@NonNull Long authToken);
+    @NonNull String resolveDerivationPath(@NonNull String derivationPath, @NonNull Long purpose);
 
     /** The codec used by WalletApiHost. */
     static MessageCodec<Object> getCodec() {
@@ -581,6 +582,34 @@ public class Api {
                 throw new NullPointerException("authTokenArg unexpectedly null.");
               }
               List<AccountDto> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue());
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.resolveDerivationPath", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              String derivationPathArg = (String)args.get(0);
+              if (derivationPathArg == null) {
+                throw new NullPointerException("derivationPathArg unexpectedly null.");
+              }
+              Number purposeArg = (Number)args.get(1);
+              if (purposeArg == null) {
+                throw new NullPointerException("purposeArg unexpectedly null.");
+              }
+              String output = api.resolveDerivationPath(derivationPathArg, (purposeArg == null) ? null : purposeArg.longValue());
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

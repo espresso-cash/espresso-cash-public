@@ -20,7 +20,7 @@ class Bip32ApiHost : Api.Bip32ApiHost {
     }
 
     override fun toUri(levels: MutableList<Api.BipLevelDto>): String {
-        var builder = Bip32DerivationPath.newBuilder()
+        val builder = Bip32DerivationPath.newBuilder()
 
         for (level in levels) {
             builder.appendLevel(convertToModel(level))
@@ -40,7 +40,7 @@ class Bip44ApiHost : Api.Bip44ApiHost {
     }
 
     override fun fromUri(uri: String): Api.Bip44DerivationDto {
-        var path = Bip44DerivationPath.fromUri(Uri.parse(uri))
+        val path = Bip44DerivationPath.fromUri(Uri.parse(uri))
 
         return Api.Bip44DerivationDto.Builder()
             .setAccount(convertToDto(path.account))
