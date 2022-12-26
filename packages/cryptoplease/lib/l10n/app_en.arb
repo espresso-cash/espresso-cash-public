@@ -450,5 +450,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "tipReceiveSuccess" : "Money has been received"
 }
