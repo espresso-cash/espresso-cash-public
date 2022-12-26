@@ -20,7 +20,6 @@ mixin _$ImplementationLimits {
   int get maxSigningRequests => throw _privateConstructorUsedError;
   int get maxRequestedSignatures => throw _privateConstructorUsedError;
   int get maxRequestedPublicKeys => throw _privateConstructorUsedError;
-  int get authPurpose => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ImplementationLimitsCopyWith<ImplementationLimits> get copyWith =>
@@ -37,8 +36,7 @@ abstract class $ImplementationLimitsCopyWith<$Res> {
       {int maxBip32PathDepth,
       int maxSigningRequests,
       int maxRequestedSignatures,
-      int maxRequestedPublicKeys,
-      int authPurpose});
+      int maxRequestedPublicKeys});
 }
 
 /// @nodoc
@@ -59,7 +57,6 @@ class _$ImplementationLimitsCopyWithImpl<$Res,
     Object? maxSigningRequests = null,
     Object? maxRequestedSignatures = null,
     Object? maxRequestedPublicKeys = null,
-    Object? authPurpose = null,
   }) {
     return _then(_value.copyWith(
       maxBip32PathDepth: null == maxBip32PathDepth
@@ -78,10 +75,6 @@ class _$ImplementationLimitsCopyWithImpl<$Res,
           ? _value.maxRequestedPublicKeys
           : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
               as int,
-      authPurpose: null == authPurpose
-          ? _value.authPurpose
-          : authPurpose // ignore: cast_nullable_to_non_nullable
-              as int,
     ) as $Val);
   }
 }
@@ -98,8 +91,7 @@ abstract class _$$_ImplementationLimitsCopyWith<$Res>
       {int maxBip32PathDepth,
       int maxSigningRequests,
       int maxRequestedSignatures,
-      int maxRequestedPublicKeys,
-      int authPurpose});
+      int maxRequestedPublicKeys});
 }
 
 /// @nodoc
@@ -117,7 +109,6 @@ class __$$_ImplementationLimitsCopyWithImpl<$Res>
     Object? maxSigningRequests = null,
     Object? maxRequestedSignatures = null,
     Object? maxRequestedPublicKeys = null,
-    Object? authPurpose = null,
   }) {
     return _then(_$_ImplementationLimits(
       maxBip32PathDepth: null == maxBip32PathDepth
@@ -136,10 +127,6 @@ class __$$_ImplementationLimitsCopyWithImpl<$Res>
           ? _value.maxRequestedPublicKeys
           : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
               as int,
-      authPurpose: null == authPurpose
-          ? _value.authPurpose
-          : authPurpose // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -151,8 +138,7 @@ class _$_ImplementationLimits implements _ImplementationLimits {
       {required this.maxBip32PathDepth,
       required this.maxSigningRequests,
       required this.maxRequestedSignatures,
-      required this.maxRequestedPublicKeys,
-      required this.authPurpose});
+      required this.maxRequestedPublicKeys});
 
   @override
   final int maxBip32PathDepth;
@@ -162,12 +148,10 @@ class _$_ImplementationLimits implements _ImplementationLimits {
   final int maxRequestedSignatures;
   @override
   final int maxRequestedPublicKeys;
-  @override
-  final int authPurpose;
 
   @override
   String toString() {
-    return 'ImplementationLimits(maxBip32PathDepth: $maxBip32PathDepth, maxSigningRequests: $maxSigningRequests, maxRequestedSignatures: $maxRequestedSignatures, maxRequestedPublicKeys: $maxRequestedPublicKeys, authPurpose: $authPurpose)';
+    return 'ImplementationLimits(maxBip32PathDepth: $maxBip32PathDepth, maxSigningRequests: $maxSigningRequests, maxRequestedSignatures: $maxRequestedSignatures, maxRequestedPublicKeys: $maxRequestedPublicKeys)';
   }
 
   @override
@@ -182,19 +166,12 @@ class _$_ImplementationLimits implements _ImplementationLimits {
             (identical(other.maxRequestedSignatures, maxRequestedSignatures) ||
                 other.maxRequestedSignatures == maxRequestedSignatures) &&
             (identical(other.maxRequestedPublicKeys, maxRequestedPublicKeys) ||
-                other.maxRequestedPublicKeys == maxRequestedPublicKeys) &&
-            (identical(other.authPurpose, authPurpose) ||
-                other.authPurpose == authPurpose));
+                other.maxRequestedPublicKeys == maxRequestedPublicKeys));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      maxBip32PathDepth,
-      maxSigningRequests,
-      maxRequestedSignatures,
-      maxRequestedPublicKeys,
-      authPurpose);
+  int get hashCode => Object.hash(runtimeType, maxBip32PathDepth,
+      maxSigningRequests, maxRequestedSignatures, maxRequestedPublicKeys);
 
   @JsonKey(ignore: true)
   @override
@@ -209,8 +186,7 @@ abstract class _ImplementationLimits implements ImplementationLimits {
       {required final int maxBip32PathDepth,
       required final int maxSigningRequests,
       required final int maxRequestedSignatures,
-      required final int maxRequestedPublicKeys,
-      required final int authPurpose}) = _$_ImplementationLimits;
+      required final int maxRequestedPublicKeys}) = _$_ImplementationLimits;
 
   @override
   int get maxBip32PathDepth;
@@ -220,8 +196,6 @@ abstract class _ImplementationLimits implements ImplementationLimits {
   int get maxRequestedSignatures;
   @override
   int get maxRequestedPublicKeys;
-  @override
-  int get authPurpose;
   @override
   @JsonKey(ignore: true)
   _$$_ImplementationLimitsCopyWith<_$_ImplementationLimits> get copyWith =>

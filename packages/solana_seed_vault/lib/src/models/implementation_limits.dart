@@ -9,6 +9,5 @@ class ImplementationLimits with _$ImplementationLimits {
     required int maxSigningRequests,
     required int maxRequestedSignatures,
     required int maxRequestedPublicKeys,
-    required int authPurpose,
   }) = _ImplementationLimits;
 }

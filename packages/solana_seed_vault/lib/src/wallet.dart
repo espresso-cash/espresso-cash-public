@@ -32,7 +32,6 @@ class Wallet {
       maxSigningRequests: dto.maxSigningRequests ?? 0,
       maxRequestedSignatures: dto.maxRequestedSignatures ?? 0,
       maxRequestedPublicKeys: dto.maxRequestedPublicKeys ?? 0,
-      authPurpose: dto.authPurpose ?? 0,
     );
   }
 
@@ -52,8 +51,14 @@ class Wallet {
         .toList();
   }
 
-  Future<List<Account>> getAccounts(int authToken) async {
-    final accounts = await _platform.getAccounts(authToken);
+  Future<List<Account>> getAccounts(
+    int authToken, {
+    AccountFilter filter = const AccountFilter.isUserWallet(),
+  }) async {
+    final accounts = await _platform.getAccounts(
+      authToken,
+      filter.map(any: F, isUserWallet: T),
+    );
 
     return accounts.toModelList();
   }
@@ -110,6 +115,8 @@ extension on List<AccountDto?> {
           name: it.name,
           derivationPath: Uri.parse(it.derivationPath),
           publicKeyEncoded: it.publicKeyEncoded,
+          isUserWallet: it.isUserWallet,
+          isValid: it.isValid,
         ),
       )
       .toList();

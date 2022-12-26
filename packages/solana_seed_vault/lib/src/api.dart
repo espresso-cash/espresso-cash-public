@@ -13,12 +13,16 @@ class AccountDto {
     required this.name,
     required this.derivationPath,
     required this.publicKeyEncoded,
+    required this.isUserWallet,
+    required this.isValid,
   });
 
   int id;
   String name;
   String derivationPath;
   String publicKeyEncoded;
+  bool isUserWallet;
+  bool isValid;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
@@ -26,6 +30,8 @@ class AccountDto {
     pigeonMap['name'] = name;
     pigeonMap['derivationPath'] = derivationPath;
     pigeonMap['publicKeyEncoded'] = publicKeyEncoded;
+    pigeonMap['isUserWallet'] = isUserWallet;
+    pigeonMap['isValid'] = isValid;
     return pigeonMap;
   }
 
@@ -36,6 +42,8 @@ class AccountDto {
       name: pigeonMap['name']! as String,
       derivationPath: pigeonMap['derivationPath']! as String,
       publicKeyEncoded: pigeonMap['publicKeyEncoded']! as String,
+      isUserWallet: pigeonMap['isUserWallet']! as bool,
+      isValid: pigeonMap['isValid']! as bool,
     );
   }
 }
@@ -79,14 +87,12 @@ class ImplementationLimitsDto {
     this.maxSigningRequests,
     this.maxRequestedSignatures,
     this.maxRequestedPublicKeys,
-    this.authPurpose,
   });
 
   int maxBip32PathDepth;
   int? maxSigningRequests;
   int? maxRequestedSignatures;
   int? maxRequestedPublicKeys;
-  int? authPurpose;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
@@ -94,7 +100,6 @@ class ImplementationLimitsDto {
     pigeonMap['maxSigningRequests'] = maxSigningRequests;
     pigeonMap['maxRequestedSignatures'] = maxRequestedSignatures;
     pigeonMap['maxRequestedPublicKeys'] = maxRequestedPublicKeys;
-    pigeonMap['authPurpose'] = authPurpose;
     return pigeonMap;
   }
 
@@ -105,7 +110,6 @@ class ImplementationLimitsDto {
       maxSigningRequests: pigeonMap['maxSigningRequests'] as int?,
       maxRequestedSignatures: pigeonMap['maxRequestedSignatures'] as int?,
       maxRequestedPublicKeys: pigeonMap['maxRequestedPublicKeys'] as int?,
-      authPurpose: pigeonMap['authPurpose'] as int?,
     );
   }
 }
@@ -327,11 +331,11 @@ class WalletApiHost {
     }
   }
 
-  Future<List<AccountDto?>> getAccounts(int arg_authToken) async {
+  Future<List<AccountDto?>> getAccounts(int arg_authToken, bool arg_isUserWalletOnly) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.WalletApiHost.getAccounts', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_authToken]) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_authToken, arg_isUserWalletOnly]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',

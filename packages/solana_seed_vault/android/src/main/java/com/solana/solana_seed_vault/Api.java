@@ -60,6 +60,24 @@ public class Api {
       this.publicKeyEncoded = setterArg;
     }
 
+    private @NonNull Boolean isUserWallet;
+    public @NonNull Boolean getIsUserWallet() { return isUserWallet; }
+    public void setIsUserWallet(@NonNull Boolean setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"isUserWallet\" is null.");
+      }
+      this.isUserWallet = setterArg;
+    }
+
+    private @NonNull Boolean isValid;
+    public @NonNull Boolean getIsValid() { return isValid; }
+    public void setIsValid(@NonNull Boolean setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"isValid\" is null.");
+      }
+      this.isValid = setterArg;
+    }
+
     /** Constructor is private to enforce null safety; use Builder. */
     private AccountDto() {}
     public static final class Builder {
@@ -83,12 +101,24 @@ public class Api {
         this.publicKeyEncoded = setterArg;
         return this;
       }
+      private @Nullable Boolean isUserWallet;
+      public @NonNull Builder setIsUserWallet(@NonNull Boolean setterArg) {
+        this.isUserWallet = setterArg;
+        return this;
+      }
+      private @Nullable Boolean isValid;
+      public @NonNull Builder setIsValid(@NonNull Boolean setterArg) {
+        this.isValid = setterArg;
+        return this;
+      }
       public @NonNull AccountDto build() {
         AccountDto pigeonReturn = new AccountDto();
         pigeonReturn.setId(id);
         pigeonReturn.setName(name);
         pigeonReturn.setDerivationPath(derivationPath);
         pigeonReturn.setPublicKeyEncoded(publicKeyEncoded);
+        pigeonReturn.setIsUserWallet(isUserWallet);
+        pigeonReturn.setIsValid(isValid);
         return pigeonReturn;
       }
     }
@@ -98,6 +128,8 @@ public class Api {
       toMapResult.put("name", name);
       toMapResult.put("derivationPath", derivationPath);
       toMapResult.put("publicKeyEncoded", publicKeyEncoded);
+      toMapResult.put("isUserWallet", isUserWallet);
+      toMapResult.put("isValid", isValid);
       return toMapResult;
     }
     static @NonNull AccountDto fromMap(@NonNull Map<String, Object> map) {
@@ -110,6 +142,10 @@ public class Api {
       pigeonResult.setDerivationPath((String)derivationPath);
       Object publicKeyEncoded = map.get("publicKeyEncoded");
       pigeonResult.setPublicKeyEncoded((String)publicKeyEncoded);
+      Object isUserWallet = map.get("isUserWallet");
+      pigeonResult.setIsUserWallet((Boolean)isUserWallet);
+      Object isValid = map.get("isValid");
+      pigeonResult.setIsValid((Boolean)isValid);
       return pigeonResult;
     }
   }
@@ -235,12 +271,6 @@ public class Api {
       this.maxRequestedPublicKeys = setterArg;
     }
 
-    private @Nullable Long authPurpose;
-    public @Nullable Long getAuthPurpose() { return authPurpose; }
-    public void setAuthPurpose(@Nullable Long setterArg) {
-      this.authPurpose = setterArg;
-    }
-
     /** Constructor is private to enforce null safety; use Builder. */
     private ImplementationLimitsDto() {}
     public static final class Builder {
@@ -264,18 +294,12 @@ public class Api {
         this.maxRequestedPublicKeys = setterArg;
         return this;
       }
-      private @Nullable Long authPurpose;
-      public @NonNull Builder setAuthPurpose(@Nullable Long setterArg) {
-        this.authPurpose = setterArg;
-        return this;
-      }
       public @NonNull ImplementationLimitsDto build() {
         ImplementationLimitsDto pigeonReturn = new ImplementationLimitsDto();
         pigeonReturn.setMaxBip32PathDepth(maxBip32PathDepth);
         pigeonReturn.setMaxSigningRequests(maxSigningRequests);
         pigeonReturn.setMaxRequestedSignatures(maxRequestedSignatures);
         pigeonReturn.setMaxRequestedPublicKeys(maxRequestedPublicKeys);
-        pigeonReturn.setAuthPurpose(authPurpose);
         return pigeonReturn;
       }
     }
@@ -285,7 +309,6 @@ public class Api {
       toMapResult.put("maxSigningRequests", maxSigningRequests);
       toMapResult.put("maxRequestedSignatures", maxRequestedSignatures);
       toMapResult.put("maxRequestedPublicKeys", maxRequestedPublicKeys);
-      toMapResult.put("authPurpose", authPurpose);
       return toMapResult;
     }
     static @NonNull ImplementationLimitsDto fromMap(@NonNull Map<String, Object> map) {
@@ -298,8 +321,6 @@ public class Api {
       pigeonResult.setMaxRequestedSignatures((maxRequestedSignatures == null) ? null : ((maxRequestedSignatures instanceof Integer) ? (Integer)maxRequestedSignatures : (Long)maxRequestedSignatures));
       Object maxRequestedPublicKeys = map.get("maxRequestedPublicKeys");
       pigeonResult.setMaxRequestedPublicKeys((maxRequestedPublicKeys == null) ? null : ((maxRequestedPublicKeys instanceof Integer) ? (Integer)maxRequestedPublicKeys : (Long)maxRequestedPublicKeys));
-      Object authPurpose = map.get("authPurpose");
-      pigeonResult.setAuthPurpose((authPurpose == null) ? null : ((authPurpose instanceof Integer) ? (Integer)authPurpose : (Long)authPurpose));
       return pigeonResult;
     }
   }
@@ -468,7 +489,7 @@ public class Api {
     @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
     @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
     @NonNull List<SeedDto> getAuthorizedSeeds();
-    @NonNull List<AccountDto> getAccounts(@NonNull Long authToken);
+    @NonNull List<AccountDto> getAccounts(@NonNull Long authToken, @NonNull Boolean isUserWalletOnly);
     @NonNull String resolveDerivationPath(@NonNull String derivationPath, @NonNull Long purpose);
     void deauthorizeSeed(@NonNull Long authToken);
     void updateAccountName(@NonNull Long authToken, @NonNull Long accountId, @Nullable String name);
@@ -585,7 +606,11 @@ public class Api {
               if (authTokenArg == null) {
                 throw new NullPointerException("authTokenArg unexpectedly null.");
               }
-              List<AccountDto> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue());
+              Boolean isUserWalletOnlyArg = (Boolean)args.get(1);
+              if (isUserWalletOnlyArg == null) {
+                throw new NullPointerException("isUserWalletOnlyArg unexpectedly null.");
+              }
+              List<AccountDto> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue(), isUserWalletOnlyArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

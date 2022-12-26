@@ -1,6 +1,7 @@
 package com.example.solana_seed_vault
 
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
@@ -32,7 +33,6 @@ class WalletApiHost : Api.WalletApiHost {
         return ImplementationLimitsDto.Builder()
             .setMaxBip32PathDepth(WalletContractV1.BIP32_URI_MAX_DEPTH.toLong())
             .setMaxRequestedPublicKeys(limits[WalletContractV1.IMPLEMENTATION_LIMITS_MAX_REQUESTED_PUBLIC_KEYS])
-            .setAuthPurpose(limits[WalletContractV1.IMPLEMENTATION_LIMITS_AUTH_PURPOSE])
             .setMaxSigningRequests(limits[WalletContractV1.IMPLEMENTATION_LIMITS_MAX_SIGNING_REQUESTS])
             .setMaxRequestedSignatures(limits[WalletContractV1.IMPLEMENTATION_LIMITS_MAX_REQUESTED_SIGNATURES])
             .build()
@@ -53,7 +53,7 @@ class WalletApiHost : Api.WalletApiHost {
             val authToken = authorizedSeedsCursor.getLong(0)
             val authPurpose = authorizedSeedsCursor.getInt(1)
             val seedName = authorizedSeedsCursor.getString(2)
-            val accounts = getAccounts(authToken)
+            val accounts = getAccounts(authToken, true)
 
             seeds.add(
                 SeedDto.Builder()
@@ -93,25 +93,33 @@ class WalletApiHost : Api.WalletApiHost {
         return Wallet.resolveDerivationPath(context, Uri.parse(derivationPath), purpose.toInt()).toString();
     }
 
-    override fun getAccounts(authToken: Long): MutableList<AccountDto> {
+    override fun getAccounts(authToken: Long, isUserWalletOnly : Boolean): MutableList<AccountDto> {
         val accounts = mutableListOf<AccountDto>()
+        val filter = if (isUserWalletOnly) WalletContractV1.ACCOUNTS_ACCOUNT_IS_USER_WALLET else null
+        val value = if (isUserWalletOnly) "1" else null
 
-        val accountsCursor =
-            Wallet.getAccounts(context, authToken,
-                WalletContractV1.ACCOUNTS_ALL_COLUMNS,
-                WalletContractV1.ACCOUNTS_ACCOUNT_IS_USER_WALLET, "1")!!
+        val accountsCursor = Wallet.getAccounts(
+            context,
+            authToken,
+            WalletContractV1.ACCOUNTS_ALL_COLUMNS,
+            filter, value,
+        )!!
 
         while (accountsCursor.moveToNext()) {
             val accountId = accountsCursor.getLong(0)
             val derivationPath = Uri.parse(accountsCursor.getString(1))
             val publicKeyEncoded = accountsCursor.getString(3)
             val accountName = accountsCursor.getString(4)
+            val isUserWallet = accountsCursor.getShort(5) == 1.toShort()
+            val isValid = accountsCursor.getShort(6) == 1.toShort()
             accounts.add(
                 AccountDto.Builder()
                     .setId(accountId)
                     .setName(accountName.ifBlank { publicKeyEncoded.substring(0, 10) })
                     .setPublicKeyEncoded(publicKeyEncoded)
                     .setDerivationPath(derivationPath.toString())
+                    .setIsUserWallet(isUserWallet)
+                    .setIsValid(isValid)
                     .build()
             )
         }
@@ -123,10 +131,5 @@ class WalletApiHost : Api.WalletApiHost {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun isAvailable(allowSimulated: Boolean): Boolean {
         return SeedVault.isAvailable(context, allowSimulated)
-    }
-
-
-    companion object {
-        private const val TAG = "WalletProxy"
     }
 }

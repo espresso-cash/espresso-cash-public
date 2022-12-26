@@ -6,12 +6,16 @@ class AccountDto {
     required this.name,
     required this.derivationPath,
     required this.publicKeyEncoded,
+    required this.isUserWallet,
+    required this.isValid,
   });
 
   final int id;
   final String name;
   final String derivationPath;
   final String publicKeyEncoded;
+  final bool isUserWallet;
+  final bool isValid;
 }
 
 class SeedDto {
@@ -34,14 +38,12 @@ class ImplementationLimitsDto {
     required this.maxSigningRequests,
     required this.maxRequestedSignatures,
     required this.maxRequestedPublicKeys,
-    required this.authPurpose,
   });
 
   final int maxBip32PathDepth;
   final int? maxSigningRequests;
   final int? maxRequestedSignatures;
   final int? maxRequestedPublicKeys;
-  final int? authPurpose;
 }
 
 class BipLevelDto {
@@ -76,7 +78,7 @@ abstract class WalletApiHost {
 
   List<SeedDto> getAuthorizedSeeds();
 
-  List<AccountDto> getAccounts(int authToken);
+  List<AccountDto> getAccounts(int authToken, bool isUserWalletOnly);
 
   String resolveDerivationPath(String derivationPath, int purpose);
 
