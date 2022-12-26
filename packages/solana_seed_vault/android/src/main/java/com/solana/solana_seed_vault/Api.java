@@ -485,6 +485,7 @@ public class Api {
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface WalletApiHost {
+    void authorizeSeed(@NonNull Long purpose);
     @NonNull ImplementationLimitsDto getImplementationLimitsForPurpose(@NonNull Long purpose);
     @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
     @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
@@ -503,6 +504,30 @@ public class Api {
 
     /** Sets up an instance of `WalletApiHost` to handle messages through the `binaryMessenger`. */
     static void setup(BinaryMessenger binaryMessenger, WalletApiHost api) {
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.authorizeSeed", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number purposeArg = (Number)args.get(0);
+              if (purposeArg == null) {
+                throw new NullPointerException("purposeArg unexpectedly null.");
+              }
+              api.authorizeSeed((purposeArg == null) ? null : purposeArg.longValue());
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
       {
         BasicMessageChannel<Object> channel =
             new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getImplementationLimitsForPurpose", getCodec());

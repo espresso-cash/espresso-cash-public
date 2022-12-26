@@ -34,7 +34,15 @@ class _MyAppState extends State<MyApp> {
           body: Center(
             child: BlocBuilder<SeedVaultBloc, SeedVaultState>(
               bloc: bloc,
-              builder: (context, state) => Text(state.toString()),
+              builder: (context, state) => Column(
+                children: [
+                  Text(state.toString()),
+                  ElevatedButton(
+                    onPressed: bloc.authorizeSeed,
+                    child: const Text('Authorize Seed'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

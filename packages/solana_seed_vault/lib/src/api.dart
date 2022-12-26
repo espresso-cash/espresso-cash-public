@@ -223,6 +223,28 @@ class WalletApiHost {
 
   static const MessageCodec<Object?> codec = _WalletApiHostCodec();
 
+  Future<void> authorizeSeed(int arg_purpose) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.WalletApiHost.authorizeSeed', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else {
+      return;
+    }
+  }
+
   Future<ImplementationLimitsDto> getImplementationLimitsForPurpose(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.WalletApiHost.getImplementationLimitsForPurpose', codec, binaryMessenger: _binaryMessenger);

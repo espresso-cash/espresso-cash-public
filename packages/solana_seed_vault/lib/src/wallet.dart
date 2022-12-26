@@ -21,6 +21,9 @@ class Wallet {
   @visibleForTesting
   static set instance(Wallet wallet) => _instance = wallet;
 
+  Future<void> authorizeSeed(Purpose purpose) =>
+      _platform.authorizeSeed(purpose.index);
+
   Future<ImplementationLimits> getImplementationLimitsForPurpose(
     Purpose purpose,
   ) async {

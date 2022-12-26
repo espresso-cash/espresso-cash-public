@@ -1,6 +1,7 @@
 package com.example.solana_seed_vault
 
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -40,6 +41,10 @@ class WalletApiHost : Api.WalletApiHost {
 
     override fun hasUnauthorizedSeedsForPurpose(purpose: Long): Boolean {
         return Wallet.hasUnauthorizedSeedsForPurpose(context, purpose.toInt())
+    }
+
+    override fun authorizeSeed(purpose: Long) {
+        context.startActivity(Wallet.authorizeSeed(purpose.toInt()).flagged())
     }
 
     override fun getAuthorizedSeeds(): MutableList<Api.SeedDto> {
@@ -132,4 +137,8 @@ class WalletApiHost : Api.WalletApiHost {
     override fun isAvailable(allowSimulated: Boolean): Boolean {
         return SeedVault.isAvailable(context, allowSimulated)
     }
+}
+
+private fun Intent.flagged() : Intent  {
+    return this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 }

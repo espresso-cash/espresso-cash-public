@@ -53,6 +53,10 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         );
   }
 
+  Future<void> authorizeSeed() async {
+    await Wallet.instance.authorizeSeed(Purpose.signSolanaTransaction);
+  }
+
   Future<void> refresh() async {
     const purpose = Purpose.signSolanaTransaction;
     final limits =

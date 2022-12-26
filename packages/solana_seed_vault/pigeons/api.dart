@@ -70,6 +70,8 @@ class Bip44DerivationDto {
 
 @HostApi()
 abstract class WalletApiHost {
+  void authorizeSeed(int purpose);
+
   ImplementationLimitsDto getImplementationLimitsForPurpose(int purpose);
 
   bool hasUnauthorizedSeedsForPurpose(int purpose);
