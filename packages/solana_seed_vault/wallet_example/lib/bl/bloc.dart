@@ -23,7 +23,6 @@ class SeedVaultState with _$SeedVaultState {
 
 class SeedVaultBloc extends Cubit<SeedVaultState> {
   SeedVaultBloc(
-    this._seedVault,
     this._permissions,
   ) : super(const SeedVaultState.none()) {
     _permissions.results.listen(
@@ -31,13 +30,12 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     );
   }
 
-  final Wallet _seedVault;
   final RequestPermission _permissions;
 
   int? authToken;
 
   Future<void> init() async {
-    final isInstalled = await _seedVault.isAvailable(true);
+    final isInstalled = await Wallet.instance.isAvailable(true);
 
     if (!isInstalled) {
       return emit(const SeedVaultState.error('Seed vault not installed'));
@@ -57,24 +55,30 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
 
   Future<void> refresh() async {
     const purpose = Purpose.signSolanaTransaction;
-    final limits = await _seedVault.getImplementationLimitsForPurpose(purpose);
+    final limits =
+        await Wallet.instance.getImplementationLimitsForPurpose(purpose);
     final firstRequestedPublicKey =
-        await _seedVault.getAccountByLevel(_firstRequestedPublicKeyIndex);
-    final lastRequestedPublicKey = await _seedVault.getAccountByLevel(
+        await _getRequestedPublicKeyByIndex(_firstRequestedPublicKeyIndex);
+    final lastRequestedPublicKey = await _getRequestedPublicKeyByIndex(
       _firstRequestedPublicKeyIndex + limits.maxRequestedPublicKeys - 1,
     );
 
     emit(
       SeedVaultState.loaded(
-        seeds: await _seedVault.getAuthorizedSeeds(),
+        seeds: await Wallet.instance.getAuthorizedSeeds(),
         limits: limits,
         firstRequestedPublicKey: firstRequestedPublicKey,
         lastRequestedPublicKey: lastRequestedPublicKey,
         hasUnauthorizedSeeds:
-            await _seedVault.hasUnauthorizedSeedsForPurpose(purpose),
+            await Wallet.instance.hasUnauthorizedSeedsForPurpose(purpose),
       ),
     );
   }
+
+  Future<Uri> _getRequestedPublicKeyByIndex(int index) =>
+      Bip32DerivationPath.instance.toUri(
+        Bip32Data(levels: [BipLevel(index: index, hardened: true)]),
+      );
 }
 
 const _firstRequestedPublicKeyIndex = 1000;

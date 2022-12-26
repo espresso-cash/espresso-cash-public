@@ -17,11 +17,11 @@ import com.solanamobile.seedvault.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ApiHost : Api.ApiHost {
+class WalletApiHost : Api.WalletApiHost {
     private lateinit var context: Context
 
     fun init(binaryMessenger: BinaryMessenger, context: Context) {
-        Api.ApiHost.setup(binaryMessenger, this)
+        Api.WalletApiHost.setup(binaryMessenger, this)
         this.context = context
     }
 
@@ -69,12 +69,6 @@ class ApiHost : Api.ApiHost {
         return seeds
     }
 
-    override fun getAccountByLevel(bipLevel: Long): String {
-        return Bip32DerivationPath.newBuilder()
-            .appendLevel(BipLevel(bipLevel.toInt(), true)).build().toUri()
-            .toString()
-    }
-
     override fun getAccounts(authToken: Long): MutableList<AccountDto> {
         val accounts = mutableListOf<AccountDto>()
 
@@ -109,6 +103,6 @@ class ApiHost : Api.ApiHost {
 
 
     companion object {
-        private const val TAG = "SolanaSeedVault"
+        private const val TAG = "WalletProxy"
     }
 }

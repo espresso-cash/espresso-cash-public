@@ -16,14 +16,20 @@ import io.flutter.plugin.common.MethodChannel.Result
 class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var channel : MethodChannel
   private var intent: Intent? = null
-  private lateinit var apiHost: ApiHost
+  private lateinit var walletApiHost: WalletApiHost
+  private lateinit var bip32ApiHost: Bip32ApiHost
+  private lateinit var bip44ApiHost: Bip44ApiHost
 
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "solana_seed_vault")
     channel.setMethodCallHandler(this)
-    apiHost = ApiHost()
-    apiHost.init(flutterPluginBinding.binaryMessenger, flutterPluginBinding.applicationContext)
+    walletApiHost = WalletApiHost()
+    walletApiHost.init(flutterPluginBinding.binaryMessenger, flutterPluginBinding.applicationContext)
+    bip32ApiHost = Bip32ApiHost()
+    bip32ApiHost.init(flutterPluginBinding.binaryMessenger, flutterPluginBinding.applicationContext)
+    bip44ApiHost = Bip44ApiHost()
+    bip44ApiHost.init(flutterPluginBinding.binaryMessenger, flutterPluginBinding.applicationContext)
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {

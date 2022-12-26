@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:request_permission/request_permission.dart';
-import 'package:solana_seed_vault/solana_seed_vault.dart';
 import 'package:wallet_example/bl/bloc.dart';
 
 void main() {
@@ -22,7 +21,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     bloc = SeedVaultBloc(
-      Wallet.instance,
       RequestPermission.instace,
     )..init();
   }

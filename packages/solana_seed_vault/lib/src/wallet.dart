@@ -1,7 +1,9 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:meta/meta.dart';
-import 'package:solana_seed_vault/solana_seed_vault.dart';
 import 'package:solana_seed_vault/src/api.dart';
+import 'package:solana_seed_vault/src/models/account.dart';
+import 'package:solana_seed_vault/src/models/implementation_limits.dart';
+import 'package:solana_seed_vault/src/models/seed.dart';
 
 abstract class WalletPermission {
   static const accessSeedVault = 'com.solanamobile.seedvault.ACCESS_SEED_VAULT';
@@ -10,17 +12,14 @@ abstract class WalletPermission {
 class Wallet {
   Wallet._(this._platform);
 
-  final ApiHost _platform;
+  final WalletApiHost _platform;
 
-  static var _instance = Wallet._(ApiHost());
+  static var _instance = Wallet._(WalletApiHost());
 
   static Wallet get instance => _instance;
 
   @visibleForTesting
   static set instance(Wallet wallet) => _instance = wallet;
-
-  Future<Uri?> getAccountByLevel(int level) =>
-      _platform.getAccountByLevel(level).letAsync(Uri.tryParse);
 
   Future<ImplementationLimits> getImplementationLimitsForPurpose(
     Purpose purpose,

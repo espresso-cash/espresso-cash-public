@@ -303,9 +303,128 @@ public class Api {
       return pigeonResult;
     }
   }
-  private static class ApiHostCodec extends StandardMessageCodec {
-    public static final ApiHostCodec INSTANCE = new ApiHostCodec();
-    private ApiHostCodec() {}
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class BipLevelDto {
+    private @NonNull Long index;
+    public @NonNull Long getIndex() { return index; }
+    public void setIndex(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"index\" is null.");
+      }
+      this.index = setterArg;
+    }
+
+    private @NonNull Boolean hardened;
+    public @NonNull Boolean getHardened() { return hardened; }
+    public void setHardened(@NonNull Boolean setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"hardened\" is null.");
+      }
+      this.hardened = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private BipLevelDto() {}
+    public static final class Builder {
+      private @Nullable Long index;
+      public @NonNull Builder setIndex(@NonNull Long setterArg) {
+        this.index = setterArg;
+        return this;
+      }
+      private @Nullable Boolean hardened;
+      public @NonNull Builder setHardened(@NonNull Boolean setterArg) {
+        this.hardened = setterArg;
+        return this;
+      }
+      public @NonNull BipLevelDto build() {
+        BipLevelDto pigeonReturn = new BipLevelDto();
+        pigeonReturn.setIndex(index);
+        pigeonReturn.setHardened(hardened);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("index", index);
+      toMapResult.put("hardened", hardened);
+      return toMapResult;
+    }
+    static @NonNull BipLevelDto fromMap(@NonNull Map<String, Object> map) {
+      BipLevelDto pigeonResult = new BipLevelDto();
+      Object index = map.get("index");
+      pigeonResult.setIndex((index == null) ? null : ((index instanceof Integer) ? (Integer)index : (Long)index));
+      Object hardened = map.get("hardened");
+      pigeonResult.setHardened((Boolean)hardened);
+      return pigeonResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class Bip44DerivationDto {
+    private @Nullable BipLevelDto account;
+    public @Nullable BipLevelDto getAccount() { return account; }
+    public void setAccount(@Nullable BipLevelDto setterArg) {
+      this.account = setterArg;
+    }
+
+    private @Nullable BipLevelDto change;
+    public @Nullable BipLevelDto getChange() { return change; }
+    public void setChange(@Nullable BipLevelDto setterArg) {
+      this.change = setterArg;
+    }
+
+    private @Nullable BipLevelDto addressIndex;
+    public @Nullable BipLevelDto getAddressIndex() { return addressIndex; }
+    public void setAddressIndex(@Nullable BipLevelDto setterArg) {
+      this.addressIndex = setterArg;
+    }
+
+    public static final class Builder {
+      private @Nullable BipLevelDto account;
+      public @NonNull Builder setAccount(@Nullable BipLevelDto setterArg) {
+        this.account = setterArg;
+        return this;
+      }
+      private @Nullable BipLevelDto change;
+      public @NonNull Builder setChange(@Nullable BipLevelDto setterArg) {
+        this.change = setterArg;
+        return this;
+      }
+      private @Nullable BipLevelDto addressIndex;
+      public @NonNull Builder setAddressIndex(@Nullable BipLevelDto setterArg) {
+        this.addressIndex = setterArg;
+        return this;
+      }
+      public @NonNull Bip44DerivationDto build() {
+        Bip44DerivationDto pigeonReturn = new Bip44DerivationDto();
+        pigeonReturn.setAccount(account);
+        pigeonReturn.setChange(change);
+        pigeonReturn.setAddressIndex(addressIndex);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("account", (account == null) ? null : account.toMap());
+      toMapResult.put("change", (change == null) ? null : change.toMap());
+      toMapResult.put("addressIndex", (addressIndex == null) ? null : addressIndex.toMap());
+      return toMapResult;
+    }
+    static @NonNull Bip44DerivationDto fromMap(@NonNull Map<String, Object> map) {
+      Bip44DerivationDto pigeonResult = new Bip44DerivationDto();
+      Object account = map.get("account");
+      pigeonResult.setAccount((account == null) ? null : BipLevelDto.fromMap((Map)account));
+      Object change = map.get("change");
+      pigeonResult.setChange((change == null) ? null : BipLevelDto.fromMap((Map)change));
+      Object addressIndex = map.get("addressIndex");
+      pigeonResult.setAddressIndex((addressIndex == null) ? null : BipLevelDto.fromMap((Map)addressIndex));
+      return pigeonResult;
+    }
+  }
+  private static class WalletApiHostCodec extends StandardMessageCodec {
+    public static final WalletApiHostCodec INSTANCE = new WalletApiHostCodec();
+    private WalletApiHostCodec() {}
     @Override
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
@@ -344,24 +463,23 @@ public class Api {
   }
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
-  public interface ApiHost {
+  public interface WalletApiHost {
     @NonNull ImplementationLimitsDto getImplementationLimitsForPurpose(@NonNull Long purpose);
     @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
     @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
     @NonNull List<SeedDto> getAuthorizedSeeds();
     @NonNull List<AccountDto> getAccounts(@NonNull Long authToken);
-    @NonNull String getAccountByLevel(@NonNull Long bipLevel);
 
-    /** The codec used by ApiHost. */
+    /** The codec used by WalletApiHost. */
     static MessageCodec<Object> getCodec() {
-      return ApiHostCodec.INSTANCE;
+      return WalletApiHostCodec.INSTANCE;
     }
 
-    /** Sets up an instance of `ApiHost` to handle messages through the `binaryMessenger`. */
-    static void setup(BinaryMessenger binaryMessenger, ApiHost api) {
+    /** Sets up an instance of `WalletApiHost` to handle messages through the `binaryMessenger`. */
+    static void setup(BinaryMessenger binaryMessenger, WalletApiHost api) {
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.getImplementationLimitsForPurpose", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getImplementationLimitsForPurpose", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -385,7 +503,7 @@ public class Api {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.hasUnauthorizedSeedsForPurpose", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.hasUnauthorizedSeedsForPurpose", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -409,7 +527,7 @@ public class Api {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.isAvailable", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.isAvailable", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -433,7 +551,7 @@ public class Api {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.getAuthorizedSeeds", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getAuthorizedSeeds", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -452,7 +570,7 @@ public class Api {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.getAccounts", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getAccounts", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -474,19 +592,178 @@ public class Api {
           channel.setMessageHandler(null);
         }
       }
+    }
+  }
+  private static class Bip32ApiHostCodec extends StandardMessageCodec {
+    public static final Bip32ApiHostCodec INSTANCE = new Bip32ApiHostCodec();
+    private Bip32ApiHostCodec() {}
+    @Override
+    protected Object readValueOfType(byte type, ByteBuffer buffer) {
+      switch (type) {
+        case (byte)128:         
+          return BipLevelDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        default:        
+          return super.readValueOfType(type, buffer);
+        
+      }
+    }
+    @Override
+    protected void writeValue(ByteArrayOutputStream stream, Object value)     {
+      if (value instanceof BipLevelDto) {
+        stream.write(128);
+        writeValue(stream, ((BipLevelDto) value).toMap());
+      } else 
+{
+        super.writeValue(stream, value);
+      }
+    }
+  }
+
+  /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
+  public interface Bip32ApiHost {
+    @NonNull List<BipLevelDto> fromUri(@NonNull String uri);
+    @NonNull String toUri(@NonNull List<BipLevelDto> levels);
+
+    /** The codec used by Bip32ApiHost. */
+    static MessageCodec<Object> getCodec() {
+      return Bip32ApiHostCodec.INSTANCE;
+    }
+
+    /** Sets up an instance of `Bip32ApiHost` to handle messages through the `binaryMessenger`. */
+    static void setup(BinaryMessenger binaryMessenger, Bip32ApiHost api) {
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.ApiHost.getAccountByLevel", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Bip32ApiHost.fromUri", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
-              Number bipLevelArg = (Number)args.get(0);
-              if (bipLevelArg == null) {
-                throw new NullPointerException("bipLevelArg unexpectedly null.");
+              String uriArg = (String)args.get(0);
+              if (uriArg == null) {
+                throw new NullPointerException("uriArg unexpectedly null.");
               }
-              String output = api.getAccountByLevel((bipLevelArg == null) ? null : bipLevelArg.longValue());
+              List<BipLevelDto> output = api.fromUri(uriArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Bip32ApiHost.toUri", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              List<BipLevelDto> levelsArg = (List<BipLevelDto>)args.get(0);
+              if (levelsArg == null) {
+                throw new NullPointerException("levelsArg unexpectedly null.");
+              }
+              String output = api.toUri(levelsArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+    }
+  }
+  private static class Bip44ApiHostCodec extends StandardMessageCodec {
+    public static final Bip44ApiHostCodec INSTANCE = new Bip44ApiHostCodec();
+    private Bip44ApiHostCodec() {}
+    @Override
+    protected Object readValueOfType(byte type, ByteBuffer buffer) {
+      switch (type) {
+        case (byte)128:         
+          return Bip44DerivationDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)129:         
+          return BipLevelDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        default:        
+          return super.readValueOfType(type, buffer);
+        
+      }
+    }
+    @Override
+    protected void writeValue(ByteArrayOutputStream stream, Object value)     {
+      if (value instanceof Bip44DerivationDto) {
+        stream.write(128);
+        writeValue(stream, ((Bip44DerivationDto) value).toMap());
+      } else 
+      if (value instanceof BipLevelDto) {
+        stream.write(129);
+        writeValue(stream, ((BipLevelDto) value).toMap());
+      } else 
+{
+        super.writeValue(stream, value);
+      }
+    }
+  }
+
+  /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
+  public interface Bip44ApiHost {
+    @NonNull Bip44DerivationDto fromUri(@NonNull String uri);
+    @NonNull String toUri(@NonNull Bip44DerivationDto levels);
+
+    /** The codec used by Bip44ApiHost. */
+    static MessageCodec<Object> getCodec() {
+      return Bip44ApiHostCodec.INSTANCE;
+    }
+
+    /** Sets up an instance of `Bip44ApiHost` to handle messages through the `binaryMessenger`. */
+    static void setup(BinaryMessenger binaryMessenger, Bip44ApiHost api) {
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Bip44ApiHost.fromUri", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              String uriArg = (String)args.get(0);
+              if (uriArg == null) {
+                throw new NullPointerException("uriArg unexpectedly null.");
+              }
+              Bip44DerivationDto output = api.fromUri(uriArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Bip44ApiHost.toUri", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Bip44DerivationDto levelsArg = (Bip44DerivationDto)args.get(0);
+              if (levelsArg == null) {
+                throw new NullPointerException("levelsArg unexpectedly null.");
+              }
+              String output = api.toUri(levelsArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

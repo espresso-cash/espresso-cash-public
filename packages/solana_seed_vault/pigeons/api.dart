@@ -44,8 +44,30 @@ class ImplementationLimitsDto {
   final int? authPurpose;
 }
 
+class BipLevelDto {
+  const BipLevelDto({
+    required this.index,
+    required this.hardened,
+  });
+
+  final int index;
+  final bool hardened;
+}
+
+class Bip44DerivationDto {
+  const Bip44DerivationDto({
+    required this.account,
+    required this.change,
+    required this.addressIndex,
+  });
+
+  final BipLevelDto? account;
+  final BipLevelDto? change;
+  final BipLevelDto? addressIndex;
+}
+
 @HostApi()
-abstract class ApiHost {
+abstract class WalletApiHost {
   ImplementationLimitsDto getImplementationLimitsForPurpose(int purpose);
 
   bool hasUnauthorizedSeedsForPurpose(int purpose);
@@ -55,9 +77,18 @@ abstract class ApiHost {
   List<SeedDto> getAuthorizedSeeds();
 
   List<AccountDto> getAccounts(int authToken);
+}
 
-  // TODO(rhbrunetto): move to Bip32DerivationPath
-  String getAccountByLevel(int bipLevel);
+@HostApi()
+abstract class Bip32ApiHost {
+  List<BipLevelDto> fromUri(String uri);
 
-  String resolveDerivationPath(int bipLevel);
+  String toUri(List<BipLevelDto> levels);
+}
+
+@HostApi()
+abstract class Bip44ApiHost {
+  Bip44DerivationDto fromUri(String uri);
+
+  String toUri(Bip44DerivationDto levels);
 }
