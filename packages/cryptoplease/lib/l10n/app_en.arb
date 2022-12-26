@@ -451,5 +451,5 @@
       }
     }
   },
-  "tipReceiveSuccess" : "Money has been received"
+  "transferMoneySuccess" : "Money has been received"
 }

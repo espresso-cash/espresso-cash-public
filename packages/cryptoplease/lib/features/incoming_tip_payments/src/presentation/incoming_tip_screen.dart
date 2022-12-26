@@ -46,7 +46,7 @@ class _IncomingTipScreenState extends State<IncomingTipScreen> {
               return payment.status.maybeMap(
                 success: (_) => TransferSuccess(
                   onOkPressed: () => context.router.pop(),
-                  content: context.l10n.tipReceiveSuccess,
+                  content: context.l10n.transferMoneySuccess,
                 ),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
