@@ -16,20 +16,39 @@ import com.solana.solana_seed_vault.Api.AccountDto
 import com.solana.solana_seed_vault.Api.ImplementationLimitsDto
 import com.solana.solana_seed_vault.Api.SeedDto
 import com.solanamobile.seedvault.*
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.flutter.plugin.common.PluginRegistry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class WalletApiHost : Api.WalletApiHost {
+class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     private lateinit var context: Context
+    private lateinit var binding: ActivityPluginBinding
+
+
+    companion object {
+        private val TAG = WalletApiHost::class.simpleName
+        private const val REQUEST_AUTHORIZE_SEED_ACCESS = 0
+        private const val REQUEST_CREATE_NEW_SEED = 1
+        private const val REQUEST_IMPORT_EXISTING_SEED = 2
+        private const val REQUEST_SIGN_TRANSACTIONS = 3
+        private const val REQUEST_SIGN_MESSAGES = 4
+        private const val REQUEST_GET_PUBLIC_KEYS = 5
+    }
 
     fun init(binaryMessenger: BinaryMessenger, context: Context) {
         Api.WalletApiHost.setup(binaryMessenger, this)
         this.context = context
     }
 
+    fun setActivity(activity: ActivityPluginBinding) {
+        this.binding = activity;
+    }
+
     @RequiresApi(Build.VERSION_CODES.R)
-    override fun getImplementationLimitsForPurpose(purpose: Long):ImplementationLimitsDto {
-        val limits =  Wallet.getImplementationLimitsForPurpose(context, purpose.toInt())
+    override fun getImplementationLimitsForPurpose(purpose: Long): ImplementationLimitsDto {
+        val limits = Wallet.getImplementationLimitsForPurpose(context, purpose.toInt())
 
         return ImplementationLimitsDto.Builder()
             .setMaxBip32PathDepth(WalletContractV1.BIP32_URI_MAX_DEPTH.toLong())
@@ -39,20 +58,19 @@ class WalletApiHost : Api.WalletApiHost {
             .build()
     }
 
+
     override fun hasUnauthorizedSeedsForPurpose(purpose: Long): Boolean {
         return Wallet.hasUnauthorizedSeedsForPurpose(context, purpose.toInt())
-    }
-
-    override fun authorizeSeed(purpose: Long) {
-        context.startActivity(Wallet.authorizeSeed(purpose.toInt()).flagged())
     }
 
     override fun getAuthorizedSeeds(): MutableList<Api.SeedDto> {
         val seeds = mutableListOf<SeedDto>()
 
         val authorizedSeedsCursor =
-            Wallet.getAuthorizedSeeds(context,
-                WalletContractV1.AUTHORIZED_SEEDS_ALL_COLUMNS)!!
+            Wallet.getAuthorizedSeeds(
+                context,
+                WalletContractV1.AUTHORIZED_SEEDS_ALL_COLUMNS
+            )!!
 
         while (authorizedSeedsCursor.moveToNext()) {
             val authToken = authorizedSeedsCursor.getLong(0)
@@ -95,12 +113,14 @@ class WalletApiHost : Api.WalletApiHost {
     }
 
     override fun resolveDerivationPath(derivationPath: String, purpose: Long): String {
-        return Wallet.resolveDerivationPath(context, Uri.parse(derivationPath), purpose.toInt()).toString();
+        return Wallet.resolveDerivationPath(context, Uri.parse(derivationPath), purpose.toInt())
+            .toString();
     }
 
-    override fun getAccounts(authToken: Long, isUserWalletOnly : Boolean): MutableList<AccountDto> {
+    override fun getAccounts(authToken: Long, isUserWalletOnly: Boolean): MutableList<AccountDto> {
         val accounts = mutableListOf<AccountDto>()
-        val filter = if (isUserWalletOnly) WalletContractV1.ACCOUNTS_ACCOUNT_IS_USER_WALLET else null
+        val filter =
+            if (isUserWalletOnly) WalletContractV1.ACCOUNTS_ACCOUNT_IS_USER_WALLET else null
         val value = if (isUserWalletOnly) "1" else null
 
         val accountsCursor = Wallet.getAccounts(
@@ -137,8 +157,29 @@ class WalletApiHost : Api.WalletApiHost {
     override fun isAvailable(allowSimulated: Boolean): Boolean {
         return SeedVault.isAvailable(context, allowSimulated)
     }
-}
 
-private fun Intent.flagged() : Intent  {
-    return this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    override fun authorizeSeed(purpose: Long) {
+        binding.activity.startActivityForResult(
+            Wallet.authorizeSeed(purpose.toInt()),
+            REQUEST_AUTHORIZE_SEED_ACCESS
+        )
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) : Boolean {
+//    TODO: implement callbacks
+        when (requestCode) {
+            REQUEST_AUTHORIZE_SEED_ACCESS -> {
+                try {
+                    val authToken = Wallet.onAuthorizeSeedResult(resultCode, data)
+                    Log.d(TAG, "Seed authorized, AuthToken=$authToken")
+                    //           onAddSeedSuccess(authToken)
+                } catch (e: Wallet.ActionFailedException) {
+                    Log.e(TAG, "Seed authorization failed", e)
+                    //          onAddSeedSuccessdFailure(resultCode)
+                }
+            }
+        }
+        return false;
+    }
 }
