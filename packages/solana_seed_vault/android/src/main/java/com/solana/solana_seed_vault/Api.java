@@ -470,6 +470,10 @@ public class Api {
     @NonNull List<SeedDto> getAuthorizedSeeds();
     @NonNull List<AccountDto> getAccounts(@NonNull Long authToken);
     @NonNull String resolveDerivationPath(@NonNull String derivationPath, @NonNull Long purpose);
+    void deauthorizeSeed(@NonNull Long authToken);
+    void updateAccountName(@NonNull Long authToken, @NonNull Long accountId, @Nullable String name);
+    void updateAccountIsUserWallet(@NonNull Long authToken, @NonNull Long accountId, @NonNull Boolean isUserWallet);
+    void updateAccountIsValid(@NonNull Long authToken, @NonNull Long accountId, @NonNull Boolean isValid);
 
     /** The codec used by WalletApiHost. */
     static MessageCodec<Object> getCodec() {
@@ -611,6 +615,123 @@ public class Api {
               }
               String output = api.resolveDerivationPath(derivationPathArg, (purposeArg == null) ? null : purposeArg.longValue());
               wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.deauthorizeSeed", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              api.deauthorizeSeed((authTokenArg == null) ? null : authTokenArg.longValue());
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.updateAccountName", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              Number accountIdArg = (Number)args.get(1);
+              if (accountIdArg == null) {
+                throw new NullPointerException("accountIdArg unexpectedly null.");
+              }
+              String nameArg = (String)args.get(2);
+              api.updateAccountName((authTokenArg == null) ? null : authTokenArg.longValue(), (accountIdArg == null) ? null : accountIdArg.longValue(), nameArg);
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.updateAccountIsUserWallet", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              Number accountIdArg = (Number)args.get(1);
+              if (accountIdArg == null) {
+                throw new NullPointerException("accountIdArg unexpectedly null.");
+              }
+              Boolean isUserWalletArg = (Boolean)args.get(2);
+              if (isUserWalletArg == null) {
+                throw new NullPointerException("isUserWalletArg unexpectedly null.");
+              }
+              api.updateAccountIsUserWallet((authTokenArg == null) ? null : authTokenArg.longValue(), (accountIdArg == null) ? null : accountIdArg.longValue(), isUserWalletArg);
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.updateAccountIsValid", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              Number accountIdArg = (Number)args.get(1);
+              if (accountIdArg == null) {
+                throw new NullPointerException("accountIdArg unexpectedly null.");
+              }
+              Boolean isValidArg = (Boolean)args.get(2);
+              if (isValidArg == null) {
+                throw new NullPointerException("isValidArg unexpectedly null.");
+              }
+              api.updateAccountIsValid((authTokenArg == null) ? null : authTokenArg.longValue(), (accountIdArg == null) ? null : accountIdArg.longValue(), isValidArg);
+              wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

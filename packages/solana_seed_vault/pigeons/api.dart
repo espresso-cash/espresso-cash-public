@@ -79,6 +79,22 @@ abstract class WalletApiHost {
   List<AccountDto> getAccounts(int authToken);
 
   String resolveDerivationPath(String derivationPath, int purpose);
+
+  void deauthorizeSeed(int authToken);
+
+  void updateAccountName(int authToken, int accountId, String? name);
+
+  void updateAccountIsUserWallet(
+    int authToken,
+    int accountId,
+    bool isUserWallet,
+  );
+
+  void updateAccountIsValid(
+    int authToken,
+    int accountId,
+    bool isValid,
+  );
 }
 
 @HostApi()

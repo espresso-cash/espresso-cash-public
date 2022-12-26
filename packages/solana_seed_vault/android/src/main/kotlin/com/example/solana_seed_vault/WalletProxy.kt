@@ -69,6 +69,26 @@ class WalletApiHost : Api.WalletApiHost {
         return seeds
     }
 
+    override fun updateAccountIsValid(authToken: Long, accountId: Long, isValid: Boolean) {
+        return Wallet.updateAccountIsValid(context, authToken, accountId, isValid)
+    }
+
+    override fun updateAccountIsUserWallet(
+        authToken: Long,
+        accountId: Long,
+        isUserWallet: Boolean
+    ) {
+        return Wallet.updateAccountIsUserWallet(context, authToken, accountId, isUserWallet)
+    }
+
+    override fun updateAccountName(authToken: Long, accountId: Long, name: String?) {
+        return Wallet.updateAccountName(context, authToken, accountId, name)
+    }
+
+    override fun deauthorizeSeed(authToken: Long) {
+        return Wallet.deauthorizeSeed(context, authToken)
+    }
+
     override fun resolveDerivationPath(derivationPath: String, purpose: Long): String {
         return Wallet.resolveDerivationPath(context, Uri.parse(derivationPath), purpose.toInt()).toString();
     }

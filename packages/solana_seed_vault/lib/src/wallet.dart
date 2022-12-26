@@ -70,6 +70,30 @@ class Wallet {
     return Uri.parse(encoded);
   }
 
+  Future<void> updateAccountName({
+    required int authToken,
+    required int accountId,
+    required String? name,
+  }) =>
+      _platform.updateAccountName(authToken, accountId, name);
+
+  Future<void> updateAccountIsUserWallet({
+    required int authToken,
+    required int accountId,
+    required bool isUserWallet,
+  }) =>
+      _platform.updateAccountIsUserWallet(authToken, accountId, isUserWallet);
+
+  Future<void> updateAccountIsValid({
+    required int authToken,
+    required int accountId,
+    required bool isValid,
+  }) =>
+      _platform.updateAccountIsValid(authToken, accountId, isValid);
+
+  Future<void> deauthorizeSeed(int authToken) =>
+      _platform.deauthorizeSeed(authToken);
+
   Future<bool> hasUnauthorizedSeedsForPurpose(Purpose purpose) =>
       _platform.hasUnauthorizedSeedsForPurpose(purpose.index);
 
