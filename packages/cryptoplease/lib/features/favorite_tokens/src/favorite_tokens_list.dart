@@ -4,16 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
-import '../../../core/amount.dart';
 import '../../../core/conversion_rates/context_ext.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import 'bl/bloc.dart';
 import 'bl/repository.dart';
@@ -124,13 +121,8 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
     final currentPrice = this.currentPrice;
-
-    final Amount? tokenRate = currentPrice == null
-        ? null
-        : Amount.fromDecimal(currency: fiatCurrency, value: currentPrice);
 
     return ListTile(
       onTap: () => context.router.push(TokenDetailsRoute(token: token)),
@@ -145,7 +137,11 @@ class _TokenItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       trailing: Text(
-        tokenRate?.format(locale) ?? '-',
+        _formatPrice(
+          currentPrice?.toDouble(),
+          symbol: fiatCurrency.sign,
+          maxDecimals: 5,
+        ),
         style: const TextStyle(
           fontWeight: FontWeight.w500,
           fontSize: 15,
@@ -154,4 +150,18 @@ class _TokenItem extends StatelessWidget {
       ),
     );
   }
+}
+
+String _formatPrice(
+  double? price, {
+  String? symbol,
+  required int maxDecimals,
+}) {
+  if (price == null) return '-';
+
+  final formatted = price < 0.01
+      ? price.toStringAsFixed(maxDecimals)
+      : price.toStringAsFixed(2);
+
+  return '$symbol$formatted';
 }

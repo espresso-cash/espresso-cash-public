@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -120,15 +119,13 @@ class _TokenPrice extends StatelessWidget {
             success: (data) {
               if (data.marketPrice == null) return '-';
 
-              final locale = DeviceLocale.localeOf(context);
               final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
 
-              final Amount tokenRate = Amount.fromDecimal(
-                currency: fiatCurrency,
-                value: Decimal.parse(data.marketPrice?.toString() ?? '0'),
+              return _formatPrice(
+                data.marketPrice,
+                symbol: fiatCurrency.sign,
+                maxDecimals: 7,
               );
-
-              return tokenRate.format(locale);
             },
           );
 
@@ -182,16 +179,6 @@ class _Chart extends StatefulWidget {
 class __ChartState extends State<_Chart> {
   TokenChartItem? _selected;
 
-  String formatPrice(double? price) {
-    if (price == null) return '-';
-
-    if (price < 0.01) {
-      return price.toStringAsFixed(8);
-    } else {
-      return price.toStringAsFixed(2);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final Amount? fiatAmount = context.watchUserFiatBalance(widget.token);
@@ -216,7 +203,11 @@ class __ChartState extends State<_Chart> {
           )
         else
           Text(
-            '${fiatCurrency.sign}${formatPrice(_selected?.price)}',
+            _formatPrice(
+              _selected?.price,
+              symbol: fiatCurrency.sign,
+              maxDecimals: 7,
+            ),
             style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 18,
@@ -235,6 +226,20 @@ class __ChartState extends State<_Chart> {
       ],
     );
   }
+}
+
+String _formatPrice(
+  double? price, {
+  String? symbol,
+  required int maxDecimals,
+}) {
+  if (price == null) return '-';
+
+  final formatted = price < 0.01
+      ? price.toStringAsFixed(maxDecimals)
+      : price.toStringAsFixed(2);
+
+  return '$symbol$formatted';
 }
 
 extension on Token {
