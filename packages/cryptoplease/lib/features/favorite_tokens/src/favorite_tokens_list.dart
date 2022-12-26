@@ -63,16 +63,11 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
               const SliverToBoxAdapter(child: _FollowingTitle()),
               SliverPadding(
                 padding: const EdgeInsets.only(top: 16),
-                sliver: SliverStack(
-                  children: [
-                    const _Background(),
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      sliver: SliverList(
-                        delegate: SliverChildListDelegate(items),
-                      ),
-                    ),
-                  ],
+                sliver: SliverPadding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(items),
+                  ),
                 ),
               ),
             ],
@@ -81,22 +76,6 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
       },
     );
   }
-}
-
-class _Background extends StatelessWidget {
-  const _Background({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => const SliverPositioned.fill(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Color(0xffF5F5F5),
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-          ),
-        ),
-      );
 }
 
 class _FollowingTitle extends StatelessWidget {
@@ -108,9 +87,8 @@ class _FollowingTitle extends StatelessWidget {
   Widget build(BuildContext context) => Text(
         context.l10n.following,
         style: const TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 13,
-          letterSpacing: 0.17,
+          fontWeight: FontWeight.w500,
+          fontSize: 19,
           color: CpColors.menuPrimaryTextColor,
         ),
       );
@@ -132,24 +110,31 @@ class _TokenItem extends StatelessWidget {
         ? null
         : Amount.fromDecimal(currency: fiatCurrency, value: currentPrice);
 
-    return ListTile(
-      onTap: () => context.router.push(TokenDetailsRoute(token: token)),
-      leading: CpTokenIcon(token: token, size: 37),
-      title: Text(
-        token.name,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: ListTile(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
-        overflow: TextOverflow.ellipsis,
-      ),
-      trailing: Text(
-        tokenRate?.format(locale) ?? '-',
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          color: Colors.black,
+        tileColor: const Color(0xffF5F5F5),
+        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+        leading: CpTokenIcon(token: token, size: 37),
+        title: Text(
+          token.name,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+            color: CpColors.menuPrimaryTextColor,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Text(
+          tokenRate?.format(locale) ?? '-',
+          style: const TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            color: CpColors.menuPrimaryTextColor,
+          ),
         ),
       ),
     );

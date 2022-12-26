@@ -11,7 +11,6 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/empty_message_widget.dart';
-import '../../../../../ui/tab_bar.dart';
 import '../../../../../ui/token_icon.dart';
 
 class PortfolioWidget extends StatelessWidget {
@@ -20,41 +19,15 @@ class PortfolioWidget extends StatelessWidget {
   final IList<Token> tokens;
 
   @override
-  Widget build(BuildContext context) => DefaultTabController(
-        length: 3,
-        child: MultiSliver(
-          children: [
+  Widget build(BuildContext context) => MultiSliver(
+        children: [
+          if (tokens.isEmpty)
             SliverToBoxAdapter(
-              child: Text(
-                context.l10n.myPortfolio,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13,
-                  letterSpacing: 0.17,
-                  color: CpColors.menuPrimaryTextColor,
-                ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.only(top: 12, bottom: 21),
-              sliver: SliverToBoxAdapter(
-                child: CpTabBar(
-                  tabs: [
-                    Tab(text: context.l10n.crypto),
-                    Tab(text: context.l10n.stablecoin),
-                    Tab(text: context.l10n.all),
-                  ],
-                ),
-              ),
-            ),
-            if (tokens.isEmpty)
-              SliverToBoxAdapter(
-                child: CpEmptyMessageWidget(message: context.l10n.loading),
-              )
-            else
-              _BalanceList(tokens: tokens),
-          ],
-        ),
+              child: CpEmptyMessageWidget(message: context.l10n.loading), //TODO
+            )
+          else
+            _BalanceList(tokens: tokens),
+        ],
       );
 }
 
@@ -69,42 +42,17 @@ class _BalanceList extends StatefulWidget {
 
 class _BalanceListState extends State<_BalanceList> {
   List<Widget> _items = [];
-  TabController? _tabController;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _tabController?.removeListener(_handleTabUpdate);
-    _tabController = DefaultTabController.of(context)
-      ?..addListener(_handleTabUpdate);
-    _updateItems();
+    _initItems();
   }
 
-  @override
-  void didUpdateWidget(covariant _BalanceList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.tokens != widget.tokens) {
-      _updateItems();
-    }
-  }
-
-  void _handleTabUpdate() => setState(_updateItems);
-
-  void _updateItems() {
-    final tab = _tabController?.index ?? 0;
+  void _initItems() {
     _items = [
-      for (final token in widget.tokens)
-        if (tab == 0 && !token.isStablecoin ||
-            tab == 1 && token.isStablecoin ||
-            tab == 2)
-          _BalanceItem(token: token),
+      for (final token in widget.tokens) _BalanceItem(token: token),
     ];
-  }
-
-  @override
-  void dispose() {
-    _tabController?.removeListener(_handleTabUpdate);
-    super.dispose();
   }
 
   @override
@@ -158,7 +106,7 @@ class _BalanceItem extends StatelessWidget {
 const _titleStyle = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 15.0,
-  color: Colors.black,
+  color: CpColors.menuPrimaryTextColor,
 );
 
 class _AmountDisplay extends StatelessWidget {

@@ -8,11 +8,11 @@ import '../../../../features/favorite_tokens/module.dart';
 import '../../../../features/investments/module.dart';
 import '../../../../features/popular_tokens/module.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/icon_button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
+import 'components/investment_header.dart';
 import 'components/popular_crypto_header.dart';
 import 'components/total_balance_widget.dart';
 
@@ -34,40 +34,32 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
             context.read<FavoritesBloc>().refresh(),
           ]),
           color: CpColors.primaryColor,
-          child: CustomScrollView(
+          child: const CustomScrollView(
             slivers: [
               SliverAppBar(
-                shape: const Border(),
-                title: const _AppBarContent(),
+                shape: Border(),
+                title: _AppBarContent(),
                 pinned: true,
                 snap: false,
                 floating: false,
                 elevation: 0,
                 backgroundColor: Colors.white,
-                expandedHeight:
-                    MediaQuery.of(context).padding.top + kToolbarHeight + 100,
-                collapsedHeight: kToolbarHeight + 40,
-                flexibleSpace: Padding(
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top + kToolbarHeight,
-                    bottom: 16,
-                  ),
-                  child: const TotalBalanceWidget(),
-                ),
               ),
-              const SliverPadding(
+              SliverToBoxAdapter(child: InvestmentHeader()),
+              SliverToBoxAdapter(child: TotalBalanceWidget()),
+              SliverPadding(
                 padding: EdgeInsets.only(left: 24, right: 24),
                 sliver: MyPortfolio(),
               ),
-              const FavoriteTokenList(),
-              const SliverToBoxAdapter(
+              FavoriteTokenList(),
+              SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.only(top: 54, bottom: 24),
                   child: PopularCryptoHeader(),
                 ),
               ),
-              const PopularTokenList(),
-              const SliverToBoxAdapter(
+              PopularTokenList(),
+              SliverToBoxAdapter(
                 child: SizedBox(height: cpNavigationBarheight + 56),
               ),
             ],
@@ -85,15 +77,25 @@ class _AppBarContent extends StatelessWidget {
         child: Stack(
           children: [
             Center(
-              child: Text(context.l10n.investments),
+              child: Assets.images.logoDark.image(height: 32),
             ),
             Positioned(
               top: 0,
               right: 0,
               bottom: 0,
-              child: CpIconButton(
-                icon: Assets.icons.searchButtonIcon.svg(),
-                onPressed: () => context.router.push(const TokenSearchRoute()),
+              child: Row(
+                children: [
+                  CpIconButton(
+                    icon: Assets.icons.searchButtonIcon.svg(),
+                    onPressed: () =>
+                        context.router.push(const TokenSearchRoute()),
+                  ),
+                  const SizedBox(width: 12),
+                  CpIconButton(
+                    icon: Assets.icons.settingsButtonIcon.svg(),
+                    onPressed: () => context.router.push(const ProfileRoute()),
+                  )
+                ],
               ),
             ),
           ],
