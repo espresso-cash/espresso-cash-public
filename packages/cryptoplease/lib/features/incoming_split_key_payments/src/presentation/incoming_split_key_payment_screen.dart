@@ -48,7 +48,7 @@ class _IncomingSplitKeyPaymentScreenState
               return payment.status.maybeMap(
                 success: (_) => TransferSuccess(
                   onOkPressed: () => context.router.pop(),
-                  content: context.l10n.transferMoneySuccess,
+                  content: context.l10n.moneyReceived,
                 ),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),

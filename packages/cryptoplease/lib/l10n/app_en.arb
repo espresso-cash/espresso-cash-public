@@ -451,5 +451,5 @@
       }
     }
   },
-  "transferMoneySuccess": "Money has been received"
+  "moneyReceived": "Money has been received"
 }
