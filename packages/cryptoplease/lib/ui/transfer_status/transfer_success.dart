@@ -9,17 +9,17 @@ class TransferSuccess extends StatelessWidget {
   const TransferSuccess({
     super.key,
     required this.onOkPressed,
-    this.content,
+    required this.content,
   });
 
   final VoidCallback onOkPressed;
-  final String? content;
+  final String content;
 
   @override
   Widget build(BuildContext context) => StatusScreen(
         title: context.l10n.splitKeyTransferTitle,
-        statusTitle: Text(context.l10n.splitKeySuccessMessage1),
-        statusContent: Text(content ?? context.l10n.splitKeySuccessMessage2),
+        statusTitle: Text(context.l10n.transferSuccessTitle),
+        statusContent: Text(content),
         statusType: CpStatusType.success,
         content: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
