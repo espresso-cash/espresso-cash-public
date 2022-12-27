@@ -70,9 +70,9 @@
   "splitKeySecondLinkMessage": "Please click the second link in the message you've received.",
   "splitKeyTransferTitle": "TRANSFER PROGRESS",
   "splitKeyTransactionLoading": "Hang tight. We're almost done...",
-  "splitKeySuccessMessage1": "SUCCESS!",
-  "splitKeySuccessMessage2": "Your transfer has been sent.",
-  "splitKeyErrorMessage1": "OOPS!",
+  "transferSuccessTitle": "SUCCESS!",
+  "outgoingTransferSuccess": "Your transfer has been sent.",
+  "transferErrorTitle": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyErrorRetry": "Please retry.",
   "splitKeyProgressOngoing": "Sending {amount} using secure links...",
@@ -455,5 +455,6 @@
   "qrCameraPermissionMessage": "Allow camera access in your device settings to enable the QR Code reader.",
   "qrInputAddressTitle": "Send manually",
   "qrInputAddressMessage": "You can enter the receiver Solana wallet address to send money directly to them.",
-  "qrInputAddressHint": "Enter the crypto address here"
+  "qrInputAddressHint": "Enter the crypto address here",
+  "moneyReceived": "Money has been received"
 }
