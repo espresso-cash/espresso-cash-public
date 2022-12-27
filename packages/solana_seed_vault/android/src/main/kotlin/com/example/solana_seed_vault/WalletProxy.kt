@@ -19,13 +19,18 @@ import com.solanamobile.seedvault.*
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.PluginRegistry
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Future
+import java.util.stream.Stream
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.suspendCoroutine
 
 class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     private lateinit var context: Context
     private lateinit var binding: ActivityPluginBinding
-
+    private lateinit var completable : CompletableFuture<Long>
+    private lateinit var stream : Stream<Long>
 
     companion object {
         private val TAG = WalletApiHost::class.simpleName
@@ -40,11 +45,68 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     fun init(binaryMessenger: BinaryMessenger, context: Context) {
         Api.WalletApiHost.setup(binaryMessenger, this)
         this.context = context
+        this.completable = CompletableFuture()
+        this.stream = Stream.empty()
     }
 
     fun setActivity(activity: ActivityPluginBinding) {
         this.binding = activity;
     }
+
+    private fun setupCompleter(result: Api.Result<Long>?) {
+        if (!(completable.isDone || completable.isCancelled)) {
+            completable.cancel(true)
+        }
+        completable = CompletableFuture()
+        completable.whenComplete { r, e -> if (r!=null) result?.success(r) else result?.error(e)}
+    }
+
+    override fun authorizeSeed(purpose: Long, result: Api.Result<Long>?) {
+        setupCompleter(result)
+        binding.activity.startActivityForResult(
+            Wallet.authorizeSeed(purpose.toInt()),
+            REQUEST_AUTHORIZE_SEED_ACCESS
+        )
+    }
+
+    override fun createSeed(purpose: Long, result: Api.Result<Long>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun importSeed(purpose: Long, result: Api.Result<Long>?) {
+        TODO("Not yet implemented")
+    }
+
+//    override suspend fun authorizeSeed(purpose: Long) : Long {
+//        binding.activity.startActivityForResult(
+//            Wallet.authorizeSeed(purpose.toInt()),
+//            REQUEST_AUTHORIZE_SEED_ACCESS
+//        )
+//
+//        return setupCompleter()
+//
+////        return stream.findFirst().get()
+//
+////        return setupCompleter().get()
+//    }
+//
+//
+//    override fun createSeed(purpose: Long) : Long {
+//        binding.activity.startActivityForResult(
+//            Wallet.createSeed(purpose.toInt()),
+//            REQUEST_CREATE_NEW_SEED
+//        )
+//        return setupCompleter().get()
+//    }
+//
+//    override fun importSeed(purpose: Long) : Long {
+//        binding.activity.startActivityForResult(
+//            Wallet.importSeed(purpose.toInt()),
+//            REQUEST_IMPORT_EXISTING_SEED
+//        )
+//        return setupCompleter().get()
+//    }
+
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun getImplementationLimitsForPurpose(purpose: Long): ImplementationLimitsDto {
@@ -62,6 +124,7 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     override fun hasUnauthorizedSeedsForPurpose(purpose: Long): Boolean {
         return Wallet.hasUnauthorizedSeedsForPurpose(context, purpose.toInt())
     }
+
 
     override fun getAuthorizedSeeds(): MutableList<Api.SeedDto> {
         val seeds = mutableListOf<SeedDto>()
@@ -153,30 +216,39 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
         return accounts;
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun isAvailable(allowSimulated: Boolean): Boolean {
-        return SeedVault.isAvailable(context, allowSimulated)
-    }
-
-    override fun authorizeSeed(purpose: Long) {
-        binding.activity.startActivityForResult(
-            Wallet.authorizeSeed(purpose.toInt()),
-            REQUEST_AUTHORIZE_SEED_ACCESS
-        )
-    }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) : Boolean {
-//    TODO: implement callbacks
         when (requestCode) {
             REQUEST_AUTHORIZE_SEED_ACCESS -> {
                 try {
                     val authToken = Wallet.onAuthorizeSeedResult(resultCode, data)
-                    Log.d(TAG, "Seed authorized, AuthToken=$authToken")
+                    Log.d(TAG, "Seed authorized, AuthToken=$authToken, completing $completable")
+                    completable.complete(authToken)
+//                    stream.
                     //           onAddSeedSuccess(authToken)
                 } catch (e: Wallet.ActionFailedException) {
-                    Log.e(TAG, "Seed authorization failed", e)
-                    //          onAddSeedSuccessdFailure(resultCode)
+                    Log.e(TAG, "Seed authorization failed ${e.message}", e)
+                    completable.cancel(true)
+//                    completable.cancel(CancellationException())
+                }
+            }
+            REQUEST_CREATE_NEW_SEED -> {
+                try {
+                    val authToken = Wallet.onCreateSeedResult(resultCode, data)
+                    Log.d(TAG, "Seed created, AuthToken=$authToken")
+//                    completable.complete(authToken)
+                } catch (e: Wallet.ActionFailedException) {
+                    Log.e(TAG, "Seed creation failed", e)
+//                    completable.cancel(CancellationException())
+                }
+            }
+            REQUEST_IMPORT_EXISTING_SEED -> {
+                try {
+                    val authToken = Wallet.onImportSeedResult(resultCode, data)
+                    Log.d(TAG, "Seed imported, AuthToken=$authToken")
+//                    completable.complete(authToken)
+                } catch (e: Wallet.ActionFailedException) {
+                    Log.e(TAG, "Seed import failed", e)
+//                    completable.cancel(CancellationException())
                 }
             }
         }

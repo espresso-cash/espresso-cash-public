@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:request_permission/request_permission.dart';
 import 'package:wallet_example/bl/bloc.dart';
+import 'package:wallet_example/presentation/seed_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,9 +20,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    bloc = SeedVaultBloc(
-      RequestPermission.instace,
-    )..init();
+    bloc = SeedVaultBloc()..init();
   }
 
   @override
@@ -41,6 +39,15 @@ class _MyAppState extends State<MyApp> {
                     onPressed: bloc.authorizeSeed,
                     child: const Text('Authorize Seed'),
                   ),
+                  state.maybeMap(
+                    orElse: () => const SizedBox.shrink(),
+                    loaded: (state) => Expanded(
+                      child: SeedList(
+                        seedList: state.seeds,
+                        onDeauthorize: bloc.deathorizeSeed,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

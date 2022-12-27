@@ -223,7 +223,7 @@ class WalletApiHost {
 
   static const MessageCodec<Object?> codec = _WalletApiHostCodec();
 
-  Future<void> authorizeSeed(int arg_purpose) async {
+  Future<int> authorizeSeed(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.WalletApiHost.authorizeSeed', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
@@ -240,8 +240,67 @@ class WalletApiHost {
         message: error['message'] as String?,
         details: error['details'],
       );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
     } else {
-      return;
+      return (replyMap['result'] as int?)!;
+    }
+  }
+
+  Future<int> createSeed(int arg_purpose) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.WalletApiHost.createSeed', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as int?)!;
+    }
+  }
+
+  Future<int> importSeed(int arg_purpose) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.WalletApiHost.importSeed', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as int?)!;
     }
   }
 
@@ -277,33 +336,6 @@ class WalletApiHost {
         'dev.flutter.pigeon.WalletApiHost.hasUnauthorizedSeedsForPurpose', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
-    if (replyMap == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
-      throw PlatformException(
-        code: (error['code'] as String?)!,
-        message: error['message'] as String?,
-        details: error['details'],
-      );
-    } else if (replyMap['result'] == null) {
-      throw PlatformException(
-        code: 'null-error',
-        message: 'Host platform returned null value for non-null return value.',
-      );
-    } else {
-      return (replyMap['result'] as bool?)!;
-    }
-  }
-
-  Future<bool> isAvailable(bool arg_allowSimulated) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.isAvailable', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_allowSimulated]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -679,6 +711,75 @@ class Bip44ApiHost {
       );
     } else {
       return (replyMap['result'] as String?)!;
+    }
+  }
+}
+
+class _SeedVaultApiHostCodec extends StandardMessageCodec {
+  const _SeedVaultApiHostCodec();
+}
+
+class SeedVaultApiHost {
+  /// Constructor for [SeedVaultApiHost].  The [binaryMessenger] named argument is
+  /// available for dependency injection.  If it is left null, the default
+  /// BinaryMessenger will be used which routes to the host platform.
+  SeedVaultApiHost({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
+
+  final BinaryMessenger? _binaryMessenger;
+
+  static const MessageCodec<Object?> codec = _SeedVaultApiHostCodec();
+
+  Future<bool> isAvailable(bool arg_allowSimulated) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.SeedVaultApiHost.isAvailable', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_allowSimulated]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as bool?)!;
+    }
+  }
+
+  Future<bool> checkPermission() async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.SeedVaultApiHost.checkPermission', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(null) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as bool?)!;
     }
   }
 }

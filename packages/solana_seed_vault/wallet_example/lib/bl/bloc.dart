@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:request_permission/request_permission.dart';
-// import 'package:request_permission/request_permission.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 part 'bloc.freezed.dart';
@@ -23,39 +21,36 @@ class SeedVaultState with _$SeedVaultState {
 }
 
 class SeedVaultBloc extends Cubit<SeedVaultState> {
-  SeedVaultBloc(
-    this._permissions,
-  ) : super(const SeedVaultState.none()) {
-    _permissions.results.listen(
-      (e) => e.isGranted(WalletPermission.accessSeedVault) ? refresh() : null,
-    );
-  }
-
-  final RequestPermission _permissions;
+  SeedVaultBloc() : super(const SeedVaultState.none());
 
   int? authToken;
 
   Future<void> init() async {
-    final isInstalled = await Wallet.instance.isAvailable(true);
+    final isInstalled = await SeedVault.instance.isAvailable(true);
 
     if (!isInstalled) {
       return emit(const SeedVaultState.error('Seed vault not installed'));
     }
 
-    await _permissions
-        .hasAndroidPermission(WalletPermission.accessSeedVault)
-        .then(
-          (granted) => granted
-              ? refresh()
-              : _permissions.requestAndroidPermission(
-                  WalletPermission.accessSeedVault,
-                  0,
-                ),
-        );
+    final granted = await SeedVault.instance.checkPermission();
+
+    if (granted) {
+      return refresh();
+    } else {
+      return emit(const SeedVaultState.error('Seed vault not installed'));
+    }
   }
 
   Future<void> authorizeSeed() async {
-    await Wallet.instance.authorizeSeed(Purpose.signSolanaTransaction);
+    final authToken =
+        await Wallet.instance.authorizeSeed(Purpose.signSolanaTransaction);
+
+    print(authToken);
+  }
+
+  Future<void> deathorizeSeed(Seed seed) async {
+    await Wallet.instance.deauthorizeSeed(seed.authToken);
+    await refresh();
   }
 
   Future<void> refresh() async {

@@ -443,6 +443,11 @@ public class Api {
       return pigeonResult;
     }
   }
+
+  public interface Result<T> {
+    void success(T result);
+    void error(Throwable error);
+  }
   private static class WalletApiHostCodec extends StandardMessageCodec {
     public static final WalletApiHostCodec INSTANCE = new WalletApiHostCodec();
     private WalletApiHostCodec() {}
@@ -485,10 +490,11 @@ public class Api {
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface WalletApiHost {
-    void authorizeSeed(@NonNull Long purpose);
+    void authorizeSeed(@NonNull Long purpose, Result<Long> result);
+    void createSeed(@NonNull Long purpose, Result<Long> result);
+    void importSeed(@NonNull Long purpose, Result<Long> result);
     @NonNull ImplementationLimitsDto getImplementationLimitsForPurpose(@NonNull Long purpose);
     @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
-    @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
     @NonNull List<SeedDto> getAuthorizedSeeds();
     @NonNull List<AccountDto> getAccounts(@NonNull Long authToken, @NonNull Boolean isUserWalletOnly);
     @NonNull String resolveDerivationPath(@NonNull String derivationPath, @NonNull Long purpose);
@@ -516,13 +522,91 @@ public class Api {
               if (purposeArg == null) {
                 throw new NullPointerException("purposeArg unexpectedly null.");
               }
-              api.authorizeSeed((purposeArg == null) ? null : purposeArg.longValue());
-              wrapped.put("result", null);
+              Result<Long> resultCallback = new Result<Long>() {
+                public void success(Long result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.authorizeSeed((purposeArg == null) ? null : purposeArg.longValue(), resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
             }
-            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.createSeed", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number purposeArg = (Number)args.get(0);
+              if (purposeArg == null) {
+                throw new NullPointerException("purposeArg unexpectedly null.");
+              }
+              Result<Long> resultCallback = new Result<Long>() {
+                public void success(Long result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.createSeed((purposeArg == null) ? null : purposeArg.longValue(), resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.importSeed", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number purposeArg = (Number)args.get(0);
+              if (purposeArg == null) {
+                throw new NullPointerException("purposeArg unexpectedly null.");
+              }
+              Result<Long> resultCallback = new Result<Long>() {
+                public void success(Long result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.importSeed((purposeArg == null) ? null : purposeArg.longValue(), resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
           });
         } else {
           channel.setMessageHandler(null);
@@ -565,30 +649,6 @@ public class Api {
                 throw new NullPointerException("purposeArg unexpectedly null.");
               }
               Boolean output = api.hasUnauthorizedSeedsForPurpose((purposeArg == null) ? null : purposeArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.isAvailable", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Boolean allowSimulatedArg = (Boolean)args.get(0);
-              if (allowSimulatedArg == null) {
-                throw new NullPointerException("allowSimulatedArg unexpectedly null.");
-              }
-              Boolean output = api.isAvailable(allowSimulatedArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -964,6 +1024,68 @@ public class Api {
                 throw new NullPointerException("levelsArg unexpectedly null.");
               }
               String output = api.toUri(levelsArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+    }
+  }
+  private static class SeedVaultApiHostCodec extends StandardMessageCodec {
+    public static final SeedVaultApiHostCodec INSTANCE = new SeedVaultApiHostCodec();
+    private SeedVaultApiHostCodec() {}
+  }
+
+  /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
+  public interface SeedVaultApiHost {
+    @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
+    @NonNull Boolean checkPermission();
+
+    /** The codec used by SeedVaultApiHost. */
+    static MessageCodec<Object> getCodec() {
+      return SeedVaultApiHostCodec.INSTANCE;
+    }
+
+    /** Sets up an instance of `SeedVaultApiHost` to handle messages through the `binaryMessenger`. */
+    static void setup(BinaryMessenger binaryMessenger, SeedVaultApiHost api) {
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.SeedVaultApiHost.isAvailable", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Boolean allowSimulatedArg = (Boolean)args.get(0);
+              if (allowSimulatedArg == null) {
+                throw new NullPointerException("allowSimulatedArg unexpectedly null.");
+              }
+              Boolean output = api.isAvailable(allowSimulatedArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.SeedVaultApiHost.checkPermission", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              Boolean output = api.checkPermission();
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

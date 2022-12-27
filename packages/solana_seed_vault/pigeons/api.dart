@@ -70,13 +70,18 @@ class Bip44DerivationDto {
 
 @HostApi()
 abstract class WalletApiHost {
-  void authorizeSeed(int purpose);
+  @async
+  int authorizeSeed(int purpose);
+
+  @async
+  int createSeed(int purpose);
+
+  @async
+  int importSeed(int purpose);
 
   ImplementationLimitsDto getImplementationLimitsForPurpose(int purpose);
 
   bool hasUnauthorizedSeedsForPurpose(int purpose);
-
-  bool isAvailable(bool allowSimulated);
 
   List<SeedDto> getAuthorizedSeeds();
 
@@ -113,4 +118,11 @@ abstract class Bip44ApiHost {
   Bip44DerivationDto fromUri(String uri);
 
   String toUri(Bip44DerivationDto levels);
+}
+
+@HostApi()
+abstract class SeedVaultApiHost {
+  bool isAvailable(bool allowSimulated);
+
+  bool checkPermission();
 }

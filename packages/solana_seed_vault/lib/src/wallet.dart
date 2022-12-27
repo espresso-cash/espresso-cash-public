@@ -1,13 +1,10 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:solana_seed_vault/src/api.dart';
 import 'package:solana_seed_vault/src/models/account.dart';
+import 'package:solana_seed_vault/src/models/auth_token_result.dart';
 import 'package:solana_seed_vault/src/models/implementation_limits.dart';
 import 'package:solana_seed_vault/src/models/seed.dart';
-
-abstract class WalletPermission {
-  static const accessSeedVault = 'com.solanamobile.seedvault.ACCESS_SEED_VAULT';
-}
 
 class Wallet {
   Wallet._(this._platform);
@@ -20,9 +17,6 @@ class Wallet {
 
   @visibleForTesting
   static set instance(Wallet wallet) => _instance = wallet;
-
-  Future<void> authorizeSeed(Purpose purpose) =>
-      _platform.authorizeSeed(purpose.index);
 
   Future<ImplementationLimits> getImplementationLimitsForPurpose(
     Purpose purpose,
@@ -55,7 +49,7 @@ class Wallet {
   }
 
   Future<List<Account>> getAccounts(
-    int authToken, {
+    AuthToken authToken, {
     AccountFilter filter = const AccountFilter.isUserWallet(),
   }) async {
     final accounts = await _platform.getAccounts(
@@ -79,34 +73,40 @@ class Wallet {
   }
 
   Future<void> updateAccountName({
-    required int authToken,
+    required AuthToken authToken,
     required int accountId,
     required String? name,
   }) =>
       _platform.updateAccountName(authToken, accountId, name);
 
   Future<void> updateAccountIsUserWallet({
-    required int authToken,
+    required AuthToken authToken,
     required int accountId,
     required bool isUserWallet,
   }) =>
       _platform.updateAccountIsUserWallet(authToken, accountId, isUserWallet);
 
   Future<void> updateAccountIsValid({
-    required int authToken,
+    required AuthToken authToken,
     required int accountId,
     required bool isValid,
   }) =>
       _platform.updateAccountIsValid(authToken, accountId, isValid);
 
-  Future<void> deauthorizeSeed(int authToken) =>
+  Future<void> deauthorizeSeed(AuthToken authToken) =>
       _platform.deauthorizeSeed(authToken);
 
   Future<bool> hasUnauthorizedSeedsForPurpose(Purpose purpose) =>
       _platform.hasUnauthorizedSeedsForPurpose(purpose.index);
 
-  Future<bool> isAvailable(bool allowSimulated) =>
-      _platform.isAvailable(allowSimulated);
+  Future<AuthTokenResult> authorizeSeed(Purpose purpose) =>
+      _handleAuthTokenResult(() => _platform.authorizeSeed(purpose.index));
+
+  Future<AuthTokenResult> createSeed(Purpose purpose) =>
+      _handleAuthTokenResult(() => _platform.createSeed(purpose.index));
+
+  Future<AuthTokenResult> importSeed(Purpose purpose) =>
+      _handleAuthTokenResult(() => _platform.importSeed(purpose.index));
 }
 
 extension on List<AccountDto?> {
@@ -123,4 +123,12 @@ extension on List<AccountDto?> {
         ),
       )
       .toList();
+}
+
+Future<AuthTokenResult> _handleAuthTokenResult(AsyncValueGetter<int> f) async {
+  try {
+    return AuthTokenResult.success(await f());
+  } on Exception catch (e) {
+    return AuthTokenResult.failure(e);
+  }
 }
