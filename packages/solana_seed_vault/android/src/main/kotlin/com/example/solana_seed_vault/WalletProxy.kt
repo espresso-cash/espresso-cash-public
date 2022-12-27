@@ -29,8 +29,8 @@ import kotlin.coroutines.suspendCoroutine
 class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     private lateinit var context: Context
     private lateinit var binding: ActivityPluginBinding
-    private lateinit var completable : CompletableFuture<Long>
-    private lateinit var stream : Stream<Long>
+    private lateinit var completable: CompletableFuture<Long>
+    private var pendingRequest: Int? = null
 
     companion object {
         private val TAG = WalletApiHost::class.simpleName
@@ -46,23 +46,14 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
         Api.WalletApiHost.setup(binaryMessenger, this)
         this.context = context
         this.completable = CompletableFuture()
-        this.stream = Stream.empty()
     }
 
     fun setActivity(activity: ActivityPluginBinding) {
         this.binding = activity;
     }
 
-    private fun setupCompleter(result: Api.Result<Long>?) {
-        if (!(completable.isDone || completable.isCancelled)) {
-            completable.cancel(true)
-        }
-        completable = CompletableFuture()
-        completable.whenComplete { r, e -> if (r!=null) result?.success(r) else result?.error(e)}
-    }
-
     override fun authorizeSeed(purpose: Long, result: Api.Result<Long>?) {
-        setupCompleter(result)
+        setupCompleter(result, REQUEST_AUTHORIZE_SEED_ACCESS)
         binding.activity.startActivityForResult(
             Wallet.authorizeSeed(purpose.toInt()),
             REQUEST_AUTHORIZE_SEED_ACCESS
@@ -70,42 +61,20 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     }
 
     override fun createSeed(purpose: Long, result: Api.Result<Long>?) {
-        TODO("Not yet implemented")
+        setupCompleter(result, REQUEST_CREATE_NEW_SEED)
+        binding.activity.startActivityForResult(
+            Wallet.createSeed(purpose.toInt()),
+            REQUEST_CREATE_NEW_SEED
+        )
     }
 
     override fun importSeed(purpose: Long, result: Api.Result<Long>?) {
-        TODO("Not yet implemented")
+        setupCompleter(result, REQUEST_IMPORT_EXISTING_SEED)
+        binding.activity.startActivityForResult(
+            Wallet.importSeed(purpose.toInt()),
+            REQUEST_IMPORT_EXISTING_SEED
+        )
     }
-
-//    override suspend fun authorizeSeed(purpose: Long) : Long {
-//        binding.activity.startActivityForResult(
-//            Wallet.authorizeSeed(purpose.toInt()),
-//            REQUEST_AUTHORIZE_SEED_ACCESS
-//        )
-//
-//        return setupCompleter()
-//
-////        return stream.findFirst().get()
-//
-////        return setupCompleter().get()
-//    }
-//
-//
-//    override fun createSeed(purpose: Long) : Long {
-//        binding.activity.startActivityForResult(
-//            Wallet.createSeed(purpose.toInt()),
-//            REQUEST_CREATE_NEW_SEED
-//        )
-//        return setupCompleter().get()
-//    }
-//
-//    override fun importSeed(purpose: Long) : Long {
-//        binding.activity.startActivityForResult(
-//            Wallet.importSeed(purpose.toInt()),
-//            REQUEST_IMPORT_EXISTING_SEED
-//        )
-//        return setupCompleter().get()
-//    }
 
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -216,42 +185,40 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
         return accounts;
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) : Boolean {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+        if (requestCode != pendingRequest) return false;
+        Log.d(TAG, "Processing request code $requestCode")
         when (requestCode) {
             REQUEST_AUTHORIZE_SEED_ACCESS -> {
-                try {
-                    val authToken = Wallet.onAuthorizeSeedResult(resultCode, data)
-                    Log.d(TAG, "Seed authorized, AuthToken=$authToken, completing $completable")
-                    completable.complete(authToken)
-//                    stream.
-                    //           onAddSeedSuccess(authToken)
-                } catch (e: Wallet.ActionFailedException) {
-                    Log.e(TAG, "Seed authorization failed ${e.message}", e)
-                    completable.cancel(true)
-//                    completable.cancel(CancellationException())
-                }
+                handleResult { Wallet.onAuthorizeSeedResult(resultCode, data) }
             }
             REQUEST_CREATE_NEW_SEED -> {
-                try {
-                    val authToken = Wallet.onCreateSeedResult(resultCode, data)
-                    Log.d(TAG, "Seed created, AuthToken=$authToken")
-//                    completable.complete(authToken)
-                } catch (e: Wallet.ActionFailedException) {
-                    Log.e(TAG, "Seed creation failed", e)
-//                    completable.cancel(CancellationException())
-                }
+                handleResult { Wallet.onCreateSeedResult(resultCode, data) }
             }
             REQUEST_IMPORT_EXISTING_SEED -> {
-                try {
-                    val authToken = Wallet.onImportSeedResult(resultCode, data)
-                    Log.d(TAG, "Seed imported, AuthToken=$authToken")
-//                    completable.complete(authToken)
-                } catch (e: Wallet.ActionFailedException) {
-                    Log.e(TAG, "Seed import failed", e)
-//                    completable.cancel(CancellationException())
-                }
+                handleResult { Wallet.onImportSeedResult(resultCode, data) }
             }
         }
         return false;
     }
+
+
+    private fun setupCompleter(result: Api.Result<Long>?, request: Int) {
+        completable.cancel(true)
+        pendingRequest = request
+        completable = CompletableFuture()
+        completable.whenComplete { r, e -> if (r != null) result?.success(r) else result?.error(e) }
+    }
+
+    private fun handleResult(f: () -> Long) {
+        try {
+            val result = f()
+            Log.d(TAG, "Successfully completing with code $result")
+            completable.complete(result)
+        } catch (e: Wallet.ActionFailedException) {
+            Log.e(TAG, "Exceptionally completing ", e)
+            completable.completeExceptionally(e)
+        }
+    }
+
 }

@@ -37,15 +37,12 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     if (granted) {
       return refresh();
     } else {
-      return emit(const SeedVaultState.error('Seed vault not installed'));
+      return emit(const SeedVaultState.error('You need to allow Seed vault'));
     }
   }
 
   Future<void> authorizeSeed() async {
-    final authToken =
-        await Wallet.instance.authorizeSeed(Purpose.signSolanaTransaction);
-
-    print(authToken);
+    await Wallet.instance.authorizeSeed(Purpose.signSolanaTransaction);
   }
 
   Future<void> deathorizeSeed(Seed seed) async {
