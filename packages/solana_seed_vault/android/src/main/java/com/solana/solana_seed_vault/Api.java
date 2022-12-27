@@ -1045,7 +1045,7 @@ public class Api {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface SeedVaultApiHost {
     @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
-    @NonNull Boolean checkPermission();
+    void checkPermission(Result<Boolean> result);
 
     /** The codec used by SeedVaultApiHost. */
     static MessageCodec<Object> getCodec() {
@@ -1085,13 +1085,23 @@ public class Api {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
             try {
-              Boolean output = api.checkPermission();
-              wrapped.put("result", output);
+              Result<Boolean> resultCallback = new Result<Boolean>() {
+                public void success(Boolean result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.checkPermission(resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
             }
-            reply.reply(wrapped);
           });
         } else {
           channel.setMessageHandler(null);

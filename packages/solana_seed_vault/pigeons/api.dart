@@ -124,5 +124,6 @@ abstract class Bip44ApiHost {
 abstract class SeedVaultApiHost {
   bool isAvailable(bool allowSimulated);
 
+  @async
   bool checkPermission();
 }

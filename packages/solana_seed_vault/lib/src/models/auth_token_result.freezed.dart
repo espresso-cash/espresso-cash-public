@@ -37,20 +37,20 @@ mixin _$AuthTokenResult {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_ATRSuccess value) success,
-    required TResult Function(_ATRFailure value) failure,
+    required TResult Function(_AuthTokenResultSuccess value) success,
+    required TResult Function(_AuthTokenResultFailure value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_ATRSuccess value)? success,
-    TResult? Function(_ATRFailure value)? failure,
+    TResult? Function(_AuthTokenResultSuccess value)? success,
+    TResult? Function(_AuthTokenResultFailure value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_ATRSuccess value)? success,
-    TResult Function(_ATRFailure value)? failure,
+    TResult Function(_AuthTokenResultSuccess value)? success,
+    TResult Function(_AuthTokenResultFailure value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -75,20 +75,20 @@ class _$AuthTokenResultCopyWithImpl<$Res, $Val extends AuthTokenResult>
 }
 
 /// @nodoc
-abstract class _$$_ATRSuccessCopyWith<$Res> {
-  factory _$$_ATRSuccessCopyWith(
-          _$_ATRSuccess value, $Res Function(_$_ATRSuccess) then) =
-      __$$_ATRSuccessCopyWithImpl<$Res>;
+abstract class _$$_AuthTokenResultSuccessCopyWith<$Res> {
+  factory _$$_AuthTokenResultSuccessCopyWith(_$_AuthTokenResultSuccess value,
+          $Res Function(_$_AuthTokenResultSuccess) then) =
+      __$$_AuthTokenResultSuccessCopyWithImpl<$Res>;
   @useResult
   $Res call({int authToken});
 }
 
 /// @nodoc
-class __$$_ATRSuccessCopyWithImpl<$Res>
-    extends _$AuthTokenResultCopyWithImpl<$Res, _$_ATRSuccess>
-    implements _$$_ATRSuccessCopyWith<$Res> {
-  __$$_ATRSuccessCopyWithImpl(
-      _$_ATRSuccess _value, $Res Function(_$_ATRSuccess) _then)
+class __$$_AuthTokenResultSuccessCopyWithImpl<$Res>
+    extends _$AuthTokenResultCopyWithImpl<$Res, _$_AuthTokenResultSuccess>
+    implements _$$_AuthTokenResultSuccessCopyWith<$Res> {
+  __$$_AuthTokenResultSuccessCopyWithImpl(_$_AuthTokenResultSuccess _value,
+      $Res Function(_$_AuthTokenResultSuccess) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +96,7 @@ class __$$_ATRSuccessCopyWithImpl<$Res>
   $Res call({
     Object? authToken = null,
   }) {
-    return _then(_$_ATRSuccess(
+    return _then(_$_AuthTokenResultSuccess(
       null == authToken
           ? _value.authToken
           : authToken // ignore: cast_nullable_to_non_nullable
@@ -107,8 +107,8 @@ class __$$_ATRSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ATRSuccess implements _ATRSuccess {
-  const _$_ATRSuccess(this.authToken);
+class _$_AuthTokenResultSuccess implements _AuthTokenResultSuccess {
+  const _$_AuthTokenResultSuccess(this.authToken);
 
   @override
   final int authToken;
@@ -122,7 +122,7 @@ class _$_ATRSuccess implements _ATRSuccess {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ATRSuccess &&
+            other is _$_AuthTokenResultSuccess &&
             (identical(other.authToken, authToken) ||
                 other.authToken == authToken));
   }
@@ -133,8 +133,9 @@ class _$_ATRSuccess implements _ATRSuccess {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ATRSuccessCopyWith<_$_ATRSuccess> get copyWith =>
-      __$$_ATRSuccessCopyWithImpl<_$_ATRSuccess>(this, _$identity);
+  _$$_AuthTokenResultSuccessCopyWith<_$_AuthTokenResultSuccess> get copyWith =>
+      __$$_AuthTokenResultSuccessCopyWithImpl<_$_AuthTokenResultSuccess>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -170,8 +171,8 @@ class _$_ATRSuccess implements _ATRSuccess {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_ATRSuccess value) success,
-    required TResult Function(_ATRFailure value) failure,
+    required TResult Function(_AuthTokenResultSuccess value) success,
+    required TResult Function(_AuthTokenResultFailure value) failure,
   }) {
     return success(this);
   }
@@ -179,8 +180,8 @@ class _$_ATRSuccess implements _ATRSuccess {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_ATRSuccess value)? success,
-    TResult? Function(_ATRFailure value)? failure,
+    TResult? Function(_AuthTokenResultSuccess value)? success,
+    TResult? Function(_AuthTokenResultFailure value)? failure,
   }) {
     return success?.call(this);
   }
@@ -188,8 +189,8 @@ class _$_ATRSuccess implements _ATRSuccess {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_ATRSuccess value)? success,
-    TResult Function(_ATRFailure value)? failure,
+    TResult Function(_AuthTokenResultSuccess value)? success,
+    TResult Function(_AuthTokenResultFailure value)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -199,30 +200,31 @@ class _$_ATRSuccess implements _ATRSuccess {
   }
 }
 
-abstract class _ATRSuccess implements AuthTokenResult {
-  const factory _ATRSuccess(final int authToken) = _$_ATRSuccess;
+abstract class _AuthTokenResultSuccess implements AuthTokenResult {
+  const factory _AuthTokenResultSuccess(final int authToken) =
+      _$_AuthTokenResultSuccess;
 
   int get authToken;
   @JsonKey(ignore: true)
-  _$$_ATRSuccessCopyWith<_$_ATRSuccess> get copyWith =>
+  _$$_AuthTokenResultSuccessCopyWith<_$_AuthTokenResultSuccess> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_ATRFailureCopyWith<$Res> {
-  factory _$$_ATRFailureCopyWith(
-          _$_ATRFailure value, $Res Function(_$_ATRFailure) then) =
-      __$$_ATRFailureCopyWithImpl<$Res>;
+abstract class _$$_AuthTokenResultFailureCopyWith<$Res> {
+  factory _$$_AuthTokenResultFailureCopyWith(_$_AuthTokenResultFailure value,
+          $Res Function(_$_AuthTokenResultFailure) then) =
+      __$$_AuthTokenResultFailureCopyWithImpl<$Res>;
   @useResult
   $Res call({Exception exception});
 }
 
 /// @nodoc
-class __$$_ATRFailureCopyWithImpl<$Res>
-    extends _$AuthTokenResultCopyWithImpl<$Res, _$_ATRFailure>
-    implements _$$_ATRFailureCopyWith<$Res> {
-  __$$_ATRFailureCopyWithImpl(
-      _$_ATRFailure _value, $Res Function(_$_ATRFailure) _then)
+class __$$_AuthTokenResultFailureCopyWithImpl<$Res>
+    extends _$AuthTokenResultCopyWithImpl<$Res, _$_AuthTokenResultFailure>
+    implements _$$_AuthTokenResultFailureCopyWith<$Res> {
+  __$$_AuthTokenResultFailureCopyWithImpl(_$_AuthTokenResultFailure _value,
+      $Res Function(_$_AuthTokenResultFailure) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -230,7 +232,7 @@ class __$$_ATRFailureCopyWithImpl<$Res>
   $Res call({
     Object? exception = null,
   }) {
-    return _then(_$_ATRFailure(
+    return _then(_$_AuthTokenResultFailure(
       null == exception
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
@@ -241,8 +243,8 @@ class __$$_ATRFailureCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ATRFailure implements _ATRFailure {
-  const _$_ATRFailure(this.exception);
+class _$_AuthTokenResultFailure implements _AuthTokenResultFailure {
+  const _$_AuthTokenResultFailure(this.exception);
 
   @override
   final Exception exception;
@@ -256,7 +258,7 @@ class _$_ATRFailure implements _ATRFailure {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ATRFailure &&
+            other is _$_AuthTokenResultFailure &&
             (identical(other.exception, exception) ||
                 other.exception == exception));
   }
@@ -267,8 +269,9 @@ class _$_ATRFailure implements _ATRFailure {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ATRFailureCopyWith<_$_ATRFailure> get copyWith =>
-      __$$_ATRFailureCopyWithImpl<_$_ATRFailure>(this, _$identity);
+  _$$_AuthTokenResultFailureCopyWith<_$_AuthTokenResultFailure> get copyWith =>
+      __$$_AuthTokenResultFailureCopyWithImpl<_$_AuthTokenResultFailure>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -304,8 +307,8 @@ class _$_ATRFailure implements _ATRFailure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_ATRSuccess value) success,
-    required TResult Function(_ATRFailure value) failure,
+    required TResult Function(_AuthTokenResultSuccess value) success,
+    required TResult Function(_AuthTokenResultFailure value) failure,
   }) {
     return failure(this);
   }
@@ -313,8 +316,8 @@ class _$_ATRFailure implements _ATRFailure {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_ATRSuccess value)? success,
-    TResult? Function(_ATRFailure value)? failure,
+    TResult? Function(_AuthTokenResultSuccess value)? success,
+    TResult? Function(_AuthTokenResultFailure value)? failure,
   }) {
     return failure?.call(this);
   }
@@ -322,8 +325,8 @@ class _$_ATRFailure implements _ATRFailure {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_ATRSuccess value)? success,
-    TResult Function(_ATRFailure value)? failure,
+    TResult Function(_AuthTokenResultSuccess value)? success,
+    TResult Function(_AuthTokenResultFailure value)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -333,11 +336,12 @@ class _$_ATRFailure implements _ATRFailure {
   }
 }
 
-abstract class _ATRFailure implements AuthTokenResult {
-  const factory _ATRFailure(final Exception exception) = _$_ATRFailure;
+abstract class _AuthTokenResultFailure implements AuthTokenResult {
+  const factory _AuthTokenResultFailure(final Exception exception) =
+      _$_AuthTokenResultFailure;
 
   Exception get exception;
   @JsonKey(ignore: true)
-  _$$_ATRFailureCopyWith<_$_ATRFailure> get copyWith =>
+  _$$_AuthTokenResultFailureCopyWith<_$_AuthTokenResultFailure> get copyWith =>
       throw _privateConstructorUsedError;
 }

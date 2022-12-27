@@ -23,6 +23,7 @@ class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler,  ActivityAware {
   private lateinit var channel : MethodChannel
   private lateinit var context: Context
   private lateinit var walletApiHost : WalletApiHost;
+  private lateinit var permissionHandler: PermissionHandler;
 
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -30,12 +31,14 @@ class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler,  ActivityAware {
     channel.setMethodCallHandler(this)
     context = flutterPluginBinding.applicationContext
 
-    walletApiHost = WalletApiHost();
+    walletApiHost = WalletApiHost()
     walletApiHost.init(flutterPluginBinding.binaryMessenger, context)
+
+    permissionHandler = PermissionHandler()
 
     Bip32ApiHost().init(flutterPluginBinding.binaryMessenger, context)
     Bip44ApiHost().init(flutterPluginBinding.binaryMessenger, context)
-    SeedVaultApiHost().init(flutterPluginBinding.binaryMessenger, context)
+    SeedVaultApiHost().init(flutterPluginBinding.binaryMessenger, context, permissionHandler)
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {}
@@ -48,6 +51,7 @@ class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler,  ActivityAware {
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
     binding.addActivityResultListener(walletApiHost)
     walletApiHost.setActivity(binding)
+    permissionHandler.setActivity(binding)
   }
 
   override fun onDetachedFromActivityForConfigChanges()  = Unit
@@ -55,6 +59,7 @@ class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler,  ActivityAware {
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
     binding.addActivityResultListener(walletApiHost)
     walletApiHost.setActivity(binding)
+    permissionHandler.setActivity(binding)
   }
 
   override fun onDetachedFromActivity() = Unit
