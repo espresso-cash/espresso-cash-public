@@ -48,14 +48,14 @@ final _pages = [
   //   icon: Assets.icons.profile,
   // ),
   _Page(
-    route: const WalletFlowRoute(),
-    overlayStyle: SystemUiOverlayStyle.light,
-    icon: Assets.icons.wallet,
-  ),
-  _Page(
     route: const InvestmentsRouter(),
     overlayStyle: SystemUiOverlayStyle.light,
     icon: Assets.icons.investments,
+  ),
+  _Page(
+    route: const WalletFlowRoute(),
+    overlayStyle: SystemUiOverlayStyle.light,
+    icon: Assets.icons.wallet,
   ),
   _Page(
     route: const ActivitiesRoute(),
