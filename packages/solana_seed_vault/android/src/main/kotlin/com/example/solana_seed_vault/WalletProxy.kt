@@ -117,6 +117,29 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
         )
     }
 
+    override fun signTransactions(
+        authToken: Long,
+        signingRequests: MutableList<Api.SigningRequestDto>,
+        result: Api.Result<MutableList<SigningResponseDto>>?
+    ) {
+        setupCompleter(result, REQUEST_SIGN_TRANSACTIONS) { data ->
+            val responses = data as ArrayList<SigningResponse>
+            responses.map { r ->
+                SigningResponseDto.Builder()
+                    .setSignatures(r.signatures)
+                    .setResolvedDerivationPaths(r.resolvedDerivationPaths.map { it.toString() })
+                    .build()
+            }.toMutableList()
+        }
+
+        val requests = ArrayList(signingRequests.map { it -> SigningRequest(it.payload, it.requestedSignatures.map { Uri.parse(it) }) })
+
+        binding.activity.startActivityForResult(
+            Wallet.signMessages(authToken, requests),
+            REQUEST_SIGN_TRANSACTIONS
+        )
+    }
+
 
     override fun getAuthorizedSeeds(): MutableList<Api.SeedDto> {
         val seeds = mutableListOf<SeedDto>()
@@ -223,6 +246,9 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
             }
             REQUEST_SIGN_MESSAGES -> {
                 handleResult { Wallet.onSignMessagesResult(resultCode, data) }
+            }
+            REQUEST_SIGN_TRANSACTIONS -> {
+                handleResult { Wallet.onSignTransactionsResult(resultCode, data) }
             }
         }
         return false;

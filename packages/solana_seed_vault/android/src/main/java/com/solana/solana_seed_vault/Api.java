@@ -620,6 +620,7 @@ public class Api {
     void createSeed(@NonNull Long purpose, Result<Long> result);
     void importSeed(@NonNull Long purpose, Result<Long> result);
     void signMessages(@NonNull Long authToken, @NonNull List<SigningRequestDto> signingRequests, Result<List<SigningResponseDto>> result);
+    void signTransactions(@NonNull Long authToken, @NonNull List<SigningRequestDto> signingRequests, Result<List<SigningResponseDto>> result);
     @NonNull ImplementationLimitsDto getImplementationLimitsForPurpose(@NonNull Long purpose);
     @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
     @NonNull List<SeedDto> getAuthorizedSeeds();
@@ -767,6 +768,44 @@ public class Api {
               };
 
               api.signMessages((authTokenArg == null) ? null : authTokenArg.longValue(), signingRequestsArg, resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.signTransactions", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              List<SigningRequestDto> signingRequestsArg = (List<SigningRequestDto>)args.get(1);
+              if (signingRequestsArg == null) {
+                throw new NullPointerException("signingRequestsArg unexpectedly null.");
+              }
+              Result<List<SigningResponseDto>> resultCallback = new Result<List<SigningResponseDto>>() {
+                public void success(List<SigningResponseDto> result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.signTransactions((authTokenArg == null) ? null : authTokenArg.longValue(), signingRequestsArg, resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

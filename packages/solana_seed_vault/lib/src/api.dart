@@ -395,6 +395,33 @@ class WalletApiHost {
     }
   }
 
+  Future<List<SigningResponseDto?>> signTransactions(int arg_authToken, List<SigningRequestDto?> arg_signingRequests) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.WalletApiHost.signTransactions', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_authToken, arg_signingRequests]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as List<Object?>?)!.cast<SigningResponseDto?>();
+    }
+  }
+
   Future<ImplementationLimitsDto> getImplementationLimitsForPurpose(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.WalletApiHost.getImplementationLimitsForPurpose', codec, binaryMessenger: _binaryMessenger);

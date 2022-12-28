@@ -105,6 +105,12 @@ abstract class WalletApiHost {
     List<SigningRequestDto> signingRequests,
   );
 
+  @async
+  List<SigningResponseDto> signTransactions(
+    int authToken,
+    List<SigningRequestDto> signingRequests,
+  );
+
   ImplementationLimitsDto getImplementationLimitsForPurpose(int purpose);
 
   bool hasUnauthorizedSeedsForPurpose(int purpose);

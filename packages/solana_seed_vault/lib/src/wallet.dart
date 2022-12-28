@@ -8,6 +8,8 @@ import 'package:solana_seed_vault/src/models/implementation_limits.dart';
 import 'package:solana_seed_vault/src/models/seed.dart';
 import 'package:solana_seed_vault/src/models/signing.dart';
 
+enum PayloadType { message, transaction }
+
 class Wallet {
   Wallet._(this._platform);
 
@@ -110,9 +112,10 @@ class Wallet {
   Future<AuthTokenResponse> importSeed(Purpose purpose) =>
       _handleAuthTokenResponse(() => _platform.importSeed(purpose.index));
 
-  Future<List<SigningResponse>> signMessages({
+  Future<List<SigningResponse>> signPayload({
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,
+    required PayloadType payloadType,
   }) async {
     final r = signingRequests
         .map(
@@ -124,7 +127,9 @@ class Wallet {
         )
         .toList();
 
-    final results = await _platform.signMessages(authToken, r);
+    final results = payloadType == PayloadType.message
+        ? await _platform.signMessages(authToken, r)
+        : await _platform.signTransactions(authToken, r);
 
     return results
         .compact()

@@ -55,9 +55,10 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       ),
     );
 
-    await Wallet.instance.signMessages(
+    await Wallet.instance.signPayload(
       authToken: seed.authToken,
       signingRequests: signingRequests,
+      payloadType: PayloadType.transaction,
     );
   }
 
