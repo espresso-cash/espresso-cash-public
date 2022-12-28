@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import io.flutter.plugin.common.BinaryMessenger
 import androidx.annotation.RequiresApi
+import com.example.solana_seed_vault.utils.PermissionHandler
 import com.solana.solana_seed_vault.Api
 import com.solanamobile.seedvault.*
 
@@ -25,7 +26,7 @@ class SeedVaultApiHost() :  Api.SeedVaultApiHost {
 
     override fun checkPermission(result: Api.Result<Boolean>?) {
         if (result == null) return
-        handler.checkPermission(context, WalletContractV1.PERMISSION_ACCESS_SEED_VAULT, result)
+        handler.checkPermission(context, result)
     }
 
 }

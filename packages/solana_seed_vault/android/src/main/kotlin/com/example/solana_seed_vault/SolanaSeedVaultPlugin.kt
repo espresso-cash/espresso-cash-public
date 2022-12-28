@@ -2,6 +2,7 @@ package com.example.solana_seed_vault
 
 import android.content.Context
 import androidx.annotation.NonNull
+import com.example.solana_seed_vault.utils.PermissionHandler
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -27,12 +28,15 @@ class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler,  ActivityAware {
     walletApiHost = WalletApiHost()
     walletApiHost.init(flutterPluginBinding.binaryMessenger, context)
 
+    val changeNotifier = ChangeNotifier(flutterPluginBinding.binaryMessenger)
+
+    changeNotifier.init(context)
     permissionHandler = PermissionHandler()
+    permissionHandler.init { changeNotifier.observeSeedVaultContentChanges() }
 
     Bip32ApiHost().init(flutterPluginBinding.binaryMessenger, context)
     Bip44ApiHost().init(flutterPluginBinding.binaryMessenger, context)
     SeedVaultApiHost().init(flutterPluginBinding.binaryMessenger, context, permissionHandler)
-    ChangeNotifier(flutterPluginBinding.binaryMessenger).init(context)
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {}
@@ -41,9 +45,9 @@ class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler,  ActivityAware {
     channel.setMethodCallHandler(null)
   }
 
-
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
     binding.addActivityResultListener(walletApiHost)
+    binding.addRequestPermissionsResultListener(permissionHandler)
     walletApiHost.setActivity(binding)
     permissionHandler.setActivity(binding)
   }
@@ -52,6 +56,7 @@ class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler,  ActivityAware {
 
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
     binding.addActivityResultListener(walletApiHost)
+    binding.addRequestPermissionsResultListener(permissionHandler)
     walletApiHost.setActivity(binding)
     permissionHandler.setActivity(binding)
   }

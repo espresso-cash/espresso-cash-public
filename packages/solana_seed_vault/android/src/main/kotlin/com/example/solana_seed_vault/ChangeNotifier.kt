@@ -15,6 +15,7 @@ class ChangeNotifier(
 ) {
     private val api = Api.SeedVaultFlutterApi(binaryMessenger)
     private lateinit var context: Context
+    private var initialized = false
 
     companion object {
         private val TAG = ChangeNotifier::class.simpleName
@@ -22,10 +23,10 @@ class ChangeNotifier(
 
     fun init(context: Context) {
         this.context = context
-        observeSeedVaultContentChanges()
     }
 
-    private fun observeSeedVaultContentChanges() {
+    fun observeSeedVaultContentChanges() {
+        if (initialized) return
         val application = context.applicationContext
         application.contentResolver.registerContentObserver(
             WalletContractV1.WALLET_PROVIDER_CONTENT_URI_BASE,
@@ -40,6 +41,7 @@ class ChangeNotifier(
                 }
             }
         )
+        initialized = true
     }
 }
 
