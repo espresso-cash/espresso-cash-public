@@ -556,6 +556,74 @@ public class Api {
     }
   }
 
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class PublicKeyResponseDto {
+    private @Nullable byte[] publicKey;
+    public @Nullable byte[] getPublicKey() { return publicKey; }
+    public void setPublicKey(@Nullable byte[] setterArg) {
+      this.publicKey = setterArg;
+    }
+
+    private @Nullable String publicKeyEncoded;
+    public @Nullable String getPublicKeyEncoded() { return publicKeyEncoded; }
+    public void setPublicKeyEncoded(@Nullable String setterArg) {
+      this.publicKeyEncoded = setterArg;
+    }
+
+    private @NonNull String resolvedDerivationPath;
+    public @NonNull String getResolvedDerivationPath() { return resolvedDerivationPath; }
+    public void setResolvedDerivationPath(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"resolvedDerivationPath\" is null.");
+      }
+      this.resolvedDerivationPath = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private PublicKeyResponseDto() {}
+    public static final class Builder {
+      private @Nullable byte[] publicKey;
+      public @NonNull Builder setPublicKey(@Nullable byte[] setterArg) {
+        this.publicKey = setterArg;
+        return this;
+      }
+      private @Nullable String publicKeyEncoded;
+      public @NonNull Builder setPublicKeyEncoded(@Nullable String setterArg) {
+        this.publicKeyEncoded = setterArg;
+        return this;
+      }
+      private @Nullable String resolvedDerivationPath;
+      public @NonNull Builder setResolvedDerivationPath(@NonNull String setterArg) {
+        this.resolvedDerivationPath = setterArg;
+        return this;
+      }
+      public @NonNull PublicKeyResponseDto build() {
+        PublicKeyResponseDto pigeonReturn = new PublicKeyResponseDto();
+        pigeonReturn.setPublicKey(publicKey);
+        pigeonReturn.setPublicKeyEncoded(publicKeyEncoded);
+        pigeonReturn.setResolvedDerivationPath(resolvedDerivationPath);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("publicKey", publicKey);
+      toMapResult.put("publicKeyEncoded", publicKeyEncoded);
+      toMapResult.put("resolvedDerivationPath", resolvedDerivationPath);
+      return toMapResult;
+    }
+    static @NonNull PublicKeyResponseDto fromMap(@NonNull Map<String, Object> map) {
+      PublicKeyResponseDto pigeonResult = new PublicKeyResponseDto();
+      Object publicKey = map.get("publicKey");
+      pigeonResult.setPublicKey((byte[])publicKey);
+      Object publicKeyEncoded = map.get("publicKeyEncoded");
+      pigeonResult.setPublicKeyEncoded((String)publicKeyEncoded);
+      Object resolvedDerivationPath = map.get("resolvedDerivationPath");
+      pigeonResult.setResolvedDerivationPath((String)resolvedDerivationPath);
+      return pigeonResult;
+    }
+  }
+
   public interface Result<T> {
     void success(T result);
     void error(Throwable error);
@@ -573,12 +641,15 @@ public class Api {
           return ImplementationLimitsDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)130:         
-          return SeedDto.fromMap((Map<String, Object>) readValue(buffer));
+          return PublicKeyResponseDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)131:         
-          return SigningRequestDto.fromMap((Map<String, Object>) readValue(buffer));
+          return SeedDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)132:         
+          return SigningRequestDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)133:         
           return SigningResponseDto.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
@@ -596,16 +667,20 @@ public class Api {
         stream.write(129);
         writeValue(stream, ((ImplementationLimitsDto) value).toMap());
       } else 
-      if (value instanceof SeedDto) {
+      if (value instanceof PublicKeyResponseDto) {
         stream.write(130);
+        writeValue(stream, ((PublicKeyResponseDto) value).toMap());
+      } else 
+      if (value instanceof SeedDto) {
+        stream.write(131);
         writeValue(stream, ((SeedDto) value).toMap());
       } else 
       if (value instanceof SigningRequestDto) {
-        stream.write(131);
+        stream.write(132);
         writeValue(stream, ((SigningRequestDto) value).toMap());
       } else 
       if (value instanceof SigningResponseDto) {
-        stream.write(132);
+        stream.write(133);
         writeValue(stream, ((SigningResponseDto) value).toMap());
       } else 
 {
@@ -621,6 +696,7 @@ public class Api {
     void importSeed(@NonNull Long purpose, Result<Long> result);
     void signMessages(@NonNull Long authToken, @NonNull List<SigningRequestDto> signingRequests, Result<List<SigningResponseDto>> result);
     void signTransactions(@NonNull Long authToken, @NonNull List<SigningRequestDto> signingRequests, Result<List<SigningResponseDto>> result);
+    void requestPublicKeys(@NonNull Long authToken, @NonNull List<String> derivationPaths, Result<List<PublicKeyResponseDto>> result);
     @NonNull ImplementationLimitsDto getImplementationLimitsForPurpose(@NonNull Long purpose);
     @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
     @NonNull List<SeedDto> getAuthorizedSeeds();
@@ -806,6 +882,44 @@ public class Api {
               };
 
               api.signTransactions((authTokenArg == null) ? null : authTokenArg.longValue(), signingRequestsArg, resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.requestPublicKeys", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              List<String> derivationPathsArg = (List<String>)args.get(1);
+              if (derivationPathsArg == null) {
+                throw new NullPointerException("derivationPathsArg unexpectedly null.");
+              }
+              Result<List<PublicKeyResponseDto>> resultCallback = new Result<List<PublicKeyResponseDto>>() {
+                public void success(List<PublicKeyResponseDto> result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.requestPublicKeys((authTokenArg == null) ? null : authTokenArg.longValue(), derivationPathsArg, resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

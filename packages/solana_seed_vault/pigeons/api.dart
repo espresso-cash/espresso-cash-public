@@ -88,6 +88,18 @@ class SigningResponseDto {
   final List<String?> resolvedDerivationPaths;
 }
 
+class PublicKeyResponseDto {
+  PublicKeyResponseDto({
+    required this.publicKey,
+    required this.publicKeyEncoded,
+    required this.resolvedDerivationPath,
+  });
+
+  final Uint8List? publicKey;
+  final String? publicKeyEncoded;
+  final String resolvedDerivationPath;
+}
+
 @HostApi()
 abstract class WalletApiHost {
   @async
@@ -109,6 +121,12 @@ abstract class WalletApiHost {
   List<SigningResponseDto> signTransactions(
     int authToken,
     List<SigningRequestDto> signingRequests,
+  );
+
+  @async
+  List<PublicKeyResponseDto> requestPublicKeys(
+    int authToken,
+    List<String> derivationPaths,
   );
 
   ImplementationLimitsDto getImplementationLimitsForPurpose(int purpose);

@@ -224,6 +224,35 @@ class SigningResponseDto {
   }
 }
 
+class PublicKeyResponseDto {
+  PublicKeyResponseDto({
+    this.publicKey,
+    this.publicKeyEncoded,
+    required this.resolvedDerivationPath,
+  });
+
+  Uint8List? publicKey;
+  String? publicKeyEncoded;
+  String resolvedDerivationPath;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['publicKey'] = publicKey;
+    pigeonMap['publicKeyEncoded'] = publicKeyEncoded;
+    pigeonMap['resolvedDerivationPath'] = resolvedDerivationPath;
+    return pigeonMap;
+  }
+
+  static PublicKeyResponseDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return PublicKeyResponseDto(
+      publicKey: pigeonMap['publicKey'] as Uint8List?,
+      publicKeyEncoded: pigeonMap['publicKeyEncoded'] as String?,
+      resolvedDerivationPath: pigeonMap['resolvedDerivationPath']! as String,
+    );
+  }
+}
+
 class _WalletApiHostCodec extends StandardMessageCodec {
   const _WalletApiHostCodec();
   @override
@@ -236,16 +265,20 @@ class _WalletApiHostCodec extends StandardMessageCodec {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else 
-    if (value is SeedDto) {
+    if (value is PublicKeyResponseDto) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
     } else 
-    if (value is SigningRequestDto) {
+    if (value is SeedDto) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
     } else 
-    if (value is SigningResponseDto) {
+    if (value is SigningRequestDto) {
       buffer.putUint8(132);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is SigningResponseDto) {
+      buffer.putUint8(133);
       writeValue(buffer, value.encode());
     } else 
 {
@@ -262,12 +295,15 @@ class _WalletApiHostCodec extends StandardMessageCodec {
         return ImplementationLimitsDto.decode(readValue(buffer)!);
       
       case 130:       
-        return SeedDto.decode(readValue(buffer)!);
+        return PublicKeyResponseDto.decode(readValue(buffer)!);
       
       case 131:       
-        return SigningRequestDto.decode(readValue(buffer)!);
+        return SeedDto.decode(readValue(buffer)!);
       
       case 132:       
+        return SigningRequestDto.decode(readValue(buffer)!);
+      
+      case 133:       
         return SigningResponseDto.decode(readValue(buffer)!);
       
       default:      
@@ -419,6 +455,33 @@ class WalletApiHost {
       );
     } else {
       return (replyMap['result'] as List<Object?>?)!.cast<SigningResponseDto?>();
+    }
+  }
+
+  Future<List<PublicKeyResponseDto?>> requestPublicKeys(int arg_authToken, List<String?> arg_derivationPaths) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.WalletApiHost.requestPublicKeys', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_authToken, arg_derivationPaths]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as List<Object?>?)!.cast<PublicKeyResponseDto?>();
     }
   }
 

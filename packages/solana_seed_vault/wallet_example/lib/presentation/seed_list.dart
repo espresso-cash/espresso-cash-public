@@ -7,11 +7,13 @@ class SeedList extends StatelessWidget {
     required this.seedList,
     required this.onDeauthorize,
     required this.onMessageSigning,
+    required this.requestPublicKey,
   }) : super(key: key);
 
   final List<Seed> seedList;
   final ValueSetter<Seed> onDeauthorize;
   final ValueSetter<Seed> onMessageSigning;
+  final ValueSetter<Seed> requestPublicKey;
 
   @override
   Widget build(BuildContext context) => ListView.builder(
@@ -33,6 +35,10 @@ class SeedList extends StatelessWidget {
                 IconButton(
                   onPressed: () => onDeauthorize(seed),
                   icon: const Icon(Icons.delete),
+                ),
+                IconButton(
+                  onPressed: () => requestPublicKey(seed),
+                  icon: const Icon(Icons.key),
                 ),
               ],
             ),

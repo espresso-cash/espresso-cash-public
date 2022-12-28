@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import com.solana.solana_seed_vault.Api
 import com.solana.solana_seed_vault.Api.AccountDto
 import com.solana.solana_seed_vault.Api.ImplementationLimitsDto
+import com.solana.solana_seed_vault.Api.PublicKeyResponseDto
 import com.solana.solana_seed_vault.Api.SeedDto
 import com.solana.solana_seed_vault.Api.SigningResponseDto
 import com.solanamobile.seedvault.*
@@ -140,6 +141,30 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
         )
     }
 
+    override fun requestPublicKeys(
+        authToken: Long,
+        derivationPaths: MutableList<String>,
+        result: Api.Result<MutableList<Api.PublicKeyResponseDto>>?
+    ) {
+        setupCompleter(result, REQUEST_GET_PUBLIC_KEYS) { data ->
+            val responses = data as ArrayList<PublicKeyResponse>
+            responses.map { r ->
+                PublicKeyResponseDto.Builder()
+                    .setPublicKey(r.publicKey)
+                    .setPublicKeyEncoded(r.publicKeyEncoded)
+                    .setResolvedDerivationPath(r.resolvedDerivationPath.toString())
+                    .build()
+            }.toMutableList()
+        }
+
+        val paths = ArrayList(derivationPaths.map { Uri.parse(it) })
+
+        binding.activity.startActivityForResult(
+            Wallet.requestPublicKeys(authToken, paths),
+            REQUEST_GET_PUBLIC_KEYS
+        )
+    }
+
 
     override fun getAuthorizedSeeds(): MutableList<Api.SeedDto> {
         val seeds = mutableListOf<SeedDto>()
@@ -249,6 +274,9 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
             }
             REQUEST_SIGN_TRANSACTIONS -> {
                 handleResult { Wallet.onSignTransactionsResult(resultCode, data) }
+            }
+            REQUEST_GET_PUBLIC_KEYS -> {
+                handleResult { Wallet.onRequestPublicKeysResult(resultCode, data) }
             }
         }
         return false;

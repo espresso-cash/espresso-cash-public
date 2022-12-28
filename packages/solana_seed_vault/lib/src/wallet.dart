@@ -5,6 +5,7 @@ import 'package:solana_seed_vault/src/models/account.dart';
 import 'package:solana_seed_vault/src/models/auth_token.dart';
 import 'package:solana_seed_vault/src/models/auth_token_response.dart';
 import 'package:solana_seed_vault/src/models/implementation_limits.dart';
+import 'package:solana_seed_vault/src/models/public_key.dart';
 import 'package:solana_seed_vault/src/models/seed.dart';
 import 'package:solana_seed_vault/src/models/signing.dart';
 
@@ -138,6 +139,26 @@ class Wallet {
             signatures: it.signatures.compact().toList(),
             resolvedDerivationPaths:
                 it.resolvedDerivationPaths.compact().map(Uri.parse).toList(),
+          ),
+        )
+        .toList();
+  }
+
+  Future<List<PublicKeyResponse>> requestPublicKeys({
+    required AuthToken authToken,
+    required List<Uri> derivationPaths,
+  }) async {
+    final r = derivationPaths.map((it) => it.toString()).toList();
+
+    final results = await _platform.requestPublicKeys(authToken, r);
+
+    return results
+        .compact()
+        .map(
+          (it) => PublicKeyResponse(
+            publicKey: it.publicKey,
+            publicKeyEncoded: it.publicKeyEncoded,
+            resolvedDerivationPath: Uri.parse(it.resolvedDerivationPath),
           ),
         )
         .toList();

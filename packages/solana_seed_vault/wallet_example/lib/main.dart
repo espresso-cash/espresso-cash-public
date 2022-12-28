@@ -46,6 +46,7 @@ class _MyAppState extends State<MyApp> {
                         seedList: state.seeds,
                         onDeauthorize: bloc.deathorizeSeed,
                         onMessageSigning: (seed) => bloc.signMessage(seed, 1),
+                        requestPublicKey: bloc.requestPublicKey,
                       ),
                     ),
                   )

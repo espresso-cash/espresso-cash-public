@@ -62,6 +62,14 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     );
   }
 
+  Future<void> requestPublicKey(Seed seed) async {
+    await Wallet.instance.requestPublicKeys(
+      authToken: seed.authToken,
+      derivationPaths: seed.accounts.map((a) => a.derivationPath).toList(),
+    );
+    await refresh();
+  }
+
   Future<void> deathorizeSeed(Seed seed) async {
     await Wallet.instance.deauthorizeSeed(seed.authToken);
     await refresh();
