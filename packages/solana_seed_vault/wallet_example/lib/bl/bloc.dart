@@ -24,7 +24,7 @@ class SeedVaultState with _$SeedVaultState {
 class SeedVaultBloc extends Cubit<SeedVaultState> {
   SeedVaultBloc() : super(const SeedVaultState.none());
 
-  late StreamSubscription<ChangeNotified> _subscription;
+  late StreamSubscription<SeedVaultNotification> _subscription;
 
   @override
   Future<void> close() async {
@@ -63,10 +63,9 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       ),
     );
 
-    await Wallet.instance.signPayload(
+    await Wallet.instance.signMessages(
       authToken: seed.authToken,
       signingRequests: signingRequests,
-      payloadType: PayloadType.transaction,
     );
   }
 

@@ -1,9 +1,5 @@
 import 'package:solana_seed_vault/src/api.dart';
 
-abstract class WalletPermission {
-  static const accessSeedVault = 'com.solanamobile.seedvault.ACCESS_SEED_VAULT';
-}
-
 class SeedVault {
   SeedVault._(this._platform);
 

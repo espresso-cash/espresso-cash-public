@@ -13,9 +13,3 @@ class Account with _$Account {
     required bool isValid,
   }) = _Account;
 }
-
-@freezed
-class AccountFilter with _$AccountFilter {
-  const factory AccountFilter.any() = _Any;
-  const factory AccountFilter.isUserWallet() = _isUserWallet;
-}

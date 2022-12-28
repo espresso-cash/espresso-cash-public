@@ -6,13 +6,12 @@ import 'package:solana_seed_vault/src/api.dart';
 import 'package:solana_seed_vault/src/models/account.dart';
 import 'package:solana_seed_vault/src/models/auth_token.dart';
 import 'package:solana_seed_vault/src/models/auth_token_response.dart';
-import 'package:solana_seed_vault/src/models/change.dart';
 import 'package:solana_seed_vault/src/models/implementation_limits.dart';
-import 'package:solana_seed_vault/src/models/public_key.dart';
+import 'package:solana_seed_vault/src/models/public_key_response.dart';
 import 'package:solana_seed_vault/src/models/seed.dart';
-import 'package:solana_seed_vault/src/models/signing.dart';
-
-enum PayloadType { message, transaction }
+import 'package:solana_seed_vault/src/models/seed_vault_notification.dart';
+import 'package:solana_seed_vault/src/models/signing_request.dart';
+import 'package:solana_seed_vault/src/models/signing_response.dart';
 
 class Wallet implements SeedVaultFlutterApi {
   Wallet._(this._platform) {
@@ -25,17 +24,17 @@ class Wallet implements SeedVaultFlutterApi {
 
   static Wallet get instance => _instance;
 
-  Stream<ChangeNotified> get changeStream => _eventStream.stream;
+  Stream<SeedVaultNotification> get changeStream => _eventStream.stream;
 
   @visibleForTesting
   static set instance(Wallet wallet) => _instance = wallet;
 
-  final _eventStream = StreamController<ChangeNotified>();
+  final _eventStream = StreamController<SeedVaultNotification>();
 
   @override
   void onChangeNotified(List<String?> uris, int flags) {
     _eventStream.add(
-      ChangeNotified(
+      SeedVaultNotification(
         uris: uris.compact().map(Uri.parse).toList(),
         flags: flags,
       ),
@@ -74,12 +73,9 @@ class Wallet implements SeedVaultFlutterApi {
 
   Future<List<Account>> getAccounts(
     AuthToken authToken, {
-    AccountFilter filter = const AccountFilter.isUserWallet(),
+    bool userWalletOnly = true,
   }) async {
-    final accounts = await _platform.getAccounts(
-      authToken,
-      filter.map(any: F, isUserWallet: T),
-    );
+    final accounts = await _platform.getAccounts(authToken, userWalletOnly);
 
     return accounts.toModelList();
   }
@@ -132,44 +128,13 @@ class Wallet implements SeedVaultFlutterApi {
   Future<AuthTokenResponse> importSeed(Purpose purpose) =>
       _handleAuthTokenResponse(() => _platform.importSeed(purpose.index));
 
-  Future<List<SigningResponse>> signPayload({
-    required AuthToken authToken,
-    required List<SigningRequest> signingRequests,
-    required PayloadType payloadType,
-  }) async {
-    final r = signingRequests
-        .map(
-          (it) => SigningRequestDto(
-            payload: it.payload,
-            requestedSignatures:
-                it.requestedSignatures.map((it) => it.toString()).toList(),
-          ),
-        )
-        .toList();
-
-    final results = payloadType == PayloadType.message
-        ? await _platform.signMessages(authToken, r)
-        : await _platform.signTransactions(authToken, r);
-
-    return results
-        .compact()
-        .map(
-          (it) => SigningResponse(
-            signatures: it.signatures.compact().toList(),
-            resolvedDerivationPaths:
-                it.resolvedDerivationPaths.compact().map(Uri.parse).toList(),
-          ),
-        )
-        .toList();
-  }
-
   Future<List<PublicKeyResponse>> requestPublicKeys({
     required AuthToken authToken,
     required List<Uri> derivationPaths,
   }) async {
-    final r = derivationPaths.map((it) => it.toString()).toList();
+    final paths = derivationPaths.map((it) => it.toString()).toList();
 
-    final results = await _platform.requestPublicKeys(authToken, r);
+    final results = await _platform.requestPublicKeys(authToken, paths);
 
     return results
         .compact()
@@ -182,6 +147,44 @@ class Wallet implements SeedVaultFlutterApi {
         )
         .toList();
   }
+
+  Future<List<SigningResponse>> signMessages({
+    required AuthToken authToken,
+    required List<SigningRequest> signingRequests,
+  }) async {
+    final requests = signingRequests.map((it) => it.toDto()).toList();
+
+    final results = await _platform.signMessages(authToken, requests);
+
+    return results.compact().map((it) => it.toModel()).toList();
+  }
+
+  Future<List<SigningResponse>> signTransactions({
+    required AuthToken authToken,
+    required List<SigningRequest> signingRequests,
+  }) async {
+    final requests = signingRequests.map((it) => it.toDto()).toList();
+
+    final results = await _platform.signTransactions(authToken, requests);
+
+    return results.compact().map((it) => it.toModel()).toList();
+  }
+}
+
+extension on SigningRequest {
+  SigningRequestDto toDto() => SigningRequestDto(
+        payload: payload,
+        requestedSignatures:
+            requestedSignatures.map((it) => it.toString()).toList(),
+      );
+}
+
+extension on SigningResponseDto {
+  SigningResponse toModel() => SigningResponse(
+        signatures: signatures.compact().toList(),
+        resolvedDerivationPaths:
+            resolvedDerivationPaths.compact().map(Uri.parse).toList(),
+      );
 }
 
 extension on List<AccountDto?> {
