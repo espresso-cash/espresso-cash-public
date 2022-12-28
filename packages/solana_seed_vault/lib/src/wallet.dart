@@ -2,9 +2,11 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:solana_seed_vault/src/api.dart';
 import 'package:solana_seed_vault/src/models/account.dart';
-import 'package:solana_seed_vault/src/models/auth_token_result.dart';
+import 'package:solana_seed_vault/src/models/auth_token.dart';
+import 'package:solana_seed_vault/src/models/auth_token_response.dart';
 import 'package:solana_seed_vault/src/models/implementation_limits.dart';
 import 'package:solana_seed_vault/src/models/seed.dart';
+import 'package:solana_seed_vault/src/models/signing.dart';
 
 class Wallet {
   Wallet._(this._platform);
@@ -99,14 +101,42 @@ class Wallet {
   Future<bool> hasUnauthorizedSeedsForPurpose(Purpose purpose) =>
       _platform.hasUnauthorizedSeedsForPurpose(purpose.index);
 
-  Future<AuthTokenResult> authorizeSeed(Purpose purpose) =>
-      _handleAuthTokenResult(() => _platform.authorizeSeed(purpose.index));
+  Future<AuthTokenResponse> authorizeSeed(Purpose purpose) =>
+      _handleAuthTokenResponse(() => _platform.authorizeSeed(purpose.index));
 
-  Future<AuthTokenResult> createSeed(Purpose purpose) =>
-      _handleAuthTokenResult(() => _platform.createSeed(purpose.index));
+  Future<AuthTokenResponse> createSeed(Purpose purpose) =>
+      _handleAuthTokenResponse(() => _platform.createSeed(purpose.index));
 
-  Future<AuthTokenResult> importSeed(Purpose purpose) =>
-      _handleAuthTokenResult(() => _platform.importSeed(purpose.index));
+  Future<AuthTokenResponse> importSeed(Purpose purpose) =>
+      _handleAuthTokenResponse(() => _platform.importSeed(purpose.index));
+
+  Future<List<SigningResponse>> signMessages({
+    required AuthToken authToken,
+    required List<SigningRequest> signingRequests,
+  }) async {
+    final r = signingRequests
+        .map(
+          (it) => SigningRequestDto(
+            payload: it.payload,
+            requestedSignatures:
+                it.requestedSignatures.map((it) => it.toString()).toList(),
+          ),
+        )
+        .toList();
+
+    final results = await _platform.signMessages(authToken, r);
+
+    return results
+        .compact()
+        .map(
+          (it) => SigningResponse(
+            signatures: it.signatures.compact().toList(),
+            resolvedDerivationPaths:
+                it.resolvedDerivationPaths.compact().map(Uri.parse).toList(),
+          ),
+        )
+        .toList();
+  }
 }
 
 extension on List<AccountDto?> {
@@ -125,10 +155,12 @@ extension on List<AccountDto?> {
       .toList();
 }
 
-Future<AuthTokenResult> _handleAuthTokenResult(AsyncValueGetter<int> f) async {
+Future<AuthTokenResponse> _handleAuthTokenResponse(
+  AsyncValueGetter<AuthToken> onResult,
+) async {
   try {
-    return AuthTokenResult.success(await f());
+    return AuthTokenResponse.success(await onResult());
   } on Exception catch (e) {
-    return AuthTokenResult.failure(e);
+    return AuthTokenResponse.failure(e);
   }
 }

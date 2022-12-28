@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'auth_token_result.dart';
+part of 'auth_token_response.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$AuthTokenResult {
+mixin _$AuthTokenResponse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int authToken) success,
@@ -37,36 +37,36 @@ mixin _$AuthTokenResult {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AuthTokenResultSuccess value) success,
-    required TResult Function(_AuthTokenResultFailure value) failure,
+    required TResult Function(_AuthTokenResponseSuccess value) success,
+    required TResult Function(_AuthTokenResponseFailure value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AuthTokenResultSuccess value)? success,
-    TResult? Function(_AuthTokenResultFailure value)? failure,
+    TResult? Function(_AuthTokenResponseSuccess value)? success,
+    TResult? Function(_AuthTokenResponseFailure value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AuthTokenResultSuccess value)? success,
-    TResult Function(_AuthTokenResultFailure value)? failure,
+    TResult Function(_AuthTokenResponseSuccess value)? success,
+    TResult Function(_AuthTokenResponseFailure value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AuthTokenResultCopyWith<$Res> {
-  factory $AuthTokenResultCopyWith(
-          AuthTokenResult value, $Res Function(AuthTokenResult) then) =
-      _$AuthTokenResultCopyWithImpl<$Res, AuthTokenResult>;
+abstract class $AuthTokenResponseCopyWith<$Res> {
+  factory $AuthTokenResponseCopyWith(
+          AuthTokenResponse value, $Res Function(AuthTokenResponse) then) =
+      _$AuthTokenResponseCopyWithImpl<$Res, AuthTokenResponse>;
 }
 
 /// @nodoc
-class _$AuthTokenResultCopyWithImpl<$Res, $Val extends AuthTokenResult>
-    implements $AuthTokenResultCopyWith<$Res> {
-  _$AuthTokenResultCopyWithImpl(this._value, this._then);
+class _$AuthTokenResponseCopyWithImpl<$Res, $Val extends AuthTokenResponse>
+    implements $AuthTokenResponseCopyWith<$Res> {
+  _$AuthTokenResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -75,20 +75,21 @@ class _$AuthTokenResultCopyWithImpl<$Res, $Val extends AuthTokenResult>
 }
 
 /// @nodoc
-abstract class _$$_AuthTokenResultSuccessCopyWith<$Res> {
-  factory _$$_AuthTokenResultSuccessCopyWith(_$_AuthTokenResultSuccess value,
-          $Res Function(_$_AuthTokenResultSuccess) then) =
-      __$$_AuthTokenResultSuccessCopyWithImpl<$Res>;
+abstract class _$$_AuthTokenResponseSuccessCopyWith<$Res> {
+  factory _$$_AuthTokenResponseSuccessCopyWith(
+          _$_AuthTokenResponseSuccess value,
+          $Res Function(_$_AuthTokenResponseSuccess) then) =
+      __$$_AuthTokenResponseSuccessCopyWithImpl<$Res>;
   @useResult
   $Res call({int authToken});
 }
 
 /// @nodoc
-class __$$_AuthTokenResultSuccessCopyWithImpl<$Res>
-    extends _$AuthTokenResultCopyWithImpl<$Res, _$_AuthTokenResultSuccess>
-    implements _$$_AuthTokenResultSuccessCopyWith<$Res> {
-  __$$_AuthTokenResultSuccessCopyWithImpl(_$_AuthTokenResultSuccess _value,
-      $Res Function(_$_AuthTokenResultSuccess) _then)
+class __$$_AuthTokenResponseSuccessCopyWithImpl<$Res>
+    extends _$AuthTokenResponseCopyWithImpl<$Res, _$_AuthTokenResponseSuccess>
+    implements _$$_AuthTokenResponseSuccessCopyWith<$Res> {
+  __$$_AuthTokenResponseSuccessCopyWithImpl(_$_AuthTokenResponseSuccess _value,
+      $Res Function(_$_AuthTokenResponseSuccess) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +97,7 @@ class __$$_AuthTokenResultSuccessCopyWithImpl<$Res>
   $Res call({
     Object? authToken = null,
   }) {
-    return _then(_$_AuthTokenResultSuccess(
+    return _then(_$_AuthTokenResponseSuccess(
       null == authToken
           ? _value.authToken
           : authToken // ignore: cast_nullable_to_non_nullable
@@ -107,22 +108,22 @@ class __$$_AuthTokenResultSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AuthTokenResultSuccess implements _AuthTokenResultSuccess {
-  const _$_AuthTokenResultSuccess(this.authToken);
+class _$_AuthTokenResponseSuccess implements _AuthTokenResponseSuccess {
+  const _$_AuthTokenResponseSuccess(this.authToken);
 
   @override
   final int authToken;
 
   @override
   String toString() {
-    return 'AuthTokenResult.success(authToken: $authToken)';
+    return 'AuthTokenResponse.success(authToken: $authToken)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthTokenResultSuccess &&
+            other is _$_AuthTokenResponseSuccess &&
             (identical(other.authToken, authToken) ||
                 other.authToken == authToken));
   }
@@ -133,9 +134,9 @@ class _$_AuthTokenResultSuccess implements _AuthTokenResultSuccess {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthTokenResultSuccessCopyWith<_$_AuthTokenResultSuccess> get copyWith =>
-      __$$_AuthTokenResultSuccessCopyWithImpl<_$_AuthTokenResultSuccess>(
-          this, _$identity);
+  _$$_AuthTokenResponseSuccessCopyWith<_$_AuthTokenResponseSuccess>
+      get copyWith => __$$_AuthTokenResponseSuccessCopyWithImpl<
+          _$_AuthTokenResponseSuccess>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -171,8 +172,8 @@ class _$_AuthTokenResultSuccess implements _AuthTokenResultSuccess {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AuthTokenResultSuccess value) success,
-    required TResult Function(_AuthTokenResultFailure value) failure,
+    required TResult Function(_AuthTokenResponseSuccess value) success,
+    required TResult Function(_AuthTokenResponseFailure value) failure,
   }) {
     return success(this);
   }
@@ -180,8 +181,8 @@ class _$_AuthTokenResultSuccess implements _AuthTokenResultSuccess {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AuthTokenResultSuccess value)? success,
-    TResult? Function(_AuthTokenResultFailure value)? failure,
+    TResult? Function(_AuthTokenResponseSuccess value)? success,
+    TResult? Function(_AuthTokenResponseFailure value)? failure,
   }) {
     return success?.call(this);
   }
@@ -189,8 +190,8 @@ class _$_AuthTokenResultSuccess implements _AuthTokenResultSuccess {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AuthTokenResultSuccess value)? success,
-    TResult Function(_AuthTokenResultFailure value)? failure,
+    TResult Function(_AuthTokenResponseSuccess value)? success,
+    TResult Function(_AuthTokenResponseFailure value)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -200,31 +201,32 @@ class _$_AuthTokenResultSuccess implements _AuthTokenResultSuccess {
   }
 }
 
-abstract class _AuthTokenResultSuccess implements AuthTokenResult {
-  const factory _AuthTokenResultSuccess(final int authToken) =
-      _$_AuthTokenResultSuccess;
+abstract class _AuthTokenResponseSuccess implements AuthTokenResponse {
+  const factory _AuthTokenResponseSuccess(final int authToken) =
+      _$_AuthTokenResponseSuccess;
 
   int get authToken;
   @JsonKey(ignore: true)
-  _$$_AuthTokenResultSuccessCopyWith<_$_AuthTokenResultSuccess> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_AuthTokenResponseSuccessCopyWith<_$_AuthTokenResponseSuccess>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_AuthTokenResultFailureCopyWith<$Res> {
-  factory _$$_AuthTokenResultFailureCopyWith(_$_AuthTokenResultFailure value,
-          $Res Function(_$_AuthTokenResultFailure) then) =
-      __$$_AuthTokenResultFailureCopyWithImpl<$Res>;
+abstract class _$$_AuthTokenResponseFailureCopyWith<$Res> {
+  factory _$$_AuthTokenResponseFailureCopyWith(
+          _$_AuthTokenResponseFailure value,
+          $Res Function(_$_AuthTokenResponseFailure) then) =
+      __$$_AuthTokenResponseFailureCopyWithImpl<$Res>;
   @useResult
   $Res call({Exception exception});
 }
 
 /// @nodoc
-class __$$_AuthTokenResultFailureCopyWithImpl<$Res>
-    extends _$AuthTokenResultCopyWithImpl<$Res, _$_AuthTokenResultFailure>
-    implements _$$_AuthTokenResultFailureCopyWith<$Res> {
-  __$$_AuthTokenResultFailureCopyWithImpl(_$_AuthTokenResultFailure _value,
-      $Res Function(_$_AuthTokenResultFailure) _then)
+class __$$_AuthTokenResponseFailureCopyWithImpl<$Res>
+    extends _$AuthTokenResponseCopyWithImpl<$Res, _$_AuthTokenResponseFailure>
+    implements _$$_AuthTokenResponseFailureCopyWith<$Res> {
+  __$$_AuthTokenResponseFailureCopyWithImpl(_$_AuthTokenResponseFailure _value,
+      $Res Function(_$_AuthTokenResponseFailure) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -232,7 +234,7 @@ class __$$_AuthTokenResultFailureCopyWithImpl<$Res>
   $Res call({
     Object? exception = null,
   }) {
-    return _then(_$_AuthTokenResultFailure(
+    return _then(_$_AuthTokenResponseFailure(
       null == exception
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
@@ -243,22 +245,22 @@ class __$$_AuthTokenResultFailureCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AuthTokenResultFailure implements _AuthTokenResultFailure {
-  const _$_AuthTokenResultFailure(this.exception);
+class _$_AuthTokenResponseFailure implements _AuthTokenResponseFailure {
+  const _$_AuthTokenResponseFailure(this.exception);
 
   @override
   final Exception exception;
 
   @override
   String toString() {
-    return 'AuthTokenResult.failure(exception: $exception)';
+    return 'AuthTokenResponse.failure(exception: $exception)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthTokenResultFailure &&
+            other is _$_AuthTokenResponseFailure &&
             (identical(other.exception, exception) ||
                 other.exception == exception));
   }
@@ -269,9 +271,9 @@ class _$_AuthTokenResultFailure implements _AuthTokenResultFailure {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthTokenResultFailureCopyWith<_$_AuthTokenResultFailure> get copyWith =>
-      __$$_AuthTokenResultFailureCopyWithImpl<_$_AuthTokenResultFailure>(
-          this, _$identity);
+  _$$_AuthTokenResponseFailureCopyWith<_$_AuthTokenResponseFailure>
+      get copyWith => __$$_AuthTokenResponseFailureCopyWithImpl<
+          _$_AuthTokenResponseFailure>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -307,8 +309,8 @@ class _$_AuthTokenResultFailure implements _AuthTokenResultFailure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AuthTokenResultSuccess value) success,
-    required TResult Function(_AuthTokenResultFailure value) failure,
+    required TResult Function(_AuthTokenResponseSuccess value) success,
+    required TResult Function(_AuthTokenResponseFailure value) failure,
   }) {
     return failure(this);
   }
@@ -316,8 +318,8 @@ class _$_AuthTokenResultFailure implements _AuthTokenResultFailure {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AuthTokenResultSuccess value)? success,
-    TResult? Function(_AuthTokenResultFailure value)? failure,
+    TResult? Function(_AuthTokenResponseSuccess value)? success,
+    TResult? Function(_AuthTokenResponseFailure value)? failure,
   }) {
     return failure?.call(this);
   }
@@ -325,8 +327,8 @@ class _$_AuthTokenResultFailure implements _AuthTokenResultFailure {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AuthTokenResultSuccess value)? success,
-    TResult Function(_AuthTokenResultFailure value)? failure,
+    TResult Function(_AuthTokenResponseSuccess value)? success,
+    TResult Function(_AuthTokenResponseFailure value)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -336,12 +338,12 @@ class _$_AuthTokenResultFailure implements _AuthTokenResultFailure {
   }
 }
 
-abstract class _AuthTokenResultFailure implements AuthTokenResult {
-  const factory _AuthTokenResultFailure(final Exception exception) =
-      _$_AuthTokenResultFailure;
+abstract class _AuthTokenResponseFailure implements AuthTokenResponse {
+  const factory _AuthTokenResponseFailure(final Exception exception) =
+      _$_AuthTokenResponseFailure;
 
   Exception get exception;
   @JsonKey(ignore: true)
-  _$$_AuthTokenResultFailureCopyWith<_$_AuthTokenResultFailure> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_AuthTokenResponseFailureCopyWith<_$_AuthTokenResponseFailure>
+      get copyWith => throw _privateConstructorUsedError;
 }

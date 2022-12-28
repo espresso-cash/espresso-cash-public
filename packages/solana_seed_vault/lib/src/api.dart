@@ -174,6 +174,56 @@ class Bip44DerivationDto {
   }
 }
 
+class SigningRequestDto {
+  SigningRequestDto({
+    required this.payload,
+    required this.requestedSignatures,
+  });
+
+  Uint8List payload;
+  List<String?> requestedSignatures;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['payload'] = payload;
+    pigeonMap['requestedSignatures'] = requestedSignatures;
+    return pigeonMap;
+  }
+
+  static SigningRequestDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return SigningRequestDto(
+      payload: pigeonMap['payload']! as Uint8List,
+      requestedSignatures: (pigeonMap['requestedSignatures'] as List<Object?>?)!.cast<String?>(),
+    );
+  }
+}
+
+class SigningResponseDto {
+  SigningResponseDto({
+    required this.signatures,
+    required this.resolvedDerivationPaths,
+  });
+
+  List<Uint8List?> signatures;
+  List<String?> resolvedDerivationPaths;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['signatures'] = signatures;
+    pigeonMap['resolvedDerivationPaths'] = resolvedDerivationPaths;
+    return pigeonMap;
+  }
+
+  static SigningResponseDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return SigningResponseDto(
+      signatures: (pigeonMap['signatures'] as List<Object?>?)!.cast<Uint8List?>(),
+      resolvedDerivationPaths: (pigeonMap['resolvedDerivationPaths'] as List<Object?>?)!.cast<String?>(),
+    );
+  }
+}
+
 class _WalletApiHostCodec extends StandardMessageCodec {
   const _WalletApiHostCodec();
   @override
@@ -188,6 +238,14 @@ class _WalletApiHostCodec extends StandardMessageCodec {
     } else 
     if (value is SeedDto) {
       buffer.putUint8(130);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is SigningRequestDto) {
+      buffer.putUint8(131);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is SigningResponseDto) {
+      buffer.putUint8(132);
       writeValue(buffer, value.encode());
     } else 
 {
@@ -205,6 +263,12 @@ class _WalletApiHostCodec extends StandardMessageCodec {
       
       case 130:       
         return SeedDto.decode(readValue(buffer)!);
+      
+      case 131:       
+        return SigningRequestDto.decode(readValue(buffer)!);
+      
+      case 132:       
+        return SigningResponseDto.decode(readValue(buffer)!);
       
       default:      
         return super.readValueOfType(type, buffer);
@@ -301,6 +365,33 @@ class WalletApiHost {
       );
     } else {
       return (replyMap['result'] as int?)!;
+    }
+  }
+
+  Future<List<SigningResponseDto?>> signMessages(int arg_authToken, List<SigningRequestDto?> arg_signingRequests) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.WalletApiHost.signMessages', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_authToken, arg_signingRequests]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else if (replyMap['result'] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyMap['result'] as List<Object?>?)!.cast<SigningResponseDto?>();
     }
   }
 

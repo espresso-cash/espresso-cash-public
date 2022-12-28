@@ -6,10 +6,12 @@ class SeedList extends StatelessWidget {
     Key? key,
     required this.seedList,
     required this.onDeauthorize,
+    required this.onMessageSigning,
   }) : super(key: key);
 
   final List<Seed> seedList;
   final ValueSetter<Seed> onDeauthorize;
+  final ValueSetter<Seed> onMessageSigning;
 
   @override
   Widget build(BuildContext context) => ListView.builder(
@@ -17,13 +19,22 @@ class SeedList extends StatelessWidget {
         itemBuilder: (context, i) {
           final seed = seedList.elementAt(i);
 
-          return ListTile(          
+          return ListTile(
             leading: Text(seed.authToken.toString()),
             title: Text(seed.name),
             subtitle: Text('Accounts: ${seed.accounts.length}'),
-            trailing: IconButton(
-              onPressed: () => onDeauthorize(seed),
-              icon: const Icon(Icons.delete),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () => onMessageSigning(seed),
+                  icon: const Icon(Icons.wb_iridescent),
+                ),
+                IconButton(
+                  onPressed: () => onDeauthorize(seed),
+                  icon: const Icon(Icons.delete),
+                ),
+              ],
             ),
           );
         },

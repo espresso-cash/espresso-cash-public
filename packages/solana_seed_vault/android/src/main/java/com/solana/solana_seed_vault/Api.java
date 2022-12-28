@@ -444,6 +444,118 @@ public class Api {
     }
   }
 
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class SigningRequestDto {
+    private @NonNull byte[] payload;
+    public @NonNull byte[] getPayload() { return payload; }
+    public void setPayload(@NonNull byte[] setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"payload\" is null.");
+      }
+      this.payload = setterArg;
+    }
+
+    private @NonNull List<String> requestedSignatures;
+    public @NonNull List<String> getRequestedSignatures() { return requestedSignatures; }
+    public void setRequestedSignatures(@NonNull List<String> setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"requestedSignatures\" is null.");
+      }
+      this.requestedSignatures = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private SigningRequestDto() {}
+    public static final class Builder {
+      private @Nullable byte[] payload;
+      public @NonNull Builder setPayload(@NonNull byte[] setterArg) {
+        this.payload = setterArg;
+        return this;
+      }
+      private @Nullable List<String> requestedSignatures;
+      public @NonNull Builder setRequestedSignatures(@NonNull List<String> setterArg) {
+        this.requestedSignatures = setterArg;
+        return this;
+      }
+      public @NonNull SigningRequestDto build() {
+        SigningRequestDto pigeonReturn = new SigningRequestDto();
+        pigeonReturn.setPayload(payload);
+        pigeonReturn.setRequestedSignatures(requestedSignatures);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("payload", payload);
+      toMapResult.put("requestedSignatures", requestedSignatures);
+      return toMapResult;
+    }
+    static @NonNull SigningRequestDto fromMap(@NonNull Map<String, Object> map) {
+      SigningRequestDto pigeonResult = new SigningRequestDto();
+      Object payload = map.get("payload");
+      pigeonResult.setPayload((byte[])payload);
+      Object requestedSignatures = map.get("requestedSignatures");
+      pigeonResult.setRequestedSignatures((List<String>)requestedSignatures);
+      return pigeonResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class SigningResponseDto {
+    private @NonNull List<byte[]> signatures;
+    public @NonNull List<byte[]> getSignatures() { return signatures; }
+    public void setSignatures(@NonNull List<byte[]> setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"signatures\" is null.");
+      }
+      this.signatures = setterArg;
+    }
+
+    private @NonNull List<String> resolvedDerivationPaths;
+    public @NonNull List<String> getResolvedDerivationPaths() { return resolvedDerivationPaths; }
+    public void setResolvedDerivationPaths(@NonNull List<String> setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"resolvedDerivationPaths\" is null.");
+      }
+      this.resolvedDerivationPaths = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private SigningResponseDto() {}
+    public static final class Builder {
+      private @Nullable List<byte[]> signatures;
+      public @NonNull Builder setSignatures(@NonNull List<byte[]> setterArg) {
+        this.signatures = setterArg;
+        return this;
+      }
+      private @Nullable List<String> resolvedDerivationPaths;
+      public @NonNull Builder setResolvedDerivationPaths(@NonNull List<String> setterArg) {
+        this.resolvedDerivationPaths = setterArg;
+        return this;
+      }
+      public @NonNull SigningResponseDto build() {
+        SigningResponseDto pigeonReturn = new SigningResponseDto();
+        pigeonReturn.setSignatures(signatures);
+        pigeonReturn.setResolvedDerivationPaths(resolvedDerivationPaths);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("signatures", signatures);
+      toMapResult.put("resolvedDerivationPaths", resolvedDerivationPaths);
+      return toMapResult;
+    }
+    static @NonNull SigningResponseDto fromMap(@NonNull Map<String, Object> map) {
+      SigningResponseDto pigeonResult = new SigningResponseDto();
+      Object signatures = map.get("signatures");
+      pigeonResult.setSignatures((List<byte[]>)signatures);
+      Object resolvedDerivationPaths = map.get("resolvedDerivationPaths");
+      pigeonResult.setResolvedDerivationPaths((List<String>)resolvedDerivationPaths);
+      return pigeonResult;
+    }
+  }
+
   public interface Result<T> {
     void success(T result);
     void error(Throwable error);
@@ -462,6 +574,12 @@ public class Api {
         
         case (byte)130:         
           return SeedDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)131:         
+          return SigningRequestDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)132:         
+          return SigningResponseDto.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
           return super.readValueOfType(type, buffer);
@@ -482,6 +600,14 @@ public class Api {
         stream.write(130);
         writeValue(stream, ((SeedDto) value).toMap());
       } else 
+      if (value instanceof SigningRequestDto) {
+        stream.write(131);
+        writeValue(stream, ((SigningRequestDto) value).toMap());
+      } else 
+      if (value instanceof SigningResponseDto) {
+        stream.write(132);
+        writeValue(stream, ((SigningResponseDto) value).toMap());
+      } else 
 {
         super.writeValue(stream, value);
       }
@@ -493,6 +619,7 @@ public class Api {
     void authorizeSeed(@NonNull Long purpose, Result<Long> result);
     void createSeed(@NonNull Long purpose, Result<Long> result);
     void importSeed(@NonNull Long purpose, Result<Long> result);
+    void signMessages(@NonNull Long authToken, @NonNull List<SigningRequestDto> signingRequests, Result<List<SigningResponseDto>> result);
     @NonNull ImplementationLimitsDto getImplementationLimitsForPurpose(@NonNull Long purpose);
     @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
     @NonNull List<SeedDto> getAuthorizedSeeds();
@@ -602,6 +729,44 @@ public class Api {
               };
 
               api.importSeed((purposeArg == null) ? null : purposeArg.longValue(), resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.signMessages", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              List<SigningRequestDto> signingRequestsArg = (List<SigningRequestDto>)args.get(1);
+              if (signingRequestsArg == null) {
+                throw new NullPointerException("signingRequestsArg unexpectedly null.");
+              }
+              Result<List<SigningResponseDto>> resultCallback = new Result<List<SigningResponseDto>>() {
+                public void success(List<SigningResponseDto> result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.signMessages((authTokenArg == null) ? null : authTokenArg.longValue(), signingRequestsArg, resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

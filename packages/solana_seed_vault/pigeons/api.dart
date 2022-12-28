@@ -68,6 +68,26 @@ class Bip44DerivationDto {
   final BipLevelDto? addressIndex;
 }
 
+class SigningRequestDto {
+  SigningRequestDto({
+    required this.payload,
+    required this.requestedSignatures,
+  });
+
+  final Uint8List payload;
+  final List<String?> requestedSignatures;
+}
+
+class SigningResponseDto {
+  SigningResponseDto({
+    required this.signatures,
+    required this.resolvedDerivationPaths,
+  });
+
+  final List<Uint8List?> signatures;
+  final List<String?> resolvedDerivationPaths;
+}
+
 @HostApi()
 abstract class WalletApiHost {
   @async
@@ -78,6 +98,12 @@ abstract class WalletApiHost {
 
   @async
   int importSeed(int purpose);
+
+  @async
+  List<SigningResponseDto> signMessages(
+    int authToken,
+    List<SigningRequestDto> signingRequests,
+  );
 
   ImplementationLimitsDto getImplementationLimitsForPurpose(int purpose);
 

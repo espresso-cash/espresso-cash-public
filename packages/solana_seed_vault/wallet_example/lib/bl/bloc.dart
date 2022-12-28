@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
@@ -45,6 +46,21 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     await Wallet.instance.authorizeSeed(Purpose.signSolanaTransaction);
   }
 
+  Future<void> signMessage(Seed seed, int messageCount) async {
+    final signingRequests = List.generate(
+      messageCount,
+      (_) => SigningRequest(
+        payload: Uint8List(_messageSize),
+        requestedSignatures: [seed.accounts.first.derivationPath],
+      ),
+    );
+
+    await Wallet.instance.signMessages(
+      authToken: seed.authToken,
+      signingRequests: signingRequests,
+    );
+  }
+
   Future<void> deathorizeSeed(Seed seed) async {
     await Wallet.instance.deauthorizeSeed(seed.authToken);
     await refresh();
@@ -79,3 +95,4 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
 }
 
 const _firstRequestedPublicKeyIndex = 1000;
+const _messageSize = 512;

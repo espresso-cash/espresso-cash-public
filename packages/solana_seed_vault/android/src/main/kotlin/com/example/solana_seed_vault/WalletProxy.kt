@@ -15,6 +15,7 @@ import com.solana.solana_seed_vault.Api
 import com.solana.solana_seed_vault.Api.AccountDto
 import com.solana.solana_seed_vault.Api.ImplementationLimitsDto
 import com.solana.solana_seed_vault.Api.SeedDto
+import com.solana.solana_seed_vault.Api.SigningResponseDto
 import com.solanamobile.seedvault.*
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -29,7 +30,7 @@ import kotlin.coroutines.suspendCoroutine
 class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     private lateinit var context: Context
     private lateinit var binding: ActivityPluginBinding
-    private lateinit var completable: CompletableFuture<Long>
+    private lateinit var completable: CompletableFuture<Any>
     private var pendingRequest: Int? = null
 
     companion object {
@@ -53,7 +54,7 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     }
 
     override fun authorizeSeed(purpose: Long, result: Api.Result<Long>?) {
-        setupCompleter(result, REQUEST_AUTHORIZE_SEED_ACCESS)
+        setupCompleter(result, REQUEST_AUTHORIZE_SEED_ACCESS) { it as Long }
         binding.activity.startActivityForResult(
             Wallet.authorizeSeed(purpose.toInt()),
             REQUEST_AUTHORIZE_SEED_ACCESS
@@ -61,7 +62,7 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     }
 
     override fun createSeed(purpose: Long, result: Api.Result<Long>?) {
-        setupCompleter(result, REQUEST_CREATE_NEW_SEED)
+        setupCompleter(result, REQUEST_CREATE_NEW_SEED) { it as Long }
         binding.activity.startActivityForResult(
             Wallet.createSeed(purpose.toInt()),
             REQUEST_CREATE_NEW_SEED
@@ -69,7 +70,7 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     }
 
     override fun importSeed(purpose: Long, result: Api.Result<Long>?) {
-        setupCompleter(result, REQUEST_IMPORT_EXISTING_SEED)
+        setupCompleter(result, REQUEST_IMPORT_EXISTING_SEED) { it as Long }
         binding.activity.startActivityForResult(
             Wallet.importSeed(purpose.toInt()),
             REQUEST_IMPORT_EXISTING_SEED
@@ -92,6 +93,28 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
 
     override fun hasUnauthorizedSeedsForPurpose(purpose: Long): Boolean {
         return Wallet.hasUnauthorizedSeedsForPurpose(context, purpose.toInt())
+    }
+    override fun signMessages(
+        authToken: Long,
+        signingRequests: MutableList<Api.SigningRequestDto>,
+        result: Api.Result<MutableList<Api.SigningResponseDto>>?
+    ) {
+        setupCompleter(result, REQUEST_SIGN_MESSAGES) { data ->
+            val responses = data as ArrayList<SigningResponse>
+            responses.map { r ->
+                SigningResponseDto.Builder()
+                    .setSignatures(r.signatures)
+                    .setResolvedDerivationPaths(r.resolvedDerivationPaths.map { it.toString() })
+                    .build()
+            }.toMutableList()
+        }
+
+        val requests = ArrayList(signingRequests.map { it -> SigningRequest(it.payload, it.requestedSignatures.map { Uri.parse(it) }) })
+
+        binding.activity.startActivityForResult(
+            Wallet.signMessages(authToken, requests),
+            REQUEST_SIGN_MESSAGES
+        )
     }
 
 
@@ -198,19 +221,22 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
             REQUEST_IMPORT_EXISTING_SEED -> {
                 handleResult { Wallet.onImportSeedResult(resultCode, data) }
             }
+            REQUEST_SIGN_MESSAGES -> {
+                handleResult { Wallet.onSignMessagesResult(resultCode, data) }
+            }
         }
         return false;
     }
 
 
-    private fun setupCompleter(result: Api.Result<Long>?, request: Int) {
+    private fun <T : Any> setupCompleter(result: Api.Result<T>?, request: Int, parse: (Any) -> (T)) {
         completable.cancel(true)
         pendingRequest = request
         completable = CompletableFuture()
-        completable.whenComplete { r, e -> if (r != null) result?.success(r) else result?.error(e) }
+        completable.whenComplete { r, e -> if (r != null) result?.success(parse(r)) else result?.error(e) }
     }
 
-    private fun handleResult(onComplete: () -> Long) {
+    private fun <T: Any> handleResult(onComplete: () -> T) {
         try {
             val result = onComplete()
             Log.d(TAG, "Successfully completing with code $result")
