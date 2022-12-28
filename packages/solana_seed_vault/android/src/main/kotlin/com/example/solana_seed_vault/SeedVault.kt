@@ -18,7 +18,6 @@ class SeedVaultApiHost() :  Api.SeedVaultApiHost {
         this.handler = handler
     }
 
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun isAvailable(allowSimulated: Boolean): Boolean {
         return SeedVault.isAvailable(context, allowSimulated)

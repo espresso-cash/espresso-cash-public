@@ -210,9 +210,9 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
         completable.whenComplete { r, e -> if (r != null) result?.success(r) else result?.error(e) }
     }
 
-    private fun handleResult(f: () -> Long) {
+    private fun handleResult(onComplete: () -> Long) {
         try {
-            val result = f()
+            val result = onComplete()
             Log.d(TAG, "Successfully completing with code $result")
             completable.complete(result)
         } catch (e: Wallet.ActionFailedException) {
