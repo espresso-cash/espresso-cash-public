@@ -1,13 +1,7 @@
 package com.example.solana_seed_vault
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import androidx.annotation.NonNull
-import com.solanamobile.seedvault.SeedVault
-import com.solanamobile.seedvault.Wallet
-import com.solanamobile.seedvault.WalletContractV1
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -15,7 +9,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry
 
 
 /** SolanaSeedVaultPlugin */
@@ -39,6 +32,7 @@ class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler,  ActivityAware {
     Bip32ApiHost().init(flutterPluginBinding.binaryMessenger, context)
     Bip44ApiHost().init(flutterPluginBinding.binaryMessenger, context)
     SeedVaultApiHost().init(flutterPluginBinding.binaryMessenger, context, permissionHandler)
+    ChangeNotifier(flutterPluginBinding.binaryMessenger).init(context)
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {}

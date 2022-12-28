@@ -24,7 +24,13 @@ class SeedVaultState with _$SeedVaultState {
 class SeedVaultBloc extends Cubit<SeedVaultState> {
   SeedVaultBloc() : super(const SeedVaultState.none());
 
-  int? authToken;
+  late StreamSubscription<ChangeNotified> _subscription;
+
+  @override
+  Future<void> close() async {
+    await _subscription.cancel();
+    await super.close();
+  }
 
   Future<void> init() async {
     final isInstalled = await SeedVault.instance.isAvailable(true);
@@ -36,7 +42,9 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     final granted = await SeedVault.instance.checkPermission();
 
     if (granted) {
-      return refresh();
+      _subscription = Wallet.instance.changeStream.listen((_) => _refreshAll());
+
+      return _refreshAll();
     } else {
       return emit(const SeedVaultState.error('You need to allow Seed vault'));
     }
@@ -67,15 +75,13 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       authToken: seed.authToken,
       derivationPaths: seed.accounts.map((a) => a.derivationPath).toList(),
     );
-    await refresh();
   }
 
   Future<void> deathorizeSeed(Seed seed) async {
     await Wallet.instance.deauthorizeSeed(seed.authToken);
-    await refresh();
   }
 
-  Future<void> refresh() async {
+  Future<void> _refreshAll() async {
     const purpose = Purpose.signSolanaTransaction;
     final limits =
         await Wallet.instance.getImplementationLimitsForPurpose(purpose);

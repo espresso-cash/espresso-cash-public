@@ -964,3 +964,32 @@ class SeedVaultApiHost {
     }
   }
 }
+
+class _SeedVaultFlutterApiCodec extends StandardMessageCodec {
+  const _SeedVaultFlutterApiCodec();
+}
+abstract class SeedVaultFlutterApi {
+  static const MessageCodec<Object?> codec = _SeedVaultFlutterApiCodec();
+
+  void onChangeNotified(List<String?> uris, int flags);
+  static void setup(SeedVaultFlutterApi? api, {BinaryMessenger? binaryMessenger}) {
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified', codec, binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null, 'Argument for dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final List<String?>? arg_uris = (args[0] as List<Object?>?)?.cast<String?>();
+          assert(arg_uris != null, 'Argument for dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified was null, expected non-null List<String?>.');
+          final int? arg_flags = (args[1] as int?);
+          assert(arg_flags != null, 'Argument for dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified was null, expected non-null int.');
+          api.onChangeNotified(arg_uris!, arg_flags!);
+          return;
+        });
+      }
+    }
+  }
+}

@@ -177,3 +177,8 @@ abstract class SeedVaultApiHost {
   @async
   bool checkPermission();
 }
+
+@FlutterApi()
+abstract class SeedVaultFlutterApi {
+  void onChangeNotified(List<String?> uris, int flags);
+}

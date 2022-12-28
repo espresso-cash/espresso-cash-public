@@ -2,31 +2,18 @@ package com.example.solana_seed_vault
 
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.net.Uri
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import io.flutter.plugin.common.BinaryMessenger
-import java.lang.IllegalArgumentException
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.solana.solana_seed_vault.Api
-import com.solana.solana_seed_vault.Api.AccountDto
-import com.solana.solana_seed_vault.Api.ImplementationLimitsDto
-import com.solana.solana_seed_vault.Api.PublicKeyResponseDto
-import com.solana.solana_seed_vault.Api.SeedDto
-import com.solana.solana_seed_vault.Api.SigningResponseDto
+import com.solana.solana_seed_vault.Api.*
 import com.solanamobile.seedvault.*
-import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.PluginRegistry
 import kotlinx.coroutines.*
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Future
-import java.util.stream.Stream
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.suspendCoroutine
 
 class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     private lateinit var context: Context
@@ -95,6 +82,7 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     override fun hasUnauthorizedSeedsForPurpose(purpose: Long): Boolean {
         return Wallet.hasUnauthorizedSeedsForPurpose(context, purpose.toInt())
     }
+
     override fun signMessages(
         authToken: Long,
         signingRequests: MutableList<Api.SigningRequestDto>,
@@ -110,7 +98,11 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
             }.toMutableList()
         }
 
-        val requests = ArrayList(signingRequests.map { it -> SigningRequest(it.payload, it.requestedSignatures.map { Uri.parse(it) }) })
+        val requests = ArrayList(signingRequests.map { it ->
+            SigningRequest(
+                it.payload,
+                it.requestedSignatures.map { Uri.parse(it) })
+        })
 
         binding.activity.startActivityForResult(
             Wallet.signMessages(authToken, requests),
@@ -133,7 +125,11 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
             }.toMutableList()
         }
 
-        val requests = ArrayList(signingRequests.map { it -> SigningRequest(it.payload, it.requestedSignatures.map { Uri.parse(it) }) })
+        val requests = ArrayList(signingRequests.map { it ->
+            SigningRequest(
+                it.payload,
+                it.requestedSignatures.map { Uri.parse(it) })
+        })
 
         binding.activity.startActivityForResult(
             Wallet.signMessages(authToken, requests),
@@ -283,14 +279,22 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     }
 
 
-    private fun <T : Any> setupCompleter(result: Api.Result<T>?, request: Int, parse: (Any) -> (T)) {
+    private fun <T : Any> setupCompleter(
+        result: Api.Result<T>?,
+        request: Int,
+        parse: (Any) -> (T)
+    ) {
         completable.cancel(true)
         pendingRequest = request
         completable = CompletableFuture()
-        completable.whenComplete { r, e -> if (r != null) result?.success(parse(r)) else result?.error(e) }
+        completable.whenComplete { r, e ->
+            if (r != null) result?.success(parse(r)) else result?.error(
+                e
+            )
+        }
     }
 
-    private fun <T: Any> handleResult(onComplete: () -> T) {
+    private fun <T : Any> handleResult(onComplete: () -> T) {
         try {
             val result = onComplete()
             Log.d(TAG, "Successfully completing with code $result")
@@ -302,3 +306,4 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     }
 
 }
+

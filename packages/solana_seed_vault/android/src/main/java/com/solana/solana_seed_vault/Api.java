@@ -1427,6 +1427,32 @@ public class Api {
       }
     }
   }
+  private static class SeedVaultFlutterApiCodec extends StandardMessageCodec {
+    public static final SeedVaultFlutterApiCodec INSTANCE = new SeedVaultFlutterApiCodec();
+    private SeedVaultFlutterApiCodec() {}
+  }
+
+  /** Generated class from Pigeon that represents Flutter messages that can be called from Java.*/
+  public static class SeedVaultFlutterApi {
+    private final BinaryMessenger binaryMessenger;
+    public SeedVaultFlutterApi(BinaryMessenger argBinaryMessenger){
+      this.binaryMessenger = argBinaryMessenger;
+    }
+    public interface Reply<T> {
+      void reply(T reply);
+    }
+    static MessageCodec<Object> getCodec() {
+      return SeedVaultFlutterApiCodec.INSTANCE;
+    }
+
+    public void onChangeNotified(@NonNull List<String> urisArg, @NonNull Long flagsArg, Reply<Void> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified", getCodec());
+      channel.send(new ArrayList<Object>(Arrays.asList(urisArg, flagsArg)), channelReply -> {
+        callback.reply(null);
+      });
+    }
+  }
   private static Map<String, Object> wrapError(Throwable exception) {
     Map<String, Object> errorMap = new HashMap<>();
     errorMap.put("message", exception.toString());

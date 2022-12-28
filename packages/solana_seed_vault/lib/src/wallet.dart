@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:solana_seed_vault/src/api.dart';
 import 'package:solana_seed_vault/src/models/account.dart';
 import 'package:solana_seed_vault/src/models/auth_token.dart';
 import 'package:solana_seed_vault/src/models/auth_token_response.dart';
+import 'package:solana_seed_vault/src/models/change.dart';
 import 'package:solana_seed_vault/src/models/implementation_limits.dart';
 import 'package:solana_seed_vault/src/models/public_key.dart';
 import 'package:solana_seed_vault/src/models/seed.dart';
@@ -11,8 +14,10 @@ import 'package:solana_seed_vault/src/models/signing.dart';
 
 enum PayloadType { message, transaction }
 
-class Wallet {
-  Wallet._(this._platform);
+class Wallet implements SeedVaultFlutterApi {
+  Wallet._(this._platform) {
+    SeedVaultFlutterApi.setup(this);
+  }
 
   final WalletApiHost _platform;
 
@@ -20,8 +25,22 @@ class Wallet {
 
   static Wallet get instance => _instance;
 
+  Stream<ChangeNotified> get changeStream => _eventStream.stream;
+
   @visibleForTesting
   static set instance(Wallet wallet) => _instance = wallet;
+
+  final _eventStream = StreamController<ChangeNotified>();
+
+  @override
+  void onChangeNotified(List<String?> uris, int flags) {
+    _eventStream.add(
+      ChangeNotified(
+        uris: uris.compact().map(Uri.parse).toList(),
+        flags: flags,
+      ),
+    );
+  }
 
   Future<ImplementationLimits> getImplementationLimitsForPurpose(
     Purpose purpose,
