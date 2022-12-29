@@ -14,18 +14,14 @@ class ChangeNotifier(
     binaryMessenger: BinaryMessenger,
 ) {
     private val api = Api.SeedVaultFlutterApi(binaryMessenger)
-    private lateinit var context: Context
     private var initialized = false
 
     companion object {
         private val TAG = ChangeNotifier::class.simpleName
     }
 
-    fun init(context: Context) {
-        this.context = context
-    }
 
-    fun observeSeedVaultContentChanges() {
+    fun observeSeedVaultContentChanges(context: Context) {
         if (initialized) return
         val application = context.applicationContext
         application.contentResolver.registerContentObserver(
@@ -33,7 +29,12 @@ class ChangeNotifier(
             true,
             object : ContentObserver(Handler(application.mainLooper)) {
                 override fun onChange(selfChange: Boolean, uris: Collection<Uri>, flags: Int) {
-                    Handler(Looper.getMainLooper()).post { api.onChangeNotified(uris.map { it.toString() }, flags.toLong()) {} }
+                    Handler(Looper.getMainLooper()).post {
+                        api.onChangeNotified(
+                            uris.map { it.toString() },
+                            flags.toLong()
+                        ) {}
+                    }
                     Log.d(
                         TAG,
                         "Received change notification for $uris (flags=$flags)"

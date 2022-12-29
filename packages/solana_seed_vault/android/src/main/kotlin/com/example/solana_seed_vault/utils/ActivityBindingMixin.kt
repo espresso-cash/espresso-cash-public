@@ -17,11 +17,11 @@ class ActivityBindingMixinImpl : ActivityBindingMixin {
         bindingCompletable.complete(activity)
     }
 
-    override fun whenBindingReady(callback: (ActivityPluginBinding) -> (Unit)){
-        if (bindingCompletable.isDone){
+    override fun whenBindingReady(callback: (ActivityPluginBinding) -> (Unit)) {
+        if (bindingCompletable.isDone) {
             callback(bindingCompletable.get())
         } else {
-            bindingCompletable.whenComplete{b, _ -> callback(b)}
+            bindingCompletable.whenComplete { b, _ -> callback(b) }
         }
     }
 }

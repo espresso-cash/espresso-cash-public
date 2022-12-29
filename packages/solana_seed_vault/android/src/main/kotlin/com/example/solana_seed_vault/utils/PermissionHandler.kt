@@ -10,10 +10,10 @@ import io.flutter.plugin.common.PluginRegistry
 import java.util.concurrent.CompletableFuture
 
 
-class PermissionHandler : PluginRegistry.RequestPermissionsResultListener, ActivityBindingMixin by ActivityBindingMixinImpl() {
-    private lateinit var context: Context
+class PermissionHandler(val onPermissionGrant: () -> Unit) :
+    PluginRegistry.RequestPermissionsResultListener,
+    ActivityBindingMixin by ActivityBindingMixinImpl() {
     private lateinit var completable: CompletableFuture<Boolean>
-    private lateinit var onPermission: () -> Unit
 
     companion object {
         private val TAG = PermissionHandler::class.simpleName
@@ -21,19 +21,18 @@ class PermissionHandler : PluginRegistry.RequestPermissionsResultListener, Activ
         private const val REQUEST_PERMISSION = 98
     }
 
-    fun init(onPermission: () -> Unit) {
-        this.onPermission = onPermission
-    }
-
-
     fun checkPermission(context: Context, result: Api.Result<Boolean>) {
-        this.context = context
-        whenBindingReady{ checkPermission(result, it)}
+        whenBindingReady { checkPermission(context, result, it) }
     }
 
-    private fun checkPermission(result: Api.Result<Boolean>, binding : ActivityPluginBinding) {
+    private fun checkPermission(
+        context: Context,
+        result: Api.Result<Boolean>,
+        binding: ActivityPluginBinding
+    ) {
+        binding.addRequestPermissionsResultListener(this)
         setupCompleter(result)
-        if ( PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(permission)) {
+        if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(permission)) {
             completable.complete(true)
         } else {
             binding.activity.requestPermissions(arrayOf(permission), REQUEST_PERMISSION)
@@ -43,9 +42,9 @@ class PermissionHandler : PluginRegistry.RequestPermissionsResultListener, Activ
     private fun setupCompleter(result: Api.Result<Boolean>?) {
         completable = CompletableFuture()
         completable.whenComplete { granted, e ->
-            if (granted != null){
+            if (granted != null) {
                 result?.success(granted)
-                if (granted) onPermission()
+                if (granted) onPermissionGrant()
             } else {
                 result?.error(e)
             }

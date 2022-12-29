@@ -2,21 +2,20 @@ package com.example.solana_seed_vault
 
 import android.content.Context
 import android.os.Build
-import io.flutter.plugin.common.BinaryMessenger
 import androidx.annotation.RequiresApi
 import com.example.solana_seed_vault.utils.PermissionHandler
 import com.solana.solana_seed_vault.Api
 import com.solanamobile.seedvault.*
+import io.flutter.plugin.common.BinaryMessenger
 
 
-class SeedVaultApiHost() :  Api.SeedVaultApiHost {
-    private lateinit var context: Context
-    private lateinit var handler: PermissionHandler
+class SeedVaultApiHost(
+    private val context: Context,
+    private val permissionHandler: PermissionHandler
+) : Api.SeedVaultApiHost {
 
-    fun init(binaryMessenger: BinaryMessenger, context: Context, handler: PermissionHandler) {
+    fun init(binaryMessenger: BinaryMessenger) {
         Api.SeedVaultApiHost.setup(binaryMessenger, this)
-        this.context = context
-        this.handler = handler
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -26,7 +25,7 @@ class SeedVaultApiHost() :  Api.SeedVaultApiHost {
 
     override fun checkPermission(result: Api.Result<Boolean>?) {
         if (result == null) return
-        handler.checkPermission(context, result)
+        permissionHandler.checkPermission(context, result)
     }
 
 }

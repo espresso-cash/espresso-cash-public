@@ -6,19 +6,19 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.example.solana_seed_vault.utils.ActivityBindingMixin
+import com.example.solana_seed_vault.utils.ActivityBindingMixinImpl
 import com.solana.solana_seed_vault.Api
 import com.solana.solana_seed_vault.Api.*
 import com.solanamobile.seedvault.*
-import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.PluginRegistry
 import kotlinx.coroutines.*
 import java.util.concurrent.CompletableFuture
 
-class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
-    private lateinit var context: Context
-    private lateinit var binding: ActivityPluginBinding
-    private lateinit var completable: CompletableFuture<Any>
+class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResultListener,
+    Api.WalletApiHost, ActivityBindingMixin by ActivityBindingMixinImpl() {
+    private var completable: CompletableFuture<Any> = CompletableFuture()
     private var pendingRequest: Int? = null
 
     companion object {
@@ -31,40 +31,40 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
         private const val REQUEST_GET_PUBLIC_KEYS = 5
     }
 
-    fun init(binaryMessenger: BinaryMessenger, context: Context) {
+    fun init(binaryMessenger: BinaryMessenger) {
         Api.WalletApiHost.setup(binaryMessenger, this)
-        this.context = context
-        this.completable = CompletableFuture()
+        whenBindingReady { it.addActivityResultListener(this) }
     }
 
-    fun setActivity(activity: ActivityPluginBinding) {
-        this.binding = activity;
-    }
-
-    override fun authorizeSeed(purpose: Long, result: Api.Result<Long>?) {
+    override fun authorizeSeed(purpose: Long, result: Result<Long>?) {
         setupCompleter(result, REQUEST_AUTHORIZE_SEED_ACCESS) { it as Long }
-        binding.activity.startActivityForResult(
-            Wallet.authorizeSeed(purpose.toInt()),
-            REQUEST_AUTHORIZE_SEED_ACCESS
-        )
+        whenBindingReady {
+            it.activity.startActivityForResult(
+                Wallet.authorizeSeed(purpose.toInt()),
+                REQUEST_AUTHORIZE_SEED_ACCESS
+            )
+        }
     }
 
-    override fun createSeed(purpose: Long, result: Api.Result<Long>?) {
+    override fun createSeed(purpose: Long, result: Result<Long>?) {
         setupCompleter(result, REQUEST_CREATE_NEW_SEED) { it as Long }
-        binding.activity.startActivityForResult(
-            Wallet.createSeed(purpose.toInt()),
-            REQUEST_CREATE_NEW_SEED
-        )
+        whenBindingReady {
+            it.activity.startActivityForResult(
+                Wallet.createSeed(purpose.toInt()),
+                REQUEST_CREATE_NEW_SEED
+            )
+        }
     }
 
-    override fun importSeed(purpose: Long, result: Api.Result<Long>?) {
+    override fun importSeed(purpose: Long, result: Result<Long>?) {
         setupCompleter(result, REQUEST_IMPORT_EXISTING_SEED) { it as Long }
-        binding.activity.startActivityForResult(
-            Wallet.importSeed(purpose.toInt()),
-            REQUEST_IMPORT_EXISTING_SEED
-        )
+        whenBindingReady {
+            it.activity.startActivityForResult(
+                Wallet.importSeed(purpose.toInt()),
+                REQUEST_IMPORT_EXISTING_SEED
+            )
+        }
     }
-
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun getImplementationLimitsForPurpose(purpose: Long): ImplementationLimitsDto {
@@ -78,7 +78,6 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
             .build()
     }
 
-
     override fun hasUnauthorizedSeedsForPurpose(purpose: Long): Boolean {
         return Wallet.hasUnauthorizedSeedsForPurpose(context, purpose.toInt())
     }
@@ -86,7 +85,7 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
     override fun signMessages(
         authToken: Long,
         signingRequests: MutableList<Api.SigningRequestDto>,
-        result: Api.Result<MutableList<Api.SigningResponseDto>>?
+        result: Result<MutableList<Api.SigningResponseDto>>?
     ) {
         setupCompleter(result, REQUEST_SIGN_MESSAGES) { data ->
             val responses = data as ArrayList<SigningResponse>
@@ -104,16 +103,18 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
                 it.requestedSignatures.map { Uri.parse(it) })
         })
 
-        binding.activity.startActivityForResult(
-            Wallet.signMessages(authToken, requests),
-            REQUEST_SIGN_MESSAGES
-        )
+        whenBindingReady {
+            it.activity.startActivityForResult(
+                Wallet.signMessages(authToken, requests),
+                REQUEST_SIGN_MESSAGES
+            )
+        }
     }
 
     override fun signTransactions(
         authToken: Long,
         signingRequests: MutableList<Api.SigningRequestDto>,
-        result: Api.Result<MutableList<SigningResponseDto>>?
+        result: Result<MutableList<SigningResponseDto>>?
     ) {
         setupCompleter(result, REQUEST_SIGN_TRANSACTIONS) { data ->
             val responses = data as ArrayList<SigningResponse>
@@ -131,16 +132,18 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
                 it.requestedSignatures.map { Uri.parse(it) })
         })
 
-        binding.activity.startActivityForResult(
-            Wallet.signMessages(authToken, requests),
-            REQUEST_SIGN_TRANSACTIONS
-        )
+        whenBindingReady {
+            it.activity.startActivityForResult(
+                Wallet.signMessages(authToken, requests),
+                REQUEST_SIGN_TRANSACTIONS
+            )
+        }
     }
 
     override fun requestPublicKeys(
         authToken: Long,
         derivationPaths: MutableList<String>,
-        result: Api.Result<MutableList<Api.PublicKeyResponseDto>>?
+        result: Result<MutableList<Api.PublicKeyResponseDto>>?
     ) {
         setupCompleter(result, REQUEST_GET_PUBLIC_KEYS) { data ->
             val responses = data as ArrayList<PublicKeyResponse>
@@ -155,12 +158,13 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
 
         val paths = ArrayList(derivationPaths.map { Uri.parse(it) })
 
-        binding.activity.startActivityForResult(
-            Wallet.requestPublicKeys(authToken, paths),
-            REQUEST_GET_PUBLIC_KEYS
-        )
+        whenBindingReady {
+            it.activity.startActivityForResult(
+                Wallet.requestPublicKeys(authToken, paths),
+                REQUEST_GET_PUBLIC_KEYS
+            )
+        }
     }
-
 
     override fun getAuthorizedSeeds(): MutableList<Api.SeedDto> {
         val seeds = mutableListOf<SeedDto>()
@@ -280,7 +284,7 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
 
 
     private fun <T : Any> setupCompleter(
-        result: Api.Result<T>?,
+        result: Result<T>?,
         request: Int,
         parse: (Any) -> (T)
     ) {
@@ -288,9 +292,7 @@ class WalletApiHost : PluginRegistry.ActivityResultListener, Api.WalletApiHost {
         pendingRequest = request
         completable = CompletableFuture()
         completable.whenComplete { r, e ->
-            if (r != null) result?.success(parse(r)) else result?.error(
-                e
-            )
+            if (r != null) result?.success(parse(r)) else result?.error(e)
         }
     }
 

@@ -1,66 +1,45 @@
 package com.example.solana_seed_vault
 
-import android.content.Context
 import androidx.annotation.NonNull
 import com.example.solana_seed_vault.utils.PermissionHandler
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 
 
 /** SolanaSeedVaultPlugin */
-class SolanaSeedVaultPlugin: FlutterPlugin, MethodCallHandler,  ActivityAware {
-  private lateinit var channel : MethodChannel
-  private lateinit var context: Context
-  private lateinit var walletApiHost : WalletApiHost;
-  private lateinit var permissionHandler: PermissionHandler;
+class SolanaSeedVaultPlugin : FlutterPlugin, ActivityAware {
+    private lateinit var walletApiHost: WalletApiHost;
+    private lateinit var permissionHandler: PermissionHandler;
 
+    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        val context = flutterPluginBinding.applicationContext
+        val messenger = flutterPluginBinding.binaryMessenger
+        val changeNotifier = ChangeNotifier(messenger)
 
-  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "solana_seed_vault")
-    channel.setMethodCallHandler(this)
-    context = flutterPluginBinding.applicationContext
+        walletApiHost = WalletApiHost(context)
+        walletApiHost.init(messenger)
+        permissionHandler =
+            PermissionHandler { changeNotifier.observeSeedVaultContentChanges(context) }
 
-    walletApiHost = WalletApiHost()
-    walletApiHost.init(flutterPluginBinding.binaryMessenger, context)
+        Bip32ApiHost().init(messenger)
+        Bip44ApiHost().init(messenger)
+        SeedVaultApiHost(context, permissionHandler).init(messenger)
+    }
 
-    val changeNotifier = ChangeNotifier(flutterPluginBinding.binaryMessenger)
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        walletApiHost.setActivity(binding)
+        permissionHandler.setActivity(binding)
+    }
 
-    changeNotifier.init(context)
-    permissionHandler = PermissionHandler()
-    permissionHandler.init { changeNotifier.observeSeedVaultContentChanges() }
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        walletApiHost.setActivity(binding)
+        permissionHandler.setActivity(binding)
+    }
 
-    Bip32ApiHost().init(flutterPluginBinding.binaryMessenger, context)
-    Bip44ApiHost().init(flutterPluginBinding.binaryMessenger, context)
-    SeedVaultApiHost().init(flutterPluginBinding.binaryMessenger, context, permissionHandler)
-  }
+    override fun onDetachedFromActivity() = Unit
 
-  override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {}
+    override fun onDetachedFromActivityForConfigChanges() = Unit
 
-  override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-    channel.setMethodCallHandler(null)
-  }
-
-  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-    binding.addActivityResultListener(walletApiHost)
-    binding.addRequestPermissionsResultListener(permissionHandler)
-    walletApiHost.setActivity(binding)
-    permissionHandler.setActivity(binding)
-  }
-
-  override fun onDetachedFromActivityForConfigChanges()  = Unit
-
-  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-    binding.addActivityResultListener(walletApiHost)
-    binding.addRequestPermissionsResultListener(permissionHandler)
-    walletApiHost.setActivity(binding)
-    permissionHandler.setActivity(binding)
-  }
-
-  override fun onDetachedFromActivity() = Unit
-
+    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) = Unit
 }
