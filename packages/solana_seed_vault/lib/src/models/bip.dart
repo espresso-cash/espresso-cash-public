@@ -21,7 +21,7 @@ class Bip32Data with _$Bip32Data {
 class Bip44Data with _$Bip44Data {
   const factory Bip44Data({
     required BipLevel account,
-    required BipLevel? change,
-    required BipLevel? addressIndex,
+    BipLevel? change,
+    BipLevel? addressIndex,
   }) = _Bip44Data;
 }

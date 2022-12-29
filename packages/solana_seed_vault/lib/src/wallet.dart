@@ -6,6 +6,7 @@ import 'package:solana_seed_vault/src/api.dart';
 import 'package:solana_seed_vault/src/models/account.dart';
 import 'package:solana_seed_vault/src/models/auth_token.dart';
 import 'package:solana_seed_vault/src/models/auth_token_response.dart';
+import 'package:solana_seed_vault/src/models/filter.dart';
 import 'package:solana_seed_vault/src/models/implementation_limits.dart';
 import 'package:solana_seed_vault/src/models/public_key_response.dart';
 import 'package:solana_seed_vault/src/models/seed.dart';
@@ -73,9 +74,9 @@ class Wallet implements SeedVaultFlutterApi {
 
   Future<List<Account>> getAccounts(
     AuthToken authToken, {
-    bool userWalletOnly = true,
+    AccountFilter filter = const AccountFilter(),
   }) async {
-    final accounts = await _platform.getAccounts(authToken, userWalletOnly);
+    final accounts = await _platform.getAccounts(authToken, filter.toDto());
 
     return accounts.toModelList();
   }
@@ -201,6 +202,36 @@ extension on List<AccountDto?> {
         ),
       )
       .toList();
+}
+
+extension on AccountFilter {
+  AccountFilterDto? toDto() => when(
+        always(null),
+        byId: (id) => AccountFilterDto(
+          key: AccountFilterColumnDto.id,
+          value: id.toString(),
+        ),
+        byName: (name) => AccountFilterDto(
+          key: AccountFilterColumnDto.name,
+          value: name,
+        ),
+        byDerivationPath: (derivationPath) => AccountFilterDto(
+          key: AccountFilterColumnDto.derivationPath,
+          value: derivationPath.toString(),
+        ),
+        byPublicKeyEncoded: (publicKeyEncoded) => AccountFilterDto(
+          key: AccountFilterColumnDto.publicKeyEncoded,
+          value: publicKeyEncoded.toString(),
+        ),
+        byIsUserWallet: (isUserWallet) => AccountFilterDto(
+          key: AccountFilterColumnDto.isUserWallet,
+          value: isUserWallet.toString(),
+        ),
+        byIsValid: (isValid) => AccountFilterDto(
+          key: AccountFilterColumnDto.isValid,
+          value: isValid.toString(),
+        ),
+      );
 }
 
 Future<AuthTokenResponse> _handleAuthTokenResponse(

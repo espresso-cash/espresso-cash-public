@@ -22,6 +22,76 @@ import java.util.HashMap;
 @SuppressWarnings({"unused", "unchecked", "CodeBlock2Expr", "RedundantSuppression"})
 public class Api {
 
+  public enum AccountFilterColumnDto {
+    id(0),
+    name(1),
+    derivationPath(2),
+    publicKeyEncoded(3),
+    isUserWallet(4),
+    isValid(5);
+
+    private int index;
+    private AccountFilterColumnDto(final int index) {
+      this.index = index;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class AccountFilterDto {
+    private @NonNull AccountFilterColumnDto key;
+    public @NonNull AccountFilterColumnDto getKey() { return key; }
+    public void setKey(@NonNull AccountFilterColumnDto setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"key\" is null.");
+      }
+      this.key = setterArg;
+    }
+
+    private @NonNull String value;
+    public @NonNull String getValue() { return value; }
+    public void setValue(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"value\" is null.");
+      }
+      this.value = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private AccountFilterDto() {}
+    public static final class Builder {
+      private @Nullable AccountFilterColumnDto key;
+      public @NonNull Builder setKey(@NonNull AccountFilterColumnDto setterArg) {
+        this.key = setterArg;
+        return this;
+      }
+      private @Nullable String value;
+      public @NonNull Builder setValue(@NonNull String setterArg) {
+        this.value = setterArg;
+        return this;
+      }
+      public @NonNull AccountFilterDto build() {
+        AccountFilterDto pigeonReturn = new AccountFilterDto();
+        pigeonReturn.setKey(key);
+        pigeonReturn.setValue(value);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("key", key == null ? null : key.index);
+      toMapResult.put("value", value);
+      return toMapResult;
+    }
+    static @NonNull AccountFilterDto fromMap(@NonNull Map<String, Object> map) {
+      AccountFilterDto pigeonResult = new AccountFilterDto();
+      Object key = map.get("key");
+      pigeonResult.setKey(key == null ? null : AccountFilterColumnDto.values()[(int)key]);
+      Object value = map.get("value");
+      pigeonResult.setValue((String)value);
+      return pigeonResult;
+    }
+  }
+
   /** Generated class from Pigeon that represents data sent in messages. */
   public static class AccountDto {
     private @NonNull Long id;
@@ -638,18 +708,21 @@ public class Api {
           return AccountDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)129:         
-          return ImplementationLimitsDto.fromMap((Map<String, Object>) readValue(buffer));
+          return AccountFilterDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)130:         
-          return PublicKeyResponseDto.fromMap((Map<String, Object>) readValue(buffer));
+          return ImplementationLimitsDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)131:         
-          return SeedDto.fromMap((Map<String, Object>) readValue(buffer));
+          return PublicKeyResponseDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)132:         
-          return SigningRequestDto.fromMap((Map<String, Object>) readValue(buffer));
+          return SeedDto.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)133:         
+          return SigningRequestDto.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)134:         
           return SigningResponseDto.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
@@ -663,24 +736,28 @@ public class Api {
         stream.write(128);
         writeValue(stream, ((AccountDto) value).toMap());
       } else 
-      if (value instanceof ImplementationLimitsDto) {
+      if (value instanceof AccountFilterDto) {
         stream.write(129);
+        writeValue(stream, ((AccountFilterDto) value).toMap());
+      } else 
+      if (value instanceof ImplementationLimitsDto) {
+        stream.write(130);
         writeValue(stream, ((ImplementationLimitsDto) value).toMap());
       } else 
       if (value instanceof PublicKeyResponseDto) {
-        stream.write(130);
+        stream.write(131);
         writeValue(stream, ((PublicKeyResponseDto) value).toMap());
       } else 
       if (value instanceof SeedDto) {
-        stream.write(131);
+        stream.write(132);
         writeValue(stream, ((SeedDto) value).toMap());
       } else 
       if (value instanceof SigningRequestDto) {
-        stream.write(132);
+        stream.write(133);
         writeValue(stream, ((SigningRequestDto) value).toMap());
       } else 
       if (value instanceof SigningResponseDto) {
-        stream.write(133);
+        stream.write(134);
         writeValue(stream, ((SigningResponseDto) value).toMap());
       } else 
 {
@@ -700,7 +777,7 @@ public class Api {
     @NonNull ImplementationLimitsDto getImplementationLimitsForPurpose(@NonNull Long purpose);
     @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
     @NonNull List<SeedDto> getAuthorizedSeeds();
-    @NonNull List<AccountDto> getAccounts(@NonNull Long authToken, @NonNull Boolean isUserWalletOnly);
+    @NonNull List<AccountDto> getAccounts(@NonNull Long authToken, @Nullable AccountFilterDto filter);
     @NonNull String resolveDerivationPath(@NonNull String derivationPath, @NonNull Long purpose);
     void deauthorizeSeed(@NonNull Long authToken);
     void updateAccountName(@NonNull Long authToken, @NonNull Long accountId, @Nullable String name);
@@ -1009,11 +1086,8 @@ public class Api {
               if (authTokenArg == null) {
                 throw new NullPointerException("authTokenArg unexpectedly null.");
               }
-              Boolean isUserWalletOnlyArg = (Boolean)args.get(1);
-              if (isUserWalletOnlyArg == null) {
-                throw new NullPointerException("isUserWalletOnlyArg unexpectedly null.");
-              }
-              List<AccountDto> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue(), isUserWalletOnlyArg);
+              AccountFilterDto filterArg = (AccountFilterDto)args.get(1);
+              List<AccountDto> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue(), filterArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

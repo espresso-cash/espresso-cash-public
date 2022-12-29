@@ -7,6 +7,41 @@ import 'dart:typed_data' show Uint8List, Int32List, Int64List, Float64List;
 import 'package:flutter/foundation.dart' show WriteBuffer, ReadBuffer;
 import 'package:flutter/services.dart';
 
+enum AccountFilterColumnDto {
+  id,
+  name,
+  derivationPath,
+  publicKeyEncoded,
+  isUserWallet,
+  isValid,
+}
+
+class AccountFilterDto {
+  AccountFilterDto({
+    required this.key,
+    required this.value,
+  });
+
+  AccountFilterColumnDto key;
+  String value;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['key'] = key.index;
+    pigeonMap['value'] = value;
+    return pigeonMap;
+  }
+
+  static AccountFilterDto decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return AccountFilterDto(
+      key: AccountFilterColumnDto.values[pigeonMap['key']! as int]
+,
+      value: pigeonMap['value']! as String,
+    );
+  }
+}
+
 class AccountDto {
   AccountDto({
     required this.id,
@@ -261,24 +296,28 @@ class _WalletApiHostCodec extends StandardMessageCodec {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
     } else 
-    if (value is ImplementationLimitsDto) {
+    if (value is AccountFilterDto) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else 
-    if (value is PublicKeyResponseDto) {
+    if (value is ImplementationLimitsDto) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
     } else 
-    if (value is SeedDto) {
+    if (value is PublicKeyResponseDto) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
     } else 
-    if (value is SigningRequestDto) {
+    if (value is SeedDto) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
     } else 
-    if (value is SigningResponseDto) {
+    if (value is SigningRequestDto) {
       buffer.putUint8(133);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is SigningResponseDto) {
+      buffer.putUint8(134);
       writeValue(buffer, value.encode());
     } else 
 {
@@ -292,18 +331,21 @@ class _WalletApiHostCodec extends StandardMessageCodec {
         return AccountDto.decode(readValue(buffer)!);
       
       case 129:       
-        return ImplementationLimitsDto.decode(readValue(buffer)!);
+        return AccountFilterDto.decode(readValue(buffer)!);
       
       case 130:       
-        return PublicKeyResponseDto.decode(readValue(buffer)!);
+        return ImplementationLimitsDto.decode(readValue(buffer)!);
       
       case 131:       
-        return SeedDto.decode(readValue(buffer)!);
+        return PublicKeyResponseDto.decode(readValue(buffer)!);
       
       case 132:       
-        return SigningRequestDto.decode(readValue(buffer)!);
+        return SeedDto.decode(readValue(buffer)!);
       
       case 133:       
+        return SigningRequestDto.decode(readValue(buffer)!);
+      
+      case 134:       
         return SigningResponseDto.decode(readValue(buffer)!);
       
       default:      
@@ -566,11 +608,11 @@ class WalletApiHost {
     }
   }
 
-  Future<List<AccountDto?>> getAccounts(int arg_authToken, bool arg_isUserWalletOnly) async {
+  Future<List<AccountDto?>> getAccounts(int arg_authToken, AccountFilterDto? arg_filter) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.WalletApiHost.getAccounts', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_authToken, arg_isUserWalletOnly]) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_authToken, arg_filter]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',

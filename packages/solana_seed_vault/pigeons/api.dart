@@ -1,5 +1,24 @@
 import 'package:pigeon/pigeon.dart';
 
+enum AccountFilterColumnDto {
+  id,
+  name,
+  derivationPath,
+  publicKeyEncoded,
+  isUserWallet,
+  isValid,
+}
+
+class AccountFilterDto {
+  const AccountFilterDto({
+    required this.key,
+    required this.value,
+  });
+
+  final AccountFilterColumnDto key;
+  final String value;
+}
+
 class AccountDto {
   const AccountDto({
     required this.id,
@@ -135,7 +154,7 @@ abstract class WalletApiHost {
 
   List<SeedDto> getAuthorizedSeeds();
 
-  List<AccountDto> getAccounts(int authToken, bool isUserWalletOnly);
+  List<AccountDto> getAccounts(int authToken, AccountFilterDto? filter);
 
   String resolveDerivationPath(String derivationPath, int purpose);
 

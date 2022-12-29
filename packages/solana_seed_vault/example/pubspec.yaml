@@ -9,11 +9,13 @@ environment:
 
 dependencies:
   bloc: ^8.1.0
+  collection: ^1.16.0
   dfunc: ^0.8.0+1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
   freezed_annotation: ^2.2.0
+  provider: ^6.0.5
   solana_seed_vault:
     path: ../
 

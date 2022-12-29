@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
@@ -10,8 +12,11 @@ part 'bloc.freezed.dart';
 @freezed
 class SeedVaultState with _$SeedVaultState {
   const factory SeedVaultState.none() = _None;
+
   const factory SeedVaultState.error(String err) = _Error;
+
   const factory SeedVaultState.unauthorized() = _Unauthorized;
+
   const factory SeedVaultState.loaded({
     required List<Seed> seeds,
     required ImplementationLimits limits,
@@ -46,38 +51,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
 
       return _refreshAll();
     } else {
-      return emit(const SeedVaultState.error('You need to allow Seed vault'));
+      return emit(const SeedVaultState.unauthorized());
     }
-  }
-
-  Future<void> authorizeSeed() async {
-    await Wallet.instance.authorizeSeed(Purpose.signSolanaTransaction);
-  }
-
-  Future<void> signMessage(Seed seed, int messageCount) async {
-    final signingRequests = List.generate(
-      messageCount,
-      (_) => SigningRequest(
-        payload: Uint8List(_messageSize),
-        requestedSignatures: [seed.accounts.first.derivationPath],
-      ),
-    );
-
-    await Wallet.instance.signMessages(
-      authToken: seed.authToken,
-      signingRequests: signingRequests,
-    );
-  }
-
-  Future<void> requestPublicKey(Seed seed) async {
-    await Wallet.instance.requestPublicKeys(
-      authToken: seed.authToken,
-      derivationPaths: seed.accounts.map((a) => a.derivationPath).toList(),
-    );
-  }
-
-  Future<void> deathorizeSeed(Seed seed) async {
-    await Wallet.instance.deauthorizeSeed(seed.authToken);
   }
 
   Future<void> _refreshAll() async {
@@ -102,11 +77,94 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     );
   }
 
-  Future<Uri> _getRequestedPublicKeyByIndex(int index) =>
-      Bip32DerivationPath.instance.toUri(
-        Bip32Data(levels: [BipLevel(index: index, hardened: true)]),
+  Future<void> signMessage(Seed seed, int messageCount) async {
+    final signingRequests = List.generate(
+      messageCount,
+      (_) => SigningRequest(
+        payload: Uint8List(_messageSize),
+        requestedSignatures: [seed.accounts.first.derivationPath],
+      ),
+    );
+
+    await Wallet.instance.signMessages(
+      authToken: seed.authToken,
+      signingRequests: signingRequests,
+    );
+  }
+
+  Future<List<PublicKeyResponse>> requestPublicKey(Seed seed) async =>
+      Wallet.instance.requestPublicKeys(
+        authToken: seed.authToken,
+        derivationPaths: seed.accounts.map((a) => a.derivationPath).toList(),
       );
+
+  Future<void> deathorizeSeed(Seed seed) async {
+    await Wallet.instance.deauthorizeSeed(seed.authToken);
+  }
+
+  Future<bool> authorizeSeed() async {
+    final authToken =
+        await Wallet.instance.authorizeSeed(Purpose.signSolanaTransaction);
+
+    await authToken.whenOrNull(success: _onNewSeed);
+
+    return authToken.map(success: T, failure: F);
+  }
+
+  Future<bool> importSeed() async {
+    final authToken =
+        await Wallet.instance.importSeed(Purpose.signSolanaTransaction);
+
+    await authToken.whenOrNull(success: _onNewSeed);
+
+    return authToken.map(success: T, failure: F);
+  }
+
+  Future<bool> createSeed() async {
+    final authToken =
+        await Wallet.instance.createSeed(Purpose.signSolanaTransaction);
+
+    await authToken.whenOrNull(success: _onNewSeed);
+
+    return authToken.map(success: T, failure: F);
+  }
+
+  // Mark two accounts as user wallets. This simulates a real wallet app
+  // exploring each account and marking them as containing user funds.
+  Future<void> _onNewSeed(AuthToken authToken) async {
+    for (var i = 0; i < _accountsPerSeed; i++) {
+      final derivationPath = await Bip44DerivationPath.instance.toUri(
+        Bip44Data(account: BipLevel(index: i, hardened: true)),
+      );
+      final resolvedPath = await Wallet.instance.resolveDerivationPath(
+        derivationPath: derivationPath,
+        purpose: Purpose.signSolanaTransaction,
+      );
+      final account = await Wallet.instance
+          .getAccounts(
+            authToken,
+            filter: AccountFilter.byDerivationPath(resolvedPath),
+          )
+          .letAsync((it) => it.singleOrNull);
+
+      if (account == null) return;
+
+      if (!account.isUserWallet) {
+        await Wallet.instance.updateAccountIsUserWallet(
+          authToken: authToken,
+          accountId: account.id,
+          isUserWallet: true,
+        );
+      }
+    }
+  }
 }
+
+Future<Uri> _getRequestedPublicKeyByIndex(int index) =>
+    Bip32DerivationPath.instance.toUri(
+      Bip32Data(levels: [BipLevel(index: index, hardened: true)]),
+    );
 
 const _firstRequestedPublicKeyIndex = 1000;
 const _messageSize = 512;
+const _accountsPerSeed = 2;

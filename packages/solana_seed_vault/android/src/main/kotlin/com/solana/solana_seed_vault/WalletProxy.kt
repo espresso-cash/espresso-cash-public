@@ -174,11 +174,15 @@ class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResul
                 WalletContractV1.AUTHORIZED_SEEDS_ALL_COLUMNS
             )!!
 
+        val accountFilter = AccountFilterDto.Builder()
+            .setKey(AccountFilterColumnDto.isUserWallet)
+            .setValue(true.toString()).build()
+
         while (authorizedSeedsCursor.moveToNext()) {
             val authToken = authorizedSeedsCursor.getLong(0)
             val authPurpose = authorizedSeedsCursor.getInt(1)
             val seedName = authorizedSeedsCursor.getString(2)
-            val accounts = getAccounts(authToken, true)
+            val accounts = getAccounts(authToken, accountFilter)
 
             seeds.add(
                 SeedDto.Builder()
@@ -219,17 +223,15 @@ class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResul
             .toString();
     }
 
-    override fun getAccounts(authToken: Long, isUserWalletOnly: Boolean): MutableList<AccountDto> {
+    override fun getAccounts(authToken: Long, filter: AccountFilterDto?): MutableList<AccountDto> {
         val accounts = mutableListOf<AccountDto>()
-        val filter =
-            if (isUserWalletOnly) WalletContractV1.ACCOUNTS_ACCOUNT_IS_USER_WALLET else null
-        val value = if (isUserWalletOnly) "1" else null
+        val filter = filter?.parse()
 
         val accountsCursor = Wallet.getAccounts(
             context,
             authToken,
             WalletContractV1.ACCOUNTS_ALL_COLUMNS,
-            filter, value,
+            filter?.first, filter?.second,
         )!!
 
         while (accountsCursor.moveToNext()) {
@@ -305,6 +307,33 @@ class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResul
             completable.completeExceptionally(e)
         }
     }
-
 }
 
+private fun AccountFilterDto.parse(): Pair<String, Any> {
+    return when (key) {
+        AccountFilterColumnDto.id -> Pair(
+            WalletContractV1.ACCOUNTS_ACCOUNT_ID,
+            value.toLong(),
+        )
+        AccountFilterColumnDto.isUserWallet -> Pair(
+            WalletContractV1.ACCOUNTS_ACCOUNT_IS_USER_WALLET,
+            if (value.toBoolean()) "1" else "0",
+        )
+        AccountFilterColumnDto.name -> Pair(
+            WalletContractV1.ACCOUNTS_ACCOUNT_NAME,
+            value,
+        )
+        AccountFilterColumnDto.derivationPath -> Pair(
+            WalletContractV1.ACCOUNTS_BIP32_DERIVATION_PATH,
+            value,
+        )
+        AccountFilterColumnDto.isValid -> Pair(
+            WalletContractV1.ACCOUNTS_ACCOUNT_IS_VALID,
+            if (value.toBoolean()) "1" else "0",
+        )
+        AccountFilterColumnDto.publicKeyEncoded -> Pair(
+            WalletContractV1.ACCOUNTS_PUBLIC_KEY_ENCODED,
+            value,
+        )
+    }
+}

@@ -409,10 +409,7 @@ class __$$_Bip44DataCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Bip44Data implements _Bip44Data {
-  const _$_Bip44Data(
-      {required this.account,
-      required this.change,
-      required this.addressIndex});
+  const _$_Bip44Data({required this.account, this.change, this.addressIndex});
 
   @override
   final BipLevel account;
@@ -450,8 +447,8 @@ class _$_Bip44Data implements _Bip44Data {
 abstract class _Bip44Data implements Bip44Data {
   const factory _Bip44Data(
       {required final BipLevel account,
-      required final BipLevel? change,
-      required final BipLevel? addressIndex}) = _$_Bip44Data;
+      final BipLevel? change,
+      final BipLevel? addressIndex}) = _$_Bip44Data;
 
   @override
   BipLevel get account;
