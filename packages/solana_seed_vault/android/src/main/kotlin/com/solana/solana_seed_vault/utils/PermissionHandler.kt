@@ -1,4 +1,4 @@
-package com.example.solana_seed_vault.utils
+package com.solana.solana_seed_vault.utils
 
 import android.content.Context
 import android.content.pm.PackageManager

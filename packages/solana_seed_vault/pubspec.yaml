@@ -31,5 +31,5 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.solana_seed_vault
+        package: com.solana.solana_seed_vault
         pluginClass: SolanaSeedVaultPlugin

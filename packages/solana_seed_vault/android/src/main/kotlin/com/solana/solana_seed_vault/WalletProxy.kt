@@ -1,4 +1,4 @@
-package com.example.solana_seed_vault
+package com.solana.solana_seed_vault
 
 import android.content.Context
 import android.content.Intent
@@ -6,10 +6,9 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.example.solana_seed_vault.utils.ActivityBindingMixin
-import com.example.solana_seed_vault.utils.ActivityBindingMixinImpl
-import com.solana.solana_seed_vault.Api
 import com.solana.solana_seed_vault.Api.*
+import com.solana.solana_seed_vault.utils.ActivityBindingMixin
+import com.solana.solana_seed_vault.utils.ActivityBindingMixinImpl
 import com.solanamobile.seedvault.*
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.PluginRegistry

@@ -120,12 +120,18 @@ class __$$_NoneCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_None implements _None {
+class _$_None with DiagnosticableTreeMixin implements _None {
   const _$_None();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SeedVaultState.none()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'SeedVaultState.none'));
   }
 
   @override
@@ -265,15 +271,23 @@ class __$$_ErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Error implements _Error {
+class _$_Error with DiagnosticableTreeMixin implements _Error {
   const _$_Error(this.err);
 
   @override
   final String err;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SeedVaultState.error(err: $err)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SeedVaultState.error'))
+      ..add(DiagnosticsProperty('err', err));
   }
 
   @override
@@ -413,12 +427,18 @@ class __$$_UnauthorizedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Unauthorized implements _Unauthorized {
+class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
   const _$_Unauthorized();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SeedVaultState.unauthorized()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'SeedVaultState.unauthorized'));
   }
 
   @override
@@ -593,7 +613,7 @@ class __$$_LoadedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Loaded implements _Loaded {
+class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
   const _$_Loaded(
       {required final List<Seed> seeds,
       required this.limits,
@@ -619,8 +639,22 @@ class _$_Loaded implements _Loaded {
   final Uri? lastRequestedPublicKey;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SeedVaultState.loaded(seeds: $seeds, limits: $limits, hasUnauthorizedSeeds: $hasUnauthorizedSeeds, firstRequestedPublicKey: $firstRequestedPublicKey, lastRequestedPublicKey: $lastRequestedPublicKey)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SeedVaultState.loaded'))
+      ..add(DiagnosticsProperty('seeds', seeds))
+      ..add(DiagnosticsProperty('limits', limits))
+      ..add(DiagnosticsProperty('hasUnauthorizedSeeds', hasUnauthorizedSeeds))
+      ..add(DiagnosticsProperty(
+          'firstRequestedPublicKey', firstRequestedPublicKey))
+      ..add(DiagnosticsProperty(
+          'lastRequestedPublicKey', lastRequestedPublicKey));
   }
 
   @override

@@ -1,7 +1,6 @@
-package com.example.solana_seed_vault
+package com.solana.solana_seed_vault
 
 import android.net.Uri
-import com.solana.solana_seed_vault.Api
 import com.solana.solana_seed_vault.Api.BipLevelDto
 import com.solanamobile.seedvault.Bip32DerivationPath
 import com.solanamobile.seedvault.Bip44DerivationPath

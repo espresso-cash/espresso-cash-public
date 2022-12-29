@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.wallet_example">
+    package="com.solana.wallet_example">
 
     <!--Needed for wallet example to access seed vault-->
     <uses-permission

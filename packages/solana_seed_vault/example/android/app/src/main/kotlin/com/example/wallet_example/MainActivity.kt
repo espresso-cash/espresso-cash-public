@@ -1,4 +1,4 @@
-package com.example.wallet_example
+package com.solana.wallet_example
 
 import io.flutter.embedding.android.FlutterActivity
 

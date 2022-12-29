@@ -1,4 +1,4 @@
-package com.example.solana_seed_vault
+package com.solana.solana_seed_vault
 
 import android.content.Context
 import android.database.ContentObserver
@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.solana.solana_seed_vault.Api
 import com.solanamobile.seedvault.WalletContractV1
 import io.flutter.plugin.common.BinaryMessenger
 

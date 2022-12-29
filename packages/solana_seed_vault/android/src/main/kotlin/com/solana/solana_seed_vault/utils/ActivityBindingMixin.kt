@@ -1,4 +1,4 @@
-package com.example.solana_seed_vault.utils
+package com.solana.solana_seed_vault.utils
 
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import java.util.concurrent.CompletableFuture

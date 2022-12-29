@@ -1,10 +1,9 @@
-package com.example.solana_seed_vault
+package com.solana.solana_seed_vault
 
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.solana_seed_vault.utils.PermissionHandler
-import com.solana.solana_seed_vault.Api
+import com.solana.solana_seed_vault.utils.PermissionHandler
 import com.solanamobile.seedvault.*
 import io.flutter.plugin.common.BinaryMessenger
 

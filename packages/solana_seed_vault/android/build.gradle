@@ -1,4 +1,4 @@
-group 'com.example.solana_seed_vault'
+group 'com.solana.solana_seed_vault'
 version '1.0-SNAPSHOT'
 
 buildscript {

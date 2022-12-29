@@ -1,7 +1,7 @@
-package com.example.solana_seed_vault
+package com.solana.solana_seed_vault
 
 import androidx.annotation.NonNull
-import com.example.solana_seed_vault.utils.PermissionHandler
+import com.solana.solana_seed_vault.utils.PermissionHandler
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
