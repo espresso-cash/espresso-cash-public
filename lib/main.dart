@@ -1,10 +1,18 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_example/bl/bloc.dart';
+import 'package:wallet_example/presentation/limits_section.dart';
 import 'package:wallet_example/presentation/seed_list.dart';
+import 'package:wallet_example/presentation/seed_section.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    BlocProvider<SeedVaultBloc>(
+      create: (context) => SeedVaultBloc()..init(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -20,37 +28,27 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    bloc = SeedVaultBloc()..init();
+    bloc = context.read<SeedVaultBloc>();
   }
 
   @override
   Widget build(BuildContext context) => MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            title: const Text('Fake Wallet for Seed Vault'),
+            title: const Text('FakeWallet'),
           ),
           body: Center(
             child: BlocBuilder<SeedVaultBloc, SeedVaultState>(
-              bloc: bloc,
-              builder: (context, state) => Column(
-                children: [
-                  Text(state.toString()),
+              builder: (context, state) => state.map(
+                none: always(const CircularProgressIndicator()),
+                loaded: always(const SeedVaultContent()),
+                error: (state) => Text(state.err),
+                unauthorized: always(
                   ElevatedButton(
-                    onPressed: bloc.authorizeSeed,
-                    child: const Text('Authorize Seed'),
+                    onPressed: bloc.init,
+                    child: const Text('Request permission'),
                   ),
-                  state.maybeMap(
-                    orElse: () => const SizedBox.shrink(),
-                    loaded: (state) => Expanded(
-                      child: SeedList(
-                        seedList: state.seeds,
-                        onDeauthorize: bloc.deathorizeSeed,
-                        onMessageSigning: (seed) => bloc.signMessage(seed, 1),
-                        requestPublicKey: bloc.requestPublicKey,
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
           ),
@@ -58,4 +56,27 @@ class _MyAppState extends State<MyApp> {
       );
 }
 
-// TODO(rhbrunetto): create a listener to observeSeedVaultContentChanges
+class SeedVaultContent extends StatelessWidget {
+  const SeedVaultContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  const LimitsSection(),
+                  const SizedBox(height: 16),
+                  const SeedSection(),
+                  const SizedBox(height: 16),
+                  const SeedList(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+}

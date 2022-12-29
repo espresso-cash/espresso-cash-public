@@ -142,7 +142,7 @@ packages:
     source: hosted
     version: "4.4.0"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       url: "https://pub.dartlang.org"
@@ -411,7 +411,7 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
