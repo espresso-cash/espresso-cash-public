@@ -1,4 +1,0 @@
-name: dart-solana-lib
-
-packages:
-  - 'packages/**'

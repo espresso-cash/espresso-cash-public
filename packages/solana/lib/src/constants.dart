@@ -1,1 +1,0 @@
-const signatureLength = 64;
