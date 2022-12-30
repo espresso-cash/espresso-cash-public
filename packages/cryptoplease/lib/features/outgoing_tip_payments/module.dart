@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/accounts/bl/account.dart';
+import '../../core/accounts/module.dart';
 import '../../core/amount.dart';
 import '../../core/analytics/analytics_manager.dart';
 import '../../di.dart';
 import 'src/bl/bloc.dart';
+import 'src/bl/repository.dart';
 
 export 'src/bl/ot_verifier.dart';
 export 'src/bl/outgoing_tip_payment.dart';
@@ -24,6 +26,9 @@ class OTModule extends SingleChildStatelessWidget {
             create: (context) => sl<OTBloc>(
               param1: context.read<MyAccount>().wallet,
             ),
+          ),
+          LogoutListener(
+            onLogout: (_) => sl<OTRepository>().clear(),
           ),
         ],
         child: child,

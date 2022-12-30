@@ -9,8 +9,10 @@
   "signOutConfirmation": "Are you sure you want to delete the wallet?",
   "cancel": "Cancel",
   "signUp": "Create Wallet",
-  "signIn": "Use Existing Wallet",
-  "getStarted": "Get started with",
+  "signIn1": "Already have a Solana wallet? ",
+  "signIn2": "Continue here",
+  "onboardingIntro": "A faster, simpler way to pay & receive money instantly.",
+  "onboardingBullet": "Crypto investing made simple whether you’re new or a seasoned pro!",
   "linkSubtitle": "The recipient will need to click on the two links below to redeem the money.",
   "enterYourSecretWords": "Enter Your Secret Recovery Phrase",
   "toRestoreYourAccount": "Please enter your secret recovery phrase below. This phrase is composed of random generated 12 words.",
@@ -68,9 +70,9 @@
   "splitKeySecondLinkMessage": "Please click the second link in the message you've received.",
   "splitKeyTransferTitle": "TRANSFER PROGRESS",
   "splitKeyTransactionLoading": "Hang tight. We're almost done...",
-  "splitKeySuccessMessage1": "SUCCESS!",
-  "splitKeySuccessMessage2": "Your transfer has been sent.",
-  "splitKeyErrorMessage1": "OOPS!",
+  "transferSuccessTitle": "SUCCESS!",
+  "outgoingTransferSuccess": "Your transfer has been sent.",
+  "transferErrorTitle": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyErrorRetry": "Please retry.",
   "splitKeyProgressOngoing": "Sending {amount} using secure links...",
@@ -152,9 +154,6 @@
   "stablecoin": "Stablecoin",
   "stablecoinExplained": "Stablecoins are cryptocurrencies that mirror traditional currency or asset such as the dollar, euro.",
   "theyWillAppearHere": "They will appear here",
-  "startSendingAndReceiving": "Sending and receiving money using a simple & secure link.",
-  "fastOnboarding": "Fast onboarding.",
-  "supportAllDay": "24/7 Support.",
   "byCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
   "terms": "Terms",
   "and": " and ",
@@ -329,7 +328,7 @@
         "type": "String"
       },
       "balance": {
-            "type": "String"
+        "type": "String"
       }
     }
   },
@@ -357,7 +356,7 @@
   "@swapAmountAvailable": {
     "placeholders": {
       "amount": {
-            "type": "String"
+        "type": "String"
       }
     }
   },
@@ -412,10 +411,17 @@
   "price": "Price",
   "yourBalance": "Your balance",
   "failedToLoadTokens": "Failed to load tokens",
-  "settings" : "Settings",
-  "displayEmptyBalanceTitle" : "Display Empty Balances",
-  "displayEmptyBalanceSubtitle" : "Show your crypto with zero balances",
-  "tip" : "Tip",
+  "settings": "Settings",
+  "displayEmptyBalanceTitle": "Display Empty Balances",
+  "displayEmptyBalanceSubtitle": "Show your crypto with zero balances",
+  "following": "FOLLOWING",
+  "favoritesAddNotice": "Added to favorites!",
+  "favoritesRemoveNotice": "Removed from favorites!",
+  "searchPlaceholder": "Search...",
+  "failedToSearch": "Failed to search token",
+  "emptySearch": "Token not found",
+  "discover": "DISCOVER",
+  "tip": "Tip",
   "minimumAmountToTip": "{amount} is the minimum to tip",
   "@minimumAmountToTip": {
     "placeholders": {
@@ -432,11 +438,11 @@
       }
     }
   },
-  "tipPaymentSubtitle" : "The recipient will receive your tip by scanning this QR Code:",
-  "tipButtonLabel" : "Tip QR Code",
-  "tipViewQr" : "View QR Code",
-  "tipCreatingQr" : "Creating QR Code",
-  "tipCreatedQr" : "QR Code created",
+  "tipPaymentSubtitle": "The recipient will receive your tip by scanning this QR Code:",
+  "tipButtonLabel": "Tip QR Code",
+  "tipViewQr": "View QR Code",
+  "tipCreatingQr": "Creating QR Code",
+  "tipCreatedQr": "QR Code created",
   "tipProgressOngoing": "Tipping {amount} using secure link...",
   "@tipProgressOngoing": {
     "placeholders": {
@@ -444,5 +450,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "moneyReceived": "Money has been received"
 }
