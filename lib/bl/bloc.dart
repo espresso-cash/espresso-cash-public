@@ -146,6 +146,19 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         .map((it) => it.map((it) => it.publicKeyEncoded).compact().toList());
   }
 
+  AsyncResult<void> updateAccountName({
+    required AuthToken authToken,
+    required Account account,
+    required String name,
+  }) =>
+      Wallet.instance
+          .updateAccountName(
+            authToken: authToken,
+            accountId: account.id,
+            name: name,
+          )
+          .toEither();
+
   Future<void> deathorizeSeed(Seed seed) async {
     await Wallet.instance.deauthorizeSeed(seed.authToken);
   }
