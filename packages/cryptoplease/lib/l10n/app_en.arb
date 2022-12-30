@@ -81,6 +81,9 @@
   "splitKeySuccessMessage1": "SUCCESS!",
   "splitKeySuccessMessage2": "Your transfer has been sent.",
   "splitKeyErrorMessage1": "OOPS!",
+  "transferSuccessTitle": "SUCCESS!",
+  "outgoingTransferSuccess": "Your transfer has been sent.",
+  "transferErrorTitle": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyErrorRetry": "Please retry.",
   "splitKeyProgressOngoing": "Sending {amount} using secure links...",
@@ -459,5 +462,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "moneyReceived": "Money has been received"
 }

@@ -83,13 +83,13 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   CpStatusType.info;
 
           final String? statusTitle = payment?.status.mapOrNull(
-            withdrawn: always(context.l10n.splitKeySuccessMessage1),
+            withdrawn: always(context.l10n.transferSuccessTitle),
           );
 
           final String statusContent = payment == null
               ? context.l10n.loading
               : payment.status.maybeMap(
-                  withdrawn: always(context.l10n.splitKeySuccessMessage2),
+                  withdrawn: always(context.l10n.outgoingTransferSuccess),
                   canceled: always(
                     context.l10n.splitKeyCanceledMessage1(
                       payment.amount.format(locale),
