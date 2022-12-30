@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 import 'package:wallet_example/bl/bloc.dart';
+import 'package:wallet_example/presentation/account_edit.dart';
 import 'package:wallet_example/presentation/snack_bar.dart';
 
 class AccountList extends StatelessWidget {
@@ -41,7 +42,13 @@ class AccountItem extends StatefulWidget {
 }
 
 class _AccountItemState extends State<AccountItem> {
-  void _onEditAccount() {}
+  void _onEditAccount() {
+    showDialog<void>(
+      context: context,
+      builder: (context) =>
+          AccountEdit(authToken: widget.authToken, account: widget.account),
+    );
+  }
 
   void _onSignTransaction() {
     context
@@ -65,9 +72,15 @@ class _AccountItemState extends State<AccountItem> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Account: ${widget.account.name}', style: _style),
-                  const Spacer(),
+                  Flexible(
+                    child: Text(
+                      'Account: ${widget.account.name}',
+                      style: _style,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                   IconButton(
                     onPressed: _onEditAccount,
                     icon: const Icon(Icons.edit),
