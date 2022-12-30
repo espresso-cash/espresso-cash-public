@@ -45,8 +45,10 @@ class _AccountItemState extends State<AccountItem> {
   void _onEditAccount() {
     showDialog<void>(
       context: context,
-      builder: (context) =>
-          AccountEdit(authToken: widget.authToken, account: widget.account),
+      builder: (context) => AccountEdit(
+        authToken: widget.authToken,
+        account: widget.account,
+      ),
     );
   }
 

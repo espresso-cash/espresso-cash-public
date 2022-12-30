@@ -1,6 +1,10 @@
+import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
 import 'package:wallet_example/bl/bloc.dart';
+import 'package:wallet_example/presentation/snack_bar.dart';
 
 class LimitsSection extends StatefulWidget {
   const LimitsSection({Key? key}) : super(key: key);
@@ -10,10 +14,39 @@ class LimitsSection extends StatefulWidget {
 }
 
 class _LimitsSectionState extends State<LimitsSection> {
-  void _onMaxRequestedPublicKeysExceeded() {}
-  void _onMaxSigningRequestsExceeded() {}
-  void _onMaxBip32PathDepthExceeded() {}
-  void _onMaxRequestedSignaturesExceeded() {}
+  AuthToken? _validate() {
+    final seed = context
+        .read<SeedVaultBloc>()
+        .state
+        .mapOrNull(loaded: (state) => state.seeds.firstOrNull);
+
+    if (seed == null) {
+      showErrorSnackBar(context, 'Need authorized seed to exceed limits');
+    }
+
+    return seed?.authToken;
+  }
+
+  void _onMaxRequestedPublicKeysExceeded() => _validate()?.let(
+        (authToken) => context
+            .read<SeedVaultBloc>()
+            .exceedMaxRequestedPublicKeys(authToken)
+            .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n')))),
+      );
+
+  void _onMaxSigningRequestsExceeded() => _validate()?.let(
+        (authToken) => context
+            .read<SeedVaultBloc>()
+            .exceedMaxSigningRequests(authToken)
+            .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n')))),
+      );
+
+  void _onMaxRequestedSignaturesExceeded() => _validate()?.let(
+        (authToken) => context
+            .read<SeedVaultBloc>()
+            .exceedMaxRequestedSignatures(authToken)
+            .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n')))),
+      );
 
   @override
   Widget build(BuildContext context) =>
@@ -40,7 +73,6 @@ class _LimitsSectionState extends State<LimitsSection> {
               ),
               _LimitTile(
                 title: 'maxBip32PathDepth=${state.limits.maxBip32PathDepth}',
-                onExceeded: _onMaxBip32PathDepthExceeded,
               ),
             ],
           ),
@@ -52,19 +84,21 @@ class _LimitTile extends StatelessWidget {
   const _LimitTile({
     Key? key,
     required this.title,
-    required this.onExceeded,
+    this.onExceeded,
   }) : super(key: key);
 
   final String title;
-  final VoidCallback onExceeded;
+  final VoidCallback? onExceeded;
 
   @override
   Widget build(BuildContext context) => ListTile(
         title: Text(title, style: const TextStyle(fontSize: 18)),
-        subtitle: ElevatedButton(
-          onPressed: onExceeded,
-          child: const Text('Exceed limit by 1'),
-        ),
+        subtitle: onExceeded == null
+            ? const SizedBox.shrink()
+            : ElevatedButton(
+                onPressed: onExceeded,
+                child: const Text('Exceed limit by 1'),
+              ),
       );
 }
 
