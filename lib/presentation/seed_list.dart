@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 import 'package:wallet_example/bl/bloc.dart';
 import 'package:wallet_example/presentation/account_list.dart';
+import 'package:wallet_example/presentation/snack_bar.dart';
 
 class SeedList extends StatelessWidget {
   const SeedList({Key? key}) : super(key: key);
@@ -37,15 +38,30 @@ class SeedItem extends StatefulWidget {
 }
 
 class _SeedItemState extends State<SeedItem> {
-  void _onRequestPublicKeys() {}
+  void _onRequestPublicKeys() {
+    context
+        .read<SeedVaultBloc>()
+        .requestPublicKeys(widget.seed)
+        .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
+  }
 
   void _onDeauthorize() {
     context.read<SeedVaultBloc>().deathorizeSeed(widget.seed);
   }
 
-  void _onSignMessages() {}
+  void _onSignMessages() {
+    context
+        .read<SeedVaultBloc>()
+        .signMessages(widget.seed)
+        .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
+  }
 
-  void _onSignTransactions() {}
+  void _onSignTransactions() {
+    context
+        .read<SeedVaultBloc>()
+        .signTransactions(widget.seed)
+        .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
+  }
 
   @override
   Widget build(BuildContext context) => Column(
@@ -94,9 +110,10 @@ class _SeedItemState extends State<SeedItem> {
           ),
           ExpansionTile(
             initiallyExpanded: false,
-            title: Text('${widget.seed.name} user-flagged accounts'),
+            title: const Text('Acounts marked as UserWallet'),
             children: [
               AccountList(
+                authToken: widget.seed.authToken,
                 accounts: widget.seed.accounts,
               ),
             ],
