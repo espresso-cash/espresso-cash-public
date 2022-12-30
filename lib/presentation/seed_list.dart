@@ -41,25 +41,25 @@ class _SeedItemState extends State<SeedItem> {
   void _onRequestPublicKeys() {
     context
         .read<SeedVaultBloc>()
-        .requestPublicKeys(widget.seed)
+        .requestPublicKeys(widget.seed.authToken)
         .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
   }
 
   void _onDeauthorize() {
-    context.read<SeedVaultBloc>().deathorizeSeed(widget.seed);
+    context.read<SeedVaultBloc>().deathorizeSeed(widget.seed.authToken);
   }
 
   void _onSignMessages() {
     context
         .read<SeedVaultBloc>()
-        .signMessages(widget.seed)
+        .signMessages(widget.seed.authToken)
         .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
   }
 
   void _onSignTransactions() {
     context
         .read<SeedVaultBloc>()
-        .signTransactions(widget.seed)
+        .signTransactions(widget.seed.authToken)
         .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
   }
 

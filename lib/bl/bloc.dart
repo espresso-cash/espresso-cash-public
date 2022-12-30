@@ -106,45 +106,59 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         ],
       ).letAsync((it) => it.map((it) => it.single));
 
-  AsyncResult<List<String>> signMessages(Seed seed) async => _signMessages(
-        authToken: seed.authToken,
+  AsyncResult<List<String>> signMessages(AuthToken authToken) async =>
+      _signMessages(
+        authToken: authToken,
         signingRequests: await _generateSigningRequests(
-          payloadCount: state.maybeMap(
-            loaded: (it) => it.limits.maxSigningRequests,
-            orElse: always(0),
-          ),
-          signatureCount: state.maybeMap(
-            loaded: (it) => it.limits.maxRequestedSignatures,
-            orElse: always(0),
-          ),
+          payloadCount: _maxSigningRequests,
+          signatureCount: _maxRequestedSignatures,
         ),
       );
 
-  AsyncResult<List<String>> signTransactions(Seed seed) async =>
+  AsyncResult<List<String>> signTransactions(AuthToken authToken) async =>
       _signTransactions(
-        authToken: seed.authToken,
+        authToken: authToken,
         signingRequests: await _generateSigningRequests(
-          payloadCount: state.maybeMap(
-            loaded: (it) => it.limits.maxSigningRequests,
-            orElse: always(0),
-          ),
-          signatureCount: state.maybeMap(
-            loaded: (it) => it.limits.maxRequestedSignatures,
-            orElse: always(0),
-          ),
+          payloadCount: _maxSigningRequests,
+          signatureCount: _maxRequestedSignatures,
         ),
       );
 
-  AsyncResult<List<String>> requestPublicKeys(Seed seed) async {
-    final result = await Wallet.instance.requestPublicKeys(
-      authToken: seed.authToken,
-      derivationPaths: seed.accounts.map((a) => a.derivationPath).toList(),
-    );
+  AsyncResult<List<String>> requestPublicKeys(AuthToken authToken) async =>
+      _requestPublicKeys(
+        authToken,
+        await _generateUris(_maxRequestedPublicKeys),
+      );
 
-    return result
-        .toEither()
-        .map((it) => it.map((it) => it.publicKeyEncoded).compact().toList());
-  }
+  AsyncResult<List<String>> exceedMaxSigningRequests(
+    AuthToken authToken,
+  ) async =>
+      _signTransactions(
+        authToken: authToken,
+        signingRequests: await _generateSigningRequests(
+          payloadCount: _maxSigningRequests + 1,
+          signatureCount: 1,
+        ),
+      );
+
+  AsyncResult<List<String>> exceedMaxRequestedSignatures(
+    AuthToken authToken,
+  ) async =>
+      _signTransactions(
+        authToken: authToken,
+        signingRequests: await _generateSigningRequests(
+          payloadCount: 1,
+          signatureCount: _maxRequestedSignatures + 1,
+        ),
+      );
+
+  AsyncResult<List<String>> exceedMaxRequestedPublicKeys(
+    AuthToken authToken,
+  ) async =>
+      _requestPublicKeys(
+        authToken,
+        await _generateUris(_maxRequestedPublicKeys + 1),
+      );
 
   AsyncResult<void> updateAccountName({
     required AuthToken authToken,
@@ -159,8 +173,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
           )
           .toEither();
 
-  Future<void> deathorizeSeed(Seed seed) async {
-    await Wallet.instance.deauthorizeSeed(seed.authToken);
+  Future<void> deathorizeSeed(AuthToken authToken) async {
+    await Wallet.instance.deauthorizeSeed(authToken);
   }
 
   AsyncResult<void> authorizeSeed() async {
@@ -248,14 +262,34 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         .map((it) => it.map((it) => it.signatures.toString()).toList());
   }
 
+  AsyncResult<List<String>> _requestPublicKeys(
+    AuthToken authToken,
+    List<Uri> uris,
+  ) async {
+    final result = await Wallet.instance.requestPublicKeys(
+      authToken: authToken,
+      derivationPaths: uris,
+    );
+
+    return result
+        .toEither()
+        .map((it) => it.map((it) => it.publicKeyEncoded).compact().toList());
+  }
+
+  Future<List<Uri>> _generateUris(int count) async => Future.wait(
+        List.generate(
+          count,
+          (i) => Bip32DerivationPath.instance.toUri(
+            Bip32Data(levels: [BipLevel(index: i, hardened: true)]),
+          ),
+        ),
+      );
+
   Future<List<SigningRequest>> _generateSigningRequests({
     required int payloadCount,
     required int signatureCount,
   }) async {
-    final maxRequestedSignatures = state.maybeMap(
-      loaded: (it) => it.limits.maxRequestedSignatures,
-      orElse: always(0),
-    );
+    final maxRequestedSignatures = _maxRequestedSignatures;
 
     return Future.wait(
       List.generate(
@@ -281,6 +315,21 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       ),
     );
   }
+
+  int get _maxSigningRequests => state.maybeMap(
+        orElse: always(0),
+        loaded: (it) => it.limits.maxSigningRequests,
+      );
+
+  int get _maxRequestedSignatures => state.maybeMap(
+        orElse: always(0),
+        loaded: (it) => it.limits.maxRequestedSignatures,
+      );
+
+  int get _maxRequestedPublicKeys => state.maybeMap(
+        orElse: always(0),
+        loaded: (it) => it.limits.maxRequestedPublicKeys,
+      );
 }
 
 Future<Uri> _getRequestedPublicKeyByIndex(int index) =>

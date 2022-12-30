@@ -1,11 +1,17 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+void showErrorSnackBar(BuildContext context, String message) =>
+    showSnackBar(context, Either.left(_ErrorMessage(message)));
+
 void showSnackBar(
   BuildContext context,
   Either<Exception, String> result,
 ) {
-  final message = result.fold(always('Action Failed'), identity);
+  final message = result.fold(
+    (e) => e is _ErrorMessage ? e.message : 'Action Failed',
+    identity,
+  );
 
   final snackbar = SnackBar(
     behavior: SnackBarBehavior.floating,
@@ -27,4 +33,10 @@ void showSnackBar(
   );
 
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
+}
+
+class _ErrorMessage implements Exception {
+  _ErrorMessage(this.message);
+
+  final String message;
 }
