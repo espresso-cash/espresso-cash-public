@@ -1,10 +1,15 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-void showSnackBar(bool success, BuildContext context) {
+void showSnackBar(
+  BuildContext context,
+  Either<Exception, String> result,
+) {
+  final message = result.fold(always('Action Failed'), identity);
+
   final snackbar = SnackBar(
     behavior: SnackBarBehavior.floating,
-    shape: const StadiumBorder(),
-    backgroundColor: success ? Colors.green : Colors.red,
+    backgroundColor: result.fold(always(Colors.red), always(Colors.green)),
     content: ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 24),
       child: Row(
@@ -12,7 +17,7 @@ void showSnackBar(bool success, BuildContext context) {
         children: [
           Expanded(
             child: Text(
-              success ? 'Succeeded' : 'Failed',
+              message,
               style: const TextStyle(color: Colors.white),
             ),
           ),

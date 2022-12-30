@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:solana_seed_vault/src/api.dart';
+import 'package:solana_seed_vault/src/extensions.dart';
 import 'package:solana_seed_vault/src/models/account.dart';
 import 'package:solana_seed_vault/src/models/auth_token.dart';
-import 'package:solana_seed_vault/src/models/auth_token_response.dart';
+import 'package:solana_seed_vault/src/models/authorization_result.dart';
 import 'package:solana_seed_vault/src/models/filter.dart';
 import 'package:solana_seed_vault/src/models/implementation_limits.dart';
 import 'package:solana_seed_vault/src/models/public_key_response.dart';
@@ -13,6 +15,8 @@ import 'package:solana_seed_vault/src/models/seed.dart';
 import 'package:solana_seed_vault/src/models/seed_vault_notification.dart';
 import 'package:solana_seed_vault/src/models/signing_request.dart';
 import 'package:solana_seed_vault/src/models/signing_response.dart';
+
+typedef AsyncAuthorizationResult<T> = Future<AuthorizationResult<T>>;
 
 class Wallet implements SeedVaultFlutterApi {
   Wallet._(this._platform) {
@@ -72,15 +76,6 @@ class Wallet implements SeedVaultFlutterApi {
         .toList();
   }
 
-  Future<List<Account>> getAccounts(
-    AuthToken authToken, {
-    AccountFilter filter = const AccountFilter(),
-  }) async {
-    final accounts = await _platform.getAccounts(authToken, filter.toDto());
-
-    return accounts.toModelList();
-  }
-
   Future<Uri> resolveDerivationPath({
     required Uri derivationPath,
     required Purpose purpose,
@@ -93,153 +88,114 @@ class Wallet implements SeedVaultFlutterApi {
     return Uri.parse(encoded);
   }
 
-  Future<void> updateAccountName({
+  AsyncAuthorizationResult<List<Account>> getAccounts(
+    AuthToken authToken, {
+    AccountFilter filter = const AccountFilter(),
+  }) =>
+      _handleAuthResult(() async {
+        final accounts = await _platform.getAccounts(authToken, filter.toDto());
+
+        return accounts.toModelList();
+      });
+
+  AsyncAuthorizationResult<void> updateAccountName({
     required AuthToken authToken,
     required int accountId,
     required String? name,
   }) =>
-      _platform.updateAccountName(authToken, accountId, name);
+      _handleAuthResult(
+        () => _platform.updateAccountName(authToken, accountId, name),
+      );
 
-  Future<void> updateAccountIsUserWallet({
+  AsyncAuthorizationResult<void> updateAccountIsUserWallet({
     required AuthToken authToken,
     required int accountId,
     required bool isUserWallet,
   }) =>
-      _platform.updateAccountIsUserWallet(authToken, accountId, isUserWallet);
+      _handleAuthResult(
+        () => _platform.updateAccountIsUserWallet(
+          authToken,
+          accountId,
+          isUserWallet,
+        ),
+      );
 
-  Future<void> updateAccountIsValid({
+  AsyncAuthorizationResult<void> updateAccountIsValid({
     required AuthToken authToken,
     required int accountId,
     required bool isValid,
   }) =>
-      _platform.updateAccountIsValid(authToken, accountId, isValid);
+      _handleAuthResult(
+        () => _platform.updateAccountIsValid(authToken, accountId, isValid),
+      );
 
-  Future<void> deauthorizeSeed(AuthToken authToken) =>
-      _platform.deauthorizeSeed(authToken);
+  AsyncAuthorizationResult<void> deauthorizeSeed(AuthToken authToken) =>
+      _handleAuthResult(() => _platform.deauthorizeSeed(authToken));
 
   Future<bool> hasUnauthorizedSeedsForPurpose(Purpose purpose) =>
       _platform.hasUnauthorizedSeedsForPurpose(purpose.index);
 
-  Future<AuthTokenResponse> authorizeSeed(Purpose purpose) =>
-      _handleAuthTokenResponse(() => _platform.authorizeSeed(purpose.index));
+  AsyncAuthorizationResult<AuthToken> authorizeSeed(Purpose purpose) =>
+      _handleAuthResult(() => _platform.authorizeSeed(purpose.index));
 
-  Future<AuthTokenResponse> createSeed(Purpose purpose) =>
-      _handleAuthTokenResponse(() => _platform.createSeed(purpose.index));
+  AsyncAuthorizationResult<AuthToken> createSeed(Purpose purpose) =>
+      _handleAuthResult(() => _platform.createSeed(purpose.index));
 
-  Future<AuthTokenResponse> importSeed(Purpose purpose) =>
-      _handleAuthTokenResponse(() => _platform.importSeed(purpose.index));
+  AsyncAuthorizationResult<AuthToken> importSeed(Purpose purpose) =>
+      _handleAuthResult(() => _platform.importSeed(purpose.index));
 
-  Future<List<PublicKeyResponse>> requestPublicKeys({
+  AsyncAuthorizationResult<List<PublicKeyResponse>> requestPublicKeys({
     required AuthToken authToken,
     required List<Uri> derivationPaths,
-  }) async {
-    final paths = derivationPaths.map((it) => it.toString()).toList();
+  }) =>
+      _handleAuthResult(() async {
+        final paths = derivationPaths.map((it) => it.toString()).toList();
 
-    final results = await _platform.requestPublicKeys(authToken, paths);
+        final results = await _platform.requestPublicKeys(authToken, paths);
 
-    return results
-        .compact()
-        .map(
-          (it) => PublicKeyResponse(
-            publicKey: it.publicKey,
-            publicKeyEncoded: it.publicKeyEncoded,
-            resolvedDerivationPath: Uri.parse(it.resolvedDerivationPath),
-          ),
-        )
-        .toList();
-  }
+        return results
+            .compact()
+            .map(
+              (it) => PublicKeyResponse(
+                publicKey: it.publicKey,
+                publicKeyEncoded: it.publicKeyEncoded,
+                resolvedDerivationPath: Uri.parse(it.resolvedDerivationPath),
+              ),
+            )
+            .toList();
+      });
 
-  Future<List<SigningResponse>> signMessages({
+  AsyncAuthorizationResult<List<SigningResponse>> signMessages({
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,
-  }) async {
-    final requests = signingRequests.map((it) => it.toDto()).toList();
+  }) =>
+      _handleAuthResult(() async {
+        final requests = signingRequests.map((it) => it.toDto()).toList();
 
-    final results = await _platform.signMessages(authToken, requests);
+        final results = await _platform.signMessages(authToken, requests);
 
-    return results.compact().map((it) => it.toModel()).toList();
-  }
+        return results.compact().map((it) => it.toModel()).toList();
+      });
 
-  Future<List<SigningResponse>> signTransactions({
+  AsyncAuthorizationResult<List<SigningResponse>> signTransactions({
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,
-  }) async {
-    final requests = signingRequests.map((it) => it.toDto()).toList();
+  }) =>
+      _handleAuthResult(() async {
+        final requests = signingRequests.map((it) => it.toDto()).toList();
 
-    final results = await _platform.signTransactions(authToken, requests);
+        final results = await _platform.signTransactions(authToken, requests);
 
-    return results.compact().map((it) => it.toModel()).toList();
-  }
+        return results.compact().map((it) => it.toModel()).toList();
+      });
 }
 
-extension on SigningRequest {
-  SigningRequestDto toDto() => SigningRequestDto(
-        payload: payload,
-        requestedSignatures:
-            requestedSignatures.map((it) => it.toString()).toList(),
-      );
-}
-
-extension on SigningResponseDto {
-  SigningResponse toModel() => SigningResponse(
-        signatures: signatures.compact().toList(),
-        resolvedDerivationPaths:
-            resolvedDerivationPaths.compact().map(Uri.parse).toList(),
-      );
-}
-
-extension on List<AccountDto?> {
-  List<Account> toModelList() => this
-      .compact()
-      .map(
-        (it) => Account(
-          id: it.id,
-          name: it.name,
-          derivationPath: Uri.parse(it.derivationPath),
-          publicKeyEncoded: it.publicKeyEncoded,
-          isUserWallet: it.isUserWallet,
-          isValid: it.isValid,
-        ),
-      )
-      .toList();
-}
-
-extension on AccountFilter {
-  AccountFilterDto? toDto() => when(
-        always(null),
-        byId: (id) => AccountFilterDto(
-          key: AccountFilterColumnDto.id,
-          value: id.toString(),
-        ),
-        byName: (name) => AccountFilterDto(
-          key: AccountFilterColumnDto.name,
-          value: name,
-        ),
-        byDerivationPath: (derivationPath) => AccountFilterDto(
-          key: AccountFilterColumnDto.derivationPath,
-          value: derivationPath.toString(),
-        ),
-        byPublicKeyEncoded: (publicKeyEncoded) => AccountFilterDto(
-          key: AccountFilterColumnDto.publicKeyEncoded,
-          value: publicKeyEncoded.toString(),
-        ),
-        byIsUserWallet: (isUserWallet) => AccountFilterDto(
-          key: AccountFilterColumnDto.isUserWallet,
-          value: isUserWallet.toString(),
-        ),
-        byIsValid: (isValid) => AccountFilterDto(
-          key: AccountFilterColumnDto.isValid,
-          value: isValid.toString(),
-        ),
-      );
-}
-
-Future<AuthTokenResponse> _handleAuthTokenResponse(
-  AsyncValueGetter<AuthToken> onResult,
+Future<AuthorizationResult<T>> _handleAuthResult<T>(
+  AsyncValueGetter<T> request,
 ) async {
   try {
-    return AuthTokenResponse.success(await onResult());
-  } on Exception catch (e) {
-    return AuthTokenResponse.failure(e);
+    return AuthorizationResult.success(await request());
+  } on PlatformException catch (e) {
+    return AuthorizationResult.failed(e);
   }
 }

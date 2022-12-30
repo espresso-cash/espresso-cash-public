@@ -1,7 +1,7 @@
 export 'src/bip.dart';
 export 'src/models/account.dart';
 export 'src/models/auth_token.dart';
-export 'src/models/auth_token_response.dart';
+export 'src/models/authorization_result.dart';
 export 'src/models/bip.dart';
 export 'src/models/filter.dart';
 export 'src/models/implementation_limits.dart';

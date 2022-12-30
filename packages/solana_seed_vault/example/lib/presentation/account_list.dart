@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
+import 'package:wallet_example/bl/bloc.dart';
+import 'package:wallet_example/presentation/snack_bar.dart';
 
 class AccountList extends StatelessWidget {
   const AccountList({
     Key? key,
+    required this.authToken,
     required this.accounts,
   }) : super(key: key);
 
+  final AuthToken authToken;
   final List<Account> accounts;
 
   @override
@@ -16,6 +21,7 @@ class AccountList extends StatelessWidget {
         itemCount: accounts.length,
         itemBuilder: (context, index) => AccountItem(
           account: accounts.elementAt(index),
+          authToken: authToken,
         ),
       );
 }
@@ -24,9 +30,11 @@ class AccountItem extends StatefulWidget {
   const AccountItem({
     Key? key,
     required this.account,
+    required this.authToken,
   }) : super(key: key);
 
   final Account account;
+  final AuthToken authToken;
 
   @override
   State<AccountItem> createState() => _AccountItemState();
@@ -35,9 +43,19 @@ class AccountItem extends StatefulWidget {
 class _AccountItemState extends State<AccountItem> {
   void _onEditAccount() {}
 
-  void _onSignTransaction() {}
+  void _onSignTransaction() {
+    context
+        .read<SeedVaultBloc>()
+        .signTransactionWithAccount(widget.authToken, widget.account)
+        .then((it) => showSnackBar(context, it));
+  }
 
-  void _onSignMessage() {}
+  void _onSignMessage() {
+    context
+        .read<SeedVaultBloc>()
+        .signMessageWithAccount(widget.authToken, widget.account)
+        .then((it) => showSnackBar(context, it));
+  }
 
   @override
   Widget build(BuildContext context) => Card(
