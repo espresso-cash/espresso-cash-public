@@ -20,11 +20,11 @@ dependencies:
   dio: ^4.0.0
   drift: ^1.5.0
   fast_immutable_collections: ^7.4.2
-  firebase_analytics: ^9.3.8
-  firebase_app_installations: ^0.1.1+10
-  firebase_core: ^1.24.0
-  firebase_dynamic_links: ^4.3.11
-  firebase_remote_config: ^2.0.20
+  firebase_analytics: ^10.1.0
+  firebase_app_installations: ^0.2.1+8
+  firebase_core: ^2.4.1
+  firebase_dynamic_links: ^5.0.11
+  firebase_remote_config: ^3.0.9
   fl_chart: ^0.55.2
   flutter:
     sdk: flutter
