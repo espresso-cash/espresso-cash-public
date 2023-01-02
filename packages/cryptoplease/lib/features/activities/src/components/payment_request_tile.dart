@@ -89,14 +89,14 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
               subtitle: context.formatDate(data.created),
               actions: [
                 CpButton(
-                  text: 'Remind me',
+                  text: context.l10n.shareLinks,
                   minWidth: 120,
                   size: CpButtonSize.micro,
                   onPressed: () =>
                       context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
                 ),
                 CpButton(
-                  text: 'Cancel',
+                  text: context.l10n.cancel,
                   minWidth: 120,
                   size: CpButtonSize.micro,
                   variant: CpButtonVariant.secondary,

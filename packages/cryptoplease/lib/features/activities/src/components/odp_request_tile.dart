@@ -25,13 +25,13 @@ class ODPRequestTile extends StatelessWidget {
         icon: Assets.icons.outgoing.svg(),
         actions: [
           CpButton(
-            text: 'Pay',
+            text: context.l10n.pay,
             minWidth: 120,
             size: CpButtonSize.micro,
             onPressed: () => context.confirmODPRequest(activity.data),
           ),
           CpButton(
-            text: 'Decline',
+            text: context.l10n.decline,
             minWidth: 120,
             size: CpButtonSize.micro,
             variant: CpButtonVariant.secondary,

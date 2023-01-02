@@ -7,6 +7,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../data/db/db.dart';
+import '../../../../data/db/mixins.dart';
 import 'payment_request.dart';
 
 @injectable
@@ -59,9 +60,7 @@ class PaymentRequestRepository {
 
 enum PaymentRequestStateDto { initial, completed, error }
 
-class PaymentRequestRows extends Table {
-  TextColumn get id => text()();
-  DateTimeColumn get created => dateTime()();
+class PaymentRequestRows extends Table with EntityMixin {
   TextColumn get payerName => text()();
   TextColumn get dynamicLink => text()();
   IntColumn get state => intEnum<PaymentRequestStateDto>()();

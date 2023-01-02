@@ -5,6 +5,7 @@ import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
 import '../../../../ui/button.dart';
@@ -17,7 +18,7 @@ class OSKPTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ActivityTile(
-        title: 'Sent via link',
+        title: context.l10n.sentViaLink,
         amount:
             '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
         subtitle: context.formatDate(activity.created),
@@ -25,7 +26,7 @@ class OSKPTile extends StatelessWidget {
         actions: [
           // TODO(rhbrunetto): add cancel after merge
           CpButton(
-            text: 'View',
+            text: context.l10n.view,
             size: CpButtonSize.micro,
             onPressed: () =>
                 context.router.navigate(OSKPRoute(id: activity.id)),
