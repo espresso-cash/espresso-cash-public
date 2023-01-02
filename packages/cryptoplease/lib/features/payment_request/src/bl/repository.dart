@@ -50,7 +50,8 @@ class PaymentRequestRepository {
       _db.into(_db.paymentRequestRows).insertOnConflictUpdate(payment.toRow());
 
   Future<void> delete(PaymentRequest payment) =>
-      (_db.delete(_db.paymentRequestRows)..whereSamePrimaryKey(payment.toRow()))
+      (_db.delete(_db.paymentRequestRows)
+            ..where((tbl) => tbl.id.equals(payment.id)))
           .go();
 
   Future<void> clear() => _db.delete(_db.paymentRequestRows).go();

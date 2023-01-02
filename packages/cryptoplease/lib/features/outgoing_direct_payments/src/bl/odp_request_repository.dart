@@ -34,9 +34,9 @@ class ODPRequestRepository {
   Future<void> save(ODPRequest request) =>
       _db.into(_db.oDPRequestRows).insertOnConflictUpdate(request.toDto());
 
-  Future<void> delete(ODPRequest request) =>
-      (_db.delete(_db.oDPRequestRows)..whereSamePrimaryKey(request.toDto()))
-          .go();
+  Future<void> delete(ODPRequest request) => (_db.delete(_db.oDPRequestRows)
+        ..where((tbl) => tbl.id.equals(request.id)))
+      .go();
 
   Future<void> clear() => _db.delete(_db.oDPRequestRows).go();
 }
