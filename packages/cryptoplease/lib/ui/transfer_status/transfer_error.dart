@@ -21,7 +21,7 @@ class TransferError extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StatusScreen(
         title: context.l10n.splitKeyTransferTitle,
-        statusTitle: Text(context.l10n.splitKeyErrorMessage1),
+        statusTitle: Text(context.l10n.transferErrorTitle),
         onBackButtonPressed: onBack,
         statusContent: Text(
           [

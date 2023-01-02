@@ -6,11 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/accounts/bl/account.dart';
+import '../../core/accounts/module.dart';
 import '../../core/analytics/analytics_manager.dart';
 import '../../core/tip_payments.dart';
 import '../../di.dart';
 import '../../routes.gr.dart';
 import 'src/bl/it_bloc.dart';
+import 'src/bl/it_repository.dart';
 import 'src/presentation/link_listener.dart';
 
 export 'src/bl/it_repository.dart';
@@ -25,6 +27,9 @@ class ITModule extends SingleChildStatelessWidget {
             create: (context) => sl<ITBloc>(
               param1: context.read<MyAccount>().wallet,
             ),
+          ),
+          LogoutListener(
+            onLogout: (_) => sl<ITRepository>().clear(),
           ),
         ],
         child: TipLinkListener(child: child ?? const SizedBox.shrink()),
