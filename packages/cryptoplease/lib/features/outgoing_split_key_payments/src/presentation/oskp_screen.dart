@@ -82,13 +82,13 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   CpStatusType.info;
 
           final String? statusTitle = payment?.status.mapOrNull(
-            success: always(context.l10n.splitKeySuccessMessage1),
+            success: always(context.l10n.transferSuccessTitle),
           );
 
           final String statusContent = payment == null
               ? context.l10n.loading
               : payment.status.maybeMap(
-                  success: always(context.l10n.splitKeySuccessMessage2),
+                  success: always(context.l10n.outgoingTransferSuccess),
                   txFailure: (it) => [
                     context.l10n.splitKeyErrorMessage2,
                     if (it.reason == TxFailureReason.insufficientFunds)
