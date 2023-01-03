@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:solana_seed_vault/src/api.dart';
 import 'package:solana_seed_vault/src/extensions.dart';
 import 'package:solana_seed_vault/src/models/account.dart';
@@ -192,10 +191,8 @@ class Wallet implements SeedVaultFlutterApi {
 
 Future<AuthorizationResult<T>> _handleAuthResult<T>(
   AsyncValueGetter<T> request,
-) async {
-  try {
-    return AuthorizationResult.success(await request());
-  } on PlatformException catch (e) {
-    return AuthorizationResult.failed(e);
-  }
-}
+) =>
+    tryEitherAsync<T>((_) => request()).foldAsync(
+      AuthorizationResult<T>.failed,
+      AuthorizationResult<T>.success,
+    );
