@@ -1659,7 +1659,7 @@ mixin _$QuoteRequestDto {
   int? get feeBps => throw _privateConstructorUsedError;
   bool? get onlyDirectRoutes => throw _privateConstructorUsedError;
   String? get userPublicKey => throw _privateConstructorUsedError;
-  bool? get enforceSingleTx => throw _privateConstructorUsedError;
+  bool? get asLegacyTransaction => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1682,7 +1682,7 @@ abstract class $QuoteRequestDtoCopyWith<$Res> {
       int? feeBps,
       bool? onlyDirectRoutes,
       String? userPublicKey,
-      bool? enforceSingleTx});
+      bool? asLegacyTransaction});
 }
 
 /// @nodoc
@@ -1706,7 +1706,7 @@ class _$QuoteRequestDtoCopyWithImpl<$Res, $Val extends QuoteRequestDto>
     Object? feeBps = freezed,
     Object? onlyDirectRoutes = freezed,
     Object? userPublicKey = freezed,
-    Object? enforceSingleTx = freezed,
+    Object? asLegacyTransaction = freezed,
   }) {
     return _then(_value.copyWith(
       inputMint: null == inputMint
@@ -1741,9 +1741,9 @@ class _$QuoteRequestDtoCopyWithImpl<$Res, $Val extends QuoteRequestDto>
           ? _value.userPublicKey
           : userPublicKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      enforceSingleTx: freezed == enforceSingleTx
-          ? _value.enforceSingleTx
-          : enforceSingleTx // ignore: cast_nullable_to_non_nullable
+      asLegacyTransaction: freezed == asLegacyTransaction
+          ? _value.asLegacyTransaction
+          : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
               as bool?,
     ) as $Val);
   }
@@ -1766,7 +1766,7 @@ abstract class _$$_QuoteRequestDtoCopyWith<$Res>
       int? feeBps,
       bool? onlyDirectRoutes,
       String? userPublicKey,
-      bool? enforceSingleTx});
+      bool? asLegacyTransaction});
 }
 
 /// @nodoc
@@ -1788,7 +1788,7 @@ class __$$_QuoteRequestDtoCopyWithImpl<$Res>
     Object? feeBps = freezed,
     Object? onlyDirectRoutes = freezed,
     Object? userPublicKey = freezed,
-    Object? enforceSingleTx = freezed,
+    Object? asLegacyTransaction = freezed,
   }) {
     return _then(_$_QuoteRequestDto(
       inputMint: null == inputMint
@@ -1823,9 +1823,9 @@ class __$$_QuoteRequestDtoCopyWithImpl<$Res>
           ? _value.userPublicKey
           : userPublicKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      enforceSingleTx: freezed == enforceSingleTx
-          ? _value.enforceSingleTx
-          : enforceSingleTx // ignore: cast_nullable_to_non_nullable
+      asLegacyTransaction: freezed == asLegacyTransaction
+          ? _value.asLegacyTransaction
+          : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }
@@ -1843,7 +1843,7 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
       this.feeBps,
       this.onlyDirectRoutes,
       this.userPublicKey,
-      this.enforceSingleTx});
+      this.asLegacyTransaction});
 
   factory _$_QuoteRequestDto.fromJson(Map<String, dynamic> json) =>
       _$$_QuoteRequestDtoFromJson(json);
@@ -1866,11 +1866,11 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
   @override
   final String? userPublicKey;
   @override
-  final bool? enforceSingleTx;
+  final bool? asLegacyTransaction;
 
   @override
   String toString() {
-    return 'QuoteRequestDto(inputMint: $inputMint, outputMint: $outputMint, amount: $amount, swapMode: $swapMode, slippageBps: $slippageBps, feeBps: $feeBps, onlyDirectRoutes: $onlyDirectRoutes, userPublicKey: $userPublicKey, enforceSingleTx: $enforceSingleTx)';
+    return 'QuoteRequestDto(inputMint: $inputMint, outputMint: $outputMint, amount: $amount, swapMode: $swapMode, slippageBps: $slippageBps, feeBps: $feeBps, onlyDirectRoutes: $onlyDirectRoutes, userPublicKey: $userPublicKey, asLegacyTransaction: $asLegacyTransaction)';
   }
 
   @override
@@ -1892,8 +1892,8 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
                 other.onlyDirectRoutes == onlyDirectRoutes) &&
             (identical(other.userPublicKey, userPublicKey) ||
                 other.userPublicKey == userPublicKey) &&
-            (identical(other.enforceSingleTx, enforceSingleTx) ||
-                other.enforceSingleTx == enforceSingleTx));
+            (identical(other.asLegacyTransaction, asLegacyTransaction) ||
+                other.asLegacyTransaction == asLegacyTransaction));
   }
 
   @JsonKey(ignore: true)
@@ -1908,7 +1908,7 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
       feeBps,
       onlyDirectRoutes,
       userPublicKey,
-      enforceSingleTx);
+      asLegacyTransaction);
 
   @JsonKey(ignore: true)
   @override
@@ -1934,7 +1934,7 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
       final int? feeBps,
       final bool? onlyDirectRoutes,
       final String? userPublicKey,
-      final bool? enforceSingleTx}) = _$_QuoteRequestDto;
+      final bool? asLegacyTransaction}) = _$_QuoteRequestDto;
 
   factory _QuoteRequestDto.fromJson(Map<String, dynamic> json) =
       _$_QuoteRequestDto.fromJson;
@@ -1956,7 +1956,7 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
   @override
   String? get userPublicKey;
   @override
-  bool? get enforceSingleTx;
+  bool? get asLegacyTransaction;
   @override
   @JsonKey(ignore: true)
   _$$_QuoteRequestDtoCopyWith<_$_QuoteRequestDto> get copyWith =>
@@ -1975,6 +1975,7 @@ mixin _$JupiterSwapRequestDto {
   bool? get wrapUnwrapSOL => throw _privateConstructorUsedError;
   String? get feeAccount => throw _privateConstructorUsedError;
   String? get destinationWallet => throw _privateConstructorUsedError;
+  bool? get asLegacyTransaction => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1993,7 +1994,8 @@ abstract class $JupiterSwapRequestDtoCopyWith<$Res> {
       JupiterRoute route,
       bool? wrapUnwrapSOL,
       String? feeAccount,
-      String? destinationWallet});
+      String? destinationWallet,
+      bool? asLegacyTransaction});
 
   $JupiterRouteCopyWith<$Res> get route;
 }
@@ -2017,6 +2019,7 @@ class _$JupiterSwapRequestDtoCopyWithImpl<$Res,
     Object? wrapUnwrapSOL = freezed,
     Object? feeAccount = freezed,
     Object? destinationWallet = freezed,
+    Object? asLegacyTransaction = freezed,
   }) {
     return _then(_value.copyWith(
       userPublicKey: null == userPublicKey
@@ -2039,6 +2042,10 @@ class _$JupiterSwapRequestDtoCopyWithImpl<$Res,
           ? _value.destinationWallet
           : destinationWallet // ignore: cast_nullable_to_non_nullable
               as String?,
+      asLegacyTransaction: freezed == asLegacyTransaction
+          ? _value.asLegacyTransaction
+          : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -2064,7 +2071,8 @@ abstract class _$$_JupiterSwapRequestDtoCopyWith<$Res>
       JupiterRoute route,
       bool? wrapUnwrapSOL,
       String? feeAccount,
-      String? destinationWallet});
+      String? destinationWallet,
+      bool? asLegacyTransaction});
 
   @override
   $JupiterRouteCopyWith<$Res> get route;
@@ -2086,6 +2094,7 @@ class __$$_JupiterSwapRequestDtoCopyWithImpl<$Res>
     Object? wrapUnwrapSOL = freezed,
     Object? feeAccount = freezed,
     Object? destinationWallet = freezed,
+    Object? asLegacyTransaction = freezed,
   }) {
     return _then(_$_JupiterSwapRequestDto(
       userPublicKey: null == userPublicKey
@@ -2108,6 +2117,10 @@ class __$$_JupiterSwapRequestDtoCopyWithImpl<$Res>
           ? _value.destinationWallet
           : destinationWallet // ignore: cast_nullable_to_non_nullable
               as String?,
+      asLegacyTransaction: freezed == asLegacyTransaction
+          ? _value.asLegacyTransaction
+          : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -2120,7 +2133,8 @@ class _$_JupiterSwapRequestDto implements _JupiterSwapRequestDto {
       required this.route,
       this.wrapUnwrapSOL,
       this.feeAccount,
-      this.destinationWallet});
+      this.destinationWallet,
+      this.asLegacyTransaction});
 
   factory _$_JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =>
       _$$_JupiterSwapRequestDtoFromJson(json);
@@ -2135,10 +2149,12 @@ class _$_JupiterSwapRequestDto implements _JupiterSwapRequestDto {
   final String? feeAccount;
   @override
   final String? destinationWallet;
+  @override
+  final bool? asLegacyTransaction;
 
   @override
   String toString() {
-    return 'JupiterSwapRequestDto(userPublicKey: $userPublicKey, route: $route, wrapUnwrapSOL: $wrapUnwrapSOL, feeAccount: $feeAccount, destinationWallet: $destinationWallet)';
+    return 'JupiterSwapRequestDto(userPublicKey: $userPublicKey, route: $route, wrapUnwrapSOL: $wrapUnwrapSOL, feeAccount: $feeAccount, destinationWallet: $destinationWallet, asLegacyTransaction: $asLegacyTransaction)';
   }
 
   @override
@@ -2154,13 +2170,15 @@ class _$_JupiterSwapRequestDto implements _JupiterSwapRequestDto {
             (identical(other.feeAccount, feeAccount) ||
                 other.feeAccount == feeAccount) &&
             (identical(other.destinationWallet, destinationWallet) ||
-                other.destinationWallet == destinationWallet));
+                other.destinationWallet == destinationWallet) &&
+            (identical(other.asLegacyTransaction, asLegacyTransaction) ||
+                other.asLegacyTransaction == asLegacyTransaction));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, userPublicKey, route,
-      wrapUnwrapSOL, feeAccount, destinationWallet);
+      wrapUnwrapSOL, feeAccount, destinationWallet, asLegacyTransaction);
 
   @JsonKey(ignore: true)
   @override
@@ -2183,7 +2201,8 @@ abstract class _JupiterSwapRequestDto implements JupiterSwapRequestDto {
       required final JupiterRoute route,
       final bool? wrapUnwrapSOL,
       final String? feeAccount,
-      final String? destinationWallet}) = _$_JupiterSwapRequestDto;
+      final String? destinationWallet,
+      final bool? asLegacyTransaction}) = _$_JupiterSwapRequestDto;
 
   factory _JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =
       _$_JupiterSwapRequestDto.fromJson;
@@ -2199,6 +2218,8 @@ abstract class _JupiterSwapRequestDto implements JupiterSwapRequestDto {
   @override
   String? get destinationWallet;
   @override
+  bool? get asLegacyTransaction;
+  @override
   @JsonKey(ignore: true)
   _$$_JupiterSwapRequestDtoCopyWith<_$_JupiterSwapRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
@@ -2211,9 +2232,7 @@ JupiterSwapResponseDto _$JupiterSwapResponseDtoFromJson(
 
 /// @nodoc
 mixin _$JupiterSwapResponseDto {
-  String? get setupTransaction => throw _privateConstructorUsedError;
   String get swapTransaction => throw _privateConstructorUsedError;
-  String? get cleanupTransaction => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2227,10 +2246,7 @@ abstract class $JupiterSwapResponseDtoCopyWith<$Res> {
           $Res Function(JupiterSwapResponseDto) then) =
       _$JupiterSwapResponseDtoCopyWithImpl<$Res, JupiterSwapResponseDto>;
   @useResult
-  $Res call(
-      {String? setupTransaction,
-      String swapTransaction,
-      String? cleanupTransaction});
+  $Res call({String swapTransaction});
 }
 
 /// @nodoc
@@ -2247,23 +2263,13 @@ class _$JupiterSwapResponseDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? setupTransaction = freezed,
     Object? swapTransaction = null,
-    Object? cleanupTransaction = freezed,
   }) {
     return _then(_value.copyWith(
-      setupTransaction: freezed == setupTransaction
-          ? _value.setupTransaction
-          : setupTransaction // ignore: cast_nullable_to_non_nullable
-              as String?,
       swapTransaction: null == swapTransaction
           ? _value.swapTransaction
           : swapTransaction // ignore: cast_nullable_to_non_nullable
               as String,
-      cleanupTransaction: freezed == cleanupTransaction
-          ? _value.cleanupTransaction
-          : cleanupTransaction // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 }
@@ -2276,10 +2282,7 @@ abstract class _$$_JupiterSwapResponseDtoCopyWith<$Res>
       __$$_JupiterSwapResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? setupTransaction,
-      String swapTransaction,
-      String? cleanupTransaction});
+  $Res call({String swapTransaction});
 }
 
 /// @nodoc
@@ -2294,23 +2297,13 @@ class __$$_JupiterSwapResponseDtoCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? setupTransaction = freezed,
     Object? swapTransaction = null,
-    Object? cleanupTransaction = freezed,
   }) {
     return _then(_$_JupiterSwapResponseDto(
-      setupTransaction: freezed == setupTransaction
-          ? _value.setupTransaction
-          : setupTransaction // ignore: cast_nullable_to_non_nullable
-              as String?,
       swapTransaction: null == swapTransaction
           ? _value.swapTransaction
           : swapTransaction // ignore: cast_nullable_to_non_nullable
               as String,
-      cleanupTransaction: freezed == cleanupTransaction
-          ? _value.cleanupTransaction
-          : cleanupTransaction // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -2318,24 +2311,17 @@ class __$$_JupiterSwapResponseDtoCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_JupiterSwapResponseDto implements _JupiterSwapResponseDto {
-  const _$_JupiterSwapResponseDto(
-      {required this.setupTransaction,
-      required this.swapTransaction,
-      required this.cleanupTransaction});
+  const _$_JupiterSwapResponseDto({required this.swapTransaction});
 
   factory _$_JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =>
       _$$_JupiterSwapResponseDtoFromJson(json);
 
   @override
-  final String? setupTransaction;
-  @override
   final String swapTransaction;
-  @override
-  final String? cleanupTransaction;
 
   @override
   String toString() {
-    return 'JupiterSwapResponseDto(setupTransaction: $setupTransaction, swapTransaction: $swapTransaction, cleanupTransaction: $cleanupTransaction)';
+    return 'JupiterSwapResponseDto(swapTransaction: $swapTransaction)';
   }
 
   @override
@@ -2343,18 +2329,13 @@ class _$_JupiterSwapResponseDto implements _JupiterSwapResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_JupiterSwapResponseDto &&
-            (identical(other.setupTransaction, setupTransaction) ||
-                other.setupTransaction == setupTransaction) &&
             (identical(other.swapTransaction, swapTransaction) ||
-                other.swapTransaction == swapTransaction) &&
-            (identical(other.cleanupTransaction, cleanupTransaction) ||
-                other.cleanupTransaction == cleanupTransaction));
+                other.swapTransaction == swapTransaction));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, setupTransaction, swapTransaction, cleanupTransaction);
+  int get hashCode => Object.hash(runtimeType, swapTransaction);
 
   @JsonKey(ignore: true)
   @override
@@ -2373,19 +2354,13 @@ class _$_JupiterSwapResponseDto implements _JupiterSwapResponseDto {
 
 abstract class _JupiterSwapResponseDto implements JupiterSwapResponseDto {
   const factory _JupiterSwapResponseDto(
-      {required final String? setupTransaction,
-      required final String swapTransaction,
-      required final String? cleanupTransaction}) = _$_JupiterSwapResponseDto;
+      {required final String swapTransaction}) = _$_JupiterSwapResponseDto;
 
   factory _JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =
       _$_JupiterSwapResponseDto.fromJson;
 
   @override
-  String? get setupTransaction;
-  @override
   String get swapTransaction;
-  @override
-  String? get cleanupTransaction;
   @override
   @JsonKey(ignore: true)
   _$$_JupiterSwapResponseDtoCopyWith<_$_JupiterSwapResponseDto> get copyWith =>

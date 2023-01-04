@@ -36,7 +36,7 @@ class JupiterRepository {
         swapMode: swapMode,
         userPublicKey: account,
         onlyDirectRoutes: true,
-        enforceSingleTx: true,
+        asLegacyTransaction: false,
       ),
     );
 
@@ -58,9 +58,7 @@ class JupiterRepository {
         )
         .then(
           (jupiterTxs) => [
-            jupiterTxs.setupTransaction,
             jupiterTxs.swapTransaction,
-            jupiterTxs.cleanupTransaction,
           ],
         )
         .then((txs) => txs.whereNotNull().singleOrNull);
