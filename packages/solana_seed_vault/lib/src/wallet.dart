@@ -18,6 +18,9 @@ import 'package:solana_seed_vault/src/models/signing_response.dart';
 typedef AsyncAuthorizationResult<T> = Future<AuthorizationResult<T>>;
 
 class Wallet implements SeedVaultFlutterApi {
+  @visibleForTesting
+  Wallet(this._platform);
+
   Wallet._(this._platform) {
     SeedVaultFlutterApi.setup(this);
   }

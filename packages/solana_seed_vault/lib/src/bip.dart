@@ -1,15 +1,22 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:solana_seed_vault/src/api.dart';
 import 'package:solana_seed_vault/src/models/bip.dart';
 
 class Bip32DerivationPath {
+  @visibleForTesting
+  Bip32DerivationPath(this._platform);
+
   Bip32DerivationPath._(this._platform);
 
   final Bip32ApiHost _platform;
 
-  static final _instance = Bip32DerivationPath._(Bip32ApiHost());
+  static var _instance = Bip32DerivationPath._(Bip32ApiHost());
 
   static Bip32DerivationPath get instance => _instance;
+
+  @visibleForTesting
+  static set instance(Bip32DerivationPath bip32) => _instance = bip32;
 
   Future<Uri> toUri(Bip32Data data) async {
     final levels = data.levels.map((it) => it.toDto()).toList();
@@ -29,13 +36,19 @@ class Bip32DerivationPath {
 }
 
 class Bip44DerivationPath {
+  @visibleForTesting
+  Bip44DerivationPath(this._platform);
+
   Bip44DerivationPath._(this._platform);
 
   final Bip44ApiHost _platform;
 
-  static final _instance = Bip44DerivationPath._(Bip44ApiHost());
+  static var _instance = Bip44DerivationPath._(Bip44ApiHost());
 
   static Bip44DerivationPath get instance => _instance;
+
+  @visibleForTesting
+  static set instance(Bip44DerivationPath bip44) => _instance = bip44;
 
   Future<Uri> toUri(Bip44Data data) async {
     final dto = Bip44DerivationDto(

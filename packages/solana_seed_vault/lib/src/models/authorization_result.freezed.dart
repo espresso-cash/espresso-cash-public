@@ -37,20 +37,20 @@ mixin _$AuthorizationResult<T> {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AuthorizationResultSuccess<T> value) success,
-    required TResult Function(_AuthorizationResultFailed<T> value) failed,
+    required TResult Function(AuthorizationResultSuccess<T> value) success,
+    required TResult Function(AuthorizationResultFailed<T> value) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AuthorizationResultSuccess<T> value)? success,
-    TResult? Function(_AuthorizationResultFailed<T> value)? failed,
+    TResult? Function(AuthorizationResultSuccess<T> value)? success,
+    TResult? Function(AuthorizationResultFailed<T> value)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AuthorizationResultSuccess<T> value)? success,
-    TResult Function(_AuthorizationResultFailed<T> value)? failed,
+    TResult Function(AuthorizationResultSuccess<T> value)? success,
+    TResult Function(AuthorizationResultFailed<T> value)? failed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -76,23 +76,23 @@ class _$AuthorizationResultCopyWithImpl<T, $Res,
 }
 
 /// @nodoc
-abstract class _$$_AuthorizationResultSuccessCopyWith<T, $Res> {
-  factory _$$_AuthorizationResultSuccessCopyWith(
-          _$_AuthorizationResultSuccess<T> value,
-          $Res Function(_$_AuthorizationResultSuccess<T>) then) =
-      __$$_AuthorizationResultSuccessCopyWithImpl<T, $Res>;
+abstract class _$$AuthorizationResultSuccessCopyWith<T, $Res> {
+  factory _$$AuthorizationResultSuccessCopyWith(
+          _$AuthorizationResultSuccess<T> value,
+          $Res Function(_$AuthorizationResultSuccess<T>) then) =
+      __$$AuthorizationResultSuccessCopyWithImpl<T, $Res>;
   @useResult
   $Res call({T data});
 }
 
 /// @nodoc
-class __$$_AuthorizationResultSuccessCopyWithImpl<T, $Res>
+class __$$AuthorizationResultSuccessCopyWithImpl<T, $Res>
     extends _$AuthorizationResultCopyWithImpl<T, $Res,
-        _$_AuthorizationResultSuccess<T>>
-    implements _$$_AuthorizationResultSuccessCopyWith<T, $Res> {
-  __$$_AuthorizationResultSuccessCopyWithImpl(
-      _$_AuthorizationResultSuccess<T> _value,
-      $Res Function(_$_AuthorizationResultSuccess<T>) _then)
+        _$AuthorizationResultSuccess<T>>
+    implements _$$AuthorizationResultSuccessCopyWith<T, $Res> {
+  __$$AuthorizationResultSuccessCopyWithImpl(
+      _$AuthorizationResultSuccess<T> _value,
+      $Res Function(_$AuthorizationResultSuccess<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -100,7 +100,7 @@ class __$$_AuthorizationResultSuccessCopyWithImpl<T, $Res>
   $Res call({
     Object? data = null,
   }) {
-    return _then(_$_AuthorizationResultSuccess<T>(
+    return _then(_$AuthorizationResultSuccess<T>(
       null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -111,9 +111,8 @@ class __$$_AuthorizationResultSuccessCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_AuthorizationResultSuccess<T>
-    implements _AuthorizationResultSuccess<T> {
-  const _$_AuthorizationResultSuccess(this.data);
+class _$AuthorizationResultSuccess<T> implements AuthorizationResultSuccess<T> {
+  const _$AuthorizationResultSuccess(this.data);
 
   @override
   final T data;
@@ -127,7 +126,7 @@ class _$_AuthorizationResultSuccess<T>
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthorizationResultSuccess<T> &&
+            other is _$AuthorizationResultSuccess<T> &&
             const DeepCollectionEquality().equals(other.data, data));
   }
 
@@ -138,9 +137,9 @@ class _$_AuthorizationResultSuccess<T>
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthorizationResultSuccessCopyWith<T, _$_AuthorizationResultSuccess<T>>
-      get copyWith => __$$_AuthorizationResultSuccessCopyWithImpl<T,
-          _$_AuthorizationResultSuccess<T>>(this, _$identity);
+  _$$AuthorizationResultSuccessCopyWith<T, _$AuthorizationResultSuccess<T>>
+      get copyWith => __$$AuthorizationResultSuccessCopyWithImpl<T,
+          _$AuthorizationResultSuccess<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -176,8 +175,8 @@ class _$_AuthorizationResultSuccess<T>
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AuthorizationResultSuccess<T> value) success,
-    required TResult Function(_AuthorizationResultFailed<T> value) failed,
+    required TResult Function(AuthorizationResultSuccess<T> value) success,
+    required TResult Function(AuthorizationResultFailed<T> value) failed,
   }) {
     return success(this);
   }
@@ -185,8 +184,8 @@ class _$_AuthorizationResultSuccess<T>
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AuthorizationResultSuccess<T> value)? success,
-    TResult? Function(_AuthorizationResultFailed<T> value)? failed,
+    TResult? Function(AuthorizationResultSuccess<T> value)? success,
+    TResult? Function(AuthorizationResultFailed<T> value)? failed,
   }) {
     return success?.call(this);
   }
@@ -194,8 +193,8 @@ class _$_AuthorizationResultSuccess<T>
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AuthorizationResultSuccess<T> value)? success,
-    TResult Function(_AuthorizationResultFailed<T> value)? failed,
+    TResult Function(AuthorizationResultSuccess<T> value)? success,
+    TResult Function(AuthorizationResultFailed<T> value)? failed,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -205,35 +204,34 @@ class _$_AuthorizationResultSuccess<T>
   }
 }
 
-abstract class _AuthorizationResultSuccess<T>
-    implements AuthorizationResult<T> {
-  const factory _AuthorizationResultSuccess(final T data) =
-      _$_AuthorizationResultSuccess<T>;
+abstract class AuthorizationResultSuccess<T> implements AuthorizationResult<T> {
+  const factory AuthorizationResultSuccess(final T data) =
+      _$AuthorizationResultSuccess<T>;
 
   T get data;
   @JsonKey(ignore: true)
-  _$$_AuthorizationResultSuccessCopyWith<T, _$_AuthorizationResultSuccess<T>>
+  _$$AuthorizationResultSuccessCopyWith<T, _$AuthorizationResultSuccess<T>>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_AuthorizationResultFailedCopyWith<T, $Res> {
-  factory _$$_AuthorizationResultFailedCopyWith(
-          _$_AuthorizationResultFailed<T> value,
-          $Res Function(_$_AuthorizationResultFailed<T>) then) =
-      __$$_AuthorizationResultFailedCopyWithImpl<T, $Res>;
+abstract class _$$AuthorizationResultFailedCopyWith<T, $Res> {
+  factory _$$AuthorizationResultFailedCopyWith(
+          _$AuthorizationResultFailed<T> value,
+          $Res Function(_$AuthorizationResultFailed<T>) then) =
+      __$$AuthorizationResultFailedCopyWithImpl<T, $Res>;
   @useResult
   $Res call({Exception e});
 }
 
 /// @nodoc
-class __$$_AuthorizationResultFailedCopyWithImpl<T, $Res>
+class __$$AuthorizationResultFailedCopyWithImpl<T, $Res>
     extends _$AuthorizationResultCopyWithImpl<T, $Res,
-        _$_AuthorizationResultFailed<T>>
-    implements _$$_AuthorizationResultFailedCopyWith<T, $Res> {
-  __$$_AuthorizationResultFailedCopyWithImpl(
-      _$_AuthorizationResultFailed<T> _value,
-      $Res Function(_$_AuthorizationResultFailed<T>) _then)
+        _$AuthorizationResultFailed<T>>
+    implements _$$AuthorizationResultFailedCopyWith<T, $Res> {
+  __$$AuthorizationResultFailedCopyWithImpl(
+      _$AuthorizationResultFailed<T> _value,
+      $Res Function(_$AuthorizationResultFailed<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -241,7 +239,7 @@ class __$$_AuthorizationResultFailedCopyWithImpl<T, $Res>
   $Res call({
     Object? e = null,
   }) {
-    return _then(_$_AuthorizationResultFailed<T>(
+    return _then(_$AuthorizationResultFailed<T>(
       null == e
           ? _value.e
           : e // ignore: cast_nullable_to_non_nullable
@@ -252,8 +250,8 @@ class __$$_AuthorizationResultFailedCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_AuthorizationResultFailed<T> implements _AuthorizationResultFailed<T> {
-  const _$_AuthorizationResultFailed(this.e);
+class _$AuthorizationResultFailed<T> implements AuthorizationResultFailed<T> {
+  const _$AuthorizationResultFailed(this.e);
 
   @override
   final Exception e;
@@ -267,7 +265,7 @@ class _$_AuthorizationResultFailed<T> implements _AuthorizationResultFailed<T> {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthorizationResultFailed<T> &&
+            other is _$AuthorizationResultFailed<T> &&
             (identical(other.e, e) || other.e == e));
   }
 
@@ -277,9 +275,9 @@ class _$_AuthorizationResultFailed<T> implements _AuthorizationResultFailed<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthorizationResultFailedCopyWith<T, _$_AuthorizationResultFailed<T>>
-      get copyWith => __$$_AuthorizationResultFailedCopyWithImpl<T,
-          _$_AuthorizationResultFailed<T>>(this, _$identity);
+  _$$AuthorizationResultFailedCopyWith<T, _$AuthorizationResultFailed<T>>
+      get copyWith => __$$AuthorizationResultFailedCopyWithImpl<T,
+          _$AuthorizationResultFailed<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -315,8 +313,8 @@ class _$_AuthorizationResultFailed<T> implements _AuthorizationResultFailed<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AuthorizationResultSuccess<T> value) success,
-    required TResult Function(_AuthorizationResultFailed<T> value) failed,
+    required TResult Function(AuthorizationResultSuccess<T> value) success,
+    required TResult Function(AuthorizationResultFailed<T> value) failed,
   }) {
     return failed(this);
   }
@@ -324,8 +322,8 @@ class _$_AuthorizationResultFailed<T> implements _AuthorizationResultFailed<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AuthorizationResultSuccess<T> value)? success,
-    TResult? Function(_AuthorizationResultFailed<T> value)? failed,
+    TResult? Function(AuthorizationResultSuccess<T> value)? success,
+    TResult? Function(AuthorizationResultFailed<T> value)? failed,
   }) {
     return failed?.call(this);
   }
@@ -333,8 +331,8 @@ class _$_AuthorizationResultFailed<T> implements _AuthorizationResultFailed<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AuthorizationResultSuccess<T> value)? success,
-    TResult Function(_AuthorizationResultFailed<T> value)? failed,
+    TResult Function(AuthorizationResultSuccess<T> value)? success,
+    TResult Function(AuthorizationResultFailed<T> value)? failed,
     required TResult orElse(),
   }) {
     if (failed != null) {
@@ -344,12 +342,12 @@ class _$_AuthorizationResultFailed<T> implements _AuthorizationResultFailed<T> {
   }
 }
 
-abstract class _AuthorizationResultFailed<T> implements AuthorizationResult<T> {
-  const factory _AuthorizationResultFailed(final Exception e) =
-      _$_AuthorizationResultFailed<T>;
+abstract class AuthorizationResultFailed<T> implements AuthorizationResult<T> {
+  const factory AuthorizationResultFailed(final Exception e) =
+      _$AuthorizationResultFailed<T>;
 
   Exception get e;
   @JsonKey(ignore: true)
-  _$$_AuthorizationResultFailedCopyWith<T, _$_AuthorizationResultFailed<T>>
+  _$$AuthorizationResultFailedCopyWith<T, _$AuthorizationResultFailed<T>>
       get copyWith => throw _privateConstructorUsedError;
 }
