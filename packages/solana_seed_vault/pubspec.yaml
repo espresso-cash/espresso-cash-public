@@ -25,6 +25,7 @@ dev_dependencies:
   freezed: ^2.1.0+1
   json_serializable: ^6.3.1
   mews_pedantic: ^0.8.0
+  mockito: ^5.3.2
   pigeon: ^3.2.6
 
 flutter:
