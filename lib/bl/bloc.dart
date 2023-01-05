@@ -6,6 +6,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
+import 'package:wallet_example/bl/signature_verifier.dart';
 
 part 'bloc.freezed.dart';
 
@@ -27,8 +28,9 @@ class SeedVaultState with _$SeedVaultState {
 }
 
 class SeedVaultBloc extends Cubit<SeedVaultState> {
-  SeedVaultBloc() : super(const SeedVaultState.none());
+  SeedVaultBloc(this._signatureVerifier) : super(const SeedVaultState.none());
 
+  final SignatureVerifier _signatureVerifier;
   late StreamSubscription<SeedVaultNotification> _subscription;
 
   @override
@@ -90,7 +92,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
             requestedSignatures: [account.derivationPath],
           ),
         ],
-      ).letAsync((it) => it.map((it) => it.single));
+      );
 
   AsyncResult<String> signTransactionWithAccount(
     AuthToken authToken,
@@ -104,10 +106,9 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
             requestedSignatures: [account.derivationPath],
           ),
         ],
-      ).letAsync((it) => it.map((it) => it.single));
+      );
 
-  AsyncResult<List<String>> signMessages(AuthToken authToken) async =>
-      _signMessages(
+  AsyncResult<String> signMessages(AuthToken authToken) async => _signMessages(
         authToken: authToken,
         signingRequests: await _generateSigningRequests(
           payloadCount: _maxSigningRequests,
@@ -115,7 +116,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         ),
       );
 
-  AsyncResult<List<String>> signTransactions(AuthToken authToken) async =>
+  AsyncResult<String> signTransactions(AuthToken authToken) async =>
       _signTransactions(
         authToken: authToken,
         signingRequests: await _generateSigningRequests(
@@ -130,7 +131,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         await _generateUris(_maxRequestedPublicKeys),
       );
 
-  AsyncResult<List<String>> exceedMaxSigningRequests(
+  AsyncResult<String> exceedMaxSigningRequests(
     AuthToken authToken,
   ) async =>
       _signTransactions(
@@ -141,7 +142,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         ),
       );
 
-  AsyncResult<List<String>> exceedMaxRequestedSignatures(
+  AsyncResult<String> exceedMaxRequestedSignatures(
     AuthToken authToken,
   ) async =>
       _signTransactions(
@@ -234,7 +235,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     }
   }
 
-  AsyncResult<List<String>> _signMessages({
+  AsyncResult<String> _signMessages({
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,
   }) async {
@@ -243,12 +244,16 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       signingRequests: signingRequests,
     );
 
-    return result
-        .toEither()
-        .map((it) => it.map((it) => it.signatures.toString()).toList());
+    return result.toEither().mapAsync(
+          (signingResponses) => _signatureVerifier.verify(
+            authToken: authToken,
+            signingRequests: signingRequests,
+            signingResponses: signingResponses,
+          ),
+        );
   }
 
-  AsyncResult<List<String>> _signTransactions({
+  AsyncResult<String> _signTransactions({
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,
   }) async {
@@ -257,9 +262,13 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       signingRequests: signingRequests,
     );
 
-    return result
-        .toEither()
-        .map((it) => it.map((it) => it.signatures.toString()).toList());
+    return result.toEither().mapAsync(
+          (signingResponses) => _signatureVerifier.verify(
+            authToken: authToken,
+            signingRequests: signingRequests,
+            signingResponses: signingResponses,
+          ),
+        );
   }
 
   AsyncResult<List<String>> _requestPublicKeys(

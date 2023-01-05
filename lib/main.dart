@@ -2,6 +2,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_example/bl/bloc.dart';
+import 'package:wallet_example/bl/signature_verifier.dart';
 import 'package:wallet_example/presentation/limits_section.dart';
 import 'package:wallet_example/presentation/seed_list.dart';
 import 'package:wallet_example/presentation/seed_section.dart';
@@ -9,7 +10,7 @@ import 'package:wallet_example/presentation/seed_section.dart';
 void main() {
   runApp(
     BlocProvider<SeedVaultBloc>(
-      create: (context) => SeedVaultBloc()..init(),
+      create: (context) => SeedVaultBloc(SignatureVerifier())..init(),
       child: const MyApp(),
     ),
   );

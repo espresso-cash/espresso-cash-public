@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  bip39:
+    dependency: transitive
+    description:
+      name: bip39
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   bloc:
     dependency: "direct main"
     description:
@@ -57,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  borsh_annotation:
+    dependency: transitive
+    description:
+      name: borsh_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1+1"
   build:
     dependency: transitive
     description:
@@ -162,6 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  cryptography:
+    dependency: transitive
+    description:
+      name: cryptography
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   csslib:
     dependency: transitive
     description:
@@ -183,6 +204,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
+  decimal:
+    dependency: transitive
+    description:
+      name: decimal
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.2"
   dfunc:
     dependency: "direct main"
     description:
@@ -190,6 +218,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.0+1"
+  ed25519_hd_key:
+    dependency: transitive
+    description:
+      name: ed25519_hd_key
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
   fake_async:
     dependency: transitive
     description:
@@ -263,6 +298,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  hex:
+    dependency: transitive
+    description:
+      name: hex
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   html:
     dependency: transitive
     description:
@@ -382,6 +424,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.0"
+  pinenacl:
+    dependency: transitive
+    description:
+      name: pinenacl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.4"
   platform:
     dependency: transitive
     description:
@@ -396,6 +445,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.3"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.6.2"
   pool:
     dependency: transitive
     description:
@@ -438,6 +494,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
+  rational:
+    dependency: transitive
+    description:
+      name: rational
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.2"
   shelf:
     dependency: transitive
     description:
@@ -457,6 +520,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  solana:
+    dependency: "direct main"
+    description:
+      name: solana
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.26.3"
   solana_seed_vault:
     dependency: "direct main"
     description:
