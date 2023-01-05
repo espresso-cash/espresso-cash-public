@@ -38,14 +38,14 @@ class _LimitsSectionState extends State<LimitsSection> {
         (authToken) => context
             .read<SeedVaultBloc>()
             .exceedMaxSigningRequests(authToken)
-            .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n')))),
+            .then((it) => showSnackBar(context, it)),
       );
 
   void _onMaxRequestedSignaturesExceeded() => _validate()?.let(
         (authToken) => context
             .read<SeedVaultBloc>()
             .exceedMaxRequestedSignatures(authToken)
-            .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n')))),
+            .then((it) => showSnackBar(context, it)),
       );
 
   @override

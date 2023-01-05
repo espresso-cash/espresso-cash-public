@@ -53,14 +53,14 @@ class _SeedItemState extends State<SeedItem> {
     context
         .read<SeedVaultBloc>()
         .signMessages(widget.seed.authToken)
-        .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
+        .then((it) => showSnackBar(context, it));
   }
 
   void _onSignTransactions() {
     context
         .read<SeedVaultBloc>()
         .signTransactions(widget.seed.authToken)
-        .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
+        .then((it) => showSnackBar(context, it));
   }
 
   @override
