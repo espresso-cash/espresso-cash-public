@@ -571,6 +571,34 @@ void main() {
       expect(feeCalculator?.feeCalculator.lamportsPerSignature, greaterThan(0));
     });
 
+    test('Call to isBlockhashValid() succeeds', () async {
+      final recentBlockhash = await client.rpcClient.getRecentBlockhash();
+      final isBlockhashValid = await client.rpcClient.isBlockhashValid(
+        recentBlockhash.blockhash,
+      );
+
+      expect(isBlockhashValid, isNotNull);
+      expect(isBlockhashValid, true);
+    });
+
+    test('Call to getHighestSnapshotSlot() succeeds', () async {
+      final snapshot = await client.rpcClient.getHighestSnapshotSlot();
+      expect(snapshot, isNotNull);
+    });
+
+    test('Call to getLatestBlockhash() succeeds', () async {
+      final blockhash = await client.rpcClient.getLatestBlockhash();
+      expect(blockhash, isNotNull);
+    });
+
+    test('Call to getStakeMinimumDelegation() succeeds', () async {
+      final stakeMinimumDelegation =
+          await client.rpcClient.getStakeMinimumDelegation();
+
+      expect(stakeMinimumDelegation, isNotNull);
+      expect(stakeMinimumDelegation, isA<int>());
+    });
+
     test('Call to getFees() succeeds', () async {
       final fees = await client.rpcClient.getFees();
       expect(fees.lastValidBlockHeight, greaterThan(0));

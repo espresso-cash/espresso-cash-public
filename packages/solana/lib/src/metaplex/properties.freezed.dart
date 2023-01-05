@@ -245,7 +245,9 @@ class _$Unknown implements Unknown {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnknownToJson(this);
+    return _$$UnknownToJson(
+      this,
+    );
   }
 }
 
@@ -414,7 +416,9 @@ class _$Video implements Video {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$VideoToJson(this);
+    return _$$VideoToJson(
+      this,
+    );
   }
 }
 
@@ -423,7 +427,7 @@ abstract class Video implements Properties {
 
   factory Video.fromJson(Map<String, dynamic> json) = _$Video.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$VideoCopyWith<_$Video> get copyWith => throw _privateConstructorUsedError;
 }
@@ -587,7 +591,9 @@ class _$Image implements Image {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ImageToJson(this);
+    return _$$ImageToJson(
+      this,
+    );
   }
 }
 
@@ -596,7 +602,7 @@ abstract class Image implements Properties {
 
   factory Image.fromJson(Map<String, dynamic> json) = _$Image.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$ImageCopyWith<_$Image> get copyWith => throw _privateConstructorUsedError;
 }
@@ -761,7 +767,9 @@ class _$Model3D implements Model3D {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$Model3DToJson(this);
+    return _$$Model3DToJson(
+      this,
+    );
   }
 }
 
@@ -770,7 +778,7 @@ abstract class Model3D implements Properties {
 
   factory Model3D.fromJson(Map<String, dynamic> json) = _$Model3D.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$Model3DCopyWith<_$Model3D> get copyWith =>
       throw _privateConstructorUsedError;
@@ -935,7 +943,9 @@ class _$Audio implements Audio {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AudioToJson(this);
+    return _$$AudioToJson(
+      this,
+    );
   }
 }
 
@@ -944,7 +954,7 @@ abstract class Audio implements Properties {
 
   factory Audio.fromJson(Map<String, dynamic> json) = _$Audio.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$AudioCopyWith<_$Audio> get copyWith => throw _privateConstructorUsedError;
 }
@@ -1108,7 +1118,9 @@ class _$Html implements Html {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$HtmlToJson(this);
+    return _$$HtmlToJson(
+      this,
+    );
   }
 }
 
@@ -1117,7 +1129,7 @@ abstract class Html implements Properties {
 
   factory Html.fromJson(Map<String, dynamic> json) = _$Html.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$HtmlCopyWith<_$Html> get copyWith => throw _privateConstructorUsedError;
 }

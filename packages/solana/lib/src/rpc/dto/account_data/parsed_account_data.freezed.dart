@@ -248,7 +248,9 @@ class _$ParsedSplTokenProgramAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenProgramAccountDataToJson(this);
+    return _$$ParsedSplTokenProgramAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -260,7 +262,7 @@ abstract class ParsedSplTokenProgramAccountData implements ParsedAccountData {
   factory ParsedSplTokenProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedSplTokenProgramAccountData.fromJson;
 
-  SplTokenProgramAccountData get parsed => throw _privateConstructorUsedError;
+  SplTokenProgramAccountData get parsed;
   @JsonKey(ignore: true)
   _$$ParsedSplTokenProgramAccountDataCopyWith<
           _$ParsedSplTokenProgramAccountData>
@@ -420,7 +422,9 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedStakeProgramAccountDataToJson(this);
+    return _$$ParsedStakeProgramAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -431,7 +435,7 @@ abstract class ParsedStakeProgramAccountData implements ParsedAccountData {
   factory ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedStakeProgramAccountData.fromJson;
 
-  StakeProgramAccountData get parsed => throw _privateConstructorUsedError;
+  StakeProgramAccountData get parsed;
   @JsonKey(ignore: true)
   _$$ParsedStakeProgramAccountDataCopyWith<_$ParsedStakeProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;
@@ -587,7 +591,9 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnsupportedProgramAccountDataToJson(this);
+    return _$$UnsupportedProgramAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -598,7 +604,7 @@ abstract class UnsupportedProgramAccountData implements ParsedAccountData {
   factory UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$UnsupportedProgramAccountData.fromJson;
 
-  Map<String, dynamic> get parsed => throw _privateConstructorUsedError;
+  Map<String, dynamic> get parsed;
   @JsonKey(ignore: true)
   _$$UnsupportedProgramAccountDataCopyWith<_$UnsupportedProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;

@@ -123,7 +123,7 @@ abstract class _CompiledMessage extends CompiledMessage {
   const _CompiledMessage._() : super._();
 
   @override
-  ByteArray get data => throw _privateConstructorUsedError;
+  ByteArray get data;
   @override
   @JsonKey(ignore: true)
   _$$_CompiledMessageCopyWith<_$_CompiledMessage> get copyWith =>

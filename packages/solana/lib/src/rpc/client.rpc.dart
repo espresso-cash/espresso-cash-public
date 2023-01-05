@@ -16,9 +16,13 @@ class _RpcClient implements RpcClient {
   Future<Account?> getAccountInfo(String pubKey,
       {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
-      DataSlice? dataSlice}) async {
+      DataSlice? dataSlice,
+      num? minContextSlot}) async {
     final config = GetAccountInfoConfig(
-            commitment: commitment, encoding: encoding, dataSlice: dataSlice)
+            commitment: commitment,
+            encoding: encoding,
+            dataSlice: dataSlice,
+            minContextSlot: minContextSlot)
         .toJson();
     final response = await _jsonRpcClient.request(
       'getAccountInfo',
@@ -35,8 +39,11 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int> getBalance(String pubKey, {Commitment? commitment}) async {
-    final config = GetBalanceConfig(commitment: commitment).toJson();
+  Future<int> getBalance(String pubKey,
+      {Commitment? commitment, num? minContextSlot}) async {
+    final config =
+        GetBalanceConfig(commitment: commitment, minContextSlot: minContextSlot)
+            .toJson();
     final response = await _jsonRpcClient.request(
       'getBalance',
       params: <dynamic>[
@@ -54,12 +61,14 @@ class _RpcClient implements RpcClient {
       {Encoding? encoding,
       TransactionDetailLevel? transactionDetails,
       bool? rewards = false,
-      Commitment? commitment = Commitment.finalized}) async {
+      Commitment? commitment = Commitment.finalized,
+      num? maxSupportedTransactionVersion}) async {
     final config = GetBlockConfig(
             encoding: encoding,
             transactionDetails: transactionDetails,
             rewards: rewards,
-            commitment: commitment)
+            commitment: commitment,
+            maxSupportedTransactionVersion: maxSupportedTransactionVersion)
         .toJson();
     final response = await _jsonRpcClient.request(
       'getBlock',
@@ -76,8 +85,11 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int> getBlockHeight({Commitment? commitment}) async {
-    final config = GetBlockHeightConfig(commitment: commitment).toJson();
+  Future<int> getBlockHeight(
+      {Commitment? commitment, num? minContextSlot}) async {
+    final config = GetBlockHeightConfig(
+            commitment: commitment, minContextSlot: minContextSlot)
+        .toJson();
     final response = await _jsonRpcClient.request(
       'getBlockHeight',
       params: <dynamic>[
@@ -190,8 +202,11 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<EpochInfo> getEpochInfo({Commitment? commitment}) async {
-    final config = GetEpochInfoConfig(commitment: commitment).toJson();
+  Future<EpochInfo> getEpochInfo(
+      {Commitment? commitment, num? minContextSlot}) async {
+    final config = GetEpochInfoConfig(
+            commitment: commitment, minContextSlot: minContextSlot)
+        .toJson();
     final response = await _jsonRpcClient.request(
       'getEpochInfo',
       params: <dynamic>[
@@ -218,51 +233,21 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<FeeCalculatorForBlockhash?> getFeeCalculatorForBlockhash(
-      String blockhash,
-      {Commitment? commitment}) async {
-    final config =
-        GetFeeCalculatorForBlockhashConfig(commitment: commitment).toJson();
+  Future<int?> getFeeForMessage(String message,
+      {Commitment? commitment, num? minContextSlot}) async {
+    final config = GetFeeForMessageConfig(
+            commitment: commitment, minContextSlot: minContextSlot)
+        .toJson();
     final response = await _jsonRpcClient.request(
-      'getFeeCalculatorForBlockhash',
+      'getFeeForMessage',
       params: <dynamic>[
-        blockhash,
-        if (config.isNotEmpty) config,
-      ],
-    );
-    final dynamic value = unwrapAndGetResult(response);
-
-    return (value == null)
-        ? null
-        : FeeCalculatorForBlockhash.fromJson(value as Map<String, dynamic>);
-  }
-
-  @override
-  Future<FeeRateGovernor> getFeeRateGovernor() async {
-    final config = <String, dynamic>{};
-    final response = await _jsonRpcClient.request(
-      'getFeeRateGovernor',
-      params: <dynamic>[
+        message,
         if (config.isNotEmpty) config,
       ],
     );
     final dynamic value = getResult(response);
 
-    return FeeRateGovernor.fromJson(value as Map<String, dynamic>);
-  }
-
-  @override
-  Future<Fees> getFees({Commitment? commitment}) async {
-    final config = GetFeesConfig(commitment: commitment).toJson();
-    final response = await _jsonRpcClient.request(
-      'getFees',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
-    );
-    final dynamic value = unwrapAndGetResult(response);
-
-    return Fees.fromJson(value as Map<String, dynamic>);
+    return (value == null) ? null : value as int;
   }
 
   @override
@@ -305,6 +290,20 @@ class _RpcClient implements RpcClient {
     final dynamic value = getResult(response);
 
     return value as String;
+  }
+
+  @override
+  Future<HighestSnapshotSlot> getHighestSnapshotSlot() async {
+    final config = <String, dynamic>{};
+    final response = await _jsonRpcClient.request(
+      'getHighestSnapshotSlot',
+      params: <dynamic>[
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = getResult(response);
+
+    return HighestSnapshotSlot.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -351,9 +350,13 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<InflationReward>> getInflationReward(
-      List<String> addresses) async {
-    final config = <String, dynamic>{};
+  Future<List<InflationReward>> getInflationReward(List<String> addresses,
+      {Commitment? commitment, int? epoch, num? minContextSlot}) async {
+    final config = GetInflationRewardConfig(
+            commitment: commitment,
+            epoch: epoch,
+            minContextSlot: minContextSlot)
+        .toJson();
     final response = await _jsonRpcClient.request(
       'getInflationReward',
       params: <dynamic>[
@@ -384,6 +387,23 @@ class _RpcClient implements RpcClient {
 
     return fromJsonArray(
         value, (dynamic v) => LargeAccount.fromJson(v as Map<String, dynamic>));
+  }
+
+  @override
+  Future<LatestBlockhash> getLatestBlockhash(
+      {Commitment? commitment, num? minContextSlot}) async {
+    final config = GetLatestBlockhashConfig(
+            commitment: commitment, minContextSlot: minContextSlot)
+        .toJson();
+    final response = await _jsonRpcClient.request(
+      'getLatestBlockhash',
+      params: <dynamic>[
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = unwrapAndGetResult(response);
+
+    return LatestBlockhash.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -455,9 +475,13 @@ class _RpcClient implements RpcClient {
   Future<List<Account?>> getMultipleAccounts(List<String> pubKeys,
       {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
-      DataSlice? dataSlice}) async {
+      DataSlice? dataSlice,
+      num? minContextSlot}) async {
     final config = GetMultipleAccountsConfig(
-            commitment: commitment, encoding: encoding, dataSlice: dataSlice)
+            commitment: commitment,
+            encoding: encoding,
+            dataSlice: dataSlice,
+            minContextSlot: minContextSlot)
         .toJson();
     final response = await _jsonRpcClient.request(
       'getMultipleAccounts',
@@ -479,12 +503,16 @@ class _RpcClient implements RpcClient {
       {Commitment? commitment = Commitment.finalized,
       required Encoding encoding,
       DataSlice? dataSlice,
-      List<ProgramDataFilter>? filters}) async {
+      List<ProgramDataFilter>? filters,
+      bool? withContext,
+      num? minContextSlot}) async {
     final config = GetProgramAccountsConfig(
             commitment: commitment,
             encoding: encoding,
             dataSlice: dataSlice,
-            filters: filters)
+            filters: filters,
+            withContext: withContext,
+            minContextSlot: minContextSlot)
         .toJson();
     final response = await _jsonRpcClient.request(
       'getProgramAccounts',
@@ -497,20 +525,6 @@ class _RpcClient implements RpcClient {
 
     return fromJsonArray(value,
         (dynamic v) => ProgramAccount.fromJson(v as Map<String, dynamic>));
-  }
-
-  @override
-  Future<RecentBlockhash> getRecentBlockhash({Commitment? commitment}) async {
-    final config = GetRecentBlockhashConfig(commitment: commitment).toJson();
-    final response = await _jsonRpcClient.request(
-      'getRecentBlockhash',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
-    );
-    final dynamic value = unwrapAndGetResult(response);
-
-    return RecentBlockhash.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -530,28 +544,19 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int> getSnapshotSlot() async {
-    final config = <String, dynamic>{};
-    final response = await _jsonRpcClient.request(
-      'getSnapshotSlot',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
-    );
-    final dynamic value = getResult(response);
-
-    return value as int;
-  }
-
-  @override
   Future<List<TransactionSignatureInformation>> getSignaturesForAddress(
       String pubKey,
       {int? limit,
       String? before,
       String? until,
-      Commitment? commitment = Commitment.finalized}) async {
+      Commitment? commitment = Commitment.finalized,
+      num? minContextSlot}) async {
     final config = GetSignaturesForAddressConfig(
-            limit: limit, before: before, until: until, commitment: commitment)
+            limit: limit,
+            before: before,
+            until: until,
+            commitment: commitment,
+            minContextSlot: minContextSlot)
         .toJson();
     final response = await _jsonRpcClient.request(
       'getSignaturesForAddress',
@@ -591,8 +596,10 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int> getSlot({Commitment? commitment}) async {
-    final config = GetSlotConfig(commitment: commitment).toJson();
+  Future<int> getSlot({Commitment? commitment, num? minContextSlot}) async {
+    final config =
+        GetSlotConfig(commitment: commitment, minContextSlot: minContextSlot)
+            .toJson();
     final response = await _jsonRpcClient.request(
       'getSlot',
       params: <dynamic>[
@@ -605,8 +612,11 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<String> getSlotLeader({Commitment? commitment}) async {
-    final config = GetSlotLeaderConfig(commitment: commitment).toJson();
+  Future<String> getSlotLeader(
+      {Commitment? commitment, num? minContextSlot}) async {
+    final config = GetSlotLeaderConfig(
+            commitment: commitment, minContextSlot: minContextSlot)
+        .toJson();
     final response = await _jsonRpcClient.request(
       'getSlotLeader',
       params: <dynamic>[
@@ -636,9 +646,14 @@ class _RpcClient implements RpcClient {
 
   @override
   Future<StakeActivation> getStakeActivation(String pubKey,
-      {Commitment? commitment = Commitment.finalized, int? epoch}) async {
-    final config =
-        GetStakeActivationConfig(commitment: commitment, epoch: epoch).toJson();
+      {Commitment? commitment = Commitment.finalized,
+      int? epoch,
+      num? minContextSlot}) async {
+    final config = GetStakeActivationConfig(
+            commitment: commitment,
+            epoch: epoch,
+            minContextSlot: minContextSlot)
+        .toJson();
     final response = await _jsonRpcClient.request(
       'getStakeActivation',
       params: <dynamic>[
@@ -649,6 +664,21 @@ class _RpcClient implements RpcClient {
     final dynamic value = getResult(response);
 
     return StakeActivation.fromJson(value as Map<String, dynamic>);
+  }
+
+  @override
+  Future<int> getStakeMinimumDelegation({Commitment? commitment}) async {
+    final config =
+        GetStakeMinimumDelegationConfig(commitment: commitment).toJson();
+    final response = await _jsonRpcClient.request(
+      'getStakeMinimumDelegation',
+      params: <dynamic>[
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = unwrapAndGetResult(response);
+
+    return value as int;
   }
 
   @override
@@ -693,9 +723,13 @@ class _RpcClient implements RpcClient {
       String pubKey, TokenAccountsFilter filter,
       {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
-      DataSlice? dataSlice}) async {
+      DataSlice? dataSlice,
+      num? minContextSlot}) async {
     final config = GetTokenAccountsByDelegateConfig(
-            commitment: commitment, encoding: encoding, dataSlice: dataSlice)
+            commitment: commitment,
+            encoding: encoding,
+            dataSlice: dataSlice,
+            minContextSlot: minContextSlot)
         .toJson();
     final response = await _jsonRpcClient.request(
       'getTokenAccountsByDelegate',
@@ -716,9 +750,13 @@ class _RpcClient implements RpcClient {
       String pubKey, TokenAccountsFilter filter,
       {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
-      DataSlice? dataSlice}) async {
+      DataSlice? dataSlice,
+      num? minContextSlot}) async {
     final config = GetTokenAccountsByOwnerConfig(
-            commitment: commitment, encoding: encoding, dataSlice: dataSlice)
+            commitment: commitment,
+            encoding: encoding,
+            dataSlice: dataSlice,
+            minContextSlot: minContextSlot)
         .toJson();
     final response = await _jsonRpcClient.request(
       'getTokenAccountsByOwner',
@@ -771,10 +809,13 @@ class _RpcClient implements RpcClient {
   @override
   Future<TransactionDetails?> getTransaction(String signature,
       {Encoding? encoding,
-      Commitment? commitment = Commitment.finalized}) async {
-    final config =
-        GetTransactionConfig(encoding: encoding, commitment: commitment)
-            .toJson();
+      Commitment? commitment = Commitment.finalized,
+      num? maxSupportedTransactionVersion}) async {
+    final config = GetTransactionConfig(
+            encoding: encoding,
+            commitment: commitment,
+            maxSupportedTransactionVersion: maxSupportedTransactionVersion)
+        .toJson();
     final response = await _jsonRpcClient.request(
       'getTransaction',
       params: <dynamic>[
@@ -790,8 +831,11 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int> getTransactionCount({Commitment? commitment}) async {
-    final config = GetTransactionCountConfig(commitment: commitment).toJson();
+  Future<int> getTransactionCount(
+      {Commitment? commitment, num? minContextSlot}) async {
+    final config = GetTransactionCountConfig(
+            commitment: commitment, minContextSlot: minContextSlot)
+        .toJson();
     final response = await _jsonRpcClient.request(
       'getTransactionCount',
       params: <dynamic>[
@@ -841,6 +885,24 @@ class _RpcClient implements RpcClient {
   }
 
   @override
+  Future<bool> isBlockhashValid(String blockhash,
+      {Commitment? commitment, num? minContextSlot}) async {
+    final config = IsBlockhashValidConfig(
+            commitment: commitment, minContextSlot: minContextSlot)
+        .toJson();
+    final response = await _jsonRpcClient.request(
+      'isBlockhashValid',
+      params: <dynamic>[
+        blockhash,
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = unwrapAndGetResult(response);
+
+    return value as bool;
+  }
+
+  @override
   Future<int> minimumLedgerSlot() async {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
@@ -876,12 +938,14 @@ class _RpcClient implements RpcClient {
       {Encoding encoding = Encoding.base64,
       Commitment? preflightCommitment = Commitment.finalized,
       bool? skipPreflight = false,
-      int? maxRetries}) async {
+      int? maxRetries,
+      num? minContextSlot}) async {
     final config = SendTransactionConfig(
             encoding: encoding,
             preflightCommitment: preflightCommitment,
             skipPreflight: skipPreflight,
-            maxRetries: maxRetries)
+            maxRetries: maxRetries,
+            minContextSlot: minContextSlot)
         .toJson();
     final response = await _jsonRpcClient.request(
       'sendTransaction',
@@ -901,13 +965,15 @@ class _RpcClient implements RpcClient {
       Encoding encoding = Encoding.base64,
       Commitment? commitment = Commitment.finalized,
       bool? replaceRecentBlockhash = false,
-      SimulateTransactionAccounts? accounts}) async {
+      SimulateTransactionAccounts? accounts,
+      num? minContextSlot}) async {
     final config = SimulateTransactionConfig(
             sigVerify: sigVerify,
             encoding: encoding,
             commitment: commitment,
             replaceRecentBlockhash: replaceRecentBlockhash,
-            accounts: accounts)
+            accounts: accounts,
+            minContextSlot: minContextSlot)
         .toJson();
     final response = await _jsonRpcClient.request(
       'simulateTransaction',
@@ -1026,6 +1092,82 @@ class _RpcClient implements RpcClient {
         ? null
         : TransactionDetails.fromJson(value as Map<String, dynamic>);
   }
+
+  @override
+  Future<FeeCalculatorForBlockhash?> getFeeCalculatorForBlockhash(
+      String blockhash,
+      {Commitment? commitment}) async {
+    final config =
+        GetFeeCalculatorForBlockhashConfig(commitment: commitment).toJson();
+    final response = await _jsonRpcClient.request(
+      'getFeeCalculatorForBlockhash',
+      params: <dynamic>[
+        blockhash,
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = unwrapAndGetResult(response);
+
+    return (value == null)
+        ? null
+        : FeeCalculatorForBlockhash.fromJson(value as Map<String, dynamic>);
+  }
+
+  @override
+  Future<FeeRateGovernor> getFeeRateGovernor() async {
+    final config = <String, dynamic>{};
+    final response = await _jsonRpcClient.request(
+      'getFeeRateGovernor',
+      params: <dynamic>[
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = getResult(response);
+
+    return FeeRateGovernor.fromJson(value as Map<String, dynamic>);
+  }
+
+  @override
+  Future<Fees> getFees({Commitment? commitment}) async {
+    final config = GetFeesConfig(commitment: commitment).toJson();
+    final response = await _jsonRpcClient.request(
+      'getFees',
+      params: <dynamic>[
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = unwrapAndGetResult(response);
+
+    return Fees.fromJson(value as Map<String, dynamic>);
+  }
+
+  @override
+  Future<RecentBlockhash> getRecentBlockhash({Commitment? commitment}) async {
+    final config = GetRecentBlockhashConfig(commitment: commitment).toJson();
+    final response = await _jsonRpcClient.request(
+      'getRecentBlockhash',
+      params: <dynamic>[
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = unwrapAndGetResult(response);
+
+    return RecentBlockhash.fromJson(value as Map<String, dynamic>);
+  }
+
+  @override
+  Future<int> getSnapshotSlot() async {
+    final config = <String, dynamic>{};
+    final response = await _jsonRpcClient.request(
+      'getSnapshotSlot',
+      params: <dynamic>[
+        if (config.isNotEmpty) config,
+      ],
+    );
+    final dynamic value = getResult(response);
+
+    return value as int;
+  }
 }
 
 @JsonSerializable(
@@ -1035,11 +1177,13 @@ class GetAccountInfoConfig {
     this.commitment = Commitment.finalized,
     this.encoding,
     this.dataSlice,
+    this.minContextSlot,
   });
 
   final Commitment commitment;
   final Encoding? encoding;
   final DataSlice? dataSlice;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetAccountInfoConfigToJson(this);
 }
@@ -1049,9 +1193,11 @@ class GetAccountInfoConfig {
 class GetBalanceConfig {
   GetBalanceConfig({
     this.commitment,
+    this.minContextSlot,
   });
 
   final Commitment? commitment;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetBalanceConfigToJson(this);
 }
@@ -1064,12 +1210,14 @@ class GetBlockConfig {
     this.transactionDetails,
     this.rewards = false,
     this.commitment = Commitment.finalized,
+    this.maxSupportedTransactionVersion,
   });
 
   final Encoding? encoding;
   final TransactionDetailLevel? transactionDetails;
   final bool? rewards;
   final Commitment? commitment;
+  final num? maxSupportedTransactionVersion;
 
   Map<String, dynamic> toJson() => _$GetBlockConfigToJson(this);
 }
@@ -1079,9 +1227,11 @@ class GetBlockConfig {
 class GetBlockHeightConfig {
   GetBlockHeightConfig({
     this.commitment,
+    this.minContextSlot,
   });
 
   final Commitment? commitment;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetBlockHeightConfigToJson(this);
 }
@@ -1131,36 +1281,27 @@ class GetBlocksWithLimitConfig {
 class GetEpochInfoConfig {
   GetEpochInfoConfig({
     this.commitment,
+    this.minContextSlot,
   });
 
   final Commitment? commitment;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetEpochInfoConfigToJson(this);
 }
 
 @JsonSerializable(
     createFactory: false, includeIfNull: false, explicitToJson: true)
-class GetFeeCalculatorForBlockhashConfig {
-  GetFeeCalculatorForBlockhashConfig({
+class GetFeeForMessageConfig {
+  GetFeeForMessageConfig({
     this.commitment,
+    this.minContextSlot,
   });
 
   final Commitment? commitment;
+  final num? minContextSlot;
 
-  Map<String, dynamic> toJson() =>
-      _$GetFeeCalculatorForBlockhashConfigToJson(this);
-}
-
-@JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
-class GetFeesConfig {
-  GetFeesConfig({
-    this.commitment,
-  });
-
-  final Commitment? commitment;
-
-  Map<String, dynamic> toJson() => _$GetFeesConfigToJson(this);
+  Map<String, dynamic> toJson() => _$GetFeeForMessageConfigToJson(this);
 }
 
 @JsonSerializable(
@@ -1177,6 +1318,22 @@ class GetInflationGovernorConfig {
 
 @JsonSerializable(
     createFactory: false, includeIfNull: false, explicitToJson: true)
+class GetInflationRewardConfig {
+  GetInflationRewardConfig({
+    this.commitment,
+    this.epoch,
+    this.minContextSlot,
+  });
+
+  final Commitment? commitment;
+  final int? epoch;
+  final num? minContextSlot;
+
+  Map<String, dynamic> toJson() => _$GetInflationRewardConfigToJson(this);
+}
+
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class GetLargestAccountsConfig {
   GetLargestAccountsConfig({
     this.commitment = Commitment.finalized,
@@ -1187,6 +1344,20 @@ class GetLargestAccountsConfig {
   final CirculationStatus? filter;
 
   Map<String, dynamic> toJson() => _$GetLargestAccountsConfigToJson(this);
+}
+
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
+class GetLatestBlockhashConfig {
+  GetLatestBlockhashConfig({
+    this.commitment,
+    this.minContextSlot,
+  });
+
+  final Commitment? commitment;
+  final num? minContextSlot;
+
+  Map<String, dynamic> toJson() => _$GetLatestBlockhashConfigToJson(this);
 }
 
 @JsonSerializable(
@@ -1223,11 +1394,13 @@ class GetMultipleAccountsConfig {
     this.commitment = Commitment.finalized,
     this.encoding,
     this.dataSlice,
+    this.minContextSlot,
   });
 
   final Commitment commitment;
   final Encoding? encoding;
   final DataSlice? dataSlice;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetMultipleAccountsConfigToJson(this);
 }
@@ -1240,26 +1413,18 @@ class GetProgramAccountsConfig {
     required this.encoding,
     this.dataSlice,
     this.filters,
+    this.withContext,
+    this.minContextSlot,
   });
 
   final Commitment? commitment;
   final Encoding encoding;
   final DataSlice? dataSlice;
   final List<ProgramDataFilter>? filters;
+  final bool? withContext;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetProgramAccountsConfigToJson(this);
-}
-
-@JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
-class GetRecentBlockhashConfig {
-  GetRecentBlockhashConfig({
-    this.commitment,
-  });
-
-  final Commitment? commitment;
-
-  Map<String, dynamic> toJson() => _$GetRecentBlockhashConfigToJson(this);
 }
 
 @JsonSerializable(
@@ -1270,12 +1435,14 @@ class GetSignaturesForAddressConfig {
     this.before,
     this.until,
     this.commitment = Commitment.finalized,
+    this.minContextSlot,
   });
 
   final int? limit;
   final String? before;
   final String? until;
   final Commitment? commitment;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetSignaturesForAddressConfigToJson(this);
 }
@@ -1297,9 +1464,11 @@ class GetSignatureStatusesConfig {
 class GetSlotConfig {
   GetSlotConfig({
     this.commitment,
+    this.minContextSlot,
   });
 
   final Commitment? commitment;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetSlotConfigToJson(this);
 }
@@ -1309,9 +1478,11 @@ class GetSlotConfig {
 class GetSlotLeaderConfig {
   GetSlotLeaderConfig({
     this.commitment,
+    this.minContextSlot,
   });
 
   final Commitment? commitment;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetSlotLeaderConfigToJson(this);
 }
@@ -1322,12 +1493,27 @@ class GetStakeActivationConfig {
   GetStakeActivationConfig({
     this.commitment = Commitment.finalized,
     this.epoch,
+    this.minContextSlot,
   });
 
   final Commitment? commitment;
   final int? epoch;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetStakeActivationConfigToJson(this);
+}
+
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
+class GetStakeMinimumDelegationConfig {
+  GetStakeMinimumDelegationConfig({
+    this.commitment,
+  });
+
+  final Commitment? commitment;
+
+  Map<String, dynamic> toJson() =>
+      _$GetStakeMinimumDelegationConfigToJson(this);
 }
 
 @JsonSerializable(
@@ -1363,11 +1549,13 @@ class GetTokenAccountsByDelegateConfig {
     this.commitment = Commitment.finalized,
     this.encoding,
     this.dataSlice,
+    this.minContextSlot,
   });
 
   final Commitment commitment;
   final Encoding? encoding;
   final DataSlice? dataSlice;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() =>
       _$GetTokenAccountsByDelegateConfigToJson(this);
@@ -1380,11 +1568,13 @@ class GetTokenAccountsByOwnerConfig {
     this.commitment = Commitment.finalized,
     this.encoding,
     this.dataSlice,
+    this.minContextSlot,
   });
 
   final Commitment commitment;
   final Encoding? encoding;
   final DataSlice? dataSlice;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetTokenAccountsByOwnerConfigToJson(this);
 }
@@ -1419,10 +1609,12 @@ class GetTransactionConfig {
   GetTransactionConfig({
     this.encoding,
     this.commitment = Commitment.finalized,
+    this.maxSupportedTransactionVersion,
   });
 
   final Encoding? encoding;
   final Commitment? commitment;
+  final num? maxSupportedTransactionVersion;
 
   Map<String, dynamic> toJson() => _$GetTransactionConfigToJson(this);
 }
@@ -1432,9 +1624,11 @@ class GetTransactionConfig {
 class GetTransactionCountConfig {
   GetTransactionCountConfig({
     this.commitment,
+    this.minContextSlot,
   });
 
   final Commitment? commitment;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$GetTransactionCountConfigToJson(this);
 }
@@ -1459,6 +1653,20 @@ class GetVoteAccountsConfig {
 
 @JsonSerializable(
     createFactory: false, includeIfNull: false, explicitToJson: true)
+class IsBlockhashValidConfig {
+  IsBlockhashValidConfig({
+    this.commitment,
+    this.minContextSlot,
+  });
+
+  final Commitment? commitment;
+  final num? minContextSlot;
+
+  Map<String, dynamic> toJson() => _$IsBlockhashValidConfigToJson(this);
+}
+
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
 class RequestAirdropConfig {
   RequestAirdropConfig({
     this.commitment,
@@ -1477,12 +1685,14 @@ class SendTransactionConfig {
     this.preflightCommitment = Commitment.finalized,
     this.skipPreflight = false,
     this.maxRetries,
+    this.minContextSlot,
   });
 
   final Encoding encoding;
   final Commitment? preflightCommitment;
   final bool? skipPreflight;
   final int? maxRetries;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$SendTransactionConfigToJson(this);
 }
@@ -1496,6 +1706,7 @@ class SimulateTransactionConfig {
     this.commitment = Commitment.finalized,
     this.replaceRecentBlockhash = false,
     this.accounts,
+    this.minContextSlot,
   });
 
   final bool? sigVerify;
@@ -1503,6 +1714,7 @@ class SimulateTransactionConfig {
   final Commitment? commitment;
   final bool? replaceRecentBlockhash;
   final SimulateTransactionAccounts? accounts;
+  final num? minContextSlot;
 
   Map<String, dynamic> toJson() => _$SimulateTransactionConfigToJson(this);
 }
@@ -1556,4 +1768,41 @@ class GetConfirmedTransactionConfig {
   final Commitment? commitment;
 
   Map<String, dynamic> toJson() => _$GetConfirmedTransactionConfigToJson(this);
+}
+
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
+class GetFeeCalculatorForBlockhashConfig {
+  GetFeeCalculatorForBlockhashConfig({
+    this.commitment,
+  });
+
+  final Commitment? commitment;
+
+  Map<String, dynamic> toJson() =>
+      _$GetFeeCalculatorForBlockhashConfigToJson(this);
+}
+
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
+class GetFeesConfig {
+  GetFeesConfig({
+    this.commitment,
+  });
+
+  final Commitment? commitment;
+
+  Map<String, dynamic> toJson() => _$GetFeesConfigToJson(this);
+}
+
+@JsonSerializable(
+    createFactory: false, includeIfNull: false, explicitToJson: true)
+class GetRecentBlockhashConfig {
+  GetRecentBlockhashConfig({
+    this.commitment,
+  });
+
+  final Commitment? commitment;
+
+  Map<String, dynamic> toJson() => _$GetRecentBlockhashConfigToJson(this);
 }

@@ -14,4 +14,7 @@ TransactionDetails _$TransactionDetailsFromJson(Map<String, dynamic> json) =>
       meta: json['meta'] == null
           ? null
           : Meta.fromJson(json['meta'] as Map<String, dynamic>),
+      version: json['version'] == null
+          ? null
+          : TransactionVersion.fromJson(json['version']),
     );
