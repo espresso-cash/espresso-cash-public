@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 import 'package:wallet_example/bl/signature_verifier.dart';
+import 'package:wallet_example/bl/utils.dart';
 
 part 'bloc.freezed.dart';
 
@@ -88,7 +89,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         authToken: authToken,
         signingRequests: [
           SigningRequest(
-            payload: _generateFakePayload(0),
+            payload: generateFakeMessage([account.publicKeyEncoded]),
             requestedSignatures: [account.derivationPath],
           ),
         ],
@@ -102,7 +103,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         authToken: authToken,
         signingRequests: [
           SigningRequest(
-            payload: _generateFakePayload(0),
+            payload: generateFakeTransaction([account.publicKeyEncoded]),
             requestedSignatures: [account.derivationPath],
           ),
         ],
@@ -111,8 +112,10 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   AsyncResult<String> signMessages(AuthToken authToken) async => _signMessages(
         authToken: authToken,
         signingRequests: await _generateSigningRequests(
+          authToken: authToken,
           payloadCount: _maxSigningRequests,
           signatureCount: _maxRequestedSignatures,
+          payloadType: _PayloadType.message,
         ),
       );
 
@@ -120,8 +123,10 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       _signTransactions(
         authToken: authToken,
         signingRequests: await _generateSigningRequests(
+          authToken: authToken,
           payloadCount: _maxSigningRequests,
           signatureCount: _maxRequestedSignatures,
+          payloadType: _PayloadType.transaction,
         ),
       );
 
@@ -137,8 +142,10 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       _signTransactions(
         authToken: authToken,
         signingRequests: await _generateSigningRequests(
+          authToken: authToken,
           payloadCount: _maxSigningRequests + 1,
           signatureCount: 1,
+          payloadType: _PayloadType.transaction,
         ),
       );
 
@@ -148,8 +155,10 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       _signTransactions(
         authToken: authToken,
         signingRequests: await _generateSigningRequests(
+          authToken: authToken,
           payloadCount: 1,
           signatureCount: _maxRequestedSignatures + 1,
+          payloadType: _PayloadType.message,
         ),
       );
 
@@ -295,8 +304,10 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       );
 
   Future<List<SigningRequest>> _generateSigningRequests({
+    required AuthToken authToken,
     required int payloadCount,
     required int signatureCount,
+    required _PayloadType payloadType,
   }) async {
     final maxRequestedSignatures = _maxRequestedSignatures;
 
@@ -316,9 +327,17 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
             ),
           ),
         ).letAsync(
-          (derivationPaths) => SigningRequest(
-            payload: _generateFakePayload(i),
-            requestedSignatures: derivationPaths,
+          (it) => getPublicKeysFromPaths(authToken, it).letAsync(
+            (signers) => SigningRequest(
+              payload: payloadType == _PayloadType.message
+                  ? generateFakeMessage(
+                      signers.map((it) => it.toBase58()).toList(),
+                    )
+                  : generateFakeTransaction(
+                      signers.map((it) => it.toBase58()).toList(),
+                    ),
+              requestedSignatures: it,
+            ),
           ),
         ),
       ),
@@ -348,10 +367,6 @@ Future<Uri> _getRequestedPublicKeyByIndex(int index) =>
 
 const _firstRequestedPublicKeyIndex = 1000;
 const _accountsPerSeed = 2;
-const _payloadSize = 512;
-
-Uint8List _generateFakePayload(int value) =>
-    Uint8List.fromList(List.generate(_payloadSize, always(value)));
 
 extension Ext<T> on AuthorizationResult<T> {
   Either<Exception, T> toEither() => when(
@@ -359,3 +374,5 @@ extension Ext<T> on AuthorizationResult<T> {
         failed: Either.left,
       );
 }
+
+enum _PayloadType { message, transaction }

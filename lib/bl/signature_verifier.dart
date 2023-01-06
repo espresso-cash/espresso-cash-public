@@ -1,8 +1,7 @@
-import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:solana/base58.dart';
 import 'package:solana/solana.dart' as solana;
 import 'package:solana_seed_vault/solana_seed_vault.dart';
+import 'package:wallet_example/bl/utils.dart';
 
 class SignatureVerifier {
   Future<String> verify({
@@ -22,23 +21,10 @@ class SignatureVerifier {
           final request = pair.key;
           final response = pair.value;
 
-          final publicKeys = await Future.wait(
-            response.resolvedDerivationPaths.map(
-              (it) => Wallet.instance
-                  .getAccounts(
-                    authToken,
-                    filter: AccountFilter.byDerivationPath(it),
-                  )
-                  .letAsync(
-                    (it) => it
-                        .whenOrNull(
-                          success: (it) => it.singleOrNull?.publicKeyEncoded,
-                        )
-                        ?.let(base58decode)
-                        .let(solana.Ed25519HDPublicKey.new),
-                  ),
-            ),
-          ).letAsync((it) => it.compact());
+          final publicKeys = await getPublicKeysFromPaths(
+            authToken,
+            response.resolvedDerivationPaths,
+          );
 
           if (publicKeys.length != response.signatures.length) {
             throw Exception('One or more public keys not found');
