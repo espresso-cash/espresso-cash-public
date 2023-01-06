@@ -12,7 +12,6 @@ import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/presentation/utils.dart';
 import '../../../../features/qr_scanner/module.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../../ui/colors.dart';
 import '../../../../ui/icon_button.dart';
 import '../../../../ui/user_avatar.dart';
 import 'components/about_section.dart';
@@ -36,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       body: Material(
-        color: Colors.white,
+        color: const Color(0xffF4F4F4),
         child: SafeArea(
           bottom: false,
           maintainBottomViewPadding: false,
@@ -89,6 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(height: 24),
                       _QrCodeWidget(address: address, name: name),
+                      const SizedBox(height: 12),
                     ],
                   ),
                 ),
@@ -142,7 +142,7 @@ class _QrCodeWidget extends StatelessWidget {
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         decoration: const BoxDecoration(
-          color: CpColors.lightGreyBackground,
+          color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         child: Row(

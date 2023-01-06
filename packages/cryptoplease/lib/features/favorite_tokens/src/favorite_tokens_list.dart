@@ -57,7 +57,7 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
         }).toList();
 
         return SliverPadding(
-          padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+          padding: const EdgeInsets.only(top: 32, left: 24, right: 24),
           sliver: MultiSliver(
             children: [
               const SliverToBoxAdapter(child: _FollowingTitle()),

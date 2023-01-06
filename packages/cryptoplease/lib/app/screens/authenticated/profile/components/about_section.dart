@@ -12,7 +12,7 @@ class AboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: context.l10n.yourAccountSectionTitle,
+        title: context.l10n.learningSectionTitle,
         padding: const EdgeInsets.symmetric(vertical: 16),
         actions: [
           MenuButton(

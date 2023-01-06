@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../ui/colors.dart';
-import '../../../../../ui/switch.dart';
+import 'colors.dart';
+import 'switch.dart';
 
 class ProfileSwitch extends StatelessWidget {
   const ProfileSwitch({
@@ -34,8 +34,8 @@ class ProfileSwitch extends StatelessWidget {
       ),
       subtitle: Text(
         subtitle,
-        style: TextStyle(
-          color: color,
+        maxLines: 2,
+        style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
         ),

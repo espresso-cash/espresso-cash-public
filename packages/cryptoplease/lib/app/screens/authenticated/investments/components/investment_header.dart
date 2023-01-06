@@ -158,7 +158,7 @@ class _Balance extends StatelessWidget {
           formattedAmount,
           style: const TextStyle(
             fontWeight: FontWeight.w700,
-            fontSize: 45,
+            fontSize: 50,
             color: Colors.white,
           ),
         ),

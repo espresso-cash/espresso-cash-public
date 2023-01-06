@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../features/app_lock/module.dart';
-import '../../../../../gen/assets.gen.dart';
+import '../../../../../features/legal/flow.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
-import 'menu_button.dart';
+import 'profile_button.dart';
 import 'profile_section.dart';
 
 class SecuritySection extends StatelessWidget {
@@ -14,14 +14,21 @@ class SecuritySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ProfileSection(
         title: context.l10n.securitySectionTitle,
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
           const AppLockMenuItem(),
-          MenuButton(
-            title: context.l10n.viewRecoveryPhrase,
+          ProfileButton(
+            label: context.l10n.viewRecoveryPhrase,
             description: context.l10n.viewRecoveryPhraseDescription,
-            icon: Assets.icons.secret,
-            onTap: () => context.router.push(const BackupPhraseFlowRoute()),
+            onPressed: () => context.router.push(const BackupPhraseFlowRoute()),
+          ),
+          ProfileButton(
+            label: context.l10n.termsOfUse,
+            onPressed: () => context.navigateToTermsOfUse(),
+          ),
+          ProfileButton(
+            label: context.l10n.privacyPolicy,
+            onPressed: () => context.navigateToPrivacyPolicy(),
           ),
         ],
       );

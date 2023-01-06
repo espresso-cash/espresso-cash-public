@@ -11,7 +11,6 @@ import '../../../../../core/presentation/utils.dart';
 import '../../../../../di.dart';
 import '../../../../../features/incoming_split_key_payments/module.dart';
 import '../../../../../features/investments/module.dart';
-import '../../../../../features/legal/flow.dart';
 import '../../../../../features/outgoing_direct_payments/module.dart';
 import '../../../../../features/outgoing_split_key_payments/module.dart';
 import '../../../../../features/payment_request/module.dart';
@@ -32,7 +31,7 @@ class ProfileSection extends StatelessWidget {
     Key? key,
     this.title,
     required this.actions,
-    this.color = CpColors.lightGreyBackground,
+    this.color = Colors.white,
     required this.padding,
   }) : super(key: key);
 
@@ -46,13 +45,13 @@ class ProfileSection extends StatelessWidget {
     final title = this.title;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (title != null)
             Padding(
-              padding: const EdgeInsets.only(top: 8, left: 16, bottom: 8),
+              padding: const EdgeInsets.only(top: 8, left: 20, bottom: 10),
               child: Text(
                 title.toUpperCase(),
                 style: const TextStyle(
