@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/screens/authenticated/profile/menu_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_flow_screen.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
@@ -93,11 +92,6 @@ void main() {
       reset(balancesBloc);
       reset(appLockBloc);
     });
-
-    testGoldensWidget(
-      'MenuScreen',
-      withProviders(const Scaffold(body: MenuScreen())),
-    );
 
     testGoldensWidget(
       'WalletFlowScreen',

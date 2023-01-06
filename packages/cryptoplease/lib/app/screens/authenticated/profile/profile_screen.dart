@@ -15,7 +15,9 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/icon_button.dart';
 import '../../../../ui/user_avatar.dart';
+import 'components/about_section.dart';
 import 'components/profile_section.dart';
+import 'components/security_section.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -98,6 +100,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     children: const [
                       EditProfileSection(),
+                      SecuritySection(),
+                      AboutSection(),
                       DangerSection(),
                       ShareSection(),
                       VersionSection(),
