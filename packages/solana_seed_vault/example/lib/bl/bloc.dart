@@ -63,11 +63,17 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     const purpose = Purpose.signSolanaTransaction;
     final limits = await SeedVaultWallet.instance
         .getImplementationLimitsForPurpose(purpose);
-    final firstRequestedPublicKey =
-        _getRequestedPublicKeyByIndex(_firstRequestedPublicKeyIndex);
-    final lastRequestedPublicKey = _getRequestedPublicKeyByIndex(
-      _firstRequestedPublicKeyIndex + limits.maxRequestedPublicKeys - 1,
+
+    const firstRPKIndex = _firstRequestedPublicKeyIndex;
+    final lastRPKIndex = firstRPKIndex + limits.maxRequestedPublicKeys - 1;
+
+    final firstRequestedPublicKey = Bip32DerivationPath.toUri(
+      [const BipLevel(index: firstRPKIndex, hardened: true)],
     );
+    final lastRequestedPublicKey = Bip32DerivationPath.toUri(
+      [BipLevel(index: lastRPKIndex, hardened: true)],
+    );
+
     final seeds = await SeedVaultWallet.instance.getAuthorizedSeeds();
 
     emit(
@@ -352,10 +358,6 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         loaded: (it) => it.limits.maxRequestedPublicKeys,
       );
 }
-
-Uri _getRequestedPublicKeyByIndex(int index) => Bip32DerivationPath.toUri(
-      [BipLevel(index: index, hardened: true)],
-    );
 
 const _firstRequestedPublicKeyIndex = 1000;
 const _accountsPerSeed = 2;
