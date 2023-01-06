@@ -1,20 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:solana_seed_vault/src/api.dart';
 
-class SeedVault {
+class SeedVaultConfig {
   @visibleForTesting
-  SeedVault(this._platform);
+  SeedVaultConfig(this._platform);
 
-  SeedVault._(this._platform);
+  SeedVaultConfig._(this._platform);
 
   final SeedVaultApiHost _platform;
 
-  static var _instance = SeedVault._(SeedVaultApiHost());
+  static var _instance = SeedVaultConfig._(SeedVaultApiHost());
 
-  static SeedVault get instance => _instance;
+  static SeedVaultConfig get instance => _instance;
 
   @visibleForTesting
-  static set instance(SeedVault seedVault) => _instance = seedVault;
+  static set instance(SeedVaultConfig seedVault) => _instance = seedVault;
 
   Future<bool> isAvailable(bool allowSimulated) =>
       _platform.isAvailable(allowSimulated);

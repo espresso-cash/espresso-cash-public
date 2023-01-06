@@ -10,5 +10,5 @@ export 'src/models/seed.dart';
 export 'src/models/seed_vault_notification.dart';
 export 'src/models/signing_request.dart';
 export 'src/models/signing_response.dart';
-export 'src/seed_vault.dart';
-export 'src/wallet.dart';
+export 'src/seed_vault_config.dart';
+export 'src/seed_vault_wallet.dart';

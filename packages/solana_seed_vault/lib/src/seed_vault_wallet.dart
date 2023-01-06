@@ -17,24 +17,24 @@ import 'package:solana_seed_vault/src/models/signing_response.dart';
 
 typedef AsyncAuthorizationResult<T> = Future<AuthorizationResult<T>>;
 
-class Wallet implements SeedVaultFlutterApi {
+class SeedVaultWallet implements SeedVaultFlutterApi {
   @visibleForTesting
-  Wallet(this._platform);
+  SeedVaultWallet(this._platform);
 
-  Wallet._(this._platform) {
+  SeedVaultWallet._(this._platform) {
     SeedVaultFlutterApi.setup(this);
   }
 
   final WalletApiHost _platform;
 
-  static var _instance = Wallet._(WalletApiHost());
+  static var _instance = SeedVaultWallet._(WalletApiHost());
 
-  static Wallet get instance => _instance;
+  static SeedVaultWallet get instance => _instance;
 
-  Stream<SeedVaultNotification> get changeStream => _eventStream.stream;
+  Stream<SeedVaultNotification> get notificationStream => _eventStream.stream;
 
   @visibleForTesting
-  static set instance(Wallet wallet) => _instance = wallet;
+  static set instance(SeedVaultWallet wallet) => _instance = wallet;
 
   final _eventStream = StreamController<SeedVaultNotification>();
 

@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 import 'package:solana_seed_vault/src/api.dart';
 
-import 'seed_vault_test.mocks.dart';
+import 'seed_vault_config_test.mocks.dart';
 
 @GenerateMocks([SeedVaultApiHost])
 Future<void> main() async {
@@ -12,13 +12,13 @@ Future<void> main() async {
 
   setUp(() {
     apiHost = MockSeedVaultApiHost();
-    SeedVault.instance = SeedVault(apiHost);
+    SeedVaultConfig.instance = SeedVaultConfig(apiHost);
   });
 
   test('Check for Seed Vault availability', () async {
     when(apiHost.isAvailable(any)).thenAnswer((_) async => true);
 
-    final result = await SeedVault.instance.isAvailable(false);
+    final result = await SeedVaultConfig.instance.isAvailable(false);
 
     expect(result, true);
     verify(apiHost.isAvailable(any)).called(1);
@@ -28,7 +28,7 @@ Future<void> main() async {
   test('Check and ask for Seed Vault permission', () async {
     when(apiHost.checkPermission()).thenAnswer((_) async => true);
 
-    final result = await SeedVault.instance.checkPermission();
+    final result = await SeedVaultConfig.instance.checkPermission();
 
     expect(result, true);
     verify(apiHost.checkPermission()).called(1);
