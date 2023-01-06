@@ -64,8 +64,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     final limits = await SeedVaultWallet.instance
         .getImplementationLimitsForPurpose(purpose);
     final firstRequestedPublicKey =
-        await _getRequestedPublicKeyByIndex(_firstRequestedPublicKeyIndex);
-    final lastRequestedPublicKey = await _getRequestedPublicKeyByIndex(
+        _getRequestedPublicKeyByIndex(_firstRequestedPublicKeyIndex);
+    final lastRequestedPublicKey = _getRequestedPublicKeyByIndex(
       _firstRequestedPublicKeyIndex + limits.maxRequestedPublicKeys - 1,
     );
     final seeds = await SeedVaultWallet.instance.getAuthorizedSeeds();
@@ -134,7 +134,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   AsyncResult<List<String>> requestPublicKeys(AuthToken authToken) async =>
       _requestPublicKeys(
         authToken,
-        await _generateUris(_maxRequestedPublicKeys),
+        _generateUris(_maxRequestedPublicKeys),
       );
 
   AsyncResult<String> exceedMaxSigningRequests(
@@ -168,7 +168,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   ) async =>
       _requestPublicKeys(
         authToken,
-        await _generateUris(_maxRequestedPublicKeys + 1),
+        _generateUris(_maxRequestedPublicKeys + 1),
       );
 
   AsyncResult<void> updateAccountName({
@@ -219,8 +219,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   // exploring each account and marking them as containing user funds.
   Future<void> _onNewSeed(AuthToken authToken) async {
     for (var i = 0; i < _accountsPerSeed; i++) {
-      final derivationPath = await Bip44DerivationPath.instance.toUri(
-        Bip44Data(account: BipLevel(index: i, hardened: true)),
+      final derivationPath = Bip44DerivationPath.toUri(
+        [BipLevel(index: i, hardened: true)],
       );
       final resolvedPath = await SeedVaultWallet.instance.resolveDerivationPath(
         derivationPath: derivationPath,
@@ -295,13 +295,9 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         .map((it) => it.map((it) => it.publicKeyEncoded).compact().toList());
   }
 
-  Future<List<Uri>> _generateUris(int count) async => Future.wait(
-        List.generate(
-          count,
-          (i) => Bip32DerivationPath.instance.toUri(
-            Bip32Data(levels: [BipLevel(index: i, hardened: true)]),
-          ),
-        ),
+  List<Uri> _generateUris(int count) => List.generate(
+        count,
+        (i) => Bip32DerivationPath.toUri([BipLevel(index: i, hardened: true)]),
       );
 
   Future<List<SigningRequest>> _generateSigningRequests({
@@ -315,19 +311,15 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     return Future.wait(
       List.generate(
         payloadCount,
-        (i) => Future.wait(
-          List.generate(
-            signatureCount,
-            (j) => Bip44DerivationPath.instance.toUri(
-              Bip44Data(
-                account: BipLevel(
-                  index: i * maxRequestedSignatures + j,
-                  hardened: true,
-                ),
-              ),
+        (i) => List.generate(
+          signatureCount,
+          (j) => Bip44DerivationPath.toUri([
+            BipLevel(
+              index: i * maxRequestedSignatures + j,
+              hardened: true,
             ),
-          ),
-        ).letAsync(
+          ]),
+        ).let(
           (it) => getPublicKeysFromPaths(authToken, it).letAsync(
             (signers) => SigningRequest(
               payload: payloadType == _PayloadType.message
@@ -361,9 +353,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       );
 }
 
-Future<Uri> _getRequestedPublicKeyByIndex(int index) =>
-    Bip32DerivationPath.instance.toUri(
-      Bip32Data(levels: [BipLevel(index: index, hardened: true)]),
+Uri _getRequestedPublicKeyByIndex(int index) => Bip32DerivationPath.toUri(
+      [BipLevel(index: index, hardened: true)],
     );
 
 const _firstRequestedPublicKeyIndex = 1000;
