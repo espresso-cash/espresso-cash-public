@@ -7,10 +7,8 @@ import '../../../../../core/balances/presentation/watch_balance.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../l10n/device_locale.dart';
-import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
-import '../../../../../ui/empty_message_widget.dart';
 import '../../../../../ui/token_icon.dart';
 
 class PortfolioWidget extends StatelessWidget {
@@ -21,12 +19,7 @@ class PortfolioWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiSliver(
         children: [
-          if (tokens.isEmpty)
-            SliverToBoxAdapter(
-              child: CpEmptyMessageWidget(message: context.l10n.loading), //TODO
-            )
-          else
-            _BalanceList(tokens: tokens),
+          if (tokens.isNotEmpty) _BalanceList(tokens: tokens),
         ],
       );
 }
