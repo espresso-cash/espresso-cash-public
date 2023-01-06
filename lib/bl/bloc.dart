@@ -41,16 +41,17 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   }
 
   Future<void> init() async {
-    final isInstalled = await SeedVault.instance.isAvailable(true);
+    final isInstalled = await SeedVaultConfig.instance.isAvailable(true);
 
     if (!isInstalled) {
       return emit(const SeedVaultState.error('Seed vault not installed'));
     }
 
-    final granted = await SeedVault.instance.checkPermission();
+    final granted = await SeedVaultConfig.instance.checkPermission();
 
     if (granted) {
-      _subscription = Wallet.instance.changeStream.listen((_) => refreshUI());
+      _subscription = SeedVaultWallet.instance.notificationStream
+          .listen((_) => refreshUI());
 
       return refreshUI();
     } else {
@@ -60,14 +61,14 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
 
   Future<void> refreshUI() async {
     const purpose = Purpose.signSolanaTransaction;
-    final limits =
-        await Wallet.instance.getImplementationLimitsForPurpose(purpose);
+    final limits = await SeedVaultWallet.instance
+        .getImplementationLimitsForPurpose(purpose);
     final firstRequestedPublicKey =
         await _getRequestedPublicKeyByIndex(_firstRequestedPublicKeyIndex);
     final lastRequestedPublicKey = await _getRequestedPublicKeyByIndex(
       _firstRequestedPublicKeyIndex + limits.maxRequestedPublicKeys - 1,
     );
-    final seeds = await Wallet.instance.getAuthorizedSeeds();
+    final seeds = await SeedVaultWallet.instance.getAuthorizedSeeds();
 
     emit(
       SeedVaultState.loaded(
@@ -75,8 +76,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         limits: limits,
         firstRequestedPublicKey: firstRequestedPublicKey,
         lastRequestedPublicKey: lastRequestedPublicKey,
-        hasUnauthorizedSeeds:
-            await Wallet.instance.hasUnauthorizedSeedsForPurpose(purpose),
+        hasUnauthorizedSeeds: await SeedVaultWallet.instance
+            .hasUnauthorizedSeedsForPurpose(purpose),
       ),
     );
   }
@@ -175,7 +176,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     required Account account,
     required String name,
   }) =>
-      Wallet.instance
+      SeedVaultWallet.instance
           .updateAccountName(
             authToken: authToken,
             accountId: account.id,
@@ -184,12 +185,12 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
           .toEither();
 
   Future<void> deathorizeSeed(AuthToken authToken) async {
-    await Wallet.instance.deauthorizeSeed(authToken);
+    await SeedVaultWallet.instance.deauthorizeSeed(authToken);
   }
 
   AsyncResult<void> authorizeSeed() async {
-    final result =
-        await Wallet.instance.authorizeSeed(Purpose.signSolanaTransaction);
+    final result = await SeedVaultWallet.instance
+        .authorizeSeed(Purpose.signSolanaTransaction);
 
     await result.whenOrNull(success: _onNewSeed);
 
@@ -197,8 +198,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   }
 
   AsyncResult<void> importSeed() async {
-    final result =
-        await Wallet.instance.importSeed(Purpose.signSolanaTransaction);
+    final result = await SeedVaultWallet.instance
+        .importSeed(Purpose.signSolanaTransaction);
 
     await result.whenOrNull(success: _onNewSeed);
 
@@ -206,8 +207,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   }
 
   AsyncResult<void> createSeed() async {
-    final result =
-        await Wallet.instance.createSeed(Purpose.signSolanaTransaction);
+    final result = await SeedVaultWallet.instance
+        .createSeed(Purpose.signSolanaTransaction);
 
     await result.whenOrNull(success: _onNewSeed);
 
@@ -221,11 +222,11 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       final derivationPath = await Bip44DerivationPath.instance.toUri(
         Bip44Data(account: BipLevel(index: i, hardened: true)),
       );
-      final resolvedPath = await Wallet.instance.resolveDerivationPath(
+      final resolvedPath = await SeedVaultWallet.instance.resolveDerivationPath(
         derivationPath: derivationPath,
         purpose: Purpose.signSolanaTransaction,
       );
-      final account = await Wallet.instance
+      final account = await SeedVaultWallet.instance
           .getAccounts(
             authToken,
             filter: AccountFilter.byDerivationPath(resolvedPath),
@@ -235,7 +236,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       if (account == null) return;
 
       if (!account.isUserWallet) {
-        await Wallet.instance.updateAccountIsUserWallet(
+        await SeedVaultWallet.instance.updateAccountIsUserWallet(
           authToken: authToken,
           accountId: account.id,
           isUserWallet: true,
@@ -248,7 +249,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,
   }) async {
-    final result = await Wallet.instance.signMessages(
+    final result = await SeedVaultWallet.instance.signMessages(
       authToken: authToken,
       signingRequests: signingRequests,
     );
@@ -266,7 +267,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,
   }) async {
-    final result = await Wallet.instance.signTransactions(
+    final result = await SeedVaultWallet.instance.signTransactions(
       authToken: authToken,
       signingRequests: signingRequests,
     );
@@ -284,7 +285,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     AuthToken authToken,
     List<Uri> uris,
   ) async {
-    final result = await Wallet.instance.requestPublicKeys(
+    final result = await SeedVaultWallet.instance.requestPublicKeys(
       authToken: authToken,
       derivationPaths: uris,
     );
