@@ -4,6 +4,7 @@ import 'package:bip39/bip39.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/encoder/message_v0.dart';
 import 'package:test/test.dart';
 
 import 'config.dart';
@@ -181,6 +182,55 @@ void main() {
         commitment: Commitment.confirmed,
       );
       expect(balance, greaterThan(0));
+    });
+
+    test('Transfer SOL with Versioned Transaction', () async {
+      final recentBlockhash = await client.rpcClient
+          .getRecentBlockhash(commitment: Commitment.confirmed);
+      final instruction = SystemInstruction.transfer(
+        fundingAccount: source.publicKey,
+        recipientAccount: destination.publicKey,
+        lamports: _transferredAmount,
+      );
+
+      final message = Messagev0.only(instruction);
+
+      final compiledMessage = message.compile(
+        recentBlockhash: recentBlockhash.blockhash,
+        feePayer: source.publicKey,
+      );
+      final sign = await source.sign(compiledMessage.data);
+
+      final SignedTx signedTx = SignedTx(
+        signatures: [sign],
+        messageBytes: compiledMessage.data,
+      );
+
+      final String signature = await client.rpcClient.sendTransaction(
+        signedTx.encode(),
+        preflightCommitment: Commitment.confirmed,
+      );
+      expect(signature, signedTx.signatures.first.toBase58());
+      await expectLater(
+        client.waitForSignatureStatus(
+          signature,
+          status: ConfirmationStatus.confirmed,
+        ),
+        completes,
+      );
+      final int balance = await client.rpcClient.getBalance(
+        destination.address,
+        commitment: Commitment.confirmed,
+      );
+      expect(balance, greaterThan(0));
+
+      final transaction = await client.rpcClient.getTransaction(
+        signature,
+        commitment: Commitment.confirmed,
+        maxSupportedTransactionVersion: 0,
+      );
+
+      print(transaction?.version?.version);
     });
 
     test('Transfer SOL to the same address', () async {
