@@ -50,20 +50,3 @@ class FakeSigningResponseDto extends SigningResponseDto {
           signatures: signers.map((_) => Uint8List(512)).toList(),
         );
 }
-
-class FakeBipLevelDto extends BipLevelDto {
-  FakeBipLevelDto()
-      : super(
-          hardened: true,
-          index: 0,
-        );
-}
-
-class FakeBip44DerivationDto extends Bip44DerivationDto {
-  FakeBip44DerivationDto()
-      : super(
-          account: FakeBipLevelDto(),
-          addressIndex: null,
-          change: null,
-        );
-}

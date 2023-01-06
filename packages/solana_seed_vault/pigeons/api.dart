@@ -65,28 +65,6 @@ class ImplementationLimitsDto {
   final int? maxRequestedPublicKeys;
 }
 
-class BipLevelDto {
-  const BipLevelDto({
-    required this.index,
-    required this.hardened,
-  });
-
-  final int index;
-  final bool hardened;
-}
-
-class Bip44DerivationDto {
-  const Bip44DerivationDto({
-    required this.account,
-    required this.change,
-    required this.addressIndex,
-  });
-
-  final BipLevelDto? account;
-  final BipLevelDto? change;
-  final BipLevelDto? addressIndex;
-}
-
 class SigningRequestDto {
   SigningRequestDto({
     required this.payload,
@@ -173,20 +151,6 @@ abstract class WalletApiHost {
     int accountId,
     bool isValid,
   );
-}
-
-@HostApi()
-abstract class Bip32ApiHost {
-  List<BipLevelDto> fromUri(String uri);
-
-  String toUri(List<BipLevelDto> levels);
-}
-
-@HostApi()
-abstract class Bip44ApiHost {
-  Bip44DerivationDto fromUri(String uri);
-
-  String toUri(Bip44DerivationDto levels);
 }
 
 @HostApi()

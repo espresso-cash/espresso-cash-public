@@ -1,4 +1,5 @@
-export 'src/bip.dart';
+export 'src/bip32_derivation_path.dart';
+export 'src/bip44_derivation_path.dart';
 export 'src/models/account.dart';
 export 'src/models/auth_token.dart';
 export 'src/models/authorization_result.dart';

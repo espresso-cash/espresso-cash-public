@@ -22,8 +22,6 @@ class SolanaSeedVaultPlugin : FlutterPlugin, ActivityAware {
         permissionHandler =
             PermissionHandler { changeNotifier.observeSeedVaultContentChanges(context) }
 
-        Bip32ApiHost().init(messenger)
-        Bip44ApiHost().init(messenger)
         SeedVaultApiHost(context, permissionHandler).init(messenger)
     }
 
