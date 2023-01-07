@@ -115,6 +115,14 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform.updateAccountIsValid(authToken, accountId, isValid);
 
+  Future<Uri> resolveDerivationPath({
+    required Uri derivationPath,
+    required Purpose purpose,
+  }) =>
+      _platform
+          .resolveDerivationPath(derivationPath.toString(), purpose.index)
+          .letAsync(Uri.parse);
+
   Future<void> deauthorizeSeed(AuthToken authToken) =>
       _platform.deauthorizeSeed(authToken);
 

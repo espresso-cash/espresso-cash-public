@@ -1,7 +1,12 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:solana_seed_vault/solana_seed_vault.dart';
+import 'package:solana_seed_vault/src/models/account.dart';
+import 'package:solana_seed_vault/src/models/auth_token.dart';
+import 'package:solana_seed_vault/src/models/filter.dart';
+import 'package:solana_seed_vault/src/models/implementation_limits.dart';
+import 'package:solana_seed_vault/src/models/seed.dart';
+import 'package:solana_seed_vault/src/seed_vault.dart';
 import 'package:solana_seed_vault/src/wallet_contract_v1.dart';
 
 extension SeedVaultHelperExt on SeedVault {

@@ -41,17 +41,17 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   }
 
   Future<void> init() async {
-    final isInstalled = await SeedVaultConfig.instance.isAvailable(true);
+    final isInstalled = await SeedVault.instance.isAvailable(true);
 
     if (!isInstalled) {
       return emit(const SeedVaultState.error('Seed vault not installed'));
     }
 
-    final granted = await SeedVaultConfig.instance.checkPermission();
+    final granted = await SeedVault.instance.checkPermission();
 
     if (granted) {
-      _subscription = SeedVaultWallet.instance.notificationStream
-          .listen((_) => refreshUI());
+      _subscription =
+          SeedVault.instance.notificationStream.listen((_) => refreshUI());
 
       return refreshUI();
     } else {
@@ -61,8 +61,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
 
   Future<void> refreshUI() async {
     const purpose = Purpose.signSolanaTransaction;
-    final limits = await SeedVaultWallet.instance
-        .getImplementationLimitsForPurpose(purpose);
+    final limits = await SeedVault.instance
+        .getParsedImplementationLimitsForPurpose(purpose);
 
     const firstRPKIndex = _firstRequestedPublicKeyIndex;
     final lastRPKIndex = firstRPKIndex + limits.maxRequestedPublicKeys - 1;
@@ -74,7 +74,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       [BipLevel(index: lastRPKIndex, hardened: true)],
     );
 
-    final seeds = await SeedVaultWallet.instance.getAuthorizedSeeds();
+    final seeds = await SeedVault.instance.getParsedAuthorizedSeeds();
 
     emit(
       SeedVaultState.loaded(
@@ -82,8 +82,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         limits: limits,
         firstRequestedPublicKey: firstRequestedPublicKey,
         lastRequestedPublicKey: lastRequestedPublicKey,
-        hasUnauthorizedSeeds: await SeedVaultWallet.instance
-            .hasUnauthorizedSeedsForPurpose(purpose),
+        hasUnauthorizedSeeds:
+            await SeedVault.instance.hasUnauthorizedSeedsForPurpose(purpose),
       ),
     );
   }
@@ -138,15 +138,10 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       );
 
   AsyncResult<List<String>> requestPublicKeys(AuthToken authToken) async =>
-      SeedVaultWallet.instance.getMappedAccounts(authToken).letAsync(
-            (it) =>
-                it.toEither().map((it) => it.map((e) => e.toString()).toList()),
-          );
-
-  // return _requestPublicKeys(
-  //     authToken,
-  //     _generateUris(_maxRequestedPublicKeys),
-  //   );
+      _requestPublicKeys(
+        authToken,
+        _generateUris(_maxRequestedPublicKeys),
+      );
 
   AsyncResult<String> exceedMaxSigningRequests(
     AuthToken authToken,
@@ -187,7 +182,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     required Account account,
     required String name,
   }) =>
-      SeedVaultWallet.instance
+      SeedVault.instance
           .updateAccountName(
             authToken: authToken,
             accountId: account.id,
@@ -196,35 +191,32 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
           .toEither();
 
   Future<void> deathorizeSeed(AuthToken authToken) async {
-    await SeedVaultWallet.instance.deauthorizeSeed(authToken);
+    await SeedVault.instance.deauthorizeSeed(authToken);
   }
 
-  AsyncResult<void> authorizeSeed() async {
-    final result = await SeedVaultWallet.instance
-        .authorizeSeed(Purpose.signSolanaTransaction);
+  AsyncResult<void> authorizeSeed() => tryEitherAsync(
+        (_) async {
+          await SeedVault.instance
+              .authorizeSeed(Purpose.signSolanaTransaction)
+              .letAsync(_onNewSeed);
+        },
+      );
 
-    await result.whenOrNull(success: _onNewSeed);
+  AsyncResult<void> importSeed() => tryEitherAsync(
+        (_) async {
+          await SeedVault.instance
+              .importSeed(Purpose.signSolanaTransaction)
+              .letAsync(_onNewSeed);
+        },
+      );
 
-    return result.toEither();
-  }
-
-  AsyncResult<void> importSeed() async {
-    final result = await SeedVaultWallet.instance
-        .importSeed(Purpose.signSolanaTransaction);
-
-    await result.whenOrNull(success: _onNewSeed);
-
-    return result.toEither();
-  }
-
-  AsyncResult<void> createSeed() async {
-    final result = await SeedVaultWallet.instance
-        .createSeed(Purpose.signSolanaTransaction);
-
-    await result.whenOrNull(success: _onNewSeed);
-
-    return result.toEither();
-  }
+  AsyncResult<void> createSeed() => tryEitherAsync(
+        (_) async {
+          await SeedVault.instance
+              .createSeed(Purpose.signSolanaTransaction)
+              .letAsync(_onNewSeed);
+        },
+      );
 
   // Mark accounts as user wallets. This simulates a real wallet app
   // exploring each account and marking them as containing user funds.
@@ -233,21 +225,21 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       final derivationPath = Bip44DerivationPath.toUri(
         [BipLevel(index: i, hardened: true)],
       );
-      final resolvedPath = await SeedVaultWallet.instance.resolveDerivationPath(
+      final resolvedPath = await SeedVault.instance.resolveDerivationPath(
         derivationPath: derivationPath,
         purpose: Purpose.signSolanaTransaction,
       );
-      final account = await SeedVaultWallet.instance
-          .getAccounts(
+      final account = await SeedVault.instance
+          .getParsedAccounts(
             authToken,
             filter: AccountFilter.byDerivationPath(resolvedPath),
           )
-          .letAsync((it) => it.whenOrNull(success: (it) => it.singleOrNull));
+          .letAsync((it) => it.singleOrNull);
 
       if (account == null) return;
 
       if (!account.isUserWallet) {
-        await SeedVaultWallet.instance.updateAccountIsUserWallet(
+        await SeedVault.instance.updateAccountIsUserWallet(
           authToken: authToken,
           accountId: account.id,
           isUserWallet: true,
@@ -259,52 +251,55 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   AsyncResult<String> _signMessages({
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,
-  }) async {
-    final result = await SeedVaultWallet.instance.signMessages(
-      authToken: authToken,
-      signingRequests: signingRequests,
-    );
+  }) =>
+      tryEitherAsync(
+        (_) async {
+          final signingResponses = await SeedVault.instance.signMessages(
+            authToken: authToken,
+            signingRequests: signingRequests,
+          );
 
-    return result.toEither().mapAsync(
-          (signingResponses) => _signatureVerifier.verify(
+          return _signatureVerifier.verify(
             authToken: authToken,
             signingRequests: signingRequests,
             signingResponses: signingResponses,
-          ),
-        );
-  }
+          );
+        },
+      );
 
   AsyncResult<String> _signTransactions({
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,
-  }) async {
-    final result = await SeedVaultWallet.instance.signTransactions(
-      authToken: authToken,
-      signingRequests: signingRequests,
-    );
+  }) =>
+      tryEitherAsync(
+        (_) async {
+          final signingResponses = await SeedVault.instance.signTransactions(
+            authToken: authToken,
+            signingRequests: signingRequests,
+          );
 
-    return result.toEither().mapAsync(
-          (signingResponses) => _signatureVerifier.verify(
+          return _signatureVerifier.verify(
             authToken: authToken,
             signingRequests: signingRequests,
             signingResponses: signingResponses,
-          ),
-        );
-  }
+          );
+        },
+      );
 
   AsyncResult<List<String>> _requestPublicKeys(
     AuthToken authToken,
     List<Uri> uris,
-  ) async {
-    final result = await SeedVaultWallet.instance.requestPublicKeys(
-      authToken: authToken,
-      derivationPaths: uris,
-    );
+  ) =>
+      tryEitherAsync(
+        (_) async {
+          final result = await SeedVault.instance.requestPublicKeys(
+            authToken: authToken,
+            derivationPaths: uris,
+          );
 
-    return result
-        .toEither()
-        .map((it) => it.map((it) => it.publicKeyEncoded).compact().toList());
-  }
+          return result.map((it) => it.publicKeyEncoded).compact().toList();
+        },
+      );
 
   List<Uri> _generateUris(int count) => List.generate(
         count,
@@ -366,12 +361,5 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
 
 const _firstRequestedPublicKeyIndex = 1000;
 const _accountsPerSeed = 2;
-
-extension Ext<T> on AuthorizationResult<T> {
-  Either<Exception, T> toEither() => when(
-        success: Either.right,
-        failed: Either.left,
-      );
-}
 
 enum _PayloadType { message, transaction }

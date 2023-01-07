@@ -1,5 +1,4 @@
 import 'package:solana_seed_vault/solana_seed_vault.dart';
-import 'package:solana_seed_vault/src/wallet_contract_v1.dart';
 
 class Bip44DerivationPath {
   static Uri toUri(List<BipLevel> bipLevels) {
