@@ -22,379 +22,6 @@ import java.util.HashMap;
 @SuppressWarnings({"unused", "unchecked", "CodeBlock2Expr", "RedundantSuppression"})
 public class Api {
 
-  public enum AccountFilterColumnDto {
-    id(0),
-    name(1),
-    derivationPath(2),
-    publicKeyEncoded(3),
-    isUserWallet(4),
-    isValid(5);
-
-    private int index;
-    private AccountFilterColumnDto(final int index) {
-      this.index = index;
-    }
-  }
-
-  /** Generated class from Pigeon that represents data sent in messages. */
-  public static class AccountFilterDto {
-    private @NonNull AccountFilterColumnDto key;
-    public @NonNull AccountFilterColumnDto getKey() { return key; }
-    public void setKey(@NonNull AccountFilterColumnDto setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"key\" is null.");
-      }
-      this.key = setterArg;
-    }
-
-    private @NonNull String value;
-    public @NonNull String getValue() { return value; }
-    public void setValue(@NonNull String setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"value\" is null.");
-      }
-      this.value = setterArg;
-    }
-
-    /** Constructor is private to enforce null safety; use Builder. */
-    private AccountFilterDto() {}
-    public static final class Builder {
-      private @Nullable AccountFilterColumnDto key;
-      public @NonNull Builder setKey(@NonNull AccountFilterColumnDto setterArg) {
-        this.key = setterArg;
-        return this;
-      }
-      private @Nullable String value;
-      public @NonNull Builder setValue(@NonNull String setterArg) {
-        this.value = setterArg;
-        return this;
-      }
-      public @NonNull AccountFilterDto build() {
-        AccountFilterDto pigeonReturn = new AccountFilterDto();
-        pigeonReturn.setKey(key);
-        pigeonReturn.setValue(value);
-        return pigeonReturn;
-      }
-    }
-    @NonNull Map<String, Object> toMap() {
-      Map<String, Object> toMapResult = new HashMap<>();
-      toMapResult.put("key", key == null ? null : key.index);
-      toMapResult.put("value", value);
-      return toMapResult;
-    }
-    static @NonNull AccountFilterDto fromMap(@NonNull Map<String, Object> map) {
-      AccountFilterDto pigeonResult = new AccountFilterDto();
-      Object key = map.get("key");
-      pigeonResult.setKey(key == null ? null : AccountFilterColumnDto.values()[(int)key]);
-      Object value = map.get("value");
-      pigeonResult.setValue((String)value);
-      return pigeonResult;
-    }
-  }
-
-  /** Generated class from Pigeon that represents data sent in messages. */
-  public static class AccountDto {
-    private @NonNull Long id;
-    public @NonNull Long getId() { return id; }
-    public void setId(@NonNull Long setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"id\" is null.");
-      }
-      this.id = setterArg;
-    }
-
-    private @NonNull String name;
-    public @NonNull String getName() { return name; }
-    public void setName(@NonNull String setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"name\" is null.");
-      }
-      this.name = setterArg;
-    }
-
-    private @NonNull String derivationPath;
-    public @NonNull String getDerivationPath() { return derivationPath; }
-    public void setDerivationPath(@NonNull String setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"derivationPath\" is null.");
-      }
-      this.derivationPath = setterArg;
-    }
-
-    private @NonNull String publicKeyEncoded;
-    public @NonNull String getPublicKeyEncoded() { return publicKeyEncoded; }
-    public void setPublicKeyEncoded(@NonNull String setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"publicKeyEncoded\" is null.");
-      }
-      this.publicKeyEncoded = setterArg;
-    }
-
-    private @NonNull Boolean isUserWallet;
-    public @NonNull Boolean getIsUserWallet() { return isUserWallet; }
-    public void setIsUserWallet(@NonNull Boolean setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"isUserWallet\" is null.");
-      }
-      this.isUserWallet = setterArg;
-    }
-
-    private @NonNull Boolean isValid;
-    public @NonNull Boolean getIsValid() { return isValid; }
-    public void setIsValid(@NonNull Boolean setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"isValid\" is null.");
-      }
-      this.isValid = setterArg;
-    }
-
-    /** Constructor is private to enforce null safety; use Builder. */
-    private AccountDto() {}
-    public static final class Builder {
-      private @Nullable Long id;
-      public @NonNull Builder setId(@NonNull Long setterArg) {
-        this.id = setterArg;
-        return this;
-      }
-      private @Nullable String name;
-      public @NonNull Builder setName(@NonNull String setterArg) {
-        this.name = setterArg;
-        return this;
-      }
-      private @Nullable String derivationPath;
-      public @NonNull Builder setDerivationPath(@NonNull String setterArg) {
-        this.derivationPath = setterArg;
-        return this;
-      }
-      private @Nullable String publicKeyEncoded;
-      public @NonNull Builder setPublicKeyEncoded(@NonNull String setterArg) {
-        this.publicKeyEncoded = setterArg;
-        return this;
-      }
-      private @Nullable Boolean isUserWallet;
-      public @NonNull Builder setIsUserWallet(@NonNull Boolean setterArg) {
-        this.isUserWallet = setterArg;
-        return this;
-      }
-      private @Nullable Boolean isValid;
-      public @NonNull Builder setIsValid(@NonNull Boolean setterArg) {
-        this.isValid = setterArg;
-        return this;
-      }
-      public @NonNull AccountDto build() {
-        AccountDto pigeonReturn = new AccountDto();
-        pigeonReturn.setId(id);
-        pigeonReturn.setName(name);
-        pigeonReturn.setDerivationPath(derivationPath);
-        pigeonReturn.setPublicKeyEncoded(publicKeyEncoded);
-        pigeonReturn.setIsUserWallet(isUserWallet);
-        pigeonReturn.setIsValid(isValid);
-        return pigeonReturn;
-      }
-    }
-    @NonNull Map<String, Object> toMap() {
-      Map<String, Object> toMapResult = new HashMap<>();
-      toMapResult.put("id", id);
-      toMapResult.put("name", name);
-      toMapResult.put("derivationPath", derivationPath);
-      toMapResult.put("publicKeyEncoded", publicKeyEncoded);
-      toMapResult.put("isUserWallet", isUserWallet);
-      toMapResult.put("isValid", isValid);
-      return toMapResult;
-    }
-    static @NonNull AccountDto fromMap(@NonNull Map<String, Object> map) {
-      AccountDto pigeonResult = new AccountDto();
-      Object id = map.get("id");
-      pigeonResult.setId((id == null) ? null : ((id instanceof Integer) ? (Integer)id : (Long)id));
-      Object name = map.get("name");
-      pigeonResult.setName((String)name);
-      Object derivationPath = map.get("derivationPath");
-      pigeonResult.setDerivationPath((String)derivationPath);
-      Object publicKeyEncoded = map.get("publicKeyEncoded");
-      pigeonResult.setPublicKeyEncoded((String)publicKeyEncoded);
-      Object isUserWallet = map.get("isUserWallet");
-      pigeonResult.setIsUserWallet((Boolean)isUserWallet);
-      Object isValid = map.get("isValid");
-      pigeonResult.setIsValid((Boolean)isValid);
-      return pigeonResult;
-    }
-  }
-
-  /** Generated class from Pigeon that represents data sent in messages. */
-  public static class SeedDto {
-    private @NonNull Long authToken;
-    public @NonNull Long getAuthToken() { return authToken; }
-    public void setAuthToken(@NonNull Long setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"authToken\" is null.");
-      }
-      this.authToken = setterArg;
-    }
-
-    private @NonNull String name;
-    public @NonNull String getName() { return name; }
-    public void setName(@NonNull String setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"name\" is null.");
-      }
-      this.name = setterArg;
-    }
-
-    private @NonNull Long purpose;
-    public @NonNull Long getPurpose() { return purpose; }
-    public void setPurpose(@NonNull Long setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"purpose\" is null.");
-      }
-      this.purpose = setterArg;
-    }
-
-    private @NonNull List<AccountDto> accounts;
-    public @NonNull List<AccountDto> getAccounts() { return accounts; }
-    public void setAccounts(@NonNull List<AccountDto> setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"accounts\" is null.");
-      }
-      this.accounts = setterArg;
-    }
-
-    /** Constructor is private to enforce null safety; use Builder. */
-    private SeedDto() {}
-    public static final class Builder {
-      private @Nullable Long authToken;
-      public @NonNull Builder setAuthToken(@NonNull Long setterArg) {
-        this.authToken = setterArg;
-        return this;
-      }
-      private @Nullable String name;
-      public @NonNull Builder setName(@NonNull String setterArg) {
-        this.name = setterArg;
-        return this;
-      }
-      private @Nullable Long purpose;
-      public @NonNull Builder setPurpose(@NonNull Long setterArg) {
-        this.purpose = setterArg;
-        return this;
-      }
-      private @Nullable List<AccountDto> accounts;
-      public @NonNull Builder setAccounts(@NonNull List<AccountDto> setterArg) {
-        this.accounts = setterArg;
-        return this;
-      }
-      public @NonNull SeedDto build() {
-        SeedDto pigeonReturn = new SeedDto();
-        pigeonReturn.setAuthToken(authToken);
-        pigeonReturn.setName(name);
-        pigeonReturn.setPurpose(purpose);
-        pigeonReturn.setAccounts(accounts);
-        return pigeonReturn;
-      }
-    }
-    @NonNull Map<String, Object> toMap() {
-      Map<String, Object> toMapResult = new HashMap<>();
-      toMapResult.put("authToken", authToken);
-      toMapResult.put("name", name);
-      toMapResult.put("purpose", purpose);
-      toMapResult.put("accounts", accounts);
-      return toMapResult;
-    }
-    static @NonNull SeedDto fromMap(@NonNull Map<String, Object> map) {
-      SeedDto pigeonResult = new SeedDto();
-      Object authToken = map.get("authToken");
-      pigeonResult.setAuthToken((authToken == null) ? null : ((authToken instanceof Integer) ? (Integer)authToken : (Long)authToken));
-      Object name = map.get("name");
-      pigeonResult.setName((String)name);
-      Object purpose = map.get("purpose");
-      pigeonResult.setPurpose((purpose == null) ? null : ((purpose instanceof Integer) ? (Integer)purpose : (Long)purpose));
-      Object accounts = map.get("accounts");
-      pigeonResult.setAccounts((List<AccountDto>)accounts);
-      return pigeonResult;
-    }
-  }
-
-  /** Generated class from Pigeon that represents data sent in messages. */
-  public static class ImplementationLimitsDto {
-    private @NonNull Long maxBip32PathDepth;
-    public @NonNull Long getMaxBip32PathDepth() { return maxBip32PathDepth; }
-    public void setMaxBip32PathDepth(@NonNull Long setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"maxBip32PathDepth\" is null.");
-      }
-      this.maxBip32PathDepth = setterArg;
-    }
-
-    private @Nullable Long maxSigningRequests;
-    public @Nullable Long getMaxSigningRequests() { return maxSigningRequests; }
-    public void setMaxSigningRequests(@Nullable Long setterArg) {
-      this.maxSigningRequests = setterArg;
-    }
-
-    private @Nullable Long maxRequestedSignatures;
-    public @Nullable Long getMaxRequestedSignatures() { return maxRequestedSignatures; }
-    public void setMaxRequestedSignatures(@Nullable Long setterArg) {
-      this.maxRequestedSignatures = setterArg;
-    }
-
-    private @Nullable Long maxRequestedPublicKeys;
-    public @Nullable Long getMaxRequestedPublicKeys() { return maxRequestedPublicKeys; }
-    public void setMaxRequestedPublicKeys(@Nullable Long setterArg) {
-      this.maxRequestedPublicKeys = setterArg;
-    }
-
-    /** Constructor is private to enforce null safety; use Builder. */
-    private ImplementationLimitsDto() {}
-    public static final class Builder {
-      private @Nullable Long maxBip32PathDepth;
-      public @NonNull Builder setMaxBip32PathDepth(@NonNull Long setterArg) {
-        this.maxBip32PathDepth = setterArg;
-        return this;
-      }
-      private @Nullable Long maxSigningRequests;
-      public @NonNull Builder setMaxSigningRequests(@Nullable Long setterArg) {
-        this.maxSigningRequests = setterArg;
-        return this;
-      }
-      private @Nullable Long maxRequestedSignatures;
-      public @NonNull Builder setMaxRequestedSignatures(@Nullable Long setterArg) {
-        this.maxRequestedSignatures = setterArg;
-        return this;
-      }
-      private @Nullable Long maxRequestedPublicKeys;
-      public @NonNull Builder setMaxRequestedPublicKeys(@Nullable Long setterArg) {
-        this.maxRequestedPublicKeys = setterArg;
-        return this;
-      }
-      public @NonNull ImplementationLimitsDto build() {
-        ImplementationLimitsDto pigeonReturn = new ImplementationLimitsDto();
-        pigeonReturn.setMaxBip32PathDepth(maxBip32PathDepth);
-        pigeonReturn.setMaxSigningRequests(maxSigningRequests);
-        pigeonReturn.setMaxRequestedSignatures(maxRequestedSignatures);
-        pigeonReturn.setMaxRequestedPublicKeys(maxRequestedPublicKeys);
-        return pigeonReturn;
-      }
-    }
-    @NonNull Map<String, Object> toMap() {
-      Map<String, Object> toMapResult = new HashMap<>();
-      toMapResult.put("maxBip32PathDepth", maxBip32PathDepth);
-      toMapResult.put("maxSigningRequests", maxSigningRequests);
-      toMapResult.put("maxRequestedSignatures", maxRequestedSignatures);
-      toMapResult.put("maxRequestedPublicKeys", maxRequestedPublicKeys);
-      return toMapResult;
-    }
-    static @NonNull ImplementationLimitsDto fromMap(@NonNull Map<String, Object> map) {
-      ImplementationLimitsDto pigeonResult = new ImplementationLimitsDto();
-      Object maxBip32PathDepth = map.get("maxBip32PathDepth");
-      pigeonResult.setMaxBip32PathDepth((maxBip32PathDepth == null) ? null : ((maxBip32PathDepth instanceof Integer) ? (Integer)maxBip32PathDepth : (Long)maxBip32PathDepth));
-      Object maxSigningRequests = map.get("maxSigningRequests");
-      pigeonResult.setMaxSigningRequests((maxSigningRequests == null) ? null : ((maxSigningRequests instanceof Integer) ? (Integer)maxSigningRequests : (Long)maxSigningRequests));
-      Object maxRequestedSignatures = map.get("maxRequestedSignatures");
-      pigeonResult.setMaxRequestedSignatures((maxRequestedSignatures == null) ? null : ((maxRequestedSignatures instanceof Integer) ? (Integer)maxRequestedSignatures : (Long)maxRequestedSignatures));
-      Object maxRequestedPublicKeys = map.get("maxRequestedPublicKeys");
-      pigeonResult.setMaxRequestedPublicKeys((maxRequestedPublicKeys == null) ? null : ((maxRequestedPublicKeys instanceof Integer) ? (Integer)maxRequestedPublicKeys : (Long)maxRequestedPublicKeys));
-      return pigeonResult;
-    }
-  }
-
   /** Generated class from Pigeon that represents data sent in messages. */
   public static class SigningRequestDto {
     private @NonNull byte[] payload;
@@ -586,24 +213,12 @@ public class Api {
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
         case (byte)128:         
-          return AccountDto.fromMap((Map<String, Object>) readValue(buffer));
-        
-        case (byte)129:         
-          return AccountFilterDto.fromMap((Map<String, Object>) readValue(buffer));
-        
-        case (byte)130:         
-          return ImplementationLimitsDto.fromMap((Map<String, Object>) readValue(buffer));
-        
-        case (byte)131:         
           return PublicKeyResponseDto.fromMap((Map<String, Object>) readValue(buffer));
         
-        case (byte)132:         
-          return SeedDto.fromMap((Map<String, Object>) readValue(buffer));
-        
-        case (byte)133:         
+        case (byte)129:         
           return SigningRequestDto.fromMap((Map<String, Object>) readValue(buffer));
         
-        case (byte)134:         
+        case (byte)130:         
           return SigningResponseDto.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
@@ -613,32 +228,16 @@ public class Api {
     }
     @Override
     protected void writeValue(ByteArrayOutputStream stream, Object value)     {
-      if (value instanceof AccountDto) {
-        stream.write(128);
-        writeValue(stream, ((AccountDto) value).toMap());
-      } else 
-      if (value instanceof AccountFilterDto) {
-        stream.write(129);
-        writeValue(stream, ((AccountFilterDto) value).toMap());
-      } else 
-      if (value instanceof ImplementationLimitsDto) {
-        stream.write(130);
-        writeValue(stream, ((ImplementationLimitsDto) value).toMap());
-      } else 
       if (value instanceof PublicKeyResponseDto) {
-        stream.write(131);
+        stream.write(128);
         writeValue(stream, ((PublicKeyResponseDto) value).toMap());
       } else 
-      if (value instanceof SeedDto) {
-        stream.write(132);
-        writeValue(stream, ((SeedDto) value).toMap());
-      } else 
       if (value instanceof SigningRequestDto) {
-        stream.write(133);
+        stream.write(129);
         writeValue(stream, ((SigningRequestDto) value).toMap());
       } else 
       if (value instanceof SigningResponseDto) {
-        stream.write(134);
+        stream.write(130);
         writeValue(stream, ((SigningResponseDto) value).toMap());
       } else 
 {
@@ -655,15 +254,21 @@ public class Api {
     void signMessages(@NonNull Long authToken, @NonNull List<SigningRequestDto> signingRequests, Result<List<SigningResponseDto>> result);
     void signTransactions(@NonNull Long authToken, @NonNull List<SigningRequestDto> signingRequests, Result<List<SigningResponseDto>> result);
     void requestPublicKeys(@NonNull Long authToken, @NonNull List<String> derivationPaths, Result<List<PublicKeyResponseDto>> result);
-    @NonNull ImplementationLimitsDto getImplementationLimitsForPurpose(@NonNull Long purpose);
-    @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
-    @NonNull List<SeedDto> getAuthorizedSeeds();
-    @NonNull List<AccountDto> getAccounts(@NonNull Long authToken, @Nullable AccountFilterDto filter);
-    @NonNull String resolveDerivationPath(@NonNull String derivationPath, @NonNull Long purpose);
+    @NonNull List<Map<String, Object>> getAuthorizedSeeds(@NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
+    @NonNull Map<String, Object> getAuthorizedSeed(@NonNull Long authToken, @NonNull List<String> projection);
     void deauthorizeSeed(@NonNull Long authToken);
+    @NonNull List<Map<String, Object>> getUnauthorizedSeeds(@NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
+    @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
+    @NonNull List<Map<String, Object>> getAccounts(@NonNull Long authToken, @NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
+    @NonNull Map<String, Object> getAccount(@NonNull Long authToken, @NonNull Long id, @NonNull List<String> projection);
     void updateAccountName(@NonNull Long authToken, @NonNull Long accountId, @Nullable String name);
     void updateAccountIsUserWallet(@NonNull Long authToken, @NonNull Long accountId, @NonNull Boolean isUserWallet);
     void updateAccountIsValid(@NonNull Long authToken, @NonNull Long accountId, @NonNull Boolean isValid);
+    @NonNull List<Map<String, Object>> getImplementationLimits(@NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
+    @NonNull Map<String, Object> getImplementationLimitsForPurpose(@NonNull Long purpose);
+    @NonNull String resolveDerivationPath(@NonNull String derivationPath, @NonNull Long purpose);
+    @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
+    void checkPermission(Result<Boolean> result);
 
     /** The codec used by WalletApiHost. */
     static MessageCodec<Object> getCodec() {
@@ -890,17 +495,97 @@ public class Api {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getImplementationLimitsForPurpose", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getAuthorizedSeeds", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
-              Number purposeArg = (Number)args.get(0);
-              if (purposeArg == null) {
-                throw new NullPointerException("purposeArg unexpectedly null.");
+              List<String> projectionArg = (List<String>)args.get(0);
+              if (projectionArg == null) {
+                throw new NullPointerException("projectionArg unexpectedly null.");
               }
-              ImplementationLimitsDto output = api.getImplementationLimitsForPurpose((purposeArg == null) ? null : purposeArg.longValue());
+              String filterOnColumnArg = (String)args.get(1);
+              Object valueArg = (Object)args.get(2);
+              List<Map<String, Object>> output = api.getAuthorizedSeeds(projectionArg, filterOnColumnArg, valueArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getAuthorizedSeed", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              List<String> projectionArg = (List<String>)args.get(1);
+              if (projectionArg == null) {
+                throw new NullPointerException("projectionArg unexpectedly null.");
+              }
+              Map<String, Object> output = api.getAuthorizedSeed((authTokenArg == null) ? null : authTokenArg.longValue(), projectionArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.deauthorizeSeed", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number authTokenArg = (Number)args.get(0);
+              if (authTokenArg == null) {
+                throw new NullPointerException("authTokenArg unexpectedly null.");
+              }
+              api.deauthorizeSeed((authTokenArg == null) ? null : authTokenArg.longValue());
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getUnauthorizedSeeds", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              List<String> projectionArg = (List<String>)args.get(0);
+              if (projectionArg == null) {
+                throw new NullPointerException("projectionArg unexpectedly null.");
+              }
+              String filterOnColumnArg = (String)args.get(1);
+              Object valueArg = (Object)args.get(2);
+              List<Map<String, Object>> output = api.getUnauthorizedSeeds(projectionArg, filterOnColumnArg, valueArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -938,25 +623,6 @@ public class Api {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getAuthorizedSeeds", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              List<SeedDto> output = api.getAuthorizedSeeds();
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
             new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getAccounts", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
@@ -967,8 +633,13 @@ public class Api {
               if (authTokenArg == null) {
                 throw new NullPointerException("authTokenArg unexpectedly null.");
               }
-              AccountFilterDto filterArg = (AccountFilterDto)args.get(1);
-              List<AccountDto> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue(), filterArg);
+              List<String> projectionArg = (List<String>)args.get(1);
+              if (projectionArg == null) {
+                throw new NullPointerException("projectionArg unexpectedly null.");
+              }
+              String filterOnColumnArg = (String)args.get(2);
+              Object valueArg = (Object)args.get(3);
+              List<Map<String, Object>> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue(), projectionArg, filterOnColumnArg, valueArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -982,35 +653,7 @@ public class Api {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.resolveDerivationPath", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              String derivationPathArg = (String)args.get(0);
-              if (derivationPathArg == null) {
-                throw new NullPointerException("derivationPathArg unexpectedly null.");
-              }
-              Number purposeArg = (Number)args.get(1);
-              if (purposeArg == null) {
-                throw new NullPointerException("purposeArg unexpectedly null.");
-              }
-              String output = api.resolveDerivationPath(derivationPathArg, (purposeArg == null) ? null : purposeArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.deauthorizeSeed", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getAccount", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -1020,8 +663,16 @@ public class Api {
               if (authTokenArg == null) {
                 throw new NullPointerException("authTokenArg unexpectedly null.");
               }
-              api.deauthorizeSeed((authTokenArg == null) ? null : authTokenArg.longValue());
-              wrapped.put("result", null);
+              Number idArg = (Number)args.get(1);
+              if (idArg == null) {
+                throw new NullPointerException("idArg unexpectedly null.");
+              }
+              List<String> projectionArg = (List<String>)args.get(2);
+              if (projectionArg == null) {
+                throw new NullPointerException("projectionArg unexpectedly null.");
+              }
+              Map<String, Object> output = api.getAccount((authTokenArg == null) ? null : authTokenArg.longValue(), (idArg == null) ? null : idArg.longValue(), projectionArg);
+              wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));
@@ -1125,28 +776,87 @@ public class Api {
           channel.setMessageHandler(null);
         }
       }
-    }
-  }
-  private static class SeedVaultApiHostCodec extends StandardMessageCodec {
-    public static final SeedVaultApiHostCodec INSTANCE = new SeedVaultApiHostCodec();
-    private SeedVaultApiHostCodec() {}
-  }
-
-  /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
-  public interface SeedVaultApiHost {
-    @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
-    void checkPermission(Result<Boolean> result);
-
-    /** The codec used by SeedVaultApiHost. */
-    static MessageCodec<Object> getCodec() {
-      return SeedVaultApiHostCodec.INSTANCE;
-    }
-
-    /** Sets up an instance of `SeedVaultApiHost` to handle messages through the `binaryMessenger`. */
-    static void setup(BinaryMessenger binaryMessenger, SeedVaultApiHost api) {
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.SeedVaultApiHost.isAvailable", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getImplementationLimits", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              List<String> projectionArg = (List<String>)args.get(0);
+              if (projectionArg == null) {
+                throw new NullPointerException("projectionArg unexpectedly null.");
+              }
+              String filterOnColumnArg = (String)args.get(1);
+              Object valueArg = (Object)args.get(2);
+              List<Map<String, Object>> output = api.getImplementationLimits(projectionArg, filterOnColumnArg, valueArg);
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.getImplementationLimitsForPurpose", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              Number purposeArg = (Number)args.get(0);
+              if (purposeArg == null) {
+                throw new NullPointerException("purposeArg unexpectedly null.");
+              }
+              Map<String, Object> output = api.getImplementationLimitsForPurpose((purposeArg == null) ? null : purposeArg.longValue());
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.resolveDerivationPath", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              String derivationPathArg = (String)args.get(0);
+              if (derivationPathArg == null) {
+                throw new NullPointerException("derivationPathArg unexpectedly null.");
+              }
+              Number purposeArg = (Number)args.get(1);
+              if (purposeArg == null) {
+                throw new NullPointerException("purposeArg unexpectedly null.");
+              }
+              String output = api.resolveDerivationPath(derivationPathArg, (purposeArg == null) ? null : purposeArg.longValue());
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.isAvailable", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -1170,7 +880,7 @@ public class Api {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.SeedVaultApiHost.checkPermission", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.WalletApiHost.checkPermission", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();

@@ -17,12 +17,11 @@ class SolanaSeedVaultPlugin : FlutterPlugin, ActivityAware {
         val messenger = flutterPluginBinding.binaryMessenger
         val changeNotifier = ChangeNotifier(messenger)
 
-        walletApiHost = WalletApiHost(context)
-        walletApiHost.init(messenger)
         permissionHandler =
             PermissionHandler { changeNotifier.observeSeedVaultContentChanges(context) }
 
-        SeedVaultApiHost(context, permissionHandler).init(messenger)
+        walletApiHost = WalletApiHost(context, permissionHandler)
+        walletApiHost.init(messenger)
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {

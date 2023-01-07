@@ -1,11 +1,12 @@
 import 'package:solana_seed_vault/solana_seed_vault.dart';
+import 'package:solana_seed_vault/src/wallet_contract_v1.dart';
 
 class Bip44DerivationPath {
   static Uri toUri(List<BipLevel> bipLevels) {
     final pathSegments = bipLevels.map(
       (it) {
         if (it.hardened) {
-          return '${it.index}$_bipUriHardenedIndexIdentifier';
+          return '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}';
         } else {
           return it.index.toString();
         }
@@ -13,7 +14,7 @@ class Bip44DerivationPath {
     );
 
     return Uri(
-      scheme: _bip44UriScheme,
+      scheme: WalletContractV1.bip44UriScheme,
       pathSegments: pathSegments.toList()..insert(0, ''),
     );
   }
@@ -22,9 +23,9 @@ class Bip44DerivationPath {
     if (!uri.hasAbsolutePath) {
       throw UnsupportedError('BIP44 URI must be hierarchical');
     }
-    if (!uri.isAbsolute || !uri.isScheme(_bip44UriScheme)) {
+    if (!uri.isAbsolute || !uri.isScheme(WalletContractV1.bip44UriScheme)) {
       throw UnsupportedError(
-        'BIP44 URI must be absolute with scheme $_bip44UriScheme',
+        'BIP44 URI must be absolute with scheme ${WalletContractV1.bip44UriScheme}',
       );
     }
     if (uri.hasAuthority) {
@@ -46,11 +47,15 @@ class Bip44DerivationPath {
 
     final levels = path.map(
       (it) {
-        final hardened = it.endsWith(_bipUriHardenedIndexIdentifier);
+        final hardened =
+            it.endsWith(WalletContractV1.bipUriHardenedIndexIdentifier);
         final index = int.tryParse(
           it.substring(
             0,
-            it.length - (hardened ? _bipUriHardenedIndexIdentifier.length : 0),
+            it.length -
+                (hardened
+                    ? WalletContractV1.bipUriHardenedIndexIdentifier.length
+                    : 0),
           ),
         );
         if (index == null) {
@@ -81,6 +86,3 @@ class Bip44DerivationPath {
     );
   }
 }
-
-const String _bip44UriScheme = 'bip44';
-const String _bipUriHardenedIndexIdentifier = '\'';

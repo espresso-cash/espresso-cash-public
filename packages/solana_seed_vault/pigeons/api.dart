@@ -1,70 +1,5 @@
 import 'package:pigeon/pigeon.dart';
 
-enum AccountFilterColumnDto {
-  id,
-  name,
-  derivationPath,
-  publicKeyEncoded,
-  isUserWallet,
-  isValid,
-}
-
-class AccountFilterDto {
-  const AccountFilterDto({
-    required this.key,
-    required this.value,
-  });
-
-  final AccountFilterColumnDto key;
-  final String value;
-}
-
-class AccountDto {
-  const AccountDto({
-    required this.id,
-    required this.name,
-    required this.derivationPath,
-    required this.publicKeyEncoded,
-    required this.isUserWallet,
-    required this.isValid,
-  });
-
-  final int id;
-  final String name;
-  final String derivationPath;
-  final String publicKeyEncoded;
-  final bool isUserWallet;
-  final bool isValid;
-}
-
-class SeedDto {
-  const SeedDto({
-    required this.authToken,
-    required this.name,
-    required this.purpose,
-    required this.accounts,
-  });
-
-  final int authToken;
-  final String name;
-  final int purpose;
-  final List<AccountDto?> accounts;
-}
-
-class ImplementationLimitsDto {
-  const ImplementationLimitsDto({
-    required this.maxBip32PathDepth,
-    required this.maxSigningRequests,
-    required this.maxRequestedSignatures,
-    required this.maxRequestedPublicKeys,
-  });
-
-  final int maxBip32PathDepth;
-  final int? maxSigningRequests;
-  final int? maxRequestedSignatures;
-  final int? maxRequestedPublicKeys;
-}
-
 class SigningRequestDto {
   SigningRequestDto({
     required this.payload,
@@ -126,17 +61,39 @@ abstract class WalletApiHost {
     List<String> derivationPaths,
   );
 
-  ImplementationLimitsDto getImplementationLimitsForPurpose(int purpose);
+  List<Map<String?, Object?>> getAuthorizedSeeds(
+    List<String> projection,
+    String? filterOnColumn,
+    Object? value,
+  );
+
+  Map<String?, Object?> getAuthorizedSeed(
+    int authToken,
+    List<String> projection,
+  );
+
+  void deauthorizeSeed(int authToken);
+
+  List<Map<String?, Object?>> getUnauthorizedSeeds(
+    List<String> projection,
+    String? filterOnColumn,
+    Object? value,
+  );
 
   bool hasUnauthorizedSeedsForPurpose(int purpose);
 
-  List<SeedDto> getAuthorizedSeeds();
+  List<Map<String?, Object?>> getAccounts(
+    int authToken,
+    List<String> projection,
+    String? filterOnColumn,
+    Object? value,
+  );
 
-  List<AccountDto> getAccounts(int authToken, AccountFilterDto? filter);
-
-  String resolveDerivationPath(String derivationPath, int purpose);
-
-  void deauthorizeSeed(int authToken);
+  Map<String?, Object?> getAccount(
+    int authToken,
+    int id,
+    List<String> projection,
+  );
 
   void updateAccountName(int authToken, int accountId, String? name);
 
@@ -151,10 +108,17 @@ abstract class WalletApiHost {
     int accountId,
     bool isValid,
   );
-}
 
-@HostApi()
-abstract class SeedVaultApiHost {
+  List<Map<String?, Object?>> getImplementationLimits(
+    List<String> projection,
+    String? filterOnColumn,
+    Object? value,
+  );
+
+  Map<String?, Object?> getImplementationLimitsForPurpose(int purpose);
+
+  String resolveDerivationPath(String derivationPath, int purpose);
+
   bool isAvailable(bool allowSimulated);
 
   @async

@@ -138,10 +138,15 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       );
 
   AsyncResult<List<String>> requestPublicKeys(AuthToken authToken) async =>
-      _requestPublicKeys(
-        authToken,
-        _generateUris(_maxRequestedPublicKeys),
-      );
+      SeedVaultWallet.instance.getMappedAccounts(authToken).letAsync(
+            (it) =>
+                it.toEither().map((it) => it.map((e) => e.toString()).toList()),
+          );
+
+  // return _requestPublicKeys(
+  //     authToken,
+  //     _generateUris(_maxRequestedPublicKeys),
+  //   );
 
   AsyncResult<String> exceedMaxSigningRequests(
     AuthToken authToken,

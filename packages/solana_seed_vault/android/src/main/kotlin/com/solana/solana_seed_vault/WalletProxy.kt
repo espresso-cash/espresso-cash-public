@@ -9,13 +9,15 @@ import androidx.annotation.RequiresApi
 import com.solana.solana_seed_vault.Api.*
 import com.solana.solana_seed_vault.utils.ActivityBindingMixin
 import com.solana.solana_seed_vault.utils.ActivityBindingMixinImpl
+import com.solana.solana_seed_vault.utils.CursorSerializer
+import com.solana.solana_seed_vault.utils.PermissionHandler
 import com.solanamobile.seedvault.*
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.PluginRegistry
 import kotlinx.coroutines.*
 import java.util.concurrent.CompletableFuture
 
-class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResultListener,
+class WalletApiHost(private val context: Context, private val permissionHandler: PermissionHandler) : PluginRegistry.ActivityResultListener,
     Api.WalletApiHost, ActivityBindingMixin by ActivityBindingMixinImpl() {
     private var completable: CompletableFuture<Any> = CompletableFuture()
     private var pendingRequest: Int? = null
@@ -33,6 +35,16 @@ class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResul
     fun init(binaryMessenger: BinaryMessenger) {
         Api.WalletApiHost.setup(binaryMessenger, this)
         whenBindingReady { it.addActivityResultListener(this) }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun isAvailable(allowSimulated: Boolean): Boolean {
+        return SeedVault.isAvailable(context, allowSimulated)
+    }
+
+    override fun checkPermission(result: Api.Result<Boolean>?) {
+        if (result == null) return
+        permissionHandler.checkPermission(context, result)
     }
 
     override fun authorizeSeed(purpose: Long, result: Result<Long>?) {
@@ -63,18 +75,6 @@ class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResul
                 REQUEST_IMPORT_EXISTING_SEED
             )
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.R)
-    override fun getImplementationLimitsForPurpose(purpose: Long): ImplementationLimitsDto {
-        val limits = Wallet.getImplementationLimitsForPurpose(context, purpose.toInt())
-
-        return ImplementationLimitsDto.Builder()
-            .setMaxBip32PathDepth(WalletContractV1.BIP32_URI_MAX_DEPTH.toLong())
-            .setMaxRequestedPublicKeys(limits[WalletContractV1.IMPLEMENTATION_LIMITS_MAX_REQUESTED_PUBLIC_KEYS])
-            .setMaxSigningRequests(limits[WalletContractV1.IMPLEMENTATION_LIMITS_MAX_SIGNING_REQUESTS])
-            .setMaxRequestedSignatures(limits[WalletContractV1.IMPLEMENTATION_LIMITS_MAX_REQUESTED_SIGNATURES])
-            .build()
     }
 
     override fun hasUnauthorizedSeedsForPurpose(purpose: Long): Boolean {
@@ -165,39 +165,6 @@ class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResul
         }
     }
 
-    override fun getAuthorizedSeeds(): MutableList<Api.SeedDto> {
-        val seeds = mutableListOf<SeedDto>()
-
-        val authorizedSeedsCursor =
-            Wallet.getAuthorizedSeeds(
-                context,
-                WalletContractV1.AUTHORIZED_SEEDS_ALL_COLUMNS
-            )!!
-
-        val accountFilter = AccountFilterDto.Builder()
-            .setKey(AccountFilterColumnDto.isUserWallet)
-            .setValue(true.toString()).build()
-
-        while (authorizedSeedsCursor.moveToNext()) {
-            val authToken = authorizedSeedsCursor.getLong(0)
-            val authPurpose = authorizedSeedsCursor.getInt(1)
-            val seedName = authorizedSeedsCursor.getString(2)
-            val accounts = getAccounts(authToken, accountFilter)
-
-            seeds.add(
-                SeedDto.Builder()
-                    .setAuthToken(authToken)
-                    .setName(seedName.ifBlank { authToken.toString() })
-                    .setPurpose(authPurpose.toLong())
-                    .setAccounts(accounts)
-                    .build()
-            )
-        }
-        authorizedSeedsCursor.close()
-
-        return seeds
-    }
-
     override fun updateAccountIsValid(authToken: Long, accountId: Long, isValid: Boolean) {
         return Wallet.updateAccountIsValid(context, authToken, accountId, isValid)
     }
@@ -221,40 +188,6 @@ class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResul
     override fun resolveDerivationPath(derivationPath: String, purpose: Long): String {
         return Wallet.resolveDerivationPath(context, Uri.parse(derivationPath), purpose.toInt())
             .toString();
-    }
-
-    override fun getAccounts(authToken: Long, filter: AccountFilterDto?): MutableList<AccountDto> {
-        val accounts = mutableListOf<AccountDto>()
-        val filter = filter?.parse()
-
-        val accountsCursor = Wallet.getAccounts(
-            context,
-            authToken,
-            WalletContractV1.ACCOUNTS_ALL_COLUMNS,
-            filter?.first, filter?.second,
-        )!!
-
-        while (accountsCursor.moveToNext()) {
-            val accountId = accountsCursor.getLong(0)
-            val derivationPath = Uri.parse(accountsCursor.getString(1))
-            val publicKeyEncoded = accountsCursor.getString(3)
-            val accountName = accountsCursor.getString(4)
-            val isUserWallet = accountsCursor.getShort(5) == 1.toShort()
-            val isValid = accountsCursor.getShort(6) == 1.toShort()
-            accounts.add(
-                AccountDto.Builder()
-                    .setId(accountId)
-                    .setName(accountName.ifBlank { publicKeyEncoded.substring(0, 10) })
-                    .setPublicKeyEncoded(publicKeyEncoded)
-                    .setDerivationPath(derivationPath.toString())
-                    .setIsUserWallet(isUserWallet)
-                    .setIsValid(isValid)
-                    .build()
-            )
-        }
-        accountsCursor.close()
-
-        return accounts;
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
@@ -307,33 +240,76 @@ class WalletApiHost(private val context: Context) : PluginRegistry.ActivityResul
             completable.completeExceptionally(e)
         }
     }
-}
 
-private fun AccountFilterDto.parse(): Pair<String, Any> {
-    return when (key) {
-        AccountFilterColumnDto.id -> Pair(
-            WalletContractV1.ACCOUNTS_ACCOUNT_ID,
-            value.toLong(),
-        )
-        AccountFilterColumnDto.isUserWallet -> Pair(
-            WalletContractV1.ACCOUNTS_ACCOUNT_IS_USER_WALLET,
-            if (value.toBoolean()) "1" else "0",
-        )
-        AccountFilterColumnDto.name -> Pair(
-            WalletContractV1.ACCOUNTS_ACCOUNT_NAME,
-            value,
-        )
-        AccountFilterColumnDto.derivationPath -> Pair(
-            WalletContractV1.ACCOUNTS_BIP32_DERIVATION_PATH,
-            value,
-        )
-        AccountFilterColumnDto.isValid -> Pair(
-            WalletContractV1.ACCOUNTS_ACCOUNT_IS_VALID,
-            if (value.toBoolean()) "1" else "0",
-        )
-        AccountFilterColumnDto.publicKeyEncoded -> Pair(
-            WalletContractV1.ACCOUNTS_PUBLIC_KEY_ENCODED,
-            value,
-        )
+    override fun getAuthorizedSeeds(
+        projection: MutableList<String>,
+        filterOnColumn: String?,
+        value: Any?
+    ): MutableList<MutableMap<String, Any>> {
+        return Wallet.getAuthorizedSeeds(context, projection.toTypedArray(), filterOnColumn, value)
+            .let { CursorSerializer.serialize(it) }
+    }
+
+    override fun getUnauthorizedSeeds(
+        projection: MutableList<String>,
+        filterOnColumn: String?,
+        value: Any?
+    ): MutableList<MutableMap<String, Any>> {
+        return Wallet.getUnauthorizedSeeds(
+            context,
+            projection.toTypedArray(),
+            filterOnColumn,
+            value
+        ).let { CursorSerializer.serialize(it) }
+    }
+
+    override fun getImplementationLimits(
+        projection: MutableList<String>,
+        filterOnColumn: String?,
+        value: Any?
+    ): MutableList<MutableMap<String, Any>> {
+        return Wallet.getImplementationLimits(
+            context,
+            projection.toTypedArray(),
+            filterOnColumn,
+            value
+        ).let { CursorSerializer.serialize(it) }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    override fun getImplementationLimitsForPurpose(purpose: Long): MutableMap<String, Any> {
+        return Wallet.getImplementationLimitsForPurpose(context, purpose.toInt()).toMutableMap()
+    }
+
+    override fun getAccount(
+        authToken: Long,
+        id: Long,
+        projection: MutableList<String>
+    ): MutableMap<String, Any> {
+        return Wallet.getAccount(context, authToken, id, projection.toTypedArray())
+            .let { CursorSerializer.serialize(it).first() }
+    }
+
+    override fun getAccounts(
+        authToken: Long,
+        projection: MutableList<String>,
+        filterOnColumn: String?,
+        value: Any?
+    ): MutableList<MutableMap<String, Any>> {
+        return Wallet.getAccounts(
+            context,
+            authToken,
+            projection.toTypedArray(),
+            filterOnColumn,
+            value
+        ).let { CursorSerializer.serialize(it) }
+    }
+
+    override fun getAuthorizedSeed(
+        authToken: Long,
+        projection: MutableList<String>
+    ): MutableMap<String, Any> {
+        return Wallet.getAuthorizedSeed(context, authToken, projection.toTypedArray())
+            .let { CursorSerializer.serialize(it).first() }
     }
 }

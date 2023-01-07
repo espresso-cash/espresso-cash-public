@@ -1,14 +1,15 @@
 import 'package:solana_seed_vault/solana_seed_vault.dart';
+import 'package:solana_seed_vault/src/wallet_contract_v1.dart';
 
 class Bip32DerivationPath {
   static Uri toUri(List<BipLevel> bipLevels) {
     final pathSegments = [
       '',
-      _bip32UriMasterKeyIndicator,
+      WalletContractV1.bip32UriMasterKeyIndicator,
       ...bipLevels.map(
         (it) {
           if (it.hardened) {
-            return '${it.index}$_bipUriHardenedIndexIdentifier';
+            return '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}';
           } else {
             return it.index.toString();
           }
@@ -17,7 +18,7 @@ class Bip32DerivationPath {
     ];
 
     return Uri(
-      scheme: _bip32UriScheme,
+      scheme: WalletContractV1.bip32UriScheme,
       pathSegments: pathSegments,
     );
   }
@@ -26,9 +27,9 @@ class Bip32DerivationPath {
     if (!uri.hasAbsolutePath) {
       throw UnsupportedError('BIP32 URI must be hierarchical');
     }
-    if (uri.isAbsolute && !uri.isScheme(_bip32UriScheme)) {
+    if (uri.isAbsolute && !uri.isScheme(WalletContractV1.bip32UriScheme)) {
       throw UnsupportedError(
-        'BIP32 URI absolute scheme must be $_bip32UriScheme',
+        'BIP32 URI absolute scheme must be ${WalletContractV1.bip32UriScheme}',
       );
     }
     if (uri.hasAuthority) {
@@ -42,7 +43,8 @@ class Bip32DerivationPath {
     }
 
     final path = uri.pathSegments;
-    if (path.isEmpty || path.first != _bip32UriMasterKeyIndicator) {
+    if (path.isEmpty ||
+        path.first != WalletContractV1.bip32UriMasterKeyIndicator) {
       throw UnsupportedError(
         'BIP32 URI path must start with a master key indicator',
       );
@@ -50,11 +52,15 @@ class Bip32DerivationPath {
 
     return path.skip(1).map(
       (it) {
-        final hardened = it.endsWith(_bipUriHardenedIndexIdentifier);
+        final hardened =
+            it.endsWith(WalletContractV1.bipUriHardenedIndexIdentifier);
         final index = int.tryParse(
           it.substring(
             0,
-            it.length - (hardened ? _bipUriHardenedIndexIdentifier.length : 0),
+            it.length -
+                (hardened
+                    ? WalletContractV1.bipUriHardenedIndexIdentifier.length
+                    : 0),
           ),
         );
         if (index == null) {
@@ -68,7 +74,3 @@ class Bip32DerivationPath {
     ).toList();
   }
 }
-
-const String _bip32UriScheme = 'bip32';
-const String _bip32UriMasterKeyIndicator = 'm';
-const String _bipUriHardenedIndexIdentifier = '\'';

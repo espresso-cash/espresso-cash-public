@@ -4,16 +4,16 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:solana_seed_vault/src/api.dart';
 import 'package:solana_seed_vault/src/extensions.dart';
-import 'package:solana_seed_vault/src/models/account.dart';
 import 'package:solana_seed_vault/src/models/auth_token.dart';
 import 'package:solana_seed_vault/src/models/authorization_result.dart';
-import 'package:solana_seed_vault/src/models/filter.dart';
-import 'package:solana_seed_vault/src/models/implementation_limits.dart';
 import 'package:solana_seed_vault/src/models/public_key_response.dart';
 import 'package:solana_seed_vault/src/models/seed.dart';
 import 'package:solana_seed_vault/src/models/seed_vault_notification.dart';
 import 'package:solana_seed_vault/src/models/signing_request.dart';
 import 'package:solana_seed_vault/src/models/signing_response.dart';
+import 'package:solana_seed_vault/src/wallet_contract_v1.dart';
+
+typedef CursorData = Map<String, dynamic>;
 
 typedef AsyncAuthorizationResult<T> = Future<AuthorizationResult<T>>;
 
@@ -48,57 +48,58 @@ class SeedVaultWallet implements SeedVaultFlutterApi {
     );
   }
 
-  Future<ImplementationLimits> getImplementationLimitsForPurpose(
-    Purpose purpose,
-  ) async {
-    final dto =
-        await _platform.getImplementationLimitsForPurpose(purpose.index);
+  Future<bool> isAvailable(bool allowSimulated) =>
+      _platform.isAvailable(allowSimulated);
 
-    return ImplementationLimits(
-      maxBip32PathDepth: dto.maxBip32PathDepth,
-      maxSigningRequests: dto.maxSigningRequests ?? 0,
-      maxRequestedSignatures: dto.maxRequestedSignatures ?? 0,
-      maxRequestedPublicKeys: dto.maxRequestedPublicKeys ?? 0,
-    );
-  }
+  Future<bool> checkPermission() => _platform.checkPermission();
 
-  Future<List<Seed>> getAuthorizedSeeds() async {
-    final seeds = await _platform.getAuthorizedSeeds();
-
-    return seeds
-        .compact()
-        .map(
-          (it) => Seed(
-            authToken: it.authToken,
-            name: it.name,
-            purpose: Purpose.values.elementAt(it.purpose),
-            accounts: it.accounts.toModelList(),
-          ),
-        )
-        .toList();
-  }
-
-  Future<Uri> resolveDerivationPath({
-    required Uri derivationPath,
-    required Purpose purpose,
-  }) async {
-    final encoded = await _platform.resolveDerivationPath(
-      derivationPath.toString(),
-      purpose.index,
-    );
-
-    return Uri.parse(encoded);
-  }
-
-  AsyncAuthorizationResult<List<Account>> getAccounts(
-    AuthToken authToken, {
-    AccountFilter filter = const AccountFilter(),
+  Future<List<CursorData>> getAuthorizedSeeds({
+    List<String> projection = WalletContractV1.authorizedSeedsAllColumns,
+    String? filterOnColumn,
+    Object? value,
   }) =>
-      _handleAuthResult(() async {
-        final accounts = await _platform.getAccounts(authToken, filter.toDto());
+      _platform
+          .getAuthorizedSeeds(projection, filterOnColumn, value)
+          .letAsync(_castList);
 
-        return accounts.toModelList();
-      });
+  AsyncAuthorizationResult<CursorData> getAuthorizedSeed({
+    required AuthToken authToken,
+    List<String> projection = WalletContractV1.authorizedSeedsAllColumns,
+  }) =>
+      _handleAuthResult(
+        () =>
+            _platform.getAuthorizedSeed(authToken, projection).letAsync(_cast),
+      );
+
+  Future<List<CursorData>> getUnauthorizedSeeds({
+    List<String> projection = WalletContractV1.unauthorizedSeedsAllColumns,
+    String? filterOnColumn,
+    Object? value,
+  }) =>
+      _platform
+          .getUnauthorizedSeeds(projection, filterOnColumn, value)
+          .letAsync(_castList);
+
+  AsyncAuthorizationResult<List<CursorData>> getAccounts({
+    required AuthToken authToken,
+    List<String> projection = WalletContractV1.accountsAllColumns,
+    String? filterOnColumn,
+    Object? value,
+  }) =>
+      _handleAuthResult(
+        () => _platform
+            .getAccounts(authToken, projection, filterOnColumn, value)
+            .letAsync(_castList),
+      );
+
+  AsyncAuthorizationResult<CursorData> getAccount({
+    required int authToken,
+    required int id,
+    List<String> projection = WalletContractV1.accountsAllColumns,
+  }) =>
+      _handleAuthResult(
+        () => _platform.getAccount(authToken, id, projection).letAsync(_cast),
+      );
 
   AsyncAuthorizationResult<void> updateAccountName({
     required AuthToken authToken,
@@ -133,6 +134,20 @@ class SeedVaultWallet implements SeedVaultFlutterApi {
 
   AsyncAuthorizationResult<void> deauthorizeSeed(AuthToken authToken) =>
       _handleAuthResult(() => _platform.deauthorizeSeed(authToken));
+
+  Future<List<CursorData>> getImplementationLimits({
+    List<String> projection = WalletContractV1.implementationLimitsAllColumns,
+    String? filterOnColumn,
+    Object? value,
+  }) =>
+      _platform
+          .getImplementationLimits(projection, filterOnColumn, value)
+          .letAsync(_castList);
+
+  Future<CursorData> getImplementationLimitsForPurpose(Purpose purpose) =>
+      _platform
+          .getImplementationLimitsForPurpose(purpose.index)
+          .letAsync(_cast);
 
   Future<bool> hasUnauthorizedSeedsForPurpose(Purpose purpose) =>
       _platform.hasUnauthorizedSeedsForPurpose(purpose.index);
@@ -199,3 +214,8 @@ Future<AuthorizationResult<T>> _handleAuthResult<T>(
       AuthorizationResult<T>.failed,
       AuthorizationResult<T>.success,
     );
+
+List<CursorData> _castList(List<Map<String?, Object?>?> list) =>
+    list.map((it) => it?.let(_cast)).compact().toList();
+
+CursorData _cast(Map<String?, Object?> data) => data.cast<String, dynamic>();
