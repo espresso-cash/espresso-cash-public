@@ -15,23 +15,5 @@ Future<void> main() async {
     SeedVaultConfig.instance = SeedVaultConfig(apiHost);
   });
 
-  test('Check for Seed Vault availability', () async {
-    when(apiHost.isAvailable(any)).thenAnswer((_) async => true);
-
-    final result = await SeedVaultConfig.instance.isAvailable(false);
-
-    expect(result, true);
-    verify(apiHost.isAvailable(any)).called(1);
-    verifyNoMoreInteractions(apiHost);
-  });
-
-  test('Check and ask for Seed Vault permission', () async {
-    when(apiHost.checkPermission()).thenAnswer((_) async => true);
-
-    final result = await SeedVaultConfig.instance.checkPermission();
-
-    expect(result, true);
-    verify(apiHost.checkPermission()).called(1);
-    verifyNoMoreInteractions(apiHost);
-  });
+  
 }

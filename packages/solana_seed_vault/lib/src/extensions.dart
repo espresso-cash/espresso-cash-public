@@ -1,37 +1,107 @@
+import 'dart:async';
+
 import 'package:dfunc/dfunc.dart';
-import 'package:solana_seed_vault/src/api.dart';
-import 'package:solana_seed_vault/src/models/account.dart';
-import 'package:solana_seed_vault/src/models/signing_request.dart';
-import 'package:solana_seed_vault/src/models/signing_response.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
+import 'package:solana_seed_vault/src/wallet_contract_v1.dart';
 
-extension SigningRequestExt on SigningRequest {
-  SigningRequestDto toDto() => SigningRequestDto(
-        payload: payload,
-        requestedSignatures:
-            requestedSignatures.map((it) => it.toString()).toList(),
+extension SeedVaultHelperExt on SeedVault {
+  Future<List<Seed>> getParsedAuthorizedSeeds() async {
+    final result = await getAuthorizedSeeds();
+
+    return result.map((it) => it.cursorToSeed(this)).let(Future.wait);
+  }
+
+  Future<Seed> getParsedAuthorizedSeed(AuthToken authToken) =>
+      getAuthorizedSeed(authToken: authToken)
+          .letAsync((it) => it.cursorToSeed(this));
+
+  Future<List<Account>> getParsedAccounts(
+    AuthToken authToken, {
+    AccountFilter filter = const AccountFilter(),
+  }) =>
+      getAccounts(
+        authToken: authToken,
+        filterOnColumn: filter.toColumn(),
+        value: filter.toValue(),
+      ).letAsync((it) => it.map((it) => it.cursorToAccount()).toList());
+
+  Future<Account> getParsedAccount({
+    required AuthToken authToken,
+    required int accountId,
+  }) =>
+      getAccount(authToken: authToken, id: accountId)
+          .letAsync((it) => it.cursorToAccount());
+
+  Future<ImplementationLimits> getParsedImplementationLimitsForPurpose(
+    Purpose purpose,
+  ) =>
+      getImplementationLimitsForPurpose(purpose)
+          .letAsync((it) => it.cursorToImplementationLimits());
+}
+
+extension CursorToModelExt on CursorData {
+  Future<Seed> cursorToSeed(SeedVault seedVault) async {
+    final authToken = this[WalletContractV1.authorizedSeedsAuthToken] as int;
+    final name = this[WalletContractV1.authorizedSeedsSeedName] as String;
+    final purpose = this[WalletContractV1.authorizedSeedsAuthPurpose] as int;
+    final accounts = await seedVault.getParsedAccounts(
+      authToken,
+      filter: const AccountFilter.byIsUserWallet(true),
+    );
+
+    return Seed(
+      authToken: authToken,
+      name: name,
+      purpose: Purpose.values.elementAt(purpose),
+      accounts: accounts,
+    );
+  }
+
+  Account cursorToAccount() => Account(
+        id: this[WalletContractV1.accountsAccountId] as int,
+        name: this[WalletContractV1.accountsAccountName] as String,
+        derivationPath:
+            (this[WalletContractV1.accountsBip32DerivationPath] as String)
+                .let(Uri.parse),
+        publicKeyEncoded:
+            this[WalletContractV1.accountsPublicKeyEncoded] as String,
+        isUserWallet:
+            this[WalletContractV1.accountsAccountIsUserWallet] as bool,
+        isValid: this[WalletContractV1.accountsAccountIsValid] as bool,
+      );
+
+  ImplementationLimits cursorToImplementationLimits() => ImplementationLimits(
+        maxBip32PathDepth: WalletContractV1.bip32UriMaxDepth,
+        maxSigningRequests:
+            this[WalletContractV1.implementationLimitsMaxSigningRequests]
+                as int,
+        maxRequestedSignatures:
+            this[WalletContractV1.implementationLimitsMaxRequestedSignatures]
+                as int,
+        maxRequestedPublicKeys:
+            this[WalletContractV1.implementationLimitsMaxRequestedPublicKeys]
+                as int,
       );
 }
 
-extension SigningResponseExt on SigningResponseDto {
-  SigningResponse toModel() => SigningResponse(
-        signatures: signatures.compact().toList(),
-        resolvedDerivationPaths:
-            resolvedDerivationPaths.compact().map(Uri.parse).toList(),
+extension on AccountFilter {
+  String? toColumn() => when(
+        () => null,
+        byId: always(WalletContractV1.accountsAccountId),
+        byName: always(WalletContractV1.accountsAccountName),
+        byDerivationPath: always(WalletContractV1.accountsBip32DerivationPath),
+        byPublicKeyEncoded: always(WalletContractV1.accountsPublicKeyEncoded),
+        byIsUserWallet: always(WalletContractV1.accountsAccountIsUserWallet),
+        byIsValid: always(WalletContractV1.accountsAccountIsValid),
       );
-}
 
-extension AccountDtoExt on List<AccountDto?> {
-  List<Account> toModelList() => this
-      .compact()
-      .map(
-        (it) => Account(
-          id: it.id,
-          name: it.name,
-          derivationPath: Uri.parse(it.derivationPath),
-          publicKeyEncoded: it.publicKeyEncoded,
-          isUserWallet: it.isUserWallet,
-          isValid: it.isValid,
-        ),
-      )
-      .toList();
+  Object? toValue() => when(
+        () => null,
+        byId: identity,
+        byName: identity,
+        byDerivationPath: (it) => it.toString(),
+        byPublicKeyEncoded: identity,
+        byIsUserWallet: (it) => it ? '1' : '0',
+        byIsValid: (it) => it ? '1' : '0',
+      );
 }

@@ -17,10 +17,30 @@ Future<void> main() async {
 
   setUp(() {
     apiHost = MockWalletApiHost();
-    SeedVaultWallet.instance = SeedVaultWallet(apiHost);
+    SeedVault.instance = SeedVault(apiHost);
   });
 
   AuthToken createFakeAuthToken() => Random(1).nextInt(200);
+
+  test('Check for Seed Vault availability', () async {
+    when(apiHost.isAvailable(any)).thenAnswer((_) async => true);
+
+    final result = await SeedVault.instance.isAvailable(false);
+
+    expect(result, true);
+    verify(apiHost.isAvailable(any)).called(1);
+    verifyNoMoreInteractions(apiHost);
+  });
+
+  test('Check and ask for Seed Vault permission', () async {
+    when(apiHost.checkPermission()).thenAnswer((_) async => true);
+
+    final result = await SeedVault.instance.checkPermission();
+
+    expect(result, true);
+    verify(apiHost.checkPermission()).called(1);
+    verifyNoMoreInteractions(apiHost);
+  });
 
   test('Get Implementation Limits for Purpose', () async {
     when(
@@ -29,7 +49,7 @@ Future<void> main() async {
       (_) async => FakeImplementationLimitsDto(),
     );
 
-    final result = await SeedVaultWallet.instance
+    final result = await SeedVault.instance
         .getImplementationLimitsForPurpose(Purpose.signSolanaTransaction);
 
     expect(result, isA<ImplementationLimits>());
@@ -46,7 +66,7 @@ Future<void> main() async {
       (_) async => [FakeSeedDto(authToken)],
     );
 
-    final result = await SeedVaultWallet.instance.getAuthorizedSeeds();
+    final result = await SeedVault.instance.getAuthorizedSeeds();
 
     expect(result, isA<List<Seed>>());
     expect(result.every((it) => it.authToken == authToken), true);
@@ -63,7 +83,7 @@ Future<void> main() async {
       (_) async => List.generate(2, FakeAccountDto.new),
     );
 
-    final result = await SeedVaultWallet.instance.getAccounts(authToken);
+    final result = await SeedVault.instance.getAccounts(authToken);
 
     expect(result, isA<AuthorizationResultSuccess<List<Account>>>());
     verify(apiHost.getAccounts(any, any)).called(1);
@@ -79,7 +99,7 @@ Future<void> main() async {
       (_) async => account.derivationPath,
     );
 
-    final result = await SeedVaultWallet.instance.resolveDerivationPath(
+    final result = await SeedVault.instance.resolveDerivationPath(
       derivationPath: account.derivationPath.let(Uri.parse),
       purpose: Purpose.signSolanaTransaction,
     );
@@ -94,7 +114,7 @@ Future<void> main() async {
 
     when(apiHost.updateAccountName(any, any, any)).thenAnswer(Future.value);
 
-    final result = await SeedVaultWallet.instance.updateAccountName(
+    final result = await SeedVault.instance.updateAccountName(
       authToken: authToken,
       accountId: FakeAccountDto(0).id,
       name: '',
@@ -111,7 +131,7 @@ Future<void> main() async {
     when(apiHost.updateAccountIsUserWallet(any, any, any))
         .thenAnswer(Future.value);
 
-    final result = await SeedVaultWallet.instance.updateAccountIsUserWallet(
+    final result = await SeedVault.instance.updateAccountIsUserWallet(
       authToken: authToken,
       accountId: FakeAccountDto(0).id,
       isUserWallet: true,
@@ -127,7 +147,7 @@ Future<void> main() async {
 
     when(apiHost.updateAccountIsValid(any, any, any)).thenAnswer(Future.value);
 
-    final result = await SeedVaultWallet.instance.updateAccountIsValid(
+    final result = await SeedVault.instance.updateAccountIsValid(
       authToken: authToken,
       accountId: FakeAccountDto(0).id,
       isValid: true,
@@ -143,7 +163,7 @@ Future<void> main() async {
 
     when(apiHost.deauthorizeSeed(any)).thenAnswer(Future.value);
 
-    await SeedVaultWallet.instance.deauthorizeSeed(authToken);
+    await SeedVault.instance.deauthorizeSeed(authToken);
 
     verify(apiHost.deauthorizeSeed(any)).called(1);
     verifyNoMoreInteractions(apiHost);
@@ -156,7 +176,7 @@ Future<void> main() async {
       (_) async => true,
     );
 
-    final result = await SeedVaultWallet.instance
+    final result = await SeedVault.instance
         .hasUnauthorizedSeedsForPurpose(Purpose.signSolanaTransaction);
 
     expect(result, true);
@@ -169,8 +189,8 @@ Future<void> main() async {
 
     when(apiHost.authorizeSeed(any)).thenAnswer((_) async => authToken);
 
-    final result = await SeedVaultWallet.instance
-        .authorizeSeed(Purpose.signSolanaTransaction);
+    final result =
+        await SeedVault.instance.authorizeSeed(Purpose.signSolanaTransaction);
 
     expect(result, isA<AuthorizationResultSuccess<AuthToken>>());
     expect(result.whenOrNull(success: identity), authToken);
@@ -183,8 +203,8 @@ Future<void> main() async {
 
     when(apiHost.createSeed(any)).thenAnswer((_) async => authToken);
 
-    final result = await SeedVaultWallet.instance
-        .createSeed(Purpose.signSolanaTransaction);
+    final result =
+        await SeedVault.instance.createSeed(Purpose.signSolanaTransaction);
 
     expect(result, isA<AuthorizationResultSuccess<AuthToken>>());
     expect(result.whenOrNull(success: identity), authToken);
@@ -197,8 +217,8 @@ Future<void> main() async {
 
     when(apiHost.importSeed(any)).thenAnswer((_) async => authToken);
 
-    final result = await SeedVaultWallet.instance
-        .importSeed(Purpose.signSolanaTransaction);
+    final result =
+        await SeedVault.instance.importSeed(Purpose.signSolanaTransaction);
 
     expect(result, isA<AuthorizationResultSuccess<AuthToken>>());
     expect(result.whenOrNull(success: identity), authToken);
@@ -221,7 +241,7 @@ Future<void> main() async {
           List.generate(uris.length, (_) => FakePublicKeyResponseDto()),
     );
 
-    final result = await SeedVaultWallet.instance.requestPublicKeys(
+    final result = await SeedVault.instance.requestPublicKeys(
       authToken: authToken,
       derivationPaths: uris,
     );
@@ -252,7 +272,7 @@ Future<void> main() async {
           requests.map((it) => FakeSigningResponseDto(accounts)).toList(),
     );
 
-    final result = await SeedVaultWallet.instance.signMessages(
+    final result = await SeedVault.instance.signMessages(
       authToken: authToken,
       signingRequests: requests,
     );
@@ -281,7 +301,7 @@ Future<void> main() async {
           requests.map((it) => FakeSigningResponseDto(accounts)).toList(),
     );
 
-    final result = await SeedVaultWallet.instance.signTransactions(
+    final result = await SeedVault.instance.signTransactions(
       authToken: authToken,
       signingRequests: requests,
     );
