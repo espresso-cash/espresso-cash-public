@@ -12,17 +12,14 @@ Future<List<Ed25519HDPublicKey>> getPublicKeysFromPaths(
 ) async =>
     Future.wait(
       derivationPaths.map(
-        (it) => SeedVaultWallet.instance
-            .getAccounts(
+        (it) => SeedVault.instance
+            .getParsedAccounts(
               authToken,
               filter: AccountFilter.byDerivationPath(it),
             )
             .letAsync(
-              (it) => it
-                  .whenOrNull(
-                    success: (it) => it.singleOrNull?.publicKeyEncoded,
-                  )
-                  ?.let(base58decode)
+              (it) => it.singleOrNull?.publicKeyEncoded
+                  .let(base58decode)
                   .let(Ed25519HDPublicKey.new),
             ),
       ),
