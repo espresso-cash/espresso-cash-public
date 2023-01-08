@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:solana_seed_vault/src/models/account.dart';
 import 'package:solana_seed_vault/src/models/auth_token.dart';
 import 'package:solana_seed_vault/src/models/filter.dart';
@@ -70,9 +71,9 @@ extension CursorToModelExt on CursorData {
                 .let(Uri.parse),
         publicKeyEncoded:
             this[WalletContractV1.accountsPublicKeyEncoded] as String,
-        isUserWallet:
-            this[WalletContractV1.accountsAccountIsUserWallet] as bool,
-        isValid: this[WalletContractV1.accountsAccountIsValid] as bool,
+        publicKeyRaw: this[WalletContractV1.accountsPublicKeyRaw] as Uint8List,
+        isUserWallet: this[WalletContractV1.accountsAccountIsUserWallet] == 1,
+        isValid: this[WalletContractV1.accountsAccountIsValid] == 1,
       );
 
   ImplementationLimits cursorToImplementationLimits() => ImplementationLimits(

@@ -4,13 +4,13 @@ import android.database.Cursor
 
 object CursorSerializer {
 
-    fun serialize(cursor: Cursor?): MutableList<MutableMap<String, Any>> {
-        val list : MutableList<MutableMap<String, Any>> = mutableListOf()
+    fun serialize(cursor: Cursor?): List<Map<Any, Any>> {
+        val list : MutableList<MutableMap<Any, Any>> = mutableListOf()
 
         if (cursor == null) return list
 
         while(cursor.moveToNext()){
-            val row = HashMap<String, Any>()
+            val row : MutableMap<Any, Any> = mutableMapOf()
 
             val lastColumnIndex = cursor.columnCount - 1
 
@@ -27,7 +27,7 @@ object CursorSerializer {
             }
 
             list.add(row)
-    }
+        }
 
         return list
     }

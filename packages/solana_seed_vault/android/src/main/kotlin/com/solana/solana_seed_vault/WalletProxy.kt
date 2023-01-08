@@ -245,7 +245,7 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
         projection: MutableList<String>,
         filterOnColumn: String?,
         value: Any?
-    ): MutableList<MutableMap<String, Any>> {
+    ): List<Map<Any, Any>> {
         return Wallet.getAuthorizedSeeds(context, projection.toTypedArray(), filterOnColumn, value)
             .let { CursorSerializer.serialize(it) }
     }
@@ -254,7 +254,7 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
         projection: MutableList<String>,
         filterOnColumn: String?,
         value: Any?
-    ): MutableList<MutableMap<String, Any>> {
+    ): List<Map<Any, Any>> {
         return Wallet.getUnauthorizedSeeds(
             context,
             projection.toTypedArray(),
@@ -267,7 +267,7 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
         projection: MutableList<String>,
         filterOnColumn: String?,
         value: Any?
-    ): MutableList<MutableMap<String, Any>> {
+    ): List<Map<Any, Any>> {
         return Wallet.getImplementationLimits(
             context,
             projection.toTypedArray(),
@@ -277,7 +277,7 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    override fun getImplementationLimitsForPurpose(purpose: Long): MutableMap<String, Any> {
+    override fun getImplementationLimitsForPurpose(purpose: Long): Map<Any, Any> {
         return Wallet.getImplementationLimitsForPurpose(context, purpose.toInt()).toMutableMap()
     }
 
@@ -285,7 +285,7 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
         authToken: Long,
         id: Long,
         projection: MutableList<String>
-    ): MutableMap<String, Any> {
+    ): Map<Any, Any> {
         return Wallet.getAccount(context, authToken, id, projection.toTypedArray())
             .let { CursorSerializer.serialize(it).first() }
     }
@@ -295,7 +295,7 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
         projection: MutableList<String>,
         filterOnColumn: String?,
         value: Any?
-    ): MutableList<MutableMap<String, Any>> {
+    ): List<Map<Any, Any>> {
         return Wallet.getAccounts(
             context,
             authToken,
@@ -308,7 +308,7 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
     override fun getAuthorizedSeed(
         authToken: Long,
         projection: MutableList<String>
-    ): MutableMap<String, Any> {
+    ): Map<Any, Any> {
         return Wallet.getAuthorizedSeed(context, authToken, projection.toTypedArray())
             .let { CursorSerializer.serialize(it).first() }
     }

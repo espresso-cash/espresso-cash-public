@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
@@ -13,14 +12,19 @@ Future<List<Ed25519HDPublicKey>> getPublicKeysFromPaths(
     Future.wait(
       derivationPaths.map(
         (it) => SeedVault.instance
-            .getParsedAccounts(
-              authToken,
-              filter: AccountFilter.byDerivationPath(it),
+            .getAccounts(
+              authToken: authToken,
+              projection: [WalletContractV1.accountsPublicKeyRaw],
+              filterOnColumn: WalletContractV1.accountsBip32DerivationPath,
+              value: it.toString(),
             )
             .letAsync(
-              (it) => it.singleOrNull?.publicKeyEncoded
-                  .let(base58decode)
-                  .let(Ed25519HDPublicKey.new),
+              (it) => it.singleOrNull?.let(
+                (it) => it[WalletContractV1.accountsPublicKeyRaw] as Uint8List,
+              ),
+            )
+            .letAsync(
+              (it) => it?.let(Ed25519HDPublicKey.new),
             ),
       ),
     ).letAsync((it) => it.compact().toList());

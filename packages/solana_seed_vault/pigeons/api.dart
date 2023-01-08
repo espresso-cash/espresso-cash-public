@@ -61,20 +61,20 @@ abstract class WalletApiHost {
     List<String> derivationPaths,
   );
 
-  List<Map<String?, Object?>> getAuthorizedSeeds(
+  List<Map<Object?, Object?>> getAuthorizedSeeds(
     List<String> projection,
     String? filterOnColumn,
     Object? value,
   );
 
-  Map<String?, Object?> getAuthorizedSeed(
+  Map<Object?, Object?> getAuthorizedSeed(
     int authToken,
     List<String> projection,
   );
 
   void deauthorizeSeed(int authToken);
 
-  List<Map<String?, Object?>> getUnauthorizedSeeds(
+  List<Map<Object?, Object?>> getUnauthorizedSeeds(
     List<String> projection,
     String? filterOnColumn,
     Object? value,
@@ -82,14 +82,14 @@ abstract class WalletApiHost {
 
   bool hasUnauthorizedSeedsForPurpose(int purpose);
 
-  List<Map<String?, Object?>> getAccounts(
+  List<Map<Object?, Object?>> getAccounts(
     int authToken,
     List<String> projection,
     String? filterOnColumn,
     Object? value,
   );
 
-  Map<String?, Object?> getAccount(
+  Map<Object?, Object?> getAccount(
     int authToken,
     int id,
     List<String> projection,
@@ -109,13 +109,13 @@ abstract class WalletApiHost {
     bool isValid,
   );
 
-  List<Map<String?, Object?>> getImplementationLimits(
+  List<Map<Object?, Object?>> getImplementationLimits(
     List<String> projection,
     String? filterOnColumn,
     Object? value,
   );
 
-  Map<String?, Object?> getImplementationLimitsForPurpose(int purpose);
+  Map<Object?, Object?> getImplementationLimitsForPurpose(int purpose);
 
   String resolveDerivationPath(String derivationPath, int purpose);
 

@@ -254,18 +254,18 @@ public class Api {
     void signMessages(@NonNull Long authToken, @NonNull List<SigningRequestDto> signingRequests, Result<List<SigningResponseDto>> result);
     void signTransactions(@NonNull Long authToken, @NonNull List<SigningRequestDto> signingRequests, Result<List<SigningResponseDto>> result);
     void requestPublicKeys(@NonNull Long authToken, @NonNull List<String> derivationPaths, Result<List<PublicKeyResponseDto>> result);
-    @NonNull List<Map<String, Object>> getAuthorizedSeeds(@NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
-    @NonNull Map<String, Object> getAuthorizedSeed(@NonNull Long authToken, @NonNull List<String> projection);
+    @NonNull List<Map<Object, Object>> getAuthorizedSeeds(@NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
+    @NonNull Map<Object, Object> getAuthorizedSeed(@NonNull Long authToken, @NonNull List<String> projection);
     void deauthorizeSeed(@NonNull Long authToken);
-    @NonNull List<Map<String, Object>> getUnauthorizedSeeds(@NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
+    @NonNull List<Map<Object, Object>> getUnauthorizedSeeds(@NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
     @NonNull Boolean hasUnauthorizedSeedsForPurpose(@NonNull Long purpose);
-    @NonNull List<Map<String, Object>> getAccounts(@NonNull Long authToken, @NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
-    @NonNull Map<String, Object> getAccount(@NonNull Long authToken, @NonNull Long id, @NonNull List<String> projection);
+    @NonNull List<Map<Object, Object>> getAccounts(@NonNull Long authToken, @NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
+    @NonNull Map<Object, Object> getAccount(@NonNull Long authToken, @NonNull Long id, @NonNull List<String> projection);
     void updateAccountName(@NonNull Long authToken, @NonNull Long accountId, @Nullable String name);
     void updateAccountIsUserWallet(@NonNull Long authToken, @NonNull Long accountId, @NonNull Boolean isUserWallet);
     void updateAccountIsValid(@NonNull Long authToken, @NonNull Long accountId, @NonNull Boolean isValid);
-    @NonNull List<Map<String, Object>> getImplementationLimits(@NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
-    @NonNull Map<String, Object> getImplementationLimitsForPurpose(@NonNull Long purpose);
+    @NonNull List<Map<Object, Object>> getImplementationLimits(@NonNull List<String> projection, @Nullable String filterOnColumn, @Nullable Object value);
+    @NonNull Map<Object, Object> getImplementationLimitsForPurpose(@NonNull Long purpose);
     @NonNull String resolveDerivationPath(@NonNull String derivationPath, @NonNull Long purpose);
     @NonNull Boolean isAvailable(@NonNull Boolean allowSimulated);
     void checkPermission(Result<Boolean> result);
@@ -507,7 +507,7 @@ public class Api {
               }
               String filterOnColumnArg = (String)args.get(1);
               Object valueArg = (Object)args.get(2);
-              List<Map<String, Object>> output = api.getAuthorizedSeeds(projectionArg, filterOnColumnArg, valueArg);
+              List<Map<Object, Object>> output = api.getAuthorizedSeeds(projectionArg, filterOnColumnArg, valueArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -535,7 +535,7 @@ public class Api {
               if (projectionArg == null) {
                 throw new NullPointerException("projectionArg unexpectedly null.");
               }
-              Map<String, Object> output = api.getAuthorizedSeed((authTokenArg == null) ? null : authTokenArg.longValue(), projectionArg);
+              Map<Object, Object> output = api.getAuthorizedSeed((authTokenArg == null) ? null : authTokenArg.longValue(), projectionArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -585,7 +585,7 @@ public class Api {
               }
               String filterOnColumnArg = (String)args.get(1);
               Object valueArg = (Object)args.get(2);
-              List<Map<String, Object>> output = api.getUnauthorizedSeeds(projectionArg, filterOnColumnArg, valueArg);
+              List<Map<Object, Object>> output = api.getUnauthorizedSeeds(projectionArg, filterOnColumnArg, valueArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -639,7 +639,7 @@ public class Api {
               }
               String filterOnColumnArg = (String)args.get(2);
               Object valueArg = (Object)args.get(3);
-              List<Map<String, Object>> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue(), projectionArg, filterOnColumnArg, valueArg);
+              List<Map<Object, Object>> output = api.getAccounts((authTokenArg == null) ? null : authTokenArg.longValue(), projectionArg, filterOnColumnArg, valueArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -671,7 +671,7 @@ public class Api {
               if (projectionArg == null) {
                 throw new NullPointerException("projectionArg unexpectedly null.");
               }
-              Map<String, Object> output = api.getAccount((authTokenArg == null) ? null : authTokenArg.longValue(), (idArg == null) ? null : idArg.longValue(), projectionArg);
+              Map<Object, Object> output = api.getAccount((authTokenArg == null) ? null : authTokenArg.longValue(), (idArg == null) ? null : idArg.longValue(), projectionArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -790,7 +790,7 @@ public class Api {
               }
               String filterOnColumnArg = (String)args.get(1);
               Object valueArg = (Object)args.get(2);
-              List<Map<String, Object>> output = api.getImplementationLimits(projectionArg, filterOnColumnArg, valueArg);
+              List<Map<Object, Object>> output = api.getImplementationLimits(projectionArg, filterOnColumnArg, valueArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -814,7 +814,7 @@ public class Api {
               if (purposeArg == null) {
                 throw new NullPointerException("purposeArg unexpectedly null.");
               }
-              Map<String, Object> output = api.getImplementationLimitsForPurpose((purposeArg == null) ? null : purposeArg.longValue());
+              Map<Object, Object> output = api.getImplementationLimitsForPurpose((purposeArg == null) ? null : purposeArg.longValue());
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

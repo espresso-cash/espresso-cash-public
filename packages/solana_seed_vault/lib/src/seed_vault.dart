@@ -11,7 +11,7 @@ import 'package:solana_seed_vault/src/models/signing_request.dart';
 import 'package:solana_seed_vault/src/models/signing_response.dart';
 import 'package:solana_seed_vault/src/wallet_contract_v1.dart';
 
-typedef CursorData = Map<String, dynamic>;
+typedef CursorData = Map<Object?, Object?>;
 
 class SeedVault implements SeedVaultFlutterApi {
   @visibleForTesting
@@ -56,13 +56,13 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform
           .getAuthorizedSeeds(projection, filterOnColumn, value)
-          .letAsync(_castList);
+          .letAsync(_compact);
 
   Future<CursorData> getAuthorizedSeed({
     required AuthToken authToken,
     List<String> projection = WalletContractV1.authorizedSeedsAllColumns,
   }) =>
-      _platform.getAuthorizedSeed(authToken, projection).letAsync(_cast);
+      _platform.getAuthorizedSeed(authToken, projection);
 
   Future<List<CursorData>> getUnauthorizedSeeds({
     List<String> projection = WalletContractV1.unauthorizedSeedsAllColumns,
@@ -71,7 +71,7 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform
           .getUnauthorizedSeeds(projection, filterOnColumn, value)
-          .letAsync(_castList);
+          .letAsync(_compact);
 
   Future<List<CursorData>> getAccounts({
     required AuthToken authToken,
@@ -81,14 +81,14 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform
           .getAccounts(authToken, projection, filterOnColumn, value)
-          .letAsync(_castList);
+          .letAsync(_compact);
 
   Future<CursorData> getAccount({
     required int authToken,
     required int id,
     List<String> projection = WalletContractV1.accountsAllColumns,
   }) =>
-      _platform.getAccount(authToken, id, projection).letAsync(_cast);
+      _platform.getAccount(authToken, id, projection);
 
   Future<void> updateAccountName({
     required AuthToken authToken,
@@ -133,12 +133,10 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform
           .getImplementationLimits(projection, filterOnColumn, value)
-          .letAsync(_castList);
+          .letAsync(_compact);
 
   Future<CursorData> getImplementationLimitsForPurpose(Purpose purpose) =>
-      _platform
-          .getImplementationLimitsForPurpose(purpose.index)
-          .letAsync(_cast);
+      _platform.getImplementationLimitsForPurpose(purpose.index);
 
   Future<bool> hasUnauthorizedSeedsForPurpose(Purpose purpose) =>
       _platform.hasUnauthorizedSeedsForPurpose(purpose.index);
@@ -211,7 +209,5 @@ extension on SigningResponseDto {
       );
 }
 
-List<CursorData> _castList(List<Map<String?, Object?>?> list) =>
-    list.map((it) => it?.let(_cast)).compact().toList();
-
-CursorData _cast(Map<String?, Object?> data) => data.cast<String, dynamic>();
+List<CursorData> _compact(List<Map<Object?, Object?>?> list) =>
+    list.compact().toList();

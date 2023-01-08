@@ -19,17 +19,6 @@ import 'package:solana_seed_vault/src/api.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeImplementationLimitsDto_0 extends _i1.SmartFake
-    implements _i2.ImplementationLimitsDto {
-  _FakeImplementationLimitsDto_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [WalletApiHost].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -111,22 +100,66 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
             <_i2.PublicKeyResponseDto?>[]),
       ) as _i3.Future<List<_i2.PublicKeyResponseDto?>>);
   @override
-  _i3.Future<_i2.ImplementationLimitsDto> getImplementationLimitsForPurpose(
-          int? arg_purpose) =>
+  _i3.Future<List<Map<Object?, Object?>?>> getAuthorizedSeeds(
+    List<String?>? arg_projection,
+    String? arg_filterOnColumn,
+    Object? arg_value,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getImplementationLimitsForPurpose,
-          [arg_purpose],
+          #getAuthorizedSeeds,
+          [
+            arg_projection,
+            arg_filterOnColumn,
+            arg_value,
+          ],
         ),
-        returnValue: _i3.Future<_i2.ImplementationLimitsDto>.value(
-            _FakeImplementationLimitsDto_0(
-          this,
-          Invocation.method(
-            #getImplementationLimitsForPurpose,
-            [arg_purpose],
-          ),
-        )),
-      ) as _i3.Future<_i2.ImplementationLimitsDto>);
+        returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(
+            <Map<Object?, Object?>?>[]),
+      ) as _i3.Future<List<Map<Object?, Object?>?>>);
+  @override
+  _i3.Future<Map<Object?, Object?>> getAuthorizedSeed(
+    int? arg_authToken,
+    List<String?>? arg_projection,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAuthorizedSeed,
+          [
+            arg_authToken,
+            arg_projection,
+          ],
+        ),
+        returnValue:
+            _i3.Future<Map<Object?, Object?>>.value(<Object?, Object?>{}),
+      ) as _i3.Future<Map<Object?, Object?>>);
+  @override
+  _i3.Future<void> deauthorizeSeed(int? arg_authToken) => (super.noSuchMethod(
+        Invocation.method(
+          #deauthorizeSeed,
+          [arg_authToken],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+  @override
+  _i3.Future<List<Map<Object?, Object?>?>> getUnauthorizedSeeds(
+    List<String?>? arg_projection,
+    String? arg_filterOnColumn,
+    Object? arg_value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUnauthorizedSeeds,
+          [
+            arg_projection,
+            arg_filterOnColumn,
+            arg_value,
+          ],
+        ),
+        returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(
+            <Map<Object?, Object?>?>[]),
+      ) as _i3.Future<List<Map<Object?, Object?>?>>);
   @override
   _i3.Future<bool> hasUnauthorizedSeedsForPurpose(int? arg_purpose) =>
       (super.noSuchMethod(
@@ -137,53 +170,43 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
         returnValue: _i3.Future<bool>.value(false),
       ) as _i3.Future<bool>);
   @override
-  _i3.Future<List<_i2.SeedDto?>> getAuthorizedSeeds() => (super.noSuchMethod(
-        Invocation.method(
-          #getAuthorizedSeeds,
-          [],
-        ),
-        returnValue: _i3.Future<List<_i2.SeedDto?>>.value(<_i2.SeedDto?>[]),
-      ) as _i3.Future<List<_i2.SeedDto?>>);
-  @override
-  _i3.Future<List<_i2.AccountDto?>> getAccounts(
+  _i3.Future<List<Map<Object?, Object?>?>> getAccounts(
     int? arg_authToken,
-    _i2.AccountFilterDto? arg_filter,
+    List<String?>? arg_projection,
+    String? arg_filterOnColumn,
+    Object? arg_value,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAccounts,
           [
             arg_authToken,
-            arg_filter,
+            arg_projection,
+            arg_filterOnColumn,
+            arg_value,
           ],
         ),
-        returnValue:
-            _i3.Future<List<_i2.AccountDto?>>.value(<_i2.AccountDto?>[]),
-      ) as _i3.Future<List<_i2.AccountDto?>>);
+        returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(
+            <Map<Object?, Object?>?>[]),
+      ) as _i3.Future<List<Map<Object?, Object?>?>>);
   @override
-  _i3.Future<String> resolveDerivationPath(
-    String? arg_derivationPath,
-    int? arg_purpose,
+  _i3.Future<Map<Object?, Object?>> getAccount(
+    int? arg_authToken,
+    int? arg_id,
+    List<String?>? arg_projection,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #resolveDerivationPath,
+          #getAccount,
           [
-            arg_derivationPath,
-            arg_purpose,
+            arg_authToken,
+            arg_id,
+            arg_projection,
           ],
         ),
-        returnValue: _i3.Future<String>.value(''),
-      ) as _i3.Future<String>);
-  @override
-  _i3.Future<void> deauthorizeSeed(int? arg_authToken) => (super.noSuchMethod(
-        Invocation.method(
-          #deauthorizeSeed,
-          [arg_authToken],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue:
+            _i3.Future<Map<Object?, Object?>>.value(<Object?, Object?>{}),
+      ) as _i3.Future<Map<Object?, Object?>>);
   @override
   _i3.Future<void> updateAccountName(
     int? arg_authToken,
@@ -238,4 +261,64 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+  @override
+  _i3.Future<List<Map<Object?, Object?>?>> getImplementationLimits(
+    List<String?>? arg_projection,
+    String? arg_filterOnColumn,
+    Object? arg_value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getImplementationLimits,
+          [
+            arg_projection,
+            arg_filterOnColumn,
+            arg_value,
+          ],
+        ),
+        returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(
+            <Map<Object?, Object?>?>[]),
+      ) as _i3.Future<List<Map<Object?, Object?>?>>);
+  @override
+  _i3.Future<Map<Object?, Object?>> getImplementationLimitsForPurpose(
+          int? arg_purpose) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getImplementationLimitsForPurpose,
+          [arg_purpose],
+        ),
+        returnValue:
+            _i3.Future<Map<Object?, Object?>>.value(<Object?, Object?>{}),
+      ) as _i3.Future<Map<Object?, Object?>>);
+  @override
+  _i3.Future<String> resolveDerivationPath(
+    String? arg_derivationPath,
+    int? arg_purpose,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #resolveDerivationPath,
+          [
+            arg_derivationPath,
+            arg_purpose,
+          ],
+        ),
+        returnValue: _i3.Future<String>.value(''),
+      ) as _i3.Future<String>);
+  @override
+  _i3.Future<bool> isAvailable(bool? arg_allowSimulated) => (super.noSuchMethod(
+        Invocation.method(
+          #isAvailable,
+          [arg_allowSimulated],
+        ),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
+  @override
+  _i3.Future<bool> checkPermission() => (super.noSuchMethod(
+        Invocation.method(
+          #checkPermission,
+          [],
+        ),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
 }

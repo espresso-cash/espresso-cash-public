@@ -20,6 +20,7 @@ mixin _$Account {
   String get name => throw _privateConstructorUsedError;
   Uri get derivationPath => throw _privateConstructorUsedError;
   String get publicKeyEncoded => throw _privateConstructorUsedError;
+  Uint8List get publicKeyRaw => throw _privateConstructorUsedError;
   bool get isUserWallet => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
 
@@ -37,6 +38,7 @@ abstract class $AccountCopyWith<$Res> {
       String name,
       Uri derivationPath,
       String publicKeyEncoded,
+      Uint8List publicKeyRaw,
       bool isUserWallet,
       bool isValid});
 }
@@ -58,6 +60,7 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
     Object? name = null,
     Object? derivationPath = null,
     Object? publicKeyEncoded = null,
+    Object? publicKeyRaw = null,
     Object? isUserWallet = null,
     Object? isValid = null,
   }) {
@@ -78,6 +81,10 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
           ? _value.publicKeyEncoded
           : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
               as String,
+      publicKeyRaw: null == publicKeyRaw
+          ? _value.publicKeyRaw
+          : publicKeyRaw // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
       isUserWallet: null == isUserWallet
           ? _value.isUserWallet
           : isUserWallet // ignore: cast_nullable_to_non_nullable
@@ -102,6 +109,7 @@ abstract class _$$_AccountCopyWith<$Res> implements $AccountCopyWith<$Res> {
       String name,
       Uri derivationPath,
       String publicKeyEncoded,
+      Uint8List publicKeyRaw,
       bool isUserWallet,
       bool isValid});
 }
@@ -120,6 +128,7 @@ class __$$_AccountCopyWithImpl<$Res>
     Object? name = null,
     Object? derivationPath = null,
     Object? publicKeyEncoded = null,
+    Object? publicKeyRaw = null,
     Object? isUserWallet = null,
     Object? isValid = null,
   }) {
@@ -140,6 +149,10 @@ class __$$_AccountCopyWithImpl<$Res>
           ? _value.publicKeyEncoded
           : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
               as String,
+      publicKeyRaw: null == publicKeyRaw
+          ? _value.publicKeyRaw
+          : publicKeyRaw // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
       isUserWallet: null == isUserWallet
           ? _value.isUserWallet
           : isUserWallet // ignore: cast_nullable_to_non_nullable
@@ -154,12 +167,13 @@ class __$$_AccountCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Account implements _Account {
+class _$_Account with DiagnosticableTreeMixin implements _Account {
   const _$_Account(
       {required this.id,
       required this.name,
       required this.derivationPath,
       required this.publicKeyEncoded,
+      required this.publicKeyRaw,
       required this.isUserWallet,
       required this.isValid});
 
@@ -172,13 +186,29 @@ class _$_Account implements _Account {
   @override
   final String publicKeyEncoded;
   @override
+  final Uint8List publicKeyRaw;
+  @override
   final bool isUserWallet;
   @override
   final bool isValid;
 
   @override
-  String toString() {
-    return 'Account(id: $id, name: $name, derivationPath: $derivationPath, publicKeyEncoded: $publicKeyEncoded, isUserWallet: $isUserWallet, isValid: $isValid)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Account(id: $id, name: $name, derivationPath: $derivationPath, publicKeyEncoded: $publicKeyEncoded, publicKeyRaw: $publicKeyRaw, isUserWallet: $isUserWallet, isValid: $isValid)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Account'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('derivationPath', derivationPath))
+      ..add(DiagnosticsProperty('publicKeyEncoded', publicKeyEncoded))
+      ..add(DiagnosticsProperty('publicKeyRaw', publicKeyRaw))
+      ..add(DiagnosticsProperty('isUserWallet', isUserWallet))
+      ..add(DiagnosticsProperty('isValid', isValid));
   }
 
   @override
@@ -192,14 +222,23 @@ class _$_Account implements _Account {
                 other.derivationPath == derivationPath) &&
             (identical(other.publicKeyEncoded, publicKeyEncoded) ||
                 other.publicKeyEncoded == publicKeyEncoded) &&
+            const DeepCollectionEquality()
+                .equals(other.publicKeyRaw, publicKeyRaw) &&
             (identical(other.isUserWallet, isUserWallet) ||
                 other.isUserWallet == isUserWallet) &&
             (identical(other.isValid, isValid) || other.isValid == isValid));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, derivationPath,
-      publicKeyEncoded, isUserWallet, isValid);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      derivationPath,
+      publicKeyEncoded,
+      const DeepCollectionEquality().hash(publicKeyRaw),
+      isUserWallet,
+      isValid);
 
   @JsonKey(ignore: true)
   @override
@@ -214,6 +253,7 @@ abstract class _Account implements Account {
       required final String name,
       required final Uri derivationPath,
       required final String publicKeyEncoded,
+      required final Uint8List publicKeyRaw,
       required final bool isUserWallet,
       required final bool isValid}) = _$_Account;
 
@@ -225,6 +265,8 @@ abstract class _Account implements Account {
   Uri get derivationPath;
   @override
   String get publicKeyEncoded;
+  @override
+  Uint8List get publicKeyRaw;
   @override
   bool get isUserWallet;
   @override
