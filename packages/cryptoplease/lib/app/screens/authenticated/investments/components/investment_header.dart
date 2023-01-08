@@ -25,7 +25,7 @@ class InvestmentHeader extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         decoration: const BoxDecoration(
           color: Color(0xff2D2B2C),
-          borderRadius: BorderRadius.all(Radius.circular(4)),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
         child: Column(
           children: [

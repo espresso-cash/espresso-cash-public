@@ -114,7 +114,7 @@ class _TokenItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: ListTile(
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
         tileColor: const Color(0xffF5F5F5),
         onTap: () => context.router.push(TokenDetailsRoute(token: token)),

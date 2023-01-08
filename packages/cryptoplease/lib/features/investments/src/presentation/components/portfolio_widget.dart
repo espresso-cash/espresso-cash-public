@@ -73,7 +73,7 @@ class _BalanceItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           decoration: const BoxDecoration(
             color: CpColors.yellowColor,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
