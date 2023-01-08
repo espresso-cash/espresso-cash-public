@@ -25,12 +25,6 @@ class Activity with _$Activity {
     required OutgoingSplitKeyPayment data,
   }) = OSKPActivity;
 
-  const factory Activity.outgoingDirectPaymentRequest({
-    required String id,
-    required DateTime created,
-    required ODPRequest data,
-  }) = ODPRequestActivity;
-
   const factory Activity.outgoingTipPayment({
     required String id,
     required DateTime created,

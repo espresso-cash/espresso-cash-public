@@ -30,7 +30,6 @@ class PendingActivitiesRepository {
       ..where((tbl) => tbl.status.equalsValue(ODPStatusDto.success).not());
     final oskp = _db.select(_db.oSKPRows)
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.success).not());
-    final odpRequest = _db.select(_db.oDPRequestRows);
     final otp = _db.select(_db.oTRows)
       ..where(
         (tbl) => tbl.status.equalsValue(OTStatusDto.success).not(),
@@ -44,21 +43,17 @@ class PendingActivitiesRepository {
         .watch()
         .map((rows) => rows.map((r) => r.toActivity(_tokens)))
         .asyncMap(Future.wait);
-    final odpRequestStream = odpRequest
-        .watch()
-        .map((rows) => rows.map((r) => r.toActivity(_tokens)));
     final otStream = otp
         .watch()
         .map((rows) => rows.map((r) => r.toActivity(_tokens)))
         .asyncMap(Future.wait);
 
-    return Rx.combineLatest5<_L, _L, _L, _L, _L, IList<Activity>>(
+    return Rx.combineLatest4<_L, _L, _L, _L, IList<Activity>>(
       oprStream,
       odpStream,
       oskpStream,
-      odpRequestStream,
       otStream,
-      (a, b, c, d, e) => [...a, ...b, ...c, ...d, ...e]
+      (a, b, c, d) => [...a, ...b, ...c, ...d]
           .toIList()
           .sortOrdered((a, b) => b.created.compareTo(a.created)),
     );
