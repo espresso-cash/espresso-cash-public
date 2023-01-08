@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -9,7 +8,6 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 import 'package:solana_seed_vault/src/api.dart';
 
 import 'seed_vault_wallet_test.mocks.dart';
-import 'utils.dart';
 
 @GenerateMocks([WalletApiHost])
 Future<void> main() async {
@@ -46,31 +44,28 @@ Future<void> main() async {
     when(
       apiHost.getImplementationLimitsForPurpose(any),
     ).thenAnswer(
-      (_) async => FakeImplementationLimitsDto(),
+      (_) async => {},
     );
 
     final result = await SeedVault.instance
         .getImplementationLimitsForPurpose(Purpose.signSolanaTransaction);
 
-    expect(result, isA<ImplementationLimits>());
+    expect(result, isA<CursorData>());
     verify(apiHost.getImplementationLimitsForPurpose(any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
 
   test('Get Authorized Seed', () async {
-    final authToken = createFakeAuthToken();
-
     when(
-      apiHost.getAuthorizedSeeds(),
+      apiHost.getAuthorizedSeeds(any, any, any),
     ).thenAnswer(
-      (_) async => [FakeSeedDto(authToken)],
+      (_) async => [],
     );
 
     final result = await SeedVault.instance.getAuthorizedSeeds();
 
-    expect(result, isA<List<Seed>>());
-    expect(result.every((it) => it.authToken == authToken), true);
-    verify(apiHost.getAuthorizedSeeds()).called(1);
+    expect(result, isA<List<CursorData>>());
+    verify(apiHost.getAuthorizedSeeds(any, any, any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
 
@@ -78,29 +73,27 @@ Future<void> main() async {
     final authToken = createFakeAuthToken();
 
     when(
-      apiHost.getAccounts(any, any),
+      apiHost.getAccounts(any, any, any, any),
     ).thenAnswer(
-      (_) async => List.generate(2, FakeAccountDto.new),
+      (_) async => [],
     );
 
-    final result = await SeedVault.instance.getAccounts(authToken);
+    final result = await SeedVault.instance.getAccounts(authToken: authToken);
 
-    expect(result, isA<AuthorizationResultSuccess<List<Account>>>());
-    verify(apiHost.getAccounts(any, any)).called(1);
+    expect(result, isA<List<CursorData>>());
+    verify(apiHost.getAccounts(any, any, any, any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
 
   test('Resolve Derivation Path', () async {
-    final account = FakeAccountDto(0);
-
     when(
       apiHost.resolveDerivationPath(any, any),
     ).thenAnswer(
-      (_) async => account.derivationPath,
+      (_) async => 'bip32:/m',
     );
 
     final result = await SeedVault.instance.resolveDerivationPath(
-      derivationPath: account.derivationPath.let(Uri.parse),
+      derivationPath: Uri(),
       purpose: Purpose.signSolanaTransaction,
     );
 
@@ -114,13 +107,12 @@ Future<void> main() async {
 
     when(apiHost.updateAccountName(any, any, any)).thenAnswer(Future.value);
 
-    final result = await SeedVault.instance.updateAccountName(
+    await SeedVault.instance.updateAccountName(
       authToken: authToken,
-      accountId: FakeAccountDto(0).id,
+      accountId: 0,
       name: '',
     );
 
-    expect(result, isA<AuthorizationResultSuccess<void>>());
     verify(apiHost.updateAccountName(any, any, any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
@@ -131,13 +123,12 @@ Future<void> main() async {
     when(apiHost.updateAccountIsUserWallet(any, any, any))
         .thenAnswer(Future.value);
 
-    final result = await SeedVault.instance.updateAccountIsUserWallet(
+    await SeedVault.instance.updateAccountIsUserWallet(
       authToken: authToken,
-      accountId: FakeAccountDto(0).id,
+      accountId: 0,
       isUserWallet: true,
     );
 
-    expect(result, isA<AuthorizationResultSuccess<void>>());
     verify(apiHost.updateAccountIsUserWallet(any, any, any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
@@ -147,13 +138,12 @@ Future<void> main() async {
 
     when(apiHost.updateAccountIsValid(any, any, any)).thenAnswer(Future.value);
 
-    final result = await SeedVault.instance.updateAccountIsValid(
+    await SeedVault.instance.updateAccountIsValid(
       authToken: authToken,
-      accountId: FakeAccountDto(0).id,
+      accountId: 0,
       isValid: true,
     );
 
-    expect(result, isA<AuthorizationResultSuccess<void>>());
     verify(apiHost.updateAccountIsValid(any, any, any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
@@ -192,8 +182,7 @@ Future<void> main() async {
     final result =
         await SeedVault.instance.authorizeSeed(Purpose.signSolanaTransaction);
 
-    expect(result, isA<AuthorizationResultSuccess<AuthToken>>());
-    expect(result.whenOrNull(success: identity), authToken);
+    expect(result, authToken);
     verify(apiHost.authorizeSeed(any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
@@ -206,8 +195,7 @@ Future<void> main() async {
     final result =
         await SeedVault.instance.createSeed(Purpose.signSolanaTransaction);
 
-    expect(result, isA<AuthorizationResultSuccess<AuthToken>>());
-    expect(result.whenOrNull(success: identity), authToken);
+    expect(result, authToken);
     verify(apiHost.createSeed(any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
@@ -220,19 +208,14 @@ Future<void> main() async {
     final result =
         await SeedVault.instance.importSeed(Purpose.signSolanaTransaction);
 
-    expect(result, isA<AuthorizationResultSuccess<AuthToken>>());
-    expect(result.whenOrNull(success: identity), authToken);
+    expect(result, authToken);
     verify(apiHost.importSeed(any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
 
   test('Request Public Keys', () async {
     final authToken = createFakeAuthToken();
-    final uris = FakeSeedDto(authToken)
-        .accounts
-        .compact()
-        .map((it) => Uri.parse(it.derivationPath))
-        .toList();
+    final uris = ['bip32:/m/0', 'bip32:/m/1'].map(Uri.parse).toList();
 
     when(
       apiHost.requestPublicKeys(any, any),
@@ -246,8 +229,8 @@ Future<void> main() async {
       derivationPaths: uris,
     );
 
-    expect(result, isA<AuthorizationResultSuccess<List<PublicKeyResponse>>>());
-    expect(result.whenOrNull(success: identity)?.length, uris.length);
+    expect(result, isA<List<PublicKeyResponse>>());
+    expect(result.length, uris.length);
     verify(apiHost.requestPublicKeys(any, any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
@@ -256,20 +239,21 @@ Future<void> main() async {
 
   test('Sign Messages', () async {
     final authToken = createFakeAuthToken();
-    final accounts = FakeSeedDto(authToken).accounts.compact().toList();
+    final uris = ['bip32:/m/0', 'bip32:/m/1'].map(Uri.parse).toList();
+
     final requests = [
       SigningRequest(
         payload: createFakePayload(),
-        requestedSignatures:
-            accounts.map((it) => Uri.parse(it.derivationPath)).toList(),
+        requestedSignatures: uris,
       ),
     ];
 
     when(
       apiHost.signMessages(any, any),
     ).thenAnswer(
-      (_) async =>
-          requests.map((it) => FakeSigningResponseDto(accounts)).toList(),
+      (_) async => requests
+          .map((it) => FakeSigningResponseDto(it.requestedSignatures))
+          .toList(),
     );
 
     final result = await SeedVault.instance.signMessages(
@@ -277,28 +261,29 @@ Future<void> main() async {
       signingRequests: requests,
     );
 
-    expect(result, isA<AuthorizationResultSuccess<List<SigningResponse>>>());
-    expect(result.whenOrNull(success: identity)?.length, requests.length);
+    expect(result, isA<List<SigningResponse>>());
+    expect(result.length, requests.length);
     verify(apiHost.signMessages(any, any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
 
   test('Sign Transactions', () async {
     final authToken = createFakeAuthToken();
-    final accounts = FakeSeedDto(authToken).accounts.compact().toList();
+    final uris = ['bip32:/m/0', 'bip32:/m/1'].map(Uri.parse).toList();
+
     final requests = [
       SigningRequest(
         payload: createFakePayload(),
-        requestedSignatures:
-            accounts.map((it) => Uri.parse(it.derivationPath)).toList(),
+        requestedSignatures: uris,
       ),
     ];
 
     when(
       apiHost.signTransactions(any, any),
     ).thenAnswer(
-      (_) async =>
-          requests.map((it) => FakeSigningResponseDto(accounts)).toList(),
+      (_) async => requests
+          .map((it) => FakeSigningResponseDto(it.requestedSignatures))
+          .toList(),
     );
 
     final result = await SeedVault.instance.signTransactions(
@@ -306,9 +291,26 @@ Future<void> main() async {
       signingRequests: requests,
     );
 
-    expect(result, isA<AuthorizationResultSuccess<List<SigningResponse>>>());
-    expect(result.whenOrNull(success: identity)?.length, requests.length);
+    expect(result, isA<List<SigningResponse>>());
+    expect(result.length, requests.length);
     verify(apiHost.signTransactions(any, any)).called(1);
     verifyNoMoreInteractions(apiHost);
   });
+}
+
+class FakePublicKeyResponseDto extends PublicKeyResponseDto {
+  FakePublicKeyResponseDto()
+      : super(
+          resolvedDerivationPath: '',
+          publicKey: Uint8List(1),
+          publicKeyEncoded: '',
+        );
+}
+
+class FakeSigningResponseDto extends SigningResponseDto {
+  FakeSigningResponseDto(List<Uri> signers)
+      : super(
+          resolvedDerivationPaths: signers.map((it) => it.toString()).toList(),
+          signatures: signers.map((_) => Uint8List(512)).toList(),
+        );
 }
