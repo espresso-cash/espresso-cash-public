@@ -110,7 +110,7 @@ class _SeedItemState extends State<SeedItem> {
           ),
           ExpansionTile(
             initiallyExpanded: false,
-            title: const Text('Acounts marked as UserWallet'),
+            title: const Text('Accounts marked as UserWallet'),
             children: [
               AccountList(
                 authToken: widget.seed.authToken,
