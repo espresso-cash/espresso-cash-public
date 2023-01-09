@@ -16,8 +16,8 @@ import '../../../../ui/content_padding.dart';
 import '../../../../ui/status_screen.dart';
 import '../../../../ui/status_widget.dart';
 import '../../../../ui/timeline.dart';
+import '../../models/outgoing_split_key_payment.dart';
 import '../bl/bloc.dart';
-import '../bl/outgoing_split_key_payment.dart';
 import '../bl/repository.dart';
 
 class OSKPScreen extends StatefulWidget {

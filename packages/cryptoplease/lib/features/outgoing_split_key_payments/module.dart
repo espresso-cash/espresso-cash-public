@@ -12,9 +12,6 @@ import '../../di.dart';
 import 'src/bl/bloc.dart';
 import 'src/bl/repository.dart';
 
-export 'src/bl/oskp_verifier.dart';
-export 'src/bl/outgoing_split_key_payment.dart';
-
 class OSKPModule extends SingleChildStatelessWidget {
   const OSKPModule({Key? key, Widget? child}) : super(key: key, child: child);
 

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/accounts/bl/account.dart';
 import '../../../di.dart';
-import '../../outgoing_split_key_payments/module.dart';
+import '../../outgoing_split_key_payments/oskp_verifier.dart';
 import '../../outgoing_tip_payments/module.dart';
 import '../src/activity.dart';
 import '../src/pending_activities_repository.dart';

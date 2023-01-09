@@ -12,7 +12,7 @@ import '../../../../ui/content_padding.dart';
 import '../../../../ui/share_message/share_message_bubble.dart';
 import '../../../../ui/share_message/share_message_header.dart';
 import '../../../../ui/theme.dart';
-import '../bl/outgoing_split_key_payment.dart';
+import '../../models/outgoing_split_key_payment.dart';
 
 class ShareLinksScreen extends StatelessWidget {
   const ShareLinksScreen({
