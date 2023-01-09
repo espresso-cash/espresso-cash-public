@@ -67,11 +67,12 @@ enum OSKPStatusDto {
   txSent,
   txConfirmed,
   linksReady,
-  withdrawn,
+  success,
   txFailure,
   txSendFailure,
   txWaitFailure,
   txLinksFailure,
+  withdrawn,
   canceled,
 }
 
@@ -112,6 +113,9 @@ extension on OSKPStatusDto {
           link2: link2!,
           escrow: escrow!,
         );
+      case OSKPStatusDto.success:
+        // For compatibility with old versions
+        return OSKPStatus.withdrawn(txId: txId!);
       case OSKPStatusDto.withdrawn:
         return OSKPStatus.withdrawn(txId: withdrawTxId!);
       case OSKPStatusDto.canceled:

@@ -98,7 +98,7 @@ class OSKPVerifier {
 extension on ParsedTransaction {
   /// Retrieves all destinations of a transaction
   Iterable<String> getDestinations() => message.instructions
-      .let((it) => it.cast<ParsedInstruction>())
+      .whereType<ParsedInstruction>()
       .let((it) => it.map((ix) => ix.getDestination()).compact());
 
   String get id => signatures.first;
