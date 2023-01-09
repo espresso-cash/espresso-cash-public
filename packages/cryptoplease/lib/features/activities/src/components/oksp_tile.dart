@@ -18,18 +18,24 @@ class OSKPTile extends StatelessWidget {
   Widget build(BuildContext context) => ListTile(
         title: Row(
           children: [
-            const Expanded(
+            Expanded(
               child: Text(
-                'Sent via link',
+                activity.data.status.maybeMap(
+                  orElse: () => 'Sent via link',
+                  canceled: (_) => 'Transfer canceled',
+                ),
                 style: titleStyle,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             const SizedBox(width: 8),
-            Text(
-              '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
-              style: titleStyle,
-            )
+            activity.data.status.maybeMap(
+              orElse: () => Text(
+                '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
+                style: titleStyle,
+              ),
+              canceled: (_) => const SizedBox.shrink(),
+            ),
           ],
         ),
         subtitle: Text(

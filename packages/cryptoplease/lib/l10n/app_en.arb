@@ -70,6 +70,17 @@
   "splitKeySecondLinkMessage": "Please click the second link in the message you've received.",
   "splitKeyTransferTitle": "TRANSFER PROGRESS",
   "splitKeyTransactionLoading": "Hang tight. We're almost done...",
+  "splitKeyCanceledMessage1": "{amount} Transaction canceled.",
+   "@splitKeyCanceledMessage1": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitKeySuccessMessage1": "SUCCESS!",
+  "splitKeySuccessMessage2": "Your transfer has been sent.",
+  "splitKeyErrorMessage1": "OOPS!",
   "transferSuccessTitle": "SUCCESS!",
   "outgoingTransferSuccess": "Your transfer has been sent.",
   "transferErrorTitle": "OOPS!",
@@ -87,6 +98,7 @@
   "splitKeyProgressWaiting": "Waiting for the receiver to withdraw the funds",
   "splitKeyProgressWithdrawn": "Funds are withdrawn",
   "splitKeyProgressSuccess": "Money has been successfully received",
+  "splitKeyProgressCanceled": "Transfer has been canceled",
   "resendLink": "Resend Links",
   "buy": "Buy",
   "sell": "Sell",

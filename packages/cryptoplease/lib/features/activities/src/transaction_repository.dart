@@ -58,7 +58,7 @@ class TransactionRepository {
     if (odp != null) return odp;
 
     final oskp = await _db.oSKPRows.findActivityOrNull(
-      (row) => row.txId.equals(txId),
+      (row) => row.txId.equals(txId) | row.withdrawTxId.equals(txId),
       (pr) => pr.toActivity(_tokens),
     );
     if (oskp != null) return oskp;
