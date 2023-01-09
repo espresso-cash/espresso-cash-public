@@ -33,7 +33,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
           name: 'InvestmentsRouter',
           page: EmptyRouterScreen,
           path: '',
-          maintainState: false,
           children: [
             CustomRoute<void>(initial: true, page: InvestmentsScreen),
             AutoRoute<void>(page: TokenDetailsScreen),
