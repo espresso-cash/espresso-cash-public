@@ -10,7 +10,7 @@ dependencies:
   auto_route: ^4.2.1
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.0
-  cached_network_image: ^3.2.2
+  cached_network_image: ^3.2.3
   collection: ^1.15.0
   cryptoplease_api:
     path: ../cryptoplease_link/cryptoplease_api/
