@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
-import 'package:solana/src/encoder/account_keys.dart';
-import 'package:solana/src/encoder/address_lookup_table.dart';
+import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 import 'package:solana/src/encoder/compact_array.dart';
-import 'package:solana/src/encoder/compiled_keys.dart';
+import 'package:solana/src/encoder/message/account_keys.dart';
+import 'package:solana/src/encoder/message/compiled_keys.dart';
 import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/signed_tx_v0.dart';
 
@@ -42,10 +42,11 @@ class Messagev0 {
     required Ed25519HDPublicKey feePayer,
     List<AddressLookupTableAccount>? addressLookupTableAccounts,
   }) {
-    final compiledKeys = CompiledKeys.compile(instructions, feePayer);
+    final compiledKeys =
+        CompiledKeys.compile(instructions: instructions, payer: feePayer);
 
     final addressTableLookups = <MessageAddressTableLookup>[];
-    final accountKeysFromLookups = LoadedAddresses([], []);
+    final accountKeysFromLookups = LoadedAddresses(writable: [], readonly: []);
 
     final lookupTableAccounts = addressLookupTableAccounts ?? [];
 
@@ -64,8 +65,8 @@ class Messagev0 {
     final messageComponents = compiledKeys.getMessageComponents();
     final staticAccountKeys = messageComponents.publicKeys;
     final accountKeys = MessageAccountKeys(
-      staticAccountKeys,
-      accountKeysFromLookups,
+      staticAccountKeys: staticAccountKeys,
+      accountKeysFromLookups: accountKeysFromLookups,
     );
     final messageInstructions = accountKeys.compileInstructions(instructions);
 

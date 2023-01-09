@@ -3,17 +3,20 @@ import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message_address_table_lookup.dart';
 
 class LoadedAddresses {
-  LoadedAddresses(this.writable, this.readonly);
+  LoadedAddresses({
+    required this.writable,
+    required this.readonly,
+  });
 
   final List<Ed25519HDPublicKey> writable;
   final List<Ed25519HDPublicKey> readonly;
 }
 
 class MessageAccountKeys {
-  MessageAccountKeys(
-    this.staticAccountKeys, [
+  MessageAccountKeys({
+    required this.staticAccountKeys,
     this.accountKeysFromLookups,
-  ]);
+  });
 
   final List<Ed25519HDPublicKey> staticAccountKeys;
   final LoadedAddresses? accountKeysFromLookups;

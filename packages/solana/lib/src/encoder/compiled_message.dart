@@ -20,5 +20,5 @@ class CompiledMessage with _$CompiledMessage {
 
   const CompiledMessage._();
 
-  int get requiredSignatureCount => data.first;
+  int get requiredSignatureCount => data.first; //TODO change
 }

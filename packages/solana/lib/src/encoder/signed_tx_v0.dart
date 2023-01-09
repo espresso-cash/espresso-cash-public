@@ -9,8 +9,9 @@ import 'package:solana/src/crypto/crypto.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compact_u16.dart';
 import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/encoder/message/message_v0.dart';
+import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/message_header.dart';
-import 'package:solana/src/encoder/message_v0.dart';
 
 /// Represents a signed transaction that consists of the transaction message and
 /// an array of signatures. The array of signatures must be populated following
@@ -32,6 +33,7 @@ class SignedTxV0 {
   factory SignedTxV0.fromBytes(Iterable<int> data) {
     final input = Uint8List.fromList(data.toList());
     final reader = BinaryReader(input.buffer.asByteData());
+
     final signaturesCount = reader.readCompactU16Value();
 
     final signaturesData = reader.readFixedArray(
@@ -40,6 +42,11 @@ class SignedTxV0 {
     );
 
     final messageBytes = reader.buf.buffer.asUint8List(reader.offset);
+
+    final prefix = messageBytes.first;
+    final maskedPrefix = prefix & 0x7f;
+    print(maskedPrefix);
+
     final txData = _TxData.decompile(messageBytes);
 
     final signatures = signaturesData.mapIndexed(
@@ -82,11 +89,16 @@ class _TxData {
     required this.accounts,
     required this.blockhash,
     required this.instructions,
+    required this.addressTableLookup,
   });
 
   factory _TxData.decompile(Iterable<int> data) {
     final reader =
         BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
+
+    final prefix = reader.readU8();
+    final maskedPrefix = prefix & 0x7f;
+
     final header = MessageHeader(
       numRequiredSignatures: reader.readU8(),
       numReadonlySignedAccounts: reader.readU8(),
@@ -128,11 +140,16 @@ class _TxData {
       () => _decompileInstruction(reader, accounts),
     );
 
+    final addressLookUpLength = reader.readCompactU16Value();
+
+    print(addressLookUpLength);
+
     return _TxData(
       header: header,
       accounts: accounts,
       blockhash: base58encode(blockhash),
       instructions: instructions,
+      addressTableLookup: [],
     );
   }
 
@@ -140,6 +157,7 @@ class _TxData {
   final List<AccountMeta> accounts;
   final String blockhash;
   final List<Instruction> instructions;
+  final List<MessageAddressTableLookup> addressTableLookup;
 }
 
 extension on BinaryReader {
@@ -161,10 +179,12 @@ Instruction _decompileInstruction(
   final programIdIndex = reader.readU8();
   final programId = allAccounts[programIdIndex].pubKey;
 
-  final accountsLength = reader.readCompactU16Value();
+  // final accountsLength = reader.readCompactU16Value();
+  final accountsLength = allAccounts.length;
 
   final accountIndexes =
       reader.readFixedArray(accountsLength, reader.readU8).toList();
+
   final accounts = accountIndexes.map((i) => allAccounts[i]).toList();
 
   final dataLength = reader.readCompactU16Value();

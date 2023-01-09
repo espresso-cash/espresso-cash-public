@@ -1,13 +1,13 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
 class AddressLookupTableState {
-  AddressLookupTableState(
-    this.deactivationSlot,
-    this.lastExtendedSlot,
-    this.lastExtendedSlotStartIndex,
-    this.authority,
-    this.addresses,
-  );
+  AddressLookupTableState({
+    required this.deactivationSlot,
+    required this.lastExtendedSlot,
+    required this.lastExtendedSlotStartIndex,
+    required this.authority,
+    required this.addresses,
+  });
   final BigInt deactivationSlot;
   final int lastExtendedSlot;
   final int lastExtendedSlotStartIndex;

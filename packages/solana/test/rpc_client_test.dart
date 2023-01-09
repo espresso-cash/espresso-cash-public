@@ -4,7 +4,7 @@ import 'package:bip39/bip39.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/encoder/message_v0.dart';
+import 'package:solana/src/encoder/message/message_v0.dart';
 import 'package:test/test.dart';
 
 import 'config.dart';
@@ -230,7 +230,7 @@ void main() {
         maxSupportedTransactionVersion: 0,
       );
 
-      print(transaction?.version?.version);
+      expect(transaction?.version?.version, 0);
     });
 
     test('Transfer SOL to the same address', () async {

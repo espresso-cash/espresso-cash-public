@@ -7,5 +7,5 @@ export 'compiled_message.dart';
 export 'constants.dart';
 export 'extensions.dart';
 export 'instruction.dart';
-export 'message.dart';
+export 'message/message.dart';
 export 'signed_tx.dart';

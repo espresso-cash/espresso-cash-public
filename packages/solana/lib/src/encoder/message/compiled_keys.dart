@@ -1,7 +1,7 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
-import 'package:solana/src/encoder/account_keys.dart';
-import 'package:solana/src/encoder/address_lookup_table.dart';
+import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/encoder/message/account_keys.dart';
 import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/message_header.dart';
 
@@ -15,6 +15,18 @@ class CompiledKeyMeta {
   final bool isSigner;
   final bool isWritable;
   final bool isInvoked;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CompiledKeyMeta &&
+          runtimeType == other.runtimeType &&
+          isSigner == other.isSigner &&
+          isWritable == other.isWritable &&
+          isInvoked == other.isInvoked;
+
+  @override
+  int get hashCode => Object.hash(isSigner, isWritable, isInvoked);
 }
 
 class CompiledKeys {
@@ -26,10 +38,10 @@ class CompiledKeys {
   final Ed25519HDPublicKey payer;
   final Map<String, CompiledKeyMeta> keyMetaMap;
 
-  static CompiledKeys compile(
-    List<Instruction> instructions,
-    Ed25519HDPublicKey payer,
-  ) {
+  static CompiledKeys compile({
+    required List<Instruction> instructions,
+    required Ed25519HDPublicKey payer,
+  }) {
     final keyMetaMap = <String, CompiledKeyMeta>{};
 
     CompiledKeyMeta getOrInsertDefault(Ed25519HDPublicKey pubkey) {
@@ -76,7 +88,9 @@ class CompiledKeys {
 
   MessageComponents getMessageComponents() {
     final mapEntries = keyMetaMap.entries.toList();
-    assert(mapEntries.length <= 256, 'Max static account keys length exceeded');
+    if (mapEntries.length >= 256) {
+      throw Exception('Max static account keys length exceeded');
+    }
 
     final writableSigners = mapEntries.where(
       (entry) => entry.value.isSigner && entry.value.isWritable,
@@ -153,8 +167,8 @@ class CompiledKeys {
     );
 
     final keys = LoadedAddresses(
-      drainedWritableKeys,
-      drainedReadonlyKeys,
+      writable: drainedWritableKeys,
+      readonly: drainedReadonlyKeys,
     );
 
     return TableLookupResult(lookup, keys);
@@ -178,7 +192,6 @@ class CompiledKeys {
           assert(lookupTableIndex < 256, 'Max lookup table index exceeded');
           lookupTableIndexes.add(lookupTableIndex);
           drainedKeys.add(key);
-          keyMetaMap.remove(address);
         }
       }
     }
