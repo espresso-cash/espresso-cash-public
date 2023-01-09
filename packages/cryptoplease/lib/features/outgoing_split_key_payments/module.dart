@@ -5,14 +5,15 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/accounts/bl/account.dart';
+import '../../core/accounts/module.dart';
 import '../../core/amount.dart';
 import '../../core/analytics/analytics_manager.dart';
 import '../../di.dart';
 import 'src/bl/bloc.dart';
+import 'src/bl/repository.dart';
 
 export 'src/bl/oskp_verifier.dart';
 export 'src/bl/outgoing_split_key_payment.dart';
-export 'src/bl/repository.dart';
 
 class OSKPModule extends SingleChildStatelessWidget {
   const OSKPModule({Key? key, Widget? child}) : super(key: key, child: child);
@@ -26,7 +27,10 @@ class OSKPModule extends SingleChildStatelessWidget {
             ),
           ),
         ],
-        child: child,
+        child: LogoutListener(
+          onLogout: (_) => sl<OSKPRepository>().clear(),
+          child: child,
+        ),
       );
 }
 
