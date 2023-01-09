@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/flow.dart';
 import '../../../../core/tokens/token.dart';
-import '../presentation/discover_header.dart';
+import '../widgets/discover_header.dart';
 import 'repository.dart';
 
 part 'bloc.freezed.dart';

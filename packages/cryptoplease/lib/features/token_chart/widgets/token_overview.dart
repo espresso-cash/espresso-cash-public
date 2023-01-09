@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/user_preferences.dart';
-import '../bloc.dart';
+import '../../../core/user_preferences.dart';
+import '../src/bloc.dart';
 import 'token_chart.dart';
 
-export '../token_chart_item.dart';
+export '../src/token_chart_item.dart';
 
 class ChartPriceOverview extends StatelessWidget {
   const ChartPriceOverview({super.key});

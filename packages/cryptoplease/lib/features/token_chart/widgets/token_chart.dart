@@ -3,15 +3,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../ui/colors.dart';
-import '../../../../core/tokens/token.dart';
-import '../../../../ui/loader.dart';
-import '../bloc.dart';
-import '../chart_interval.dart';
-import '../date_format.dart';
-import '../token_chart_item.dart';
+import '../../../../../ui/colors.dart';
+import '../../../core/tokens/token.dart';
+import '../../../ui/loader.dart';
+import '../src/bloc.dart';
+import '../src/chart_interval.dart';
+import '../src/date_format.dart';
+import '../src/token_chart_item.dart';
 
-export '../token_chart_item.dart';
+export '../src/token_chart_item.dart';
 
 class TokenChart extends StatelessWidget {
   const TokenChart({
