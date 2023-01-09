@@ -31,7 +31,7 @@ class InvestmentHeader extends StatelessWidget {
           children: [
             const _Info(),
             const _Balance(),
-            const Divider(color: Colors.white, height: 8),
+            const Divider(color: Color(0xff4B4B4B), height: 8),
             _Buttons(
               onAddCash: () => context.router.navigate(
                 OnRampRoute(

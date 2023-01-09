@@ -70,7 +70,7 @@ class _BalanceItem extends StatelessWidget {
         onTap: () => context.router.push(TokenDetailsRoute(token: token)),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
           decoration: const BoxDecoration(
             color: CpColors.yellowColor,
             borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -78,7 +78,7 @@ class _BalanceItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CpTokenIcon(token: token, size: 35),
+              CpTokenIcon(token: token, size: 36),
               const SizedBox(width: 14),
               Expanded(
                 child: Text(
@@ -115,7 +115,7 @@ class _AmountDisplay extends StatelessWidget {
         width: 95,
         child: Container(
           padding: const EdgeInsets.symmetric(
-            vertical: 8,
+            vertical: 6,
             horizontal: 16,
           ),
           decoration: const ShapeDecoration(

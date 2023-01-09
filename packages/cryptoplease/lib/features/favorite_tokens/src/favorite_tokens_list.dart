@@ -62,7 +62,7 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
             children: [
               const SliverToBoxAdapter(child: _FollowingTitle()),
               SliverPadding(
-                padding: const EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.only(top: 8),
                 sliver: SliverPadding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   sliver: SliverList(
@@ -88,7 +88,7 @@ class _FollowingTitle extends StatelessWidget {
         context.l10n.following,
         style: const TextStyle(
           fontWeight: FontWeight.w500,
-          fontSize: 19,
+          fontSize: 18,
           color: CpColors.menuPrimaryTextColor,
         ),
       );
@@ -110,33 +110,47 @@ class _TokenItem extends StatelessWidget {
         ? null
         : Amount.fromDecimal(currency: fiatCurrency, value: currentPrice);
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: ListTile(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-        ),
-        tileColor: const Color(0xffF5F5F5),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         onTap: () => context.router.push(TokenDetailsRoute(token: token)),
-        leading: CpTokenIcon(token: token, size: 37),
-        title: Text(
-          token.name,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 15,
-            color: CpColors.menuPrimaryTextColor,
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
+          decoration: const BoxDecoration(
+            color: Color(0xffF5F5F5),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: Text(
-          tokenRate?.format(locale) ?? '-',
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
-            color: CpColors.menuPrimaryTextColor,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CpTokenIcon(token: token, size: 36),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Text(
+                  token.name,
+                  style: _titleStyle,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(
+                tokenRate?.format(locale) ?? '-',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  color: CpColors.menuPrimaryTextColor,
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
+
+const _titleStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 15.0,
+  color: CpColors.menuPrimaryTextColor,
+);

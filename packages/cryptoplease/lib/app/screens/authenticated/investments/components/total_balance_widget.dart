@@ -25,7 +25,7 @@ class TotalBalanceWidget extends StatelessWidget {
           Text(
             context.l10n.cryptoInvestments,
             style: const TextStyle(
-              fontSize: 19,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
               color: CpColors.menuPrimaryTextColor,
             ),
