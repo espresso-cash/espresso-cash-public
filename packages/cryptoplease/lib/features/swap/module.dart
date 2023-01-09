@@ -10,9 +10,6 @@ import '../../di.dart';
 import '../../routes.gr.dart';
 import 'src/swap/swap_bloc.dart';
 
-export 'src/routes.dart';
-export 'src/swap/swap_repository.dart';
-
 extension BuyTokenExt on BuildContext {
   void navigateToBuyToken(Token token) => navigateTo(
         SwapFlowRoute(

@@ -10,7 +10,7 @@ import '../../../features/outgoing_tip_payments/routes.dart';
 import '../../../features/payment_request/routes.dart';
 import '../../../features/qr_scanner/routes.dart';
 import '../../../features/ramp/routes.dart';
-import '../../../features/swap/module.dart';
+import '../../../features/swap/routes.dart';
 import '../../../features/token_details/token_details_screen.dart';
 import '../../../features/token_search/routes.dart';
 import 'activities/activities_screen.dart';
