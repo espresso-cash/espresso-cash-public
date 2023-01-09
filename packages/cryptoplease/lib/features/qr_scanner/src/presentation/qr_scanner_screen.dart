@@ -34,7 +34,7 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
-  bool _flashStatus = false;
+  bool _flashEnabled = false;
   bool _cameraEnabled = false;
 
   @override
@@ -49,24 +49,21 @@ class _ContentState extends State<_Content> {
 
   @override
   void dispose() {
-    super.dispose();
     _qrViewController.dispose();
+    super.dispose();
   }
 
-  void _onQRScanError() {
-    showWarningDialog(
-      context,
-      title: context.l10n.qrCodeScanErrorTitle,
-      message: context.l10n.qrCodeScanErrorContent,
-    );
-  }
+  void _onQRScanError() => showWarningDialog(
+        context,
+        title: context.l10n.qrCodeScanErrorTitle,
+        message: context.l10n.qrCodeScanErrorContent,
+      );
 
-  void _onQRToggleFlash() {
-    _qrViewController.toggleTorch().then((_) {
-      setState(() {
-        _flashStatus = !_flashStatus;
-      });
-    });
+  Future<void> _onQRToggleFlash() async {
+    await _qrViewController.toggleTorch();
+    if (!mounted) return;
+
+    setState(() => _flashEnabled = !_flashEnabled);
   }
 
   void _onBlocChange(BuildContext context, QrScannerState state) {
@@ -131,7 +128,7 @@ class _ContentState extends State<_Content> {
                       alignment: const Alignment(0, -0.7),
                       child: GestureDetector(
                         onTap: _onQRToggleFlash,
-                        child: _flashStatus
+                        child: _flashEnabled
                             ? Assets.images.flashOn.svg()
                             : Assets.images.flashOff.svg(),
                       ),
