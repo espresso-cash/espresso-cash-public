@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
 import '../../../../features/favorite_tokens/refresh_favorites.dart';
 import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
-import '../../../../features/investments/module.dart';
+import '../../../../features/investments/widgets/my_portfolio.dart';
 import '../../../../features/popular_tokens/module.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../routes.gr.dart';

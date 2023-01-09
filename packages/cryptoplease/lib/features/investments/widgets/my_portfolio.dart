@@ -2,10 +2,10 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/balances/bl/balances_bloc.dart';
-import '../../../../core/balances/presentation/watch_balance.dart';
-import '../data/repository.dart';
-import 'components/portfolio_widget.dart';
+import '../../../core/balances/bl/balances_bloc.dart';
+import '../../../core/balances/presentation/watch_balance.dart';
+import '../src/data/repository.dart';
+import 'portfolio_widget.dart';
 
 class MyPortfolio extends StatelessWidget {
   const MyPortfolio({super.key});
