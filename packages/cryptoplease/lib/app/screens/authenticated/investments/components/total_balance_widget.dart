@@ -5,6 +5,7 @@ import '../../../../../core/balances/presentation/watch_balance.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/user_preferences.dart';
 import '../../../../../l10n/device_locale.dart';
+import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/colors.dart';
 
 class TotalBalanceWidget extends StatelessWidget {
@@ -16,17 +17,28 @@ class TotalBalanceWidget extends StatelessWidget {
       context.watch<UserPreferences>().fiatCurrency,
     );
 
-    return Center(
-      child: FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Text(
-          balance.format(DeviceLocale.localeOf(context)),
-          style: Theme.of(context).textTheme.headline2?.copyWith(
-                fontSize: 57.5,
-                fontWeight: FontWeight.w700,
-                color: CpColors.menuPrimaryTextColor,
-              ),
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            context.l10n.cryptoInvestments,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: CpColors.menuPrimaryTextColor,
+            ),
+          ),
+          Text(
+            balance.format(DeviceLocale.localeOf(context)),
+            style: Theme.of(context).textTheme.headline2?.copyWith(
+                  fontSize: 50,
+                  fontWeight: FontWeight.w700,
+                  color: CpColors.menuPrimaryTextColor,
+                ),
+          ),
+        ],
       ),
     );
   }

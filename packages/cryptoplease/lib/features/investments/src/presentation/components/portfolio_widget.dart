@@ -7,11 +7,8 @@ import '../../../../../core/balances/presentation/watch_balance.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../l10n/device_locale.dart';
-import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
-import '../../../../../ui/empty_message_widget.dart';
-import '../../../../../ui/tab_bar.dart';
 import '../../../../../ui/token_icon.dart';
 
 class PortfolioWidget extends StatelessWidget {
@@ -20,41 +17,10 @@ class PortfolioWidget extends StatelessWidget {
   final IList<Token> tokens;
 
   @override
-  Widget build(BuildContext context) => DefaultTabController(
-        length: 3,
-        child: MultiSliver(
-          children: [
-            SliverToBoxAdapter(
-              child: Text(
-                context.l10n.myPortfolio,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13,
-                  letterSpacing: 0.17,
-                  color: CpColors.menuPrimaryTextColor,
-                ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.only(top: 12, bottom: 21),
-              sliver: SliverToBoxAdapter(
-                child: CpTabBar(
-                  tabs: [
-                    Tab(text: context.l10n.crypto),
-                    Tab(text: context.l10n.stablecoin),
-                    Tab(text: context.l10n.all),
-                  ],
-                ),
-              ),
-            ),
-            if (tokens.isEmpty)
-              SliverToBoxAdapter(
-                child: CpEmptyMessageWidget(message: context.l10n.loading),
-              )
-            else
-              _BalanceList(tokens: tokens),
-          ],
-        ),
+  Widget build(BuildContext context) => MultiSliver(
+        children: [
+          if (tokens.isNotEmpty) _BalanceList(tokens: tokens),
+        ],
       );
 }
 
@@ -69,42 +35,17 @@ class _BalanceList extends StatefulWidget {
 
 class _BalanceListState extends State<_BalanceList> {
   List<Widget> _items = [];
-  TabController? _tabController;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _tabController?.removeListener(_handleTabUpdate);
-    _tabController = DefaultTabController.of(context)
-      ?..addListener(_handleTabUpdate);
-    _updateItems();
+    _initItems();
   }
 
-  @override
-  void didUpdateWidget(covariant _BalanceList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.tokens != widget.tokens) {
-      _updateItems();
-    }
-  }
-
-  void _handleTabUpdate() => setState(_updateItems);
-
-  void _updateItems() {
-    final tab = _tabController?.index ?? 0;
+  void _initItems() {
     _items = [
-      for (final token in widget.tokens)
-        if (tab == 0 && !token.isStablecoin ||
-            tab == 1 && token.isStablecoin ||
-            tab == 2)
-          _BalanceItem(token: token),
+      for (final token in widget.tokens) _BalanceItem(token: token),
     ];
-  }
-
-  @override
-  void dispose() {
-    _tabController?.removeListener(_handleTabUpdate);
-    super.dispose();
   }
 
   @override
@@ -129,15 +70,15 @@ class _BalanceItem extends StatelessWidget {
         onTap: () => context.router.push(TokenDetailsRoute(token: token)),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
           decoration: const BoxDecoration(
             color: CpColors.yellowColor,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CpTokenIcon(token: token, size: 35),
+              CpTokenIcon(token: token, size: 36),
               const SizedBox(width: 14),
               Expanded(
                 child: Text(
@@ -158,7 +99,7 @@ class _BalanceItem extends StatelessWidget {
 const _titleStyle = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 15.0,
-  color: Colors.black,
+  color: CpColors.menuPrimaryTextColor,
 );
 
 class _AmountDisplay extends StatelessWidget {
@@ -174,7 +115,7 @@ class _AmountDisplay extends StatelessWidget {
         width: 95,
         child: Container(
           padding: const EdgeInsets.symmetric(
-            vertical: 8,
+            vertical: 6,
             horizontal: 16,
           ),
           decoration: const ShapeDecoration(

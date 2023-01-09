@@ -18,7 +18,7 @@ class DangerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: context.l10n.dangerZoneSectionTitle,
+        padding: const EdgeInsets.only(left: 4, bottom: 4),
         actions: [
           ProfileButton(
             label: context.l10n.signOut,

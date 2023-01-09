@@ -5,12 +5,11 @@ import 'package:nested/nested.dart';
 
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
-import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
 import '../../routes.gr.dart';
+import '../../ui/profile_switch.dart';
 import 'src/bl/app_lock_bloc.dart';
 import 'src/presentation/app_lock_screen.dart';
-import 'src/presentation/components/switch.dart';
 
 class AppLockModule extends SingleChildStatelessWidget {
   const AppLockModule({Key? key, Widget? child})
@@ -84,10 +83,9 @@ class AppLockMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<AppLockBloc, AppLockState>(
-        builder: (context, state) => MenuSwitch(
-          title: context.l10n.appLock,
-          description: context.l10n.appLockDescription,
-          icon: Assets.icons.lock,
+        builder: (context, state) => ProfileSwitch(
+          label: context.l10n.appLock,
+          subtitle: context.l10n.appLockDescription,
           value: state is AppLockStateEnabled,
           onChanged: (value) {
             final screen = value

@@ -57,22 +57,17 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
         }).toList();
 
         return SliverPadding(
-          padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+          padding: const EdgeInsets.only(top: 32, left: 24, right: 24),
           sliver: MultiSliver(
             children: [
               const SliverToBoxAdapter(child: _FollowingTitle()),
               SliverPadding(
-                padding: const EdgeInsets.only(top: 16),
-                sliver: SliverStack(
-                  children: [
-                    const _Background(),
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      sliver: SliverList(
-                        delegate: SliverChildListDelegate(items),
-                      ),
-                    ),
-                  ],
+                padding: const EdgeInsets.only(top: 8),
+                sliver: SliverPadding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(items),
+                  ),
                 ),
               ),
             ],
@@ -81,22 +76,6 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
       },
     );
   }
-}
-
-class _Background extends StatelessWidget {
-  const _Background({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => const SliverPositioned.fill(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Color(0xffF5F5F5),
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-          ),
-        ),
-      );
 }
 
 class _FollowingTitle extends StatelessWidget {
@@ -108,9 +87,8 @@ class _FollowingTitle extends StatelessWidget {
   Widget build(BuildContext context) => Text(
         context.l10n.following,
         style: const TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 13,
-          letterSpacing: 0.17,
+          fontWeight: FontWeight.w500,
+          fontSize: 18,
           color: CpColors.menuPrimaryTextColor,
         ),
       );
@@ -132,26 +110,47 @@ class _TokenItem extends StatelessWidget {
         ? null
         : Amount.fromDecimal(currency: fiatCurrency, value: currentPrice);
 
-    return ListTile(
-      onTap: () => context.router.push(TokenDetailsRoute(token: token)),
-      leading: CpTokenIcon(token: token, size: 37),
-      title: Text(
-        token.name,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          color: Colors.black,
-        ),
-        overflow: TextOverflow.ellipsis,
-      ),
-      trailing: Text(
-        tokenRate?.format(locale) ?? '-',
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          color: Colors.black,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
+          decoration: const BoxDecoration(
+            color: Color(0xffF5F5F5),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CpTokenIcon(token: token, size: 36),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Text(
+                  token.name,
+                  style: _titleStyle,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(
+                tokenRate?.format(locale) ?? '-',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  color: CpColors.menuPrimaryTextColor,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+const _titleStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 15.0,
+  color: CpColors.menuPrimaryTextColor,
+);

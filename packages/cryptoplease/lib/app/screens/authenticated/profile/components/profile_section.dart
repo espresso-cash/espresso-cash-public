@@ -11,7 +11,6 @@ import '../../../../../core/presentation/utils.dart';
 import '../../../../../di.dart';
 import '../../../../../features/incoming_split_key_payments/module.dart';
 import '../../../../../features/investments/module.dart';
-import '../../../../../features/legal/flow.dart';
 import '../../../../../features/outgoing_direct_payments/module.dart';
 import '../../../../../features/outgoing_split_key_payments/module.dart';
 import '../../../../../features/payment_request/module.dart';
@@ -30,30 +29,53 @@ part 'version_section.dart';
 class ProfileSection extends StatelessWidget {
   const ProfileSection({
     Key? key,
-    required this.title,
+    this.title,
     required this.actions,
-    this.color = CpColors.lightGreyBackground,
+    this.color = Colors.white,
+    required this.padding,
   }) : super(key: key);
 
-  final String title;
+  final String? title;
   final List<Widget> actions;
   final Color color;
+  final EdgeInsets padding;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(30)),
-          child: Material(
-            color: color,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 4, bottom: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: actions,
+  Widget build(BuildContext context) {
+    final title = this.title;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8, left: 20, bottom: 10),
+              child: Text(
+                title.toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: CpColors.menuPrimaryTextColor,
+                ),
+              ),
+            ),
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
+            child: Material(
+              color: color,
+              child: Padding(
+                padding: padding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: actions,
+                ),
               ),
             ),
           ),
-        ),
-      );
+        ],
+      ),
+    );
+  }
 }

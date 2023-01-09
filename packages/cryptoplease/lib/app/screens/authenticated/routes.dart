@@ -19,7 +19,6 @@ import 'home_screen.dart';
 import 'investments/investments_screen.dart';
 import 'profile/edit_profile_screen.dart';
 import 'profile/help_screen.dart';
-import 'profile/menu_screen.dart';
 import 'profile/profile_screen.dart';
 import 'wallet_flow/wallet_flow_screen.dart';
 
@@ -30,17 +29,16 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
       path: '',
       page: HomeScreen,
       children: [
-        CustomRoute<void>(path: '', page: MenuScreen, maintainState: false),
-        CustomRoute<void>(page: WalletFlowScreen, maintainState: false),
         CustomRoute<void>(
           name: 'InvestmentsRouter',
           page: EmptyRouterScreen,
-          maintainState: false,
+          path: '',
           children: [
             CustomRoute<void>(initial: true, page: InvestmentsScreen),
             AutoRoute<void>(page: TokenDetailsScreen),
           ],
         ),
+        CustomRoute<void>(page: WalletFlowScreen, maintainState: false),
         CustomRoute<void>(page: ActivitiesScreen, maintainState: false),
       ],
     ),
