@@ -6,7 +6,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/tab_bar.dart';
 import '../../../../../ui/theme.dart';
-import '../../bl/payment_request.dart';
+import '../../../models/payment_request.dart';
 import 'components/share_link.dart';
 import 'components/share_qr_code.dart';
 

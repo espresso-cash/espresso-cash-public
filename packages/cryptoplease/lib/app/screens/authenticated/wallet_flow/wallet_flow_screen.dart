@@ -11,7 +11,7 @@ import '../../../../features/incoming_tip_payments/process_incoming_tip.dart';
 import '../../../../features/outgoing_direct_payments/build_context_ext.dart';
 import '../../../../features/outgoing_split_key_payments/module.dart';
 import '../../../../features/outgoing_tip_payments/module.dart';
-import '../../../../features/payment_request/module.dart';
+import '../../../../features/payment_request/models/payment_request.dart';
 import '../../../../features/qr_scanner/module.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';

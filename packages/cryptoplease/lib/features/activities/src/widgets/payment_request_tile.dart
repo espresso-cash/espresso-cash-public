@@ -1,15 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/presentation/format_date.dart';
-import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
-import '../../../payment_request/module.dart';
+import '../../../payment_request/formatted_amount.dart';
+import '../../../payment_request/models/payment_request.dart';
+import '../../../payment_request/watch_payment_request.dart';
+import '../../../payment_request/widgets/payment_request_verifier.dart';
 import 'styles.dart';
 
 class PaymentRequestTile extends StatefulWidget {
@@ -30,7 +31,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
   @override
   void initState() {
     super.initState();
-    _stream = sl<PaymentRequestRepository>().watchById(widget.id);
+    _stream = watchPaymentRequest(widget.id);
   }
 
   @override
@@ -77,10 +78,9 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
             );
           }
 
-          return BlocProvider<PaymentRequestVerifierBloc>(
+          return PaymentRequestVerifier(
             key: ValueKey(widget.id),
-            create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
-            lazy: false,
+            paymentRequest: data,
             child: ListTile(
               onTap: () =>
                   context.navigateTo(LinkDetailsFlowRoute(id: data.id)),

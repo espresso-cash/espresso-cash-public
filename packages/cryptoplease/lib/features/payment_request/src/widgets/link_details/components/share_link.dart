@@ -10,7 +10,7 @@ import '../../../../../../ui/button.dart';
 import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/share_message/share_message_bubble.dart';
 import '../../../../../../ui/share_message/share_message_header.dart';
-import '../../../bl/payment_request.dart';
+import '../../../../models/payment_request.dart';
 
 class ShareLink extends StatelessWidget {
   const ShareLink({

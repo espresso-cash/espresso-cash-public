@@ -9,10 +9,10 @@ import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/theme.dart';
-import '../../bl/payment_request.dart';
+import '../../../models/payment_request.dart';
 import '../../bl/payment_request_verifier/bloc.dart';
 import '../../bl/repository.dart';
-import '../formatted_amount.dart';
+import '../../../formatted_amount.dart';
 import 'tx_result_screen.dart';
 
 class LinkDetailsFlowScreen extends StatefulWidget {
