@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
-import 'bl/bloc.dart';
-import 'bl/repository.dart';
+import '../src/bl/bloc.dart';
+import '../src/bl/repository.dart';
 
 class FavoriteButton extends StatefulWidget {
   const FavoriteButton({

@@ -15,8 +15,8 @@ import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import 'bl/bloc.dart';
-import 'bl/repository.dart';
+import '../src/bl/bloc.dart';
+import '../src/bl/repository.dart';
 
 class FavoriteTokenList extends StatefulWidget {
   const FavoriteTokenList({super.key});

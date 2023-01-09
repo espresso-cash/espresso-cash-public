@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
-import '../../../../features/favorite_tokens/module.dart';
+import '../../../../features/favorite_tokens/refresh_favorites.dart';
+import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
 import '../../../../features/investments/module.dart';
 import '../../../../features/popular_tokens/module.dart';
 import '../../../../gen/assets.gen.dart';
@@ -31,7 +32,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
           onRefresh: () => Future.wait([
             onRefresh(),
             context.read<PopularTokenBloc>().refresh(),
-            context.read<FavoritesBloc>().refresh(),
+            context.refreshFavorites(),
           ]),
           color: CpColors.primaryColor,
           child: const CustomScrollView(

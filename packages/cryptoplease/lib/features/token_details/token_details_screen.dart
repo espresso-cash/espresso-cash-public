@@ -17,7 +17,7 @@ import '../../ui/loader.dart';
 import '../../ui/navigation_bar/navigation_bar.dart';
 import '../../ui/theme.dart';
 import '../../ui/token_icon.dart';
-import '../favorite_tokens/module.dart';
+import '../favorite_tokens/widgets/favorite_button.dart';
 import '../token_chart/module.dart';
 import 'src/token_details.dart';
 import 'src/token_details_bloc.dart';

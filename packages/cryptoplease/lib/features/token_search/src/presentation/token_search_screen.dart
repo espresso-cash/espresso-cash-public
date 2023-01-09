@@ -11,7 +11,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/loader.dart';
 import '../../../../ui/text_field.dart';
-import '../../../favorite_tokens/module.dart';
+import '../../../favorite_tokens/widgets/favorite_button.dart';
 import '../bl/bloc.dart';
 import 'discover_header.dart';
 
