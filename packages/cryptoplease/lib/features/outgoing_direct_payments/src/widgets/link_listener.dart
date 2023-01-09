@@ -13,7 +13,7 @@ import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../routes.gr.dart';
-import '../../build_context_ext.dart';
+import '../../widgets/extensions.dart';
 
 class ODPLinkListener extends StatefulWidget {
   const ODPLinkListener({super.key, required this.child});
