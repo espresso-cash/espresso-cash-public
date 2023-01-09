@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../di.dart';
-import '../transaction.dart';
+import '../../models/transaction.dart';
 import '../transaction_repository.dart';
 import 'common_tile.dart';
 import 'odp_tile.dart';

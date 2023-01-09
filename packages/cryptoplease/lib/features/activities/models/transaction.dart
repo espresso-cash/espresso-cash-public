@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
-import 'activity.dart';
+import '../src/activity.dart';
 
 part 'transaction.freezed.dart';
 

@@ -2,12 +2,12 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:provider/provider.dart';
 
-import '../../../../di.dart';
-import '../../../../ui/loader.dart';
-import '../transaction_repository.dart';
-import '../updater/bloc.dart';
-import 'no_activity.dart';
-import 'transaction_item.dart';
+import '../../../di.dart';
+import '../../../ui/loader.dart';
+import '../src/transaction_repository.dart';
+import '../src/updater/bloc.dart';
+import '../src/widgets/no_activity.dart';
+import '../src/widgets/transaction_item.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({

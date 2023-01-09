@@ -7,7 +7,7 @@ import '../../../../core/transactions/create_transaction_link.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/colors.dart';
-import '../transaction.dart';
+import '../../models/transaction.dart';
 import 'styles.dart';
 
 class CommonTile extends StatelessWidget {

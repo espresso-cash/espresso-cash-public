@@ -2,7 +2,8 @@ import 'package:flutter/material.dart' hide Notification;
 
 import '../../../../core/feature_flags.dart';
 import '../../../../di.dart';
-import '../../../../features/activities/module.dart';
+import '../../../../features/activities/widgets/pending_activities_list.dart';
+import '../../../../features/activities/widgets/transaction_list.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
