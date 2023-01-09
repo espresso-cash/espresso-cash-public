@@ -4,8 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../core/tip_payments.dart';
-import 'qr_address_data.dart';
+import '../../../../core/tip_payments.dart';
+import '../bl/qr_address_data.dart';
 
 part 'qr_scanner_request.freezed.dart';
 

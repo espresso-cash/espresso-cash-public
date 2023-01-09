@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/link_shortener.dart';
+import '../../../../core/link_shortener.dart';
 import 'qr_scanner_request.dart';
 
 part 'qr_scanner_bloc.freezed.dart';
