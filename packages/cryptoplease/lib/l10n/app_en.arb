@@ -463,5 +463,10 @@
       }
     }
   },
+  "qrCameraPermissionTitle": "Camera disabled",
+  "qrCameraPermissionMessage": "Allow camera access in your device settings to enable the QR Code reader.",
+  "qrInputAddressTitle": "Send manually",
+  "qrInputAddressMessage": "You can enter the receiver Solana wallet address to send money directly to them.",
+  "qrInputAddressHint": "Enter the crypto address here",
   "moneyReceived": "Money has been received"
 }
