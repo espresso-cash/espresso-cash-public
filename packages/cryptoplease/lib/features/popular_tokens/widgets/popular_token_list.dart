@@ -13,7 +13,7 @@ import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/token_icon.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
-import 'bl/bloc.dart';
+import '../src/bl/bloc.dart';
 
 class PopularTokenList extends StatelessWidget {
   const PopularTokenList({super.key});

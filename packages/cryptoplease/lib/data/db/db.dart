@@ -11,7 +11,7 @@ import '../../features/outgoing_direct_payments/db.dart';
 import '../../features/outgoing_split_key_payments/db.dart';
 import '../../features/outgoing_tip_payments/db.dart';
 import '../../features/payment_request/db.dart';
-import '../../features/popular_tokens/module.dart';
+import '../../features/popular_tokens/db.dart';
 import '../../features/swap/module.dart';
 import 'open_connection.dart';
 
