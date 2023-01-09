@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../core/currency.dart';
-import '../../../../routes.gr.dart';
-import '../bl/bloc.dart';
+import '../../core/amount.dart';
+import '../../core/currency.dart';
+import '../../routes.gr.dart';
+import 'src/bl/bloc.dart';
 
 extension OdpRoutesExt on BuildContext {
   void createAndOpenDirectPayment({

@@ -10,9 +10,6 @@ import 'src/bl/bloc.dart';
 import 'src/bl/repository.dart';
 import 'src/widgets/link_listener.dart';
 
-export 'src/bl/outgoing_direct_payment.dart';
-export 'src/widgets/build_context_ext.dart';
-
 class ODPModule extends SingleChildStatelessWidget {
   const ODPModule({Key? key, Widget? child}) : super(key: key, child: child);
 

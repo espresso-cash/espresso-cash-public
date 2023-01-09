@@ -8,7 +8,7 @@ import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../di.dart';
 import '../../../../features/incoming_tip_payments/process_incoming_tip.dart';
-import '../../../../features/outgoing_direct_payments/module.dart';
+import '../../../../features/outgoing_direct_payments/build_context_ext.dart';
 import '../../../../features/outgoing_split_key_payments/module.dart';
 import '../../../../features/outgoing_tip_payments/module.dart';
 import '../../../../features/payment_request/module.dart';

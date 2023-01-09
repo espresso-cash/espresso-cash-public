@@ -7,8 +7,8 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
+import '../../models/outgoing_direct_payment.dart';
 import '../bl/bloc.dart';
-import '../bl/outgoing_direct_payment.dart';
 import '../bl/repository.dart';
 
 class ODPDetailsScreen extends StatefulWidget {
