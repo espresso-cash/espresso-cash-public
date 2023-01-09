@@ -2,6 +2,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:provider/provider.dart';
 
+import '../../../../core/accounts/bl/account.dart';
 import '../../../../di.dart';
 import '../../../outgoing_split_key_payments/module.dart';
 import '../../../outgoing_tip_payments/module.dart';
@@ -40,7 +41,9 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
         providers: [
           Provider<OSKPVerifier>(
             lazy: false,
-            create: (_) => sl<OSKPVerifier>()..init(),
+            create: (_) => sl<OSKPVerifier>(
+              param1: context.read<MyAccount>().wallet.publicKey,
+            )..init(),
             dispose: (_, value) => value.dispose(),
           ),
           Provider<OTVerifier>(

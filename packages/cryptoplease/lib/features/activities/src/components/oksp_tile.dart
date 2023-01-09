@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_amount.dart';
@@ -18,9 +19,16 @@ class OSKPTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ActivityTile(
-        title: context.l10n.sentViaLink,
-        amount:
+        title: activity.data.status.maybeMap(
+          orElse: always(context.l10n.sentViaLink),
+          canceled: always(context.l10n.transferCanceled),
+        ),
+        amount: activity.data.status.maybeMap(
+          orElse: always(
             '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
+          ),
+          canceled: always(null),
+        ),
         subtitle: context.formatDate(activity.created),
         icon: Assets.icons.outgoing.svg(),
         actions: [
