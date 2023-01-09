@@ -9,7 +9,7 @@ import '../../features/incoming_split_key_payments/db.dart';
 import '../../features/incoming_tip_payments/db.dart';
 import '../../features/outgoing_direct_payments/db.dart';
 import '../../features/outgoing_split_key_payments/db.dart';
-import '../../features/outgoing_tip_payments/module.dart';
+import '../../features/outgoing_tip_payments/db.dart';
 import '../../features/payment_request/module.dart';
 import '../../features/popular_tokens/module.dart';
 import '../../features/swap/module.dart';

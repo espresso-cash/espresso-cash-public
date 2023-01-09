@@ -8,7 +8,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/theme.dart';
-import '../bl/outgoing_tip_payment.dart';
+import '../../models/outgoing_tip_payment.dart';
 
 class ShareQRScreen extends StatelessWidget {
   const ShareQRScreen({

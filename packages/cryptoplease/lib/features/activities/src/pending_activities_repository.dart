@@ -7,7 +7,7 @@ import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/db.dart';
 import '../../outgoing_split_key_payments/db.dart';
-import '../../outgoing_tip_payments/module.dart';
+import '../../outgoing_tip_payments/db.dart';
 import '../../payment_request/module.dart';
 import 'activity.dart';
 import 'activity_builder.dart';

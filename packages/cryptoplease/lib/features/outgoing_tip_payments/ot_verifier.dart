@@ -5,8 +5,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import 'outgoing_tip_payment.dart';
-import 'repository.dart';
+import 'models/outgoing_tip_payment.dart';
+import 'src/bl/repository.dart';
 
 @injectable
 class OTVerifier {
