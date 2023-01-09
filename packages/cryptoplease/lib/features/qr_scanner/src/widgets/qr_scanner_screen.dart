@@ -11,7 +11,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
-import '../../module.dart';
+import '../../models/qr_scanner_request.dart';
 import '../bl/qr_scanner_bloc.dart';
 import 'components/input_address_bottom_sheet.dart';
 import 'components/qr_scanner_background.dart';

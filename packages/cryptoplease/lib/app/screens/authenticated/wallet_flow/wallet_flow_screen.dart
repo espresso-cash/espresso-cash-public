@@ -12,7 +12,7 @@ import '../../../../features/outgoing_direct_payments/build_context_ext.dart';
 import '../../../../features/outgoing_split_key_payments/module.dart';
 import '../../../../features/outgoing_tip_payments/module.dart';
 import '../../../../features/payment_request/models/payment_request.dart';
-import '../../../../features/qr_scanner/module.dart';
+import '../../../../features/qr_scanner/models/qr_scanner_request.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
