@@ -41,6 +41,7 @@ class MenuButton extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 14,
+            fontWeight: FontWeight.w400,
           ),
         ),
         trailing: const Icon(

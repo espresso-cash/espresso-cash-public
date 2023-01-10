@@ -1,3 +1,34 @@
+## 1.58.0
+
+ - **REFACTOR**: restructure modules (#697).
+ - **FIX**: update incoming transfer success message (#686).
+ - **FIX**: clear tip db on logout (#684).
+ - **FEAT**: enable transactions tab.
+ - **FEAT**: investment page redesign (#695).
+ - **FEAT**: allow user to enter recipient address manually (#675).
+ - **FEAT**: improve transaction list for oskp (#634).
+ - **FEAT**: improve buy and sell ux (#679).
+
+## 1.57.0
+
+ - **FEAT**: add token search (#654).
+ - **FEAT**: add favorites module (#655).
+ - **FEAT**: add cache to popular tokens (#656).
+ - **FEAT**: intro screen redesign (#673).
+
+## 1.56.0
+
+ - **FIX**: hide tokens based on fiat balance (#653).
+ - **FIX**: save reference in OutgoingDirectPayment.
+ - **FIX**: add BuildContext to LogoutListener callback (#645).
+ - **FIX**: add back button in app lock (#642).
+ - **FEAT**: add tip feature (#672).
+ - **FEAT**: add buy and sell flows to app (#537).
+ - **FEAT**: update token list (#677).
+ - **FEAT**: token detail page ui updates (#644).
+ - **FEAT**: add top tokens by market cap in popular tokens section (#617).
+ - **FEAT**: add Intercom support (#633).
+
 ## 1.55.0
 
  - **FIX**: check if tx with expired bh already submitted (#640).

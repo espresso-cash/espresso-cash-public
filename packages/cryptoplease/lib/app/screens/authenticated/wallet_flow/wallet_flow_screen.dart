@@ -7,10 +7,12 @@ import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../di.dart';
-import '../../../../features/outgoing_direct_payments/module.dart';
-import '../../../../features/outgoing_split_key_payments/module.dart';
-import '../../../../features/payment_request/module.dart';
-import '../../../../features/qr_scanner/module.dart';
+import '../../../../features/incoming_tip_payments/widgets/extensions.dart';
+import '../../../../features/outgoing_direct_payments/widgets/extensions.dart';
+import '../../../../features/outgoing_split_key_payments/widgets/extensions.dart';
+import '../../../../features/outgoing_tip_payments/widgets/extensions.dart';
+import '../../../../features/payment_request/models/payment_request.dart';
+import '../../../../features/qr_scanner/models/qr_scanner_request.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
@@ -40,8 +42,16 @@ class _State extends State<WalletFlowScreen> {
     if (request == null) return;
     if (!mounted) return;
 
+    if (request is QrScannerTipRequest) {
+      await context.processIncomingTip(request.tipData);
+
+      return;
+    }
+
     final recipient = request.recipient;
-    final name = request.map(
+    if (recipient == null) return;
+
+    final name = request.mapOrNull(
       solanaPay: (r) => r.request.label,
       address: (r) => r.addressData.name,
     );
@@ -91,7 +101,7 @@ class _State extends State<WalletFlowScreen> {
 
   void _onRequest() {
     if (_amount.decimal < Decimal.parse('0.1')) {
-      return _handleSmallAmount(_Operation.request);
+      return _handleSmallAmount(WalletOperation.request);
     }
 
     context.navigateTo(LinkRequestFlowRoute(initialAmount: _amount));
@@ -100,7 +110,7 @@ class _State extends State<WalletFlowScreen> {
 
   void _onPay() {
     if (_amount.decimal < Decimal.parse('0.1')) {
-      return _handleSmallAmount(_Operation.pay);
+      return _handleSmallAmount(WalletOperation.pay);
     }
 
     context.router.push(
@@ -120,15 +130,58 @@ class _State extends State<WalletFlowScreen> {
     );
   }
 
-  void _handleSmallAmount(_Operation operation) {
+  void _onTip() {
+    if (_amount.decimal < Decimal.parse('0.1')) {
+      return _handleSmallAmount(WalletOperation.tip);
+    }
+
+    if (_amount.decimal > Decimal.parse('5.0')) {
+      return _handleMaxTip(WalletOperation.tip);
+    }
+
+    context.router.push(
+      OTConfirmationRoute(
+        tokenAmount: _amount,
+        // TODO(KB): do not hardcode
+        fee: Amount.fromDecimal(
+          value: Decimal.parse('0.1'),
+          currency: Currency.usdc,
+        ),
+        onSubmit: () {
+          final id = context.createOT(amount: _amount);
+          context.router.replace(OutgoingTipRoute(id: id));
+          setState(() => _amount = _amount.copyWith(value: 0));
+        },
+      ),
+    );
+  }
+
+  void _handleSmallAmount(WalletOperation operation) {
     _shakeKey.currentState?.shake();
     setState(() {
       switch (operation) {
-        case _Operation.request:
+        case WalletOperation.request:
           _errorMessage = context.l10n.minimumAmountToRequest(r'$0.10');
           break;
-        case _Operation.pay:
+        case WalletOperation.pay:
           _errorMessage = context.l10n.minimumAmountToSend(r'$0.10');
+          break;
+        case WalletOperation.tip:
+          _errorMessage = context.l10n.minimumAmountToTip(r'$0.10');
+          break;
+      }
+    });
+  }
+
+  void _handleMaxTip(WalletOperation operation) {
+    _shakeKey.currentState?.shake();
+    setState(() {
+      switch (operation) {
+        case WalletOperation.request:
+        case WalletOperation.pay:
+          break;
+        case WalletOperation.tip:
+          _errorMessage = context.l10n.maximumAmountToTip(r'$5.00');
           break;
       }
     });
@@ -136,16 +189,18 @@ class _State extends State<WalletFlowScreen> {
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
-        child: WalletMainScreen(
-          shakeKey: _shakeKey,
-          onScan: _onQrScanner,
-          onAmountChanged: _onAmountUpdate,
-          onRequest: _onRequest,
-          onPay: _onPay,
-          amount: _amount,
-          error: _errorMessage,
+        child: DefaultTabController(
+          length: 3,
+          child: WalletMainScreen(
+            shakeKey: _shakeKey,
+            onScan: _onQrScanner,
+            onAmountChanged: _onAmountUpdate,
+            onRequest: _onRequest,
+            onPay: _onPay,
+            onTip: _onTip,
+            amount: _amount,
+            error: _errorMessage,
+          ),
         ),
       );
 }
-
-enum _Operation { request, pay }

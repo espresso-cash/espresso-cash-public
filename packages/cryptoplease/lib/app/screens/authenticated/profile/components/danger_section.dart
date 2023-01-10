@@ -9,16 +9,12 @@ class DangerSection extends StatelessWidget {
         message: context.l10n.signOutConfirmation,
         onConfirm: () {
           context.read<AccountsBloc>().add(const AccountsEvent.loggedOut());
-          sl<PaymentRequestRepository>().clear();
-          sl<ISKPRepository>().clear();
-          sl<ODPRepository>().clear();
-          sl<OSKPRepository>().clear();
         },
       );
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: context.l10n.dangerZoneSectionTitle,
+        padding: const EdgeInsets.only(left: 4, bottom: 4),
         actions: [
           ProfileButton(
             label: context.l10n.signOut,

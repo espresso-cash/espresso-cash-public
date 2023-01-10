@@ -10,12 +10,12 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/link_shortener.dart';
 import '../../../../core/split_key_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import 'link_shortener.dart';
-import 'outgoing_split_key_payment.dart';
+import '../../models/outgoing_split_key_payment.dart';
 import 'repository.dart';
 
 part 'bloc.freezed.dart';
@@ -101,7 +101,8 @@ class OSKPBloc extends Bloc<_Event, _State> {
         token: payment.amount.token,
       ),
       linksReady: (status) async => status,
-      success: (status) async => status,
+      withdrawn: (status) async => status,
+      canceled: (status) async => status,
       txFailure: (_) => _createTx(payment.amount),
       txSendFailure: (status) => _sendTx(status.tx, escrow: status.escrow),
       txWaitFailure: (status) => _waitTx(status.tx, escrow: status.escrow),
@@ -120,7 +121,8 @@ class OSKPBloc extends Bloc<_Event, _State> {
       txSent: (_) => add(OSKPEvent.process(payment.id)),
       txConfirmed: (_) => add(OSKPEvent.process(payment.id)),
       linksReady: ignore,
-      success: ignore,
+      withdrawn: ignore,
+      canceled: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,

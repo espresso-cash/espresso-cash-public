@@ -6,16 +6,7 @@ import 'package:provider/provider.dart';
 import '../../core/accounts/bl/account.dart';
 import '../../core/accounts/module.dart';
 import '../../di.dart';
-import 'src/oskp_cancel/bloc.dart';
 import 'src/updater/bloc.dart';
-
-export 'src/components/pending_activities_list.dart';
-export 'src/components/transaction_list.dart';
-export 'src/oskp_cancel/bloc.dart';
-export 'src/oskp_cancel/oskp_cancel.dart';
-export 'src/oskp_cancel/repository.dart';
-export 'src/transaction.dart';
-export 'src/updater/tx_updater_repository.dart' show TransactionRows;
 
 class ActivitiesModule extends SingleChildStatelessWidget {
   const ActivitiesModule({Key? key, Widget? child})
@@ -26,11 +17,6 @@ class ActivitiesModule extends SingleChildStatelessWidget {
         providers: [
           BlocProvider<TxUpdaterBloc>(
             create: (context) => sl<TxUpdaterBloc>(
-              param1: context.read<MyAccount>().wallet,
-            ),
-          ),
-          BlocProvider<OSKPCancelBloc>(
-            create: (context) => sl<OSKPCancelBloc>(
               param1: context.read<MyAccount>().wallet,
             ),
           ),

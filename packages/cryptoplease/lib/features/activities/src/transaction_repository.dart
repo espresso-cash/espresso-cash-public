@@ -9,9 +9,9 @@ import 'package:solana/solana.dart';
 
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
+import '../models/transaction.dart';
 import 'activity.dart';
 import 'activity_builder.dart';
-import 'transaction.dart';
 import 'updater/tx_updater_repository.dart';
 
 @injectable
@@ -58,7 +58,7 @@ class TransactionRepository {
     if (odp != null) return odp;
 
     final oskp = await _db.oSKPRows.findActivityOrNull(
-      (row) => row.txId.equals(txId),
+      (row) => row.txId.equals(txId) | row.withdrawTxId.equals(txId),
       (pr) => pr.toActivity(_tokens),
     );
     if (oskp != null) return oskp;

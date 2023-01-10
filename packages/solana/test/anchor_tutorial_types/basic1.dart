@@ -16,7 +16,7 @@ class Basic1DataAccount implements AnchorAccount {
     final accountData = _AccountData.fromBorsh(Uint8List.fromList(bytes));
 
     return Basic1DataAccount._(
-      discriminator: bytes.sublist(0, 8),
+      discriminator: accountData.discriminator,
       data: accountData.data.toInt(),
     );
   }
@@ -38,6 +38,7 @@ class Basic1DataAccount implements AnchorAccount {
 @BorshSerializable()
 class _AccountData with _$_AccountData {
   factory _AccountData({
+    @BFixedArray(8, BU8()) required List<int> discriminator,
     @BU64() required BigInt data,
   }) = __AccountData;
 
