@@ -28,36 +28,32 @@ extension FormatAmountExt on Amount {
     Locale? locale, {
     bool skipSymbol = false,
     bool roundInteger = false,
-    int? decimals,
   }) =>
       currency.map(
-        fiat: (FiatCurrency currency) => _formatAmount(
+        fiat: (FiatCurrency currency) => formatAmount(
           locale: locale,
           value: decimal,
-          decimals: decimals ?? currency.decimals,
-          symbol: currency.sign,
-          skipSymbol: skipSymbol,
+          decimals: currency.decimals,
+          symbol: skipSymbol ? null : currency.sign,
           prefixedSymbol: true,
           roundInteger: roundInteger,
         ),
-        crypto: (CryptoCurrency currency) => _formatAmount(
+        crypto: (CryptoCurrency currency) => formatAmount(
           locale: locale,
           value: decimal,
-          decimals: decimals ?? currency.decimals,
-          symbol: currency.symbol,
-          skipSymbol: skipSymbol,
+          decimals: currency.decimals,
+          symbol: skipSymbol ? null : currency.symbol,
           prefixedSymbol: false,
           roundInteger: roundInteger,
         ),
       );
 }
 
-String _formatAmount({
+String formatAmount({
   Locale? locale,
   String? symbol,
   required Decimal value,
   required int decimals,
-  required bool skipSymbol,
   required bool prefixedSymbol,
   required bool roundInteger,
 }) {
@@ -70,7 +66,7 @@ String _formatAmount({
 
   final formatted = formatter.format(value.toDouble());
 
-  if (skipSymbol) {
+  if (symbol == null) {
     return formatted;
   }
 

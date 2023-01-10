@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/balances/presentation/watch_balance.dart';
+import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
@@ -25,7 +28,6 @@ import '../src/token_details_bloc.dart';
 import '../src/widgets/balance_widget.dart';
 import '../src/widgets/exchange_buttons.dart';
 import '../src/widgets/token_details_widget.dart';
-import 'extensions.dart';
 
 class TokenDetailsScreen extends StatelessWidget {
   const TokenDetailsScreen({super.key, required this.token});
@@ -120,14 +122,10 @@ class _TokenPrice extends StatelessWidget {
           final tokenRate = state.maybeWhen(
             orElse: () => '-',
             success: (data) {
-              if (data.marketPrice == null) return '-';
-
+              final price = data.marketPrice?.toString().let(Decimal.parse);
               final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
 
-              return data.marketPrice.format(
-                symbol: fiatCurrency.sign,
-                maxDecimals: 7,
-              );
+              return price.formatDisplayablePrice(currency: fiatCurrency);
             },
           );
 
@@ -186,10 +184,8 @@ class __ChartState extends State<_Chart> {
     final Amount? fiatAmount = context.watchUserFiatBalance(widget.token);
 
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final currentPrice = _selected?.price.format(
-      symbol: fiatCurrency.sign,
-      maxDecimals: 7,
-    );
+    final price = _selected?.price.toString().let(Decimal.parse);
+    final currentPrice = price.formatDisplayablePrice(currency: fiatCurrency);
 
     return Column(
       children: [
@@ -209,7 +205,7 @@ class __ChartState extends State<_Chart> {
           )
         else
           Text(
-            currentPrice ?? '-',
+            currentPrice,
             style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 18,

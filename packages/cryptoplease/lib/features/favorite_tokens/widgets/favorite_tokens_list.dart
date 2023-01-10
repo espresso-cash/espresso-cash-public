@@ -9,11 +9,11 @@ import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
 import '../../../core/conversion_rates/context_ext.dart';
+import '../../../core/presentation/extensions.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/theme.dart';
-import '../../token_details/widgets/extensions.dart';
 import '../src/bl/bloc.dart';
 import '../src/bl/repository.dart';
 
@@ -98,10 +98,8 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final currentPrice = this.currentPrice?.toDouble().format(
-          symbol: fiatCurrency.sign,
-          maxDecimals: 7,
-        );
+    final currentPrice =
+        this.currentPrice?.formatDisplayablePrice(currency: fiatCurrency);
 
     return Material(
       color: Colors.transparent,
