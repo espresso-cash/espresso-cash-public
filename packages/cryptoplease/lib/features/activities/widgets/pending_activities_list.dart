@@ -10,7 +10,7 @@ import '../src/activity.dart';
 import '../src/pending_activities_repository.dart';
 import '../src/widgets/no_activity.dart';
 import '../src/widgets/odp_tile.dart';
-import '../src/widgets/oksp_tile.dart';
+import '../src/widgets/oskp_tile.dart';
 import '../src/widgets/ot_tile.dart';
 import '../src/widgets/payment_request_tile.dart';
 

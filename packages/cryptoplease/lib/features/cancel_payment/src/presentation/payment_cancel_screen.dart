@@ -48,7 +48,7 @@ class _PaymentCancelScreenState extends State<PaymentCancelScreen> {
               return cancel.status.maybeMap(
                 success: (_) => TransferSuccess(
                   onOkPressed: () => context.router.pop(),
-                  content: context.l10n.canceling,
+                  content: context.l10n.splitKeyProgressCanceled,
                 ),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
