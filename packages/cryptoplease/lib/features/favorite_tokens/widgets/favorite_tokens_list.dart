@@ -12,6 +12,7 @@ import '../../../core/conversion_rates/context_ext.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../ui/theme.dart';
 import '../../token_details/widgets/extensions.dart';
 import '../src/bl/bloc.dart';
 import '../src/bl/repository.dart';
@@ -60,12 +61,9 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
             children: [
               const SliverToBoxAdapter(child: _FollowingTitle()),
               SliverPadding(
-                padding: const EdgeInsets.only(top: 8),
-                sliver: SliverPadding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(items),
-                  ),
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(items),
                 ),
               ),
             ],
@@ -82,12 +80,11 @@ class _FollowingTitle extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Text(
-        context.l10n.following,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 18,
-          color: CpColors.menuPrimaryTextColor,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 15),
+        child: Text(
+          context.l10n.following,
+          style: dashboardSectionTitleTextStyle,
         ),
       );
 }
