@@ -1,15 +1,17 @@
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/encoder/message/account_keys.dart';
 import 'package:solana/src/encoder/message/compiled_keys.dart';
+import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:test/test.dart';
 
 import 'util.dart';
 
 Future<void> main() async {
   test('compile', () async {
+    final payer = await Ed25519HDKeyPair.random();
     final keys = await createTestKeys(6);
     final programIds = await createTestKeys(4);
-    final payer = await Ed25519HDKeyPair.random();
 
     final compiledKeys = CompiledKeys.compile(
       payer: payer.publicKey,
@@ -53,13 +55,12 @@ Future<void> main() async {
     );
 
     final Map<String, CompiledKeyMeta> map = {};
-
     _setMapEntry(map, payer.publicKey, true, true, false);
-    _setMapEntry(map, keys.first, false, false, false);
+    _setMapEntry(map, keys[0], false, false, false);
     _setMapEntry(map, keys[1], true, false, false);
     _setMapEntry(map, keys[2], false, true, false);
     _setMapEntry(map, keys[3], true, true, false);
-    _setMapEntry(map, programIds.first, false, false, true);
+    _setMapEntry(map, programIds[0], false, false, true);
     _setMapEntry(map, programIds[1], true, false, true);
     _setMapEntry(map, programIds[2], false, true, true);
     _setMapEntry(map, programIds[3], true, true, true);
@@ -160,7 +161,7 @@ Future<void> main() async {
   test('extractTableLookup', () async {
     final keys = await createTestKeys(6);
     final Map<String, CompiledKeyMeta> map = {};
-    _setMapEntry(map, keys[0], true, true, false);
+    _setMapEntry(map, keys.first, true, true, false);
     _setMapEntry(map, keys[1], true, false, false);
     _setMapEntry(map, keys[2], false, true, false);
     _setMapEntry(map, keys[3], false, false, false);
@@ -171,25 +172,98 @@ Future<void> main() async {
     final compiledKeys = CompiledKeys(payer: keys.first, keyMetaMap: map);
 
     final extractResult = compiledKeys.extractTableLookup(lookupTable);
+
+    if (extractResult == null) {
+      expect(extractResult, isNotNull);
+
+      return;
+    }
+
+    final tableLookup = extractResult.lookup;
+    final extractedAddresses = extractResult.keys;
+
+    expect(
+      tableLookup,
+      MessageAddressTableLookup(
+        accountKey: lookupTable.key,
+        writableIndexes: [2],
+        readonlyIndexes: [3],
+      ),
+    );
+
+    expect(
+      extractedAddresses,
+      LoadedAddresses(
+        writable: [keys[2]],
+        readonly: [keys[3]],
+      ),
+    );
+  });
+
+  test('extractTableLookup no extractable keys found', () async {
+    final keys = await createTestKeys(6);
+    final Map<String, CompiledKeyMeta> map = {};
+    _setMapEntry(map, keys[0], true, true, false);
+    _setMapEntry(map, keys[1], true, false, false);
+    _setMapEntry(map, keys[2], true, true, true);
+    _setMapEntry(map, keys[3], true, false, true);
+    _setMapEntry(map, keys[4], false, true, true);
+    _setMapEntry(map, keys[5], false, false, true);
+
+    final lookupTable = await createTestAddressLookUpTable(keys);
+    final compiledKeys = CompiledKeys(payer: keys.first, keyMetaMap: map);
+
+    final extractResult = compiledKeys.extractTableLookup(lookupTable);
+
+    expect(extractResult, isNull);
+  });
+
+  test('extractTableLookup with empty lookup table', () async {
+    final keys = await createTestKeys(2);
+    final Map<String, CompiledKeyMeta> map = {};
+
+    final lookupTable = await createTestAddressLookUpTable([]);
+    final compiledKeys = CompiledKeys(payer: keys.first, keyMetaMap: map);
+
+    final extractResult = compiledKeys.extractTableLookup(lookupTable);
+
+    expect(extractResult, isNull);
+  });
+
+  test('extractTableLookup with invalid lookup table', () async {
+    final keys = await createTestKeys(257);
+    final Map<String, CompiledKeyMeta> map = {};
+    _setMapEntry(map, keys.first, true, true, false);
+    _setMapEntry(map, keys[256], false, false, false);
+
+    final lookupTable = await createTestAddressLookUpTable(keys);
+    final compiledKeys = CompiledKeys(payer: keys.first, keyMetaMap: map);
+
+    try {
+      compiledKeys.extractTableLookup(lookupTable);
+      expect(true, false);
+    } on Exception catch (e) {
+      expect(e, isA<Exception>());
+    }
   });
 }
 
 AccountMeta _createAccountMeta(
   Ed25519HDPublicKey pubKey,
-  bool isWriteable,
   bool isSigner,
+  bool isWriteable,
 ) =>
     AccountMeta(pubKey: pubKey, isWriteable: isWriteable, isSigner: isSigner);
 
 void _setMapEntry(
   Map<String, CompiledKeyMeta> map,
   Ed25519HDPublicKey pubKey,
-  bool isWriteable,
   bool isSigner,
+  bool isWriteable,
   bool isInvoked,
 ) =>
     map[pubKey.toString()] = CompiledKeyMeta(
-      isWritable: isWriteable,
       isSigner: isSigner,
+      isWritable: isWriteable,
       isInvoked: isInvoked,
     );

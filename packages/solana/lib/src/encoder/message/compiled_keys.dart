@@ -87,7 +87,7 @@ class CompiledKeys {
   }
 
   MessageComponents getMessageComponents() {
-    final mapEntries = keyMetaMap.entries.toList();
+    final mapEntries = keyMetaMap.entries.toList(growable: false);
     if (mapEntries.length >= 256) {
       throw Exception('Max static account keys length exceeded');
     }
@@ -184,12 +184,15 @@ class CompiledKeys {
     for (final entry in keyMetaMap.entries) {
       final address = entry.key;
       final keyMeta = entry.value;
+
       if (keyMetaFilter(keyMeta)) {
         final key = Ed25519HDPublicKey.fromBase58(address);
         final lookupTableIndex =
             lookupTableEntries.indexWhere((entry) => entry == key);
         if (lookupTableIndex >= 0) {
-          assert(lookupTableIndex < 256, 'Max lookup table index exceeded');
+          if (lookupTableIndex > 256) {
+            throw Exception('Max lookup table index exceeded');
+          }
           lookupTableIndexes.add(lookupTableIndex);
           drainedKeys.add(key);
         }

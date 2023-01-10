@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message_address_table_lookup.dart';
@@ -10,6 +11,20 @@ class LoadedAddresses {
 
   final List<Ed25519HDPublicKey> writable;
   final List<Ed25519HDPublicKey> readonly;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LoadedAddresses &&
+          runtimeType == other.runtimeType &&
+          const DeepCollectionEquality().equals(writable, other.writable) &&
+          const DeepCollectionEquality().equals(readonly, other.readonly);
+
+  @override
+  int get hashCode => Object.hash(
+        const DeepCollectionEquality().hash(writable),
+        const DeepCollectionEquality().hash(readonly),
+      );
 }
 
 class MessageAccountKeys {
