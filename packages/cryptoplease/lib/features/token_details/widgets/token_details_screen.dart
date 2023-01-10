@@ -125,7 +125,10 @@ class _TokenPrice extends StatelessWidget {
               final price = data.marketPrice?.toString().let(Decimal.parse);
               final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
 
-              return price.formatDisplayablePrice(currency: fiatCurrency);
+              return price.formatDisplayablePrice(
+                locale: DeviceLocale.localeOf(context),
+                currency: fiatCurrency,
+              );
             },
           );
 
@@ -185,7 +188,10 @@ class __ChartState extends State<_Chart> {
 
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
     final price = _selected?.price.toString().let(Decimal.parse);
-    final currentPrice = price.formatDisplayablePrice(currency: fiatCurrency);
+    final currentPrice = price.formatDisplayablePrice(
+      locale: DeviceLocale.localeOf(context),
+      currency: fiatCurrency,
+    );
 
     return Column(
       children: [

@@ -12,6 +12,7 @@ import '../../../core/conversion_rates/context_ext.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/theme.dart';
 import '../src/bl/bloc.dart';
@@ -98,8 +99,10 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final currentPrice =
-        this.currentPrice?.formatDisplayablePrice(currency: fiatCurrency);
+    final currentPrice = this.currentPrice?.formatDisplayablePrice(
+          locale: DeviceLocale.localeOf(context),
+          currency: fiatCurrency,
+        );
 
     return Material(
       color: Colors.transparent,

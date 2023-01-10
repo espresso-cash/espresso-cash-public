@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/presentation/extensions.dart';
 import 'package:decimal/decimal.dart';
@@ -19,7 +21,10 @@ void main() {
   for (final input in inputs.entries) {
     test('Formats ${input.key} as ${input.value}', () {
       expect(
-        input.key.formatDisplayablePrice(currency: Currency.usd),
+        input.key.formatDisplayablePrice(
+          locale: const Locale('en'),
+          currency: Currency.usd,
+        ),
         input.value,
       );
     });
