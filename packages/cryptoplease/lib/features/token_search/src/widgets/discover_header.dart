@@ -2,14 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
-
-enum CryptoCategories {
-  ethereum,
-  stablecoins,
-  defi,
-  amm,
-  solana,
-}
+import '../../models/crypto_categories.dart';
 
 class DiscoverHeader extends StatelessWidget {
   const DiscoverHeader({

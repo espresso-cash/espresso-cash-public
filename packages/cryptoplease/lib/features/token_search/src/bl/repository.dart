@@ -4,9 +4,9 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/tokens/token.dart';
 import '../../../../core/tokens/token_list.dart';
+import '../../models/crypto_categories.dart';
 import '../data/coingecko_client.dart';
 import '../data/search_cache.dart';
-import '../widgets/discover_header.dart';
 
 @injectable
 class SearchRepository {
