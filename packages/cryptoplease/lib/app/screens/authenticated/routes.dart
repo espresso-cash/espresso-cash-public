@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 
 import '../../../features/app_lock/routes.dart';
 import '../../../features/backup_phrase/routes.dart';
+import '../../../features/cancel_payment/routes.dart';
 import '../../../features/incoming_split_key_payments/routes.dart';
 import '../../../features/incoming_tip_payments/routes.dart';
 import '../../../features/outgoing_direct_payments/routes.dart';
@@ -57,5 +58,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<void>(page: EditProfileScreen),
     AutoRoute<void>(page: HelpScreen),
     ...tokenSearchRoutes,
+    ...paymentCancelRoutes,
   ],
 );

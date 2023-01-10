@@ -7,45 +7,41 @@ import '../../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../../ui/transfer_status/transfer_success.dart';
 import '../../../../l10n/l10n.dart';
-import '../../models/outgoing_split_key_payment.dart';
-import '../oskp_cancel/bloc.dart';
-import '../oskp_cancel/oskp_cancel.dart';
-import '../oskp_cancel/repository.dart';
+import '../bl/bloc.dart';
+import '../bl/repository.dart';
+import '../payment_cancel.dart';
 
-class OSKPCancelScreen extends StatefulWidget {
-  const OSKPCancelScreen({
+class PaymentCancelScreen extends StatefulWidget {
+  const PaymentCancelScreen({
     super.key,
-    required this.payment,
+    required this.paymentId,
   });
 
-  final OutgoingSplitKeyPayment payment;
+  final String paymentId;
 
   @override
-  State<OSKPCancelScreen> createState() => _OSKPCancelScreenState();
+  State<PaymentCancelScreen> createState() => _PaymentCancelScreenState();
 }
 
-class _OSKPCancelScreenState extends State<OSKPCancelScreen> {
-  late final Stream<OSKPCancel?> _cancel;
+class _PaymentCancelScreenState extends State<PaymentCancelScreen> {
+  late final Stream<PaymentCancel?> _stream;
 
   @override
   void initState() {
     super.initState();
-    _cancel = sl<OSKPCancelRepository>().watch(widget.payment.id);
-    context
-        .read<OSKPCancelBloc>()
-        .add(OSKPCancelEvent.cancelRequested(widget.payment));
+    _stream = sl<PaymentCancelRepository>().watch(widget.paymentId);
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<OSKPCancel?>(
-        stream: _cancel,
+  Widget build(BuildContext context) => StreamBuilder<PaymentCancel?>(
+        stream: _stream,
         builder: (context, state) {
           final cancel = state.data;
 
-          return BlocBuilder<OSKPCancelBloc, OSKPCancelState>(
+          return BlocBuilder<PaymentCancelBloc, PaymentCancelState>(
             builder: (context, state) {
               if (cancel == null) return const TransferProgress();
-              if (state.contains(cancel.oskpId)) {
+              if (state.contains(cancel.paymentId)) {
                 return const TransferProgress();
               }
 
@@ -57,8 +53,8 @@ class _OSKPCancelScreenState extends State<OSKPCancelScreen> {
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
                   onRetry: () => context
-                      .read<OSKPCancelBloc>()
-                      .add(OSKPCancelEvent.process(cancel.oskpId)),
+                      .read<PaymentCancelBloc>()
+                      .add(PaymentCancelEvent.process(cancel.paymentId)),
                 ),
               );
             },
