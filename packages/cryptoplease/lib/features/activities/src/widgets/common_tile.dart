@@ -9,7 +9,6 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/activity_tile.dart';
 import '../../../../ui/colors.dart';
 import '../../models/transaction.dart';
-import 'styles.dart';
 
 class CommonTile extends StatelessWidget {
   const CommonTile({

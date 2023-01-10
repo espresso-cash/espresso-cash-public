@@ -2,16 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_date.dart';
-import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
 import '../../../../ui/button.dart';
+import '../../../payment_request/delete_payment_request.dart';
 import '../../../payment_request/formatted_amount.dart';
 import '../../../payment_request/models/payment_request.dart';
-import '../../../payment_request/src/bl/repository.dart';
 import '../../../payment_request/watch_payment_request.dart';
 import '../../../payment_request/widgets/payment_request_verifier.dart';
 
@@ -99,7 +98,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                   minWidth: 120,
                   size: CpButtonSize.micro,
                   variant: CpButtonVariant.secondary,
-                  onPressed: () => sl<PaymentRequestRepository>().delete(data),
+                  onPressed: () => deletePaymentRequest(data),
                 ),
               ],
             ),

@@ -32,7 +32,6 @@ class OSKPTile extends StatelessWidget {
         subtitle: context.formatDate(activity.created),
         icon: Assets.icons.outgoing.svg(),
         actions: [
-          // TODO(rhbrunetto): add cancel after merge
           CpButton(
             text: context.l10n.view,
             size: CpButtonSize.micro,
