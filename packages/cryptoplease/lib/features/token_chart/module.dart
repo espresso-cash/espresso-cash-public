@@ -7,9 +7,6 @@ import '../../di.dart';
 import 'src/bloc.dart';
 import 'src/chart_interval.dart';
 
-export 'src/widgets/token_chart.dart';
-export 'src/widgets/token_overview.dart';
-
 class TokenChartModule extends SingleChildStatelessWidget {
   const TokenChartModule(this.token, {Key? key, Widget? child})
       : super(key: key, child: child);

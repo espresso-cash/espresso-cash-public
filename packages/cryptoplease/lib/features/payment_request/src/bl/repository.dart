@@ -8,7 +8,7 @@ import 'package:solana/solana_pay.dart';
 
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
-import 'payment_request.dart';
+import '../../models/payment_request.dart';
 
 @injectable
 class PaymentRequestRepository {

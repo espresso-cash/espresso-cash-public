@@ -13,7 +13,7 @@ import '../../../../core/tokens/token_list.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
-import 'outgoing_split_key_payment.dart';
+import '../../models/outgoing_split_key_payment.dart';
 
 @injectable
 class OSKPRepository {

@@ -2,16 +2,17 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../core/transactions/tx_sender.dart';
-import '../../features/activities/module.dart';
-import '../../features/favorite_tokens/module.dart';
-import '../../features/incoming_split_key_payments/module.dart';
-import '../../features/incoming_tip_payments/module.dart';
-import '../../features/outgoing_direct_payments/module.dart';
-import '../../features/outgoing_split_key_payments/module.dart';
-import '../../features/outgoing_tip_payments/module.dart';
-import '../../features/payment_request/module.dart';
-import '../../features/popular_tokens/module.dart';
-import '../../features/swap/module.dart';
+import '../../features/activities/db.dart';
+import '../../features/activities/models/transaction.dart';
+import '../../features/favorite_tokens/db.dart';
+import '../../features/incoming_split_key_payments/db.dart';
+import '../../features/incoming_tip_payments/db.dart';
+import '../../features/outgoing_direct_payments/db.dart';
+import '../../features/outgoing_split_key_payments/db.dart';
+import '../../features/outgoing_tip_payments/db.dart';
+import '../../features/payment_request/db.dart';
+import '../../features/popular_tokens/db.dart';
+import '../../features/swap/db.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';
