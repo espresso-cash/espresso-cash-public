@@ -9,6 +9,7 @@ class OffRampBottomSheet extends StatelessWidget {
 
   static Future<void> show(BuildContext context) => showModalBottomSheet(
         context: context,
+        useRootNavigator: true,
         builder: (_) => const OffRampBottomSheet(),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

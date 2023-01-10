@@ -4,11 +4,11 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/account.dart';
+import '../../core/accounts/module.dart';
 import '../../di.dart';
 import 'src/bl/iskp_bloc.dart';
-import 'src/presentation/pending_iskp_listener.dart';
-
-export 'src/bl/iskp_repository.dart';
+import 'src/bl/iskp_repository.dart';
+import 'src/widgets/pending_iskp_listener.dart';
 
 class ISKPModule extends SingleChildStatelessWidget {
   const ISKPModule({Key? key, Widget? child}) : super(key: key, child: child);
@@ -22,6 +22,9 @@ class ISKPModule extends SingleChildStatelessWidget {
             ),
           ),
         ],
-        child: PendingISKPListener(child: child ?? const SizedBox.shrink()),
+        child: LogoutListener(
+          onLogout: (_) => sl<ISKPRepository>().clear(),
+          child: PendingISKPListener(child: child ?? const SizedBox.shrink()),
+        ),
       );
 }

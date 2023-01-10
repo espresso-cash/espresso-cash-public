@@ -12,7 +12,7 @@ import '../../../../core/amount.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import 'outgoing_direct_payment.dart';
+import '../../models/outgoing_direct_payment.dart';
 import 'repository.dart';
 
 part 'bloc.freezed.dart';
