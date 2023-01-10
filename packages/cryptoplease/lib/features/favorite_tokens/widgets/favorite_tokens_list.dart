@@ -12,6 +12,7 @@ import '../../../core/conversion_rates/context_ext.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../token_details/widgets/extensions.dart';
 import '../src/bl/bloc.dart';
 import '../src/bl/repository.dart';
 
@@ -100,7 +101,10 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final currentPrice = this.currentPrice;
+    final currentPrice = this.currentPrice?.toDouble().format(
+          symbol: fiatCurrency.sign,
+          maxDecimals: 7,
+        );
 
     return Material(
       color: Colors.transparent,
@@ -126,11 +130,7 @@ class _TokenItem extends StatelessWidget {
                 ),
               ),
               Text(
-                _formatPrice(
-                  currentPrice?.toDouble(),
-                  symbol: fiatCurrency.sign,
-                  maxDecimals: 5,
-                ),
+                currentPrice ?? '-',
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
@@ -143,20 +143,6 @@ class _TokenItem extends StatelessWidget {
       ),
     );
   }
-}
-
-String _formatPrice(
-  double? price, {
-  String? symbol,
-  required int maxDecimals,
-}) {
-  if (price == null) return '-';
-
-  final formatted = price < 0.01
-      ? price.toStringAsFixed(maxDecimals)
-      : price.toStringAsFixed(2);
-
-  return '$symbol$formatted';
 }
 
 const _titleStyle = TextStyle(

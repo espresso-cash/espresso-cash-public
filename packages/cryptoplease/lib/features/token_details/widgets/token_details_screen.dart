@@ -25,6 +25,7 @@ import '../src/token_details_bloc.dart';
 import '../src/widgets/balance_widget.dart';
 import '../src/widgets/exchange_buttons.dart';
 import '../src/widgets/token_details_widget.dart';
+import 'extensions.dart';
 
 class TokenDetailsScreen extends StatelessWidget {
   const TokenDetailsScreen({super.key, required this.token});
@@ -123,8 +124,7 @@ class _TokenPrice extends StatelessWidget {
 
               final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
 
-              return _formatPrice(
-                data.marketPrice,
+              return data.marketPrice.format(
                 symbol: fiatCurrency.sign,
                 maxDecimals: 7,
               );
@@ -186,6 +186,10 @@ class __ChartState extends State<_Chart> {
     final Amount? fiatAmount = context.watchUserFiatBalance(widget.token);
 
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final currentPrice = _selected?.price.format(
+      symbol: fiatCurrency.sign,
+      maxDecimals: 7,
+    );
 
     return Column(
       children: [
@@ -205,11 +209,7 @@ class __ChartState extends State<_Chart> {
           )
         else
           Text(
-            _formatPrice(
-              _selected?.price,
-              symbol: fiatCurrency.sign,
-              maxDecimals: 7,
-            ),
+            currentPrice ?? '-',
             style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 18,
@@ -228,20 +228,6 @@ class __ChartState extends State<_Chart> {
       ],
     );
   }
-}
-
-String _formatPrice(
-  double? price, {
-  String? symbol,
-  required int maxDecimals,
-}) {
-  if (price == null) return '-';
-
-  final formatted = price < 0.01
-      ? price.toStringAsFixed(maxDecimals)
-      : price.toStringAsFixed(2);
-
-  return '$symbol$formatted';
 }
 
 extension on Token {
