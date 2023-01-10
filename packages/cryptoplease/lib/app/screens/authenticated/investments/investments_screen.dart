@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
-import '../../../../features/favorite_tokens/module.dart';
-import '../../../../features/investments/module.dart';
-import '../../../../features/popular_tokens/module.dart';
+import '../../../../features/favorite_tokens/widgets/extensions.dart';
+import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
+import '../../../../features/investments/widgets/my_portfolio.dart';
+import '../../../../features/popular_tokens/widgets/extensions.dart';
+import '../../../../features/popular_tokens/widgets/popular_token_list.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
@@ -30,8 +30,8 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
           displacement: 80,
           onRefresh: () => Future.wait([
             onRefresh(),
-            context.read<PopularTokenBloc>().refresh(),
-            context.read<FavoritesBloc>().refresh(),
+            context.refreshPopularTokens(),
+            context.refreshFavorites(),
           ]),
           color: CpColors.primaryColor,
           child: const CustomScrollView(

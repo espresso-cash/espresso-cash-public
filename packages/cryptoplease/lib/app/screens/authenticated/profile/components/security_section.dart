@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../features/app_lock/module.dart';
+import '../../../../../features/app_lock/widgets/app_lock_menu_item.dart';
 import '../../../../../features/legal/flow.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';

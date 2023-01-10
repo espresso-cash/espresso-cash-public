@@ -10,7 +10,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/presentation/utils.dart';
-import '../../../../features/qr_scanner/module.dart';
+import '../../../../features/qr_scanner/models/qr_address_data.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../ui/icon_button.dart';
 import '../../../../ui/user_avatar.dart';

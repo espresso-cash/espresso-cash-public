@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/link_shortener.dart';
-import 'qr_scanner_request.dart';
+import '../../models/qr_scanner_request.dart';
 
 part 'qr_scanner_bloc.freezed.dart';
 part 'qr_scanner_event.dart';
