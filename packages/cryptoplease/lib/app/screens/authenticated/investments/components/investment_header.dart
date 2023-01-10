@@ -21,8 +21,7 @@ class InvestmentHeader extends StatelessWidget {
   const InvestmentHeader({super.key});
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+  Widget build(BuildContext context) => DecoratedBox(
         decoration: const BoxDecoration(
           color: Color(0xff2D2B2C),
           borderRadius: BorderRadius.all(Radius.circular(5)),
