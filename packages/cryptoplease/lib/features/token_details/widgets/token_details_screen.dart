@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/balances/presentation/watch_balance.dart';
+import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
@@ -120,17 +122,13 @@ class _TokenPrice extends StatelessWidget {
           final tokenRate = state.maybeWhen(
             orElse: () => '-',
             success: (data) {
-              if (data.marketPrice == null) return '-';
-
-              final locale = DeviceLocale.localeOf(context);
+              final price = data.marketPrice?.toString().let(Decimal.parse);
               final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
 
-              final Amount tokenRate = Amount.fromDecimal(
+              return price.formatDisplayablePrice(
+                locale: DeviceLocale.localeOf(context),
                 currency: fiatCurrency,
-                value: Decimal.parse(data.marketPrice?.toString() ?? '0'),
               );
-
-              return tokenRate.format(locale);
             },
           );
 
@@ -184,21 +182,16 @@ class _Chart extends StatefulWidget {
 class __ChartState extends State<_Chart> {
   TokenChartItem? _selected;
 
-  String formatPrice(double? price) {
-    if (price == null) return '-';
-
-    if (price < 0.01) {
-      return price.toStringAsFixed(8);
-    } else {
-      return price.toStringAsFixed(2);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final Amount? fiatAmount = context.watchUserFiatBalance(widget.token);
 
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final price = _selected?.price.toString().let(Decimal.parse);
+    final currentPrice = price.formatDisplayablePrice(
+      locale: DeviceLocale.localeOf(context),
+      currency: fiatCurrency,
+    );
 
     return Column(
       children: [
@@ -218,7 +211,7 @@ class __ChartState extends State<_Chart> {
           )
         else
           Text(
-            '${fiatCurrency.sign}${formatPrice(_selected?.price)}',
+            currentPrice,
             style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 18,
