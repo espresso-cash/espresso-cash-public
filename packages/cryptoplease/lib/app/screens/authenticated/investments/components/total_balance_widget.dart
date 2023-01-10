@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/balances/presentation/watch_balance.dart';
 import '../../../../../core/presentation/format_amount.dart';
+import '../../../../../core/tokens/token.dart';
 import '../../../../../core/user_preferences.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
@@ -15,6 +16,7 @@ class TotalBalanceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final balance = context.watchUserTotalFiatBalance(
       context.watch<UserPreferences>().fiatCurrency,
+      removeFromTotal: [Token.usdc],
     );
 
     return Padding(

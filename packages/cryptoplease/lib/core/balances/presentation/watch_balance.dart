@@ -22,14 +22,19 @@ extension WatchBalance on BuildContext {
         .convert(rate: conversionRate, to: fiatCurrency);
   }
 
-  Amount watchUserTotalFiatBalance(Currency currency) => watch<BalancesBloc>()
-      .state
-      .balances
-      .keys
-      .map(watchUserFiatBalance)
-      .whereType<Amount>()
-      .fold(
-        Amount.zero(currency: currency),
-        (total, next) => total + next,
-      );
+  Amount watchUserTotalFiatBalance(
+    Currency currency, {
+    List<Token>? removeFromTotal,
+  }) =>
+      watch<BalancesBloc>()
+          .state
+          .balances
+          .keys
+          .where((token) => !(removeFromTotal?.contains(token) ?? false))
+          .map(watchUserFiatBalance)
+          .whereType<Amount>()
+          .fold(
+            Amount.zero(currency: currency),
+            (total, next) => total + next,
+          );
 }
