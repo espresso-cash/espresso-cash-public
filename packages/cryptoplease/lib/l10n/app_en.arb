@@ -453,6 +453,7 @@
   "tipViewQr": "View QR Code",
   "tipCreatingQr": "Creating QR Code",
   "tipCreatedQr": "QR Code created",
+  "tipProgressCanceled": "Tip has been canceled",
   "tipProgressOngoing": "Tipping {amount} using secure link...",
   "@tipProgressOngoing": {
     "placeholders": {

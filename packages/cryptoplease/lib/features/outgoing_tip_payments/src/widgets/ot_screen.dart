@@ -72,7 +72,8 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
           final CpStatusType statusType = isProcessing
               ? CpStatusType.info
               : payment?.status.mapOrNull(
-                    success: always(CpStatusType.success),
+                    withdrawn: always(CpStatusType.success),
+                    canceled: always(CpStatusType.error),
                     txFailure: always(CpStatusType.error),
                     txSendFailure: always(CpStatusType.error),
                     txWaitFailure: always(CpStatusType.error),
@@ -81,13 +82,14 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                   CpStatusType.info;
 
           final String? statusTitle = payment?.status.mapOrNull(
-            success: always(context.l10n.transferSuccessTitle),
+            withdrawn: always(context.l10n.transferSuccessTitle),
           );
 
           final String statusContent = payment == null
               ? context.l10n.loading
               : payment.status.maybeMap(
-                  success: always(context.l10n.outgoingTransferSuccess),
+                  withdrawn: always(context.l10n.outgoingTransferSuccess),
+                  canceled: always(context.l10n.tipProgressCanceled),
                   txFailure: (it) => [
                     context.l10n.splitKeyErrorMessage2,
                     if (it.reason == TxFailureReason.insufficientFunds)
@@ -106,7 +108,8 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
           final CpTimelineStatus timelineStatus = isProcessing
               ? CpTimelineStatus.inProgress
               : payment?.status.mapOrNull(
-                    success: always(CpTimelineStatus.success),
+                    withdrawn: always(CpTimelineStatus.success),
+                    canceled: always(CpTimelineStatus.failure),
                     txFailure: always(CpTimelineStatus.failure),
                     txSendFailure: always(CpTimelineStatus.failure),
                     txWaitFailure: always(CpTimelineStatus.failure),
@@ -115,7 +118,8 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                   CpTimelineStatus.inProgress;
 
           final int activeItem = payment?.status.mapOrNull(
-                success: always(2),
+                withdrawn: always(2),
+                canceled: always(1),
                 linkReady: always(1),
               ) ??
               0;
@@ -137,12 +141,19 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
           final paymentSuccess = CpTimelineItem(
             title: context.l10n.splitKeyProgressSuccess,
           );
+          final paymentCanceled = CpTimelineItem(
+            title: context.l10n.tipProgressCanceled,
+          );
 
           final items = payment?.status.mapOrNull(
-                success: always([
-                  creatingLink,
+                withdrawn: always([
+                  linkCreated,
                   fundsWithdrawn,
                   paymentSuccess,
+                ]),
+                canceled: always([
+                  linkCreated,
+                  paymentCanceled,
                 ]),
                 linkReady: always([
                   linkCreated,

@@ -49,9 +49,13 @@ class OTStatus with _$OTStatus {
     required Ed25519HDKeyPair escrow,
   }) = OTLinkReady;
 
-  const factory OTStatus.success({
+  const factory OTStatus.withdrawn({
     required String txId,
-  }) = OTSuccess;
+  }) = OTWithdrawn;
+
+  const factory OTStatus.canceled({
+    required String txId,
+  }) = OTCanceled;
 
   const factory OTStatus.txFailure({TxFailureReason? reason}) = OTTxFailure;
 

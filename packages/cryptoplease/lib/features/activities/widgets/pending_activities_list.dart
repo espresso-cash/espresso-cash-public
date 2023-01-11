@@ -48,7 +48,9 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
           ),
           Provider<OTVerifier>(
             lazy: false,
-            create: (_) => sl<OTVerifier>()..init(),
+            create: (_) => sl<OTVerifier>(
+              param1: context.read<MyAccount>().wallet.publicKey,
+            )..init(),
             dispose: (_, value) => value.dispose(),
           ),
         ],
