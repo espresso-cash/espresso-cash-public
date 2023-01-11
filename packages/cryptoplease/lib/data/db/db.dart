@@ -112,6 +112,8 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 26) {
             await m.createTable(paymentCancelRows);
+          }
+          if (from >= 22 && from < 26) {
             await m.addColumn(oTRows, oTRows.withdrawTxId);
           }
         },
