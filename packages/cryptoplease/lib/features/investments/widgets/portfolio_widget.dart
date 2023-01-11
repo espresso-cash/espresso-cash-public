@@ -19,43 +19,18 @@ class PortfolioWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiSliver(
         children: [
-          if (tokens.isNotEmpty) _BalanceList(tokens: tokens),
+          if (tokens.isNotEmpty)
+            SliverList(
+              delegate: SliverChildListDelegate(
+                tokens.map((token) => _BalanceItem(token: token)).toList(),
+              ),
+            ),
         ],
       );
 }
 
-class _BalanceList extends StatefulWidget {
-  const _BalanceList({required this.tokens});
-
-  final IList<Token> tokens;
-
-  @override
-  State<_BalanceList> createState() => _BalanceListState();
-}
-
-class _BalanceListState extends State<_BalanceList> {
-  List<Widget> _items = [];
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _initItems();
-  }
-
-  void _initItems() {
-    _items = [
-      for (final token in widget.tokens) _BalanceItem(token: token),
-    ];
-  }
-
-  @override
-  Widget build(BuildContext context) => SliverList(
-        delegate: SliverChildListDelegate(_items),
-      );
-}
-
 class _BalanceItem extends StatelessWidget {
-  const _BalanceItem({Key? key, required this.token}) : super(key: key);
+  const _BalanceItem({required this.token});
 
   final Token token;
 
@@ -103,10 +78,7 @@ const _titleStyle = TextStyle(
 );
 
 class _AmountDisplay extends StatelessWidget {
-  const _AmountDisplay(
-    this.amount, {
-    Key? key,
-  }) : super(key: key);
+  const _AmountDisplay(this.amount);
 
   final String amount;
 
@@ -114,10 +86,7 @@ class _AmountDisplay extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
         width: 95,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 6,
-            horizontal: 16,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
             color: CpColors.darkBackground,
