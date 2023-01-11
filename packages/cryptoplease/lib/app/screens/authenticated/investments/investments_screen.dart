@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
 import '../../../../features/favorite_tokens/widgets/extensions.dart';
 import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
-import '../../../../features/investments/widgets/my_portfolio.dart';
+import '../../../../features/investments/widgets/crypto_investments.dart';
 import '../../../../features/popular_tokens/widgets/extensions.dart';
 import '../../../../features/popular_tokens/widgets/popular_token_list.dart';
 import '../../../../gen/assets.gen.dart';
@@ -14,7 +14,6 @@ import '../../../../ui/icon_button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import 'components/investment_header.dart';
 import 'components/popular_crypto_header.dart';
-import 'components/total_balance_widget.dart';
 
 class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({Key? key}) : super(key: key);
@@ -45,11 +44,13 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 elevation: 0,
                 backgroundColor: Colors.white,
               ),
-              SliverToBoxAdapter(child: InvestmentHeader()),
-              SliverToBoxAdapter(child: TotalBalanceWidget()),
+              SliverPadding(
+                padding: EdgeInsets.symmetric(vertical: 52, horizontal: 24),
+                sliver: SliverToBoxAdapter(child: InvestmentHeader()),
+              ),
               SliverPadding(
                 padding: EdgeInsets.only(left: 24, right: 24),
-                sliver: MyPortfolio(),
+                sliver: CryptoInvestments(),
               ),
               FavoriteTokenList(),
               SliverToBoxAdapter(

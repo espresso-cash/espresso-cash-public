@@ -24,13 +24,13 @@ extension WatchBalance on BuildContext {
 
   Amount watchUserTotalFiatBalance(
     Currency currency, {
-    List<Token>? removeFromTotal,
+    Iterable<Token> ignoreTokens = const [],
   }) =>
       watch<BalancesBloc>()
           .state
           .balances
           .keys
-          .where((token) => !(removeFromTotal?.contains(token) ?? false))
+          .where((token) => !ignoreTokens.contains(token))
           .map(watchUserFiatBalance)
           .whereType<Amount>()
           .fold(

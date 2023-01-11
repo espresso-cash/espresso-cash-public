@@ -161,3 +161,9 @@ const twelveWordsTextStyle = TextStyle(
   wordSpacing: 2,
   height: 1.411,
 );
+
+const dashboardSectionTitleTextStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 19,
+  color: CpColors.menuPrimaryTextColor,
+);
