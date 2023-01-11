@@ -21,7 +21,7 @@ class AddressLookupTableAccountArgs {
   final AddressLookupTableState state;
 }
 
-// const int _lookupTableMetaSize = 56;
+const int _lookupTableMetaSize = 56;
 
 class AddressLookupTableAccount {
   AddressLookupTableAccount(this.key, this.state);
@@ -36,34 +36,51 @@ class AddressLookupTableAccount {
 
   // TODO
   // static AddressLookupTableState deserialize(ByteArray accountData) {
-  //   final meta = decodeData(_lookupTableMetaLayout, accountData);
+  //   final reader = BinaryReader(
+  //     Uint8List.fromList(accountData.toList()).buffer.asByteData(),
+  //   );
+
+  //   final typeIndex = reader.readU32();
+  //   final deactivationSlot = reader.readU64();
+  //   final lastExtendedSlot = reader.readU64();
+  //   final lastExtendedStartIndex = reader.readU8();
+  //   final authority =
+  //       Ed25519HDPublicKey(reader.readFixedArray(32, reader.readU8));
 
   //   final int serializedAddressesLen =
   //       accountData.length - _lookupTableMetaSize;
   //   assert(serializedAddressesLen >= 0, 'lookup table is invalid');
   //   assert(serializedAddressesLen % 32 == 0, 'lookup table is invalid');
 
-  //   final int numSerializedAddresses = serializedAddressesLen / 32;
-  //   final Map<String, dynamic> addressesData =
-  //       BufferLayout.struct<Map<String, dynamic>>([
-  //     BufferLayout.seq(
-  //       Layout.publicKey(),
-  //       numSerializedAddresses,
-  //       'addresses',
-  //     ),
-  //   ]).decode(accountData.sublist(_lookupTableMetaSize));
+  //   // final int numSerializedAddresses = serializedAddressesLen / 32;
+  //   // final Map<String, dynamic> addressesData =
+  //   //     BufferLayout.struct<Map<String, dynamic>>([
+  //   //   BufferLayout.seq(
+  //   //     Layout.publicKey(),
+  //   //     numSerializedAddresses,
+  //   //     'addresses',
+  //   //   ),
+  //   // ]).decode(accountData.sublist(_lookupTableMetaSize));
 
-  //   final List<PublicKey> addresses =
-  //       (addressesData['addresses'] as List<Uint8List>)
-  //           .map(PublicKey.new)
-  //           .toList();
+  //   // final List<PublicKey> addresses =
+  //   //     (addressesData['addresses'] as List<Uint8List>)
+  //   //         .map(PublicKey.new)
+  //   //         .toList();
+
+  //   // return AddressLookupTableState(
+  //   //   meta['deactivationSlot'],
+  //   //   meta['lastExtendedSlot'],
+  //   //   meta['lastExtendedStartIndex'],
+  //   //   meta['authority'].length != 0 ? PublicKey(meta['authority'][0]) : null,
+  //   //   addresses,
+  //   // );
 
   //   return AddressLookupTableState(
-  //     meta['deactivationSlot'],
-  //     meta['lastExtendedSlot'],
-  //     meta['lastExtendedStartIndex'],
-  //     meta['authority'].length != 0 ? PublicKey(meta['authority'][0]) : null,
-  //     addresses,
+  //     deactivationSlot: deactivationSlot,
+  //     lastExtendedSlot: lastExtendedSlot,
+  //     lastExtendedSlotStartIndex: lastExtendedStartIndex,
+  //     authority: authority,
+  //     addresses: [],
   //   );
   // }
 }

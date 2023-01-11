@@ -1,4 +1,5 @@
 import 'package:solana/solana.dart';
+import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 
 Future<AddressLookupTableAccount> createTestAddressLookUpTable(
@@ -29,3 +30,10 @@ Future<List<Ed25519HDPublicKey>> createTestKeys(int count) async {
 
   return keys;
 }
+
+AccountMeta createAccountMeta(
+  Ed25519HDPublicKey pubKey,
+  bool isSigner,
+  bool isWriteable,
+) =>
+    AccountMeta(pubKey: pubKey, isWriteable: isWriteable, isSigner: isSigner);

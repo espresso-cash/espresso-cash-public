@@ -45,7 +45,6 @@ class SignedTxV0 {
 
     final prefix = messageBytes.first;
     final maskedPrefix = prefix & 0x7f;
-    print(maskedPrefix);
 
     final txData = _TxData.decompile(messageBytes);
 
@@ -141,8 +140,10 @@ class _TxData {
     );
 
     final addressLookUpLength = reader.readCompactU16Value();
-
-    print(addressLookUpLength);
+    final addressTableLookups = reader.readFixedArray(
+      addressLookUpLength,
+      () => _decompileAddressTableLookUp(reader),
+    );
 
     return _TxData(
       header: header,
@@ -179,19 +180,37 @@ Instruction _decompileInstruction(
   final programIdIndex = reader.readU8();
   final programId = allAccounts[programIdIndex].pubKey;
 
-  // final accountsLength = reader.readCompactU16Value();
-  final accountsLength = allAccounts.length;
+  final accountKeyIndexesLength = reader.readCompactU16Value();
+  final accountKeyIndexes =
+      reader.readFixedArray(accountKeyIndexesLength, reader.readU8).toList();
 
-  final accountIndexes =
-      reader.readFixedArray(accountsLength, reader.readU8).toList();
-
-  final accounts = accountIndexes.map((i) => allAccounts[i]).toList();
+  // final accounts = accountKeyIndexes.map((i) => allAccounts[i]).toList(); //ERROR HERE
 
   final dataLength = reader.readCompactU16Value();
 
   return Instruction(
     programId: programId,
-    accounts: accounts,
+    accounts: [],
     data: ByteArray(reader.readFixedArray(dataLength, reader.readU8)),
+  );
+}
+
+MessageAddressTableLookup _decompileAddressTableLookUp(BinaryReader reader) {
+  final accountKey =
+      Ed25519HDPublicKey(reader.readFixedArray(32, () => reader.readU8()));
+
+  final writableIndexesLength = reader.readCompactU16Value();
+  final writableIndexes =
+      reader.readFixedArray(writableIndexesLength, reader.readU8).toList();
+
+  final readonlyIndexesLength = reader.readCompactU16Value();
+
+  final readonlyIndexes =
+      reader.readFixedArray(readonlyIndexesLength, reader.readU8).toList();
+
+  return MessageAddressTableLookup(
+    accountKey: accountKey,
+    writableIndexes: writableIndexes,
+    readonlyIndexes: readonlyIndexes,
   );
 }

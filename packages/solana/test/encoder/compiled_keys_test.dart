@@ -19,20 +19,20 @@ Future<void> main() async {
         Instruction(
           programId: programIds.first,
           accounts: [
-            _createAccountMeta(keys.first, false, false),
-            _createAccountMeta(keys[1], true, false),
-            _createAccountMeta(keys[2], false, true),
-            _createAccountMeta(keys[3], true, true),
+            createAccountMeta(keys.first, false, false),
+            createAccountMeta(keys[1], true, false),
+            createAccountMeta(keys[2], false, true),
+            createAccountMeta(keys[3], true, true),
             // duplicate the account metas
-            _createAccountMeta(keys.first, false, false),
-            _createAccountMeta(keys[1], true, false),
-            _createAccountMeta(keys[2], false, true),
-            _createAccountMeta(keys[3], true, true),
+            createAccountMeta(keys.first, false, false),
+            createAccountMeta(keys[1], true, false),
+            createAccountMeta(keys[2], false, true),
+            createAccountMeta(keys[3], true, true),
             // reference program ids
-            _createAccountMeta(programIds.first, false, false),
-            _createAccountMeta(programIds[1], true, false),
-            _createAccountMeta(programIds[2], false, true),
-            _createAccountMeta(programIds[3], true, true),
+            createAccountMeta(programIds.first, false, false),
+            createAccountMeta(programIds[1], true, false),
+            createAccountMeta(programIds[2], false, true),
+            createAccountMeta(programIds[3], true, true),
           ],
           data: ByteArray.u8(0),
         ),
@@ -78,7 +78,7 @@ Future<void> main() async {
       instructions: [
         Instruction(
           programId: programId.publicKey,
-          accounts: [_createAccountMeta(payer.publicKey, false, false)],
+          accounts: [createAccountMeta(payer.publicKey, false, false)],
           data: ByteArray.u8(0),
         ),
       ],
@@ -104,8 +104,8 @@ Future<void> main() async {
         Instruction(
           programId: programId.publicKey,
           accounts: [
-            _createAccountMeta(key.publicKey, false, false),
-            _createAccountMeta(key.publicKey, true, true),
+            createAccountMeta(key.publicKey, false, false),
+            createAccountMeta(key.publicKey, true, true),
           ],
           data: ByteArray.u8(0),
         ),
@@ -247,13 +247,6 @@ Future<void> main() async {
     }
   });
 }
-
-AccountMeta _createAccountMeta(
-  Ed25519HDPublicKey pubKey,
-  bool isSigner,
-  bool isWriteable,
-) =>
-    AccountMeta(pubKey: pubKey, isWriteable: isWriteable, isSigner: isSigner);
 
 void _setMapEntry(
   Map<String, CompiledKeyMeta> map,
