@@ -25,54 +25,48 @@ extension FormatAmountWithFiatExt on CryptoAmount {
 
 extension FormatAmountExt on Amount {
   String format(
-    Locale? locale, {
+    Locale locale, {
     bool skipSymbol = false,
     bool roundInteger = false,
-    int? decimals,
   }) =>
       currency.map(
-        fiat: (FiatCurrency currency) => _formatAmount(
+        fiat: (FiatCurrency currency) => formatAmount(
           locale: locale,
           value: decimal,
-          decimals: decimals ?? currency.decimals,
-          symbol: currency.sign,
-          skipSymbol: skipSymbol,
+          decimals: currency.decimals,
+          symbol: skipSymbol ? null : currency.sign,
           prefixedSymbol: true,
           roundInteger: roundInteger,
         ),
-        crypto: (CryptoCurrency currency) => _formatAmount(
+        crypto: (CryptoCurrency currency) => formatAmount(
           locale: locale,
           value: decimal,
-          decimals: decimals ?? currency.decimals,
-          symbol: currency.symbol,
-          skipSymbol: skipSymbol,
+          decimals: currency.decimals,
+          symbol: skipSymbol ? null : currency.symbol,
           prefixedSymbol: false,
           roundInteger: roundInteger,
         ),
       );
 }
 
-String _formatAmount({
-  Locale? locale,
-  String? symbol,
+String formatAmount({
+  required Locale locale,
   required Decimal value,
   required int decimals,
-  required bool skipSymbol,
   required bool prefixedSymbol,
   required bool roundInteger,
+  String? symbol,
 }) {
   late final NumberFormat formatter;
   final minimumDigits = roundInteger && value.isInteger ? 0 : 2;
 
-  formatter = NumberFormat.decimalPattern(locale?.languageCode)
+  formatter = NumberFormat.decimalPattern(locale.languageCode)
     ..minimumFractionDigits = minimumDigits
     ..maximumFractionDigits = decimals;
 
   final formatted = formatter.format(value.toDouble());
 
-  if (skipSymbol) {
-    return formatted;
-  }
+  if (symbol == null) return formatted;
 
   return prefixedSymbol ? '$symbol$formatted' : '$formatted $symbol';
 }

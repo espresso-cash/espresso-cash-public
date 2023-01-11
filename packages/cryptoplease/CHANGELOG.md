@@ -1,3 +1,9 @@
+## 1.58.1
+
+ - **FIX**: show low value decimal numbers (#685).
+ - **FIX**: update investments layout (#699).
+ - **FIX**: investment screen fixes (#698).
+
 ## 1.58.0
 
  - **REFACTOR**: restructure modules (#697).

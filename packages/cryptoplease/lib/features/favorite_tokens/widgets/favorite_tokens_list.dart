@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
-import '../../../core/amount.dart';
 import '../../../core/conversion_rates/context_ext.dart';
+import '../../../core/presentation/extensions.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../ui/theme.dart';
 import '../src/bl/bloc.dart';
 import '../src/bl/repository.dart';
 
@@ -62,12 +62,9 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
             children: [
               const SliverToBoxAdapter(child: _FollowingTitle()),
               SliverPadding(
-                padding: const EdgeInsets.only(top: 8),
-                sliver: SliverPadding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(items),
-                  ),
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(items),
                 ),
               ),
             ],
@@ -84,12 +81,11 @@ class _FollowingTitle extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Text(
-        context.l10n.following,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 18,
-          color: CpColors.menuPrimaryTextColor,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 15),
+        child: Text(
+          context.l10n.following,
+          style: dashboardSectionTitleTextStyle,
         ),
       );
 }
@@ -102,13 +98,11 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final currentPrice = this.currentPrice;
-
-    final Amount? tokenRate = currentPrice == null
-        ? null
-        : Amount.fromDecimal(currency: fiatCurrency, value: currentPrice);
+    final currentPrice = this.currentPrice?.formatDisplayablePrice(
+          locale: DeviceLocale.localeOf(context),
+          currency: fiatCurrency,
+        );
 
     return Material(
       color: Colors.transparent,
@@ -134,7 +128,7 @@ class _TokenItem extends StatelessWidget {
                 ),
               ),
               Text(
-                tokenRate?.format(locale) ?? '-',
+                currentPrice ?? '-',
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
