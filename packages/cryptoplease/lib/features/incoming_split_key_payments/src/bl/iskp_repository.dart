@@ -56,7 +56,7 @@ enum ISKPStatusDto {
   txEscrowFailure,
 }
 
-extension ISKPRowExt on ISKPRow {
+extension on ISKPRow {
   Future<IncomingSplitKeyPayment> toModel() async {
     final escrow = await privateKey
         .let(base58decode)

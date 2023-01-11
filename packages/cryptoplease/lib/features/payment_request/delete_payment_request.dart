@@ -1,6 +1,5 @@
 import '../../di.dart';
-import 'models/payment_request.dart';
 import 'src/bl/repository.dart';
 
-Future<void> deletePaymentRequest(PaymentRequest payment) =>
-    sl<PaymentRequestRepository>().delete(payment);
+Future<void> deletePaymentRequest(String id) =>
+    sl<PaymentRequestRepository>().delete(id);

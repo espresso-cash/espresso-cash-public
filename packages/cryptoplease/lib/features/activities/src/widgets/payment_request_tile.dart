@@ -98,7 +98,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                   minWidth: 120,
                   size: CpButtonSize.micro,
                   variant: CpButtonVariant.secondary,
-                  onPressed: () => deletePaymentRequest(data),
+                  onPressed: () => deletePaymentRequest(data.id),
                 ),
               ],
             ),

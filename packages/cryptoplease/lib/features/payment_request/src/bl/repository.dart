@@ -50,9 +50,8 @@ class PaymentRequestRepository {
   Future<void> save(PaymentRequest payment) =>
       _db.into(_db.paymentRequestRows).insertOnConflictUpdate(payment.toRow());
 
-  Future<void> delete(PaymentRequest payment) =>
-      (_db.delete(_db.paymentRequestRows)
-            ..where((tbl) => tbl.id.equals(payment.id)))
+  Future<void> delete(String id) =>
+      (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id)))
           .go();
 
   Future<void> clear() => _db.delete(_db.paymentRequestRows).go();
@@ -74,9 +73,6 @@ class PaymentRequestRows extends Table with EntityMixin {
   TextColumn get label => text().nullable()();
   TextColumn get message => text().nullable()();
   TextColumn get memo => text().nullable()();
-
-  @override
-  Set<Column<dynamic>>? get primaryKey => {id};
 }
 
 extension on PaymentRequestRow {
