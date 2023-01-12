@@ -342,30 +342,6 @@ extension on BinaryReader {
   }
 }
 
-Instruction _decompileInstruction(
-  BinaryReader reader,
-  List<AccountMeta> allAccounts,
-) {
-  final programIdIndex = reader.readU8();
-  final programId = allAccounts[programIdIndex].pubKey;
-
-  final accountKeyIndexesLength = reader.readCompactU16Value();
-  final accountKeyIndexes =
-      reader.readFixedArray(accountKeyIndexesLength, reader.readU8).toList();
-
-  print(accountKeyIndexes);
-
-  // final accounts = accountKeyIndexes.map((i) => allAccounts[i]).toList();
-
-  final dataLength = reader.readCompactU16Value();
-
-  return Instruction(
-    programId: programId,
-    accounts: [],
-    data: ByteArray(reader.readFixedArray(dataLength, reader.readU8)),
-  );
-}
-
 MessageCompiledInstruction _decompileMessageInstruction(BinaryReader reader) {
   final programIdIndex = reader.readU8();
 

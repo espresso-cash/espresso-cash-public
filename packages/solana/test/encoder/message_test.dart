@@ -117,6 +117,8 @@ void main() {
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
 
+      expect(() => Messagev0.decompile(compiledMessage), throwsException);
+
       final decompiledMessage = Messagev0.decompile(
         compiledMessage,
         addressLookupTableAccounts: addressLookupTableAccounts,
