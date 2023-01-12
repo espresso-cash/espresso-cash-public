@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/empty_router_widgets.dart';
 
 import 'src/widgets/backup_phrase_flow/backup_confirm_phrase_screen.dart';
 import 'src/widgets/backup_phrase_flow/backup_phrase_flow_screen.dart';

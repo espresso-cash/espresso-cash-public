@@ -33,7 +33,8 @@ Future<void> main() async {
     setUp: () {
       when(storage.read(key: anyNamed('key'), iOptions: anyNamed('iOptions')))
           .thenAnswer((_) async => null);
-      when(storage.write()).thenAnswer((_) async {});
+      when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
+          .thenAnswer((_) async {});
     },
     build: () => AccountsBloc(storage: storage, fileManager: fileManager),
     act: (b) {
@@ -46,7 +47,9 @@ Future<void> main() async {
     verify: (_) {
       verify(storage.read(key: anyNamed('key'), iOptions: anyNamed('iOptions')))
           .called(1);
-      verifyNever(storage.write());
+      verifyNever(
+        storage.write(key: anyNamed('key'), value: anyNamed('value')),
+      );
     },
   );
 
@@ -62,7 +65,8 @@ Future<void> main() async {
       when(
         storage.read(key: photoKey, iOptions: anyNamed('iOptions')),
       ).thenAnswer((_) async => null);
-      when(storage.write()).thenAnswer((_) async {});
+      when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
+          .thenAnswer((_) async {});
     },
     build: () => AccountsBloc(storage: storage, fileManager: fileManager),
     act: (b) {
@@ -83,7 +87,8 @@ Future<void> main() async {
   blocTest<AccountsBloc, AccountsState>(
     'Saves account when created',
     setUp: () {
-      when(storage.write()).thenAnswer((_) async {});
+      when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
+          .thenAnswer((_) async {});
     },
     build: () => AccountsBloc(storage: storage, fileManager: fileManager),
     act: (b) {

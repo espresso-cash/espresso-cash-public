@@ -488,5 +488,21 @@
   "cryptoInvestments": "Crypto\nInvestments",
   "moneyReceived": "Money has been received",
   "sentDirectly": "Sent directly",
-  "tipViaQrcode": "Tip via QR Code"
+  "tipViaQrcode": "Tip via QR Code",
+  "boughtToken": "Bought {amount}",
+  "@boughtToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "soldToken": "Sold {amount}",
+  "@soldToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }
