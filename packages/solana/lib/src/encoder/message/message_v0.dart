@@ -15,10 +15,17 @@ class Messagev0 {
 
   Messagev0.only(Instruction instruction) : instructions = [instruction];
 
-  factory Messagev0.decompile(CompiledMessage compiledMessage) {
+  factory Messagev0.decompile(
+    CompiledMessage compiledMessage, {
+    LoadedAddresses? accountKeysFromLookups,
+    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  }) {
     final tx = SignedTxV0(messageBytes: compiledMessage.data);
 
-    return tx.message;
+    return tx.message(
+      accountKeysFromLookups: accountKeysFromLookups,
+      addressLookupTableAccounts: addressLookupTableAccounts,
+    );
   }
 
   final List<Instruction> instructions;

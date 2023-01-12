@@ -87,7 +87,7 @@ void main() {
       final decoded = SignedTxV0.decode(encoded);
 
       expect(
-        decoded.message,
+        decoded.message(),
         isA<Messagev0>()
             .having((m) => m.instructions.length, 'number of instructions', 1)
             .having(
@@ -99,14 +99,6 @@ void main() {
 
       expect(decoded.signatures, tx.signatures);
       expect(decoded.blockhash, blockhash);
-      expect(
-        decoded.accounts.map((a) => a.pubKey.toBase58()),
-        [
-          fundingAccount.address,
-          recipientAccount.address,
-          SystemProgram.programId,
-        ],
-      );
     });
 
     test('decompiles base64 tx v0 with address look up', () async {
@@ -161,28 +153,18 @@ void main() {
       final decoded = SignedTxV0.decode(encoded);
 
       expect(
-        decoded.message,
+        decoded.message(addressLookupTableAccounts: addressLookupTableAccounts),
         isA<Messagev0>()
             .having((m) => m.instructions.length, 'number of instructions', 3)
             .having(
               (m) => m.instructions.first.accounts.length,
               'number of accounts in first instruction',
-              3,
+              5,
             ),
       );
 
       expect(decoded.signatures, tx.signatures);
       expect(decoded.blockhash, blockhash);
-      expect(
-        decoded.accounts.map((a) => a.pubKey).toList(),
-        [payer.publicKey, ...keys],
-      );
-
-      // final compiledKeys = CompiledKeys.compile(
-      //     instructions: instructions, payer: payer.publicKey);
-      // // compiledKeys.extractTableLookup(addressLookupTableAccounts);
-
-      // expect(decoded.addressTableLookup, addressLookupTableAccounts);
     });
   });
 }

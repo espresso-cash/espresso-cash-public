@@ -44,10 +44,10 @@ class SignedTxV0 {
     );
 
     final messageBytes = reader.buf.buffer.asUint8List(reader.offset);
-    final txData = TxDataV0.decompile(messageBytes);
+    final txData = TxDataV0.deserialize(messageBytes);
 
     final signatures = signaturesData.mapIndexed(
-      (i, s) => Signature(s, publicKey: txData.accounts[i].pubKey),
+      (i, s) => Signature(s, publicKey: txData.staticAccountKeys[i]),
     );
 
     return SignedTxV0(
@@ -58,14 +58,21 @@ class SignedTxV0 {
 
   String get blockhash => _txData.blockhash;
 
-  late final Messagev0 message = Messagev0(instructions: _txData.instructions);
+  Messagev0 message({
+    LoadedAddresses? accountKeysFromLookups,
+    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  }) =>
+      _txData.decode(
+        accountKeysFromLookups: accountKeysFromLookups,
+        addressLookupTableAccounts: addressLookupTableAccounts,
+      );
 
-  List<AccountMeta> get accounts => _txData.accounts.toList();
+  // List<AccountMeta> get accounts => _txData.accounts.toList(); //TODO
 
   List<MessageAddressTableLookup> get addressTableLookups =>
       _txData.addressTableLookups.toList();
 
-  late final TxDataV0 _txData = TxDataV0.decompile(messageBytes);
+  late final TxDataV0 _txData = TxDataV0.deserialize(messageBytes);
 
   final Iterable<Signature> signatures;
   final ByteArray messageBytes;
@@ -89,14 +96,14 @@ class TxDataV0 {
   //TODO reset to private if not needed
   TxDataV0({
     required this.header,
-    required this.accounts,
+    // required this.accounts, //TODO
+    required this.staticAccountKeys,
     required this.blockhash,
-    required this.instructions,
     required this.compiledInstructions,
     required this.addressTableLookups,
   });
 
-  factory TxDataV0.decompile(Iterable<int> data) {
+  factory TxDataV0.deserialize(Iterable<int> data) {
     final reader =
         BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
 
@@ -120,40 +127,17 @@ class TxDataV0 {
     );
 
     final accountsLength = reader.readCompactU16Value();
-    final lastWriteableSignerIndex =
-        header.numRequiredSignatures - header.numReadonlySignedAccounts;
-    final lastWriteableNonSigner =
-        accountsLength - header.numReadonlyUnsignedAccounts;
-
     final accounts = reader
         .readFixedArray(
           accountsLength,
           () => reader.readFixedArray(32, reader.readU8),
         )
         .map(Ed25519HDPublicKey.new)
-        .mapIndexed(
-      (i, a) {
-        final isSigner = i < header.numRequiredSignatures;
-
-        return AccountMeta(
-          pubKey: a,
-          isWriteable: isSigner
-              ? i < lastWriteableSignerIndex
-              : i < lastWriteableNonSigner,
-          isSigner: isSigner,
-        );
-      },
-    ).toList();
+        .toList();
 
     final blockhash = reader.readFixedArray(32, reader.readU8);
 
     final instructionsLength = reader.readCompactU16Value();
-
-    // final instructions = reader.readFixedArray(
-    //   instructionsLength,
-    //   () => _decompileInstruction(reader, accounts),
-    // );
-
     final compiledInstruction = reader.readFixedArray(
       instructionsLength,
       () => _decompileMessageInstruction(reader),
@@ -167,21 +151,99 @@ class TxDataV0 {
 
     return TxDataV0(
       header: header,
-      accounts: accounts,
+      staticAccountKeys: accounts,
       blockhash: base58encode(blockhash),
-      // instructions: instructions,
-      instructions: [],
       compiledInstructions: compiledInstruction,
       addressTableLookups: addressTableLookups,
     );
   }
 
   final MessageHeader header;
-  final List<AccountMeta> accounts;
+  final List<Ed25519HDPublicKey> staticAccountKeys;
   final String blockhash;
-  final List<Instruction> instructions;
   final List<MessageCompiledInstruction> compiledInstructions;
   final List<MessageAddressTableLookup> addressTableLookups;
+
+  Messagev0 decode({
+    LoadedAddresses? accountKeysFromLookups,
+    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  }) {
+    final numWritableSignedAccounts =
+        header.numRequiredSignatures - header.numReadonlySignedAccounts;
+    assert(numWritableSignedAccounts > 0, 'Message header is invalid');
+
+    final numWritableUnsignedAccounts = staticAccountKeys.length -
+        header.numRequiredSignatures -
+        header.numReadonlyUnsignedAccounts;
+    assert(numWritableUnsignedAccounts >= 0, 'Message header is invalid');
+
+    final accountKeys = getAccountKeys(
+      accountKeysFromLookups: accountKeysFromLookups,
+      addressLookupTableAccounts: addressLookupTableAccounts,
+    );
+    final payer = accountKeys.get(0);
+
+    if (payer == null) {
+      throw Exception(
+        'Failed to decompile message because no account keys were found',
+      );
+    }
+
+    final instructions = <Instruction>[];
+
+    for (final compiledIx in compiledInstructions) {
+      final keys = <AccountMeta>[];
+
+      for (final int keyIndex in compiledIx.accountKeyIndexes) {
+        final key = accountKeys.get(keyIndex);
+
+        if (key == null) {
+          throw Exception(
+            'Failed to find key for account key index $keyIndex',
+          );
+        }
+
+        final isSigner = keyIndex < header.numRequiredSignatures;
+
+        bool isWritable;
+        if (isSigner) {
+          isWritable = keyIndex < numWritableSignedAccounts;
+        } else if (keyIndex < accountKeys.staticAccountKeys.length) {
+          isWritable = keyIndex - header.numRequiredSignatures <
+              numWritableUnsignedAccounts;
+        } else {
+          isWritable = keyIndex - accountKeys.staticAccountKeys.length <
+              // accountKeysFromLookups cannot be undefined because we already found a pubkey for this index above
+              accountKeys.accountKeysFromLookups!.writable.length;
+        }
+
+        keys.add(
+          AccountMeta(
+            pubKey: key,
+            isWriteable: isWritable,
+            isSigner: isSigner,
+          ),
+        );
+      }
+
+      final programId = accountKeys.get(compiledIx.programIdIndex);
+      if (programId == null) {
+        throw Exception(
+          'Failed to find program id for program id index ${compiledIx.programIdIndex}',
+        );
+      }
+
+      instructions.add(
+        Instruction(
+          programId: programId,
+          accounts: keys,
+          data: compiledIx.data,
+        ),
+      );
+    }
+
+    return Messagev0(instructions: instructions);
+  }
 
   int numAccountKeysFromLookups() {
     int count = 0;
@@ -191,8 +253,6 @@ class TxDataV0 {
 
     return count;
   }
-
-  bool isAccountSigner(int index) => index < header.numRequiredSignatures;
 
   MessageAccountKeys getAccountKeys({
     LoadedAddresses? accountKeysFromLookups,
@@ -221,7 +281,7 @@ class TxDataV0 {
     }
 
     return MessageAccountKeys(
-      staticAccountKeys: accounts.map((e) => e.pubKey).toList(),
+      staticAccountKeys: staticAccountKeys,
       accountKeysFromLookups: loadedAddresses,
     );
   }
