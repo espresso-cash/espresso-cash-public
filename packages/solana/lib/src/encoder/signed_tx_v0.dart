@@ -44,7 +44,7 @@ class SignedTxV0 {
     );
 
     final messageBytes = reader.buf.buffer.asUint8List(reader.offset);
-    final txData = TxDataV0.deserialize(messageBytes);
+    final txData = _TxData.deserialize(messageBytes);
 
     final signatures = signaturesData.mapIndexed(
       (i, s) => Signature(s, publicKey: txData.staticAccountKeys[i]),
@@ -72,7 +72,7 @@ class SignedTxV0 {
   List<MessageAddressTableLookup> get addressTableLookups =>
       _txData.addressTableLookups.toList();
 
-  late final TxDataV0 _txData = TxDataV0.deserialize(messageBytes);
+  late final _TxData _txData = _TxData.deserialize(messageBytes);
 
   final Iterable<Signature> signatures;
   final ByteArray messageBytes;
@@ -88,13 +88,10 @@ class SignedTxV0 {
   ]);
 
   ByteArray toByteArray() => _data;
-
-  TxDataV0 get txData => _txData;
 }
 
-class TxDataV0 {
-  //TODO reset to private if not needed
-  TxDataV0({
+class _TxData {
+  _TxData({
     required this.header,
     // required this.accounts, //TODO
     required this.staticAccountKeys,
@@ -103,7 +100,7 @@ class TxDataV0 {
     required this.addressTableLookups,
   });
 
-  factory TxDataV0.deserialize(Iterable<int> data) {
+  factory _TxData.deserialize(Iterable<int> data) {
     final reader =
         BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
 
@@ -111,11 +108,12 @@ class TxDataV0 {
     final maskedPrefix = prefix & 0x7f;
 
     if (prefix == maskedPrefix) {
-      throw Exception('Expected versioned message but received legacy message');
+      throw const FormatException(
+          'Expected versioned message but received legacy message');
     }
 
     if (maskedPrefix != 0) {
-      throw Exception(
+      throw FormatException(
         'Expected version 0 message but received version $maskedPrefix',
       );
     }
@@ -149,7 +147,7 @@ class TxDataV0 {
       () => _decompileAddressTableLookUp(reader),
     );
 
-    return TxDataV0(
+    return _TxData(
       header: header,
       staticAccountKeys: accounts,
       blockhash: base58encode(blockhash),
@@ -184,7 +182,7 @@ class TxDataV0 {
     final payer = accountKeys.get(0);
 
     if (payer == null) {
-      throw Exception(
+      throw const FormatException(
         'Failed to decompile message because no account keys were found',
       );
     }
@@ -198,7 +196,7 @@ class TxDataV0 {
         final key = accountKeys.get(keyIndex);
 
         if (key == null) {
-          throw Exception(
+          throw FormatException(
             'Failed to find key for account key index $keyIndex',
           );
         }
@@ -228,7 +226,7 @@ class TxDataV0 {
 
       final programId = accountKeys.get(compiledIx.programIdIndex);
       if (programId == null) {
-        throw Exception(
+        throw FormatException(
           'Failed to find program id for program id index ${compiledIx.programIdIndex}',
         );
       }
@@ -264,7 +262,7 @@ class TxDataV0 {
       if (numAccountKeysFromLookups() !=
           accountKeysFromLookups.writable.length +
               accountKeysFromLookups.readonly.length) {
-        throw Exception(
+        throw const FormatException(
           'Failed to get account keys because of a mismatch in the number of account keys from lookups',
         );
       }
@@ -275,7 +273,7 @@ class TxDataV0 {
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
     } else if (addressTableLookups.isNotEmpty) {
-      throw Exception(
+      throw const FormatException(
         'Failed to get account keys because address table lookups were not resolved',
       );
     }
@@ -298,7 +296,7 @@ class TxDataV0 {
       );
 
       if (tableAccount == null) {
-        throw Exception(
+        throw FormatException(
           'Failed to find address lookup table account for table key ${tableLookup.accountKey.toBase58()}',
         );
       }
@@ -308,7 +306,7 @@ class TxDataV0 {
           accountKeysFromLookups.writable
               .add(tableAccount.state.addresses[index]);
         } else {
-          throw Exception(
+          throw FormatException(
             'Failed to find address for index $index in address lookup table ${tableLookup.accountKey.toBase58()}',
           );
         }
@@ -319,7 +317,7 @@ class TxDataV0 {
           accountKeysFromLookups.readonly
               .add(tableAccount.state.addresses[index]);
         } else {
-          throw Exception(
+          throw FormatException(
             'Failed to find address for index $index in address lookup table ${tableLookup.accountKey.toBase58()}',
           );
         }

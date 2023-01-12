@@ -90,7 +90,7 @@ class _TxData {
     final int numRequiredSignatures = reader.readU8();
 
     if (numRequiredSignatures != (numRequiredSignatures & 0x7f)) {
-      throw Exception(
+      throw const FormatException(
         'Versioned messages must be deserialized with VersionedMessage.deserialize()', //TODO Update where to deserialize
       );
     }
