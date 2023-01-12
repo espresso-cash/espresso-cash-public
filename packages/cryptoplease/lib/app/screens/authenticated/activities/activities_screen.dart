@@ -12,6 +12,8 @@ class ActivitiesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final insets = EdgeInsets.only(
+      left: 8,
+      right: 8,
       top: _padding,
       bottom: MediaQuery.of(context).padding.bottom,
     );
@@ -26,7 +28,7 @@ class ActivitiesScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 24),
             child: CpTabBar(
               tabs: [
                 Tab(text: 'Pending'),

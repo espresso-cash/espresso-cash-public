@@ -5,9 +5,11 @@ import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
+import '../../../../ui/activity_tile.dart';
+import '../../../../ui/button.dart';
 import '../activity.dart';
-import 'styles.dart';
 
 class OTTile extends StatelessWidget {
   const OTTile({super.key, required this.activity});
@@ -15,28 +17,19 @@ class OTTile extends StatelessWidget {
   final OTActivity activity;
 
   @override
-  Widget build(BuildContext context) => ListTile(
-        title: Row(
-          children: [
-            const Expanded(
-              child: Text(
-                'Tip via QR Code',
-                style: titleStyle,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
-              style: titleStyle,
-            )
-          ],
-        ),
-        subtitle: Text(
-          context.formatDate(activity.created),
-          style: subtitleStyle,
-        ),
-        leading: Assets.icons.outgoing.svg(),
-        onTap: () => context.router.navigate(OutgoingTipRoute(id: activity.id)),
+  Widget build(BuildContext context) => ActivityTile(
+        title: context.l10n.tipViaQrcode,
+        amount:
+            '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
+        subtitle: context.formatDate(activity.created),
+        icon: Assets.icons.outgoing.svg(),
+        actions: [
+          CpButton(
+            text: context.l10n.tipViewQr,
+            size: CpButtonSize.micro,
+            onPressed: () =>
+                context.router.navigate(OutgoingTipRoute(id: activity.id)),
+          ),
+        ],
       );
 }

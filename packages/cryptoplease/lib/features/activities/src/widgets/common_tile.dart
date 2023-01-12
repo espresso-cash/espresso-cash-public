@@ -7,6 +7,7 @@ import '../../../../core/transactions/create_transaction_link.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/activity_tile.dart';
+import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../models/transaction.dart';
 
@@ -32,10 +33,16 @@ class CommonTile extends StatelessWidget {
         backgroundColor: CpColors.yellowColor,
         child: Assets.icons.successIconLightBg.svg(),
       ),
-      onTap: () {
-        final link = Uri.parse(createTransactionLink(signature));
-        context.openLink(link.toString());
-      },
+      actions: [
+        CpButton(
+          text: context.l10n.view,
+          size: CpButtonSize.micro,
+          onPressed: () {
+            final link = Uri.parse(createTransactionLink(signature));
+            context.openLink(link.toString());
+          },
+        ),
+      ],
     );
   }
 }

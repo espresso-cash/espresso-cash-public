@@ -6,13 +6,12 @@ import '../../ui/button.dart';
 
 final cpActivityTile = Story(
   name: 'ActivityTile',
-  builder: (context) => ActivityTile(
-    icon: const Icon(Icons.arrow_circle_down_outlined),
+  builder: (context) => const ActivityTile(
+    icon: Icon(Icons.arrow_circle_down_outlined),
     title: 'Activity Title',
     subtitle: 'Today at 8:14 AM',
     amount: '-10 SOL',
-    onTap: () {},
-    actions: const [
+    actions: [
       CpButton(size: CpButtonSize.micro, text: 'View'),
     ],
   ),

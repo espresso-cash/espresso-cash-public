@@ -81,8 +81,6 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
             paymentRequest: data,
             child: ActivityTile(
               title: title(),
-              onTap: () =>
-                  context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
               icon: Assets.icons.incoming.svg(),
               subtitle: context.formatDate(data.created),
               actions: [

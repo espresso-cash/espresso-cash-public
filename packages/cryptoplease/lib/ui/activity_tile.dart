@@ -9,7 +9,6 @@ class ActivityTile extends StatelessWidget {
     required this.icon,
     required this.subtitle,
     this.actions = const <Widget>[],
-    this.onTap,
     this.amount,
   }) : super(key: key);
 
@@ -17,7 +16,6 @@ class ActivityTile extends StatelessWidget {
   final Widget icon;
   final String subtitle;
   final List<Widget> actions;
-  final VoidCallback? onTap;
   final String? amount;
 
   @override
@@ -25,7 +23,7 @@ class ActivityTile extends StatelessWidget {
     final amount = this.amount;
 
     return ListTile(
-      onTap: onTap,
+      contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       leading: icon,
       isThreeLine: actions.isNotEmpty,
       title: Row(
