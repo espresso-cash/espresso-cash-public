@@ -9,6 +9,7 @@ import '../../outgoing_direct_payments/db.dart';
 import '../../outgoing_split_key_payments/db.dart';
 import '../../outgoing_tip_payments/db.dart';
 import '../../payment_request/db.dart';
+import '../../swap/db.dart';
 import 'activity.dart';
 import 'activity_builder.dart';
 
@@ -35,6 +36,10 @@ class PendingActivitiesRepository {
       ..where(
         (tbl) => tbl.status.equalsValue(OTStatusDto.success).not(),
       );
+    final swap = _db.select(_db.swapRows)
+      ..where(
+        (tbl) => tbl.status.equalsValue(SwapStatusDto.success).not(),
+      );
 
     final oprStream =
         opr.watch().map((rows) => rows.map((r) => r.toActivity()));
@@ -48,13 +53,18 @@ class PendingActivitiesRepository {
         .watch()
         .map((rows) => rows.map((r) => r.toActivity(_tokens)))
         .asyncMap(Future.wait);
+    final swapStream = swap
+        .watch()
+        .map((rows) => rows.map((r) => r.toActivity(_tokens)))
+        .asyncMap(Future.wait);
 
-    return Rx.combineLatest4<_L, _L, _L, _L, IList<Activity>>(
+    return Rx.combineLatest5<_L, _L, _L, _L, _L, IList<Activity>>(
       oprStream,
       odpStream,
       oskpStream,
       otStream,
-      (a, b, c, d) => [...a, ...b, ...c, ...d]
+      swapStream,
+      (a, b, c, d, e) => [...a, ...b, ...c, ...d, ...e]
           .toIList()
           .sortOrdered((a, b) => b.created.compareTo(a.created)),
     );
