@@ -11,12 +11,8 @@ class ActivitiesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final insets = EdgeInsets.only(
-      left: 8,
-      right: 8,
-      top: _padding,
-      bottom: MediaQuery.of(context).padding.bottom,
-    );
+    final bottom = MediaQuery.of(context).padding.bottom;
+    const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
 
     return DefaultTabController(
       length: 2,
@@ -36,7 +32,7 @@ class ActivitiesScreen extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
+          const Expanded(
             child: TabBarView(
               children: [
                 _Wrapper(
@@ -48,6 +44,7 @@ class ActivitiesScreen extends StatelessWidget {
               ],
             ),
           ),
+          SizedBox(height: bottom),
         ],
       ),
     );
