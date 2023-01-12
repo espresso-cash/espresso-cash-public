@@ -121,7 +121,7 @@ jobs:
     needs: [formatting]
     runs-on: ubuntu-latest
     env:
-      SCOPE: --scope="solana_mobile_*"
+      SCOPE: --scope="solana_mobile_*" --scope="solana_seed_vault"
     steps:
       - uses: actions/checkout@v2
 
