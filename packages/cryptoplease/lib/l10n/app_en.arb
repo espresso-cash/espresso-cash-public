@@ -136,6 +136,7 @@
     }
   },
   "paymentRequestNotificationSubtitle": "Payment request",
+  "paymentRequestCancel": "Cancel request",
   "splitKeyConfirmationDialogContent": "Are you sure you don't want to get the money available for you?",
   "securitySectionTitle": "SECURITY AND PRIVACY",
   "learningSectionTitle": "LEARNING CENTER",

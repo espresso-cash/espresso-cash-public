@@ -9,7 +9,6 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
-import '../../../../ui/button.dart';
 import '../activity.dart';
 
 class OSKPTile extends StatelessWidget {
@@ -31,14 +30,6 @@ class OSKPTile extends StatelessWidget {
         ),
         subtitle: context.formatDate(activity.created),
         icon: Assets.icons.outgoing.svg(),
-        actions: [
-          CpButton(
-            text: context.l10n.shareLinks,
-            size: CpButtonSize.micro,
-            minWidth: 120,
-            onPressed: () =>
-                context.router.navigate(OSKPRoute(id: activity.id)),
-          ),
-        ],
+        onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );
 }

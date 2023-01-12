@@ -7,8 +7,6 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
-import '../../../../ui/button.dart';
-import '../../../payment_request/delete_payment_request.dart';
 import '../../../payment_request/formatted_amount.dart';
 import '../../../payment_request/models/payment_request.dart';
 import '../../../payment_request/watch_payment_request.dart';
@@ -83,22 +81,8 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
               title: title(),
               icon: Assets.icons.incoming.svg(),
               subtitle: context.formatDate(data.created),
-              actions: [
-                CpButton(
-                  text: context.l10n.view,
-                  minWidth: 120,
-                  size: CpButtonSize.micro,
-                  onPressed: () =>
-                      context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
-                ),
-                CpButton(
-                  text: context.l10n.cancel,
-                  minWidth: 120,
-                  size: CpButtonSize.micro,
-                  variant: CpButtonVariant.secondary,
-                  onPressed: () => deletePaymentRequest(data.id),
-                ),
-              ],
+              onTap: () =>
+                  context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
             ),
           );
         },

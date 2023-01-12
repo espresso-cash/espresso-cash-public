@@ -8,7 +8,6 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
-import '../../../../ui/button.dart';
 import '../activity.dart';
 
 class ODPTile extends StatelessWidget {
@@ -23,14 +22,6 @@ class ODPTile extends StatelessWidget {
         icon: Assets.icons.outgoing.svg(),
         amount:
             '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
-        actions: [
-          CpButton(
-            text: context.l10n.view,
-            size: CpButtonSize.micro,
-            minWidth: 120,
-            onPressed: () =>
-                context.router.navigate(ODPDetailsRoute(id: activity.id)),
-          ),
-        ],
+        onTap: () => context.router.navigate(ODPDetailsRoute(id: activity.id)),
       );
 }

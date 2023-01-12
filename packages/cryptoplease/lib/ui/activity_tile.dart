@@ -8,24 +8,24 @@ class ActivityTile extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.subtitle,
-    this.actions = const <Widget>[],
     this.amount,
+    this.onTap,
   }) : super(key: key);
 
   final String title;
   final Widget icon;
   final String subtitle;
-  final List<Widget> actions;
   final String? amount;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final amount = this.amount;
 
     return ListTile(
+      onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       leading: icon,
-      isThreeLine: actions.isNotEmpty,
       title: Row(
         children: [
           Expanded(
@@ -42,15 +42,7 @@ class ActivityTile extends StatelessWidget {
             ),
         ],
       ),
-      subtitle: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 4),
-          Text(subtitle, style: _subtitleStyle),
-          Wrap(spacing: 14, children: actions),
-        ],
-      ),
+      subtitle: Text(subtitle, style: _subtitleStyle),
     );
   }
 }

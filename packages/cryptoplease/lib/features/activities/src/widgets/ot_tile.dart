@@ -8,7 +8,6 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
-import '../../../../ui/button.dart';
 import '../activity.dart';
 
 class OTTile extends StatelessWidget {
@@ -23,14 +22,6 @@ class OTTile extends StatelessWidget {
             '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
         subtitle: context.formatDate(activity.created),
         icon: Assets.icons.outgoing.svg(),
-        actions: [
-          CpButton(
-            text: context.l10n.tipViewQr,
-            size: CpButtonSize.micro,
-            minWidth: 120,
-            onPressed: () =>
-                context.router.navigate(OutgoingTipRoute(id: activity.id)),
-          ),
-        ],
+        onTap: () => context.router.navigate(OutgoingTipRoute(id: activity.id)),
       );
 }
