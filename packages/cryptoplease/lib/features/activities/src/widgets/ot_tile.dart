@@ -27,6 +27,7 @@ class OTTile extends StatelessWidget {
           CpButton(
             text: context.l10n.tipViewQr,
             size: CpButtonSize.micro,
+            minWidth: 120,
             onPressed: () =>
                 context.router.navigate(OutgoingTipRoute(id: activity.id)),
           ),

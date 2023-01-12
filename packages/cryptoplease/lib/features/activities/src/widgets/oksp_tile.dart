@@ -33,8 +33,9 @@ class OSKPTile extends StatelessWidget {
         icon: Assets.icons.outgoing.svg(),
         actions: [
           CpButton(
-            text: context.l10n.view,
+            text: context.l10n.shareLinks,
             size: CpButtonSize.micro,
+            minWidth: 120,
             onPressed: () =>
                 context.router.navigate(OSKPRoute(id: activity.id)),
           ),

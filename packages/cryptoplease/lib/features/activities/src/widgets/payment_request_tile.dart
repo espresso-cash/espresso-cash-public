@@ -85,7 +85,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
               subtitle: context.formatDate(data.created),
               actions: [
                 CpButton(
-                  text: context.l10n.shareLinks,
+                  text: context.l10n.view,
                   minWidth: 120,
                   size: CpButtonSize.micro,
                   onPressed: () =>

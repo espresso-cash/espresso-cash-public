@@ -37,6 +37,7 @@ class CommonTile extends StatelessWidget {
         CpButton(
           text: context.l10n.view,
           size: CpButtonSize.micro,
+          minWidth: 120,
           onPressed: () {
             final link = Uri.parse(createTransactionLink(signature));
             context.openLink(link.toString());

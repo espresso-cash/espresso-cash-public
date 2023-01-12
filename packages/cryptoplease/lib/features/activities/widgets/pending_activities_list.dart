@@ -57,7 +57,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
           builder: (context, snapshot) {
             final data = snapshot.data;
 
-            if (data == null) return const SizedBox.shrink();
+            if (data == null) return const NoActivity();
 
             return data.isEmpty
                 ? const Center(child: NoActivity())

@@ -27,6 +27,7 @@ class ODPTile extends StatelessWidget {
           CpButton(
             text: context.l10n.view,
             size: CpButtonSize.micro,
+            minWidth: 120,
             onPressed: () =>
                 context.router.navigate(ODPDetailsRoute(id: activity.id)),
           ),
