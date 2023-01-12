@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
+import '../../../../core/presentation/utils.dart';
+import '../../../../core/transactions/create_transaction_link.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -30,6 +32,14 @@ class OSKPTile extends StatelessWidget {
         ),
         subtitle: context.formatDate(activity.created),
         icon: Assets.icons.outgoing.svg(),
-        onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
+        onTap: () => activity.data.status.maybeWhen(
+          withdrawn: (signature) {
+            final link = Uri.parse(createTransactionLink(signature));
+            context.openLink(link.toString());
+          },
+          orElse: () {
+            context.router.navigate(OSKPRoute(id: activity.id));
+          },
+        ),
       );
 }
