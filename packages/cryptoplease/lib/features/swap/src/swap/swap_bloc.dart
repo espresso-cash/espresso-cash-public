@@ -8,10 +8,10 @@ import 'package:solana/solana.dart';
 
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
+import '../../models/swap.dart';
+import '../../models/swap_seed.dart';
 import '../route_repository.dart';
-import '../swap.dart';
 import '../swap_route.dart';
-import '../swap_seed.dart';
 import 'swap_repository.dart';
 
 part 'swap_bloc.freezed.dart';

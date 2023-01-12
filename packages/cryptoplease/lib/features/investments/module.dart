@@ -6,10 +6,6 @@ import '../../core/accounts/module.dart';
 import '../../di.dart';
 import 'src/data/repository.dart';
 
-export 'src/presentation/components/portfolio_widget.dart';
-export 'src/presentation/investments_zero_balance_switch.dart';
-export 'src/presentation/my_portfolio.dart';
-
 class InvestmentModule extends SingleChildStatelessWidget {
   const InvestmentModule({Key? key, Widget? child})
       : super(key: key, child: child);

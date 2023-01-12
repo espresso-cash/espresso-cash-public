@@ -11,8 +11,8 @@ import '../../../features/outgoing_tip_payments/routes.dart';
 import '../../../features/payment_request/routes.dart';
 import '../../../features/qr_scanner/routes.dart';
 import '../../../features/ramp/routes.dart';
-import '../../../features/swap/module.dart';
-import '../../../features/token_details/token_details_screen.dart';
+import '../../../features/swap/routes.dart';
+import '../../../features/token_details/widgets/token_details_screen.dart';
 import '../../../features/token_search/routes.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
@@ -20,7 +20,6 @@ import 'home_screen.dart';
 import 'investments/investments_screen.dart';
 import 'profile/edit_profile_screen.dart';
 import 'profile/help_screen.dart';
-import 'profile/menu_screen.dart';
 import 'profile/profile_screen.dart';
 import 'wallet_flow/wallet_flow_screen.dart';
 
@@ -31,17 +30,16 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
       path: '',
       page: HomeScreen,
       children: [
-        CustomRoute<void>(path: '', page: MenuScreen, maintainState: false),
-        CustomRoute<void>(page: WalletFlowScreen, maintainState: false),
         CustomRoute<void>(
           name: 'InvestmentsRouter',
           page: EmptyRouterScreen,
-          maintainState: false,
+          path: '',
           children: [
             CustomRoute<void>(initial: true, page: InvestmentsScreen),
             AutoRoute<void>(page: TokenDetailsScreen),
           ],
         ),
+        CustomRoute<void>(page: WalletFlowScreen, maintainState: false),
         CustomRoute<void>(page: ActivitiesScreen, maintainState: false),
       ],
     ),

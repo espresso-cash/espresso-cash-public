@@ -7,7 +7,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
-import '../swap.dart';
+import '../../models/swap.dart';
 import 'swap_bloc.dart';
 import 'swap_repository.dart';
 

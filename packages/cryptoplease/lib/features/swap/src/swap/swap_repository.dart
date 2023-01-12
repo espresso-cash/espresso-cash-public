@@ -10,8 +10,8 @@ import '../../../../core/currency.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
-import '../swap.dart';
-import '../swap_seed.dart';
+import '../../models/swap.dart';
+import '../../models/swap_seed.dart';
 
 @injectable
 class SwapRepository {
@@ -66,7 +66,7 @@ enum SlippageDto {
   onePercent,
 }
 
-extension on SwapRow {
+extension SwapRowExt on SwapRow {
   Swap toModel(TokenList tokens) => Swap(
         id: id,
         status: status.toModel(this),
