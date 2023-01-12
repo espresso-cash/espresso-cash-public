@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ import 'portfolio_widget.dart';
 class CryptoInvestments extends StatelessWidget {
   const CryptoInvestments({super.key});
 
-  static const _minimumUsdAmount = 0.01;
+  static final Decimal _minimumUsdAmount = Decimal.parse('0.01');
 
   @override
   Widget build(BuildContext context) => MultiSliver(
@@ -36,8 +37,9 @@ class CryptoInvestments extends StatelessWidget {
                     (tokens) => displayEmptyBalances
                         ? tokens
                         : tokens.where((token) {
-                            final balance =
-                                context.watchUserFiatBalance(token)?.value ?? 0;
+                            final Decimal balance =
+                                context.watchUserFiatBalance(token)?.decimal ??
+                                    Decimal.zero;
 
                             return balance >= _minimumUsdAmount;
                           }),
