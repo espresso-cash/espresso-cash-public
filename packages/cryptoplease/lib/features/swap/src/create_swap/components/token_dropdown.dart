@@ -26,20 +26,18 @@ class _TokenDropDownState extends State<TokenDropDown> {
   void initState() {
     super.initState();
     tokens = widget.availableTokens.toList();
-    _sort(widget.current);
   }
 
   void _onChanged(Token? token) {
     if (token == null || token == widget.current) return;
-    setState(() => _sort(token));
     widget.onTokenChanged(token);
   }
 
-  // Needed to keep dropdown opening downwards
-  List<Token> _sort(Token token) => tokens..sort((t, _) => t == token ? 0 : 1);
-
   @override
   Widget build(BuildContext context) {
+    // Needed to keep dropdown opening downwards
+    tokens.sort((t, _) => t == widget.current ? 0 : 1);
+
     const style = TextStyle(
       fontSize: 15,
       fontWeight: FontWeight.w700,
