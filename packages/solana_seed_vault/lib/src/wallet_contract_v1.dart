@@ -28,7 +28,6 @@ class WalletContractV1 {
   static const resultInvalidAuthToken = _Activity.resultFirstUser + 1001;
 
   static const resultInvalidPayload = _Activity.resultFirstUser + 1002;
-  static const resultInvalidTransaction = resultInvalidPayload; // Legacy alias
 
   static const resultAuthenticationFailed = _Activity.resultFirstUser + 1003;
 
