@@ -8,12 +8,7 @@ import 'package:solana/src/encoder/message/compiled_keys.dart';
 import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/signed_tx_v0.dart';
 
-/// This is an implementation of the [Message Format][1].
-///
-/// [1]: https://docs.solana.com/developing/programming-model/transactions#message-format
 class Messagev0 {
-  /// Construct a message to send with a transaction to execute the provided
-  /// [instructions].
   const Messagev0({
     required this.instructions,
   }) : super();
@@ -28,15 +23,6 @@ class Messagev0 {
 
   final List<Instruction> instructions;
 
-  /// Compiles a message into the array of bytes that would be interpreted by
-  /// solana. The [recentBlockhash] is passed here as this is the final step
-  /// before sending the [Messagev0].
-  ///
-  /// If provided the [feePayer] can be added to the accounts if it's not
-  /// present.
-  ///
-  /// Returns a [CompiledMessage] that can be used to sign the transaction, and
-  /// also verify that the number of signers is correct.
   CompiledMessage compile({
     required String recentBlockhash,
     required Ed25519HDPublicKey feePayer,
@@ -68,7 +54,7 @@ class Messagev0 {
       staticAccountKeys: staticAccountKeys,
       accountKeysFromLookups: accountKeysFromLookups,
     );
-    print(accountKeys.length);
+
     final messageInstructions = accountKeys.compileInstructions(instructions);
 
     const messageVersion0Prefix = 1 << 7;

@@ -128,6 +128,56 @@ void main() {
       // expect(decompiledMessage.instructions, instructions);
     });
 
+    test('decompiles messagev0 with address look up2', () async {
+      final keys = await createTestKeys(7);
+      final payer = keys.first;
+
+      final instructions = [
+        Instruction(
+          programId: keys[4],
+          accounts: [
+            createAccountMeta(keys[1], true, true),
+            createAccountMeta(keys[2], false, false),
+            createAccountMeta(keys[3], false, false),
+          ],
+          data: ByteArray.u8(1),
+        ),
+        Instruction(
+          programId: keys[1],
+          accounts: [
+            createAccountMeta(keys[2], true, false),
+            createAccountMeta(keys[3], false, true),
+          ],
+          data: ByteArray.u8(2),
+        ),
+        Instruction(
+          programId: keys[3],
+          accounts: [
+            createAccountMeta(keys[5], false, true),
+            createAccountMeta(keys[6], false, false),
+          ],
+          data: ByteArray.u8(3),
+        ),
+      ];
+
+      final message = Messagev0(instructions: instructions);
+
+      final addressLookupTableAccounts = [
+        await createTestAddressLookUpTable(keys)
+      ];
+
+      final compiledMessage = message.compile(
+        recentBlockhash: base58encode(List.filled(32, 0)),
+        feePayer: payer,
+        addressLookupTableAccounts: addressLookupTableAccounts,
+      );
+
+      final decompiledMessage = Messagev0.decompile(compiledMessage);
+
+      expect(decompiledMessage, message);
+      // expect(decompiledMessage.instructions, instructions);
+    });
+
     test('cannot decompile legacy message', () async {
       final fundingAccount = await Ed25519HDKeyPair.random();
       final recipientAccount = await Ed25519HDKeyPair.random();

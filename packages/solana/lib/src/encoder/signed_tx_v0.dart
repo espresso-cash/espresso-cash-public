@@ -6,9 +6,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/src/constants.dart';
 import 'package:solana/src/crypto/crypto.dart';
+import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compact_u16.dart';
 import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/encoder/message/account_keys.dart';
 import 'package:solana/src/encoder/message/message_v0.dart';
 import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/message_header.dart';
@@ -42,7 +44,7 @@ class SignedTxV0 {
     );
 
     final messageBytes = reader.buf.buffer.asUint8List(reader.offset);
-    final txData = _TxData.decompile(messageBytes);
+    final txData = TxDataV0.decompile(messageBytes);
 
     final signatures = signaturesData.mapIndexed(
       (i, s) => Signature(s, publicKey: txData.accounts[i].pubKey),
@@ -60,10 +62,10 @@ class SignedTxV0 {
 
   List<AccountMeta> get accounts => _txData.accounts.toList();
 
-  List<MessageAddressTableLookup> get addressTableLookup =>
-      _txData.addressTableLookup.toList();
+  List<MessageAddressTableLookup> get addressTableLookups =>
+      _txData.addressTableLookups.toList();
 
-  late final _TxData _txData = _TxData.decompile(messageBytes);
+  late final TxDataV0 _txData = TxDataV0.decompile(messageBytes);
 
   final Iterable<Signature> signatures;
   final ByteArray messageBytes;
@@ -79,18 +81,22 @@ class SignedTxV0 {
   ]);
 
   ByteArray toByteArray() => _data;
+
+  TxDataV0 get txData => _txData;
 }
 
-class _TxData {
-  _TxData({
+class TxDataV0 {
+  //TODO reset to private if not needed
+  TxDataV0({
     required this.header,
     required this.accounts,
     required this.blockhash,
     required this.instructions,
-    required this.addressTableLookup,
+    required this.compiledInstructions,
+    required this.addressTableLookups,
   });
 
-  factory _TxData.decompile(Iterable<int> data) {
+  factory TxDataV0.decompile(Iterable<int> data) {
     final reader =
         BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
 
@@ -143,9 +149,14 @@ class _TxData {
 
     final instructionsLength = reader.readCompactU16Value();
 
-    final instructions = reader.readFixedArray(
+    // final instructions = reader.readFixedArray(
+    //   instructionsLength,
+    //   () => _decompileInstruction(reader, accounts),
+    // );
+
+    final compiledInstruction = reader.readFixedArray(
       instructionsLength,
-      () => _decompileInstruction(reader, accounts),
+      () => _decompileMessageInstruction(reader),
     );
 
     final addressLookUpLength = reader.readCompactU16Value();
@@ -154,12 +165,14 @@ class _TxData {
       () => _decompileAddressTableLookUp(reader),
     );
 
-    return _TxData(
+    return TxDataV0(
       header: header,
       accounts: accounts,
       blockhash: base58encode(blockhash),
-      instructions: instructions,
-      addressTableLookup: addressTableLookups,
+      // instructions: instructions,
+      instructions: [],
+      compiledInstructions: compiledInstruction,
+      addressTableLookups: addressTableLookups,
     );
   }
 
@@ -167,7 +180,94 @@ class _TxData {
   final List<AccountMeta> accounts;
   final String blockhash;
   final List<Instruction> instructions;
-  final List<MessageAddressTableLookup> addressTableLookup;
+  final List<MessageCompiledInstruction> compiledInstructions;
+  final List<MessageAddressTableLookup> addressTableLookups;
+
+  int numAccountKeysFromLookups() {
+    int count = 0;
+    for (final lookup in addressTableLookups) {
+      count += lookup.readonlyIndexes.length + lookup.writableIndexes.length;
+    }
+
+    return count;
+  }
+
+  bool isAccountSigner(int index) => index < header.numRequiredSignatures;
+
+  MessageAccountKeys getAccountKeys({
+    LoadedAddresses? accountKeysFromLookups,
+    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  }) {
+    LoadedAddresses? loadedAddresses;
+
+    if (accountKeysFromLookups != null) {
+      if (numAccountKeysFromLookups() !=
+          accountKeysFromLookups.writable.length +
+              accountKeysFromLookups.readonly.length) {
+        throw Exception(
+          'Failed to get account keys because of a mismatch in the number of account keys from lookups',
+        );
+      }
+
+      loadedAddresses = accountKeysFromLookups;
+    } else if (addressLookupTableAccounts != null) {
+      loadedAddresses = resolveAddressTableLookups(
+        addressLookupTableAccounts: addressLookupTableAccounts,
+      );
+    } else if (addressTableLookups.isNotEmpty) {
+      throw Exception(
+        'Failed to get account keys because address table lookups were not resolved',
+      );
+    }
+
+    return MessageAccountKeys(
+      staticAccountKeys: accounts.map((e) => e.pubKey).toList(),
+      accountKeysFromLookups: loadedAddresses,
+    );
+  }
+
+  LoadedAddresses resolveAddressTableLookups({
+    required List<AddressLookupTableAccount> addressLookupTableAccounts,
+  }) {
+    final LoadedAddresses accountKeysFromLookups =
+        LoadedAddresses(writable: [], readonly: []);
+
+    for (final tableLookup in addressTableLookups) {
+      final tableAccount = addressLookupTableAccounts.firstWhereOrNull(
+        (e) => e.key == tableLookup.accountKey,
+      );
+
+      if (tableAccount == null) {
+        throw Exception(
+          'Failed to find address lookup table account for table key ${tableLookup.accountKey.toBase58()}',
+        );
+      }
+
+      for (final index in tableLookup.writableIndexes) {
+        if (index < tableAccount.state.addresses.length) {
+          accountKeysFromLookups.writable
+              .add(tableAccount.state.addresses[index]);
+        } else {
+          throw Exception(
+            'Failed to find address for index $index in address lookup table ${tableLookup.accountKey.toBase58()}',
+          );
+        }
+      }
+
+      for (final index in tableLookup.readonlyIndexes) {
+        if (index < tableAccount.state.addresses.length) {
+          accountKeysFromLookups.readonly
+              .add(tableAccount.state.addresses[index]);
+        } else {
+          throw Exception(
+            'Failed to find address for index $index in address lookup table ${tableLookup.accountKey.toBase58()}',
+          );
+        }
+      }
+    }
+
+    return accountKeysFromLookups;
+  }
 }
 
 extension on BinaryReader {
@@ -202,6 +302,22 @@ Instruction _decompileInstruction(
   return Instruction(
     programId: programId,
     accounts: [],
+    data: ByteArray(reader.readFixedArray(dataLength, reader.readU8)),
+  );
+}
+
+MessageCompiledInstruction _decompileMessageInstruction(BinaryReader reader) {
+  final programIdIndex = reader.readU8();
+
+  final accountKeyIndexesLength = reader.readCompactU16Value();
+  final accountKeyIndexes =
+      reader.readFixedArray(accountKeyIndexesLength, reader.readU8).toList();
+
+  final dataLength = reader.readCompactU16Value();
+
+  return MessageCompiledInstruction(
+    programIdIndex: programIdIndex,
+    accountKeyIndexes: accountKeyIndexes,
     data: ByteArray(reader.readFixedArray(dataLength, reader.readU8)),
   );
 }
