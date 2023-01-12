@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
-import '../../../../core/presentation/utils.dart';
 import '../../../../core/tokens/token.dart';
-import '../../../../core/transactions/create_transaction_link.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -50,15 +48,7 @@ class SwapTile extends StatelessWidget {
         style: subtitleStyle,
       ),
       leading: Assets.icons.outgoing.svg(),
-      onTap: () => activity.data.status.maybeWhen(
-        success: (signature) {
-          final link = Uri.parse(createTransactionLink(signature));
-          context.openLink(link.toString());
-        },
-        orElse: () {
-          context.router.navigate(ProcessSwapRoute(id: activity.id));
-        },
-      ),
+      onTap: () => context.router.navigate(ProcessSwapRoute(id: activity.id)),
     );
   }
 }
