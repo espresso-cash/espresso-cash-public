@@ -6,7 +6,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../data/db/db.dart';
-import '../transaction.dart';
+import '../../models/transaction.dart';
 
 @injectable
 class TxUpdaterRepository {

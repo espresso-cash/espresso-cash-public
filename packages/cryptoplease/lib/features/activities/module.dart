@@ -8,11 +8,6 @@ import '../../core/accounts/module.dart';
 import '../../di.dart';
 import 'src/updater/bloc.dart';
 
-export 'src/components/pending_activities_list.dart';
-export 'src/components/transaction_list.dart';
-export 'src/transaction.dart';
-export 'src/updater/tx_updater_repository.dart' show TransactionRows;
-
 class ActivitiesModule extends SingleChildStatelessWidget {
   const ActivitiesModule({Key? key, Widget? child})
       : super(key: key, child: child);

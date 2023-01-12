@@ -11,7 +11,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../payment_request.dart';
+import '../../../models/payment_request.dart';
 import '../repository.dart';
 
 part 'bloc.freezed.dart';
