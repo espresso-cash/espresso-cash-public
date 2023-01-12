@@ -86,8 +86,17 @@ class _TxData {
   factory _TxData.decompile(Iterable<int> data) {
     final reader =
         BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
+
+    final int numRequiredSignatures = reader.readU8();
+
+    if (numRequiredSignatures != (numRequiredSignatures & 0x7f)) {
+      throw Exception(
+        'Versioned messages must be deserialized with VersionedMessage.deserialize()', //TODO Update where to deserialize
+      );
+    }
+
     final header = MessageHeader(
-      numRequiredSignatures: reader.readU8(),
+      numRequiredSignatures: numRequiredSignatures,
       numReadonlySignedAccounts: reader.readU8(),
       numReadonlyUnsignedAccounts: reader.readU8(),
     );

@@ -135,12 +135,10 @@ Future<void> main() async {
     ];
 
     for (final instruction in instructions) {
-      try {
-        accountKeys.compileInstructions([instruction]);
-        expect(true, false);
-      } on Exception catch (e) {
-        expect(e, isA<Exception>());
-      }
+      expect(
+        () => accountKeys.compileInstructions([instruction]),
+        throwsException,
+      );
     }
   });
 
@@ -157,11 +155,9 @@ Future<void> main() async {
       accountKeysFromLookups: accountKeysFromLookups,
     );
 
-    try {
-      accountKeys.compileInstructions([]);
-      expect(true, false);
-    } on Exception catch (e) {
-      expect(e, isA<Exception>());
-    }
+    expect(
+      () => accountKeys.compileInstructions([]),
+      throwsException,
+    );
   });
 }

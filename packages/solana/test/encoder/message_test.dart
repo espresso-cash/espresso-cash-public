@@ -3,6 +3,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/encoder/message/compiled_keys.dart';
 import 'package:solana/src/encoder/message/message_v0.dart';
 import 'package:test/test.dart';
 
@@ -27,11 +28,10 @@ void main() {
       final decompiledMessage = Message.decompile(compiledMessage);
 
       expect(decompiledMessage, message);
+      expect(decompiledMessage.instructions.length, 1);
     });
-  });
 
-  group('v0', () {
-    test('decompiles message v0', () async {
+    test('cannot decompile v0 message', () async {
       final fundingAccount = await Ed25519HDKeyPair.random();
       final recipientAccount = await Ed25519HDKeyPair.random();
       final payer = await Ed25519HDKeyPair.random();
@@ -49,54 +49,101 @@ void main() {
         feePayer: payer.publicKey,
       );
 
+      expect(() => Message.decompile(compiledMessage), throwsException);
+    });
+  });
+
+  group('v0', () {
+    test('decompiles message v0', () async {
+      final fundingAccount = await Ed25519HDKeyPair.random();
+      final recipientAccount = await Ed25519HDKeyPair.random();
+      final payer = await Ed25519HDKeyPair.random();
+
+      final instruction = SystemInstruction.transfer(
+        fundingAccount: fundingAccount.publicKey,
+        recipientAccount: recipientAccount.publicKey,
+        lamports: 1000,
+      );
+
+      final message = Messagev0.only(instruction);
+
+      final compiledMessage = message.compile(
+        recentBlockhash: base58encode(List.filled(32, 0)),
+        feePayer: payer.publicKey,
+      );
+
       final decompiledMessage = Messagev0.decompile(compiledMessage);
 
       expect(decompiledMessage, message);
+      expect(decompiledMessage.instructions.length, 1);
     });
 
     test('decompiles messagev0 with address look up', () async {
       final keys = await createTestKeys(7);
+      final payer = keys.first;
+
+      final instructions = [
+        Instruction(
+          programId: keys[4],
+          accounts: [
+            createAccountMeta(keys[1], true, true),
+            createAccountMeta(keys[2], true, false),
+            createAccountMeta(keys[3], false, true),
+            createAccountMeta(keys[5], false, true),
+            createAccountMeta(keys[6], false, false),
+          ],
+          data: ByteArray.u8(1),
+        ),
+        Instruction(
+          programId: keys[1],
+          accounts: [],
+          data: ByteArray.u8(2),
+        ),
+        Instruction(
+          programId: keys[3],
+          accounts: [],
+          data: ByteArray.u8(3),
+        ),
+      ];
+
+      final message = Messagev0(instructions: instructions);
 
       final addressLookupTableAccounts = [
         await createTestAddressLookUpTable(keys)
       ];
-
-      final payer = keys[0];
-
-      final message = Messagev0(
-        instructions: [
-          Instruction(
-            programId: keys[4],
-            accounts: [
-              createAccountMeta(keys[1], true, true),
-              createAccountMeta(keys[2], true, false),
-              createAccountMeta(keys[3], false, true),
-              createAccountMeta(keys[5], false, true),
-              createAccountMeta(keys[6], false, false),
-            ],
-            data: ByteArray.u8(1),
-          ),
-          Instruction(
-            programId: keys[1],
-            accounts: [],
-            data: ByteArray.u8(2),
-          ),
-          Instruction(
-            programId: keys[3],
-            accounts: [],
-            data: ByteArray.u8(3),
-          ),
-        ],
-      );
 
       final compiledMessage = message.compile(
         recentBlockhash: base58encode(List.filled(32, 0)),
         feePayer: payer,
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
+
+      final compiledKeys =
+          CompiledKeys.compile(instructions: instructions, payer: payer);
+      final messageComponents = compiledKeys.getMessageComponents();
+
       final decompiledMessage = Messagev0.decompile(compiledMessage);
 
       expect(decompiledMessage, message);
+      // expect(decompiledMessage.instructions, instructions);
+    });
+
+    test('cannot decompile legacy message', () async {
+      final fundingAccount = await Ed25519HDKeyPair.random();
+      final recipientAccount = await Ed25519HDKeyPair.random();
+
+      final message = Message.only(
+        SystemInstruction.transfer(
+          fundingAccount: fundingAccount.publicKey,
+          recipientAccount: recipientAccount.publicKey,
+          lamports: 1000,
+        ),
+      );
+
+      final compiledMessage =
+          message.compile(recentBlockhash: base58encode(List.filled(32, 0)));
+
+      expect(() => Messagev0.decompile(compiledMessage), throwsException);
     });
   });
 }

@@ -68,6 +68,7 @@ class Messagev0 {
       staticAccountKeys: staticAccountKeys,
       accountKeysFromLookups: accountKeysFromLookups,
     );
+    print(accountKeys.length);
     final messageInstructions = accountKeys.compileInstructions(instructions);
 
     const messageVersion0Prefix = 1 << 7;

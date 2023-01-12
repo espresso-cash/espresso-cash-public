@@ -111,7 +111,6 @@ class CompiledKeys {
       numReadonlyUnsignedAccounts: readonlyNonSigners.length,
     );
 
-    // sanity checks
     {
       assert(
         writableSigners.isNotEmpty,
@@ -190,7 +189,7 @@ class CompiledKeys {
         final lookupTableIndex =
             lookupTableEntries.indexWhere((entry) => entry == key);
         if (lookupTableIndex >= 0) {
-          if (lookupTableIndex > 256) {
+          if (lookupTableIndex >= 256) {
             throw Exception('Max lookup table index exceeded');
           }
           lookupTableIndexes.add(lookupTableIndex);

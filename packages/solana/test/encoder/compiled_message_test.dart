@@ -2,6 +2,7 @@ import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/message/message_v0.dart';
+import 'package:solana/src/encoder/signed_tx_v0.dart';
 import 'package:test/test.dart';
 
 Future<void> main() async {
@@ -23,6 +24,14 @@ Future<void> main() async {
       );
 
       expect(compiledMessage.requiredSignatureCount, 1);
+    });
+
+    test('Returns correct transaction version', () {
+      final compiledMessage = message.compile(
+        recentBlockhash: base58encode([0, 0, 0]),
+      );
+
+      expect(compiledMessage.version, TransactionVersion.legacy);
     });
 
     test('Creates compiled message from signed tx', () async {
@@ -59,12 +68,21 @@ Future<void> main() async {
       expect(compiledMessage.requiredSignatureCount, 1);
     });
 
+    test('Returns correct transaction version', () {
+      final compiledMessage = message.compile(
+        recentBlockhash: base58encode([0, 0, 0]),
+        feePayer: fundingAccount.publicKey,
+      );
+
+      expect(compiledMessage.version, TransactionVersion.v0);
+    });
+
     test('Creates compiled message from signed tx', () async {
       final compiledMessage = message.compile(
         recentBlockhash: base58encode([0, 0, 0]),
         feePayer: fundingAccount.publicKey,
       );
-      final signedTx = SignedTx(
+      final signedTx = SignedTxV0(
         messageBytes: compiledMessage.data,
         signatures: [await fundingAccount.sign(compiledMessage.data)],
       );

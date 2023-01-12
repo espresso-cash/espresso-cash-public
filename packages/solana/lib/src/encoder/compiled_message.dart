@@ -20,5 +20,21 @@ class CompiledMessage with _$CompiledMessage {
 
   const CompiledMessage._();
 
-  int get requiredSignatureCount => data.first; //TODO change
+  int get requiredSignatureCount =>
+      version == TransactionVersion.legacy ? data.first : data.elementAt(1);
+
+  TransactionVersion get version {
+    final prefix = data.first;
+
+    final maskedPrefix = prefix & 0x7f;
+
+    return maskedPrefix == prefix
+        ? TransactionVersion.legacy
+        : TransactionVersion.v0;
+  }
+}
+
+enum TransactionVersion {
+  legacy,
+  v0,
 }

@@ -150,12 +150,8 @@ Future<void> main() async {
     }
 
     final compiledKeys = CompiledKeys(payer: keys.first, keyMetaMap: map);
-    try {
-      compiledKeys.getMessageComponents();
-      expect(true, false);
-    } on Exception catch (e) {
-      expect(e, isA<Exception>());
-    }
+
+    expect(compiledKeys.getMessageComponents, throwsException);
   });
 
   test('extractTableLookup', () async {
@@ -239,12 +235,7 @@ Future<void> main() async {
     final lookupTable = await createTestAddressLookUpTable(keys);
     final compiledKeys = CompiledKeys(payer: keys.first, keyMetaMap: map);
 
-    try {
-      compiledKeys.extractTableLookup(lookupTable);
-      expect(true, false);
-    } on Exception catch (e) {
-      expect(e, isA<Exception>());
-    }
+    expect(() => compiledKeys.extractTableLookup(lookupTable), throwsException);
   });
 }
 

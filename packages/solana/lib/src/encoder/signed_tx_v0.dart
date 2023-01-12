@@ -42,10 +42,6 @@ class SignedTxV0 {
     );
 
     final messageBytes = reader.buf.buffer.asUint8List(reader.offset);
-
-    final prefix = messageBytes.first;
-    final maskedPrefix = prefix & 0x7f;
-
     final txData = _TxData.decompile(messageBytes);
 
     final signatures = signaturesData.mapIndexed(
@@ -63,6 +59,9 @@ class SignedTxV0 {
   late final Messagev0 message = Messagev0(instructions: _txData.instructions);
 
   List<AccountMeta> get accounts => _txData.accounts.toList();
+
+  List<MessageAddressTableLookup> get addressTableLookup =>
+      _txData.addressTableLookup.toList();
 
   late final _TxData _txData = _TxData.decompile(messageBytes);
 
@@ -97,6 +96,16 @@ class _TxData {
 
     final prefix = reader.readU8();
     final maskedPrefix = prefix & 0x7f;
+
+    if (prefix == maskedPrefix) {
+      throw Exception('Expected versioned message but received legacy message');
+    }
+
+    if (maskedPrefix != 0) {
+      throw Exception(
+        'Expected version 0 message but received version $maskedPrefix',
+      );
+    }
 
     final header = MessageHeader(
       numRequiredSignatures: reader.readU8(),
@@ -150,7 +159,7 @@ class _TxData {
       accounts: accounts,
       blockhash: base58encode(blockhash),
       instructions: instructions,
-      addressTableLookup: [],
+      addressTableLookup: addressTableLookups,
     );
   }
 
@@ -184,7 +193,9 @@ Instruction _decompileInstruction(
   final accountKeyIndexes =
       reader.readFixedArray(accountKeyIndexesLength, reader.readU8).toList();
 
-  // final accounts = accountKeyIndexes.map((i) => allAccounts[i]).toList(); //ERROR HERE
+  print(accountKeyIndexes);
+
+  // final accounts = accountKeyIndexes.map((i) => allAccounts[i]).toList();
 
   final dataLength = reader.readCompactU16Value();
 
