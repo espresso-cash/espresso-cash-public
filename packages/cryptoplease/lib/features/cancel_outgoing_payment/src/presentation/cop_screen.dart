@@ -9,10 +9,10 @@ import '../../../../../ui/transfer_status/transfer_success.dart';
 import '../../../../l10n/l10n.dart';
 import '../bl/bloc.dart';
 import '../bl/repository.dart';
-import '../payment_cancel.dart';
+import '../cancel_outgoing_payment.dart';
 
-class PaymentCancelScreen extends StatefulWidget {
-  const PaymentCancelScreen({
+class COPScreen extends StatefulWidget {
+  const COPScreen({
     super.key,
     required this.paymentId,
   });
@@ -20,25 +20,25 @@ class PaymentCancelScreen extends StatefulWidget {
   final String paymentId;
 
   @override
-  State<PaymentCancelScreen> createState() => _PaymentCancelScreenState();
+  State<COPScreen> createState() => _COPScreenState();
 }
 
-class _PaymentCancelScreenState extends State<PaymentCancelScreen> {
-  late final Stream<PaymentCancel?> _stream;
+class _COPScreenState extends State<COPScreen> {
+  late final Stream<CancelOutgoingPayment?> _stream;
 
   @override
   void initState() {
     super.initState();
-    _stream = sl<PaymentCancelRepository>().watch(widget.paymentId);
+    _stream = sl<COPRepository>().watch(widget.paymentId);
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<PaymentCancel?>(
+  Widget build(BuildContext context) => StreamBuilder<CancelOutgoingPayment?>(
         stream: _stream,
         builder: (context, state) {
           final cancel = state.data;
 
-          return BlocBuilder<PaymentCancelBloc, PaymentCancelState>(
+          return BlocBuilder<COPBloc, COPState>(
             builder: (context, state) {
               if (cancel == null) return const TransferProgress();
               if (state.contains(cancel.paymentId)) {
@@ -53,8 +53,8 @@ class _PaymentCancelScreenState extends State<PaymentCancelScreen> {
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
                   onRetry: () => context
-                      .read<PaymentCancelBloc>()
-                      .add(PaymentCancelEvent.process(cancel.paymentId)),
+                      .read<COPBloc>()
+                      .add(COPEvent.process(cancel.paymentId)),
                 ),
               );
             },

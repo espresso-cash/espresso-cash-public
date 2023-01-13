@@ -10,42 +10,40 @@ import 'package:solana/solana.dart';
 import '../../../../config.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import '../payment_cancel.dart';
+import '../cancel_outgoing_payment.dart';
 import 'repository.dart';
 
 part 'bloc.freezed.dart';
 
 @freezed
-class PaymentCancelException
-    with _$PaymentCancelException
-    implements Exception {
-  const factory PaymentCancelException.nonCancelable() = _NonCancelable;
-  const factory PaymentCancelException.generic(Exception e) = _Generic;
+class COPException with _$COPException implements Exception {
+  const factory COPException.nonCancelable() = _NonCancelable;
+  const factory COPException.generic(Exception e) = _Generic;
 }
 
-typedef PaymentCancelState = ISet<String>;
+typedef COPState = ISet<String>;
 
 @freezed
-class PaymentCancelEvent with _$PaymentCancelEvent {
-  const factory PaymentCancelEvent.cancelRequested({
+class COPEvent with _$COPEvent {
+  const factory COPEvent.cancelRequested({
     required String paymentId,
     required Ed25519HDKeyPair escrow,
   }) = _CancelRequested;
 
-  const factory PaymentCancelEvent.process(String id) = _Process;
+  const factory COPEvent.process(String id) = _Process;
 }
 
-typedef _Event = PaymentCancelEvent;
-typedef _State = PaymentCancelState;
+typedef _Event = COPEvent;
+typedef _State = COPState;
 typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
 @injectable
-class PaymentCancelBloc extends Bloc<_Event, _State> {
-  PaymentCancelBloc({
+class COPBloc extends Bloc<_Event, _State> {
+  COPBloc({
     @factoryParam required Ed25519HDKeyPair account,
     required CryptopleaseClient client,
-    required PaymentCancelRepository repository,
+    required COPRepository repository,
     required TxSender txSender,
   })  : _account = account,
         _client = client,
@@ -57,7 +55,7 @@ class PaymentCancelBloc extends Bloc<_Event, _State> {
 
   final Ed25519HDKeyPair _account;
   final CryptopleaseClient _client;
-  final PaymentCancelRepository _repository;
+  final COPRepository _repository;
   final TxSender _txSender;
 
   _EventHandler get _handler => (event, emit) => event.map(
@@ -71,7 +69,7 @@ class PaymentCancelBloc extends Bloc<_Event, _State> {
 
     final status = await _createReversalPayment(escrow);
 
-    final cancel = PaymentCancel(
+    final cancel = CancelOutgoingPayment(
       paymentId: paymentId,
       created: DateTime.now(),
       escrow: escrow,
@@ -80,8 +78,8 @@ class PaymentCancelBloc extends Bloc<_Event, _State> {
 
     await _repository.save(cancel);
 
-    if (status is PaymentCancelStatusTxCreated) {
-      add(PaymentCancelEvent.process(paymentId));
+    if (status is COPStatusTxCreated) {
+      add(COPEvent.process(paymentId));
     }
   }
 
@@ -108,8 +106,8 @@ class PaymentCancelBloc extends Bloc<_Event, _State> {
     emit(state.remove(cancel.paymentId));
 
     newStatus.map(
-      txCreated: (_) => add(PaymentCancelEvent.process(cancel.paymentId)),
-      txSent: (_) => add(PaymentCancelEvent.process(cancel.paymentId)),
+      txCreated: (_) => add(COPEvent.process(cancel.paymentId)),
+      txSent: (_) => add(COPEvent.process(cancel.paymentId)),
       success: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
@@ -118,7 +116,7 @@ class PaymentCancelBloc extends Bloc<_Event, _State> {
     );
   }
 
-  Future<PaymentCancelStatus> _createReversalPayment(
+  Future<COPStatus> _createReversalPayment(
     Ed25519HDKeyPair escrow,
   ) async {
     try {
@@ -134,30 +132,30 @@ class PaymentCancelBloc extends Bloc<_Event, _State> {
           .then(SignedTx.decode)
           .then((it) => it.resign(escrow));
 
-      return PaymentCancelStatus.txCreated(tx);
+      return COPStatus.txCreated(tx);
     } on Exception {
-      return const PaymentCancelStatus.txFailure();
+      return const COPStatus.txFailure();
     }
   }
 
-  Future<PaymentCancelStatus> _sendTx(SignedTx tx) async {
+  Future<COPStatus> _sendTx(SignedTx tx) async {
     final result = await _txSender.send(tx);
 
     return result.map(
-      sent: (_) => PaymentCancelStatus.txSent(tx),
-      invalidBlockhash: (_) => const PaymentCancelStatus.txFailure(),
-      failure: (_) => const PaymentCancelStatus.txEscrowFailure(),
-      networkError: (_) => PaymentCancelStatus.txSendFailure(tx),
+      sent: (_) => COPStatus.txSent(tx),
+      invalidBlockhash: (_) => const COPStatus.txFailure(),
+      failure: (_) => const COPStatus.txEscrowFailure(),
+      networkError: (_) => COPStatus.txSendFailure(tx),
     );
   }
 
-  Future<PaymentCancelStatus> _waitTx(SignedTx tx) async {
+  Future<COPStatus> _waitTx(SignedTx tx) async {
     final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => PaymentCancelStatus.success(txId: tx.id),
-      failure: (_) => const PaymentCancelStatus.txEscrowFailure(),
-      networkError: (_) => PaymentCancelStatus.txWaitFailure(tx),
+      success: (_) => COPStatus.success(txId: tx.id),
+      failure: (_) => const COPStatus.txEscrowFailure(),
+      networkError: (_) => COPStatus.txWaitFailure(tx),
     );
   }
 }

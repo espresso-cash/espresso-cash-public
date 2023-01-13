@@ -17,7 +17,7 @@ import '../../../../ui/status_screen.dart';
 import '../../../../ui/status_widget.dart';
 import '../../../../ui/text_button.dart';
 import '../../../../ui/timeline.dart';
-import '../../../cancel_payment/cancel_payment.dart';
+import '../../../cancel_outgoing_payment/cancel_payment.dart';
 import '../../models/outgoing_split_key_payment.dart';
 import '../bl/bloc.dart';
 import '../bl/repository.dart';
@@ -236,7 +236,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                         text: context.l10n.cancelTransfer,
                         variant: CpTextButtonVariant.light,
                         onPressed: () =>
-                            context.cancelPayment(paymentId, escrow),
+                            context.cancelOutgoingPayment(paymentId, escrow),
                       ),
                     ),
                 ],

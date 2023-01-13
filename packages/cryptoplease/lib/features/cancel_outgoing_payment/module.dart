@@ -16,14 +16,14 @@ class PaymentCancelModule extends SingleChildStatelessWidget {
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
-          BlocProvider<PaymentCancelBloc>(
-            create: (context) => sl<PaymentCancelBloc>(
+          BlocProvider<COPBloc>(
+            create: (context) => sl<COPBloc>(
               param1: context.read<MyAccount>().wallet,
             ),
           ),
         ],
         child: LogoutListener(
-          onLogout: (_) => sl<PaymentCancelRepository>().clear(),
+          onLogout: (_) => sl<COPRepository>().clear(),
           child: child,
         ),
       );

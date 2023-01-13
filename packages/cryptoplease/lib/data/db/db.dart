@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../core/transactions/tx_sender.dart';
 import '../../features/activities/db.dart';
 import '../../features/activities/models/transaction.dart';
-import '../../features/cancel_payment/db.dart';
+import '../../features/cancel_outgoing_payment/db.dart';
 import '../../features/favorite_tokens/db.dart';
 import '../../features/incoming_split_key_payments/db.dart';
 import '../../features/incoming_tip_payments/db.dart';
@@ -41,7 +41,7 @@ const _tables = [
   PopularTokenRows,
   OTRows,
   ITRows,
-  PaymentCancelRows,
+  COPRows,
 ];
 
 @lazySingleton
@@ -111,7 +111,7 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.withdrawTxId);
           }
           if (from < 26) {
-            await m.createTable(paymentCancelRows);
+            await m.createTable(cOPRows);
           }
           if (from >= 22 && from < 26) {
             await m.addColumn(oTRows, oTRows.withdrawTxId);
