@@ -224,7 +224,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                           ],
                         ) ??
                         [],
-                  if (escrow != null && paymentId != null)
+                  if (!isProcessing && escrow != null && paymentId != null)
                     Padding(
                       padding: EdgeInsets.only(
                         top: 24,

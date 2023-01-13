@@ -229,7 +229,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                           ],
                         ) ??
                         [],
-                  if (escrow != null && paymentId != null)
+                  if (!isProcessing && escrow != null && paymentId != null)
                     Padding(
                       padding: EdgeInsets.only(
                         top: 24,
