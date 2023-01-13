@@ -19,7 +19,7 @@ class TokenDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Needed to keep dropdown opening downwards
-    final sortedTokens = availableTokens.toList()
+    final availableTokens = this.availableTokens.toList()
       ..sort((t, _) => t == current ? 0 : 1);
 
     const style = TextStyle(
@@ -46,7 +46,7 @@ class TokenDropDown extends StatelessWidget {
         underline: const SizedBox.shrink(),
         onChanged: (it) =>
             it == null || it == current ? ignore : onTokenChanged(it),
-        items: sortedTokens
+        items: availableTokens
             .map(
               (it) => DropdownMenuItem(
                 value: it,
@@ -54,7 +54,7 @@ class TokenDropDown extends StatelessWidget {
               ),
             )
             .toList(),
-        selectedItemBuilder: (context) => sortedTokens
+        selectedItemBuilder: (context) => availableTokens
             .map((it) => _Item(label: it.symbol, selected: true))
             .toList(),
       ),
