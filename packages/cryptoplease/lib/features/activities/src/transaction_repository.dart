@@ -9,6 +9,8 @@ import 'package:solana/solana.dart';
 
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
+import '../../outgoing_split_key_payments/db.dart';
+import '../../outgoing_tip_payments/db.dart';
 import '../models/transaction.dart';
 import 'activity.dart';
 import 'activity_builder.dart';
@@ -64,13 +66,21 @@ class TransactionRepository {
     if (swap != null) return swap;
 
     final ot = await _db.oTRows.findActivityOrNull(
-      (row) => row.txId.equals(txId) | row.withdrawTxId.equals(txId),
+      (row) =>
+          row.txId.equals(txId) &
+          (row.status.equalsValue(OTStatusDto.success) |
+              row.status.equalsValue(OTStatusDto.canceled) |
+              row.status.equalsValue(OTStatusDto.withdrawn)),
       (pr) => pr.toActivity(_tokens),
     );
     if (ot != null) return ot;
 
     final oskp = await _db.oSKPRows.findActivityOrNull(
-      (row) => row.txId.equals(txId) | row.withdrawTxId.equals(txId),
+      (row) =>
+          row.txId.equals(txId) &
+          (row.status.equalsValue(OSKPStatusDto.success) |
+              row.status.equalsValue(OSKPStatusDto.canceled) |
+              row.status.equalsValue(OSKPStatusDto.withdrawn)),
       (pr) => pr.toActivity(_tokens),
     );
     if (oskp != null) return oskp;
