@@ -1,4 +1,6 @@
+import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
+import 'package:solana/src/encoder/byte_array.dart';
 
 class AddressLookupTableState {
   AddressLookupTableState({
@@ -11,7 +13,7 @@ class AddressLookupTableState {
   final BigInt deactivationSlot;
   final int lastExtendedSlot;
   final int lastExtendedSlotStartIndex;
-  final Ed25519HDPublicKey authority;
+  final Ed25519HDPublicKey? authority;
   final List<Ed25519HDPublicKey> addresses;
 }
 
@@ -34,53 +36,44 @@ class AddressLookupTableAccount {
     return state.deactivationSlot == u64Max;
   }
 
-  // TODO
-  // static AddressLookupTableState deserialize(ByteArray accountData) {
-  //   final reader = BinaryReader(
-  //     Uint8List.fromList(accountData.toList()).buffer.asByteData(),
-  //   );
+  static AddressLookupTableState deserialize(ByteArray accountData) {
+    final input = Uint8List.fromList(accountData.toList());
+    final reader = BinaryReader(input.buffer.asByteData());
 
-  //   final typeIndex = reader.readU32();
-  //   final deactivationSlot = reader.readU64();
-  //   final lastExtendedSlot = reader.readU64();
-  //   final lastExtendedStartIndex = reader.readU8();
-  //   final authority =
-  //       Ed25519HDPublicKey(reader.readFixedArray(32, reader.readU8));
+    final typeIndex = reader.readU32();
+    final deactivationSlot = reader.readU64();
+    final lastExtendedSlot = reader.readU64();
+    final lastExtendedStartIndex = reader.readU8();
+    final authority = reader
+        .readArray(
+          () => reader.readFixedArray(32, reader.readU8),
+        )
+        .map(Ed25519HDPublicKey.new)
+        .toList();
 
-  //   final int serializedAddressesLen =
-  //       accountData.length - _lookupTableMetaSize;
-  //   assert(serializedAddressesLen >= 0, 'lookup table is invalid');
-  //   assert(serializedAddressesLen % 32 == 0, 'lookup table is invalid');
+    final int serializedAddressesLen =
+        accountData.length - _lookupTableMetaSize;
+    assert(serializedAddressesLen >= 0, 'lookup table is invalid');
+    assert(serializedAddressesLen % 32 == 0, 'lookup table is invalid');
 
-  //   // final int numSerializedAddresses = serializedAddressesLen / 32;
-  //   // final Map<String, dynamic> addressesData =
-  //   //     BufferLayout.struct<Map<String, dynamic>>([
-  //   //   BufferLayout.seq(
-  //   //     Layout.publicKey(),
-  //   //     numSerializedAddresses,
-  //   //     'addresses',
-  //   //   ),
-  //   // ]).decode(accountData.sublist(_lookupTableMetaSize));
+    final int numSerializedAddresses = serializedAddressesLen ~/ 32;
 
-  //   // final List<PublicKey> addresses =
-  //   //     (addressesData['addresses'] as List<Uint8List>)
-  //   //         .map(PublicKey.new)
-  //   //         .toList();
+    final r =
+        BinaryReader(input.sublist(_lookupTableMetaSize).buffer.asByteData());
+    final addresses = r
+        .readFixedArray(
+          numSerializedAddresses,
+          () => reader.readFixedArray(32, reader.readU8),
+        )
+        .map(Ed25519HDPublicKey.new)
+        .toList();
 
-  //   // return AddressLookupTableState(
-  //   //   meta['deactivationSlot'],
-  //   //   meta['lastExtendedSlot'],
-  //   //   meta['lastExtendedStartIndex'],
-  //   //   meta['authority'].length != 0 ? PublicKey(meta['authority'][0]) : null,
-  //   //   addresses,
-  //   // );
-
-  //   return AddressLookupTableState(
-  //     deactivationSlot: deactivationSlot,
-  //     lastExtendedSlot: lastExtendedSlot,
-  //     lastExtendedSlotStartIndex: lastExtendedStartIndex,
-  //     authority: authority,
-  //     addresses: [],
-  //   );
-  // }
+    return AddressLookupTableState(
+      deactivationSlot: deactivationSlot,
+      lastExtendedSlot: lastExtendedSlot.toInt(),
+      lastExtendedSlotStartIndex: lastExtendedStartIndex,
+      authority: authority.isNotEmpty ? authority.first : null,
+      addresses: addresses,
+    );
+  }
 }
