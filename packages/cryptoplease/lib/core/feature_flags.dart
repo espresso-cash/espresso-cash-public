@@ -18,9 +18,4 @@ class FeatureFlagsManager {
     );
     await _remoteConfig.fetchAndActivate();
   }
-
-  bool get isTransactionsTabEnabled =>
-      _remoteConfig.getBool(FeatureFlag.isTransactionsTabEnabled.name);
 }
-
-enum FeatureFlag { isTransactionsTabEnabled }

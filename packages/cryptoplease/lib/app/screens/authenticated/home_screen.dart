@@ -43,19 +43,14 @@ class HomeScreen extends StatelessWidget {
 
 final _pages = [
   _Page(
-    route: const MenuRoute(),
-    overlayStyle: SystemUiOverlayStyle.dark,
-    icon: Assets.icons.profile,
+    route: const InvestmentsRouter(),
+    overlayStyle: SystemUiOverlayStyle.light,
+    icon: Assets.icons.investments,
   ),
   _Page(
     route: const WalletFlowRoute(),
     overlayStyle: SystemUiOverlayStyle.light,
     icon: Assets.icons.wallet,
-  ),
-  _Page(
-    route: const InvestmentsRouter(),
-    overlayStyle: SystemUiOverlayStyle.light,
-    icon: Assets.icons.investments,
   ),
   _Page(
     route: const ActivitiesRoute(),
