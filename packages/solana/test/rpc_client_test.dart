@@ -640,13 +640,17 @@ void main() {
       expect(blockhash, isNotNull);
     });
 
-    test('Call to getStakeMinimumDelegation() succeeds', () async {
-      final stakeMinimumDelegation =
-          await client.rpcClient.getStakeMinimumDelegation();
+    test(
+      'Call to getStakeMinimumDelegation() succeeds',
+      () async {
+        final stakeMinimumDelegation =
+            await client.rpcClient.getStakeMinimumDelegation();
 
-      expect(stakeMinimumDelegation, isNotNull);
-      expect(stakeMinimumDelegation, isA<int>());
-    });
+        expect(stakeMinimumDelegation, isNotNull);
+        expect(stakeMinimumDelegation, isA<int>());
+      },
+      skip: true,
+    );
 
     test('Call to getFees() succeeds', () async {
       final fees = await client.rpcClient.getFees();

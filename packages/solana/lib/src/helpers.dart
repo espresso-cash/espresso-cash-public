@@ -57,7 +57,7 @@ Future<SignedTx> signTransaction(
     feePayer: signers.first.publicKey,
   );
 
-  return _signTransaction(
+  return _signCompiledMessage(
     compiledMessage,
     signers,
   );
@@ -79,13 +79,13 @@ Future<SignedTx> signV0Transaction(
     addressLookupTableAccounts: addressLookupTableAccounts,
   );
 
-  return _signTransaction(
+  return _signCompiledMessage(
     compiledMessage,
     signers,
   );
 }
 
-Future<SignedTx> _signTransaction(
+Future<SignedTx> _signCompiledMessage(
   CompiledMessage compiledMessage,
   List<Ed25519HDKeyPair> signers,
 ) async {
