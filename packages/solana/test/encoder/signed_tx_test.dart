@@ -111,7 +111,7 @@ void main() {
         Instruction(
           programId: keys[3],
           accounts: [
-            createAccountMeta(keys[0], true, true),
+            createAccountMeta(keys.first, true, true),
             createAccountMeta(keys[1], true, false),
             createAccountMeta(keys[2], false, true),
             createAccountMeta(keys[4], false, true),
@@ -120,7 +120,7 @@ void main() {
           data: ByteArray.u8(1),
         ),
         Instruction(
-          programId: keys[0],
+          programId: keys.first,
           accounts: [],
           data: ByteArray.u8(2),
         ),

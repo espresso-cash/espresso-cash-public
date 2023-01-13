@@ -7,7 +7,6 @@ import 'package:solana/src/constants.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compact_u16.dart';
 import 'package:solana/src/encoder/encoder.dart';
-import 'package:solana/src/encoder/message/account_keys.dart';
 import 'package:solana/src/encoder/message_header.dart';
 import 'package:solana/src/encoder/transaction/legacy.dart';
 

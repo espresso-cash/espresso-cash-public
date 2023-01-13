@@ -113,6 +113,20 @@ class StubSignedTx implements SignedTx {
 
   @override
   ByteArray toByteArray() => throw UnimplementedError();
+
+  @override
+  Message decodeMessage({
+    LoadedAddresses? accountKeysFromLookups,
+    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
+  TxData get txData => throw UnimplementedError();
+
+  @override
+  TransactionVersion get version => throw UnimplementedError();
 }
 
 @freezed

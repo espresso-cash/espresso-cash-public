@@ -1,6 +1,5 @@
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/encoder/message/account_keys.dart';
 import 'package:solana/src/encoder/message/compiled_keys.dart';
 import 'package:test/test.dart';
 
@@ -55,11 +54,11 @@ Future<void> main() async {
 
     final Map<String, CompiledKeyMeta> map = {};
     _setMapEntry(map, payer.publicKey, true, true, false);
-    _setMapEntry(map, keys[0], false, false, false);
+    _setMapEntry(map, keys.first, false, false, false);
     _setMapEntry(map, keys[1], true, false, false);
     _setMapEntry(map, keys[2], false, true, false);
     _setMapEntry(map, keys[3], true, true, false);
-    _setMapEntry(map, programIds[0], false, false, true);
+    _setMapEntry(map, programIds.first, false, false, true);
     _setMapEntry(map, programIds[1], true, false, true);
     _setMapEntry(map, programIds[2], false, true, true);
     _setMapEntry(map, programIds[3], true, true, true);
@@ -198,7 +197,7 @@ Future<void> main() async {
   test('extractTableLookup no extractable keys found', () async {
     final keys = await createTestKeys(6);
     final Map<String, CompiledKeyMeta> map = {};
-    _setMapEntry(map, keys[0], true, true, false);
+    _setMapEntry(map, keys.first, true, true, false);
     _setMapEntry(map, keys[1], true, false, false);
     _setMapEntry(map, keys[2], true, true, true);
     _setMapEntry(map, keys[3], true, false, true);
