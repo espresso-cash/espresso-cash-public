@@ -1,4 +1,3 @@
-import 'package:cryptoplease/app/screens/authenticated/profile/menu_screen.dart';
 import 'package:cryptoplease/app/screens/authenticated/wallet_flow/wallet_flow_screen.dart';
 import 'package:cryptoplease/core/accounts/bl/account.dart';
 import 'package:cryptoplease/core/amount.dart';
@@ -9,8 +8,8 @@ import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/user_preferences.dart';
 import 'package:cryptoplease/features/app_lock/src/bl/app_lock_bloc.dart';
-import 'package:cryptoplease/features/onboarding/src/presentation/get_started_screen.dart';
-import 'package:cryptoplease/features/onboarding/src/presentation/no_email_and_password_screen.dart';
+import 'package:cryptoplease/features/onboarding/src/widgets/get_started_screen.dart';
+import 'package:cryptoplease/features/onboarding/src/widgets/no_email_and_password_screen.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -93,11 +92,6 @@ void main() {
       reset(balancesBloc);
       reset(appLockBloc);
     });
-
-    testGoldensWidget(
-      'MenuScreen',
-      withProviders(const Scaffold(body: MenuScreen())),
-    );
 
     testGoldensWidget(
       'WalletFlowScreen',

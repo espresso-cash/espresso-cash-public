@@ -1,3 +1,20 @@
+## 1.58.1
+
+ - **FIX**: show low value decimal numbers (#685).
+ - **FIX**: update investments layout (#699).
+ - **FIX**: investment screen fixes (#698).
+
+## 1.58.0
+
+ - **REFACTOR**: restructure modules (#697).
+ - **FIX**: update incoming transfer success message (#686).
+ - **FIX**: clear tip db on logout (#684).
+ - **FEAT**: enable transactions tab.
+ - **FEAT**: investment page redesign (#695).
+ - **FEAT**: allow user to enter recipient address manually (#675).
+ - **FEAT**: improve transaction list for oskp (#634).
+ - **FEAT**: improve buy and sell ux (#679).
+
 ## 1.57.0
 
  - **FEAT**: add token search (#654).

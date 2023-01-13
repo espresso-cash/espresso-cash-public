@@ -9,10 +9,6 @@ import '../../di.dart';
 import 'src/bl/bloc.dart';
 import 'src/bl/repository.dart';
 
-export 'src/bl/bloc.dart';
-export 'src/data/popular_token_cache.dart';
-export 'src/popular_token_list.dart';
-
 class PopularTokensModule extends SingleChildStatelessWidget {
   const PopularTokensModule({Key? key, Widget? child})
       : super(key: key, child: child);

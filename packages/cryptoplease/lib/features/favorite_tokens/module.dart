@@ -7,11 +7,6 @@ import '../../di.dart';
 import 'src/bl/bloc.dart';
 import 'src/bl/repository.dart';
 
-export 'src/bl/bloc.dart';
-export 'src/bl/repository.dart';
-export 'src/favorite_button.dart';
-export 'src/favorite_tokens_list.dart';
-
 class FavoriteTokensModule extends SingleChildStatelessWidget {
   const FavoriteTokensModule({Key? key, Widget? child})
       : super(key: key, child: child);
