@@ -45,8 +45,8 @@ extension RpcClientExt on RpcClient {
     String? until,
     Commitment? commitment,
     Encoding? encoding,
-    num? maxSupportedTransactionVersion,
-    num? minContextSlot,
+    // num? maxSupportedTransactionVersion,
+    // num? minContextSlot,
   }) async {
     final signatures = await getSignaturesForAddress(
       address.toBase58(),
@@ -54,7 +54,7 @@ extension RpcClientExt on RpcClient {
       before: before,
       until: until,
       commitment: commitment,
-      minContextSlot: minContextSlot,
+      // minContextSlot: minContextSlot,
     );
 
     if (signatures.isEmpty) return [];
@@ -63,7 +63,7 @@ extension RpcClientExt on RpcClient {
       signatures,
       commitment: commitment,
       encoding: encoding ?? Encoding.jsonParsed,
-      maxSupportedTransactionVersion: maxSupportedTransactionVersion,
+      // maxSupportedTransactionVersion: maxSupportedTransactionVersion,
     );
   }
 
@@ -88,7 +88,7 @@ extension RpcClientExt on RpcClient {
               GetTransactionConfig(
                 encoding: encoding,
                 commitment: commitment,
-                maxSupportedTransactionVersion: maxSupportedTransactionVersion,
+                // maxSupportedTransactionVersion: maxSupportedTransactionVersion,
               ).toJson(),
             ],
           )

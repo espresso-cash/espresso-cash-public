@@ -1,11 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
-import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/message/account_keys.dart';
 import 'package:solana/src/encoder/message/compiled_keys.dart';
-import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/message_header.dart';
 
 /// This is an implementation of the [Message Format][1].

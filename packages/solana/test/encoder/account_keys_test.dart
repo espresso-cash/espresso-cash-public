@@ -1,7 +1,6 @@
 import 'package:solana/encoder.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message/account_keys.dart';
-import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:test/test.dart';
 
 import 'util.dart';

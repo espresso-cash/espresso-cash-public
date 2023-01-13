@@ -1,7 +1,6 @@
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/encoder/transaction/version.dart';
 import 'package:test/test.dart';
 
 Future<void> main() async {

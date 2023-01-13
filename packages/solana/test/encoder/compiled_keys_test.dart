@@ -2,7 +2,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/message/account_keys.dart';
 import 'package:solana/src/encoder/message/compiled_keys.dart';
-import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:test/test.dart';
 
 import 'util.dart';

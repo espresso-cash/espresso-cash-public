@@ -4,15 +4,12 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/constants.dart';
-import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compact_u16.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/encoder/message/account_keys.dart';
 import 'package:solana/src/encoder/message_header.dart';
 import 'package:solana/src/encoder/transaction/legacy.dart';
-import 'package:solana/src/encoder/transaction/v0.dart';
-import 'package:solana/src/encoder/transaction/version.dart';
 
 /// Represents a signed transaction that consists of the transaction message and
 /// an array of signatures. The array of signatures must be populated following
