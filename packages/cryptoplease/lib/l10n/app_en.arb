@@ -486,5 +486,11 @@
         "type": "String"
       }
     }
-  }
+  },
+  "cancelTransfer": "Cancel transfer",
+  "sentViaLink": "Sent via link",
+  "transferCanceled": "Transfer canceled",
+  "tipViaQrCode": "Tip via QR Code",
+  "tipCanceled": "Tip canceled",
+  "cancelTip": "Cancel tip"
 }

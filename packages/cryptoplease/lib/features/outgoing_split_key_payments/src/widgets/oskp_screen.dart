@@ -15,7 +15,9 @@ import '../../../../ui/button.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/status_screen.dart';
 import '../../../../ui/status_widget.dart';
+import '../../../../ui/text_button.dart';
 import '../../../../ui/timeline.dart';
+import '../../../cancel_payment/cancel_payment.dart';
 import '../../models/outgoing_split_key_payment.dart';
 import '../bl/bloc.dart';
 import '../bl/repository.dart';
@@ -69,6 +71,17 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           final isProcessing = payment != null &&
               context.watch<OSKPBloc>().state.contains(payment.id);
+
+          final paymentId = payment?.id;
+          final escrow = payment?.status.mapOrNull(
+            txCreated: (it) => it.escrow,
+            txSent: (it) => it.escrow,
+            txConfirmed: (it) => it.escrow,
+            linksReady: (it) => it.escrow,
+            txSendFailure: (it) => it.escrow,
+            txWaitFailure: (it) => it.escrow,
+            txLinksFailure: (it) => it.escrow,
+          );
 
           final CpStatusType statusType = isProcessing
               ? CpStatusType.info
@@ -212,10 +225,20 @@ class _OSKPScreenState extends State<OSKPScreen> {
                                   status: s,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ) ??
                         [],
+                  if (escrow != null && paymentId != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24),
+                      child: CpTextButton(
+                        text: context.l10n.cancelTransfer,
+                        variant: CpTextButtonVariant.light,
+                        onPressed: () =>
+                            context.cancelPayment(paymentId, escrow),
+                      ),
+                    ),
                 ],
               ),
             ),

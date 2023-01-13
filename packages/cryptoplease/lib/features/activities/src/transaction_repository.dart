@@ -63,6 +63,12 @@ class TransactionRepository {
     );
     if (swap != null) return swap;
 
+    final ot = await _db.oTRows.findActivityOrNull(
+      (row) => row.txId.equals(txId) | row.withdrawTxId.equals(txId),
+      (pr) => pr.toActivity(_tokens),
+    );
+    if (ot != null) return ot;
+
     final oskp = await _db.oSKPRows.findActivityOrNull(
       (row) => row.txId.equals(txId) | row.withdrawTxId.equals(txId),
       (pr) => pr.toActivity(_tokens),
