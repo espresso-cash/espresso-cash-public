@@ -3,7 +3,6 @@ import 'package:solana/solana.dart';
 import 'package:solana/src/base58/base58.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/instruction.dart';
-import 'package:solana/src/encoder/message/message_v0.dart';
 import 'package:test/test.dart';
 
 import 'util.dart';
@@ -35,7 +34,7 @@ void main() {
       final recipientAccount = await Ed25519HDKeyPair.random();
       final payer = await Ed25519HDKeyPair.random();
 
-      final message = Messagev0.only(
+      final message = Message.only(
         SystemInstruction.transfer(
           fundingAccount: fundingAccount.publicKey,
           recipientAccount: recipientAccount.publicKey,
@@ -43,7 +42,7 @@ void main() {
         ),
       );
 
-      final compiledMessage = message.compile(
+      final compiledMessage = message.compileToV0Message(
         recentBlockhash: base58encode(List.filled(32, 0)),
         feePayer: payer.publicKey,
       );
@@ -64,14 +63,14 @@ void main() {
         lamports: 1000,
       );
 
-      final message = Messagev0.only(instruction);
+      final message = Message.only(instruction);
 
-      final compiledMessage = message.compile(
+      final compiledMessage = message.compileToV0Message(
         recentBlockhash: base58encode(List.filled(32, 0)),
         feePayer: payer.publicKey,
       );
 
-      final decompiledMessage = Messagev0.decompile(compiledMessage);
+      final decompiledMessage = Message.decompileV0Message(compiledMessage);
 
       expect(decompiledMessage, message);
       expect(decompiledMessage.instructions.length, 1);
@@ -105,21 +104,24 @@ void main() {
         ),
       ];
 
-      final message = Messagev0(instructions: instructions);
+      final message = Message(instructions: instructions);
 
       final addressLookupTableAccounts = [
         await createTestAddressLookUpTable(keys)
       ];
 
-      final compiledMessage = message.compile(
+      final compiledMessage = message.compileToV0Message(
         recentBlockhash: base58encode(List.filled(32, 0)),
         feePayer: payer,
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
 
-      expect(() => Messagev0.decompile(compiledMessage), throwsException);
+      expect(
+        () => Message.decompileV0Message(compiledMessage),
+        throwsException,
+      );
 
-      final decompiledMessage = Messagev0.decompile(
+      final decompiledMessage = Message.decompileV0Message(
         compiledMessage,
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
@@ -143,7 +145,7 @@ void main() {
       final compiledMessage =
           message.compile(recentBlockhash: base58encode(List.filled(32, 0)));
 
-      expect(() => Messagev0.decompile(compiledMessage), throwsException);
+      expect(() => Message.decompile(compiledMessage), throwsException);
     });
   });
 }

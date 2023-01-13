@@ -1,7 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
+import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 import 'package:solana/src/encoder/compact_array.dart';
+import 'package:solana/src/encoder/message/account_keys.dart';
+import 'package:solana/src/encoder/message/compiled_keys.dart';
+import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/message_header.dart';
 
 /// This is an implementation of the [Message Format][1].
@@ -20,6 +24,23 @@ class Message {
     final tx = SignedTx(messageBytes: compiledMessage.data);
 
     return tx.message;
+  }
+
+  factory Message.decompileV0Message(
+    CompiledMessage compiledMessage, {
+    LoadedAddresses? accountKeysFromLookups,
+    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  }) {
+    final tx = SignedTx(messageBytes: compiledMessage.data);
+
+    print(accountKeysFromLookups);
+    print(addressLookupTableAccounts);
+
+    return tx.message;
+    // return tx.message(
+    //   accountKeysFromLookups: accountKeysFromLookups,
+    //   addressLookupTableAccounts: addressLookupTableAccounts,
+    // );
   }
 
   final List<Instruction> instructions;
@@ -51,6 +72,69 @@ class Message {
         CompactArray.fromIterable(keys).toByteArray(),
         ByteArray.fromBase58(recentBlockhash),
         CompactArray.fromIterable(compiledInstructions).toByteArray(),
+      ]),
+    );
+  }
+
+  CompiledMessage compileToV0Message({
+    required String recentBlockhash,
+    required Ed25519HDPublicKey feePayer,
+    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  }) {
+    final compiledKeys =
+        CompiledKeys.compile(instructions: instructions, payer: feePayer);
+
+    final addressTableLookups = <MessageAddressTableLookup>[];
+    final accountKeysFromLookups = LoadedAddresses(writable: [], readonly: []);
+
+    final lookupTableAccounts = addressLookupTableAccounts ?? [];
+
+    for (final lookupTable in lookupTableAccounts) {
+      final extractResult = compiledKeys.extractTableLookup(lookupTable);
+      if (extractResult != null) {
+        final addressTableLookup = extractResult.lookup;
+        final writable = extractResult.keys.writable;
+        final readonly = extractResult.keys.readonly;
+        addressTableLookups.add(addressTableLookup);
+        accountKeysFromLookups.writable.addAll(writable);
+        accountKeysFromLookups.readonly.addAll(readonly);
+      }
+    }
+
+    final messageComponents = compiledKeys.getMessageComponents();
+    final staticAccountKeys = messageComponents.publicKeys;
+    final accountKeys = MessageAccountKeys(
+      staticAccountKeys: staticAccountKeys,
+      accountKeysFromLookups: accountKeysFromLookups,
+    );
+
+    final messageInstructions = accountKeys.compileInstructions(instructions);
+
+    const messageVersion0Prefix = 1 << 7;
+    final keys = staticAccountKeys.map((e) => e.toByteArray());
+    final compiledInstructions = messageInstructions.map(
+      (i) => ByteArray.merge([
+        ByteArray.u8(i.programIdIndex),
+        CompactArray(ByteArray(i.accountKeyIndexes)).toByteArray(),
+        CompactArray(i.data).toByteArray(),
+      ]),
+    );
+    final compiledAddressTableLookups = addressTableLookups.map(
+      (e) => ByteArray.merge([
+        e.accountKey.toByteArray(),
+        CompactArray(ByteArray(e.writableIndexes)).toByteArray(),
+        CompactArray(ByteArray(e.readonlyIndexes)).toByteArray(),
+      ]),
+    );
+
+    return CompiledMessage(
+      ByteArray.merge([
+        ByteArray.u8(messageVersion0Prefix),
+        messageComponents.header.toByteArray(),
+        CompactArray.fromIterable(keys).toByteArray(),
+        ByteArray.fromBase58(recentBlockhash),
+        CompactArray.fromIterable(compiledInstructions).toByteArray(),
+        CompactArray.fromIterable(compiledAddressTableLookups).toByteArray(),
       ]),
     );
   }

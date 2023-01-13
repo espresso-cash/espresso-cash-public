@@ -2,9 +2,7 @@ import 'package:solana/base58.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/instruction.dart';
-import 'package:solana/src/encoder/message/message_v0.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
-import 'package:solana/src/encoder/signed_tx_v0.dart';
 import 'package:test/test.dart';
 
 import 'util.dart';
@@ -63,7 +61,7 @@ void main() {
       final fundingAccount = await Ed25519HDKeyPair.random();
       final recipientAccount = await Ed25519HDKeyPair.random();
 
-      final message = Messagev0.only(
+      final message = Message.only(
         SystemInstruction.transfer(
           fundingAccount: fundingAccount.publicKey,
           recipientAccount: recipientAccount.publicKey,
@@ -73,22 +71,23 @@ void main() {
 
       final blockhash = base58encode(List.filled(32, 0));
 
-      final compiledMessage = message.compile(
+      final compiledMessage = message.compileToV0Message(
         recentBlockhash: blockhash,
         feePayer: fundingAccount.publicKey,
       );
 
-      final tx = SignedTxV0(
+      final tx = SignedTx(
         messageBytes: compiledMessage.data,
         signatures: [await fundingAccount.sign(compiledMessage.data)],
       );
       final encoded = tx.encode();
 
-      final decoded = SignedTxV0.decode(encoded);
+      final decoded = SignedTx.decode(encoded);
 
       expect(
-        decoded.message(),
-        isA<Messagev0>()
+        // decoded.message(),
+        '', //TODO MESSAGE
+        isA<Message>()
             .having((m) => m.instructions.length, 'number of instructions', 1)
             .having(
               (m) => m.instructions.first.accounts.length,
@@ -130,7 +129,7 @@ void main() {
         ),
       ];
 
-      final message = Messagev0(instructions: instructions);
+      final message = Message(instructions: instructions);
 
       final addressLookupTableAccounts = [
         await createTestAddressLookUpTable(keys)
@@ -138,23 +137,24 @@ void main() {
 
       final blockhash = base58encode(List.filled(32, 0));
 
-      final compiledMessage = message.compile(
+      final compiledMessage = message.compileToV0Message(
         recentBlockhash: blockhash,
         feePayer: payer.publicKey,
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
 
-      final tx = SignedTxV0(
+      final tx = SignedTx(
         messageBytes: compiledMessage.data,
         signatures: [await payer.sign(compiledMessage.data)],
       );
       final encoded = tx.encode();
 
-      final decoded = SignedTxV0.decode(encoded);
+      final decoded = SignedTx.decode(encoded);
 
       expect(
-        decoded.message(addressLookupTableAccounts: addressLookupTableAccounts),
-        isA<Messagev0>()
+        // decoded.message(addressLookupTableAccounts: addressLookupTableAccounts),
+        '', //TODO MESSAGE
+        isA<Message>()
             .having((m) => m.instructions.length, 'number of instructions', 3)
             .having(
               (m) => m.instructions.first.accounts.length,

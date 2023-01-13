@@ -4,7 +4,6 @@ import 'package:bip39/bip39.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/encoder/message/message_v0.dart';
 import 'package:test/test.dart';
 
 import 'config.dart';
@@ -193,9 +192,9 @@ void main() {
         lamports: _transferredAmount,
       );
 
-      final message = Messagev0.only(instruction);
+      final message = Message.only(instruction);
 
-      final compiledMessage = message.compile(
+      final compiledMessage = message.compileToV0Message(
         recentBlockhash: recentBlockhash.blockhash,
         feePayer: source.publicKey,
       );
