@@ -1,21 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/accounts/bl/account.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/balances/presentation/watch_balance.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
+import '../../../../../features/ramp/ramp_off.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
-import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/info_icon.dart';
 import '../../../../../ui/token_icon.dart';
-import '../../profile/components/off_ramp_bottom_sheet.dart';
 
 class InvestmentHeader extends StatelessWidget {
   const InvestmentHeader({super.key});
@@ -27,18 +24,13 @@ class InvestmentHeader extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
         child: Column(
-          children: [
-            const _Info(),
-            const _Balance(),
-            const Divider(color: Color(0xff4B4B4B), height: 8),
-            _Buttons(
-              onAddCash: () => context.router.navigate(
-                OnRampRoute(
-                  wallet: context.read<MyAccount>().wallet,
-                  token: Token.usdc,
-                ),
-              ),
-              onCashOut: () => OffRampBottomSheet.show(context),
+          children: const [
+            _Info(),
+            _Balance(),
+            Divider(color: Color(0xff4B4B4B), height: 8),
+            Padding(
+              padding: EdgeInsets.only(bottom: 16, top: 8.0),
+              child: RampButtons(),
             ),
           ],
         ),
@@ -164,42 +156,4 @@ class _Balance extends StatelessWidget {
       ),
     );
   }
-}
-
-class _Buttons extends StatelessWidget {
-  const _Buttons({
-    Key? key,
-    required this.onAddCash,
-    required this.onCashOut,
-  }) : super(key: key);
-
-  final VoidCallback onAddCash;
-  final VoidCallback onCashOut;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-              child: CpButton(
-                text: context.l10n.addCash,
-                size: CpButtonSize.normal,
-                minWidth: MediaQuery.of(context).size.width,
-                onPressed: onAddCash,
-              ),
-            ),
-            const SizedBox.square(dimension: 16),
-            Expanded(
-              child: CpButton(
-                text: context.l10n.cashOut,
-                size: CpButtonSize.normal,
-                minWidth: MediaQuery.of(context).size.width,
-                onPressed: onCashOut,
-              ),
-            ),
-          ],
-        ),
-      );
 }

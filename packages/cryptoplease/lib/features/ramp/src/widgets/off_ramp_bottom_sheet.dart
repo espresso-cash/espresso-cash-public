@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/button.dart';
-import '../../../../../ui/colors.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/colors.dart';
 
 class OffRampBottomSheet extends StatelessWidget {
   const OffRampBottomSheet({Key? key}) : super(key: key);
