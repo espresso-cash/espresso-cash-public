@@ -121,13 +121,13 @@ jobs:
     needs: [formatting]
     runs-on: ubuntu-latest
     env:
-      SCOPE: --scope="solana_mobile_*"
+      SCOPE: --scope="solana_mobile_*" --scope="solana_seed_vault"
     steps:
       - uses: actions/checkout@v2
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.3.0"
+          flutter-version: "3.3.10"
 
       - name: Activate melos
         run: make activate_melos

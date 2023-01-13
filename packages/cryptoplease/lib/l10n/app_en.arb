@@ -470,5 +470,21 @@
   "cryptoCashBalance": "Crypto Cash\nBalance",
   "usdcInfo": "The US Dollar Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar. ($1 = 1USDC)",
   "cryptoInvestments": "Crypto\nInvestments",
-  "moneyReceived": "Money has been received"
+  "moneyReceived": "Money has been received",
+  "boughtToken": "Bought {amount}",
+  "@boughtToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "soldToken": "Sold {amount}",
+  "@soldToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

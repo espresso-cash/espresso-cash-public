@@ -8,6 +8,7 @@ import 'odp_tile.dart';
 import 'oskp_tile.dart';
 import 'ot_tile.dart';
 import 'payment_request_tile.dart';
+import 'swap_tile.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
@@ -56,6 +57,10 @@ class _TransactionItemState extends State<TransactionItem> {
                 activity: p,
               ),
               outgoingTipPayment: (p) => OTTile(
+                key: ValueKey(p.id),
+                activity: p,
+              ),
+              swap: (p) => SwapTile(
                 key: ValueKey(p.id),
                 activity: p,
               ),

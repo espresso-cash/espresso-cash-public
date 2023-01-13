@@ -13,6 +13,7 @@ import '../src/widgets/odp_tile.dart';
 import '../src/widgets/oskp_tile.dart';
 import '../src/widgets/ot_tile.dart';
 import '../src/widgets/payment_request_tile.dart';
+import '../src/widgets/swap_tile.dart';
 
 class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({
@@ -83,6 +84,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                           activity: p,
                         ),
                         outgoingTipPayment: (p) => OTTile(
+                          key: ValueKey(p.id),
+                          activity: p,
+                        ),
+                        swap: (p) => SwapTile(
                           key: ValueKey(p.id),
                           activity: p,
                         ),
