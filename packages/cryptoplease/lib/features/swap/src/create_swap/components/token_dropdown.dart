@@ -1,9 +1,10 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/tokens/token.dart';
 import '../../../../../ui/colors.dart';
 
-class TokenDropDown extends StatefulWidget {
+class TokenDropDown extends StatelessWidget {
   const TokenDropDown({
     Key? key,
     required this.current,
@@ -16,27 +17,10 @@ class TokenDropDown extends StatefulWidget {
   final Iterable<Token> availableTokens;
 
   @override
-  State<TokenDropDown> createState() => _TokenDropDownState();
-}
-
-class _TokenDropDownState extends State<TokenDropDown> {
-  late List<Token> tokens;
-
-  @override
-  void initState() {
-    super.initState();
-    tokens = widget.availableTokens.toList();
-  }
-
-  void _onChanged(Token? token) {
-    if (token == null || token == widget.current) return;
-    widget.onTokenChanged(token);
-  }
-
-  @override
   Widget build(BuildContext context) {
     // Needed to keep dropdown opening downwards
-    tokens.sort((t, _) => t == widget.current ? 0 : 1);
+    final sortedTokens = availableTokens.toList()
+      ..sort((t, _) => t == current ? 0 : 1);
 
     const style = TextStyle(
       fontSize: 15,
@@ -52,7 +36,7 @@ class _TokenDropDownState extends State<TokenDropDown> {
         color: CpColors.greenDropdownEnabled,
       ),
       child: DropdownButton<Token>(
-        value: widget.current,
+        value: current,
         style: style,
         elevation: 0,
         isExpanded: true,
@@ -60,16 +44,17 @@ class _TokenDropDownState extends State<TokenDropDown> {
         dropdownColor: Colors.transparent,
         icon: const SizedBox.shrink(),
         underline: const SizedBox.shrink(),
-        onChanged: _onChanged,
-        items: tokens
+        onChanged: (it) =>
+            it == null || it == current ? ignore : onTokenChanged(it),
+        items: sortedTokens
             .map(
               (it) => DropdownMenuItem(
                 value: it,
-                child: _Item(label: it.symbol, selected: it == widget.current),
+                child: _Item(label: it.symbol, selected: it == current),
               ),
             )
             .toList(),
-        selectedItemBuilder: (context) => tokens
+        selectedItemBuilder: (context) => sortedTokens
             .map((it) => _Item(label: it.symbol, selected: true))
             .toList(),
       ),
