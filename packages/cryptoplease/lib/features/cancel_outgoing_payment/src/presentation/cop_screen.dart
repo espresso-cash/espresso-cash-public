@@ -48,7 +48,7 @@ class _COPScreenState extends State<COPScreen> {
               return cancel.status.maybeMap(
                 success: (_) => TransferSuccess(
                   onOkPressed: () => context.router.pop(),
-                  content: context.l10n.splitKeyProgressCanceled,
+                  content: context.l10n.outgoingPaymentCanceled,
                 ),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),

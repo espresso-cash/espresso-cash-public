@@ -487,6 +487,7 @@
       }
     }
   },
+  "outgoingPaymentCanceled": "Payment has been canceled",
   "cancelTransfer": "Cancel transfer",
   "sentViaLink": "Sent via link",
   "transferCanceled": "Transfer canceled",

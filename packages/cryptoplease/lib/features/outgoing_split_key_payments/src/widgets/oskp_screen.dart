@@ -231,7 +231,10 @@ class _OSKPScreenState extends State<OSKPScreen> {
                         [],
                   if (escrow != null && paymentId != null)
                     Padding(
-                      padding: const EdgeInsets.only(top: 24),
+                      padding: EdgeInsets.only(
+                        top: 24,
+                        bottom: MediaQuery.of(context).padding.bottom + 16,
+                      ),
                       child: CpTextButton(
                         text: context.l10n.cancelTransfer,
                         variant: CpTextButtonVariant.light,

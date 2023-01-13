@@ -12,6 +12,6 @@ extension CancelOutgoingPaymentExt on BuildContext {
       COPEvent.cancelRequested(paymentId: paymentId, escrow: escrow),
     );
 
-    router.push(COPRoute(paymentId: paymentId));
+    router.replace(COPRoute(paymentId: paymentId));
   }
 }
