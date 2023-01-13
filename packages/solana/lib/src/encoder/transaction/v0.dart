@@ -74,9 +74,13 @@ class TxV0 implements TxData {
     );
   }
 
+  @override
   final MessageHeader header;
-  final List<Ed25519HDPublicKey> staticAccountKeys;
+
+  @override
   final String blockhash;
+
+  final List<Ed25519HDPublicKey> staticAccountKeys;
   final List<MessageCompiledInstruction> compiledInstructions;
   final List<MessageAddressTableLookup> addressTableLookups;
 

@@ -3,6 +3,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
+import 'package:solana/src/encoder/transaction/version.dart';
 import 'package:test/test.dart';
 
 import 'util.dart';
@@ -53,6 +54,7 @@ void main() {
           SystemProgram.programId,
         ],
       );
+      expect(decoded.version, TransactionVersion.legacy);
     });
   });
 
@@ -85,8 +87,7 @@ void main() {
       final decoded = SignedTx.decode(encoded);
 
       expect(
-        // decoded.message(),
-        '', //TODO MESSAGE
+        decoded.decodeMessage(),
         isA<Message>()
             .having((m) => m.instructions.length, 'number of instructions', 1)
             .having(
@@ -98,6 +99,7 @@ void main() {
 
       expect(decoded.signatures, tx.signatures);
       expect(decoded.blockhash, blockhash);
+      expect(decoded.version, TransactionVersion.v0);
     });
 
     test('decompiles base64 tx v0 with address look up', () async {
@@ -152,8 +154,9 @@ void main() {
       final decoded = SignedTx.decode(encoded);
 
       expect(
-        // decoded.message(addressLookupTableAccounts: addressLookupTableAccounts),
-        '', //TODO MESSAGE
+        decoded.decodeMessage(
+          addressLookupTableAccounts: addressLookupTableAccounts,
+        ),
         isA<Message>()
             .having((m) => m.instructions.length, 'number of instructions', 3)
             .having(
@@ -165,6 +168,7 @@ void main() {
 
       expect(decoded.signatures, tx.signatures);
       expect(decoded.blockhash, blockhash);
+      expect(decoded.version, TransactionVersion.v0);
     });
   });
 }

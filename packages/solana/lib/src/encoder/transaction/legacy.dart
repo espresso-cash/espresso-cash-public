@@ -74,9 +74,13 @@ class TxLegacy implements TxData {
     );
   }
 
+  @override
   final MessageHeader header;
-  final List<AccountMeta> accounts;
+
+  @override
   final String blockhash;
+
+  final List<AccountMeta> accounts;
   final List<Instruction> instructions;
 }
 

@@ -4,9 +4,12 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/constants.dart';
+import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compact_u16.dart';
 import 'package:solana/src/encoder/encoder.dart';
+import 'package:solana/src/encoder/message/account_keys.dart';
+import 'package:solana/src/encoder/message_header.dart';
 import 'package:solana/src/encoder/transaction/legacy.dart';
 import 'package:solana/src/encoder/transaction/v0.dart';
 import 'package:solana/src/encoder/transaction/version.dart';
@@ -67,21 +70,25 @@ class SignedTx {
 
   String get blockhash => _txData.blockhash;
 
-  late final Message message = Message(instructions: _txData.instructions);
+  late final Message message =
+      Message(instructions: (_txData as TxLegacy).instructions);
 
-//  v0 message decoding
-//  Message message({
-//     LoadedAddresses? accountKeysFromLookups,
-//     List<AddressLookupTableAccount>? addressLookupTableAccounts,
-//   }) =>
-//       _txData.decode(
-//         accountKeysFromLookups: accountKeysFromLookups,
-//         addressLookupTableAccounts: addressLookupTableAccounts,
-//       );
+  Message decodeMessage({
+    LoadedAddresses? accountKeysFromLookups,
+    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  }) =>
+      version == TransactionVersion.legacy
+          ? message
+          : (_txData as TxV0).decode(
+              accountKeysFromLookups: accountKeysFromLookups,
+              addressLookupTableAccounts: addressLookupTableAccounts,
+            );
 
-  List<AccountMeta> get accounts => _txData.accounts.toList();
+  List<AccountMeta> get accounts => (_txData as TxLegacy).accounts.toList();
 
-  late final TxLegacy _txData = TxLegacy.decompile(messageBytes);
+  late final TxData _txData = version == TransactionVersion.legacy
+      ? TxLegacy.decompile(messageBytes)
+      : TxV0.decompile(messageBytes);
 
   final Iterable<Signature> signatures;
   final ByteArray messageBytes;
@@ -122,4 +129,9 @@ extension BinaryReaderExt on BinaryReader {
   }
 }
 
-abstract class TxData {}
+class TxData {
+  TxData({required this.header, required this.blockhash});
+
+  final MessageHeader header;
+  final String blockhash;
+}

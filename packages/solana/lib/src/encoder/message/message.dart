@@ -26,21 +26,17 @@ class Message {
     return tx.message;
   }
 
-  factory Message.decompileV0Message(
+  factory Message.decompileV0(
     CompiledMessage compiledMessage, {
     LoadedAddresses? accountKeysFromLookups,
     List<AddressLookupTableAccount>? addressLookupTableAccounts,
   }) {
     final tx = SignedTx(messageBytes: compiledMessage.data);
 
-    print(accountKeysFromLookups);
-    print(addressLookupTableAccounts);
-
-    return tx.message;
-    // return tx.message(
-    //   accountKeysFromLookups: accountKeysFromLookups,
-    //   addressLookupTableAccounts: addressLookupTableAccounts,
-    // );
+    return tx.decodeMessage(
+      accountKeysFromLookups: accountKeysFromLookups,
+      addressLookupTableAccounts: addressLookupTableAccounts,
+    );
   }
 
   final List<Instruction> instructions;

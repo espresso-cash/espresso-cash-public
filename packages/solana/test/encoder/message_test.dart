@@ -28,27 +28,6 @@ void main() {
       expect(decompiledMessage, message);
       expect(decompiledMessage.instructions.length, 1);
     });
-
-    test('cannot decompile v0 message', () async {
-      final fundingAccount = await Ed25519HDKeyPair.random();
-      final recipientAccount = await Ed25519HDKeyPair.random();
-      final payer = await Ed25519HDKeyPair.random();
-
-      final message = Message.only(
-        SystemInstruction.transfer(
-          fundingAccount: fundingAccount.publicKey,
-          recipientAccount: recipientAccount.publicKey,
-          lamports: 1000,
-        ),
-      );
-
-      final compiledMessage = message.compileToV0Message(
-        recentBlockhash: base58encode(List.filled(32, 0)),
-        feePayer: payer.publicKey,
-      );
-
-      expect(() => Message.decompile(compiledMessage), throwsException);
-    });
   });
 
   group('v0', () {
@@ -70,7 +49,7 @@ void main() {
         feePayer: payer.publicKey,
       );
 
-      final decompiledMessage = Message.decompileV0Message(compiledMessage);
+      final decompiledMessage = Message.decompileV0(compiledMessage);
 
       expect(decompiledMessage, message);
       expect(decompiledMessage.instructions.length, 1);
@@ -117,35 +96,17 @@ void main() {
       );
 
       expect(
-        () => Message.decompileV0Message(compiledMessage),
+        () => Message.decompileV0(compiledMessage),
         throwsException,
       );
 
-      final decompiledMessage = Message.decompileV0Message(
+      final decompiledMessage = Message.decompileV0(
         compiledMessage,
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
 
       expect(decompiledMessage, message);
       expect(decompiledMessage.instructions, instructions);
-    });
-
-    test('cannot decompile legacy message', () async {
-      final fundingAccount = await Ed25519HDKeyPair.random();
-      final recipientAccount = await Ed25519HDKeyPair.random();
-
-      final message = Message.only(
-        SystemInstruction.transfer(
-          fundingAccount: fundingAccount.publicKey,
-          recipientAccount: recipientAccount.publicKey,
-          lamports: 1000,
-        ),
-      );
-
-      final compiledMessage =
-          message.compile(recentBlockhash: base58encode(List.filled(32, 0)));
-
-      expect(() => Message.decompile(compiledMessage), throwsException);
     });
   });
 }
