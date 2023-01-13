@@ -493,5 +493,6 @@
   "transferCanceled": "Transfer canceled",
   "tipViaQrCode": "Tip via QR Code",
   "tipCanceled": "Tip canceled",
-  "cancelTip": "Cancel tip"
+  "cancelTip": "Cancel tip",
+  "paymentRequestCancel": "Cancel request"
 }
