@@ -183,6 +183,43 @@ void main() {
       expect(balance, greaterThan(0));
     });
 
+    test('Transfer SOL to the same address', () async {
+      final recentBlockhash = await client.rpcClient
+          .getRecentBlockhash(commitment: Commitment.confirmed);
+      final instruction = SystemInstruction.transfer(
+        fundingAccount: source.publicKey,
+        recipientAccount: source.publicKey,
+        lamports: _transferredAmount,
+      );
+      final SignedTx signedTx = await source.signMessage(
+        message: Message.only(instruction),
+        recentBlockhash: recentBlockhash.blockhash,
+      );
+      final String signature = await client.rpcClient.sendTransaction(
+        signedTx.encode(),
+        preflightCommitment: Commitment.confirmed,
+      );
+      expect(signature, isNot(null));
+
+      await expectLater(
+        client.waitForSignatureStatus(signature, status: Commitment.confirmed),
+        completes,
+      );
+    });
+
+    test('List recent transactions', () async {
+      final txs = await client.rpcClient.getTransactionsList(
+        source.publicKey,
+        commitment: Commitment.confirmed,
+      );
+      expect(txs, isNot(null));
+
+      for (final tx in txs) {
+        expect(tx, isNot(null));
+      }
+      expect(txs.length, greaterThan(0));
+    });
+
     test('Transfer SOL with Versioned Transaction', () async {
       final recentBlockhash = await client.rpcClient
           .getRecentBlockhash(commitment: Commitment.confirmed);
@@ -230,43 +267,6 @@ void main() {
       );
 
       expect(transaction?.version?.version, 0);
-    });
-
-    test('Transfer SOL to the same address', () async {
-      final recentBlockhash = await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed);
-      final instruction = SystemInstruction.transfer(
-        fundingAccount: source.publicKey,
-        recipientAccount: source.publicKey,
-        lamports: _transferredAmount,
-      );
-      final SignedTx signedTx = await source.signMessage(
-        message: Message.only(instruction),
-        recentBlockhash: recentBlockhash.blockhash,
-      );
-      final String signature = await client.rpcClient.sendTransaction(
-        signedTx.encode(),
-        preflightCommitment: Commitment.confirmed,
-      );
-      expect(signature, isNot(null));
-
-      await expectLater(
-        client.waitForSignatureStatus(signature, status: Commitment.confirmed),
-        completes,
-      );
-    });
-
-    test('List recent transactions', () async {
-      final txs = await client.rpcClient.getTransactionsList(
-        source.publicKey,
-        commitment: Commitment.confirmed,
-      );
-      expect(txs, isNot(null));
-
-      for (final tx in txs) {
-        expect(tx, isNot(null));
-      }
-      expect(txs.length, greaterThan(0));
     });
   });
 
