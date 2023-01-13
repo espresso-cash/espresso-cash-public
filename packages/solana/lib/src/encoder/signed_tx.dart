@@ -87,6 +87,8 @@ class SignedTx {
       ? TxLegacy.decompile(messageBytes)
       : TxV0.decompile(messageBytes);
 
+  TxData get txData => _txData;
+
   final Iterable<Signature> signatures;
   final ByteArray messageBytes;
 
