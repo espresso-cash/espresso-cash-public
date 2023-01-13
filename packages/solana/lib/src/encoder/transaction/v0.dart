@@ -132,7 +132,7 @@ class TxV0 implements TxData {
         } else {
           isWritable = keyIndex - accountKeys.staticAccountKeys.length <
               // accountKeysFromLookups cannot be undefined because we already found a pubkey for this index above
-              accountKeys.accountKeysFromLookups!.writable.length;
+              (accountKeys.accountKeysFromLookups?.writable.length ?? 0);
         }
 
         keys.add(

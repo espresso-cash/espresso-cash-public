@@ -9,8 +9,8 @@ Future<AddressLookupTableAccount> createTestAddressLookUpTable(
   final lookUpAccountAuthority = await Ed25519HDKeyPair.random();
 
   return AddressLookupTableAccount(
-    lookUpAccount.publicKey,
-    AddressLookupTableState(
+    key: lookUpAccount.publicKey,
+    state: AddressLookupTableState(
       lastExtendedSlot: 0,
       lastExtendedSlotStartIndex: 0,
       deactivationSlot: BigInt.parse('0xffffffffffffffff'),

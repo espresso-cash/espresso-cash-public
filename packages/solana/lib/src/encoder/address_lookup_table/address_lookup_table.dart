@@ -2,31 +2,16 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 
-class AddressLookupTableState {
-  AddressLookupTableState({
-    required this.deactivationSlot,
-    required this.lastExtendedSlot,
-    required this.lastExtendedSlotStartIndex,
-    required this.authority,
-    required this.addresses,
-  });
-  final BigInt deactivationSlot;
-  final int lastExtendedSlot;
-  final int lastExtendedSlotStartIndex;
-  final Ed25519HDPublicKey? authority;
-  final List<Ed25519HDPublicKey> addresses;
-}
-
-class AddressLookupTableAccountArgs {
-  AddressLookupTableAccountArgs(this.key, this.state);
-  final Ed25519HDPublicKey key;
-  final AddressLookupTableState state;
-}
+part 'address_lookup_state.dart';
 
 const int _lookupTableMetaSize = 56;
 
 class AddressLookupTableAccount {
-  AddressLookupTableAccount(this.key, this.state);
+  AddressLookupTableAccount({
+    required this.key,
+    required this.state,
+  });
+
   final Ed25519HDPublicKey key;
   final AddressLookupTableState state;
 
