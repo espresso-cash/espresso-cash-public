@@ -20,7 +20,7 @@ import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/token_icon.dart';
 import '../../favorite_tokens/widgets/favorite_button.dart';
-import '../../ramp/ramp_off.dart';
+import '../../ramp/ramp_buttons.dart';
 import '../../token_chart/module.dart';
 import '../../token_chart/widgets/token_chart.dart';
 import '../../token_chart/widgets/token_overview.dart';

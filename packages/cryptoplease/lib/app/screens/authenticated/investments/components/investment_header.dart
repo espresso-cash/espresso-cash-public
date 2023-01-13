@@ -6,7 +6,7 @@ import '../../../../../core/balances/presentation/watch_balance.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
-import '../../../../../features/ramp/ramp_off.dart';
+import '../../../../../features/ramp/ramp_buttons.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';

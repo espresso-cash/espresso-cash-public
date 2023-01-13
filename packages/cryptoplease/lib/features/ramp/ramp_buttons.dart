@@ -9,10 +9,6 @@ import '../../routes.gr.dart';
 import '../../ui/button.dart';
 import 'src/widgets/off_ramp_bottom_sheet.dart';
 
-extension RampOffExt on BuildContext {
-  void toRampOff() => OffRampBottomSheet.show(this);
-}
-
 class RampButtons extends StatelessWidget {
   const RampButtons({Key? key}) : super(key: key);
 
@@ -39,7 +35,7 @@ class RampButtons extends StatelessWidget {
               child: CpButton(
                 text: context.l10n.cashOut,
                 width: double.infinity,
-                onPressed: () => context.toRampOff(),
+                onPressed: () => OffRampBottomSheet.show(context),
               ),
             ),
           ],
