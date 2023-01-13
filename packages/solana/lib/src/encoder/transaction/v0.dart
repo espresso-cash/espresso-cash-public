@@ -2,10 +2,8 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:collection/collection.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/src/crypto/crypto.dart';
-import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/encoder/message/account_keys.dart';
-import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/message_header.dart';
 
 class TxV0 implements TxData {

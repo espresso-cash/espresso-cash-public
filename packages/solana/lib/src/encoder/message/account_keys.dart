@@ -68,8 +68,9 @@ class MessageAccountKeys {
     // Bail early if any account indexes would overflow a u8
     const u8max = 255;
     if (length > u8max + 1) {
-      throw FormatException(
-          'Account index overflow encountered during compilation');
+      throw const FormatException(
+        'Account index overflow encountered during compilation',
+      );
     }
 
     final keyIndexMap = <String, int>{};
@@ -81,7 +82,7 @@ class MessageAccountKeys {
     int findKeyIndex(Ed25519HDPublicKey key) {
       final keyIndex = keyIndexMap[key.toBase58()];
       if (keyIndex == null) {
-        throw FormatException(
+        throw const FormatException(
           'Encountered an unknown instruction account key during compilation',
         );
       }

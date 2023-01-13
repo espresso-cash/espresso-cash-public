@@ -41,11 +41,19 @@ class AddressLookupTableAccount {
     final reader = BinaryReader(input.buffer.asByteData());
 
     final typeIndex = reader.readU32();
+
+    if (typeIndex != 1) {
+      throw Exception(
+        'invalid account data; account type mismatch $typeIndex != 1',
+      );
+    }
+
     final deactivationSlot = reader.readU64();
     final lastExtendedSlot = reader.readU64();
     final lastExtendedStartIndex = reader.readU8();
     final authority = reader
-        .readArray(
+        .readFixedArray(
+          1,
           () => reader.readFixedArray(32, reader.readU8),
         )
         .map(Ed25519HDPublicKey.new)
@@ -58,11 +66,15 @@ class AddressLookupTableAccount {
 
     final int numSerializedAddresses = serializedAddressesLen ~/ 32;
 
-    final r =
-        BinaryReader(input.sublist(_lookupTableMetaSize).buffer.asByteData());
+    final r = BinaryReader(
+      Uint8List.fromList(accountData.toList().sublist(_lookupTableMetaSize))
+          .buffer
+          .asByteData(),
+    );
+
     final addresses = r
         .readFixedArray(
-          numSerializedAddresses,
+          numSerializedAddresses - 1,
           () => reader.readFixedArray(32, reader.readU8),
         )
         .map(Ed25519HDPublicKey.new)
