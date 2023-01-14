@@ -7,7 +7,6 @@ import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../data/db/db.dart';
-import '../../../../data/db/mixins.dart';
 import '../../models/payment_request.dart';
 
 @injectable
@@ -50,16 +49,14 @@ class PaymentRequestRepository {
   Future<void> save(PaymentRequest payment) =>
       _db.into(_db.paymentRequestRows).insertOnConflictUpdate(payment.toRow());
 
-  Future<void> delete(String id) =>
-      (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id)))
-          .go();
-
   Future<void> clear() => _db.delete(_db.paymentRequestRows).go();
 }
 
 enum PaymentRequestStateDto { initial, completed, error }
 
-class PaymentRequestRows extends Table with EntityMixin {
+class PaymentRequestRows extends Table {
+  TextColumn get id => text()();
+  DateTimeColumn get created => dateTime()();
   TextColumn get payerName => text()();
   TextColumn get dynamicLink => text()();
   IntColumn get state => intEnum<PaymentRequestStateDto>()();
@@ -73,6 +70,9 @@ class PaymentRequestRows extends Table with EntityMixin {
   TextColumn get label => text().nullable()();
   TextColumn get message => text().nullable()();
   TextColumn get memo => text().nullable()();
+
+  @override
+  Set<Column<dynamic>>? get primaryKey => {id};
 }
 
 extension on PaymentRequestRow {
