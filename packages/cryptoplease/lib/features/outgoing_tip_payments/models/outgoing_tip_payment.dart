@@ -5,7 +5,6 @@ import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import '../../../core/cancel_escrow_payment/cancel_status.dart';
 
 part 'outgoing_tip_payment.freezed.dart';
 
@@ -54,6 +53,10 @@ class OTStatus with _$OTStatus {
     required String txId,
   }) = OTWithdrawn;
 
+  const factory OTStatus.canceled({
+    required String txId,
+  }) = OTCanceled;
+
   const factory OTStatus.txFailure({TxFailureReason? reason}) = OTTxFailure;
 
   const factory OTStatus.txSendFailure(
@@ -70,8 +73,28 @@ class OTStatus with _$OTStatus {
     required Ed25519HDKeyPair escrow,
   }) = OTTxLinksFailure;
 
-  const factory OTStatus.cancel(
-    CancelStatus cancelStatus, {
+  const factory OTStatus.cancelTxCreated(
+    SignedTx tx, {
     required Ed25519HDKeyPair escrow,
-  }) = OTStatusCancel;
+  }) = OTStatusCancelTxCreated;
+
+  const factory OTStatus.cancelTxFailure({
+    TxFailureReason? reason,
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancelTxFailure;
+
+  const factory OTStatus.cancelTxSent(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancelTxSent;
+
+  const factory OTStatus.cancelTxSendFailure(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancelTxSendFailure;
+
+  const factory OTStatus.cancelTxWaitFailure(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancelTxWaitFailure;
 }

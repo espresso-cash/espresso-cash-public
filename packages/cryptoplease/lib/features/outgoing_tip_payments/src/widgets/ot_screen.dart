@@ -77,7 +77,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                   orElse: T,
                   txFailure: F,
                   withdrawn: F,
-                  cancel: (s) => s.cancelStatus.maybeMap(orElse: T, success: F),
+                  canceled: F,
                 ),
               )
               .ifNull(F);
@@ -86,7 +86,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
               ? CpStatusType.info
               : payment?.status.mapOrNull(
                     withdrawn: always(CpStatusType.success),
-                    cancel: always(CpStatusType.error),
+                    canceled: always(CpStatusType.error),
                     txFailure: always(CpStatusType.error),
                     txSendFailure: always(CpStatusType.error),
                     txWaitFailure: always(CpStatusType.error),
@@ -102,7 +102,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
               ? context.l10n.loading
               : payment.status.maybeMap(
                   withdrawn: always(context.l10n.outgoingTransferSuccess),
-                  cancel: always(context.l10n.tipProgressCanceled),
+                  canceled: always(context.l10n.tipProgressCanceled),
                   txFailure: (it) => [
                     context.l10n.splitKeyErrorMessage2,
                     if (it.reason == TxFailureReason.insufficientFunds)
@@ -122,7 +122,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
               ? CpTimelineStatus.inProgress
               : payment?.status.mapOrNull(
                     withdrawn: always(CpTimelineStatus.success),
-                    cancel: always(CpTimelineStatus.failure),
+                    canceled: always(CpTimelineStatus.failure),
                     txFailure: always(CpTimelineStatus.failure),
                     txSendFailure: always(CpTimelineStatus.failure),
                     txWaitFailure: always(CpTimelineStatus.failure),
@@ -132,7 +132,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
 
           final int activeItem = payment?.status.mapOrNull(
                 withdrawn: always(2),
-                cancel: always(1),
+                canceled: always(1),
                 linkReady: always(1),
               ) ??
               0;
@@ -164,7 +164,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                   fundsWithdrawn,
                   paymentSuccess,
                 ]),
-                cancel: always([
+                canceled: always([
                   linkCreated,
                   paymentCanceled,
                 ]),

@@ -4,7 +4,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/cancel_escrow_payment/cancel_status.dart';
 import '../../../core/transactions/tx_sender.dart';
 
 part 'outgoing_split_key_payment.freezed.dart';
@@ -55,6 +54,10 @@ class OSKPStatus with _$OSKPStatus {
     required String txId,
   }) = OSKPStatusWithdrawn;
 
+  const factory OSKPStatus.canceled({
+    required String txId,
+  }) = OSKPStatusCanceled;
+
   const factory OSKPStatus.txFailure({TxFailureReason? reason}) =
       OSKPStatusTxFailure;
 
@@ -72,8 +75,28 @@ class OSKPStatus with _$OSKPStatus {
     required Ed25519HDKeyPair escrow,
   }) = OSKPStatusTxLinksFailure;
 
-  const factory OSKPStatus.cancel(
-    CancelStatus cancelStatus, {
+  const factory OSKPStatus.cancelTxCreated(
+    SignedTx tx, {
     required Ed25519HDKeyPair escrow,
-  }) = OSKPStatusCancel;
+  }) = OSKPStatusCancelTxCreated;
+
+  const factory OSKPStatus.cancelTxFailure({
+    TxFailureReason? reason,
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancelTxFailure;
+
+  const factory OSKPStatus.cancelTxSent(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancelTxSent;
+
+  const factory OSKPStatus.cancelTxSendFailure(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancelTxSendFailure;
+
+  const factory OSKPStatus.cancelTxWaitFailure(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancelTxWaitFailure;
 }

@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/cancel_escrow_payment/cancel_db.dart';
 import '../../core/transactions/tx_sender.dart';
 import '../../features/activities/db.dart';
 import '../../features/activities/models/transaction.dart';
@@ -111,10 +110,6 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from >= 22 && from < 26) {
             await m.addColumn(oTRows, oTRows.withdrawTxId);
-            await m.addColumn(oTRows, oTRows.cancelStatus);
-          }
-          if (from >= 16 && from < 26) {
-            await m.addColumn(oSKPRows, oSKPRows.cancelStatus);
           }
         },
       );

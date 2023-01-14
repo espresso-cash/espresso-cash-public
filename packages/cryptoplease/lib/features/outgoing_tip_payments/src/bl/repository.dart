@@ -8,7 +8,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
-import '../../../../core/cancel_escrow_payment/cancel_db.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -50,7 +49,7 @@ class OTRepository {
   Future<void> clear() => _db.delete(_db.oTRows).go();
 }
 
-class OTRows extends Table with AmountMixin, EntityMixin, CancelMixin {
+class OTRows extends Table with AmountMixin, EntityMixin {
   IntColumn get status => intEnum<OTStatusDto>()();
 
   // Status fields
@@ -60,6 +59,8 @@ class OTRows extends Table with AmountMixin, EntityMixin, CancelMixin {
   TextColumn get privateKey => text().nullable()();
   TextColumn get link => text().nullable()();
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
+  TextColumn get cancelTx => text().nullable()();
+  TextColumn get cancelTxId => text().nullable()();
 }
 
 enum OTStatusDto {
@@ -67,13 +68,18 @@ enum OTStatusDto {
   txSent,
   txConfirmed,
   linkReady,
-  success,
+  success, // Legacy
   txFailure,
   txSendFailure,
   txWaitFailure,
   txLinksFailure,
   withdrawn,
-  cancel,
+  canceled,
+  cancelTxCreated,
+  cancelTxFailure,
+  cancelTxSent,
+  cancelTxSendFailure,
+  cancelTxWaitFailure,
 }
 
 extension OutgoingTipRowExt on OTRow {
@@ -98,6 +104,8 @@ extension on OTStatusDto {
         ?.let(base58decode)
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
     final link1 = row.link?.let(Uri.parse);
+    final cancelTx = row.cancelTx?.let(SignedTx.decode);
+    final cancelTxId = row.cancelTxId;
 
     switch (this) {
       case OTStatusDto.txCreated:
@@ -119,6 +127,8 @@ extension on OTStatusDto {
         return OTStatus.withdrawn(txId: txId!);
       case OTStatusDto.withdrawn:
         return OTStatus.withdrawn(txId: withdrawTxId!);
+      case OTStatusDto.canceled:
+        return OTStatus.canceled(txId: cancelTxId!);
       case OTStatusDto.txFailure:
         return OTStatus.txFailure(reason: row.txFailureReason);
       case OTStatusDto.txSendFailure:
@@ -130,11 +140,16 @@ extension on OTStatusDto {
         );
       case OTStatusDto.txLinksFailure:
         return OTStatus.txLinksFailure(escrow: escrow!);
-      case OTStatusDto.cancel:
-        return OTStatus.cancel(
-          row.cancelStatus!.toCancelStatus(tx, withdrawTxId),
-          escrow: escrow!,
-        );
+      case OTStatusDto.cancelTxCreated:
+        return OTStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
+      case OTStatusDto.cancelTxFailure:
+        return OTStatus.cancelTxFailure(escrow: escrow!);
+      case OTStatusDto.cancelTxSent:
+        return OTStatus.cancelTxSent(cancelTx!, escrow: escrow!);
+      case OTStatusDto.cancelTxSendFailure:
+        return OTStatus.cancelTxSendFailure(cancelTx!, escrow: escrow!);
+      case OTStatusDto.cancelTxWaitFailure:
+        return OTStatus.cancelTxWaitFailure(cancelTx!, escrow: escrow!);
     }
   }
 }
@@ -152,7 +167,8 @@ extension on OutgoingTipPayment {
         privateKey: await status.toPrivateKey(),
         link: status.toLink(),
         txFailureReason: status.toTxFailureReason(),
-        cancelStatus: status.toCancelStatus(),
+        cancelTx: status.toCancelTx(),
+        cancelTxId: status.toCancelTxId(),
       );
 }
 
@@ -167,11 +183,12 @@ extension on OTStatus {
         txSendFailure: always(OTStatusDto.txSendFailure),
         txWaitFailure: always(OTStatusDto.txWaitFailure),
         txLinksFailure: always(OTStatusDto.txLinksFailure),
-        cancel: always(OTStatusDto.cancel),
-      );
-
-  CancelStatusDto? toCancelStatus() => mapOrNull(
-        cancel: (it) => it.cancelStatus.toDto(),
+        canceled: always(OTStatusDto.canceled),
+        cancelTxCreated: always(OTStatusDto.cancelTxCreated),
+        cancelTxFailure: always(OTStatusDto.cancelTxFailure),
+        cancelTxSent: always(OTStatusDto.cancelTxSent),
+        cancelTxSendFailure: always(OTStatusDto.cancelTxSendFailure),
+        cancelTxWaitFailure: always(OTStatusDto.cancelTxWaitFailure),
       );
 
   String? toTx() => mapOrNull(
@@ -188,9 +205,21 @@ extension on OTStatus {
         txWaitFailure: (it) => it.tx.id,
       );
 
-  String? toWithdrawTxId() => mapOrNull<String?>(
-        withdrawn: (it) => it.txId,
-        cancel: (it) => it.cancelStatus.mapOrNull(success: (it) => it.txId),
+  String? toWithdrawTxId() => mapOrNull(withdrawn: (it) => it.txId);
+
+  String? toCancelTx() => mapOrNull(
+        cancelTxCreated: (it) => it.tx.encode(),
+        cancelTxSent: (it) => it.tx.encode(),
+        cancelTxSendFailure: (it) => it.tx.encode(),
+        cancelTxWaitFailure: (it) => it.tx.encode(),
+      );
+
+  String? toCancelTxId() => mapOrNull(
+        cancelTxCreated: (it) => it.tx.id,
+        cancelTxSent: (it) => it.tx.id,
+        cancelTxSendFailure: (it) => it.tx.id,
+        cancelTxWaitFailure: (it) => it.tx.id,
+        canceled: (it) => it.txId,
       );
 
   Future<String?> toPrivateKey() async => this.map(
@@ -203,6 +232,7 @@ extension on OTStatus {
         linkReady: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
         withdrawn: (it) async => null,
+        canceled: (it) async => null,
         txFailure: (it) async => null,
         txSendFailure: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
@@ -210,7 +240,15 @@ extension on OTStatus {
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
         txLinksFailure: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        cancel: (it) async =>
+        cancelTxCreated: (it) async =>
+            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxFailure: (it) async =>
+            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxSent: (it) async =>
+            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxSendFailure: (it) async =>
+            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxWaitFailure: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
       );
 
@@ -220,5 +258,6 @@ extension on OTStatus {
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
         txFailure: (it) => it.reason,
+        cancelTxFailure: (it) => it.reason,
       );
 }

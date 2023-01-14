@@ -24,7 +24,7 @@ class OTTile extends StatelessWidget {
               child: Text(
                 activity.data.status.maybeMap(
                   orElse: always(context.l10n.tipViaQrCode),
-                  cancel: always(context.l10n.tipCanceled),
+                  canceled: always(context.l10n.tipCanceled),
                 ),
                 style: titleStyle,
                 overflow: TextOverflow.ellipsis,
@@ -44,7 +44,7 @@ class OTTile extends StatelessWidget {
         onTap: () => context.router.navigate(OutgoingTipRoute(id: activity.id)),
         leading: activity.data.status.maybeMap(
           orElse: always(Assets.icons.outgoing.svg(width: iconSize)),
-          cancel: always(Assets.icons.txFailed.svg(width: iconSize)),
+          canceled: always(Assets.icons.txFailed.svg(width: iconSize)),
         ),
       );
 }

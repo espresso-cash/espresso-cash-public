@@ -30,10 +30,10 @@ class PendingActivitiesRepository {
       ..where((tbl) => tbl.status.equalsValue(ODPStatusDto.success).not());
     final oskp = _db.select(_db.oSKPRows)
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.withdrawn).not())
-      ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.cancel).not());
+      ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.canceled).not());
     final otp = _db.select(_db.oTRows)
       ..where((tbl) => tbl.status.equalsValue(OTStatusDto.withdrawn).not())
-      ..where((tbl) => tbl.status.equalsValue(OTStatusDto.cancel).not());
+      ..where((tbl) => tbl.status.equalsValue(OTStatusDto.canceled).not());
 
     final oprStream =
         opr.watch().map((rows) => rows.map((r) => r.toActivity()));

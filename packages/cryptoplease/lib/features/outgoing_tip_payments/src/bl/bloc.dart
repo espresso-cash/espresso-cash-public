@@ -10,7 +10,6 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
-import '../../../../core/cancel_escrow_payment/cancel_escrow_payment_sender.dart';
 import '../../../../core/link_shortener.dart';
 import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
@@ -47,12 +46,10 @@ class OTBloc extends Bloc<_Event, _State> {
     required OTRepository repository,
     required TxSender txSender,
     required LinkShortener linkShortener,
-    required CancelEscrowPaymentSender cancelSender,
   })  : _account = account,
         _client = client,
         _repository = repository,
         _txSender = txSender,
-        _cancelSender = cancelSender,
         _linkShortener = linkShortener,
         super(const ISetConst({})) {
     on<_Event>(_handler);
@@ -63,7 +60,6 @@ class OTBloc extends Bloc<_Event, _State> {
   final OTRepository _repository;
   final TxSender _txSender;
   final LinkShortener _linkShortener;
-  final CancelEscrowPaymentSender _cancelSender;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
@@ -71,10 +67,7 @@ class OTBloc extends Bloc<_Event, _State> {
         cancel: (e) => _onCancel(e, emit),
       );
 
-  Future<void> _onCreate(
-    OTEventCreate event,
-    _Emitter _,
-  ) async {
+  Future<void> _onCreate(OTEventCreate event, _Emitter _) async {
     if (event.amount.token != Token.usdc) {
       throw ArgumentError('Only USDC is supported');
     }
@@ -91,6 +84,37 @@ class OTBloc extends Bloc<_Event, _State> {
     await _repository.save(payment);
 
     if (status is OTTxCreated) {
+      add(OTEvent.process(payment.id));
+    }
+  }
+
+  Future<void> _onCancel(OTEventCancel event, _Emitter _) async {
+    final payment = await _repository.load(event.id);
+
+    if (payment == null) return;
+
+    final escrow = payment.status.mapOrNull(
+      txCreated: (it) => it.escrow,
+      txSent: (it) => it.escrow,
+      txConfirmed: (it) => it.escrow,
+      linkReady: (it) => it.escrow,
+      txSendFailure: (it) => it.escrow,
+      txWaitFailure: (it) => it.escrow,
+      txLinksFailure: (it) => it.escrow,
+      cancelTxFailure: (it) => it.escrow,
+    );
+
+    if (escrow == null) {
+      add(OTEvent.process(payment.id));
+
+      return;
+    }
+
+    final status = await _createCancelTx(escrow);
+
+    await _repository.save(payment.copyWith(status: status));
+
+    if (status is OTStatusCancelTxCreated) {
       add(OTEvent.process(payment.id));
     }
   }
@@ -115,6 +139,7 @@ class OTBloc extends Bloc<_Event, _State> {
       ),
       linkReady: (status) async => status,
       withdrawn: (status) async => status,
+      canceled: (status) async => status,
       txFailure: (_) => _createTx(payment.amount),
       txSendFailure: (status) => _sendTx(status.tx, escrow: status.escrow),
       txWaitFailure: (status) => _waitTx(status.tx, escrow: status.escrow),
@@ -122,7 +147,14 @@ class OTBloc extends Bloc<_Event, _State> {
         escrow: status.escrow,
         token: payment.amount.token,
       ),
-      cancel: (status) async => _cancelTx(status),
+      cancelTxFailure: (status) => _createCancelTx(status.escrow),
+      cancelTxCreated: (status) =>
+          _sendCancelTx(status.tx, escrow: status.escrow),
+      cancelTxSent: (status) => _waitCancelTx(status.tx, escrow: status.escrow),
+      cancelTxSendFailure: (status) =>
+          _sendCancelTx(status.tx, escrow: status.escrow),
+      cancelTxWaitFailure: (status) =>
+          _waitCancelTx(status.tx, escrow: status.escrow),
     );
 
     await _repository.save(payment.copyWith(status: newStatus));
@@ -135,62 +167,17 @@ class OTBloc extends Bloc<_Event, _State> {
       txConfirmed: (_) => add(OTEvent.process(payment.id)),
       linkReady: ignore,
       withdrawn: ignore,
+      canceled: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,
       txLinksFailure: ignore,
-      cancel: (it) => it.cancelStatus.maybeMap(
-        orElse: ignore,
-        txCreated: (_) => add(OTEvent.process(payment.id)),
-        txSent: (_) => add(OTEvent.process(payment.id)),
-      ),
+      cancelTxFailure: ignore,
+      cancelTxSendFailure: ignore,
+      cancelTxWaitFailure: ignore,
+      cancelTxCreated: (_) => add(OTEvent.process(payment.id)),
+      cancelTxSent: (_) => add(OTEvent.process(payment.id)),
     );
-  }
-
-  Future<void> _onCancel(OTEventCancel event, _Emitter _) async {
-    final payment = await _repository.load(event.id);
-
-    if (payment == null) return;
-
-    final escrow = payment.status.mapOrNull(
-      txCreated: (it) => it.escrow,
-      txSent: (it) => it.escrow,
-      txConfirmed: (it) => it.escrow,
-      linkReady: (it) => it.escrow,
-      txSendFailure: (it) => it.escrow,
-      txWaitFailure: (it) => it.escrow,
-      txLinksFailure: (it) => it.escrow,
-      cancel: (it) => it.cancelStatus.maybeMap(
-        orElse: () => it.escrow,
-        success: null,
-      ),
-    );
-
-    if (escrow == null) return;
-
-    final status = await _cancelSender
-        .processCancelEscrow(wallet: _account.publicKey, escrow: escrow)
-        .letAsync((it) => OTStatus.cancel(it, escrow: escrow));
-
-    await _repository.save(payment.copyWith(status: status));
-
-    if (status is OTStatusCancel) {
-      add(OTEvent.process(payment.id));
-    }
-  }
-
-  Future<OTStatus> _cancelTx(OTStatusCancel status) async {
-    try {
-      final cancelStatus = await _cancelSender.processCancelEscrow(
-        wallet: _account.publicKey,
-        escrow: status.escrow,
-        status: status.cancelStatus,
-      );
-
-      return OTStatus.cancel(cancelStatus, escrow: status.escrow);
-    } on Exception {
-      return const OTStatus.txFailure();
-    }
   }
 
   Future<OTStatus> _createTx(Amount amount) async {
@@ -263,6 +250,54 @@ class OTBloc extends Bloc<_Event, _State> {
     return OTStatus.linkReady(
       link: link,
       escrow: escrow,
+    );
+  }
+
+  Future<OTStatus> _createCancelTx(Ed25519HDKeyPair escrow) async {
+    try {
+      final dto = ReceivePaymentRequestDto(
+        receiverAccount: _account.address,
+        escrowAccount: escrow.address,
+        cluster: apiCluster,
+      );
+
+      final tx = await _client
+          .receivePayment(dto)
+          .then((it) => it.transaction)
+          .then(SignedTx.decode)
+          .then((it) => it.resign(escrow));
+
+      return OTStatus.cancelTxCreated(tx, escrow: escrow);
+    } on Exception {
+      return OTStatus.cancelTxFailure(escrow: escrow);
+    }
+  }
+
+  Future<OTStatus> _sendCancelTx(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) async {
+    final result = await _txSender.send(tx);
+
+    return result.map(
+      sent: (_) => OTStatus.cancelTxSent(tx, escrow: escrow),
+      invalidBlockhash: (_) => OTStatus.cancelTxFailure(escrow: escrow),
+      failure: (it) =>
+          OTStatus.cancelTxFailure(reason: it.reason, escrow: escrow),
+      networkError: (_) => OTStatus.cancelTxSendFailure(tx, escrow: escrow),
+    );
+  }
+
+  Future<OTStatus> _waitCancelTx(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) async {
+    final result = await _txSender.wait(tx);
+
+    return result.map(
+      success: (_) => OTStatus.canceled(txId: tx.id),
+      failure: (_) => OTStatus.cancelTxFailure(escrow: escrow),
+      networkError: (_) => OTStatus.cancelTxWaitFailure(tx, escrow: escrow),
     );
   }
 }

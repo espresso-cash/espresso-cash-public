@@ -78,7 +78,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   orElse: T,
                   txFailure: F,
                   withdrawn: F,
-                  cancel: (s) => s.cancelStatus.maybeMap(orElse: T, success: F),
+                  canceled: F,
                 ),
               )
               .ifNull(F);
@@ -87,7 +87,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ? CpStatusType.info
               : payment?.status.mapOrNull(
                     withdrawn: always(CpStatusType.success),
-                    cancel: always(CpStatusType.error),
+                    canceled: always(CpStatusType.error),
                     txFailure: always(CpStatusType.error),
                     txSendFailure: always(CpStatusType.error),
                     txWaitFailure: always(CpStatusType.error),
@@ -103,7 +103,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ? context.l10n.loading
               : payment.status.maybeMap(
                   withdrawn: always(context.l10n.outgoingTransferSuccess),
-                  cancel: always(
+                  canceled: always(
                     context.l10n.splitKeyCanceledMessage1(
                       payment.amount.format(locale),
                     ),
@@ -127,7 +127,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ? CpTimelineStatus.inProgress
               : payment?.status.mapOrNull(
                     withdrawn: always(CpTimelineStatus.success),
-                    cancel: always(CpTimelineStatus.failure),
+                    canceled: always(CpTimelineStatus.failure),
                     txFailure: always(CpTimelineStatus.failure),
                     txSendFailure: always(CpTimelineStatus.failure),
                     txWaitFailure: always(CpTimelineStatus.failure),
@@ -137,7 +137,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           final int activeItem = payment?.status.mapOrNull(
                 withdrawn: always(2),
-                cancel: always(1),
+                canceled: always(1),
                 linksReady: always(1),
               ) ??
               0;
@@ -169,7 +169,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   fundsWithdrawn,
                   paymentSuccess,
                 ]),
-                cancel: always([
+                canceled: always([
                   linksCreated,
                   paymentCanceled,
                 ]),

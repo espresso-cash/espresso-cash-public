@@ -6,7 +6,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import '../../core/cancel_escrow_payment/cancel_status.dart';
 import '../../core/transactions/tx_destinations.dart';
 import 'models/outgoing_tip_payment.dart';
 import 'src/bl/repository.dart';
@@ -29,9 +28,6 @@ class OTVerifier {
   void init() {
     _repoSubscription = _repository.watchWithReadyLink().listen((payments) {
       for (final payment in payments) {
-        final status = payment.status;
-        if (status is! OTLinkReady) continue;
-
         Future<void> onSuccess(ParsedTransaction tx) async {
           final txId = tx.id;
           final newStatus = await tx.getDestinations().let(
@@ -40,16 +36,16 @@ class OTVerifier {
                       mint: payment.amount.currency.token.publicKey,
                     ).then((it) => it.toBase58()).then(accounts.contains),
                   )
-              ? OTStatus.cancel(
-                  CancelStatus.success(txId: txId),
-                  escrow: status.escrow,
-                )
+              ? OTStatus.canceled(txId: txId)
               : OTStatus.withdrawn(txId: txId);
 
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);
         }
+
+        final status = payment.status;
+        if (status is! OTLinkReady) continue;
 
         if (!_subscriptions.containsKey(payment.id)) {
           _subscriptions[payment.id] =
