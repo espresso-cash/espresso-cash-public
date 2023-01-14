@@ -73,7 +73,7 @@ class _Page {
 }
 
 class PageFadeWrapper extends StatelessWidget {
-  const PageFadeWrapper({required this.child});
+  const PageFadeWrapper({super.key, required this.child});
 
   final Widget child;
 
