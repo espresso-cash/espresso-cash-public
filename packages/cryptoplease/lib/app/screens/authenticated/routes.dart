@@ -59,6 +59,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<void>(page: EditProfileScreen),
     AutoRoute<void>(page: HelpScreen),
     ...tokenSearchRoutes,
-    ...paymentCancelRoutes,
+    ...copRoutes,
   ],
 );

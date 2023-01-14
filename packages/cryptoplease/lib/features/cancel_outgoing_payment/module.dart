@@ -9,9 +9,8 @@ import '../../di.dart';
 import 'src/bl/bloc.dart';
 import 'src/bl/repository.dart';
 
-class PaymentCancelModule extends SingleChildStatelessWidget {
-  const PaymentCancelModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+class COPModule extends SingleChildStatelessWidget {
+  const COPModule({Key? key, Widget? child}) : super(key: key, child: child);
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

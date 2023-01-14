@@ -78,7 +78,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const ITModule(),
                 const SwapModule(),
                 const PopularTokensModule(),
-                const PaymentCancelModule(),
+                const COPModule(),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );
