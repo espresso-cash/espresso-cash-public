@@ -1,10 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../core/cancel_escrow_payment/cancel_db.dart';
 import '../../core/transactions/tx_sender.dart';
 import '../../features/activities/db.dart';
 import '../../features/activities/models/transaction.dart';
-import '../../features/cancel_outgoing_payment/db.dart';
 import '../../features/favorite_tokens/db.dart';
 import '../../features/incoming_split_key_payments/db.dart';
 import '../../features/incoming_tip_payments/db.dart';

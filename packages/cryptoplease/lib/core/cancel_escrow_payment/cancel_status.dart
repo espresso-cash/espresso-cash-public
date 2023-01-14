@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
-part 'cancel_outgoing_payment.freezed.dart';
+part 'cancel_status.freezed.dart';
 
 @freezed
 class CancelStatus with _$CancelStatus {

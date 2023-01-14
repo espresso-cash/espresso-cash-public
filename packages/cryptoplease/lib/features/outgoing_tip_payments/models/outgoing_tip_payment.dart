@@ -5,7 +5,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import '../../cancel_outgoing_payment/cancel_outgoing_payment.dart';
+import '../../../core/cancel_escrow_payment/cancel_status.dart';
 
 part 'outgoing_tip_payment.freezed.dart';
 

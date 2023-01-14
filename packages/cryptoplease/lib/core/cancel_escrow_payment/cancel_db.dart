@@ -1,8 +1,10 @@
+// ignore_for_file: avoid-non-null-assertion
+
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:solana/encoder.dart';
 
-import 'cancel_outgoing_payment.dart';
+import 'cancel_status.dart';
 
 enum CancelStatusDto {
   txCreated,

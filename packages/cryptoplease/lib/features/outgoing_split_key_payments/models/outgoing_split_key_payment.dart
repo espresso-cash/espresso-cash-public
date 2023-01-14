@@ -4,8 +4,8 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
+import '../../../core/cancel_escrow_payment/cancel_status.dart';
 import '../../../core/transactions/tx_sender.dart';
-import '../../cancel_outgoing_payment/cancel_outgoing_payment.dart';
 
 part 'outgoing_split_key_payment.freezed.dart';
 

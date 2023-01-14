@@ -10,12 +10,12 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/cancel_escrow_payment/cancel_escrow_payment_sender.dart';
 import '../../../../core/link_shortener.dart';
 import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import '../../../cancel_outgoing_payment/cancel_tx_sender.dart';
 import '../../models/outgoing_tip_payment.dart';
 import 'repository.dart';
 
@@ -47,12 +47,12 @@ class OTBloc extends Bloc<_Event, _State> {
     required OTRepository repository,
     required TxSender txSender,
     required LinkShortener linkShortener,
-    required CancelTxSender cancelTxSender,
+    required CancelEscrowPaymentSender cancelSender,
   })  : _account = account,
         _client = client,
         _repository = repository,
         _txSender = txSender,
-        _cancelTxSender = cancelTxSender,
+        _cancelSender = cancelSender,
         _linkShortener = linkShortener,
         super(const ISetConst({})) {
     on<_Event>(_handler);
@@ -63,7 +63,7 @@ class OTBloc extends Bloc<_Event, _State> {
   final OTRepository _repository;
   final TxSender _txSender;
   final LinkShortener _linkShortener;
-  final CancelTxSender _cancelTxSender;
+  final CancelEscrowPaymentSender _cancelSender;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
@@ -168,7 +168,7 @@ class OTBloc extends Bloc<_Event, _State> {
 
     if (escrow == null) return;
 
-    final status = await _cancelTxSender
+    final status = await _cancelSender
         .processCancelEscrow(wallet: _account.publicKey, escrow: escrow)
         .letAsync((it) => OTStatus.cancel(it, escrow: escrow));
 
@@ -181,7 +181,7 @@ class OTBloc extends Bloc<_Event, _State> {
 
   Future<OTStatus> _cancelTx(OTStatusCancel status) async {
     try {
-      final cancelStatus = await _cancelTxSender.processCancelEscrow(
+      final cancelStatus = await _cancelSender.processCancelEscrow(
         wallet: _account.publicKey,
         escrow: status.escrow,
         status: status.cancelStatus,

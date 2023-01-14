@@ -4,13 +4,13 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../config.dart';
-import '../../core/transactions/resign_tx.dart';
-import '../../core/transactions/tx_sender.dart';
-import 'cancel_outgoing_payment.dart';
+import '../transactions/resign_tx.dart';
+import '../transactions/tx_sender.dart';
+import 'cancel_status.dart';
 
 @injectable
-class CancelTxSender {
-  CancelTxSender({
+class CancelEscrowPaymentSender {
+  CancelEscrowPaymentSender({
     required TxSender txSender,
     required CryptopleaseClient cryptopleaseClient,
   })  : _txSender = txSender,
