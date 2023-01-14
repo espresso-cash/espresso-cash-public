@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart' hide Notification;
 
+import '../../../../core/presentation/page_fade_wrapper.dart';
 import '../../../../features/activities/widgets/pending_activities_list.dart';
 import '../../../../features/activities/widgets/transaction_list.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/tab_bar.dart';
-import '../home_screen.dart';
 
 class ActivitiesScreen extends StatelessWidget {
   const ActivitiesScreen({Key? key}) : super(key: key);
@@ -68,18 +68,9 @@ class _Wrapper extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
         children: [
           child,
-          Container(
+          const FadeGradient(
             height: _padding,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.white,
-                  Colors.white.withOpacity(0),
-                ],
-              ),
-            ),
+            direction: FadeGradientDirection.topDown,
           ),
         ],
       );

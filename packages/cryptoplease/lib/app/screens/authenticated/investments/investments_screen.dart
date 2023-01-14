@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../core/presentation/page_fade_wrapper.dart';
 import '../../../../features/favorite_tokens/widgets/extensions.dart';
 import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
 import '../../../../features/investments/widgets/crypto_investments.dart';
@@ -12,7 +13,6 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/icon_button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
-import '../home_screen.dart';
 import 'components/investment_header.dart';
 import 'components/popular_crypto_header.dart';
 
