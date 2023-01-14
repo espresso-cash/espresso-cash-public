@@ -71,3 +71,34 @@ class _Page {
   final SystemUiOverlayStyle overlayStyle;
   final SvgGenImage icon;
 }
+
+class PageFadeWrapper extends StatelessWidget {
+  const PageFadeWrapper({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Stack(
+        children: [
+          child,
+          IgnorePointer(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: cpNavigationBarheight + 50,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Colors.white,
+                      Colors.white.withOpacity(0),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+}
