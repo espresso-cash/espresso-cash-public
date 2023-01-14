@@ -64,7 +64,7 @@ class TransactionRepository {
     if (swap != null) return swap;
 
     final oskp = await _db.oSKPRows.findActivityOrNull(
-      (row) => row.withdrawTxId.equals(txId),
+      (row) => row.txId.equals(txId) | row.withdrawTxId.equals(txId),
       (pr) => pr.toActivity(_tokens),
     );
     if (oskp != null) return oskp;
