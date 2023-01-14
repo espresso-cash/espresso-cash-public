@@ -17,7 +17,6 @@ import '../../../../ui/status_screen.dart';
 import '../../../../ui/status_widget.dart';
 import '../../../../ui/text_button.dart';
 import '../../../../ui/timeline.dart';
-import '../../../cancel_outgoing_payment/cancel_payment.dart';
 import '../../models/outgoing_split_key_payment.dart';
 import '../bl/bloc.dart';
 import '../bl/repository.dart';
@@ -73,21 +72,22 @@ class _OSKPScreenState extends State<OSKPScreen> {
               context.watch<OSKPBloc>().state.contains(payment.id);
 
           final paymentId = payment?.id;
-          final escrow = payment?.status.mapOrNull(
-            txCreated: (it) => it.escrow,
-            txSent: (it) => it.escrow,
-            txConfirmed: (it) => it.escrow,
-            linksReady: (it) => it.escrow,
-            txSendFailure: (it) => it.escrow,
-            txWaitFailure: (it) => it.escrow,
-            txLinksFailure: (it) => it.escrow,
-          );
+          final isCancelable = payment
+              .maybeFlatMap(
+                (it) => it.status.maybeMap(
+                  orElse: T,
+                  txFailure: F,
+                  withdrawn: F,
+                  cancel: (s) => s.cancelStatus.maybeMap(orElse: T, success: F),
+                ),
+              )
+              .ifNull(F);
 
           final CpStatusType statusType = isProcessing
               ? CpStatusType.info
               : payment?.status.mapOrNull(
                     withdrawn: always(CpStatusType.success),
-                    canceled: always(CpStatusType.error),
+                    cancel: always(CpStatusType.error),
                     txFailure: always(CpStatusType.error),
                     txSendFailure: always(CpStatusType.error),
                     txWaitFailure: always(CpStatusType.error),
@@ -103,7 +103,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ? context.l10n.loading
               : payment.status.maybeMap(
                   withdrawn: always(context.l10n.outgoingTransferSuccess),
-                  canceled: always(
+                  cancel: always(
                     context.l10n.splitKeyCanceledMessage1(
                       payment.amount.format(locale),
                     ),
@@ -127,7 +127,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ? CpTimelineStatus.inProgress
               : payment?.status.mapOrNull(
                     withdrawn: always(CpTimelineStatus.success),
-                    canceled: always(CpTimelineStatus.failure),
+                    cancel: always(CpTimelineStatus.failure),
                     txFailure: always(CpTimelineStatus.failure),
                     txSendFailure: always(CpTimelineStatus.failure),
                     txWaitFailure: always(CpTimelineStatus.failure),
@@ -137,7 +137,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           final int activeItem = payment?.status.mapOrNull(
                 withdrawn: always(2),
-                canceled: always(1),
+                cancel: always(1),
                 linksReady: always(1),
               ) ??
               0;
@@ -169,7 +169,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   fundsWithdrawn,
                   paymentSuccess,
                 ]),
-                canceled: always([
+                cancel: always([
                   linksCreated,
                   paymentCanceled,
                 ]),
@@ -229,7 +229,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                           ],
                         ) ??
                         [],
-                  if (!isProcessing && escrow != null && paymentId != null)
+                  if (!isProcessing && isCancelable && paymentId != null)
                     Padding(
                       padding: EdgeInsets.only(
                         top: 24,
@@ -238,8 +238,9 @@ class _OSKPScreenState extends State<OSKPScreen> {
                       child: CpTextButton(
                         text: context.l10n.cancelTransfer,
                         variant: CpTextButtonVariant.light,
-                        onPressed: () =>
-                            context.cancelOutgoingPayment(paymentId, escrow),
+                        onPressed: () => context
+                            .read<OSKPBloc>()
+                            .add(OSKPEvent.cancel(paymentId)),
                       ),
                     ),
                 ],

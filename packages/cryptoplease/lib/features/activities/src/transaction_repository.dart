@@ -68,8 +68,7 @@ class TransactionRepository {
     final ot = await _db.oTRows.findActivityOrNull(
       (row) =>
           row.txId.equals(txId) &
-          (row.status.equalsValue(OTStatusDto.success) |
-              row.status.equalsValue(OTStatusDto.canceled) |
+          (row.status.equalsValue(OTStatusDto.cancel) |
               row.status.equalsValue(OTStatusDto.withdrawn)),
       (pr) => pr.toActivity(_tokens),
     );
@@ -78,8 +77,7 @@ class TransactionRepository {
     final oskp = await _db.oSKPRows.findActivityOrNull(
       (row) =>
           row.txId.equals(txId) &
-          (row.status.equalsValue(OSKPStatusDto.success) |
-              row.status.equalsValue(OSKPStatusDto.canceled) |
+          (row.status.equalsValue(OSKPStatusDto.cancel) |
               row.status.equalsValue(OSKPStatusDto.withdrawn)),
       (pr) => pr.toActivity(_tokens),
     );

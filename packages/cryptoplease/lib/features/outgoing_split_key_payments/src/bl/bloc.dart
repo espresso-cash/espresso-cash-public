@@ -15,6 +15,7 @@ import '../../../../core/split_key_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
+import '../../../cancel_outgoing_payment/cancel_tx_sender.dart';
 import '../../models/outgoing_split_key_payment.dart';
 import 'repository.dart';
 
@@ -28,6 +29,8 @@ class OSKPEvent with _$OSKPEvent {
   }) = OSKPEventCreate;
 
   const factory OSKPEvent.process(String id) = OSKPEventProcess;
+
+  const factory OSKPEvent.cancel(String id) = OSKPEventCancel;
 }
 
 typedef OSKPState = ISet<String>;
@@ -44,10 +47,12 @@ class OSKPBloc extends Bloc<_Event, _State> {
     required OSKPRepository repository,
     required TxSender txSender,
     required LinkShortener linkShortener,
+    required CancelTxSender cancelTxSender,
   })  : _account = account,
         _client = client,
         _repository = repository,
         _txSender = txSender,
+        _cancelTxSender = cancelTxSender,
         _linkShortener = linkShortener,
         super(const ISetConst({})) {
     on<_Event>(_handler);
@@ -58,10 +63,12 @@ class OSKPBloc extends Bloc<_Event, _State> {
   final OSKPRepository _repository;
   final TxSender _txSender;
   final LinkShortener _linkShortener;
+  final CancelTxSender _cancelTxSender;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
         process: (e) => _onProcess(e, emit),
+        cancel: (e) => _onCancel(e, emit),
       );
 
   Future<void> _onCreate(OSKPEventCreate event, _Emitter _) async {
@@ -85,6 +92,38 @@ class OSKPBloc extends Bloc<_Event, _State> {
     }
   }
 
+  Future<void> _onCancel(OSKPEventCancel event, _Emitter _) async {
+    final payment = await _repository.load(event.id);
+
+    if (payment == null) return;
+
+    final escrow = payment.status.mapOrNull(
+      txCreated: (it) => it.escrow,
+      txSent: (it) => it.escrow,
+      txConfirmed: (it) => it.escrow,
+      linksReady: (it) => it.escrow,
+      txSendFailure: (it) => it.escrow,
+      txWaitFailure: (it) => it.escrow,
+      txLinksFailure: (it) => it.escrow,
+      cancel: (it) => it.cancelStatus.maybeMap(
+        orElse: () => it.escrow,
+        success: null,
+      ),
+    );
+
+    if (escrow == null) return;
+
+    final status = await _cancelTxSender
+        .processCancelEscrow(wallet: _account.publicKey, escrow: escrow)
+        .letAsync((it) => OSKPStatus.cancel(it, escrow: escrow));
+
+    await _repository.save(payment.copyWith(status: status));
+
+    if (status is OSKPStatusCancel) {
+      add(OSKPEvent.process(payment.id));
+    }
+  }
+
   Future<void> _onProcess(OSKPEventProcess event, _Emitter emit) async {
     final payment = await _repository.load(event.id);
 
@@ -102,7 +141,6 @@ class OSKPBloc extends Bloc<_Event, _State> {
       ),
       linksReady: (status) async => status,
       withdrawn: (status) async => status,
-      canceled: (status) async => status,
       txFailure: (_) => _createTx(payment.amount),
       txSendFailure: (status) => _sendTx(status.tx, escrow: status.escrow),
       txWaitFailure: (status) => _waitTx(status.tx, escrow: status.escrow),
@@ -110,6 +148,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
         escrow: status.escrow,
         token: payment.amount.token,
       ),
+      cancel: (status) async => _cancelTx(status),
     );
 
     await _repository.save(payment.copyWith(status: newStatus));
@@ -122,12 +161,30 @@ class OSKPBloc extends Bloc<_Event, _State> {
       txConfirmed: (_) => add(OSKPEvent.process(payment.id)),
       linksReady: ignore,
       withdrawn: ignore,
-      canceled: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,
       txLinksFailure: ignore,
+      cancel: (it) => it.cancelStatus.maybeMap(
+        orElse: ignore,
+        txCreated: (_) => add(OSKPEvent.process(payment.id)),
+        txSent: (_) => add(OSKPEvent.process(payment.id)),
+      ),
     );
+  }
+
+  Future<OSKPStatus> _cancelTx(OSKPStatusCancel status) async {
+    try {
+      final cancelStatus = await _cancelTxSender.processCancelEscrow(
+        wallet: _account.publicKey,
+        escrow: status.escrow,
+        status: status.cancelStatus,
+      );
+
+      return OSKPStatus.cancel(cancelStatus, escrow: status.escrow);
+    } on Exception {
+      return const OSKPStatus.txFailure();
+    }
   }
 
   Future<OSKPStatus> _createTx(Amount amount) async {

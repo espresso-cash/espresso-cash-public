@@ -7,6 +7,7 @@ import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 import '../../core/transactions/tx_destinations.dart';
+import '../cancel_outgoing_payment/cancel_outgoing_payment.dart';
 import 'models/outgoing_split_key_payment.dart';
 import 'src/bl/repository.dart';
 
@@ -28,6 +29,9 @@ class OSKPVerifier {
   void init() {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
+        final status = payment.status;
+        if (status is! OSKPStatusLinksReady) continue;
+
         Future<void> onSuccess(ParsedTransaction tx) async {
           final txId = tx.id;
           final newStatus = await tx.getDestinations().let(
@@ -36,16 +40,16 @@ class OSKPVerifier {
                       mint: payment.amount.currency.token.publicKey,
                     ).then((it) => it.toBase58()).then(accounts.contains),
                   )
-              ? OSKPStatus.canceled(txId: txId)
+              ? OSKPStatus.cancel(
+                  CancelStatus.success(txId: txId),
+                  escrow: status.escrow,
+                )
               : OSKPStatus.withdrawn(txId: txId);
 
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);
         }
-
-        final status = payment.status;
-        if (status is! OSKPStatusLinksReady) continue;
 
         if (!_subscriptions.containsKey(payment.id)) {
           _subscriptions[payment.id] =

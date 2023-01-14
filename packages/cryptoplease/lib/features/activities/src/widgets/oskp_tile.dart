@@ -24,7 +24,7 @@ class OSKPTile extends StatelessWidget {
               child: Text(
                 activity.data.status.maybeMap(
                   orElse: always(context.l10n.sentViaLink),
-                  canceled: always(context.l10n.transferCanceled),
+                  cancel: always(context.l10n.transferCanceled),
                 ),
                 style: titleStyle,
                 overflow: TextOverflow.ellipsis,
@@ -41,7 +41,7 @@ class OSKPTile extends StatelessWidget {
             Text(context.formatDate(activity.created), style: subtitleStyle),
         leading: activity.data.status.maybeMap(
           orElse: always(Assets.icons.outgoing.svg(width: iconSize)),
-          canceled: always(Assets.icons.txFailed.svg(width: iconSize)),
+          cancel: always(Assets.icons.txFailed.svg(width: iconSize)),
         ),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );

@@ -15,6 +15,7 @@ import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
+import '../../../cancel_outgoing_payment/cancel_tx_sender.dart';
 import '../../models/outgoing_tip_payment.dart';
 import 'repository.dart';
 
@@ -28,6 +29,8 @@ class OTEvent with _$OTEvent {
   }) = OTEventCreate;
 
   const factory OTEvent.process(String id) = OTEventProcess;
+
+  const factory OTEvent.cancel(String id) = OTEventCancel;
 }
 
 typedef OTState = ISet<String>;
@@ -44,10 +47,12 @@ class OTBloc extends Bloc<_Event, _State> {
     required OTRepository repository,
     required TxSender txSender,
     required LinkShortener linkShortener,
+    required CancelTxSender cancelTxSender,
   })  : _account = account,
         _client = client,
         _repository = repository,
         _txSender = txSender,
+        _cancelTxSender = cancelTxSender,
         _linkShortener = linkShortener,
         super(const ISetConst({})) {
     on<_Event>(_handler);
@@ -58,10 +63,12 @@ class OTBloc extends Bloc<_Event, _State> {
   final OTRepository _repository;
   final TxSender _txSender;
   final LinkShortener _linkShortener;
+  final CancelTxSender _cancelTxSender;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
         process: (e) => _onProcess(e, emit),
+        cancel: (e) => _onCancel(e, emit),
       );
 
   Future<void> _onCreate(
@@ -108,7 +115,6 @@ class OTBloc extends Bloc<_Event, _State> {
       ),
       linkReady: (status) async => status,
       withdrawn: (status) async => status,
-      canceled: (status) async => status,
       txFailure: (_) => _createTx(payment.amount),
       txSendFailure: (status) => _sendTx(status.tx, escrow: status.escrow),
       txWaitFailure: (status) => _waitTx(status.tx, escrow: status.escrow),
@@ -116,6 +122,7 @@ class OTBloc extends Bloc<_Event, _State> {
         escrow: status.escrow,
         token: payment.amount.token,
       ),
+      cancel: (status) async => _cancelTx(status),
     );
 
     await _repository.save(payment.copyWith(status: newStatus));
@@ -128,12 +135,62 @@ class OTBloc extends Bloc<_Event, _State> {
       txConfirmed: (_) => add(OTEvent.process(payment.id)),
       linkReady: ignore,
       withdrawn: ignore,
-      canceled: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,
       txLinksFailure: ignore,
+      cancel: (it) => it.cancelStatus.maybeMap(
+        orElse: ignore,
+        txCreated: (_) => add(OTEvent.process(payment.id)),
+        txSent: (_) => add(OTEvent.process(payment.id)),
+      ),
     );
+  }
+
+  Future<void> _onCancel(OTEventCancel event, _Emitter _) async {
+    final payment = await _repository.load(event.id);
+
+    if (payment == null) return;
+
+    final escrow = payment.status.mapOrNull(
+      txCreated: (it) => it.escrow,
+      txSent: (it) => it.escrow,
+      txConfirmed: (it) => it.escrow,
+      linkReady: (it) => it.escrow,
+      txSendFailure: (it) => it.escrow,
+      txWaitFailure: (it) => it.escrow,
+      txLinksFailure: (it) => it.escrow,
+      cancel: (it) => it.cancelStatus.maybeMap(
+        orElse: () => it.escrow,
+        success: null,
+      ),
+    );
+
+    if (escrow == null) return;
+
+    final status = await _cancelTxSender
+        .processCancelEscrow(wallet: _account.publicKey, escrow: escrow)
+        .letAsync((it) => OTStatus.cancel(it, escrow: escrow));
+
+    await _repository.save(payment.copyWith(status: status));
+
+    if (status is OTStatusCancel) {
+      add(OTEvent.process(payment.id));
+    }
+  }
+
+  Future<OTStatus> _cancelTx(OTStatusCancel status) async {
+    try {
+      final cancelStatus = await _cancelTxSender.processCancelEscrow(
+        wallet: _account.publicKey,
+        escrow: status.escrow,
+        status: status.cancelStatus,
+      );
+
+      return OTStatus.cancel(cancelStatus, escrow: status.escrow);
+    } on Exception {
+      return const OTStatus.txFailure();
+    }
   }
 
   Future<OTStatus> _createTx(Amount amount) async {

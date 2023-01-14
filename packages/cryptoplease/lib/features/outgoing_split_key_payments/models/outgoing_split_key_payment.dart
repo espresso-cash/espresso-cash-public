@@ -5,6 +5,7 @@ import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/transactions/tx_sender.dart';
+import '../../cancel_outgoing_payment/cancel_outgoing_payment.dart';
 
 part 'outgoing_split_key_payment.freezed.dart';
 
@@ -54,10 +55,6 @@ class OSKPStatus with _$OSKPStatus {
     required String txId,
   }) = OSKPStatusWithdrawn;
 
-  const factory OSKPStatus.canceled({
-    required String txId,
-  }) = OSKPStatusCanceled;
-
   const factory OSKPStatus.txFailure({TxFailureReason? reason}) =
       OSKPStatusTxFailure;
 
@@ -74,4 +71,9 @@ class OSKPStatus with _$OSKPStatus {
   const factory OSKPStatus.txLinksFailure({
     required Ed25519HDKeyPair escrow,
   }) = OSKPStatusTxLinksFailure;
+
+  const factory OSKPStatus.cancel(
+    CancelStatus cancelStatus, {
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancel;
 }

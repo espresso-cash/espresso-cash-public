@@ -41,7 +41,6 @@ const _tables = [
   PopularTokenRows,
   OTRows,
   ITRows,
-  COPRows,
 ];
 
 @lazySingleton
@@ -110,11 +109,12 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 16 && from < 25) {
             await m.addColumn(oSKPRows, oSKPRows.withdrawTxId);
           }
-          if (from < 26) {
-            await m.createTable(cOPRows);
-          }
           if (from >= 22 && from < 26) {
             await m.addColumn(oTRows, oTRows.withdrawTxId);
+            await m.addColumn(oTRows, oTRows.cancelStatus);
+          }
+          if (from >= 16 && from < 26) {
+            await m.addColumn(oSKPRows, oSKPRows.cancelStatus);
           }
         },
       );

@@ -5,6 +5,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/transactions/tx_sender.dart';
+import '../../cancel_outgoing_payment/cancel_outgoing_payment.dart';
 
 part 'outgoing_tip_payment.freezed.dart';
 
@@ -53,10 +54,6 @@ class OTStatus with _$OTStatus {
     required String txId,
   }) = OTWithdrawn;
 
-  const factory OTStatus.canceled({
-    required String txId,
-  }) = OTCanceled;
-
   const factory OTStatus.txFailure({TxFailureReason? reason}) = OTTxFailure;
 
   const factory OTStatus.txSendFailure(
@@ -72,4 +69,9 @@ class OTStatus with _$OTStatus {
   const factory OTStatus.txLinksFailure({
     required Ed25519HDKeyPair escrow,
   }) = OTTxLinksFailure;
+
+  const factory OTStatus.cancel(
+    CancelStatus cancelStatus, {
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancel;
 }
