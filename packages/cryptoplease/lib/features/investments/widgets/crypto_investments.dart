@@ -65,9 +65,17 @@ class _Header extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          context.l10n.cryptoInvestments,
-          style: dashboardSectionTitleTextStyle,
+        Flexible(
+          child: FittedBox(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 4.0),
+              child: Text(
+                context.l10n.cryptoInvestments,
+                style: dashboardSectionTitleTextStyle,
+                maxLines: 2,
+              ),
+            ),
+          ),
         ),
         Text(
           balance.format(DeviceLocale.localeOf(context)),
