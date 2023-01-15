@@ -1,3 +1,7 @@
+## 0.1.0
+
+ - Bump "solana_mobile_client" to `0.1.0`.
+
 ## 0.0.4
 
  - **FEAT**: update mobile wallet client example (#667).
