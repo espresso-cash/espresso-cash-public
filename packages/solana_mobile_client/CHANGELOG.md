@@ -1,3 +1,7 @@
+## 0.0.4
+
+ - **FEAT**: update mobile wallet client example (#667).
+
 ## 0.0.3
 
  - **FEAT**: update library to 1.0.0 (#647).
