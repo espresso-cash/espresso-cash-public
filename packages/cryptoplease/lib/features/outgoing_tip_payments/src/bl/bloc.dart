@@ -15,7 +15,7 @@ import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import 'outgoing_tip_payment.dart';
+import '../../models/outgoing_tip_payment.dart';
 import 'repository.dart';
 
 part 'bloc.freezed.dart';

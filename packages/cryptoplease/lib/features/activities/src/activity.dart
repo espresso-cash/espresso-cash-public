@@ -1,8 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../outgoing_direct_payments/module.dart';
-import '../../outgoing_split_key_payments/module.dart';
-import '../../outgoing_tip_payments/module.dart';
+import '../../outgoing_direct_payments/models/outgoing_direct_payment.dart';
+import '../../outgoing_split_key_payments/models/outgoing_split_key_payment.dart';
+import '../../outgoing_tip_payments/models/outgoing_tip_payment.dart';
+import '../../swap/models/swap.dart';
 
 part 'activity.freezed.dart';
 
@@ -30,4 +31,10 @@ class Activity with _$Activity {
     required DateTime created,
     required OutgoingTipPayment data,
   }) = OTActivity;
+
+  const factory Activity.swap({
+    required String id,
+    required DateTime created,
+    required Swap data,
+  }) = SwapActivity;
 }

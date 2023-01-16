@@ -70,6 +70,17 @@
   "splitKeySecondLinkMessage": "Please click the second link in the message you've received.",
   "splitKeyTransferTitle": "TRANSFER PROGRESS",
   "splitKeyTransactionLoading": "Hang tight. We're almost done...",
+  "splitKeyCanceledMessage1": "{amount} Transaction canceled.",
+  "@splitKeyCanceledMessage1": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitKeySuccessMessage1": "SUCCESS!",
+  "splitKeySuccessMessage2": "Your transfer has been sent.",
+  "splitKeyErrorMessage1": "OOPS!",
   "transferSuccessTitle": "SUCCESS!",
   "outgoingTransferSuccess": "Your transfer has been sent.",
   "transferErrorTitle": "OOPS!",
@@ -87,6 +98,7 @@
   "splitKeyProgressWaiting": "Waiting for the receiver to withdraw the funds",
   "splitKeyProgressWithdrawn": "Funds are withdrawn",
   "splitKeyProgressSuccess": "Money has been successfully received",
+  "splitKeyProgressCanceled": "Transfer has been canceled",
   "resendLink": "Resend Links",
   "buy": "Buy",
   "sell": "Sell",
@@ -125,9 +137,8 @@
   },
   "paymentRequestNotificationSubtitle": "Payment request",
   "splitKeyConfirmationDialogContent": "Are you sure you don't want to get the money available for you?",
-  "securitySectionTitle": "Security",
-  "profileSectionTitle": "Profile",
-  "yourAccountSectionTitle": "About",
+  "securitySectionTitle": "SECURITY AND PRIVACY",
+  "learningSectionTitle": "LEARNING CENTER",
   "dangerZoneSectionTitle": "Danger Zone",
   "help": "Help",
   "buySol": "Buy SOL",
@@ -264,7 +275,6 @@
   },
   "yourLinkIsReady": "Your link is ready",
   "sendAs": "Send as",
-  "investments": "INVESTMENTS",
   "popularCryptoTitle": "Popular Crypto",
   "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
   "all": "All",
@@ -414,7 +424,7 @@
   "settings": "Settings",
   "displayEmptyBalanceTitle": "Display Empty Balances",
   "displayEmptyBalanceSubtitle": "Show your crypto with zero balances",
-  "following": "FOLLOWING",
+  "following": "Following",
   "favoritesAddNotice": "Added to favorites!",
   "favoritesRemoveNotice": "Removed from favorites!",
   "searchPlaceholder": "Search...",
@@ -451,5 +461,29 @@
       }
     }
   },
-  "moneyReceived": "Money has been received"
+  "qrCameraPermissionTitle": "Camera disabled",
+  "qrCameraPermissionMessage": "Allow camera access in your device settings to enable the QR Code reader.",
+  "qrInputAddressTitle": "Send manually",
+  "qrInputAddressMessage": "You can enter the receiver Solana wallet address to send money directly to them.",
+  "qrInputAddressHint": "Enter the crypto address here",
+  "cryptoCashBalance": "Crypto Cash\nBalance",
+  "usdcInfo": "The US Dollar Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar. ($1 = 1USDC)",
+  "cryptoInvestments": "Crypto\nInvestments",
+  "moneyReceived": "Money has been received",
+  "boughtToken": "Bought {amount}",
+  "@boughtToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "soldToken": "Sold {amount}",
+  "@soldToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

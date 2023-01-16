@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
-import '../../../swap/module.dart';
+import '../../../swap/widgets/extensions.dart';
 
 class ExchangeButtons extends StatelessWidget {
   const ExchangeButtons({

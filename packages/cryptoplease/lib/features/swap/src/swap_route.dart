@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/amount.dart';
-import 'swap_seed.dart';
+import '../models/swap_seed.dart';
 
 part 'swap_route.freezed.dart';
 
