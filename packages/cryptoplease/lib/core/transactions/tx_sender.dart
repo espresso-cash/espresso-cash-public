@@ -63,8 +63,7 @@ class TxSender {
       if (t == null) {
         final bh = tx.blockhash;
         final isValidBlockhash = await _client.rpcClient
-            .getFeeCalculatorForBlockhash(bh, commitment: Commitment.confirmed)
-            .then((it) => it != null);
+            .isBlockhashValid(bh, commitment: Commitment.confirmed);
         if (!isValidBlockhash) return const TxWaitResult.failure();
       } else {
         if (t.err != null) return const TxWaitResult.failure();
