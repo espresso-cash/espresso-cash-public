@@ -20,6 +20,7 @@ import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/token_icon.dart';
 import '../../favorite_tokens/widgets/favorite_button.dart';
+import '../../ramp/widgets/ramp_buttons.dart';
 import '../../token_chart/module.dart';
 import '../../token_chart/widgets/token_chart.dart';
 import '../../token_chart/widgets/token_overview.dart';
@@ -69,6 +70,7 @@ class TokenDetailsScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       _Chart(token: token),
                       if (token.canBeSwapped) ExchangeButtons(token: token),
+                      if (token == Token.usdc) const RampButtons(),
                       _Content(token: token),
                     ],
                   ),

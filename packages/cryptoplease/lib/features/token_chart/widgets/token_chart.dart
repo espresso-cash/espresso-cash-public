@@ -100,6 +100,7 @@ class _ChartWidget extends StatelessWidget {
       tooltipBgColor: Colors.transparent,
       showOnTopOfTheChartBoxArea: true,
       tooltipMargin: 12,
+      maxContentWidth: 300,
       getTooltipItems: (touchedSpots) =>
           touchedSpots.map(createTooltipItem).toList(),
     );

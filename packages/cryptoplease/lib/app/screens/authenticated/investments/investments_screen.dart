@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../core/presentation/page_fade_wrapper.dart';
 import '../../../../features/favorite_tokens/widgets/extensions.dart';
 import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
 import '../../../../features/investments/widgets/crypto_investments.dart';
@@ -24,46 +25,51 @@ class InvestmentsScreen extends StatefulWidget {
 
 class _InvestmentsScreenState extends State<InvestmentsScreen> {
   @override
-  Widget build(BuildContext context) => RefreshBalancesWrapper(
-        builder: (context, onRefresh) => RefreshIndicator(
-          displacement: 80,
-          onRefresh: () => Future.wait([
-            onRefresh(),
-            context.refreshPopularTokens(),
-            context.refreshFavorites(),
-          ]),
-          color: CpColors.primaryColor,
-          child: const CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                shape: Border(),
-                title: _AppBarContent(),
-                pinned: true,
-                snap: false,
-                floating: false,
-                elevation: 0,
-                backgroundColor: Colors.white,
+  Widget build(BuildContext context) => PageFadeWrapper(
+        child: Container(
+          padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
+          child: RefreshBalancesWrapper(
+            builder: (context, onRefresh) => RefreshIndicator(
+              displacement: 80,
+              onRefresh: () => Future.wait([
+                onRefresh(),
+                context.refreshPopularTokens(),
+                context.refreshFavorites(),
+              ]),
+              color: CpColors.primaryColor,
+              child: const CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    shape: Border(),
+                    title: _AppBarContent(),
+                    pinned: true,
+                    snap: false,
+                    floating: false,
+                    elevation: 0,
+                    backgroundColor: Colors.white,
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(vertical: 52, horizontal: 24),
+                    sliver: SliverToBoxAdapter(child: InvestmentHeader()),
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsets.only(left: 24, right: 24),
+                    sliver: CryptoInvestments(),
+                  ),
+                  FavoriteTokenList(),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 32, bottom: 24),
+                      child: PopularCryptoHeader(),
+                    ),
+                  ),
+                  PopularTokenList(),
+                  SliverToBoxAdapter(
+                    child: SizedBox(height: 12),
+                  ),
+                ],
               ),
-              SliverPadding(
-                padding: EdgeInsets.symmetric(vertical: 52, horizontal: 24),
-                sliver: SliverToBoxAdapter(child: InvestmentHeader()),
-              ),
-              SliverPadding(
-                padding: EdgeInsets.only(left: 24, right: 24),
-                sliver: CryptoInvestments(),
-              ),
-              FavoriteTokenList(),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 32, bottom: 24),
-                  child: PopularCryptoHeader(),
-                ),
-              ),
-              PopularTokenList(),
-              SliverToBoxAdapter(
-                child: SizedBox(height: cpNavigationBarheight + 56),
-              ),
-            ],
+            ),
           ),
         ),
       );
