@@ -5,7 +5,7 @@ import '../../models/transaction.dart';
 import '../transaction_repository.dart';
 import 'common_tile.dart';
 import 'odp_tile.dart';
-import 'oksp_tile.dart';
+import 'oskp_tile.dart';
 import 'ot_tile.dart';
 import 'payment_request_tile.dart';
 import 'swap_tile.dart';

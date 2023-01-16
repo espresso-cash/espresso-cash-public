@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
+import '../../core/transactions/tx_destinations.dart';
 import 'models/outgoing_split_key_payment.dart';
 import 'src/bl/repository.dart';
 
@@ -93,26 +94,4 @@ class OSKPVerifier {
       subscription.cancel();
     }
   }
-}
-
-extension on ParsedTransaction {
-  /// Retrieves all destinations of a transaction
-  Iterable<String> getDestinations() => message.instructions
-      .whereType<ParsedInstruction>()
-      .let((it) => it.map((ix) => ix.getDestination()).compact());
-
-  String get id => signatures.first;
-}
-
-extension on ParsedInstruction {
-  String? getDestination() => mapOrNull<String?>(
-        system: (it) => it.parsed.mapOrNull(
-          transfer: (t) => t.info.destination,
-          transferChecked: (t) => t.info.destination,
-        ),
-        splToken: (it) => it.parsed.mapOrNull(
-          transfer: (t) => t.info.destination,
-          transferChecked: (t) => t.info.destination,
-        ),
-      );
 }

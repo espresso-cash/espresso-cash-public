@@ -22,6 +22,7 @@ import 'stories/snackbar.dart';
 import 'stories/status_screen.dart';
 import 'stories/status_widget.dart';
 import 'stories/switch.dart';
+import 'stories/text_button.dart';
 import 'stories/text_field.dart';
 import 'stories/timeline.dart';
 import 'stories/user_avatar.dart';
@@ -79,6 +80,7 @@ class StorybookApp extends StatelessWidget {
           cpStatus,
           cpStatusScreen,
           cpSwitch,
+          cpTextButton,
           cpTextField,
           cpTimeline,
           cpUserAvatar,
