@@ -1,3 +1,11 @@
+## 1.59.0
+
+ - **FIX**: minor ui updates (#709).
+ - **FIX**: investments sync (#701).
+ - **FEAT**: add ramp buttons to usdc token page (#707).
+ - **FEAT**: improve token dropdown on swap screen (#704).
+ - **FEAT**: add swap tile to transaction list (#703).
+
 ## 1.58.1
 
  - **FIX**: show low value decimal numbers (#685).
