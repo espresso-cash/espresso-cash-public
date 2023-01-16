@@ -100,7 +100,8 @@
   "splitKeyProgressWithdrawn": "Funds are withdrawn",
   "splitKeyProgressSuccess": "Money has been successfully received",
   "splitKeyProgressCanceling": "Canceling transfer",
-  "splitKeyProgressCanceled": "Transfer canceled",
+  "splitKeyProgressCanceled": "Transfer has been canceled",
+  "transferCanceled": "Transfer canceled",
   "resendLink": "Resend Links",
   "buy": "Buy",
   "sell": "Sell",
@@ -458,6 +459,14 @@
   "tipProgressCanceled": "Tip has been canceled",
   "tipProgressOngoing": "Tipping {amount} using secure link...",
   "@tipProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "tipCanceledMessage": "{amount} Tip canceled.",
+  "@tipCanceledMessage": {
     "placeholders": {
       "amount": {
         "type": "String"

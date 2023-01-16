@@ -70,7 +70,6 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
           final isProcessing = payment != null &&
               context.watch<OTBloc>().state.contains(payment.id);
 
-          final paymentId = payment?.id;
           final isCancelable = payment
               .maybeFlatMap(
                 (it) => it.status.maybeMap(
@@ -91,6 +90,9 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                     txSendFailure: always(CpStatusType.error),
                     txWaitFailure: always(CpStatusType.error),
                     txLinksFailure: always(CpStatusType.error),
+                    cancelTxFailure: always(CpStatusType.error),
+                    cancelTxSendFailure: always(CpStatusType.error),
+                    cancelTxWaitFailure: always(CpStatusType.error),
                   ) ??
                   CpStatusType.info;
 
@@ -102,7 +104,11 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
               ? context.l10n.loading
               : payment.status.maybeMap(
                   withdrawn: always(context.l10n.outgoingTransferSuccess),
-                  canceled: always(context.l10n.tipProgressCanceled),
+                  canceled: always(
+                    context.l10n.tipCanceledMessage(
+                      payment.amount.format(locale),
+                    ),
+                  ),
                   txFailure: (it) => [
                     context.l10n.splitKeyErrorMessage2,
                     if (it.reason == TxFailureReason.insufficientFunds)
@@ -111,6 +117,18 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                   txSendFailure: always(context.l10n.splitKeyErrorMessage2),
                   txWaitFailure: always(context.l10n.splitKeyErrorMessage2),
                   txLinksFailure: always(context.l10n.splitKeyErrorMessage2),
+                  cancelTxCreated:
+                      always(context.l10n.splitKeyProgressCanceling),
+                  cancelTxSent: always(context.l10n.splitKeyProgressCanceling),
+                  cancelTxSendFailure:
+                      always(context.l10n.splitKeyCancelErrorMessage),
+                  cancelTxWaitFailure:
+                      always(context.l10n.splitKeyCancelErrorMessage),
+                  cancelTxFailure: (it) => [
+                    context.l10n.splitKeyCancelErrorMessage,
+                    if (it.reason == TxFailureReason.insufficientFunds)
+                      context.l10n.cancelErrorMessageInsufficientFunds,
+                  ].join(' '),
                   orElse: always(
                     context.l10n.tipProgressOngoing(
                       payment.amount.format(locale),
@@ -127,13 +145,16 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                     txSendFailure: always(CpTimelineStatus.failure),
                     txWaitFailure: always(CpTimelineStatus.failure),
                     txLinksFailure: always(CpTimelineStatus.failure),
+                    cancelTxFailure: always(CpTimelineStatus.failure),
+                    cancelTxSendFailure: always(CpTimelineStatus.failure),
+                    cancelTxWaitFailure: always(CpTimelineStatus.failure),
                   ) ??
                   CpTimelineStatus.inProgress;
 
           final int activeItem = payment?.status.mapOrNull(
                 withdrawn: always(2),
-                canceled: always(1),
                 linkReady: always(1),
+                canceled: always(1),
               ) ??
               0;
 
@@ -158,21 +179,28 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
             title: context.l10n.tipProgressCanceled,
           );
 
+          final cancelingItems = [
+            linkCreated,
+            paymentCanceled,
+          ];
+
           final items = payment?.status.mapOrNull(
                 withdrawn: always([
                   linkCreated,
                   fundsWithdrawn,
                   paymentSuccess,
                 ]),
-                canceled: always([
-                  linkCreated,
-                  paymentCanceled,
-                ]),
                 linkReady: always([
                   linkCreated,
                   waitingForReceiver,
                   paymentSuccess,
                 ]),
+                canceled: always(cancelingItems),
+                cancelTxCreated: always(cancelingItems),
+                cancelTxFailure: always(cancelingItems),
+                cancelTxSendFailure: always(cancelingItems),
+                cancelTxSent: always(cancelingItems),
+                cancelTxWaitFailure: always(cancelingItems),
               ) ??
               [
                 creatingLink,
@@ -224,7 +252,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                           ],
                         ) ??
                         [],
-                  if (!isProcessing && isCancelable && paymentId != null)
+                  if (!isProcessing && isCancelable && payment != null)
                     Padding(
                       padding: EdgeInsets.only(
                         top: 24,
@@ -235,7 +263,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
                         variant: CpTextButtonVariant.light,
                         onPressed: () => context
                             .read<OTBloc>()
-                            .add(OTEvent.cancel(paymentId)),
+                            .add(OTEvent.cancel(payment.id)),
                       ),
                     ),
                 ],
