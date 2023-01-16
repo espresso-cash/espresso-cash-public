@@ -73,10 +73,10 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
           final isCancelable = payment
               .maybeFlatMap(
                 (it) => it.status.maybeMap(
-                  orElse: T,
                   txFailure: F,
                   withdrawn: F,
                   canceled: F,
+                  orElse: T,
                 ),
               )
               .ifNull(F);

@@ -23,8 +23,8 @@ class OSKPTile extends StatelessWidget {
             Expanded(
               child: Text(
                 activity.data.status.maybeMap(
-                  orElse: always(context.l10n.sentViaLink),
                   canceled: always(context.l10n.transferCanceled),
+                  orElse: always(context.l10n.sentViaLink),
                 ),
                 style: titleStyle,
                 overflow: TextOverflow.ellipsis,
@@ -37,11 +37,13 @@ class OSKPTile extends StatelessWidget {
             ),
           ],
         ),
-        subtitle:
-            Text(context.formatDate(activity.created), style: subtitleStyle),
+        subtitle: Text(
+          context.formatDate(activity.created),
+          style: subtitleStyle,
+        ),
         leading: activity.data.status.maybeMap(
-          orElse: always(Assets.icons.outgoing.svg(width: iconSize)),
           canceled: always(Assets.icons.txFailed.svg(width: iconSize)),
+          orElse: always(Assets.icons.outgoing.svg(width: iconSize)),
         ),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );
