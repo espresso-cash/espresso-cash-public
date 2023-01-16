@@ -243,7 +243,9 @@ class _$StakeProgramDelegatedAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramDelegatedAccountDataToJson(this);
+    return _$$StakeProgramDelegatedAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -256,7 +258,7 @@ abstract class StakeProgramDelegatedAccountData
   factory StakeProgramDelegatedAccountData.fromJson(Map<String, dynamic> json) =
       _$StakeProgramDelegatedAccountData.fromJson;
 
-  StakeDelegatedAccountInfo get info => throw _privateConstructorUsedError;
+  StakeDelegatedAccountInfo get info;
   @JsonKey(ignore: true)
   _$$StakeProgramDelegatedAccountDataCopyWith<
           _$StakeProgramDelegatedAccountData>
@@ -412,7 +414,9 @@ class _$StakeProgramInitializedAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramInitializedAccountDataToJson(this);
+    return _$$StakeProgramInitializedAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -426,7 +430,7 @@ abstract class StakeProgramInitializedAccountData
           Map<String, dynamic> json) =
       _$StakeProgramInitializedAccountData.fromJson;
 
-  StakeInitializedAccountInfo get info => throw _privateConstructorUsedError;
+  StakeInitializedAccountInfo get info;
   @JsonKey(ignore: true)
   _$$StakeProgramInitializedAccountDataCopyWith<
           _$StakeProgramInitializedAccountData>
@@ -586,7 +590,9 @@ class _$StakeProgramUnknownAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramUnknownAccountDataToJson(this);
+    return _$$StakeProgramUnknownAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -598,7 +604,7 @@ abstract class StakeProgramUnknownAccountData
   factory StakeProgramUnknownAccountData.fromJson(Map<String, dynamic> json) =
       _$StakeProgramUnknownAccountData.fromJson;
 
-  Map<String, dynamic> get info => throw _privateConstructorUsedError;
+  Map<String, dynamic> get info;
   @JsonKey(ignore: true)
   _$$StakeProgramUnknownAccountDataCopyWith<_$StakeProgramUnknownAccountData>
       get copyWith => throw _privateConstructorUsedError;

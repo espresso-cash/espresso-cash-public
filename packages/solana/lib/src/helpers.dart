@@ -57,6 +57,38 @@ Future<SignedTx> signTransaction(
     feePayer: signers.first.publicKey,
   );
 
+  return _signCompiledMessage(
+    compiledMessage,
+    signers,
+  );
+}
+
+Future<SignedTx> signV0Transaction(
+  RecentBlockhash recentBlockhash,
+  Message message,
+  List<Ed25519HDKeyPair> signers, {
+  List<AddressLookupTableAccount>? addressLookupTableAccounts,
+}) async {
+  if (signers.isEmpty) {
+    throw const FormatException('you must specify at least on signer');
+  }
+
+  final CompiledMessage compiledMessage = message.compileToV0Message(
+    recentBlockhash: recentBlockhash.blockhash,
+    feePayer: signers.first.publicKey,
+    addressLookupTableAccounts: addressLookupTableAccounts,
+  );
+
+  return _signCompiledMessage(
+    compiledMessage,
+    signers,
+  );
+}
+
+Future<SignedTx> _signCompiledMessage(
+  CompiledMessage compiledMessage,
+  List<Ed25519HDKeyPair> signers,
+) async {
   final int requiredSignaturesCount = compiledMessage.requiredSignatureCount;
   if (signers.length != requiredSignaturesCount) {
     throw FormatException(

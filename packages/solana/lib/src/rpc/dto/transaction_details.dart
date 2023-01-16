@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/meta.dart';
 import 'package:solana/src/rpc/dto/transaction.dart';
+import 'package:solana/src/rpc/dto/transaction_version.dart';
 
 part 'transaction_details.g.dart';
 
@@ -12,6 +13,7 @@ class TransactionDetails {
     required this.transaction,
     this.blockTime,
     this.meta,
+    this.version,
   });
 
   factory TransactionDetails.fromJson(Map<String, dynamic> json) =>
@@ -29,4 +31,8 @@ class TransactionDetails {
 
   /// Transaction status metadata
   final Meta? meta;
+
+  /// Transaction version.
+  /// Undefined if maxSupportedTransactionVersion is not set in request params.
+  final TransactionVersion? version;
 }

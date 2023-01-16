@@ -63,8 +63,7 @@ class TxSender {
       if (t == null) {
         final bh = tx.blockhash;
         final isValidBlockhash = await _client.rpcClient
-            .getFeeCalculatorForBlockhash(bh, commitment: Commitment.confirmed)
-            .then((it) => it != null);
+            .isBlockhashValid(bh, commitment: Commitment.confirmed);
         if (!isValidBlockhash) return const TxWaitResult.failure();
       } else {
         if (t.err != null) return const TxWaitResult.failure();
@@ -113,6 +112,20 @@ class StubSignedTx implements SignedTx {
 
   @override
   ByteArray toByteArray() => throw UnimplementedError();
+
+  @override
+  Message decodeMessage({
+    LoadedAddresses? accountKeysFromLookups,
+    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
+  TxData get txData => throw UnimplementedError();
+
+  @override
+  TransactionVersion get version => throw UnimplementedError();
 }
 
 @freezed

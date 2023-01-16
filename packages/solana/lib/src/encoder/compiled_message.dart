@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/constants.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/compact_u16.dart';
+import 'package:solana/src/encoder/transaction/version.dart';
 
 part 'compiled_message.freezed.dart';
 
@@ -20,5 +21,16 @@ class CompiledMessage with _$CompiledMessage {
 
   const CompiledMessage._();
 
-  int get requiredSignatureCount => data.first;
+  int get requiredSignatureCount =>
+      version == TransactionVersion.legacy ? data.first : data.elementAt(1);
+
+  TransactionVersion get version {
+    final prefix = data.first;
+
+    final maskedPrefix = prefix & 0x7f;
+
+    return maskedPrefix == prefix
+        ? TransactionVersion.legacy
+        : TransactionVersion.v0;
+  }
 }

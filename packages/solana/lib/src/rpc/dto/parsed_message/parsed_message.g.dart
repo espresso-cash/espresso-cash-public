@@ -16,4 +16,7 @@ ParsedMessage _$ParsedMessageFromJson(Map<String, dynamic> json) =>
           .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
           .toList(),
       header: json['header'] == null ? null : Header.fromJson(json['header']),
+      addressTableLookups: (json['addressTableLookups'] as List<dynamic>?)
+          ?.map((e) => AddressTableLookups.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );

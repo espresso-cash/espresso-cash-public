@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc/dto/commitment.dart';
+import 'package:solana/src/rpc/dto/confirmation_status.dart';
 
 part 'transaction_signature_information.g.dart';
 
@@ -11,6 +13,7 @@ class TransactionSignatureInformation {
     required this.err,
     required this.memo,
     required this.blockTime,
+    this.confirmationStatus,
   });
 
   factory TransactionSignatureInformation.fromJson(Map<String, dynamic> json) =>
@@ -32,4 +35,11 @@ class TransactionSignatureInformation {
   /// the Unix epoch) of when transaction was processed. null if
   /// not available.
   final int? blockTime;
+
+  /// The transaction's cluster confirmation status; either
+  /// [Commitment.processed], [Commitment.confirmed], or
+  /// [Commitment.finalized]. See
+  /// [Commitment](@help/commitment/link) for more on optimistic
+  /// confirmation.
+  final ConfirmationStatus? confirmationStatus;
 }
