@@ -85,6 +85,7 @@
   "outgoingTransferSuccess": "Your transfer has been sent.",
   "transferErrorTitle": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
+  "splitKeyCancelErrorMessage": "There was an issue canceling your transfer.",
   "splitKeyErrorRetry": "Please retry.",
   "splitKeyProgressOngoing": "Sending {amount} using secure links...",
   "@splitKeyProgressOngoing": {
@@ -98,7 +99,8 @@
   "splitKeyProgressWaiting": "Waiting for the receiver to withdraw the funds",
   "splitKeyProgressWithdrawn": "Funds are withdrawn",
   "splitKeyProgressSuccess": "Money has been successfully received",
-  "splitKeyProgressCanceled": "Transfer has been canceled",
+  "splitKeyProgressCanceling": "Canceling transfer",
+  "splitKeyProgressCanceled": "Transfer canceled",
   "resendLink": "Resend Links",
   "buy": "Buy",
   "sell": "Sell",
@@ -487,12 +489,11 @@
       }
     }
   },
-  "outgoingPaymentCanceled": "Payment has been canceled",
   "cancelTransfer": "Cancel transfer",
   "sentViaLink": "Sent via link",
-  "transferCanceled": "Transfer canceled",
   "tipViaQrCode": "Tip via QR Code",
   "tipCanceled": "Tip canceled",
   "cancelTip": "Cancel tip",
-  "paymentRequestCancel": "Cancel request"
+  "paymentRequestCancel": "Cancel request",
+  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn."
 }
