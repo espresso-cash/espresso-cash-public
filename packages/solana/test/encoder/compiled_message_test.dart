@@ -3,6 +3,8 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
+import 'util.dart';
+
 Future<void> main() async {
   final fundingAccount = await Ed25519HDKeyPair.random();
   final recipientAccount = await Ed25519HDKeyPair.random();
@@ -89,6 +91,40 @@ Future<void> main() async {
           CompiledMessage.fromSignedTransaction(signedTx.toByteArray());
 
       expect(compiledMessage, fromSigned);
+    });
+
+    test('Compile with look up table', () async {
+      final keys = await createTestKeys(7);
+      final payer = keys.first;
+
+      final instructions = [
+        Instruction(
+          programId: keys[4],
+          accounts: [
+            createAccountMeta(keys[1], true, true),
+            createAccountMeta(keys[2], true, false),
+            createAccountMeta(keys[3], false, true),
+            createAccountMeta(keys[5], false, true),
+            createAccountMeta(keys[6], false, false),
+          ],
+          data: ByteArray.u8(1),
+        ),
+      ];
+
+      final message = Message(instructions: instructions);
+
+      final addressLookupTableAccounts = [
+        await createTestAddressLookUpTable(keys)
+      ];
+
+      final compiledMessage = message.compileToV0Message(
+        recentBlockhash: base58encode(List.filled(32, 0)),
+        feePayer: payer,
+        addressLookupTableAccounts: addressLookupTableAccounts,
+      );
+
+      expect(compiledMessage.requiredSignatureCount, 3);
+      expect(compiledMessage.version, TransactionVersion.v0);
     });
   });
 }

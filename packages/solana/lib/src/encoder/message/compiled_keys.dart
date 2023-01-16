@@ -138,7 +138,7 @@ class CompiledKeys {
   }
 
   TableLookupResult? extractTableLookup(AddressLookupTableAccount lookupTable) {
-    final writableDrainedKeys = drainKeysFoundInLookupTable(
+    final writableDrainedKeys = _drainKeysFoundInLookupTable(
       lookupTable.state.addresses,
       (keyMeta) =>
           !keyMeta.isSigner && !keyMeta.isInvoked && keyMeta.isWritable,
@@ -146,7 +146,7 @@ class CompiledKeys {
     final writableIndexes = writableDrainedKeys.lookupTableIndexes;
     final drainedWritableKeys = writableDrainedKeys.drainedKeys;
 
-    final readOnlyDrainedKeys = drainKeysFoundInLookupTable(
+    final readOnlyDrainedKeys = _drainKeysFoundInLookupTable(
       lookupTable.state.addresses,
       (keyMeta) =>
           !keyMeta.isSigner && !keyMeta.isInvoked && !keyMeta.isWritable,
@@ -170,17 +170,19 @@ class CompiledKeys {
       readonly: drainedReadonlyKeys,
     );
 
-    return TableLookupResult(lookup, keys);
+    return TableLookupResult(lookup: lookup, keys: keys);
   }
 
-  DrainedKeys drainKeysFoundInLookupTable(
+  DrainedKeys _drainKeysFoundInLookupTable(
     List<Ed25519HDPublicKey> lookupTableEntries,
     bool Function(CompiledKeyMeta) keyMetaFilter,
   ) {
     final lookupTableIndexes = <int>[];
     final drainedKeys = <Ed25519HDPublicKey>[];
 
-    for (final entry in keyMetaMap.entries) {
+    final mapEntries = [...keyMetaMap.entries];
+
+    for (final entry in mapEntries) {
       final address = entry.key;
       final keyMeta = entry.value;
 
@@ -194,26 +196,30 @@ class CompiledKeys {
           }
           lookupTableIndexes.add(lookupTableIndex);
           drainedKeys.add(key);
+          keyMetaMap.remove(address);
         }
       }
     }
 
-    return DrainedKeys(lookupTableIndexes, drainedKeys);
+    return DrainedKeys(
+      lookupTableIndexes: lookupTableIndexes,
+      drainedKeys: drainedKeys,
+    );
   }
 }
 
-class TableLookupResult {
-  TableLookupResult(this.lookup, this.keys);
-
-  final MessageAddressTableLookup lookup;
-  final LoadedAddresses keys;
-}
-
 class DrainedKeys {
-  DrainedKeys(this.lookupTableIndexes, this.drainedKeys);
+  DrainedKeys({required this.lookupTableIndexes, required this.drainedKeys});
 
   final List<int> lookupTableIndexes;
   final List<Ed25519HDPublicKey> drainedKeys;
+}
+
+class TableLookupResult {
+  TableLookupResult({required this.lookup, required this.keys});
+
+  final MessageAddressTableLookup lookup;
+  final LoadedAddresses keys;
 }
 
 class MessageComponents {

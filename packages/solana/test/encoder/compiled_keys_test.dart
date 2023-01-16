@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 import 'util.dart';
 
 Future<void> main() async {
-  test('compile', () async {
+  test('Compile', () async {
     final payer = await Ed25519HDKeyPair.random();
     final keys = await createTestKeys(6);
     final programIds = await createTestKeys(4);
@@ -67,7 +67,7 @@ Future<void> main() async {
     expect(compiledKeys.payer, payer.publicKey);
   });
 
-  test('compile with dup payer', () async {
+  test('Compile with duplicate payer', () async {
     final payer = await Ed25519HDKeyPair.random();
     final programId = await Ed25519HDKeyPair.random();
 
@@ -91,7 +91,7 @@ Future<void> main() async {
     expect(compiledKeys.payer, payer.publicKey);
   });
 
-  test('compile with dup key', () async {
+  test('Compile with duplicate key', () async {
     final payer = await Ed25519HDKeyPair.random();
     final key = await Ed25519HDKeyPair.random();
     final programId = await Ed25519HDKeyPair.random();
@@ -120,7 +120,7 @@ Future<void> main() async {
     expect(compiledKeys.payer, payer.publicKey);
   });
 
-  test('getMessageComponents', () async {
+  test('GetMessageComponents', () async {
     final keys = await createTestKeys(4);
     final payer = keys.first;
 
@@ -194,7 +194,7 @@ Future<void> main() async {
     );
   });
 
-  test('extractTableLookup no extractable keys found', () async {
+  test('extractTableLookup with no extractable keys found', () async {
     final keys = await createTestKeys(6);
     final Map<String, CompiledKeyMeta> map = {};
     _setMapEntry(map, keys.first, true, true, false);

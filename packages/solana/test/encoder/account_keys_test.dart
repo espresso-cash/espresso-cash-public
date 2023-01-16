@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 import 'util.dart';
 
 Future<void> main() async {
-  test('key segments', () async {
+  test('Key segments', () async {
     final keys = await createTestKeys(6);
     final staticAccountKeys = keys.getRange(0, 3).toList();
     final accountKeysFromLookups = LoadedAddresses(
@@ -28,7 +28,7 @@ Future<void> main() async {
     expect(accountKeys.keySegments(), expectedSegments);
   });
 
-  test('get', () async {
+  test('Get Account Keys', () async {
     final keys = await createTestKeys(3);
     final accountKeys = MessageAccountKeys(staticAccountKeys: keys);
 
@@ -42,7 +42,7 @@ Future<void> main() async {
     expect(accountKeys.length, 3);
   });
 
-  test('get with loaded address', () async {
+  test('Get with loaded address', () async {
     final keys = await createTestKeys(6);
     final staticAccountKeys = keys.getRange(0, 3).toList();
     final accountKeysFromLookups = LoadedAddresses(
@@ -67,7 +67,7 @@ Future<void> main() async {
     expect(accountKeys.length, 6);
   });
 
-  test('compile', () async {
+  test('Compile Instructions', () async {
     final keys = await createTestKeys(3);
     final staticAccountKeys = [keys.first];
     final accountKeysFromLookups = LoadedAddresses(
@@ -102,7 +102,7 @@ Future<void> main() async {
     expect(compiled.data, expected.data);
   });
 
-  test('compileInstructions with unknown key', () async {
+  test('Compile instructions with unknown key', () async {
     final keys = await createTestKeys(3);
     final staticAccountKeys = [keys.first];
     final accountKeysFromLookups = LoadedAddresses(
@@ -141,7 +141,7 @@ Future<void> main() async {
     }
   });
 
-  test('overflow', () async {
+  test('Expect overflow', () async {
     final keys = await createTestKeys(257);
     final staticAccountKeys = keys.getRange(0, 256).toList();
     final accountKeysFromLookups = LoadedAddresses(

@@ -45,4 +45,22 @@ class MessageCompiledInstruction {
   final List<int> accountKeyIndexes;
 
   final ByteArray data;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other.runtimeType == runtimeType &&
+          other is MessageCompiledInstruction &&
+          runtimeType == other.runtimeType &&
+          programIdIndex == other.programIdIndex &&
+          const DeepCollectionEquality()
+              .equals(accountKeyIndexes, other.accountKeyIndexes) &&
+          const DeepCollectionEquality().equals(data, other.data));
+
+  @override
+  int get hashCode => Object.hash(
+        programIdIndex,
+        const DeepCollectionEquality().hash(accountKeyIndexes),
+        const DeepCollectionEquality().hash(data),
+      );
 }
