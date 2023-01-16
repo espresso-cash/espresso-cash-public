@@ -557,9 +557,9 @@ packages:
   solana:
     dependency: "direct main"
     description:
-      name: solana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../solana"
+      relative: true
+    source: path
     version: "0.26.3"
   source_gen:
     dependency: transitive

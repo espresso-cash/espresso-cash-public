@@ -5,6 +5,7 @@ import 'package:cryptoplease_link/src/swap/jupiter_repository.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sentry/sentry.dart';
+import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -57,8 +58,16 @@ class CreateSwap {
     final route = responses.first as RouteInfo;
     final price = responses.last as double;
 
-    final jupiterMessage =
-        route.jupiterTx.let(SignedTx.decode).let((tx) => tx.message);
+    final jupiterTx = route.jupiterTx.let(SignedTx.decode);
+
+    final addressTableLookups = (jupiterTx.txData as TxV0).addressTableLookups;
+
+    final lookUpTables =
+        await getAddressLookUpTableAccounts(addressTableLookups);
+
+    final jupiterMessage = jupiterTx.let(
+      (tx) => tx.decodeMessage(addressLookupTableAccounts: lookUpTables),
+    );
 
     final nonClosedAtaCount =
         jupiterMessage.createAtaCount() - jupiterMessage.closeAccountCount();
@@ -124,15 +133,16 @@ class CreateSwap {
             wrappedSolAccount: wrappedSolAccount,
             sender: aSender,
           ),
-        )
-        .let((m) => m.addInstruction(feeIx));
+        );
+    // .let((m) => m.addInstruction(feeIx));
 
-    final recentBlockhash = await _client.rpcClient.getRecentBlockhash(
+    final recentBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
     );
-    final compiled = message.compile(
+    final compiled = message.compileToV0Message(
       recentBlockhash: recentBlockhash.blockhash,
       feePayer: feePayer,
+      addressLookupTableAccounts: lookUpTables,
     );
 
     final tx = SignedTx(
@@ -150,6 +160,36 @@ class CreateSwap {
       fee: fee,
       transaction: tx,
     );
+  }
+
+  Future<List<AddressLookupTableAccount>> getAddressLookUpTableAccounts(
+    List<MessageAddressTableLookup> lookup,
+  ) async {
+    final List<AddressLookupTableAccount> accounts = [];
+
+    for (final entry in lookup) {
+      final account = await _client.rpcClient.getAccountInfo(
+        entry.accountKey.toBase58(),
+        encoding: Encoding.base64,
+      );
+
+      if (account == null) {
+        throw StateError('Could not find address lookup table account');
+      }
+
+      if (account.data == null) {
+        throw Exception('Account data is null');
+      }
+
+      final input = ByteArray((account.data as BinaryAccountData).data);
+      final decode = AddressLookupTableAccount.deserialize(input);
+
+      accounts.add(
+        AddressLookupTableAccount(key: entry.accountKey, state: decode),
+      );
+    }
+
+    return accounts;
   }
 }
 
