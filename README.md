@@ -5,8 +5,8 @@
 
 ## Packages
 
-- [cryptoplease_link]: backend code for the Expresso Cash Universal Links protocol support.
 - [cryptoplease]: full-fledged mobile wallet for iOS and Android on Solana built with [solana] library.
+- [cryptoplease_link]: backend code for the Expresso Cash Universal Links protocol support.
 - The [solana] library. This is the implementation of the Solana [transaction codec][transaction_codec] and the [JSON RPC api][json_rpc_api].
 - The [jsonrpc_client] is used to generate the RPC api methods from their definitions. This technique helps us stick to the DRY principle very easily.
 - The Borsh serialization package which is itself divided in two packages [borsh] and [borsh_annotation]. The former is a code generator that generates borsh serialization and deserialization for a Dart class. And the latter is an annotation used to annotate these classes.
