@@ -19,8 +19,8 @@ class OSKPTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ActivityTile(
         title: activity.data.status.maybeMap(
-          orElse: always(context.l10n.sentViaLink),
           canceled: always(context.l10n.transferCanceled),
+          orElse: always(context.l10n.sentViaLink),
         ),
         amount: activity.data.status.maybeMap(
           orElse: always(
@@ -29,7 +29,10 @@ class OSKPTile extends StatelessWidget {
           canceled: always(null),
         ),
         subtitle: context.formatDate(activity.created),
-        icon: Assets.icons.outgoing.svg(),
+        icon: activity.data.status.maybeMap(
+          orElse: always(Assets.icons.outgoing.svg()),
+          canceled: always(Assets.icons.txFailed.svg()),
+        ),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );
 }

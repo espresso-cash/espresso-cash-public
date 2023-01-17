@@ -85,6 +85,7 @@
   "outgoingTransferSuccess": "Your transfer has been sent.",
   "transferErrorTitle": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
+  "splitKeyCancelErrorMessage": "There was an issue canceling your transfer.",
   "splitKeyErrorRetry": "Please retry.",
   "splitKeyProgressOngoing": "Sending {amount} using secure links...",
   "@splitKeyProgressOngoing": {
@@ -98,7 +99,9 @@
   "splitKeyProgressWaiting": "Waiting for the receiver to withdraw the funds",
   "splitKeyProgressWithdrawn": "Funds are withdrawn",
   "splitKeyProgressSuccess": "Money has been successfully received",
+  "splitKeyProgressCanceling": "Canceling transfer",
   "splitKeyProgressCanceled": "Transfer has been canceled",
+  "transferCanceled": "Transfer canceled",
   "resendLink": "Resend Links",
   "buy": "Buy",
   "sell": "Sell",
@@ -466,6 +469,7 @@
   "tipViewQr": "View QR Code",
   "tipCreatingQr": "Creating QR Code",
   "tipCreatedQr": "QR Code created",
+  "tipProgressCanceled": "Tip has been canceled",
   "tipProgressOngoing": "Tipping {amount} using secure link...",
   "@tipProgressOngoing": {
     "placeholders": {
@@ -474,10 +478,16 @@
       }
     }
   },
-  "sentViaLink": "Sent via link",
   "view": "View",
   "shareLinks": "Share Links",
-  "transferCanceled": "Transfer canceled",
+  "tipCanceledMessage": "{amount} Tip canceled.",
+  "@tipCanceledMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "qrCameraPermissionTitle": "Camera disabled",
   "qrCameraPermissionMessage": "Allow camera access in your device settings to enable the QR Code reader.",
   "qrInputAddressTitle": "Send manually",
@@ -488,7 +498,7 @@
   "cryptoInvestments": "Crypto\nInvestments",
   "moneyReceived": "Money has been received",
   "sentDirectly": "Sent directly",
-  "tipViaQrcode": "Tip via QR Code",
+  "tipViaQrCode": "Tip via QR Code",
   "boughtToken": "Bought {amount}",
   "@boughtToken": {
     "placeholders": {
@@ -505,5 +515,10 @@
       }
     }
   },
-  "moreDetails": "More details"
+  "moreDetails": "More details",
+  "cancelTransfer": "Cancel transfer",
+  "sentViaLink": "Sent via link",
+  "tipCanceled": "Tip canceled",
+  "cancelTip": "Cancel tip",
+  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn."
 }

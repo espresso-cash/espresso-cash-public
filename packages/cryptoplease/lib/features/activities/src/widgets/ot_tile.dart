@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_amount.dart';
@@ -17,11 +18,17 @@ class OTTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ActivityTile(
-        title: context.l10n.tipViaQrcode,
+        title: activity.data.status.maybeMap(
+          canceled: always(context.l10n.tipCanceled),
+          orElse: always(context.l10n.tipViaQrCode),
+        ),
         amount:
             '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
         subtitle: context.formatDate(activity.created),
-        icon: Assets.icons.outgoing.svg(),
+        icon: activity.data.status.maybeMap(
+          canceled: always(Assets.icons.txFailed.svg()),
+          orElse: always(Assets.icons.outgoing.svg()),
+        ),
         onTap: () => context.router.navigate(OutgoingTipRoute(id: activity.id)),
       );
 }
