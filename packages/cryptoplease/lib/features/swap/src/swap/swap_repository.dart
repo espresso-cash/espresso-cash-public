@@ -26,6 +26,15 @@ class SwapRepository {
     return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
   }
 
+  Stream<List<Swap>> watchAllPending() {
+    final query = _db.select(_db.swapRows)
+      ..where((p) => p.status.equalsValue(SwapStatusDto.success).not());
+
+    return query.watch().map(
+          (rows) => rows.map((row) => row.toModel(_tokens)).toList(),
+        );
+  }
+
   Stream<Swap?> watch(String id) {
     final query = _db.select(_db.swapRows)..where((p) => p.id.equals(id));
 
