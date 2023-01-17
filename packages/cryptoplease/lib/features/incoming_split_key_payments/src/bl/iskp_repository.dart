@@ -84,7 +84,7 @@ extension on ISKPStatusDto {
       case ISKPStatusDto.txSent:
         return ISKPStatus.txSent(tx ?? StubSignedTx(txId!));
       case ISKPStatusDto.success:
-        return ISKPStatus.success(txId: txId!);
+        return ISKPStatus.success(tx!);
       case ISKPStatusDto.txFailure:
         return const ISKPStatus.txFailure();
       case ISKPStatusDto.txSendFailure:

@@ -83,7 +83,7 @@ extension on ODPStatusDto {
       case ODPStatusDto.txSent:
         return ODPStatus.txSent(tx ?? StubSignedTx(row.txId!));
       case ODPStatusDto.success:
-        return ODPStatus.success(txId: row.txId!);
+        return ODPStatus.success(tx!);
       case ODPStatusDto.txFailure:
         return ODPStatus.txFailure(reason: row.txFailureReason);
       case ODPStatusDto.txSendFailure:

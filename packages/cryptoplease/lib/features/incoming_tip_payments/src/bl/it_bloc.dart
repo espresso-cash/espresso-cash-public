@@ -143,7 +143,7 @@ class ITBloc extends Bloc<_Event, _State> {
     final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => ITStatus.success(txId: tx.id),
+      success: (_) => ITStatus.success(tx),
       failure: (_) => const ITStatus.txEscrowFailure(),
       networkError: (_) => ITStatus.txWaitFailure(tx),
     );

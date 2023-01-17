@@ -504,5 +504,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "moreDetails": "More details"
 }

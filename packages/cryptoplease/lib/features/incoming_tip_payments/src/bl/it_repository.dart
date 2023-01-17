@@ -84,7 +84,7 @@ extension on ITStatusDto {
       case ITStatusDto.txSent:
         return ITStatus.txSent(tx ?? StubSignedTx(txId!));
       case ITStatusDto.success:
-        return ITStatus.success(txId: txId!);
+        return ITStatus.success(tx!);
       case ITStatusDto.txFailure:
         return const ITStatus.txFailure();
       case ITStatusDto.txSendFailure:

@@ -28,7 +28,7 @@ class ISKPStatus with _$ISKPStatus {
   const factory ISKPStatus.txSent(SignedTx tx) = ISKPStatusTxSent;
 
   /// Final state. Tx is successfully confirmed and payment is claimed.
-  const factory ISKPStatus.success({required String txId}) = ISKPStatusSuccess;
+  const factory ISKPStatus.success(SignedTx tx) = ISKPStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
   const factory ISKPStatus.txFailure() = ISKPStatusTxFailure;

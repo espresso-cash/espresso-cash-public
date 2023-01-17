@@ -50,7 +50,7 @@ class OTStatus with _$OTStatus {
   }) = OTLinkReady;
 
   const factory OTStatus.success({
-    required String txId,
+    required SignedTx tx,
   }) = OTSuccess;
 
   const factory OTStatus.txFailure({TxFailureReason? reason}) = OTTxFailure;

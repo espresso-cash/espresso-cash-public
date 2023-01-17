@@ -28,7 +28,7 @@ class ITStatus with _$ITStatus {
   const factory ITStatus.txSent(SignedTx tx) = ITStatusTxSent;
 
   /// Final state. Tx is successfully confirmed and payment is claimed.
-  const factory ITStatus.success({required String txId}) = ITStatusSuccess;
+  const factory ITStatus.success(SignedTx tx) = ITStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
   const factory ITStatus.txFailure() = ITStatusTxFailure;

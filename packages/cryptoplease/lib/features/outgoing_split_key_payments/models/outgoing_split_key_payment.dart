@@ -51,11 +51,11 @@ class OSKPStatus with _$OSKPStatus {
   }) = OSKPStatusLinksReady;
 
   const factory OSKPStatus.withdrawn({
-    required String txId,
+    required SignedTx tx,
   }) = OSKPStatusWithdrawn;
 
   const factory OSKPStatus.canceled({
-    required String txId,
+    required SignedTx tx,
   }) = OSKPStatusCanceled;
 
   const factory OSKPStatus.txFailure({TxFailureReason? reason}) =

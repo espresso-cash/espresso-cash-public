@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
-import '../../../../core/presentation/utils.dart';
-import '../../../../core/transactions/create_transaction_link.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -24,14 +22,6 @@ class ODPTile extends StatelessWidget {
         icon: Assets.icons.outgoing.svg(),
         amount:
             '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
-        onTap: () => activity.data.status.maybeWhen(
-          success: (signature) {
-            final link = Uri.parse(createTransactionLink(signature));
-            context.openLink(link.toString());
-          },
-          orElse: () {
-            context.router.navigate(ODPDetailsRoute(id: activity.id));
-          },
-        ),
+        onTap: () => context.router.navigate(ODPDetailsRoute(id: activity.id)),
       );
 }
