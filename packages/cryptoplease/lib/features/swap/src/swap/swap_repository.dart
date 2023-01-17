@@ -94,7 +94,7 @@ extension on SwapStatusDto {
       case SwapStatusDto.txSent:
         return SwapStatus.txSent(tx!);
       case SwapStatusDto.success:
-        return SwapStatus.success(txId: txId!);
+        return SwapStatus.success(tx!);
       case SwapStatusDto.txFailure:
         return const SwapStatus.txFailure();
       case SwapStatusDto.txSendFailure:
@@ -146,11 +146,12 @@ extension on SwapStatus {
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
         txSendFailure: (it) => it.tx.encode(),
+        success: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
         txSent: (it) => it.tx.id,
-        success: (it) => it.txId,
+        success: (it) => it.tx.id,
         txWaitFailure: (it) => it.tx.id,
       );
 }

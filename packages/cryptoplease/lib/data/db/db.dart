@@ -26,7 +26,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 26;
+const int latestVersion = 27;
 
 const _tables = [
   OutgoingTransferRows,
@@ -109,13 +109,15 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.withdrawTxId);
           }
           if (from >= 16 && from < 26) {
-            await m.addColumn(oSKPRows, oSKPRows.cancelTx);
-            await m.addColumn(oSKPRows, oSKPRows.cancelTxId);
+            await m.addColumn(oSKPRows, oSKPRows.withdrawTx);
           }
           if (from >= 22 && from < 26) {
             await m.addColumn(oTRows, oTRows.withdrawTxId);
-            await m.addColumn(oTRows, oTRows.cancelTx);
-            await m.addColumn(oTRows, oTRows.cancelTxId);
+            await m.addColumn(oTRows, oTRows.withdrawTx);
+          }
+          if (from == 26) {
+            await m.renameColumn(oSKPRows, 'cancel_tx', oSKPRows.withdrawTx);
+            await m.renameColumn(oTRows, 'cancel_tx', oTRows.withdrawTx);
           }
         },
       );

@@ -55,13 +55,12 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   // Status fields
   TextColumn get tx => text().nullable()();
   TextColumn get txId => text().nullable()();
+  TextColumn get withdrawTx => text().nullable()();
   TextColumn get withdrawTxId => text().nullable()();
   TextColumn get privateKey => text().nullable()();
   TextColumn get link1 => text().nullable()();
   TextColumn get link2 => text().nullable()();
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
-  TextColumn get cancelTx => text().nullable()();
-  TextColumn get cancelTxId => text().nullable()();
 }
 
 enum OSKPStatusDto {
@@ -100,14 +99,13 @@ extension on OSKPStatusDto {
   Future<OSKPStatus> toOSKPStatus(OSKPRow row) async {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
+    final withdrawTx = row.withdrawTx?.let(SignedTx.decode);
     final withdrawTxId = row.withdrawTxId;
     final escrow = await row.privateKey
         ?.let(base58decode)
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
     final link1 = row.link1?.let(Uri.parse);
     final link2 = row.link2?.let(Uri.parse);
-    final cancelTx = row.cancelTx?.let(SignedTx.decode);
-    final cancelTxId = row.cancelTxId;
 
     switch (this) {
       case OSKPStatusDto.txCreated:
@@ -124,16 +122,11 @@ extension on OSKPStatusDto {
         );
       case OSKPStatusDto.success:
         // For compatibility with old versions
-        return OSKPStatus.withdrawn(txId: txId!);
+        return OSKPStatus.withdrawn(tx: withdrawTx!);
       case OSKPStatusDto.withdrawn:
-        return OSKPStatus.withdrawn(txId: withdrawTxId!);
+        return OSKPStatus.withdrawn(tx: withdrawTx!);
       case OSKPStatusDto.canceled:
-        if (cancelTxId == null) {
-          // For compatibility with old versions
-          return OSKPStatus.canceled(txId: withdrawTxId!);
-        } else {
-          return OSKPStatus.canceled(txId: cancelTxId);
-        }
+        return OSKPStatus.canceled(tx: withdrawTx!);
       case OSKPStatusDto.txFailure:
         return OSKPStatus.txFailure(reason: row.txFailureReason);
       case OSKPStatusDto.txSendFailure:
@@ -146,15 +139,15 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.txLinksFailure:
         return OSKPStatus.txLinksFailure(escrow: escrow!);
       case OSKPStatusDto.cancelTxCreated:
-        return OSKPStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxCreated(withdrawTx!, escrow: escrow!);
       case OSKPStatusDto.cancelTxFailure:
         return OSKPStatus.cancelTxFailure(escrow: escrow!);
       case OSKPStatusDto.cancelTxSent:
-        return OSKPStatus.cancelTxSent(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxSent(withdrawTx!, escrow: escrow!);
       case OSKPStatusDto.cancelTxSendFailure:
-        return OSKPStatus.cancelTxSendFailure(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxSendFailure(withdrawTx!, escrow: escrow!);
       case OSKPStatusDto.cancelTxWaitFailure:
-        return OSKPStatus.cancelTxWaitFailure(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxWaitFailure(withdrawTx!, escrow: escrow!);
     }
   }
 }
@@ -173,8 +166,7 @@ extension on OutgoingSplitKeyPayment {
         link1: status.toLink1(),
         link2: status.toLink2(),
         txFailureReason: status.toTxFailureReason(),
-        cancelTx: status.toCancelTx(),
-        cancelTxId: status.toCancelTxId(),
+        withdrawTx: status.toWithdrawTx(),
       );
 }
 
@@ -211,21 +203,22 @@ extension on OSKPStatus {
         txWaitFailure: (it) => it.tx.id,
       );
 
-  String? toWithdrawTxId() => mapOrNull(withdrawn: (it) => it.txId);
-
-  String? toCancelTx() => mapOrNull(
-        cancelTxCreated: (it) => it.tx.encode(),
-        cancelTxSent: (it) => it.tx.encode(),
-        cancelTxSendFailure: (it) => it.tx.encode(),
-        cancelTxWaitFailure: (it) => it.tx.encode(),
-      );
-
-  String? toCancelTxId() => mapOrNull(
+  String? toWithdrawTxId() => mapOrNull(
+        withdrawn: (it) => it.tx.id,
         cancelTxCreated: (it) => it.tx.id,
         cancelTxSent: (it) => it.tx.id,
         cancelTxSendFailure: (it) => it.tx.id,
         cancelTxWaitFailure: (it) => it.tx.id,
-        canceled: (it) => it.txId,
+        canceled: (it) => it.tx.id,
+      );
+
+  String? toWithdrawTx() => mapOrNull(
+        withdrawn: (it) => it.tx.encode(),
+        canceled: (it) => it.tx.encode(),
+        cancelTxCreated: (it) => it.tx.encode(),
+        cancelTxSent: (it) => it.tx.encode(),
+        cancelTxSendFailure: (it) => it.tx.encode(),
+        cancelTxWaitFailure: (it) => it.tx.encode(),
       );
 
   Future<String?> toPrivateKey() async => this.map(

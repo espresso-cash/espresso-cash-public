@@ -49,7 +49,7 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
               return swap.status.maybeMap(
                 success: (status) => TransferSuccess(
                   onMoreDetails: () {
-                    final link = status.txId
+                    final link = status.tx.id
                         .let(createTransactionLink)
                         .let(Uri.parse)
                         .toString();

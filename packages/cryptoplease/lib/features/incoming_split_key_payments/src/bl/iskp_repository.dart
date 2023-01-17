@@ -126,9 +126,10 @@ extension on ISKPStatus {
         txSendFailure: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
         txWaitFailure: (it) => it.tx.encode(),
+        success: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
-        success: (it) => it.txId,
+        success: (it) => it.tx.id,
       );
 }

@@ -55,12 +55,11 @@ class OTRows extends Table with AmountMixin, EntityMixin {
   // Status fields
   TextColumn get tx => text().nullable()();
   TextColumn get txId => text().nullable()();
+  TextColumn get withdrawTx => text().nullable()();
   TextColumn get withdrawTxId => text().nullable()();
   TextColumn get privateKey => text().nullable()();
   TextColumn get link => text().nullable()();
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
-  TextColumn get cancelTx => text().nullable()();
-  TextColumn get cancelTxId => text().nullable()();
 }
 
 enum OTStatusDto {
@@ -99,13 +98,11 @@ extension on OTStatusDto {
   Future<OTStatus> toOutgoingTipStatus(OTRow row) async {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
-    final withdrawTxId = row.withdrawTxId;
     final escrow = await row.privateKey
         ?.let(base58decode)
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
     final link1 = row.link?.let(Uri.parse);
-    final cancelTx = row.cancelTx?.let(SignedTx.decode);
-    final cancelTxId = row.cancelTxId;
+    final withdrawTx = row.withdrawTx?.let(SignedTx.decode);
 
     switch (this) {
       case OTStatusDto.txCreated:
@@ -124,11 +121,11 @@ extension on OTStatusDto {
         );
       case OTStatusDto.success:
         // For compatibility with old versions
-        return OTStatus.withdrawn(txId: txId!);
+        return OTStatus.withdrawn(tx: withdrawTx!);
       case OTStatusDto.withdrawn:
-        return OTStatus.withdrawn(txId: withdrawTxId!);
+        return OTStatus.withdrawn(tx: withdrawTx!);
       case OTStatusDto.canceled:
-        return OTStatus.canceled(txId: cancelTxId!);
+        return OTStatus.canceled(tx: withdrawTx!);
       case OTStatusDto.txFailure:
         return OTStatus.txFailure(reason: row.txFailureReason);
       case OTStatusDto.txSendFailure:
@@ -141,15 +138,15 @@ extension on OTStatusDto {
       case OTStatusDto.txLinksFailure:
         return OTStatus.txLinksFailure(escrow: escrow!);
       case OTStatusDto.cancelTxCreated:
-        return OTStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
+        return OTStatus.cancelTxCreated(withdrawTx!, escrow: escrow!);
       case OTStatusDto.cancelTxFailure:
         return OTStatus.cancelTxFailure(escrow: escrow!);
       case OTStatusDto.cancelTxSent:
-        return OTStatus.cancelTxSent(cancelTx!, escrow: escrow!);
+        return OTStatus.cancelTxSent(withdrawTx!, escrow: escrow!);
       case OTStatusDto.cancelTxSendFailure:
-        return OTStatus.cancelTxSendFailure(cancelTx!, escrow: escrow!);
+        return OTStatus.cancelTxSendFailure(withdrawTx!, escrow: escrow!);
       case OTStatusDto.cancelTxWaitFailure:
-        return OTStatus.cancelTxWaitFailure(cancelTx!, escrow: escrow!);
+        return OTStatus.cancelTxWaitFailure(withdrawTx!, escrow: escrow!);
     }
   }
 }
@@ -167,8 +164,7 @@ extension on OutgoingTipPayment {
         privateKey: await status.toPrivateKey(),
         link: status.toLink(),
         txFailureReason: status.toTxFailureReason(),
-        cancelTx: status.toCancelTx(),
-        cancelTxId: status.toCancelTxId(),
+        withdrawTx: status.withdrawTx(),
       );
 }
 
@@ -205,21 +201,22 @@ extension on OTStatus {
         txWaitFailure: (it) => it.tx.id,
       );
 
-  String? toWithdrawTxId() => mapOrNull(withdrawn: (it) => it.txId);
-
-  String? toCancelTx() => mapOrNull(
-        cancelTxCreated: (it) => it.tx.encode(),
-        cancelTxSent: (it) => it.tx.encode(),
-        cancelTxSendFailure: (it) => it.tx.encode(),
-        cancelTxWaitFailure: (it) => it.tx.encode(),
-      );
-
-  String? toCancelTxId() => mapOrNull(
+  String? toWithdrawTxId() => mapOrNull(
+        withdrawn: (it) => it.tx.id,
         cancelTxCreated: (it) => it.tx.id,
         cancelTxSent: (it) => it.tx.id,
         cancelTxSendFailure: (it) => it.tx.id,
         cancelTxWaitFailure: (it) => it.tx.id,
-        canceled: (it) => it.txId,
+        canceled: (it) => it.tx.id,
+      );
+
+  String? withdrawTx() => mapOrNull(
+        withdrawn: (it) => it.tx.encode(),
+        canceled: (it) => it.tx.encode(),
+        cancelTxCreated: (it) => it.tx.encode(),
+        cancelTxSent: (it) => it.tx.encode(),
+        cancelTxSendFailure: (it) => it.tx.encode(),
+        cancelTxWaitFailure: (it) => it.tx.encode(),
       );
 
   Future<String?> toPrivateKey() async => this.map(

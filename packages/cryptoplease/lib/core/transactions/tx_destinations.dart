@@ -6,8 +6,6 @@ extension TxDestinationsExt on ParsedTransaction {
   Iterable<String> getDestinations() => message.instructions
       .whereType<ParsedInstruction>()
       .let((it) => it.map((ix) => ix.getDestination()).compact());
-
-  String get id => signatures.first;
 }
 
 extension on ParsedInstruction {

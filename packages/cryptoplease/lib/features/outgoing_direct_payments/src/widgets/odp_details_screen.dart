@@ -49,7 +49,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
               return payment.status.maybeMap(
                 success: (status) => TransferSuccess(
                   onMoreDetails: () {
-                    final link = status.txId
+                    final link = status.tx.id
                         .let(createTransactionLink)
                         .let(Uri.parse)
                         .toString();
