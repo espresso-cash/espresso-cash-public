@@ -100,7 +100,6 @@ extension on OSKPStatusDto {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
     final withdrawTx = row.withdrawTx?.let(SignedTx.decode);
-    final withdrawTxId = row.withdrawTxId;
     final escrow = await row.privateKey
         ?.let(base58decode)
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));

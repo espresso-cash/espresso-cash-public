@@ -95,7 +95,6 @@ extension SwapRowExt on SwapRow {
 extension on SwapStatusDto {
   SwapStatus toModel(SwapRow row) {
     final tx = row.tx?.let(SignedTx.decode);
-    final txId = row.txId;
 
     switch (this) {
       case SwapStatusDto.txCreated:

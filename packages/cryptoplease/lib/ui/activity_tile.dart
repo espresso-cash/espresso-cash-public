@@ -25,7 +25,7 @@ class ActivityTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      leading: SizedBox.square(dimension: 24, child: icon),
+      leading: SizedBox.square(dimension: 42, child: icon),
       title: Row(
         children: [
           Expanded(

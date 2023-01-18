@@ -30,7 +30,7 @@ class OSKPVerifier {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
         Future<void> onSuccess(SignedTx tx) async {
-          final newStatus = await tx.getDestinations().let(
+          final newStatus = await tx.getTransferProgramDestinations().let(
                     (accounts) => findAssociatedTokenAddress(
                       owner: _userPublicKey,
                       mint: payment.amount.currency.token.publicKey,

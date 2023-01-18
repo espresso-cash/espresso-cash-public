@@ -21,6 +21,7 @@ class TransferSuccess extends StatelessWidget {
         statusTitle: Text(context.l10n.transferSuccessTitle),
         statusContent: Text(content),
         statusType: CpStatusType.success,
+        onBackButtonPressed: Navigator.of(context).pop,
         content: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(

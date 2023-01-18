@@ -1,22 +1,10 @@
-import 'package:dfunc/dfunc.dart';
-import 'package:solana/dto.dart';
+import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
-extension TxDestinationsExt on ParsedTransaction {
-  /// Retrieves all destinations of a transaction
-  Iterable<String> getDestinations() => message.instructions
-      .whereType<ParsedInstruction>()
-      .let((it) => it.map((ix) => ix.getDestination()).compact());
-}
-
-extension on ParsedInstruction {
-  String? getDestination() => mapOrNull<String?>(
-        system: (it) => it.parsed.mapOrNull(
-          transfer: (t) => t.info.destination,
-          transferChecked: (t) => t.info.destination,
-        ),
-        splToken: (it) => it.parsed.mapOrNull(
-          transfer: (t) => t.info.destination,
-          transferChecked: (t) => t.info.destination,
-        ),
-      );
+extension TxDestinationsExt on SignedTx {
+  /// Retrieves all destinations of a Token Program transaction
+  Iterable<String> getTransferProgramDestinations() => message.instructions
+      .where((it) => it.programId == TokenProgram.id)
+      .map((it) => it.accounts.elementAt(1))
+      .map((it) => it.pubKey.toBase58());
 }
