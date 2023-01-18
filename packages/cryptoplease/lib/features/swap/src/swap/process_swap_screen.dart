@@ -46,7 +46,7 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
               return swap.status.maybeMap(
                 success: (status) => TransferSuccess(
                   onOkPressed: () => context.router.pop(),
-                  content: context.l10n.splitKeySuccessMessage2,
+                  content: context.l10n.outgoingTransferSuccess,
                 ),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
