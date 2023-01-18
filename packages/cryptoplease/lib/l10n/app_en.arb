@@ -82,7 +82,17 @@
   "splitKeySuccessMessage2": "Your transfer has been sent.",
   "splitKeyErrorMessage1": "OOPS!",
   "transferSuccessTitle": "SUCCESS!",
-  "outgoingTransferSuccess": "Your transfer has been sent.",
+  "outgoingTransferSuccess": "{amount} has been sent to {receiver}.",
+  "@outgoingTransferSuccess": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "receiver": {
+        "type": "String"
+      }
+    }
+  },
   "transferErrorTitle": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyCancelErrorMessage": "There was an issue canceling your transfer.",

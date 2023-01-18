@@ -56,7 +56,7 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
                     context.openLink(link);
                   },
                   onOkPressed: () => context.router.pop(),
-                  content: context.l10n.outgoingTransferSuccess,
+                  content: context.l10n.splitKeySuccessMessage2,
                 ),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
