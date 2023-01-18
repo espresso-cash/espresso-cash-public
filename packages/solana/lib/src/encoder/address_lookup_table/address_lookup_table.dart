@@ -59,7 +59,7 @@ class AddressLookupTableAccount {
 
     final addresses = r
         .readFixedArray(
-          numSerializedAddresses - 1,
+          numSerializedAddresses,
           () => reader.readFixedArray(32, reader.readU8),
         )
         .map(Ed25519HDPublicKey.new)
