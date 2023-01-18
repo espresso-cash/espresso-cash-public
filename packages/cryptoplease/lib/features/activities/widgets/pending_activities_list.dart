@@ -6,7 +6,6 @@ import '../../../core/accounts/bl/account.dart';
 import '../../../di.dart';
 import '../../outgoing_split_key_payments/oskp_verifier.dart';
 import '../../outgoing_tip_payments/ot_verifier.dart';
-import '../../swap/swap_verifier.dart';
 import '../src/activity.dart';
 import '../src/pending_activities_repository.dart';
 import '../src/widgets/no_activity.dart';
@@ -41,11 +40,6 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
   @override
   Widget build(BuildContext context) => MultiProvider(
         providers: [
-          Provider<SwapVerifier>(
-            lazy: false,
-            create: (_) => sl<SwapVerifier>()..init(),
-            dispose: (_, value) => value.dispose(),
-          ),
           Provider<OSKPVerifier>(
             lazy: false,
             create: (_) => sl<OSKPVerifier>(
@@ -66,7 +60,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
           builder: (context, snapshot) {
             final data = snapshot.data;
 
-            if (data == null) return const NoActivity();
+            if (data == null) return const SizedBox.shrink();
 
             return data.isEmpty
                 ? const Center(child: NoActivity())
