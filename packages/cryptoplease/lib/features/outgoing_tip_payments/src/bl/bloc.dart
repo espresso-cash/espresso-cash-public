@@ -295,7 +295,7 @@ class OTBloc extends Bloc<_Event, _State> {
     final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => OTStatus.canceled(tx: tx),
+      success: (_) => OTStatus.canceled(txId: tx.id),
       failure: (_) => OTStatus.cancelTxFailure(escrow: escrow),
       networkError: (_) => OTStatus.cancelTxWaitFailure(tx, escrow: escrow),
     );

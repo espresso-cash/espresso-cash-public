@@ -84,7 +84,7 @@ extension on ITStatusDto {
       case ITStatusDto.txSent:
         return ITStatus.txSent(tx ?? StubSignedTx(txId!));
       case ITStatusDto.success:
-        return ITStatus.success(tx!);
+        return ITStatus.success(txId: txId!);
       case ITStatusDto.txFailure:
         return const ITStatus.txFailure();
       case ITStatusDto.txSendFailure:
@@ -126,10 +126,9 @@ extension on ITStatus {
         txSendFailure: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
         txWaitFailure: (it) => it.tx.encode(),
-        success: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
-        success: (it) => it.tx.id,
+        success: (it) => it.txId,
       );
 }

@@ -23,7 +23,7 @@ class OutgoingDirectPayment with _$OutgoingDirectPayment {
 class ODPStatus with _$ODPStatus {
   const factory ODPStatus.txCreated(SignedTx tx) = ODPStatusTxCreated;
   const factory ODPStatus.txSent(SignedTx tx) = ODPStatusTxSent;
-  const factory ODPStatus.success(SignedTx tx) = ODPStatusSuccess;
+  const factory ODPStatus.success({required String txId}) = ODPStatusSuccess;
   const factory ODPStatus.txFailure({TxFailureReason? reason}) =
       ODPStatusTxFailure;
   const factory ODPStatus.txSendFailure(SignedTx tx) = ODPStatusTxSendFailure;

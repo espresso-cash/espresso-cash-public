@@ -50,11 +50,11 @@ class OTStatus with _$OTStatus {
   }) = OTLinkReady;
 
   const factory OTStatus.withdrawn({
-    required SignedTx tx,
+    required String txId,
   }) = OTWithdrawn;
 
   const factory OTStatus.canceled({
-    required SignedTx tx,
+    required String txId,
   }) = OTCanceled;
 
   const factory OTStatus.txFailure({TxFailureReason? reason}) = OTTxFailure;

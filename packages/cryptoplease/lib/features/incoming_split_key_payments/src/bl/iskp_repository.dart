@@ -84,7 +84,7 @@ extension on ISKPStatusDto {
       case ISKPStatusDto.txSent:
         return ISKPStatus.txSent(tx ?? StubSignedTx(txId!));
       case ISKPStatusDto.success:
-        return ISKPStatus.success(tx!);
+        return ISKPStatus.success(txId: txId!);
       case ISKPStatusDto.txFailure:
         return const ISKPStatus.txFailure();
       case ISKPStatusDto.txSendFailure:
@@ -126,10 +126,9 @@ extension on ISKPStatus {
         txSendFailure: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
         txWaitFailure: (it) => it.tx.encode(),
-        success: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
-        success: (it) => it.tx.id,
+        success: (it) => it.txId,
       );
 }

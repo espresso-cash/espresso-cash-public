@@ -4,7 +4,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../core/transactions/tx_destinations.dart';
@@ -29,15 +28,16 @@ class OSKPVerifier {
   void init() {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
-        Future<void> onSuccess(SignedTx tx) async {
-          final newStatus = await tx.getTransferProgramDestinations().let(
+        Future<void> onSuccess(ParsedTransaction tx) async {
+          final txId = tx.id;
+          final newStatus = await tx.getDestinations().let(
                     (accounts) => findAssociatedTokenAddress(
                       owner: _userPublicKey,
                       mint: payment.amount.currency.token.publicKey,
                     ).then((it) => it.toBase58()).then(accounts.contains),
                   )
-              ? OSKPStatus.canceled(tx: tx)
-              : OSKPStatus.withdrawn(tx: tx);
+              ? OSKPStatus.canceled(txId: txId)
+              : OSKPStatus.withdrawn(txId: txId);
 
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();
@@ -55,7 +55,7 @@ class OSKPVerifier {
     });
   }
 
-  Stream<SignedTx> _createStream({
+  Stream<ParsedTransaction> _createStream({
     required Ed25519HDPublicKey account,
   }) {
     Duration backoff = const Duration(seconds: 1);
@@ -66,7 +66,7 @@ class OSKPVerifier {
               account,
               limit: 2,
               commitment: Commitment.confirmed,
-              encoding: Encoding.base64,
+              encoding: Encoding.jsonParsed,
             )
             .asStream();
 
@@ -83,8 +83,7 @@ class OSKPVerifier {
           .flatMap(streamSignatures)
           .where((event) => event.length == 2)
           .map((details) => details.first)
-          .map((tx) => tx.transaction as RawTransaction)
-          .map((tx) => SignedTx.fromBytes(tx.data)),
+          .map((tx) => tx.transaction as ParsedTransaction),
       retryWhen,
     );
   }

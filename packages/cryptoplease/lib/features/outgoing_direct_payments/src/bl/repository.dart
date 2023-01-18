@@ -83,7 +83,7 @@ extension on ODPStatusDto {
       case ODPStatusDto.txSent:
         return ODPStatus.txSent(tx ?? StubSignedTx(row.txId!));
       case ODPStatusDto.success:
-        return ODPStatus.success(tx!);
+        return ODPStatus.success(txId: row.txId!);
       case ODPStatusDto.txFailure:
         return ODPStatus.txFailure(reason: row.txFailureReason);
       case ODPStatusDto.txSendFailure:
@@ -124,11 +124,10 @@ extension on ODPStatus {
         txSendFailure: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
         txWaitFailure: (it) => it.tx.encode(),
-        success: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
-        success: (it) => it.tx.id,
+        success: (it) => it.txId,
       );
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
