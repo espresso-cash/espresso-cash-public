@@ -1,10 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/presentation/utils.dart';
-import '../../../../core/transactions/create_transaction_link.dart';
 import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
@@ -48,13 +45,6 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
 
               return swap.status.maybeMap(
                 success: (status) => TransferSuccess(
-                  onMoreDetails: () {
-                    final link = status.tx.id
-                        .let(createTransactionLink)
-                        .let(Uri.parse)
-                        .toString();
-                    context.openLink(link);
-                  },
                   onOkPressed: () => context.router.pop(),
                   content: context.l10n.splitKeySuccessMessage2,
                 ),
