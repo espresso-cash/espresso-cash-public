@@ -8,11 +8,11 @@ import '../status_widget.dart';
 class TransferSuccess extends StatelessWidget {
   const TransferSuccess({
     super.key,
-    required this.onMoreDetails,
+    required this.onOkPressed,
     required this.content,
   });
 
-  final VoidCallback onMoreDetails;
+  final VoidCallback onOkPressed;
   final String content;
 
   @override
@@ -21,7 +21,6 @@ class TransferSuccess extends StatelessWidget {
         statusTitle: Text(context.l10n.transferSuccessTitle),
         statusContent: Text(content),
         statusType: CpStatusType.success,
-        onBackButtonPressed: Navigator.of(context).pop,
         content: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
@@ -30,8 +29,8 @@ class TransferSuccess extends StatelessWidget {
               CpButton(
                 size: CpButtonSize.big,
                 width: double.infinity,
-                text: context.l10n.moreDetails,
-                onPressed: onMoreDetails,
+                text: context.l10n.ok,
+                onPressed: onOkPressed,
               )
             ],
           ),
