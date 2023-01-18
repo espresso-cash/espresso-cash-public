@@ -44,7 +44,7 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
               if (state.contains(swap.id)) return const TransferProgress();
 
               return swap.status.maybeMap(
-                success: (status) => TransferSuccess(
+                success: (_) => TransferSuccess(
                   onOkPressed: () => context.router.pop(),
                   content: context.l10n.outgoingTransferSuccess,
                 ),
