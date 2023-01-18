@@ -40,7 +40,7 @@ extension OTRowToActivityExt on OTRow {
 }
 
 extension SwapRowToActivityExt on SwapRow {
-  Future<Activity> toActivity(TokenList tokens) async => Activity.swap(
+  Activity toActivity(TokenList tokens) => Activity.swap(
         id: id,
         created: created,
         data: toModel(tokens),
