@@ -55,6 +55,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                         .toString();
                     context.openLink(link);
                   },
+                  onOkPressed: () => context.router.pop(),
                   content: context.l10n.outgoingTransferSuccess,
                 ),
                 txFailure: (it) => TransferError(

@@ -55,6 +55,7 @@ class _IncomingTipScreenState extends State<IncomingTipScreen> {
                         .toString();
                     context.openLink(link);
                   },
+                  onOkPressed: () => context.router.pop(),
                   content: context.l10n.moneyReceived,
                 ),
                 orElse: () => TransferError(
