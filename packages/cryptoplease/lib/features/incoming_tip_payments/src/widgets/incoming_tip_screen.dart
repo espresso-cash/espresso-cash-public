@@ -49,7 +49,7 @@ class _IncomingTipScreenState extends State<IncomingTipScreen> {
               return payment.status.maybeMap(
                 success: (status) => TransferSuccess(
                   onMoreDetails: () {
-                    final link = status.tx.id
+                    final link = status.txId
                         .let(createTransactionLink)
                         .let(Uri.parse)
                         .toString();
