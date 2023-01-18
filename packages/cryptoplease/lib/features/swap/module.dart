@@ -4,10 +4,8 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/account.dart';
-import '../../core/accounts/module.dart';
 import '../../di.dart';
 import 'src/swap/swap_bloc.dart';
-import 'src/swap/swap_repository.dart';
 
 class SwapModule extends SingleChildStatelessWidget {
   const SwapModule({Key? key, Widget? child}) : super(key: key, child: child);
@@ -21,9 +19,6 @@ class SwapModule extends SingleChildStatelessWidget {
             ),
           ),
         ],
-        child: LogoutListener(
-          onLogout: (_) => sl<SwapRepository>().clear(),
-          child: child,
-        ),
+        child: child,
       );
 }

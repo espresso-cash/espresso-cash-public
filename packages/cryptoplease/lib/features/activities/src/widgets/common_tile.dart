@@ -6,9 +6,9 @@ import '../../../../core/presentation/utils.dart';
 import '../../../../core/transactions/create_transaction_link.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../ui/activity_tile.dart';
 import '../../../../ui/colors.dart';
 import '../../models/transaction.dart';
+import 'styles.dart';
 
 class CommonTile extends StatelessWidget {
   const CommonTile({
@@ -24,10 +24,13 @@ class CommonTile extends StatelessWidget {
     final formattedSignature = signature.toShortAddress();
     final formattedDate = txCommon.created?.let(context.formatDate);
 
-    return ActivityTile(
-      title: context.l10n.transactionTitle(formattedSignature),
-      subtitle: formattedDate ?? '',
-      icon: CircleAvatar(
+    return ListTile(
+      title: Text(
+        context.l10n.transactionTitle(formattedSignature),
+        style: titleStyle,
+      ),
+      subtitle: Text(formattedDate ?? '', style: subtitleStyle),
+      leading: CircleAvatar(
         radius: 21,
         backgroundColor: CpColors.yellowColor,
         child: Assets.icons.successIconLightBg.svg(),

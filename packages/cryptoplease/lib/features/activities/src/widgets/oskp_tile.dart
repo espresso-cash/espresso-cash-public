@@ -8,8 +8,8 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
-import '../../../../ui/activity_tile.dart';
 import '../activity.dart';
+import 'styles.dart';
 
 class OSKPTile extends StatelessWidget {
   const OSKPTile({super.key, required this.activity});
@@ -17,21 +17,33 @@ class OSKPTile extends StatelessWidget {
   final OSKPActivity activity;
 
   @override
-  Widget build(BuildContext context) => ActivityTile(
-        title: activity.data.status.maybeMap(
-          canceled: always(context.l10n.transferCanceled),
-          orElse: always(context.l10n.sentViaLink),
+  Widget build(BuildContext context) => ListTile(
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                activity.data.status.maybeMap(
+                  canceled: always(context.l10n.transferCanceled),
+                  orElse: always(context.l10n.sentViaLink),
+                ),
+                style: titleStyle,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
+              style: titleStyle,
+            ),
+          ],
         ),
-        amount: activity.data.status.maybeMap(
-          orElse: always(
-            '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
-          ),
-          canceled: always(null),
+        subtitle: Text(
+          context.formatDate(activity.created),
+          style: subtitleStyle,
         ),
-        subtitle: context.formatDate(activity.created),
-        icon: activity.data.status.maybeMap(
-          orElse: always(Assets.icons.outgoing.svg()),
-          canceled: always(Assets.icons.txFailed.svg()),
+        leading: activity.data.status.maybeMap(
+          canceled: always(Assets.icons.txFailed.svg(width: iconSize)),
+          orElse: always(Assets.icons.outgoing.svg(width: iconSize)),
         ),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );
