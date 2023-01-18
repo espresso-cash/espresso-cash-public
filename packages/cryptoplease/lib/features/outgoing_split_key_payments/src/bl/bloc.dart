@@ -295,7 +295,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
     final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => OSKPStatus.canceled(tx: tx),
+      success: (_) => OSKPStatus.canceled(txId: tx.id),
       failure: (_) => OSKPStatus.cancelTxFailure(escrow: escrow),
       networkError: (_) => OSKPStatus.cancelTxWaitFailure(tx, escrow: escrow),
     );

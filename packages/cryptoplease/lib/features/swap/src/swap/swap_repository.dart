@@ -26,15 +26,6 @@ class SwapRepository {
     return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
   }
 
-  Stream<List<Swap>> watchAllPending() {
-    final query = _db.select(_db.swapRows)
-      ..where((p) => p.status.equalsValue(SwapStatusDto.success).not());
-
-    return query.watch().map(
-          (rows) => rows.map((row) => row.toModel(_tokens)).toList(),
-        );
-  }
-
   Stream<Swap?> watch(String id) {
     final query = _db.select(_db.swapRows)..where((p) => p.id.equals(id));
 
@@ -95,6 +86,7 @@ extension SwapRowExt on SwapRow {
 extension on SwapStatusDto {
   SwapStatus toModel(SwapRow row) {
     final tx = row.tx?.let(SignedTx.decode);
+    final txId = row.txId;
 
     switch (this) {
       case SwapStatusDto.txCreated:
@@ -102,7 +94,7 @@ extension on SwapStatusDto {
       case SwapStatusDto.txSent:
         return SwapStatus.txSent(tx!);
       case SwapStatusDto.success:
-        return SwapStatus.success(tx!);
+        return SwapStatus.success(txId: txId!);
       case SwapStatusDto.txFailure:
         return const SwapStatus.txFailure();
       case SwapStatusDto.txSendFailure:
@@ -154,12 +146,11 @@ extension on SwapStatus {
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
         txSendFailure: (it) => it.tx.encode(),
-        success: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
         txSent: (it) => it.tx.id,
-        success: (it) => it.tx.id,
+        success: (it) => it.txId,
         txWaitFailure: (it) => it.tx.id,
       );
 }

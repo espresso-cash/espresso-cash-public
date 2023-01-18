@@ -136,7 +136,7 @@ class SwapBloc extends Bloc<_Event, _State> {
     final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => SwapStatus.success(tx),
+      success: (_) => SwapStatus.success(txId: tx.id),
       failure: (_) => const SwapStatus.txFailure(),
       networkError: (_) => SwapStatus.txWaitFailure(tx),
     );

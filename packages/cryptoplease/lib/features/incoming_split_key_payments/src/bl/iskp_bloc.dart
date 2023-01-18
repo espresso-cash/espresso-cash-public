@@ -145,7 +145,7 @@ class ISKPBloc extends Bloc<_Event, _State> {
     final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => ISKPStatus.success(tx),
+      success: (_) => ISKPStatus.success(txId: tx.id),
       failure: (_) => const ISKPStatus.txEscrowFailure(),
       networkError: (_) => ISKPStatus.txWaitFailure(tx),
     );
