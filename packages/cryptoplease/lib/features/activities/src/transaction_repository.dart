@@ -43,12 +43,11 @@ class TransactionRepository {
     return query.watchSingle().asyncMap((row) => _match(row.toModel()));
   }
 
-  Future<Transaction> _match(TxCommon fetched) async {
-    final it = await _matchActivity(fetched.tx.id);
-    if (it == null) return fetched;
-
-    return Transaction.activity(it);
-  }
+  Future<Transaction> _match(TxCommon fetched) =>
+      _matchActivity(fetched.tx.id).letAsync(
+        (activity) =>
+            activity != null ? Transaction.activity(activity) : fetched,
+      );
 
   Future<Activity?> _matchActivity(TransactionId txId) async {
     final pr = await _db.paymentRequestRows.findActivityOrNull(
