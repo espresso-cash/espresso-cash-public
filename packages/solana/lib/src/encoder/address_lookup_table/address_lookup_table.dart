@@ -36,6 +36,7 @@ class AddressLookupTableAccount {
     final deactivationSlot = reader.readU64();
     final lastExtendedSlot = reader.readU64();
     final lastExtendedStartIndex = reader.readU8();
+    reader.readU8();
     final authority = reader
         .readFixedArray(
           1,
@@ -51,16 +52,13 @@ class AddressLookupTableAccount {
 
     final int numSerializedAddresses = serializedAddressesLen ~/ 32;
 
-    final r = BinaryReader(
-      Uint8List.fromList(accountData.toList().sublist(_lookupTableMetaSize))
-          .buffer
-          .asByteData(),
-    );
+    final addressReader =
+        BinaryReader(input.sublist(_lookupTableMetaSize).buffer.asByteData());
 
-    final addresses = r
+    final addresses = addressReader
         .readFixedArray(
           numSerializedAddresses,
-          () => reader.readFixedArray(32, reader.readU8),
+          () => addressReader.readFixedArray(32, addressReader.readU8),
         )
         .map(Ed25519HDPublicKey.new)
         .toList();
