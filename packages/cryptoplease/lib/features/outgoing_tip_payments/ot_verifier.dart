@@ -1,19 +1,26 @@
 import 'dart:async';
 
+import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
+import '../../core/transactions/tx_destinations.dart';
 import 'models/outgoing_tip_payment.dart';
 import 'src/bl/repository.dart';
 
 @injectable
 class OTVerifier {
-  OTVerifier(this._client, this._repository);
+  OTVerifier(
+    this._client,
+    this._repository, {
+    @factoryParam required Ed25519HDPublicKey userPublicKey,
+  }) : _userPublicKey = userPublicKey;
 
   final SolanaClient _client;
   final OTRepository _repository;
+  final Ed25519HDPublicKey _userPublicKey;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   StreamSubscription<void>? _repoSubscription;
@@ -21,10 +28,19 @@ class OTVerifier {
   void init() {
     _repoSubscription = _repository.watchWithReadyLink().listen((payments) {
       for (final payment in payments) {
-        void onSuccess(String txId) {
-          final newStatus = OTStatus.success(txId: txId);
-          _repository.save(payment.copyWith(status: newStatus));
-          _subscriptions[payment.id]?.cancel();
+        Future<void> onSuccess(ParsedTransaction tx) async {
+          final txId = tx.id;
+          final newStatus = await tx.getDestinations().let(
+                    (accounts) => findAssociatedTokenAddress(
+                      owner: _userPublicKey,
+                      mint: payment.amount.currency.token.publicKey,
+                    ).then((it) => it.toBase58()).then(accounts.contains),
+                  )
+              ? OTStatus.canceled(txId: txId)
+              : OTStatus.withdrawn(txId: txId);
+
+          await _repository.save(payment.copyWith(status: newStatus));
+          await _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);
         }
 
@@ -39,17 +55,18 @@ class OTVerifier {
     });
   }
 
-  Stream<String> _createStream({
+  Stream<ParsedTransaction> _createStream({
     required Ed25519HDPublicKey account,
   }) {
     Duration backoff = const Duration(seconds: 1);
 
-    Stream<List<TransactionSignatureInformation>> streamSignatures(void _) =>
+    Stream<Iterable<TransactionDetails>> streamSignatures(void _) =>
         _client.rpcClient
-            .getSignaturesForAddress(
-              account.toBase58(),
+            .getTransactionsList(
+              account,
               limit: 2,
               commitment: Commitment.confirmed,
+              encoding: Encoding.jsonParsed,
             )
             .asStream();
 
@@ -65,8 +82,8 @@ class OTVerifier {
           .startWith(null)
           .flatMap(streamSignatures)
           .where((event) => event.length == 2)
-          .map((infos) => infos.first)
-          .map((info) => info.signature),
+          .map((details) => details.first)
+          .map((tx) => tx.transaction as ParsedTransaction),
       retryWhen,
     );
   }

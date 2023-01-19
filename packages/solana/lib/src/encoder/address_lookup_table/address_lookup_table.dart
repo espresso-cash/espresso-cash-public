@@ -1,8 +1,10 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 
 part 'address_lookup_state.dart';
+part 'address_lookup_table.freezed.dart';
 
 const int _lookupTableMetaSize = 56;
 
@@ -36,6 +38,7 @@ class AddressLookupTableAccount {
     final deactivationSlot = reader.readU64();
     final lastExtendedSlot = reader.readU64();
     final lastExtendedStartIndex = reader.readU8();
+    reader.readU8();
     final authority = reader
         .readFixedArray(
           1,
@@ -51,16 +54,13 @@ class AddressLookupTableAccount {
 
     final int numSerializedAddresses = serializedAddressesLen ~/ 32;
 
-    final r = BinaryReader(
-      Uint8List.fromList(accountData.toList().sublist(_lookupTableMetaSize))
-          .buffer
-          .asByteData(),
-    );
+    final addressReader =
+        BinaryReader(input.sublist(_lookupTableMetaSize).buffer.asByteData());
 
-    final addresses = r
+    final addresses = addressReader
         .readFixedArray(
           numSerializedAddresses,
-          () => reader.readFixedArray(32, reader.readU8),
+          () => addressReader.readFixedArray(32, addressReader.readU8),
         )
         .map(Ed25519HDPublicKey.new)
         .toList();

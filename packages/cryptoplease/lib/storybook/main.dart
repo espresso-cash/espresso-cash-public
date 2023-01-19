@@ -3,6 +3,7 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../di.dart';
 import '../ui/theme.dart';
+import 'stories/activity_tile.dart';
 import 'stories/app/investments/popular_crypto_header.dart';
 import 'stories/app/investments/portfolio_widget.dart';
 import 'stories/app/wallet_main_screen.dart';
@@ -22,6 +23,7 @@ import 'stories/snackbar.dart';
 import 'stories/status_screen.dart';
 import 'stories/status_widget.dart';
 import 'stories/switch.dart';
+import 'stories/text_button.dart';
 import 'stories/text_field.dart';
 import 'stories/timeline.dart';
 import 'stories/user_avatar.dart';
@@ -64,6 +66,7 @@ class StorybookApp extends StatelessWidget {
           appPopularCryptoHeader,
           appPortfolioWidget,
           cpAppBar,
+          cpActivityTile,
           cpBackgroundGradient,
           cpBottomButton,
           cpBulletItem,
@@ -79,6 +82,7 @@ class StorybookApp extends StatelessWidget {
           cpStatus,
           cpStatusScreen,
           cpSwitch,
+          cpTextButton,
           cpTextField,
           cpTimeline,
           cpUserAvatar,

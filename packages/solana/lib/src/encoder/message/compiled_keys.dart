@@ -1,33 +1,10 @@
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/address_lookup_table/address_lookup_table.dart';
 import 'package:solana/src/encoder/instruction.dart';
+import 'package:solana/src/encoder/message/compiled_key_meta.dart';
 import 'package:solana/src/encoder/message/loaded_addresses.dart';
 import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/message_header.dart';
-
-class CompiledKeyMeta {
-  CompiledKeyMeta({
-    required this.isSigner,
-    required this.isWritable,
-    required this.isInvoked,
-  });
-
-  final bool isSigner;
-  final bool isWritable;
-  final bool isInvoked;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CompiledKeyMeta &&
-          runtimeType == other.runtimeType &&
-          isSigner == other.isSigner &&
-          isWritable == other.isWritable &&
-          isInvoked == other.isInvoked;
-
-  @override
-  int get hashCode => Object.hash(isSigner, isWritable, isInvoked);
-}
 
 class CompiledKeys {
   CompiledKeys({
@@ -48,7 +25,7 @@ class CompiledKeys {
       final address = pubkey.toBase58();
       var keyMeta = keyMetaMap[address];
       if (keyMeta == null) {
-        keyMeta = CompiledKeyMeta(
+        keyMeta = const CompiledKeyMeta(
           isSigner: false,
           isWritable: false,
           isInvoked: false,

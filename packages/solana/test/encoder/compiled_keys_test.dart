@@ -1,5 +1,6 @@
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/encoder/message/compiled_key_meta.dart';
 import 'package:solana/src/encoder/message/compiled_keys.dart';
 import 'package:test/test.dart';
 
