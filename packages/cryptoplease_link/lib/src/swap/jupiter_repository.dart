@@ -78,9 +78,9 @@ class JupiterRepository {
     );
   }
 
-  Future<double> getUsdcPrice() async => _priceClient
-      .getPrice(const PriceRequestDto(id: 'SOL'))
-      .then((response) => response.data.price);
+  Future<double?> getUsdcPrice() async => _priceClient
+      .getPrice(const PriceRequestDto(ids: 'SOL'))
+      .then((response) => response.data['SOL']?.price);
 }
 
 extension SwapSlippageExt on SwapSlippage {

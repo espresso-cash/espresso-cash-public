@@ -113,7 +113,7 @@ class _JupiterPriceClient implements JupiterPriceClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://price.jup.ag/v1';
+    baseUrl ??= 'https://price.jup.ag/v4';
   }
 
   final Dio _dio;

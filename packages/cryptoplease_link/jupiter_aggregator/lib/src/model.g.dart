@@ -268,22 +268,24 @@ Map<String, dynamic> _$$_JupiterSwapResponseDtoToJson(
 
 _$_PriceRequestDto _$$_PriceRequestDtoFromJson(Map<String, dynamic> json) =>
     _$_PriceRequestDto(
-      id: json['id'] as String,
+      ids: json['ids'] as String,
     );
 
 Map<String, dynamic> _$$_PriceRequestDtoToJson(_$_PriceRequestDto instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'ids': instance.ids,
     };
 
 _$_PriceResponseDto _$$_PriceResponseDtoFromJson(Map<String, dynamic> json) =>
     _$_PriceResponseDto(
-      data: PriceDto.fromJson(json['data'] as Map<String, dynamic>),
+      data: (json['data'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(k, PriceDto.fromJson(e as Map<String, dynamic>)),
+      ),
     );
 
 Map<String, dynamic> _$$_PriceResponseDtoToJson(_$_PriceResponseDto instance) =>
     <String, dynamic>{
-      'data': instance.data.toJson(),
+      'data': instance.data.map((k, e) => MapEntry(k, e.toJson())),
     };
 
 _$_PriceDto _$$_PriceDtoFromJson(Map<String, dynamic> json) => _$_PriceDto(
