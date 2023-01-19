@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
@@ -12,8 +13,6 @@ import '../../payment_request/db.dart';
 import '../../swap/db.dart';
 import 'activity.dart';
 import 'activity_builder.dart';
-
-typedef _L = Iterable<Activity>;
 
 @injectable
 class PendingActivitiesRepository {
@@ -53,13 +52,16 @@ class PendingActivitiesRepository {
     final swapStream =
         swap.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
 
-    return Rx.combineLatest5<_L, _L, _L, _L, _L, IList<Activity>>(
-      oprStream,
-      odpStream,
-      oskpStream,
-      otStream,
-      swapStream,
-      (a, b, c, d, e) => [...a, ...b, ...c, ...d, ...e]
+    return Rx.combineLatest<Iterable<Activity>, IList<Activity>>(
+      [
+        oprStream,
+        odpStream,
+        oskpStream,
+        otStream,
+        swapStream,
+      ],
+      (values) => values
+          .expand(identity)
           .toIList()
           .sortOrdered((a, b) => b.created.compareTo(a.created)),
     );
