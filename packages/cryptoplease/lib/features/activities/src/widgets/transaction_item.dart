@@ -36,7 +36,7 @@ class _TransactionItemState extends State<TransactionItem> {
         stream: _data,
         builder: (context, snapshot) {
           final tx = snapshot.data;
-          if (tx == null) return const ListTile();
+          if (tx == null) return const SizedBox.shrink();
 
           return tx.map(
             common: (t) => CommonTile(
