@@ -9,7 +9,7 @@ class PerfSample {
     required this.slot,
     required this.numTransactions,
     required this.numSlots,
-    required this.samplePeriodSec,
+    required this.samplePeriodSecs,
   });
 
   factory PerfSample.fromJson(Map<String, dynamic> json) =>
@@ -25,5 +25,5 @@ class PerfSample {
   final int numSlots;
 
   /// Number of seconds in a sample window.
-  final int samplePeriodSec;
+  final int samplePeriodSecs;
 }

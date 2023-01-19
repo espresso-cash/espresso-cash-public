@@ -10,5 +10,5 @@ PerfSample _$PerfSampleFromJson(Map<String, dynamic> json) => PerfSample(
       slot: json['slot'] as int,
       numTransactions: json['numTransactions'] as int,
       numSlots: json['numSlots'] as int,
-      samplePeriodSec: json['samplePeriodSec'] as int,
+      samplePeriodSecs: json['samplePeriodSecs'] as int,
     );
