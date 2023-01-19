@@ -1,26 +1,12 @@
-import 'package:collection/collection.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
-class LoadedAddresses {
-  LoadedAddresses({
-    required this.writable,
-    required this.readonly,
-  });
+part 'loaded_addresses.freezed.dart';
 
-  final List<Ed25519HDPublicKey> writable;
-  final List<Ed25519HDPublicKey> readonly;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is LoadedAddresses &&
-          runtimeType == other.runtimeType &&
-          const DeepCollectionEquality().equals(writable, other.writable) &&
-          const DeepCollectionEquality().equals(readonly, other.readonly);
-
-  @override
-  int get hashCode => Object.hash(
-        const DeepCollectionEquality().hash(writable),
-        const DeepCollectionEquality().hash(readonly),
-      );
+@freezed
+abstract class LoadedAddresses with _$LoadedAddresses {
+  const factory LoadedAddresses({
+    required List<Ed25519HDPublicKey> writable,
+    required List<Ed25519HDPublicKey> readonly,
+  }) = _LoadedAddresses;
 }

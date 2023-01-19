@@ -207,8 +207,8 @@ class TxV0 implements TxData {
   LoadedAddresses resolveAddressTableLookups({
     required List<AddressLookupTableAccount> addressLookupTableAccounts,
   }) {
-    final LoadedAddresses accountKeysFromLookups =
-        LoadedAddresses(writable: [], readonly: []);
+    final writableKeys = <Ed25519HDPublicKey>[];
+    final readonlyKeys = <Ed25519HDPublicKey>[];
 
     for (final tableLookup in addressTableLookups) {
       final tableAccount = addressLookupTableAccounts.firstWhereOrNull(
@@ -223,8 +223,7 @@ class TxV0 implements TxData {
 
       for (final index in tableLookup.writableIndexes) {
         if (index < tableAccount.state.addresses.length) {
-          accountKeysFromLookups.writable
-              .add(tableAccount.state.addresses[index]);
+          writableKeys.add(tableAccount.state.addresses[index]);
         } else {
           throw FormatException(
             'Failed to find address for index $index in address lookup table ${tableLookup.accountKey.toBase58()}',
@@ -234,8 +233,7 @@ class TxV0 implements TxData {
 
       for (final index in tableLookup.readonlyIndexes) {
         if (index < tableAccount.state.addresses.length) {
-          accountKeysFromLookups.readonly
-              .add(tableAccount.state.addresses[index]);
+          readonlyKeys.add(tableAccount.state.addresses[index]);
         } else {
           throw FormatException(
             'Failed to find address for index $index in address lookup table ${tableLookup.accountKey.toBase58()}',
@@ -244,7 +242,7 @@ class TxV0 implements TxData {
       }
     }
 
-    return accountKeysFromLookups;
+    return LoadedAddresses(writable: writableKeys, readonly: readonlyKeys);
   }
 }
 

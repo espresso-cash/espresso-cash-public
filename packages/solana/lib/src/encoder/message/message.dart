@@ -79,7 +79,8 @@ class Message {
         CompiledKeys.compile(instructions: instructions, payer: feePayer);
 
     final addressTableLookups = <MessageAddressTableLookup>[];
-    final accountKeysFromLookups = LoadedAddresses(writable: [], readonly: []);
+    final writableKeys = <Ed25519HDPublicKey>[];
+    final readonlyKeys = <Ed25519HDPublicKey>[];
 
     final lookupTableAccounts = addressLookupTableAccounts ?? [];
 
@@ -89,9 +90,11 @@ class Message {
         final addressTableLookup = extractResult.lookup;
         final writable = extractResult.keys.writable;
         final readonly = extractResult.keys.readonly;
+
         addressTableLookups.add(addressTableLookup);
-        accountKeysFromLookups.writable.addAll(writable);
-        accountKeysFromLookups.readonly.addAll(readonly);
+
+        writableKeys.addAll(writable);
+        readonlyKeys.addAll(readonly);
       }
     }
 
@@ -99,7 +102,10 @@ class Message {
     final staticAccountKeys = messageComponents.publicKeys;
     final accountKeys = MessageAccountKeys(
       staticAccountKeys: staticAccountKeys,
-      accountKeysFromLookups: accountKeysFromLookups,
+      accountKeysFromLookups: LoadedAddresses(
+        writable: writableKeys,
+        readonly: readonlyKeys,
+      ),
     );
 
     final messageInstructions = accountKeys.compileInstructions(instructions);
