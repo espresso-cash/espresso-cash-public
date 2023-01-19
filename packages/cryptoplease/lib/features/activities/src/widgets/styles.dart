@@ -14,5 +14,3 @@ const subtitleStyle = TextStyle(
   color: CpColors.menuPrimaryTextColor,
   letterSpacing: .19,
 );
-
-const iconSize = 42.0;
