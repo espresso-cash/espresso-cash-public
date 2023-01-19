@@ -1,8 +1,10 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 
 part 'address_lookup_state.dart';
+part 'address_lookup_table.freezed.dart';
 
 const int _lookupTableMetaSize = 56;
 

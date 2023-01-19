@@ -25,7 +25,7 @@ class CompiledKeys {
       final address = pubkey.toBase58();
       var keyMeta = keyMetaMap[address];
       if (keyMeta == null) {
-        keyMeta = CompiledKeyMeta(
+        keyMeta = const CompiledKeyMeta(
           isSigner: false,
           isWritable: false,
           isInvoked: false,
