@@ -28,6 +28,8 @@ class OSKPEvent with _$OSKPEvent {
   }) = OSKPEventCreate;
 
   const factory OSKPEvent.process(String id) = OSKPEventProcess;
+
+  const factory OSKPEvent.cancel(String id) = OSKPEventCancel;
 }
 
 typedef OSKPState = ISet<String>;
@@ -62,6 +64,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
         process: (e) => _onProcess(e, emit),
+        cancel: (e) => _onCancel(e, emit),
       );
 
   Future<void> _onCreate(OSKPEventCreate event, _Emitter _) async {
@@ -85,6 +88,37 @@ class OSKPBloc extends Bloc<_Event, _State> {
     }
   }
 
+  Future<void> _onCancel(OSKPEventCancel event, _Emitter _) async {
+    final payment = await _repository.load(event.id);
+
+    if (payment == null) return;
+
+    final escrow = payment.status.mapOrNull(
+      txCreated: (it) => it.escrow,
+      txSent: (it) => it.escrow,
+      txConfirmed: (it) => it.escrow,
+      linksReady: (it) => it.escrow,
+      txSendFailure: (it) => it.escrow,
+      txWaitFailure: (it) => it.escrow,
+      txLinksFailure: (it) => it.escrow,
+      cancelTxFailure: (it) => it.escrow,
+    );
+
+    if (escrow == null) {
+      add(OSKPEvent.process(payment.id));
+
+      return;
+    }
+
+    final status = await _createCancelTx(escrow);
+
+    await _repository.save(payment.copyWith(status: status));
+
+    if (status is OSKPStatusCancelTxCreated) {
+      add(OSKPEvent.process(payment.id));
+    }
+  }
+
   Future<void> _onProcess(OSKPEventProcess event, _Emitter emit) async {
     final payment = await _repository.load(event.id);
 
@@ -102,7 +136,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
       ),
       linksReady: (status) async => status,
       withdrawn: (status) async => status,
-      canceled: (status) async => status,
+      canceled: (status) => status,
       txFailure: (_) => _createTx(payment.amount),
       txSendFailure: (status) => _sendTx(status.tx, escrow: status.escrow),
       txWaitFailure: (status) => _waitTx(status.tx, escrow: status.escrow),
@@ -110,6 +144,14 @@ class OSKPBloc extends Bloc<_Event, _State> {
         escrow: status.escrow,
         token: payment.amount.token,
       ),
+      cancelTxFailure: (status) => _createCancelTx(status.escrow),
+      cancelTxCreated: (status) =>
+          _sendCancelTx(status.tx, escrow: status.escrow),
+      cancelTxSent: (status) => _waitCancelTx(status.tx, escrow: status.escrow),
+      cancelTxSendFailure: (status) =>
+          _sendCancelTx(status.tx, escrow: status.escrow),
+      cancelTxWaitFailure: (status) =>
+          _waitCancelTx(status.tx, escrow: status.escrow),
     );
 
     await _repository.save(payment.copyWith(status: newStatus));
@@ -127,6 +169,11 @@ class OSKPBloc extends Bloc<_Event, _State> {
       txSendFailure: ignore,
       txWaitFailure: ignore,
       txLinksFailure: ignore,
+      cancelTxFailure: ignore,
+      cancelTxSendFailure: ignore,
+      cancelTxWaitFailure: ignore,
+      cancelTxCreated: (_) => add(OSKPEvent.process(payment.id)),
+      cancelTxSent: (_) => add(OSKPEvent.process(payment.id)),
     );
   }
 
@@ -203,6 +250,54 @@ class OSKPBloc extends Bloc<_Event, _State> {
       link1: firstLink,
       link2: secondLink,
       escrow: escrow,
+    );
+  }
+
+  Future<OSKPStatus> _createCancelTx(Ed25519HDKeyPair escrow) async {
+    try {
+      final dto = ReceivePaymentRequestDto(
+        receiverAccount: _account.address,
+        escrowAccount: escrow.address,
+        cluster: apiCluster,
+      );
+
+      final tx = await _client
+          .receivePayment(dto)
+          .then((it) => it.transaction)
+          .then(SignedTx.decode)
+          .then((it) => it.resign(escrow));
+
+      return OSKPStatus.cancelTxCreated(tx, escrow: escrow);
+    } on Exception {
+      return OSKPStatus.cancelTxFailure(escrow: escrow);
+    }
+  }
+
+  Future<OSKPStatus> _sendCancelTx(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) async {
+    final result = await _txSender.send(tx);
+
+    return result.map(
+      sent: (_) => OSKPStatus.cancelTxSent(tx, escrow: escrow),
+      invalidBlockhash: (_) => OSKPStatus.cancelTxFailure(escrow: escrow),
+      failure: (it) =>
+          OSKPStatus.cancelTxFailure(reason: it.reason, escrow: escrow),
+      networkError: (_) => OSKPStatus.cancelTxSendFailure(tx, escrow: escrow),
+    );
+  }
+
+  Future<OSKPStatus> _waitCancelTx(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) async {
+    final result = await _txSender.wait(tx);
+
+    return result.map(
+      success: (_) => OSKPStatus.canceled(txId: tx.id),
+      failure: (_) => OSKPStatus.cancelTxFailure(escrow: escrow),
+      networkError: (_) => OSKPStatus.cancelTxWaitFailure(tx, escrow: escrow),
     );
   }
 }

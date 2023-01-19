@@ -11,24 +11,28 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
 import '../activity.dart';
 
-class OTTile extends StatelessWidget {
-  const OTTile({super.key, required this.activity});
+class OSKPTile extends StatelessWidget {
+  const OSKPTile({super.key, required this.activity});
 
-  final OTActivity activity;
+  final OSKPActivity activity;
 
   @override
   Widget build(BuildContext context) => ActivityTile(
         title: activity.data.status.maybeMap(
-          canceled: always(context.l10n.tipCanceled),
-          orElse: always(context.l10n.tipViaQrCode),
+          canceled: always(context.l10n.transferCanceled),
+          orElse: always(context.l10n.sentViaLink),
         ),
-        amount:
+        amount: activity.data.status.maybeMap(
+          orElse: always(
             '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
+          ),
+          canceled: always(null),
+        ),
         subtitle: context.formatDate(activity.created),
         icon: activity.data.status.maybeMap(
-          canceled: always(Assets.icons.txFailed.svg()),
           orElse: always(Assets.icons.outgoing.svg()),
+          canceled: always(Assets.icons.txFailed.svg()),
         ),
-        onTap: () => context.router.navigate(OutgoingTipRoute(id: activity.id)),
+        onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );
 }

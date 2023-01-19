@@ -1,3 +1,7 @@
+## 1.60.0
+
+ - **FEAT**: allow user to cancel outgoing and request payments (#626).
+
 ## 1.59.0
 
  - **FIX**: minor ui updates (#709).

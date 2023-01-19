@@ -49,9 +49,13 @@ class OTStatus with _$OTStatus {
     required Ed25519HDKeyPair escrow,
   }) = OTLinkReady;
 
-  const factory OTStatus.success({
+  const factory OTStatus.withdrawn({
     required String txId,
-  }) = OTSuccess;
+  }) = OTWithdrawn;
+
+  const factory OTStatus.canceled({
+    required String txId,
+  }) = OTCanceled;
 
   const factory OTStatus.txFailure({TxFailureReason? reason}) = OTTxFailure;
 
@@ -68,4 +72,29 @@ class OTStatus with _$OTStatus {
   const factory OTStatus.txLinksFailure({
     required Ed25519HDKeyPair escrow,
   }) = OTTxLinksFailure;
+
+  const factory OTStatus.cancelTxCreated(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancelTxCreated;
+
+  const factory OTStatus.cancelTxFailure({
+    TxFailureReason? reason,
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancelTxFailure;
+
+  const factory OTStatus.cancelTxSent(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancelTxSent;
+
+  const factory OTStatus.cancelTxSendFailure(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancelTxSendFailure;
+
+  const factory OTStatus.cancelTxWaitFailure(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OTStatusCancelTxWaitFailure;
 }

@@ -5,7 +5,6 @@ import '../../../../features/activities/widgets/pending_activities_list.dart';
 import '../../../../features/activities/widgets/transaction_list.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
-import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/tab_bar.dart';
 
 class ActivitiesScreen extends StatelessWidget {
@@ -13,10 +12,8 @@ class ActivitiesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final insets = EdgeInsets.only(
-      top: _padding,
-      bottom: MediaQuery.of(context).padding.bottom,
-    );
+    final bottom = MediaQuery.of(context).padding.bottom;
+    const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
 
     return PageFadeWrapper(
       child: DefaultTabController(
@@ -29,7 +26,7 @@ class ActivitiesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 24),
               child: CpTabBar(
                 tabs: [
                   Tab(text: 'Pending'),
@@ -37,7 +34,7 @@ class ActivitiesScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
+            const Expanded(
               child: TabBarView(
                 children: [
                   _Wrapper(
@@ -49,7 +46,7 @@ class ActivitiesScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: cpNavigationBarheight),
+            SizedBox(height: bottom),
           ],
         ),
       ),

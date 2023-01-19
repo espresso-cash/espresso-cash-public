@@ -32,9 +32,8 @@ class PendingActivitiesRepository {
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.withdrawn).not())
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.canceled).not());
     final otp = _db.select(_db.oTRows)
-      ..where(
-        (tbl) => tbl.status.equalsValue(OTStatusDto.success).not(),
-      );
+      ..where((tbl) => tbl.status.equalsValue(OTStatusDto.withdrawn).not())
+      ..where((tbl) => tbl.status.equalsValue(OTStatusDto.canceled).not());
 
     final oprStream =
         opr.watch().map((rows) => rows.map((r) => r.toActivity()));

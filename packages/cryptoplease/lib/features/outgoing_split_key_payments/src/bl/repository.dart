@@ -60,6 +60,8 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   TextColumn get link1 => text().nullable()();
   TextColumn get link2 => text().nullable()();
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
+  TextColumn get cancelTx => text().nullable()();
+  TextColumn get cancelTxId => text().nullable()();
 }
 
 enum OSKPStatusDto {
@@ -67,13 +69,18 @@ enum OSKPStatusDto {
   txSent,
   txConfirmed,
   linksReady,
-  success,
+  success, // Legacy
   txFailure,
   txSendFailure,
   txWaitFailure,
   txLinksFailure,
   withdrawn,
   canceled,
+  cancelTxCreated,
+  cancelTxFailure,
+  cancelTxSent,
+  cancelTxSendFailure,
+  cancelTxWaitFailure,
 }
 
 extension OSKPRowExt on OSKPRow {
@@ -99,6 +106,8 @@ extension on OSKPStatusDto {
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
     final link1 = row.link1?.let(Uri.parse);
     final link2 = row.link2?.let(Uri.parse);
+    final cancelTx = row.cancelTx?.let(SignedTx.decode);
+    final cancelTxId = row.cancelTxId;
 
     switch (this) {
       case OSKPStatusDto.txCreated:
@@ -119,7 +128,12 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.withdrawn:
         return OSKPStatus.withdrawn(txId: withdrawTxId!);
       case OSKPStatusDto.canceled:
-        return OSKPStatus.canceled(txId: withdrawTxId!);
+        if (cancelTxId == null) {
+          // For compatibility with old versions
+          return OSKPStatus.canceled(txId: withdrawTxId!);
+        } else {
+          return OSKPStatus.canceled(txId: cancelTxId);
+        }
       case OSKPStatusDto.txFailure:
         return OSKPStatus.txFailure(reason: row.txFailureReason);
       case OSKPStatusDto.txSendFailure:
@@ -131,6 +145,16 @@ extension on OSKPStatusDto {
         );
       case OSKPStatusDto.txLinksFailure:
         return OSKPStatus.txLinksFailure(escrow: escrow!);
+      case OSKPStatusDto.cancelTxCreated:
+        return OSKPStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
+      case OSKPStatusDto.cancelTxFailure:
+        return OSKPStatus.cancelTxFailure(escrow: escrow!);
+      case OSKPStatusDto.cancelTxSent:
+        return OSKPStatus.cancelTxSent(cancelTx!, escrow: escrow!);
+      case OSKPStatusDto.cancelTxSendFailure:
+        return OSKPStatus.cancelTxSendFailure(cancelTx!, escrow: escrow!);
+      case OSKPStatusDto.cancelTxWaitFailure:
+        return OSKPStatus.cancelTxWaitFailure(cancelTx!, escrow: escrow!);
     }
   }
 }
@@ -149,6 +173,8 @@ extension on OutgoingSplitKeyPayment {
         link1: status.toLink1(),
         link2: status.toLink2(),
         txFailureReason: status.toTxFailureReason(),
+        cancelTx: status.toCancelTx(),
+        cancelTxId: status.toCancelTxId(),
       );
 }
 
@@ -159,11 +185,16 @@ extension on OSKPStatus {
         txConfirmed: always(OSKPStatusDto.txConfirmed),
         linksReady: always(OSKPStatusDto.linksReady),
         withdrawn: always(OSKPStatusDto.withdrawn),
-        canceled: always(OSKPStatusDto.canceled),
         txFailure: always(OSKPStatusDto.txFailure),
         txSendFailure: always(OSKPStatusDto.txSendFailure),
         txWaitFailure: always(OSKPStatusDto.txWaitFailure),
         txLinksFailure: always(OSKPStatusDto.txLinksFailure),
+        canceled: always(OSKPStatusDto.canceled),
+        cancelTxCreated: always(OSKPStatusDto.cancelTxCreated),
+        cancelTxFailure: always(OSKPStatusDto.cancelTxFailure),
+        cancelTxSent: always(OSKPStatusDto.cancelTxSent),
+        cancelTxSendFailure: always(OSKPStatusDto.cancelTxSendFailure),
+        cancelTxWaitFailure: always(OSKPStatusDto.cancelTxWaitFailure),
       );
 
   String? toTx() => mapOrNull(
@@ -180,8 +211,20 @@ extension on OSKPStatus {
         txWaitFailure: (it) => it.tx.id,
       );
 
-  String? toWithdrawTxId() => mapOrNull(
-        withdrawn: (it) => it.txId,
+  String? toWithdrawTxId() => mapOrNull(withdrawn: (it) => it.txId);
+
+  String? toCancelTx() => mapOrNull(
+        cancelTxCreated: (it) => it.tx.encode(),
+        cancelTxSent: (it) => it.tx.encode(),
+        cancelTxSendFailure: (it) => it.tx.encode(),
+        cancelTxWaitFailure: (it) => it.tx.encode(),
+      );
+
+  String? toCancelTxId() => mapOrNull(
+        cancelTxCreated: (it) => it.tx.id,
+        cancelTxSent: (it) => it.tx.id,
+        cancelTxSendFailure: (it) => it.tx.id,
+        cancelTxWaitFailure: (it) => it.tx.id,
         canceled: (it) => it.txId,
       );
 
@@ -203,6 +246,16 @@ extension on OSKPStatus {
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
         txLinksFailure: (it) async =>
             it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxCreated: (it) async =>
+            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxFailure: (it) async =>
+            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxSent: (it) async =>
+            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxSendFailure: (it) async =>
+            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxWaitFailure: (it) async =>
+            it.escrow.extract().then((it) => it.bytes).then(base58encode),
       );
 
   String? toLink1() => mapOrNull(
@@ -215,5 +268,6 @@ extension on OSKPStatus {
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
         txFailure: (it) => it.reason,
+        cancelTxFailure: (it) => it.reason,
       );
 }

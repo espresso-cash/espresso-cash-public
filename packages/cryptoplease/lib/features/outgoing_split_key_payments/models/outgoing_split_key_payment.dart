@@ -74,4 +74,29 @@ class OSKPStatus with _$OSKPStatus {
   const factory OSKPStatus.txLinksFailure({
     required Ed25519HDKeyPair escrow,
   }) = OSKPStatusTxLinksFailure;
+
+  const factory OSKPStatus.cancelTxCreated(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancelTxCreated;
+
+  const factory OSKPStatus.cancelTxFailure({
+    TxFailureReason? reason,
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancelTxFailure;
+
+  const factory OSKPStatus.cancelTxSent(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancelTxSent;
+
+  const factory OSKPStatus.cancelTxSendFailure(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancelTxSendFailure;
+
+  const factory OSKPStatus.cancelTxWaitFailure(
+    SignedTx tx, {
+    required Ed25519HDKeyPair escrow,
+  }) = OSKPStatusCancelTxWaitFailure;
 }
