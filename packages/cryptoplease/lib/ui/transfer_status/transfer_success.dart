@@ -12,13 +12,13 @@ class TransferSuccess extends StatelessWidget {
     required this.onOkPressed,
     required this.statusContent,
     this.content,
-    this.onMoreDetaisPressed,
+    this.onMoreDetailsPressed,
   });
 
   final VoidCallback onOkPressed;
   final String statusContent;
   final Widget? content;
-  final VoidCallback? onMoreDetaisPressed;
+  final VoidCallback? onMoreDetailsPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +42,13 @@ class TransferSuccess extends StatelessWidget {
               text: context.l10n.ok,
               onPressed: onOkPressed,
             ),
-            if (onMoreDetaisPressed != null)
+            if (onMoreDetailsPressed != null)
               Padding(
                 padding: const EdgeInsets.only(top: 24),
                 child: CpTextButton(
                   variant: CpTextButtonVariant.inverted,
                   text: context.l10n.moreDetails,
-                  onPressed: onMoreDetaisPressed,
+                  onPressed: onMoreDetailsPressed,
                 ),
               ),
             const SizedBox(height: 100),

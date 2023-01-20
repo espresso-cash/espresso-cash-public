@@ -70,7 +70,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                       ),
                     ],
                   ),
-                  onMoreDetaisPressed: () {
+                  onMoreDetailsPressed: () {
                     final link = status.txId
                         .let(createTransactionLink)
                         .let(Uri.parse)

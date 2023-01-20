@@ -46,7 +46,7 @@ class _IncomingSplitKeyPaymentScreenState
               if (state.contains(payment.id)) return const TransferProgress();
 
               return payment.status.maybeMap(
-                success: (status) => TransferSuccess(
+                success: (_) => TransferSuccess(
                   onOkPressed: () => context.router.pop(),
                   statusContent: context.l10n.moneyReceived,
                 ),
