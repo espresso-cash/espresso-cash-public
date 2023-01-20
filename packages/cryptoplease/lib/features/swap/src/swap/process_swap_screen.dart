@@ -50,7 +50,7 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
                 success: (status) => TransferSuccess(
                   onOkPressed: () => context.router.pop(),
                   onMoreDetails: () {
-                    final link = status.txId
+                    final link = status.tx.id
                         .let(createTransactionLink)
                         .let(Uri.parse)
                         .toString();
