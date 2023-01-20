@@ -133,8 +133,8 @@ class CreateSwap {
             wrappedSolAccount: wrappedSolAccount,
             sender: aSender,
           ),
-        );
-    // .let((m) => m.addInstruction(feeIx));
+        )
+        .let((m) => m.addInstruction(feeIx));
 
     final recentBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,

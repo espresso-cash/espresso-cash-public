@@ -77,7 +77,7 @@ Future<SignedTx> createPaymentTx({
 
   final message = Message(instructions: instructions);
   final recentBlockhash =
-      await client.rpcClient.getRecentBlockhash(commitment: commitment);
+      await client.rpcClient.getLatestBlockhash(commitment: commitment);
 
   final compiled = message.compile(recentBlockhash: recentBlockhash.blockhash);
 
