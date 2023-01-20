@@ -45,7 +45,7 @@ final _pages = [
   _Page(
     route: const InvestmentsRouter(),
     overlayStyle: SystemUiOverlayStyle.light,
-    icon: Assets.icons.investments,
+    icon: Assets.icons.home,
   ),
   _Page(
     route: const WalletFlowRoute(),

@@ -76,7 +76,7 @@ Color _labelColor(CpTabBarVariant variant) {
 Color _unselectedLabelColor(CpTabBarVariant variant) {
   switch (variant) {
     case CpTabBarVariant.dark:
-      return CpColors.disabledTabColor;
+      return Colors.white;
     case CpTabBarVariant.inverted:
       return Colors.black;
     case CpTabBarVariant.light:
