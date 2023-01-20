@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
@@ -9,10 +10,9 @@ import '../../outgoing_direct_payments/db.dart';
 import '../../outgoing_split_key_payments/db.dart';
 import '../../outgoing_tip_payments/db.dart';
 import '../../payment_request/db.dart';
+import '../../swap/db.dart';
 import 'activity.dart';
 import 'activity_builder.dart';
-
-typedef _L = Iterable<Activity>;
 
 @injectable
 class PendingActivitiesRepository {
@@ -34,6 +34,8 @@ class PendingActivitiesRepository {
     final otp = _db.select(_db.oTRows)
       ..where((tbl) => tbl.status.equalsValue(OTStatusDto.withdrawn).not())
       ..where((tbl) => tbl.status.equalsValue(OTStatusDto.canceled).not());
+    final swap = _db.select(_db.swapRows)
+      ..where((tbl) => tbl.status.equalsValue(SwapStatusDto.success).not());
 
     final oprStream =
         opr.watch().map((rows) => rows.map((r) => r.toActivity()));
@@ -47,13 +49,19 @@ class PendingActivitiesRepository {
         .watch()
         .map((rows) => rows.map((r) => r.toActivity(_tokens)))
         .asyncMap(Future.wait);
+    final swapStream =
+        swap.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
 
-    return Rx.combineLatest4<_L, _L, _L, _L, IList<Activity>>(
-      oprStream,
-      odpStream,
-      oskpStream,
-      otStream,
-      (a, b, c, d) => [...a, ...b, ...c, ...d]
+    return Rx.combineLatest<Iterable<Activity>, IList<Activity>>(
+      [
+        oprStream,
+        odpStream,
+        oskpStream,
+        otStream,
+        swapStream,
+      ],
+      (values) => values
+          .expand(identity)
           .toIList()
           .sortOrdered((a, b) => b.created.compareTo(a.created)),
     );

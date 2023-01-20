@@ -1,3 +1,10 @@
+## 1.61.0
+
+ - **FIX**: duplicate items on transaction list (#717).
+ - **FEAT**: add buy and sell to pending activities list (#715).
+ - **FEAT**: update navbar home icon (#718).
+ - **FEAT**: improve items on activities screen (#628).
+
 ## 1.60.0
 
  - **FEAT**: allow user to cancel outgoing and request payments (#626).
