@@ -15,6 +15,7 @@ import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/content_padding.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
@@ -71,6 +72,7 @@ class TokenDetailsScreen extends StatelessWidget {
                       _Chart(token: token),
                       if (token.canBeSwapped) ExchangeButtons(token: token),
                       if (token == Token.usdc) const RampButtons(),
+                      _Balance(token: token),
                       _Content(token: token),
                     ],
                   ),
@@ -172,6 +174,53 @@ class _Content extends StatelessWidget {
       );
 }
 
+class _Balance extends StatelessWidget {
+  const _Balance({required this.token});
+
+  final Token token;
+
+  @override
+  Widget build(BuildContext context) {
+    final Amount cryptoAmount = context.watchUserCryptoBalance(token);
+    final Amount? fiatAmount = context.watchUserFiatBalance(token);
+
+    if (cryptoAmount.value != 0 && fiatAmount != null) {
+      return CpContentPadding(
+        bottom: false,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          decoration: const ShapeDecoration(
+            shape: StadiumBorder(),
+            color: CpColors.darkBackgroundColor,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              FittedBox(
+                child: PriceWidget(
+                  label: 'You own',
+                  amount: cryptoAmount.format(
+                    DeviceLocale.localeOf(context),
+                    roundInteger: true,
+                  ),
+                ),
+              ),
+              FittedBox(
+                child: PriceWidget(
+                  label: 'Balance',
+                  amount: fiatAmount.format(DeviceLocale.localeOf(context)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+}
+
 class _Chart extends StatefulWidget {
   const _Chart({required this.token});
 
@@ -186,8 +235,6 @@ class __ChartState extends State<_Chart> {
 
   @override
   Widget build(BuildContext context) {
-    final Amount? fiatAmount = context.watchUserFiatBalance(widget.token);
-
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
     final price = _selected?.price.toString().let(Decimal.parse);
     final currentPrice = price.formatDisplayablePrice(
@@ -198,19 +245,7 @@ class __ChartState extends State<_Chart> {
     return Column(
       children: [
         if (_selected == null)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const _TokenPrice(),
-              if (fiatAmount != null && fiatAmount.value != 0) ...[
-                const SizedBox(width: 24),
-                PriceWidget(
-                  label: context.l10n.yourBalance,
-                  amount: fiatAmount.format(DeviceLocale.localeOf(context)),
-                ),
-              ]
-            ],
-          )
+          const _TokenPrice()
         else
           Text(
             currentPrice,
