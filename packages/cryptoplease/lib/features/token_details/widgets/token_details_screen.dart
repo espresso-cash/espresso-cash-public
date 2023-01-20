@@ -196,20 +196,16 @@ class _Balance extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              FittedBox(
-                child: PriceWidget(
-                  label: 'You own',
-                  amount: cryptoAmount.format(
-                    DeviceLocale.localeOf(context),
-                    roundInteger: true,
-                  ),
+              PriceWidget(
+                label: context.l10n.youOwn,
+                amount: cryptoAmount.format(
+                  DeviceLocale.localeOf(context),
+                  roundInteger: true,
                 ),
               ),
-              FittedBox(
-                child: PriceWidget(
-                  label: 'Balance',
-                  amount: fiatAmount.format(DeviceLocale.localeOf(context)),
-                ),
+              PriceWidget(
+                label: context.l10n.balance,
+                amount: fiatAmount.format(DeviceLocale.localeOf(context)),
               ),
             ],
           ),
