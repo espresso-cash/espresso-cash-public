@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/presentation/format_date.dart';
 import '../../../../core/presentation/utils.dart';
 import '../../../../core/transactions/create_transaction_link.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../ui/timeline.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
@@ -50,18 +52,31 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
 
               return payment.status.maybeMap(
                 success: (status) => TransferSuccess(
-                  onMoreDetails: () {
+                  onOkPressed: () => context.router.pop(),
+                  statusContent: context.l10n.outgoingTransferSuccess(
+                    payment.amount.format(DeviceLocale.localeOf(context)),
+                  ),
+                  content: CpTimeline(
+                    status: CpTimelineStatus.success,
+                    active: 1,
+                    items: [
+                      CpTimelineItem(title: context.l10n.transferInitiated),
+                      CpTimelineItem(
+                        title: context.l10n.receivedBy(
+                          payment.receiver.toBase58().toShortAddress(),
+                        ),
+                        // TODO(rhbrunetto): use received date instead
+                        subtitle: context.formatDate(payment.created),
+                      ),
+                    ],
+                  ),
+                  onMoreDetaisPressed: () {
                     final link = status.txId
                         .let(createTransactionLink)
                         .let(Uri.parse)
                         .toString();
                     context.openLink(link);
                   },
-                  onOkPressed: () => context.router.pop(),
-                  content: context.l10n.outgoingTransferSuccess(
-                    payment.amount.format(DeviceLocale.localeOf(context)),
-                    payment.receiver.toBase58().toShortAddress(),
-                  ),
                 ),
                 txFailure: (it) => TransferError(
                   onBack: () => context.router.pop(),

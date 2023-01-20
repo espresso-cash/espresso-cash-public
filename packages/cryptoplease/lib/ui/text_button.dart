@@ -36,6 +36,9 @@ class CpTextButton extends StatelessWidget {
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: _foregroundColor,
+            decoration: variant == CpTextButtonVariant.inverted
+                ? TextDecoration.underline
+                : null,
           ),
         ),
       );

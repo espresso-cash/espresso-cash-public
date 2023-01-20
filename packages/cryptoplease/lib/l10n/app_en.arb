@@ -82,13 +82,10 @@
   "splitKeySuccessMessage2": "Your transfer has been sent.",
   "splitKeyErrorMessage1": "OOPS!",
   "transferSuccessTitle": "SUCCESS!",
-  "outgoingTransferSuccess": "{amount} has been sent to {receiver}",
+  "outgoingTransferSuccess": "{amount} has been sent",
   "@outgoingTransferSuccess": {
     "placeholders": {
       "amount": {
-        "type": "String"
-      },
-      "receiver": {
         "type": "String"
       }
     }
@@ -525,10 +522,19 @@
       }
     }
   },
-  "moreDetails": "More details",
+  "moreDetails": "View more details",
   "cancelTransfer": "Cancel transfer",
   "sentViaLink": "Sent via link",
   "tipCanceled": "Tip canceled",
   "cancelTip": "Cancel tip",
-  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn."
+  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
+  "transferInitiated": "Transfer initiated",
+  "receivedBy": "Received by {address}",
+  "@receivedBy": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  }
 }
