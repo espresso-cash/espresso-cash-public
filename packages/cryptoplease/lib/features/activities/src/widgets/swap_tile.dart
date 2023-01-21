@@ -18,20 +18,22 @@ class SwapTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isBuyOperation = activity.data.seed.inputToken == Token.usdc;
-    final token = isBuyOperation
-        ? activity.data.seed.outputToken
-        : activity.data.seed.inputToken;
+    final seed = activity.data.seed;
+    final isBuyOperation = seed.inputToken == Token.usdc;
+    final isMatchToken = seed.amount.currency.token == seed.inputToken;
+    final token = isBuyOperation ? seed.outputToken : seed.inputToken;
+    final sign = isMatchToken ? '-' : '+';
 
     return ActivityTile(
       title: isBuyOperation
           ? context.l10n.boughtToken(token.name)
           : context.l10n.soldToken(token.name),
-      amount:
-          '-${activity.data.seed.amount.format(DeviceLocale.localeOf(context))}',
+      amount: '$sign${seed.amount.format(DeviceLocale.localeOf(context))}',
       subtitle: context.formatDate(activity.created),
       // TODO(rhbrunetto): improve icon
-      icon: Assets.icons.outgoing.svg(),
+      icon: isBuyOperation
+          ? Assets.icons.incoming.svg()
+          : Assets.icons.outgoing.svg(),
       onTap: () => context.router.navigate(ProcessSwapRoute(id: activity.id)),
     );
   }
