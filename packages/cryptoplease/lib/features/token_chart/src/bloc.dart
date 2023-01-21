@@ -18,13 +18,15 @@ typedef _State = TokenChartState;
 typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
+const defaultChartInterval = ChartInterval.oneDay;
+
 @injectable
 class TokenChartBloc extends Bloc<_Event, _State> {
   TokenChartBloc({
     @factoryParam required this.token,
     required ChartRepository repository,
   })  : _repository = repository,
-        super(const _State(interval: ChartInterval.oneMonth)) {
+        super(const _State(interval: defaultChartInterval)) {
     on<_Event>(_eventHandler, transformer: restartable());
   }
 
