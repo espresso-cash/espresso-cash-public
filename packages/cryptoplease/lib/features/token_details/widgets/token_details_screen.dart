@@ -189,12 +189,14 @@ class _Balance extends StatelessWidget {
         bottom: false,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          width: double.infinity,
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
             color: CpColors.darkBackgroundColor,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
             children: [
               PriceWidget(
                 label: context.l10n.youOwn,
@@ -205,7 +207,10 @@ class _Balance extends StatelessWidget {
               ),
               PriceWidget(
                 label: context.l10n.balance,
-                amount: fiatAmount.format(DeviceLocale.localeOf(context)),
+                amount: fiatAmount.format(
+                  DeviceLocale.localeOf(context),
+                  roundInteger: true,
+                ),
               ),
             ],
           ),
