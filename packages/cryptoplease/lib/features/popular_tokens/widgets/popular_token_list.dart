@@ -11,6 +11,7 @@ import '../../../../../../l10n/device_locale.dart';
 import '../../../../../../routes.gr.dart';
 import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/token_icon.dart';
+import '../../../core/conversion_rates/context_ext.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../src/bl/bloc.dart';
@@ -32,9 +33,12 @@ class PopularTokenList extends StatelessWidget {
           if (state.tokens.isNotEmpty) {
             return SliverList(
               delegate: SliverChildListDelegate(
-                state.tokens.entries
-                    .map((e) => _TokenItem(e.key, e.value))
-                    .toList(),
+                [
+                  const _SolanaTokenItem(),
+                  ...state.tokens.entries
+                      .map((e) => _TokenItem(e.key, e.value))
+                      .toList()
+                ],
               ),
             );
           }
@@ -48,6 +52,20 @@ class PopularTokenList extends StatelessWidget {
           );
         },
       );
+}
+
+class _SolanaTokenItem extends StatelessWidget {
+  const _SolanaTokenItem();
+
+  @override
+  Widget build(BuildContext context) {
+    const token = Token.sol;
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
+    final conversionRate =
+        context.watchConversionRate(from: token, to: fiatCurrency);
+
+    return _TokenItem(token, conversionRate?.toDouble() ?? 0.0);
+  }
 }
 
 class _TokenItem extends StatelessWidget {
