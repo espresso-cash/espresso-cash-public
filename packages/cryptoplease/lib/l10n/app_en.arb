@@ -435,7 +435,7 @@
     }
   },
   "price": "Price",
-  "balance": "Your balance",
+  "balance": "Balance",
   "youOwn":"You own",
   "failedToLoadTokens": "Failed to load tokens",
   "settings": "Settings",
