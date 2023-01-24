@@ -10,6 +10,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/link_shortener.dart';
 import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
@@ -46,11 +47,13 @@ class OTBloc extends Bloc<_Event, _State> {
     required OTRepository repository,
     required TxSender txSender,
     required LinkShortener linkShortener,
+    required BalancesBloc balancesBloc,
   })  : _account = account,
         _client = client,
         _repository = repository,
         _txSender = txSender,
         _linkShortener = linkShortener,
+        _balancesBloc = balancesBloc,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
@@ -60,12 +63,16 @@ class OTBloc extends Bloc<_Event, _State> {
   final OTRepository _repository;
   final TxSender _txSender;
   final LinkShortener _linkShortener;
+  final BalancesBloc _balancesBloc;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
         process: (e) => _onProcess(e, emit),
         cancel: (e) => _onCancel(e, emit),
       );
+
+  void _refreshBalances() =>
+      _balancesBloc.add(BalancesEvent.requested(address: _account.address));
 
   Future<void> _onCreate(OTEventCreate event, _Emitter _) async {
     if (event.amount.token != Token.usdc) {
@@ -164,10 +171,13 @@ class OTBloc extends Bloc<_Event, _State> {
     newStatus.map(
       txCreated: (_) => add(OTEvent.process(payment.id)),
       txSent: (_) => add(OTEvent.process(payment.id)),
-      txConfirmed: (_) => add(OTEvent.process(payment.id)),
+      txConfirmed: (_) {
+        add(OTEvent.process(payment.id));
+        _refreshBalances();
+      },
       linkReady: ignore,
       withdrawn: ignore,
-      canceled: ignore,
+      canceled: (_) => _refreshBalances(),
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,

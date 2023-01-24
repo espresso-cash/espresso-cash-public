@@ -43,7 +43,9 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
         providers: [
           Provider<SwapVerifier>(
             lazy: false,
-            create: (_) => sl<SwapVerifier>()..init(),
+            create: (_) => sl<SwapVerifier>(
+              param1: context.read<MyAccount>().wallet.publicKey,
+            )..init(),
             dispose: (_, value) => value.dispose(),
           ),
           Provider<OSKPVerifier>(

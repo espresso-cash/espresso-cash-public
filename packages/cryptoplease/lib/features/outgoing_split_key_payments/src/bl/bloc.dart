@@ -10,6 +10,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/link_shortener.dart';
 import '../../../../core/split_key_payments.dart';
 import '../../../../core/tokens/token.dart';
@@ -46,11 +47,13 @@ class OSKPBloc extends Bloc<_Event, _State> {
     required OSKPRepository repository,
     required TxSender txSender,
     required LinkShortener linkShortener,
+    required BalancesBloc balancesBloc,
   })  : _account = account,
         _client = client,
         _repository = repository,
         _txSender = txSender,
         _linkShortener = linkShortener,
+        _balancesBloc = balancesBloc,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
@@ -60,12 +63,16 @@ class OSKPBloc extends Bloc<_Event, _State> {
   final OSKPRepository _repository;
   final TxSender _txSender;
   final LinkShortener _linkShortener;
+  final BalancesBloc _balancesBloc;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
         process: (e) => _onProcess(e, emit),
         cancel: (e) => _onCancel(e, emit),
       );
+
+  void _refreshBalances() =>
+      _balancesBloc.add(BalancesEvent.requested(address: _account.address));
 
   Future<void> _onCreate(OSKPEventCreate event, _Emitter _) async {
     if (event.amount.token != Token.usdc) {
@@ -161,10 +168,13 @@ class OSKPBloc extends Bloc<_Event, _State> {
     newStatus.map(
       txCreated: (_) => add(OSKPEvent.process(payment.id)),
       txSent: (_) => add(OSKPEvent.process(payment.id)),
-      txConfirmed: (_) => add(OSKPEvent.process(payment.id)),
+      txConfirmed: (_) {
+        add(OSKPEvent.process(payment.id));
+        _refreshBalances();
+      },
       linksReady: ignore,
       withdrawn: ignore,
-      canceled: ignore,
+      canceled: (_) => _refreshBalances(),
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,

@@ -11,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
+import '../../../../../core/balances/bl/balances_bloc.dart';
 import '../../../models/payment_request.dart';
 import '../repository.dart';
 
@@ -29,9 +30,13 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
     required SolanaClient solanaClient,
     @factoryParam required PaymentRequest request,
     required PaymentRequestRepository repository,
+    @factoryParam required Ed25519HDPublicKey userPublicKey,
+    required BalancesBloc balancesBloc,
   })  : _solanaClient = solanaClient,
         _request = request,
         _repository = repository,
+        _balancesBloc = balancesBloc,
+        _userPublicKey = userPublicKey,
         super(const Waiting()) {
     on<_Event>(_eventHandler, transformer: sequential());
     _waitForTx();
@@ -40,6 +45,8 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
   final SolanaClient _solanaClient;
   final PaymentRequest _request;
   final PaymentRequestRepository _repository;
+  final BalancesBloc _balancesBloc;
+  final Ed25519HDPublicKey _userPublicKey;
 
   StreamSubscription<TransactionId>? _txSubscription;
 
@@ -50,6 +57,9 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
   }
 
   Duration _currentBackoff = _minBackoff;
+
+  void _refreshBalances() => _balancesBloc
+      .add(BalancesEvent.requested(address: _userPublicKey.toBase58()));
 
   Future<void> _waitForTx() async {
     if (!_request.state.isInitial) return;
@@ -92,6 +102,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
       final newState = PaymentRequestState.completed(transactionId: id);
       await _repository.save(_request.copyWith(state: newState));
       add(const Succeeded());
+      _refreshBalances();
     } on Exception catch (e) {
       add(VerificationFailed(e, transactionId: id));
     }

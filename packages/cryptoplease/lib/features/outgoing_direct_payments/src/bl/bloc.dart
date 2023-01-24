@@ -9,6 +9,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -42,10 +43,12 @@ class ODPBloc extends Bloc<_Event, _State> {
     required CryptopleaseClient client,
     @factoryParam required Ed25519HDKeyPair account,
     required TxSender txSender,
+    required BalancesBloc balancesBloc,
   })  : _repository = repository,
         _client = client,
         _account = account,
         _txSender = txSender,
+        _balancesBloc = balancesBloc,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
@@ -54,11 +57,15 @@ class ODPBloc extends Bloc<_Event, _State> {
   final CryptopleaseClient _client;
   final Ed25519HDKeyPair _account;
   final TxSender _txSender;
+  final BalancesBloc _balancesBloc;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
         process: (e) => _onProcess(e, emit),
       );
+
+  void _refreshBalances() =>
+      _balancesBloc.add(BalancesEvent.requested(address: _account.address));
 
   Future<void> _onCreate(ODPEventCreate event, _Emitter _) async {
     if (event.amount.token != Token.usdc) {
@@ -115,7 +122,7 @@ class ODPBloc extends Bloc<_Event, _State> {
     newStatus.map(
       txCreated: (_) => add(ODPEvent.process(payment.id)),
       txSent: (_) => add(ODPEvent.process(payment.id)),
-      success: ignore,
+      success: (_) => _refreshBalances(),
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,
