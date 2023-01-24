@@ -20,7 +20,6 @@ class WalletMainScreen extends StatefulWidget {
     required this.onAmountChanged,
     required this.onRequest,
     required this.onPay,
-    required this.onTip,
     required this.amount,
     this.shakeKey,
     this.error = '',
@@ -29,7 +28,6 @@ class WalletMainScreen extends StatefulWidget {
   final VoidCallback onScan;
   final VoidCallback onRequest;
   final VoidCallback onPay;
-  final VoidCallback onTip;
   final ValueSetter<Decimal> onAmountChanged;
   final CryptoAmount amount;
   final Key? shakeKey;
@@ -138,9 +136,6 @@ class _ScreenState extends State<WalletMainScreen> {
                   case WalletOperation.request:
                     widget.onRequest();
                     break;
-                  case WalletOperation.tip:
-                    widget.onTip();
-                    break;
                 }
               },
               size: CpButtonSize.big,
@@ -185,12 +180,11 @@ class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 Align(
                   child: SizedBox(
-                    width: 254,
+                    width: 220,
                     child: CpTabBar(
                       tabs: [
                         Tab(text: context.l10n.pay),
                         Tab(text: context.l10n.receive),
-                        Tab(text: context.l10n.tip),
                       ],
                       variant: CpTabBarVariant.light,
                     ),
@@ -210,10 +204,8 @@ extension on WalletOperation {
         return context.l10n.pay;
       case WalletOperation.request:
         return context.l10n.receive;
-      case WalletOperation.tip:
-        return context.l10n.tipButtonLabel;
     }
   }
 }
 
-enum WalletOperation { pay, request, tip }
+enum WalletOperation { pay, request }

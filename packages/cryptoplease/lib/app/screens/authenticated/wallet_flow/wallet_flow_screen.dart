@@ -10,7 +10,6 @@ import '../../../../di.dart';
 import '../../../../features/incoming_tip_payments/widgets/extensions.dart';
 import '../../../../features/outgoing_direct_payments/widgets/extensions.dart';
 import '../../../../features/outgoing_split_key_payments/widgets/extensions.dart';
-import '../../../../features/outgoing_tip_payments/widgets/extensions.dart';
 import '../../../../features/payment_request/models/payment_request.dart';
 import '../../../../features/qr_scanner/models/qr_scanner_request.dart';
 import '../../../../l10n/device_locale.dart';
@@ -19,6 +18,8 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/shake.dart';
 import '../../../../ui/theme.dart';
 import 'wallet_main_screen.dart';
+
+final _minimumAmount = Decimal.parse('0.1');
 
 class WalletFlowScreen extends StatefulWidget {
   const WalletFlowScreen({
@@ -100,7 +101,7 @@ class _State extends State<WalletFlowScreen> {
   }
 
   void _onRequest() {
-    if (_amount.decimal < Decimal.parse('0.1')) {
+    if (_amount.decimal < _minimumAmount) {
       return _handleSmallAmount(WalletOperation.request);
     }
 
@@ -109,7 +110,9 @@ class _State extends State<WalletFlowScreen> {
   }
 
   void _onPay() {
-    if (_amount.decimal < Decimal.parse('0.1')) {
+    final amount = _amount.decimal;
+
+    if (amount < _minimumAmount) {
       return _handleSmallAmount(WalletOperation.pay);
     }
 
@@ -130,32 +133,6 @@ class _State extends State<WalletFlowScreen> {
     );
   }
 
-  void _onTip() {
-    if (_amount.decimal < Decimal.parse('0.1')) {
-      return _handleSmallAmount(WalletOperation.tip);
-    }
-
-    if (_amount.decimal > Decimal.parse('5.0')) {
-      return _handleMaxTip(WalletOperation.tip);
-    }
-
-    context.router.push(
-      OTConfirmationRoute(
-        tokenAmount: _amount,
-        // TODO(KB): do not hardcode
-        fee: Amount.fromDecimal(
-          value: Decimal.parse('0.1'),
-          currency: Currency.usdc,
-        ),
-        onSubmit: () {
-          final id = context.createOT(amount: _amount);
-          context.router.replace(OutgoingTipRoute(id: id));
-          setState(() => _amount = _amount.copyWith(value: 0));
-        },
-      ),
-    );
-  }
-
   void _handleSmallAmount(WalletOperation operation) {
     _shakeKey.currentState?.shake();
     setState(() {
@@ -166,23 +143,6 @@ class _State extends State<WalletFlowScreen> {
         case WalletOperation.pay:
           _errorMessage = context.l10n.minimumAmountToSend(r'$0.10');
           break;
-        case WalletOperation.tip:
-          _errorMessage = context.l10n.minimumAmountToTip(r'$0.10');
-          break;
-      }
-    });
-  }
-
-  void _handleMaxTip(WalletOperation operation) {
-    _shakeKey.currentState?.shake();
-    setState(() {
-      switch (operation) {
-        case WalletOperation.request:
-        case WalletOperation.pay:
-          break;
-        case WalletOperation.tip:
-          _errorMessage = context.l10n.maximumAmountToTip(r'$5.00');
-          break;
       }
     });
   }
@@ -190,14 +150,13 @@ class _State extends State<WalletFlowScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: DefaultTabController(
-          length: 3,
+          length: 2,
           child: WalletMainScreen(
             shakeKey: _shakeKey,
             onScan: _onQrScanner,
             onAmountChanged: _onAmountUpdate,
             onRequest: _onRequest,
             onPay: _onPay,
-            onTip: _onTip,
             amount: _amount,
             error: _errorMessage,
           ),
