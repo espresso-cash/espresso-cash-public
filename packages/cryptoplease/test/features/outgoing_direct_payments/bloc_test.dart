@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cryptoplease/core/amount.dart';
+import 'package:cryptoplease/core/balances/bl/balances_bloc.dart';
 import 'package:cryptoplease/core/currency.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/core/transactions/tx_sender.dart';
@@ -20,7 +21,7 @@ import 'bloc_test.mocks.dart';
 final sender = MockTxSender();
 final client = MockCryptopleaseClient();
 
-@GenerateMocks([TxSender, CryptopleaseClient])
+@GenerateMocks([TxSender, CryptopleaseClient, BalancesBloc])
 Future<void> main() async {
   final account = await Ed25519HDKeyPair.random();
   final receiver = await Ed25519HDKeyPair.random();
@@ -55,6 +56,7 @@ Future<void> main() async {
         client: client,
         account: account,
         txSender: sender,
+        balancesBloc: MockBalancesBloc(),
       );
 
   blocTest<ODPBloc, ODPState>(
