@@ -168,11 +168,8 @@ class OSKPBloc extends Bloc<_Event, _State> {
     newStatus.map(
       txCreated: (_) => add(OSKPEvent.process(payment.id)),
       txSent: (_) => add(OSKPEvent.process(payment.id)),
-      txConfirmed: (_) {
-        add(OSKPEvent.process(payment.id));
-        _refreshBalances();
-      },
-      linksReady: ignore,
+      txConfirmed: (_) => add(OSKPEvent.process(payment.id)),
+      linksReady: (_) => _refreshBalances(),
       withdrawn: ignore,
       canceled: (_) => _refreshBalances(),
       txFailure: ignore,

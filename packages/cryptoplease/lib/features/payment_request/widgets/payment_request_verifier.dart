@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/accounts/bl/account.dart';
 import '../../../di.dart';
 import '../models/payment_request.dart';
 import '../src/bl/payment_request_verifier/bloc.dart';
@@ -18,7 +19,8 @@ class PaymentRequestVerifier extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       BlocProvider<PaymentRequestVerifierBloc>(
-        create: (_) => sl<PaymentRequestVerifierBloc>(param1: paymentRequest),
+        create: (_) => sl<PaymentRequestVerifierBloc>(param1: paymentRequest, param2: context.read<MyAccount>().wallet.publicKey,
+        ),
         lazy: false,
         child: child,
       );
