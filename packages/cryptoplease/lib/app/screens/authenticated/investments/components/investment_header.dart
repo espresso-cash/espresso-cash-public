@@ -118,9 +118,14 @@ class _InfoIcon extends StatelessWidget {
       );
 }
 
-class _Balance extends StatelessWidget {
+class _Balance extends StatefulWidget {
   const _Balance();
 
+  @override
+  State<_Balance> createState() => _BalanceState();
+}
+
+class _BalanceState extends State<_Balance> {
   @override
   Widget build(BuildContext context) {
     const token = Token.usdc;
