@@ -1,4 +1,5 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
+import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import '../../../../config.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/link_shortener.dart';
 import '../../../../core/split_key_payments.dart';
+import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -37,6 +39,9 @@ typedef OSKPState = ISet<String>;
 typedef _Event = OSKPEvent;
 typedef _State = OSKPState;
 typedef _Emitter = Emitter<_State>;
+
+/// The maximum amount that a QR code will be generated together with links.
+final qrLinkThreshold = Decimal.parse('5.0');
 
 @injectable
 class OSKPBloc extends Bloc<_Event, _State> {
@@ -132,7 +137,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
       txSent: (status) => _waitTx(status.tx, escrow: status.escrow),
       txConfirmed: (status) => _createLinks(
         escrow: status.escrow,
-        token: payment.amount.token,
+        crypto: payment.amount,
       ),
       linksReady: (status) async => status,
       withdrawn: (status) async => status,
@@ -142,7 +147,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
       txWaitFailure: (status) => _waitTx(status.tx, escrow: status.escrow),
       txLinksFailure: (status) => _createLinks(
         escrow: status.escrow,
-        token: payment.amount.token,
+        crypto: payment.amount,
       ),
       cancelTxFailure: (status) => _createCancelTx(status.escrow),
       cancelTxCreated: (status) =>
@@ -229,8 +234,10 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
   Future<OSKPStatus> _createLinks({
     required Ed25519HDKeyPair escrow,
-    required Token token,
+    required CryptoAmount crypto,
   }) async {
+    final token = crypto.token;
+
     final privateKey = await escrow.extract().then((value) => value.bytes.lock);
     final keyParts = _splitKey(privateKey);
 
@@ -246,9 +253,25 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
     final secondLink = SplitKeySecondLink(key: keyParts.last).toUri();
 
+    Uri? qrLink;
+
+    if (crypto.decimal < qrLinkThreshold) {
+      final key = base58encode(privateKey.toList());
+      final rawLink = TipPaymentData(
+        key: key,
+        token: token.publicKey,
+      ).toUri();
+
+      qrLink = await _linkShortener.shorten(rawLink);
+      if (qrLink == null) {
+        return OSKPStatus.txLinksFailure(escrow: escrow);
+      }
+    }
+
     return OSKPStatus.linksReady(
       link1: firstLink,
       link2: secondLink,
+      qrLink: qrLink,
       escrow: escrow,
     );
   }
