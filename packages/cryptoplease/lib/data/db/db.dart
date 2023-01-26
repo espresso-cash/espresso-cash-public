@@ -38,8 +38,8 @@ const _tables = [
   TransactionRows,
   FavoriteTokenRows,
   PopularTokenRows,
-  OTRows, //TODO remove
-  ITRows, //TODO remove
+  OTRows,
+  ITRows,
 ];
 
 @lazySingleton
