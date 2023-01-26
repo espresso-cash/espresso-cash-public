@@ -21,7 +21,7 @@ part 'balances_state.dart';
 
 final _logger = Logger('BalancesBloc');
 
-@injectable
+@lazySingleton
 class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
   BalancesBloc({
     required SolanaClient solanaClient,

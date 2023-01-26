@@ -39,41 +39,37 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 context.refreshFavorites(),
               ]),
               color: CpColors.primaryColor,
-              child: _TabWatcher(
-                onInvestmentTabSelected: onRefresh,
-                child: const CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      shape: Border(),
-                      title: _AppBarContent(),
-                      pinned: true,
-                      snap: false,
-                      floating: false,
-                      elevation: 0,
-                      backgroundColor: Colors.white,
+              child: const CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    shape: Border(),
+                    title: _AppBarContent(),
+                    pinned: true,
+                    snap: false,
+                    floating: false,
+                    elevation: 0,
+                    backgroundColor: Colors.white,
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(vertical: 52, horizontal: 24),
+                    sliver: SliverToBoxAdapter(child: InvestmentHeader()),
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsets.only(left: 24, right: 24),
+                    sliver: CryptoInvestments(),
+                  ),
+                  FavoriteTokenList(),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 32, bottom: 24),
+                      child: PopularCryptoHeader(),
                     ),
-                    SliverPadding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 52, horizontal: 24),
-                      sliver: SliverToBoxAdapter(child: InvestmentHeader()),
-                    ),
-                    SliverPadding(
-                      padding: EdgeInsets.only(left: 24, right: 24),
-                      sliver: CryptoInvestments(),
-                    ),
-                    FavoriteTokenList(),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 32, bottom: 24),
-                        child: PopularCryptoHeader(),
-                      ),
-                    ),
-                    PopularTokenList(),
-                    SliverToBoxAdapter(
-                      child: SizedBox(height: 12),
-                    ),
-                  ],
-                ),
+                  ),
+                  PopularTokenList(),
+                  SliverToBoxAdapter(
+                    child: SizedBox(height: 12),
+                  ),
+                ],
               ),
             ),
           ),
@@ -114,40 +110,4 @@ class _AppBarContent extends StatelessWidget {
           ],
         ),
       );
-}
-
-class _TabWatcher extends StatefulWidget {
-  const _TabWatcher({
-    required this.onInvestmentTabSelected,
-    required this.child,
-  });
-
-  final VoidCallback onInvestmentTabSelected;
-  final Widget child;
-
-  @override
-  State<_TabWatcher> createState() => _TabWatcherState();
-}
-
-class _TabWatcherState extends State<_TabWatcher> {
-  @override
-  void initState() {
-    super.initState();
-    context.tabsRouter.addListener(_onListen);
-  }
-
-  void _onListen() {
-    if (context.tabsRouter.current.name == InvestmentsRouter.name) {
-      widget.onInvestmentTabSelected();
-    }
-  }
-
-  @override
-  void dispose() {
-    context.tabsRouter.removeListener(_onListen);
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => widget.child;
 }
