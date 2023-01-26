@@ -4,14 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/analytics/analytics_manager.dart';
-import '../../../core/tip_payments.dart';
+import '../../../core/single_key_payments.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../src/bl/it_bloc.dart';
 import '../src/widgets/link_listener.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> processIncomingTip(TipPaymentData tipPayment) async {
+  Future<void> processIncomingTip(SingleKeyPaymentData tipPayment) async {
     final key = tipPayment.key;
 
     final escrow = await walletFromKey(encodedKey: key);

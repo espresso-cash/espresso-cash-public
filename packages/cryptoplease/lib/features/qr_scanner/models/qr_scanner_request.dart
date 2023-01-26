@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../../core/tip_payments.dart';
+import '../../../core/single_key_payments.dart';
 import 'qr_address_data.dart';
 
 part 'qr_scanner_request.freezed.dart';
@@ -17,7 +17,7 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
-  const factory QrScannerRequest.tip(TipPaymentData tipData) =
+  const factory QrScannerRequest.tip(SingleKeyPaymentData tipData) =
       QrScannerTipRequest;
 
   const QrScannerRequest._();
@@ -35,7 +35,7 @@ class QrScannerRequest with _$QrScannerRequest {
 
     final uri = Uri.tryParse(code);
     if (uri != null) {
-      final tipData = TipPaymentData.tryParse(uri);
+      final tipData = SingleKeyPaymentData.tryParse(uri);
       if (tipData != null) {
         return QrScannerRequest.tip(tipData);
       }

@@ -1,10 +1,10 @@
-import 'package:cryptoplease/core/tip_payments.dart';
+import 'package:cryptoplease/core/single_key_payments.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('Builds tip link', () {
-    final link = TipPaymentData(key: 'abcd', token: Token.usdc.publicKey);
+    final link = SingleKeyPaymentData(key: 'abcd', token: Token.usdc.publicKey);
 
     expect(
       link.toUri().toString(),
@@ -14,18 +14,18 @@ void main() {
 
   test('Valid tip link', () {
     expect(
-      TipPaymentData.tryParse(
+      SingleKeyPaymentData.tryParse(
         Uri.parse(
           'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v2&type=tip',
         ),
       ),
-      TipPaymentData(key: '123', token: Token.usdc.publicKey),
+      SingleKeyPaymentData(key: '123', token: Token.usdc.publicKey),
     );
   });
 
   test('Split Key link is not Tip link', () {
     expect(
-      TipPaymentData.tryParse(
+      SingleKeyPaymentData.tryParse(
         Uri.parse(
           'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v2',
         ),
@@ -36,14 +36,14 @@ void main() {
 
   test('Invalid link 1', () {
     expect(
-      TipPaymentData.tryParse(Uri.parse('crypto://some_link')),
+      SingleKeyPaymentData.tryParse(Uri.parse('crypto://some_link')),
       isNull,
     );
   });
 
   test('Invalid link 2', () {
     expect(
-      TipPaymentData.tryParse(Uri.parse('No link here')),
+      SingleKeyPaymentData.tryParse(Uri.parse('No link here')),
       isNull,
     );
   });

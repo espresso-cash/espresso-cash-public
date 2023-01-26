@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
-import '../../../../core/tip_payments.dart';
+import '../../../../core/single_key_payments.dart';
 import '../../../../di.dart';
 import '../../../../routes.gr.dart';
 import '../bl/it_bloc.dart';
@@ -27,7 +27,7 @@ class _TipLinkListenerState extends State<TipLinkListener> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
-      final tip = TipPaymentData.tryParse(link);
+      final tip = SingleKeyPaymentData.tryParse(link);
 
       if (tip != null) {
         _processIncomingTip(tip);
@@ -39,7 +39,7 @@ class _TipLinkListenerState extends State<TipLinkListener> {
     });
   }
 
-  Future<void> _processIncomingTip(TipPaymentData tipPayment) async {
+  Future<void> _processIncomingTip(SingleKeyPaymentData tipPayment) async {
     final key = tipPayment.key;
 
     final escrow = await walletFromKey(encodedKey: key);

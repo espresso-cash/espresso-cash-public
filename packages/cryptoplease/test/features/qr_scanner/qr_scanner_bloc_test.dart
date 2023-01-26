@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cryptoplease/core/link_shortener.dart';
-import 'package:cryptoplease/core/tip_payments.dart';
+import 'package:cryptoplease/core/single_key_payments.dart';
 import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:cryptoplease/features/qr_scanner/models/qr_address_data.dart';
 import 'package:cryptoplease/features/qr_scanner/models/qr_scanner_request.dart';
@@ -67,7 +67,7 @@ void main() {
       expect: () => [
         QrScannerState.done(
           QrScannerRequest.tip(
-            TipPaymentData(key: 'abcd', token: Token.usdc.publicKey),
+            SingleKeyPaymentData(key: 'abcd', token: Token.usdc.publicKey),
           ),
         ),
       ],
@@ -94,4 +94,4 @@ String _buildSolanaPayURI({
 }
 
 Uri _buildTipLink() =>
-    TipPaymentData(key: 'abcd', token: Token.usdc.publicKey).toUri();
+    SingleKeyPaymentData(key: 'abcd', token: Token.usdc.publicKey).toUri();
