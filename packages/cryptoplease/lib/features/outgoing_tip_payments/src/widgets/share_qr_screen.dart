@@ -30,7 +30,7 @@ class ShareQRScreen extends StatelessWidget {
     );
 
     final subtitle = Text(
-      context.l10n.tipPaymentSubtitle,
+      context.l10n.qrPaymentSubtitle,
       textAlign: TextAlign.center,
       style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
     );
