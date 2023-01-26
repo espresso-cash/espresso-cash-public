@@ -32,8 +32,8 @@ class AnalyticsManager {
   void secondLinkReceived() => _analytics.logEvent(name: 'secondLinkReceived');
 
   // User creates shareable link.
-  void tipLinkCreated() => _analytics.logEvent(name: 'linkCreated');
+  void singleLinkCreated() => _analytics.logEvent(name: 'singleLinkCreated');
 
   // User pressed on the tip link.
-  void tipLinkReceived() => _analytics.logEvent(name: 'tipLinkReceived');
+  void singleLinkReceived() => _analytics.logEvent(name: 'singleLinkReceived');
 }

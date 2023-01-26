@@ -46,7 +46,7 @@ class _TipLinkListenerState extends State<TipLinkListener> {
 
     final id = const Uuid().v4();
 
-    sl<AnalyticsManager>().tipLinkReceived();
+    sl<AnalyticsManager>().singleLinkReceived();
 
     if (!mounted) return;
     context.read<ITBloc>().add(ITEvent.create(escrow, id: id));

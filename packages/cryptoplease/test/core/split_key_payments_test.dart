@@ -31,7 +31,7 @@ void main() {
     );
   });
 
-  test('Tip link is not Split Key link', () {
+  test('Single Key link is not Split Key link', () {
     expect(
       SplitKeyFirstLink.tryParse(
         Uri.parse(

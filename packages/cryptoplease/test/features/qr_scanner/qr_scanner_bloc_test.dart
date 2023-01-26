@@ -59,14 +59,14 @@ void main() {
     );
 
     blocTest<QrScannerBloc, QrScannerState>(
-      'tip link scanned',
+      'single key code link scanned',
       build: () => QrScannerBloc(linkShortener: linkShortener),
       setUp: () => when(linkShortener.reverse(any))
           .thenAnswer((_) async => _buildTipLink()),
       act: (bloc) => bloc.add(const QrScannerEvent.received('mocked')),
       expect: () => [
         QrScannerState.done(
-          QrScannerRequest.tip(
+          QrScannerRequest.singleKey(
             SingleKeyPaymentData(key: 'abcd', token: Token.usdc.publicKey),
           ),
         ),

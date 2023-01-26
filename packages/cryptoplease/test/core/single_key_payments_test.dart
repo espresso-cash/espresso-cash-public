@@ -3,7 +3,7 @@ import 'package:cryptoplease/core/tokens/token.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('Builds tip link', () {
+  test('Builds single key link', () {
     final link = SingleKeyPaymentData(key: 'abcd', token: Token.usdc.publicKey);
 
     expect(
@@ -12,7 +12,7 @@ void main() {
     );
   });
 
-  test('Valid tip link', () {
+  test('Valid single key link', () {
     expect(
       SingleKeyPaymentData.tryParse(
         Uri.parse(
@@ -23,7 +23,7 @@ void main() {
     );
   });
 
-  test('Split Key link is not Tip link', () {
+  test('Split Key link is not Single Key link', () {
     expect(
       SingleKeyPaymentData.tryParse(
         Uri.parse(

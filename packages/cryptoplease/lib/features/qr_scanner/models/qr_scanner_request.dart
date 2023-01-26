@@ -17,7 +17,7 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
-  const factory QrScannerRequest.tip(SingleKeyPaymentData tipData) =
+  const factory QrScannerRequest.singleKey(SingleKeyPaymentData tipData) =
       QrScannerTipRequest;
 
   const QrScannerRequest._();
@@ -37,7 +37,7 @@ class QrScannerRequest with _$QrScannerRequest {
     if (uri != null) {
       final tipData = SingleKeyPaymentData.tryParse(uri);
       if (tipData != null) {
-        return QrScannerRequest.tip(tipData);
+        return QrScannerRequest.singleKey(tipData);
       }
     }
   }
@@ -45,7 +45,7 @@ class QrScannerRequest with _$QrScannerRequest {
   Ed25519HDPublicKey? get recipient => this.map(
         solanaPay: (r) => r.request.recipient,
         address: (r) => r.addressData.address,
-        tip: always(null),
+        singleKey: always(null),
       );
 
   Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(

@@ -11,14 +11,14 @@ import '../src/bl/it_bloc.dart';
 import '../src/widgets/link_listener.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> processIncomingTip(SingleKeyPaymentData tipPayment) async {
-    final key = tipPayment.key;
+  Future<void> processIncomingTip(SingleKeyPaymentData payment) async {
+    final key = payment.key;
 
     final escrow = await walletFromKey(encodedKey: key);
 
     final id = const Uuid().v4();
 
-    sl<AnalyticsManager>().tipLinkReceived();
+    sl<AnalyticsManager>().singleLinkReceived();
 
     read<ITBloc>().add(ITEvent.create(escrow, id: id));
     await router.push(IncomingTipRoute(id: id));
