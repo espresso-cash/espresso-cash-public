@@ -26,8 +26,7 @@ class ShareLinksScreen extends StatelessWidget {
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
     );
 
-    final hasQrLink =
-        status.qrLink != null && status.qrLink?.path != 'null'; //TODO update
+    final hasQrLink = status.qrLink != null && status.qrLink?.path != 'null';
 
     return CpTheme.dark(
       child: Scaffold(
@@ -47,6 +46,7 @@ class ShareLinksScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+              const SizedBox(height: 16),
               Expanded(
                 child: TabBarView(
                   children: [

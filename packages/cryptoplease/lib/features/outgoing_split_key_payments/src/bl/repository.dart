@@ -107,7 +107,7 @@ extension on OSKPStatusDto {
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
     final link1 = row.link1?.let(Uri.parse);
     final link2 = row.link2?.let(Uri.parse);
-    final link3 = row.link3?.let(Uri.parse);
+    final link3 = row.link3?.let(Uri.tryParse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final cancelTxId = row.cancelTxId;
 
