@@ -57,7 +57,7 @@ class SwapBloc extends Bloc<_Event, _State> {
         process: (e) => _onProcess(e, emit),
       );
 
-       void _refreshBalances() =>
+  void _refreshBalances() =>
       _balancesBloc.add(BalancesEvent.requested(address: _wallet.address));
 
   Future<void> _onCreate(_SwapCreated event, _Emitter _) async {
@@ -98,7 +98,7 @@ class SwapBloc extends Bloc<_Event, _State> {
     newStatus.map(
       txCreated: (_) => add(SwapEvent.process(swap.id)),
       txSent: (_) => add(SwapEvent.process(swap.id)),
-      success: (_) =>_refreshBalances,
+      success: (_) => _refreshBalances,
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,
