@@ -148,12 +148,6 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                     displayAmount: value.text,
                   ),
                 ),
-                EquivalentHeader(
-                  inputAmount: state.inputAmount,
-                  outputAmount: state.outputAmount,
-                  isLoadingRoute: state.flowState.isProcessing(),
-                ),
-                SwapFee(amount: state.fee),
                 TokenDropDown(
                   current: state.requestAmount.token,
                   onTokenChanged: (_) => _onEditingModeToggled(),
@@ -162,6 +156,13 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                     state.outputAmount.token,
                   ],
                 ),
+                EquivalentHeader(
+                  inputAmount: state.inputAmount,
+                  outputAmount: state.outputAmount,
+                  isLoadingRoute: state.flowState.isProcessing(),
+                ),
+                SwapFee(amount: state.fee),
+                const SizedBox(height: 16),
                 AvailableBalance(
                   maxAmountAvailable: _bloc.calculateMaxAmount(),
                   onMaxAmountRequested: widget.operation == SwapOperation.buy
@@ -184,6 +185,9 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 ),
                 _Button(
                   onSubmit: state.inputAmount.value == 0 ? null : _onSubmit,
+                  operation: widget.operation,
+                  inputToken: widget.inputToken,
+                  outputToken: widget.outputToken,
                 ),
               ],
             ),
@@ -196,20 +200,38 @@ class _Button extends StatelessWidget {
   const _Button({
     Key? key,
     required this.onSubmit,
+    required this.inputToken,
+    required this.outputToken,
+    required this.operation,
   }) : super(key: key);
 
   final VoidCallback? onSubmit;
+  final Token inputToken;
+  final Token outputToken;
+  final SwapOperation operation;
 
   @override
-  Widget build(BuildContext context) => CpContentPadding(
-        child: CpButton(
-          text: context.l10n.pressAndHoldToSubmit,
-          mechanics: CpButtonMechanics.pressAndHold,
-          width: double.infinity,
-          size: CpButtonSize.big,
-          onPressed: onSubmit,
-        ),
-      );
+  Widget build(BuildContext context) {
+    final String label;
+    switch (operation) {
+      case SwapOperation.buy:
+        label = context.l10n.pressAndHoldToBuy(outputToken.symbol);
+        break;
+      case SwapOperation.sell:
+        label = context.l10n.pressAndHoldToSell(inputToken.symbol);
+        break;
+    }
+
+    return CpContentPadding(
+      child: CpButton(
+        text: label,
+        mechanics: CpButtonMechanics.pressAndHold,
+        width: double.infinity,
+        size: CpButtonSize.big,
+        onPressed: onSubmit,
+      ),
+    );
+  }
 }
 
 extension on SwapOperation {

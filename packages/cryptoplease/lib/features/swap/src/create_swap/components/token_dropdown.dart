@@ -30,7 +30,7 @@ class TokenDropDown extends StatelessWidget {
     return Container(
       height: _itemHeight,
       width: _width,
-      margin: const EdgeInsets.symmetric(vertical: 24),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: const ShapeDecoration(
         shape: StadiumBorder(),
         color: CpColors.greenDropdownEnabled,

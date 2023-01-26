@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/tokens/token.dart';
-import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
@@ -42,16 +41,6 @@ class _FlowState extends State<SwapFlowScreen> {
         ? SwapOperation.buy
         : SwapOperation.sell;
 
-    final String title;
-    switch (operation) {
-      case SwapOperation.buy:
-        title = context.l10n.buyToken(widget.outputToken.name);
-        break;
-      case SwapOperation.sell:
-        title = context.l10n.sellToken(widget.inputToken.name);
-        break;
-    }
-
     return AnnotatedRegion(
       value: SystemUiOverlayStyle.light.copyWith(
         statusBarBrightness: Brightness.dark,
@@ -61,7 +50,6 @@ class _FlowState extends State<SwapFlowScreen> {
           backgroundColor: CpColors.darkBackground,
           appBar: CpAppBar(
             leading: const CloseButton(),
-            title: Text(title),
           ),
           body: CreateSwapScreen(
             onRouteReady: _onRouteReady,
