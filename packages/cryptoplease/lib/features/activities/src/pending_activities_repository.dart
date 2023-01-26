@@ -8,7 +8,6 @@ import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/db.dart';
 import '../../outgoing_split_key_payments/db.dart';
-import '../../outgoing_tip_payments/db.dart';
 import '../../payment_request/db.dart';
 import '../../swap/db.dart';
 import 'activity.dart';
@@ -31,9 +30,6 @@ class PendingActivitiesRepository {
     final oskp = _db.select(_db.oSKPRows)
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.withdrawn).not())
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.canceled).not());
-    final otp = _db.select(_db.oTRows)
-      ..where((tbl) => tbl.status.equalsValue(OTStatusDto.withdrawn).not())
-      ..where((tbl) => tbl.status.equalsValue(OTStatusDto.canceled).not());
     final swap = _db.select(_db.swapRows)
       ..where((tbl) => tbl.status.equalsValue(SwapStatusDto.success).not());
 
@@ -45,10 +41,6 @@ class PendingActivitiesRepository {
         .watch()
         .map((rows) => rows.map((r) => r.toActivity(_tokens)))
         .asyncMap(Future.wait);
-    final otStream = otp
-        .watch()
-        .map((rows) => rows.map((r) => r.toActivity(_tokens)))
-        .asyncMap(Future.wait);
     final swapStream =
         swap.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
 
@@ -57,7 +49,6 @@ class PendingActivitiesRepository {
         oprStream,
         odpStream,
         oskpStream,
-        otStream,
         swapStream,
       ],
       (values) => values

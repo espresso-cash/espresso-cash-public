@@ -9,7 +9,6 @@ import '../../features/incoming_split_key_payments/db.dart';
 import '../../features/incoming_tip_payments/db.dart';
 import '../../features/outgoing_direct_payments/db.dart';
 import '../../features/outgoing_split_key_payments/db.dart';
-import '../../features/outgoing_tip_payments/db.dart';
 import '../../features/payment_request/db.dart';
 import '../../features/popular_tokens/db.dart';
 import '../../features/swap/db.dart';
@@ -38,8 +37,7 @@ const _tables = [
   TransactionRows,
   FavoriteTokenRows,
   PopularTokenRows,
-  OTRows, //TODO remove
-  ITRows, //TODO remove
+  ITRows,
 ];
 
 @lazySingleton
@@ -96,7 +94,7 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(swapRows);
           }
           if (from < 22) {
-            await m.createTable(oTRows);
+            // await m.createTable(oTRows); //TODO
             await m.createTable(iTRows);
           }
           if (from < 23) {
@@ -113,9 +111,10 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.cancelTxId);
           }
           if (from >= 22 && from < 26) {
-            await m.addColumn(oTRows, oTRows.withdrawTxId);
-            await m.addColumn(oTRows, oTRows.cancelTx);
-            await m.addColumn(oTRows, oTRows.cancelTxId);
+            //TODO
+            // await m.addColumn(oTRows, oTRows.withdrawTxId);
+            // await m.addColumn(oTRows, oTRows.cancelTx);
+            // await m.addColumn(oTRows, oTRows.cancelTxId);
           }
 
           if (from >= 16 && from < 27) {

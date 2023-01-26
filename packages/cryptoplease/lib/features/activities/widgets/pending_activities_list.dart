@@ -5,14 +5,12 @@ import 'package:provider/provider.dart';
 import '../../../core/accounts/bl/account.dart';
 import '../../../di.dart';
 import '../../outgoing_split_key_payments/oskp_verifier.dart';
-import '../../outgoing_tip_payments/ot_verifier.dart';
 import '../../swap/swap_verifier.dart';
 import '../src/activity.dart';
 import '../src/pending_activities_repository.dart';
 import '../src/widgets/no_activity.dart';
 import '../src/widgets/odp_tile.dart';
 import '../src/widgets/oskp_tile.dart';
-import '../src/widgets/ot_tile.dart';
 import '../src/widgets/payment_request_tile.dart';
 import '../src/widgets/swap_tile.dart';
 
@@ -53,13 +51,6 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
             )..init(),
             dispose: (_, value) => value.dispose(),
           ),
-          Provider<OTVerifier>(
-            lazy: false,
-            create: (_) => sl<OTVerifier>(
-              param1: context.read<MyAccount>().wallet.publicKey,
-            )..init(),
-            dispose: (_, value) => value.dispose(),
-          ),
         ],
         child: StreamBuilder<IList<Activity>>(
           stream: _stream,
@@ -86,10 +77,6 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                           activity: p,
                         ),
                         outgoingSplitKeyPayment: (p) => OSKPTile(
-                          key: ValueKey(p.id),
-                          activity: p,
-                        ),
-                        outgoingTipPayment: (p) => OTTile(
                           key: ValueKey(p.id),
                           activity: p,
                         ),

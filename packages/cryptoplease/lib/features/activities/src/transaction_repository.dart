@@ -11,7 +11,6 @@ import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/db.dart';
 import '../../outgoing_split_key_payments/db.dart';
-import '../../outgoing_tip_payments/db.dart';
 import '../../payment_request/db.dart';
 import '../../swap/db.dart';
 import '../models/transaction.dart';
@@ -70,17 +69,6 @@ class TransactionRepository {
       ignoreWhen: (row) => row.status != SwapStatusDto.success,
     );
     if (swap != null) return swap;
-
-    final ot = await _db.oTRows.findActivityOrNull(
-      where: (row) => row.txId.equals(txId),
-      builder: (pr) => pr.toActivity(_tokens),
-      ignoreWhen: (row) => const [
-        OTStatusDto.success, // Legacy
-        OTStatusDto.withdrawn,
-        OTStatusDto.canceled
-      ].contains(row.status).not(),
-    );
-    if (ot != null) return ot;
 
     final oskp = await _db.oSKPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
