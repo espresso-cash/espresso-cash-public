@@ -7,7 +7,7 @@ import 'tokens/token.dart';
 part 'single_key_payments.freezed.dart';
 part 'single_key_payments.g.dart';
 
-const _type = 'tip';
+const _type = 'single';
 
 @freezed
 class SingleKeyPaymentData with _$SingleKeyPaymentData {

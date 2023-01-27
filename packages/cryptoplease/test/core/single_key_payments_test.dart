@@ -8,7 +8,7 @@ void main() {
 
     expect(
       link.toUri().toString(),
-      'https://solana1.cryptoplease.link/?key=abcd&token=${Token.usdc.address}&v=v2&type=tip',
+      'https://solana1.cryptoplease.link/?key=abcd&token=${Token.usdc.address}&v=v2&type=single',
     );
   });
 
@@ -16,7 +16,7 @@ void main() {
     expect(
       SingleKeyPaymentData.tryParse(
         Uri.parse(
-          'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v2&type=tip',
+          'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v2&type=single',
         ),
       ),
       SingleKeyPaymentData(key: '123', token: Token.usdc.publicKey),

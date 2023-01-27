@@ -35,7 +35,7 @@ void main() {
     expect(
       SplitKeyFirstLink.tryParse(
         Uri.parse(
-          'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v2&type=tip',
+          'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v2&type=single',
         ),
       ),
       null,

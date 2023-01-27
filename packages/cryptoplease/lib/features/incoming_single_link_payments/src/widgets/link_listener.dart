@@ -27,10 +27,10 @@ class _ISLPListenerState extends State<ISLPListener> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
-      final tip = SingleKeyPaymentData.tryParse(link);
+      final data = SingleKeyPaymentData.tryParse(link);
 
-      if (tip != null) {
-        _processIncomingTip(tip);
+      if (data != null) {
+        _processIncomingTip(data);
 
         return true;
       }
@@ -39,8 +39,8 @@ class _ISLPListenerState extends State<ISLPListener> {
     });
   }
 
-  Future<void> _processIncomingTip(SingleKeyPaymentData tipPayment) async {
-    final key = tipPayment.key;
+  Future<void> _processIncomingTip(SingleKeyPaymentData paymentData) async {
+    final key = paymentData.key;
 
     final escrow = await walletFromKey(encodedKey: key);
 

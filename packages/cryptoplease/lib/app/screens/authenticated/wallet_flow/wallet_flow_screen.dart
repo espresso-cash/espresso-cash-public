@@ -44,7 +44,7 @@ class _State extends State<WalletFlowScreen> {
     if (!mounted) return;
 
     if (request is QrScannerTipRequest) {
-      await context.processISLP(request.tipData);
+      await context.processISLP(request.paymentData);
 
       return;
     }

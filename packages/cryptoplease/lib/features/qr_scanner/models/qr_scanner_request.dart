@@ -17,7 +17,7 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
-  const factory QrScannerRequest.singleKey(SingleKeyPaymentData tipData) =
+  const factory QrScannerRequest.singleKey(SingleKeyPaymentData paymentData) =
       QrScannerTipRequest;
 
   const QrScannerRequest._();
@@ -35,9 +35,9 @@ class QrScannerRequest with _$QrScannerRequest {
 
     final uri = Uri.tryParse(code);
     if (uri != null) {
-      final tipData = SingleKeyPaymentData.tryParse(uri);
-      if (tipData != null) {
-        return QrScannerRequest.singleKey(tipData);
+      final paymentData = SingleKeyPaymentData.tryParse(uri);
+      if (paymentData != null) {
+        return QrScannerRequest.singleKey(paymentData);
       }
     }
   }
