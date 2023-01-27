@@ -25,7 +25,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<dynamic>>? get primaryKey => {id};
 }
 
-const int latestVersion = 27;
+const int latestVersion = 28;
 
 const _tables = [
   OutgoingTransferRows,
@@ -37,7 +37,7 @@ const _tables = [
   TransactionRows,
   FavoriteTokenRows,
   PopularTokenRows,
-  ITRows,
+  ISLPRows,
 ];
 
 @lazySingleton
@@ -93,10 +93,7 @@ class MyDatabase extends _$MyDatabase {
           if (from < 21) {
             await m.createTable(swapRows);
           }
-          if (from < 22) {
-            // await m.createTable(oTRows); //TODO
-            await m.createTable(iTRows);
-          }
+
           if (from < 23) {
             await m.createTable(popularTokenRows);
           }
@@ -110,15 +107,14 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.cancelTx);
             await m.addColumn(oSKPRows, oSKPRows.cancelTxId);
           }
-          if (from >= 22 && from < 26) {
-            //TODO
-            // await m.addColumn(oTRows, oTRows.withdrawTxId);
-            // await m.addColumn(oTRows, oTRows.cancelTx);
-            // await m.addColumn(oTRows, oTRows.cancelTxId);
-          }
 
           if (from >= 16 && from < 27) {
             await m.addColumn(oSKPRows, oSKPRows.link3);
+          }
+
+          if (from >= 22 && from < 28) {
+            await m.deleteTable('o_t_rows');
+            await m.renameTable(iSLPRows, 'i_t_rows');
           }
         },
       );
