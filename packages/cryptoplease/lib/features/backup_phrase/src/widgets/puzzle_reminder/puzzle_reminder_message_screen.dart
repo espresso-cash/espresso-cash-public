@@ -40,7 +40,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 onPressed: () async {
                   final result = await context.router
                       .push<bool>(const BackupPhraseFlowRoute());
-                  if (result == true) {
+                  if (result == true && context.mounted) {
                     await context.router.pop();
                   }
                 },

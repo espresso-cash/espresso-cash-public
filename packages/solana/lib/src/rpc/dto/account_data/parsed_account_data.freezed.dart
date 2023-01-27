@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'parsed_account_data.dart';
 
@@ -28,6 +28,7 @@ ParsedAccountData _$ParsedAccountDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ParsedAccountData {
+  Object get parsed => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SplTokenProgramAccountData parsed) splToken,
@@ -37,9 +38,9 @@ mixin _$ParsedAccountData {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SplTokenProgramAccountData parsed)? splToken,
-    TResult Function(StakeProgramAccountData parsed)? stake,
-    TResult Function(Map<String, dynamic> parsed)? unsupported,
+    TResult? Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult? Function(StakeProgramAccountData parsed)? stake,
+    TResult? Function(Map<String, dynamic> parsed)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,9 +60,9 @@ mixin _$ParsedAccountData {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenProgramAccountData value)? splToken,
-    TResult Function(ParsedStakeProgramAccountData value)? stake,
-    TResult Function(UnsupportedProgramAccountData value)? unsupported,
+    TResult? Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult? Function(ParsedStakeProgramAccountData value)? stake,
+    TResult? Function(UnsupportedProgramAccountData value)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -79,17 +80,18 @@ mixin _$ParsedAccountData {
 abstract class $ParsedAccountDataCopyWith<$Res> {
   factory $ParsedAccountDataCopyWith(
           ParsedAccountData value, $Res Function(ParsedAccountData) then) =
-      _$ParsedAccountDataCopyWithImpl<$Res>;
+      _$ParsedAccountDataCopyWithImpl<$Res, ParsedAccountData>;
 }
 
 /// @nodoc
-class _$ParsedAccountDataCopyWithImpl<$Res>
+class _$ParsedAccountDataCopyWithImpl<$Res, $Val extends ParsedAccountData>
     implements $ParsedAccountDataCopyWith<$Res> {
   _$ParsedAccountDataCopyWithImpl(this._value, this._then);
 
-  final ParsedAccountData _value;
   // ignore: unused_field
-  final $Res Function(ParsedAccountData) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -98,6 +100,7 @@ abstract class _$$ParsedSplTokenProgramAccountDataCopyWith<$Res> {
           _$ParsedSplTokenProgramAccountData value,
           $Res Function(_$ParsedSplTokenProgramAccountData) then) =
       __$$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>;
+  @useResult
   $Res call({SplTokenProgramAccountData parsed});
 
   $SplTokenProgramAccountDataCopyWith<$Res> get parsed;
@@ -105,23 +108,21 @@ abstract class _$$ParsedSplTokenProgramAccountDataCopyWith<$Res> {
 
 /// @nodoc
 class __$$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
-    extends _$ParsedAccountDataCopyWithImpl<$Res>
+    extends _$ParsedAccountDataCopyWithImpl<$Res,
+        _$ParsedSplTokenProgramAccountData>
     implements _$$ParsedSplTokenProgramAccountDataCopyWith<$Res> {
   __$$ParsedSplTokenProgramAccountDataCopyWithImpl(
       _$ParsedSplTokenProgramAccountData _value,
       $Res Function(_$ParsedSplTokenProgramAccountData) _then)
-      : super(_value, (v) => _then(v as _$ParsedSplTokenProgramAccountData));
+      : super(_value, _then);
 
-  @override
-  _$ParsedSplTokenProgramAccountData get _value =>
-      super._value as _$ParsedSplTokenProgramAccountData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? parsed = freezed,
+    Object? parsed = null,
   }) {
     return _then(_$ParsedSplTokenProgramAccountData(
-      parsed == freezed
+      null == parsed
           ? _value.parsed
           : parsed // ignore: cast_nullable_to_non_nullable
               as SplTokenProgramAccountData,
@@ -129,6 +130,7 @@ class __$$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $SplTokenProgramAccountDataCopyWith<$Res> get parsed {
     return $SplTokenProgramAccountDataCopyWith<$Res>(_value.parsed, (value) {
       return _then(_value.copyWith(parsed: value));
@@ -163,16 +165,16 @@ class _$ParsedSplTokenProgramAccountData
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParsedSplTokenProgramAccountData &&
-            const DeepCollectionEquality().equals(other.parsed, parsed));
+            (identical(other.parsed, parsed) || other.parsed == parsed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(parsed));
+  int get hashCode => Object.hash(runtimeType, parsed);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ParsedSplTokenProgramAccountDataCopyWith<
           _$ParsedSplTokenProgramAccountData>
       get copyWith => __$$ParsedSplTokenProgramAccountDataCopyWithImpl<
@@ -191,9 +193,9 @@ class _$ParsedSplTokenProgramAccountData
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SplTokenProgramAccountData parsed)? splToken,
-    TResult Function(StakeProgramAccountData parsed)? stake,
-    TResult Function(Map<String, dynamic> parsed)? unsupported,
+    TResult? Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult? Function(StakeProgramAccountData parsed)? stake,
+    TResult? Function(Map<String, dynamic> parsed)? unsupported,
   }) {
     return splToken?.call(parsed);
   }
@@ -225,9 +227,9 @@ class _$ParsedSplTokenProgramAccountData
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenProgramAccountData value)? splToken,
-    TResult Function(ParsedStakeProgramAccountData value)? stake,
-    TResult Function(UnsupportedProgramAccountData value)? unsupported,
+    TResult? Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult? Function(ParsedStakeProgramAccountData value)? stake,
+    TResult? Function(UnsupportedProgramAccountData value)? unsupported,
   }) {
     return splToken?.call(this);
   }
@@ -248,7 +250,9 @@ class _$ParsedSplTokenProgramAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenProgramAccountDataToJson(this);
+    return _$$ParsedSplTokenProgramAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -260,7 +264,8 @@ abstract class ParsedSplTokenProgramAccountData implements ParsedAccountData {
   factory ParsedSplTokenProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedSplTokenProgramAccountData.fromJson;
 
-  SplTokenProgramAccountData get parsed => throw _privateConstructorUsedError;
+  @override
+  SplTokenProgramAccountData get parsed;
   @JsonKey(ignore: true)
   _$$ParsedSplTokenProgramAccountDataCopyWith<
           _$ParsedSplTokenProgramAccountData>
@@ -273,6 +278,7 @@ abstract class _$$ParsedStakeProgramAccountDataCopyWith<$Res> {
           _$ParsedStakeProgramAccountData value,
           $Res Function(_$ParsedStakeProgramAccountData) then) =
       __$$ParsedStakeProgramAccountDataCopyWithImpl<$Res>;
+  @useResult
   $Res call({StakeProgramAccountData parsed});
 
   $StakeProgramAccountDataCopyWith<$Res> get parsed;
@@ -280,23 +286,21 @@ abstract class _$$ParsedStakeProgramAccountDataCopyWith<$Res> {
 
 /// @nodoc
 class __$$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
-    extends _$ParsedAccountDataCopyWithImpl<$Res>
+    extends _$ParsedAccountDataCopyWithImpl<$Res,
+        _$ParsedStakeProgramAccountData>
     implements _$$ParsedStakeProgramAccountDataCopyWith<$Res> {
   __$$ParsedStakeProgramAccountDataCopyWithImpl(
       _$ParsedStakeProgramAccountData _value,
       $Res Function(_$ParsedStakeProgramAccountData) _then)
-      : super(_value, (v) => _then(v as _$ParsedStakeProgramAccountData));
+      : super(_value, _then);
 
-  @override
-  _$ParsedStakeProgramAccountData get _value =>
-      super._value as _$ParsedStakeProgramAccountData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? parsed = freezed,
+    Object? parsed = null,
   }) {
     return _then(_$ParsedStakeProgramAccountData(
-      parsed == freezed
+      null == parsed
           ? _value.parsed
           : parsed // ignore: cast_nullable_to_non_nullable
               as StakeProgramAccountData,
@@ -304,6 +308,7 @@ class __$$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $StakeProgramAccountDataCopyWith<$Res> get parsed {
     return $StakeProgramAccountDataCopyWith<$Res>(_value.parsed, (value) {
       return _then(_value.copyWith(parsed: value));
@@ -336,16 +341,16 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParsedStakeProgramAccountData &&
-            const DeepCollectionEquality().equals(other.parsed, parsed));
+            (identical(other.parsed, parsed) || other.parsed == parsed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(parsed));
+  int get hashCode => Object.hash(runtimeType, parsed);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ParsedStakeProgramAccountDataCopyWith<_$ParsedStakeProgramAccountData>
       get copyWith => __$$ParsedStakeProgramAccountDataCopyWithImpl<
           _$ParsedStakeProgramAccountData>(this, _$identity);
@@ -363,9 +368,9 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SplTokenProgramAccountData parsed)? splToken,
-    TResult Function(StakeProgramAccountData parsed)? stake,
-    TResult Function(Map<String, dynamic> parsed)? unsupported,
+    TResult? Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult? Function(StakeProgramAccountData parsed)? stake,
+    TResult? Function(Map<String, dynamic> parsed)? unsupported,
   }) {
     return stake?.call(parsed);
   }
@@ -397,9 +402,9 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenProgramAccountData value)? splToken,
-    TResult Function(ParsedStakeProgramAccountData value)? stake,
-    TResult Function(UnsupportedProgramAccountData value)? unsupported,
+    TResult? Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult? Function(ParsedStakeProgramAccountData value)? stake,
+    TResult? Function(UnsupportedProgramAccountData value)? unsupported,
   }) {
     return stake?.call(this);
   }
@@ -420,7 +425,9 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedStakeProgramAccountDataToJson(this);
+    return _$$ParsedStakeProgramAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -431,7 +438,8 @@ abstract class ParsedStakeProgramAccountData implements ParsedAccountData {
   factory ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$ParsedStakeProgramAccountData.fromJson;
 
-  StakeProgramAccountData get parsed => throw _privateConstructorUsedError;
+  @override
+  StakeProgramAccountData get parsed;
   @JsonKey(ignore: true)
   _$$ParsedStakeProgramAccountDataCopyWith<_$ParsedStakeProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;
@@ -443,28 +451,27 @@ abstract class _$$UnsupportedProgramAccountDataCopyWith<$Res> {
           _$UnsupportedProgramAccountData value,
           $Res Function(_$UnsupportedProgramAccountData) then) =
       __$$UnsupportedProgramAccountDataCopyWithImpl<$Res>;
+  @useResult
   $Res call({Map<String, dynamic> parsed});
 }
 
 /// @nodoc
 class __$$UnsupportedProgramAccountDataCopyWithImpl<$Res>
-    extends _$ParsedAccountDataCopyWithImpl<$Res>
+    extends _$ParsedAccountDataCopyWithImpl<$Res,
+        _$UnsupportedProgramAccountData>
     implements _$$UnsupportedProgramAccountDataCopyWith<$Res> {
   __$$UnsupportedProgramAccountDataCopyWithImpl(
       _$UnsupportedProgramAccountData _value,
       $Res Function(_$UnsupportedProgramAccountData) _then)
-      : super(_value, (v) => _then(v as _$UnsupportedProgramAccountData));
+      : super(_value, _then);
 
-  @override
-  _$UnsupportedProgramAccountData get _value =>
-      super._value as _$UnsupportedProgramAccountData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? parsed = freezed,
+    Object? parsed = null,
   }) {
     return _then(_$UnsupportedProgramAccountData(
-      parsed == freezed
+      null == parsed
           ? _value._parsed
           : parsed // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
@@ -486,6 +493,7 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
   final Map<String, dynamic> _parsed;
   @override
   Map<String, dynamic> get parsed {
+    if (_parsed is EqualUnmodifiableMapView) return _parsed;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_parsed);
   }
@@ -513,6 +521,7 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$UnsupportedProgramAccountDataCopyWith<_$UnsupportedProgramAccountData>
       get copyWith => __$$UnsupportedProgramAccountDataCopyWithImpl<
           _$UnsupportedProgramAccountData>(this, _$identity);
@@ -530,9 +539,9 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SplTokenProgramAccountData parsed)? splToken,
-    TResult Function(StakeProgramAccountData parsed)? stake,
-    TResult Function(Map<String, dynamic> parsed)? unsupported,
+    TResult? Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult? Function(StakeProgramAccountData parsed)? stake,
+    TResult? Function(Map<String, dynamic> parsed)? unsupported,
   }) {
     return unsupported?.call(parsed);
   }
@@ -564,9 +573,9 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenProgramAccountData value)? splToken,
-    TResult Function(ParsedStakeProgramAccountData value)? stake,
-    TResult Function(UnsupportedProgramAccountData value)? unsupported,
+    TResult? Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult? Function(ParsedStakeProgramAccountData value)? stake,
+    TResult? Function(UnsupportedProgramAccountData value)? unsupported,
   }) {
     return unsupported?.call(this);
   }
@@ -587,7 +596,9 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnsupportedProgramAccountDataToJson(this);
+    return _$$UnsupportedProgramAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -598,7 +609,8 @@ abstract class UnsupportedProgramAccountData implements ParsedAccountData {
   factory UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =
       _$UnsupportedProgramAccountData.fromJson;
 
-  Map<String, dynamic> get parsed => throw _privateConstructorUsedError;
+  @override
+  Map<String, dynamic> get parsed;
   @JsonKey(ignore: true)
   _$$UnsupportedProgramAccountDataCopyWith<_$UnsupportedProgramAccountData>
       get copyWith => throw _privateConstructorUsedError;

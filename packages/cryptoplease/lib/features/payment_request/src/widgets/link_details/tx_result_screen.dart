@@ -47,7 +47,7 @@ class TxResultScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headlineMedium
                           ?.copyWith(fontSize: 32),
                     ),
                     if (signature != null)

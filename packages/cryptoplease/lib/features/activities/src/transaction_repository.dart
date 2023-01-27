@@ -99,7 +99,7 @@ class TransactionRepository {
 
 extension Q<Tbl extends HasResultSet, D> on ResultSetImplementation<Tbl, D> {
   Future<Activity?> findActivityOrNull({
-    required Expression<bool?> Function(Tbl tbl) where,
+    required Expression<bool> Function(Tbl tbl) where,
     required FutureOr<Activity> Function(D) builder,
     bool Function(D) ignoreWhen = T,
   }) async {
