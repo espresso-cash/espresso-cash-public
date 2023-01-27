@@ -7,12 +7,12 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
-import '../bl/incoming_tip_payment.dart';
-import '../bl/it_bloc.dart';
-import '../bl/it_repository.dart';
+import '../bl/islp_bloc.dart';
+import '../bl/islp_payment.dart';
+import '../bl/islp_repository.dart';
 
-class IncomingTipScreen extends StatefulWidget {
-  const IncomingTipScreen({
+class IncomingSingleLinkScreen extends StatefulWidget {
+  const IncomingSingleLinkScreen({
     super.key,
     required this.id,
   });
@@ -20,25 +20,27 @@ class IncomingTipScreen extends StatefulWidget {
   final String id;
 
   @override
-  State<IncomingTipScreen> createState() => _IncomingTipScreenState();
+  State<IncomingSingleLinkScreen> createState() =>
+      _IncomingSingleLinkScreenState();
 }
 
-class _IncomingTipScreenState extends State<IncomingTipScreen> {
-  late final Stream<IncomingTipPayment?> _payment;
+class _IncomingSingleLinkScreenState extends State<IncomingSingleLinkScreen> {
+  late final Stream<IncomingSingleLinkPayment?> _payment;
 
   @override
   void initState() {
     super.initState();
-    _payment = sl<ITRepository>().watch(widget.id);
+    _payment = sl<ISLPRepository>().watch(widget.id);
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<IncomingTipPayment?>(
+  Widget build(BuildContext context) =>
+      StreamBuilder<IncomingSingleLinkPayment?>(
         stream: _payment,
         builder: (context, state) {
           final payment = state.data;
 
-          return BlocBuilder<ITBloc, ITState>(
+          return BlocBuilder<ISLPBloc, ISLPState>(
             builder: (context, state) {
               if (payment == null) return const TransferProgress();
               if (state.contains(payment.id)) return const TransferProgress();
@@ -50,8 +52,9 @@ class _IncomingTipScreenState extends State<IncomingTipScreen> {
                 ),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
-                  onRetry: () =>
-                      context.read<ITBloc>().add(ITEvent.process(payment.id)),
+                  onRetry: () => context
+                      .read<ISLPBloc>()
+                      .add(ISLPEvent.process(payment.id)),
                 ),
               );
             },

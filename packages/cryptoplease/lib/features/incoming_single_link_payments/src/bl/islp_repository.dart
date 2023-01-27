@@ -10,27 +10,27 @@ import 'package:solana/solana.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
-import 'incoming_tip_payment.dart';
+import 'islp_payment.dart';
 
 @injectable
-class ITRepository {
-  ITRepository(this._db);
+class ISLPRepository {
+  ISLPRepository(this._db);
 
   final MyDatabase _db;
 
-  Future<IncomingTipPayment?> load(String id) {
+  Future<IncomingSingleLinkPayment?> load(String id) {
     final query = _db.select(_db.iTRows)..where((p) => p.id.equals(id));
 
     return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
-  Stream<IncomingTipPayment?> watch(String id) {
+  Stream<IncomingSingleLinkPayment?> watch(String id) {
     final query = _db.select(_db.iTRows)..where((p) => p.id.equals(id));
 
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
   }
 
-  Future<void> save(IncomingTipPayment payment) async =>
+  Future<void> save(IncomingSingleLinkPayment payment) async =>
       _db.into(_db.iTRows).insertOnConflictUpdate(await payment.toDto());
 
   Future<void> clear() => _db.delete(_db.iTRows).go();
@@ -57,12 +57,12 @@ enum ITStatusDto {
 }
 
 extension on ITRow {
-  Future<IncomingTipPayment> toModel() async {
+  Future<IncomingSingleLinkPayment> toModel() async {
     final escrow = await privateKey
         .let(base58decode)
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
 
-    return IncomingTipPayment(
+    return IncomingSingleLinkPayment(
       id: id,
       status: status.toModel(this),
       created: created,
@@ -72,32 +72,32 @@ extension on ITRow {
 }
 
 extension on ITStatusDto {
-  ITStatus toModel(ITRow row) {
+  ISLPStatus toModel(ITRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
 
     switch (this) {
       case ITStatusDto.privateKeyReady:
-        return const ITStatus.privateKeyReady();
+        return const ISLPStatus.privateKeyReady();
       case ITStatusDto.txCreated:
-        return ITStatus.txCreated(tx!);
+        return ISLPStatus.txCreated(tx!);
       case ITStatusDto.txSent:
-        return ITStatus.txSent(tx ?? StubSignedTx(txId!));
+        return ISLPStatus.txSent(tx ?? StubSignedTx(txId!));
       case ITStatusDto.success:
-        return ITStatus.success(txId: txId!);
+        return ISLPStatus.success(txId: txId!);
       case ITStatusDto.txFailure:
-        return const ITStatus.txFailure();
+        return const ISLPStatus.txFailure();
       case ITStatusDto.txSendFailure:
-        return ITStatus.txSendFailure(tx!);
+        return ISLPStatus.txSendFailure(tx!);
       case ITStatusDto.txWaitFailure:
-        return ITStatus.txWaitFailure(tx ?? StubSignedTx(txId!));
+        return ISLPStatus.txWaitFailure(tx ?? StubSignedTx(txId!));
       case ITStatusDto.txEscrowFailure:
-        return const ITStatus.txEscrowFailure();
+        return const ISLPStatus.txEscrowFailure();
     }
   }
 }
 
-extension on IncomingTipPayment {
+extension on IncomingSingleLinkPayment {
   Future<ITRow> toDto() async => ITRow(
         id: id,
         created: created,
@@ -109,7 +109,7 @@ extension on IncomingTipPayment {
       );
 }
 
-extension on ITStatus {
+extension on ISLPStatus {
   ITStatusDto toDto() => this.map(
         privateKeyReady: always(ITStatusDto.privateKeyReady),
         txCreated: always(ITStatusDto.txCreated),

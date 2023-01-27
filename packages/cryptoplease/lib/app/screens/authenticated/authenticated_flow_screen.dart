@@ -15,7 +15,7 @@ import '../../../di.dart';
 import '../../../features/activities/module.dart';
 import '../../../features/backup_phrase/module.dart';
 import '../../../features/favorite_tokens/module.dart';
-import '../../../features/incoming_single_key_payments/module.dart';
+import '../../../features/incoming_single_link_payments/module.dart';
 import '../../../features/incoming_split_key_payments/module.dart';
 import '../../../features/intercom/module.dart';
 import '../../../features/investments/module.dart';
@@ -72,7 +72,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const ActivitiesModule(),
                 const IntercomModule(),
                 const FavoriteTokensModule(),
-                const ITModule(),
+                const ISLPModule(),
                 const SwapModule(),
                 const PopularTokensModule(),
               ],
