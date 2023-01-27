@@ -30,7 +30,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1.3
 
       - name: Activate melos
-        run: make activate_melos
+        run: make activate_utils
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
@@ -63,7 +63,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1.3
 
       - name: Activate melos
-        run: make activate_melos
+        run: make activate_utils
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
@@ -130,7 +130,7 @@ jobs:
           flutter-version: "3.3.10"
 
       - name: Activate melos
-        run: make activate_melos
+        run: make activate_utils
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_get
@@ -170,7 +170,9 @@ jobs:
         run: melos exec -c 1 ${{ env.SCOPE }} --depends-on="drift_dev" -- make flutter_generate_test_schemas
 
       - name: Analyze
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
+        run: |
+          melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
+          melos exec -c 1 ${{ env.SCOPE }} -- make deps_graph_all
 
       - name: Test
         run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
