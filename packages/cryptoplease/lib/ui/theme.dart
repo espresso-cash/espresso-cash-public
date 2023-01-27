@@ -84,35 +84,35 @@ class CpThemeData {
         splashColor: CpColors.yellowColor.withOpacity(0.25),
         fontFamily: 'RobotoApp',
         textTheme: TextTheme(
-          headline1: _baseTextStyle.copyWith(
+          displayLarge: _baseTextStyle.copyWith(
             fontSize: 72,
             fontWeight: FontWeight.bold,
           ),
-          headline2: _baseTextStyle.copyWith(
+          displayMedium: _baseTextStyle.copyWith(
             fontSize: 42,
             fontWeight: FontWeight.w600,
           ),
-          headline3: _baseTextStyle.copyWith(
+          displaySmall: _baseTextStyle.copyWith(
             fontSize: 26,
             fontWeight: FontWeight.w700,
           ),
-          headline4: _baseTextStyle.copyWith(
+          headlineMedium: _baseTextStyle.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
-          subtitle1: _baseTextStyle.copyWith(
+          titleMedium: _baseTextStyle.copyWith(
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
-          subtitle2: _baseTextStyle.copyWith(
+          titleSmall: _baseTextStyle.copyWith(
             fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
-          bodyText1: _baseTextStyle.copyWith(
+          bodyLarge: _baseTextStyle.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.normal,
           ),
-          button: _baseTextStyle.copyWith(
+          labelLarge: _baseTextStyle.copyWith(
             fontSize: 17,
             fontWeight: FontWeight.bold,
           ),
@@ -121,6 +121,7 @@ class CpThemeData {
           brightness: brightness,
           primary: CpColors.primaryColor,
           secondary: CpColors.primaryColor,
+          background: backgroundColor,
         ),
         appBarTheme: AppBarTheme(
           systemOverlayStyle: brightness == Brightness.dark
@@ -144,7 +145,6 @@ class CpThemeData {
           ),
           foregroundColor: primaryTextColor,
         ),
-        backgroundColor: backgroundColor,
         canvasColor: backgroundColor,
         scaffoldBackgroundColor: backgroundColor,
         highlightColor: Colors.transparent,

@@ -26,7 +26,7 @@ class CpTabBar extends StatelessWidget {
           indicatorColor: Colors.transparent,
           unselectedLabelColor: _unselectedLabelColor(variant),
           labelColor: _labelColor(variant),
-          labelStyle: Theme.of(context).textTheme.headline3?.copyWith(
+          labelStyle: Theme.of(context).textTheme.displaySmall?.copyWith(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),

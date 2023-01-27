@@ -38,7 +38,7 @@ class PopularTokenRows extends Table {
   RealColumn get price => real()();
 
   @override
-  Set<Column<dynamic>>? get primaryKey => {id};
+  Set<Column<Object>>? get primaryKey => {id};
 }
 
 extension on Token {

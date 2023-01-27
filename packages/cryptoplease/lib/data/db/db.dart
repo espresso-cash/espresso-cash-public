@@ -23,7 +23,7 @@ class OutgoingTransferRows extends Table {
   TextColumn get data => text()();
 
   @override
-  Set<Column<dynamic>>? get primaryKey => {id};
+  Set<Column<Object>>? get primaryKey => {id};
 }
 
 const int latestVersion = 26;
