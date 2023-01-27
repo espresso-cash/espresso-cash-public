@@ -170,7 +170,9 @@ jobs:
         run: melos exec -c 1 ${{ env.SCOPE }} --depends-on="drift_dev" -- make flutter_generate_test_schemas
 
       - name: Analyze
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze && make deps_graph_all
+        run: |
+          melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
+          melos exec -c 1 ${{ env.SCOPE }} -- make deps_graph_all
 
       - name: Test
         run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
