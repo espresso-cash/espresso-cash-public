@@ -1,3 +1,9 @@
+## 0.26.4
+
+ - **REFACTOR**: update dependencies.
+ - **FIX**: correct name of JSON field in getRecentPerformanceSamples result (#712).
+ - **FEAT**: add metaplex CreateMasterEditionV3 (#635).
+
 ## 0.26.3
 
  - **FIX**: new authority is optional in SetAuthority (#625).
