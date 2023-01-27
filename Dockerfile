@@ -21,4 +21,5 @@ RUN flutter precache \
     && chown -R root:root ${FLUTTER_HOME}
 
 RUN dart pub global activate melos
+RUN dart pub global activate lakos
 RUN dart pub global activate remove_from_coverage
