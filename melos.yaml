@@ -1,4 +1,8 @@
 name: dart-solana-lib
 
 packages:
-  - 'packages/**'
+  - "packages/**"
+
+command:
+  bootstrap:
+    usePubspecOverrides: true

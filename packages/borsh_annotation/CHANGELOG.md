@@ -1,3 +1,7 @@
+## 0.3.1+2
+
+ - **REFACTOR**: extract constant.
+
 ## 0.3.1+1
 
  - **REFACTOR**: Migrate to Dart 2.17 (#271).

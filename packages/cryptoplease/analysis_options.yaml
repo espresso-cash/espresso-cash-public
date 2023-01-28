@@ -7,6 +7,7 @@ linter:
 analyzer:
   exclude:
     - "**/*.mocks.dart"
+    - "**/*.gr.dart"
     - "test/generated/**"
     - "lib/gen/**"
     - "lib/di.config.dart"

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'stake_program_account_data.dart';
 
@@ -29,6 +29,7 @@ StakeProgramAccountData _$StakeProgramAccountDataFromJson(
 
 /// @nodoc
 mixin _$StakeProgramAccountData {
+  Object get info => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(StakeDelegatedAccountInfo info) delegated,
@@ -38,9 +39,9 @@ mixin _$StakeProgramAccountData {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(StakeInitializedAccountInfo info)? initialize,
-    TResult Function(Map<String, dynamic> info)? unknown,
+    TResult? Function(StakeDelegatedAccountInfo info)? delegated,
+    TResult? Function(StakeInitializedAccountInfo info)? initialize,
+    TResult? Function(Map<String, dynamic> info)? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -61,9 +62,9 @@ mixin _$StakeProgramAccountData {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(StakeProgramDelegatedAccountData value)? delegated,
-    TResult Function(StakeProgramInitializedAccountData value)? initialize,
-    TResult Function(StakeProgramUnknownAccountData value)? unknown,
+    TResult? Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult? Function(StakeProgramInitializedAccountData value)? initialize,
+    TResult? Function(StakeProgramUnknownAccountData value)? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -81,17 +82,19 @@ mixin _$StakeProgramAccountData {
 abstract class $StakeProgramAccountDataCopyWith<$Res> {
   factory $StakeProgramAccountDataCopyWith(StakeProgramAccountData value,
           $Res Function(StakeProgramAccountData) then) =
-      _$StakeProgramAccountDataCopyWithImpl<$Res>;
+      _$StakeProgramAccountDataCopyWithImpl<$Res, StakeProgramAccountData>;
 }
 
 /// @nodoc
-class _$StakeProgramAccountDataCopyWithImpl<$Res>
+class _$StakeProgramAccountDataCopyWithImpl<$Res,
+        $Val extends StakeProgramAccountData>
     implements $StakeProgramAccountDataCopyWith<$Res> {
   _$StakeProgramAccountDataCopyWithImpl(this._value, this._then);
 
-  final StakeProgramAccountData _value;
   // ignore: unused_field
-  final $Res Function(StakeProgramAccountData) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -100,28 +103,27 @@ abstract class _$$StakeProgramDelegatedAccountDataCopyWith<$Res> {
           _$StakeProgramDelegatedAccountData value,
           $Res Function(_$StakeProgramDelegatedAccountData) then) =
       __$$StakeProgramDelegatedAccountDataCopyWithImpl<$Res>;
+  @useResult
   $Res call({StakeDelegatedAccountInfo info});
 }
 
 /// @nodoc
 class __$$StakeProgramDelegatedAccountDataCopyWithImpl<$Res>
-    extends _$StakeProgramAccountDataCopyWithImpl<$Res>
+    extends _$StakeProgramAccountDataCopyWithImpl<$Res,
+        _$StakeProgramDelegatedAccountData>
     implements _$$StakeProgramDelegatedAccountDataCopyWith<$Res> {
   __$$StakeProgramDelegatedAccountDataCopyWithImpl(
       _$StakeProgramDelegatedAccountData _value,
       $Res Function(_$StakeProgramDelegatedAccountData) _then)
-      : super(_value, (v) => _then(v as _$StakeProgramDelegatedAccountData));
+      : super(_value, _then);
 
-  @override
-  _$StakeProgramDelegatedAccountData get _value =>
-      super._value as _$StakeProgramDelegatedAccountData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? info = freezed,
+    Object? info = null,
   }) {
     return _then(_$StakeProgramDelegatedAccountData(
-      info: info == freezed
+      info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as StakeDelegatedAccountInfo,
@@ -157,16 +159,16 @@ class _$StakeProgramDelegatedAccountData
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StakeProgramDelegatedAccountData &&
-            const DeepCollectionEquality().equals(other.info, info));
+            (identical(other.info, info) || other.info == info));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(info));
+  int get hashCode => Object.hash(runtimeType, info);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$StakeProgramDelegatedAccountDataCopyWith<
           _$StakeProgramDelegatedAccountData>
       get copyWith => __$$StakeProgramDelegatedAccountDataCopyWithImpl<
@@ -185,9 +187,9 @@ class _$StakeProgramDelegatedAccountData
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(StakeInitializedAccountInfo info)? initialize,
-    TResult Function(Map<String, dynamic> info)? unknown,
+    TResult? Function(StakeDelegatedAccountInfo info)? delegated,
+    TResult? Function(StakeInitializedAccountInfo info)? initialize,
+    TResult? Function(Map<String, dynamic> info)? unknown,
   }) {
     return delegated?.call(info);
   }
@@ -220,9 +222,9 @@ class _$StakeProgramDelegatedAccountData
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(StakeProgramDelegatedAccountData value)? delegated,
-    TResult Function(StakeProgramInitializedAccountData value)? initialize,
-    TResult Function(StakeProgramUnknownAccountData value)? unknown,
+    TResult? Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult? Function(StakeProgramInitializedAccountData value)? initialize,
+    TResult? Function(StakeProgramUnknownAccountData value)? unknown,
   }) {
     return delegated?.call(this);
   }
@@ -243,7 +245,9 @@ class _$StakeProgramDelegatedAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramDelegatedAccountDataToJson(this);
+    return _$$StakeProgramDelegatedAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -256,7 +260,8 @@ abstract class StakeProgramDelegatedAccountData
   factory StakeProgramDelegatedAccountData.fromJson(Map<String, dynamic> json) =
       _$StakeProgramDelegatedAccountData.fromJson;
 
-  StakeDelegatedAccountInfo get info => throw _privateConstructorUsedError;
+  @override
+  StakeDelegatedAccountInfo get info;
   @JsonKey(ignore: true)
   _$$StakeProgramDelegatedAccountDataCopyWith<
           _$StakeProgramDelegatedAccountData>
@@ -269,28 +274,27 @@ abstract class _$$StakeProgramInitializedAccountDataCopyWith<$Res> {
           _$StakeProgramInitializedAccountData value,
           $Res Function(_$StakeProgramInitializedAccountData) then) =
       __$$StakeProgramInitializedAccountDataCopyWithImpl<$Res>;
+  @useResult
   $Res call({StakeInitializedAccountInfo info});
 }
 
 /// @nodoc
 class __$$StakeProgramInitializedAccountDataCopyWithImpl<$Res>
-    extends _$StakeProgramAccountDataCopyWithImpl<$Res>
+    extends _$StakeProgramAccountDataCopyWithImpl<$Res,
+        _$StakeProgramInitializedAccountData>
     implements _$$StakeProgramInitializedAccountDataCopyWith<$Res> {
   __$$StakeProgramInitializedAccountDataCopyWithImpl(
       _$StakeProgramInitializedAccountData _value,
       $Res Function(_$StakeProgramInitializedAccountData) _then)
-      : super(_value, (v) => _then(v as _$StakeProgramInitializedAccountData));
+      : super(_value, _then);
 
-  @override
-  _$StakeProgramInitializedAccountData get _value =>
-      super._value as _$StakeProgramInitializedAccountData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? info = freezed,
+    Object? info = null,
   }) {
     return _then(_$StakeProgramInitializedAccountData(
-      info: info == freezed
+      info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as StakeInitializedAccountInfo,
@@ -326,16 +330,16 @@ class _$StakeProgramInitializedAccountData
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StakeProgramInitializedAccountData &&
-            const DeepCollectionEquality().equals(other.info, info));
+            (identical(other.info, info) || other.info == info));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(info));
+  int get hashCode => Object.hash(runtimeType, info);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$StakeProgramInitializedAccountDataCopyWith<
           _$StakeProgramInitializedAccountData>
       get copyWith => __$$StakeProgramInitializedAccountDataCopyWithImpl<
@@ -354,9 +358,9 @@ class _$StakeProgramInitializedAccountData
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(StakeInitializedAccountInfo info)? initialize,
-    TResult Function(Map<String, dynamic> info)? unknown,
+    TResult? Function(StakeDelegatedAccountInfo info)? delegated,
+    TResult? Function(StakeInitializedAccountInfo info)? initialize,
+    TResult? Function(Map<String, dynamic> info)? unknown,
   }) {
     return initialize?.call(info);
   }
@@ -389,9 +393,9 @@ class _$StakeProgramInitializedAccountData
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(StakeProgramDelegatedAccountData value)? delegated,
-    TResult Function(StakeProgramInitializedAccountData value)? initialize,
-    TResult Function(StakeProgramUnknownAccountData value)? unknown,
+    TResult? Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult? Function(StakeProgramInitializedAccountData value)? initialize,
+    TResult? Function(StakeProgramUnknownAccountData value)? unknown,
   }) {
     return initialize?.call(this);
   }
@@ -412,7 +416,9 @@ class _$StakeProgramInitializedAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramInitializedAccountDataToJson(this);
+    return _$$StakeProgramInitializedAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -426,7 +432,8 @@ abstract class StakeProgramInitializedAccountData
           Map<String, dynamic> json) =
       _$StakeProgramInitializedAccountData.fromJson;
 
-  StakeInitializedAccountInfo get info => throw _privateConstructorUsedError;
+  @override
+  StakeInitializedAccountInfo get info;
   @JsonKey(ignore: true)
   _$$StakeProgramInitializedAccountDataCopyWith<
           _$StakeProgramInitializedAccountData>
@@ -439,28 +446,27 @@ abstract class _$$StakeProgramUnknownAccountDataCopyWith<$Res> {
           _$StakeProgramUnknownAccountData value,
           $Res Function(_$StakeProgramUnknownAccountData) then) =
       __$$StakeProgramUnknownAccountDataCopyWithImpl<$Res>;
+  @useResult
   $Res call({Map<String, dynamic> info});
 }
 
 /// @nodoc
 class __$$StakeProgramUnknownAccountDataCopyWithImpl<$Res>
-    extends _$StakeProgramAccountDataCopyWithImpl<$Res>
+    extends _$StakeProgramAccountDataCopyWithImpl<$Res,
+        _$StakeProgramUnknownAccountData>
     implements _$$StakeProgramUnknownAccountDataCopyWith<$Res> {
   __$$StakeProgramUnknownAccountDataCopyWithImpl(
       _$StakeProgramUnknownAccountData _value,
       $Res Function(_$StakeProgramUnknownAccountData) _then)
-      : super(_value, (v) => _then(v as _$StakeProgramUnknownAccountData));
+      : super(_value, _then);
 
-  @override
-  _$StakeProgramUnknownAccountData get _value =>
-      super._value as _$StakeProgramUnknownAccountData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? info = freezed,
+    Object? info = null,
   }) {
     return _then(_$StakeProgramUnknownAccountData(
-      info == freezed
+      null == info
           ? _value._info
           : info // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
@@ -484,6 +490,7 @@ class _$StakeProgramUnknownAccountData
   final Map<String, dynamic> _info;
   @override
   Map<String, dynamic> get info {
+    if (_info is EqualUnmodifiableMapView) return _info;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_info);
   }
@@ -511,6 +518,7 @@ class _$StakeProgramUnknownAccountData
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$StakeProgramUnknownAccountDataCopyWith<_$StakeProgramUnknownAccountData>
       get copyWith => __$$StakeProgramUnknownAccountDataCopyWithImpl<
           _$StakeProgramUnknownAccountData>(this, _$identity);
@@ -528,9 +536,9 @@ class _$StakeProgramUnknownAccountData
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(StakeDelegatedAccountInfo info)? delegated,
-    TResult Function(StakeInitializedAccountInfo info)? initialize,
-    TResult Function(Map<String, dynamic> info)? unknown,
+    TResult? Function(StakeDelegatedAccountInfo info)? delegated,
+    TResult? Function(StakeInitializedAccountInfo info)? initialize,
+    TResult? Function(Map<String, dynamic> info)? unknown,
   }) {
     return unknown?.call(info);
   }
@@ -563,9 +571,9 @@ class _$StakeProgramUnknownAccountData
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(StakeProgramDelegatedAccountData value)? delegated,
-    TResult Function(StakeProgramInitializedAccountData value)? initialize,
-    TResult Function(StakeProgramUnknownAccountData value)? unknown,
+    TResult? Function(StakeProgramDelegatedAccountData value)? delegated,
+    TResult? Function(StakeProgramInitializedAccountData value)? initialize,
+    TResult? Function(StakeProgramUnknownAccountData value)? unknown,
   }) {
     return unknown?.call(this);
   }
@@ -586,7 +594,9 @@ class _$StakeProgramUnknownAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramUnknownAccountDataToJson(this);
+    return _$$StakeProgramUnknownAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -598,7 +608,8 @@ abstract class StakeProgramUnknownAccountData
   factory StakeProgramUnknownAccountData.fromJson(Map<String, dynamic> json) =
       _$StakeProgramUnknownAccountData.fromJson;
 
-  Map<String, dynamic> get info => throw _privateConstructorUsedError;
+  @override
+  Map<String, dynamic> get info;
   @JsonKey(ignore: true)
   _$$StakeProgramUnknownAccountDataCopyWith<_$StakeProgramUnknownAccountData>
       get copyWith => throw _privateConstructorUsedError;

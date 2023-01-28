@@ -82,7 +82,14 @@
   "splitKeySuccessMessage2": "Your transfer has been sent.",
   "splitKeyErrorMessage1": "OOPS!",
   "transferSuccessTitle": "SUCCESS!",
-  "outgoingTransferSuccess": "Your transfer has been sent.",
+  "outgoingTransferSuccess": "{amount} has been sent",
+  "@outgoingTransferSuccess": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "transferErrorTitle": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyCancelErrorMessage": "There was an issue canceling your transfer.",
@@ -450,7 +457,8 @@
     }
   },
   "price": "Price",
-  "yourBalance": "Your balance",
+  "balance": "Balance",
+  "youOwn":"You own",
   "failedToLoadTokens": "Failed to load tokens",
   "settings": "Settings",
   "displayEmptyBalanceTitle": "Display Empty Balances",
@@ -530,10 +538,19 @@
       }
     }
   },
-  "moreDetails": "More details",
+  "moreDetails": "View more details",
   "cancelTransfer": "Cancel transfer",
   "sentViaLink": "Sent via link",
   "tipCanceled": "Tip canceled",
   "cancelTip": "Cancel tip",
-  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn."
+  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
+  "transferInitiated": "Transfer initiated",
+  "receivedBy": "Received by {address}",
+  "@receivedBy": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  }
 }

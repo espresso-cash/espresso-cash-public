@@ -42,7 +42,7 @@ class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (message != null) ...[
-          Text(message, style: Theme.of(context).textTheme.subtitle2),
+          Text(message, style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 24),
         ],
         ValueListenableBuilder<TextEditingValue>(
