@@ -76,7 +76,7 @@ class _ScreenState extends State<WalletMainScreen> {
     super.didChangeDependencies();
     _tabController?.removeListener(_handleTabUpdate);
     _tabController = DefaultTabController.of(context)
-      ?..addListener(_handleTabUpdate);
+      ..addListener(_handleTabUpdate);
     _updateAction();
   }
 
