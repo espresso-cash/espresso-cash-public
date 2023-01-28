@@ -60,7 +60,7 @@ class FavoriteTokenRows extends Table {
   TextColumn get logoUri => text().nullable()();
 
   @override
-  Set<Column<dynamic>>? get primaryKey => {id};
+  Set<Column<Object>>? get primaryKey => {id};
 }
 
 extension on Token {

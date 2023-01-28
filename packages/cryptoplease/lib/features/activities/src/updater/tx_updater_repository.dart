@@ -73,7 +73,7 @@ class TransactionRows extends Table {
   IntColumn get status => intEnum<TxCommonStatus>()();
 
   @override
-  Set<Column<dynamic>>? get primaryKey => {id};
+  Set<Column<Object>>? get primaryKey => {id};
 }
 
 extension TransactionRowExt on TransactionRow {

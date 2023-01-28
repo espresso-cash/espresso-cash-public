@@ -18,7 +18,7 @@ jobs:
       packages: read
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cryptoplease/flutter:3.3.0
+      image: ghcr.io/cryptoplease/flutter:3.7.0
     steps:
       - uses: actions/checkout@v2
 

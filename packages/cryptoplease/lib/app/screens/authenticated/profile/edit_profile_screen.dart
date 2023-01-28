@@ -72,7 +72,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   label: _photo == null
                       ? context.l10n.uploadPhoto
                       : context.l10n.removePhoto,
-                  labelStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
+                  labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
