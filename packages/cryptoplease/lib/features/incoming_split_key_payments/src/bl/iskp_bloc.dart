@@ -1,5 +1,6 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -125,6 +126,8 @@ class ISKPBloc extends Bloc<_Event, _State> {
           .then((it) => it.resign(escrow));
 
       return ISKPStatus.txCreated(tx);
+    } on DioError {
+      return const ISKPStatus.txEscrowFailure();
     } on Exception {
       return const ISKPStatus.txFailure();
     }
@@ -149,5 +152,15 @@ class ISKPBloc extends Bloc<_Event, _State> {
       failure: (_) => const ISKPStatus.txEscrowFailure(),
       networkError: (_) => ISKPStatus.txWaitFailure(tx),
     );
+  }
+}
+
+extension on DioError {
+  bool get isAlreadyWithdrawn {
+    final response = this.response;
+
+    print(response);
+
+    return true;
   }
 }

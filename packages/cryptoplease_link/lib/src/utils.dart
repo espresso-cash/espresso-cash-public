@@ -18,10 +18,20 @@ Future<Response> processRequest<T, R>(
     return Response.badRequest(body: 'Invalid JSON');
   }
 
-  return Response.ok(
-    json.encode(await handler(dto)),
-    headers: {
-      'content-type': 'application/json',
-    },
-  );
+  try {
+    return Response.ok(
+      json.encode(await handler(dto)),
+      headers: {
+        'content-type': 'application/json',
+      },
+    );
+  } on Exception {
+    //TODO update me
+    return Response.badRequest(
+      body: json.encode({'err': 'AlreadyUsed'}),
+      headers: {
+        'content-type': 'application/json',
+      },
+    );
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -123,6 +124,12 @@ class ITBloc extends Bloc<_Event, _State> {
           .then((it) => it.resign(escrow));
 
       return ITStatus.txCreated(tx);
+    } on DioError catch (e) {
+      if (e.isAlreadyWithdrawn) {
+        return const ITStatus.txEscrowFailure();
+      }
+
+      return const ITStatus.txFailure();
     } on Exception {
       return const ITStatus.txFailure();
     }
@@ -147,5 +154,18 @@ class ITBloc extends Bloc<_Event, _State> {
       failure: (_) => const ITStatus.txEscrowFailure(),
       networkError: (_) => ITStatus.txWaitFailure(tx),
     );
+  }
+}
+
+extension on DioError {
+  bool get isAlreadyWithdrawn {
+    final data = response?.data;
+
+    if (data is! Map<String, dynamic>) return false;
+
+    final error = data['err'];
+    if (error is! String) return false;
+
+    return error == 'AlreadyUsed';
   }
 }

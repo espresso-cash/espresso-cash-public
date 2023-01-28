@@ -7,6 +7,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
+import '../../widgets/withdrawn_error.dart';
 import '../bl/incoming_split_key_payment.dart';
 import '../bl/iskp_bloc.dart';
 import '../bl/iskp_repository.dart';
@@ -50,6 +51,7 @@ class _IncomingSplitKeyPaymentScreenState
                   onOkPressed: () => context.router.pop(),
                   content: context.l10n.moneyReceived,
                 ),
+                txEscrowFailure: (_) => const WithdrawnError(),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
                   onRetry: () => context

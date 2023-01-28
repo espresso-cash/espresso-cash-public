@@ -535,5 +535,6 @@
   "sentViaLink": "Sent via link",
   "tipCanceled": "Tip canceled",
   "cancelTip": "Cancel tip",
-  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn."
+  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
+  "moneyAlreadyWithdrawnError" : "The money has already been withdrawn."
 }
