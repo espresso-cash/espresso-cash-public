@@ -12,7 +12,7 @@ void showCancelDialog(BuildContext context, VoidCallback onCancel) {
       child: AlertDialog(
         content: Text(
           context.l10n.splitKeyConfirmationDialogContent,
-          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: CpColors.secondaryTextColor,
               ),
         ),

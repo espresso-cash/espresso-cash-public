@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'properties.dart';
 
@@ -46,12 +46,12 @@ mixin _$Properties {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? unknown,
-    TResult Function(List<File> files)? video,
-    TResult Function(List<File> files)? image,
-    TResult Function(List<File> files)? vr,
-    TResult Function(List<File> files)? audio,
-    TResult Function(List<File> files)? html,
+    TResult? Function()? unknown,
+    TResult? Function(List<File> files)? video,
+    TResult? Function(List<File> files)? image,
+    TResult? Function(List<File> files)? vr,
+    TResult? Function(List<File> files)? audio,
+    TResult? Function(List<File> files)? html,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -77,12 +77,12 @@ mixin _$Properties {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Unknown value)? unknown,
-    TResult Function(Video value)? video,
-    TResult Function(Image value)? image,
-    TResult Function(Model3D value)? vr,
-    TResult Function(Audio value)? audio,
-    TResult Function(Html value)? html,
+    TResult? Function(Unknown value)? unknown,
+    TResult? Function(Video value)? video,
+    TResult? Function(Image value)? image,
+    TResult? Function(Model3D value)? vr,
+    TResult? Function(Audio value)? audio,
+    TResult? Function(Html value)? html,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -103,16 +103,18 @@ mixin _$Properties {
 abstract class $PropertiesCopyWith<$Res> {
   factory $PropertiesCopyWith(
           Properties value, $Res Function(Properties) then) =
-      _$PropertiesCopyWithImpl<$Res>;
+      _$PropertiesCopyWithImpl<$Res, Properties>;
 }
 
 /// @nodoc
-class _$PropertiesCopyWithImpl<$Res> implements $PropertiesCopyWith<$Res> {
+class _$PropertiesCopyWithImpl<$Res, $Val extends Properties>
+    implements $PropertiesCopyWith<$Res> {
   _$PropertiesCopyWithImpl(this._value, this._then);
 
-  final Properties _value;
   // ignore: unused_field
-  final $Res Function(Properties) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -122,13 +124,11 @@ abstract class _$$UnknownCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$UnknownCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
+class __$$UnknownCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$Unknown>
     implements _$$UnknownCopyWith<$Res> {
   __$$UnknownCopyWithImpl(_$Unknown _value, $Res Function(_$Unknown) _then)
-      : super(_value, (v) => _then(v as _$Unknown));
-
-  @override
-  _$Unknown get _value => super._value as _$Unknown;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -173,12 +173,12 @@ class _$Unknown implements Unknown {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? unknown,
-    TResult Function(List<File> files)? video,
-    TResult Function(List<File> files)? image,
-    TResult Function(List<File> files)? vr,
-    TResult Function(List<File> files)? audio,
-    TResult Function(List<File> files)? html,
+    TResult? Function()? unknown,
+    TResult? Function(List<File> files)? video,
+    TResult? Function(List<File> files)? image,
+    TResult? Function(List<File> files)? vr,
+    TResult? Function(List<File> files)? audio,
+    TResult? Function(List<File> files)? html,
   }) {
     return unknown?.call();
   }
@@ -216,12 +216,12 @@ class _$Unknown implements Unknown {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Unknown value)? unknown,
-    TResult Function(Video value)? video,
-    TResult Function(Image value)? image,
-    TResult Function(Model3D value)? vr,
-    TResult Function(Audio value)? audio,
-    TResult Function(Html value)? html,
+    TResult? Function(Unknown value)? unknown,
+    TResult? Function(Video value)? video,
+    TResult? Function(Image value)? image,
+    TResult? Function(Model3D value)? vr,
+    TResult? Function(Audio value)? audio,
+    TResult? Function(Html value)? html,
   }) {
     return unknown?.call(this);
   }
@@ -245,7 +245,9 @@ class _$Unknown implements Unknown {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnknownToJson(this);
+    return _$$UnknownToJson(
+      this,
+    );
   }
 }
 
@@ -259,24 +261,24 @@ abstract class Unknown implements Properties {
 abstract class _$$VideoCopyWith<$Res> {
   factory _$$VideoCopyWith(_$Video value, $Res Function(_$Video) then) =
       __$$VideoCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$VideoCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
+class __$$VideoCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$Video>
     implements _$$VideoCopyWith<$Res> {
   __$$VideoCopyWithImpl(_$Video _value, $Res Function(_$Video) _then)
-      : super(_value, (v) => _then(v as _$Video));
+      : super(_value, _then);
 
-  @override
-  _$Video get _value => super._value as _$Video;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? files = freezed,
+    Object? files = null,
   }) {
     return _then(_$Video(
-      files: files == freezed
+      files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
               as List<File>,
@@ -296,6 +298,7 @@ class _$Video implements Video {
   final List<File> _files;
   @override
   List<File> get files {
+    if (_files is EqualUnmodifiableListView) return _files;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_files);
   }
@@ -323,6 +326,7 @@ class _$Video implements Video {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$VideoCopyWith<_$Video> get copyWith =>
       __$$VideoCopyWithImpl<_$Video>(this, _$identity);
 
@@ -342,12 +346,12 @@ class _$Video implements Video {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? unknown,
-    TResult Function(List<File> files)? video,
-    TResult Function(List<File> files)? image,
-    TResult Function(List<File> files)? vr,
-    TResult Function(List<File> files)? audio,
-    TResult Function(List<File> files)? html,
+    TResult? Function()? unknown,
+    TResult? Function(List<File> files)? video,
+    TResult? Function(List<File> files)? image,
+    TResult? Function(List<File> files)? vr,
+    TResult? Function(List<File> files)? audio,
+    TResult? Function(List<File> files)? html,
   }) {
     return video?.call(files);
   }
@@ -385,12 +389,12 @@ class _$Video implements Video {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Unknown value)? unknown,
-    TResult Function(Video value)? video,
-    TResult Function(Image value)? image,
-    TResult Function(Model3D value)? vr,
-    TResult Function(Audio value)? audio,
-    TResult Function(Html value)? html,
+    TResult? Function(Unknown value)? unknown,
+    TResult? Function(Video value)? video,
+    TResult? Function(Image value)? image,
+    TResult? Function(Model3D value)? vr,
+    TResult? Function(Audio value)? audio,
+    TResult? Function(Html value)? html,
   }) {
     return video?.call(this);
   }
@@ -414,7 +418,9 @@ class _$Video implements Video {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$VideoToJson(this);
+    return _$$VideoToJson(
+      this,
+    );
   }
 }
 
@@ -423,7 +429,7 @@ abstract class Video implements Properties {
 
   factory Video.fromJson(Map<String, dynamic> json) = _$Video.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$VideoCopyWith<_$Video> get copyWith => throw _privateConstructorUsedError;
 }
@@ -432,24 +438,24 @@ abstract class Video implements Properties {
 abstract class _$$ImageCopyWith<$Res> {
   factory _$$ImageCopyWith(_$Image value, $Res Function(_$Image) then) =
       __$$ImageCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$ImageCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
+class __$$ImageCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$Image>
     implements _$$ImageCopyWith<$Res> {
   __$$ImageCopyWithImpl(_$Image _value, $Res Function(_$Image) _then)
-      : super(_value, (v) => _then(v as _$Image));
+      : super(_value, _then);
 
-  @override
-  _$Image get _value => super._value as _$Image;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? files = freezed,
+    Object? files = null,
   }) {
     return _then(_$Image(
-      files: files == freezed
+      files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
               as List<File>,
@@ -469,6 +475,7 @@ class _$Image implements Image {
   final List<File> _files;
   @override
   List<File> get files {
+    if (_files is EqualUnmodifiableListView) return _files;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_files);
   }
@@ -496,6 +503,7 @@ class _$Image implements Image {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ImageCopyWith<_$Image> get copyWith =>
       __$$ImageCopyWithImpl<_$Image>(this, _$identity);
 
@@ -515,12 +523,12 @@ class _$Image implements Image {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? unknown,
-    TResult Function(List<File> files)? video,
-    TResult Function(List<File> files)? image,
-    TResult Function(List<File> files)? vr,
-    TResult Function(List<File> files)? audio,
-    TResult Function(List<File> files)? html,
+    TResult? Function()? unknown,
+    TResult? Function(List<File> files)? video,
+    TResult? Function(List<File> files)? image,
+    TResult? Function(List<File> files)? vr,
+    TResult? Function(List<File> files)? audio,
+    TResult? Function(List<File> files)? html,
   }) {
     return image?.call(files);
   }
@@ -558,12 +566,12 @@ class _$Image implements Image {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Unknown value)? unknown,
-    TResult Function(Video value)? video,
-    TResult Function(Image value)? image,
-    TResult Function(Model3D value)? vr,
-    TResult Function(Audio value)? audio,
-    TResult Function(Html value)? html,
+    TResult? Function(Unknown value)? unknown,
+    TResult? Function(Video value)? video,
+    TResult? Function(Image value)? image,
+    TResult? Function(Model3D value)? vr,
+    TResult? Function(Audio value)? audio,
+    TResult? Function(Html value)? html,
   }) {
     return image?.call(this);
   }
@@ -587,7 +595,9 @@ class _$Image implements Image {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ImageToJson(this);
+    return _$$ImageToJson(
+      this,
+    );
   }
 }
 
@@ -596,7 +606,7 @@ abstract class Image implements Properties {
 
   factory Image.fromJson(Map<String, dynamic> json) = _$Image.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$ImageCopyWith<_$Image> get copyWith => throw _privateConstructorUsedError;
 }
@@ -605,24 +615,24 @@ abstract class Image implements Properties {
 abstract class _$$Model3DCopyWith<$Res> {
   factory _$$Model3DCopyWith(_$Model3D value, $Res Function(_$Model3D) then) =
       __$$Model3DCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$Model3DCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
+class __$$Model3DCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$Model3D>
     implements _$$Model3DCopyWith<$Res> {
   __$$Model3DCopyWithImpl(_$Model3D _value, $Res Function(_$Model3D) _then)
-      : super(_value, (v) => _then(v as _$Model3D));
+      : super(_value, _then);
 
-  @override
-  _$Model3D get _value => super._value as _$Model3D;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? files = freezed,
+    Object? files = null,
   }) {
     return _then(_$Model3D(
-      files: files == freezed
+      files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
               as List<File>,
@@ -643,6 +653,7 @@ class _$Model3D implements Model3D {
   final List<File> _files;
   @override
   List<File> get files {
+    if (_files is EqualUnmodifiableListView) return _files;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_files);
   }
@@ -670,6 +681,7 @@ class _$Model3D implements Model3D {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$Model3DCopyWith<_$Model3D> get copyWith =>
       __$$Model3DCopyWithImpl<_$Model3D>(this, _$identity);
 
@@ -689,12 +701,12 @@ class _$Model3D implements Model3D {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? unknown,
-    TResult Function(List<File> files)? video,
-    TResult Function(List<File> files)? image,
-    TResult Function(List<File> files)? vr,
-    TResult Function(List<File> files)? audio,
-    TResult Function(List<File> files)? html,
+    TResult? Function()? unknown,
+    TResult? Function(List<File> files)? video,
+    TResult? Function(List<File> files)? image,
+    TResult? Function(List<File> files)? vr,
+    TResult? Function(List<File> files)? audio,
+    TResult? Function(List<File> files)? html,
   }) {
     return vr?.call(files);
   }
@@ -732,12 +744,12 @@ class _$Model3D implements Model3D {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Unknown value)? unknown,
-    TResult Function(Video value)? video,
-    TResult Function(Image value)? image,
-    TResult Function(Model3D value)? vr,
-    TResult Function(Audio value)? audio,
-    TResult Function(Html value)? html,
+    TResult? Function(Unknown value)? unknown,
+    TResult? Function(Video value)? video,
+    TResult? Function(Image value)? image,
+    TResult? Function(Model3D value)? vr,
+    TResult? Function(Audio value)? audio,
+    TResult? Function(Html value)? html,
   }) {
     return vr?.call(this);
   }
@@ -761,7 +773,9 @@ class _$Model3D implements Model3D {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$Model3DToJson(this);
+    return _$$Model3DToJson(
+      this,
+    );
   }
 }
 
@@ -770,7 +784,7 @@ abstract class Model3D implements Properties {
 
   factory Model3D.fromJson(Map<String, dynamic> json) = _$Model3D.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$Model3DCopyWith<_$Model3D> get copyWith =>
       throw _privateConstructorUsedError;
@@ -780,24 +794,24 @@ abstract class Model3D implements Properties {
 abstract class _$$AudioCopyWith<$Res> {
   factory _$$AudioCopyWith(_$Audio value, $Res Function(_$Audio) then) =
       __$$AudioCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$AudioCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
+class __$$AudioCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$Audio>
     implements _$$AudioCopyWith<$Res> {
   __$$AudioCopyWithImpl(_$Audio _value, $Res Function(_$Audio) _then)
-      : super(_value, (v) => _then(v as _$Audio));
+      : super(_value, _then);
 
-  @override
-  _$Audio get _value => super._value as _$Audio;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? files = freezed,
+    Object? files = null,
   }) {
     return _then(_$Audio(
-      files: files == freezed
+      files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
               as List<File>,
@@ -817,6 +831,7 @@ class _$Audio implements Audio {
   final List<File> _files;
   @override
   List<File> get files {
+    if (_files is EqualUnmodifiableListView) return _files;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_files);
   }
@@ -844,6 +859,7 @@ class _$Audio implements Audio {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$AudioCopyWith<_$Audio> get copyWith =>
       __$$AudioCopyWithImpl<_$Audio>(this, _$identity);
 
@@ -863,12 +879,12 @@ class _$Audio implements Audio {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? unknown,
-    TResult Function(List<File> files)? video,
-    TResult Function(List<File> files)? image,
-    TResult Function(List<File> files)? vr,
-    TResult Function(List<File> files)? audio,
-    TResult Function(List<File> files)? html,
+    TResult? Function()? unknown,
+    TResult? Function(List<File> files)? video,
+    TResult? Function(List<File> files)? image,
+    TResult? Function(List<File> files)? vr,
+    TResult? Function(List<File> files)? audio,
+    TResult? Function(List<File> files)? html,
   }) {
     return audio?.call(files);
   }
@@ -906,12 +922,12 @@ class _$Audio implements Audio {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Unknown value)? unknown,
-    TResult Function(Video value)? video,
-    TResult Function(Image value)? image,
-    TResult Function(Model3D value)? vr,
-    TResult Function(Audio value)? audio,
-    TResult Function(Html value)? html,
+    TResult? Function(Unknown value)? unknown,
+    TResult? Function(Video value)? video,
+    TResult? Function(Image value)? image,
+    TResult? Function(Model3D value)? vr,
+    TResult? Function(Audio value)? audio,
+    TResult? Function(Html value)? html,
   }) {
     return audio?.call(this);
   }
@@ -935,7 +951,9 @@ class _$Audio implements Audio {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AudioToJson(this);
+    return _$$AudioToJson(
+      this,
+    );
   }
 }
 
@@ -944,7 +962,7 @@ abstract class Audio implements Properties {
 
   factory Audio.fromJson(Map<String, dynamic> json) = _$Audio.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$AudioCopyWith<_$Audio> get copyWith => throw _privateConstructorUsedError;
 }
@@ -953,24 +971,23 @@ abstract class Audio implements Properties {
 abstract class _$$HtmlCopyWith<$Res> {
   factory _$$HtmlCopyWith(_$Html value, $Res Function(_$Html) then) =
       __$$HtmlCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$HtmlCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res>
+class __$$HtmlCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$Html>
     implements _$$HtmlCopyWith<$Res> {
   __$$HtmlCopyWithImpl(_$Html _value, $Res Function(_$Html) _then)
-      : super(_value, (v) => _then(v as _$Html));
+      : super(_value, _then);
 
-  @override
-  _$Html get _value => super._value as _$Html;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? files = freezed,
+    Object? files = null,
   }) {
     return _then(_$Html(
-      files: files == freezed
+      files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
               as List<File>,
@@ -990,6 +1007,7 @@ class _$Html implements Html {
   final List<File> _files;
   @override
   List<File> get files {
+    if (_files is EqualUnmodifiableListView) return _files;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_files);
   }
@@ -1017,6 +1035,7 @@ class _$Html implements Html {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$HtmlCopyWith<_$Html> get copyWith =>
       __$$HtmlCopyWithImpl<_$Html>(this, _$identity);
 
@@ -1036,12 +1055,12 @@ class _$Html implements Html {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? unknown,
-    TResult Function(List<File> files)? video,
-    TResult Function(List<File> files)? image,
-    TResult Function(List<File> files)? vr,
-    TResult Function(List<File> files)? audio,
-    TResult Function(List<File> files)? html,
+    TResult? Function()? unknown,
+    TResult? Function(List<File> files)? video,
+    TResult? Function(List<File> files)? image,
+    TResult? Function(List<File> files)? vr,
+    TResult? Function(List<File> files)? audio,
+    TResult? Function(List<File> files)? html,
   }) {
     return html?.call(files);
   }
@@ -1079,12 +1098,12 @@ class _$Html implements Html {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Unknown value)? unknown,
-    TResult Function(Video value)? video,
-    TResult Function(Image value)? image,
-    TResult Function(Model3D value)? vr,
-    TResult Function(Audio value)? audio,
-    TResult Function(Html value)? html,
+    TResult? Function(Unknown value)? unknown,
+    TResult? Function(Video value)? video,
+    TResult? Function(Image value)? image,
+    TResult? Function(Model3D value)? vr,
+    TResult? Function(Audio value)? audio,
+    TResult? Function(Html value)? html,
   }) {
     return html?.call(this);
   }
@@ -1108,7 +1127,9 @@ class _$Html implements Html {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$HtmlToJson(this);
+    return _$$HtmlToJson(
+      this,
+    );
   }
 }
 
@@ -1117,7 +1138,7 @@ abstract class Html implements Properties {
 
   factory Html.fromJson(Map<String, dynamic> json) = _$Html.fromJson;
 
-  List<File> get files => throw _privateConstructorUsedError;
+  List<File> get files;
   @JsonKey(ignore: true)
   _$$HtmlCopyWith<_$Html> get copyWith => throw _privateConstructorUsedError;
 }

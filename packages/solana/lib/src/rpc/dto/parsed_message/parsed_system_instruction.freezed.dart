@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'parsed_system_instruction.dart';
 
@@ -41,11 +41,11 @@ mixin _$ParsedSystemInstruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInformation info, String type)?
+    TResult? Function(ParsedSystemTransferInformation info, String type)?
         transfer,
-    TResult Function(ParsedSystemTransferInformation info, String type)?
+    TResult? Function(ParsedSystemTransferInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult? Function(String type)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -69,10 +69,10 @@ mixin _$ParsedSystemInstruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+    TResult? Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult? Function(ParsedSystemTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
+    TResult? Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -94,29 +94,33 @@ mixin _$ParsedSystemInstruction {
 abstract class $ParsedSystemInstructionCopyWith<$Res> {
   factory $ParsedSystemInstructionCopyWith(ParsedSystemInstruction value,
           $Res Function(ParsedSystemInstruction) then) =
-      _$ParsedSystemInstructionCopyWithImpl<$Res>;
+      _$ParsedSystemInstructionCopyWithImpl<$Res, ParsedSystemInstruction>;
+  @useResult
   $Res call({String type});
 }
 
 /// @nodoc
-class _$ParsedSystemInstructionCopyWithImpl<$Res>
+class _$ParsedSystemInstructionCopyWithImpl<$Res,
+        $Val extends ParsedSystemInstruction>
     implements $ParsedSystemInstructionCopyWith<$Res> {
   _$ParsedSystemInstructionCopyWithImpl(this._value, this._then);
 
-  final ParsedSystemInstruction _value;
   // ignore: unused_field
-  final $Res Function(ParsedSystemInstruction) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -128,6 +132,7 @@ abstract class _$$ParsedSystemTransferInstructionCopyWith<$Res>
           $Res Function(_$ParsedSystemTransferInstruction) then) =
       __$$ParsedSystemTransferInstructionCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({ParsedSystemTransferInformation info, String type});
 
   $ParsedSystemTransferInformationCopyWith<$Res> get info;
@@ -135,28 +140,26 @@ abstract class _$$ParsedSystemTransferInstructionCopyWith<$Res>
 
 /// @nodoc
 class __$$ParsedSystemTransferInstructionCopyWithImpl<$Res>
-    extends _$ParsedSystemInstructionCopyWithImpl<$Res>
+    extends _$ParsedSystemInstructionCopyWithImpl<$Res,
+        _$ParsedSystemTransferInstruction>
     implements _$$ParsedSystemTransferInstructionCopyWith<$Res> {
   __$$ParsedSystemTransferInstructionCopyWithImpl(
       _$ParsedSystemTransferInstruction _value,
       $Res Function(_$ParsedSystemTransferInstruction) _then)
-      : super(_value, (v) => _then(v as _$ParsedSystemTransferInstruction));
+      : super(_value, _then);
 
-  @override
-  _$ParsedSystemTransferInstruction get _value =>
-      super._value as _$ParsedSystemTransferInstruction;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? info = freezed,
-    Object? type = freezed,
+    Object? info = null,
+    Object? type = null,
   }) {
     return _then(_$ParsedSystemTransferInstruction(
-      info: info == freezed
+      info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as ParsedSystemTransferInformation,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
@@ -164,6 +167,7 @@ class __$$ParsedSystemTransferInstructionCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $ParsedSystemTransferInformationCopyWith<$Res> get info {
     return $ParsedSystemTransferInformationCopyWith<$Res>(_value.info, (value) {
       return _then(_value.copyWith(info: value));
@@ -197,19 +201,17 @@ class _$ParsedSystemTransferInstruction
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParsedSystemTransferInstruction &&
-            const DeepCollectionEquality().equals(other.info, info) &&
-            const DeepCollectionEquality().equals(other.type, type));
+            (identical(other.info, info) || other.info == info) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(info),
-      const DeepCollectionEquality().hash(type));
+  int get hashCode => Object.hash(runtimeType, info, type);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ParsedSystemTransferInstructionCopyWith<_$ParsedSystemTransferInstruction>
       get copyWith => __$$ParsedSystemTransferInstructionCopyWithImpl<
           _$ParsedSystemTransferInstruction>(this, _$identity);
@@ -229,11 +231,11 @@ class _$ParsedSystemTransferInstruction
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInformation info, String type)?
+    TResult? Function(ParsedSystemTransferInformation info, String type)?
         transfer,
-    TResult Function(ParsedSystemTransferInformation info, String type)?
+    TResult? Function(ParsedSystemTransferInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult? Function(String type)? unsupported,
   }) {
     return transfer?.call(info, type);
   }
@@ -269,10 +271,10 @@ class _$ParsedSystemTransferInstruction
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+    TResult? Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult? Function(ParsedSystemTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
+    TResult? Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) {
     return transfer?.call(this);
   }
@@ -294,7 +296,9 @@ class _$ParsedSystemTransferInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemTransferInstructionToJson(this);
+    return _$$ParsedSystemTransferInstructionToJson(
+      this,
+    );
   }
 }
 
@@ -307,10 +311,9 @@ abstract class ParsedSystemTransferInstruction
   factory ParsedSystemTransferInstruction.fromJson(Map<String, dynamic> json) =
       _$ParsedSystemTransferInstruction.fromJson;
 
-  ParsedSystemTransferInformation get info =>
-      throw _privateConstructorUsedError;
+  ParsedSystemTransferInformation get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$ParsedSystemTransferInstructionCopyWith<_$ParsedSystemTransferInstruction>
@@ -325,6 +328,7 @@ abstract class _$$ParsedSystemTransferCheckedInstructionCopyWith<$Res>
           $Res Function(_$ParsedSystemTransferCheckedInstruction) then) =
       __$$ParsedSystemTransferCheckedInstructionCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({ParsedSystemTransferInformation info, String type});
 
   $ParsedSystemTransferInformationCopyWith<$Res> get info;
@@ -332,29 +336,26 @@ abstract class _$$ParsedSystemTransferCheckedInstructionCopyWith<$Res>
 
 /// @nodoc
 class __$$ParsedSystemTransferCheckedInstructionCopyWithImpl<$Res>
-    extends _$ParsedSystemInstructionCopyWithImpl<$Res>
+    extends _$ParsedSystemInstructionCopyWithImpl<$Res,
+        _$ParsedSystemTransferCheckedInstruction>
     implements _$$ParsedSystemTransferCheckedInstructionCopyWith<$Res> {
   __$$ParsedSystemTransferCheckedInstructionCopyWithImpl(
       _$ParsedSystemTransferCheckedInstruction _value,
       $Res Function(_$ParsedSystemTransferCheckedInstruction) _then)
-      : super(_value,
-            (v) => _then(v as _$ParsedSystemTransferCheckedInstruction));
+      : super(_value, _then);
 
-  @override
-  _$ParsedSystemTransferCheckedInstruction get _value =>
-      super._value as _$ParsedSystemTransferCheckedInstruction;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? info = freezed,
-    Object? type = freezed,
+    Object? info = null,
+    Object? type = null,
   }) {
     return _then(_$ParsedSystemTransferCheckedInstruction(
-      info: info == freezed
+      info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as ParsedSystemTransferInformation,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
@@ -362,6 +363,7 @@ class __$$ParsedSystemTransferCheckedInstructionCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $ParsedSystemTransferInformationCopyWith<$Res> get info {
     return $ParsedSystemTransferInformationCopyWith<$Res>(_value.info, (value) {
       return _then(_value.copyWith(info: value));
@@ -395,19 +397,17 @@ class _$ParsedSystemTransferCheckedInstruction
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParsedSystemTransferCheckedInstruction &&
-            const DeepCollectionEquality().equals(other.info, info) &&
-            const DeepCollectionEquality().equals(other.type, type));
+            (identical(other.info, info) || other.info == info) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(info),
-      const DeepCollectionEquality().hash(type));
+  int get hashCode => Object.hash(runtimeType, info, type);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ParsedSystemTransferCheckedInstructionCopyWith<
           _$ParsedSystemTransferCheckedInstruction>
       get copyWith => __$$ParsedSystemTransferCheckedInstructionCopyWithImpl<
@@ -428,11 +428,11 @@ class _$ParsedSystemTransferCheckedInstruction
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInformation info, String type)?
+    TResult? Function(ParsedSystemTransferInformation info, String type)?
         transfer,
-    TResult Function(ParsedSystemTransferInformation info, String type)?
+    TResult? Function(ParsedSystemTransferInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult? Function(String type)? unsupported,
   }) {
     return transferChecked?.call(info, type);
   }
@@ -468,10 +468,10 @@ class _$ParsedSystemTransferCheckedInstruction
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+    TResult? Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult? Function(ParsedSystemTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
+    TResult? Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) {
     return transferChecked?.call(this);
   }
@@ -493,7 +493,9 @@ class _$ParsedSystemTransferCheckedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemTransferCheckedInstructionToJson(this);
+    return _$$ParsedSystemTransferCheckedInstructionToJson(
+      this,
+    );
   }
 }
 
@@ -507,10 +509,9 @@ abstract class ParsedSystemTransferCheckedInstruction
           Map<String, dynamic> json) =
       _$ParsedSystemTransferCheckedInstruction.fromJson;
 
-  ParsedSystemTransferInformation get info =>
-      throw _privateConstructorUsedError;
+  ParsedSystemTransferInformation get info;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$ParsedSystemTransferCheckedInstructionCopyWith<
@@ -526,28 +527,27 @@ abstract class _$$ParsedSystemUnsupportedInstructionCopyWith<$Res>
           $Res Function(_$ParsedSystemUnsupportedInstruction) then) =
       __$$ParsedSystemUnsupportedInstructionCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String type});
 }
 
 /// @nodoc
 class __$$ParsedSystemUnsupportedInstructionCopyWithImpl<$Res>
-    extends _$ParsedSystemInstructionCopyWithImpl<$Res>
+    extends _$ParsedSystemInstructionCopyWithImpl<$Res,
+        _$ParsedSystemUnsupportedInstruction>
     implements _$$ParsedSystemUnsupportedInstructionCopyWith<$Res> {
   __$$ParsedSystemUnsupportedInstructionCopyWithImpl(
       _$ParsedSystemUnsupportedInstruction _value,
       $Res Function(_$ParsedSystemUnsupportedInstruction) _then)
-      : super(_value, (v) => _then(v as _$ParsedSystemUnsupportedInstruction));
+      : super(_value, _then);
 
-  @override
-  _$ParsedSystemUnsupportedInstruction get _value =>
-      super._value as _$ParsedSystemUnsupportedInstruction;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
+    Object? type = null,
   }) {
     return _then(_$ParsedSystemUnsupportedInstruction(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
@@ -578,16 +578,16 @@ class _$ParsedSystemUnsupportedInstruction
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParsedSystemUnsupportedInstruction &&
-            const DeepCollectionEquality().equals(other.type, type));
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(type));
+  int get hashCode => Object.hash(runtimeType, type);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ParsedSystemUnsupportedInstructionCopyWith<
           _$ParsedSystemUnsupportedInstruction>
       get copyWith => __$$ParsedSystemUnsupportedInstructionCopyWithImpl<
@@ -608,11 +608,11 @@ class _$ParsedSystemUnsupportedInstruction
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInformation info, String type)?
+    TResult? Function(ParsedSystemTransferInformation info, String type)?
         transfer,
-    TResult Function(ParsedSystemTransferInformation info, String type)?
+    TResult? Function(ParsedSystemTransferInformation info, String type)?
         transferChecked,
-    TResult Function(String type)? unsupported,
+    TResult? Function(String type)? unsupported,
   }) {
     return unsupported?.call(type);
   }
@@ -648,10 +648,10 @@ class _$ParsedSystemUnsupportedInstruction
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult Function(ParsedSystemTransferCheckedInstruction value)?
+    TResult? Function(ParsedSystemTransferInstruction value)? transfer,
+    TResult? Function(ParsedSystemTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
+    TResult? Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) {
     return unsupported?.call(this);
   }
@@ -673,7 +673,9 @@ class _$ParsedSystemUnsupportedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemUnsupportedInstructionToJson(this);
+    return _$$ParsedSystemUnsupportedInstructionToJson(
+      this,
+    );
   }
 }
 
@@ -687,7 +689,7 @@ abstract class ParsedSystemUnsupportedInstruction
       _$ParsedSystemUnsupportedInstruction.fromJson;
 
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$ParsedSystemUnsupportedInstructionCopyWith<
@@ -717,39 +719,44 @@ abstract class $ParsedSystemTransferInformationCopyWith<$Res> {
   factory $ParsedSystemTransferInformationCopyWith(
           ParsedSystemTransferInformation value,
           $Res Function(ParsedSystemTransferInformation) then) =
-      _$ParsedSystemTransferInformationCopyWithImpl<$Res>;
+      _$ParsedSystemTransferInformationCopyWithImpl<$Res,
+          ParsedSystemTransferInformation>;
+  @useResult
   $Res call({int lamports, String source, String destination});
 }
 
 /// @nodoc
-class _$ParsedSystemTransferInformationCopyWithImpl<$Res>
+class _$ParsedSystemTransferInformationCopyWithImpl<$Res,
+        $Val extends ParsedSystemTransferInformation>
     implements $ParsedSystemTransferInformationCopyWith<$Res> {
   _$ParsedSystemTransferInformationCopyWithImpl(this._value, this._then);
 
-  final ParsedSystemTransferInformation _value;
   // ignore: unused_field
-  final $Res Function(ParsedSystemTransferInformation) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? lamports = freezed,
-    Object? source = freezed,
-    Object? destination = freezed,
+    Object? lamports = null,
+    Object? source = null,
+    Object? destination = null,
   }) {
     return _then(_value.copyWith(
-      lamports: lamports == freezed
+      lamports: null == lamports
           ? _value.lamports
           : lamports // ignore: cast_nullable_to_non_nullable
               as int,
-      source: source == freezed
+      source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
               as String,
-      destination: destination == freezed
+      destination: null == destination
           ? _value.destination
           : destination // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -761,38 +768,37 @@ abstract class _$$_ParsedSystemTransferInformationCopyWith<$Res>
           $Res Function(_$_ParsedSystemTransferInformation) then) =
       __$$_ParsedSystemTransferInformationCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({int lamports, String source, String destination});
 }
 
 /// @nodoc
 class __$$_ParsedSystemTransferInformationCopyWithImpl<$Res>
-    extends _$ParsedSystemTransferInformationCopyWithImpl<$Res>
+    extends _$ParsedSystemTransferInformationCopyWithImpl<$Res,
+        _$_ParsedSystemTransferInformation>
     implements _$$_ParsedSystemTransferInformationCopyWith<$Res> {
   __$$_ParsedSystemTransferInformationCopyWithImpl(
       _$_ParsedSystemTransferInformation _value,
       $Res Function(_$_ParsedSystemTransferInformation) _then)
-      : super(_value, (v) => _then(v as _$_ParsedSystemTransferInformation));
+      : super(_value, _then);
 
-  @override
-  _$_ParsedSystemTransferInformation get _value =>
-      super._value as _$_ParsedSystemTransferInformation;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? lamports = freezed,
-    Object? source = freezed,
-    Object? destination = freezed,
+    Object? lamports = null,
+    Object? source = null,
+    Object? destination = null,
   }) {
     return _then(_$_ParsedSystemTransferInformation(
-      lamports: lamports == freezed
+      lamports: null == lamports
           ? _value.lamports
           : lamports // ignore: cast_nullable_to_non_nullable
               as int,
-      source: source == freezed
+      source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
               as String,
-      destination: destination == freezed
+      destination: null == destination
           ? _value.destination
           : destination // ignore: cast_nullable_to_non_nullable
               as String,
@@ -830,22 +836,20 @@ class _$_ParsedSystemTransferInformation
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ParsedSystemTransferInformation &&
-            const DeepCollectionEquality().equals(other.lamports, lamports) &&
-            const DeepCollectionEquality().equals(other.source, source) &&
-            const DeepCollectionEquality()
-                .equals(other.destination, destination));
+            (identical(other.lamports, lamports) ||
+                other.lamports == lamports) &&
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.destination, destination) ||
+                other.destination == destination));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(lamports),
-      const DeepCollectionEquality().hash(source),
-      const DeepCollectionEquality().hash(destination));
+  int get hashCode => Object.hash(runtimeType, lamports, source, destination);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ParsedSystemTransferInformationCopyWith<
           _$_ParsedSystemTransferInformation>
       get copyWith => __$$_ParsedSystemTransferInformationCopyWithImpl<
@@ -853,7 +857,9 @@ class _$_ParsedSystemTransferInformation
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ParsedSystemTransferInformationToJson(this);
+    return _$$_ParsedSystemTransferInformationToJson(
+      this,
+    );
   }
 }
 
@@ -868,11 +874,11 @@ abstract class _ParsedSystemTransferInformation
       _$_ParsedSystemTransferInformation.fromJson;
 
   @override
-  int get lamports => throw _privateConstructorUsedError;
+  int get lamports;
   @override
-  String get source => throw _privateConstructorUsedError;
+  String get source;
   @override
-  String get destination => throw _privateConstructorUsedError;
+  String get destination;
   @override
   @JsonKey(ignore: true)
   _$$_ParsedSystemTransferInformationCopyWith<
