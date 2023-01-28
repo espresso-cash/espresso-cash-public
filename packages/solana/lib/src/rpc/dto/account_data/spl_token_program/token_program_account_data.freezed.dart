@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'token_program_account_data.dart';
 
@@ -43,13 +43,13 @@ mixin _$SplTokenProgramAccountData {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(
+    TResult? Function(
             MintAccountDataInfo info, String type, String? accountType)?
         mint,
-    TResult Function(String type)? unknown,
+    TResult? Function(String type)? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -73,9 +73,9 @@ mixin _$SplTokenProgramAccountData {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(TokenAccountData value)? account,
-    TResult Function(MintAccountData value)? mint,
-    TResult Function(UnknownAccountData value)? unknown,
+    TResult? Function(TokenAccountData value)? account,
+    TResult? Function(MintAccountData value)? mint,
+    TResult? Function(UnknownAccountData value)? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -96,29 +96,34 @@ mixin _$SplTokenProgramAccountData {
 abstract class $SplTokenProgramAccountDataCopyWith<$Res> {
   factory $SplTokenProgramAccountDataCopyWith(SplTokenProgramAccountData value,
           $Res Function(SplTokenProgramAccountData) then) =
-      _$SplTokenProgramAccountDataCopyWithImpl<$Res>;
+      _$SplTokenProgramAccountDataCopyWithImpl<$Res,
+          SplTokenProgramAccountData>;
+  @useResult
   $Res call({String type});
 }
 
 /// @nodoc
-class _$SplTokenProgramAccountDataCopyWithImpl<$Res>
+class _$SplTokenProgramAccountDataCopyWithImpl<$Res,
+        $Val extends SplTokenProgramAccountData>
     implements $SplTokenProgramAccountDataCopyWith<$Res> {
   _$SplTokenProgramAccountDataCopyWithImpl(this._value, this._then);
 
-  final SplTokenProgramAccountData _value;
   // ignore: unused_field
-  final $Res Function(SplTokenProgramAccountData) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -129,36 +134,35 @@ abstract class _$$TokenAccountDataCopyWith<$Res>
           _$TokenAccountData value, $Res Function(_$TokenAccountData) then) =
       __$$TokenAccountDataCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({SplTokenAccountDataInfo info, String type, String? accountType});
 }
 
 /// @nodoc
 class __$$TokenAccountDataCopyWithImpl<$Res>
-    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$TokenAccountData>
     implements _$$TokenAccountDataCopyWith<$Res> {
   __$$TokenAccountDataCopyWithImpl(
       _$TokenAccountData _value, $Res Function(_$TokenAccountData) _then)
-      : super(_value, (v) => _then(v as _$TokenAccountData));
+      : super(_value, _then);
 
-  @override
-  _$TokenAccountData get _value => super._value as _$TokenAccountData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? info = freezed,
-    Object? type = freezed,
+    Object? info = null,
+    Object? type = null,
     Object? accountType = freezed,
   }) {
     return _then(_$TokenAccountData(
-      info: info == freezed
+      info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as SplTokenAccountDataInfo,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      accountType: accountType == freezed
+      accountType: freezed == accountType
           ? _value.accountType
           : accountType // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -192,22 +196,19 @@ class _$TokenAccountData implements TokenAccountData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TokenAccountData &&
-            const DeepCollectionEquality().equals(other.info, info) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality()
-                .equals(other.accountType, accountType));
+            (identical(other.info, info) || other.info == info) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.accountType, accountType) ||
+                other.accountType == accountType));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(info),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(accountType));
+  int get hashCode => Object.hash(runtimeType, info, type, accountType);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$TokenAccountDataCopyWith<_$TokenAccountData> get copyWith =>
       __$$TokenAccountDataCopyWithImpl<_$TokenAccountData>(this, _$identity);
 
@@ -228,13 +229,13 @@ class _$TokenAccountData implements TokenAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(
+    TResult? Function(
             MintAccountDataInfo info, String type, String? accountType)?
         mint,
-    TResult Function(String type)? unknown,
+    TResult? Function(String type)? unknown,
   }) {
     return account?.call(info, type, accountType);
   }
@@ -270,9 +271,9 @@ class _$TokenAccountData implements TokenAccountData {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(TokenAccountData value)? account,
-    TResult Function(MintAccountData value)? mint,
-    TResult Function(UnknownAccountData value)? unknown,
+    TResult? Function(TokenAccountData value)? account,
+    TResult? Function(MintAccountData value)? mint,
+    TResult? Function(UnknownAccountData value)? unknown,
   }) {
     return account?.call(this);
   }
@@ -293,7 +294,9 @@ class _$TokenAccountData implements TokenAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TokenAccountDataToJson(this);
+    return _$$TokenAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -306,10 +309,10 @@ abstract class TokenAccountData implements SplTokenProgramAccountData {
   factory TokenAccountData.fromJson(Map<String, dynamic> json) =
       _$TokenAccountData.fromJson;
 
-  SplTokenAccountDataInfo get info => throw _privateConstructorUsedError;
+  SplTokenAccountDataInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
-  String? get accountType => throw _privateConstructorUsedError;
+  String get type;
+  String? get accountType;
   @override
   @JsonKey(ignore: true)
   _$$TokenAccountDataCopyWith<_$TokenAccountData> get copyWith =>
@@ -323,36 +326,35 @@ abstract class _$$MintAccountDataCopyWith<$Res>
           _$MintAccountData value, $Res Function(_$MintAccountData) then) =
       __$$MintAccountDataCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({MintAccountDataInfo info, String type, String? accountType});
 }
 
 /// @nodoc
 class __$$MintAccountDataCopyWithImpl<$Res>
-    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$MintAccountData>
     implements _$$MintAccountDataCopyWith<$Res> {
   __$$MintAccountDataCopyWithImpl(
       _$MintAccountData _value, $Res Function(_$MintAccountData) _then)
-      : super(_value, (v) => _then(v as _$MintAccountData));
+      : super(_value, _then);
 
-  @override
-  _$MintAccountData get _value => super._value as _$MintAccountData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? info = freezed,
-    Object? type = freezed,
+    Object? info = null,
+    Object? type = null,
     Object? accountType = freezed,
   }) {
     return _then(_$MintAccountData(
-      info: info == freezed
+      info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as MintAccountDataInfo,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      accountType: accountType == freezed
+      accountType: freezed == accountType
           ? _value.accountType
           : accountType // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -386,22 +388,19 @@ class _$MintAccountData implements MintAccountData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MintAccountData &&
-            const DeepCollectionEquality().equals(other.info, info) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality()
-                .equals(other.accountType, accountType));
+            (identical(other.info, info) || other.info == info) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.accountType, accountType) ||
+                other.accountType == accountType));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(info),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(accountType));
+  int get hashCode => Object.hash(runtimeType, info, type, accountType);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$MintAccountDataCopyWith<_$MintAccountData> get copyWith =>
       __$$MintAccountDataCopyWithImpl<_$MintAccountData>(this, _$identity);
 
@@ -422,13 +421,13 @@ class _$MintAccountData implements MintAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(
+    TResult? Function(
             MintAccountDataInfo info, String type, String? accountType)?
         mint,
-    TResult Function(String type)? unknown,
+    TResult? Function(String type)? unknown,
   }) {
     return mint?.call(info, type, accountType);
   }
@@ -464,9 +463,9 @@ class _$MintAccountData implements MintAccountData {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(TokenAccountData value)? account,
-    TResult Function(MintAccountData value)? mint,
-    TResult Function(UnknownAccountData value)? unknown,
+    TResult? Function(TokenAccountData value)? account,
+    TResult? Function(MintAccountData value)? mint,
+    TResult? Function(UnknownAccountData value)? unknown,
   }) {
     return mint?.call(this);
   }
@@ -487,7 +486,9 @@ class _$MintAccountData implements MintAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MintAccountDataToJson(this);
+    return _$$MintAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -500,10 +501,10 @@ abstract class MintAccountData implements SplTokenProgramAccountData {
   factory MintAccountData.fromJson(Map<String, dynamic> json) =
       _$MintAccountData.fromJson;
 
-  MintAccountDataInfo get info => throw _privateConstructorUsedError;
+  MintAccountDataInfo get info;
   @override
-  String get type => throw _privateConstructorUsedError;
-  String? get accountType => throw _privateConstructorUsedError;
+  String get type;
+  String? get accountType;
   @override
   @JsonKey(ignore: true)
   _$$MintAccountDataCopyWith<_$MintAccountData> get copyWith =>
@@ -517,26 +518,25 @@ abstract class _$$UnknownAccountDataCopyWith<$Res>
           $Res Function(_$UnknownAccountData) then) =
       __$$UnknownAccountDataCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String type});
 }
 
 /// @nodoc
 class __$$UnknownAccountDataCopyWithImpl<$Res>
-    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$UnknownAccountData>
     implements _$$UnknownAccountDataCopyWith<$Res> {
   __$$UnknownAccountDataCopyWithImpl(
       _$UnknownAccountData _value, $Res Function(_$UnknownAccountData) _then)
-      : super(_value, (v) => _then(v as _$UnknownAccountData));
+      : super(_value, _then);
 
-  @override
-  _$UnknownAccountData get _value => super._value as _$UnknownAccountData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
+    Object? type = null,
   }) {
     return _then(_$UnknownAccountData(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
@@ -565,16 +565,16 @@ class _$UnknownAccountData implements UnknownAccountData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UnknownAccountData &&
-            const DeepCollectionEquality().equals(other.type, type));
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(type));
+  int get hashCode => Object.hash(runtimeType, type);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$UnknownAccountDataCopyWith<_$UnknownAccountData> get copyWith =>
       __$$UnknownAccountDataCopyWithImpl<_$UnknownAccountData>(
           this, _$identity);
@@ -596,13 +596,13 @@ class _$UnknownAccountData implements UnknownAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             SplTokenAccountDataInfo info, String type, String? accountType)?
         account,
-    TResult Function(
+    TResult? Function(
             MintAccountDataInfo info, String type, String? accountType)?
         mint,
-    TResult Function(String type)? unknown,
+    TResult? Function(String type)? unknown,
   }) {
     return unknown?.call(type);
   }
@@ -638,9 +638,9 @@ class _$UnknownAccountData implements UnknownAccountData {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(TokenAccountData value)? account,
-    TResult Function(MintAccountData value)? mint,
-    TResult Function(UnknownAccountData value)? unknown,
+    TResult? Function(TokenAccountData value)? account,
+    TResult? Function(MintAccountData value)? mint,
+    TResult? Function(UnknownAccountData value)? unknown,
   }) {
     return unknown?.call(this);
   }
@@ -661,7 +661,9 @@ class _$UnknownAccountData implements UnknownAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnknownAccountDataToJson(this);
+    return _$$UnknownAccountDataToJson(
+      this,
+    );
   }
 }
 
@@ -673,7 +675,7 @@ abstract class UnknownAccountData implements SplTokenProgramAccountData {
       _$UnknownAccountData.fromJson;
 
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$UnknownAccountDataCopyWith<_$UnknownAccountData> get copyWith =>
