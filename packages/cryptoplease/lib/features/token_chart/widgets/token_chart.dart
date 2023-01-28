@@ -38,7 +38,11 @@ class TokenChart extends StatelessWidget {
                 Expanded(
                   child: Stack(
                     children: [
-                      _ChartWidget(data: data, onSelect: onSelect),
+                      _ChartWidget(
+                        data: data,
+                        onSelect: onSelect,
+                        interval: state.interval,
+                      ),
                       if (isLoading) const LoadingIndicator()
                     ],
                   ),
@@ -62,10 +66,12 @@ class _ChartWidget extends StatelessWidget {
     Key? key,
     required this.data,
     required this.onSelect,
+    required this.interval,
   }) : super(key: key);
 
   final IList<TokenChartItem> data;
   final ValueSetter<TokenChartItem?> onSelect;
+  final ChartInterval interval;
 
   static final _touchedSpotIndicatorData = TouchedSpotIndicatorData(
     FlLine(
@@ -86,7 +92,9 @@ class _ChartWidget extends StatelessWidget {
       final date = data[touchedSpot.spotIndex].date;
 
       return LineTooltipItem(
-        date != null ? formatDate(date) : '-',
+        date != null
+            ? formatDate(date, showDay: interval == ChartInterval.oneWeek)
+            : '-',
         const TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w500,

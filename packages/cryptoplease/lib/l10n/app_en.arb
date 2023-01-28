@@ -402,7 +402,22 @@
       }
     }
   },
-  "pressAndHoldToSubmit": "Press & hold to submit",
+  "pressAndHoldToBuy": "Press & hold to buy {token}",
+  "@pressAndHoldToBuy": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
+  "pressAndHoldToSell": "Press & hold to sell {token}",
+  "@pressAndHoldToSell": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
   "more": "more",
   "less": "less",
   "swap": "Swap",

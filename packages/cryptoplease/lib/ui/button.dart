@@ -65,7 +65,7 @@ class CpButton extends StatelessWidget {
       // ignore: avoid-non-null-assertion, the style should be there
       final style = Theme.of(context)
           .textTheme
-          .button!
+          .labelLarge!
           .copyWith(overflow: TextOverflow.ellipsis);
       switch (size) {
         case CpButtonSize.normal:

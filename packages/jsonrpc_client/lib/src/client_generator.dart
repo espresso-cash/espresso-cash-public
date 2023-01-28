@@ -211,21 +211,12 @@ extension on ParameterElement {
   String toJson() {
     if (type.isPrimitive) {
       return name;
-    } else if (isEnum()) {
+    } else if (type.element is EnumElement) {
       return '$name.value';
     } else if (!type.isDartCoreList) {
       return '$name${type.nullSuffix}.toJson()';
     } else {
       return '$name${type.nullSuffix}';
     }
-  }
-
-  bool isEnum() {
-    final element = type.element;
-    if (element is ClassElement) {
-      return element.isEnum;
-    }
-
-    return false;
   }
 }

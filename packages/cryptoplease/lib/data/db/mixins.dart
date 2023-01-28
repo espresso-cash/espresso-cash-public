@@ -10,5 +10,5 @@ mixin EntityMixin on Table {
   DateTimeColumn get created => dateTime()();
 
   @override
-  Set<Column<dynamic>>? get primaryKey => {id};
+  Set<Column<Object>>? get primaryKey => {id};
 }
