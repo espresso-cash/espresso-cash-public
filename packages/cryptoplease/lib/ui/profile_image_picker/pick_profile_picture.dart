@@ -60,7 +60,7 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
           textAlign: TextAlign.left,
           style: Theme.of(context)
               .textTheme
-              .bodyText1
+              .bodyLarge
               ?.copyWith(color: Colors.black),
         ),
         onTap: onClicked,

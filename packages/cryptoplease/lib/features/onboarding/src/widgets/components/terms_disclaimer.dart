@@ -31,7 +31,7 @@ class TermsDisclaimer extends StatelessWidget {
               ),
             ),
           ],
-          style: Theme.of(context).textTheme.headline2?.copyWith(
+          style: Theme.of(context).textTheme.displayMedium?.copyWith(
                 fontSize: 14,
                 height: 1.1,
                 fontWeight: FontWeight.w500,

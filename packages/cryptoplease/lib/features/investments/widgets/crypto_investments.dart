@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
+import '../../../core/amount.dart';
 import '../../../core/balances/bl/balances_bloc.dart';
 import '../../../core/balances/presentation/watch_balance.dart';
 import '../../../core/presentation/format_amount.dart';
@@ -23,69 +24,74 @@ class CryptoInvestments extends StatelessWidget {
   static final Decimal _minimumUsdAmount = Decimal.parse('0.01');
 
   @override
-  Widget build(BuildContext context) => MultiSliver(
-        children: [
-          const _Header(),
-          const SizedBox(height: 15),
-          BlocBuilder<BalancesBloc, BalancesState>(
-            builder: (context, state) {
-              final displayEmptyBalances = context
-                  .watch<InvestmentSettingsRepository>()
-                  .displayEmptyBalances;
-
-              final tokens = state.userTokens.where((e) => e != Token.usdc).let(
-                    (tokens) => displayEmptyBalances
-                        ? tokens
-                        : tokens.where((token) {
-                            final Decimal balance =
-                                context.watchUserFiatBalance(token)?.decimal ??
-                                    Decimal.zero;
-
-                            return balance >= _minimumUsdAmount;
-                          }),
-                  );
-
-              return PortfolioWidget(tokens: IList(tokens));
-            },
-          ),
-        ],
-      );
-}
-
-class _Header extends StatelessWidget {
-  const _Header();
-
-  @override
   Widget build(BuildContext context) {
+    final displayEmptyBalances =
+        context.watch<InvestmentSettingsRepository>().displayEmptyBalances;
+
     final balance = context.watchUserTotalFiatBalance(
       context.watch<UserPreferences>().fiatCurrency,
       ignoreTokens: [Token.usdc],
     );
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    if (balance.decimal == Decimal.zero && !displayEmptyBalances) {
+      return const SliverToBoxAdapter(child: SizedBox.shrink());
+    }
+
+    return MultiSliver(
       children: [
-        Flexible(
-          child: FittedBox(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 4.0),
-              child: Text(
-                context.l10n.cryptoInvestments,
-                style: dashboardSectionTitleTextStyle,
-                maxLines: 2,
-              ),
-            ),
-          ),
-        ),
-        Text(
-          balance.format(DeviceLocale.localeOf(context)),
-          style: Theme.of(context).textTheme.headline2?.copyWith(
-                fontSize: 50,
-                fontWeight: FontWeight.w700,
-                color: CpColors.menuPrimaryTextColor,
-              ),
+        _Header(balance),
+        const SizedBox(height: 15),
+        BlocBuilder<BalancesBloc, BalancesState>(
+          builder: (context, state) {
+            final tokens = state.userTokens.where((e) => e != Token.usdc).let(
+                  (tokens) => displayEmptyBalances
+                      ? tokens
+                      : tokens.where((token) {
+                          final Decimal balance =
+                              context.watchUserFiatBalance(token)?.decimal ??
+                                  Decimal.zero;
+
+                          return balance >= _minimumUsdAmount;
+                        }),
+                );
+
+            return PortfolioWidget(tokens: IList(tokens));
+          },
         ),
       ],
     );
   }
+}
+
+class _Header extends StatelessWidget {
+  const _Header(this.balance);
+
+  final Amount balance;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: FittedBox(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 4.0),
+                child: Text(
+                  context.l10n.cryptoInvestments,
+                  style: dashboardSectionTitleTextStyle,
+                  maxLines: 2,
+                ),
+              ),
+            ),
+          ),
+          Text(
+            balance.format(DeviceLocale.localeOf(context)),
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                  fontSize: 50,
+                  fontWeight: FontWeight.w700,
+                  color: CpColors.menuPrimaryTextColor,
+                ),
+          ),
+        ],
+      );
 }

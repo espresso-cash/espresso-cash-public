@@ -50,6 +50,8 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
     final repository = sl<PendingISKPRepository>();
 
     final firstPart = await repository.load();
+    if (!mounted) return;
+
     if (firstPart == null) {
       context.router.popForced();
 
@@ -66,6 +68,8 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
       final id = const Uuid().v4();
       context.read<ISKPBloc>().add(ISKPEvent.create(escrow, id: id));
       await repository.clear();
+      if (!mounted) return;
+
       await context.router.replace(IncomingSplitKeyPaymentRoute(id: id));
     } on Object {
       context.router.popForced();
@@ -101,7 +105,7 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline2
+                                    .displayMedium
                                     ?.copyWith(
                                       fontSize: 25,
                                       fontWeight: FontWeight.w600,
@@ -149,7 +153,7 @@ class _ContentView extends StatelessWidget {
           Text(
             context.l10n.splitKeySecondLinkMessage,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),

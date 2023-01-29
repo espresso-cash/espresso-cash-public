@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'compiled_message.dart';
 
@@ -27,29 +27,32 @@ mixin _$CompiledMessage {
 abstract class $CompiledMessageCopyWith<$Res> {
   factory $CompiledMessageCopyWith(
           CompiledMessage value, $Res Function(CompiledMessage) then) =
-      _$CompiledMessageCopyWithImpl<$Res>;
+      _$CompiledMessageCopyWithImpl<$Res, CompiledMessage>;
+  @useResult
   $Res call({ByteArray data});
 }
 
 /// @nodoc
-class _$CompiledMessageCopyWithImpl<$Res>
+class _$CompiledMessageCopyWithImpl<$Res, $Val extends CompiledMessage>
     implements $CompiledMessageCopyWith<$Res> {
   _$CompiledMessageCopyWithImpl(this._value, this._then);
 
-  final CompiledMessage _value;
   // ignore: unused_field
-  final $Res Function(CompiledMessage) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
   }) {
     return _then(_value.copyWith(
-      data: data == freezed
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as ByteArray,
-    ));
+    ) as $Val);
   }
 }
 
@@ -60,26 +63,25 @@ abstract class _$$_CompiledMessageCopyWith<$Res>
           _$_CompiledMessage value, $Res Function(_$_CompiledMessage) then) =
       __$$_CompiledMessageCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({ByteArray data});
 }
 
 /// @nodoc
 class __$$_CompiledMessageCopyWithImpl<$Res>
-    extends _$CompiledMessageCopyWithImpl<$Res>
+    extends _$CompiledMessageCopyWithImpl<$Res, _$_CompiledMessage>
     implements _$$_CompiledMessageCopyWith<$Res> {
   __$$_CompiledMessageCopyWithImpl(
       _$_CompiledMessage _value, $Res Function(_$_CompiledMessage) _then)
-      : super(_value, (v) => _then(v as _$_CompiledMessage));
+      : super(_value, _then);
 
-  @override
-  _$_CompiledMessage get _value => super._value as _$_CompiledMessage;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
   }) {
     return _then(_$_CompiledMessage(
-      data == freezed
+      null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as ByteArray,
@@ -114,6 +116,7 @@ class _$_CompiledMessage extends _CompiledMessage {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CompiledMessageCopyWith<_$_CompiledMessage> get copyWith =>
       __$$_CompiledMessageCopyWithImpl<_$_CompiledMessage>(this, _$identity);
 }
@@ -123,7 +126,7 @@ abstract class _CompiledMessage extends CompiledMessage {
   const _CompiledMessage._() : super._();
 
   @override
-  ByteArray get data => throw _privateConstructorUsedError;
+  ByteArray get data;
   @override
   @JsonKey(ignore: true)
   _$$_CompiledMessageCopyWith<_$_CompiledMessage> get copyWith =>
