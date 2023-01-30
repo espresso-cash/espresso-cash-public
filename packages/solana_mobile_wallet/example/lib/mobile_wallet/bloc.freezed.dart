@@ -25,9 +25,9 @@ mixin _$MobileWalletState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? none,
-    TResult Function()? sessionTerminated,
-    TResult Function(RemoteRequest request)? remote,
+    TResult? Function()? none,
+    TResult? Function()? sessionTerminated,
+    TResult? Function(RemoteRequest request)? remote,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,9 +47,9 @@ mixin _$MobileWalletState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(None value)? none,
-    TResult Function(SessionTerminated value)? sessionTerminated,
-    TResult Function(Remote value)? remote,
+    TResult? Function(None value)? none,
+    TResult? Function(SessionTerminated value)? sessionTerminated,
+    TResult? Function(Remote value)? remote,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -66,17 +66,18 @@ mixin _$MobileWalletState {
 abstract class $MobileWalletStateCopyWith<$Res> {
   factory $MobileWalletStateCopyWith(
           MobileWalletState value, $Res Function(MobileWalletState) then) =
-      _$MobileWalletStateCopyWithImpl<$Res>;
+      _$MobileWalletStateCopyWithImpl<$Res, MobileWalletState>;
 }
 
 /// @nodoc
-class _$MobileWalletStateCopyWithImpl<$Res>
+class _$MobileWalletStateCopyWithImpl<$Res, $Val extends MobileWalletState>
     implements $MobileWalletStateCopyWith<$Res> {
   _$MobileWalletStateCopyWithImpl(this._value, this._then);
 
-  final MobileWalletState _value;
   // ignore: unused_field
-  final $Res Function(MobileWalletState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -86,13 +87,11 @@ abstract class _$$NoneCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$NoneCopyWithImpl<$Res> extends _$MobileWalletStateCopyWithImpl<$Res>
+class __$$NoneCopyWithImpl<$Res>
+    extends _$MobileWalletStateCopyWithImpl<$Res, _$None>
     implements _$$NoneCopyWith<$Res> {
   __$$NoneCopyWithImpl(_$None _value, $Res Function(_$None) _then)
-      : super(_value, (v) => _then(v as _$None));
-
-  @override
-  _$None get _value => super._value as _$None;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -127,9 +126,9 @@ class _$None implements None {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? none,
-    TResult Function()? sessionTerminated,
-    TResult Function(RemoteRequest request)? remote,
+    TResult? Function()? none,
+    TResult? Function()? sessionTerminated,
+    TResult? Function(RemoteRequest request)? remote,
   }) {
     return none?.call();
   }
@@ -161,9 +160,9 @@ class _$None implements None {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(None value)? none,
-    TResult Function(SessionTerminated value)? sessionTerminated,
-    TResult Function(Remote value)? remote,
+    TResult? Function(None value)? none,
+    TResult? Function(SessionTerminated value)? sessionTerminated,
+    TResult? Function(Remote value)? remote,
   }) {
     return none?.call(this);
   }
@@ -196,14 +195,11 @@ abstract class _$$SessionTerminatedCopyWith<$Res> {
 
 /// @nodoc
 class __$$SessionTerminatedCopyWithImpl<$Res>
-    extends _$MobileWalletStateCopyWithImpl<$Res>
+    extends _$MobileWalletStateCopyWithImpl<$Res, _$SessionTerminated>
     implements _$$SessionTerminatedCopyWith<$Res> {
   __$$SessionTerminatedCopyWithImpl(
       _$SessionTerminated _value, $Res Function(_$SessionTerminated) _then)
-      : super(_value, (v) => _then(v as _$SessionTerminated));
-
-  @override
-  _$SessionTerminated get _value => super._value as _$SessionTerminated;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -238,9 +234,9 @@ class _$SessionTerminated implements SessionTerminated {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? none,
-    TResult Function()? sessionTerminated,
-    TResult Function(RemoteRequest request)? remote,
+    TResult? Function()? none,
+    TResult? Function()? sessionTerminated,
+    TResult? Function(RemoteRequest request)? remote,
   }) {
     return sessionTerminated?.call();
   }
@@ -272,9 +268,9 @@ class _$SessionTerminated implements SessionTerminated {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(None value)? none,
-    TResult Function(SessionTerminated value)? sessionTerminated,
-    TResult Function(Remote value)? remote,
+    TResult? Function(None value)? none,
+    TResult? Function(SessionTerminated value)? sessionTerminated,
+    TResult? Function(Remote value)? remote,
   }) {
     return sessionTerminated?.call(this);
   }
@@ -302,26 +298,26 @@ abstract class SessionTerminated implements MobileWalletState {
 abstract class _$$RemoteCopyWith<$Res> {
   factory _$$RemoteCopyWith(_$Remote value, $Res Function(_$Remote) then) =
       __$$RemoteCopyWithImpl<$Res>;
+  @useResult
   $Res call({RemoteRequest request});
 
   $RemoteRequestCopyWith<$Res> get request;
 }
 
 /// @nodoc
-class __$$RemoteCopyWithImpl<$Res> extends _$MobileWalletStateCopyWithImpl<$Res>
+class __$$RemoteCopyWithImpl<$Res>
+    extends _$MobileWalletStateCopyWithImpl<$Res, _$Remote>
     implements _$$RemoteCopyWith<$Res> {
   __$$RemoteCopyWithImpl(_$Remote _value, $Res Function(_$Remote) _then)
-      : super(_value, (v) => _then(v as _$Remote));
+      : super(_value, _then);
 
-  @override
-  _$Remote get _value => super._value as _$Remote;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? request = freezed,
+    Object? request = null,
   }) {
     return _then(_$Remote(
-      request == freezed
+      null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
               as RemoteRequest,
@@ -329,6 +325,7 @@ class __$$RemoteCopyWithImpl<$Res> extends _$MobileWalletStateCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $RemoteRequestCopyWith<$Res> get request {
     return $RemoteRequestCopyWith<$Res>(_value.request, (value) {
       return _then(_value.copyWith(request: value));
@@ -354,15 +351,15 @@ class _$Remote implements Remote {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Remote &&
-            const DeepCollectionEquality().equals(other.request, request));
+            (identical(other.request, request) || other.request == request));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(request));
+  int get hashCode => Object.hash(runtimeType, request);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$RemoteCopyWith<_$Remote> get copyWith =>
       __$$RemoteCopyWithImpl<_$Remote>(this, _$identity);
 
@@ -379,9 +376,9 @@ class _$Remote implements Remote {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? none,
-    TResult Function()? sessionTerminated,
-    TResult Function(RemoteRequest request)? remote,
+    TResult? Function()? none,
+    TResult? Function()? sessionTerminated,
+    TResult? Function(RemoteRequest request)? remote,
   }) {
     return remote?.call(request);
   }
@@ -413,9 +410,9 @@ class _$Remote implements Remote {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(None value)? none,
-    TResult Function(SessionTerminated value)? sessionTerminated,
-    TResult Function(Remote value)? remote,
+    TResult? Function(None value)? none,
+    TResult? Function(SessionTerminated value)? sessionTerminated,
+    TResult? Function(Remote value)? remote,
   }) {
     return remote?.call(this);
   }
@@ -459,11 +456,11 @@ mixin _$RemoteRequest {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeRequest request)? authorizeDapp,
-    TResult Function(SignPayloadsRequest request)? signPayloads,
-    TResult Function(SignAndSendTransactionsRequest request)?
+    TResult? Function(AuthorizeRequest request)? authorizeDapp,
+    TResult? Function(SignPayloadsRequest request)? signPayloads,
+    TResult? Function(SignAndSendTransactionsRequest request)?
         signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
+    TResult? Function(SignAndSendTransactionsRequest request,
             List<Uint8List> signatures, List<Uint8List> signedTransactions)?
         sendTransactions,
   }) =>
@@ -491,11 +488,11 @@ mixin _$RemoteRequest {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeDapp value)? authorizeDapp,
-    TResult Function(SignPayloads value)? signPayloads,
-    TResult Function(SignTransactionsForSending value)?
+    TResult? Function(AuthorizeDapp value)? authorizeDapp,
+    TResult? Function(SignPayloads value)? signPayloads,
+    TResult? Function(SignTransactionsForSending value)?
         signTransactionsForSending,
-    TResult Function(SendTransactions value)? sendTransactions,
+    TResult? Function(SendTransactions value)? sendTransactions,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -514,17 +511,18 @@ mixin _$RemoteRequest {
 abstract class $RemoteRequestCopyWith<$Res> {
   factory $RemoteRequestCopyWith(
           RemoteRequest value, $Res Function(RemoteRequest) then) =
-      _$RemoteRequestCopyWithImpl<$Res>;
+      _$RemoteRequestCopyWithImpl<$Res, RemoteRequest>;
 }
 
 /// @nodoc
-class _$RemoteRequestCopyWithImpl<$Res>
+class _$RemoteRequestCopyWithImpl<$Res, $Val extends RemoteRequest>
     implements $RemoteRequestCopyWith<$Res> {
   _$RemoteRequestCopyWithImpl(this._value, this._then);
 
-  final RemoteRequest _value;
   // ignore: unused_field
-  final $Res Function(RemoteRequest) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -532,6 +530,7 @@ abstract class _$$AuthorizeDappCopyWith<$Res> {
   factory _$$AuthorizeDappCopyWith(
           _$AuthorizeDapp value, $Res Function(_$AuthorizeDapp) then) =
       __$$AuthorizeDappCopyWithImpl<$Res>;
+  @useResult
   $Res call({AuthorizeRequest request});
 
   $AuthorizeRequestCopyWith<$Res> get request;
@@ -539,21 +538,19 @@ abstract class _$$AuthorizeDappCopyWith<$Res> {
 
 /// @nodoc
 class __$$AuthorizeDappCopyWithImpl<$Res>
-    extends _$RemoteRequestCopyWithImpl<$Res>
+    extends _$RemoteRequestCopyWithImpl<$Res, _$AuthorizeDapp>
     implements _$$AuthorizeDappCopyWith<$Res> {
   __$$AuthorizeDappCopyWithImpl(
       _$AuthorizeDapp _value, $Res Function(_$AuthorizeDapp) _then)
-      : super(_value, (v) => _then(v as _$AuthorizeDapp));
+      : super(_value, _then);
 
-  @override
-  _$AuthorizeDapp get _value => super._value as _$AuthorizeDapp;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? request = freezed,
+    Object? request = null,
   }) {
     return _then(_$AuthorizeDapp(
-      request: request == freezed
+      request: null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
               as AuthorizeRequest,
@@ -561,6 +558,7 @@ class __$$AuthorizeDappCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AuthorizeRequestCopyWith<$Res> get request {
     return $AuthorizeRequestCopyWith<$Res>(_value.request, (value) {
       return _then(_value.copyWith(request: value));
@@ -586,15 +584,15 @@ class _$AuthorizeDapp implements AuthorizeDapp {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthorizeDapp &&
-            const DeepCollectionEquality().equals(other.request, request));
+            (identical(other.request, request) || other.request == request));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(request));
+  int get hashCode => Object.hash(runtimeType, request);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$AuthorizeDappCopyWith<_$AuthorizeDapp> get copyWith =>
       __$$AuthorizeDappCopyWithImpl<_$AuthorizeDapp>(this, _$identity);
 
@@ -615,11 +613,11 @@ class _$AuthorizeDapp implements AuthorizeDapp {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeRequest request)? authorizeDapp,
-    TResult Function(SignPayloadsRequest request)? signPayloads,
-    TResult Function(SignAndSendTransactionsRequest request)?
+    TResult? Function(AuthorizeRequest request)? authorizeDapp,
+    TResult? Function(SignPayloadsRequest request)? signPayloads,
+    TResult? Function(SignAndSendTransactionsRequest request)?
         signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
+    TResult? Function(SignAndSendTransactionsRequest request,
             List<Uint8List> signatures, List<Uint8List> signedTransactions)?
         sendTransactions,
   }) {
@@ -659,11 +657,11 @@ class _$AuthorizeDapp implements AuthorizeDapp {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeDapp value)? authorizeDapp,
-    TResult Function(SignPayloads value)? signPayloads,
-    TResult Function(SignTransactionsForSending value)?
+    TResult? Function(AuthorizeDapp value)? authorizeDapp,
+    TResult? Function(SignPayloads value)? signPayloads,
+    TResult? Function(SignTransactionsForSending value)?
         signTransactionsForSending,
-    TResult Function(SendTransactions value)? sendTransactions,
+    TResult? Function(SendTransactions value)? sendTransactions,
   }) {
     return authorizeDapp?.call(this);
   }
@@ -700,6 +698,7 @@ abstract class _$$SignPayloadsCopyWith<$Res> {
   factory _$$SignPayloadsCopyWith(
           _$SignPayloads value, $Res Function(_$SignPayloads) then) =
       __$$SignPayloadsCopyWithImpl<$Res>;
+  @useResult
   $Res call({SignPayloadsRequest request});
 
   $SignPayloadsRequestCopyWith<$Res> get request;
@@ -707,21 +706,19 @@ abstract class _$$SignPayloadsCopyWith<$Res> {
 
 /// @nodoc
 class __$$SignPayloadsCopyWithImpl<$Res>
-    extends _$RemoteRequestCopyWithImpl<$Res>
+    extends _$RemoteRequestCopyWithImpl<$Res, _$SignPayloads>
     implements _$$SignPayloadsCopyWith<$Res> {
   __$$SignPayloadsCopyWithImpl(
       _$SignPayloads _value, $Res Function(_$SignPayloads) _then)
-      : super(_value, (v) => _then(v as _$SignPayloads));
+      : super(_value, _then);
 
-  @override
-  _$SignPayloads get _value => super._value as _$SignPayloads;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? request = freezed,
+    Object? request = null,
   }) {
     return _then(_$SignPayloads(
-      request: request == freezed
+      request: null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
               as SignPayloadsRequest,
@@ -729,6 +726,7 @@ class __$$SignPayloadsCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $SignPayloadsRequestCopyWith<$Res> get request {
     return $SignPayloadsRequestCopyWith<$Res>(_value.request, (value) {
       return _then(_value.copyWith(request: value));
@@ -754,15 +752,15 @@ class _$SignPayloads implements SignPayloads {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignPayloads &&
-            const DeepCollectionEquality().equals(other.request, request));
+            (identical(other.request, request) || other.request == request));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(request));
+  int get hashCode => Object.hash(runtimeType, request);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$SignPayloadsCopyWith<_$SignPayloads> get copyWith =>
       __$$SignPayloadsCopyWithImpl<_$SignPayloads>(this, _$identity);
 
@@ -783,11 +781,11 @@ class _$SignPayloads implements SignPayloads {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeRequest request)? authorizeDapp,
-    TResult Function(SignPayloadsRequest request)? signPayloads,
-    TResult Function(SignAndSendTransactionsRequest request)?
+    TResult? Function(AuthorizeRequest request)? authorizeDapp,
+    TResult? Function(SignPayloadsRequest request)? signPayloads,
+    TResult? Function(SignAndSendTransactionsRequest request)?
         signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
+    TResult? Function(SignAndSendTransactionsRequest request,
             List<Uint8List> signatures, List<Uint8List> signedTransactions)?
         sendTransactions,
   }) {
@@ -827,11 +825,11 @@ class _$SignPayloads implements SignPayloads {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeDapp value)? authorizeDapp,
-    TResult Function(SignPayloads value)? signPayloads,
-    TResult Function(SignTransactionsForSending value)?
+    TResult? Function(AuthorizeDapp value)? authorizeDapp,
+    TResult? Function(SignPayloads value)? signPayloads,
+    TResult? Function(SignTransactionsForSending value)?
         signTransactionsForSending,
-    TResult Function(SendTransactions value)? sendTransactions,
+    TResult? Function(SendTransactions value)? sendTransactions,
   }) {
     return signPayloads?.call(this);
   }
@@ -869,6 +867,7 @@ abstract class _$$SignTransactionsForSendingCopyWith<$Res> {
           _$SignTransactionsForSending value,
           $Res Function(_$SignTransactionsForSending) then) =
       __$$SignTransactionsForSendingCopyWithImpl<$Res>;
+  @useResult
   $Res call({SignAndSendTransactionsRequest request});
 
   $SignAndSendTransactionsRequestCopyWith<$Res> get request;
@@ -876,23 +875,20 @@ abstract class _$$SignTransactionsForSendingCopyWith<$Res> {
 
 /// @nodoc
 class __$$SignTransactionsForSendingCopyWithImpl<$Res>
-    extends _$RemoteRequestCopyWithImpl<$Res>
+    extends _$RemoteRequestCopyWithImpl<$Res, _$SignTransactionsForSending>
     implements _$$SignTransactionsForSendingCopyWith<$Res> {
   __$$SignTransactionsForSendingCopyWithImpl(
       _$SignTransactionsForSending _value,
       $Res Function(_$SignTransactionsForSending) _then)
-      : super(_value, (v) => _then(v as _$SignTransactionsForSending));
+      : super(_value, _then);
 
-  @override
-  _$SignTransactionsForSending get _value =>
-      super._value as _$SignTransactionsForSending;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? request = freezed,
+    Object? request = null,
   }) {
     return _then(_$SignTransactionsForSending(
-      request: request == freezed
+      request: null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
               as SignAndSendTransactionsRequest,
@@ -900,6 +896,7 @@ class __$$SignTransactionsForSendingCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $SignAndSendTransactionsRequestCopyWith<$Res> get request {
     return $SignAndSendTransactionsRequestCopyWith<$Res>(_value.request,
         (value) {
@@ -926,15 +923,15 @@ class _$SignTransactionsForSending implements SignTransactionsForSending {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignTransactionsForSending &&
-            const DeepCollectionEquality().equals(other.request, request));
+            (identical(other.request, request) || other.request == request));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(request));
+  int get hashCode => Object.hash(runtimeType, request);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$SignTransactionsForSendingCopyWith<_$SignTransactionsForSending>
       get copyWith => __$$SignTransactionsForSendingCopyWithImpl<
           _$SignTransactionsForSending>(this, _$identity);
@@ -956,11 +953,11 @@ class _$SignTransactionsForSending implements SignTransactionsForSending {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeRequest request)? authorizeDapp,
-    TResult Function(SignPayloadsRequest request)? signPayloads,
-    TResult Function(SignAndSendTransactionsRequest request)?
+    TResult? Function(AuthorizeRequest request)? authorizeDapp,
+    TResult? Function(SignPayloadsRequest request)? signPayloads,
+    TResult? Function(SignAndSendTransactionsRequest request)?
         signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
+    TResult? Function(SignAndSendTransactionsRequest request,
             List<Uint8List> signatures, List<Uint8List> signedTransactions)?
         sendTransactions,
   }) {
@@ -1000,11 +997,11 @@ class _$SignTransactionsForSending implements SignTransactionsForSending {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeDapp value)? authorizeDapp,
-    TResult Function(SignPayloads value)? signPayloads,
-    TResult Function(SignTransactionsForSending value)?
+    TResult? Function(AuthorizeDapp value)? authorizeDapp,
+    TResult? Function(SignPayloads value)? signPayloads,
+    TResult? Function(SignTransactionsForSending value)?
         signTransactionsForSending,
-    TResult Function(SendTransactions value)? sendTransactions,
+    TResult? Function(SendTransactions value)? sendTransactions,
   }) {
     return signTransactionsForSending?.call(this);
   }
@@ -1042,6 +1039,7 @@ abstract class _$$SendTransactionsCopyWith<$Res> {
   factory _$$SendTransactionsCopyWith(
           _$SendTransactions value, $Res Function(_$SendTransactions) then) =
       __$$SendTransactionsCopyWithImpl<$Res>;
+  @useResult
   $Res call(
       {SignAndSendTransactionsRequest request,
       List<Uint8List> signatures,
@@ -1052,31 +1050,29 @@ abstract class _$$SendTransactionsCopyWith<$Res> {
 
 /// @nodoc
 class __$$SendTransactionsCopyWithImpl<$Res>
-    extends _$RemoteRequestCopyWithImpl<$Res>
+    extends _$RemoteRequestCopyWithImpl<$Res, _$SendTransactions>
     implements _$$SendTransactionsCopyWith<$Res> {
   __$$SendTransactionsCopyWithImpl(
       _$SendTransactions _value, $Res Function(_$SendTransactions) _then)
-      : super(_value, (v) => _then(v as _$SendTransactions));
+      : super(_value, _then);
 
-  @override
-  _$SendTransactions get _value => super._value as _$SendTransactions;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? request = freezed,
-    Object? signatures = freezed,
-    Object? signedTransactions = freezed,
+    Object? request = null,
+    Object? signatures = null,
+    Object? signedTransactions = null,
   }) {
     return _then(_$SendTransactions(
-      request: request == freezed
+      request: null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
               as SignAndSendTransactionsRequest,
-      signatures: signatures == freezed
+      signatures: null == signatures
           ? _value._signatures
           : signatures // ignore: cast_nullable_to_non_nullable
               as List<Uint8List>,
-      signedTransactions: signedTransactions == freezed
+      signedTransactions: null == signedTransactions
           ? _value._signedTransactions
           : signedTransactions // ignore: cast_nullable_to_non_nullable
               as List<Uint8List>,
@@ -1084,6 +1080,7 @@ class __$$SendTransactionsCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $SignAndSendTransactionsRequestCopyWith<$Res> get request {
     return $SignAndSendTransactionsRequestCopyWith<$Res>(_value.request,
         (value) {
@@ -1128,7 +1125,7 @@ class _$SendTransactions implements SendTransactions {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SendTransactions &&
-            const DeepCollectionEquality().equals(other.request, request) &&
+            (identical(other.request, request) || other.request == request) &&
             const DeepCollectionEquality()
                 .equals(other._signatures, _signatures) &&
             const DeepCollectionEquality()
@@ -1138,12 +1135,13 @@ class _$SendTransactions implements SendTransactions {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(request),
+      request,
       const DeepCollectionEquality().hash(_signatures),
       const DeepCollectionEquality().hash(_signedTransactions));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$SendTransactionsCopyWith<_$SendTransactions> get copyWith =>
       __$$SendTransactionsCopyWithImpl<_$SendTransactions>(this, _$identity);
 
@@ -1164,11 +1162,11 @@ class _$SendTransactions implements SendTransactions {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeRequest request)? authorizeDapp,
-    TResult Function(SignPayloadsRequest request)? signPayloads,
-    TResult Function(SignAndSendTransactionsRequest request)?
+    TResult? Function(AuthorizeRequest request)? authorizeDapp,
+    TResult? Function(SignPayloadsRequest request)? signPayloads,
+    TResult? Function(SignAndSendTransactionsRequest request)?
         signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
+    TResult? Function(SignAndSendTransactionsRequest request,
             List<Uint8List> signatures, List<Uint8List> signedTransactions)?
         sendTransactions,
   }) {
@@ -1208,11 +1206,11 @@ class _$SendTransactions implements SendTransactions {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(AuthorizeDapp value)? authorizeDapp,
-    TResult Function(SignPayloads value)? signPayloads,
-    TResult Function(SignTransactionsForSending value)?
+    TResult? Function(AuthorizeDapp value)? authorizeDapp,
+    TResult? Function(SignPayloads value)? signPayloads,
+    TResult? Function(SignTransactionsForSending value)?
         signTransactionsForSending,
-    TResult Function(SendTransactions value)? sendTransactions,
+    TResult? Function(SendTransactions value)? sendTransactions,
   }) {
     return sendTransactions?.call(this);
   }

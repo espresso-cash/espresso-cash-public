@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'add_funds.dart';
 
@@ -32,29 +32,32 @@ mixin _$AddFundsResponseDto {
 abstract class $AddFundsResponseDtoCopyWith<$Res> {
   factory $AddFundsResponseDtoCopyWith(
           AddFundsResponseDto value, $Res Function(AddFundsResponseDto) then) =
-      _$AddFundsResponseDtoCopyWithImpl<$Res>;
+      _$AddFundsResponseDtoCopyWithImpl<$Res, AddFundsResponseDto>;
+  @useResult
   $Res call({String signedUrl});
 }
 
 /// @nodoc
-class _$AddFundsResponseDtoCopyWithImpl<$Res>
+class _$AddFundsResponseDtoCopyWithImpl<$Res, $Val extends AddFundsResponseDto>
     implements $AddFundsResponseDtoCopyWith<$Res> {
   _$AddFundsResponseDtoCopyWithImpl(this._value, this._then);
 
-  final AddFundsResponseDto _value;
   // ignore: unused_field
-  final $Res Function(AddFundsResponseDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? signedUrl = freezed,
+    Object? signedUrl = null,
   }) {
     return _then(_value.copyWith(
-      signedUrl: signedUrl == freezed
+      signedUrl: null == signedUrl
           ? _value.signedUrl
           : signedUrl // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -65,26 +68,25 @@ abstract class _$$_AddFundsResponseDtoCopyWith<$Res>
           $Res Function(_$_AddFundsResponseDto) then) =
       __$$_AddFundsResponseDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String signedUrl});
 }
 
 /// @nodoc
 class __$$_AddFundsResponseDtoCopyWithImpl<$Res>
-    extends _$AddFundsResponseDtoCopyWithImpl<$Res>
+    extends _$AddFundsResponseDtoCopyWithImpl<$Res, _$_AddFundsResponseDto>
     implements _$$_AddFundsResponseDtoCopyWith<$Res> {
   __$$_AddFundsResponseDtoCopyWithImpl(_$_AddFundsResponseDto _value,
       $Res Function(_$_AddFundsResponseDto) _then)
-      : super(_value, (v) => _then(v as _$_AddFundsResponseDto));
+      : super(_value, _then);
 
-  @override
-  _$_AddFundsResponseDto get _value => super._value as _$_AddFundsResponseDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? signedUrl = freezed,
+    Object? signedUrl = null,
   }) {
     return _then(_$_AddFundsResponseDto(
-      signedUrl: signedUrl == freezed
+      signedUrl: null == signedUrl
           ? _value.signedUrl
           : signedUrl // ignore: cast_nullable_to_non_nullable
               as String,
@@ -113,16 +115,17 @@ class _$_AddFundsResponseDto implements _AddFundsResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AddFundsResponseDto &&
-            const DeepCollectionEquality().equals(other.signedUrl, signedUrl));
+            (identical(other.signedUrl, signedUrl) ||
+                other.signedUrl == signedUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(signedUrl));
+  int get hashCode => Object.hash(runtimeType, signedUrl);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AddFundsResponseDtoCopyWith<_$_AddFundsResponseDto> get copyWith =>
       __$$_AddFundsResponseDtoCopyWithImpl<_$_AddFundsResponseDto>(
           this, _$identity);
@@ -169,34 +172,37 @@ mixin _$AddFundsRequestDto {
 abstract class $AddFundsRequestDtoCopyWith<$Res> {
   factory $AddFundsRequestDtoCopyWith(
           AddFundsRequestDto value, $Res Function(AddFundsRequestDto) then) =
-      _$AddFundsRequestDtoCopyWithImpl<$Res>;
+      _$AddFundsRequestDtoCopyWithImpl<$Res, AddFundsRequestDto>;
+  @useResult
   $Res call({String receiverAddress, String tokenSymbol});
 }
 
 /// @nodoc
-class _$AddFundsRequestDtoCopyWithImpl<$Res>
+class _$AddFundsRequestDtoCopyWithImpl<$Res, $Val extends AddFundsRequestDto>
     implements $AddFundsRequestDtoCopyWith<$Res> {
   _$AddFundsRequestDtoCopyWithImpl(this._value, this._then);
 
-  final AddFundsRequestDto _value;
   // ignore: unused_field
-  final $Res Function(AddFundsRequestDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? receiverAddress = freezed,
-    Object? tokenSymbol = freezed,
+    Object? receiverAddress = null,
+    Object? tokenSymbol = null,
   }) {
     return _then(_value.copyWith(
-      receiverAddress: receiverAddress == freezed
+      receiverAddress: null == receiverAddress
           ? _value.receiverAddress
           : receiverAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenSymbol: tokenSymbol == freezed
+      tokenSymbol: null == tokenSymbol
           ? _value.tokenSymbol
           : tokenSymbol // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -207,31 +213,30 @@ abstract class _$$_AddFundsRequestDtoCopyWith<$Res>
           $Res Function(_$_AddFundsRequestDto) then) =
       __$$_AddFundsRequestDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String receiverAddress, String tokenSymbol});
 }
 
 /// @nodoc
 class __$$_AddFundsRequestDtoCopyWithImpl<$Res>
-    extends _$AddFundsRequestDtoCopyWithImpl<$Res>
+    extends _$AddFundsRequestDtoCopyWithImpl<$Res, _$_AddFundsRequestDto>
     implements _$$_AddFundsRequestDtoCopyWith<$Res> {
   __$$_AddFundsRequestDtoCopyWithImpl(
       _$_AddFundsRequestDto _value, $Res Function(_$_AddFundsRequestDto) _then)
-      : super(_value, (v) => _then(v as _$_AddFundsRequestDto));
+      : super(_value, _then);
 
-  @override
-  _$_AddFundsRequestDto get _value => super._value as _$_AddFundsRequestDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? receiverAddress = freezed,
-    Object? tokenSymbol = freezed,
+    Object? receiverAddress = null,
+    Object? tokenSymbol = null,
   }) {
     return _then(_$_AddFundsRequestDto(
-      receiverAddress: receiverAddress == freezed
+      receiverAddress: null == receiverAddress
           ? _value.receiverAddress
           : receiverAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenSymbol: tokenSymbol == freezed
+      tokenSymbol: null == tokenSymbol
           ? _value.tokenSymbol
           : tokenSymbol // ignore: cast_nullable_to_non_nullable
               as String,
@@ -263,21 +268,19 @@ class _$_AddFundsRequestDto implements _AddFundsRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AddFundsRequestDto &&
-            const DeepCollectionEquality()
-                .equals(other.receiverAddress, receiverAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.tokenSymbol, tokenSymbol));
+            (identical(other.receiverAddress, receiverAddress) ||
+                other.receiverAddress == receiverAddress) &&
+            (identical(other.tokenSymbol, tokenSymbol) ||
+                other.tokenSymbol == tokenSymbol));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(receiverAddress),
-      const DeepCollectionEquality().hash(tokenSymbol));
+  int get hashCode => Object.hash(runtimeType, receiverAddress, tokenSymbol);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AddFundsRequestDtoCopyWith<_$_AddFundsRequestDto> get copyWith =>
       __$$_AddFundsRequestDtoCopyWithImpl<_$_AddFundsRequestDto>(
           this, _$identity);
