@@ -31,7 +31,8 @@ mixin _$ReauthorizeRequest {
 abstract class $ReauthorizeRequestCopyWith<$Res> {
   factory $ReauthorizeRequestCopyWith(
           ReauthorizeRequest value, $Res Function(ReauthorizeRequest) then) =
-      _$ReauthorizeRequestCopyWithImpl<$Res>;
+      _$ReauthorizeRequestCopyWithImpl<$Res, ReauthorizeRequest>;
+  @useResult
   $Res call(
       {String? identityName,
       Uri? identityUri,
@@ -41,44 +42,46 @@ abstract class $ReauthorizeRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ReauthorizeRequestCopyWithImpl<$Res>
+class _$ReauthorizeRequestCopyWithImpl<$Res, $Val extends ReauthorizeRequest>
     implements $ReauthorizeRequestCopyWith<$Res> {
   _$ReauthorizeRequestCopyWithImpl(this._value, this._then);
 
-  final ReauthorizeRequest _value;
   // ignore: unused_field
-  final $Res Function(ReauthorizeRequest) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? identityName = freezed,
     Object? identityUri = freezed,
     Object? iconRelativeUri = freezed,
-    Object? cluster = freezed,
-    Object? authorizationScope = freezed,
+    Object? cluster = null,
+    Object? authorizationScope = null,
   }) {
     return _then(_value.copyWith(
-      identityName: identityName == freezed
+      identityName: freezed == identityName
           ? _value.identityName
           : identityName // ignore: cast_nullable_to_non_nullable
               as String?,
-      identityUri: identityUri == freezed
+      identityUri: freezed == identityUri
           ? _value.identityUri
           : identityUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      iconRelativeUri: iconRelativeUri == freezed
+      iconRelativeUri: freezed == iconRelativeUri
           ? _value.iconRelativeUri
           : iconRelativeUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as String,
-      authorizationScope: authorizationScope == freezed
+      authorizationScope: null == authorizationScope
           ? _value.authorizationScope
           : authorizationScope // ignore: cast_nullable_to_non_nullable
               as Uint8List,
-    ));
+    ) as $Val);
   }
 }
 
@@ -89,6 +92,7 @@ abstract class _$$_ReauthorizeRequestCopyWith<$Res>
           $Res Function(_$_ReauthorizeRequest) then) =
       __$$_ReauthorizeRequestCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String? identityName,
       Uri? identityUri,
@@ -99,41 +103,39 @@ abstract class _$$_ReauthorizeRequestCopyWith<$Res>
 
 /// @nodoc
 class __$$_ReauthorizeRequestCopyWithImpl<$Res>
-    extends _$ReauthorizeRequestCopyWithImpl<$Res>
+    extends _$ReauthorizeRequestCopyWithImpl<$Res, _$_ReauthorizeRequest>
     implements _$$_ReauthorizeRequestCopyWith<$Res> {
   __$$_ReauthorizeRequestCopyWithImpl(
       _$_ReauthorizeRequest _value, $Res Function(_$_ReauthorizeRequest) _then)
-      : super(_value, (v) => _then(v as _$_ReauthorizeRequest));
+      : super(_value, _then);
 
-  @override
-  _$_ReauthorizeRequest get _value => super._value as _$_ReauthorizeRequest;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? identityName = freezed,
     Object? identityUri = freezed,
     Object? iconRelativeUri = freezed,
-    Object? cluster = freezed,
-    Object? authorizationScope = freezed,
+    Object? cluster = null,
+    Object? authorizationScope = null,
   }) {
     return _then(_$_ReauthorizeRequest(
-      identityName: identityName == freezed
+      identityName: freezed == identityName
           ? _value.identityName
           : identityName // ignore: cast_nullable_to_non_nullable
               as String?,
-      identityUri: identityUri == freezed
+      identityUri: freezed == identityUri
           ? _value.identityUri
           : identityUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      iconRelativeUri: iconRelativeUri == freezed
+      iconRelativeUri: freezed == iconRelativeUri
           ? _value.iconRelativeUri
           : iconRelativeUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as String,
-      authorizationScope: authorizationScope == freezed
+      authorizationScope: null == authorizationScope
           ? _value.authorizationScope
           : authorizationScope // ignore: cast_nullable_to_non_nullable
               as Uint8List,
@@ -172,13 +174,13 @@ class _$_ReauthorizeRequest implements _ReauthorizeRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ReauthorizeRequest &&
-            const DeepCollectionEquality()
-                .equals(other.identityName, identityName) &&
-            const DeepCollectionEquality()
-                .equals(other.identityUri, identityUri) &&
-            const DeepCollectionEquality()
-                .equals(other.iconRelativeUri, iconRelativeUri) &&
-            const DeepCollectionEquality().equals(other.cluster, cluster) &&
+            (identical(other.identityName, identityName) ||
+                other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) ||
+                other.identityUri == identityUri) &&
+            (identical(other.iconRelativeUri, iconRelativeUri) ||
+                other.iconRelativeUri == iconRelativeUri) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster) &&
             const DeepCollectionEquality()
                 .equals(other.authorizationScope, authorizationScope));
   }
@@ -186,14 +188,15 @@ class _$_ReauthorizeRequest implements _ReauthorizeRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(identityName),
-      const DeepCollectionEquality().hash(identityUri),
-      const DeepCollectionEquality().hash(iconRelativeUri),
-      const DeepCollectionEquality().hash(cluster),
+      identityName,
+      identityUri,
+      iconRelativeUri,
+      cluster,
       const DeepCollectionEquality().hash(authorizationScope));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ReauthorizeRequestCopyWith<_$_ReauthorizeRequest> get copyWith =>
       __$$_ReauthorizeRequestCopyWithImpl<_$_ReauthorizeRequest>(
           this, _$identity);

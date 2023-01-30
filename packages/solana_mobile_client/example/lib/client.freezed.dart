@@ -30,7 +30,8 @@ mixin _$ClientState {
 abstract class $ClientStateCopyWith<$Res> {
   factory $ClientStateCopyWith(
           ClientState value, $Res Function(ClientState) then) =
-      _$ClientStateCopyWithImpl<$Res>;
+      _$ClientStateCopyWithImpl<$Res, ClientState>;
+  @useResult
   $Res call(
       {GetCapabilitiesResult? capabilities,
       AuthorizationResult? authorizationResult,
@@ -41,47 +42,52 @@ abstract class $ClientStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ClientStateCopyWithImpl<$Res> implements $ClientStateCopyWith<$Res> {
+class _$ClientStateCopyWithImpl<$Res, $Val extends ClientState>
+    implements $ClientStateCopyWith<$Res> {
   _$ClientStateCopyWithImpl(this._value, this._then);
 
-  final ClientState _value;
   // ignore: unused_field
-  final $Res Function(ClientState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? capabilities = freezed,
     Object? authorizationResult = freezed,
-    Object? isRequestingAirdrop = freezed,
+    Object? isRequestingAirdrop = null,
   }) {
     return _then(_value.copyWith(
-      capabilities: capabilities == freezed
+      capabilities: freezed == capabilities
           ? _value.capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
               as GetCapabilitiesResult?,
-      authorizationResult: authorizationResult == freezed
+      authorizationResult: freezed == authorizationResult
           ? _value.authorizationResult
           : authorizationResult // ignore: cast_nullable_to_non_nullable
               as AuthorizationResult?,
-      isRequestingAirdrop: isRequestingAirdrop == freezed
+      isRequestingAirdrop: null == isRequestingAirdrop
           ? _value.isRequestingAirdrop
           : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
               as bool,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $GetCapabilitiesResultCopyWith<$Res>? get capabilities {
     if (_value.capabilities == null) {
       return null;
     }
 
     return $GetCapabilitiesResultCopyWith<$Res>(_value.capabilities!, (value) {
-      return _then(_value.copyWith(capabilities: value));
+      return _then(_value.copyWith(capabilities: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AuthorizationResultCopyWith<$Res>? get authorizationResult {
     if (_value.authorizationResult == null) {
       return null;
@@ -89,7 +95,7 @@ class _$ClientStateCopyWithImpl<$Res> implements $ClientStateCopyWith<$Res> {
 
     return $AuthorizationResultCopyWith<$Res>(_value.authorizationResult!,
         (value) {
-      return _then(_value.copyWith(authorizationResult: value));
+      return _then(_value.copyWith(authorizationResult: value) as $Val);
     });
   }
 }
@@ -101,6 +107,7 @@ abstract class _$$_ClientStateCopyWith<$Res>
           _$_ClientState value, $Res Function(_$_ClientState) then) =
       __$$_ClientStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {GetCapabilitiesResult? capabilities,
       AuthorizationResult? authorizationResult,
@@ -113,31 +120,30 @@ abstract class _$$_ClientStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ClientStateCopyWithImpl<$Res> extends _$ClientStateCopyWithImpl<$Res>
+class __$$_ClientStateCopyWithImpl<$Res>
+    extends _$ClientStateCopyWithImpl<$Res, _$_ClientState>
     implements _$$_ClientStateCopyWith<$Res> {
   __$$_ClientStateCopyWithImpl(
       _$_ClientState _value, $Res Function(_$_ClientState) _then)
-      : super(_value, (v) => _then(v as _$_ClientState));
+      : super(_value, _then);
 
-  @override
-  _$_ClientState get _value => super._value as _$_ClientState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? capabilities = freezed,
     Object? authorizationResult = freezed,
-    Object? isRequestingAirdrop = freezed,
+    Object? isRequestingAirdrop = null,
   }) {
     return _then(_$_ClientState(
-      capabilities: capabilities == freezed
+      capabilities: freezed == capabilities
           ? _value.capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
               as GetCapabilitiesResult?,
-      authorizationResult: authorizationResult == freezed
+      authorizationResult: freezed == authorizationResult
           ? _value.authorizationResult
           : authorizationResult // ignore: cast_nullable_to_non_nullable
               as AuthorizationResult?,
-      isRequestingAirdrop: isRequestingAirdrop == freezed
+      isRequestingAirdrop: null == isRequestingAirdrop
           ? _value.isRequestingAirdrop
           : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
               as bool,
@@ -147,7 +153,7 @@ class __$$_ClientStateCopyWithImpl<$Res> extends _$ClientStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ClientState extends _ClientState {
+class _$_ClientState extends _ClientState with DiagnosticableTreeMixin {
   const _$_ClientState(
       {this.capabilities,
       this.authorizationResult,
@@ -163,8 +169,18 @@ class _$_ClientState extends _ClientState {
   final bool isRequestingAirdrop;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ClientState(capabilities: $capabilities, authorizationResult: $authorizationResult, isRequestingAirdrop: $isRequestingAirdrop)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ClientState'))
+      ..add(DiagnosticsProperty('capabilities', capabilities))
+      ..add(DiagnosticsProperty('authorizationResult', authorizationResult))
+      ..add(DiagnosticsProperty('isRequestingAirdrop', isRequestingAirdrop));
   }
 
   @override
@@ -172,23 +188,21 @@ class _$_ClientState extends _ClientState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ClientState &&
-            const DeepCollectionEquality()
-                .equals(other.capabilities, capabilities) &&
-            const DeepCollectionEquality()
-                .equals(other.authorizationResult, authorizationResult) &&
-            const DeepCollectionEquality()
-                .equals(other.isRequestingAirdrop, isRequestingAirdrop));
+            (identical(other.capabilities, capabilities) ||
+                other.capabilities == capabilities) &&
+            (identical(other.authorizationResult, authorizationResult) ||
+                other.authorizationResult == authorizationResult) &&
+            (identical(other.isRequestingAirdrop, isRequestingAirdrop) ||
+                other.isRequestingAirdrop == isRequestingAirdrop));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(capabilities),
-      const DeepCollectionEquality().hash(authorizationResult),
-      const DeepCollectionEquality().hash(isRequestingAirdrop));
+      runtimeType, capabilities, authorizationResult, isRequestingAirdrop);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ClientStateCopyWith<_$_ClientState> get copyWith =>
       __$$_ClientStateCopyWithImpl<_$_ClientState>(this, _$identity);
 }

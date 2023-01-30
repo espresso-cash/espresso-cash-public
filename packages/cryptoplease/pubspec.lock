@@ -122,12 +122,13 @@ packages:
     source: hosted
     version: "2.1.1"
   borsh_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../borsh_annotation"
-      relative: true
-    source: path
-    version: "0.3.1+1"
+      name: borsh_annotation
+      sha256: f9e21b2229cb68b4f2317c99bd8c8401807a12f3b3d351e5e4db94f315924f0d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1+2"
   build:
     dependency: transitive
     description:
@@ -995,12 +996,12 @@ packages:
     source: hosted
     version: "6.5.4"
   jupiter_aggregator:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       path: "../cryptoplease_link/jupiter_aggregator"
       relative: true
     source: path
-    version: "0.0.3"
+    version: "0.0.4"
   logging:
     dependency: "direct main"
     description:
@@ -1524,7 +1525,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.26.3"
+    version: "0.26.4"
   source_gen:
     dependency: transitive
     description:

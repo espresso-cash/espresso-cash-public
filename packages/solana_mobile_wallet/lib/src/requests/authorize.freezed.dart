@@ -29,19 +29,22 @@ mixin _$AuthorizeRequest {
 abstract class $AuthorizeRequestCopyWith<$Res> {
   factory $AuthorizeRequestCopyWith(
           AuthorizeRequest value, $Res Function(AuthorizeRequest) then) =
-      _$AuthorizeRequestCopyWithImpl<$Res>;
+      _$AuthorizeRequestCopyWithImpl<$Res, AuthorizeRequest>;
+  @useResult
   $Res call({String? identityName, Uri? identityUri, Uri? iconUri});
 }
 
 /// @nodoc
-class _$AuthorizeRequestCopyWithImpl<$Res>
+class _$AuthorizeRequestCopyWithImpl<$Res, $Val extends AuthorizeRequest>
     implements $AuthorizeRequestCopyWith<$Res> {
   _$AuthorizeRequestCopyWithImpl(this._value, this._then);
 
-  final AuthorizeRequest _value;
   // ignore: unused_field
-  final $Res Function(AuthorizeRequest) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? identityName = freezed,
@@ -49,19 +52,19 @@ class _$AuthorizeRequestCopyWithImpl<$Res>
     Object? iconUri = freezed,
   }) {
     return _then(_value.copyWith(
-      identityName: identityName == freezed
+      identityName: freezed == identityName
           ? _value.identityName
           : identityName // ignore: cast_nullable_to_non_nullable
               as String?,
-      identityUri: identityUri == freezed
+      identityUri: freezed == identityUri
           ? _value.identityUri
           : identityUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      iconUri: iconUri == freezed
+      iconUri: freezed == iconUri
           ? _value.iconUri
           : iconUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -72,20 +75,19 @@ abstract class _$$_AuthorizeRequestCopyWith<$Res>
           _$_AuthorizeRequest value, $Res Function(_$_AuthorizeRequest) then) =
       __$$_AuthorizeRequestCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String? identityName, Uri? identityUri, Uri? iconUri});
 }
 
 /// @nodoc
 class __$$_AuthorizeRequestCopyWithImpl<$Res>
-    extends _$AuthorizeRequestCopyWithImpl<$Res>
+    extends _$AuthorizeRequestCopyWithImpl<$Res, _$_AuthorizeRequest>
     implements _$$_AuthorizeRequestCopyWith<$Res> {
   __$$_AuthorizeRequestCopyWithImpl(
       _$_AuthorizeRequest _value, $Res Function(_$_AuthorizeRequest) _then)
-      : super(_value, (v) => _then(v as _$_AuthorizeRequest));
+      : super(_value, _then);
 
-  @override
-  _$_AuthorizeRequest get _value => super._value as _$_AuthorizeRequest;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? identityName = freezed,
@@ -93,15 +95,15 @@ class __$$_AuthorizeRequestCopyWithImpl<$Res>
     Object? iconUri = freezed,
   }) {
     return _then(_$_AuthorizeRequest(
-      identityName: identityName == freezed
+      identityName: freezed == identityName
           ? _value.identityName
           : identityName // ignore: cast_nullable_to_non_nullable
               as String?,
-      identityUri: identityUri == freezed
+      identityUri: freezed == identityUri
           ? _value.identityUri
           : identityUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      iconUri: iconUri == freezed
+      iconUri: freezed == iconUri
           ? _value.iconUri
           : iconUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
@@ -134,22 +136,20 @@ class _$_AuthorizeRequest implements _AuthorizeRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AuthorizeRequest &&
-            const DeepCollectionEquality()
-                .equals(other.identityName, identityName) &&
-            const DeepCollectionEquality()
-                .equals(other.identityUri, identityUri) &&
-            const DeepCollectionEquality().equals(other.iconUri, iconUri));
+            (identical(other.identityName, identityName) ||
+                other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) ||
+                other.identityUri == identityUri) &&
+            (identical(other.iconUri, iconUri) || other.iconUri == iconUri));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(identityName),
-      const DeepCollectionEquality().hash(identityUri),
-      const DeepCollectionEquality().hash(iconUri));
+  int get hashCode =>
+      Object.hash(runtimeType, identityName, identityUri, iconUri);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AuthorizeRequestCopyWith<_$_AuthorizeRequest> get copyWith =>
       __$$_AuthorizeRequestCopyWithImpl<_$_AuthorizeRequest>(this, _$identity);
 }
@@ -188,7 +188,8 @@ mixin _$AuthorizeResult {
 abstract class $AuthorizeResultCopyWith<$Res> {
   factory $AuthorizeResultCopyWith(
           AuthorizeResult value, $Res Function(AuthorizeResult) then) =
-      _$AuthorizeResultCopyWithImpl<$Res>;
+      _$AuthorizeResultCopyWithImpl<$Res, AuthorizeResult>;
+  @useResult
   $Res call(
       {Uint8List publicKey,
       String? accountLabel,
@@ -197,39 +198,41 @@ abstract class $AuthorizeResultCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AuthorizeResultCopyWithImpl<$Res>
+class _$AuthorizeResultCopyWithImpl<$Res, $Val extends AuthorizeResult>
     implements $AuthorizeResultCopyWith<$Res> {
   _$AuthorizeResultCopyWithImpl(this._value, this._then);
 
-  final AuthorizeResult _value;
   // ignore: unused_field
-  final $Res Function(AuthorizeResult) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? publicKey = freezed,
+    Object? publicKey = null,
     Object? accountLabel = freezed,
     Object? walletUriBase = freezed,
     Object? scope = freezed,
   }) {
     return _then(_value.copyWith(
-      publicKey: publicKey == freezed
+      publicKey: null == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
               as Uint8List,
-      accountLabel: accountLabel == freezed
+      accountLabel: freezed == accountLabel
           ? _value.accountLabel
           : accountLabel // ignore: cast_nullable_to_non_nullable
               as String?,
-      walletUriBase: walletUriBase == freezed
+      walletUriBase: freezed == walletUriBase
           ? _value.walletUriBase
           : walletUriBase // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      scope: scope == freezed
+      scope: freezed == scope
           ? _value.scope
           : scope // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -240,6 +243,7 @@ abstract class _$$_AuthorizeResultCopyWith<$Res>
           _$_AuthorizeResult value, $Res Function(_$_AuthorizeResult) then) =
       __$$_AuthorizeResultCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {Uint8List publicKey,
       String? accountLabel,
@@ -249,36 +253,34 @@ abstract class _$$_AuthorizeResultCopyWith<$Res>
 
 /// @nodoc
 class __$$_AuthorizeResultCopyWithImpl<$Res>
-    extends _$AuthorizeResultCopyWithImpl<$Res>
+    extends _$AuthorizeResultCopyWithImpl<$Res, _$_AuthorizeResult>
     implements _$$_AuthorizeResultCopyWith<$Res> {
   __$$_AuthorizeResultCopyWithImpl(
       _$_AuthorizeResult _value, $Res Function(_$_AuthorizeResult) _then)
-      : super(_value, (v) => _then(v as _$_AuthorizeResult));
+      : super(_value, _then);
 
-  @override
-  _$_AuthorizeResult get _value => super._value as _$_AuthorizeResult;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? publicKey = freezed,
+    Object? publicKey = null,
     Object? accountLabel = freezed,
     Object? walletUriBase = freezed,
     Object? scope = freezed,
   }) {
     return _then(_$_AuthorizeResult(
-      publicKey: publicKey == freezed
+      publicKey: null == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
               as Uint8List,
-      accountLabel: accountLabel == freezed
+      accountLabel: freezed == accountLabel
           ? _value.accountLabel
           : accountLabel // ignore: cast_nullable_to_non_nullable
               as String?,
-      walletUriBase: walletUriBase == freezed
+      walletUriBase: freezed == walletUriBase
           ? _value.walletUriBase
           : walletUriBase // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      scope: scope == freezed
+      scope: freezed == scope
           ? _value.scope
           : scope // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
@@ -315,10 +317,10 @@ class _$_AuthorizeResult implements _AuthorizeResult {
         (other.runtimeType == runtimeType &&
             other is _$_AuthorizeResult &&
             const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
-            const DeepCollectionEquality()
-                .equals(other.accountLabel, accountLabel) &&
-            const DeepCollectionEquality()
-                .equals(other.walletUriBase, walletUriBase) &&
+            (identical(other.accountLabel, accountLabel) ||
+                other.accountLabel == accountLabel) &&
+            (identical(other.walletUriBase, walletUriBase) ||
+                other.walletUriBase == walletUriBase) &&
             const DeepCollectionEquality().equals(other.scope, scope));
   }
 
@@ -326,12 +328,13 @@ class _$_AuthorizeResult implements _AuthorizeResult {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(publicKey),
-      const DeepCollectionEquality().hash(accountLabel),
-      const DeepCollectionEquality().hash(walletUriBase),
+      accountLabel,
+      walletUriBase,
       const DeepCollectionEquality().hash(scope));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AuthorizeResultCopyWith<_$_AuthorizeResult> get copyWith =>
       __$$_AuthorizeResultCopyWithImpl<_$_AuthorizeResult>(this, _$identity);
 }
