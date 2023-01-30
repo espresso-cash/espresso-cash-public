@@ -11,6 +11,7 @@ import 'package:solana/solana.dart';
 import '../../../../config.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
+import '../../../incoming_split_key_payments/widgets/extensions.dart';
 import 'incoming_tip_payment.dart';
 import 'it_repository.dart';
 
@@ -154,18 +155,5 @@ class ITBloc extends Bloc<_Event, _State> {
       failure: (_) => const ITStatus.txEscrowFailure(),
       networkError: (_) => ITStatus.txWaitFailure(tx),
     );
-  }
-}
-
-extension on DioError {
-  bool get isAlreadyWithdrawn {
-    final data = response?.data;
-
-    if (data is! Map<String, dynamic>) return false;
-
-    final error = data['err'];
-    if (error is! String) return false;
-
-    return error == 'AlreadyUsed';
   }
 }

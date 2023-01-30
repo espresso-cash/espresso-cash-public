@@ -1,3 +1,4 @@
+import 'package:cryptoplease_link/src/exception.dart';
 import 'package:cryptoplease_link/src/payments/escrow_account.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -18,7 +19,12 @@ Future<SignedTx> receivePaymentTx({
     commitment: commitment,
   );
 
-  if (escrow == null) throw Exception('Escrow account not found');
+  if (escrow == null) {
+    throw EspressoCashException(
+      code: 'AlreadyUsed',
+      message: 'Escrow account not found',
+    );
+  }
 
   final instructions = <Instruction>[];
 

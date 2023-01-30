@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cryptoplease_link/src/exception.dart';
 import 'package:shelf/shelf.dart';
 
 Future<Response> processRequest<T, R>(
@@ -25,13 +26,14 @@ Future<Response> processRequest<T, R>(
         'content-type': 'application/json',
       },
     );
-  } on Exception {
-    //TODO update me
+  } on EspressoCashException catch (e) {
     return Response.badRequest(
-      body: json.encode({'err': 'AlreadyUsed'}),
+      body: json.encode({'err': e.code}),
       headers: {
         'content-type': 'application/json',
       },
     );
+  } on Exception {
+    return Response.internalServerError();
   }
 }
