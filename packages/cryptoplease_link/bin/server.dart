@@ -1,5 +1,4 @@
 import 'dart:io' as io;
-import 'dart:io';
 
 import 'package:cryptoplease_link/src/handlers/association_handlers.dart';
 import 'package:cryptoplease_link/src/handlers/solana_handler.dart';
@@ -16,12 +15,13 @@ import 'package:shelf_static/shelf_static.dart' as shelf_static;
 Future<void> main() async {
   await Sentry.init((options) {
     options
-      ..dsn = Platform.environment['SENTRY_DSN']
+      ..dsn = io.Platform.environment['SENTRY_DSN']
       ..tracesSampleRate = 1.0;
   });
 
   final port = int.parse(io.Platform.environment['PORT'] ?? '8080');
-  final solanaHandler = createSolanaHandler(tokens: tokens);
+  final network = io.Platform.environment['SOLANA_RPC_URL'] ?? '';
+  final solanaHandler = createSolanaHandler(tokens: tokens, network: network);
 
   final errorReporter = createMiddleware(
     errorHandler: (error, stacktrace) async {
