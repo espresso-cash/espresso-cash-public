@@ -39,7 +39,8 @@ mixin _$MobileWalletAdapterConfig {
 abstract class $MobileWalletAdapterConfigCopyWith<$Res> {
   factory $MobileWalletAdapterConfigCopyWith(MobileWalletAdapterConfig value,
           $Res Function(MobileWalletAdapterConfig) then) =
-      _$MobileWalletAdapterConfigCopyWithImpl<$Res>;
+      _$MobileWalletAdapterConfigCopyWithImpl<$Res, MobileWalletAdapterConfig>;
+  @useResult
   $Res call(
       {bool supportsSignAndSendTransactions,
       int maxTransactionsPerSigningRequest,
@@ -48,41 +49,42 @@ abstract class $MobileWalletAdapterConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MobileWalletAdapterConfigCopyWithImpl<$Res>
+class _$MobileWalletAdapterConfigCopyWithImpl<$Res,
+        $Val extends MobileWalletAdapterConfig>
     implements $MobileWalletAdapterConfigCopyWith<$Res> {
   _$MobileWalletAdapterConfigCopyWithImpl(this._value, this._then);
 
-  final MobileWalletAdapterConfig _value;
   // ignore: unused_field
-  final $Res Function(MobileWalletAdapterConfig) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? supportsSignAndSendTransactions = freezed,
-    Object? maxTransactionsPerSigningRequest = freezed,
-    Object? maxMessagesPerSigningRequest = freezed,
-    Object? supportedTransactionVersions = freezed,
+    Object? supportsSignAndSendTransactions = null,
+    Object? maxTransactionsPerSigningRequest = null,
+    Object? maxMessagesPerSigningRequest = null,
+    Object? supportedTransactionVersions = null,
   }) {
     return _then(_value.copyWith(
-      supportsSignAndSendTransactions: supportsSignAndSendTransactions ==
-              freezed
+      supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
           ? _value.supportsSignAndSendTransactions
           : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
               as bool,
-      maxTransactionsPerSigningRequest: maxTransactionsPerSigningRequest ==
-              freezed
+      maxTransactionsPerSigningRequest: null == maxTransactionsPerSigningRequest
           ? _value.maxTransactionsPerSigningRequest
           : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
               as int,
-      maxMessagesPerSigningRequest: maxMessagesPerSigningRequest == freezed
+      maxMessagesPerSigningRequest: null == maxMessagesPerSigningRequest
           ? _value.maxMessagesPerSigningRequest
           : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
               as int,
-      supportedTransactionVersions: supportedTransactionVersions == freezed
+      supportedTransactionVersions: null == supportedTransactionVersions
           ? _value.supportedTransactionVersions
           : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
               as List<Object>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -94,6 +96,7 @@ abstract class _$$_MobileWalletAdapterConfigCopyWith<$Res>
           $Res Function(_$_MobileWalletAdapterConfig) then) =
       __$$_MobileWalletAdapterConfigCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {bool supportsSignAndSendTransactions,
       int maxTransactionsPerSigningRequest,
@@ -103,40 +106,36 @@ abstract class _$$_MobileWalletAdapterConfigCopyWith<$Res>
 
 /// @nodoc
 class __$$_MobileWalletAdapterConfigCopyWithImpl<$Res>
-    extends _$MobileWalletAdapterConfigCopyWithImpl<$Res>
+    extends _$MobileWalletAdapterConfigCopyWithImpl<$Res,
+        _$_MobileWalletAdapterConfig>
     implements _$$_MobileWalletAdapterConfigCopyWith<$Res> {
   __$$_MobileWalletAdapterConfigCopyWithImpl(
       _$_MobileWalletAdapterConfig _value,
       $Res Function(_$_MobileWalletAdapterConfig) _then)
-      : super(_value, (v) => _then(v as _$_MobileWalletAdapterConfig));
+      : super(_value, _then);
 
-  @override
-  _$_MobileWalletAdapterConfig get _value =>
-      super._value as _$_MobileWalletAdapterConfig;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? supportsSignAndSendTransactions = freezed,
-    Object? maxTransactionsPerSigningRequest = freezed,
-    Object? maxMessagesPerSigningRequest = freezed,
-    Object? supportedTransactionVersions = freezed,
+    Object? supportsSignAndSendTransactions = null,
+    Object? maxTransactionsPerSigningRequest = null,
+    Object? maxMessagesPerSigningRequest = null,
+    Object? supportedTransactionVersions = null,
   }) {
     return _then(_$_MobileWalletAdapterConfig(
-      supportsSignAndSendTransactions: supportsSignAndSendTransactions ==
-              freezed
+      supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
           ? _value.supportsSignAndSendTransactions
           : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
               as bool,
-      maxTransactionsPerSigningRequest: maxTransactionsPerSigningRequest ==
-              freezed
+      maxTransactionsPerSigningRequest: null == maxTransactionsPerSigningRequest
           ? _value.maxTransactionsPerSigningRequest
           : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
               as int,
-      maxMessagesPerSigningRequest: maxMessagesPerSigningRequest == freezed
+      maxMessagesPerSigningRequest: null == maxMessagesPerSigningRequest
           ? _value.maxMessagesPerSigningRequest
           : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
               as int,
-      supportedTransactionVersions: supportedTransactionVersions == freezed
+      supportedTransactionVersions: null == supportedTransactionVersions
           ? _value._supportedTransactionVersions
           : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
               as List<Object>,
@@ -180,15 +179,18 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MobileWalletAdapterConfig &&
-            const DeepCollectionEquality().equals(
-                other.supportsSignAndSendTransactions,
-                supportsSignAndSendTransactions) &&
-            const DeepCollectionEquality().equals(
-                other.maxTransactionsPerSigningRequest,
-                maxTransactionsPerSigningRequest) &&
-            const DeepCollectionEquality().equals(
-                other.maxMessagesPerSigningRequest,
-                maxMessagesPerSigningRequest) &&
+            (identical(other.supportsSignAndSendTransactions,
+                    supportsSignAndSendTransactions) ||
+                other.supportsSignAndSendTransactions ==
+                    supportsSignAndSendTransactions) &&
+            (identical(other.maxTransactionsPerSigningRequest,
+                    maxTransactionsPerSigningRequest) ||
+                other.maxTransactionsPerSigningRequest ==
+                    maxTransactionsPerSigningRequest) &&
+            (identical(other.maxMessagesPerSigningRequest,
+                    maxMessagesPerSigningRequest) ||
+                other.maxMessagesPerSigningRequest ==
+                    maxMessagesPerSigningRequest) &&
             const DeepCollectionEquality().equals(
                 other._supportedTransactionVersions,
                 _supportedTransactionVersions));
@@ -198,13 +200,14 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(supportsSignAndSendTransactions),
-      const DeepCollectionEquality().hash(maxTransactionsPerSigningRequest),
-      const DeepCollectionEquality().hash(maxMessagesPerSigningRequest),
+      supportsSignAndSendTransactions,
+      maxTransactionsPerSigningRequest,
+      maxMessagesPerSigningRequest,
       const DeepCollectionEquality().hash(_supportedTransactionVersions));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_MobileWalletAdapterConfigCopyWith<_$_MobileWalletAdapterConfig>
       get copyWith => __$$_MobileWalletAdapterConfigCopyWithImpl<
           _$_MobileWalletAdapterConfig>(this, _$identity);

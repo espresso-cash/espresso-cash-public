@@ -44,7 +44,7 @@ mixin _$SignPayloadsRequest {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             String? identityName,
             Uri? identityUri,
             Uri? iconRelativeUri,
@@ -52,7 +52,7 @@ mixin _$SignPayloadsRequest {
             Uint8List authorizationScope,
             List<Uint8List> payloads)?
         transactions,
-    TResult Function(
+    TResult? Function(
             String? identityName,
             Uri? identityUri,
             Uri? iconRelativeUri,
@@ -91,8 +91,8 @@ mixin _$SignPayloadsRequest {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SignTransactionsRequest value)? transactions,
-    TResult Function(SignMessagesRequest value)? messages,
+    TResult? Function(SignTransactionsRequest value)? transactions,
+    TResult? Function(SignMessagesRequest value)? messages,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -112,7 +112,8 @@ mixin _$SignPayloadsRequest {
 abstract class $SignPayloadsRequestCopyWith<$Res> {
   factory $SignPayloadsRequestCopyWith(
           SignPayloadsRequest value, $Res Function(SignPayloadsRequest) then) =
-      _$SignPayloadsRequestCopyWithImpl<$Res>;
+      _$SignPayloadsRequestCopyWithImpl<$Res, SignPayloadsRequest>;
+  @useResult
   $Res call(
       {String? identityName,
       Uri? identityUri,
@@ -123,49 +124,51 @@ abstract class $SignPayloadsRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SignPayloadsRequestCopyWithImpl<$Res>
+class _$SignPayloadsRequestCopyWithImpl<$Res, $Val extends SignPayloadsRequest>
     implements $SignPayloadsRequestCopyWith<$Res> {
   _$SignPayloadsRequestCopyWithImpl(this._value, this._then);
 
-  final SignPayloadsRequest _value;
   // ignore: unused_field
-  final $Res Function(SignPayloadsRequest) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? identityName = freezed,
     Object? identityUri = freezed,
     Object? iconRelativeUri = freezed,
-    Object? cluster = freezed,
-    Object? authorizationScope = freezed,
-    Object? payloads = freezed,
+    Object? cluster = null,
+    Object? authorizationScope = null,
+    Object? payloads = null,
   }) {
     return _then(_value.copyWith(
-      identityName: identityName == freezed
+      identityName: freezed == identityName
           ? _value.identityName
           : identityName // ignore: cast_nullable_to_non_nullable
               as String?,
-      identityUri: identityUri == freezed
+      identityUri: freezed == identityUri
           ? _value.identityUri
           : identityUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      iconRelativeUri: iconRelativeUri == freezed
+      iconRelativeUri: freezed == iconRelativeUri
           ? _value.iconRelativeUri
           : iconRelativeUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as String,
-      authorizationScope: authorizationScope == freezed
+      authorizationScope: null == authorizationScope
           ? _value.authorizationScope
           : authorizationScope // ignore: cast_nullable_to_non_nullable
               as Uint8List,
-      payloads: payloads == freezed
+      payloads: null == payloads
           ? _value.payloads
           : payloads // ignore: cast_nullable_to_non_nullable
               as List<Uint8List>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -176,6 +179,7 @@ abstract class _$$SignTransactionsRequestCopyWith<$Res>
           $Res Function(_$SignTransactionsRequest) then) =
       __$$SignTransactionsRequestCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String? identityName,
       Uri? identityUri,
@@ -187,47 +191,44 @@ abstract class _$$SignTransactionsRequestCopyWith<$Res>
 
 /// @nodoc
 class __$$SignTransactionsRequestCopyWithImpl<$Res>
-    extends _$SignPayloadsRequestCopyWithImpl<$Res>
+    extends _$SignPayloadsRequestCopyWithImpl<$Res, _$SignTransactionsRequest>
     implements _$$SignTransactionsRequestCopyWith<$Res> {
   __$$SignTransactionsRequestCopyWithImpl(_$SignTransactionsRequest _value,
       $Res Function(_$SignTransactionsRequest) _then)
-      : super(_value, (v) => _then(v as _$SignTransactionsRequest));
+      : super(_value, _then);
 
-  @override
-  _$SignTransactionsRequest get _value =>
-      super._value as _$SignTransactionsRequest;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? identityName = freezed,
     Object? identityUri = freezed,
     Object? iconRelativeUri = freezed,
-    Object? cluster = freezed,
-    Object? authorizationScope = freezed,
-    Object? payloads = freezed,
+    Object? cluster = null,
+    Object? authorizationScope = null,
+    Object? payloads = null,
   }) {
     return _then(_$SignTransactionsRequest(
-      identityName: identityName == freezed
+      identityName: freezed == identityName
           ? _value.identityName
           : identityName // ignore: cast_nullable_to_non_nullable
               as String?,
-      identityUri: identityUri == freezed
+      identityUri: freezed == identityUri
           ? _value.identityUri
           : identityUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      iconRelativeUri: iconRelativeUri == freezed
+      iconRelativeUri: freezed == iconRelativeUri
           ? _value.iconRelativeUri
           : iconRelativeUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as String,
-      authorizationScope: authorizationScope == freezed
+      authorizationScope: null == authorizationScope
           ? _value.authorizationScope
           : authorizationScope // ignore: cast_nullable_to_non_nullable
               as Uint8List,
-      payloads: payloads == freezed
+      payloads: null == payloads
           ? _value._payloads
           : payloads // ignore: cast_nullable_to_non_nullable
               as List<Uint8List>,
@@ -274,13 +275,13 @@ class _$SignTransactionsRequest implements SignTransactionsRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignTransactionsRequest &&
-            const DeepCollectionEquality()
-                .equals(other.identityName, identityName) &&
-            const DeepCollectionEquality()
-                .equals(other.identityUri, identityUri) &&
-            const DeepCollectionEquality()
-                .equals(other.iconRelativeUri, iconRelativeUri) &&
-            const DeepCollectionEquality().equals(other.cluster, cluster) &&
+            (identical(other.identityName, identityName) ||
+                other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) ||
+                other.identityUri == identityUri) &&
+            (identical(other.iconRelativeUri, iconRelativeUri) ||
+                other.iconRelativeUri == iconRelativeUri) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster) &&
             const DeepCollectionEquality()
                 .equals(other.authorizationScope, authorizationScope) &&
             const DeepCollectionEquality().equals(other._payloads, _payloads));
@@ -289,15 +290,16 @@ class _$SignTransactionsRequest implements SignTransactionsRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(identityName),
-      const DeepCollectionEquality().hash(identityUri),
-      const DeepCollectionEquality().hash(iconRelativeUri),
-      const DeepCollectionEquality().hash(cluster),
+      identityName,
+      identityUri,
+      iconRelativeUri,
+      cluster,
       const DeepCollectionEquality().hash(authorizationScope),
       const DeepCollectionEquality().hash(_payloads));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$SignTransactionsRequestCopyWith<_$SignTransactionsRequest> get copyWith =>
       __$$SignTransactionsRequestCopyWithImpl<_$SignTransactionsRequest>(
           this, _$identity);
@@ -329,7 +331,7 @@ class _$SignTransactionsRequest implements SignTransactionsRequest {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             String? identityName,
             Uri? identityUri,
             Uri? iconRelativeUri,
@@ -337,7 +339,7 @@ class _$SignTransactionsRequest implements SignTransactionsRequest {
             Uint8List authorizationScope,
             List<Uint8List> payloads)?
         transactions,
-    TResult Function(
+    TResult? Function(
             String? identityName,
             Uri? identityUri,
             Uri? iconRelativeUri,
@@ -390,8 +392,8 @@ class _$SignTransactionsRequest implements SignTransactionsRequest {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SignTransactionsRequest value)? transactions,
-    TResult Function(SignMessagesRequest value)? messages,
+    TResult? Function(SignTransactionsRequest value)? transactions,
+    TResult? Function(SignMessagesRequest value)? messages,
   }) {
     return transactions?.call(this);
   }
@@ -444,6 +446,7 @@ abstract class _$$SignMessagesRequestCopyWith<$Res>
           $Res Function(_$SignMessagesRequest) then) =
       __$$SignMessagesRequestCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String? identityName,
       Uri? identityUri,
@@ -455,46 +458,44 @@ abstract class _$$SignMessagesRequestCopyWith<$Res>
 
 /// @nodoc
 class __$$SignMessagesRequestCopyWithImpl<$Res>
-    extends _$SignPayloadsRequestCopyWithImpl<$Res>
+    extends _$SignPayloadsRequestCopyWithImpl<$Res, _$SignMessagesRequest>
     implements _$$SignMessagesRequestCopyWith<$Res> {
   __$$SignMessagesRequestCopyWithImpl(
       _$SignMessagesRequest _value, $Res Function(_$SignMessagesRequest) _then)
-      : super(_value, (v) => _then(v as _$SignMessagesRequest));
+      : super(_value, _then);
 
-  @override
-  _$SignMessagesRequest get _value => super._value as _$SignMessagesRequest;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? identityName = freezed,
     Object? identityUri = freezed,
     Object? iconRelativeUri = freezed,
-    Object? cluster = freezed,
-    Object? authorizationScope = freezed,
-    Object? payloads = freezed,
+    Object? cluster = null,
+    Object? authorizationScope = null,
+    Object? payloads = null,
   }) {
     return _then(_$SignMessagesRequest(
-      identityName: identityName == freezed
+      identityName: freezed == identityName
           ? _value.identityName
           : identityName // ignore: cast_nullable_to_non_nullable
               as String?,
-      identityUri: identityUri == freezed
+      identityUri: freezed == identityUri
           ? _value.identityUri
           : identityUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      iconRelativeUri: iconRelativeUri == freezed
+      iconRelativeUri: freezed == iconRelativeUri
           ? _value.iconRelativeUri
           : iconRelativeUri // ignore: cast_nullable_to_non_nullable
               as Uri?,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as String,
-      authorizationScope: authorizationScope == freezed
+      authorizationScope: null == authorizationScope
           ? _value.authorizationScope
           : authorizationScope // ignore: cast_nullable_to_non_nullable
               as Uint8List,
-      payloads: payloads == freezed
+      payloads: null == payloads
           ? _value._payloads
           : payloads // ignore: cast_nullable_to_non_nullable
               as List<Uint8List>,
@@ -541,13 +542,13 @@ class _$SignMessagesRequest implements SignMessagesRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignMessagesRequest &&
-            const DeepCollectionEquality()
-                .equals(other.identityName, identityName) &&
-            const DeepCollectionEquality()
-                .equals(other.identityUri, identityUri) &&
-            const DeepCollectionEquality()
-                .equals(other.iconRelativeUri, iconRelativeUri) &&
-            const DeepCollectionEquality().equals(other.cluster, cluster) &&
+            (identical(other.identityName, identityName) ||
+                other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) ||
+                other.identityUri == identityUri) &&
+            (identical(other.iconRelativeUri, iconRelativeUri) ||
+                other.iconRelativeUri == iconRelativeUri) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster) &&
             const DeepCollectionEquality()
                 .equals(other.authorizationScope, authorizationScope) &&
             const DeepCollectionEquality().equals(other._payloads, _payloads));
@@ -556,15 +557,16 @@ class _$SignMessagesRequest implements SignMessagesRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(identityName),
-      const DeepCollectionEquality().hash(identityUri),
-      const DeepCollectionEquality().hash(iconRelativeUri),
-      const DeepCollectionEquality().hash(cluster),
+      identityName,
+      identityUri,
+      iconRelativeUri,
+      cluster,
       const DeepCollectionEquality().hash(authorizationScope),
       const DeepCollectionEquality().hash(_payloads));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$SignMessagesRequestCopyWith<_$SignMessagesRequest> get copyWith =>
       __$$SignMessagesRequestCopyWithImpl<_$SignMessagesRequest>(
           this, _$identity);
@@ -596,7 +598,7 @@ class _$SignMessagesRequest implements SignMessagesRequest {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             String? identityName,
             Uri? identityUri,
             Uri? iconRelativeUri,
@@ -604,7 +606,7 @@ class _$SignMessagesRequest implements SignMessagesRequest {
             Uint8List authorizationScope,
             List<Uint8List> payloads)?
         transactions,
-    TResult Function(
+    TResult? Function(
             String? identityName,
             Uri? identityUri,
             Uri? iconRelativeUri,
@@ -657,8 +659,8 @@ class _$SignMessagesRequest implements SignMessagesRequest {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SignTransactionsRequest value)? transactions,
-    TResult Function(SignMessagesRequest value)? messages,
+    TResult? Function(SignTransactionsRequest value)? transactions,
+    TResult? Function(SignMessagesRequest value)? messages,
   }) {
     return messages?.call(this);
   }
@@ -717,11 +719,11 @@ mixin _$SignedPayloadResult {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<Uint8List> signedPayloads)? $default, {
-    TResult Function()? requestDeclined,
-    TResult Function(List<bool> valid)? invalidPayloads,
-    TResult Function()? tooManyPayloads,
-    TResult Function()? authorizationNotValid,
+    TResult? Function(List<Uint8List> signedPayloads)? $default, {
+    TResult? Function()? requestDeclined,
+    TResult? Function(List<bool> valid)? invalidPayloads,
+    TResult? Function()? tooManyPayloads,
+    TResult? Function()? authorizationNotValid,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -746,11 +748,11 @@ mixin _$SignedPayloadResult {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SignedPayloadResult value)? $default, {
-    TResult Function(_RequestDeclined value)? requestDeclined,
-    TResult Function(_InvalidPayloads value)? invalidPayloads,
-    TResult Function(_TooManyPayloads value)? tooManyPayloads,
-    TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult? Function(_SignedPayloadResult value)? $default, {
+    TResult? Function(_RequestDeclined value)? requestDeclined,
+    TResult? Function(_InvalidPayloads value)? invalidPayloads,
+    TResult? Function(_TooManyPayloads value)? tooManyPayloads,
+    TResult? Function(_AuthorizationNotValid value)? authorizationNotValid,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -769,17 +771,18 @@ mixin _$SignedPayloadResult {
 abstract class $SignedPayloadResultCopyWith<$Res> {
   factory $SignedPayloadResultCopyWith(
           SignedPayloadResult value, $Res Function(SignedPayloadResult) then) =
-      _$SignedPayloadResultCopyWithImpl<$Res>;
+      _$SignedPayloadResultCopyWithImpl<$Res, SignedPayloadResult>;
 }
 
 /// @nodoc
-class _$SignedPayloadResultCopyWithImpl<$Res>
+class _$SignedPayloadResultCopyWithImpl<$Res, $Val extends SignedPayloadResult>
     implements $SignedPayloadResultCopyWith<$Res> {
   _$SignedPayloadResultCopyWithImpl(this._value, this._then);
 
-  final SignedPayloadResult _value;
   // ignore: unused_field
-  final $Res Function(SignedPayloadResult) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -787,26 +790,25 @@ abstract class _$$_SignedPayloadResultCopyWith<$Res> {
   factory _$$_SignedPayloadResultCopyWith(_$_SignedPayloadResult value,
           $Res Function(_$_SignedPayloadResult) then) =
       __$$_SignedPayloadResultCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<Uint8List> signedPayloads});
 }
 
 /// @nodoc
 class __$$_SignedPayloadResultCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_SignedPayloadResult>
     implements _$$_SignedPayloadResultCopyWith<$Res> {
   __$$_SignedPayloadResultCopyWithImpl(_$_SignedPayloadResult _value,
       $Res Function(_$_SignedPayloadResult) _then)
-      : super(_value, (v) => _then(v as _$_SignedPayloadResult));
+      : super(_value, _then);
 
-  @override
-  _$_SignedPayloadResult get _value => super._value as _$_SignedPayloadResult;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? signedPayloads = freezed,
+    Object? signedPayloads = null,
   }) {
     return _then(_$_SignedPayloadResult(
-      signedPayloads: signedPayloads == freezed
+      signedPayloads: null == signedPayloads
           ? _value._signedPayloads
           : signedPayloads // ignore: cast_nullable_to_non_nullable
               as List<Uint8List>,
@@ -848,6 +850,7 @@ class _$_SignedPayloadResult extends _SignedPayloadResult {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SignedPayloadResultCopyWith<_$_SignedPayloadResult> get copyWith =>
       __$$_SignedPayloadResultCopyWithImpl<_$_SignedPayloadResult>(
           this, _$identity);
@@ -867,11 +870,11 @@ class _$_SignedPayloadResult extends _SignedPayloadResult {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<Uint8List> signedPayloads)? $default, {
-    TResult Function()? requestDeclined,
-    TResult Function(List<bool> valid)? invalidPayloads,
-    TResult Function()? tooManyPayloads,
-    TResult Function()? authorizationNotValid,
+    TResult? Function(List<Uint8List> signedPayloads)? $default, {
+    TResult? Function()? requestDeclined,
+    TResult? Function(List<bool> valid)? invalidPayloads,
+    TResult? Function()? tooManyPayloads,
+    TResult? Function()? authorizationNotValid,
   }) {
     return $default?.call(signedPayloads);
   }
@@ -908,11 +911,11 @@ class _$_SignedPayloadResult extends _SignedPayloadResult {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SignedPayloadResult value)? $default, {
-    TResult Function(_RequestDeclined value)? requestDeclined,
-    TResult Function(_InvalidPayloads value)? invalidPayloads,
-    TResult Function(_TooManyPayloads value)? tooManyPayloads,
-    TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult? Function(_SignedPayloadResult value)? $default, {
+    TResult? Function(_RequestDeclined value)? requestDeclined,
+    TResult? Function(_InvalidPayloads value)? invalidPayloads,
+    TResult? Function(_TooManyPayloads value)? tooManyPayloads,
+    TResult? Function(_AuthorizationNotValid value)? authorizationNotValid,
   }) {
     return $default?.call(this);
   }
@@ -954,14 +957,11 @@ abstract class _$$_RequestDeclinedCopyWith<$Res> {
 
 /// @nodoc
 class __$$_RequestDeclinedCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_RequestDeclined>
     implements _$$_RequestDeclinedCopyWith<$Res> {
   __$$_RequestDeclinedCopyWithImpl(
       _$_RequestDeclined _value, $Res Function(_$_RequestDeclined) _then)
-      : super(_value, (v) => _then(v as _$_RequestDeclined));
-
-  @override
-  _$_RequestDeclined get _value => super._value as _$_RequestDeclined;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -998,11 +998,11 @@ class _$_RequestDeclined extends _RequestDeclined {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<Uint8List> signedPayloads)? $default, {
-    TResult Function()? requestDeclined,
-    TResult Function(List<bool> valid)? invalidPayloads,
-    TResult Function()? tooManyPayloads,
-    TResult Function()? authorizationNotValid,
+    TResult? Function(List<Uint8List> signedPayloads)? $default, {
+    TResult? Function()? requestDeclined,
+    TResult? Function(List<bool> valid)? invalidPayloads,
+    TResult? Function()? tooManyPayloads,
+    TResult? Function()? authorizationNotValid,
   }) {
     return requestDeclined?.call();
   }
@@ -1039,11 +1039,11 @@ class _$_RequestDeclined extends _RequestDeclined {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SignedPayloadResult value)? $default, {
-    TResult Function(_RequestDeclined value)? requestDeclined,
-    TResult Function(_InvalidPayloads value)? invalidPayloads,
-    TResult Function(_TooManyPayloads value)? tooManyPayloads,
-    TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult? Function(_SignedPayloadResult value)? $default, {
+    TResult? Function(_RequestDeclined value)? requestDeclined,
+    TResult? Function(_InvalidPayloads value)? invalidPayloads,
+    TResult? Function(_TooManyPayloads value)? tooManyPayloads,
+    TResult? Function(_AuthorizationNotValid value)? authorizationNotValid,
   }) {
     return requestDeclined?.call(this);
   }
@@ -1075,26 +1075,25 @@ abstract class _$$_InvalidPayloadsCopyWith<$Res> {
   factory _$$_InvalidPayloadsCopyWith(
           _$_InvalidPayloads value, $Res Function(_$_InvalidPayloads) then) =
       __$$_InvalidPayloadsCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<bool> valid});
 }
 
 /// @nodoc
 class __$$_InvalidPayloadsCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_InvalidPayloads>
     implements _$$_InvalidPayloadsCopyWith<$Res> {
   __$$_InvalidPayloadsCopyWithImpl(
       _$_InvalidPayloads _value, $Res Function(_$_InvalidPayloads) _then)
-      : super(_value, (v) => _then(v as _$_InvalidPayloads));
+      : super(_value, _then);
 
-  @override
-  _$_InvalidPayloads get _value => super._value as _$_InvalidPayloads;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? valid = freezed,
+    Object? valid = null,
   }) {
     return _then(_$_InvalidPayloads(
-      valid: valid == freezed
+      valid: null == valid
           ? _value._valid
           : valid // ignore: cast_nullable_to_non_nullable
               as List<bool>,
@@ -1135,6 +1134,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_InvalidPayloadsCopyWith<_$_InvalidPayloads> get copyWith =>
       __$$_InvalidPayloadsCopyWithImpl<_$_InvalidPayloads>(this, _$identity);
 
@@ -1153,11 +1153,11 @@ class _$_InvalidPayloads extends _InvalidPayloads {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<Uint8List> signedPayloads)? $default, {
-    TResult Function()? requestDeclined,
-    TResult Function(List<bool> valid)? invalidPayloads,
-    TResult Function()? tooManyPayloads,
-    TResult Function()? authorizationNotValid,
+    TResult? Function(List<Uint8List> signedPayloads)? $default, {
+    TResult? Function()? requestDeclined,
+    TResult? Function(List<bool> valid)? invalidPayloads,
+    TResult? Function()? tooManyPayloads,
+    TResult? Function()? authorizationNotValid,
   }) {
     return invalidPayloads?.call(valid);
   }
@@ -1194,11 +1194,11 @@ class _$_InvalidPayloads extends _InvalidPayloads {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SignedPayloadResult value)? $default, {
-    TResult Function(_RequestDeclined value)? requestDeclined,
-    TResult Function(_InvalidPayloads value)? invalidPayloads,
-    TResult Function(_TooManyPayloads value)? tooManyPayloads,
-    TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult? Function(_SignedPayloadResult value)? $default, {
+    TResult? Function(_RequestDeclined value)? requestDeclined,
+    TResult? Function(_InvalidPayloads value)? invalidPayloads,
+    TResult? Function(_TooManyPayloads value)? tooManyPayloads,
+    TResult? Function(_AuthorizationNotValid value)? authorizationNotValid,
   }) {
     return invalidPayloads?.call(this);
   }
@@ -1240,14 +1240,11 @@ abstract class _$$_TooManyPayloadsCopyWith<$Res> {
 
 /// @nodoc
 class __$$_TooManyPayloadsCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_TooManyPayloads>
     implements _$$_TooManyPayloadsCopyWith<$Res> {
   __$$_TooManyPayloadsCopyWithImpl(
       _$_TooManyPayloads _value, $Res Function(_$_TooManyPayloads) _then)
-      : super(_value, (v) => _then(v as _$_TooManyPayloads));
-
-  @override
-  _$_TooManyPayloads get _value => super._value as _$_TooManyPayloads;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -1284,11 +1281,11 @@ class _$_TooManyPayloads extends _TooManyPayloads {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<Uint8List> signedPayloads)? $default, {
-    TResult Function()? requestDeclined,
-    TResult Function(List<bool> valid)? invalidPayloads,
-    TResult Function()? tooManyPayloads,
-    TResult Function()? authorizationNotValid,
+    TResult? Function(List<Uint8List> signedPayloads)? $default, {
+    TResult? Function()? requestDeclined,
+    TResult? Function(List<bool> valid)? invalidPayloads,
+    TResult? Function()? tooManyPayloads,
+    TResult? Function()? authorizationNotValid,
   }) {
     return tooManyPayloads?.call();
   }
@@ -1325,11 +1322,11 @@ class _$_TooManyPayloads extends _TooManyPayloads {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SignedPayloadResult value)? $default, {
-    TResult Function(_RequestDeclined value)? requestDeclined,
-    TResult Function(_InvalidPayloads value)? invalidPayloads,
-    TResult Function(_TooManyPayloads value)? tooManyPayloads,
-    TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult? Function(_SignedPayloadResult value)? $default, {
+    TResult? Function(_RequestDeclined value)? requestDeclined,
+    TResult? Function(_InvalidPayloads value)? invalidPayloads,
+    TResult? Function(_TooManyPayloads value)? tooManyPayloads,
+    TResult? Function(_AuthorizationNotValid value)? authorizationNotValid,
   }) {
     return tooManyPayloads?.call(this);
   }
@@ -1365,15 +1362,11 @@ abstract class _$$_AuthorizationNotValidCopyWith<$Res> {
 
 /// @nodoc
 class __$$_AuthorizationNotValidCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_AuthorizationNotValid>
     implements _$$_AuthorizationNotValidCopyWith<$Res> {
   __$$_AuthorizationNotValidCopyWithImpl(_$_AuthorizationNotValid _value,
       $Res Function(_$_AuthorizationNotValid) _then)
-      : super(_value, (v) => _then(v as _$_AuthorizationNotValid));
-
-  @override
-  _$_AuthorizationNotValid get _value =>
-      super._value as _$_AuthorizationNotValid;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -1410,11 +1403,11 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<Uint8List> signedPayloads)? $default, {
-    TResult Function()? requestDeclined,
-    TResult Function(List<bool> valid)? invalidPayloads,
-    TResult Function()? tooManyPayloads,
-    TResult Function()? authorizationNotValid,
+    TResult? Function(List<Uint8List> signedPayloads)? $default, {
+    TResult? Function()? requestDeclined,
+    TResult? Function(List<bool> valid)? invalidPayloads,
+    TResult? Function()? tooManyPayloads,
+    TResult? Function()? authorizationNotValid,
   }) {
     return authorizationNotValid?.call();
   }
@@ -1451,11 +1444,11 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SignedPayloadResult value)? $default, {
-    TResult Function(_RequestDeclined value)? requestDeclined,
-    TResult Function(_InvalidPayloads value)? invalidPayloads,
-    TResult Function(_TooManyPayloads value)? tooManyPayloads,
-    TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
+    TResult? Function(_SignedPayloadResult value)? $default, {
+    TResult? Function(_RequestDeclined value)? requestDeclined,
+    TResult? Function(_InvalidPayloads value)? invalidPayloads,
+    TResult? Function(_TooManyPayloads value)? tooManyPayloads,
+    TResult? Function(_AuthorizationNotValid value)? authorizationNotValid,
   }) {
     return authorizationNotValid?.call(this);
   }

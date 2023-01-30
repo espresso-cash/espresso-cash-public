@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'model.dart';
 
@@ -124,6 +124,7 @@ class _$_JupiterIndexedRouteMap implements _JupiterIndexedRouteMap {
   final List<String> _mintKeys;
   @override
   List<String> get mintKeys {
+    if (_mintKeys is EqualUnmodifiableListView) return _mintKeys;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_mintKeys);
   }
@@ -131,6 +132,7 @@ class _$_JupiterIndexedRouteMap implements _JupiterIndexedRouteMap {
   final Map<String, List<int>> _indexedRouteMap;
   @override
   Map<String, List<int>> get indexedRouteMap {
+    if (_indexedRouteMap is EqualUnmodifiableMapView) return _indexedRouteMap;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_indexedRouteMap);
   }
@@ -427,6 +429,7 @@ class _$_JupiterRoute implements _JupiterRoute {
   final List<JupiterMarket> _marketInfos;
   @override
   List<JupiterMarket> get marketInfos {
+    if (_marketInfos is EqualUnmodifiableListView) return _marketInfos;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_marketInfos);
   }
@@ -1263,6 +1266,8 @@ class _$_JupiterRouteFee implements _JupiterRouteFee {
   final List<num> _openOrdersDeposits;
   @override
   List<num> get openOrdersDeposits {
+    if (_openOrdersDeposits is EqualUnmodifiableListView)
+      return _openOrdersDeposits;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_openOrdersDeposits);
   }
@@ -1270,6 +1275,7 @@ class _$_JupiterRouteFee implements _JupiterRouteFee {
   final List<num> _ataDeposits;
   @override
   List<num> get ataDeposits {
+    if (_ataDeposits is EqualUnmodifiableListView) return _ataDeposits;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_ataDeposits);
   }
@@ -1448,6 +1454,7 @@ class _$_QuoteResponseDto implements _QuoteResponseDto {
   @override
   @JsonKey(name: 'data')
   List<JupiterRoute> get routes {
+    if (_routes is EqualUnmodifiableListView) return _routes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_routes);
   }
