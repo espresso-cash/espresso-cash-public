@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -33,82 +34,85 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final photoPath = state.photoPath;
     final address = state.publicKey;
 
-    return Scaffold(
-      body: Material(
-        color: const Color(0xffF4F4F4),
-        child: SafeArea(
-          bottom: false,
-          maintainBottomViewPadding: false,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    _buttonSpacing,
-                    _buttonSpacing,
-                    _buttonSpacing,
-                    0,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        height: _imageSize,
-                        width: MediaQuery.of(context).size.width,
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: CpUserAvatar(
-                                radius: _imageSize / 2,
-                                image: photoPath?.let(
-                                  (it) => FileImage(File(it)),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark,
+      child: Scaffold(
+        body: Material(
+          color: const Color(0xffF4F4F4),
+          child: SafeArea(
+            bottom: false,
+            maintainBottomViewPadding: false,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      _buttonSpacing,
+                      _buttonSpacing,
+                      _buttonSpacing,
+                      0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: _imageSize,
+                          width: MediaQuery.of(context).size.width,
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: CpUserAvatar(
+                                  radius: _imageSize / 2,
+                                  image: photoPath?.let(
+                                    (it) => FileImage(File(it)),
+                                  ),
+                                  userName: name,
                                 ),
-                                userName: name,
                               ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: CpIconButton(
-                                icon: Assets.icons.closeButtonIcon.svg(),
-                                onPressed: Navigator.of(context).pop,
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: CpIconButton(
+                                  icon: Assets.icons.closeButtonIcon.svg(),
+                                  onPressed: Navigator.of(context).pop,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          name,
-                          style: Theme.of(context).textTheme.displaySmall,
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
+                            name,
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      _QrCodeWidget(address: address, name: name),
-                      const SizedBox(height: 12),
-                    ],
+                        const SizedBox(height: 24),
+                        _QrCodeWidget(address: address, name: name),
+                        const SizedBox(height: 12),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 24,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 24,
+                    ),
+                    child: Column(
+                      children: const [
+                        EditProfileSection(),
+                        SecuritySection(),
+                        AboutSection(),
+                        DangerSection(),
+                        ShareSection(),
+                        VersionSection(),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    children: const [
-                      EditProfileSection(),
-                      SecuritySection(),
-                      AboutSection(),
-                      DangerSection(),
-                      ShareSection(),
-                      VersionSection(),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

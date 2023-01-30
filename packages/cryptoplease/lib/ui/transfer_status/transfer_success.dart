@@ -4,36 +4,57 @@ import '../../l10n/l10n.dart';
 import '../button.dart';
 import '../status_screen.dart';
 import '../status_widget.dart';
+import '../text_button.dart';
 
 class TransferSuccess extends StatelessWidget {
   const TransferSuccess({
     super.key,
     required this.onOkPressed,
-    required this.content,
+    required this.statusContent,
+    this.content,
+    this.onMoreDetailsPressed,
   });
 
   final VoidCallback onOkPressed;
-  final String content;
+  final String statusContent;
+  final Widget? content;
+  final VoidCallback? onMoreDetailsPressed;
 
   @override
-  Widget build(BuildContext context) => StatusScreen(
-        title: context.l10n.splitKeyTransferTitle,
-        statusTitle: Text(context.l10n.transferSuccessTitle),
-        statusContent: Text(content),
-        statusType: CpStatusType.success,
-        content: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const SizedBox(height: 160),
-              CpButton(
-                size: CpButtonSize.big,
-                width: double.infinity,
-                text: context.l10n.ok,
-                onPressed: onOkPressed,
-              )
-            ],
-          ),
+  Widget build(BuildContext context) {
+    final content = this.content;
+
+    return StatusScreen(
+      title: context.l10n.splitKeyTransferTitle,
+      statusTitle: Text(context.l10n.transferSuccessTitle),
+      statusContent: Text(statusContent),
+      statusType: CpStatusType.success,
+      content: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          children: [
+            const SizedBox(height: 24),
+            if (content != null) content,
+            const Spacer(),
+            CpButton(
+              size: CpButtonSize.big,
+              width: double.infinity,
+              text: context.l10n.ok,
+              onPressed: onOkPressed,
+            ),
+            if (onMoreDetailsPressed != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 24),
+                child: CpTextButton(
+                  variant: CpTextButtonVariant.inverted,
+                  text: context.l10n.moreDetails,
+                  onPressed: onMoreDetailsPressed,
+                ),
+              ),
+            const SizedBox(height: 100),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

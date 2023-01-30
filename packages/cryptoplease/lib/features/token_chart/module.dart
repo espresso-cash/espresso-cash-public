@@ -5,7 +5,6 @@ import 'package:nested/nested.dart';
 import '../../core/tokens/token.dart';
 import '../../di.dart';
 import 'src/bloc.dart';
-import 'src/chart_interval.dart';
 
 class TokenChartModule extends SingleChildStatelessWidget {
   const TokenChartModule(this.token, {Key? key, Widget? child})
@@ -17,7 +16,7 @@ class TokenChartModule extends SingleChildStatelessWidget {
   Widget buildWithChild(BuildContext context, Widget? child) =>
       BlocProvider<TokenChartBloc>(
         create: (_) => sl<TokenChartBloc>(param1: token)
-          ..add(const FetchChartRequested(interval: ChartInterval.oneMonth)),
+          ..add(const FetchChartRequested(interval: defaultChartInterval)),
         child: child,
       );
 }
