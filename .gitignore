@@ -114,3 +114,5 @@ app.*.symbols
 
 test-ledger
 .packages~master
+
+**/pubspec_overrides.yaml

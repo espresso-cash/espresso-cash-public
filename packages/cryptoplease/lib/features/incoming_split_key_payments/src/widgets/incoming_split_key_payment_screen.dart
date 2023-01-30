@@ -49,7 +49,7 @@ class _IncomingSplitKeyPaymentScreenState
               return payment.status.maybeMap(
                 success: (_) => TransferSuccess(
                   onOkPressed: () => context.router.pop(),
-                  content: context.l10n.moneyReceived,
+                  statusContent: context.l10n.moneyReceived,
                 ),
                 txEscrowFailure: (_) => const WithdrawnError(),
                 orElse: () => TransferError(
