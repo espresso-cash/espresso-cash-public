@@ -61,7 +61,7 @@ class PopularTokenBloc extends Bloc<PopularTokenEvent, PopularTokenState> {
       result.foldAsync(
         (e) => state.copyWith(processingState: ProcessingState.error(e)),
         (tokens) => state.copyWith(
-          tokens: tokens.removeWhere((k, _) => k == Token.sol),
+          tokens: tokens,
           processingState: const ProcessingState.none(),
         ),
       );
