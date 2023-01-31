@@ -1,3 +1,7 @@
+## 1.62.1
+
+ - **FIX**: migrate camera permission api on qrscreen (#751).
+
 ## 1.62.0
 
  - **REFACTOR**: rebuild generated code (#748).
