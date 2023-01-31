@@ -1,3 +1,19 @@
+## 1.62.0
+
+ - **REFACTOR**: rebuild generated code (#748).
+ - **REFACTOR**: migrate to Flutter 3.7.
+ - **FIX**: watch activities on transaction items (#750).
+ - **FIX**: handle firebase link shortener exceptions (#742).
+ - **FIX**: settings screen topbar overlay color (#721).
+ - **FIX**: hide crypto investments section if 0 balance (#727).
+ - **FIX**: swap tile copy in transaction list (#734).
+ - **FEAT**: add SOL in first item of popular token list (#737).
+ - **FEAT**: token detail enhancements (#733).
+ - **FEAT**: new success screen for direct payment (#716).
+ - **FEAT**: minor improvements for swap screen (#738).
+ - **FEAT**: added day for week chart tooltip (#711).
+ - **DOCS**: update readme.
+
 ## 1.61.0
 
  - **FIX**: duplicate items on transaction list (#717).
