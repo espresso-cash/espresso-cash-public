@@ -124,7 +124,6 @@ class _ContentState extends State<_Content> {
                         key: _qrKey,
                         controller: _qrViewController,
                         onDetect: _onDetected,
-                        onScannerStarted: print,
                       ),
                     ),
                   if (_cameraEnabled)
