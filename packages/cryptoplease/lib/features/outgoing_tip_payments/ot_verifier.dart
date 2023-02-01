@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import '../../core/balances/bl/balances_bloc.dart';
+import '../../core/callback.dart';
 import '../../core/transactions/tx_destinations.dart';
 import 'models/outgoing_tip_payment.dart';
 import 'src/bl/repository.dart';
@@ -16,15 +16,15 @@ class OTVerifier {
   OTVerifier(
     this._client,
     this._repository, {
-    @factoryParam required BalancesBloc balancesBloc,
     @factoryParam required Ed25519HDPublicKey userPublicKey,
+    @factoryParam required Callback1<String> onSuccess,
   })  : _userPublicKey = userPublicKey,
-        _balancesBloc = balancesBloc;
+        _onSuccess = onSuccess;
 
   final SolanaClient _client;
   final OTRepository _repository;
   final Ed25519HDPublicKey _userPublicKey;
-  final BalancesBloc _balancesBloc;
+  final Callback1<String> _onSuccess;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   StreamSubscription<void>? _repoSubscription;
@@ -46,8 +46,7 @@ class OTVerifier {
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);
-          _balancesBloc
-              .add(BalancesEvent.requested(address: _userPublicKey.toBase58()));
+          _onSuccess(payment.id);
         }
 
         final status = payment.status;

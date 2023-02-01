@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 
-import '../../core/balances/bl/balances_bloc.dart';
+import '../../core/callback.dart';
 import 'models/swap.dart';
 import 'src/swap/swap_repository.dart';
 
@@ -13,15 +13,12 @@ class SwapVerifier {
   SwapVerifier(
     this._client,
     this._repository, {
-    @factoryParam required BalancesBloc balancesBloc,
-    @factoryParam required Ed25519HDPublicKey userPublicKey,
-  })  : _userPublicKey = userPublicKey,
-        _balancesBloc = balancesBloc;
+    @factoryParam required Callback1<String> onSuccess,
+  }) : _onSuccess = onSuccess;
 
   final SolanaClient _client;
   final SwapRepository _repository;
-  final BalancesBloc _balancesBloc;
-  final Ed25519HDPublicKey _userPublicKey;
+  final Callback1<String> _onSuccess;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   StreamSubscription<void>? _repoSubscription;
@@ -43,8 +40,7 @@ class SwapVerifier {
           _repository.save(swap.copyWith(status: newStatus));
           _subscriptions[swap.id]?.cancel();
           _subscriptions.remove(swap.id);
-          _balancesBloc
-              .add(BalancesEvent.requested(address: _userPublicKey.toBase58()));
+          _onSuccess(swap.id);
         }
 
         if (!_subscriptions.containsKey(swap.id)) {
