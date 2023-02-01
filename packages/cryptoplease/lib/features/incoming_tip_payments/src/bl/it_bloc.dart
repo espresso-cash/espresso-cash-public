@@ -126,7 +126,7 @@ class ITBloc extends Bloc<_Event, _State> {
 
       return ITStatus.txCreated(tx);
     } on DioError catch (e) {
-      if (e.isAlreadyWithdrawn) {
+      if (e.isInvalidEscrow) {
         return const ITStatus.txEscrowFailure();
       }
 

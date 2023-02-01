@@ -14,7 +14,7 @@ class WithdrawnError extends StatelessWidget {
         title: context.l10n.splitKeyTransferTitle,
         statusTitle: Text(context.l10n.transferErrorTitle),
         statusContent: Text(
-          context.l10n.moneyAlreadyWithdrawnError,
+          context.l10n.invalidEscrowError,
         ),
         statusType: CpStatusType.error,
         content: Padding(

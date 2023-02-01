@@ -21,7 +21,7 @@ Future<SignedTx> receivePaymentTx({
 
   if (escrow == null) {
     throw EspressoCashException(
-      code: 'AlreadyUsed',
+      code: 'InvalidEscrowAccount',
       message: 'Escrow account not found',
     );
   }

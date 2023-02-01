@@ -553,5 +553,5 @@
       }
     }
   },
-  "moneyAlreadyWithdrawnError" : "The money has already been withdrawn."
+  "invalidEscrowError" : "The link is incorrect or the money has already been withdrawn."
 }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 extension DioErrorExt on DioError {
-  bool get isAlreadyWithdrawn {
+  bool get isInvalidEscrow {
     final data = response?.data;
 
     if (data is! Map<String, dynamic>) return false;
@@ -9,6 +9,6 @@ extension DioErrorExt on DioError {
     final error = data['err'];
     if (error is! String) return false;
 
-    return error == 'AlreadyUsed';
+    return error == 'InvalidEscrowAccount';
   }
 }
