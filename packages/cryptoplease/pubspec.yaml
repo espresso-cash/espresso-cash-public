@@ -53,6 +53,7 @@ dependencies:
   path_provider: ^2.0.2
   provider: ^6.0.0
   qr_flutter: ^4.0.0
+  rive: ^0.10.1
   retrofit: ^3.0.1
   rxdart: ^0.27.1
   sentry_flutter: ^6.13.1
@@ -91,6 +92,7 @@ dev_dependencies:
 flutter_gen:
   integrations:
     flutter_svg: true
+    rive: true
 
 flutter:
   generate: true
@@ -99,6 +101,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/rive/
 
   fonts:
     - family: RobotoApp

@@ -6,6 +6,7 @@ import '../../../../core/presentation/page_fade_wrapper.dart';
 import '../../../../features/favorite_tokens/widgets/extensions.dart';
 import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
 import '../../../../features/investments/widgets/crypto_investments.dart';
+import '../../../../features/onboarding/widgets/onboarding_notice.dart';
 import '../../../../features/popular_tokens/widgets/extensions.dart';
 import '../../../../features/popular_tokens/widgets/popular_token_list.dart';
 import '../../../../gen/assets.gen.dart';
@@ -51,6 +52,9 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                   SliverPadding(
                     padding: EdgeInsets.symmetric(vertical: 52, horizontal: 24),
                     sliver: SliverToBoxAdapter(child: InvestmentHeader()),
+                  ),
+                  SliverToBoxAdapter(
+                    child: OnboardingNotice(),
                   ),
                   SliverPadding(
                     padding: EdgeInsets.only(left: 24, right: 24),
