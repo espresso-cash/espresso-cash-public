@@ -12,10 +12,11 @@ import 'src/swap/swap_repository.dart';
 class SwapVerifier {
   SwapVerifier(
     this._client,
-    this._repository,
-    this._balancesBloc, {
+    this._repository, {
+    @factoryParam required BalancesBloc balancesBloc,
     @factoryParam required Ed25519HDPublicKey userPublicKey,
-  }) : _userPublicKey = userPublicKey;
+  })  : _userPublicKey = userPublicKey,
+        _balancesBloc = balancesBloc;
 
   final SolanaClient _client;
   final SwapRepository _repository;

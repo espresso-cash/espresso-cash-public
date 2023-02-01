@@ -56,7 +56,6 @@ Future<void> main() async {
         client: client,
         account: account,
         txSender: sender,
-        balancesBloc: MockBalancesBloc(),
       );
 
   blocTest<ODPBloc, ODPState>(

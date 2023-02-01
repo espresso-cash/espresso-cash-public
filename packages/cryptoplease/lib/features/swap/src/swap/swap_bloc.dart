@@ -6,7 +6,6 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../models/swap.dart';
@@ -36,12 +35,10 @@ class SwapBloc extends Bloc<_Event, _State> {
     required RouteRepository routeRepository,
     required TxSender txSender,
     @factoryParam required Wallet wallet,
-    required BalancesBloc balancesBloc,
   })  : _txSender = txSender,
         _swapRepository = swapRepository,
         _routeRepository = routeRepository,
         _wallet = wallet,
-        _balancesBloc = balancesBloc,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
@@ -50,15 +47,11 @@ class SwapBloc extends Bloc<_Event, _State> {
   final SwapRepository _swapRepository;
   final RouteRepository _routeRepository;
   final Wallet _wallet;
-  final BalancesBloc _balancesBloc;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
         process: (e) => _onProcess(e, emit),
       );
-
-  void _refreshBalances() =>
-      _balancesBloc.add(BalancesEvent.requested(address: _wallet.address));
 
   Future<void> _onCreate(_SwapCreated event, _Emitter _) async {
     final status = await _createTx(event.route.encodedTx);
@@ -98,7 +91,7 @@ class SwapBloc extends Bloc<_Event, _State> {
     newStatus.map(
       txCreated: (_) => add(SwapEvent.process(swap.id)),
       txSent: (_) => add(SwapEvent.process(swap.id)),
-      success: (_) => _refreshBalances,
+      success: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,

@@ -8,7 +8,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
-import '../../../../core/balances/bl/balances_bloc.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import 'incoming_split_key_payment.dart';
@@ -39,12 +38,10 @@ class ISKPBloc extends Bloc<_Event, _State> {
     required CryptopleaseClient client,
     @factoryParam required Ed25519HDKeyPair account,
     required TxSender txSender,
-    required BalancesBloc balancesBloc,
   })  : _repository = repository,
         _client = client,
         _account = account,
         _txSender = txSender,
-        _balancesBloc = balancesBloc,
         super(const ISetConst({})) {
     on<_Event>(_handler);
   }
@@ -53,15 +50,11 @@ class ISKPBloc extends Bloc<_Event, _State> {
   final CryptopleaseClient _client;
   final Ed25519HDKeyPair _account;
   final TxSender _txSender;
-  final BalancesBloc _balancesBloc;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),
         process: (e) => _onProcess(e, emit),
       );
-
-  void _refreshBalances() =>
-      _balancesBloc.add(BalancesEvent.requested(address: _account.address));
 
   Future<void> _onCreate(ISKPEventCreate event, _Emitter _) async {
     // TODO(KB): Check whether the account is correct.
@@ -109,7 +102,7 @@ class ISKPBloc extends Bloc<_Event, _State> {
       privateKeyReady: (_) => add(ISKPEvent.process(payment.id)),
       txCreated: (_) => add(ISKPEvent.process(payment.id)),
       txSent: (_) => add(ISKPEvent.process(payment.id)),
-      success: (_) => _refreshBalances(),
+      success: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
       txWaitFailure: ignore,

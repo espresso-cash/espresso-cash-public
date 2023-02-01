@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/accounts/bl/account.dart';
+import '../../../../../core/balances/presentation/refresh_balance_wrapper.dart';
 import '../../../../../di.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
@@ -52,9 +53,17 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
                   param2: context.read<MyAccount>().wallet.publicKey,
                 ),
                 lazy: false,
-                child: Provider<PaymentRequest>.value(
-                  value: data,
-                  child: const AutoRouter(),
+                child: RefreshBalancesWrapper(
+                  builder: (context, onRefresh) => BlocListener<
+                      PaymentRequestVerifierBloc, PaymentRequestVerifierState>(
+                    listener: (context, state) => state.whenOrNull(
+                      success: onRefresh,
+                    ),
+                    child: Provider<PaymentRequest>.value(
+                      value: data,
+                      child: const AutoRouter(),
+                    ),
+                  ),
                 ),
               ),
               completed: (_) => _Success(request: data),
