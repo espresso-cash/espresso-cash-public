@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'create_payment.dart';
 
@@ -36,7 +36,8 @@ mixin _$CreatePaymentRequestDto {
 abstract class $CreatePaymentRequestDtoCopyWith<$Res> {
   factory $CreatePaymentRequestDtoCopyWith(CreatePaymentRequestDto value,
           $Res Function(CreatePaymentRequestDto) then) =
-      _$CreatePaymentRequestDtoCopyWithImpl<$Res>;
+      _$CreatePaymentRequestDtoCopyWithImpl<$Res, CreatePaymentRequestDto>;
+  @useResult
   $Res call(
       {String senderAccount,
       String escrowAccount,
@@ -45,39 +46,42 @@ abstract class $CreatePaymentRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CreatePaymentRequestDtoCopyWithImpl<$Res>
+class _$CreatePaymentRequestDtoCopyWithImpl<$Res,
+        $Val extends CreatePaymentRequestDto>
     implements $CreatePaymentRequestDtoCopyWith<$Res> {
   _$CreatePaymentRequestDtoCopyWithImpl(this._value, this._then);
 
-  final CreatePaymentRequestDto _value;
   // ignore: unused_field
-  final $Res Function(CreatePaymentRequestDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? senderAccount = freezed,
-    Object? escrowAccount = freezed,
-    Object? amount = freezed,
-    Object? cluster = freezed,
+    Object? senderAccount = null,
+    Object? escrowAccount = null,
+    Object? amount = null,
+    Object? cluster = null,
   }) {
     return _then(_value.copyWith(
-      senderAccount: senderAccount == freezed
+      senderAccount: null == senderAccount
           ? _value.senderAccount
           : senderAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      escrowAccount: escrowAccount == freezed
+      escrowAccount: null == escrowAccount
           ? _value.escrowAccount
           : escrowAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
-    ));
+    ) as $Val);
   }
 }
 
@@ -88,6 +92,7 @@ abstract class _$$_CreatePaymentRequestDtoCopyWith<$Res>
           $Res Function(_$_CreatePaymentRequestDto) then) =
       __$$_CreatePaymentRequestDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String senderAccount,
       String escrowAccount,
@@ -97,37 +102,35 @@ abstract class _$$_CreatePaymentRequestDtoCopyWith<$Res>
 
 /// @nodoc
 class __$$_CreatePaymentRequestDtoCopyWithImpl<$Res>
-    extends _$CreatePaymentRequestDtoCopyWithImpl<$Res>
+    extends _$CreatePaymentRequestDtoCopyWithImpl<$Res,
+        _$_CreatePaymentRequestDto>
     implements _$$_CreatePaymentRequestDtoCopyWith<$Res> {
   __$$_CreatePaymentRequestDtoCopyWithImpl(_$_CreatePaymentRequestDto _value,
       $Res Function(_$_CreatePaymentRequestDto) _then)
-      : super(_value, (v) => _then(v as _$_CreatePaymentRequestDto));
+      : super(_value, _then);
 
-  @override
-  _$_CreatePaymentRequestDto get _value =>
-      super._value as _$_CreatePaymentRequestDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? senderAccount = freezed,
-    Object? escrowAccount = freezed,
-    Object? amount = freezed,
-    Object? cluster = freezed,
+    Object? senderAccount = null,
+    Object? escrowAccount = null,
+    Object? amount = null,
+    Object? cluster = null,
   }) {
     return _then(_$_CreatePaymentRequestDto(
-      senderAccount: senderAccount == freezed
+      senderAccount: null == senderAccount
           ? _value.senderAccount
           : senderAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      escrowAccount: escrowAccount == freezed
+      escrowAccount: null == escrowAccount
           ? _value.escrowAccount
           : escrowAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
@@ -166,25 +169,22 @@ class _$_CreatePaymentRequestDto implements _CreatePaymentRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CreatePaymentRequestDto &&
-            const DeepCollectionEquality()
-                .equals(other.senderAccount, senderAccount) &&
-            const DeepCollectionEquality()
-                .equals(other.escrowAccount, escrowAccount) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.cluster, cluster));
+            (identical(other.senderAccount, senderAccount) ||
+                other.senderAccount == senderAccount) &&
+            (identical(other.escrowAccount, escrowAccount) ||
+                other.escrowAccount == escrowAccount) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(senderAccount),
-      const DeepCollectionEquality().hash(escrowAccount),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(cluster));
+  int get hashCode =>
+      Object.hash(runtimeType, senderAccount, escrowAccount, amount, cluster);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CreatePaymentRequestDtoCopyWith<_$_CreatePaymentRequestDto>
       get copyWith =>
           __$$_CreatePaymentRequestDtoCopyWithImpl<_$_CreatePaymentRequestDto>(
@@ -241,29 +241,33 @@ mixin _$CreatePaymentResponseDto {
 abstract class $CreatePaymentResponseDtoCopyWith<$Res> {
   factory $CreatePaymentResponseDtoCopyWith(CreatePaymentResponseDto value,
           $Res Function(CreatePaymentResponseDto) then) =
-      _$CreatePaymentResponseDtoCopyWithImpl<$Res>;
+      _$CreatePaymentResponseDtoCopyWithImpl<$Res, CreatePaymentResponseDto>;
+  @useResult
   $Res call({String transaction});
 }
 
 /// @nodoc
-class _$CreatePaymentResponseDtoCopyWithImpl<$Res>
+class _$CreatePaymentResponseDtoCopyWithImpl<$Res,
+        $Val extends CreatePaymentResponseDto>
     implements $CreatePaymentResponseDtoCopyWith<$Res> {
   _$CreatePaymentResponseDtoCopyWithImpl(this._value, this._then);
 
-  final CreatePaymentResponseDto _value;
   // ignore: unused_field
-  final $Res Function(CreatePaymentResponseDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transaction = freezed,
+    Object? transaction = null,
   }) {
     return _then(_value.copyWith(
-      transaction: transaction == freezed
+      transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -275,27 +279,26 @@ abstract class _$$_CreatePaymentResponseDtoCopyWith<$Res>
           $Res Function(_$_CreatePaymentResponseDto) then) =
       __$$_CreatePaymentResponseDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String transaction});
 }
 
 /// @nodoc
 class __$$_CreatePaymentResponseDtoCopyWithImpl<$Res>
-    extends _$CreatePaymentResponseDtoCopyWithImpl<$Res>
+    extends _$CreatePaymentResponseDtoCopyWithImpl<$Res,
+        _$_CreatePaymentResponseDto>
     implements _$$_CreatePaymentResponseDtoCopyWith<$Res> {
   __$$_CreatePaymentResponseDtoCopyWithImpl(_$_CreatePaymentResponseDto _value,
       $Res Function(_$_CreatePaymentResponseDto) _then)
-      : super(_value, (v) => _then(v as _$_CreatePaymentResponseDto));
+      : super(_value, _then);
 
-  @override
-  _$_CreatePaymentResponseDto get _value =>
-      super._value as _$_CreatePaymentResponseDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transaction = freezed,
+    Object? transaction = null,
   }) {
     return _then(_$_CreatePaymentResponseDto(
-      transaction: transaction == freezed
+      transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
@@ -324,17 +327,17 @@ class _$_CreatePaymentResponseDto implements _CreatePaymentResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CreatePaymentResponseDto &&
-            const DeepCollectionEquality()
-                .equals(other.transaction, transaction));
+            (identical(other.transaction, transaction) ||
+                other.transaction == transaction));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(transaction));
+  int get hashCode => Object.hash(runtimeType, transaction);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CreatePaymentResponseDtoCopyWith<_$_CreatePaymentResponseDto>
       get copyWith => __$$_CreatePaymentResponseDtoCopyWithImpl<
           _$_CreatePaymentResponseDto>(this, _$identity);
@@ -383,39 +386,43 @@ mixin _$ReceivePaymentRequestDto {
 abstract class $ReceivePaymentRequestDtoCopyWith<$Res> {
   factory $ReceivePaymentRequestDtoCopyWith(ReceivePaymentRequestDto value,
           $Res Function(ReceivePaymentRequestDto) then) =
-      _$ReceivePaymentRequestDtoCopyWithImpl<$Res>;
+      _$ReceivePaymentRequestDtoCopyWithImpl<$Res, ReceivePaymentRequestDto>;
+  @useResult
   $Res call({String receiverAccount, String escrowAccount, Cluster cluster});
 }
 
 /// @nodoc
-class _$ReceivePaymentRequestDtoCopyWithImpl<$Res>
+class _$ReceivePaymentRequestDtoCopyWithImpl<$Res,
+        $Val extends ReceivePaymentRequestDto>
     implements $ReceivePaymentRequestDtoCopyWith<$Res> {
   _$ReceivePaymentRequestDtoCopyWithImpl(this._value, this._then);
 
-  final ReceivePaymentRequestDto _value;
   // ignore: unused_field
-  final $Res Function(ReceivePaymentRequestDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? receiverAccount = freezed,
-    Object? escrowAccount = freezed,
-    Object? cluster = freezed,
+    Object? receiverAccount = null,
+    Object? escrowAccount = null,
+    Object? cluster = null,
   }) {
     return _then(_value.copyWith(
-      receiverAccount: receiverAccount == freezed
+      receiverAccount: null == receiverAccount
           ? _value.receiverAccount
           : receiverAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      escrowAccount: escrowAccount == freezed
+      escrowAccount: null == escrowAccount
           ? _value.escrowAccount
           : escrowAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
-    ));
+    ) as $Val);
   }
 }
 
@@ -427,37 +434,36 @@ abstract class _$$_ReceivePaymentRequestDtoCopyWith<$Res>
           $Res Function(_$_ReceivePaymentRequestDto) then) =
       __$$_ReceivePaymentRequestDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String receiverAccount, String escrowAccount, Cluster cluster});
 }
 
 /// @nodoc
 class __$$_ReceivePaymentRequestDtoCopyWithImpl<$Res>
-    extends _$ReceivePaymentRequestDtoCopyWithImpl<$Res>
+    extends _$ReceivePaymentRequestDtoCopyWithImpl<$Res,
+        _$_ReceivePaymentRequestDto>
     implements _$$_ReceivePaymentRequestDtoCopyWith<$Res> {
   __$$_ReceivePaymentRequestDtoCopyWithImpl(_$_ReceivePaymentRequestDto _value,
       $Res Function(_$_ReceivePaymentRequestDto) _then)
-      : super(_value, (v) => _then(v as _$_ReceivePaymentRequestDto));
+      : super(_value, _then);
 
-  @override
-  _$_ReceivePaymentRequestDto get _value =>
-      super._value as _$_ReceivePaymentRequestDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? receiverAccount = freezed,
-    Object? escrowAccount = freezed,
-    Object? cluster = freezed,
+    Object? receiverAccount = null,
+    Object? escrowAccount = null,
+    Object? cluster = null,
   }) {
     return _then(_$_ReceivePaymentRequestDto(
-      receiverAccount: receiverAccount == freezed
+      receiverAccount: null == receiverAccount
           ? _value.receiverAccount
           : receiverAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      escrowAccount: escrowAccount == freezed
+      escrowAccount: null == escrowAccount
           ? _value.escrowAccount
           : escrowAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
@@ -493,23 +499,21 @@ class _$_ReceivePaymentRequestDto implements _ReceivePaymentRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ReceivePaymentRequestDto &&
-            const DeepCollectionEquality()
-                .equals(other.receiverAccount, receiverAccount) &&
-            const DeepCollectionEquality()
-                .equals(other.escrowAccount, escrowAccount) &&
-            const DeepCollectionEquality().equals(other.cluster, cluster));
+            (identical(other.receiverAccount, receiverAccount) ||
+                other.receiverAccount == receiverAccount) &&
+            (identical(other.escrowAccount, escrowAccount) ||
+                other.escrowAccount == escrowAccount) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(receiverAccount),
-      const DeepCollectionEquality().hash(escrowAccount),
-      const DeepCollectionEquality().hash(cluster));
+  int get hashCode =>
+      Object.hash(runtimeType, receiverAccount, escrowAccount, cluster);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ReceivePaymentRequestDtoCopyWith<_$_ReceivePaymentRequestDto>
       get copyWith => __$$_ReceivePaymentRequestDtoCopyWithImpl<
           _$_ReceivePaymentRequestDto>(this, _$identity);
@@ -562,29 +566,33 @@ mixin _$ReceivePaymentResponseDto {
 abstract class $ReceivePaymentResponseDtoCopyWith<$Res> {
   factory $ReceivePaymentResponseDtoCopyWith(ReceivePaymentResponseDto value,
           $Res Function(ReceivePaymentResponseDto) then) =
-      _$ReceivePaymentResponseDtoCopyWithImpl<$Res>;
+      _$ReceivePaymentResponseDtoCopyWithImpl<$Res, ReceivePaymentResponseDto>;
+  @useResult
   $Res call({String transaction});
 }
 
 /// @nodoc
-class _$ReceivePaymentResponseDtoCopyWithImpl<$Res>
+class _$ReceivePaymentResponseDtoCopyWithImpl<$Res,
+        $Val extends ReceivePaymentResponseDto>
     implements $ReceivePaymentResponseDtoCopyWith<$Res> {
   _$ReceivePaymentResponseDtoCopyWithImpl(this._value, this._then);
 
-  final ReceivePaymentResponseDto _value;
   // ignore: unused_field
-  final $Res Function(ReceivePaymentResponseDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transaction = freezed,
+    Object? transaction = null,
   }) {
     return _then(_value.copyWith(
-      transaction: transaction == freezed
+      transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -596,28 +604,27 @@ abstract class _$$_ReceivePaymentResponseDtoCopyWith<$Res>
           $Res Function(_$_ReceivePaymentResponseDto) then) =
       __$$_ReceivePaymentResponseDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String transaction});
 }
 
 /// @nodoc
 class __$$_ReceivePaymentResponseDtoCopyWithImpl<$Res>
-    extends _$ReceivePaymentResponseDtoCopyWithImpl<$Res>
+    extends _$ReceivePaymentResponseDtoCopyWithImpl<$Res,
+        _$_ReceivePaymentResponseDto>
     implements _$$_ReceivePaymentResponseDtoCopyWith<$Res> {
   __$$_ReceivePaymentResponseDtoCopyWithImpl(
       _$_ReceivePaymentResponseDto _value,
       $Res Function(_$_ReceivePaymentResponseDto) _then)
-      : super(_value, (v) => _then(v as _$_ReceivePaymentResponseDto));
+      : super(_value, _then);
 
-  @override
-  _$_ReceivePaymentResponseDto get _value =>
-      super._value as _$_ReceivePaymentResponseDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transaction = freezed,
+    Object? transaction = null,
   }) {
     return _then(_$_ReceivePaymentResponseDto(
-      transaction: transaction == freezed
+      transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
@@ -646,17 +653,17 @@ class _$_ReceivePaymentResponseDto implements _ReceivePaymentResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ReceivePaymentResponseDto &&
-            const DeepCollectionEquality()
-                .equals(other.transaction, transaction));
+            (identical(other.transaction, transaction) ||
+                other.transaction == transaction));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(transaction));
+  int get hashCode => Object.hash(runtimeType, transaction);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ReceivePaymentResponseDtoCopyWith<_$_ReceivePaymentResponseDto>
       get copyWith => __$$_ReceivePaymentResponseDtoCopyWithImpl<
           _$_ReceivePaymentResponseDto>(this, _$identity);
@@ -708,7 +715,9 @@ abstract class $CreateDirectPaymentRequestDtoCopyWith<$Res> {
   factory $CreateDirectPaymentRequestDtoCopyWith(
           CreateDirectPaymentRequestDto value,
           $Res Function(CreateDirectPaymentRequestDto) then) =
-      _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res>;
+      _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
+          CreateDirectPaymentRequestDto>;
+  @useResult
   $Res call(
       {String senderAccount,
       String receiverAccount,
@@ -718,44 +727,47 @@ abstract class $CreateDirectPaymentRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
+class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
+        $Val extends CreateDirectPaymentRequestDto>
     implements $CreateDirectPaymentRequestDtoCopyWith<$Res> {
   _$CreateDirectPaymentRequestDtoCopyWithImpl(this._value, this._then);
 
-  final CreateDirectPaymentRequestDto _value;
   // ignore: unused_field
-  final $Res Function(CreateDirectPaymentRequestDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? senderAccount = freezed,
-    Object? receiverAccount = freezed,
+    Object? senderAccount = null,
+    Object? receiverAccount = null,
     Object? referenceAccount = freezed,
-    Object? amount = freezed,
-    Object? cluster = freezed,
+    Object? amount = null,
+    Object? cluster = null,
   }) {
     return _then(_value.copyWith(
-      senderAccount: senderAccount == freezed
+      senderAccount: null == senderAccount
           ? _value.senderAccount
           : senderAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      receiverAccount: receiverAccount == freezed
+      receiverAccount: null == receiverAccount
           ? _value.receiverAccount
           : receiverAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      referenceAccount: referenceAccount == freezed
+      referenceAccount: freezed == referenceAccount
           ? _value.referenceAccount
           : referenceAccount // ignore: cast_nullable_to_non_nullable
               as String?,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
-    ));
+    ) as $Val);
   }
 }
 
@@ -767,6 +779,7 @@ abstract class _$$_CreateDirectPaymentRequestDtoCopyWith<$Res>
           $Res Function(_$_CreateDirectPaymentRequestDto) then) =
       __$$_CreateDirectPaymentRequestDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String senderAccount,
       String receiverAccount,
@@ -777,43 +790,41 @@ abstract class _$$_CreateDirectPaymentRequestDtoCopyWith<$Res>
 
 /// @nodoc
 class __$$_CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
-    extends _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
+    extends _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
+        _$_CreateDirectPaymentRequestDto>
     implements _$$_CreateDirectPaymentRequestDtoCopyWith<$Res> {
   __$$_CreateDirectPaymentRequestDtoCopyWithImpl(
       _$_CreateDirectPaymentRequestDto _value,
       $Res Function(_$_CreateDirectPaymentRequestDto) _then)
-      : super(_value, (v) => _then(v as _$_CreateDirectPaymentRequestDto));
+      : super(_value, _then);
 
-  @override
-  _$_CreateDirectPaymentRequestDto get _value =>
-      super._value as _$_CreateDirectPaymentRequestDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? senderAccount = freezed,
-    Object? receiverAccount = freezed,
+    Object? senderAccount = null,
+    Object? receiverAccount = null,
     Object? referenceAccount = freezed,
-    Object? amount = freezed,
-    Object? cluster = freezed,
+    Object? amount = null,
+    Object? cluster = null,
   }) {
     return _then(_$_CreateDirectPaymentRequestDto(
-      senderAccount: senderAccount == freezed
+      senderAccount: null == senderAccount
           ? _value.senderAccount
           : senderAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      receiverAccount: receiverAccount == freezed
+      receiverAccount: null == receiverAccount
           ? _value.receiverAccount
           : receiverAccount // ignore: cast_nullable_to_non_nullable
               as String,
-      referenceAccount: referenceAccount == freezed
+      referenceAccount: freezed == referenceAccount
           ? _value.referenceAccount
           : referenceAccount // ignore: cast_nullable_to_non_nullable
               as String?,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
-      cluster: cluster == freezed
+      cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
@@ -857,28 +868,24 @@ class _$_CreateDirectPaymentRequestDto
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CreateDirectPaymentRequestDto &&
-            const DeepCollectionEquality()
-                .equals(other.senderAccount, senderAccount) &&
-            const DeepCollectionEquality()
-                .equals(other.receiverAccount, receiverAccount) &&
-            const DeepCollectionEquality()
-                .equals(other.referenceAccount, referenceAccount) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.cluster, cluster));
+            (identical(other.senderAccount, senderAccount) ||
+                other.senderAccount == senderAccount) &&
+            (identical(other.receiverAccount, receiverAccount) ||
+                other.receiverAccount == receiverAccount) &&
+            (identical(other.referenceAccount, referenceAccount) ||
+                other.referenceAccount == referenceAccount) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(senderAccount),
-      const DeepCollectionEquality().hash(receiverAccount),
-      const DeepCollectionEquality().hash(referenceAccount),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(cluster));
+  int get hashCode => Object.hash(runtimeType, senderAccount, receiverAccount,
+      referenceAccount, amount, cluster);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CreateDirectPaymentRequestDtoCopyWith<_$_CreateDirectPaymentRequestDto>
       get copyWith => __$$_CreateDirectPaymentRequestDtoCopyWithImpl<
           _$_CreateDirectPaymentRequestDto>(this, _$identity);
@@ -940,34 +947,39 @@ abstract class $CreateDirectPaymentResponseDtoCopyWith<$Res> {
   factory $CreateDirectPaymentResponseDtoCopyWith(
           CreateDirectPaymentResponseDto value,
           $Res Function(CreateDirectPaymentResponseDto) then) =
-      _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res>;
+      _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res,
+          CreateDirectPaymentResponseDto>;
+  @useResult
   $Res call({int fee, String transaction});
 }
 
 /// @nodoc
-class _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
+class _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res,
+        $Val extends CreateDirectPaymentResponseDto>
     implements $CreateDirectPaymentResponseDtoCopyWith<$Res> {
   _$CreateDirectPaymentResponseDtoCopyWithImpl(this._value, this._then);
 
-  final CreateDirectPaymentResponseDto _value;
   // ignore: unused_field
-  final $Res Function(CreateDirectPaymentResponseDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? fee = freezed,
-    Object? transaction = freezed,
+    Object? fee = null,
+    Object? transaction = null,
   }) {
     return _then(_value.copyWith(
-      fee: fee == freezed
+      fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as int,
-      transaction: transaction == freezed
+      transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -979,33 +991,32 @@ abstract class _$$_CreateDirectPaymentResponseDtoCopyWith<$Res>
           $Res Function(_$_CreateDirectPaymentResponseDto) then) =
       __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({int fee, String transaction});
 }
 
 /// @nodoc
 class __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
-    extends _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
+    extends _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res,
+        _$_CreateDirectPaymentResponseDto>
     implements _$$_CreateDirectPaymentResponseDtoCopyWith<$Res> {
   __$$_CreateDirectPaymentResponseDtoCopyWithImpl(
       _$_CreateDirectPaymentResponseDto _value,
       $Res Function(_$_CreateDirectPaymentResponseDto) _then)
-      : super(_value, (v) => _then(v as _$_CreateDirectPaymentResponseDto));
+      : super(_value, _then);
 
-  @override
-  _$_CreateDirectPaymentResponseDto get _value =>
-      super._value as _$_CreateDirectPaymentResponseDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? fee = freezed,
-    Object? transaction = freezed,
+    Object? fee = null,
+    Object? transaction = null,
   }) {
     return _then(_$_CreateDirectPaymentResponseDto(
-      fee: fee == freezed
+      fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as int,
-      transaction: transaction == freezed
+      transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
@@ -1039,20 +1050,18 @@ class _$_CreateDirectPaymentResponseDto
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CreateDirectPaymentResponseDto &&
-            const DeepCollectionEquality().equals(other.fee, fee) &&
-            const DeepCollectionEquality()
-                .equals(other.transaction, transaction));
+            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.transaction, transaction) ||
+                other.transaction == transaction));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(fee),
-      const DeepCollectionEquality().hash(transaction));
+  int get hashCode => Object.hash(runtimeType, fee, transaction);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CreateDirectPaymentResponseDtoCopyWith<_$_CreateDirectPaymentResponseDto>
       get copyWith => __$$_CreateDirectPaymentResponseDtoCopyWithImpl<
           _$_CreateDirectPaymentResponseDto>(this, _$identity);

@@ -36,12 +36,9 @@ class LinkShortener {
     final url = Uri.tryParse(link);
     if (url == null) return null;
 
-    try {
-      return FirebaseDynamicLinks.instance
-          .getDynamicLink(url)
-          .then((it) => it?.link);
-    } on Object {
-      return null;
-    }
+    return FirebaseDynamicLinks.instance
+        .getDynamicLink(url)
+        .then((it) => it?.link)
+        .catchError((_) => null);
   }
 }

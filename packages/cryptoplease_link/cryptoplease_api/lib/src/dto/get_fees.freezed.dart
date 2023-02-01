@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'get_fees.dart';
 
@@ -33,42 +33,46 @@ mixin _$GetFeesResponseDto {
 abstract class $GetFeesResponseDtoCopyWith<$Res> {
   factory $GetFeesResponseDtoCopyWith(
           GetFeesResponseDto value, $Res Function(GetFeesResponseDto) then) =
-      _$GetFeesResponseDtoCopyWithImpl<$Res>;
+      _$GetFeesResponseDtoCopyWithImpl<$Res, GetFeesResponseDto>;
+  @useResult
   $Res call({DirectPaymentFeeDto directPayment, int splitKeyPayment});
 
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
 }
 
 /// @nodoc
-class _$GetFeesResponseDtoCopyWithImpl<$Res>
+class _$GetFeesResponseDtoCopyWithImpl<$Res, $Val extends GetFeesResponseDto>
     implements $GetFeesResponseDtoCopyWith<$Res> {
   _$GetFeesResponseDtoCopyWithImpl(this._value, this._then);
 
-  final GetFeesResponseDto _value;
   // ignore: unused_field
-  final $Res Function(GetFeesResponseDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? directPayment = freezed,
-    Object? splitKeyPayment = freezed,
+    Object? directPayment = null,
+    Object? splitKeyPayment = null,
   }) {
     return _then(_value.copyWith(
-      directPayment: directPayment == freezed
+      directPayment: null == directPayment
           ? _value.directPayment
           : directPayment // ignore: cast_nullable_to_non_nullable
               as DirectPaymentFeeDto,
-      splitKeyPayment: splitKeyPayment == freezed
+      splitKeyPayment: null == splitKeyPayment
           ? _value.splitKeyPayment
           : splitKeyPayment // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment {
     return $DirectPaymentFeeDtoCopyWith<$Res>(_value.directPayment, (value) {
-      return _then(_value.copyWith(directPayment: value));
+      return _then(_value.copyWith(directPayment: value) as $Val);
     });
   }
 }
@@ -80,6 +84,7 @@ abstract class _$$_GetFeesResponseDtoCopyWith<$Res>
           $Res Function(_$_GetFeesResponseDto) then) =
       __$$_GetFeesResponseDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({DirectPaymentFeeDto directPayment, int splitKeyPayment});
 
   @override
@@ -88,26 +93,24 @@ abstract class _$$_GetFeesResponseDtoCopyWith<$Res>
 
 /// @nodoc
 class __$$_GetFeesResponseDtoCopyWithImpl<$Res>
-    extends _$GetFeesResponseDtoCopyWithImpl<$Res>
+    extends _$GetFeesResponseDtoCopyWithImpl<$Res, _$_GetFeesResponseDto>
     implements _$$_GetFeesResponseDtoCopyWith<$Res> {
   __$$_GetFeesResponseDtoCopyWithImpl(
       _$_GetFeesResponseDto _value, $Res Function(_$_GetFeesResponseDto) _then)
-      : super(_value, (v) => _then(v as _$_GetFeesResponseDto));
+      : super(_value, _then);
 
-  @override
-  _$_GetFeesResponseDto get _value => super._value as _$_GetFeesResponseDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? directPayment = freezed,
-    Object? splitKeyPayment = freezed,
+    Object? directPayment = null,
+    Object? splitKeyPayment = null,
   }) {
     return _then(_$_GetFeesResponseDto(
-      directPayment: directPayment == freezed
+      directPayment: null == directPayment
           ? _value.directPayment
           : directPayment // ignore: cast_nullable_to_non_nullable
               as DirectPaymentFeeDto,
-      splitKeyPayment: splitKeyPayment == freezed
+      splitKeyPayment: null == splitKeyPayment
           ? _value.splitKeyPayment
           : splitKeyPayment // ignore: cast_nullable_to_non_nullable
               as int,
@@ -139,21 +142,19 @@ class _$_GetFeesResponseDto implements _GetFeesResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_GetFeesResponseDto &&
-            const DeepCollectionEquality()
-                .equals(other.directPayment, directPayment) &&
-            const DeepCollectionEquality()
-                .equals(other.splitKeyPayment, splitKeyPayment));
+            (identical(other.directPayment, directPayment) ||
+                other.directPayment == directPayment) &&
+            (identical(other.splitKeyPayment, splitKeyPayment) ||
+                other.splitKeyPayment == splitKeyPayment));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(directPayment),
-      const DeepCollectionEquality().hash(splitKeyPayment));
+  int get hashCode => Object.hash(runtimeType, directPayment, splitKeyPayment);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_GetFeesResponseDtoCopyWith<_$_GetFeesResponseDto> get copyWith =>
       __$$_GetFeesResponseDtoCopyWithImpl<_$_GetFeesResponseDto>(
           this, _$identity);
@@ -203,34 +204,37 @@ mixin _$DirectPaymentFeeDto {
 abstract class $DirectPaymentFeeDtoCopyWith<$Res> {
   factory $DirectPaymentFeeDtoCopyWith(
           DirectPaymentFeeDto value, $Res Function(DirectPaymentFeeDto) then) =
-      _$DirectPaymentFeeDtoCopyWithImpl<$Res>;
+      _$DirectPaymentFeeDtoCopyWithImpl<$Res, DirectPaymentFeeDto>;
+  @useResult
   $Res call({int ataExists, int ataDoesNotExist});
 }
 
 /// @nodoc
-class _$DirectPaymentFeeDtoCopyWithImpl<$Res>
+class _$DirectPaymentFeeDtoCopyWithImpl<$Res, $Val extends DirectPaymentFeeDto>
     implements $DirectPaymentFeeDtoCopyWith<$Res> {
   _$DirectPaymentFeeDtoCopyWithImpl(this._value, this._then);
 
-  final DirectPaymentFeeDto _value;
   // ignore: unused_field
-  final $Res Function(DirectPaymentFeeDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ataExists = freezed,
-    Object? ataDoesNotExist = freezed,
+    Object? ataExists = null,
+    Object? ataDoesNotExist = null,
   }) {
     return _then(_value.copyWith(
-      ataExists: ataExists == freezed
+      ataExists: null == ataExists
           ? _value.ataExists
           : ataExists // ignore: cast_nullable_to_non_nullable
               as int,
-      ataDoesNotExist: ataDoesNotExist == freezed
+      ataDoesNotExist: null == ataDoesNotExist
           ? _value.ataDoesNotExist
           : ataDoesNotExist // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 }
 
@@ -241,31 +245,30 @@ abstract class _$$_DirectPaymentFeeDtoCopyWith<$Res>
           $Res Function(_$_DirectPaymentFeeDto) then) =
       __$$_DirectPaymentFeeDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({int ataExists, int ataDoesNotExist});
 }
 
 /// @nodoc
 class __$$_DirectPaymentFeeDtoCopyWithImpl<$Res>
-    extends _$DirectPaymentFeeDtoCopyWithImpl<$Res>
+    extends _$DirectPaymentFeeDtoCopyWithImpl<$Res, _$_DirectPaymentFeeDto>
     implements _$$_DirectPaymentFeeDtoCopyWith<$Res> {
   __$$_DirectPaymentFeeDtoCopyWithImpl(_$_DirectPaymentFeeDto _value,
       $Res Function(_$_DirectPaymentFeeDto) _then)
-      : super(_value, (v) => _then(v as _$_DirectPaymentFeeDto));
+      : super(_value, _then);
 
-  @override
-  _$_DirectPaymentFeeDto get _value => super._value as _$_DirectPaymentFeeDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ataExists = freezed,
-    Object? ataDoesNotExist = freezed,
+    Object? ataExists = null,
+    Object? ataDoesNotExist = null,
   }) {
     return _then(_$_DirectPaymentFeeDto(
-      ataExists: ataExists == freezed
+      ataExists: null == ataExists
           ? _value.ataExists
           : ataExists // ignore: cast_nullable_to_non_nullable
               as int,
-      ataDoesNotExist: ataDoesNotExist == freezed
+      ataDoesNotExist: null == ataDoesNotExist
           ? _value.ataDoesNotExist
           : ataDoesNotExist // ignore: cast_nullable_to_non_nullable
               as int,
@@ -297,20 +300,19 @@ class _$_DirectPaymentFeeDto implements _DirectPaymentFeeDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_DirectPaymentFeeDto &&
-            const DeepCollectionEquality().equals(other.ataExists, ataExists) &&
-            const DeepCollectionEquality()
-                .equals(other.ataDoesNotExist, ataDoesNotExist));
+            (identical(other.ataExists, ataExists) ||
+                other.ataExists == ataExists) &&
+            (identical(other.ataDoesNotExist, ataDoesNotExist) ||
+                other.ataDoesNotExist == ataDoesNotExist));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(ataExists),
-      const DeepCollectionEquality().hash(ataDoesNotExist));
+  int get hashCode => Object.hash(runtimeType, ataExists, ataDoesNotExist);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_DirectPaymentFeeDtoCopyWith<_$_DirectPaymentFeeDto> get copyWith =>
       __$$_DirectPaymentFeeDtoCopyWithImpl<_$_DirectPaymentFeeDto>(
           this, _$identity);
