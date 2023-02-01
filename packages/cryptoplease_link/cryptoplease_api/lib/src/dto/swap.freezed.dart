@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'swap.dart';
 
@@ -37,7 +37,8 @@ mixin _$SwapRouteRequestDto {
 abstract class $SwapRouteRequestDtoCopyWith<$Res> {
   factory $SwapRouteRequestDtoCopyWith(
           SwapRouteRequestDto value, $Res Function(SwapRouteRequestDto) then) =
-      _$SwapRouteRequestDtoCopyWithImpl<$Res>;
+      _$SwapRouteRequestDtoCopyWithImpl<$Res, SwapRouteRequestDto>;
+  @useResult
   $Res call(
       {String inputToken,
       String outputToken,
@@ -48,49 +49,51 @@ abstract class $SwapRouteRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SwapRouteRequestDtoCopyWithImpl<$Res>
+class _$SwapRouteRequestDtoCopyWithImpl<$Res, $Val extends SwapRouteRequestDto>
     implements $SwapRouteRequestDtoCopyWith<$Res> {
   _$SwapRouteRequestDtoCopyWithImpl(this._value, this._then);
 
-  final SwapRouteRequestDto _value;
   // ignore: unused_field
-  final $Res Function(SwapRouteRequestDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? inputToken = freezed,
-    Object? outputToken = freezed,
-    Object? amount = freezed,
-    Object? match = freezed,
-    Object? slippage = freezed,
-    Object? userAccount = freezed,
+    Object? inputToken = null,
+    Object? outputToken = null,
+    Object? amount = null,
+    Object? match = null,
+    Object? slippage = null,
+    Object? userAccount = null,
   }) {
     return _then(_value.copyWith(
-      inputToken: inputToken == freezed
+      inputToken: null == inputToken
           ? _value.inputToken
           : inputToken // ignore: cast_nullable_to_non_nullable
               as String,
-      outputToken: outputToken == freezed
+      outputToken: null == outputToken
           ? _value.outputToken
           : outputToken // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      match: match == freezed
+      match: null == match
           ? _value.match
           : match // ignore: cast_nullable_to_non_nullable
               as SwapMatch,
-      slippage: slippage == freezed
+      slippage: null == slippage
           ? _value.slippage
           : slippage // ignore: cast_nullable_to_non_nullable
               as SwapSlippage,
-      userAccount: userAccount == freezed
+      userAccount: null == userAccount
           ? _value.userAccount
           : userAccount // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -101,6 +104,7 @@ abstract class _$$_SwapRouteRequestDtoCopyWith<$Res>
           $Res Function(_$_SwapRouteRequestDto) then) =
       __$$_SwapRouteRequestDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String inputToken,
       String outputToken,
@@ -112,46 +116,44 @@ abstract class _$$_SwapRouteRequestDtoCopyWith<$Res>
 
 /// @nodoc
 class __$$_SwapRouteRequestDtoCopyWithImpl<$Res>
-    extends _$SwapRouteRequestDtoCopyWithImpl<$Res>
+    extends _$SwapRouteRequestDtoCopyWithImpl<$Res, _$_SwapRouteRequestDto>
     implements _$$_SwapRouteRequestDtoCopyWith<$Res> {
   __$$_SwapRouteRequestDtoCopyWithImpl(_$_SwapRouteRequestDto _value,
       $Res Function(_$_SwapRouteRequestDto) _then)
-      : super(_value, (v) => _then(v as _$_SwapRouteRequestDto));
+      : super(_value, _then);
 
-  @override
-  _$_SwapRouteRequestDto get _value => super._value as _$_SwapRouteRequestDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? inputToken = freezed,
-    Object? outputToken = freezed,
-    Object? amount = freezed,
-    Object? match = freezed,
-    Object? slippage = freezed,
-    Object? userAccount = freezed,
+    Object? inputToken = null,
+    Object? outputToken = null,
+    Object? amount = null,
+    Object? match = null,
+    Object? slippage = null,
+    Object? userAccount = null,
   }) {
     return _then(_$_SwapRouteRequestDto(
-      inputToken: inputToken == freezed
+      inputToken: null == inputToken
           ? _value.inputToken
           : inputToken // ignore: cast_nullable_to_non_nullable
               as String,
-      outputToken: outputToken == freezed
+      outputToken: null == outputToken
           ? _value.outputToken
           : outputToken // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      match: match == freezed
+      match: null == match
           ? _value.match
           : match // ignore: cast_nullable_to_non_nullable
               as SwapMatch,
-      slippage: slippage == freezed
+      slippage: null == slippage
           ? _value.slippage
           : slippage // ignore: cast_nullable_to_non_nullable
               as SwapSlippage,
-      userAccount: userAccount == freezed
+      userAccount: null == userAccount
           ? _value.userAccount
           : userAccount // ignore: cast_nullable_to_non_nullable
               as String,
@@ -196,30 +198,26 @@ class _$_SwapRouteRequestDto implements _SwapRouteRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SwapRouteRequestDto &&
-            const DeepCollectionEquality()
-                .equals(other.inputToken, inputToken) &&
-            const DeepCollectionEquality()
-                .equals(other.outputToken, outputToken) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.match, match) &&
-            const DeepCollectionEquality().equals(other.slippage, slippage) &&
-            const DeepCollectionEquality()
-                .equals(other.userAccount, userAccount));
+            (identical(other.inputToken, inputToken) ||
+                other.inputToken == inputToken) &&
+            (identical(other.outputToken, outputToken) ||
+                other.outputToken == outputToken) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.match, match) || other.match == match) &&
+            (identical(other.slippage, slippage) ||
+                other.slippage == slippage) &&
+            (identical(other.userAccount, userAccount) ||
+                other.userAccount == userAccount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(inputToken),
-      const DeepCollectionEquality().hash(outputToken),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(match),
-      const DeepCollectionEquality().hash(slippage),
-      const DeepCollectionEquality().hash(userAccount));
+  int get hashCode => Object.hash(runtimeType, inputToken, outputToken, amount,
+      match, slippage, userAccount);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SwapRouteRequestDtoCopyWith<_$_SwapRouteRequestDto> get copyWith =>
       __$$_SwapRouteRequestDtoCopyWithImpl<_$_SwapRouteRequestDto>(
           this, _$identity);
@@ -284,7 +282,8 @@ mixin _$SwapRouteResponseDto {
 abstract class $SwapRouteResponseDtoCopyWith<$Res> {
   factory $SwapRouteResponseDtoCopyWith(SwapRouteResponseDto value,
           $Res Function(SwapRouteResponseDto) then) =
-      _$SwapRouteResponseDtoCopyWithImpl<$Res>;
+      _$SwapRouteResponseDtoCopyWithImpl<$Res, SwapRouteResponseDto>;
+  @useResult
   $Res call(
       {String inAmount,
       String outAmount,
@@ -294,44 +293,47 @@ abstract class $SwapRouteResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SwapRouteResponseDtoCopyWithImpl<$Res>
+class _$SwapRouteResponseDtoCopyWithImpl<$Res,
+        $Val extends SwapRouteResponseDto>
     implements $SwapRouteResponseDtoCopyWith<$Res> {
   _$SwapRouteResponseDtoCopyWithImpl(this._value, this._then);
 
-  final SwapRouteResponseDto _value;
   // ignore: unused_field
-  final $Res Function(SwapRouteResponseDto) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? inAmount = freezed,
-    Object? outAmount = freezed,
-    Object? amount = freezed,
-    Object? encodedTx = freezed,
-    Object? feeInUsdc = freezed,
+    Object? inAmount = null,
+    Object? outAmount = null,
+    Object? amount = null,
+    Object? encodedTx = null,
+    Object? feeInUsdc = null,
   }) {
     return _then(_value.copyWith(
-      inAmount: inAmount == freezed
+      inAmount: null == inAmount
           ? _value.inAmount
           : inAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: outAmount == freezed
+      outAmount: null == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      encodedTx: encodedTx == freezed
+      encodedTx: null == encodedTx
           ? _value.encodedTx
           : encodedTx // ignore: cast_nullable_to_non_nullable
               as String,
-      feeInUsdc: feeInUsdc == freezed
+      feeInUsdc: null == feeInUsdc
           ? _value.feeInUsdc
           : feeInUsdc // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 }
 
@@ -342,6 +344,7 @@ abstract class _$$_SwapRouteResponseDtoCopyWith<$Res>
           $Res Function(_$_SwapRouteResponseDto) then) =
       __$$_SwapRouteResponseDtoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String inAmount,
       String outAmount,
@@ -352,41 +355,39 @@ abstract class _$$_SwapRouteResponseDtoCopyWith<$Res>
 
 /// @nodoc
 class __$$_SwapRouteResponseDtoCopyWithImpl<$Res>
-    extends _$SwapRouteResponseDtoCopyWithImpl<$Res>
+    extends _$SwapRouteResponseDtoCopyWithImpl<$Res, _$_SwapRouteResponseDto>
     implements _$$_SwapRouteResponseDtoCopyWith<$Res> {
   __$$_SwapRouteResponseDtoCopyWithImpl(_$_SwapRouteResponseDto _value,
       $Res Function(_$_SwapRouteResponseDto) _then)
-      : super(_value, (v) => _then(v as _$_SwapRouteResponseDto));
+      : super(_value, _then);
 
-  @override
-  _$_SwapRouteResponseDto get _value => super._value as _$_SwapRouteResponseDto;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? inAmount = freezed,
-    Object? outAmount = freezed,
-    Object? amount = freezed,
-    Object? encodedTx = freezed,
-    Object? feeInUsdc = freezed,
+    Object? inAmount = null,
+    Object? outAmount = null,
+    Object? amount = null,
+    Object? encodedTx = null,
+    Object? feeInUsdc = null,
   }) {
     return _then(_$_SwapRouteResponseDto(
-      inAmount: inAmount == freezed
+      inAmount: null == inAmount
           ? _value.inAmount
           : inAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: outAmount == freezed
+      outAmount: null == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      encodedTx: encodedTx == freezed
+      encodedTx: null == encodedTx
           ? _value.encodedTx
           : encodedTx // ignore: cast_nullable_to_non_nullable
               as String,
-      feeInUsdc: feeInUsdc == freezed
+      feeInUsdc: null == feeInUsdc
           ? _value.feeInUsdc
           : feeInUsdc // ignore: cast_nullable_to_non_nullable
               as int,
@@ -428,25 +429,25 @@ class _$_SwapRouteResponseDto implements _SwapRouteResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SwapRouteResponseDto &&
-            const DeepCollectionEquality().equals(other.inAmount, inAmount) &&
-            const DeepCollectionEquality().equals(other.outAmount, outAmount) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.encodedTx, encodedTx) &&
-            const DeepCollectionEquality().equals(other.feeInUsdc, feeInUsdc));
+            (identical(other.inAmount, inAmount) ||
+                other.inAmount == inAmount) &&
+            (identical(other.outAmount, outAmount) ||
+                other.outAmount == outAmount) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.encodedTx, encodedTx) ||
+                other.encodedTx == encodedTx) &&
+            (identical(other.feeInUsdc, feeInUsdc) ||
+                other.feeInUsdc == feeInUsdc));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(inAmount),
-      const DeepCollectionEquality().hash(outAmount),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(encodedTx),
-      const DeepCollectionEquality().hash(feeInUsdc));
+      runtimeType, inAmount, outAmount, amount, encodedTx, feeInUsdc);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SwapRouteResponseDtoCopyWith<_$_SwapRouteResponseDto> get copyWith =>
       __$$_SwapRouteResponseDtoCopyWithImpl<_$_SwapRouteResponseDto>(
           this, _$identity);
