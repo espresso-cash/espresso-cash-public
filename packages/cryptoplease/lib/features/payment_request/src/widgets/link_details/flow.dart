@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../core/accounts/bl/account.dart';
 import '../../../../../core/balances/refresh_balance.dart';
 import '../../../../../di.dart';
 import '../../../../../gen/assets.gen.dart';
@@ -48,10 +47,7 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
 
             return data.state.when(
               initial: () => BlocProvider<PaymentRequestVerifierBloc>(
-                create: (_) => sl<PaymentRequestVerifierBloc>(
-                  param1: data,
-                  param2: context.read<MyAccount>().wallet.publicKey,
-                ),
+                create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
                 lazy: false,
                 child: BlocListener<PaymentRequestVerifierBloc,
                     PaymentRequestVerifierState>(
