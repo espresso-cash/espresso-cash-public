@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../core/balances/refresh_balance.dart';
 import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
@@ -34,34 +34,32 @@ class _IncomingTipScreenState extends State<IncomingTipScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => RefreshBalancesWrapper(
-        builder: (context, onRefresh) => StreamBuilder<IncomingTipPayment?>(
-          stream: _payment,
-          builder: (context, state) {
-            final payment = state.data;
+  Widget build(BuildContext context) => StreamBuilder<IncomingTipPayment?>(
+        stream: _payment,
+        builder: (context, state) {
+          final payment = state.data;
 
-            return BlocConsumer<ITBloc, ITState>(
-              listener: (context, state) => payment?.status.mapOrNull(
-                success: (_) => onRefresh(),
-              ),
-              builder: (context, state) {
-                if (payment == null) return const TransferProgress();
-                if (state.contains(payment.id)) return const TransferProgress();
+          return BlocConsumer<ITBloc, ITState>(
+            listener: (context, state) => payment?.status.mapOrNull(
+              success: (_) => context.refreshBalances(),
+            ),
+            builder: (context, state) {
+              if (payment == null) return const TransferProgress();
+              if (state.contains(payment.id)) return const TransferProgress();
 
-                return payment.status.maybeMap(
-                  success: (_) => TransferSuccess(
-                    onOkPressed: () => context.router.pop(),
-                    statusContent: context.l10n.moneyReceived,
-                  ),
-                  orElse: () => TransferError(
-                    onBack: () => context.router.pop(),
-                    onRetry: () =>
-                        context.read<ITBloc>().add(ITEvent.process(payment.id)),
-                  ),
-                );
-              },
-            );
-          },
-        ),
+              return payment.status.maybeMap(
+                success: (_) => TransferSuccess(
+                  onOkPressed: () => context.router.pop(),
+                  statusContent: context.l10n.moneyReceived,
+                ),
+                orElse: () => TransferError(
+                  onBack: () => context.router.pop(),
+                  onRetry: () =>
+                      context.read<ITBloc>().add(ITEvent.process(payment.id)),
+                ),
+              );
+            },
+          );
+        },
       );
 }
