@@ -3,10 +3,9 @@
 [![E2E tests](https://github.com/cryptoplease/cryptoplease-dart/actions/workflows/e2e_tests.yml/badge.svg)](https://github.com/cryptoplease/cryptoplease-dart/actions/workflows/e2e_tests.yml)
 [![Twitter Follow](https://img.shields.io/twitter/follow/espresso_cash?style=social)](https://twitter.com/espresso_cash)
 [![Solana Dart developers discord](https://img.shields.io/discord/943071824525262849?label=Solana+Dart+developers+discord)](https://discord.gg/wK6WX7974J)
-[![Espresso Cash support discord](https://img.shields.io/discord/1038371336155824148?label=Espresso+Cash+support+discord)](https://discord.gg/pE4brQNYXW)
 
-[<img src="https://cdn.animaapp.com/projects/60f68843e4a8f4765ef9aee6/releases/62063634af75239eab619754/img/apple-appstore@2x.png" width="153">](https://apps.apple.com/us/app/crypto-please/id1559625715)
-[<img src="https://cdn.animaapp.com/projects/60f68843e4a8f4765ef9aee6/releases/62063634af75239eab619754/img/googleplay-store@2x.png" width="153">](https://play.google.com/store/apps/details?id=com.pleasecrypto.flutter)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" width="153">](https://apps.apple.com/us/app/crypto-please/id1559625715)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" width="153">](https://play.google.com/store/apps/details?id=com.pleasecrypto.flutter)
 
 Espresso Cash Wallet is the first crypto wallet that allows users to send crypto with just a link. You can send and receive any Solana tokens like SOL tokens and also SPL tokens. You can receive NFT as well! Our wallet is totally non-custodial which means that only you own your funds. Espresso Cash Wallet is available on all platforms.
 

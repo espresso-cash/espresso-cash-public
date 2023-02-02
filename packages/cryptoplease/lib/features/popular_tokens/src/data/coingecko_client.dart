@@ -31,6 +31,7 @@ class MarketsRequestDto with _$MarketsRequestDto {
     @Default('market_cap_desc') String order,
     required int perPage,
     @Default(1) int page,
+    String? ids,
   }) = _TokenDetailsRequestDto;
 
   factory MarketsRequestDto.fromJson(Map<String, dynamic> json) =>

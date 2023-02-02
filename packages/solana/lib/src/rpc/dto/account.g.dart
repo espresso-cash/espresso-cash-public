@@ -11,5 +11,5 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       owner: json['owner'] as String,
       data: json['data'] == null ? null : AccountData.fromJson(json['data']),
       executable: json['executable'] as bool,
-      rentEpoch: json['rentEpoch'] as int,
+      rentEpoch: bigIntFromNum(json['rentEpoch'] as num),
     );

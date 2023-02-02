@@ -103,7 +103,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
           final String statusContent = payment == null
               ? context.l10n.loading
               : payment.status.maybeMap(
-                  withdrawn: always(context.l10n.outgoingTransferSuccess),
+                  withdrawn: always(context.l10n.splitKeySuccessMessage2),
                   canceled: always(
                     context.l10n.tipCanceledMessage(
                       payment.amount.format(locale),

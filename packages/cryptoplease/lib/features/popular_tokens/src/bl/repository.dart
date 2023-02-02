@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
@@ -39,6 +40,7 @@ class PopularTokenRepository {
             MarketsRequestDto(vsCurrency: currency, perPage: _tokensCount),
           )
           .toEither()
+          .mapAsync((r) => _processResults(r, currency: currency))
           .mapAsync(
             (responses) => responses.map(
               (r) => r
@@ -48,6 +50,34 @@ class PopularTokenRepository {
           )
           .mapAsync(IMap.fromEntries)
           .doOnRightAsync(_cache.set);
+
+  Future<List<MarketsResponseDto>> _processResults(
+    List<MarketsResponseDto> response, {
+    required String currency,
+  }) async {
+    final solanaId = Token.sol.coingeckoId ?? 'solana';
+    final sol = response.firstWhereOrNull((r) => r.id == solanaId);
+
+    if (sol != null) {
+      response
+        ..remove(sol)
+        ..insert(0, sol);
+    } else {
+      final solToken = await _coingeckoClient.getMarketTokens(
+        MarketsRequestDto(
+          vsCurrency: currency,
+          ids: solanaId,
+          perPage: 1,
+        ),
+      );
+
+      if (solToken.isNotEmpty && solToken.first.id == solanaId) {
+        response.insert(0, solToken.first);
+      }
+    }
+
+    return response;
+  }
 
   Future<void> clear() => _cache.remove();
 }

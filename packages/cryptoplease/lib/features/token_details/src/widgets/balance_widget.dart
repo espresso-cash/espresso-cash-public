@@ -16,7 +16,7 @@ class PriceWidget extends StatelessWidget {
           style: const TextStyle(
             fontWeight: FontWeight.w400,
             color: Color(0xff9D9D9D),
-            fontSize: 14,
+            fontSize: 15,
           ),
           children: [
             TextSpan(
