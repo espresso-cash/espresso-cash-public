@@ -54,6 +54,7 @@ dependencies:
   provider: ^6.0.0
   qr_flutter: ^4.0.0
   retrofit: ^3.0.1
+  rive: ^0.10.1
   rxdart: ^0.27.1
   sentry_flutter: ^6.13.1
   share: ^2.0.4
@@ -91,12 +92,14 @@ dev_dependencies:
 flutter_gen:
   integrations:
     flutter_svg: true
+    rive: true
 
 flutter:
   generate: true
   uses-material-design: true
 
   assets:
+    - assets/animations/
     - assets/images/
     - assets/icons/
 

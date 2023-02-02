@@ -14,9 +14,9 @@ import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/amount_keypad/amount_keypad.dart';
-import '../../../../ui/button.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/number_formatter.dart';
+import '../../../../ui/slider.dart';
 import '../../models/swap_seed.dart';
 import '../swap_operation.dart';
 import '../swap_route.dart';
@@ -95,7 +95,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
 
   void _onRouteExpired() {
     const event = CreateSwapEvent.routeInvalidated();
-    _bloc.add(event);
+    // _bloc.add(event);
   }
 
   void _onMaxAmountRequested(Token displayToken) {
@@ -223,12 +223,9 @@ class _Button extends StatelessWidget {
     }
 
     return CpContentPadding(
-      child: CpButton(
+      child: CpSlider(
         text: label,
-        mechanics: CpButtonMechanics.pressAndHold,
-        width: double.infinity,
-        size: CpButtonSize.big,
-        onPressed: onSubmit,
+        onSlideCompleted: onSubmit,
       ),
     );
   }
