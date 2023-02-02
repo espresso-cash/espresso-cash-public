@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import '../../core/callback.dart';
 import '../../core/transactions/tx_destinations.dart';
 import 'models/outgoing_split_key_payment.dart';
 import 'src/bl/repository.dart';
@@ -17,19 +17,16 @@ class OSKPVerifier {
     this._client,
     this._repository, {
     @factoryParam required Ed25519HDPublicKey userPublicKey,
-    @factoryParam required Callback1<String> onSuccess,
-  })  : _userPublicKey = userPublicKey,
-        _onSuccess = onSuccess;
+  }) : _userPublicKey = userPublicKey;
 
   final SolanaClient _client;
   final OSKPRepository _repository;
   final Ed25519HDPublicKey _userPublicKey;
-  final Callback1<String> _onSuccess;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   StreamSubscription<void>? _repoSubscription;
 
-  void init() {
+  void init({required VoidCallback onBalanceAffected}) {
     _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
       for (final payment in payments) {
         Future<void> onSuccess(ParsedTransaction tx) async {
@@ -46,7 +43,10 @@ class OSKPVerifier {
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);
-          _onSuccess(payment.id);
+
+          if (newStatus is OSKPStatusCanceled) {
+            onBalanceAffected();
+          }
         }
 
         final status = payment.status;
