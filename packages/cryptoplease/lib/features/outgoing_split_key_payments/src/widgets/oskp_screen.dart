@@ -71,7 +71,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           return BlocConsumer<OSKPBloc, OSKPState>(
             listener: (context, state) => payment?.status.mapOrNull(
-              linksReady: (_) => context.refreshBalances(),
+              txConfirmed: (_) => context.refreshBalances(),
             ),
             builder: (context, state) {
               final isProcessing =

@@ -70,7 +70,7 @@ class _OutgoingTipScreenState extends State<OutgoingTipScreen> {
 
           return BlocConsumer<OTBloc, OTState>(
             listener: (context, state) => payment?.status.mapOrNull(
-              linkReady: (_) => context.refreshBalances(),
+              txConfirmed: (_) => context.refreshBalances(),
             ),
             builder: (context, state) {
               final isProcessing =

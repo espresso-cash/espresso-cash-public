@@ -43,7 +43,7 @@ class _IncomingSplitKeyPaymentScreenState
 
           return BlocConsumer<ISKPBloc, ISKPState>(
             listener: (context, state) => payment?.status.mapOrNull(
-              success: (_) => context.refreshBalances(),
+              txSent: (_) => context.refreshBalances(),
             ),
             builder: (context, state) {
               if (payment == null) return const TransferProgress();
