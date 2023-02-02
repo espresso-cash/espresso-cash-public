@@ -90,10 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        _QrCodeWidget(
-                          address: address,
-                          name: name,
-                        ),
+                        _QrCodeWidget(address: address, name: name),
                         const SizedBox(height: 12),
                       ],
                     ),

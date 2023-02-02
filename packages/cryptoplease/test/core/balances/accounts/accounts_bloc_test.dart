@@ -83,6 +83,10 @@ Future<void> main() async {
           'has correct account address',
         ),
         predicate((AccountsState a) => !a.isProcessing, 'is not processing'),
+        predicate(
+          (AccountsState a) => a.hasFinishedOnboarding,
+          'has finished onboarding',
+        ),
       ),
     ],
   );
@@ -99,6 +103,7 @@ Future<void> main() async {
         AccountsEvent.created(
           mnemonic: Mnemonic.generated(mnemonic),
           account: testAccount,
+          hasFinishedOnboarding: false,
         ),
       );
     },
@@ -110,6 +115,10 @@ Future<void> main() async {
           'has correct account address',
         ),
         predicate((AccountsState a) => !a.isProcessing, 'is not processing'),
+        predicate(
+          (AccountsState a) => !a.hasFinishedOnboarding,
+          'has not finished onboarding',
+        ),
       ),
     ],
     verify: (_) {
@@ -124,6 +133,13 @@ Future<void> main() async {
         storage.write(
           key: nameKey,
           value: testAccount.firstName,
+          iOptions: anyNamed('iOptions'),
+        ),
+      ).called(1);
+      verify(
+        storage.write(
+          key: onboardingKey,
+          value: 'false',
           iOptions: anyNamed('iOptions'),
         ),
       ).called(1);
