@@ -1,3 +1,5 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 Map<K, V> fromJsonMap<K, V>(
   dynamic map,
   K Function(dynamic key) convertKey,
@@ -39,3 +41,6 @@ dynamic unwrapAndGetResult(dynamic raw) {
 
   return result['value'];
 }
+
+@internal
+BigInt bigIntFromNum(num value) => BigInt.from(value);
