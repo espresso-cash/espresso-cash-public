@@ -41,6 +41,7 @@ class Amount with _$Amount {
 
   const Amount._();
 
+  @override
   Currency get currency => map(
         fiat: (a) => a.currency,
         crypto: (a) => a.currency,
