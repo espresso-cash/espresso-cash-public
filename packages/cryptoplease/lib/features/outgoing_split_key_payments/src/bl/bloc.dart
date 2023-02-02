@@ -40,9 +40,6 @@ typedef _Event = OSKPEvent;
 typedef _State = OSKPState;
 typedef _Emitter = Emitter<_State>;
 
-/// The maximum amount that a QR code will be generated together with links.
-final qrLinkThreshold = Decimal.parse('10.0');
-
 @injectable
 class OSKPBloc extends Bloc<_Event, _State> {
   OSKPBloc({
@@ -255,7 +252,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
     Uri? qrLink;
 
-    if (crypto.decimal <= qrLinkThreshold) {
+    if (crypto.decimal <= _qrLinkThreshold) {
       final key = base58encode(privateKey.toList());
       final rawLink = TipPaymentData(
         key: key,
@@ -324,6 +321,9 @@ class OSKPBloc extends Bloc<_Event, _State> {
     );
   }
 }
+
+/// The maximum amount that a QR code will be generated together with links.
+final _qrLinkThreshold = Decimal.parse('10.0');
 
 List<String> _splitKey(IList<int> privateKey) {
   final parts = privateKey.splitAt(privateKey.length ~/ 2);
