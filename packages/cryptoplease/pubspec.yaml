@@ -79,7 +79,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.3.0
-  golden_toolkit: ^0.13.0
+  golden_toolkit: ^0.14.0
   injectable_generator: ^1.5.4
   integration_test:
     sdk: flutter
