@@ -48,7 +48,7 @@ Future<void> main() async {
   );
   const testAmount = CryptoAmount(
     value: 100000000,
-    currency: CryptoCurrency(token: Token.usdc),
+    cryptoCurrency: CryptoCurrency(token: Token.usdc),
   );
 
   ODPBloc createBloc() => ODPBloc(

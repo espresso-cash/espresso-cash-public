@@ -157,10 +157,10 @@ packages:
     dependency: transitive
     description:
       name: build_resolvers
-      sha256: "687cf90a3951affac1bd5f9ecb5e3e90b60487f3d9cdc359bb310f8876bb02a6"
+      sha256: "7c35a3a7868626257d8aee47b51c26b9dba11eaddf3431117ed2744951416aab"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.10"
+    version: "2.1.0"
   build_runner:
     dependency: "direct dev"
     description:
@@ -301,10 +301,10 @@ packages:
     dependency: transitive
     description:
       name: cross_file
-      sha256: f71079978789bc2fe78d79227f1f8cfe195b31bbd8db2399b0d15a4b96fb843b
+      sha256: "0b0036e8cccbfbe0555fd83c1d31a6f30b77a96b598b35a5d36dd41f718695e9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.3+2"
+    version: "0.3.3+4"
   crypto:
     dependency: transitive
     description:
@@ -420,18 +420,18 @@ packages:
     dependency: "direct main"
     description:
       name: drift
-      sha256: b8465fb684bae76ac98e102d831625bff32c0e802db38d9edff0fe338d915fd4
+      sha256: "2a16754641485ca4eaf31bb7961f3ec26bcddad1ce4869a37f238791e164c073"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.5.0"
   drift_dev:
     dependency: "direct dev"
     description:
       name: drift_dev
-      sha256: b237a939e9b4c55178187dacc78075e34184a0d6a3b2a7672fecc80a36dcf8f4
+      sha256: "5a0842b4bfa62f66ec149b55f00d8b1902114fa8ffed76fc1776ea3b2064974f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.1"
+    version: "2.5.1"
   ed25519_hd_key:
     dependency: transitive
     description:
@@ -596,18 +596,18 @@ packages:
     dependency: transitive
     description:
       name: fixnum
-      sha256: "04be3e934c52e082558cc9ee21f42f5c1cd7a1262f4c63cd0357c08d5bba81ec"
+      sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "1.1.0"
   fl_chart:
     dependency: "direct main"
     description:
       name: fl_chart
-      sha256: "749b3342ea3e95cbf61a0fec31a62606e837377b8b6d0caa7367a7ef80f38b7d"
+      sha256: "155556c4aba56c8474308d51b4e5446b80a07db9ab66a3cb74aff05c110df982"
       url: "https://pub.dev"
     source: hosted
-    version: "0.55.2"
+    version: "0.60.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -667,10 +667,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_markdown
-      sha256: "981442432b632237ffc1cf8092b4173b9e9f2278b5740637287c3069b51c8f09"
+      sha256: "818cf6c28377ba2c91ed283c96fd712e9c175dd2d2488eb7fc93b6afb9ad2e08"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.13"
+    version: "0.6.13+1"
   flutter_native_splash:
     dependency: "direct dev"
     description:
@@ -765,10 +765,10 @@ packages:
     dependency: "direct dev"
     description:
       name: freezed
-      sha256: "4179d41127bc7a67dc3f58ceec1d22f1cdf10470653cb86eda2a63f81b4920c7"
+      sha256: e819441678f1679b719008ff2ff0ef045d66eed9f9ec81166ca0d9b02a187454
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.3.2"
   freezed_annotation:
     dependency: "direct main"
     description:
@@ -866,10 +866,10 @@ packages:
     dependency: transitive
     description:
       name: image
-      sha256: "1f9ecf99b08c92dedb699de1d28549f5d79b4423b48cf3f95d6968156db5dd67"
+      sha256: "3686865febd85c57a632d87a0fb1f0a8a9ef602fdb68d909c3e9aa29ec70fd24"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.12"
+    version: "4.0.13"
   image_picker:
     dependency: "direct main"
     description:
@@ -935,26 +935,26 @@ packages:
     dependency: "direct main"
     description:
       name: intercom_flutter
-      sha256: b6c967a3690555be66218410903d71487cb9a697143827280470d45ca2b75ed3
+      sha256: f7c1ae95d1df9cfbd831dd447fd9c47b8a0e9e2db328b5ca0dc6004a03ed3aee
       url: "https://pub.dev"
     source: hosted
-    version: "7.6.2"
+    version: "7.6.3+1"
   intercom_flutter_platform_interface:
     dependency: transitive
     description:
       name: intercom_flutter_platform_interface
-      sha256: c7dfe0fac083fa0f74c7438420f709d9e44e9f20497ff2de0dcafdd246c2f516
+      sha256: c898c8cd5fbdb7dbfa281947ad049cebf867b54e296af8996237e6ca4d2734e0
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   intercom_flutter_web:
     dependency: transitive
     description:
       name: intercom_flutter_web
-      sha256: "92c435b30067ca00c46987b146abc2e92f170723b7b9f3d9ce49b2df7684fae1"
+      sha256: "5362e025637bc1c959aeb2f88e08a52f69c05edc54d139ab121a39fbd86fa392"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.2"
   intl:
     dependency: "direct main"
     description:
@@ -983,18 +983,18 @@ packages:
     dependency: "direct main"
     description:
       name: json_annotation
-      sha256: "3520fa844009431b5d4491a5a778603520cdc399ab3406332dcc50f93547258c"
+      sha256: c33da08e136c3df0190bd5bbe51ae1df4a7d96e7954d1d7249fea2968a72d317
       url: "https://pub.dev"
     source: hosted
-    version: "4.7.0"
+    version: "4.8.0"
   json_serializable:
     dependency: "direct dev"
     description:
       name: json_serializable
-      sha256: f3c2c18a7889580f71926f30c1937727c8c7d4f3a435f8f5e8b0ddd25253ef5d
+      sha256: dadc08bd61f72559f938dd08ec20dbfec6c709bba83515085ea943d2078d187a
       url: "https://pub.dev"
     source: hosted
-    version: "6.5.4"
+    version: "6.6.1"
   jupiter_aggregator:
     dependency: transitive
     description:
@@ -1438,10 +1438,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: "1ffa239043ab8baf881ec3094a3c767af9d10399b2839020b9e4d44c0bb23951"
+      sha256: "2b55c18636a4edc529fa5cd44c03d3f3100c00513f518c5127c951978efcccd0"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -1515,10 +1515,10 @@ packages:
     dependency: "direct main"
     description:
       name: sliver_tools
-      sha256: edf005f1a47c2ffa6f1e1a4f24dd99c45b8bccfff9b928d39170d36dc6fda871
+      sha256: bfa69411ebb203cc1a115b1e8bc7935b893eb381fdcf8d453b40c0d4e1db3247
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.8"
+    version: "0.2.9"
   solana:
     dependency: "direct main"
     description:
@@ -1530,10 +1530,10 @@ packages:
     dependency: transitive
     description:
       name: source_gen
-      sha256: "2d79738b6bbf38a43920e2b8d189e9a3ce6cc201f4b8fc76be5e4fe377b1c38d"
+      sha256: c2bea18c95cfa0276a366270afaa2850b09b4a76db95d546f3d003dcc7011298
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.6"
+    version: "1.2.7"
   source_helper:
     dependency: transitive
     description:
@@ -1602,10 +1602,10 @@ packages:
     dependency: transitive
     description:
       name: sqlparser
-      sha256: "2740266bc5b200a71b52296b05985fd9b79cab41f510620d2f42dffab5875123"
+      sha256: "91f47610aa54d8abf9d795a7b4e49b2a788f65d7493d5a68fbf180c3cbcc6f38"
       url: "https://pub.dev"
     source: hosted
-    version: "0.26.1"
+    version: "0.27.0"
   stack_trace:
     dependency: transitive
     description:

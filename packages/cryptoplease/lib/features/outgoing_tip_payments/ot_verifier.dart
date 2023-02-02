@@ -37,7 +37,7 @@ class OTVerifier {
           final newStatus = await tx.getDestinations().let(
                     (accounts) => findAssociatedTokenAddress(
                       owner: _userPublicKey,
-                      mint: payment.amount.currency.token.publicKey,
+                      mint: payment.amount.cryptoCurrency.token.publicKey,
                     ).then((it) => it.toBase58()).then(accounts.contains),
                   )
               ? OTStatus.canceled(txId: txId)

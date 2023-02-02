@@ -104,7 +104,7 @@ class _ScreenState extends State<WalletMainScreen> {
           const SizedBox(height: 24),
           AmountWithEquivalent(
             inputController: _amountController,
-            token: widget.amount.currency.token,
+            token: widget.amount.cryptoCurrency.token,
             collapsed: false,
             shakeKey: widget.shakeKey,
             error: widget.error,

@@ -25,7 +25,7 @@ extension BuildContextExt on BuildContext {
         receiver: receiver,
         amount: CryptoAmount(
           value: currency.decimalToInt(amountInUsdc),
-          currency: currency,
+          cryptoCurrency: currency,
         ),
         reference: reference,
       ),
