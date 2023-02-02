@@ -41,24 +41,23 @@ class Amount with _$Amount {
 
   const Amount._();
 
-  @override
-  Currency get currency => map(
+  Currency get typedCurrency => map(
         fiat: (a) => a.currency,
         crypto: (a) => a.currency,
       );
 
-  Decimal get decimal => Decimal.fromInt(value).shift(-currency.decimals);
+  Decimal get decimal => Decimal.fromInt(value).shift(-typedCurrency.decimals);
 
   Amount operator +(Amount other) {
     _ensureSameCurrency(other);
 
-    return Amount(value: value + other.value, currency: currency);
+    return Amount(value: value + other.value, currency: typedCurrency);
   }
 
   Amount operator -(Amount other) {
     _ensureSameCurrency(other);
 
-    return Amount(value: value - other.value, currency: currency);
+    return Amount(value: value - other.value, currency: typedCurrency);
   }
 
   bool operator >(Amount other) {

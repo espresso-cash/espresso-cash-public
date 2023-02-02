@@ -29,7 +29,7 @@ extension FormatAmountExt on Amount {
     bool skipSymbol = false,
     bool roundInteger = false,
   }) =>
-      currency.map(
+      typedCurrency.map(
         fiat: (FiatCurrency currency) => formatAmount(
           locale: locale,
           value: decimal,
