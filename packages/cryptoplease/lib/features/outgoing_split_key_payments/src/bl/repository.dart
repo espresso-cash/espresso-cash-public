@@ -91,7 +91,7 @@ extension OSKPRowExt on OSKPRow {
         created: created,
         amount: CryptoAmount(
           value: amount,
-          currency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+          cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
         ),
         status: await status.toOSKPStatus(this),
       );
@@ -165,7 +165,7 @@ extension on OSKPStatusDto {
 extension on OutgoingSplitKeyPayment {
   Future<OSKPRow> toDto() async => OSKPRow(
         amount: amount.value,
-        token: amount.currency.token.address,
+        token: amount.cryptoCurrency.token.address,
         id: id,
         created: created,
         status: status.toDto(),

@@ -66,7 +66,7 @@ extension ODPRowExt on ODPRow {
         reference: reference?.let(Ed25519HDPublicKey.fromBase58),
         amount: CryptoAmount(
           value: amount,
-          currency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+          cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
         ),
         created: created,
         status: status.toModel(this),
@@ -100,7 +100,7 @@ extension on OutgoingDirectPayment {
         receiver: receiver.toBase58(),
         reference: reference?.toBase58(),
         amount: amount.value,
-        token: amount.currency.token.address,
+        token: amount.cryptoCurrency.token.address,
         created: created,
         status: status.toDto(),
         tx: status.toTx(),

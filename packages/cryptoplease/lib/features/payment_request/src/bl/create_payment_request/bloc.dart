@@ -32,8 +32,11 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
         _conversionRatesRepository = conversionRatesRepository,
         super(
           CreatePaymentRequestState(
-            tokenAmount: const CryptoAmount(value: 0, currency: Currency.usdc),
-            fiatAmount: FiatAmount(value: 0, currency: userCurrency),
+            tokenAmount: const CryptoAmount(
+              value: 0,
+              cryptoCurrency: Currency.usdc,
+            ),
+            fiatAmount: FiatAmount(value: 0, fiatCurrency: userCurrency),
           ),
         ) {
     on<_Event>(_eventHandler);
@@ -51,7 +54,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
 
   FiatAmount _toFiatAmount(CryptoAmount tokenAmount) =>
       tokenAmount.toFiatAmount(
-        state.fiatAmount.currency,
+        state.fiatAmount.fiatCurrency,
         ratesRepository: _conversionRatesRepository,
       ) ??
       state.fiatAmount.copyWith(value: 0);
