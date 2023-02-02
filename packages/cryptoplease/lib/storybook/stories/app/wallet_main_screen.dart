@@ -15,7 +15,6 @@ final appWalletMainScreen = Story(
         onAmountChanged: (_) {},
         onRequest: () {},
         onPay: () {},
-        onTip: () {},
         amount: const CryptoAmount(value: 0, currency: Currency.usdc),
       ),
     ),
