@@ -46,7 +46,7 @@ Future<void> main() async {
     ],
     verify: (_) {
       verify(storage.read(key: anyNamed('key'), iOptions: anyNamed('iOptions')))
-          .called(1);
+          .called(2);
       verifyNever(
         storage.write(key: anyNamed('key'), value: anyNamed('value')),
       );
@@ -65,6 +65,9 @@ Future<void> main() async {
       when(
         storage.read(key: photoKey, iOptions: anyNamed('iOptions')),
       ).thenAnswer((_) async => null);
+      when(
+        storage.read(key: onboardingKey, iOptions: anyNamed('iOptions')),
+      ).thenAnswer((_) async => 'true');
       when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
           .thenAnswer((_) async {});
     },
