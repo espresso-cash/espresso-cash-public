@@ -42,12 +42,11 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
-    _qrViewController = MobileScannerController(
-      autoStart: true,
-      // TODO(KB): Migrate to new API
-      // ignore: deprecated_member_use, needs to be migrated
-      onPermissionSet: _onPermissionSet,
-    )..start();
+    _qrViewController = MobileScannerController()
+      ..start()
+          .then((it) => it != null)
+          .then(_onPermissionSet)
+          .catchError((_) => _onPermissionSet(false));
   }
 
   @override
@@ -91,6 +90,7 @@ class _ContentState extends State<_Content> {
   }
 
   void _onPermissionSet(bool allowed) {
+    if (!mounted) return;
     if (_cameraEnabled != allowed) setState(() => _cameraEnabled = allowed);
   }
 

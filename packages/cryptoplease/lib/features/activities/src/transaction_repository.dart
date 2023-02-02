@@ -5,6 +5,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 
 import '../../../core/tokens/token_list.dart';
@@ -40,38 +41,33 @@ class TransactionRepository {
     final query = _db.select(_db.transactionRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().asyncMap((row) => _match(row.toModel()));
+    return query.watchSingle().asyncExpand((row) => _match(row.toModel()));
   }
 
-  Future<Transaction> _match(TxCommon fetched) =>
-      _matchActivity(fetched.tx.id).letAsync(
-        (activity) =>
-            activity != null ? Transaction.activity(activity) : fetched,
-      );
+  Stream<Transaction> _match(TxCommon fetched) => _matchActivity(fetched.tx.id)
+      .map(Transaction.activity)
+      .onErrorReturn(fetched);
 
-  Future<Activity?> _matchActivity(TransactionId txId) async {
-    final pr = await _db.paymentRequestRows.findActivityOrNull(
+  Stream<Activity> _matchActivity(TransactionId txId) {
+    final pr = _db.paymentRequestRows.findActivityOrNull(
       where: (row) => row.transactionId.equals(txId),
       builder: (pr) => pr.toActivity(),
       ignoreWhen: (row) => row.state != PaymentRequestStateDto.completed,
     );
-    if (pr != null) return pr;
 
-    final odp = await _db.oDPRows.findActivityOrNull(
+    final odp = _db.oDPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(_tokens),
       ignoreWhen: (row) => row.status != ODPStatusDto.success,
     );
-    if (odp != null) return odp;
 
-    final swap = await _db.swapRows.findActivityOrNull(
+    final swap = _db.swapRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (swap) => swap.toActivity(_tokens),
       ignoreWhen: (row) => row.status != SwapStatusDto.success,
     );
-    if (swap != null) return swap;
 
-    final ot = await _db.oTRows.findActivityOrNull(
+    final ot = _db.oTRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(_tokens),
       ignoreWhen: (row) => const [
@@ -80,9 +76,8 @@ class TransactionRepository {
         OTStatusDto.canceled
       ].contains(row.status).not(),
     );
-    if (ot != null) return ot;
 
-    final oskp = await _db.oSKPRows.findActivityOrNull(
+    final oskp = _db.oSKPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(_tokens),
       ignoreWhen: (row) => const [
@@ -91,26 +86,29 @@ class TransactionRepository {
         OSKPStatusDto.canceled
       ].contains(row.status).not(),
     );
-    if (oskp != null) return oskp;
 
-    return null;
+    return Rx.combineLatest(
+      [pr, odp, swap, ot, oskp].map((it) => it.onErrorReturn(null)),
+      (values) => values.whereNotNull().first,
+    );
   }
 }
 
 extension Q<Tbl extends HasResultSet, D> on ResultSetImplementation<Tbl, D> {
-  Future<Activity?> findActivityOrNull({
+  Stream<Activity?> findActivityOrNull({
     required Expression<bool> Function(Tbl tbl) where,
     required FutureOr<Activity> Function(D) builder,
     bool Function(D) ignoreWhen = T,
-  }) async {
+  }) {
     final query = select()
       ..where(where)
       ..limit(1);
-    final result = await query.getSingleOrNull();
 
-    if (result != null && ignoreWhen(result)) throw const _Ignore();
-
-    return result?.let(builder);
+    return query
+        .watchSingle()
+        .map((it) => ignoreWhen(it) ? throw const _Ignore() : it)
+        .asyncMap((it) => it.let(builder))
+        .handleError(ignore, test: (e) => e is _Ignore);
   }
 }
 
