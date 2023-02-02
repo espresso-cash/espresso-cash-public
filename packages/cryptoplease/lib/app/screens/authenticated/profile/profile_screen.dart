@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   image: photoPath?.let(
                                     (it) => FileImage(File(it)),
                                   ),
-                                  userName: name ?? '', //TODO confirm
+                                  userName: name,
                                 ),
                               ),
                               Positioned(
@@ -85,13 +85,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: Text(
-                            name ?? '', //TODO confirm
+                            name,
                             style: Theme.of(context).textTheme.displaySmall,
                           ),
                         ),
                         const SizedBox(height: 24),
                         _QrCodeWidget(
-                            address: address, name: name ?? ''), //TODO confirm
+                          address: address,
+                          name: name,
+                        ),
                         const SizedBox(height: 12),
                       ],
                     ),
