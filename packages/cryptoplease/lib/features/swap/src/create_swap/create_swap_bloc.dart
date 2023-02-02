@@ -177,7 +177,10 @@ extension BalanceExt on IMap<Token, Amount> {
     final balance = this[token];
     final value = balance?.value ?? 0;
 
-    return CryptoAmount(value: value, currency: CryptoCurrency(token: token));
+    return CryptoAmount(
+      value: value,
+      cryptoCurrency: CryptoCurrency(token: token),
+    );
   }
 }
 
@@ -226,7 +229,7 @@ extension on CreateSwapState {
 extension on Token {
   CryptoAmount toZeroAmount() => CryptoAmount(
         value: 0,
-        currency: CryptoCurrency(token: this),
+        cryptoCurrency: CryptoCurrency(token: this),
       );
 }
 

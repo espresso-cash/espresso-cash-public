@@ -12,7 +12,7 @@ extension FormatAmountWithFiatExt on CryptoAmount {
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = format(locale);
     final conversionRate = context.watchConversionRate(
-      from: currency.token,
+      from: cryptoCurrency.token,
       to: Currency.usd,
     );
     if (conversionRate == null) return formattedAmount;
@@ -29,7 +29,7 @@ extension FormatAmountExt on Amount {
     bool skipSymbol = false,
     bool roundInteger = false,
   }) =>
-      typedCurrency.map(
+      currency.map(
         fiat: (FiatCurrency currency) => formatAmount(
           locale: locale,
           value: decimal,
