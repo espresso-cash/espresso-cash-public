@@ -26,7 +26,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-const int latestVersion = 26;
+const int latestVersion = 27;
 
 const _tables = [
   OutgoingTransferRows,
@@ -116,6 +116,10 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oTRows, oTRows.withdrawTxId);
             await m.addColumn(oTRows, oTRows.cancelTx);
             await m.addColumn(oTRows, oTRows.cancelTxId);
+          }
+
+          if (from >= 16 && from < 27) {
+            await m.addColumn(oSKPRows, oSKPRows.link3);
           }
         },
       );
