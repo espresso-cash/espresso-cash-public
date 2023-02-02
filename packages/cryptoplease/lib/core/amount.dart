@@ -42,8 +42,8 @@ class Amount with _$Amount {
   const Amount._();
 
   Currency get currency => map(
-        fiat: (a) => a.currency,
-        crypto: (a) => a.currency,
+        fiat: (a) => a.fiatCurrency,
+        crypto: (a) => a.cryptoCurrency,
       );
 
   Decimal get decimal => Decimal.fromInt(value).shift(-currency.decimals);
