@@ -8,7 +8,7 @@ import '../../core/accounts/bl/account.dart';
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
 import '../../routes.gr.dart';
-import 'src/bl/mnemonic_getter.dart';
+import 'mnemonic_getter.dart';
 import 'src/bl/puzzle_reminder_bloc.dart';
 
 class BackupPhraseModule extends SingleChildStatelessWidget {

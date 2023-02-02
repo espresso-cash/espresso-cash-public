@@ -6,9 +6,9 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/theme.dart';
-import '../bl/onboarding_bloc.dart';
+import '../bl/sign_in_bloc.dart';
 import 'components/mnemonic_input_formatter.dart';
-import 'onboarding_flow_screen.dart';
+import 'sign_in_flow_screen.dart';
 
 class RestoreAccountScreen extends StatefulWidget {
   const RestoreAccountScreen({Key? key}) : super(key: key);
@@ -23,9 +23,9 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
 
   void _restoreAccount() {
     context
-        .read<OnboardingBloc>()
-        .add(OnboardingEvent.phraseUpdated(_controller.text.trim()));
-    context.onboardingRouter.onMnemonicConfirmed();
+        .read<SignInBloc>()
+        .add(SignInEvent.phraseUpdated(_controller.text.trim()));
+    context.signInRouter.onMnemonicConfirmed();
   }
 
   @override

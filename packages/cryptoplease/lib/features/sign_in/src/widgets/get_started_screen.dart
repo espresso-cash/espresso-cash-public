@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
@@ -7,8 +8,9 @@ import '../../../../ui/bullet_item.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
+import '../bl/sign_in_bloc.dart';
 import 'components/terms_disclaimer.dart';
-import 'onboarding_flow_screen.dart';
+import 'sign_in_flow_screen.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({Key? key}) : super(key: key);
@@ -77,7 +79,11 @@ class _Footer extends StatelessWidget {
               key: keyCreateWalletButton,
               text: context.l10n.signUp,
               width: double.infinity,
-              onPressed: () => context.onboardingRouter.onSignUp(),
+              onPressed: () {
+                context
+                    .read<SignInBloc>()
+                    .add(const SignInEvent.phraseRequested());
+              },
             ),
             const SizedBox(height: 16),
             Text.rich(
@@ -87,7 +93,7 @@ class _Footer extends StatelessWidget {
                   TextSpan(
                     text: context.l10n.signIn2,
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => context.onboardingRouter.onSignIn(),
+                      ..onTap = () => context.signInRouter.onSignIn(),
                     style: const TextStyle(
                       color: CpColors.yellowColor,
                     ),

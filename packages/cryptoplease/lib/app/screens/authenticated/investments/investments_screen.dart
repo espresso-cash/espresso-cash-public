@@ -50,12 +50,10 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                     backgroundColor: Colors.white,
                   ),
                   SliverPadding(
-                    padding: EdgeInsets.symmetric(vertical: 52, horizontal: 24),
+                    padding: EdgeInsets.symmetric(vertical: 45, horizontal: 24),
                     sliver: SliverToBoxAdapter(child: InvestmentHeader()),
                   ),
-                  SliverToBoxAdapter(
-                    child: OnboardingNotice(),
-                  ),
+                  SliverToBoxAdapter(child: OnboardingNotice()),
                   SliverPadding(
                     padding: EdgeInsets.only(left: 24, right: 24),
                     sliver: CryptoInvestments(),

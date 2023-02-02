@@ -9,6 +9,7 @@ class AccountsEvent with _$AccountsEvent {
   const factory AccountsEvent.created({
     required MyAccount account,
     required Mnemonic mnemonic,
+    @Default(false) bool hasFinishedOnboarding,
   }) = Created;
 
   const factory AccountsEvent.profileUpdated({

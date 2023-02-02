@@ -41,7 +41,7 @@ class _CryptopleaseAppState extends State<CryptopleaseApp> {
               else if (isLoading)
                 const SplashRoute()
               else
-                const OnboardingFlowRoute(),
+                const SignInFlowRoute(),
             ],
             navigatorObservers: () => [
               sl<AnalyticsManager>().analyticsObserver,

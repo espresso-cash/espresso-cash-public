@@ -1,3 +1,4 @@
+
 class MnemonicGetter {
   const MnemonicGetter(this.mnemonic);
 
