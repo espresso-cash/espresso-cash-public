@@ -309,8 +309,22 @@
   "swapTitle": "PROCESSING",
   "swapBuyFail": "There was an issue with buying your tokens.",
   "swapSellFail": "There was an issue with selling your tokens.",
-  "swapBuySuccess": "Your purchase was successful.",
-  "swapSellSuccess": "Your sale was successful.",
+  "swapBuySuccess": "Your purchase of {token} was successful.",
+  "@swapBuySuccess": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
+  "swapSellSuccess": "Your sale of {token} was successful.",
+   "@swapSellSuccess": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
   "swapPreparing": "Preparing your transaction",
   "swapErrorTitle": "An error ocurred",
   "swapFailRouteNotFound": "No routes found for given tokens and amount!",
