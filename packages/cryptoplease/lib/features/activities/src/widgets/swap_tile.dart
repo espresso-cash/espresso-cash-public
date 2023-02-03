@@ -20,7 +20,7 @@ class SwapTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final seed = activity.data.seed;
     final isBuyOperation = seed.inputToken == Token.usdc;
-    final isMatchToken = seed.amount.currency.token == seed.inputToken;
+    final isMatchToken = seed.amount.cryptoCurrency.token == seed.inputToken;
     final token = isBuyOperation ? seed.outputToken : seed.inputToken;
     final sign = isMatchToken ? '-' : '+';
 
