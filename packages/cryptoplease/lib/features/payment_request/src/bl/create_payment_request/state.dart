@@ -12,5 +12,5 @@ class CreatePaymentRequestState with _$CreatePaymentRequestState {
 
   const CreatePaymentRequestState._();
 
-  Token get token => tokenAmount.currency.token;
+  Token get token => tokenAmount.cryptoCurrency.token;
 }

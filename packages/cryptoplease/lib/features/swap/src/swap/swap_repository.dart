@@ -83,7 +83,8 @@ extension SwapRowExt on SwapRow {
         seed: SwapSeed(
           amount: CryptoAmount(
             value: amount,
-            currency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+            cryptoCurrency:
+                CryptoCurrency(token: tokens.findTokenByMint(token)!),
           ),
           inputToken: tokens.findTokenByMint(inputMint)!,
           outputToken: tokens.findTokenByMint(outputMint)!,

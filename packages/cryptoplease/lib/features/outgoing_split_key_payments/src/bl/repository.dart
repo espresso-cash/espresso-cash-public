@@ -59,6 +59,7 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   TextColumn get privateKey => text().nullable()();
   TextColumn get link1 => text().nullable()();
   TextColumn get link2 => text().nullable()();
+  TextColumn get link3 => text().nullable()();
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
   TextColumn get cancelTx => text().nullable()();
   TextColumn get cancelTxId => text().nullable()();
@@ -90,7 +91,7 @@ extension OSKPRowExt on OSKPRow {
         created: created,
         amount: CryptoAmount(
           value: amount,
-          currency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+          cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
         ),
         status: await status.toOSKPStatus(this),
       );
@@ -106,6 +107,7 @@ extension on OSKPStatusDto {
         .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
     final link1 = row.link1?.let(Uri.parse);
     final link2 = row.link2?.let(Uri.parse);
+    final link3 = row.link3?.let(Uri.tryParse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final cancelTxId = row.cancelTxId;
 
@@ -120,6 +122,7 @@ extension on OSKPStatusDto {
         return OSKPStatus.linksReady(
           link1: link1!,
           link2: link2!,
+          qrLink: link3,
           escrow: escrow!,
         );
       case OSKPStatusDto.success:
@@ -162,7 +165,7 @@ extension on OSKPStatusDto {
 extension on OutgoingSplitKeyPayment {
   Future<OSKPRow> toDto() async => OSKPRow(
         amount: amount.value,
-        token: amount.currency.token.address,
+        token: amount.cryptoCurrency.token.address,
         id: id,
         created: created,
         status: status.toDto(),
@@ -172,6 +175,7 @@ extension on OutgoingSplitKeyPayment {
         privateKey: await status.toPrivateKey(),
         link1: status.toLink1(),
         link2: status.toLink2(),
+        link3: status.toLink3(),
         txFailureReason: status.toTxFailureReason(),
         cancelTx: status.toCancelTx(),
         cancelTxId: status.toCancelTxId(),
@@ -264,6 +268,10 @@ extension on OSKPStatus {
 
   String? toLink2() => mapOrNull(
         linksReady: (it) => it.link2.toString(),
+      );
+
+  String? toLink3() => mapOrNull(
+        linksReady: (it) => it.qrLink.toString(),
       );
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
