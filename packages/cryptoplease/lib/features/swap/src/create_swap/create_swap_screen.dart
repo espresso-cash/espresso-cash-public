@@ -95,7 +95,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
 
   void _onRouteExpired() {
     const event = CreateSwapEvent.routeInvalidated();
-    // _bloc.add(event);
+    _bloc.add(event);
   }
 
   void _onMaxAmountRequested(Token displayToken) {

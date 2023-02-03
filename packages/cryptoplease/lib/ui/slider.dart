@@ -83,8 +83,8 @@ class _CpSliderState extends State<CpSlider>
   Widget build(BuildContext context) => SizedBox(
         height: 65,
         child: LayoutBuilder(
-          builder: (context, ctrs) {
-            final maxRight = ctrs.maxWidth - _controlWidth;
+          builder: (context, constraints) {
+            final maxRight = constraints.maxWidth - _controlWidth;
 
             return Stack(
               children: [
@@ -139,14 +139,13 @@ class _Background extends StatelessWidget {
           color: CpColors.darkBackgroundColor,
           shape: StadiumBorder(),
         ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: _controlWidth + 8),
-            child: FittedBox(
-              child: Text(
-                text,
-                style: const TextStyle(fontSize: 17, letterSpacing: 0.13),
-              ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: _controlWidth / 2),
+          child: Center(
+            child: Text(
+              text,
+              maxLines: 1,
+              style: const TextStyle(fontSize: 17, letterSpacing: 0.13),
             ),
           ),
         ),
@@ -172,9 +171,12 @@ class _Control extends StatelessWidget {
   const _Control({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Assets.animations.slider.rive(
-        fit: BoxFit.contain,
-        alignment: Alignment.centerLeft,
+  Widget build(BuildContext context) => Visibility(
+        visible: true,
+        child: Assets.animations.slider.rive(
+          fit: BoxFit.contain,
+          alignment: Alignment.centerLeft,
+        ),
       );
 }
 

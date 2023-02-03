@@ -416,7 +416,7 @@
       }
     }
   },
-  "pressAndHoldToBuy": "Press & hold to buy {token}",
+  "pressAndHoldToBuy": "Slide to Buy {token}",
   "@pressAndHoldToBuy": {
     "placeholders": {
       "token": {
@@ -424,7 +424,7 @@
       }
     }
   },
-  "pressAndHoldToSell": "Press & hold to sell {token}",
+  "pressAndHoldToSell": "Slide to Sell {token}",
   "@pressAndHoldToSell": {
     "placeholders": {
       "token": {
