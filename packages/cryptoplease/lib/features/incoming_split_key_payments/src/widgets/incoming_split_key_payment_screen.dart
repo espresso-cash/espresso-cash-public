@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/balances/context_ext.dart';
 import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
@@ -41,7 +42,10 @@ class _IncomingSplitKeyPaymentScreenState
         builder: (context, state) {
           final payment = state.data;
 
-          return BlocBuilder<ISKPBloc, ISKPState>(
+          return BlocConsumer<ISKPBloc, ISKPState>(
+            listener: (context, state) => payment?.status.mapOrNull(
+              txSent: (_) => context.notifyBalanceAffected(),
+            ),
             builder: (context, state) {
               if (payment == null || state.contains(payment.id)) {
                 return TransferProgress(
