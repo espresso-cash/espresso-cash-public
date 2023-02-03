@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cryptoplease_link/src/exception.dart';
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:shelf/shelf.dart';
 
 Future<Response> processRequest<T, R>(
@@ -28,7 +28,7 @@ Future<Response> processRequest<T, R>(
     );
   } on EspressoCashException catch (e) {
     return Response.badRequest(
-      body: json.encode({'err': e.code}),
+      body: json.encode(e.toJson()),
       headers: {
         'content-type': 'application/json',
       },

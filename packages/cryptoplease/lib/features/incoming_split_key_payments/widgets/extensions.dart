@@ -1,3 +1,4 @@
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dio/dio.dart';
 
 extension DioErrorExt on DioError {
@@ -6,9 +7,12 @@ extension DioErrorExt on DioError {
 
     if (data is! Map<String, dynamic>) return false;
 
-    final error = data['err'];
-    if (error is! String) return false;
+    try {
+      final error = EspressoCashException.fromJson(data);
 
-    return error == 'InvalidEscrowAccount';
+      return error.error == EspressoCashError.invalidEscrowAccount;
+    } on Exception {
+      return false;
+    }
   }
 }
