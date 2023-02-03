@@ -42,11 +42,15 @@ class _IncomingSplitKeyPaymentScreenState
 
           return BlocBuilder<ISKPBloc, ISKPState>(
             builder: (context, state) {
-              if (payment == null) return const TransferProgress();
-              if (state.contains(payment.id)) return const TransferProgress();
+              if (payment == null || state.contains(payment.id)) {
+                return TransferProgress(
+                  onBack: () => context.router.pop(),
+                );
+              }
 
               return payment.status.maybeMap(
                 success: (_) => TransferSuccess(
+                  onBack: () => context.router.pop(),
                   onOkPressed: () => context.router.pop(),
                   statusContent: context.l10n.moneyReceived,
                 ),

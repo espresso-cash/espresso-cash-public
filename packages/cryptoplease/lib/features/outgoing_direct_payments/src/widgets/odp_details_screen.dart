@@ -47,11 +47,15 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
 
           return BlocBuilder<ODPBloc, ODPState>(
             builder: (context, state) {
-              if (payment == null) return const TransferProgress();
-              if (state.contains(payment.id)) return const TransferProgress();
+              if (payment == null || state.contains(payment.id)) {
+                return TransferProgress(
+                  onBack: () => context.router.pop(),
+                );
+              }
 
               return payment.status.maybeMap(
                 success: (status) => TransferSuccess(
+                  onBack: () => context.router.pop(),
                   onOkPressed: () => context.router.pop(),
                   statusContent: context.l10n.outgoingTransferSuccess(
                     payment.amount.format(DeviceLocale.localeOf(context)),

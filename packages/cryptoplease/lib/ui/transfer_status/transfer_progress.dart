@@ -6,10 +6,16 @@ import '../status_screen.dart';
 import '../status_widget.dart';
 
 class TransferProgress extends StatelessWidget {
-  const TransferProgress({super.key});
+  const TransferProgress({
+    super.key,
+    required this.onBack,
+  });
+
+  final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) => StatusScreen(
+        onBackButtonPressed: onBack,
         title: context.l10n.splitKeyTransferTitle,
         statusContent: Text(context.l10n.splitKeyTransactionLoading),
         statusType: CpStatusType.info,
