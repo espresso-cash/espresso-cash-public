@@ -7,6 +7,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
+import '../../../incoming_split_key_payments/widgets/invalid_escrow_error_widget.dart';
 import '../bl/incoming_tip_payment.dart';
 import '../bl/it_bloc.dart';
 import '../bl/it_repository.dart';
@@ -52,6 +53,7 @@ class _IncomingTipScreenState extends State<IncomingTipScreen> {
                   onOkPressed: () => context.router.pop(),
                   statusContent: context.l10n.moneyReceived,
                 ),
+                txEscrowFailure: (_) => const InvalidEscrowErrorWidget(),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
                   onRetry: () =>

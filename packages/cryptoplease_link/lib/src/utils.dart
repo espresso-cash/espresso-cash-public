@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:shelf/shelf.dart';
 
 Future<Response> processRequest<T, R>(
@@ -18,10 +19,21 @@ Future<Response> processRequest<T, R>(
     return Response.badRequest(body: 'Invalid JSON');
   }
 
-  return Response.ok(
-    json.encode(await handler(dto)),
-    headers: {
-      'content-type': 'application/json',
-    },
-  );
+  try {
+    return Response.ok(
+      json.encode(await handler(dto)),
+      headers: {
+        'content-type': 'application/json',
+      },
+    );
+  } on EspressoCashException catch (e) {
+    return Response.badRequest(
+      body: json.encode(e.toJson()),
+      headers: {
+        'content-type': 'application/json',
+      },
+    );
+  } on Exception {
+    return Response.internalServerError();
+  }
 }
