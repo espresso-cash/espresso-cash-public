@@ -27,14 +27,14 @@ class _CpSliderState extends State<CpSlider>
   final reverseAnimation = Tween<double>(end: .0);
 
   bool hasCompleted = false;
-  Curve curve = Curves.bounceInOut;
+  Curve curve = Curves.bounceOut;
 
   @override
   void initState() {
     super.initState();
     reverseAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 500),
     )
       ..addListener(_reverseListener)
       ..addStatusListener(_statusListener);
@@ -85,7 +85,7 @@ class _CpSliderState extends State<CpSlider>
         height: 65,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final maxRight = constraints.maxWidth - _knobWidth;
+            final maxRight = constraints.maxWidth - _controlWidth;
             final enabled = widget.onSlideCompleted != null;
 
             return Stack(
@@ -99,7 +99,7 @@ class _CpSliderState extends State<CpSlider>
                   builder: (context, child) => Visibility(
                     visible: valueListener.value != 0,
                     child: SizedBox(
-                      width: valueListener.value + _knobWidth,
+                      width: valueListener.value + _controlWidth,
                       child: child,
                     ),
                   ),
@@ -122,7 +122,7 @@ class _CpSliderState extends State<CpSlider>
                         valueListener.value = value;
                       },
                       onHorizontalDragEnd: (_) => _resetPosition(),
-                      child: _Knob(
+                      child: _Control(
                         enabled: enabled,
                       ),
                     ),
@@ -152,7 +152,7 @@ class _Background extends StatelessWidget {
           shape: StadiumBorder(),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: _knobWidth / 2),
+          padding: const EdgeInsets.only(left: _controlWidth / 2),
           child: Center(
             child: Text(
               text,
@@ -185,8 +185,8 @@ class _ActiveBar extends StatelessWidget {
       );
 }
 
-class _Knob extends StatefulWidget {
-  const _Knob({
+class _Control extends StatefulWidget {
+  const _Control({
     Key? key,
     required this.enabled,
   }) : super(key: key);
@@ -194,10 +194,10 @@ class _Knob extends StatefulWidget {
   final bool enabled;
 
   @override
-  State<_Knob> createState() => _KnobState();
+  State<_Control> createState() => _ControlState();
 }
 
-class _KnobState extends State<_Knob> {
+class _ControlState extends State<_Control> {
   SMIInput<bool>? enabledInput;
 
   void _onInit(Artboard artboard) {
@@ -210,7 +210,7 @@ class _KnobState extends State<_Knob> {
   }
 
   @override
-  void didUpdateWidget(covariant _Knob oldWidget) {
+  void didUpdateWidget(covariant _Control oldWidget) {
     super.didUpdateWidget(oldWidget);
     _updateEnabled();
   }
@@ -230,4 +230,4 @@ class _KnobState extends State<_Knob> {
       );
 }
 
-const _knobWidth = 100.0;
+const _controlWidth = 100.0;
