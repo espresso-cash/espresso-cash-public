@@ -50,7 +50,7 @@ extension SolanaPayRequestExt on SolanaPayRequest {
     final currency = CryptoCurrency(token: token);
 
     return CryptoAmount(
-      currency: currency,
+      cryptoCurrency: currency,
       value: currency.decimalToInt(amount),
     );
   }

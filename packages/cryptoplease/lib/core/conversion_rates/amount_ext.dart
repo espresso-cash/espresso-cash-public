@@ -10,7 +10,7 @@ extension CryptoAmountExt on CryptoAmount {
     FiatCurrency currency, {
     required ConversionRatesRepository ratesRepository,
   }) {
-    final rate = ratesRepository.readRate(this.currency, to: currency);
+    final rate = ratesRepository.readRate(cryptoCurrency, to: currency);
 
     if (rate == null) return null;
 
@@ -25,7 +25,7 @@ extension FiatAmountExt on FiatAmount {
   }) {
     final rate = ratesRepository.readRate(
       CryptoCurrency(token: token),
-      to: currency,
+      to: fiatCurrency,
     );
 
     if (rate == null) return null;
