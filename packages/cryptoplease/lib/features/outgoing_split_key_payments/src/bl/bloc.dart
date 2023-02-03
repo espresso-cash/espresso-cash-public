@@ -14,6 +14,7 @@ import '../../../../core/amount.dart';
 import '../../../../core/link_shortener.dart';
 import '../../../../core/single_key_payments.dart';
 import '../../../../core/split_key_payments.dart';
+import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -39,9 +40,6 @@ typedef OSKPState = ISet<String>;
 typedef _Event = OSKPEvent;
 typedef _State = OSKPState;
 typedef _Emitter = Emitter<_State>;
-
-/// The maximum amount that a QR code will be generated together with links.
-final qrLinkThreshold = Decimal.parse('10.0');
 
 @injectable
 class OSKPBloc extends Bloc<_Event, _State> {
@@ -255,7 +253,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
     Uri? qrLink;
 
-    if (crypto.decimal <= qrLinkThreshold) {
+    if (crypto.decimal <= _qrLinkThreshold) {
       final key = base58encode(privateKey.toList());
       final rawLink = SingleKeyPaymentData(
         key: key,
@@ -324,6 +322,9 @@ class OSKPBloc extends Bloc<_Event, _State> {
     );
   }
 }
+
+/// The maximum amount that a QR code will be generated together with links.
+final _qrLinkThreshold = Decimal.parse('10.0');
 
 List<String> _splitKey(IList<int> privateKey) {
   final parts = privateKey.splitAt(privateKey.length ~/ 2);

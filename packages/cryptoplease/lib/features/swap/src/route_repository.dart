@@ -38,7 +38,7 @@ class RouteRepository {
       seed: seed,
       inAmount: int.parse(route.inAmount),
       outAmount: int.parse(route.outAmount),
-      fee: CryptoAmount(currency: Currency.usdc, value: route.feeInUsdc),
+      fee: CryptoAmount(cryptoCurrency: Currency.usdc, value: route.feeInUsdc),
       encodedTx: route.encodedTx,
     );
   }

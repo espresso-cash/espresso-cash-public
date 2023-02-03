@@ -82,7 +82,14 @@
   "splitKeySuccessMessage2": "Your transfer has been sent.",
   "splitKeyErrorMessage1": "OOPS!",
   "transferSuccessTitle": "SUCCESS!",
-  "outgoingTransferSuccess": "Your transfer has been sent.",
+  "outgoingTransferSuccess": "{amount} has been sent",
+  "@outgoingTransferSuccess": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "transferErrorTitle": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "splitKeyCancelErrorMessage": "There was an issue canceling your transfer.",
@@ -302,8 +309,22 @@
   "swapTitle": "PROCESSING",
   "swapBuyFail": "There was an issue with buying your tokens.",
   "swapSellFail": "There was an issue with selling your tokens.",
-  "swapBuySuccess": "Your purchase was successful.",
-  "swapSellSuccess": "Your sale was successful.",
+  "swapBuySuccess": "Your purchase of {token} was successful.",
+  "@swapBuySuccess": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
+  "swapSellSuccess": "Your sale of {token} was successful.",
+   "@swapSellSuccess": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
   "swapPreparing": "Preparing your transaction",
   "swapErrorTitle": "An error ocurred",
   "swapFailRouteNotFound": "No routes found for given tokens and amount!",
@@ -450,7 +471,8 @@
     }
   },
   "price": "Price",
-  "yourBalance": "Your balance",
+  "balance": "Balance",
+  "youOwn":"You own",
   "failedToLoadTokens": "Failed to load tokens",
   "settings": "Settings",
   "displayEmptyBalanceTitle": "Display Empty Balances",
@@ -463,6 +485,37 @@
   "emptySearch": "Token not found",
   "discover": "DISCOVER",
   "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
+  "tip": "Tip",
+  "minimumAmountToTip": "{amount} is the minimum to tip",
+  "@minimumAmountToTip": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "maximumAmountToTip": "{amount} is the maximum to tip",
+  "@maximumAmountToTip": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
+  "tipButtonLabel": "Tip QR Code",
+  "tipViewQr": "View QR Code",
+  "tipCreatingQr": "Creating QR Code",
+  "tipCreatedQr": "QR Code created",
+  "tipProgressCanceled": "Tip has been canceled",
+  "tipProgressOngoing": "Tipping {amount} using secure link...",
+  "@tipProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "view": "View",
   "shareLinks": "Share Links",
   "qrCameraPermissionTitle": "Camera disabled",
@@ -491,8 +544,20 @@
       }
     }
   },
-  "moreDetails": "More details",
+  "moreDetails": "View more details",
   "cancelTransfer": "Cancel transfer",
   "sentViaLink": "Sent via link",
   "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn."
+  "tipCanceled": "Tip canceled",
+  "cancelTip": "Cancel tip",
+  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
+  "transferInitiated": "Transfer initiated",
+  "receivedBy": "Received by {address}",
+  "@receivedBy": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  }
 }

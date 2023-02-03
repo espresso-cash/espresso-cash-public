@@ -22,10 +22,10 @@ class OutgoingTransferRows extends Table {
   TextColumn get data => text()();
 
   @override
-  Set<Column<dynamic>>? get primaryKey => {id};
+  Set<Column<Object>>? get primaryKey => {id};
 }
 
-const int latestVersion = 28;
+const int latestVersion = 27;
 
 const _tables = [
   OutgoingTransferRows,
@@ -115,6 +115,10 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 22 && from < 28) {
             await m.deleteTable('o_t_rows');
             await m.renameTable(iSLPRows, 'i_t_rows');
+          }
+
+          if (from >= 16 && from < 27) {
+            await m.addColumn(oSKPRows, oSKPRows.link3);
           }
         },
       );

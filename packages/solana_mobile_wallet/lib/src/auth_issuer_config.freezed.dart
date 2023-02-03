@@ -36,7 +36,8 @@ mixin _$AuthIssuerConfig {
 abstract class $AuthIssuerConfigCopyWith<$Res> {
   factory $AuthIssuerConfigCopyWith(
           AuthIssuerConfig value, $Res Function(AuthIssuerConfig) then) =
-      _$AuthIssuerConfigCopyWithImpl<$Res>;
+      _$AuthIssuerConfigCopyWithImpl<$Res, AuthIssuerConfig>;
+  @useResult
   $Res call(
       {String name,
       int maxOutstandingTokensPerIdentity,
@@ -46,45 +47,46 @@ abstract class $AuthIssuerConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AuthIssuerConfigCopyWithImpl<$Res>
+class _$AuthIssuerConfigCopyWithImpl<$Res, $Val extends AuthIssuerConfig>
     implements $AuthIssuerConfigCopyWith<$Res> {
   _$AuthIssuerConfigCopyWithImpl(this._value, this._then);
 
-  final AuthIssuerConfig _value;
   // ignore: unused_field
-  final $Res Function(AuthIssuerConfig) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? maxOutstandingTokensPerIdentity = freezed,
-    Object? authorizationValidity = freezed,
-    Object? reauthorizationValidity = freezed,
-    Object? reauthorizationNopDuration = freezed,
+    Object? name = null,
+    Object? maxOutstandingTokensPerIdentity = null,
+    Object? authorizationValidity = null,
+    Object? reauthorizationValidity = null,
+    Object? reauthorizationNopDuration = null,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      maxOutstandingTokensPerIdentity: maxOutstandingTokensPerIdentity ==
-              freezed
+      maxOutstandingTokensPerIdentity: null == maxOutstandingTokensPerIdentity
           ? _value.maxOutstandingTokensPerIdentity
           : maxOutstandingTokensPerIdentity // ignore: cast_nullable_to_non_nullable
               as int,
-      authorizationValidity: authorizationValidity == freezed
+      authorizationValidity: null == authorizationValidity
           ? _value.authorizationValidity
           : authorizationValidity // ignore: cast_nullable_to_non_nullable
               as Duration,
-      reauthorizationValidity: reauthorizationValidity == freezed
+      reauthorizationValidity: null == reauthorizationValidity
           ? _value.reauthorizationValidity
           : reauthorizationValidity // ignore: cast_nullable_to_non_nullable
               as Duration,
-      reauthorizationNopDuration: reauthorizationNopDuration == freezed
+      reauthorizationNopDuration: null == reauthorizationNopDuration
           ? _value.reauthorizationNopDuration
           : reauthorizationNopDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
-    ));
+    ) as $Val);
   }
 }
 
@@ -95,6 +97,7 @@ abstract class _$$_AuthIssuerConfigCopyWith<$Res>
           _$_AuthIssuerConfig value, $Res Function(_$_AuthIssuerConfig) then) =
       __$$_AuthIssuerConfigCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String name,
       int maxOutstandingTokensPerIdentity,
@@ -105,42 +108,39 @@ abstract class _$$_AuthIssuerConfigCopyWith<$Res>
 
 /// @nodoc
 class __$$_AuthIssuerConfigCopyWithImpl<$Res>
-    extends _$AuthIssuerConfigCopyWithImpl<$Res>
+    extends _$AuthIssuerConfigCopyWithImpl<$Res, _$_AuthIssuerConfig>
     implements _$$_AuthIssuerConfigCopyWith<$Res> {
   __$$_AuthIssuerConfigCopyWithImpl(
       _$_AuthIssuerConfig _value, $Res Function(_$_AuthIssuerConfig) _then)
-      : super(_value, (v) => _then(v as _$_AuthIssuerConfig));
+      : super(_value, _then);
 
-  @override
-  _$_AuthIssuerConfig get _value => super._value as _$_AuthIssuerConfig;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? maxOutstandingTokensPerIdentity = freezed,
-    Object? authorizationValidity = freezed,
-    Object? reauthorizationValidity = freezed,
-    Object? reauthorizationNopDuration = freezed,
+    Object? name = null,
+    Object? maxOutstandingTokensPerIdentity = null,
+    Object? authorizationValidity = null,
+    Object? reauthorizationValidity = null,
+    Object? reauthorizationNopDuration = null,
   }) {
     return _then(_$_AuthIssuerConfig(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      maxOutstandingTokensPerIdentity: maxOutstandingTokensPerIdentity ==
-              freezed
+      maxOutstandingTokensPerIdentity: null == maxOutstandingTokensPerIdentity
           ? _value.maxOutstandingTokensPerIdentity
           : maxOutstandingTokensPerIdentity // ignore: cast_nullable_to_non_nullable
               as int,
-      authorizationValidity: authorizationValidity == freezed
+      authorizationValidity: null == authorizationValidity
           ? _value.authorizationValidity
           : authorizationValidity // ignore: cast_nullable_to_non_nullable
               as Duration,
-      reauthorizationValidity: reauthorizationValidity == freezed
+      reauthorizationValidity: null == reauthorizationValidity
           ? _value.reauthorizationValidity
           : reauthorizationValidity // ignore: cast_nullable_to_non_nullable
               as Duration,
-      reauthorizationNopDuration: reauthorizationNopDuration == freezed
+      reauthorizationNopDuration: null == reauthorizationNopDuration
           ? _value.reauthorizationNopDuration
           : reauthorizationNopDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
@@ -186,30 +186,35 @@ class _$_AuthIssuerConfig implements _AuthIssuerConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AuthIssuerConfig &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(
-                other.maxOutstandingTokensPerIdentity,
-                maxOutstandingTokensPerIdentity) &&
-            const DeepCollectionEquality()
-                .equals(other.authorizationValidity, authorizationValidity) &&
-            const DeepCollectionEquality().equals(
-                other.reauthorizationValidity, reauthorizationValidity) &&
-            const DeepCollectionEquality().equals(
-                other.reauthorizationNopDuration, reauthorizationNopDuration));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.maxOutstandingTokensPerIdentity,
+                    maxOutstandingTokensPerIdentity) ||
+                other.maxOutstandingTokensPerIdentity ==
+                    maxOutstandingTokensPerIdentity) &&
+            (identical(other.authorizationValidity, authorizationValidity) ||
+                other.authorizationValidity == authorizationValidity) &&
+            (identical(
+                    other.reauthorizationValidity, reauthorizationValidity) ||
+                other.reauthorizationValidity == reauthorizationValidity) &&
+            (identical(other.reauthorizationNopDuration,
+                    reauthorizationNopDuration) ||
+                other.reauthorizationNopDuration ==
+                    reauthorizationNopDuration));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(maxOutstandingTokensPerIdentity),
-      const DeepCollectionEquality().hash(authorizationValidity),
-      const DeepCollectionEquality().hash(reauthorizationValidity),
-      const DeepCollectionEquality().hash(reauthorizationNopDuration));
+      name,
+      maxOutstandingTokensPerIdentity,
+      authorizationValidity,
+      reauthorizationValidity,
+      reauthorizationNopDuration);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AuthIssuerConfigCopyWith<_$_AuthIssuerConfig> get copyWith =>
       __$$_AuthIssuerConfigCopyWithImpl<_$_AuthIssuerConfig>(this, _$identity);
 

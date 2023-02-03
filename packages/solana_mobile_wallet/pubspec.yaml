@@ -23,8 +23,8 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.1.0+1
   json_serializable: ^6.3.1
-  mews_pedantic: ^0.8.0
-  pigeon: ^3.2.6
+  mews_pedantic: ^0.11.0
+  pigeon: ^7.1.1
 
 flutter:
   plugin:

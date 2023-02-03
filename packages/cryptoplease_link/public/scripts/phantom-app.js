@@ -8,11 +8,13 @@ const checkPhantom = function () {
   }
 };
 
-const sendTransaction = function (recipient) {
+const sendTransaction = function (network, recipient) {
   window.solana
-  .connect()
-  .then(({ publicKey }) => _createAndSendTransaction(publicKey, recipient))
-  .catch(_onError);
+    .connect()
+    .then(({ publicKey }) =>
+      _createAndSendTransaction(network, publicKey, recipient)
+    )
+    .catch(_onError);
 };
 
 const _onError = console.warn;
@@ -36,8 +38,11 @@ const _createTransfer = async (connection, publicKey, recipient) => {
   return transaction;
 };
 
-const _createAndSendTransaction = async function (publicKey, recipient) {
-  const network = 'https://api.mainnet-beta.solana.com';
+const _createAndSendTransaction = async function (
+  network,
+  publicKey,
+  recipient
+) {
   const connection = new solanaWeb3.Connection(network);
 
   try {

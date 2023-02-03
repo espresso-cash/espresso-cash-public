@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,10 +42,11 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
-    _qrViewController = MobileScannerController(
-      autoResume: true,
-      onPermissionSet: _onPermissionSet,
-    )..start();
+    _qrViewController = MobileScannerController()
+      ..start()
+          .then((it) => it != null)
+          .then(_onPermissionSet)
+          .catchError((_) => _onPermissionSet(false));
   }
 
   @override
@@ -88,11 +90,12 @@ class _ContentState extends State<_Content> {
   }
 
   void _onPermissionSet(bool allowed) {
+    if (!mounted) return;
     if (_cameraEnabled != allowed) setState(() => _cameraEnabled = allowed);
   }
 
-  void _onDetected(Barcode barcode, MobileScannerArguments? _) {
-    final code = barcode.rawValue;
+  void _onDetected(BarcodeCapture capture) {
+    final code = capture.barcodes.firstOrNull?.rawValue;
     if (code != null) {
       context.read<QrScannerBloc>().add(QrScannerEvent.received(code));
     }

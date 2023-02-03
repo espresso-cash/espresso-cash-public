@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
-enum CpTextButtonVariant { light, dark }
+enum CpTextButtonVariant { light, dark, inverted }
 
 class CpTextButton extends StatelessWidget {
   const CpTextButton({
@@ -20,6 +20,8 @@ class CpTextButton extends StatelessWidget {
     switch (variant) {
       case CpTextButtonVariant.dark:
         return Colors.white;
+      case CpTextButtonVariant.inverted:
+        return Colors.black;
       default:
         return CpColors.primaryColor;
     }
@@ -34,6 +36,9 @@ class CpTextButton extends StatelessWidget {
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: _foregroundColor,
+            decoration: variant == CpTextButtonVariant.inverted
+                ? TextDecoration.underline
+                : null,
           ),
         ),
       );

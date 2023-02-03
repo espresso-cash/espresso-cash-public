@@ -33,7 +33,10 @@ class WalletFlowScreen extends StatefulWidget {
 class _State extends State<WalletFlowScreen> {
   final _shakeKey = GlobalKey<ShakeState>();
 
-  CryptoAmount _amount = const CryptoAmount(value: 0, currency: Currency.usdc);
+  CryptoAmount _amount = const CryptoAmount(
+    value: 0,
+    cryptoCurrency: Currency.usdc,
+  );
   String _errorMessage = '';
 
   Future<void> _onQrScanner() async {

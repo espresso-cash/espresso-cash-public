@@ -78,7 +78,7 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
         owner: effectiveOwner.toBase58(),
         lamports: 0,
         executable: false,
-        rentEpoch: 0,
+        rentEpoch: BigInt.zero,
         data: null,
       ),
     );
@@ -113,7 +113,7 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
       owner: account.address,
       lamports: 0,
       executable: false,
-      rentEpoch: 0,
+      rentEpoch: BigInt.zero,
       data: null,
     );
   }

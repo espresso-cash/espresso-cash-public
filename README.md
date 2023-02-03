@@ -1,7 +1,6 @@
 [![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square)](https://github.com/invertase/melos)
 [![Twitter Follow](https://img.shields.io/twitter/follow/espresso_cash?style=social)](https://twitter.com/espresso_cash)
 [![Solana Dart developers discord](https://img.shields.io/discord/943071824525262849?label=Solana+Dart+developers+discord)](https://discord.gg/wK6WX7974J)
-[![Espresso Cash support discord](https://img.shields.io/discord/1038371336155824148?label=Espresso+Cash+support+discord)](https://discord.gg/pE4brQNYXW)
 
 ## Packages
 
