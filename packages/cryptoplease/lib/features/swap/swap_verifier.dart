@@ -10,10 +10,7 @@ import 'src/swap/swap_repository.dart';
 
 @injectable
 class SwapVerifier {
-  SwapVerifier(
-    this._client,
-    this._repository,
-  );
+  SwapVerifier(this._client, this._repository);
 
   final SolanaClient _client;
   final SwapRepository _repository;
