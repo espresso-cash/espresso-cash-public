@@ -1,5 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 
 import '../gen/assets.gen.dart';
 import 'colors.dart';
@@ -84,17 +85,21 @@ class _CpSliderState extends State<CpSlider>
         height: 65,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final maxRight = constraints.maxWidth - _controlWidth;
+            final maxRight = constraints.maxWidth - _knobWidth;
+            final enabled = widget.onSlideCompleted != null;
 
             return Stack(
               children: [
-                _Background(text: widget.text),
+                _Background(
+                  text: widget.text,
+                  enabled: enabled,
+                ),
                 AnimatedBuilder(
                   animation: valueListener,
                   builder: (context, child) => Visibility(
                     visible: valueListener.value != 0,
                     child: SizedBox(
-                      width: valueListener.value + _controlWidth,
+                      width: valueListener.value + _knobWidth,
                       child: child,
                     ),
                   ),
@@ -107,15 +112,20 @@ class _CpSliderState extends State<CpSlider>
                     // ignore: avoid-non-null-assertion, child is declared below
                     child: child!,
                   ),
-                  child: GestureDetector(
-                    onHorizontalDragUpdate: (details) {
-                      final value = valueListener.value + details.delta.dx;
-                      if (value < 0) return;
-                      if (value > maxRight) return _onDone();
-                      valueListener.value = value;
-                    },
-                    onHorizontalDragEnd: (_) => _resetPosition(),
-                    child: const _Control(),
+                  child: AbsorbPointer(
+                    absorbing: !enabled,
+                    child: GestureDetector(
+                      onHorizontalDragUpdate: (details) {
+                        final value = valueListener.value + details.delta.dx;
+                        if (value < 0) return;
+                        if (value > maxRight) return _onDone();
+                        valueListener.value = value;
+                      },
+                      onHorizontalDragEnd: (_) => _resetPosition(),
+                      child: _Knob(
+                        enabled: enabled,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -129,9 +139,11 @@ class _Background extends StatelessWidget {
   const _Background({
     Key? key,
     required this.text,
+    required this.enabled,
   }) : super(key: key);
 
   final String text;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -140,12 +152,18 @@ class _Background extends StatelessWidget {
           shape: StadiumBorder(),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: _controlWidth / 2),
+          padding: const EdgeInsets.only(left: _knobWidth / 2),
           child: Center(
             child: Text(
               text,
               maxLines: 1,
-              style: const TextStyle(fontSize: 17, letterSpacing: 0.13),
+              style: TextStyle(
+                fontSize: 17,
+                letterSpacing: 0.13,
+                color: enabled
+                    ? Colors.white
+                    : CpColors.darkBackgroundDisabledColor,
+              ),
             ),
           ),
         ),
@@ -167,8 +185,39 @@ class _ActiveBar extends StatelessWidget {
       );
 }
 
-class _Control extends StatelessWidget {
-  const _Control({Key? key}) : super(key: key);
+class _Knob extends StatefulWidget {
+  const _Knob({
+    Key? key,
+    required this.enabled,
+  }) : super(key: key);
+
+  final bool enabled;
+
+  @override
+  State<_Knob> createState() => _KnobState();
+}
+
+class _KnobState extends State<_Knob> {
+  SMIInput<bool>? enabledInput;
+
+  void _onInit(Artboard artboard) {
+    final ctrl = StateMachineController.fromArtboard(artboard, 'StateMachine');
+    if (ctrl == null) return;
+    artboard.addController(ctrl..isActive = true);
+    final input = ctrl.findInput<bool>('Enabled');
+    setState(() => enabledInput = input);
+    _updateEnabled();
+  }
+
+  @override
+  void didUpdateWidget(covariant _Knob oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _updateEnabled();
+  }
+
+  void _updateEnabled() {
+    enabledInput?.value = widget.enabled;
+  }
 
   @override
   Widget build(BuildContext context) => Visibility(
@@ -176,8 +225,9 @@ class _Control extends StatelessWidget {
         child: Assets.animations.slider.rive(
           fit: BoxFit.contain,
           alignment: Alignment.centerLeft,
+          onInit: _onInit,
         ),
       );
 }
 
-const _controlWidth = 100.0;
+const _knobWidth = 100.0;

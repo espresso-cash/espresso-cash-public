@@ -196,8 +196,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               CpContentPadding(
                 child: CpSlider(
                   text: label,
-                  onSlideCompleted:
-                      state.inputAmount.value == 0 ? null : _onSubmit,
+                  onSlideCompleted: state.bestRoute == null ? null : _onSubmit,
                 ),
               ),
             ],
