@@ -485,37 +485,6 @@
   "emptySearch": "Token not found",
   "discover": "DISCOVER",
   "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
-  "tip": "Tip",
-  "minimumAmountToTip": "{amount} is the minimum to tip",
-  "@minimumAmountToTip": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "maximumAmountToTip": "{amount} is the maximum to tip",
-  "@maximumAmountToTip": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
-  "tipButtonLabel": "Tip QR Code",
-  "tipViewQr": "View QR Code",
-  "tipCreatingQr": "Creating QR Code",
-  "tipCreatedQr": "QR Code created",
-  "tipProgressCanceled": "Tip has been canceled",
-  "tipProgressOngoing": "Tipping {amount} using secure link...",
-  "@tipProgressOngoing": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "view": "View",
   "shareLinks": "Share Links",
   "qrCameraPermissionTitle": "Camera disabled",
@@ -547,9 +516,7 @@
   "moreDetails": "View more details",
   "cancelTransfer": "Cancel transfer",
   "sentViaLink": "Sent via link",
-  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn."
-  "tipCanceled": "Tip canceled",
-  "cancelTip": "Cancel tip",
+  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
   "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
   "transferInitiated": "Transfer initiated",
   "receivedBy": "Received by {address}",
