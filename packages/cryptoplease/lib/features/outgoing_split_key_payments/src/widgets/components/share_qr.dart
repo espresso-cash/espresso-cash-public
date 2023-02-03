@@ -1,58 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../core/presentation/format_amount.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/content_padding.dart';
-import '../../../../ui/rounded_rectangle.dart';
-import '../../../../ui/theme.dart';
-import '../../models/outgoing_tip_payment.dart';
+import '../../../../../core/amount.dart';
+import '../../../../../core/presentation/format_amount.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/content_padding.dart';
+import '../../../../../ui/rounded_rectangle.dart';
+import '../../../models/outgoing_split_key_payment.dart';
 
-class ShareQRScreen extends StatelessWidget {
-  const ShareQRScreen({
-    Key? key,
-    required this.amount,
+class ShareQr extends StatelessWidget {
+  const ShareQr({
+    super.key,
     required this.status,
-  }) : super(key: key);
+    required this.amount,
+  });
 
   final CryptoAmount amount;
-  final OTLinkReady status;
+  final OSKPStatusLinksReady status;
 
   @override
   Widget build(BuildContext context) {
-    final formattedAmount = amount.formatWithFiat(context);
-
-    final title = Text(
-      context.l10n.tip.toUpperCase(),
-      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
-    );
-
     final subtitle = Text(
       context.l10n.qrPaymentSubtitle,
       textAlign: TextAlign.center,
       style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
     );
 
-    return CpTheme.dark(
-      child: Scaffold(
-        appBar: CpAppBar(title: title),
-        body: CpContentPadding(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: subtitle,
-              ),
-              _QrCodeWrapper(
-                amount: formattedAmount,
-                qrData: status.link.toString(),
-              ),
-            ],
-          ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: subtitle,
         ),
-      ),
+        _QrCodeWrapper(
+          amount: amount.formatWithFiat(context),
+          qrData: status.qrLink.toString(),
+        ),
+      ],
     );
   }
 }
@@ -75,7 +59,6 @@ class _QrCodeWrapper extends StatelessWidget {
       child: CpContentPadding(
         child: CpRoundedRectangle(
           scrollable: false,
-          margin: const EdgeInsets.symmetric(vertical: 24),
           padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 42),
           child: Column(
             mainAxisSize: MainAxisSize.min,

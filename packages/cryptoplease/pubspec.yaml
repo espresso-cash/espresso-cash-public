@@ -25,7 +25,7 @@ dependencies:
   firebase_core: ^2.4.1
   firebase_dynamic_links: ^5.0.11
   firebase_remote_config: ^3.0.9
-  fl_chart: ^0.55.2
+  fl_chart: ^0.60.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
@@ -35,7 +35,7 @@ dependencies:
   flutter_secure_storage: ^6.1.0
   flutter_svg: ^1.1.5
   flutter_svg_provider: ^1.0.3
-  freezed_annotation: ^2.1.0
+  freezed_annotation: ^2.2.0
   get_it: ^7.2.0
   http: ^0.13.5
   image_picker: ^0.8.6
@@ -79,7 +79,7 @@ dev_dependencies:
   flutter_native_splash: ^2.2.16
   flutter_test:
     sdk: flutter
-  freezed: ^2.1.0+1
+  freezed: ^2.3.0
   golden_toolkit: ^0.13.0
   injectable_generator: ^1.5.4
   integration_test:

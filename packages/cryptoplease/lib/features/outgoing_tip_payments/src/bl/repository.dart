@@ -89,7 +89,7 @@ extension OutgoingTipRowExt on OTRow {
         created: created,
         amount: CryptoAmount(
           value: amount,
-          currency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+          cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
         ),
         status: await status.toOutgoingTipStatus(this),
       );
@@ -157,7 +157,7 @@ extension on OTStatusDto {
 extension on OutgoingTipPayment {
   Future<OTRow> toDto() async => OTRow(
         amount: amount.value,
-        token: amount.currency.token.address,
+        token: amount.cryptoCurrency.token.address,
         id: id,
         created: created,
         status: status.toDto(),

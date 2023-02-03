@@ -12,7 +12,7 @@ extension FormatAmountWithFiatExt on CryptoAmount {
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = format(locale);
     final conversionRate = context.watchConversionRate(
-      from: currency.token,
+      from: cryptoCurrency.token,
       to: Currency.usd,
     );
     if (conversionRate == null) return formattedAmount;
