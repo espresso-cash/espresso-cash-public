@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/balances/refresh_balance.dart';
+import '../../../../core/balances/context_ext.dart';
 import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
@@ -41,7 +41,7 @@ class _IncomingTipScreenState extends State<IncomingTipScreen> {
 
           return BlocConsumer<ITBloc, ITState>(
             listener: (context, state) => payment?.status.mapOrNull(
-              txSent: (_) => context.refreshBalances(),
+              txSent: (_) => context.notifyBalanceAffected(),
             ),
             builder: (context, state) {
               if (payment == null) return const TransferProgress();

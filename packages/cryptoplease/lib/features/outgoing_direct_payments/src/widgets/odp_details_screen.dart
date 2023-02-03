@@ -3,7 +3,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/balances/refresh_balance.dart';
+import '../../../../core/balances/context_ext.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
 import '../../../../core/presentation/utils.dart';
@@ -48,7 +48,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
 
           return BlocConsumer<ODPBloc, ODPState>(
             listener: (context, _) => payment?.status.mapOrNull(
-              success: (_) => context.refreshBalances(),
+              success: (_) => context.notifyBalanceAffected(),
             ),
             builder: (context, state) {
               if (payment == null) return const TransferProgress();

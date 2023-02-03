@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../core/balances/refresh_balance.dart';
+import '../../../../../core/balances/context_ext.dart';
 import '../../../../../di.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
@@ -52,7 +52,7 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
                 child: BlocListener<PaymentRequestVerifierBloc,
                     PaymentRequestVerifierState>(
                   listener: (context, state) => state.whenOrNull(
-                    success: () => context.refreshBalances(),
+                    success: () => context.notifyBalanceAffected(),
                   ),
                   child: Provider<PaymentRequest>.value(
                     value: data,

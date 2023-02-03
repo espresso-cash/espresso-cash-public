@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/balances/refresh_balance.dart';
+import '../../../core/balances/context_ext.dart';
 import '../../../di.dart';
 import '../models/payment_request.dart';
 import '../src/bl/payment_request_verifier/bloc.dart';
@@ -24,7 +24,7 @@ class PaymentRequestVerifier extends StatelessWidget {
         child: BlocListener<PaymentRequestVerifierBloc,
             PaymentRequestVerifierState>(
           listener: (context, state) => state.whenOrNull(
-            success: () => context.refreshBalances(),
+            success: () => context.notifyBalanceAffected(),
           ),
           child: child,
         ),

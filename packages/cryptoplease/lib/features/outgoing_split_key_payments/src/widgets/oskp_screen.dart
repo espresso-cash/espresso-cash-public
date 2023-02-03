@@ -5,7 +5,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/balances/refresh_balance.dart';
+import '../../../../core/balances/context_ext.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../di.dart';
@@ -71,7 +71,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           return BlocConsumer<OSKPBloc, OSKPState>(
             listener: (context, state) => payment?.status.mapOrNull(
-              txConfirmed: (_) => context.refreshBalances(),
+              txConfirmed: (_) => context.notifyBalanceAffected(),
             ),
             builder: (context, state) {
               final isProcessing =
