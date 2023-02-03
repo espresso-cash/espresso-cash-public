@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
@@ -64,9 +65,9 @@ class _CpSliderState extends State<CpSlider>
   }
 
   void _reverseListener() {
-    valueListener.value = reverseAnimation.transform(
-      curve.transform(reverseAnimationController.value),
-    );
+    valueListener.value = reverseAnimationController.value
+        .let(curve.transform)
+        .let(reverseAnimation.transform);
   }
 
   void _statusListener(AnimationStatus status) {
@@ -135,7 +136,7 @@ class _Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const ShapeDecoration(
-          color: Colors.black,
+          color: CpColors.darkBackgroundColor,
           shape: StadiumBorder(),
         ),
         child: Center(
