@@ -44,11 +44,15 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
 
           return BlocBuilder<SwapBloc, SwapState>(
             builder: (context, state) {
-              if (swap == null) return const TransferProgress();
-              if (state.contains(swap.id)) return const TransferProgress();
+              if (swap == null || state.contains(swap.id)) {
+                return TransferProgress(
+                  onBack: () => context.router.pop(),
+                );
+              }
 
               return swap.status.maybeMap(
                 success: (status) => TransferSuccess(
+                  onBack: () => context.router.pop(),
                   onOkPressed: () => context.router.pop(),
                   statusContent: swap.seed.inputToken == Token.usdc
                       ? context.l10n.swapBuySuccess(swap.seed.outputToken.name)

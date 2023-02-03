@@ -8,6 +8,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
+import '../../widgets/invalid_escrow_error_widget.dart';
 import '../bl/incoming_split_key_payment.dart';
 import '../bl/iskp_bloc.dart';
 import '../bl/iskp_repository.dart';
@@ -46,14 +47,19 @@ class _IncomingSplitKeyPaymentScreenState
               txSent: (_) => context.notifyBalanceAffected(),
             ),
             builder: (context, state) {
-              if (payment == null) return const TransferProgress();
-              if (state.contains(payment.id)) return const TransferProgress();
+              if (payment == null || state.contains(payment.id)) {
+                return TransferProgress(
+                  onBack: () => context.router.pop(),
+                );
+              }
 
               return payment.status.maybeMap(
                 success: (_) => TransferSuccess(
+                  onBack: () => context.router.pop(),
                   onOkPressed: () => context.router.pop(),
                   statusContent: context.l10n.moneyReceived,
                 ),
+                txEscrowFailure: (_) => const InvalidEscrowErrorWidget(),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
                   onRetry: () => context
