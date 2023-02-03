@@ -10,18 +10,18 @@ part 'amount.freezed.dart';
 class Amount with _$Amount {
   factory Amount({required int value, required Currency currency}) =>
       currency.map(
-        fiat: (c) => Amount.fiat(value: value, currency: c),
-        crypto: (c) => Amount.crypto(value: value, currency: c),
+        fiat: (c) => Amount.fiat(value: value, fiatCurrency: c),
+        crypto: (c) => Amount.crypto(value: value, cryptoCurrency: c),
       );
 
   const factory Amount.fiat({
     required int value,
-    required FiatCurrency currency,
+    required FiatCurrency fiatCurrency,
   }) = FiatAmount;
 
   const factory Amount.crypto({
     required int value,
-    required CryptoCurrency currency,
+    required CryptoCurrency cryptoCurrency,
   }) = CryptoAmount;
 
   factory Amount.zero({required Currency currency}) =>
@@ -31,7 +31,7 @@ class Amount with _$Amount {
       Amount(value: value, currency: Currency.crypto(token: token));
 
   factory Amount.sol({required int value}) =>
-      Amount.crypto(value: value, currency: Currency.sol);
+      Amount.crypto(value: value, cryptoCurrency: Currency.sol);
 
   factory Amount.fromDecimal({
     required Decimal value,
@@ -42,8 +42,8 @@ class Amount with _$Amount {
   const Amount._();
 
   Currency get currency => map(
-        fiat: (a) => a.currency,
-        crypto: (a) => a.currency,
+        fiat: (a) => a.fiatCurrency,
+        crypto: (a) => a.cryptoCurrency,
       );
 
   Decimal get decimal => Decimal.fromInt(value).shift(-currency.decimals);
@@ -107,7 +107,7 @@ extension AmountExt on Amount {
 }
 
 extension CryptoAmountExt on CryptoAmount {
-  Token get token => currency.token;
+  Token get token => cryptoCurrency.token;
 
   CryptoAmount copyWithDecimal(Decimal decimal) =>
       copyWith(value: currency.decimalToInt(decimal));

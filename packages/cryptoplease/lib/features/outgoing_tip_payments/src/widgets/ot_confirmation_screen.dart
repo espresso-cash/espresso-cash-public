@@ -181,4 +181,4 @@ extension on Amount? {
   }
 }
 
-const _minimumAmount = Amount.fiat(value: 1, currency: Currency.usd);
+const _minimumAmount = Amount.fiat(value: 1, fiatCurrency: Currency.usd);
