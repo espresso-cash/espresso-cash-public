@@ -93,7 +93,6 @@ class MyDatabase extends _$MyDatabase {
           if (from < 21) {
             await m.createTable(swapRows);
           }
-
           if (from < 23) {
             await m.createTable(popularTokenRows);
           }
@@ -107,16 +106,6 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.cancelTx);
             await m.addColumn(oSKPRows, oSKPRows.cancelTxId);
           }
-
-          if (from >= 16 && from < 27) {
-            await m.addColumn(oSKPRows, oSKPRows.link3);
-          }
-
-          if (from >= 22 && from < 28) {
-            await m.deleteTable('o_t_rows');
-            await m.renameTable(iSLPRows, 'i_t_rows');
-          }
-
           if (from >= 16 && from < 27) {
             await m.addColumn(oSKPRows, oSKPRows.link3);
           }
