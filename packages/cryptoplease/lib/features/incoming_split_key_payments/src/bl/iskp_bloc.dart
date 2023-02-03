@@ -9,9 +9,9 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
+import '../../../../core/extensions.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import '../../widgets/extensions.dart';
 import 'incoming_split_key_payment.dart';
 import 'iskp_repository.dart';
 
@@ -128,7 +128,7 @@ class ISKPBloc extends Bloc<_Event, _State> {
 
       return ISKPStatus.txCreated(tx);
     } on DioError catch (e) {
-      if (e.isInvalidEscrow) {
+      if (e.toEspressoCashError() == EspressoCashError.invalidEscrowAccount) {
         return const ISKPStatus.txEscrowFailure();
       }
 

@@ -9,9 +9,9 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
+import '../../../../core/extensions.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import '../../../incoming_split_key_payments/widgets/extensions.dart';
 import 'incoming_tip_payment.dart';
 import 'it_repository.dart';
 
@@ -126,7 +126,7 @@ class ITBloc extends Bloc<_Event, _State> {
 
       return ITStatus.txCreated(tx);
     } on DioError catch (e) {
-      if (e.isInvalidEscrow) {
+      if (e.toEspressoCashError() == EspressoCashError.invalidEscrowAccount) {
         return const ITStatus.txEscrowFailure();
       }
 

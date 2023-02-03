@@ -6,8 +6,8 @@ import '../../../../ui/button.dart';
 import '../../../../ui/status_screen.dart';
 import '../../../../ui/status_widget.dart';
 
-class WithdrawnError extends StatelessWidget {
-  const WithdrawnError({super.key});
+class InvalidEscrowErrorWidget extends StatelessWidget {
+  const InvalidEscrowErrorWidget({super.key});
 
   @override
   Widget build(BuildContext context) => StatusScreen(
