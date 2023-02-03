@@ -77,7 +77,7 @@ class TransactionRepository {
     );
 
     return Rx.combineLatest(
-      [pr, odp, swap, ot, oskp].map((it) => it.onErrorReturn(null)),
+      [pr, odp, swap, oskp].map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }

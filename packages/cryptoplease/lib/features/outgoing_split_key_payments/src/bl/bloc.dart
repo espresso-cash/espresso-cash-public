@@ -14,7 +14,6 @@ import '../../../../core/amount.dart';
 import '../../../../core/link_shortener.dart';
 import '../../../../core/single_key_payments.dart';
 import '../../../../core/split_key_payments.dart';
-import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
