@@ -517,7 +517,6 @@
   "cancelTransfer": "Cancel transfer",
   "sentViaLink": "Sent via link",
   "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
-  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
   "transferInitiated": "Transfer initiated",
   "receivedBy": "Received by {address}",
   "@receivedBy": {
