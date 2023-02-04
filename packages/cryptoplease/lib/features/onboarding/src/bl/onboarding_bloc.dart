@@ -4,23 +4,20 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
-import '../../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../../core/file_manager.dart';
 import '../../../../core/flow.dart';
 
 part 'onboarding_bloc.freezed.dart';
 
+@injectable
 class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
-  OnboardingBloc(
-    this._fileManager,
-    this._accountsBloc,
-  ) : super(const Flow.initial()) {
+  OnboardingBloc(this._fileManager) : super(const Flow.initial()) {
     on<OnboardingEvent>(_eventHandler, transformer: sequential());
   }
 
   final FileManager _fileManager;
-  final AccountsBloc _accountsBloc;
 
   EventHandler<OnboardingEvent, OnboardingState> get _eventHandler =>
       (event, emit) => event.map(
@@ -35,20 +32,22 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     try {
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
 
-      _accountsBloc.add(
-        AccountsEvent.profileUpdated(
-          name: event.name,
-          photo: photo,
-        ),
-      );
-      emit(const Flow.success(null));
+      emit(Flow.success(OnboardingResult(name: event.name, photo: photo)));
     } on Exception catch (e) {
       emit(Flow.failure(e));
     }
   }
 }
 
-typedef OnboardingState = Flow<Exception, void>;
+@freezed
+class OnboardingResult with _$OnboardingResult {
+  const factory OnboardingResult({
+    required String name,
+    required File? photo,
+  }) = _OnboardingResult;
+}
+
+typedef OnboardingState = Flow<Exception, OnboardingResult>;
 
 @freezed
 class OnboardingEvent with _$OnboardingEvent {
