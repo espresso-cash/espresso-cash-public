@@ -5,26 +5,23 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../../core/accounts/bl/account.dart';
-import '../../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../../core/accounts/bl/mnemonic.dart';
 import '../../../../core/file_manager.dart';
-import '../../../../core/processing_state.dart';
+import '../../../../core/flow.dart';
 import '../../../../core/wallet.dart';
 
 part 'sign_in_bloc.freezed.dart';
 
+@injectable
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  SignInBloc(
-    this._fileManager,
-    this._accountsBloc,
-  ) : super(const SignInState()) {
+  SignInBloc(this._fileManager) : super(const SignInState()) {
     on<SignInEvent>(_eventHandler, transformer: sequential());
   }
 
   final FileManager _fileManager;
-  final AccountsBloc _accountsBloc;
 
   EventHandler<SignInEvent, SignInState> get _eventHandler =>
       (event, emit) => event.map(
@@ -49,7 +46,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     SignInSubmitted event,
     Emitter<SignInState> emit,
   ) async {
-    emit(state.copyWith(processingState: const ProcessingState.processing()));
+    emit(state.copyWith(processingState: const Flow.processing()));
     try {
       final wallet = await createWallet(mnemonic: state.phrase, account: 0);
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
@@ -66,18 +63,22 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         wallet: wallet,
         accessMode: accessMode,
       );
-      _accountsBloc.add(
-        AccountsEvent.created(
-          account: myAccount,
-          mnemonic: state.seed,
-          hasFinishedOnboarding: accessMode == const AccessMode.seedInputted(),
+      emit(
+        state.copyWith(
+          processingState: Flow.success(
+            SignInResult(
+              account: myAccount,
+              hasFinishedOnboarding:
+                  accessMode == const AccessMode.seedInputted(),
+            ),
+          ),
         ),
       );
     } on Exception catch (e) {
-      emit(state.copyWith(processingState: ProcessingState.error(e)));
+      emit(state.copyWith(processingState: Flow.failure(e)));
     }
 
-    emit(state.copyWith(processingState: const ProcessingState.none()));
+    emit(state.copyWith(processingState: const Flow.initial()));
   }
 }
 
@@ -87,9 +88,17 @@ bool validateMnemonic(String mnemonic) => bip39.validateMnemonic(mnemonic);
 class SignInState with _$SignInState {
   const factory SignInState({
     @Default(Mnemonic.empty()) Mnemonic seed,
-    @Default(ProcessingStateNone<Exception>())
-        ProcessingState<Exception> processingState,
+    @Default(Flow<Exception, SignInResult>.initial())
+        Flow<Exception, SignInResult> processingState,
   }) = _SignInState;
+}
+
+@freezed
+class SignInResult with _$SignInResult {
+  const factory SignInResult({
+    required MyAccount account,
+    required bool hasFinishedOnboarding,
+  }) = _SignInResult;
 }
 
 extension SignInStateExt on SignInState {
