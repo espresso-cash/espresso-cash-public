@@ -6,23 +6,28 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../ui/theme.dart';
-import '../bl/onboarding_bloc.dart';
+import '../../../backup_phrase/mnemonic_getter.dart';
 import 'onboarding_flow_screen.dart';
 
-class CreateRecoveryPhraseScreen extends StatefulWidget {
-  const CreateRecoveryPhraseScreen({Key? key}) : super(key: key);
+class ViewRecoveryPhraseScreen extends StatefulWidget {
+  const ViewRecoveryPhraseScreen({Key? key}) : super(key: key);
 
   @override
-  State<CreateRecoveryPhraseScreen> createState() =>
-      _CreateRecoveryPhraseScreenState();
+  State<ViewRecoveryPhraseScreen> createState() =>
+      _ViewRecoveryPhraseScreenState();
 }
 
-class _CreateRecoveryPhraseScreenState
-    extends State<CreateRecoveryPhraseScreen> {
+class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
+  String _phrase = '';
+
   @override
   void initState() {
     super.initState();
-    context.read<OnboardingBloc>().add(const OnboardingEvent.phraseRequested());
+    context.read<MnemonicGetter>().mnemonic.then((String? phrase) {
+      if (phrase != null) {
+        setState(() => _phrase = phrase);
+      }
+    });
   }
 
   @override
@@ -39,10 +44,8 @@ class _CreateRecoveryPhraseScreenState
               OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
               OnboardingDescription(text: context.l10n.yourRecoveryPhraseSub),
               OnboardingPadding(
-                child: BlocBuilder<OnboardingBloc, OnboardingState>(
-                  builder: (context, state) => RecoveryPhraseTextView(
-                    phrase: state.phrase,
-                  ),
+                child: RecoveryPhraseTextView(
+                  phrase: _phrase,
                 ),
               ),
             ],

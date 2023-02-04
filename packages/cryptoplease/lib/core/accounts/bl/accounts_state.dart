@@ -4,6 +4,7 @@ part of 'accounts_bloc.dart';
 class AccountsState with _$AccountsState {
   const factory AccountsState({
     MyAccount? account,
+    @Default(false) bool hasFinishedOnboarding,
     @Default(false) bool isProcessing,
   }) = _AccountsState;
 }

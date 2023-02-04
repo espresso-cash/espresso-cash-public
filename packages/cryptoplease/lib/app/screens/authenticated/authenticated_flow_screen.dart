@@ -19,6 +19,7 @@ import '../../../features/incoming_split_key_payments/module.dart';
 import '../../../features/incoming_tip_payments/module.dart';
 import '../../../features/intercom/module.dart';
 import '../../../features/investments/module.dart';
+import '../../../features/onboarding/module.dart';
 import '../../../features/outgoing_direct_payments/module.dart';
 import '../../../features/outgoing_split_key_payments/module.dart';
 import '../../../features/outgoing_tip_payments/module.dart';
@@ -55,11 +56,13 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
             final account = state.account;
             if (account == null) return Container();
 
+            final mnemonic = loadMnemonic(sl<FlutterSecureStorage>());
+
             return MultiProvider(
               providers: [
                 Provider<MyAccount>.value(value: account),
                 BackupPhraseModule(
-                  mnemonic: loadMnemonic(sl<FlutterSecureStorage>()),
+                  mnemonic: mnemonic,
                 ),
                 const PaymentRequestModule(),
                 _balanceListener,
@@ -77,6 +80,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const ITModule(),
                 const SwapModule(),
                 const PopularTokensModule(),
+                OnboardingModule(mnemonic: mnemonic),
               ],
               child: AutoRouter(key: _homeRouterKey),
             );

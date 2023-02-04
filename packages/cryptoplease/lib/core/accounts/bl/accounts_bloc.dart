@@ -46,11 +46,34 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     }
   }
 
+  Future<void> _saveOnboardingState({
+    required bool hasFinishedOnboarding,
+  }) async {
+    await _storage.write(
+      key: onboardingKey,
+      value: hasFinishedOnboarding.toString(),
+    );
+  }
+
+  Future<bool> _loadOnboardingState() async {
+    final hasFinishedOnboarding = await _storage.read(key: onboardingKey);
+
+    return hasFinishedOnboarding == 'true';
+  }
+
   Future<void> _onInitialize(Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
     try {
       final account = await _fileManager.loadAccount(_storage);
-      emit(state.copyWith(account: account, isProcessing: false));
+      final hasFinishedOnboarding = await _loadOnboardingState();
+
+      emit(
+        state.copyWith(
+          account: account,
+          isProcessing: false,
+          hasFinishedOnboarding: hasFinishedOnboarding,
+        ),
+      );
     } on Exception {
       emit(state.copyWith(isProcessing: false));
     }
@@ -64,7 +87,18 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       name: event.account.firstName,
       photo: event.account.photoPath,
     );
-    emit(state.copyWith(account: event.account, isProcessing: false));
+
+    await _saveOnboardingState(
+      hasFinishedOnboarding: event.hasFinishedOnboarding,
+    );
+
+    emit(
+      state.copyWith(
+        account: event.account,
+        isProcessing: false,
+        hasFinishedOnboarding: event.hasFinishedOnboarding,
+      ),
+    );
   }
 
   Future<void> _onLoggedOut(Emitter<AccountsState> emit) async {
@@ -80,6 +114,9 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     emit(state.copyWith(isProcessing: true));
 
     await _saveNameAndPhoto(name: event.name, photo: photo?.path);
+
+    await _saveOnboardingState(hasFinishedOnboarding: true);
+
     emit(
       AccountsState(
         account: state.account?.copyWith(
@@ -87,6 +124,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
           photoPath: photo?.path,
         ),
         isProcessing: false,
+        hasFinishedOnboarding: true,
       ),
     );
   }
@@ -123,3 +161,6 @@ const nameKey = 'name';
 
 @visibleForTesting
 const photoKey = 'photo';
+
+@visibleForTesting
+const onboardingKey = 'onboarding';
