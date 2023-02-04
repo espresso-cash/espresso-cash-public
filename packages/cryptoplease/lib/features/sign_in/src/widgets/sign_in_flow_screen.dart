@@ -23,13 +23,10 @@ class SignInFlowScreen extends StatefulWidget {
 class _SignInFlowScreenState extends State<SignInFlowScreen>
     implements SignInRouter {
   @override
-  void onSignIn() {
-    context.router.push(const RestoreAccountRoute());
-  }
+  void onSignIn() => context.router.push(const RestoreAccountRoute());
 
   @override
-  void onMnemonicConfirmed() =>
-      context.router.push(const CreateProfileSignUpScreen());
+  void onMnemonicConfirmed() => context.router.push(const SignInProfileRoute());
 
   @override
   Widget build(BuildContext context) => MultiProvider(

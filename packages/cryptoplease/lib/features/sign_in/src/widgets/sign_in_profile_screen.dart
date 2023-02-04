@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../onboarding/widgets/create_profile.dart';
 import '../bl/sign_in_bloc.dart';
 
-class CreateProfileScreen extends StatelessWidget {
-  const CreateProfileScreen({Key? key}) : super(key: key);
+class SignInProfileScreen extends StatelessWidget {
+  const SignInProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => CreateProfile(
