@@ -17,7 +17,8 @@ part 'sign_in_bloc.freezed.dart';
 
 @injectable
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  SignInBloc(this._fileManager) : super(const SignInState()) {
+  SignInBloc(this._fileManager)
+      : super(const SignInState(processingState: Flow.initial())) {
     on<SignInEvent>(_eventHandler, transformer: sequential());
   }
 
@@ -88,8 +89,7 @@ bool validateMnemonic(String mnemonic) => bip39.validateMnemonic(mnemonic);
 class SignInState with _$SignInState {
   const factory SignInState({
     @Default(Mnemonic.empty()) Mnemonic seed,
-    @Default(Flow<Exception, SignInResult>.initial())
-        Flow<Exception, SignInResult> processingState,
+    required Flow<Exception, SignInResult> processingState,
   }) = _SignInState;
 }
 
