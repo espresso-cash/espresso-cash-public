@@ -129,7 +129,7 @@ class MyDatabase extends _$MyDatabase {
       );
 
   Future<void> _migrateOTP(Migrator m) async {
-    final otpRows = await select(oSKPRows).get();
+    final otpRows = await select(oTRows).get();
     for (final row in otpRows) {
       await into(oSKPRows).insert(
         OSKPRow(
@@ -137,15 +137,15 @@ class MyDatabase extends _$MyDatabase {
           created: row.created,
           amount: row.amount,
           token: row.token,
-          status: row.status,
+          status: row.status.toOSKPStatus(),
           txFailureReason: row.txFailureReason,
           withdrawTxId: row.withdrawTxId,
           cancelTx: row.cancelTx,
           cancelTxId: row.cancelTxId,
           privateKey: row.privateKey,
-          link1: row.link1,
-          link2: row.link2,
-          link3: row.link3,
+          link1: null,
+          link2: null,
+          link3: row.link,
           tx: row.tx,
           txId: row.txId,
         ),
@@ -153,6 +153,6 @@ class MyDatabase extends _$MyDatabase {
     }
 
     await m.deleteTable(oTRows.actualTableName);
-    await m.renameTable(iSLPRows, iTRows.actualTableName);
+    await m.create(iSLPRows);
   }
 }

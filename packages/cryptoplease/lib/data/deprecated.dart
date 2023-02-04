@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 
 import '../core/transactions/tx_sender.dart';
+import '../features/outgoing_split_key_payments/db.dart';
 import 'db/mixins.dart';
 
 class ITRows extends Table with EntityMixin {
@@ -54,4 +55,43 @@ enum OTStatusDto {
   cancelTxSent,
   cancelTxSendFailure,
   cancelTxWaitFailure,
+}
+
+extension OTStatusDtoExt on OTStatusDto {
+  OSKPStatusDto toOSKPStatus() {
+    switch (this) {
+      case OTStatusDto.txCreated:
+        return OSKPStatusDto.txCreated;
+      case OTStatusDto.txSent:
+        return OSKPStatusDto.txSent;
+      case OTStatusDto.txConfirmed:
+        return OSKPStatusDto.txConfirmed;
+      case OTStatusDto.linkReady:
+        return OSKPStatusDto.linksReady;
+      case OTStatusDto.success:
+        return OSKPStatusDto.success;
+      case OTStatusDto.txFailure:
+        return OSKPStatusDto.txFailure;
+      case OTStatusDto.txSendFailure:
+        return OSKPStatusDto.txSendFailure;
+      case OTStatusDto.txWaitFailure:
+        return OSKPStatusDto.txWaitFailure;
+      case OTStatusDto.txLinksFailure:
+        return OSKPStatusDto.txLinksFailure;
+      case OTStatusDto.withdrawn:
+        return OSKPStatusDto.withdrawn;
+      case OTStatusDto.canceled:
+        return OSKPStatusDto.canceled;
+      case OTStatusDto.cancelTxCreated:
+        return OSKPStatusDto.cancelTxCreated;
+      case OTStatusDto.cancelTxFailure:
+        return OSKPStatusDto.cancelTxFailure;
+      case OTStatusDto.cancelTxSent:
+        return OSKPStatusDto.cancelTxSent;
+      case OTStatusDto.cancelTxSendFailure:
+        return OSKPStatusDto.cancelTxSendFailure;
+      case OTStatusDto.cancelTxWaitFailure:
+        return OSKPStatusDto.cancelTxWaitFailure;
+    }
+  }
 }
