@@ -122,7 +122,7 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.link3);
           }
 
-          if (from < 28) {
+          if (from >= 22 && from < 28) {
             await _migrateOTP(m);
           }
         },

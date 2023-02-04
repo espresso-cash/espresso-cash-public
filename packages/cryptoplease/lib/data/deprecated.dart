@@ -67,7 +67,9 @@ extension OTStatusDtoExt on OTStatusDto {
       case OTStatusDto.txConfirmed:
         return OSKPStatusDto.txConfirmed;
       case OTStatusDto.linkReady:
-        return OSKPStatusDto.linksReady;
+        // Since we do not have both links coming from OTP but we have escrow,
+        // we can use txConfirmed status so that bloc will generate links.
+        return OSKPStatusDto.txConfirmed;
       case OTStatusDto.success:
         return OSKPStatusDto.success;
       case OTStatusDto.txFailure:
