@@ -26,7 +26,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-const int latestVersion = 27;
+const int latestVersion = 28;
 
 const _tables = [
   OutgoingTransferRows,
@@ -121,6 +121,38 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 16 && from < 27) {
             await m.addColumn(oSKPRows, oSKPRows.link3);
           }
+
+          if (from < 28) {
+            await _migrateOTP(m);
+          }
         },
       );
+
+  Future<void> _migrateOTP(Migrator m) async {
+    final otpRows = await select(oSKPRows).get();
+    for (final row in otpRows) {
+      await into(oSKPRows).insert(
+        OSKPRow(
+          id: row.id,
+          created: row.created,
+          amount: row.amount,
+          token: row.token,
+          status: row.status,
+          txFailureReason: row.txFailureReason,
+          withdrawTxId: row.withdrawTxId,
+          cancelTx: row.cancelTx,
+          cancelTxId: row.cancelTxId,
+          privateKey: row.privateKey,
+          link1: row.link1,
+          link2: row.link2,
+          link3: row.link3,
+          tx: row.tx,
+          txId: row.txId,
+        ),
+      );
+    }
+
+    await m.deleteTable(oTRows.actualTableName);
+    await m.renameTable(iSLPRows, iTRows.actualTableName);
+  }
 }
