@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:provider/provider.dart';
 
 import '../../../core/accounts/bl/account.dart';
+import '../../../core/balances/context_ext.dart';
 import '../../../di.dart';
 import '../../outgoing_split_key_payments/oskp_verifier.dart';
 import '../../swap/swap_verifier.dart';
@@ -41,14 +42,15 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
         providers: [
           Provider<SwapVerifier>(
             lazy: false,
-            create: (_) => sl<SwapVerifier>()..init(),
+            create: (context) => sl<SwapVerifier>()
+              ..init(onBalanceAffected: () => context.notifyBalanceAffected()),
             dispose: (_, value) => value.dispose(),
           ),
           Provider<OSKPVerifier>(
             lazy: false,
             create: (_) => sl<OSKPVerifier>(
               param1: context.read<MyAccount>().wallet.publicKey,
-            )..init(),
+            )..init(onBalanceAffected: () => context.notifyBalanceAffected()),
             dispose: (_, value) => value.dispose(),
           ),
         ],
