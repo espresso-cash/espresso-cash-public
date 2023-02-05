@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -82,55 +84,48 @@ class _CpSliderState extends State<CpSlider>
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: 65,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final maxRight = constraints.maxWidth - _controlWidth;
-            final enabled = widget.onSlideCompleted != null;
+        height: _totalBarHeight,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(_radius)),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final maxWidth = min(_totalBarWidth, constraints.maxWidth);
+              final maxRight = maxWidth - _exposedBarWidth;
+              final enabled = widget.onSlideCompleted != null;
 
-            return Stack(
-              children: [
-                _Background(
-                  text: widget.text,
-                  enabled: enabled,
-                ),
-                AnimatedBuilder(
-                  animation: valueListener,
-                  builder: (context, child) => Visibility(
-                    visible: valueListener.value != 0,
-                    child: SizedBox(
-                      width: valueListener.value + _controlWidth,
-                      child: child,
+              return Stack(
+                children: [
+                  _Background(
+                    text: widget.text,
+                    enabled: enabled,
+                  ),
+                  AnimatedBuilder(
+                    animation: valueListener,
+                    builder: (context, child) => Positioned(
+                      left: _exposedBarPosition(valueListener.value),
+                      // ignore: avoid-non-null-assertion, child is declared below
+                      child: child!,
                     ),
-                  ),
-                  child: const _ActiveBar(),
-                ),
-                AnimatedBuilder(
-                  animation: valueListener,
-                  builder: (context, child) => Positioned.fill(
-                    left: valueListener.value,
-                    // ignore: avoid-non-null-assertion, child is declared below
-                    child: child!,
-                  ),
-                  child: AbsorbPointer(
-                    absorbing: !enabled,
-                    child: GestureDetector(
-                      onHorizontalDragUpdate: (details) {
-                        final value = valueListener.value + details.delta.dx;
-                        if (value < 0) return;
-                        if (value > maxRight) return _onDone();
-                        valueListener.value = value;
-                      },
-                      onHorizontalDragEnd: (_) => _resetPosition(),
-                      child: _Control(
-                        enabled: enabled,
+                    child: AbsorbPointer(
+                      absorbing: !enabled,
+                      child: GestureDetector(
+                        onHorizontalDragUpdate: (details) {
+                          final value = valueListener.value + details.delta.dx;
+                          if (value < 0) return;
+                          if (value > maxRight) return _onDone();
+                          valueListener.value = value;
+                        },
+                        onHorizontalDragEnd: (_) => _resetPosition(),
+                        child: _SlideBar(
+                          enabled: enabled,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       );
 }
@@ -146,13 +141,10 @@ class _Background extends StatelessWidget {
   final bool enabled;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: CpColors.darkBackgroundColor,
-          shape: StadiumBorder(),
-        ),
+  Widget build(BuildContext context) => Container(
+        color: CpColors.darkBackgroundColor,
         child: Padding(
-          padding: const EdgeInsets.only(left: _controlWidth / 2),
+          padding: const EdgeInsets.only(left: _exposedBarWidth / 2),
           child: Center(
             child: Text(
               text,
@@ -160,6 +152,7 @@ class _Background extends StatelessWidget {
               style: TextStyle(
                 fontSize: 17,
                 letterSpacing: 0.13,
+                fontWeight: FontWeight.w500,
                 color: enabled
                     ? Colors.white
                     : CpColors.darkBackgroundDisabledColor,
@@ -170,23 +163,8 @@ class _Background extends StatelessWidget {
       );
 }
 
-class _ActiveBar extends StatelessWidget {
-  const _ActiveBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => const DecoratedBox(
-        decoration: ShapeDecoration(
-          color: CpColors.sliderActiveColor,
-          shape: StadiumBorder(),
-        ),
-        child: Center(
-          child: SizedBox(width: double.infinity),
-        ),
-      );
-}
-
-class _Control extends StatefulWidget {
-  const _Control({
+class _SlideBar extends StatefulWidget {
+  const _SlideBar({
     Key? key,
     required this.enabled,
   }) : super(key: key);
@@ -194,40 +172,48 @@ class _Control extends StatefulWidget {
   final bool enabled;
 
   @override
-  State<_Control> createState() => _ControlState();
+  State<_SlideBar> createState() => _SlideBarState();
 }
 
-class _ControlState extends State<_Control> {
+class _SlideBarState extends State<_SlideBar> {
   SMIInput<bool>? enabledInput;
 
   void _onInit(Artboard artboard) {
     final ctrl = StateMachineController.fromArtboard(artboard, 'StateMachine');
     if (ctrl == null) return;
     artboard.addController(ctrl..isActive = true);
-    final input = ctrl.findInput<bool>('Enabled');
+    final input = ctrl.findInput<bool>('enabled');
     setState(() => enabledInput = input);
     _updateEnabled();
   }
 
   @override
-  void didUpdateWidget(covariant _Control oldWidget) {
+  void didUpdateWidget(covariant _SlideBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     _updateEnabled();
   }
 
-  void _updateEnabled() {
-    enabledInput?.value = widget.enabled;
-  }
+  void _updateEnabled() => enabledInput?.value = widget.enabled;
 
   @override
   Widget build(BuildContext context) => Visibility(
         visible: true,
-        child: Assets.animations.slider.rive(
-          fit: BoxFit.contain,
-          alignment: Alignment.centerLeft,
-          onInit: _onInit,
+        child: SizedBox(
+          width: _totalBarWidth,
+          height: _totalBarHeight,
+          child: Assets.animations.slider.rive(
+            fit: BoxFit.contain,
+            alignment: Alignment.centerLeft,
+            onInit: _onInit,
+          ),
         ),
       );
 }
 
-const _controlWidth = 100.0;
+double _exposedBarPosition(double value) =>
+    value - _totalBarWidth + _exposedBarWidth;
+
+const _exposedBarWidth = 98.0;
+const _totalBarWidth = 500.0;
+const _totalBarHeight = 63.0;
+const _radius = 40.5;
