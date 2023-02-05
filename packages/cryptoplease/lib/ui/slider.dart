@@ -84,13 +84,13 @@ class _CpSliderState extends State<CpSlider>
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: _totalBarHeight,
+        height: _maxBarHeight,
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(_radius)),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final maxWidth = min(_totalBarWidth, constraints.maxWidth);
-              final maxRight = maxWidth - _exposedBarWidth;
+              final maxWidth = min(_maxBarWidth, constraints.maxWidth);
+              final maxRight = maxWidth - _minBarWidth;
               final enabled = widget.onSlideCompleted != null;
 
               return SizedBox(
@@ -148,7 +148,7 @@ class _Background extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         color: CpColors.darkBackgroundColor,
         child: Padding(
-          padding: const EdgeInsets.only(left: _exposedBarWidth / 2),
+          padding: const EdgeInsets.only(left: _minBarWidth / 2),
           child: Center(
             child: Text(
               text,
@@ -157,9 +157,7 @@ class _Background extends StatelessWidget {
                 fontSize: 17,
                 letterSpacing: 0.13,
                 fontWeight: FontWeight.w500,
-                color: enabled
-                    ? Colors.white
-                    : CpColors.darkBackgroundDisabledColor,
+                color: enabled ? Colors.white : CpColors.sliderDisabledColor,
               ),
             ),
           ),
@@ -200,24 +198,20 @@ class _SlideBarState extends State<_SlideBar> {
   void _updateEnabled() => enabledInput?.value = widget.enabled;
 
   @override
-  Widget build(BuildContext context) => Visibility(
-        visible: true,
-        child: SizedBox(
-          width: _totalBarWidth,
-          height: _totalBarHeight,
-          child: Assets.rive.slider.rive(
-            fit: BoxFit.contain,
-            alignment: Alignment.centerLeft,
-            onInit: _onInit,
-          ),
+  Widget build(BuildContext context) => SizedBox(
+        width: _maxBarWidth,
+        height: _maxBarHeight,
+        child: Assets.rive.slider.rive(
+          fit: BoxFit.contain,
+          alignment: Alignment.centerLeft,
+          onInit: _onInit,
         ),
       );
 }
 
-double _exposedBarPosition(double value) =>
-    value - _totalBarWidth + _exposedBarWidth;
+double _exposedBarPosition(double value) => value - _maxBarWidth + _minBarWidth;
 
-const _exposedBarWidth = 98.0;
-const _totalBarWidth = 500.0;
-const _totalBarHeight = 63.0;
+const _minBarWidth = 98.0;
+const _maxBarWidth = 500.0;
+const _maxBarHeight = 63.0;
 const _radius = 40.5;
