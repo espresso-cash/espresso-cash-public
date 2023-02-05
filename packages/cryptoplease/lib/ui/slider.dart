@@ -93,36 +93,40 @@ class _CpSliderState extends State<CpSlider>
               final maxRight = maxWidth - _exposedBarWidth;
               final enabled = widget.onSlideCompleted != null;
 
-              return Stack(
-                children: [
-                  _Background(
-                    text: widget.text,
-                    enabled: enabled,
-                  ),
-                  AnimatedBuilder(
-                    animation: valueListener,
-                    builder: (context, child) => Positioned(
-                      left: _exposedBarPosition(valueListener.value),
-                      // ignore: avoid-non-null-assertion, child is declared below
-                      child: child!,
+              return SizedBox(
+                width: maxWidth,
+                child: Stack(
+                  children: [
+                    _Background(
+                      text: widget.text,
+                      enabled: enabled,
                     ),
-                    child: AbsorbPointer(
-                      absorbing: !enabled,
-                      child: GestureDetector(
-                        onHorizontalDragUpdate: (details) {
-                          final value = valueListener.value + details.delta.dx;
-                          if (value < 0) return;
-                          if (value > maxRight) return _onDone();
-                          valueListener.value = value;
-                        },
-                        onHorizontalDragEnd: (_) => _resetPosition(),
-                        child: _SlideBar(
-                          enabled: enabled,
+                    AnimatedBuilder(
+                      animation: valueListener,
+                      builder: (context, child) => Positioned(
+                        left: _exposedBarPosition(valueListener.value),
+                        // ignore: avoid-non-null-assertion, child is declared below
+                        child: child!,
+                      ),
+                      child: AbsorbPointer(
+                        absorbing: !enabled,
+                        child: GestureDetector(
+                          onHorizontalDragUpdate: (details) {
+                            final value =
+                                valueListener.value + details.delta.dx;
+                            if (value < 0) return;
+                            if (value > maxRight) return _onDone();
+                            valueListener.value = value;
+                          },
+                          onHorizontalDragEnd: (_) => _resetPosition(),
+                          child: _SlideBar(
+                            enabled: enabled,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ),
