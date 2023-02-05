@@ -75,7 +75,12 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
                   inputFormatters: [MnemonicInputFormatter()],
                   textCapitalization: TextCapitalization.none,
                   autocorrect: false,
-                  style: twelveWordsTextStyle,
+                  enableSuggestions: false,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.visiblePassword,
+                  spellCheckConfiguration:
+                      const SpellCheckConfiguration.disabled(),
+                  style: twelveWordsTextStyle,  
                   maxLines: 3,
                   minLines: 3,
                 ),
