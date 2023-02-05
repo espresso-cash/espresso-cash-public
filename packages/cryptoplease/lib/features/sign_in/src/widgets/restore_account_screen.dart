@@ -80,7 +80,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
                   keyboardType: TextInputType.visiblePassword,
                   spellCheckConfiguration:
                       const SpellCheckConfiguration.disabled(),
-                  style: twelveWordsTextStyle,  
+                  style: twelveWordsTextStyle,
                   maxLines: 3,
                   minLines: 3,
                 ),
