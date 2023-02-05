@@ -25,7 +25,7 @@ class _CpSliderState extends State<CpSlider>
     with SingleTickerProviderStateMixin {
   late final AnimationController reverseAnimationController;
 
-  final valueListener = ValueNotifier<double>(.0);
+  final positionNotifier = ValueNotifier<double>(.0);
   final reverseAnimation = Tween<double>(end: .0);
 
   bool hasCompleted = false;
@@ -61,14 +61,14 @@ class _CpSliderState extends State<CpSlider>
   }
 
   void _resetPosition() {
-    reverseAnimation.begin = valueListener.value;
+    reverseAnimation.begin = positionNotifier.value;
     reverseAnimationController
       ..reset()
       ..forward();
   }
 
   void _reverseListener() {
-    valueListener.value = reverseAnimationController.value
+    positionNotifier.value = reverseAnimationController.value
         .let(curve.transform)
         .let(reverseAnimation.transform);
   }
@@ -90,7 +90,7 @@ class _CpSliderState extends State<CpSlider>
           child: LayoutBuilder(
             builder: (context, constraints) {
               final maxWidth = min(_maxBarWidth, constraints.maxWidth);
-              final maxRight = maxWidth - _minBarWidth;
+              final maxSlideWidth = maxWidth - _minBarWidth;
               final enabled = widget.onSlideCompleted != null;
 
               return SizedBox(
@@ -102,9 +102,9 @@ class _CpSliderState extends State<CpSlider>
                       enabled: enabled,
                     ),
                     AnimatedBuilder(
-                      animation: valueListener,
+                      animation: positionNotifier,
                       builder: (context, child) => Positioned(
-                        left: _exposedBarPosition(valueListener.value),
+                        left: _exposedBarPosition(positionNotifier.value),
                         // ignore: avoid-non-null-assertion, child is declared below
                         child: child!,
                       ),
@@ -113,10 +113,10 @@ class _CpSliderState extends State<CpSlider>
                         child: GestureDetector(
                           onHorizontalDragUpdate: (details) {
                             final value =
-                                valueListener.value + details.delta.dx;
+                                positionNotifier.value + details.delta.dx;
                             if (value < 0) return;
-                            if (value > maxRight) return _onDone();
-                            valueListener.value = value;
+                            if (value > maxSlideWidth) return _onDone();
+                            positionNotifier.value = value;
                           },
                           onHorizontalDragEnd: (_) => _resetPosition(),
                           child: _SlideBar(
