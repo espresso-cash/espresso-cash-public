@@ -63,7 +63,7 @@ dependencies:
   solana:
     path: ../solana/
   sqlite3_flutter_libs: ^0.5.10
-  storybook_flutter: ^0.11.3
+  storybook_flutter: ^0.12.0
   uni_links: ^0.5.1
   url_launcher: ^6.0.12
   uuid: ^3.0.4
@@ -80,7 +80,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.3.0
-  golden_toolkit: ^0.13.0
+  golden_toolkit: ^0.14.0
   injectable_generator: ^1.5.4
   integration_test:
     sdk: flutter
@@ -102,6 +102,7 @@ flutter:
     - assets/animations/
     - assets/images/
     - assets/icons/
+    - assets/rive/
 
   fonts:
     - family: RobotoApp

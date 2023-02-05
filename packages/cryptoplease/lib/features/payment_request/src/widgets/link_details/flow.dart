@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../core/balances/context_ext.dart';
 import '../../../../../di.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
@@ -48,9 +49,15 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
               initial: () => BlocProvider<PaymentRequestVerifierBloc>(
                 create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
                 lazy: false,
-                child: Provider<PaymentRequest>.value(
-                  value: data,
-                  child: const AutoRouter(),
+                child: BlocListener<PaymentRequestVerifierBloc,
+                    PaymentRequestVerifierState>(
+                  listener: (context, state) => state.whenOrNull(
+                    success: () => context.notifyBalanceAffected(),
+                  ),
+                  child: Provider<PaymentRequest>.value(
+                    value: data,
+                    child: const AutoRouter(),
+                  ),
                 ),
               ),
               completed: (_) => _Success(request: data),

@@ -11,6 +11,7 @@ class TransferSuccess extends StatelessWidget {
     super.key,
     required this.onOkPressed,
     required this.statusContent,
+    required this.onBack,
     this.content,
     this.onMoreDetailsPressed,
   });
@@ -19,12 +20,14 @@ class TransferSuccess extends StatelessWidget {
   final String statusContent;
   final Widget? content;
   final VoidCallback? onMoreDetailsPressed;
+  final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) {
     final content = this.content;
 
     return StatusScreen(
+      onBackButtonPressed: onBack,
       title: context.l10n.splitKeyTransferTitle,
       statusTitle: Text(context.l10n.transferSuccessTitle),
       statusContent: Text(statusContent),

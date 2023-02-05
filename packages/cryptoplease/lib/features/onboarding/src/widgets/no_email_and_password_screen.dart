@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../l10n/l10n.dart';
@@ -20,7 +21,11 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
                   .onExplainNoEmailAndPasswordCompleted(),
             ),
             children: [
-              CpAppBar(),
+              CpAppBar(
+                leading: BackButton(
+                  onPressed: () => context.router.pop(),
+                ),
+              ),
               const OnboardingLogo(),
               OnboardingPadding(
                 child: CpInfoWidget(
