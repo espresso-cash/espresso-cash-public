@@ -205,7 +205,7 @@ class _SlideBarState extends State<_SlideBar> {
         child: SizedBox(
           width: _totalBarWidth,
           height: _totalBarHeight,
-          child: Assets.animations.slider.rive(
+          child: Assets.rive.slider.rive(
             fit: BoxFit.contain,
             alignment: Alignment.centerLeft,
             onInit: _onInit,
