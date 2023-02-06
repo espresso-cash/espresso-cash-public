@@ -1,6 +1,6 @@
 # Espresso Cash
 
-[![E2E tests](https://github.com/cryptoplease/cryptoplease-dart/actions/workflows/e2e_tests.yml/badge.svg)](https://github.com/cryptoplease/cryptoplease-dart/actions/workflows/e2e_tests.yml)
+[![E2E tests](https://github.com/espresso-cash/espresso-cash-public/actions/workflows/e2e_tests.yml/badge.svg)](https://github.com/espresso-cash/espresso-cash-public/actions/workflows/e2e_tests.yml)
 [![Twitter Follow](https://img.shields.io/twitter/follow/espresso_cash?style=social)](https://twitter.com/espresso_cash)
 [![Solana Dart developers discord](https://img.shields.io/discord/943071824525262849?label=Solana+Dart+developers+discord)](https://discord.gg/wK6WX7974J)
 

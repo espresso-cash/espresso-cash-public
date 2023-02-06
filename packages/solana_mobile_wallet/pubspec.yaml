@@ -1,8 +1,8 @@
 name: solana_mobile_wallet
 description: A reference implementation of the Mobile Wallet Adapter specification for Flutter.
 version: 0.1.0
-repository: https://github.com/cryptoplease/cryptoplease-dart/tree/master/packages/solana_mobile_wallet
-issue_tracker: https://github.com/cryptoplease/cryptoplease-dart/issues
+repository: https://github.com/espresso-cash/espresso-cash-public/tree/master/packages/solana_mobile_wallet
+issue_tracker: https://github.com/espresso-cash/espresso-cash-public/issues
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
