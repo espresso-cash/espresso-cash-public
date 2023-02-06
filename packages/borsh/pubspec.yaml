@@ -1,6 +1,6 @@
 name: borsh
 version: 0.3.1+1
-repository: https://github.com/cryptoplease/cryptoplease-dart
+repository: https://github.com/espresso-cash/espresso-cash-public
 description: >-
   Implementation of the borsh serialization scheme
 

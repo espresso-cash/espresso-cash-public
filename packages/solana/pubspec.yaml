@@ -1,6 +1,6 @@
 name: solana
 version: 0.26.4
-repository: https://github.com/cryptoplease/cryptoplease-dart
+repository: https://github.com/espresso-cash/espresso-cash-public
 description: >-
   Dart implementation of Solana JSON RPC API client.
   Provides convenient interface for the RPC methods.
