@@ -154,6 +154,6 @@ class MyDatabase extends _$MyDatabase {
       );
     }
 
-    await m.deleteTable(oTRows.actualTableName);
+    await m.deleteTable(oTRows.entityName);
   }
 }
