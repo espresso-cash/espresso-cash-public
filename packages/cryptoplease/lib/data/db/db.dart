@@ -124,7 +124,7 @@ class MyDatabase extends _$MyDatabase {
           if (from < 28) {
             await m.createTable(iSLPRows);
           }
-          if (from >= 22 && from < 28) {
+          if (from >= 23 && from < 28) {
             await _migrateOTP(m);
           }
         },
