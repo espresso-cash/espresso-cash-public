@@ -7,7 +7,7 @@ import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../../ui/theme.dart';
-import '../../bl/mnemonic_getter.dart';
+import '../../../mnemonic_getter.dart';
 import 'backup_phrase_flow_screen.dart';
 
 class BackupPhraseScreen extends StatefulWidget {

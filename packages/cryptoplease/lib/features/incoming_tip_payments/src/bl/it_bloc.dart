@@ -1,5 +1,6 @@
 import 'package:cryptoplease_api/cryptoplease_api.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -8,6 +9,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
+import '../../../../core/extensions.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import 'incoming_tip_payment.dart';
@@ -123,6 +125,12 @@ class ITBloc extends Bloc<_Event, _State> {
           .then((it) => it.resign(escrow));
 
       return ITStatus.txCreated(tx);
+    } on DioError catch (e) {
+      if (e.toEspressoCashError() == EspressoCashError.invalidEscrowAccount) {
+        return const ITStatus.txEscrowFailure();
+      }
+
+      return const ITStatus.txFailure();
     } on Exception {
       return const ITStatus.txFailure();
     }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
@@ -17,7 +18,7 @@ class SwapVerifier {
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   StreamSubscription<void>? _repoSubscription;
 
-  void init() {
+  void init({required VoidCallback onBalanceAffected}) {
     _repoSubscription = _repository.watchAllPending().listen((swaps) {
       for (final swap in swaps) {
         final tx = swap.status.mapOrNull(
@@ -34,6 +35,7 @@ class SwapVerifier {
           _repository.save(swap.copyWith(status: newStatus));
           _subscriptions[swap.id]?.cancel();
           _subscriptions.remove(swap.id);
+          onBalanceAffected();
         }
 
         if (!_subscriptions.containsKey(swap.id)) {

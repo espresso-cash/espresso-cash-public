@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
@@ -25,7 +26,7 @@ class OTVerifier {
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   StreamSubscription<void>? _repoSubscription;
 
-  void init() {
+  void init({required VoidCallback onBalanceAffected}) {
     _repoSubscription = _repository.watchWithReadyLink().listen((payments) {
       for (final payment in payments) {
         Future<void> onSuccess(ParsedTransaction tx) async {
@@ -42,6 +43,10 @@ class OTVerifier {
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();
           _subscriptions.remove(payment.id);
+
+          if (newStatus is OTCanceled) {
+            onBalanceAffected();
+          }
         }
 
         final status = payment.status;

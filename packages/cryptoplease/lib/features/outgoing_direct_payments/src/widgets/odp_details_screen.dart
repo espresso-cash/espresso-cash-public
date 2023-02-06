@@ -3,6 +3,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/balances/context_ext.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
 import '../../../../core/presentation/utils.dart';
@@ -45,13 +46,20 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
         builder: (context, state) {
           final payment = state.data;
 
-          return BlocBuilder<ODPBloc, ODPState>(
+          return BlocConsumer<ODPBloc, ODPState>(
+            listener: (context, _) => payment?.status.mapOrNull(
+              success: (_) => context.notifyBalanceAffected(),
+            ),
             builder: (context, state) {
-              if (payment == null) return const TransferProgress();
-              if (state.contains(payment.id)) return const TransferProgress();
+              if (payment == null || state.contains(payment.id)) {
+                return TransferProgress(
+                  onBack: () => context.router.pop(),
+                );
+              }
 
               return payment.status.maybeMap(
                 success: (status) => TransferSuccess(
+                  onBack: () => context.router.pop(),
                   onOkPressed: () => context.router.pop(),
                   statusContent: context.l10n.outgoingTransferSuccess(
                     payment.amount.format(DeviceLocale.localeOf(context)),
