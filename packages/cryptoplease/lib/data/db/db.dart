@@ -153,6 +153,6 @@ class MyDatabase extends _$MyDatabase {
     }
 
     await m.deleteTable(oTRows.actualTableName);
-    await m.create(iSLPRows);
+    await m.createTable(iSLPRows);
   }
 }
