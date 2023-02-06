@@ -124,13 +124,13 @@ class MyDatabase extends _$MyDatabase {
           if (from < 28) {
             await m.createTable(iSLPRows);
           }
-          if (from >= 23 && from < 28) {
-            await _migrateOTP(m);
+          if (from >= 22 && from < 28) {
+            await _migrateOTP();
           }
         },
       );
 
-  Future<void> _migrateOTP(Migrator m) async {
+  Future<void> _migrateOTP() async {
     final otpRows = await select(oTRows).get();
     for (final row in otpRows) {
       await into(oSKPRows).insert(
@@ -153,7 +153,5 @@ class MyDatabase extends _$MyDatabase {
         ),
       );
     }
-
-    await m.deleteTable(oTRows.entityName);
   }
 }
