@@ -46,7 +46,7 @@ Future<void> main() async {
     ],
     verify: (_) {
       verify(storage.read(key: anyNamed('key'), iOptions: anyNamed('iOptions')))
-          .called(1);
+          .called(2);
       verifyNever(
         storage.write(key: anyNamed('key'), value: anyNamed('value')),
       );
@@ -65,6 +65,9 @@ Future<void> main() async {
       when(
         storage.read(key: photoKey, iOptions: anyNamed('iOptions')),
       ).thenAnswer((_) async => null);
+      when(
+        storage.read(key: onboardingKey, iOptions: anyNamed('iOptions')),
+      ).thenAnswer((_) async => 'true');
       when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
           .thenAnswer((_) async {});
     },
@@ -80,6 +83,10 @@ Future<void> main() async {
           'has correct account address',
         ),
         predicate((AccountsState a) => !a.isProcessing, 'is not processing'),
+        predicate(
+          (AccountsState a) => a.hasFinishedOnboarding,
+          'has finished onboarding',
+        ),
       ),
     ],
   );
@@ -96,6 +103,7 @@ Future<void> main() async {
         AccountsEvent.created(
           mnemonic: Mnemonic.generated(mnemonic),
           account: testAccount,
+          hasFinishedOnboarding: false,
         ),
       );
     },
@@ -107,6 +115,10 @@ Future<void> main() async {
           'has correct account address',
         ),
         predicate((AccountsState a) => !a.isProcessing, 'is not processing'),
+        predicate(
+          (AccountsState a) => !a.hasFinishedOnboarding,
+          'has not finished onboarding',
+        ),
       ),
     ],
     verify: (_) {
@@ -121,6 +133,13 @@ Future<void> main() async {
         storage.write(
           key: nameKey,
           value: testAccount.firstName,
+          iOptions: anyNamed('iOptions'),
+        ),
+      ).called(1);
+      verify(
+        storage.write(
+          key: onboardingKey,
+          value: 'false',
           iOptions: anyNamed('iOptions'),
         ),
       ).called(1);
