@@ -121,7 +121,9 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 16 && from < 27) {
             await m.addColumn(oSKPRows, oSKPRows.link3);
           }
-
+          if (from < 28) {
+            await m.createTable(iSLPRows);
+          }
           if (from >= 22 && from < 28) {
             await _migrateOTP(m);
           }
@@ -153,6 +155,5 @@ class MyDatabase extends _$MyDatabase {
     }
 
     await m.deleteTable(oTRows.actualTableName);
-    await m.createTable(iSLPRows);
   }
 }
