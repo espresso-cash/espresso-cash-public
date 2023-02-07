@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 
-import '../core/transactions/tx_sender.dart';
-import '../features/outgoing_split_key_payments/db.dart';
-import 'db/mixins.dart';
+import '../../core/transactions/tx_sender.dart';
+import '../../features/outgoing_split_key_payments/db.dart';
+import 'mixins.dart';
 
 class ITRows extends Table with EntityMixin {
   TextColumn get privateKey => text()();

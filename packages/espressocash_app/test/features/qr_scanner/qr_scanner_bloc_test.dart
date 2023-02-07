@@ -1,19 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
-<<<<<<< HEAD:packages/cryptoplease/test/features/qr_scanner/qr_scanner_bloc_test.dart
-import 'package:cryptoplease/core/link_shortener.dart';
-import 'package:cryptoplease/core/single_key_payments.dart';
-import 'package:cryptoplease/core/tokens/token.dart';
-import 'package:cryptoplease/features/qr_scanner/models/qr_address_data.dart';
-import 'package:cryptoplease/features/qr_scanner/models/qr_scanner_request.dart';
-import 'package:cryptoplease/features/qr_scanner/src/bl/qr_scanner_bloc.dart';
-=======
 import 'package:espressocash_app/core/link_shortener.dart';
-import 'package:espressocash_app/core/tip_payments.dart';
+import 'package:espressocash_app/core/single_key_payments.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_address_data.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_scanner_request.dart';
 import 'package:espressocash_app/features/qr_scanner/src/bl/qr_scanner_bloc.dart';
->>>>>>> e33fccb59c629b584b13dd4ec01c02a1adb130f0:packages/espressocash_app/test/features/qr_scanner/qr_scanner_bloc_test.dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

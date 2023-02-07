@@ -12,7 +12,7 @@ import '../../features/outgoing_split_key_payments/db.dart';
 import '../../features/payment_request/db.dart';
 import '../../features/popular_tokens/db.dart';
 import '../../features/swap/db.dart';
-import '../deprecated.dart';
+import 'deprecated.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';
