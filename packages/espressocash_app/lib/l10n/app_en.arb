@@ -494,7 +494,7 @@
   "qrInputAddressHint": "Enter the crypto address here",
   "cryptoCashBalance": "Your Crypto Cash\nBalance ",
   "inUsdc": "in USDC ",
-  "usdcInfo": "The US Dollar Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar. ($1 = 1USDC)",
+  "usdcInfo": "The US Dollar Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar.\n($1 = 1USDC)",
   "cryptoInvestments": "Your Crypto\nInvestments",
   "moneyReceived": "Money has been received",
   "sentDirectly": "Sent directly",
