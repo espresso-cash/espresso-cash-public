@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/amount.dart';
@@ -58,11 +59,11 @@ class _Balance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const token = Token.usdc;
-
     final locale = DeviceLocale.localeOf(context);
-    final converted = context.watchUserFiatBalance(token);
-    final amount = converted ?? Amount.zero(currency: Currency.usd);
-    final formattedAmount = amount.format(locale);
+    final formattedAmount = context
+        .watchUserFiatBalance(token)
+        .ifNull(() => Amount.zero(currency: Currency.usd))
+        .let((it) => it.format(locale));
 
     final clickable = GestureDetector(
       onTap: onInfoPressed,

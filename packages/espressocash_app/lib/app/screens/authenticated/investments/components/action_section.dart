@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/amount.dart';
@@ -23,10 +24,10 @@ class ButtonSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const token = Token.usdc;
-    final converted = context.watchUserFiatBalance(token);
-    final amount = converted ?? Amount.zero(currency: Currency.usd);
-
-    final isZeroAmount = amount.decimal == Decimal.zero;
+    final isZeroAmount = context
+        .watchUserFiatBalance(token)
+        .ifNull(() => Amount.zero(currency: Currency.usd))
+        .let((it) => it.decimal == Decimal.zero);
 
     return Column(
       children: [
