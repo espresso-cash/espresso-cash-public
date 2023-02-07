@@ -1,8 +1,8 @@
 name: solana_seed_vault
 description: A reference implementation of the Seed Vault SDK specification for Flutter.
-version: 0.1.0
-repository: https://github.com/cryptoplease/cryptoplease-dart/tree/master/packages/solana_seed_vault
-issue_tracker: https://github.com/cryptoplease/cryptoplease-dart/issues
+version: 0.1.0+1
+repository: https://github.com/espresso-cash/espresso-cash-public/tree/master/packages/solana_seed_vault
+issue_tracker: https://github.com/espresso-cash/espresso-cash-public/issues
 
 environment:
   sdk: ">=2.18.5 <3.0.0"

@@ -1,3 +1,11 @@
+## 0.27.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: rename packages.
+ - **DOCS**: update repository name.
+ - **BREAKING** **FIX**: ProgramAccount.rentEpoch is now BigInt (#762).
+
 ## 0.26.4
 
  - **REFACTOR**: update dependencies.

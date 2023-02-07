@@ -12,5 +12,5 @@ jobs:
     steps:
       - uses: actions/add-to-project@v0.3.0
         with:
-          project-url: https://github.com/orgs/cryptoplease/projects/4
+          project-url: https://github.com/orgs/espresso-cash/projects/4
           github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
