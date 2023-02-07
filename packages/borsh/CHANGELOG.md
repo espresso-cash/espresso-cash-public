@@ -1,3 +1,8 @@
+## 0.3.1+2
+
+ - **REFACTOR**: rename packages.
+ - **DOCS**: update repository name.
+
 ## 0.3.1+1
 
  - **REFACTOR**: allow analyzer <6.0.0.

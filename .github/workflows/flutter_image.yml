@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: cryptoplease/flutter
+  IMAGE_NAME: espresso-cash/flutter
 
 jobs:
   build-and-push-image:

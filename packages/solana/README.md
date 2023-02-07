@@ -1,5 +1,5 @@
 [![Pub Version](https://img.shields.io/pub/v/solana)](https://pub.dev/packages/solana)
-[![codecov](https://codecov.io/gh/cryptoplease/cryptoplease-dart/branch/master/graph/badge.svg?token=8UF2LVQMS7)](https://codecov.io/gh/cryptoplease/cryptoplease-dart)
+[![codecov](https://codecov.io/gh/espresso-cash/espresso-cash-public/branch/master/graph/badge.svg?token=8UF2LVQMS7)](https://codecov.io/gh/espresso-cash/espresso-cash-public)
 [![Twitter Follow](https://img.shields.io/twitter/follow/espresso_cash?style=social)](https://twitter.com/espresso_cash)
 [![Discord](https://img.shields.io/discord/943071824525262849?label=Discord)](https://discord.gg/wK6WX7974J)
 
@@ -36,11 +36,11 @@ Additional files may be included in case the author thinks that it is important 
 
 If you notice that there is a missing RPC method in the RPC client or that, the RPC client has outdated and no longer valid methods you can submit a Pull Request with the adequate change to update it. In case of the deletion it is pretty much straight forward.
 
-In case of an addition you have to add the method to the [client.dart](https://github.com/cryptoplease/cryptoplease-dart/tree/master/packages/solana/lib/src/rpc/client.dart) .
+In case of an addition you have to add the method to the [client.dart](https://github.com/espresso-cash/espresso-cash-public/tree/master/packages/solana/lib/src/rpc/client.dart) .
 
-For additions just add the method definition to the abstract class in [client.dart](https://github.com/cryptoplease/cryptoplease-dart/tree/master/packages/solana/lib/src/rpc/client.dart) and rebuild the package. The implementation will be automatically generated for you.
+For additions just add the method definition to the abstract class in [client.dart](https://github.com/espresso-cash/espresso-cash-public/tree/master/packages/solana/lib/src/rpc/client.dart) and rebuild the package. The implementation will be automatically generated for you.
 
-Parameters are specified in the method definition by writing normal dart code however, some methods may require the creation of new types for parameters or responses, in this case please put the definitions of such classes in the [dto](https://github.com/cryptoplease/cryptoplease-dart/tree/master/packages/solana/lib/src/rpc/dto/) directory.
+Parameters are specified in the method definition by writing normal dart code however, some methods may require the creation of new types for parameters or responses, in this case please put the definitions of such classes in the [dto](https://github.com/espresso-cash/espresso-cash-public/tree/master/packages/solana/lib/src/rpc/dto/) directory.
 
 ### Contributing
 
