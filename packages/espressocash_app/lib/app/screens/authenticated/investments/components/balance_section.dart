@@ -102,7 +102,7 @@ class _Balance extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 16),
             Flexible(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -120,7 +120,7 @@ class _Balance extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 4),
                   const CpTokenIcon(token: token, size: 36),
                 ],
               ),
