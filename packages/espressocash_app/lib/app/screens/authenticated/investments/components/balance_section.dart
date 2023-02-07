@@ -90,18 +90,14 @@ class _Balance extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Flexible(
-              child: FittedBox(
-                child: Text.rich(
-                  TextSpan(
-                    text: context.l10n.cryptoCashBalance,
-                    children: [
-                      WidgetSpan(child: clickable),
-                    ],
-                  ),
-                  style: _baseStyle,
-                ),
+            Text.rich(
+              TextSpan(
+                text: context.l10n.cryptoCashBalance,
+                children: [
+                  WidgetSpan(child: clickable),
+                ],
               ),
+              style: _baseStyle,
             ),
             const SizedBox(width: 16),
             Flexible(
@@ -194,7 +190,7 @@ class _InfoIcon extends StatelessWidget {
 
 const _baseStyle = TextStyle(
   color: Colors.white,
-  fontSize: 22,
+  fontSize: 20,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.2,
 );

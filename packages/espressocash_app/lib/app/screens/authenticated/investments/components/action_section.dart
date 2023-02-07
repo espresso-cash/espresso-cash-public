@@ -79,7 +79,7 @@ class _Actions extends StatelessWidget {
           Text(
             context.l10n.investmentHeaderButtonsTitle,
             style: const TextStyle(
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: FontWeight.w500,
               color: Colors.white,
             ),
