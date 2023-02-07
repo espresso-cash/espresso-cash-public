@@ -87,6 +87,7 @@ class _Balance extends StatelessWidget {
       child: Padding(
         padding: padding,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Flexible(
               child: FittedBox(
@@ -103,20 +104,27 @@ class _Balance extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Flexible(
-              child: FittedBox(
-                child: Text(
-                  formattedAmount,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 50,
-                    color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: FittedBox(
+                      child: Text(
+                        formattedAmount,
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 50,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 8),
+                  const CpTokenIcon(token: token, size: 36),
+                ],
               ),
             ),
-            const SizedBox(width: 8),
-            const CpTokenIcon(token: token, size: 36),
           ],
         ),
       ),
