@@ -21,6 +21,7 @@ class OnboardingNotice extends StatelessWidget {
                   onTap: () =>
                       context.router.navigate(const OnboardingFlowRoute()),
                   child: Assets.rive.onboardingNotice.rive(
+                    alignment: Alignment.topCenter,
                     fit: BoxFit.fitWidth,
                   ),
                 ),

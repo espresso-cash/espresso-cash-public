@@ -19,10 +19,7 @@ class InvestmentHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const BoxDecoration(
-          color: Color(0xff2D2B2C),
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-        ),
+        decoration: const BoxDecoration(color: Color(0xff2D2B2C)),
         child: Column(
           children: const [
             _Info(),

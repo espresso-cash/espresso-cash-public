@@ -49,13 +49,10 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                     elevation: 0,
                     backgroundColor: Colors.white,
                   ),
-                  SliverPadding(
-                    padding: EdgeInsets.symmetric(vertical: 45, horizontal: 24),
-                    sliver: SliverToBoxAdapter(child: InvestmentHeader()),
-                  ),
+                  SliverToBoxAdapter(child: InvestmentHeader()),
                   SliverToBoxAdapter(child: OnboardingNotice()),
                   SliverPadding(
-                    padding: EdgeInsets.only(left: 24, right: 24),
+                    padding: EdgeInsets.only(left: 24, right: 24, top: 45),
                     sliver: CryptoInvestments(),
                   ),
                   FavoriteTokenList(),
