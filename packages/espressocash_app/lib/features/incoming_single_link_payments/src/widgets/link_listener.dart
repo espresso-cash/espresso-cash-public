@@ -8,29 +8,29 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
-import '../../../../core/tip_payments.dart';
+import '../../../../core/single_key_payments.dart';
 import '../../../../di.dart';
 import '../../../../routes.gr.dart';
-import '../bl/it_bloc.dart';
+import '../bl/islp_bloc.dart';
 
-class TipLinkListener extends StatefulWidget {
-  const TipLinkListener({super.key, required this.child});
+class ISLPListener extends StatefulWidget {
+  const ISLPListener({super.key, required this.child});
 
   final Widget child;
 
   @override
-  State<TipLinkListener> createState() => _TipLinkListenerState();
+  State<ISLPListener> createState() => _ISLPListenerState();
 }
 
-class _TipLinkListenerState extends State<TipLinkListener> {
+class _ISLPListenerState extends State<ISLPListener> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
-      final tip = TipPaymentData.tryParse(link);
+      final data = SingleKeyPaymentData.tryParse(link);
 
-      if (tip != null) {
-        _processIncomingTip(tip);
+      if (data != null) {
+        _processIncomingTip(data);
 
         return true;
       }
@@ -39,18 +39,18 @@ class _TipLinkListenerState extends State<TipLinkListener> {
     });
   }
 
-  Future<void> _processIncomingTip(TipPaymentData tipPayment) async {
-    final key = tipPayment.key;
+  Future<void> _processIncomingTip(SingleKeyPaymentData paymentData) async {
+    final key = paymentData.key;
 
     final escrow = await walletFromKey(encodedKey: key);
 
     final id = const Uuid().v4();
 
-    sl<AnalyticsManager>().tipLinkReceived();
+    sl<AnalyticsManager>().singleLinkReceived();
 
     if (!mounted) return;
-    context.read<ITBloc>().add(ITEvent.create(escrow, id: id));
-    await context.router.push(IncomingTipRoute(id: id));
+    context.read<ISLPBloc>().add(ISLPEvent.create(escrow, id: id));
+    await context.router.push(IncomingSingleLinkRoute(id: id));
   }
 
   @override

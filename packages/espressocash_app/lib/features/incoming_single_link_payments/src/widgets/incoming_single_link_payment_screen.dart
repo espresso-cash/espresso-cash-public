@@ -9,12 +9,12 @@ import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
 import '../../../incoming_split_key_payments/widgets/invalid_escrow_error_widget.dart';
-import '../bl/incoming_tip_payment.dart';
-import '../bl/it_bloc.dart';
-import '../bl/it_repository.dart';
+import '../bl/islp_bloc.dart';
+import '../bl/islp_payment.dart';
+import '../bl/islp_repository.dart';
 
-class IncomingTipScreen extends StatefulWidget {
-  const IncomingTipScreen({
+class IncomingSingleLinkScreen extends StatefulWidget {
+  const IncomingSingleLinkScreen({
     super.key,
     required this.id,
   });
@@ -22,25 +22,27 @@ class IncomingTipScreen extends StatefulWidget {
   final String id;
 
   @override
-  State<IncomingTipScreen> createState() => _IncomingTipScreenState();
+  State<IncomingSingleLinkScreen> createState() =>
+      _IncomingSingleLinkScreenState();
 }
 
-class _IncomingTipScreenState extends State<IncomingTipScreen> {
-  late final Stream<IncomingTipPayment?> _payment;
+class _IncomingSingleLinkScreenState extends State<IncomingSingleLinkScreen> {
+  late final Stream<IncomingSingleLinkPayment?> _payment;
 
   @override
   void initState() {
     super.initState();
-    _payment = sl<ITRepository>().watch(widget.id);
+    _payment = sl<ISLPRepository>().watch(widget.id);
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<IncomingTipPayment?>(
+  Widget build(BuildContext context) =>
+      StreamBuilder<IncomingSingleLinkPayment?>(
         stream: _payment,
         builder: (context, state) {
           final payment = state.data;
 
-          return BlocConsumer<ITBloc, ITState>(
+          return BlocConsumer<ISLPBloc, ISLPState>(
             listener: (context, state) => payment?.status.mapOrNull(
               txSent: (_) => context.notifyBalanceAffected(),
             ),
@@ -60,8 +62,9 @@ class _IncomingTipScreenState extends State<IncomingTipScreen> {
                 txEscrowFailure: (_) => const InvalidEscrowErrorWidget(),
                 orElse: () => TransferError(
                   onBack: () => context.router.pop(),
-                  onRetry: () =>
-                      context.read<ITBloc>().add(ITEvent.process(payment.id)),
+                  onRetry: () => context
+                      .read<ISLPBloc>()
+                      .add(ISLPEvent.process(payment.id)),
                 ),
               );
             },

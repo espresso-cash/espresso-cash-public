@@ -7,7 +7,6 @@ import '../src/pending_activities_repository.dart';
 import '../src/widgets/no_activity.dart';
 import '../src/widgets/odp_tile.dart';
 import '../src/widgets/oskp_tile.dart';
-import '../src/widgets/ot_tile.dart';
 import '../src/widgets/payment_request_tile.dart';
 import '../src/widgets/swap_tile.dart';
 
@@ -59,10 +58,6 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         activity: p,
                       ),
                       outgoingSplitKeyPayment: (p) => OSKPTile(
-                        key: ValueKey(p.id),
-                        activity: p,
-                      ),
-                      outgoingTipPayment: (p) => OTTile(
                         key: ValueKey(p.id),
                         activity: p,
                       ),
