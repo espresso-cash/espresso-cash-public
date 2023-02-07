@@ -4,22 +4,24 @@ import 'package:solana/solana.dart';
 import '../config.dart';
 import 'tokens/token.dart';
 
-part 'tip_payments.freezed.dart';
-part 'tip_payments.g.dart';
+part 'single_key_payments.freezed.dart';
+part 'single_key_payments.g.dart';
+
+const _type = 'single';
 
 @freezed
-class TipPaymentData with _$TipPaymentData {
-  const factory TipPaymentData({
+class SingleKeyPaymentData with _$SingleKeyPaymentData {
+  const factory SingleKeyPaymentData({
     required String key,
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey token,
-  }) = _TipPaymentLink;
+  }) = _SingleKeyPaymentLink;
 
-  factory TipPaymentData.fromJson(Map<String, dynamic> json) =>
-      _$TipPaymentDataFromJson(json);
+  factory SingleKeyPaymentData.fromJson(Map<String, dynamic> json) =>
+      _$SingleKeyPaymentDataFromJson(json);
 
-  const TipPaymentData._();
+  const SingleKeyPaymentData._();
 
-  static TipPaymentData? tryParse(Uri link) {
+  static SingleKeyPaymentData? tryParse(Uri link) {
     final correctSchemeAndHost =
         link.scheme == 'cryptoplease-sol' && link.host == '1' ||
             link.scheme == 'https' && link.host == link1Host;
@@ -32,12 +34,12 @@ class TipPaymentData with _$TipPaymentData {
     if (key == null) return null;
 
     final type = link.queryParameters['type'];
-    if (type != 'tip') return null;
+    if (type != _type) return null;
 
     final apiVersion = link.queryParameters['v'];
     if (apiVersion != 'v2') return null;
 
-    return TipPaymentData(
+    return SingleKeyPaymentData(
       key: key,
       token: Ed25519HDPublicKey.fromBase58(tokenAddress),
     );
@@ -51,7 +53,7 @@ class TipPaymentData with _$TipPaymentData {
           'key': key,
           if (token != Token.sol.publicKey) 'token': token.toBase58(),
           'v': 'v2',
-          'type': 'tip'
+          'type': _type
         },
       );
 }

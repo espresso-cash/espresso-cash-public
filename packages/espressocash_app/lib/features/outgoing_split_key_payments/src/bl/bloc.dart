@@ -12,8 +12,8 @@ import 'package:solana/solana.dart';
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/link_shortener.dart';
+import '../../../../core/single_key_payments.dart';
 import '../../../../core/split_key_payments.dart';
-import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -254,7 +254,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
     if (crypto.decimal <= _qrLinkThreshold) {
       final key = base58encode(privateKey.toList());
-      final rawLink = TipPaymentData(
+      final rawLink = SingleKeyPaymentData(
         key: key,
         token: token.publicKey,
       ).toUri();

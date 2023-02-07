@@ -12,31 +12,31 @@ import '../../../../config.dart';
 import '../../../../core/extensions.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
-import 'incoming_tip_payment.dart';
-import 'it_repository.dart';
+import 'islp_payment.dart';
+import 'islp_repository.dart';
 
-part 'it_bloc.freezed.dart';
+part 'islp_bloc.freezed.dart';
 
 @freezed
-class ITEvent with _$ITEvent {
-  const factory ITEvent.create(
+class ISLPEvent with _$ISLPEvent {
+  const factory ISLPEvent.create(
     Ed25519HDKeyPair escrow, {
     required String id,
-  }) = ITEventCreate;
+  }) = ISLPEventCreate;
 
-  const factory ITEvent.process(String id) = ITEventProcess;
+  const factory ISLPEvent.process(String id) = ISLPEventProcess;
 }
 
-typedef ITState = ISet<String>;
+typedef ISLPState = ISet<String>;
 
-typedef _Event = ITEvent;
-typedef _State = ITState;
+typedef _Event = ISLPEvent;
+typedef _State = ISLPState;
 typedef _Emitter = Emitter<_State>;
 
 @injectable
-class ITBloc extends Bloc<_Event, _State> {
-  ITBloc({
-    required ITRepository repository,
+class ISLPBloc extends Bloc<_Event, _State> {
+  ISLPBloc({
+    required ISLPRepository repository,
     required CryptopleaseClient client,
     @factoryParam required Ed25519HDKeyPair account,
     required TxSender txSender,
@@ -48,7 +48,7 @@ class ITBloc extends Bloc<_Event, _State> {
     on<_Event>(_handler);
   }
 
-  final ITRepository _repository;
+  final ISLPRepository _repository;
   final CryptopleaseClient _client;
   final Ed25519HDKeyPair _account;
   final TxSender _txSender;
@@ -58,10 +58,10 @@ class ITBloc extends Bloc<_Event, _State> {
         process: (e) => _onProcess(e, emit),
       );
 
-  Future<void> _onCreate(ITEventCreate event, _Emitter _) async {
+  Future<void> _onCreate(ISLPEventCreate event, _Emitter _) async {
     final status = await _createTx(event.escrow);
 
-    final payment = IncomingTipPayment(
+    final payment = IncomingSingleLinkPayment(
       id: event.id,
       created: DateTime.now(),
       escrow: event.escrow,
@@ -70,12 +70,12 @@ class ITBloc extends Bloc<_Event, _State> {
 
     await _repository.save(payment);
 
-    if (status is ITStatusTxCreated) {
-      add(ITEvent.process(payment.id));
+    if (status is ISLPStatusTxCreated) {
+      add(ISLPEvent.process(payment.id));
     }
   }
 
-  Future<void> _onProcess(ITEventProcess event, _Emitter emit) async {
+  Future<void> _onProcess(ISLPEventProcess event, _Emitter emit) async {
     final payment = await _repository.load(event.id);
 
     if (payment == null) return;
@@ -83,7 +83,7 @@ class ITBloc extends Bloc<_Event, _State> {
 
     emit(state.add(payment.id));
 
-    final ITStatus newStatus = await payment.status.map(
+    final ISLPStatus newStatus = await payment.status.map(
       privateKeyReady: (_) => _createTx(payment.escrow),
       txCreated: (status) => _sendTx(status.tx),
       txSent: (status) => _waitTx(status.tx),
@@ -99,9 +99,9 @@ class ITBloc extends Bloc<_Event, _State> {
     emit(state.remove(payment.id));
 
     newStatus.map(
-      privateKeyReady: (_) => add(ITEvent.process(payment.id)),
-      txCreated: (_) => add(ITEvent.process(payment.id)),
-      txSent: (_) => add(ITEvent.process(payment.id)),
+      privateKeyReady: (_) => add(ISLPEvent.process(payment.id)),
+      txCreated: (_) => add(ISLPEvent.process(payment.id)),
+      txSent: (_) => add(ISLPEvent.process(payment.id)),
       success: ignore,
       txFailure: ignore,
       txSendFailure: ignore,
@@ -110,7 +110,7 @@ class ITBloc extends Bloc<_Event, _State> {
     );
   }
 
-  Future<ITStatus> _createTx(Ed25519HDKeyPair escrow) async {
+  Future<ISLPStatus> _createTx(Ed25519HDKeyPair escrow) async {
     try {
       final dto = ReceivePaymentRequestDto(
         receiverAccount: _account.address,
@@ -124,36 +124,36 @@ class ITBloc extends Bloc<_Event, _State> {
           .then(SignedTx.decode)
           .then((it) => it.resign(escrow));
 
-      return ITStatus.txCreated(tx);
+      return ISLPStatus.txCreated(tx);
     } on DioError catch (e) {
       if (e.toEspressoCashError() == EspressoCashError.invalidEscrowAccount) {
-        return const ITStatus.txEscrowFailure();
+        return const ISLPStatus.txEscrowFailure();
       }
 
-      return const ITStatus.txFailure();
+      return const ISLPStatus.txFailure();
     } on Exception {
-      return const ITStatus.txFailure();
+      return const ISLPStatus.txFailure();
     }
   }
 
-  Future<ITStatus> _sendTx(SignedTx tx) async {
+  Future<ISLPStatus> _sendTx(SignedTx tx) async {
     final result = await _txSender.send(tx);
 
     return result.map(
-      sent: (_) => ITStatus.txSent(tx),
-      invalidBlockhash: (_) => const ITStatus.txFailure(),
-      failure: (_) => const ITStatus.txEscrowFailure(),
-      networkError: (_) => ITStatus.txSendFailure(tx),
+      sent: (_) => ISLPStatus.txSent(tx),
+      invalidBlockhash: (_) => const ISLPStatus.txFailure(),
+      failure: (_) => const ISLPStatus.txEscrowFailure(),
+      networkError: (_) => ISLPStatus.txSendFailure(tx),
     );
   }
 
-  Future<ITStatus> _waitTx(SignedTx tx) async {
+  Future<ISLPStatus> _waitTx(SignedTx tx) async {
     final result = await _txSender.wait(tx);
 
     return result.map(
-      success: (_) => ITStatus.success(txId: tx.id),
-      failure: (_) => const ITStatus.txEscrowFailure(),
-      networkError: (_) => ITStatus.txWaitFailure(tx),
+      success: (_) => ISLPStatus.success(txId: tx.id),
+      failure: (_) => const ISLPStatus.txEscrowFailure(),
+      networkError: (_) => ISLPStatus.txWaitFailure(tx),
     );
   }
 }
