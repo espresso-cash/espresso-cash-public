@@ -194,7 +194,7 @@ class _InfoIcon extends StatelessWidget {
 
 const _baseStyle = TextStyle(
   color: Colors.white,
-  fontSize: 24,
+  fontSize: 22,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.2,
 );
