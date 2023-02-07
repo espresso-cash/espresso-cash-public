@@ -23,7 +23,7 @@ jobs:
     needs: [formatting]
     runs-on: ubuntu-latest
     env:
-      SCOPE: --no-flutter --ignore="cryptoplease*" --ignore="solana"
+      SCOPE: --no-flutter --ignore="espressocash*" --ignore="solana"
 
     steps:
       - uses: actions/checkout@v2
@@ -41,7 +41,7 @@ jobs:
       - name: Run tests
         run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make dart_test
 
-  cryptoplease_link:
+  espressocash_backend:
     needs: [formatting]
     runs-on: ubuntu-latest
     permissions:
@@ -50,9 +50,9 @@ jobs:
     env:
       DEVNET_RPC_URL: "http://solana:8899"
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
-      SCOPE: --scope="cryptoplease_link" --scope="cryptoplease_api" --scope="jupiter_aggregator"
+      SCOPE: --scope="espressocash_backend" --scope="espressocash_api" --scope="jupiter_aggregator"
     container:
-      image: ghcr.io/cryptoplease/flutter:3.7.0
+      image: ghcr.io/espresso-cash/flutter:3.7.0
     services:
       solana:
         image: solanalabs/solana:stable
@@ -89,7 +89,7 @@ jobs:
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="solana"
     container:
-      image: ghcr.io/cryptoplease/flutter:3.7.0
+      image: ghcr.io/espresso-cash/flutter:3.7.0
     services:
       solana:
         image: solanalabs/solana:${{ matrix.solanaVersion }}
@@ -141,7 +141,7 @@ jobs:
       - name: Test
         run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
 
-  cryptoplease:
+  espressocash_app:
     needs: [formatting]
     runs-on: ubuntu-latest
     permissions:
@@ -150,9 +150,9 @@ jobs:
     env:
       SOLANA_RPC_URL: "http://solana:8899"
       SOLANA_WEBSOCKET_URL: "ws://solana:8900"
-      SCOPE: --scope="cryptoplease"
+      SCOPE: --scope="espressocash_app"
     container:
-      image: ghcr.io/cryptoplease/flutter:3.7.0
+      image: ghcr.io/espresso-cash/flutter:3.7.0
     services:
       solana:
         image: solanalabs/solana:stable

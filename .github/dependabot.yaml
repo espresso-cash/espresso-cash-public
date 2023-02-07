@@ -2,12 +2,12 @@ version: 2
 enable-beta-ecosystems: true
 updates:
   - package-ecosystem: "pub"
-    directory: "/packages/cryptoplease/"
+    directory: "/packages/espressocash_app/"
     schedule:
       interval: "monthly"
 
   - package-ecosystem: "pub"
-    directory: "/packages/cryptoplease_link/"
+    directory: "/packages/espressocash_backend/"
     schedule:
       interval: "monthly"
 
