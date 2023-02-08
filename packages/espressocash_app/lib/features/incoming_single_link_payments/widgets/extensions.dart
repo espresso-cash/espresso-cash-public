@@ -4,23 +4,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/analytics/analytics_manager.dart';
-import '../../../core/tip_payments.dart';
+import '../../../core/single_key_payments.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
-import '../src/bl/it_bloc.dart';
+import '../src/bl/islp_bloc.dart';
 import '../src/widgets/link_listener.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> processIncomingTip(TipPaymentData tipPayment) async {
-    final key = tipPayment.key;
+  Future<void> processISLP(SingleKeyPaymentData payment) async {
+    final key = payment.key;
 
     final escrow = await walletFromKey(encodedKey: key);
 
     final id = const Uuid().v4();
 
-    sl<AnalyticsManager>().tipLinkReceived();
+    sl<AnalyticsManager>().singleLinkReceived();
 
-    read<ITBloc>().add(ITEvent.create(escrow, id: id));
-    await router.push(IncomingTipRoute(id: id));
+    read<ISLPBloc>().add(ISLPEvent.create(escrow, id: id));
+    await router.push(IncomingSingleLinkRoute(id: id));
   }
 }

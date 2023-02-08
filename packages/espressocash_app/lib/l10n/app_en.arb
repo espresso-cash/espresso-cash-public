@@ -484,47 +484,9 @@
   "failedToSearch": "Failed to search token",
   "emptySearch": "Token not found",
   "discover": "DISCOVER",
-  "tip": "Tip",
-  "minimumAmountToTip": "{amount} is the minimum to tip",
-  "@minimumAmountToTip": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "maximumAmountToTip": "{amount} is the maximum to tip",
-  "@maximumAmountToTip": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
-  "tipButtonLabel": "Tip QR Code",
-  "tipViewQr": "View QR Code",
-  "tipCreatingQr": "Creating QR Code",
-  "tipCreatedQr": "QR Code created",
-  "tipProgressCanceled": "Tip has been canceled",
-  "tipProgressOngoing": "Tipping {amount} using secure link...",
-  "@tipProgressOngoing": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "view": "View",
   "shareLinks": "Share Links",
-  "tipCanceledMessage": "{amount} Tip canceled.",
-  "@tipCanceledMessage": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "qrCameraPermissionTitle": "Camera disabled",
   "qrCameraPermissionMessage": "Allow camera access in your device settings to enable the QR Code reader.",
   "qrInputAddressTitle": "Send manually",
@@ -535,7 +497,6 @@
   "cryptoInvestments": "Crypto\nInvestments",
   "moneyReceived": "Money has been received",
   "sentDirectly": "Sent directly",
-  "tipViaQrCode": "Tip via QR Code",
   "boughtToken": "Bought {amount}",
   "@boughtToken": {
     "placeholders": {
@@ -555,8 +516,6 @@
   "moreDetails": "View more details",
   "cancelTransfer": "Cancel transfer",
   "sentViaLink": "Sent via link",
-  "tipCanceled": "Tip canceled",
-  "cancelTip": "Cancel tip",
   "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
   "transferInitiated": "Transfer initiated",
   "receivedBy": "Received by {address}",
