@@ -1,12 +1,7 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
-import 'package:provider/provider.dart';
 
-import '../../../core/accounts/bl/account.dart';
-import '../../../core/balances/context_ext.dart';
 import '../../../di.dart';
-import '../../outgoing_split_key_payments/oskp_verifier.dart';
-import '../../swap/swap_verifier.dart';
 import '../src/activity.dart';
 import '../src/pending_activities_repository.dart';
 import '../src/widgets/no_activity.dart';
@@ -38,59 +33,42 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
   }
 
   @override
-  Widget build(BuildContext context) => MultiProvider(
-        providers: [
-          Provider<SwapVerifier>(
-            lazy: false,
-            create: (context) => sl<SwapVerifier>()
-              ..init(onBalanceAffected: () => context.notifyBalanceAffected()),
-            dispose: (_, value) => value.dispose(),
-          ),
-          Provider<OSKPVerifier>(
-            lazy: false,
-            create: (_) => sl<OSKPVerifier>(
-              param1: context.read<MyAccount>().wallet.publicKey,
-            )..init(onBalanceAffected: () => context.notifyBalanceAffected()),
-            dispose: (_, value) => value.dispose(),
-          ),
-        ],
-        child: StreamBuilder<IList<Activity>>(
-          stream: _stream,
-          builder: (context, snapshot) {
-            final data = snapshot.data;
+  Widget build(BuildContext context) => StreamBuilder<IList<Activity>>(
+        stream: _stream,
+        builder: (context, snapshot) {
+          final data = snapshot.data;
 
-            if (data == null) return const NoActivity();
+          if (data == null) return const NoActivity();
 
-            return data.isEmpty
-                ? const Center(child: NoActivity())
-                : ListView.builder(
-                    padding: widget.padding,
-                    itemBuilder: (context, i) {
-                      // ignore: avoid-non-null-assertion, cannot be null here
-                      final item = snapshot.data![i];
+          return data.isEmpty
+              ? const Center(child: NoActivity())
+              : ListView.builder(
+                  padding: widget.padding,
+                  itemBuilder: (context, i) {
+                    // ignore: avoid-non-null-assertion, cannot be null here
+                    final item = snapshot.data![i];
 
-                      return item.map(
-                        outgoingPaymentRequest: (p) => PaymentRequestTile(
-                          key: ValueKey(p.id),
-                          id: p.id,
-                        ),
-                        outgoingDirectPayment: (p) => ODPTile(
-                          key: ValueKey(p.id),
-                          activity: p,
-                        ),
-                        outgoingSplitKeyPayment: (p) => OSKPTile(
-                          key: ValueKey(p.id),
-                          activity: p,
-                        ),
-                        swap: (p) => SwapTile(
-                          key: ValueKey(p.id),
-                          activity: p,
-                        ),
-                      );
-                    },
-                    itemCount: snapshot.data?.length ?? 0,
-                  );
-          },
-        ),
+                    return item.map(
+                      outgoingPaymentRequest: (p) => PaymentRequestTile(
+                        key: ValueKey(p.id),
+                        id: p.id,
+                      ),
+                      outgoingDirectPayment: (p) => ODPTile(
+                        key: ValueKey(p.id),
+                        activity: p,
+                      ),
+                      outgoingSplitKeyPayment: (p) => OSKPTile(
+                        key: ValueKey(p.id),
+                        activity: p,
+                      ),
+                      swap: (p) => SwapTile(
+                        key: ValueKey(p.id),
+                        activity: p,
+                      ),
+                    );
+                  },
+                  itemCount: snapshot.data?.length ?? 0,
+                );
+        },
       );
 }
