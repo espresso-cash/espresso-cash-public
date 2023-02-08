@@ -62,6 +62,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
               OnboardingDescription(text: context.l10n.toRestoreYourAccount),
               OnboardingPadding(
                 child: TextField(
+                  key: keyRecoverMnemonic,
                   controller: _controller,
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.all(24),
@@ -85,3 +86,5 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
         ),
       );
 }
+
+const keyRecoverMnemonic = Key('keyRecoverMnemonic');
