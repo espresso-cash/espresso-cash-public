@@ -27,7 +27,7 @@ class ButtonSection extends StatelessWidget {
     final isZeroAmount = context
         .watchUserFiatBalance(token)
         .ifNull(() => Amount.zero(currency: Currency.usd))
-        .let((it) => it.decimal == Decimal.zero);
+        .let((it) => it.decimal != Decimal.zero);
 
     return Column(
       children: [

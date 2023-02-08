@@ -1,8 +1,6 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/amount.dart';
-import '../../../../../core/balances/presentation/watch_balance.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
@@ -60,10 +58,13 @@ class _Balance extends StatelessWidget {
   Widget build(BuildContext context) {
     const token = Token.usdc;
     final locale = DeviceLocale.localeOf(context);
-    final formattedAmount = context
-        .watchUserFiatBalance(token)
-        .ifNull(() => Amount.zero(currency: Currency.usd))
-        .let((it) => it.format(locale));
+    // final formattedAmount = context
+    //     .watchUserFiatBalance(token)
+    //     .ifNull(() => Amount.zero(currency: Currency.usd))
+    //     .let((it) => it.format(locale));
+
+    final formattedAmount =
+        Amount(value: 30000000, currency: Currency.usd).format(locale);
 
     final clickable = GestureDetector(
       onTap: onInfoPressed,
