@@ -12,7 +12,6 @@ import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/db.dart';
 import '../../outgoing_split_key_payments/db.dart';
-import '../../outgoing_tip_payments/db.dart';
 import '../../payment_request/db.dart';
 import '../../swap/db.dart';
 import '../models/transaction.dart';
@@ -67,16 +66,6 @@ class TransactionRepository {
       ignoreWhen: (row) => row.status != SwapStatusDto.success,
     );
 
-    final ot = _db.oTRows.findActivityOrNull(
-      where: (row) => row.txId.equals(txId),
-      builder: (pr) => pr.toActivity(_tokens),
-      ignoreWhen: (row) => const [
-        OTStatusDto.success, // Legacy
-        OTStatusDto.withdrawn,
-        OTStatusDto.canceled
-      ].contains(row.status).not(),
-    );
-
     final oskp = _db.oSKPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(_tokens),
@@ -88,7 +77,7 @@ class TransactionRepository {
     );
 
     return Rx.combineLatest(
-      [pr, odp, swap, ot, oskp].map((it) => it.onErrorReturn(null)),
+      [pr, odp, swap, oskp].map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }

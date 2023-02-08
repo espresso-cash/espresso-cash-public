@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:espressocash_app/core/link_shortener.dart';
-import 'package:espressocash_app/core/tip_payments.dart';
+import 'package:espressocash_app/core/single_key_payments.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_address_data.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_scanner_request.dart';
@@ -59,15 +59,15 @@ void main() {
     );
 
     blocTest<QrScannerBloc, QrScannerState>(
-      'tip link scanned',
+      'single key code link scanned',
       build: () => QrScannerBloc(linkShortener: linkShortener),
       setUp: () => when(linkShortener.reverse(any))
           .thenAnswer((_) async => _buildTipLink()),
       act: (bloc) => bloc.add(const QrScannerEvent.received('mocked')),
       expect: () => [
         QrScannerState.done(
-          QrScannerRequest.tip(
-            TipPaymentData(key: 'abcd', token: Token.usdc.publicKey),
+          QrScannerRequest.singleKey(
+            SingleKeyPaymentData(key: 'abcd', token: Token.usdc.publicKey),
           ),
         ),
       ],
@@ -94,4 +94,4 @@ String _buildSolanaPayURI({
 }
 
 Uri _buildTipLink() =>
-    TipPaymentData(key: 'abcd', token: Token.usdc.publicKey).toUri();
+    SingleKeyPaymentData(key: 'abcd', token: Token.usdc.publicKey).toUri();
