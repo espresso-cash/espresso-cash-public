@@ -23,18 +23,18 @@ class CpSlider extends StatefulWidget {
 
 class _CpSliderState extends State<CpSlider>
     with SingleTickerProviderStateMixin {
-  late final AnimationController reverseAnimationController;
+  late final AnimationController _reverseAnimationController;
 
-  final positionNotifier = ValueNotifier<double>(.0);
-  final reverseAnimation = Tween<double>(end: .0);
+  final _positionNotifier = ValueNotifier<double>(.0);
+  final _reverseAnimation = Tween<double>(end: .0);
 
-  bool hasCompleted = false;
-  Curve curve = Curves.bounceOut;
+  bool _hasCompleted = false;
+  Curve _curve = Curves.bounceOut;
 
   @override
   void initState() {
     super.initState();
-    reverseAnimationController = AnimationController(
+    _reverseAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     )
@@ -44,7 +44,7 @@ class _CpSliderState extends State<CpSlider>
 
   @override
   void dispose() {
-    reverseAnimationController
+    _reverseAnimationController
       ..removeListener(_reverseListener)
       ..removeStatusListener(_statusListener)
       ..dispose();
@@ -52,32 +52,32 @@ class _CpSliderState extends State<CpSlider>
   }
 
   void _onDone() {
-    if (hasCompleted) return;
+    if (_hasCompleted) return;
     widget.onSlideCompleted?.call();
     setState(() {
-      hasCompleted = true;
-      curve = Curves.easeOut;
+      _hasCompleted = true;
+      _curve = Curves.easeOut;
     });
   }
 
   void _resetPosition() {
-    reverseAnimation.begin = positionNotifier.value;
-    reverseAnimationController
+    _reverseAnimation.begin = _positionNotifier.value;
+    _reverseAnimationController
       ..reset()
       ..forward();
   }
 
   void _reverseListener() {
-    positionNotifier.value = reverseAnimationController.value
-        .let(curve.transform)
-        .let(reverseAnimation.transform);
+    _positionNotifier.value = _reverseAnimationController.value
+        .let(_curve.transform)
+        .let(_reverseAnimation.transform);
   }
 
   void _statusListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
       setState(() {
-        hasCompleted = false;
-        curve = Curves.bounceOut;
+        _hasCompleted = false;
+        _curve = Curves.bounceOut;
       });
     }
   }
@@ -102,9 +102,9 @@ class _CpSliderState extends State<CpSlider>
                       enabled: enabled,
                     ),
                     AnimatedBuilder(
-                      animation: positionNotifier,
+                      animation: _positionNotifier,
                       builder: (context, child) => Positioned(
-                        left: _exposedBarPosition(positionNotifier.value),
+                        left: _exposedBarPosition(_positionNotifier.value),
                         // ignore: avoid-non-null-assertion, child is declared below
                         child: child!,
                       ),
@@ -113,10 +113,10 @@ class _CpSliderState extends State<CpSlider>
                         child: GestureDetector(
                           onHorizontalDragUpdate: (details) {
                             final value =
-                                positionNotifier.value + details.delta.dx;
+                                _positionNotifier.value + details.delta.dx;
                             if (value < 0) return;
                             if (value > maxSlideWidth) return _onDone();
-                            positionNotifier.value = value;
+                            _positionNotifier.value = value;
                           },
                           onHorizontalDragEnd: (_) => _resetPosition(),
                           child: _SlideBar(
@@ -178,14 +178,14 @@ class _SlideBar extends StatefulWidget {
 }
 
 class _SlideBarState extends State<_SlideBar> {
-  SMIInput<bool>? enabledInput;
+  SMIInput<bool>? _enabledInput;
 
   void _onInit(Artboard artboard) {
     final ctrl = StateMachineController.fromArtboard(artboard, 'StateMachine');
     if (ctrl == null) return;
     artboard.addController(ctrl..isActive = true);
     final input = ctrl.findInput<bool>('enabled');
-    setState(() => enabledInput = input);
+    setState(() => _enabledInput = input);
     _updateEnabled();
   }
 
@@ -195,7 +195,7 @@ class _SlideBarState extends State<_SlideBar> {
     _updateEnabled();
   }
 
-  void _updateEnabled() => enabledInput?.value = widget.enabled;
+  void _updateEnabled() => _enabledInput?.value = widget.enabled;
 
   @override
   Widget build(BuildContext context) => SizedBox(
