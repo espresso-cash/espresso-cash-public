@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
 import 'package:solana/base58.dart';
 
 class ByteArray extends Iterable<int> {
@@ -58,6 +59,15 @@ class ByteArray extends Iterable<int> {
 
   @override
   Iterator<int> get iterator => _data.iterator;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ByteArray &&
+          const ListEquality<int>().equals(_data, other._data));
+
+  @override
+  int get hashCode => const ListEquality<int>().hash(_data);
 }
 
 ByteArray _encodeBigInt(BigInt number, int s) {

@@ -89,14 +89,21 @@ class _TokenItem extends StatelessWidget {
             _TokenSymbolWidget(token.symbol),
           ],
         ),
-        trailing: Text(
-          tokenRate.format(locale),
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 15,
-            color: Colors.black,
+        trailing: ConstrainedBox(
+          constraints: const BoxConstraints.tightFor(width: 63),
+          child: FittedBox(
+            fit: BoxFit.none,
+            alignment: Alignment.centerRight,
+            child: Text(
+              tokenRate.format(locale),
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 15,
+                color: Colors.black,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

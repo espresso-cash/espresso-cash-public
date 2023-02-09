@@ -8,4 +8,4 @@ environment:
   sdk: ">=2.13.0 <3.0.0"
 
 dev_dependencies:
-  mews_pedantic: ^0.11.0
+  mews_pedantic: ^0.13.0

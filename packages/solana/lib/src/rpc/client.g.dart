@@ -20,6 +20,7 @@ Map<String, dynamic> _$GetAccountInfoConfigToJson(
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('dataSlice', instance.dataSlice?.toJson());
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -46,6 +47,7 @@ Map<String, dynamic> _$GetBalanceConfigToJson(GetBalanceConfig instance) {
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -63,6 +65,8 @@ Map<String, dynamic> _$GetBlockConfigToJson(GetBlockConfig instance) {
       _$TransactionDetailLevelEnumMap[instance.transactionDetails]);
   writeNotNull('rewards', instance.rewards);
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('maxSupportedTransactionVersion',
+      instance.maxSupportedTransactionVersion);
   return val;
 }
 
@@ -83,6 +87,7 @@ Map<String, dynamic> _$GetBlockHeightConfigToJson(
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -139,11 +144,12 @@ Map<String, dynamic> _$GetEpochInfoConfigToJson(GetEpochInfoConfig instance) {
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
-Map<String, dynamic> _$GetFeeCalculatorForBlockhashConfigToJson(
-    GetFeeCalculatorForBlockhashConfig instance) {
+Map<String, dynamic> _$GetFeeForMessageConfigToJson(
+    GetFeeForMessageConfig instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -153,19 +159,7 @@ Map<String, dynamic> _$GetFeeCalculatorForBlockhashConfigToJson(
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  return val;
-}
-
-Map<String, dynamic> _$GetFeesConfigToJson(GetFeesConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -180,6 +174,22 @@ Map<String, dynamic> _$GetInflationGovernorConfigToJson(
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  return val;
+}
+
+Map<String, dynamic> _$GetInflationRewardConfigToJson(
+    GetInflationRewardConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('epoch', instance.epoch);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -202,6 +212,21 @@ const _$CirculationStatusEnumMap = {
   CirculationStatus.circulating: 'circulating',
   CirculationStatus.nonCirculating: 'nonCirculating',
 };
+
+Map<String, dynamic> _$GetLatestBlockhashConfigToJson(
+    GetLatestBlockhashConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
+  return val;
+}
 
 Map<String, dynamic> _$GetLeaderScheduleConfigToJson(
     GetLeaderScheduleConfig instance) {
@@ -246,6 +271,7 @@ Map<String, dynamic> _$GetMultipleAccountsConfigToJson(
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('dataSlice', instance.dataSlice?.toJson());
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -263,20 +289,8 @@ Map<String, dynamic> _$GetProgramAccountsConfigToJson(
   val['encoding'] = _$EncodingEnumMap[instance.encoding]!;
   writeNotNull('dataSlice', instance.dataSlice?.toJson());
   writeNotNull('filters', instance.filters?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-Map<String, dynamic> _$GetRecentBlockhashConfigToJson(
-    GetRecentBlockhashConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('withContext', instance.withContext);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -294,6 +308,7 @@ Map<String, dynamic> _$GetSignaturesForAddressConfigToJson(
   writeNotNull('before', instance.before);
   writeNotNull('until', instance.until);
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -321,6 +336,7 @@ Map<String, dynamic> _$GetSlotConfigToJson(GetSlotConfig instance) {
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -334,6 +350,7 @@ Map<String, dynamic> _$GetSlotLeaderConfigToJson(GetSlotLeaderConfig instance) {
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -349,6 +366,21 @@ Map<String, dynamic> _$GetStakeActivationConfigToJson(
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('epoch', instance.epoch);
+  writeNotNull('minContextSlot', instance.minContextSlot);
+  return val;
+}
+
+Map<String, dynamic> _$GetStakeMinimumDelegationConfigToJson(
+    GetStakeMinimumDelegationConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   return val;
 }
 
@@ -396,6 +428,7 @@ Map<String, dynamic> _$GetTokenAccountsByDelegateConfigToJson(
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('dataSlice', instance.dataSlice?.toJson());
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -413,6 +446,7 @@ Map<String, dynamic> _$GetTokenAccountsByOwnerConfigToJson(
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('dataSlice', instance.dataSlice?.toJson());
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -456,6 +490,8 @@ Map<String, dynamic> _$GetTransactionConfigToJson(
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('maxSupportedTransactionVersion',
+      instance.maxSupportedTransactionVersion);
   return val;
 }
 
@@ -470,6 +506,7 @@ Map<String, dynamic> _$GetTransactionCountConfigToJson(
   }
 
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -487,6 +524,21 @@ Map<String, dynamic> _$GetVoteAccountsConfigToJson(
   writeNotNull('votePubKey', instance.votePubKey);
   writeNotNull('keepUnstakedDelinquents', instance.keepUnstakedDelinquents);
   writeNotNull('delinquentSlotDistance', instance.delinquentSlotDistance);
+  return val;
+}
+
+Map<String, dynamic> _$IsBlockhashValidConfigToJson(
+    IsBlockhashValidConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -520,6 +572,7 @@ Map<String, dynamic> _$SendTransactionConfigToJson(
       'preflightCommitment', _$CommitmentEnumMap[instance.preflightCommitment]);
   writeNotNull('skipPreflight', instance.skipPreflight);
   writeNotNull('maxRetries', instance.maxRetries);
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -538,6 +591,7 @@ Map<String, dynamic> _$SimulateTransactionConfigToJson(
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   writeNotNull('replaceRecentBlockhash', instance.replaceRecentBlockhash);
   writeNotNull('accounts', instance.accounts?.toJson());
+  writeNotNull('minContextSlot', instance.minContextSlot);
   return val;
 }
 
@@ -587,6 +641,47 @@ Map<String, dynamic> _$GetConfirmedTransactionConfigToJson(
   }
 
   writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  return val;
+}
+
+Map<String, dynamic> _$GetFeeCalculatorForBlockhashConfigToJson(
+    GetFeeCalculatorForBlockhashConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  return val;
+}
+
+Map<String, dynamic> _$GetFeesConfigToJson(GetFeesConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
+  return val;
+}
+
+Map<String, dynamic> _$GetRecentBlockhashConfigToJson(
+    GetRecentBlockhashConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
   writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   return val;
 }

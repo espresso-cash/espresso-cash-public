@@ -57,6 +57,38 @@ Future<SignedTx> signTransaction(
     feePayer: signers.first.publicKey,
   );
 
+  return _signCompiledMessage(
+    compiledMessage,
+    signers,
+  );
+}
+
+Future<SignedTx> signV0Transaction(
+  RecentBlockhash recentBlockhash,
+  Message message,
+  List<Ed25519HDKeyPair> signers, {
+  List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
+}) async {
+  if (signers.isEmpty) {
+    throw const FormatException('you must specify at least on signer');
+  }
+
+  final CompiledMessage compiledMessage = message.compileV0(
+    recentBlockhash: recentBlockhash.blockhash,
+    feePayer: signers.first.publicKey,
+    addressLookupTableAccounts: addressLookupTableAccounts,
+  );
+
+  return _signCompiledMessage(
+    compiledMessage,
+    signers,
+  );
+}
+
+Future<SignedTx> _signCompiledMessage(
+  CompiledMessage compiledMessage,
+  List<Ed25519HDKeyPair> signers,
+) async {
   final int requiredSignaturesCount = compiledMessage.requiredSignatureCount;
   if (signers.length != requiredSignaturesCount) {
     throw FormatException(
@@ -67,11 +99,11 @@ Future<SignedTx> signTransaction(
 
   // FIXME(IA): signatures must match signers in the message accounts sorting
   final List<Signature> signatures = await Future.wait(
-    signers.map((signer) => signer.sign(compiledMessage.data)),
+    signers.map((signer) => signer.sign(compiledMessage.toByteArray())),
   );
 
   return SignedTx(
-    messageBytes: compiledMessage.data,
+    compiledMessage: compiledMessage,
     signatures: signatures,
   );
 }

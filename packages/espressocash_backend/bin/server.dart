@@ -32,8 +32,8 @@ Future<void> main() async {
 
   final cascade = Cascade() //
       .add(_staticHandler)
-      .add(_apiV1)
-      .add(_wellKnown)
+      .add(_apiV1.call)
+      .add(_wellKnown.call)
       .add(solanaHandler);
 
   final server = await shelf_io.serve(

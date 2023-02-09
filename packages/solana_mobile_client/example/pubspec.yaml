@@ -20,7 +20,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.1.0+1
-  mews_pedantic: ^0.11.0
+  mews_pedantic: ^0.13.0
 
 flutter:
   uses-material-design: true

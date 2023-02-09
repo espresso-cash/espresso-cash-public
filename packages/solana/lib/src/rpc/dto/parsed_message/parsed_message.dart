@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/account_key.dart';
+import 'package:solana/src/rpc/dto/address_table_lookups.dart';
 import 'package:solana/src/rpc/dto/instruction.dart';
 import 'package:solana/src/rpc/dto/message.dart';
 import 'package:solana/src/rpc/dto/parsed_message/header.dart';
@@ -21,6 +22,7 @@ class ParsedMessage implements Message {
     required this.recentBlockhash,
     required this.instructions,
     required this.header,
+    required this.addressTableLookups,
   });
 
   factory ParsedMessage.fromJson(Map<String, dynamic> json) =>
@@ -37,4 +39,7 @@ class ParsedMessage implements Message {
 
   @override
   final List<Instruction> instructions;
+
+  @override
+  final List<AddressTableLookups>? addressTableLookups;
 }
