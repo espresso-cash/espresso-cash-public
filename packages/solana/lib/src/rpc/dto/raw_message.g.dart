@@ -15,4 +15,7 @@ RawMessage _$RawMessageFromJson(Map<String, dynamic> json) => RawMessage(
       instructions: (json['instructions'] as List<dynamic>)
           .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
           .toList(),
+      addressTableLookups: (json['addressTableLookups'] as List<dynamic>?)
+          ?.map((e) => AddressTableLookups.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );

@@ -25,4 +25,15 @@ Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
       logMessages: (json['logMessages'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      rewards: (json['rewards'] as List<dynamic>?)
+          ?.map((e) => Reward.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      loadedAddresses: json['loadedAddresses'] == null
+          ? null
+          : LoadedAddresses.fromJson(
+              json['loadedAddresses'] as Map<String, dynamic>),
+      returnData: json['returnData'] == null
+          ? null
+          : ReturnData.fromJson(json['returnData'] as Map<String, dynamic>),
+      computeUnitsConsumed: json['computeUnitsConsumed'] as int?,
     );

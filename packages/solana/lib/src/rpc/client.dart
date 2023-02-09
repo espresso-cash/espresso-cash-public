@@ -34,12 +34,15 @@ abstract class RpcClient {
   /// [encoding]
   ///
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
   @withContext
   Future<Account?> getAccountInfo(
     String pubKey, {
     Commitment commitment = Commitment.finalized,
     Encoding? encoding,
     DataSlice? dataSlice,
+    num? minContextSlot,
   });
 
   /// Returns the balance of the account of provided Pubkey
@@ -50,10 +53,13 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
   @withContext
   Future<int> getBalance(
     String pubKey, {
     Commitment? commitment,
+    num? minContextSlot,
   });
 
   /// Returns identity and transaction information about a confirmed block in the
@@ -72,12 +78,17 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [maxSupportedTransactionVersion] Set the max transaction version to return in responses.
+  /// If the requested block contains a transaction with a higher version, an error will be returned.
+  /// If this parameter is omitted, only legacy transactions will be returned, and a block containing any versioned transaction will prompt the error.
   Future<Block?> getBlock(
     int slot, {
     Encoding? encoding,
     TransactionDetailLevel? transactionDetails,
     bool? rewards = false,
     Commitment? commitment = Commitment.finalized,
+    num? maxSupportedTransactionVersion,
   });
 
   /// Returns the current block height of the node
@@ -86,8 +97,11 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
   Future<int> getBlockHeight({
     Commitment? commitment,
+    num? minContextSlot,
   });
 
   /// Returns recent block production information from the current or previous epoch.
@@ -163,42 +177,30 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
   Future<EpochInfo> getEpochInfo({
     Commitment? commitment,
+    num? minContextSlot,
   });
 
   /// Returns epoch schedule information from this cluster's genesis config
   Future<EpochSchedule> getEpochSchedule();
 
-  /// Returns the fee calculator associated with the query blockhash, or null if the
-  /// blockhash has expired
+  /// Get the fee the network will charge for a particular Message
   ///
-  /// [blockhash] query blockhash as a Base58 encoded string
-  ///
-  /// [commitment] For [commitment] parameter description [see this document][see this document]
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @withContext
-  Future<FeeCalculatorForBlockhash?> getFeeCalculatorForBlockhash(
-    String blockhash, {
-    Commitment? commitment,
-  });
-
-  /// Returns the fee rate governor information from the root bank
-  Future<FeeRateGovernor> getFeeRateGovernor();
-
-  /// Returns a recent block hash from the ledger, a fee schedule that can be used to
-  /// compute the cost of submitting a transaction using it, and the last slot in
-  /// which the blockhash will be valid.
+  /// [message] Base-64 encoded Message
   ///
   /// [commitment] For [commitment] parameter description [see this document][see this document]
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @withContext
-  Future<Fees> getFees({
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
+  Future<int?> getFeeForMessage(
+    String message, {
     Commitment? commitment,
+    num? minContextSlot,
   });
 
   /// Returns the slot of the lowest confirmed block that has not been purged from
@@ -216,6 +218,12 @@ abstract class RpcClient {
   /// returned if no known validators are provided.
   Future<String> getHealth();
 
+  /// Returns the highest slot information that the node has snapshots for.
+  ///
+  /// This will find the highest full snapshot slot, and the highest incremental
+  /// snapshot slot based on the full snapshot slot, if there is one.
+  Future<HighestSnapshotSlot> getHighestSnapshotSlot();
+
   /// Returns the identity pubkey for the current node
   Future<Identity> getIdentity();
 
@@ -232,12 +240,22 @@ abstract class RpcClient {
   /// Returns the specific inflation values for the current epoch
   Future<InflationRate> getInflationRate();
 
-  /// Returns the inflation reward for a list of addresses for an epoch
+  /// Returns the inflation / staking reward for a list of addresses for an epoch
   ///
   /// [addresses] An array of addresses to query, as base-58 encoded strings
+  ///
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [epoch] An epoch for which the reward occurs. If omitted, the previous epoch will be used
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   Future<List<InflationReward>> getInflationReward(
-    List<String> addresses,
-  );
+    List<String> addresses, {
+    Commitment? commitment,
+    int? epoch,
+    num? minContextSlot,
+  });
 
   /// Returns the 20 largest accounts, by lamport balance (results may be cached up
   /// to two hours)
@@ -252,6 +270,20 @@ abstract class RpcClient {
   Future<List<LargeAccount>> getLargestAccounts({
     Commitment? commitment = Commitment.finalized,
     CirculationStatus? filter,
+  });
+
+  /// Returns the latest blockhash
+  ///
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
+  @withContext
+  Future<LatestBlockhash> getLatestBlockhash({
+    Commitment? commitment,
+    num? minContextSlot,
   });
 
   /// Returns the leader schedule for an epoch
@@ -302,12 +334,15 @@ abstract class RpcClient {
   /// [encoding]
   ///
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   @withContext
   Future<List<Account?>> getMultipleAccounts(
     List<String> pubKeys, {
     Commitment commitment = Commitment.finalized,
     Encoding? encoding,
     DataSlice? dataSlice,
+    num? minContextSlot,
   });
 
   /// Returns all accounts owned by the provided program [pubKey].
@@ -332,20 +367,8 @@ abstract class RpcClient {
     required Encoding encoding,
     DataSlice? dataSlice,
     List<ProgramDataFilter>? filters,
-  });
-
-  /// Returns a recent block hash from the ledger, and a fee schedule that can
-  /// be used to compute the cost of submitting a transaction using it.
-  ///
-  /// [commitment] For [commitment] parameter description [see this document][1]
-  ///
-  /// [Commitment.processed] is not supported as [commitment].
-  ///
-  /// [1]:
-  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @withContext
-  Future<RecentBlockhash> getRecentBlockhash({
-    Commitment? commitment,
+    bool? withContext,
+    num? minContextSlot,
   });
 
   /// Returns a list of recent performance samples, in reverse slot order.
@@ -356,9 +379,6 @@ abstract class RpcClient {
   Future<List<PerfSample>> getRecentPerformanceSamples(
     int? limit,
   );
-
-  /// Returns the highest slot that the node has a snapshot for
-  Future<int> getSnapshotSlot();
 
   /// Returns confirmed signatures for transactions involving an address backwards in
   /// time from the provided signature or most recent confirmed block
@@ -376,12 +396,15 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   Future<List<TransactionSignatureInformation>> getSignaturesForAddress(
     String pubKey, {
     int? limit,
     String? before,
     String? until,
     Commitment? commitment = Commitment.finalized,
+    num? minContextSlot,
   });
 
   /// Returns the statuses of a list of signatures. Unless the
@@ -405,8 +428,11 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   Future<int> getSlot({
     Commitment? commitment,
+    num? minContextSlot,
   });
 
   /// Returns the current slot leader
@@ -415,8 +441,11 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   Future<String> getSlotLeader({
     Commitment? commitment,
+    num? minContextSlot,
   });
 
   /// Returns the slot leaders for a given slot range
@@ -440,10 +469,24 @@ abstract class RpcClient {
   ///
   /// [epoch] epoch for which to calculate activation details. If parameter not provided,
   /// defaults to current epoch.
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   Future<StakeActivation> getStakeActivation(
     String pubKey, {
     Commitment? commitment = Commitment.finalized,
     int? epoch,
+    num? minContextSlot,
+  });
+
+  /// Returns the stake minimum delegation, in lamports.
+  ///
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  @withContext
+  Future<int> getStakeMinimumDelegation({
+    Commitment? commitment,
   });
 
   /// Returns information about the current supply.
@@ -488,6 +531,8 @@ abstract class RpcClient {
   /// [encoding]
   ///
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   @withContext
   Future<List<ProgramAccount>> getTokenAccountsByDelegate(
     String pubKey,
@@ -495,6 +540,7 @@ abstract class RpcClient {
     Commitment commitment = Commitment.finalized,
     Encoding? encoding,
     DataSlice? dataSlice,
+    num? minContextSlot,
   });
 
   /// Returns all SPL Token accounts by token owner.
@@ -511,6 +557,8 @@ abstract class RpcClient {
   /// [encoding]
   ///
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   @withContext
   Future<List<ProgramAccount>> getTokenAccountsByOwner(
     String pubKey,
@@ -518,6 +566,7 @@ abstract class RpcClient {
     Commitment commitment = Commitment.finalized,
     Encoding? encoding,
     DataSlice? dataSlice,
+    num? minContextSlot,
   });
 
   /// Returns the 20 largest accounts of a particular SPL Token type.
@@ -558,10 +607,15 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [maxSupportedTransactionVersion] Set the max transaction version to return in responses. If the requested
+  /// transaction is a higher version, an error will be returned. If this parameter is omitted, only legacy transactions
+  /// will be returned, and any versioned transaction will prompt the error.
   Future<TransactionDetails?> getTransaction(
     String signature, {
     Encoding? encoding,
     Commitment? commitment = Commitment.finalized,
+    num? maxSupportedTransactionVersion,
   });
 
   /// Returns the current Transaction count from the ledger
@@ -570,8 +624,11 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   Future<int> getTransactionCount({
     Commitment? commitment,
+    num? minContextSlot,
   });
 
   /// Returns the current solana versions running on the node
@@ -597,6 +654,23 @@ abstract class RpcClient {
     String? votePubKey,
     bool? keepUnstakedDelinquents,
     int? delinquentSlotDistance,
+  });
+
+  /// Returns whether a blockhash is still valid or not
+  ///
+  /// [blockhash] The blockhash of this block, as base-58 encoded string
+  ///
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
+  @withContext
+  Future<bool> isBlockhashValid(
+    String blockhash, {
+    Commitment? commitment,
+    num? minContextSlot,
   });
 
   /// Returns the lowest slot that the node has information about in its ledger. This
@@ -661,12 +735,15 @@ abstract class RpcClient {
   /// the leader.
   /// If this parameter not provided, the RPC node will retry the transaction until
   /// it is finalized or until the blockhash expires.
+  ///
+  /// [minContextSlot] Set the minimum slot at which to perform preflight transaction checks
   Future<TransactionId> sendTransaction(
     String transaction, {
     Encoding encoding = Encoding.base64,
     Commitment? preflightCommitment = Commitment.finalized,
     bool? skipPreflight = false,
     int? maxRetries,
+    num? minContextSlot,
   });
 
   /// Simulate sending a transaction
@@ -690,6 +767,8 @@ abstract class RpcClient {
   /// sigVerify)
   ///
   /// [accounts] Accounts configuration object containing the following fields:
+  ///
+  /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   @withContext
   Future<TransactionStatus> simulateTransaction(
     String transaction, {
@@ -698,6 +777,7 @@ abstract class RpcClient {
     Commitment? commitment = Commitment.finalized,
     bool? replaceRecentBlockhash = false,
     SimulateTransactionAccounts? accounts,
+    num? minContextSlot,
   });
 
   /// Returns identity and transaction information about a confirmed block in the
@@ -807,4 +887,57 @@ abstract class RpcClient {
     Encoding? encoding = Encoding.base64,
     Commitment? commitment = Commitment.finalized,
   });
+
+  /// Returns the fee calculator associated with the query blockhash, or null if the
+  /// blockhash has expired
+  ///
+  /// [blockhash] query blockhash as a Base58 encoded string
+  ///
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  @Deprecated('Please use isBlockhashValid or getFeeForMessage instead')
+  @withContext
+  Future<FeeCalculatorForBlockhash?> getFeeCalculatorForBlockhash(
+    String blockhash, {
+    Commitment? commitment,
+  });
+
+  /// Returns the fee rate governor information from the root bank
+  @Deprecated('')
+  Future<FeeRateGovernor> getFeeRateGovernor();
+
+  /// Returns a recent block hash from the ledger, a fee schedule that can be used to
+  /// compute the cost of submitting a transaction using it, and the last slot in
+  /// which the blockhash will be valid.
+  ///
+  /// [commitment] For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  @Deprecated('Use getFeeForMessage instead')
+  @withContext
+  Future<Fees> getFees({
+    Commitment? commitment,
+  });
+
+  /// Returns a recent block hash from the ledger, and a fee schedule that can
+  /// be used to compute the cost of submitting a transaction using it.
+  ///
+  /// [commitment] For [commitment] parameter description [see this document][1]
+  ///
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [1]:
+  /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  @Deprecated('Please use getLatestBlockhash instead')
+  @withContext
+  Future<RecentBlockhash> getRecentBlockhash({
+    Commitment? commitment,
+  });
+
+  /// Returns the highest slot that the node has a snapshot for
+  @Deprecated('Please use getHighestSnapshotSlot instead')
+  Future<int> getSnapshotSlot();
 }
