@@ -11,6 +11,7 @@ class EpochInfo {
     required this.epoch,
     required this.slotIndex,
     required this.slotsInEpoch,
+    required this.transactionCount,
   });
 
   factory EpochInfo.fromJson(Map<String, dynamic> json) =>
@@ -30,4 +31,7 @@ class EpochInfo {
 
   /// The number of slots in this epoch
   final int slotsInEpoch;
+
+  /// Total number of transactions processed without error since genesis
+  final int? transactionCount;
 }
