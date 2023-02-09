@@ -9,12 +9,13 @@ import '../../../../../core/currency.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../features/ramp/widgets/ramp_buttons.dart';
-import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
+import '../../../../../ui/info_icon.dart';
+import '../../../../../ui/info_widget.dart';
 import '../../../../../ui/token_icon.dart';
 
 const _token = Token.usdc;
@@ -55,24 +56,27 @@ class _BalanceState extends State<_Balance> {
   void _toggleInfo() => setState(() => _showMore = !_showMore);
 
   @override
-  Widget build(BuildContext context) {
-    final info = _Info(onClose: _toggleInfo);
-    final displayBalance = _DisplayBalance(onInfo: _toggleInfo);
-
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 200),
-      child: _showMore ? info : displayBalance,
-    );
-  }
+  Widget build(BuildContext context) => AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        child: _showMore
+            ? _Info(onClose: _toggleInfo)
+            : Padding(
+                padding: const EdgeInsets.fromLTRB(24, 16, 24, 4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _Headline(onInfo: _toggleInfo),
+                    const Spacer(),
+                    const _DisplayBalance(),
+                  ],
+                ),
+              ),
+      );
 }
 
 class _DisplayBalance extends StatelessWidget {
-  const _DisplayBalance({
-    Key? key,
-    required this.onInfo,
-  }) : super(key: key);
-
-  final VoidCallback onInfo;
+  const _DisplayBalance({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,41 +86,7 @@ class _DisplayBalance extends StatelessWidget {
       roundInteger: amount.isZeroAmount,
     );
 
-    final headline = RichText(
-      text: TextSpan(
-        text: context.l10n.cryptoCashBalance,
-        style: const TextStyle(
-          fontSize: 21,
-          color: Colors.white,
-          fontWeight: FontWeight.w500,
-        ),
-        children: [
-          WidgetSpan(
-            child: GestureDetector(
-              onTap: onInfo,
-              child: RichText(
-                text: TextSpan(
-                  text: context.l10n.inUsdc,
-                  style: const TextStyle(
-                    fontSize: 21,
-                    color: CpColors.yellowColor,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  children: const [
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: _InfoIcon(size: 18),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    final balance = Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -149,20 +119,60 @@ class _DisplayBalance extends StatelessWidget {
           ),
       ],
     );
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 24, left: 24, top: 16, bottom: 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          headline,
-          const Spacer(),
-          balance,
-        ],
-      ),
-    );
   }
+}
+
+class _Headline extends StatelessWidget {
+  const _Headline({
+    Key? key,
+    required this.onInfo,
+  }) : super(key: key);
+
+  final VoidCallback onInfo;
+
+  @override
+  Widget build(BuildContext context) => RichText(
+        text: TextSpan(
+          text: context.l10n.cryptoCashBalance,
+          style: const TextStyle(
+            fontSize: 21,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+          children: [
+            WidgetSpan(
+              child: GestureDetector(
+                onTap: onInfo,
+                child: RichText(
+                  text: TextSpan(
+                    text: context.l10n.inUsdc,
+                    style: const TextStyle(
+                      fontSize: 21,
+                      color: CpColors.yellowColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    children: const [
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: CircleAvatar(
+                          maxRadius: 10,
+                          backgroundColor: CpColors.yellowColor,
+                          child: Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: CpInfoIcon(
+                              iconColor: CpColors.darkBackground,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 class _Info extends StatelessWidget {
@@ -180,51 +190,15 @@ class _Info extends StatelessWidget {
           CloseButton(color: Colors.white, onPressed: onClose),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _InfoIcon(size: 36),
-                const SizedBox(width: 12),
-                Flexible(
-                  child: Text(
-                    context.l10n.usdcInfo,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+            child: CpInfoWidget(
+              message: Text(
+                context.l10n.usdcInfo,
+                style: const TextStyle(color: Colors.white),
+              ),
+              variant: CpInfoVariant.dark,
             ),
           )
         ],
-      );
-}
-
-class _InfoIcon extends StatelessWidget {
-  const _InfoIcon({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
-
-  final double size;
-
-  @override
-  Widget build(BuildContext context) => SizedBox.square(
-        dimension: size,
-        child: DecoratedBox(
-          decoration: const ShapeDecoration(
-            color: CpColors.yellowColor,
-            shape: CircleBorder(),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(size / 6),
-            child: Assets.icons.info.svg(
-              color: CpColors.darkBackground,
-            ),
-          ),
-        ),
       );
 }
 

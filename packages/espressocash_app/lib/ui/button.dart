@@ -111,7 +111,7 @@ class CpButton extends StatelessWidget {
         ),
         textStyle: MaterialStateProperty.all(textStyle),
       ),
-      child: Text(text),
+      child: FittedBox(child: Text(text)),
     );
 
     return width != null ? SizedBox(width: width, child: button) : button;
