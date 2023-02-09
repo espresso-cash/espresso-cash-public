@@ -9,11 +9,12 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:solana/solana.dart';
 
-Handler paymentHandler() => shelf_router.Router()
-  ..post('/createPayment', createPaymentHandler)
-  ..post('/receivePayment', receivePaymentHandler)
-  ..post('/createDirectPayment', createDirectPaymentHandler)
-  ..post('/getFees', getFeesHandler);
+Handler paymentHandler() => (shelf_router.Router()
+      ..post('/createPayment', createPaymentHandler)
+      ..post('/receivePayment', receivePaymentHandler)
+      ..post('/createDirectPayment', createDirectPaymentHandler)
+      ..post('/getFees', getFeesHandler))
+    .call;
 
 Future<Response> getFeesHandler(Request request) =>
     processRequest<void, GetFeesResponseDto>(
