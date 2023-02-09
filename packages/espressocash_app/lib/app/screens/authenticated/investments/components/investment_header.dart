@@ -59,7 +59,10 @@ class _BalanceState extends State<_Balance> {
     final info = _Info(onClose: _toggleInfo);
     final displayBalance = _DisplayBalance(onInfo: _toggleInfo);
 
-    return _showMore ? info : displayBalance;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      child: _showMore ? info : displayBalance,
+    );
   }
 }
 
@@ -113,31 +116,28 @@ class _DisplayBalance extends StatelessWidget {
       ),
     );
 
-    final amountWidget = Text(
-      formattedAmount,
-      style: const TextStyle(
-        fontSize: 38,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    );
-
     final balance = Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (amount.isZeroAmount)
-          amountWidget
-        else
-          Flexible(
-            child: FittedBox(
-              child: amountWidget,
+        Flexible(
+          child: FittedBox(
+            child: Text(
+              formattedAmount,
+              style: const TextStyle(
+                fontSize: 38,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
+        ),
         const SizedBox(width: 8),
         const CpTokenIcon(token: _token, size: 30),
         const SizedBox(width: 8),
         if (amount.isZeroAmount)
           Flexible(
+            flex: 5,
             child: Text(
               context.l10n.fundYourAccount,
               style: const TextStyle(
@@ -261,10 +261,12 @@ class _Buttons extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
           child: Row(
             children: [
-              CpButton(
-                text: context.l10n.sendMoney,
-                onPressed: () =>
-                    context.router.navigate(const WalletFlowRoute()),
+              Flexible(
+                child: CpButton(
+                  text: context.l10n.sendMoney,
+                  onPressed: () =>
+                      context.router.navigate(const WalletFlowRoute()),
+                ),
               ),
               const SizedBox(width: 8),
               const AddCashButton(),
