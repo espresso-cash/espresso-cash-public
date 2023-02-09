@@ -1,3 +1,9 @@
+## 0.28.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: implement versioned transactions (#706).
+
 ## 0.27.0
 
 > Note: This release has breaking changes.
