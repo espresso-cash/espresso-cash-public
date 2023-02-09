@@ -99,7 +99,7 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-    final currentPrice = this.currentPrice?.formatDisplayablePrice(
+    final currentPrice = this.currentPrice.formatDisplayablePrice(
           locale: DeviceLocale.localeOf(context),
           currency: fiatCurrency,
         );
@@ -128,7 +128,7 @@ class _TokenItem extends StatelessWidget {
                 ),
               ),
               Text(
-                currentPrice ?? '-',
+                currentPrice,
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
