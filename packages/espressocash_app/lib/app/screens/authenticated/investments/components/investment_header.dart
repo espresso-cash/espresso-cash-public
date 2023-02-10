@@ -43,6 +43,58 @@ class InvestmentHeader extends StatelessWidget {
       );
 }
 
+class _Buttons extends StatelessWidget {
+  const _Buttons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isZeroAmount = context.watchUsdcBalance().isZeroAmount;
+
+    if (isZeroAmount) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [AddCashButton()],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(color: CpColors.darkDividerColor),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          child: Text(
+            context.l10n.investmentHeaderButtonsTitle,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          child: Row(
+            children: [
+              Flexible(
+                child: CpButton(
+                  text: context.l10n.sendMoney,
+                  onPressed: () =>
+                      context.router.navigate(const WalletFlowRoute()),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const AddCashButton(),
+              const SizedBox(width: 8),
+              const CashOutButton(),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
 class _Balance extends StatefulWidget {
   const _Balance({Key? key}) : super(key: key);
 
@@ -68,15 +120,42 @@ class _BalanceState extends State<_Balance> {
                   children: [
                     _Headline(onInfo: _toggleInfo),
                     const Spacer(),
-                    const _DisplayBalance(),
+                    const _Amount(),
                   ],
                 ),
               ),
       );
 }
 
-class _DisplayBalance extends StatelessWidget {
-  const _DisplayBalance({Key? key}) : super(key: key);
+class _Info extends StatelessWidget {
+  const _Info({
+    Key? key,
+    required this.onClose,
+  }) : super(key: key);
+
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          CloseButton(color: Colors.white, onPressed: onClose),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: CpInfoWidget(
+              message: Text(
+                context.l10n.usdcInfo,
+                style: const TextStyle(color: Colors.white),
+              ),
+              variant: CpInfoVariant.dark,
+            ),
+          )
+        ],
+      );
+}
+
+class _Amount extends StatelessWidget {
+  const _Amount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -173,85 +252,6 @@ class _Headline extends StatelessWidget {
           ],
         ),
       );
-}
-
-class _Info extends StatelessWidget {
-  const _Info({
-    Key? key,
-    required this.onClose,
-  }) : super(key: key);
-
-  final VoidCallback onClose;
-
-  @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          CloseButton(color: Colors.white, onPressed: onClose),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: CpInfoWidget(
-              message: Text(
-                context.l10n.usdcInfo,
-                style: const TextStyle(color: Colors.white),
-              ),
-              variant: CpInfoVariant.dark,
-            ),
-          )
-        ],
-      );
-}
-
-class _Buttons extends StatelessWidget {
-  const _Buttons({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final isZeroAmount = context.watchUsdcBalance().isZeroAmount;
-
-    if (isZeroAmount) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [AddCashButton()],
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Divider(color: CpColors.darkDividerColor),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          child: Text(
-            context.l10n.investmentHeaderButtonsTitle,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          child: Row(
-            children: [
-              Flexible(
-                child: CpButton(
-                  text: context.l10n.sendMoney,
-                  onPressed: () =>
-                      context.router.navigate(const WalletFlowRoute()),
-                ),
-              ),
-              const SizedBox(width: 8),
-              const AddCashButton(),
-              const SizedBox(width: 8),
-              const CashOutButton(),
-            ],
-          ),
-        )
-      ],
-    );
-  }
 }
 
 extension on Amount {
