@@ -38,8 +38,8 @@ class CpHeader extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Assets.images.cryptoHeader.svg(
-              fit: BoxFit.cover,
-              alignment: Alignment.centerLeft,
+              fit: BoxFit.contain,
+              alignment: Alignment.center,
             ),
           ),
         ],
