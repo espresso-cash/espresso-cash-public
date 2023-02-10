@@ -87,7 +87,7 @@ class _Header extends StatelessWidget {
           Text(
             balance.format(DeviceLocale.localeOf(context)),
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                  fontSize: 50,
+                  fontSize: 48,
                   fontWeight: FontWeight.w700,
                   color: CpColors.menuPrimaryTextColor,
                 ),

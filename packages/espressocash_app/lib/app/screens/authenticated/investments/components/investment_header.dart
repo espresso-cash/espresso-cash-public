@@ -30,12 +30,10 @@ class InvestmentHeader extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Flexible(
-              flex: 4,
+            Expanded(
               child: _Balance(),
             ),
-            Flexible(
-              flex: 5,
+            Expanded(
               child: _Buttons(),
             ),
           ],
@@ -48,7 +46,7 @@ class _Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isZeroAmount = context.watchUsdcBalance().isZeroAmount;
+    final isZeroAmount = context.watchUsdcBalance().isZero;
 
     if (isZeroAmount) {
       return Column(
@@ -113,7 +111,7 @@ class _BalanceState extends State<_Balance> {
         child: _showMore
             ? _Info(onClose: _toggleInfo)
             : Padding(
-                padding: const EdgeInsets.fromLTRB(24, 16, 24, 4),
+                padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -162,37 +160,34 @@ class _Amount extends StatelessWidget {
     final amount = context.watchUsdcBalance();
     final formattedAmount = amount.format(
       DeviceLocale.localeOf(context),
-      roundInteger: amount.isZeroAmount,
+      roundInteger: amount.isZero,
     );
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Flexible(
-          child: FittedBox(
-            child: Text(
-              formattedAmount,
-              style: const TextStyle(
-                fontSize: 38,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+        FittedBox(
+          child: Text(
+            formattedAmount,
+            style: const TextStyle(
+              fontSize: 48,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
-        ),
+        ).let((it) => amount.isZero ? it : Flexible(child: it)),
         const SizedBox(width: 8),
         const CpTokenIcon(token: _token, size: 30),
         const SizedBox(width: 8),
-        if (amount.isZeroAmount)
+        if (amount.isZero)
           Flexible(
-            flex: 5,
             child: Text(
               context.l10n.fundYourAccount,
               style: const TextStyle(
+                fontSize: 14.5,
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
-                fontSize: 13,
               ),
             ),
           ),
@@ -255,7 +250,7 @@ class _Headline extends StatelessWidget {
 }
 
 extension on Amount {
-  bool get isZeroAmount => decimal == Decimal.zero;
+  bool get isZero => decimal == Decimal.zero;
 }
 
 extension on BuildContext {
