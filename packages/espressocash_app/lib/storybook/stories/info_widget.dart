@@ -10,7 +10,7 @@ final cpInfoWidget = Story(
   builder: (context) => CpContentPadding(
     child: CpInfoWidget(
       variant: context.knobs.options(
-        label: 'Shape',
+        label: 'Variant',
         initial: CpInfoVariant.light,
         options: CpInfoVariant.values.toOptions(),
       ),

@@ -15,7 +15,7 @@ class StartedInvestingHeader extends StatelessWidget {
     if (context.watchUserHasInvestments()) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
           CpHeader(
