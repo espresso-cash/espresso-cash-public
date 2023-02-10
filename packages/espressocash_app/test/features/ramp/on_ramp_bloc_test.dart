@@ -1,19 +1,20 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/features/ramp/src/bl/on_ramp_bloc.dart';
 import 'package:espressocash_app/features/ramp/src/bl/repository.dart';
 import 'package:solana/solana.dart';
 
 void main() {
-  late Wallet wallet;
+  late ECWallet wallet;
 
   blocTest<OnRampBloc, OnRampState>(
     'Creates correct payment URL',
-    setUp: () async => wallet = await Wallet.random(),
+    setUp: () async => wallet = LocalWallet(await Wallet.random()),
     build: () => OnRampBloc(
       repository: _ConstantAddFundsRepository(),
       token: Token.usdc,
-      wallet: wallet,
+      wallet: wallet.publicKey,
     ),
     act: (bloc) => bloc.add(const OnRampEvent.moonpayRequested()),
     expect: () => [
@@ -24,11 +25,11 @@ void main() {
 
   blocTest<OnRampBloc, OnRampState>(
     'Emits failure state on signature error',
-    setUp: () async => wallet = await Wallet.random(),
+    setUp: () async => wallet = LocalWallet(await Wallet.random()),
     build: () => OnRampBloc(
       repository: _ThrowAddFundsRepository(),
       token: Token.usdc,
-      wallet: wallet,
+      wallet: wallet.publicKey,
     ),
     act: (bloc) => bloc.add(const OnRampEvent.moonpayRequested()),
     expect: () => [
