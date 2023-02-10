@@ -14,4 +14,7 @@ TransactionStatus _$TransactionStatusFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Account.fromJson(e as Map<String, dynamic>))
           .toList(),
       unitsConsumed: json['unitsConsumed'] as int?,
+      returnData: json['returnData'] == null
+          ? null
+          : ReturnData.fromJson(json['returnData'] as Map<String, dynamic>),
     );

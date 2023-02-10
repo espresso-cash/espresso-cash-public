@@ -21,9 +21,13 @@ Future<void> main() async {
     final message = Message.only(
       MemoInstruction(signers: [sender.publicKey], memo: 'Sends tx'),
     );
+    final bh = await client.rpcClient
+        .getLatestBlockhash(commitment: Commitment.confirmed);
     final tx = await signTransaction(
-      await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed),
+      RecentBlockhash(
+        blockhash: bh.blockhash,
+        feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
+      ),
       message,
       [sender],
     );
@@ -53,9 +57,13 @@ Future<void> main() async {
     final message = Message.only(
       MemoInstruction(signers: [sender.publicKey], memo: 'Duplicate'),
     );
+    final bh = await client.rpcClient
+        .getLatestBlockhash(commitment: Commitment.confirmed);
     final tx = await signTransaction(
-      await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed),
+      RecentBlockhash(
+        blockhash: bh.blockhash,
+        feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
+      ),
       message,
       [sender],
     );
@@ -73,12 +81,13 @@ Future<void> main() async {
     );
 
     final b = await client.rpcClient
-        .getRecentBlockhash(commitment: Commitment.confirmed)
+        .getLatestBlockhash(commitment: Commitment.confirmed)
         .then((value) => value.blockhash);
-    final compiled = message.compile(recentBlockhash: b);
-    final tx = SignedTx(
-      messageBytes: compiled.data,
+    final compiled = message.compile(
+      recentBlockhash: b,
+      feePayer: sender.publicKey,
     );
+    final tx = SignedTx(compiledMessage: compiled);
 
     final result = await service.send(tx);
 
@@ -92,9 +101,13 @@ Future<void> main() async {
         memo: 'Wait for confirmation',
       ),
     );
+    final bh = await client.rpcClient
+        .getLatestBlockhash(commitment: Commitment.confirmed);
     final tx = await signTransaction(
-      await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed),
+      RecentBlockhash(
+        blockhash: bh.blockhash,
+        feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
+      ),
       message,
       [sender],
     );
@@ -112,9 +125,13 @@ Future<void> main() async {
         memo: 'Wait for confirmation if already confirmed',
       ),
     );
+    final bh = await client.rpcClient
+        .getLatestBlockhash(commitment: Commitment.confirmed);
     final tx = await signTransaction(
-      await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed),
+      RecentBlockhash(
+        blockhash: bh.blockhash,
+        feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
+      ),
       message,
       [sender],
     );

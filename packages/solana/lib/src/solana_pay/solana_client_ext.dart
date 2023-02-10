@@ -146,7 +146,7 @@ extension SolanaClientSolanaPay on SolanaClient {
 
     return Message(
       instructions: [
-        if (memo != null) MemoInstruction(signers: [], memo: memo),
+        if (memo != null) MemoInstruction(signers: const [], memo: memo),
         instruction,
       ],
     );

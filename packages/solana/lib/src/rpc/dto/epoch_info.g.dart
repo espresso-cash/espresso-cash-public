@@ -12,4 +12,5 @@ EpochInfo _$EpochInfoFromJson(Map<String, dynamic> json) => EpochInfo(
       epoch: json['epoch'] as int,
       slotIndex: json['slotIndex'] as int,
       slotsInEpoch: json['slotsInEpoch'] as int,
+      transactionCount: json['transactionCount'] as int?,
     );

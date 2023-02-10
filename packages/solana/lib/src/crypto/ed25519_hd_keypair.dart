@@ -8,7 +8,7 @@ import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair_data.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/crypto/signature.dart';
-import 'package:solana/src/encoder/message.dart';
+import 'package:solana/src/encoder/message/message.dart';
 import 'package:solana/src/encoder/signed_tx.dart';
 
 /// Signs solana transactions using the ed25519 elliptic curve
@@ -95,12 +95,9 @@ class Ed25519HDKeyPair extends KeyPair {
       recentBlockhash: recentBlockhash,
       feePayer: publicKey,
     );
-    final signature = await sign(compiledMessage.data);
+    final signature = await sign(compiledMessage.toByteArray());
 
-    return SignedTx(
-      signatures: [signature],
-      messageBytes: compiledMessage.data,
-    );
+    return SignedTx(signatures: [signature], compiledMessage: compiledMessage);
   }
 
   @override

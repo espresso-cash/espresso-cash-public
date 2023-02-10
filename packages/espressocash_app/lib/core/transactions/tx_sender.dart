@@ -63,8 +63,7 @@ class TxSender {
       if (t == null) {
         final bh = tx.blockhash;
         final isValidBlockhash = await _client.rpcClient
-            .getFeeCalculatorForBlockhash(bh, commitment: Commitment.confirmed)
-            .then((it) => it != null);
+            .isBlockhashValid(bh, commitment: Commitment.confirmed);
         if (!isValidBlockhash) return const TxWaitResult.failure();
       } else {
         if (t.err != null) return const TxWaitResult.failure();
@@ -91,13 +90,7 @@ class StubSignedTx implements SignedTx {
   StubSignedTx(this.id);
 
   @override
-  List<AccountMeta> get accounts => throw UnimplementedError();
-
-  @override
   String get blockhash => base58encode(List.filled(32, 0));
-
-  @override
-  Iterable<Signature> get signatures => throw UnimplementedError();
 
   @override
   String encode() => throw UnimplementedError();
@@ -106,13 +99,26 @@ class StubSignedTx implements SignedTx {
   final String id;
 
   @override
-  Message get message => throw UnimplementedError();
-
-  @override
-  ByteArray get messageBytes => throw UnimplementedError();
-
-  @override
   ByteArray toByteArray() => throw UnimplementedError();
+
+  @override
+  TransactionVersion get version => throw UnimplementedError();
+
+  @override
+  $SignedTxCopyWith<SignedTx> get copyWith => throw UnimplementedError();
+
+  @override
+  Message decompileMessage({
+    List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
+  CompiledMessage get compiledMessage => throw UnimplementedError();
+
+  @override
+  List<Signature> get signatures => throw UnimplementedError();
 }
 
 @freezed
