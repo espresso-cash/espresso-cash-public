@@ -72,18 +72,18 @@ Future<SignedTx> receivePaymentTx({
   instructions.add(iCloseAccount);
 
   final message = Message(instructions: instructions);
-  final recentBlockhash =
+  final latestBlockhash =
       await client.rpcClient.getLatestBlockhash(commitment: commitment);
 
   final compiled = message.compile(
-    recentBlockhash: recentBlockhash.blockhash,
+    recentBlockhash: latestBlockhash.blockhash,
     feePayer: platform.publicKey,
   );
 
   return SignedTx(
-    messageBytes: compiled.data,
+    compiledMessage: compiled,
     signatures: [
-      await platform.sign(compiled.data),
+      await platform.sign(compiled.toByteArray()),
       Signature(List.filled(64, 0), publicKey: aEscrow),
     ],
   );

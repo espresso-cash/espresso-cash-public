@@ -39,6 +39,8 @@ abstract class $SwapTransactionCopyWith<$Res> {
       String outAmount,
       int fee,
       SignedTx transaction});
+
+  $SignedTxCopyWith<$Res> get transaction;
 }
 
 /// @nodoc
@@ -83,6 +85,14 @@ class _$SwapTransactionCopyWithImpl<$Res, $Val extends SwapTransaction>
               as SignedTx,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SignedTxCopyWith<$Res> get transaction {
+    return $SignedTxCopyWith<$Res>(_value.transaction, (value) {
+      return _then(_value.copyWith(transaction: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -99,6 +109,9 @@ abstract class _$$_SwapTransactionCopyWith<$Res>
       String outAmount,
       int fee,
       SignedTx transaction});
+
+  @override
+  $SignedTxCopyWith<$Res> get transaction;
 }
 
 /// @nodoc

@@ -136,19 +136,19 @@ class CreateSwap {
         )
         .let((m) => m.addInstruction(feeIx));
 
-    final recentBlockhash = await _client.rpcClient.getLatestBlockhash(
+    final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
     );
-    final compiled = message.compileToV0Message(
-      recentBlockhash: recentBlockhash.blockhash,
+    final compiled = message.compile(
+      recentBlockhash: latestBlockhash.blockhash,
       feePayer: feePayer,
       addressLookupTableAccounts: lookUpTables,
     );
 
     final tx = SignedTx(
-      messageBytes: compiled.data,
+      compiledMessage: compiled,
       signatures: [
-        await _platform.sign(compiled.data),
+        await _platform.sign(compiled.toByteArray()),
         Signature(List.filled(64, 0), publicKey: aSender),
       ],
     );
