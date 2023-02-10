@@ -14,8 +14,9 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/icon_button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
-import 'components/crypto_headers.dart';
 import 'components/investment_header.dart';
+import 'components/popular_crypto_header.dart';
+import 'components/started_investing_header.dart';
 
 class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({Key? key}) : super(key: key);

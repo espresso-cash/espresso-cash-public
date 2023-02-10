@@ -12,7 +12,7 @@ class OnboardingNotice extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<AccountsBloc, AccountsState>(
-        builder: (context, state) => !state.hasFinishedOnboarding
+        builder: (context, state) => state.hasFinishedOnboarding
             ? const SizedBox.shrink()
             : SizedBox(
                 height: 125,
