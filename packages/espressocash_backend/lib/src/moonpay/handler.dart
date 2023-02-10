@@ -8,7 +8,8 @@ import 'package:espressocash_backend/src/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
-Handler addFundsHandler() => shelf_router.Router()..post('/addFunds', _handler);
+Handler addFundsHandler() =>
+    (shelf_router.Router()..post('/addFunds', _handler)).call;
 
 Future<Response> _handler(Request request) async =>
     processRequest<AddFundsRequestDto, AddFundsResponseDto>(

@@ -127,7 +127,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.3.10"
+          flutter-version: "3.7.2"
 
       - name: Activate melos
         run: make activate_utils

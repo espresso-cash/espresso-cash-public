@@ -1,13 +1,12 @@
-import 'package:collection/collection.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
-import 'package:solana/src/encoder/account_meta.dart';
-import 'package:solana/src/encoder/byte_array.dart';
-import 'package:solana/src/encoder/compact_array.dart';
+import 'package:solana/src/encoder/encoder.dart';
 
 /// Taken from [here](https://spl.solana.com/memo#compute-limits).
 ///
 /// An instruction representation that can be converted to a
 /// `CompiledInstruction` and included into a message.
+@immutable
 class Instruction {
   /// Construct a generic instruction for the [programId] program with
   /// [accounts]. These accounts will be interpreted by the specific program
@@ -28,11 +27,12 @@ class Instruction {
   /// Compiles instruction according to the [instruction format][1].
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
-  ByteArray compile(Map<Ed25519HDPublicKey, int> accountIndexesMap) {
+  CompiledInstruction compile(
+    Map<Ed25519HDPublicKey, int> accountIndexesMap,
+  ) {
     if (!accountIndexesMap.containsKey(programId)) {
       throw const FormatException('programId not found in accountIndexesMap');
     }
-    final programIdIndex = ByteArray.u8(accountIndexesMap[programId]!);
     final accountIndexes = accounts.map((a) {
       if (!accountIndexesMap.containsKey(a.pubKey)) {
         throw const FormatException(
@@ -43,11 +43,11 @@ class Instruction {
       return accountIndexesMap[a.pubKey]!;
     });
 
-    return ByteArray.merge([
-      programIdIndex,
-      CompactArray(ByteArray(accountIndexes)).toByteArray(),
-      CompactArray(data).toByteArray(),
-    ]);
+    return CompiledInstruction(
+      programIdIndex: accountIndexesMap[programId]!,
+      accountKeyIndexes: accountIndexes.toList(),
+      data: data,
+    );
   }
 
   @override

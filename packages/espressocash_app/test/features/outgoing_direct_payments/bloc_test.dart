@@ -32,12 +32,17 @@ Future<void> main() async {
     repository.clear();
   });
 
-  final stubTx = await Message.only(MemoInstruction(signers: [], memo: 'test'))
-      .compile(recentBlockhash: 'EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N')
+  final stubTx = await Message.only(
+    MemoInstruction(signers: const [], memo: 'test'),
+  )
+      .compile(
+        recentBlockhash: 'EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N',
+        feePayer: account.publicKey,
+      )
       .let(
         (it) async => SignedTx(
-          messageBytes: it.data,
-          signatures: [await account.sign(it.data)],
+          compiledMessage: it,
+          signatures: [await account.sign(it.toByteArray())],
         ),
       )
       .then((it) => it.encode());

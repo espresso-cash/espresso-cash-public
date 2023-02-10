@@ -219,6 +219,55 @@ void main() {
       }
       expect(txs.length, greaterThan(0));
     });
+
+    test('Transfer SOL with Versioned Transaction', () async {
+      final recentBlockhash = await client.rpcClient
+          .getRecentBlockhash(commitment: Commitment.confirmed);
+      final instruction = SystemInstruction.transfer(
+        fundingAccount: source.publicKey,
+        recipientAccount: destination.publicKey,
+        lamports: _transferredAmount,
+      );
+
+      final message = Message.only(instruction);
+
+      final compiledMessage = message.compileV0(
+        recentBlockhash: recentBlockhash.blockhash,
+        feePayer: source.publicKey,
+      );
+      final sign = await source.sign(compiledMessage.toByteArray());
+
+      final SignedTx signedTx = SignedTx(
+        signatures: [sign],
+        compiledMessage: compiledMessage,
+      );
+
+      final String signature = await client.rpcClient.sendTransaction(
+        signedTx.encode(),
+        preflightCommitment: Commitment.confirmed,
+      );
+      expect(signature, signedTx.signatures.first.toBase58());
+      await expectLater(
+        client.waitForSignatureStatus(
+          signature,
+          status: ConfirmationStatus.confirmed,
+        ),
+        completes,
+      );
+      final int balance = await client.rpcClient.getBalance(
+        destination.address,
+        commitment: Commitment.confirmed,
+      );
+      expect(balance, greaterThan(0));
+
+      final transaction = await client.rpcClient.getTransaction(
+        signature,
+        commitment: Commitment.confirmed,
+        maxSupportedTransactionVersion: 0,
+      );
+
+      expect(transaction?.version?.version, 0);
+    });
   });
 
   group('Test commitment', () {
@@ -570,6 +619,38 @@ void main() {
       expect(feeCalculator, isNotNull);
       expect(feeCalculator?.feeCalculator.lamportsPerSignature, greaterThan(0));
     });
+
+    test('Call to isBlockhashValid() succeeds', () async {
+      final recentBlockhash = await client.rpcClient.getRecentBlockhash();
+      final isBlockhashValid = await client.rpcClient.isBlockhashValid(
+        recentBlockhash.blockhash,
+      );
+
+      expect(isBlockhashValid, isNotNull);
+      expect(isBlockhashValid, true);
+    });
+
+    test('Call to getHighestSnapshotSlot() succeeds', () async {
+      final snapshot = await client.rpcClient.getHighestSnapshotSlot();
+      expect(snapshot, isNotNull);
+    });
+
+    test('Call to getLatestBlockhash() succeeds', () async {
+      final blockhash = await client.rpcClient.getLatestBlockhash();
+      expect(blockhash, isNotNull);
+    });
+
+    test(
+      'Call to getStakeMinimumDelegation() succeeds',
+      () async {
+        final stakeMinimumDelegation =
+            await client.rpcClient.getStakeMinimumDelegation();
+
+        expect(stakeMinimumDelegation, isNotNull);
+        expect(stakeMinimumDelegation, isA<int>());
+      },
+      skip: true,
+    );
 
     test('Call to getFees() succeeds', () async {
       final fees = await client.rpcClient.getFees();
