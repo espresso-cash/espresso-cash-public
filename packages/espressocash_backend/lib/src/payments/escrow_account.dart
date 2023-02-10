@@ -47,9 +47,10 @@ Future<EscrowAccount?> tryFetchEscrow({
 
   if (tx == null) return null;
 
-  final compiled = CompiledMessage(
-    ByteArray((tx.transaction as RawTransaction).data),
-  );
+  final signedTx =
+      SignedTx.fromBytes(ByteArray((tx.transaction as RawTransaction).data));
+
+  final compiled = signedTx.compiledMessage;
 
   final isValid = await verifySignature(
     message: compiled.toByteArray().toList(),

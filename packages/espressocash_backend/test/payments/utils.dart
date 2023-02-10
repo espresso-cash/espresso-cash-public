@@ -102,7 +102,7 @@ extension SolanaClientExt on SolanaClient {
 
 extension Ed25519HDKeyPairExt on Ed25519HDKeyPair {
   Future<SignedTx> resign(SignedTx tx) async {
-    final compiledMessage = CompiledMessage(tx.toByteArray());
+    final compiledMessage = CompiledMessage(tx.compiledMessage.toByteArray());
 
     return SignedTx(
       signatures: tx.signatures.toList()
