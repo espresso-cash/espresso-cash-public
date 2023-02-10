@@ -41,7 +41,8 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   }
 
   Future<void> init() async {
-    final isInstalled = await SeedVault.instance.isAvailable(true);
+    final isInstalled =
+        await SeedVault.instance.isAvailable(allowSimulated: true);
 
     if (!isInstalled) {
       return emit(const SeedVaultState.error('Seed vault not installed'));
