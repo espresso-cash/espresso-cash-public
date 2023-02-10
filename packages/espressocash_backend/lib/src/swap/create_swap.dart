@@ -127,11 +127,11 @@ class CreateSwap {
         )
         .let((m) => m.addInstruction(feeIx));
 
-    final recentBlockhash = await _client.rpcClient.getRecentBlockhash(
+    final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
     );
     final compiled = message.compile(
-      recentBlockhash: recentBlockhash.blockhash,
+      recentBlockhash: latestBlockhash.blockhash,
       feePayer: feePayer,
     );
 

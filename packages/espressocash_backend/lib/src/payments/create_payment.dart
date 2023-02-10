@@ -76,11 +76,11 @@ Future<SignedTx> createPaymentTx({
   instructions.add(iTransferFee);
 
   final message = Message(instructions: instructions);
-  final recentBlockhash =
-      await client.rpcClient.getRecentBlockhash(commitment: commitment);
+  final latestBlockhash =
+      await client.rpcClient.getLatestBlockhash(commitment: commitment);
 
   final compiled = message.compile(
-    recentBlockhash: recentBlockhash.blockhash,
+    recentBlockhash: latestBlockhash.blockhash,
     feePayer: platform.publicKey,
   );
 
