@@ -5,7 +5,6 @@ import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/swap/jupiter_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sentry/sentry.dart';
-import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -60,13 +59,16 @@ class CreateSwap {
 
     final jupiterTx = route.jupiterTx.let(SignedTx.decode);
 
-    final addressTableLookups = (jupiterTx.txData as TxV0).addressTableLookups;
+    final addressTableLookups = jupiterTx.compiledMessage.map(
+      legacy: (_) => <MessageAddressTableLookup>[],
+      v0: (v0) => v0.addressTableLookups,
+    );
 
-    final lookUpTables =
-        await getAddressLookUpTableAccounts(addressTableLookups);
+    final lookUpTables = await _client.rpcClient
+        .getAddressLookUpTableAccounts(addressTableLookups);
 
     final jupiterMessage = jupiterTx.let(
-      (tx) => tx.decodeMessage(addressLookupTableAccounts: lookUpTables),
+      (tx) => tx.decompileMessage(addressLookupTableAccounts: lookUpTables),
     );
 
     final nonClosedAtaCount =
@@ -139,7 +141,7 @@ class CreateSwap {
     final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
     );
-    final compiled = message.compile(
+    final compiled = message.compileV0(
       recentBlockhash: latestBlockhash.blockhash,
       feePayer: feePayer,
       addressLookupTableAccounts: lookUpTables,
@@ -160,36 +162,6 @@ class CreateSwap {
       fee: fee,
       transaction: tx,
     );
-  }
-
-  Future<List<AddressLookupTableAccount>> getAddressLookUpTableAccounts(
-    List<MessageAddressTableLookup> lookup,
-  ) async {
-    final List<AddressLookupTableAccount> accounts = [];
-
-    for (final entry in lookup) {
-      final account = await _client.rpcClient.getAccountInfo(
-        entry.accountKey.toBase58(),
-        encoding: Encoding.base64,
-      );
-
-      if (account == null) {
-        throw StateError('Could not find address lookup table account');
-      }
-
-      if (account.data == null) {
-        throw Exception('Account data is null');
-      }
-
-      final input = ByteArray((account.data as BinaryAccountData).data);
-      final decode = AddressLookupTableAccount.deserialize(input);
-
-      accounts.add(
-        AddressLookupTableAccount(key: entry.accountKey, state: decode),
-      );
-    }
-
-    return accounts;
   }
 }
 
