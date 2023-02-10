@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../gen/assets.gen.dart';
-import '../../../../../l10n/l10n.dart';
 
-class PopularCryptoHeader extends StatelessWidget {
-  const PopularCryptoHeader({super.key});
+class CpHeader extends StatelessWidget {
+  const CpHeader({
+    super.key,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final String title;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            context.l10n.popularCryptoTitle,
+            title,
             style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 33,
@@ -21,7 +27,7 @@ class PopularCryptoHeader extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            context.l10n.popularCryptoSubtitle,
+            subtitle,
             style: const TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,
@@ -31,8 +37,10 @@ class PopularCryptoHeader extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
-            child: Assets.images.portfolioGraph
-                .svg(fit: BoxFit.cover, alignment: Alignment.centerLeft),
+            child: Assets.images.cryptoHeader.svg(
+              fit: BoxFit.cover,
+              alignment: Alignment.centerLeft,
+            ),
           ),
         ],
       );

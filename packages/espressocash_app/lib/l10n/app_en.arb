@@ -530,5 +530,7 @@
   "invalidEscrowError" : "The link is incorrect or the money has already been withdrawn.",
   "fundYourAccount": "Fund your account to begin your crypto journey. You can buy and sell crypto or send money anywhere in the world!",
   "investmentHeaderButtonsTitle": "I want to",
-  "sendMoney": "Send Money"
+  "sendMoney": "Send Money",
+  "startedInvestingTitle": "Started Investing",
+  "startedInvestingSubtitle": "New to crypto investing? We got you.\nHere are some popular crypto that you might like."
 }
