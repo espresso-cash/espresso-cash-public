@@ -99,9 +99,9 @@ Future<DirectPaymentResult> createDirectPayment({
   );
 
   final tx = SignedTx(
-    messageBytes: compiled.data,
+    compiledMessage: compiled,
     signatures: [
-      await platform.sign(compiled.data),
+      await platform.sign(compiled.toByteArray()),
       Signature(List.filled(64, 0), publicKey: aSender),
     ],
   );

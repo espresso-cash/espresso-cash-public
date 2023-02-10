@@ -79,12 +79,15 @@ Future<SignedTx> createPaymentTx({
   final recentBlockhash =
       await client.rpcClient.getRecentBlockhash(commitment: commitment);
 
-  final compiled = message.compile(recentBlockhash: recentBlockhash.blockhash);
+  final compiled = message.compile(
+    recentBlockhash: recentBlockhash.blockhash,
+    feePayer: platform.publicKey,
+  );
 
   return SignedTx(
-    messageBytes: compiled.data,
+    compiledMessage: compiled,
     signatures: [
-      await platform.sign(compiled.data),
+      await platform.sign(compiled.toByteArray()),
       Signature(List.filled(64, 0), publicKey: aSender),
     ],
   );
