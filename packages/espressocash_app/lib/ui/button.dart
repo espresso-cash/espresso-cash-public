@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
@@ -23,6 +25,7 @@ class CpButton extends StatelessWidget {
     this.width,
     this.variant = CpButtonVariant.dark,
     this.minWidth,
+    this.maxFontSize,
     this.size = CpButtonSize.normal,
     this.alignment = CpButtonAlignment.center,
     this.mechanics = CpButtonMechanics.press,
@@ -33,6 +36,7 @@ class CpButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final CpButtonVariant variant;
   final double? minWidth;
+  final double? maxFontSize;
   final CpButtonSize size;
   final CpButtonAlignment alignment;
   final CpButtonMechanics mechanics;
@@ -77,7 +81,8 @@ class CpButton extends StatelessWidget {
         case CpButtonSize.micro:
           return style.copyWith(fontSize: 15, height: 0);
       }
-    })();
+    })()
+        .limitFontSizeTo(maxFontSize);
 
     final double horizontalPadding = size == CpButtonSize.micro ? 8 : 16;
 
@@ -143,5 +148,16 @@ extension on CpButtonSize {
       case CpButtonSize.micro:
         return 30;
     }
+  }
+}
+
+extension on TextStyle {
+  TextStyle limitFontSizeTo(double? value) {
+    if (value == null) return this;
+
+    final fontSize = this.fontSize;
+    if (fontSize == null) return this;
+
+    return copyWith(fontSize: min(fontSize, value));
   }
 }

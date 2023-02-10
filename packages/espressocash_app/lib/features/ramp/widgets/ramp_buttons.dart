@@ -10,12 +10,18 @@ import '../../../ui/button.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 
 class AddCashButton extends StatelessWidget {
-  const AddCashButton({Key? key}) : super(key: key);
+  const AddCashButton({
+    Key? key,
+    this.maxFontSize,
+  }) : super(key: key);
+
+  final double? maxFontSize;
 
   @override
   Widget build(BuildContext context) => Flexible(
         child: CpButton(
           minWidth: 250,
+          maxFontSize: maxFontSize,
           text: context.l10n.addCash,
           onPressed: () => context.router.navigate(
             OnRampRoute(
@@ -28,12 +34,18 @@ class AddCashButton extends StatelessWidget {
 }
 
 class CashOutButton extends StatelessWidget {
-  const CashOutButton({Key? key}) : super(key: key);
+  const CashOutButton({
+    Key? key,
+    this.maxFontSize,
+  }) : super(key: key);
+
+  final double? maxFontSize;
 
   @override
   Widget build(BuildContext context) => Flexible(
         child: CpButton(
           minWidth: 250,
+          maxFontSize: maxFontSize,
           text: context.l10n.cashOut,
           onPressed: () => OffRampBottomSheet.show(context),
         ),
