@@ -76,7 +76,7 @@ class _Buttons extends StatelessWidget {
             builder: (context, constraints) {
               // Calculated using the smallest value of screen width and font
               // size that does not overflow the button
-              const minimumWidthFactor = 0.038;
+              const minimumWidthFactor = 0.036;
               final maxFontSize = constraints.maxWidth * minimumWidthFactor;
 
               return Row(
