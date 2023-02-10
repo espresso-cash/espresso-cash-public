@@ -31,6 +31,8 @@ abstract class $DirectPaymentResultCopyWith<$Res> {
       _$DirectPaymentResultCopyWithImpl<$Res, DirectPaymentResult>;
   @useResult
   $Res call({int fee, SignedTx transaction});
+
+  $SignedTxCopyWith<$Res> get transaction;
 }
 
 /// @nodoc
@@ -60,6 +62,14 @@ class _$DirectPaymentResultCopyWithImpl<$Res, $Val extends DirectPaymentResult>
               as SignedTx,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SignedTxCopyWith<$Res> get transaction {
+    return $SignedTxCopyWith<$Res>(_value.transaction, (value) {
+      return _then(_value.copyWith(transaction: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -71,6 +81,9 @@ abstract class _$$_DirectPaymentResultCopyWith<$Res>
   @override
   @useResult
   $Res call({int fee, SignedTx transaction});
+
+  @override
+  $SignedTxCopyWith<$Res> get transaction;
 }
 
 /// @nodoc
