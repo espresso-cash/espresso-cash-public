@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/tokens/token.dart';
-import '../../../di.dart';
-import '../../../gen/assets.gen.dart';
-import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
-import '../../../ui/app_bar.dart';
-import '../../../ui/colors.dart';
-import '../../../ui/loader.dart';
-import '../../../ui/text_field.dart';
-import '../../favorite_tokens/widgets/favorite_button.dart';
-import '../models/crypto_categories.dart';
-import '../src/bl/bloc.dart';
-import 'discover_header.dart';
+import '../../../../core/tokens/token.dart';
+import '../../../../di.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../routes.gr.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/loader.dart';
+import '../../../../ui/text_field.dart';
+import '../../../favorite_tokens/widgets/favorite_button.dart';
+import '../../models/crypto_categories.dart';
+import '../../widgets/discover_header.dart';
+import '../bl/bloc.dart';
 
 class TokenSearchScreen extends StatelessWidget {
   const TokenSearchScreen({
