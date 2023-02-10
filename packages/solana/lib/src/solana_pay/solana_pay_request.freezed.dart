@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'solana_pay_request.dart';
 
@@ -34,7 +34,8 @@ mixin _$SolanaPayRequest {
 abstract class $SolanaPayRequestCopyWith<$Res> {
   factory $SolanaPayRequestCopyWith(
           SolanaPayRequest value, $Res Function(SolanaPayRequest) then) =
-      _$SolanaPayRequestCopyWithImpl<$Res>;
+      _$SolanaPayRequestCopyWithImpl<$Res, SolanaPayRequest>;
+  @useResult
   $Res call(
       {Ed25519HDPublicKey recipient,
       Decimal? amount,
@@ -46,17 +47,19 @@ abstract class $SolanaPayRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SolanaPayRequestCopyWithImpl<$Res>
+class _$SolanaPayRequestCopyWithImpl<$Res, $Val extends SolanaPayRequest>
     implements $SolanaPayRequestCopyWith<$Res> {
   _$SolanaPayRequestCopyWithImpl(this._value, this._then);
 
-  final SolanaPayRequest _value;
   // ignore: unused_field
-  final $Res Function(SolanaPayRequest) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recipient = freezed,
+    Object? recipient = null,
     Object? amount = freezed,
     Object? splToken = freezed,
     Object? reference = freezed,
@@ -65,35 +68,35 @@ class _$SolanaPayRequestCopyWithImpl<$Res>
     Object? memo = freezed,
   }) {
     return _then(_value.copyWith(
-      recipient: recipient == freezed
+      recipient: null == recipient
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      amount: amount == freezed
+      amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as Decimal?,
-      splToken: splToken == freezed
+      splToken: freezed == splToken
           ? _value.splToken
           : splToken // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey?,
-      reference: reference == freezed
+      reference: freezed == reference
           ? _value.reference
           : reference // ignore: cast_nullable_to_non_nullable
               as Iterable<Ed25519HDPublicKey>?,
-      label: label == freezed
+      label: freezed == label
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String?,
-      message: message == freezed
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      memo: memo == freezed
+      memo: freezed == memo
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -104,6 +107,7 @@ abstract class _$$_SolanaPayRequestCopyWith<$Res>
           _$_SolanaPayRequest value, $Res Function(_$_SolanaPayRequest) then) =
       __$$_SolanaPayRequestCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {Ed25519HDPublicKey recipient,
       Decimal? amount,
@@ -116,18 +120,16 @@ abstract class _$$_SolanaPayRequestCopyWith<$Res>
 
 /// @nodoc
 class __$$_SolanaPayRequestCopyWithImpl<$Res>
-    extends _$SolanaPayRequestCopyWithImpl<$Res>
+    extends _$SolanaPayRequestCopyWithImpl<$Res, _$_SolanaPayRequest>
     implements _$$_SolanaPayRequestCopyWith<$Res> {
   __$$_SolanaPayRequestCopyWithImpl(
       _$_SolanaPayRequest _value, $Res Function(_$_SolanaPayRequest) _then)
-      : super(_value, (v) => _then(v as _$_SolanaPayRequest));
+      : super(_value, _then);
 
-  @override
-  _$_SolanaPayRequest get _value => super._value as _$_SolanaPayRequest;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recipient = freezed,
+    Object? recipient = null,
     Object? amount = freezed,
     Object? splToken = freezed,
     Object? reference = freezed,
@@ -136,31 +138,31 @@ class __$$_SolanaPayRequestCopyWithImpl<$Res>
     Object? memo = freezed,
   }) {
     return _then(_$_SolanaPayRequest(
-      recipient: recipient == freezed
+      recipient: null == recipient
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      amount: amount == freezed
+      amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as Decimal?,
-      splToken: splToken == freezed
+      splToken: freezed == splToken
           ? _value.splToken
           : splToken // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey?,
-      reference: reference == freezed
+      reference: freezed == reference
           ? _value.reference
           : reference // ignore: cast_nullable_to_non_nullable
               as Iterable<Ed25519HDPublicKey>?,
-      label: label == freezed
+      label: freezed == label
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String?,
-      message: message == freezed
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      memo: memo == freezed
+      memo: freezed == memo
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -206,28 +208,24 @@ class _$_SolanaPayRequest extends _SolanaPayRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SolanaPayRequest &&
-            const DeepCollectionEquality().equals(other.recipient, recipient) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.splToken, splToken) &&
+            (identical(other.recipient, recipient) ||
+                other.recipient == recipient) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.splToken, splToken) ||
+                other.splToken == splToken) &&
             const DeepCollectionEquality().equals(other.reference, reference) &&
-            const DeepCollectionEquality().equals(other.label, label) &&
-            const DeepCollectionEquality().equals(other.message, message) &&
-            const DeepCollectionEquality().equals(other.memo, memo));
+            (identical(other.label, label) || other.label == label) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.memo, memo) || other.memo == memo));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(recipient),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(splToken),
-      const DeepCollectionEquality().hash(reference),
-      const DeepCollectionEquality().hash(label),
-      const DeepCollectionEquality().hash(message),
-      const DeepCollectionEquality().hash(memo));
+  int get hashCode => Object.hash(runtimeType, recipient, amount, splToken,
+      const DeepCollectionEquality().hash(reference), label, message, memo);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SolanaPayRequestCopyWith<_$_SolanaPayRequest> get copyWith =>
       __$$_SolanaPayRequestCopyWithImpl<_$_SolanaPayRequest>(this, _$identity);
 }

@@ -8,6 +8,7 @@ import 'util.dart';
 Future<void> main() async {
   final fundingAccount = await Ed25519HDKeyPair.random();
   final recipientAccount = await Ed25519HDKeyPair.random();
+  final stubBlockhash = base58encode(List.filled(32, 0));
 
   group('legacy', () {
     final message = Message.only(
@@ -20,7 +21,8 @@ Future<void> main() async {
 
     test('Returns correct required signature count', () {
       final compiledMessage = message.compile(
-        recentBlockhash: base58encode([0, 0, 0]),
+        recentBlockhash: stubBlockhash,
+        feePayer: fundingAccount.publicKey,
       );
 
       expect(compiledMessage.requiredSignatureCount, 1);
@@ -28,7 +30,8 @@ Future<void> main() async {
 
     test('Returns correct transaction version', () {
       final compiledMessage = message.compile(
-        recentBlockhash: base58encode([0, 0, 0]),
+        recentBlockhash: stubBlockhash,
+        feePayer: fundingAccount.publicKey,
       );
 
       expect(compiledMessage.version, TransactionVersion.legacy);
@@ -36,15 +39,15 @@ Future<void> main() async {
 
     test('Creates compiled message from signed tx', () async {
       final compiledMessage = message.compile(
-        recentBlockhash: base58encode([0, 0, 0]),
+        recentBlockhash: stubBlockhash,
+        feePayer: fundingAccount.publicKey,
       );
       final signedTx = SignedTx(
-        messageBytes: compiledMessage.data,
-        signatures: [await fundingAccount.sign(compiledMessage.data)],
+        compiledMessage: compiledMessage,
+        signatures: [await fundingAccount.sign(compiledMessage.toByteArray())],
       );
 
-      final fromSigned =
-          CompiledMessage.fromSignedTransaction(signedTx.toByteArray());
+      final fromSigned = signedTx.compiledMessage;
 
       expect(compiledMessage, fromSigned);
     });
@@ -60,8 +63,8 @@ Future<void> main() async {
     );
 
     test('Returns correct required signature count', () {
-      final compiledMessage = message.compileToV0Message(
-        recentBlockhash: base58encode([0, 0, 0]),
+      final compiledMessage = message.compileV0(
+        recentBlockhash: stubBlockhash,
         feePayer: fundingAccount.publicKey,
       );
 
@@ -69,8 +72,8 @@ Future<void> main() async {
     });
 
     test('Returns correct transaction version', () {
-      final compiledMessage = message.compileToV0Message(
-        recentBlockhash: base58encode([0, 0, 0]),
+      final compiledMessage = message.compileV0(
+        recentBlockhash: stubBlockhash,
         feePayer: fundingAccount.publicKey,
       );
 
@@ -78,17 +81,16 @@ Future<void> main() async {
     });
 
     test('Creates compiled message from signed tx', () async {
-      final compiledMessage = message.compileToV0Message(
-        recentBlockhash: base58encode([0, 0, 0]),
+      final compiledMessage = message.compileV0(
+        recentBlockhash: stubBlockhash,
         feePayer: fundingAccount.publicKey,
       );
       final signedTx = SignedTx(
-        messageBytes: compiledMessage.data,
-        signatures: [await fundingAccount.sign(compiledMessage.data)],
+        compiledMessage: compiledMessage,
+        signatures: [await fundingAccount.sign(compiledMessage.toByteArray())],
       );
 
-      final fromSigned =
-          CompiledMessage.fromSignedTransaction(signedTx.toByteArray());
+      final fromSigned = signedTx.compiledMessage;
 
       expect(compiledMessage, fromSigned);
     });
@@ -117,7 +119,7 @@ Future<void> main() async {
         await createTestAddressLookUpTable(keys)
       ];
 
-      final compiledMessage = message.compileToV0Message(
+      final compiledMessage = message.compileV0(
         recentBlockhash: base58encode(List.filled(32, 0)),
         feePayer: payer,
         addressLookupTableAccounts: addressLookupTableAccounts,

@@ -12,13 +12,13 @@ jobs:
   e2e:
     defaults:
       run:
-        working-directory: packages/cryptoplease
+        working-directory: packages/espressocash_app
     permissions:
       contents: write
       packages: read
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cryptoplease/flutter:3.3.0
+      image: ghcr.io/espresso-cash/flutter:3.7.0
     steps:
       - uses: actions/checkout@v2
 

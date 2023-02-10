@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'parsed_spl_token_instruction.dart';
 
@@ -29,6 +29,7 @@ ParsedSplTokenInstruction _$ParsedSplTokenInstructionFromJson(
 
 /// @nodoc
 mixin _$ParsedSplTokenInstruction {
+  dynamic get info => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -40,10 +41,10 @@ mixin _$ParsedSplTokenInstruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult Function(SplTokenTransferCheckedInfo info, String type)?
+    TResult? Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult? Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(dynamic info, String type)? generic,
+    TResult? Function(dynamic info, String type)? generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,10 +66,10 @@ mixin _$ParsedSplTokenInstruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
+    TResult? Function(ParsedSplTokenTransferInstruction value)? transfer,
+    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
+    TResult? Function(ParsedSplTokenGenericInstruction value)? generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -90,29 +91,33 @@ mixin _$ParsedSplTokenInstruction {
 abstract class $ParsedSplTokenInstructionCopyWith<$Res> {
   factory $ParsedSplTokenInstructionCopyWith(ParsedSplTokenInstruction value,
           $Res Function(ParsedSplTokenInstruction) then) =
-      _$ParsedSplTokenInstructionCopyWithImpl<$Res>;
+      _$ParsedSplTokenInstructionCopyWithImpl<$Res, ParsedSplTokenInstruction>;
+  @useResult
   $Res call({String type});
 }
 
 /// @nodoc
-class _$ParsedSplTokenInstructionCopyWithImpl<$Res>
+class _$ParsedSplTokenInstructionCopyWithImpl<$Res,
+        $Val extends ParsedSplTokenInstruction>
     implements $ParsedSplTokenInstructionCopyWith<$Res> {
   _$ParsedSplTokenInstructionCopyWithImpl(this._value, this._then);
 
-  final ParsedSplTokenInstruction _value;
   // ignore: unused_field
-  final $Res Function(ParsedSplTokenInstruction) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -124,33 +129,32 @@ abstract class _$$ParsedSplTokenTransferInstructionCopyWith<$Res>
           $Res Function(_$ParsedSplTokenTransferInstruction) then) =
       __$$ParsedSplTokenTransferInstructionCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({SplTokenTransferInfo info, String type});
 }
 
 /// @nodoc
 class __$$ParsedSplTokenTransferInstructionCopyWithImpl<$Res>
-    extends _$ParsedSplTokenInstructionCopyWithImpl<$Res>
+    extends _$ParsedSplTokenInstructionCopyWithImpl<$Res,
+        _$ParsedSplTokenTransferInstruction>
     implements _$$ParsedSplTokenTransferInstructionCopyWith<$Res> {
   __$$ParsedSplTokenTransferInstructionCopyWithImpl(
       _$ParsedSplTokenTransferInstruction _value,
       $Res Function(_$ParsedSplTokenTransferInstruction) _then)
-      : super(_value, (v) => _then(v as _$ParsedSplTokenTransferInstruction));
+      : super(_value, _then);
 
-  @override
-  _$ParsedSplTokenTransferInstruction get _value =>
-      super._value as _$ParsedSplTokenTransferInstruction;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? info = freezed,
-    Object? type = freezed,
+    Object? info = null,
+    Object? type = null,
   }) {
     return _then(_$ParsedSplTokenTransferInstruction(
-      info: info == freezed
+      info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as SplTokenTransferInfo,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
@@ -184,19 +188,17 @@ class _$ParsedSplTokenTransferInstruction
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParsedSplTokenTransferInstruction &&
-            const DeepCollectionEquality().equals(other.info, info) &&
-            const DeepCollectionEquality().equals(other.type, type));
+            (identical(other.info, info) || other.info == info) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(info),
-      const DeepCollectionEquality().hash(type));
+  int get hashCode => Object.hash(runtimeType, info, type);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ParsedSplTokenTransferInstructionCopyWith<
           _$ParsedSplTokenTransferInstruction>
       get copyWith => __$$ParsedSplTokenTransferInstructionCopyWithImpl<
@@ -216,10 +218,10 @@ class _$ParsedSplTokenTransferInstruction
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult Function(SplTokenTransferCheckedInfo info, String type)?
+    TResult? Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult? Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(dynamic info, String type)? generic,
+    TResult? Function(dynamic info, String type)? generic,
   }) {
     return transfer?.call(info, type);
   }
@@ -253,10 +255,10 @@ class _$ParsedSplTokenTransferInstruction
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
+    TResult? Function(ParsedSplTokenTransferInstruction value)? transfer,
+    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
+    TResult? Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return transfer?.call(this);
   }
@@ -293,6 +295,7 @@ abstract class ParsedSplTokenTransferInstruction
   factory ParsedSplTokenTransferInstruction.fromJson(
       Map<String, dynamic> json) = _$ParsedSplTokenTransferInstruction.fromJson;
 
+  @override
   SplTokenTransferInfo get info;
   @override
   String get type;
@@ -311,34 +314,32 @@ abstract class _$$ParsedSplTokenTransferCheckedInstructionCopyWith<$Res>
           $Res Function(_$ParsedSplTokenTransferCheckedInstruction) then) =
       __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({SplTokenTransferCheckedInfo info, String type});
 }
 
 /// @nodoc
 class __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<$Res>
-    extends _$ParsedSplTokenInstructionCopyWithImpl<$Res>
+    extends _$ParsedSplTokenInstructionCopyWithImpl<$Res,
+        _$ParsedSplTokenTransferCheckedInstruction>
     implements _$$ParsedSplTokenTransferCheckedInstructionCopyWith<$Res> {
   __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl(
       _$ParsedSplTokenTransferCheckedInstruction _value,
       $Res Function(_$ParsedSplTokenTransferCheckedInstruction) _then)
-      : super(_value,
-            (v) => _then(v as _$ParsedSplTokenTransferCheckedInstruction));
+      : super(_value, _then);
 
-  @override
-  _$ParsedSplTokenTransferCheckedInstruction get _value =>
-      super._value as _$ParsedSplTokenTransferCheckedInstruction;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? info = freezed,
-    Object? type = freezed,
+    Object? info = null,
+    Object? type = null,
   }) {
     return _then(_$ParsedSplTokenTransferCheckedInstruction(
-      info: info == freezed
+      info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as SplTokenTransferCheckedInfo,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
@@ -372,19 +373,17 @@ class _$ParsedSplTokenTransferCheckedInstruction
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParsedSplTokenTransferCheckedInstruction &&
-            const DeepCollectionEquality().equals(other.info, info) &&
-            const DeepCollectionEquality().equals(other.type, type));
+            (identical(other.info, info) || other.info == info) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(info),
-      const DeepCollectionEquality().hash(type));
+  int get hashCode => Object.hash(runtimeType, info, type);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ParsedSplTokenTransferCheckedInstructionCopyWith<
           _$ParsedSplTokenTransferCheckedInstruction>
       get copyWith => __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<
@@ -404,10 +403,10 @@ class _$ParsedSplTokenTransferCheckedInstruction
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult Function(SplTokenTransferCheckedInfo info, String type)?
+    TResult? Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult? Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(dynamic info, String type)? generic,
+    TResult? Function(dynamic info, String type)? generic,
   }) {
     return transferChecked?.call(info, type);
   }
@@ -441,10 +440,10 @@ class _$ParsedSplTokenTransferCheckedInstruction
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
+    TResult? Function(ParsedSplTokenTransferInstruction value)? transfer,
+    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
+    TResult? Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return transferChecked?.call(this);
   }
@@ -482,6 +481,7 @@ abstract class ParsedSplTokenTransferCheckedInstruction
           Map<String, dynamic> json) =
       _$ParsedSplTokenTransferCheckedInstruction.fromJson;
 
+  @override
   SplTokenTransferCheckedInfo get info;
   @override
   String get type;
@@ -500,33 +500,32 @@ abstract class _$$ParsedSplTokenGenericInstructionCopyWith<$Res>
           $Res Function(_$ParsedSplTokenGenericInstruction) then) =
       __$$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({dynamic info, String type});
 }
 
 /// @nodoc
 class __$$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>
-    extends _$ParsedSplTokenInstructionCopyWithImpl<$Res>
+    extends _$ParsedSplTokenInstructionCopyWithImpl<$Res,
+        _$ParsedSplTokenGenericInstruction>
     implements _$$ParsedSplTokenGenericInstructionCopyWith<$Res> {
   __$$ParsedSplTokenGenericInstructionCopyWithImpl(
       _$ParsedSplTokenGenericInstruction _value,
       $Res Function(_$ParsedSplTokenGenericInstruction) _then)
-      : super(_value, (v) => _then(v as _$ParsedSplTokenGenericInstruction));
+      : super(_value, _then);
 
-  @override
-  _$ParsedSplTokenGenericInstruction get _value =>
-      super._value as _$ParsedSplTokenGenericInstruction;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? info = freezed,
-    Object? type = freezed,
+    Object? type = null,
   }) {
     return _then(_$ParsedSplTokenGenericInstruction(
-      info: info == freezed
+      info: freezed == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
@@ -561,18 +560,17 @@ class _$ParsedSplTokenGenericInstruction
         (other.runtimeType == runtimeType &&
             other is _$ParsedSplTokenGenericInstruction &&
             const DeepCollectionEquality().equals(other.info, info) &&
-            const DeepCollectionEquality().equals(other.type, type));
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(info),
-      const DeepCollectionEquality().hash(type));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(info), type);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ParsedSplTokenGenericInstructionCopyWith<
           _$ParsedSplTokenGenericInstruction>
       get copyWith => __$$ParsedSplTokenGenericInstructionCopyWithImpl<
@@ -592,10 +590,10 @@ class _$ParsedSplTokenGenericInstruction
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult Function(SplTokenTransferCheckedInfo info, String type)?
+    TResult? Function(SplTokenTransferInfo info, String type)? transfer,
+    TResult? Function(SplTokenTransferCheckedInfo info, String type)?
         transferChecked,
-    TResult Function(dynamic info, String type)? generic,
+    TResult? Function(dynamic info, String type)? generic,
   }) {
     return generic?.call(info, type);
   }
@@ -629,10 +627,10 @@ class _$ParsedSplTokenGenericInstruction
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
+    TResult? Function(ParsedSplTokenTransferInstruction value)? transfer,
+    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)?
         transferChecked,
-    TResult Function(ParsedSplTokenGenericInstruction value)? generic,
+    TResult? Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return generic?.call(this);
   }
@@ -669,6 +667,7 @@ abstract class ParsedSplTokenGenericInstruction
   factory ParsedSplTokenGenericInstruction.fromJson(Map<String, dynamic> json) =
       _$ParsedSplTokenGenericInstruction.fromJson;
 
+  @override
   dynamic get info;
   @override
   String get type;

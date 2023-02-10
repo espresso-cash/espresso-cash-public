@@ -37,17 +37,17 @@ Future<void> main() async {
         ),
         Instruction(
           programId: programIds[1],
-          accounts: [],
+          accounts: const [],
           data: ByteArray.u8(0),
         ),
         Instruction(
           programId: programIds[2],
-          accounts: [],
+          accounts: const [],
           data: ByteArray.u8(0),
         ),
         Instruction(
           programId: programIds[3],
-          accounts: [],
+          accounts: const [],
           data: ByteArray.u8(0),
         ),
       ],

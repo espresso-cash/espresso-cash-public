@@ -1,0 +1,19 @@
+name: jupiter_aggregator
+description: A client for Jupiter Solana API v3
+version: 0.0.4
+publish_to: "none"
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  dio: ^4.0.6
+  freezed_annotation: ^2.2.0
+  retrofit: ^3.0.1
+
+dev_dependencies:
+  build_runner: ^2.3.2
+  freezed: ^2.2.0
+  json_serializable: ^6.5.2
+  mews_pedantic: ^0.13.0
+  retrofit_generator: ^4.0.0

@@ -21,20 +21,15 @@ class CompiledKeys {
   }) {
     final keyMetaMap = <String, CompiledKeyMeta>{};
 
-    CompiledKeyMeta getOrInsertDefault(Ed25519HDPublicKey pubkey) {
-      final address = pubkey.toBase58();
-      var keyMeta = keyMetaMap[address];
-      if (keyMeta == null) {
-        keyMeta = const CompiledKeyMeta(
-          isSigner: false,
-          isWritable: false,
-          isInvoked: false,
+    CompiledKeyMeta getOrInsertDefault(Ed25519HDPublicKey pubkey) =>
+        keyMetaMap.putIfAbsent(
+          pubkey.toBase58(),
+          () => const CompiledKeyMeta(
+            isSigner: false,
+            isWritable: false,
+            isInvoked: false,
+          ),
         );
-        keyMetaMap[address] = keyMeta;
-      }
-
-      return keyMeta;
-    }
 
     final payerKeyMeta = getOrInsertDefault(payer);
     keyMetaMap[payer.toBase58()] = CompiledKeyMeta(

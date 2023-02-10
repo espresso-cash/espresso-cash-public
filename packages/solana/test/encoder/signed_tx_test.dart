@@ -21,18 +21,21 @@ void main() {
       );
 
       final blockhash = base58encode(List.filled(32, 0));
-      final compiledMessage = message.compile(recentBlockhash: blockhash);
+      final compiledMessage = message.compile(
+        recentBlockhash: blockhash,
+        feePayer: fundingAccount.publicKey,
+      );
 
       final tx = SignedTx(
-        messageBytes: compiledMessage.data,
-        signatures: [await fundingAccount.sign(compiledMessage.data)],
+        compiledMessage: compiledMessage,
+        signatures: [await fundingAccount.sign(compiledMessage.toByteArray())],
       );
       final encoded = tx.encode();
 
       final decoded = SignedTx.decode(encoded);
 
       expect(
-        decoded.message,
+        decoded.decompileMessage(),
         isA<Message>()
             .having((m) => m.instructions.length, 'number of instructions', 1)
             .having(
@@ -45,7 +48,7 @@ void main() {
       expect(decoded.signatures, tx.signatures);
       expect(decoded.blockhash, blockhash);
       expect(
-        decoded.accounts.map((a) => a.pubKey.toBase58()),
+        decoded.compiledMessage.accountKeys.map((a) => a.toBase58()),
         [
           fundingAccount.address,
           recipientAccount.address,
@@ -71,21 +74,21 @@ void main() {
 
       final blockhash = base58encode(List.filled(32, 0));
 
-      final compiledMessage = message.compileToV0Message(
+      final compiledMessage = message.compileV0(
         recentBlockhash: blockhash,
         feePayer: fundingAccount.publicKey,
       );
 
       final tx = SignedTx(
-        messageBytes: compiledMessage.data,
-        signatures: [await fundingAccount.sign(compiledMessage.data)],
+        compiledMessage: compiledMessage,
+        signatures: [await fundingAccount.sign(compiledMessage.toByteArray())],
       );
       final encoded = tx.encode();
 
       final decoded = SignedTx.decode(encoded);
 
       expect(
-        decoded.decodeMessage(),
+        decoded.decompileMessage(),
         isA<Message>()
             .having((m) => m.instructions.length, 'number of instructions', 1)
             .having(
@@ -99,11 +102,13 @@ void main() {
       expect(decoded.blockhash, blockhash);
       expect(decoded.version, TransactionVersion.v0);
       expect(
-          (decoded.txData as TxV0).staticAccountKeys.map((a) => a.toBase58()), [
-        fundingAccount.address,
-        recipientAccount.address,
-        SystemProgram.programId,
-      ]);
+        decoded.compiledMessage.accountKeys.map((a) => a.toBase58()),
+        [
+          fundingAccount.address,
+          recipientAccount.address,
+          SystemProgram.programId,
+        ],
+      );
     });
 
     test('decompiles base64 tx v0 with address look up', () async {
@@ -125,12 +130,12 @@ void main() {
         ),
         Instruction(
           programId: keys.first,
-          accounts: [],
+          accounts: const [],
           data: ByteArray.u8(2),
         ),
         Instruction(
           programId: keys[2],
-          accounts: [],
+          accounts: const [],
           data: ByteArray.u8(3),
         ),
       ];
@@ -143,22 +148,22 @@ void main() {
 
       final blockhash = base58encode(List.filled(32, 0));
 
-      final compiledMessage = message.compileToV0Message(
+      final compiledMessage = message.compileV0(
         recentBlockhash: blockhash,
         feePayer: payer.publicKey,
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
 
       final tx = SignedTx(
-        messageBytes: compiledMessage.data,
-        signatures: [await payer.sign(compiledMessage.data)],
+        compiledMessage: compiledMessage,
+        signatures: [await payer.sign(compiledMessage.toByteArray())],
       );
       final encoded = tx.encode();
 
       final decoded = SignedTx.decode(encoded);
 
       expect(
-        decoded.decodeMessage(
+        decoded.decompileMessage(
           addressLookupTableAccounts: addressLookupTableAccounts,
         ),
         isA<Message>()
@@ -224,22 +229,22 @@ void main() {
 
       final blockhash = base58encode(List.filled(32, 0));
 
-      final compiledMessage = message.compileToV0Message(
+      final compiledMessage = message.compileV0(
         recentBlockhash: blockhash,
         feePayer: payer.publicKey,
         addressLookupTableAccounts: [lookUpTable],
       );
 
       final tx = SignedTx(
-        messageBytes: compiledMessage.data,
-        signatures: [await payer.sign(compiledMessage.data)],
+        compiledMessage: compiledMessage,
+        signatures: [await payer.sign(compiledMessage.toByteArray())],
       );
       final encoded = tx.encode();
 
       final decoded = SignedTx.decode(encoded);
 
       expect(
-        decoded.decodeMessage(
+        decoded.decompileMessage(
           addressLookupTableAccounts: [lookUpTable],
         ),
         isA<Message>()
@@ -255,9 +260,7 @@ void main() {
       expect(decoded.blockhash, blockhash);
       expect(decoded.version, TransactionVersion.v0);
 
-      final txData = decoded.txData as TxV0;
-
-      expect(txData.staticAccountKeys, [
+      expect(decoded.compiledMessage.accountKeys, [
         payer.publicKey,
         keys[1].publicKey,
         keys[2].publicKey,
@@ -265,24 +268,24 @@ void main() {
         keys[4].publicKey,
       ]);
 
-      final expectedHeader = MessageHeader(
+      const expectedHeader = MessageHeader(
         numRequiredSignatures: 3,
         numReadonlySignedAccounts: 1,
         numReadonlyUnsignedAccounts: 1,
       );
 
       expect(
-        txData.header.numRequiredSignatures,
+        decoded.compiledMessage.header.numRequiredSignatures,
         expectedHeader.numRequiredSignatures,
       );
 
       expect(
-        txData.header.numReadonlySignedAccounts,
+        decoded.compiledMessage.header.numReadonlySignedAccounts,
         expectedHeader.numReadonlySignedAccounts,
       );
 
       expect(
-        txData.header.numReadonlyUnsignedAccounts,
+        decoded.compiledMessage.header.numReadonlyUnsignedAccounts,
         expectedHeader.numReadonlyUnsignedAccounts,
       );
 
@@ -292,38 +295,40 @@ void main() {
         readonlyIndexes: [6],
       );
 
+      final decodedMessage = decoded.compiledMessage as CompiledMessageV0;
+
       expect(
-        txData.addressTableLookups.first.accountKey,
+        decodedMessage.addressTableLookups.first.accountKey,
         expectedAddressTableLookUp.accountKey,
       );
       expect(
-        txData.addressTableLookups.first.writableIndexes,
+        decodedMessage.addressTableLookups.first.writableIndexes,
         expectedAddressTableLookUp.writableIndexes,
       );
       expect(
-        txData.addressTableLookups.first.readonlyIndexes,
+        decodedMessage.addressTableLookups.first.readonlyIndexes,
         expectedAddressTableLookUp.readonlyIndexes,
       );
 
       final expectedInstructions = [
-        MessageCompiledInstruction(
+        CompiledInstruction(
           programIdIndex: 4,
           accountKeyIndexes: [1, 2, 3],
           data: ByteArray.u8(1),
         ),
-        MessageCompiledInstruction(
+        CompiledInstruction(
           programIdIndex: 1,
           accountKeyIndexes: [2, 3],
           data: ByteArray.u8(2),
         ),
-        MessageCompiledInstruction(
+        CompiledInstruction(
           programIdIndex: 3,
           accountKeyIndexes: [5, 6],
           data: ByteArray.u8(3),
         ),
       ];
 
-      expect(txData.compiledInstructions, expectedInstructions);
+      expect(decodedMessage.instructions, expectedInstructions);
     });
   });
 }

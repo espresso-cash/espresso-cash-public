@@ -7,19 +7,21 @@ import 'package:solana/src/constants.dart';
 import 'package:solana/src/encoder/compact_array.dart';
 import 'package:solana/src/encoder/compact_u16.dart';
 import 'package:solana/src/encoder/encoder.dart';
-import 'package:solana/src/encoder/message_header.dart';
-import 'package:solana/src/encoder/transaction/legacy.dart';
+
+part 'signed_tx.freezed.dart';
 
 /// Represents a signed transaction that consists of the transaction message and
 /// an array of signatures. The array of signatures must be populated following
 /// the solana convention for the set of addresses that they belong to within
 /// the message.
-@immutable
-class SignedTx {
-  SignedTx({
-    this.signatures = const Iterable<Signature>.empty(),
-    required this.messageBytes,
-  });
+@freezed
+class SignedTx with _$SignedTx {
+  const factory SignedTx({
+    @Default(<Signature>[]) List<Signature> signatures,
+    required CompiledMessage compiledMessage,
+  }) = _SignedTx;
+
+  const SignedTx._();
 
   factory SignedTx.decode(String encoded) {
     final data = base64.decode(encoded);
@@ -39,80 +41,41 @@ class SignedTx {
 
     final messageBytes = reader.buf.buffer.asUint8List(reader.offset);
 
-    final prefix = messageBytes.first;
-    final maskedPrefix = prefix & 0x7f;
+    final compiledMessage = CompiledMessage(ByteArray(messageBytes));
 
-    Iterable<Signature> signatures = const Iterable<Signature>.empty();
-
-    if (prefix == maskedPrefix) {
-      final txData = TxLegacy.decompile(messageBytes);
-
-      signatures = signaturesData.mapIndexed(
-        (i, s) => Signature(s, publicKey: txData.accounts[i].pubKey),
-      );
-    } else if (maskedPrefix == 0) {
-      final txData = TxV0.decompile(messageBytes);
-
-      signatures = signaturesData.mapIndexed(
-        (i, s) => Signature(s, publicKey: txData.staticAccountKeys[i]),
-      );
-    }
+    final signatures = signaturesData
+        .mapIndexed(
+          (i, s) => Signature(s, publicKey: compiledMessage.accountKeys[i]),
+        )
+        .toList();
 
     return SignedTx(
       signatures: signatures,
-      messageBytes: ByteArray(messageBytes),
+      compiledMessage: compiledMessage,
     );
   }
 
-  String get blockhash => _txData.blockhash;
+  String get blockhash => compiledMessage.recentBlockhash;
 
-  late final Message message =
-      Message(instructions: (_txData as TxLegacy).instructions);
-
-  Message decodeMessage({
-    LoadedAddresses? accountKeysFromLookups,
-    List<AddressLookupTableAccount>? addressLookupTableAccounts,
+  Message decompileMessage({
+    List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
   }) =>
-      version == TransactionVersion.legacy
-          ? message
-          : (_txData as TxV0).decode(
-              accountKeysFromLookups: accountKeysFromLookups,
-              addressLookupTableAccounts: addressLookupTableAccounts,
-            );
-
-  List<AccountMeta> get accounts => (_txData as TxLegacy).accounts.toList();
-
-  late final TxData _txData = version == TransactionVersion.legacy
-      ? TxLegacy.decompile(messageBytes)
-      : TxV0.decompile(messageBytes);
-
-  TxData get txData => _txData;
-
-  final Iterable<Signature> signatures;
-  final ByteArray messageBytes;
+      Message.decompile(
+        compiledMessage,
+        addressLookupTableAccounts: addressLookupTableAccounts,
+      );
 
   String get id => signatures.first.toBase58();
 
-  String encode() => base64.encode(_data.toList());
+  String encode() => base64.encode(toByteArray().toList());
 
-  late final ByteArray _data = ByteArray.merge([
-    CompactArray.fromIterable(signatures.map((e) => ByteArray(e.bytes)))
-        .toByteArray(),
-    messageBytes,
-  ]);
+  TransactionVersion get version => compiledMessage.version;
 
-  TransactionVersion get version {
-    final prefix = messageBytes.first;
-    final maskedPrefix = prefix & 0x7f;
-
-    if (prefix == maskedPrefix) {
-      return TransactionVersion.legacy;
-    }
-
-    return TransactionVersion.v0;
-  }
-
-  ByteArray toByteArray() => _data;
+  ByteArray toByteArray() => ByteArray.merge([
+        CompactArray.fromIterable(signatures.map((e) => ByteArray(e.bytes)))
+            .toByteArray(),
+        compiledMessage.toByteArray(),
+      ]);
 }
 
 extension BinaryReaderExt on BinaryReader {
@@ -125,11 +88,4 @@ extension BinaryReaderExt on BinaryReader {
 
     return keysLength.value;
   }
-}
-
-class TxData {
-  TxData({required this.header, required this.blockhash});
-
-  final MessageHeader header;
-  final String blockhash;
 }

@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
-import 'package:solana/src/encoder/byte_array.dart';
 
 part 'message_address_table_lookup.freezed.dart';
 
@@ -11,13 +10,4 @@ class MessageAddressTableLookup with _$MessageAddressTableLookup {
     required List<int> writableIndexes,
     required List<int> readonlyIndexes,
   }) = _MessageAddressTableLookup;
-}
-
-@freezed
-class MessageCompiledInstruction with _$MessageCompiledInstruction {
-  const factory MessageCompiledInstruction({
-    required int programIdIndex,
-    required List<int> accountKeyIndexes,
-    required ByteArray data,
-  }) = _MessageCompiledInstruction;
 }

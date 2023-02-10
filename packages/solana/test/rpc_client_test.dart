@@ -231,15 +231,15 @@ void main() {
 
       final message = Message.only(instruction);
 
-      final compiledMessage = message.compileToV0Message(
+      final compiledMessage = message.compileV0(
         recentBlockhash: recentBlockhash.blockhash,
         feePayer: source.publicKey,
       );
-      final sign = await source.sign(compiledMessage.data);
+      final sign = await source.sign(compiledMessage.toByteArray());
 
       final SignedTx signedTx = SignedTx(
         signatures: [sign],
-        messageBytes: compiledMessage.data,
+        compiledMessage: compiledMessage,
       );
 
       final String signature = await client.rpcClient.sendTransaction(

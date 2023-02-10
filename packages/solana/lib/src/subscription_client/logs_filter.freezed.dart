@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'logs_filter.dart';
 
@@ -25,9 +25,9 @@ mixin _$LogsFilter {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? all,
-    TResult Function()? allWithVotes,
-    TResult Function(List<String> pubKeys)? mentions,
+    TResult? Function()? all,
+    TResult? Function()? allWithVotes,
+    TResult? Function(List<String> pubKeys)? mentions,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,9 +47,9 @@ mixin _$LogsFilter {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_LogsFilterAll value)? all,
-    TResult Function(_LosgFilterAllWithVotes value)? allWithVotes,
-    TResult Function(_LogsFilterMentions value)? mentions,
+    TResult? Function(_LogsFilterAll value)? all,
+    TResult? Function(_LosgFilterAllWithVotes value)? allWithVotes,
+    TResult? Function(_LogsFilterMentions value)? mentions,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -66,16 +66,18 @@ mixin _$LogsFilter {
 abstract class $LogsFilterCopyWith<$Res> {
   factory $LogsFilterCopyWith(
           LogsFilter value, $Res Function(LogsFilter) then) =
-      _$LogsFilterCopyWithImpl<$Res>;
+      _$LogsFilterCopyWithImpl<$Res, LogsFilter>;
 }
 
 /// @nodoc
-class _$LogsFilterCopyWithImpl<$Res> implements $LogsFilterCopyWith<$Res> {
+class _$LogsFilterCopyWithImpl<$Res, $Val extends LogsFilter>
+    implements $LogsFilterCopyWith<$Res> {
   _$LogsFilterCopyWithImpl(this._value, this._then);
 
-  final LogsFilter _value;
   // ignore: unused_field
-  final $Res Function(LogsFilter) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -87,14 +89,11 @@ abstract class _$$_LogsFilterAllCopyWith<$Res> {
 
 /// @nodoc
 class __$$_LogsFilterAllCopyWithImpl<$Res>
-    extends _$LogsFilterCopyWithImpl<$Res>
+    extends _$LogsFilterCopyWithImpl<$Res, _$_LogsFilterAll>
     implements _$$_LogsFilterAllCopyWith<$Res> {
   __$$_LogsFilterAllCopyWithImpl(
       _$_LogsFilterAll _value, $Res Function(_$_LogsFilterAll) _then)
-      : super(_value, (v) => _then(v as _$_LogsFilterAll));
-
-  @override
-  _$_LogsFilterAll get _value => super._value as _$_LogsFilterAll;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -129,9 +128,9 @@ class _$_LogsFilterAll implements _LogsFilterAll {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? all,
-    TResult Function()? allWithVotes,
-    TResult Function(List<String> pubKeys)? mentions,
+    TResult? Function()? all,
+    TResult? Function()? allWithVotes,
+    TResult? Function(List<String> pubKeys)? mentions,
   }) {
     return all?.call();
   }
@@ -163,9 +162,9 @@ class _$_LogsFilterAll implements _LogsFilterAll {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_LogsFilterAll value)? all,
-    TResult Function(_LosgFilterAllWithVotes value)? allWithVotes,
-    TResult Function(_LogsFilterMentions value)? mentions,
+    TResult? Function(_LogsFilterAll value)? all,
+    TResult? Function(_LosgFilterAllWithVotes value)? allWithVotes,
+    TResult? Function(_LogsFilterMentions value)? mentions,
   }) {
     return all?.call(this);
   }
@@ -198,15 +197,11 @@ abstract class _$$_LosgFilterAllWithVotesCopyWith<$Res> {
 
 /// @nodoc
 class __$$_LosgFilterAllWithVotesCopyWithImpl<$Res>
-    extends _$LogsFilterCopyWithImpl<$Res>
+    extends _$LogsFilterCopyWithImpl<$Res, _$_LosgFilterAllWithVotes>
     implements _$$_LosgFilterAllWithVotesCopyWith<$Res> {
   __$$_LosgFilterAllWithVotesCopyWithImpl(_$_LosgFilterAllWithVotes _value,
       $Res Function(_$_LosgFilterAllWithVotes) _then)
-      : super(_value, (v) => _then(v as _$_LosgFilterAllWithVotes));
-
-  @override
-  _$_LosgFilterAllWithVotes get _value =>
-      super._value as _$_LosgFilterAllWithVotes;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -242,9 +237,9 @@ class _$_LosgFilterAllWithVotes implements _LosgFilterAllWithVotes {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? all,
-    TResult Function()? allWithVotes,
-    TResult Function(List<String> pubKeys)? mentions,
+    TResult? Function()? all,
+    TResult? Function()? allWithVotes,
+    TResult? Function(List<String> pubKeys)? mentions,
   }) {
     return allWithVotes?.call();
   }
@@ -276,9 +271,9 @@ class _$_LosgFilterAllWithVotes implements _LosgFilterAllWithVotes {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_LogsFilterAll value)? all,
-    TResult Function(_LosgFilterAllWithVotes value)? allWithVotes,
-    TResult Function(_LogsFilterMentions value)? mentions,
+    TResult? Function(_LogsFilterAll value)? all,
+    TResult? Function(_LosgFilterAllWithVotes value)? allWithVotes,
+    TResult? Function(_LogsFilterMentions value)? mentions,
   }) {
     return allWithVotes?.call(this);
   }
@@ -307,26 +302,25 @@ abstract class _$$_LogsFilterMentionsCopyWith<$Res> {
   factory _$$_LogsFilterMentionsCopyWith(_$_LogsFilterMentions value,
           $Res Function(_$_LogsFilterMentions) then) =
       __$$_LogsFilterMentionsCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<String> pubKeys});
 }
 
 /// @nodoc
 class __$$_LogsFilterMentionsCopyWithImpl<$Res>
-    extends _$LogsFilterCopyWithImpl<$Res>
+    extends _$LogsFilterCopyWithImpl<$Res, _$_LogsFilterMentions>
     implements _$$_LogsFilterMentionsCopyWith<$Res> {
   __$$_LogsFilterMentionsCopyWithImpl(
       _$_LogsFilterMentions _value, $Res Function(_$_LogsFilterMentions) _then)
-      : super(_value, (v) => _then(v as _$_LogsFilterMentions));
+      : super(_value, _then);
 
-  @override
-  _$_LogsFilterMentions get _value => super._value as _$_LogsFilterMentions;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? pubKeys = freezed,
+    Object? pubKeys = null,
   }) {
     return _then(_$_LogsFilterMentions(
-      pubKeys == freezed
+      null == pubKeys
           ? _value._pubKeys
           : pubKeys // ignore: cast_nullable_to_non_nullable
               as List<String>,
@@ -342,6 +336,7 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
   final List<String> _pubKeys;
   @override
   List<String> get pubKeys {
+    if (_pubKeys is EqualUnmodifiableListView) return _pubKeys;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_pubKeys);
   }
@@ -365,6 +360,7 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_LogsFilterMentionsCopyWith<_$_LogsFilterMentions> get copyWith =>
       __$$_LogsFilterMentionsCopyWithImpl<_$_LogsFilterMentions>(
           this, _$identity);
@@ -382,9 +378,9 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? all,
-    TResult Function()? allWithVotes,
-    TResult Function(List<String> pubKeys)? mentions,
+    TResult? Function()? all,
+    TResult? Function()? allWithVotes,
+    TResult? Function(List<String> pubKeys)? mentions,
   }) {
     return mentions?.call(pubKeys);
   }
@@ -416,9 +412,9 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_LogsFilterAll value)? all,
-    TResult Function(_LosgFilterAllWithVotes value)? allWithVotes,
-    TResult Function(_LogsFilterMentions value)? mentions,
+    TResult? Function(_LogsFilterAll value)? all,
+    TResult? Function(_LosgFilterAllWithVotes value)? allWithVotes,
+    TResult? Function(_LogsFilterMentions value)? mentions,
   }) {
     return mentions?.call(this);
   }

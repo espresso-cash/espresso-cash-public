@@ -1,6 +1,6 @@
 import 'package:solana/encoder.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
-import 'package:solana/src/encoder/message/account_keys.dart';
+import 'package:solana/src/encoder/message/message_account_keys.dart';
 import 'package:test/test.dart';
 
 import 'util.dart';
@@ -33,10 +33,10 @@ Future<void> main() async {
     final accountKeys = MessageAccountKeys(staticAccountKeys: keys);
 
     // Get
-    expect(accountKeys.get(0), keys.first);
-    expect(accountKeys.get(1), keys[1]);
-    expect(accountKeys.get(2), keys[2]);
-    expect(accountKeys.get(3), null);
+    expect(accountKeys[0], keys.first);
+    expect(accountKeys[1], keys[1]);
+    expect(accountKeys[2], keys[2]);
+    expect(accountKeys[3], null);
 
     // Length
     expect(accountKeys.length, 3);
@@ -56,12 +56,12 @@ Future<void> main() async {
     );
 
     // Get
-    expect(accountKeys.get(0), keys.first);
-    expect(accountKeys.get(1), keys[1]);
-    expect(accountKeys.get(2), keys[2]);
-    expect(accountKeys.get(3), keys[3]);
-    expect(accountKeys.get(4), keys[4]);
-    expect(accountKeys.get(5), keys[5]);
+    expect(accountKeys[0], keys.first);
+    expect(accountKeys[1], keys[1]);
+    expect(accountKeys[2], keys[2]);
+    expect(accountKeys[3], keys[3]);
+    expect(accountKeys[4], keys[4]);
+    expect(accountKeys[5], keys[5]);
 
     // Length
     expect(accountKeys.length, 6);
@@ -91,7 +91,7 @@ Future<void> main() async {
 
     final compiled = accountKeys.compileInstructions([instruction]).first;
 
-    final expected = MessageCompiledInstruction(
+    final expected = CompiledInstruction(
       programIdIndex: 0,
       accountKeyIndexes: [1, 2],
       data: ByteArray.u8(0),
@@ -120,7 +120,7 @@ Future<void> main() async {
     final instructions = [
       Instruction(
         programId: unknown.publicKey,
-        accounts: [],
+        accounts: const [],
         data: ByteArray.u8(0),
       ),
       Instruction(

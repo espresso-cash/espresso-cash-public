@@ -17,11 +17,7 @@ class AddressLookupTableAccount {
   final Ed25519HDPublicKey key;
   final AddressLookupTableState state;
 
-  bool isActive() {
-    final BigInt u64Max = BigInt.parse('0xffffffffffffffff');
-
-    return state.deactivationSlot == u64Max;
-  }
+  bool get isActive => state.deactivationSlot == _u64Max;
 
   static AddressLookupTableState deserialize(ByteArray accountData) {
     final input = Uint8List.fromList(accountData.toList());
@@ -74,3 +70,5 @@ class AddressLookupTableAccount {
     );
   }
 }
+
+final BigInt _u64Max = BigInt.parse('0xffffffffffffffff');

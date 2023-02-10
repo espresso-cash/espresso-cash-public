@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/account_data/account_data.dart';
+import 'package:solana/src/rpc/helpers.dart';
 
 part 'account.g.dart';
 
@@ -34,5 +35,6 @@ class Account {
   final bool executable;
 
   /// The epoch at which this account will next owe rent, as u64
-  final int rentEpoch;
+  @JsonKey(fromJson: bigIntFromNum)
+  final BigInt rentEpoch;
 }

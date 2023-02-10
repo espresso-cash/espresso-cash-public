@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'mint.dart';
 
@@ -45,7 +45,8 @@ mixin _$Mint {
 /// @nodoc
 abstract class $MintCopyWith<$Res> {
   factory $MintCopyWith(Mint value, $Res Function(Mint) then) =
-      _$MintCopyWithImpl<$Res>;
+      _$MintCopyWithImpl<$Res, Mint>;
+  @useResult
   $Res call(
       {Ed25519HDPublicKey address,
       BigInt supply,
@@ -56,48 +57,51 @@ abstract class $MintCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MintCopyWithImpl<$Res> implements $MintCopyWith<$Res> {
+class _$MintCopyWithImpl<$Res, $Val extends Mint>
+    implements $MintCopyWith<$Res> {
   _$MintCopyWithImpl(this._value, this._then);
 
-  final Mint _value;
   // ignore: unused_field
-  final $Res Function(Mint) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? supply = freezed,
-    Object? decimals = freezed,
+    Object? address = null,
+    Object? supply = null,
+    Object? decimals = null,
     Object? mintAuthority = freezed,
-    Object? isInitialized = freezed,
+    Object? isInitialized = null,
     Object? freezeAuthority = freezed,
   }) {
     return _then(_value.copyWith(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      supply: supply == freezed
+      supply: null == supply
           ? _value.supply
           : supply // ignore: cast_nullable_to_non_nullable
               as BigInt,
-      decimals: decimals == freezed
+      decimals: null == decimals
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
               as int,
-      mintAuthority: mintAuthority == freezed
+      mintAuthority: freezed == mintAuthority
           ? _value.mintAuthority
           : mintAuthority // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey?,
-      isInitialized: isInitialized == freezed
+      isInitialized: null == isInitialized
           ? _value.isInitialized
           : isInitialized // ignore: cast_nullable_to_non_nullable
               as bool,
-      freezeAuthority: freezeAuthority == freezed
+      freezeAuthority: freezed == freezeAuthority
           ? _value.freezeAuthority
           : freezeAuthority // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -106,6 +110,7 @@ abstract class _$$_MintCopyWith<$Res> implements $MintCopyWith<$Res> {
   factory _$$_MintCopyWith(_$_Mint value, $Res Function(_$_Mint) then) =
       __$$_MintCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {Ed25519HDPublicKey address,
       BigInt supply,
@@ -116,45 +121,43 @@ abstract class _$$_MintCopyWith<$Res> implements $MintCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_MintCopyWithImpl<$Res> extends _$MintCopyWithImpl<$Res>
+class __$$_MintCopyWithImpl<$Res> extends _$MintCopyWithImpl<$Res, _$_Mint>
     implements _$$_MintCopyWith<$Res> {
   __$$_MintCopyWithImpl(_$_Mint _value, $Res Function(_$_Mint) _then)
-      : super(_value, (v) => _then(v as _$_Mint));
+      : super(_value, _then);
 
-  @override
-  _$_Mint get _value => super._value as _$_Mint;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? supply = freezed,
-    Object? decimals = freezed,
+    Object? address = null,
+    Object? supply = null,
+    Object? decimals = null,
     Object? mintAuthority = freezed,
-    Object? isInitialized = freezed,
+    Object? isInitialized = null,
     Object? freezeAuthority = freezed,
   }) {
     return _then(_$_Mint(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      supply: supply == freezed
+      supply: null == supply
           ? _value.supply
           : supply // ignore: cast_nullable_to_non_nullable
               as BigInt,
-      decimals: decimals == freezed
+      decimals: null == decimals
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
               as int,
-      mintAuthority: mintAuthority == freezed
+      mintAuthority: freezed == mintAuthority
           ? _value.mintAuthority
           : mintAuthority // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey?,
-      isInitialized: isInitialized == freezed
+      isInitialized: null == isInitialized
           ? _value.isInitialized
           : isInitialized // ignore: cast_nullable_to_non_nullable
               as bool,
-      freezeAuthority: freezeAuthority == freezed
+      freezeAuthority: freezed == freezeAuthority
           ? _value.freezeAuthority
           : freezeAuthority // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey?,
@@ -211,29 +214,25 @@ class _$_Mint implements _Mint {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Mint &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality().equals(other.supply, supply) &&
-            const DeepCollectionEquality().equals(other.decimals, decimals) &&
-            const DeepCollectionEquality()
-                .equals(other.mintAuthority, mintAuthority) &&
-            const DeepCollectionEquality()
-                .equals(other.isInitialized, isInitialized) &&
-            const DeepCollectionEquality()
-                .equals(other.freezeAuthority, freezeAuthority));
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.supply, supply) || other.supply == supply) &&
+            (identical(other.decimals, decimals) ||
+                other.decimals == decimals) &&
+            (identical(other.mintAuthority, mintAuthority) ||
+                other.mintAuthority == mintAuthority) &&
+            (identical(other.isInitialized, isInitialized) ||
+                other.isInitialized == isInitialized) &&
+            (identical(other.freezeAuthority, freezeAuthority) ||
+                other.freezeAuthority == freezeAuthority));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(address),
-      const DeepCollectionEquality().hash(supply),
-      const DeepCollectionEquality().hash(decimals),
-      const DeepCollectionEquality().hash(mintAuthority),
-      const DeepCollectionEquality().hash(isInitialized),
-      const DeepCollectionEquality().hash(freezeAuthority));
+  int get hashCode => Object.hash(runtimeType, address, supply, decimals,
+      mintAuthority, isInitialized, freezeAuthority);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_MintCopyWith<_$_Mint> get copyWith =>
       __$$_MintCopyWithImpl<_$_Mint>(this, _$identity);
 }

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'message_address_table_lookup.dart';
 
@@ -29,7 +29,8 @@ mixin _$MessageAddressTableLookup {
 abstract class $MessageAddressTableLookupCopyWith<$Res> {
   factory $MessageAddressTableLookupCopyWith(MessageAddressTableLookup value,
           $Res Function(MessageAddressTableLookup) then) =
-      _$MessageAddressTableLookupCopyWithImpl<$Res>;
+      _$MessageAddressTableLookupCopyWithImpl<$Res, MessageAddressTableLookup>;
+  @useResult
   $Res call(
       {Ed25519HDPublicKey accountKey,
       List<int> writableIndexes,
@@ -37,34 +38,37 @@ abstract class $MessageAddressTableLookupCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MessageAddressTableLookupCopyWithImpl<$Res>
+class _$MessageAddressTableLookupCopyWithImpl<$Res,
+        $Val extends MessageAddressTableLookup>
     implements $MessageAddressTableLookupCopyWith<$Res> {
   _$MessageAddressTableLookupCopyWithImpl(this._value, this._then);
 
-  final MessageAddressTableLookup _value;
   // ignore: unused_field
-  final $Res Function(MessageAddressTableLookup) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? accountKey = freezed,
-    Object? writableIndexes = freezed,
-    Object? readonlyIndexes = freezed,
+    Object? accountKey = null,
+    Object? writableIndexes = null,
+    Object? readonlyIndexes = null,
   }) {
     return _then(_value.copyWith(
-      accountKey: accountKey == freezed
+      accountKey: null == accountKey
           ? _value.accountKey
           : accountKey // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      writableIndexes: writableIndexes == freezed
+      writableIndexes: null == writableIndexes
           ? _value.writableIndexes
           : writableIndexes // ignore: cast_nullable_to_non_nullable
               as List<int>,
-      readonlyIndexes: readonlyIndexes == freezed
+      readonlyIndexes: null == readonlyIndexes
           ? _value.readonlyIndexes
           : readonlyIndexes // ignore: cast_nullable_to_non_nullable
               as List<int>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -76,6 +80,7 @@ abstract class _$$_MessageAddressTableLookupCopyWith<$Res>
           $Res Function(_$_MessageAddressTableLookup) then) =
       __$$_MessageAddressTableLookupCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {Ed25519HDPublicKey accountKey,
       List<int> writableIndexes,
@@ -84,33 +89,31 @@ abstract class _$$_MessageAddressTableLookupCopyWith<$Res>
 
 /// @nodoc
 class __$$_MessageAddressTableLookupCopyWithImpl<$Res>
-    extends _$MessageAddressTableLookupCopyWithImpl<$Res>
+    extends _$MessageAddressTableLookupCopyWithImpl<$Res,
+        _$_MessageAddressTableLookup>
     implements _$$_MessageAddressTableLookupCopyWith<$Res> {
   __$$_MessageAddressTableLookupCopyWithImpl(
       _$_MessageAddressTableLookup _value,
       $Res Function(_$_MessageAddressTableLookup) _then)
-      : super(_value, (v) => _then(v as _$_MessageAddressTableLookup));
+      : super(_value, _then);
 
-  @override
-  _$_MessageAddressTableLookup get _value =>
-      super._value as _$_MessageAddressTableLookup;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? accountKey = freezed,
-    Object? writableIndexes = freezed,
-    Object? readonlyIndexes = freezed,
+    Object? accountKey = null,
+    Object? writableIndexes = null,
+    Object? readonlyIndexes = null,
   }) {
     return _then(_$_MessageAddressTableLookup(
-      accountKey: accountKey == freezed
+      accountKey: null == accountKey
           ? _value.accountKey
           : accountKey // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey,
-      writableIndexes: writableIndexes == freezed
+      writableIndexes: null == writableIndexes
           ? _value._writableIndexes
           : writableIndexes // ignore: cast_nullable_to_non_nullable
               as List<int>,
-      readonlyIndexes: readonlyIndexes == freezed
+      readonlyIndexes: null == readonlyIndexes
           ? _value._readonlyIndexes
           : readonlyIndexes // ignore: cast_nullable_to_non_nullable
               as List<int>,
@@ -133,6 +136,7 @@ class _$_MessageAddressTableLookup implements _MessageAddressTableLookup {
   final List<int> _writableIndexes;
   @override
   List<int> get writableIndexes {
+    if (_writableIndexes is EqualUnmodifiableListView) return _writableIndexes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_writableIndexes);
   }
@@ -140,6 +144,7 @@ class _$_MessageAddressTableLookup implements _MessageAddressTableLookup {
   final List<int> _readonlyIndexes;
   @override
   List<int> get readonlyIndexes {
+    if (_readonlyIndexes is EqualUnmodifiableListView) return _readonlyIndexes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_readonlyIndexes);
   }
@@ -154,8 +159,8 @@ class _$_MessageAddressTableLookup implements _MessageAddressTableLookup {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MessageAddressTableLookup &&
-            const DeepCollectionEquality()
-                .equals(other.accountKey, accountKey) &&
+            (identical(other.accountKey, accountKey) ||
+                other.accountKey == accountKey) &&
             const DeepCollectionEquality()
                 .equals(other._writableIndexes, _writableIndexes) &&
             const DeepCollectionEquality()
@@ -165,12 +170,13 @@ class _$_MessageAddressTableLookup implements _MessageAddressTableLookup {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(accountKey),
+      accountKey,
       const DeepCollectionEquality().hash(_writableIndexes),
       const DeepCollectionEquality().hash(_readonlyIndexes));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_MessageAddressTableLookupCopyWith<_$_MessageAddressTableLookup>
       get copyWith => __$$_MessageAddressTableLookupCopyWithImpl<
           _$_MessageAddressTableLookup>(this, _$identity);
@@ -191,174 +197,5 @@ abstract class _MessageAddressTableLookup implements MessageAddressTableLookup {
   @override
   @JsonKey(ignore: true)
   _$$_MessageAddressTableLookupCopyWith<_$_MessageAddressTableLookup>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$MessageCompiledInstruction {
-  int get programIdIndex => throw _privateConstructorUsedError;
-  List<int> get accountKeyIndexes => throw _privateConstructorUsedError;
-  ByteArray get data => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $MessageCompiledInstructionCopyWith<MessageCompiledInstruction>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MessageCompiledInstructionCopyWith<$Res> {
-  factory $MessageCompiledInstructionCopyWith(MessageCompiledInstruction value,
-          $Res Function(MessageCompiledInstruction) then) =
-      _$MessageCompiledInstructionCopyWithImpl<$Res>;
-  $Res call({int programIdIndex, List<int> accountKeyIndexes, ByteArray data});
-}
-
-/// @nodoc
-class _$MessageCompiledInstructionCopyWithImpl<$Res>
-    implements $MessageCompiledInstructionCopyWith<$Res> {
-  _$MessageCompiledInstructionCopyWithImpl(this._value, this._then);
-
-  final MessageCompiledInstruction _value;
-  // ignore: unused_field
-  final $Res Function(MessageCompiledInstruction) _then;
-
-  @override
-  $Res call({
-    Object? programIdIndex = freezed,
-    Object? accountKeyIndexes = freezed,
-    Object? data = freezed,
-  }) {
-    return _then(_value.copyWith(
-      programIdIndex: programIdIndex == freezed
-          ? _value.programIdIndex
-          : programIdIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      accountKeyIndexes: accountKeyIndexes == freezed
-          ? _value.accountKeyIndexes
-          : accountKeyIndexes // ignore: cast_nullable_to_non_nullable
-              as List<int>,
-      data: data == freezed
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as ByteArray,
-    ));
-  }
-}
-
-/// @nodoc
-abstract class _$$_MessageCompiledInstructionCopyWith<$Res>
-    implements $MessageCompiledInstructionCopyWith<$Res> {
-  factory _$$_MessageCompiledInstructionCopyWith(
-          _$_MessageCompiledInstruction value,
-          $Res Function(_$_MessageCompiledInstruction) then) =
-      __$$_MessageCompiledInstructionCopyWithImpl<$Res>;
-  @override
-  $Res call({int programIdIndex, List<int> accountKeyIndexes, ByteArray data});
-}
-
-/// @nodoc
-class __$$_MessageCompiledInstructionCopyWithImpl<$Res>
-    extends _$MessageCompiledInstructionCopyWithImpl<$Res>
-    implements _$$_MessageCompiledInstructionCopyWith<$Res> {
-  __$$_MessageCompiledInstructionCopyWithImpl(
-      _$_MessageCompiledInstruction _value,
-      $Res Function(_$_MessageCompiledInstruction) _then)
-      : super(_value, (v) => _then(v as _$_MessageCompiledInstruction));
-
-  @override
-  _$_MessageCompiledInstruction get _value =>
-      super._value as _$_MessageCompiledInstruction;
-
-  @override
-  $Res call({
-    Object? programIdIndex = freezed,
-    Object? accountKeyIndexes = freezed,
-    Object? data = freezed,
-  }) {
-    return _then(_$_MessageCompiledInstruction(
-      programIdIndex: programIdIndex == freezed
-          ? _value.programIdIndex
-          : programIdIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      accountKeyIndexes: accountKeyIndexes == freezed
-          ? _value._accountKeyIndexes
-          : accountKeyIndexes // ignore: cast_nullable_to_non_nullable
-              as List<int>,
-      data: data == freezed
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as ByteArray,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_MessageCompiledInstruction implements _MessageCompiledInstruction {
-  const _$_MessageCompiledInstruction(
-      {required this.programIdIndex,
-      required final List<int> accountKeyIndexes,
-      required this.data})
-      : _accountKeyIndexes = accountKeyIndexes;
-
-  @override
-  final int programIdIndex;
-  final List<int> _accountKeyIndexes;
-  @override
-  List<int> get accountKeyIndexes {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_accountKeyIndexes);
-  }
-
-  @override
-  final ByteArray data;
-
-  @override
-  String toString() {
-    return 'MessageCompiledInstruction(programIdIndex: $programIdIndex, accountKeyIndexes: $accountKeyIndexes, data: $data)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_MessageCompiledInstruction &&
-            const DeepCollectionEquality()
-                .equals(other.programIdIndex, programIdIndex) &&
-            const DeepCollectionEquality()
-                .equals(other._accountKeyIndexes, _accountKeyIndexes) &&
-            const DeepCollectionEquality().equals(other.data, data));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(programIdIndex),
-      const DeepCollectionEquality().hash(_accountKeyIndexes),
-      const DeepCollectionEquality().hash(data));
-
-  @JsonKey(ignore: true)
-  @override
-  _$$_MessageCompiledInstructionCopyWith<_$_MessageCompiledInstruction>
-      get copyWith => __$$_MessageCompiledInstructionCopyWithImpl<
-          _$_MessageCompiledInstruction>(this, _$identity);
-}
-
-abstract class _MessageCompiledInstruction
-    implements MessageCompiledInstruction {
-  const factory _MessageCompiledInstruction(
-      {required final int programIdIndex,
-      required final List<int> accountKeyIndexes,
-      required final ByteArray data}) = _$_MessageCompiledInstruction;
-
-  @override
-  int get programIdIndex;
-  @override
-  List<int> get accountKeyIndexes;
-  @override
-  ByteArray get data;
-  @override
-  @JsonKey(ignore: true)
-  _$$_MessageCompiledInstructionCopyWith<_$_MessageCompiledInstruction>
       get copyWith => throw _privateConstructorUsedError;
 }

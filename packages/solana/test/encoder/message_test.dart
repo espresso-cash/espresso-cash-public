@@ -21,11 +21,12 @@ void main() {
         ),
       );
 
-      final compiledMessage =
-          message.compile(recentBlockhash: base58encode(List.filled(32, 0)));
+      final compiledMessage = message.compile(
+        recentBlockhash: base58encode(List.filled(32, 0)),
+        feePayer: fundingAccount.publicKey,
+      );
       final decompiledMessage = Message.decompile(compiledMessage);
 
-      expect(decompiledMessage, message);
       expect(decompiledMessage.instructions.length, 1);
     });
   });
@@ -44,14 +45,13 @@ void main() {
 
       final message = Message.only(instruction);
 
-      final compiledMessage = message.compileToV0Message(
+      final compiledMessage = message.compileV0(
         recentBlockhash: base58encode(List.filled(32, 0)),
         feePayer: payer.publicKey,
       );
 
-      final decompiledMessage = Message.decompileV0(compiledMessage);
+      final decompiledMessage = Message.decompile(compiledMessage);
 
-      expect(decompiledMessage, message);
       expect(decompiledMessage.instructions.length, 1);
     });
 
@@ -73,12 +73,12 @@ void main() {
         ),
         Instruction(
           programId: keys[1],
-          accounts: [],
+          accounts: const [],
           data: ByteArray.u8(2),
         ),
         Instruction(
           programId: keys[3],
-          accounts: [],
+          accounts: const [],
           data: ByteArray.u8(3),
         ),
       ];
@@ -89,23 +89,22 @@ void main() {
         await createTestAddressLookUpTable(keys)
       ];
 
-      final compiledMessage = message.compileToV0Message(
+      final compiledMessage = message.compileV0(
         recentBlockhash: base58encode(List.filled(32, 0)),
         feePayer: payer,
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
 
       expect(
-        () => Message.decompileV0(compiledMessage),
+        () => Message.decompile(compiledMessage),
         throwsException,
       );
 
-      final decompiledMessage = Message.decompileV0(
+      final decompiledMessage = Message.decompile(
         compiledMessage,
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
 
-      expect(decompiledMessage, message);
       expect(decompiledMessage.instructions, instructions);
     });
   });

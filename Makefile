@@ -8,16 +8,17 @@ flutter_image_build:
 ifndef FLUTTER_VERSION
 	$(error "FLUTTER_VERSION must be set")
 endif
-	docker build --tag ghcr.io/cryptoplease/flutter:${FLUTTER_VERSION} --build-arg flutter_version=${FLUTTER_VERSION} .
+	docker build --tag ghcr.io/espresso-cash/flutter:${FLUTTER_VERSION} --build-arg flutter_version=${FLUTTER_VERSION} .
 
 flutter_image_deploy:
 ifndef FLUTTER_VERSION
 	$(error "FLUTTER_VERSION must be set")
 endif
-	docker push ghcr.io/cryptoplease/flutter:${FLUTTER_VERSION}
+	docker push ghcr.io/espresso-cash/flutter:${FLUTTER_VERSION}
 
-activate_melos:
+activate_utils:
 	dart pub global activate melos
+	dart pub global activate lakos
 
 dart_get:
 	dart pub get

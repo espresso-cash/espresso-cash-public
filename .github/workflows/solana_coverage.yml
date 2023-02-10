@@ -19,7 +19,7 @@ jobs:
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="solana"
     container:
-      image: ghcr.io/cryptoplease/flutter:3.3.0
+      image: ghcr.io/espresso-cash/flutter:3.7.0
     services:
       solana:
         image: solanalabs/solana:stable

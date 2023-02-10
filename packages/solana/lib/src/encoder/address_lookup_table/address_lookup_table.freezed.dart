@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'address_lookup_table.dart';
 
@@ -31,7 +31,8 @@ mixin _$AddressLookupTableState {
 abstract class $AddressLookupTableStateCopyWith<$Res> {
   factory $AddressLookupTableStateCopyWith(AddressLookupTableState value,
           $Res Function(AddressLookupTableState) then) =
-      _$AddressLookupTableStateCopyWithImpl<$Res>;
+      _$AddressLookupTableStateCopyWithImpl<$Res, AddressLookupTableState>;
+  @useResult
   $Res call(
       {BigInt deactivationSlot,
       int lastExtendedSlot,
@@ -41,44 +42,47 @@ abstract class $AddressLookupTableStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AddressLookupTableStateCopyWithImpl<$Res>
+class _$AddressLookupTableStateCopyWithImpl<$Res,
+        $Val extends AddressLookupTableState>
     implements $AddressLookupTableStateCopyWith<$Res> {
   _$AddressLookupTableStateCopyWithImpl(this._value, this._then);
 
-  final AddressLookupTableState _value;
   // ignore: unused_field
-  final $Res Function(AddressLookupTableState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? deactivationSlot = freezed,
-    Object? lastExtendedSlot = freezed,
-    Object? lastExtendedSlotStartIndex = freezed,
+    Object? deactivationSlot = null,
+    Object? lastExtendedSlot = null,
+    Object? lastExtendedSlotStartIndex = null,
     Object? authority = freezed,
-    Object? addresses = freezed,
+    Object? addresses = null,
   }) {
     return _then(_value.copyWith(
-      deactivationSlot: deactivationSlot == freezed
+      deactivationSlot: null == deactivationSlot
           ? _value.deactivationSlot
           : deactivationSlot // ignore: cast_nullable_to_non_nullable
               as BigInt,
-      lastExtendedSlot: lastExtendedSlot == freezed
+      lastExtendedSlot: null == lastExtendedSlot
           ? _value.lastExtendedSlot
           : lastExtendedSlot // ignore: cast_nullable_to_non_nullable
               as int,
-      lastExtendedSlotStartIndex: lastExtendedSlotStartIndex == freezed
+      lastExtendedSlotStartIndex: null == lastExtendedSlotStartIndex
           ? _value.lastExtendedSlotStartIndex
           : lastExtendedSlotStartIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      authority: authority == freezed
+      authority: freezed == authority
           ? _value.authority
           : authority // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey?,
-      addresses: addresses == freezed
+      addresses: null == addresses
           ? _value.addresses
           : addresses // ignore: cast_nullable_to_non_nullable
               as List<Ed25519HDPublicKey>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -89,6 +93,7 @@ abstract class _$$_AddressLookupTableStateCopyWith<$Res>
           $Res Function(_$_AddressLookupTableState) then) =
       __$$_AddressLookupTableStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {BigInt deactivationSlot,
       int lastExtendedSlot,
@@ -99,42 +104,40 @@ abstract class _$$_AddressLookupTableStateCopyWith<$Res>
 
 /// @nodoc
 class __$$_AddressLookupTableStateCopyWithImpl<$Res>
-    extends _$AddressLookupTableStateCopyWithImpl<$Res>
+    extends _$AddressLookupTableStateCopyWithImpl<$Res,
+        _$_AddressLookupTableState>
     implements _$$_AddressLookupTableStateCopyWith<$Res> {
   __$$_AddressLookupTableStateCopyWithImpl(_$_AddressLookupTableState _value,
       $Res Function(_$_AddressLookupTableState) _then)
-      : super(_value, (v) => _then(v as _$_AddressLookupTableState));
+      : super(_value, _then);
 
-  @override
-  _$_AddressLookupTableState get _value =>
-      super._value as _$_AddressLookupTableState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? deactivationSlot = freezed,
-    Object? lastExtendedSlot = freezed,
-    Object? lastExtendedSlotStartIndex = freezed,
+    Object? deactivationSlot = null,
+    Object? lastExtendedSlot = null,
+    Object? lastExtendedSlotStartIndex = null,
     Object? authority = freezed,
-    Object? addresses = freezed,
+    Object? addresses = null,
   }) {
     return _then(_$_AddressLookupTableState(
-      deactivationSlot: deactivationSlot == freezed
+      deactivationSlot: null == deactivationSlot
           ? _value.deactivationSlot
           : deactivationSlot // ignore: cast_nullable_to_non_nullable
               as BigInt,
-      lastExtendedSlot: lastExtendedSlot == freezed
+      lastExtendedSlot: null == lastExtendedSlot
           ? _value.lastExtendedSlot
           : lastExtendedSlot // ignore: cast_nullable_to_non_nullable
               as int,
-      lastExtendedSlotStartIndex: lastExtendedSlotStartIndex == freezed
+      lastExtendedSlotStartIndex: null == lastExtendedSlotStartIndex
           ? _value.lastExtendedSlotStartIndex
           : lastExtendedSlotStartIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      authority: authority == freezed
+      authority: freezed == authority
           ? _value.authority
           : authority // ignore: cast_nullable_to_non_nullable
               as Ed25519HDPublicKey?,
-      addresses: addresses == freezed
+      addresses: null == addresses
           ? _value._addresses
           : addresses // ignore: cast_nullable_to_non_nullable
               as List<Ed25519HDPublicKey>,
@@ -164,6 +167,7 @@ class _$_AddressLookupTableState implements _AddressLookupTableState {
   final List<Ed25519HDPublicKey> _addresses;
   @override
   List<Ed25519HDPublicKey> get addresses {
+    if (_addresses is EqualUnmodifiableListView) return _addresses;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_addresses);
   }
@@ -178,13 +182,16 @@ class _$_AddressLookupTableState implements _AddressLookupTableState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AddressLookupTableState &&
-            const DeepCollectionEquality()
-                .equals(other.deactivationSlot, deactivationSlot) &&
-            const DeepCollectionEquality()
-                .equals(other.lastExtendedSlot, lastExtendedSlot) &&
-            const DeepCollectionEquality().equals(
-                other.lastExtendedSlotStartIndex, lastExtendedSlotStartIndex) &&
-            const DeepCollectionEquality().equals(other.authority, authority) &&
+            (identical(other.deactivationSlot, deactivationSlot) ||
+                other.deactivationSlot == deactivationSlot) &&
+            (identical(other.lastExtendedSlot, lastExtendedSlot) ||
+                other.lastExtendedSlot == lastExtendedSlot) &&
+            (identical(other.lastExtendedSlotStartIndex,
+                    lastExtendedSlotStartIndex) ||
+                other.lastExtendedSlotStartIndex ==
+                    lastExtendedSlotStartIndex) &&
+            (identical(other.authority, authority) ||
+                other.authority == authority) &&
             const DeepCollectionEquality()
                 .equals(other._addresses, _addresses));
   }
@@ -192,14 +199,15 @@ class _$_AddressLookupTableState implements _AddressLookupTableState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(deactivationSlot),
-      const DeepCollectionEquality().hash(lastExtendedSlot),
-      const DeepCollectionEquality().hash(lastExtendedSlotStartIndex),
-      const DeepCollectionEquality().hash(authority),
+      deactivationSlot,
+      lastExtendedSlot,
+      lastExtendedSlotStartIndex,
+      authority,
       const DeepCollectionEquality().hash(_addresses));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AddressLookupTableStateCopyWith<_$_AddressLookupTableState>
       get copyWith =>
           __$$_AddressLookupTableStateCopyWithImpl<_$_AddressLookupTableState>(

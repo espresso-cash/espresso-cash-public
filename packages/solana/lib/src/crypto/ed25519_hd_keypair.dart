@@ -95,12 +95,9 @@ class Ed25519HDKeyPair extends KeyPair {
       recentBlockhash: recentBlockhash,
       feePayer: publicKey,
     );
-    final signature = await sign(compiledMessage.data);
+    final signature = await sign(compiledMessage.toByteArray());
 
-    return SignedTx(
-      signatures: [signature],
-      messageBytes: compiledMessage.data,
-    );
+    return SignedTx(signatures: [signature], compiledMessage: compiledMessage);
   }
 
   @override

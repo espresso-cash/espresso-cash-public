@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'loaded_addresses.dart';
 
@@ -28,35 +28,38 @@ mixin _$LoadedAddresses {
 abstract class $LoadedAddressesCopyWith<$Res> {
   factory $LoadedAddressesCopyWith(
           LoadedAddresses value, $Res Function(LoadedAddresses) then) =
-      _$LoadedAddressesCopyWithImpl<$Res>;
+      _$LoadedAddressesCopyWithImpl<$Res, LoadedAddresses>;
+  @useResult
   $Res call(
       {List<Ed25519HDPublicKey> writable, List<Ed25519HDPublicKey> readonly});
 }
 
 /// @nodoc
-class _$LoadedAddressesCopyWithImpl<$Res>
+class _$LoadedAddressesCopyWithImpl<$Res, $Val extends LoadedAddresses>
     implements $LoadedAddressesCopyWith<$Res> {
   _$LoadedAddressesCopyWithImpl(this._value, this._then);
 
-  final LoadedAddresses _value;
   // ignore: unused_field
-  final $Res Function(LoadedAddresses) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? writable = freezed,
-    Object? readonly = freezed,
+    Object? writable = null,
+    Object? readonly = null,
   }) {
     return _then(_value.copyWith(
-      writable: writable == freezed
+      writable: null == writable
           ? _value.writable
           : writable // ignore: cast_nullable_to_non_nullable
               as List<Ed25519HDPublicKey>,
-      readonly: readonly == freezed
+      readonly: null == readonly
           ? _value.readonly
           : readonly // ignore: cast_nullable_to_non_nullable
               as List<Ed25519HDPublicKey>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -67,32 +70,31 @@ abstract class _$$_LoadedAddressesCopyWith<$Res>
           _$_LoadedAddresses value, $Res Function(_$_LoadedAddresses) then) =
       __$$_LoadedAddressesCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {List<Ed25519HDPublicKey> writable, List<Ed25519HDPublicKey> readonly});
 }
 
 /// @nodoc
 class __$$_LoadedAddressesCopyWithImpl<$Res>
-    extends _$LoadedAddressesCopyWithImpl<$Res>
+    extends _$LoadedAddressesCopyWithImpl<$Res, _$_LoadedAddresses>
     implements _$$_LoadedAddressesCopyWith<$Res> {
   __$$_LoadedAddressesCopyWithImpl(
       _$_LoadedAddresses _value, $Res Function(_$_LoadedAddresses) _then)
-      : super(_value, (v) => _then(v as _$_LoadedAddresses));
+      : super(_value, _then);
 
-  @override
-  _$_LoadedAddresses get _value => super._value as _$_LoadedAddresses;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? writable = freezed,
-    Object? readonly = freezed,
+    Object? writable = null,
+    Object? readonly = null,
   }) {
     return _then(_$_LoadedAddresses(
-      writable: writable == freezed
+      writable: null == writable
           ? _value._writable
           : writable // ignore: cast_nullable_to_non_nullable
               as List<Ed25519HDPublicKey>,
-      readonly: readonly == freezed
+      readonly: null == readonly
           ? _value._readonly
           : readonly // ignore: cast_nullable_to_non_nullable
               as List<Ed25519HDPublicKey>,
@@ -112,6 +114,7 @@ class _$_LoadedAddresses implements _LoadedAddresses {
   final List<Ed25519HDPublicKey> _writable;
   @override
   List<Ed25519HDPublicKey> get writable {
+    if (_writable is EqualUnmodifiableListView) return _writable;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_writable);
   }
@@ -119,6 +122,7 @@ class _$_LoadedAddresses implements _LoadedAddresses {
   final List<Ed25519HDPublicKey> _readonly;
   @override
   List<Ed25519HDPublicKey> get readonly {
+    if (_readonly is EqualUnmodifiableListView) return _readonly;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_readonly);
   }
@@ -145,6 +149,7 @@ class _$_LoadedAddresses implements _LoadedAddresses {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_LoadedAddressesCopyWith<_$_LoadedAddresses> get copyWith =>
       __$$_LoadedAddressesCopyWithImpl<_$_LoadedAddresses>(this, _$identity);
 }
