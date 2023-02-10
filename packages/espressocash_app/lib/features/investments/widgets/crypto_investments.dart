@@ -33,7 +33,7 @@ class CryptoInvestments extends StatelessWidget {
       ignoreTokens: [Token.usdc],
     );
 
-    if (balance.decimal != Decimal.zero && !displayEmptyBalances) {
+    if (balance.decimal == Decimal.zero && !displayEmptyBalances) {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
 
