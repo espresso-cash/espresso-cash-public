@@ -8,6 +8,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
+import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
@@ -40,7 +41,7 @@ class ODPBloc extends Bloc<_Event, _State> {
   ODPBloc({
     required ODPRepository repository,
     required CryptopleaseClient client,
-    @factoryParam required Ed25519HDKeyPair account,
+    @factoryParam required ECWallet account,
     required TxSender txSender,
   })  : _repository = repository,
         _client = client,
@@ -52,7 +53,7 @@ class ODPBloc extends Bloc<_Event, _State> {
 
   final ODPRepository _repository;
   final CryptopleaseClient _client;
-  final Ed25519HDKeyPair _account;
+  final ECWallet _account;
   final TxSender _txSender;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(

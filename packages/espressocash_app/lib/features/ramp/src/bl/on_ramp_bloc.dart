@@ -15,7 +15,7 @@ part 'on_ramp_bloc.freezed.dart';
 class OnRampBloc extends Bloc<OnRampEvent, OnRampState> {
   OnRampBloc({
     @factoryParam required Token token,
-    @factoryParam required Wallet wallet,
+    @factoryParam required Ed25519HDPublicKey wallet,
     required OnRampRepository repository,
   })  : _repository = repository,
         _wallet = wallet,
@@ -25,7 +25,7 @@ class OnRampBloc extends Bloc<OnRampEvent, OnRampState> {
   }
 
   final OnRampRepository _repository;
-  final Wallet _wallet;
+  final Ed25519HDPublicKey _wallet;
   final Token _token;
 
   EventHandler<OnRampEvent, OnRampState> get _eventHandler =>
@@ -43,7 +43,7 @@ class OnRampBloc extends Bloc<OnRampEvent, OnRampState> {
       'network': 'SOLANA',
       'onPayCurrency': 'usd',
       'onRevCurrency': _token.symbol,
-      'onToAddress': _wallet.address,
+      'onToAddress': _wallet.toBase58(),
     });
 
     emit(OnRampState.success(url.toString()));
@@ -53,7 +53,7 @@ class OnRampBloc extends Bloc<OnRampEvent, OnRampState> {
     emit(const OnRampState.processing());
     try {
       final url = await _repository.signFundsRequest(
-        address: _wallet.address,
+        address: _wallet.toBase58(),
         token: _token,
       );
       emit(OnRampState.success(url));
