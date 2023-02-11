@@ -26,6 +26,7 @@ mixin _$SwapRouteRequestDto {
   SwapMatch get match => throw _privateConstructorUsedError;
   SwapSlippage get slippage => throw _privateConstructorUsedError;
   String get userAccount => throw _privateConstructorUsedError;
+  bool get asLegacyTx => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +46,8 @@ abstract class $SwapRouteRequestDtoCopyWith<$Res> {
       String amount,
       SwapMatch match,
       SwapSlippage slippage,
-      String userAccount});
+      String userAccount,
+      bool asLegacyTx});
 }
 
 /// @nodoc
@@ -67,6 +69,7 @@ class _$SwapRouteRequestDtoCopyWithImpl<$Res, $Val extends SwapRouteRequestDto>
     Object? match = null,
     Object? slippage = null,
     Object? userAccount = null,
+    Object? asLegacyTx = null,
   }) {
     return _then(_value.copyWith(
       inputToken: null == inputToken
@@ -93,6 +96,10 @@ class _$SwapRouteRequestDtoCopyWithImpl<$Res, $Val extends SwapRouteRequestDto>
           ? _value.userAccount
           : userAccount // ignore: cast_nullable_to_non_nullable
               as String,
+      asLegacyTx: null == asLegacyTx
+          ? _value.asLegacyTx
+          : asLegacyTx // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -111,7 +118,8 @@ abstract class _$$_SwapRouteRequestDtoCopyWith<$Res>
       String amount,
       SwapMatch match,
       SwapSlippage slippage,
-      String userAccount});
+      String userAccount,
+      bool asLegacyTx});
 }
 
 /// @nodoc
@@ -131,6 +139,7 @@ class __$$_SwapRouteRequestDtoCopyWithImpl<$Res>
     Object? match = null,
     Object? slippage = null,
     Object? userAccount = null,
+    Object? asLegacyTx = null,
   }) {
     return _then(_$_SwapRouteRequestDto(
       inputToken: null == inputToken
@@ -157,6 +166,10 @@ class __$$_SwapRouteRequestDtoCopyWithImpl<$Res>
           ? _value.userAccount
           : userAccount // ignore: cast_nullable_to_non_nullable
               as String,
+      asLegacyTx: null == asLegacyTx
+          ? _value.asLegacyTx
+          : asLegacyTx // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -170,7 +183,8 @@ class _$_SwapRouteRequestDto implements _SwapRouteRequestDto {
       required this.amount,
       required this.match,
       required this.slippage,
-      required this.userAccount});
+      required this.userAccount,
+      this.asLegacyTx = true});
 
   factory _$_SwapRouteRequestDto.fromJson(Map<String, dynamic> json) =>
       _$$_SwapRouteRequestDtoFromJson(json);
@@ -187,10 +201,13 @@ class _$_SwapRouteRequestDto implements _SwapRouteRequestDto {
   final SwapSlippage slippage;
   @override
   final String userAccount;
+  @override
+  @JsonKey()
+  final bool asLegacyTx;
 
   @override
   String toString() {
-    return 'SwapRouteRequestDto(inputToken: $inputToken, outputToken: $outputToken, amount: $amount, match: $match, slippage: $slippage, userAccount: $userAccount)';
+    return 'SwapRouteRequestDto(inputToken: $inputToken, outputToken: $outputToken, amount: $amount, match: $match, slippage: $slippage, userAccount: $userAccount, asLegacyTx: $asLegacyTx)';
   }
 
   @override
@@ -207,13 +224,15 @@ class _$_SwapRouteRequestDto implements _SwapRouteRequestDto {
             (identical(other.slippage, slippage) ||
                 other.slippage == slippage) &&
             (identical(other.userAccount, userAccount) ||
-                other.userAccount == userAccount));
+                other.userAccount == userAccount) &&
+            (identical(other.asLegacyTx, asLegacyTx) ||
+                other.asLegacyTx == asLegacyTx));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, inputToken, outputToken, amount,
-      match, slippage, userAccount);
+      match, slippage, userAccount, asLegacyTx);
 
   @JsonKey(ignore: true)
   @override
@@ -237,7 +256,8 @@ abstract class _SwapRouteRequestDto implements SwapRouteRequestDto {
       required final String amount,
       required final SwapMatch match,
       required final SwapSlippage slippage,
-      required final String userAccount}) = _$_SwapRouteRequestDto;
+      required final String userAccount,
+      final bool asLegacyTx}) = _$_SwapRouteRequestDto;
 
   factory _SwapRouteRequestDto.fromJson(Map<String, dynamic> json) =
       _$_SwapRouteRequestDto.fromJson;
@@ -254,6 +274,8 @@ abstract class _SwapRouteRequestDto implements SwapRouteRequestDto {
   SwapSlippage get slippage;
   @override
   String get userAccount;
+  @override
+  bool get asLegacyTx;
   @override
   @JsonKey(ignore: true)
   _$$_SwapRouteRequestDtoCopyWith<_$_SwapRouteRequestDto> get copyWith =>

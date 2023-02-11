@@ -16,6 +16,7 @@ class SwapRouteRequestDto with _$SwapRouteRequestDto {
     required SwapMatch match,
     required SwapSlippage slippage,
     required String userAccount,
+    @Default(true) bool asLegacyTx,
   }) = _SwapRouteRequestDto;
 
   factory SwapRouteRequestDto.fromJson(Map<String, dynamic> json) =>

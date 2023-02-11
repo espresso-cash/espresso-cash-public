@@ -217,6 +217,25 @@ class _OSKPScreenState extends State<OSKPScreen> {
                     paymentSuccess,
                   ];
 
+              final shouldShowRetryButton = payment?.status.map(
+                    txCreated: T,
+                    txSent: T,
+                    txConfirmed: T,
+                    linksReady: F,
+                    withdrawn: F,
+                    canceled: F,
+                    txFailure: T,
+                    txSendFailure: T,
+                    txWaitFailure: T,
+                    txLinksFailure: T,
+                    cancelTxCreated: T,
+                    cancelTxFailure: T,
+                    cancelTxSent: T,
+                    cancelTxSendFailure: T,
+                    cancelTxWaitFailure: T,
+                  ) ??
+                  false;
+
               return StatusScreen(
                 onBackButtonPressed: () => context.router.pop(),
                 title: context.l10n.splitKeyTransferTitle,
@@ -233,18 +252,20 @@ class _OSKPScreenState extends State<OSKPScreen> {
                         active: activeItem,
                       ),
                       const Spacer(flex: 4),
-                      if (payment != null && payment.shouldRetry)
+                      if (payment != null && shouldShowRetryButton)
                         CpButton(
                           size: CpButtonSize.big,
                           width: double.infinity,
-                          text: context.l10n.retry,
+                          text: isProcessing
+                              ? context.l10n.processing
+                              : context.l10n.retry,
                           onPressed: isProcessing
                               ? null
                               : () => context
                                   .read<OSKPBloc>()
                                   .add(OSKPEvent.process(payment.id)),
                         ),
-                      if (payment != null)
+                      if (payment != null && !isProcessing)
                         ...payment.status.mapOrNull(
                               linksReady: (s) => [
                                 CpButton(

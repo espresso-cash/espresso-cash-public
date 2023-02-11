@@ -14,9 +14,9 @@ import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/amount_keypad/amount_keypad.dart';
-import '../../../../ui/button.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/number_formatter.dart';
+import '../../../../ui/slider.dart';
 import '../../models/swap_seed.dart';
 import '../swap_operation.dart';
 import '../swap_route.dart';
@@ -126,109 +126,82 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      BlocListener<CreateSwapBloc, CreateSwapState>(
-        bloc: _bloc,
-        listenWhen: (prev, cur) => prev.expiresAt != cur.expiresAt,
-        listener: (context, state) => _resetTimer(state.expiresAt),
-        child: BlocConsumer<CreateSwapBloc, CreateSwapState>(
-          bloc: _bloc,
-          listenWhen: (prev, cur) => prev.flowState != cur.flowState,
-          listener: (context, state) => state.flowState.whenOrNull(
-            failure: _onSwapException,
-            success: widget.onRouteReady,
-          ),
-          builder: (context, state) => SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ValueListenableBuilder<TextEditingValue>(
-                  valueListenable: _amountController,
-                  builder: (context, value, __) => DisplayHeader(
-                    displayAmount: value.text,
-                  ),
-                ),
-                TokenDropDown(
-                  current: state.requestAmount.token,
-                  onTokenChanged: (_) => _onEditingModeToggled(),
-                  availableTokens: [
-                    state.inputAmount.token,
-                    state.outputAmount.token,
-                  ],
-                ),
-                EquivalentHeader(
-                  inputAmount: state.inputAmount,
-                  outputAmount: state.outputAmount,
-                  isLoadingRoute: state.flowState.isProcessing(),
-                ),
-                SwapFee(amount: state.fee),
-                const SizedBox(height: 16),
-                AvailableBalance(
-                  maxAmountAvailable: _bloc.calculateMaxAmount(),
-                  onMaxAmountRequested: widget.operation == SwapOperation.buy
-                      ? null
-                      : () => _onMaxAmountRequested(state.requestToken),
-                ),
-                SlippageInfo(
-                  slippage: state.slippage,
-                  onSlippageChanged: _onSlippageChanged,
-                ),
-                Flexible(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) => AmountKeypad(
-                      height: constraints.maxHeight,
-                      width: constraints.maxWidth,
-                      controller: _amountController,
-                      maxDecimals: state.requestAmount.token.decimals,
-                    ),
-                  ),
-                ),
-                _Button(
-                  onSubmit: state.inputAmount.value == 0 ? null : _onSubmit,
-                  operation: widget.operation,
-                  inputToken: widget.inputToken,
-                  outputToken: widget.outputToken,
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-}
-
-class _Button extends StatelessWidget {
-  const _Button({
-    Key? key,
-    required this.onSubmit,
-    required this.inputToken,
-    required this.outputToken,
-    required this.operation,
-  }) : super(key: key);
-
-  final VoidCallback? onSubmit;
-  final Token inputToken;
-  final Token outputToken;
-  final SwapOperation operation;
-
-  @override
   Widget build(BuildContext context) {
     final String label;
-    switch (operation) {
+    switch (widget.operation) {
       case SwapOperation.buy:
-        label = context.l10n.pressAndHoldToBuy(outputToken.symbol);
+        label = context.l10n.pressAndHoldToBuy(widget.outputToken.symbol);
         break;
       case SwapOperation.sell:
-        label = context.l10n.pressAndHoldToSell(inputToken.symbol);
+        label = context.l10n.pressAndHoldToSell(widget.inputToken.symbol);
         break;
     }
 
-    return CpContentPadding(
-      child: CpButton(
-        text: label,
-        mechanics: CpButtonMechanics.pressAndHold,
-        width: double.infinity,
-        size: CpButtonSize.big,
-        onPressed: onSubmit,
+    return BlocListener<CreateSwapBloc, CreateSwapState>(
+      bloc: _bloc,
+      listenWhen: (prev, cur) => prev.expiresAt != cur.expiresAt,
+      listener: (context, state) => _resetTimer(state.expiresAt),
+      child: BlocConsumer<CreateSwapBloc, CreateSwapState>(
+        bloc: _bloc,
+        listenWhen: (prev, cur) => prev.flowState != cur.flowState,
+        listener: (context, state) => state.flowState.whenOrNull(
+          failure: _onSwapException,
+          success: widget.onRouteReady,
+        ),
+        builder: (context, state) => SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ValueListenableBuilder<TextEditingValue>(
+                valueListenable: _amountController,
+                builder: (context, value, __) => DisplayHeader(
+                  displayAmount: value.text,
+                ),
+              ),
+              TokenDropDown(
+                current: state.requestAmount.token,
+                onTokenChanged: (_) => _onEditingModeToggled(),
+                availableTokens: [
+                  state.inputAmount.token,
+                  state.outputAmount.token,
+                ],
+              ),
+              EquivalentHeader(
+                inputAmount: state.inputAmount,
+                outputAmount: state.outputAmount,
+                isLoadingRoute: state.flowState.isProcessing(),
+              ),
+              SwapFee(amount: state.fee),
+              const SizedBox(height: 16),
+              AvailableBalance(
+                maxAmountAvailable: _bloc.calculateMaxAmount(),
+                onMaxAmountRequested: widget.operation == SwapOperation.buy
+                    ? null
+                    : () => _onMaxAmountRequested(state.requestToken),
+              ),
+              SlippageInfo(
+                slippage: state.slippage,
+                onSlippageChanged: _onSlippageChanged,
+              ),
+              Flexible(
+                child: LayoutBuilder(
+                  builder: (context, constraints) => AmountKeypad(
+                    height: constraints.maxHeight,
+                    width: constraints.maxWidth,
+                    controller: _amountController,
+                    maxDecimals: state.requestAmount.token.decimals,
+                  ),
+                ),
+              ),
+              CpContentPadding(
+                child: CpSlider(
+                  text: label,
+                  onSlideCompleted: state.bestRoute == null ? null : _onSubmit,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

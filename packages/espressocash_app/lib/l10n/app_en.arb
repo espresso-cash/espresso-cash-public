@@ -43,6 +43,7 @@
   "noDataPullToRefresh": "No data, pull to refresh.",
   "loading": "Loading...",
   "retry": "Retry",
+  "processing": "Processing...",
   "search": "Search",
   "noEmailInCryptoInfo": "With Espresso Cash, there’s no need for an email and password to access your money!",
   "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe! ",
@@ -318,7 +319,7 @@
     }
   },
   "swapSellSuccess": "Your sale of {token} was successful.",
-   "@swapSellSuccess": {
+  "@swapSellSuccess": {
     "placeholders": {
       "token": {
         "type": "String"
@@ -416,7 +417,7 @@
       }
     }
   },
-  "pressAndHoldToBuy": "Press & hold to buy {token}",
+  "pressAndHoldToBuy": "Slide to Buy {token}",
   "@pressAndHoldToBuy": {
     "placeholders": {
       "token": {
@@ -424,7 +425,7 @@
       }
     }
   },
-  "pressAndHoldToSell": "Press & hold to sell {token}",
+  "pressAndHoldToSell": "Slide to Sell {token}",
   "@pressAndHoldToSell": {
     "placeholders": {
       "token": {
@@ -472,7 +473,7 @@
   },
   "price": "Price",
   "balance": "Balance",
-  "youOwn":"You own",
+  "youOwn": "You own",
   "failedToLoadTokens": "Failed to load tokens",
   "settings": "Settings",
   "displayEmptyBalanceTitle": "Display Empty Balances",
@@ -527,10 +528,10 @@
       }
     }
   },
-  "invalidEscrowError" : "The link is incorrect or the money has already been withdrawn.",
   "fundYourAccount": "Fund your account to begin your crypto journey. You can buy and sell crypto or send money anywhere in the world!",
   "investmentHeaderButtonsTitle": "I want to",
   "sendMoney": "Send Money",
   "startInvestingTitle": "Start Investing",
-  "startInvestingSubtitle": "New to crypto investing? We got you.\nHere are some popular crypto that you might like."
+  "startInvestingSubtitle": "New to crypto investing? We got you.\nHere are some popular crypto that you might like.",
+  "invalidEscrowError": "The link is incorrect or the money has already been withdrawn."
 }

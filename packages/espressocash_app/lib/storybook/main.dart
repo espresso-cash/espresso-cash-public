@@ -19,6 +19,7 @@ import 'stories/icon_button.dart';
 import 'stories/info_widget.dart';
 import 'stories/loader.dart';
 import 'stories/rounded_rectangle.dart';
+import 'stories/slider.dart';
 import 'stories/snackbar.dart';
 import 'stories/status_screen.dart';
 import 'stories/status_widget.dart';
@@ -78,6 +79,7 @@ class StorybookApp extends StatelessWidget {
           cpInfoWidget,
           cpLoader,
           cpRoundedRectangle,
+          cpSlider,
           cpSnackbar,
           cpStatus,
           cpStatusScreen,

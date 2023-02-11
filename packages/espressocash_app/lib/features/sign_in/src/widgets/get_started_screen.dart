@@ -87,6 +87,7 @@ class _Footer extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text.rich(
+              key: keyUseExistingWalletButton,
               TextSpan(
                 text: context.l10n.signIn1,
                 children: [

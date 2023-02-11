@@ -29,6 +29,7 @@ class JupiterRepository {
     required int slippageBps,
     required SwapMode swapMode,
     required String account,
+    required bool asLegacyTransaction,
   }) async {
     final quote = await _swapClient.getQuote(
       QuoteRequestDto(
@@ -39,7 +40,7 @@ class JupiterRepository {
         swapMode: swapMode,
         userPublicKey: account,
         onlyDirectRoutes: true,
-        asLegacyTransaction: false,
+        asLegacyTransaction: asLegacyTransaction,
       ),
     );
 
