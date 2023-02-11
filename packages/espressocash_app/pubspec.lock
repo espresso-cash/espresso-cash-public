@@ -1541,7 +1541,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.28.0"
+    version: "0.28.1"
   solana_seed_vault:
     dependency: "direct main"
     description:
