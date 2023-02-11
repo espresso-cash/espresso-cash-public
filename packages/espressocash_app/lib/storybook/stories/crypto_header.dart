@@ -1,10 +1,10 @@
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../ui/header.dart';
+import '../../ui/crypto_header.dart';
 
-final cpHeader = Story(
-  name: 'CpHeader',
-  builder: (context) => CpHeader(
+final cpCryptoHeader = Story(
+  name: 'CpCryptoHeader',
+  builder: (context) => CpCryptoHeader(
     title: context.knobs.text(label: 'Title', initial: 'Popular Crypto'),
     subtitle: context.knobs.text(
       label: 'Subtitle',

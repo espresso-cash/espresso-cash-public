@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../../features/token_search/widgets/discover_header.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
-import '../../../../../ui/header.dart';
+import '../../../../../ui/crypto_header.dart';
 import 'context_ext.dart';
 
 class StartedInvestingHeader extends StatelessWidget {
@@ -12,13 +12,13 @@ class StartedInvestingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.watchUserHasInvestments()) return const SizedBox.shrink();
+    if (context.userHasInvestments()) return const SizedBox.shrink();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          CpHeader(
+          CpCryptoHeader(
             title: context.l10n.startedInvestingTitle,
             subtitle: context.l10n.startedInvestingSubtitle,
           ),

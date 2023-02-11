@@ -18,8 +18,6 @@ import '../../../../../ui/info_icon.dart';
 import '../../../../../ui/info_widget.dart';
 import '../../../../../ui/token_icon.dart';
 
-const _token = Token.usdc;
-
 class InvestmentHeader extends StatelessWidget {
   const InvestmentHeader({super.key});
 
@@ -180,7 +178,7 @@ class _Amount extends StatelessWidget {
           ),
         ).let((it) => amount.isZero ? it : Flexible(child: it)),
         const SizedBox(width: 8),
-        const CpTokenIcon(token: _token, size: 30),
+        const CpTokenIcon(token: Token.usdc, size: 30),
         const SizedBox(width: 8),
         if (amount.isZero)
           Flexible(
@@ -256,6 +254,6 @@ extension on Amount {
 }
 
 extension on BuildContext {
-  Amount watchUsdcBalance() => watchUserFiatBalance(_token)
+  Amount watchUsdcBalance() => watchUserFiatBalance(Token.usdc)
       .ifNull(() => Amount.zero(currency: Currency.usd));
 }

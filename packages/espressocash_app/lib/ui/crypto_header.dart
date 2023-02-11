@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../gen/assets.gen.dart';
 
-class CpHeader extends StatelessWidget {
-  const CpHeader({
+class CpCryptoHeader extends StatelessWidget {
+  const CpCryptoHeader({
     super.key,
     required this.title,
     required this.subtitle,

@@ -13,8 +13,8 @@ import 'stories/bullet_item.dart';
 import 'stories/button.dart';
 import 'stories/chip.dart';
 import 'stories/content_padding.dart';
+import 'stories/crypto_header.dart';
 import 'stories/empty_message_widget.dart';
-import 'stories/header.dart';
 import 'stories/icon_button.dart';
 import 'stories/info_widget.dart';
 import 'stories/loader.dart';
@@ -72,7 +72,7 @@ class StorybookApp extends StatelessWidget {
           cpButton,
           cpChip,
           cpContentPadding,
-          cpHeader,
+          cpCryptoHeader,
           cpEmptyMessageWidget,
           cpIconButton,
           cpInfoWidget,

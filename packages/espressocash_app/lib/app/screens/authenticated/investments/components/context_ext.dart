@@ -8,7 +8,7 @@ import '../../../../../core/tokens/token.dart';
 import '../../../../../core/user_preferences.dart';
 
 extension InvestmentExt on BuildContext {
-  bool watchUserHasInvestments() => watchUserTotalFiatBalance(
+  bool userHasInvestments() => watchUserTotalFiatBalance(
         watch<UserPreferences>().fiatCurrency,
         ignoreTokens: [Token.usdc],
       ).let((it) => it.decimal != Decimal.zero);
