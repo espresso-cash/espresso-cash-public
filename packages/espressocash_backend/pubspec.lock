@@ -634,9 +634,10 @@ packages:
   solana:
     dependency: "direct main"
     description:
-      path: "../solana"
-      relative: true
-    source: path
+      name: solana
+      sha256: a2cbb3d172dbbd8183f68b7b3dee93d45a204da8f87522951aa3dcf31d9f1405
+      url: "https://pub.dev"
+    source: hosted
     version: "0.28.0"
   source_gen:
     dependency: transitive

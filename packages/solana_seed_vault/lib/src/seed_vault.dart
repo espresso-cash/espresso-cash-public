@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
@@ -44,8 +45,11 @@ class SeedVault implements SeedVaultFlutterApi {
     );
   }
 
-  Future<bool> isAvailable(bool allowSimulated) =>
-      _platform.isAvailable(allowSimulated);
+  Future<bool> isAvailable({bool allowSimulated = false}) async {
+    if (!Platform.isAndroid) return false;
+
+    return _platform.isAvailable(allowSimulated);
+  }
 
   Future<bool> checkPermission() => _platform.checkPermission();
 

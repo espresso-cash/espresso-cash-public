@@ -9,6 +9,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
+import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/extensions.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -38,7 +39,7 @@ class ISKPBloc extends Bloc<_Event, _State> {
   ISKPBloc({
     required ISKPRepository repository,
     required CryptopleaseClient client,
-    @factoryParam required Ed25519HDKeyPair account,
+    @factoryParam required ECWallet account,
     required TxSender txSender,
   })  : _repository = repository,
         _client = client,
@@ -50,7 +51,7 @@ class ISKPBloc extends Bloc<_Event, _State> {
 
   final ISKPRepository _repository;
   final CryptopleaseClient _client;
-  final Ed25519HDKeyPair _account;
+  final ECWallet _account;
   final TxSender _txSender;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
@@ -124,7 +125,7 @@ class ISKPBloc extends Bloc<_Event, _State> {
           .receivePayment(dto)
           .then((it) => it.transaction)
           .then(SignedTx.decode)
-          .then((it) => it.resign(escrow));
+          .then((it) => it.resign(LocalWallet(escrow)));
 
       return ISKPStatus.txCreated(tx);
     } on DioError catch (e) {

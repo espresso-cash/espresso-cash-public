@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:espressocash_app/config.dart';
 import 'package:espressocash_app/core/accounts/bl/account.dart';
+import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
 import 'package:espressocash_app/core/amount.dart';
 import 'package:espressocash_app/core/balances/bl/balances_bloc.dart';
 import 'package:espressocash_app/core/processing_state.dart';
@@ -24,7 +25,7 @@ void main() {
       const initialAmount = 10 * lamportsPerSol;
 
       setUpAll(() async {
-        final wallet = await Wallet.random();
+        final wallet = LocalWallet(await Wallet.random());
 
         account = MyAccount(
           firstName: 'Tester',
@@ -40,7 +41,7 @@ void main() {
         await solanaClient.createTokenAccount(
           mint: token.publicKey,
           account: await Ed25519HDKeyPair.random(),
-          creator: account.wallet,
+          creator: wallet.keyPair,
           commitment: Commitment.confirmed,
         );
 

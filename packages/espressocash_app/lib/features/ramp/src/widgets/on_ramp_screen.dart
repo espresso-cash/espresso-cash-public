@@ -25,7 +25,7 @@ class OnRampScreen extends StatelessWidget {
   }) : super(key: key);
 
   final Token token;
-  final Wallet wallet;
+  final Ed25519HDPublicKey wallet;
 
   @override
   Widget build(BuildContext context) => BlocProvider<OnRampBloc>(

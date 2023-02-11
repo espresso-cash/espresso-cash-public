@@ -24,7 +24,7 @@ class RampButtons extends StatelessWidget {
                 width: double.infinity,
                 onPressed: () => context.router.navigate(
                   OnRampRoute(
-                    wallet: context.read<MyAccount>().wallet,
+                    wallet: context.read<MyAccount>().wallet.publicKey,
                     token: Token.usdc,
                   ),
                 ),
