@@ -35,7 +35,10 @@ class CpTheme extends StatelessWidget {
         value: theme,
         child: Theme(
           data: theme.toMaterialTheme(),
-          child: child,
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: theme.brightness.systemOverlayStyle,
+            child: child,
+          ),
         ),
       );
 }
@@ -124,9 +127,7 @@ class CpThemeData {
           background: backgroundColor,
         ),
         appBarTheme: AppBarTheme(
-          systemOverlayStyle: brightness == Brightness.dark
-              ? SystemUiOverlayStyle.light
-              : SystemUiOverlayStyle.dark,
+          systemOverlayStyle: brightness.systemOverlayStyle,
           backgroundColor: Colors.transparent,
           centerTitle: true,
           titleTextStyle: _baseTextStyle.copyWith(
@@ -167,3 +168,15 @@ const dashboardSectionTitleTextStyle = TextStyle(
   fontSize: 19,
   color: CpColors.menuPrimaryTextColor,
 );
+
+extension on Brightness {
+  SystemUiOverlayStyle get systemOverlayStyle => this == Brightness.dark
+      ? SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+        )
+      : SystemUiOverlayStyle.dark.copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+        );
+}

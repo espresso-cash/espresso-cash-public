@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
 import 'package:espressocash_app/core/amount.dart';
 import 'package:espressocash_app/core/currency.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
@@ -22,7 +23,7 @@ final client = MockCryptopleaseClient();
 
 @GenerateMocks([TxSender, CryptopleaseClient])
 Future<void> main() async {
-  final account = await Ed25519HDKeyPair.random();
+  final account = LocalWallet(await Ed25519HDKeyPair.random());
   final receiver = await Ed25519HDKeyPair.random();
   final repository = MemoryRepository();
 

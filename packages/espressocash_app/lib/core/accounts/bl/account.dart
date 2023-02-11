@@ -1,12 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
+import 'ec_wallet.dart';
+
 part 'account.freezed.dart';
 
 @freezed
 class MyAccount with _$MyAccount {
   const factory MyAccount({
-    required Wallet wallet,
+    required ECWallet wallet,
     required String firstName,
     required AccessMode accessMode,
     String? photoPath,

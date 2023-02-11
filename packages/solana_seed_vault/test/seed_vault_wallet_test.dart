@@ -23,10 +23,12 @@ Future<void> main() async {
   test('Check for Seed Vault availability', () async {
     when(apiHost.isAvailable(any)).thenAnswer((_) async => true);
 
-    final result = await SeedVault.instance.isAvailable(false);
+    final result = await SeedVault.instance.isAvailable(allowSimulated: false);
 
-    expect(result, true);
-    verify(apiHost.isAvailable(any)).called(1);
+    expect(result, false);
+
+    // Called on Android only
+    verifyNever(apiHost.isAvailable(any));
     verifyNoMoreInteractions(apiHost);
   });
 

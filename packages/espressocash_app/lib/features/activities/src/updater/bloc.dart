@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:solana/solana.dart';
 
+import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/processing_state.dart';
 import 'tx_updater_repository.dart';
 
@@ -18,7 +18,7 @@ typedef _Emitter = Emitter<_State>;
 @injectable
 class TxUpdaterBloc extends Bloc<_Event, _State> {
   TxUpdaterBloc({
-    @factoryParam required Wallet wallet,
+    @factoryParam required ECWallet wallet,
     required TxUpdaterRepository fetchedRepository,
   })  : _wallet = wallet,
         _fetchedRepository = fetchedRepository,
@@ -34,7 +34,7 @@ class TxUpdaterBloc extends Bloc<_Event, _State> {
     );
   }
 
-  final Wallet _wallet;
+  final ECWallet _wallet;
   final TxUpdaterRepository _fetchedRepository;
 
   _EventHandler get _handler => (event, emit) => event.map(
