@@ -17,6 +17,7 @@ import io.flutter.plugin.common.PluginRegistry
 import kotlinx.coroutines.*
 import java.util.concurrent.CompletableFuture
 
+@RequiresApi(Build.VERSION_CODES.R)
 class WalletApiHost(private val context: Context, private val permissionHandler: PermissionHandler) : PluginRegistry.ActivityResultListener,
     Api.WalletApiHost, ActivityBindingMixin by ActivityBindingMixinImpl() {
     private var completable: CompletableFuture<Any> = CompletableFuture()
@@ -37,7 +38,6 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
         whenBindingReady { it.addActivityResultListener(this) }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun isAvailable(allowSimulated: Boolean): Boolean {
         return SeedVault.isAvailable(context, allowSimulated)
     }
@@ -213,7 +213,7 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
                 handleResult { Wallet.onRequestPublicKeysResult(resultCode, data) }
             }
         }
-        return false;
+        return false
     }
 
 
@@ -276,7 +276,6 @@ class WalletApiHost(private val context: Context, private val permissionHandler:
         ).let { CursorSerializer.serialize(it) }
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun getImplementationLimitsForPurpose(purpose: Long): Map<Any, Any> {
         return Wallet.getImplementationLimitsForPurpose(context, purpose.toInt()).toMutableMap()
     }

@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
@@ -16,25 +15,21 @@ class HomeScreen extends StatelessWidget {
         routes: _pages.map((e) => e.route).toList(),
         builder: (context, child, animation) {
           final tabsRouter = AutoTabsRouter.of(context);
-          final page = _pages[tabsRouter.activeIndex];
 
-          return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: page.overlayStyle,
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              extendBody: true,
-              body: child,
-              bottomNavigationBar: CPNavigationBar(
-                items: _pages
-                    .mapIndexed(
-                      (i, p) => CpNavigationButton(
-                        icon: p.icon,
-                        active: tabsRouter.activeIndex == i,
-                        onPressed: () => tabsRouter.setActiveIndex(i),
-                      ),
-                    )
-                    .toList(),
-              ),
+          return Scaffold(
+            backgroundColor: Colors.white,
+            extendBody: true,
+            body: child,
+            bottomNavigationBar: CPNavigationBar(
+              items: _pages
+                  .mapIndexed(
+                    (i, p) => CpNavigationButton(
+                      icon: p.icon,
+                      active: tabsRouter.activeIndex == i,
+                      onPressed: () => tabsRouter.setActiveIndex(i),
+                    ),
+                  )
+                  .toList(),
             ),
           );
         },
@@ -44,17 +39,14 @@ class HomeScreen extends StatelessWidget {
 final _pages = [
   _Page(
     route: const InvestmentsRouter(),
-    overlayStyle: SystemUiOverlayStyle.light,
     icon: Assets.icons.home,
   ),
   _Page(
     route: const WalletFlowRoute(),
-    overlayStyle: SystemUiOverlayStyle.light,
     icon: Assets.icons.wallet,
   ),
   _Page(
     route: const ActivitiesRoute(),
-    overlayStyle: SystemUiOverlayStyle.dark,
     icon: Assets.icons.notifications,
   ),
 ];
@@ -63,11 +55,9 @@ final _pages = [
 class _Page {
   const _Page({
     required this.route,
-    required this.overlayStyle,
     required this.icon,
   });
 
   final PageRouteInfo route;
-  final SystemUiOverlayStyle overlayStyle;
   final SvgGenImage icon;
 }

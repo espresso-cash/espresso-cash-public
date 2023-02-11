@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_backend/src/constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'jupiter_repository.freezed.dart';
@@ -19,6 +20,8 @@ class JupiterRepository {
   final _swapClient = JupiterAggregatorClient();
   final _priceClient = JupiterPriceClient();
 
+  final _sol = wrappedSol.toBase58();
+
   Future<RouteInfo> getJupiterRouteAndTransaction({
     required String amount,
     required String inputToken,
@@ -36,7 +39,7 @@ class JupiterRepository {
         swapMode: swapMode,
         userPublicKey: account,
         onlyDirectRoutes: true,
-        enforceSingleTx: true,
+        asLegacyTransaction: false,
       ),
     );
 
@@ -56,18 +59,7 @@ class JupiterRepository {
         .getSwapTransactions(
           JupiterSwapRequestDto(userPublicKey: account, route: bestRoute),
         )
-        .then(
-          (jupiterTxs) => [
-            jupiterTxs.setupTransaction,
-            jupiterTxs.swapTransaction,
-            jupiterTxs.cleanupTransaction,
-          ],
-        )
-        .then((txs) => txs.whereNotNull().singleOrNull);
-
-    if (tx == null) {
-      throw Exception('Swap only supports single transaction');
-    }
+        .then((jupiterTxs) => jupiterTxs.swapTransaction);
 
     return RouteInfo(
       amount: bestRoute.amount,
@@ -78,9 +70,9 @@ class JupiterRepository {
     );
   }
 
-  Future<double> getUsdcPrice() async => _priceClient
-      .getPrice(const PriceRequestDto(id: 'SOL'))
-      .then((response) => response.data.price);
+  Future<double?> getUsdcPrice() async => _priceClient
+      .getPrice(PriceRequestDto(ids: _sol))
+      .then((response) => response.data[_sol]?.price);
 }
 
 extension SwapSlippageExt on SwapSlippage {

@@ -25,7 +25,7 @@ class AddCashButton extends StatelessWidget {
           text: context.l10n.addCash,
           onPressed: () => context.router.navigate(
             OnRampRoute(
-              wallet: context.read<MyAccount>().wallet,
+              wallet: context.read<MyAccount>().wallet.publicKey,
               token: Token.usdc,
             ),
           ),

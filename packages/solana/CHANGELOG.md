@@ -1,3 +1,8 @@
+## 0.28.1
+
+ - **REFACTOR**: update lints (#783).
+ - **FEAT**: move encoder rpc client extensions (#787).
+
 ## 0.28.0
 
 > Note: This release has breaking changes.

@@ -55,10 +55,27 @@ class CreateSwap {
       _repository.getUsdcPrice(),
     ]);
     final route = responses.first as RouteInfo;
-    final price = responses.last as double;
+    final price = responses.last as double?;
 
-    final jupiterMessage =
-        route.jupiterTx.let(SignedTx.decode).let((tx) => tx.message);
+    if (price == null) {
+      throw Exception(
+        'Could not fetch price.',
+      );
+    }
+
+    final jupiterTx = route.jupiterTx.let(SignedTx.decode);
+
+    final addressTableLookups = jupiterTx.compiledMessage.map(
+      legacy: (_) => <MessageAddressTableLookup>[],
+      v0: (v0) => v0.addressTableLookups,
+    );
+
+    final lookUpTables = await _client.rpcClient
+        .getAddressLookUpTableAccounts(addressTableLookups);
+
+    final jupiterMessage = jupiterTx.let(
+      (tx) => tx.decompileMessage(addressLookupTableAccounts: lookUpTables),
+    );
 
     final nonClosedAtaCount =
         jupiterMessage.createAtaCount() - jupiterMessage.closeAccountCount();
@@ -127,18 +144,19 @@ class CreateSwap {
         )
         .let((m) => m.addInstruction(feeIx));
 
-    final recentBlockhash = await _client.rpcClient.getRecentBlockhash(
+    final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
     );
-    final compiled = message.compile(
-      recentBlockhash: recentBlockhash.blockhash,
+    final compiled = message.compileV0(
+      recentBlockhash: latestBlockhash.blockhash,
       feePayer: feePayer,
+      addressLookupTableAccounts: lookUpTables,
     );
 
     final tx = SignedTx(
-      messageBytes: compiled.data,
+      compiledMessage: compiled,
       signatures: [
-        await _platform.sign(compiled.data),
+        await _platform.sign(compiled.toByteArray()),
         Signature(List.filled(64, 0), publicKey: aSender),
       ],
     );

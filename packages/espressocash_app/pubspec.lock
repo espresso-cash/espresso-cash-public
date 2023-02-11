@@ -1542,6 +1542,13 @@ packages:
       relative: true
     source: path
     version: "0.28.0"
+  solana_seed_vault:
+    dependency: "direct main"
+    description:
+      path: "../solana_seed_vault"
+      relative: true
+    source: path
+    version: "0.1.0+1"
   source_gen:
     dependency: transitive
     description:

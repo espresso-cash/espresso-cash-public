@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
+import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../models/swap.dart';
@@ -34,7 +34,7 @@ class SwapBloc extends Bloc<_Event, _State> {
     required SwapRepository swapRepository,
     required RouteRepository routeRepository,
     required TxSender txSender,
-    @factoryParam required Wallet wallet,
+    @factoryParam required ECWallet wallet,
   })  : _txSender = txSender,
         _swapRepository = swapRepository,
         _routeRepository = routeRepository,
@@ -46,7 +46,7 @@ class SwapBloc extends Bloc<_Event, _State> {
   final TxSender _txSender;
   final SwapRepository _swapRepository;
   final RouteRepository _routeRepository;
-  final Wallet _wallet;
+  final ECWallet _wallet;
 
   EventHandler<_Event, _State> get _handler => (event, emit) => event.map(
         create: (e) => _onCreate(e, emit),

@@ -16,12 +16,14 @@ class OnboardingNotice extends StatelessWidget {
             ? const SizedBox.shrink()
             : SizedBox(
                 height: 125,
-                child: GestureDetector(
-                  onTap: () =>
-                      context.router.navigate(const OnboardingFlowRoute()),
-                  child: Assets.rive.onboardingNotice.rive(
-                    alignment: Alignment.topCenter,
-                    fit: BoxFit.fitWidth,
+                child: RepaintBoundary(
+                  child: GestureDetector(
+                    onTap: () =>
+                        context.router.navigate(const OnboardingFlowRoute()),
+                    child: Assets.rive.onboardingNotice.rive(
+                      alignment: Alignment.topCenter,
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
                 ),
               ),

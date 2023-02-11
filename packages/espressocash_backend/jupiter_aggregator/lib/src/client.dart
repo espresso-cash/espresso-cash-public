@@ -6,8 +6,8 @@ import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
 
-/// For docs head to https://quote-api.jup.ag/v3/docs/static/index.html
-@RestApi(baseUrl: 'https://quote-api.jup.ag/v3')
+/// For docs head to https://quote-api.jup.ag/v4/docs/static/index.html
+@RestApi(baseUrl: 'https://quote-api.jup.ag/v4')
 abstract class JupiterAggregatorClient {
   factory JupiterAggregatorClient() => _JupiterAggregatorClient(Dio());
 
@@ -32,7 +32,7 @@ abstract class JupiterAggregatorClient {
 }
 
 /// For docs head to https://docs.jup.ag/jupiter-api/price-api-for-solana
-@RestApi(baseUrl: 'https://price.jup.ag/v1')
+@RestApi(baseUrl: 'https://price.jup.ag/v4')
 abstract class JupiterPriceClient {
   factory JupiterPriceClient() => _JupiterPriceClient(
         Dio()

@@ -13,7 +13,7 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://quote-api.jup.ag/v3';
+    baseUrl ??= 'https://quote-api.jup.ag/v4';
   }
 
   final Dio _dio;
@@ -113,7 +113,7 @@ class _JupiterPriceClient implements JupiterPriceClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://price.jup.ag/v1';
+    baseUrl ??= 'https://price.jup.ag/v4';
   }
 
   final Dio _dio;

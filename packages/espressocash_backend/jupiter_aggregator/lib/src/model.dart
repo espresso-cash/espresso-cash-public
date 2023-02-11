@@ -130,7 +130,7 @@ class QuoteRequestDto with _$QuoteRequestDto {
     int? feeBps,
     bool? onlyDirectRoutes,
     String? userPublicKey,
-    bool? enforceSingleTx,
+    bool? asLegacyTransaction,
   }) = _QuoteRequestDto;
 
   factory QuoteRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -145,6 +145,7 @@ class JupiterSwapRequestDto with _$JupiterSwapRequestDto {
     bool? wrapUnwrapSOL,
     String? feeAccount,
     String? destinationWallet,
+    bool? asLegacyTransaction,
   }) = _JupiterSwapRequestDto;
 
   factory JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -154,9 +155,7 @@ class JupiterSwapRequestDto with _$JupiterSwapRequestDto {
 @freezed
 class JupiterSwapResponseDto with _$JupiterSwapResponseDto {
   const factory JupiterSwapResponseDto({
-    required String? setupTransaction,
     required String swapTransaction,
-    required String? cleanupTransaction,
   }) = _JupiterSwapResponseDto;
 
   factory JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -166,7 +165,7 @@ class JupiterSwapResponseDto with _$JupiterSwapResponseDto {
 @freezed
 class PriceRequestDto with _$PriceRequestDto {
   const factory PriceRequestDto({
-    required String id,
+    required String ids,
   }) = _PriceRequestDto;
 
   factory PriceRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -176,7 +175,7 @@ class PriceRequestDto with _$PriceRequestDto {
 @freezed
 class PriceResponseDto with _$PriceResponseDto {
   const factory PriceResponseDto({
-    required PriceDto data,
+    required Map<String, PriceDto> data,
   }) = _PriceResponseDto;
 
   factory PriceResponseDto.fromJson(Map<String, dynamic> json) =>
