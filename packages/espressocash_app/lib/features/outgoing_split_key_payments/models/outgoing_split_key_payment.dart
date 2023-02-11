@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -18,14 +17,6 @@ class OutgoingSplitKeyPayment with _$OutgoingSplitKeyPayment {
   }) = _OutgoingSplitKeyPayment;
 
   const OutgoingSplitKeyPayment._();
-
-  bool get shouldRetry => status.maybeMap(
-        txFailure: T,
-        txSendFailure: T,
-        txWaitFailure: T,
-        txLinksFailure: T,
-        orElse: F,
-      );
 }
 
 @freezed

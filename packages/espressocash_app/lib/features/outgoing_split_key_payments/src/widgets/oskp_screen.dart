@@ -233,11 +233,13 @@ class _OSKPScreenState extends State<OSKPScreen> {
                         active: activeItem,
                       ),
                       const Spacer(flex: 4),
-                      if (payment != null && payment.shouldRetry)
+                      if (payment != null)
                         CpButton(
                           size: CpButtonSize.big,
                           width: double.infinity,
-                          text: context.l10n.retry,
+                          text: isProcessing
+                              ? context.l10n.processing
+                              : context.l10n.retry,
                           onPressed: isProcessing
                               ? null
                               : () => context
