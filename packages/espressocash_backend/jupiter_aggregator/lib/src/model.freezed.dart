@@ -2603,6 +2603,7 @@ class _$_PriceResponseDto implements _PriceResponseDto {
   final Map<String, PriceDto> _data;
   @override
   Map<String, PriceDto> get data {
+    if (_data is EqualUnmodifiableMapView) return _data;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_data);
   }
