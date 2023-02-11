@@ -64,7 +64,14 @@ class TxSender {
         final bh = tx.blockhash;
         final isValidBlockhash = await _client.rpcClient
             .isBlockhashValid(bh, commitment: Commitment.confirmed);
-        if (!isValidBlockhash) return const TxWaitResult.failure();
+        if (!isValidBlockhash) {
+          // Check once more to ensure that the transaction was not submitted
+          // while we were checking blockhash.
+          final wasSubmitted = await _client.rpcClient
+              .getSignatureStatuses([tx.id]).then((it) => it.first != null);
+
+          if (!wasSubmitted) return const TxWaitResult.failure();
+        }
       } else {
         if (t.err != null) return const TxWaitResult.failure();
 
