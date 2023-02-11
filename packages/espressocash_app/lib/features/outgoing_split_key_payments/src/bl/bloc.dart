@@ -91,7 +91,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
     }
   }
 
-  Future<void> _onCancel(OSKPEventCancel event, _Emitter _) async {
+  Future<void> _onCancel(OSKPEventCancel event, _Emitter emit) async {
     final payment = await _repository.load(event.id);
 
     if (payment == null) return;
@@ -113,9 +113,13 @@ class OSKPBloc extends Bloc<_Event, _State> {
       return;
     }
 
+    emit(state.add(payment.id));
+
     final status = await _createCancelTx(escrow);
 
     await _repository.save(payment.copyWith(status: status));
+
+    emit(state.remove(payment.id));
 
     if (status is OSKPStatusCancelTxCreated) {
       add(OSKPEvent.process(payment.id));
