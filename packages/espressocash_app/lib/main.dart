@@ -17,7 +17,16 @@ import 'di.dart';
 import 'logging.dart';
 import 'ui/splash_screen.dart';
 
-Future<void> main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb) {
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
+
   runApp(
     const MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -36,17 +45,9 @@ Future<void> main() {
 }
 
 Future<void> _start() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   await configureDependencies();
-
-  if (!kIsWeb) {
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-  }
 
   Bloc.observer = Observer();
 
