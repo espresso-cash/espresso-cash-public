@@ -43,6 +43,7 @@
   "noDataPullToRefresh": "No data, pull to refresh.",
   "loading": "Loading...",
   "retry": "Retry",
+  "processing": "Processing...",
   "search": "Search",
   "noEmailInCryptoInfo": "With Espresso Cash, there’s no need for an email and password to access your money!",
   "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe! ",
@@ -318,7 +319,7 @@
     }
   },
   "swapSellSuccess": "Your sale of {token} was successful.",
-   "@swapSellSuccess": {
+  "@swapSellSuccess": {
     "placeholders": {
       "token": {
         "type": "String"
@@ -472,7 +473,7 @@
   },
   "price": "Price",
   "balance": "Balance",
-  "youOwn":"You own",
+  "youOwn": "You own",
   "failedToLoadTokens": "Failed to load tokens",
   "settings": "Settings",
   "displayEmptyBalanceTitle": "Display Empty Balances",
@@ -526,5 +527,5 @@
       }
     }
   },
-  "invalidEscrowError" : "The link is incorrect or the money has already been withdrawn."
+  "invalidEscrowError": "The link is incorrect or the money has already been withdrawn."
 }

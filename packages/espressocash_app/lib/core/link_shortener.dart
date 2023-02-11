@@ -22,9 +22,10 @@ class LinkShortener {
     try {
       await http.get(parameters.link);
 
-      return FirebaseDynamicLinks.instance
-          .buildShortLink(parameters)
-          .then((it) => it.shortUrl);
+      final link =
+          await FirebaseDynamicLinks.instance.buildShortLink(parameters);
+
+      return link.shortUrl;
     } on Object {
       return null;
     }
