@@ -51,6 +51,10 @@ Future<void> _start() async {
         statusBarColor: Colors.transparent,
       ),
     );
+    await SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top],
+    );
   }
 
   Bloc.observer = Observer();
