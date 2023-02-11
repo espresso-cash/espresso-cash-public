@@ -72,35 +72,22 @@ class _Buttons extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              // Calculated using the smallest value of screen width and font
-              // size that does not overflow the button
-              const minimumWidthFactor = 0.036;
-              final maxFontSize = constraints.maxWidth * minimumWidthFactor;
-
-              return Row(
-                children: [
-                  Flexible(
-                    child: CpButton(
-                      minWidth: 250,
-                      maxFontSize: maxFontSize,
-                      text: context.l10n.sendMoney,
-                      onPressed: () =>
-                          context.router.navigate(const WalletFlowRoute()),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  AddCashButton(
-                    maxFontSize: maxFontSize,
-                  ),
-                  const SizedBox(width: 8),
-                  CashOutButton(
-                    maxFontSize: maxFontSize,
-                  ),
-                ],
-              );
-            },
+          child: Row(
+            children: [
+              Flexible(
+                child: CpButton(
+                  minWidth: 250,
+                  size: CpButtonSize.wide,
+                  text: context.l10n.sendMoney,
+                  onPressed: () =>
+                      context.router.navigate(const WalletFlowRoute()),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const AddCashButton(size: CpButtonSize.wide),
+              const SizedBox(width: 8),
+              const CashOutButton(size: CpButtonSize.wide),
+            ],
           ),
         )
       ],

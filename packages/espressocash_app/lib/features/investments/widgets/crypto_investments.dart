@@ -72,25 +72,26 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
-            child: FittedBox(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 4.0),
-                child: Text(
-                  context.l10n.cryptoInvestments,
-                  style: dashboardSectionTitleTextStyle,
-                  maxLines: 2,
-                ),
-              ),
+          Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: Text(
+              context.l10n.cryptoInvestments,
+              style: dashboardSectionTitleTextStyle,
+              maxLines: 2,
             ),
           ),
-          Text(
-            balance.format(DeviceLocale.localeOf(context)),
-            style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                  fontSize: 48,
-                  fontWeight: FontWeight.w700,
-                  color: CpColors.menuPrimaryTextColor,
-                ),
+          const SizedBox(width: 8),
+          Flexible(
+            child: FittedBox(
+              child: Text(
+                balance.format(DeviceLocale.localeOf(context)),
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      fontSize: 48,
+                      fontWeight: FontWeight.w700,
+                      color: CpColors.menuPrimaryTextColor,
+                    ),
+              ),
+            ),
           ),
         ],
       );

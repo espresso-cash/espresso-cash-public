@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
@@ -11,7 +9,7 @@ enum CpButtonVariant {
   inverted,
 }
 
-enum CpButtonSize { normal, big, small, micro }
+enum CpButtonSize { normal, big, small, micro, wide }
 
 enum CpButtonAlignment { left, center }
 
@@ -25,7 +23,6 @@ class CpButton extends StatelessWidget {
     this.width,
     this.variant = CpButtonVariant.dark,
     this.minWidth,
-    this.maxFontSize,
     this.size = CpButtonSize.normal,
     this.alignment = CpButtonAlignment.center,
     this.mechanics = CpButtonMechanics.press,
@@ -36,7 +33,6 @@ class CpButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final CpButtonVariant variant;
   final double? minWidth;
-  final double? maxFontSize;
   final CpButtonSize size;
   final CpButtonAlignment alignment;
   final CpButtonMechanics mechanics;
@@ -78,13 +74,24 @@ class CpButton extends StatelessWidget {
           return style.copyWith(fontSize: 17);
         case CpButtonSize.small:
           return style.copyWith(fontSize: 17, height: 1);
+        case CpButtonSize.wide:
+          return style.copyWith(fontSize: 16, height: 0);
         case CpButtonSize.micro:
           return style.copyWith(fontSize: 15, height: 0);
       }
-    })()
-        .limitFontSizeTo(maxFontSize);
+    })();
 
-    final double horizontalPadding = size == CpButtonSize.micro ? 8 : 16;
+    final double horizontalPadding;
+    switch (size) {
+      case CpButtonSize.micro:
+        horizontalPadding = 8;
+        break;
+      case CpButtonSize.wide:
+        horizontalPadding = 4;
+        break;
+      default:
+        horizontalPadding = 16;
+    }
 
     final button = TextButton(
       onPressed: mechanics == CpButtonMechanics.press ? onPressed : null,
@@ -143,21 +150,11 @@ extension on CpButtonSize {
         return 51;
       case CpButtonSize.big:
         return 63;
+      case CpButtonSize.wide:
       case CpButtonSize.small:
         return 44;
       case CpButtonSize.micro:
         return 30;
     }
-  }
-}
-
-extension on TextStyle {
-  TextStyle limitFontSizeTo(double? value) {
-    if (value == null) return this;
-
-    final fontSize = this.fontSize;
-    if (fontSize == null) return this;
-
-    return copyWith(fontSize: min(fontSize, value));
   }
 }
