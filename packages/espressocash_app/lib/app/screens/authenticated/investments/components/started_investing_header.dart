@@ -19,8 +19,8 @@ class StartedInvestingHeader extends StatelessWidget {
       child: Column(
         children: [
           CpCryptoHeader(
-            title: context.l10n.startedInvestingTitle,
-            subtitle: context.l10n.startedInvestingSubtitle,
+            title: context.l10n.startInvestingTitle,
+            subtitle: context.l10n.startInvestingSubtitle,
           ),
           const SizedBox(height: 12),
           DiscoverHeader(
