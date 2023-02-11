@@ -27,10 +27,5 @@ final cpButton = Story(
       initial: CpButtonAlignment.center,
       options: CpButtonAlignment.values.toOptions(),
     ),
-    mechanics: context.knobs.options(
-      label: 'Mechanics',
-      initial: CpButtonMechanics.press,
-      options: CpButtonMechanics.values.toOptions(),
-    ),
   ),
 );
