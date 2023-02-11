@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_backend/src/constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'jupiter_repository.freezed.dart';
@@ -18,6 +19,8 @@ class RouteInfo with _$RouteInfo {
 class JupiterRepository {
   final _swapClient = JupiterAggregatorClient();
   final _priceClient = JupiterPriceClient();
+
+  final _sol = wrappedSol.toBase58();
 
   Future<RouteInfo> getJupiterRouteAndTransaction({
     required String amount,
@@ -78,9 +81,9 @@ class JupiterRepository {
     );
   }
 
-  Future<double> getUsdcPrice() async => _priceClient
-      .getPrice(const PriceRequestDto(id: 'SOL'))
-      .then((response) => response.data.price);
+  Future<double?> getUsdcPrice() async => _priceClient
+      .getPrice(PriceRequestDto(ids: _sol))
+      .then((response) => response.data[_sol]?.price);
 }
 
 extension SwapSlippageExt on SwapSlippage {

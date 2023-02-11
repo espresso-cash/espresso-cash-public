@@ -32,7 +32,7 @@ abstract class JupiterAggregatorClient {
 }
 
 /// For docs head to https://docs.jup.ag/jupiter-api/price-api-for-solana
-@RestApi(baseUrl: 'https://price.jup.ag/v1')
+@RestApi(baseUrl: 'https://price.jup.ag/v4')
 abstract class JupiterPriceClient {
   factory JupiterPriceClient() => _JupiterPriceClient(
         Dio()

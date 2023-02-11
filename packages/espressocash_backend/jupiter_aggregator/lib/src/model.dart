@@ -166,7 +166,7 @@ class JupiterSwapResponseDto with _$JupiterSwapResponseDto {
 @freezed
 class PriceRequestDto with _$PriceRequestDto {
   const factory PriceRequestDto({
-    required String id,
+    required String ids,
   }) = _PriceRequestDto;
 
   factory PriceRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -176,7 +176,7 @@ class PriceRequestDto with _$PriceRequestDto {
 @freezed
 class PriceResponseDto with _$PriceResponseDto {
   const factory PriceResponseDto({
-    required PriceDto data,
+    required Map<String, PriceDto> data,
   }) = _PriceResponseDto;
 
   factory PriceResponseDto.fromJson(Map<String, dynamic> json) =>

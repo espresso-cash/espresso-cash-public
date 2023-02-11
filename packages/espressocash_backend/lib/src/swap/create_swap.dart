@@ -55,7 +55,13 @@ class CreateSwap {
       _repository.getUsdcPrice(),
     ]);
     final route = responses.first as RouteInfo;
-    final price = responses.last as double;
+    final price = responses.last as double?;
+
+    if (price == null) {
+      throw Exception(
+        'Could not fetch price.',
+      );
+    }
 
     final jupiterMessage =
         route.jupiterTx.let(SignedTx.decode).let((tx) => tx.decompileMessage());
