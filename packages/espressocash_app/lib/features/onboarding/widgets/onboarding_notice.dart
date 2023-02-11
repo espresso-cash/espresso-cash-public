@@ -17,11 +17,13 @@ class OnboardingNotice extends StatelessWidget {
             : Container(
                 height: 125,
                 margin: const EdgeInsets.only(bottom: 24),
-                child: GestureDetector(
-                  onTap: () =>
-                      context.router.navigate(const OnboardingFlowRoute()),
-                  child: Assets.rive.onboardingNotice.rive(
-                    fit: BoxFit.fitWidth,
+                child: RepaintBoundary(
+                  child: GestureDetector(
+                    onTap: () =>
+                        context.router.navigate(const OnboardingFlowRoute()),
+                    child: Assets.rive.onboardingNotice.rive(
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
                 ),
               ),
