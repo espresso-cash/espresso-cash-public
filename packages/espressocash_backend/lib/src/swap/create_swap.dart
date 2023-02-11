@@ -63,8 +63,19 @@ class CreateSwap {
       );
     }
 
-    final jupiterMessage =
-        route.jupiterTx.let(SignedTx.decode).let((tx) => tx.decompileMessage());
+    final jupiterTx = route.jupiterTx.let(SignedTx.decode);
+
+    final addressTableLookups = jupiterTx.compiledMessage.map(
+      legacy: (_) => <MessageAddressTableLookup>[],
+      v0: (v0) => v0.addressTableLookups,
+    );
+
+    final lookUpTables = await _client.rpcClient
+        .getAddressLookUpTableAccounts(addressTableLookups);
+
+    final jupiterMessage = jupiterTx.let(
+      (tx) => tx.decompileMessage(addressLookupTableAccounts: lookUpTables),
+    );
 
     final nonClosedAtaCount =
         jupiterMessage.createAtaCount() - jupiterMessage.closeAccountCount();
@@ -136,9 +147,10 @@ class CreateSwap {
     final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
     );
-    final compiled = message.compile(
+    final compiled = message.compileV0(
       recentBlockhash: latestBlockhash.blockhash,
       feePayer: feePayer,
+      addressLookupTableAccounts: lookUpTables,
     );
 
     final tx = SignedTx(

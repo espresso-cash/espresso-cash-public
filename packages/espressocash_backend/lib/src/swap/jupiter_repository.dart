@@ -39,7 +39,7 @@ class JupiterRepository {
         swapMode: swapMode,
         userPublicKey: account,
         onlyDirectRoutes: true,
-        enforceSingleTx: true,
+        asLegacyTransaction: false,
       ),
     );
 
@@ -59,18 +59,7 @@ class JupiterRepository {
         .getSwapTransactions(
           JupiterSwapRequestDto(userPublicKey: account, route: bestRoute),
         )
-        .then(
-          (jupiterTxs) => [
-            jupiterTxs.setupTransaction,
-            jupiterTxs.swapTransaction,
-            jupiterTxs.cleanupTransaction,
-          ],
-        )
-        .then((txs) => txs.whereNotNull().singleOrNull);
-
-    if (tx == null) {
-      throw Exception('Swap only supports single transaction');
-    }
+        .then((jupiterTxs) => jupiterTxs.swapTransaction);
 
     return RouteInfo(
       amount: bestRoute.amount,

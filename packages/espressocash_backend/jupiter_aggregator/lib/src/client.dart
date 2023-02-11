@@ -6,8 +6,8 @@ import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
 
-/// For docs head to https://quote-api.jup.ag/v3/docs/static/index.html
-@RestApi(baseUrl: 'https://quote-api.jup.ag/v3')
+/// For docs head to https://quote-api.jup.ag/v4/docs/static/index.html
+@RestApi(baseUrl: 'https://quote-api.jup.ag/v4')
 abstract class JupiterAggregatorClient {
   factory JupiterAggregatorClient() => _JupiterAggregatorClient(Dio());
 
