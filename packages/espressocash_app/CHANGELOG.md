@@ -1,3 +1,8 @@
+## 1.63.1
+
+ - **FIX**: retry button behaviour (#797).
+ - **FIX**: check tx in TxSender (#796).
+
 ## 1.63.0
 
 - **REFACTOR**: extract ECWallet.
