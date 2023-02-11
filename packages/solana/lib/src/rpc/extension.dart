@@ -45,7 +45,7 @@ extension RpcClientExt on RpcClient {
     String? until,
     Commitment? commitment,
     Encoding? encoding,
-    num? maxSupportedTransactionVersion,
+    num? maxSupportedTransactionVersion = 0,
     num? minContextSlot,
   }) async {
     final signatures = await getSignaturesForAddress(
@@ -77,7 +77,7 @@ extension RpcClientExt on RpcClient {
     List<TransactionSignatureInformation> signatures, {
     Commitment? commitment,
     Encoding? encoding,
-    num? maxSupportedTransactionVersion,
+    num? maxSupportedTransactionVersion = 0,
   }) async {
     final response = await _jsonRpcClient.bulkRequest(
       'getTransaction',
