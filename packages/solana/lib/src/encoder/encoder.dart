@@ -12,6 +12,5 @@ export 'instruction.dart';
 export 'message/loaded_addresses.dart';
 export 'message/message.dart';
 export 'message_address_table_lookup.dart';
-export 'rpc_client_ext.dart';
 export 'signed_tx.dart';
 export 'transaction_version.dart';
