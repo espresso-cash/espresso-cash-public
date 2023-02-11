@@ -6,7 +6,6 @@ import '../transaction_repository.dart';
 import 'common_tile.dart';
 import 'odp_tile.dart';
 import 'oskp_tile.dart';
-import 'ot_tile.dart';
 import 'payment_request_tile.dart';
 import 'swap_tile.dart';
 
@@ -53,10 +52,6 @@ class _TransactionItemState extends State<TransactionItem> {
                 activity: p,
               ),
               outgoingSplitKeyPayment: (p) => OSKPTile(
-                key: ValueKey(p.id),
-                activity: p,
-              ),
-              outgoingTipPayment: (p) => OTTile(
                 key: ValueKey(p.id),
                 activity: p,
               ),

@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_app/app/screens/authenticated/wallet_flow/wallet_flow_screen.dart';
 import 'package:espressocash_app/core/accounts/bl/account.dart';
+import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
 import 'package:espressocash_app/core/amount.dart';
 import 'package:espressocash_app/core/balances/bl/balances_bloc.dart';
 import 'package:espressocash_app/core/conversion_rates/bl/conversion_rates_bloc.dart';
@@ -41,7 +42,7 @@ void main() {
     final balancesBloc = MockBalancesBloc();
     final appLockBloc = MockAppLockBloc();
 
-    late Ed25519HDKeyPair wallet;
+    late ECWallet wallet;
 
     Widget withProviders(Widget child) => MultiProvider(
           providers: [
@@ -52,7 +53,7 @@ void main() {
             Provider<BalancesBloc>.value(value: balancesBloc),
             Provider<AppLockBloc>.value(value: appLockBloc),
             Provider(create: (_) => UserPreferences()),
-            Provider(
+            Provider<MyAccount>(
               create: (_) => MyAccount(
                 wallet: wallet,
                 firstName: 'Test',
@@ -64,7 +65,7 @@ void main() {
         );
 
     setUp(() async {
-      wallet = await Ed25519HDKeyPair.random();
+      wallet = LocalWallet(await Ed25519HDKeyPair.random());
 
       whenListen(
         balancesBloc,

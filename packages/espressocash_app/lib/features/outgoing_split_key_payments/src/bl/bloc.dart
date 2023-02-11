@@ -10,10 +10,11 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../config.dart';
+import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/link_shortener.dart';
+import '../../../../core/single_key_payments.dart';
 import '../../../../core/split_key_payments.dart';
-import '../../../../core/tip_payments.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -43,7 +44,7 @@ typedef _Emitter = Emitter<_State>;
 @injectable
 class OSKPBloc extends Bloc<_Event, _State> {
   OSKPBloc({
-    @factoryParam required Ed25519HDKeyPair account,
+    @factoryParam required ECWallet account,
     required CryptopleaseClient client,
     required OSKPRepository repository,
     required TxSender txSender,
@@ -57,7 +58,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
     on<_Event>(_handler);
   }
 
-  final Ed25519HDKeyPair _account;
+  final ECWallet _account;
   final CryptopleaseClient _client;
   final OSKPRepository _repository;
   final TxSender _txSender;
@@ -254,7 +255,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
 
     if (crypto.decimal <= _qrLinkThreshold) {
       final key = base58encode(privateKey.toList());
-      final rawLink = TipPaymentData(
+      final rawLink = SingleKeyPaymentData(
         key: key,
         token: token.publicKey,
       ).toUri();
@@ -285,7 +286,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
           .receivePayment(dto)
           .then((it) => it.transaction)
           .then(SignedTx.decode)
-          .then((it) => it.resign(escrow));
+          .then((it) => it.resign(LocalWallet(escrow)));
 
       return OSKPStatus.cancelTxCreated(tx, escrow: escrow);
     } on Exception {

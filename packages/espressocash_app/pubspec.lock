@@ -125,10 +125,10 @@ packages:
     dependency: transitive
     description:
       name: borsh_annotation
-      sha256: f9e21b2229cb68b4f2317c99bd8c8401807a12f3b3d351e5e4db94f315924f0d
+      sha256: "0b93351d7af50bad42a1b844a459e3786d5b3cf2cfc5598429df7704410061bf"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1+2"
+    version: "0.3.1+3"
   build:
     dependency: transitive
     description:
@@ -1046,10 +1046,10 @@ packages:
     dependency: "direct main"
     description:
       name: mews_pedantic
-      sha256: bd6455e24ca9ddc46e3575b35be6a47faaed66ecf817fc8eb17e9c86eed39bde
+      sha256: "770570f085580765cc683d1949da31f0c0a6b30692db8d7fa8301b9186b3e7a1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.0"
+    version: "0.13.0"
   mime:
     dependency: transitive
     description:
@@ -1541,7 +1541,14 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.26.4"
+    version: "0.28.0"
+  solana_seed_vault:
+    dependency: "direct main"
+    description:
+      path: "../solana_seed_vault"
+      relative: true
+    source: path
+    version: "0.1.0+1"
   source_gen:
     dependency: transitive
     description:

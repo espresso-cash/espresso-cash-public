@@ -58,7 +58,7 @@ class CreateSwap {
     final price = responses.last as double;
 
     final jupiterMessage =
-        route.jupiterTx.let(SignedTx.decode).let((tx) => tx.message);
+        route.jupiterTx.let(SignedTx.decode).let((tx) => tx.decompileMessage());
 
     final nonClosedAtaCount =
         jupiterMessage.createAtaCount() - jupiterMessage.closeAccountCount();
@@ -127,18 +127,18 @@ class CreateSwap {
         )
         .let((m) => m.addInstruction(feeIx));
 
-    final recentBlockhash = await _client.rpcClient.getRecentBlockhash(
+    final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
     );
     final compiled = message.compile(
-      recentBlockhash: recentBlockhash.blockhash,
+      recentBlockhash: latestBlockhash.blockhash,
       feePayer: feePayer,
     );
 
     final tx = SignedTx(
-      messageBytes: compiled.data,
+      compiledMessage: compiled,
       signatures: [
-        await _platform.sign(compiled.data),
+        await _platform.sign(compiled.toByteArray()),
         Signature(List.filled(64, 0), publicKey: aSender),
       ],
     );

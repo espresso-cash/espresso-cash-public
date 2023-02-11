@@ -174,34 +174,31 @@ class _ChartRangeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ...ChartInterval.values
-              .map(
-                (e) => GestureDetector(
-                  onTap: () => onItemSelected.call(e),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 18,
-                    ),
-                    decoration: ShapeDecoration(
-                      shape: const StadiumBorder(),
-                      color:
-                          interval == e ? CpColors.darkBackgroundColor : null,
-                    ),
-                    child: Text(
-                      e.label,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                        color: Colors.white,
-                      ),
+        children: ChartInterval.values
+            .map(
+              (e) => GestureDetector(
+                onTap: () => onItemSelected.call(e),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 18,
+                  ),
+                  decoration: ShapeDecoration(
+                    shape: const StadiumBorder(),
+                    color: interval == e ? CpColors.darkBackgroundColor : null,
+                  ),
+                  child: Text(
+                    e.label,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-              )
-              .toList(),
-        ],
+              ),
+            )
+            .toList(),
       );
 }
 

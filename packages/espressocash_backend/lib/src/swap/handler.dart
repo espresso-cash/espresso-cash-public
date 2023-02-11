@@ -10,7 +10,7 @@ import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:solana/solana.dart';
 
 Handler addSwapHandler() =>
-    shelf_router.Router()..post('/getSwapRoute', _swapRouteHandler);
+    (shelf_router.Router()..post('/getSwapRoute', _swapRouteHandler)).call;
 
 Future<Response> _swapRouteHandler(Request request) async =>
     processRequest<SwapRouteRequestDto, SwapRouteResponseDto>(
