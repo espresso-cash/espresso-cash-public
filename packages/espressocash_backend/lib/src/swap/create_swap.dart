@@ -40,6 +40,7 @@ class CreateSwap {
     required String outputToken,
     required int slippage,
     required SwapMode mode,
+    required bool asLegacyTx,
     required Ed25519HDPublicKey aSender,
     required Commitment commitment,
   }) async {
@@ -51,6 +52,7 @@ class CreateSwap {
         slippageBps: slippage,
         swapMode: mode,
         account: aSender.toBase58(),
+        asLegacyTransaction: asLegacyTx,
       ),
       _repository.getUsdcPrice(),
     ]);
@@ -147,11 +149,16 @@ class CreateSwap {
     final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
     );
-    final compiled = message.compileV0(
-      recentBlockhash: latestBlockhash.blockhash,
-      feePayer: feePayer,
-      addressLookupTableAccounts: lookUpTables,
-    );
+    final compiled = asLegacyTx
+        ? message.compile(
+            recentBlockhash: latestBlockhash.blockhash,
+            feePayer: feePayer,
+          )
+        : message.compileV0(
+            recentBlockhash: latestBlockhash.blockhash,
+            feePayer: feePayer,
+            addressLookupTableAccounts: lookUpTables,
+          );
 
     final tx = SignedTx(
       compiledMessage: compiled,

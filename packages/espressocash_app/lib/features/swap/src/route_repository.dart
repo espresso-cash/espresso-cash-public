@@ -31,6 +31,7 @@ class RouteRepository {
         slippage: seed.slippage.toDto(),
         match: swapMode,
         userAccount: userPublicKey,
+        asLegacyTx: false,
       ),
     );
 

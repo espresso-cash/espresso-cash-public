@@ -15,6 +15,7 @@ _$_SwapRouteRequestDto _$$_SwapRouteRequestDtoFromJson(
       match: $enumDecode(_$SwapMatchEnumMap, json['match']),
       slippage: $enumDecode(_$SwapSlippageEnumMap, json['slippage']),
       userAccount: json['userAccount'] as String,
+      asLegacyTx: json['asLegacyTx'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$_SwapRouteRequestDtoToJson(
@@ -26,6 +27,7 @@ Map<String, dynamic> _$$_SwapRouteRequestDtoToJson(
       'match': _$SwapMatchEnumMap[instance.match]!,
       'slippage': _$SwapSlippageEnumMap[instance.slippage]!,
       'userAccount': instance.userAccount,
+      'asLegacyTx': instance.asLegacyTx,
     };
 
 const _$SwapMatchEnumMap = {

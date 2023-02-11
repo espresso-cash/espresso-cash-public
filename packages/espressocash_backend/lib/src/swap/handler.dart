@@ -31,6 +31,7 @@ Future<Response> _swapRouteHandler(Request request) async =>
           outputToken: data.outputToken,
           mode: data.match.toJupiterMode(),
           slippage: data.slippage.toJupiterBps(),
+          asLegacyTx: data.asLegacyTx,
         );
 
         return SwapRouteResponseDto(
