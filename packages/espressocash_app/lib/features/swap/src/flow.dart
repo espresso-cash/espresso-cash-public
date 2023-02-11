@@ -41,22 +41,17 @@ class _FlowState extends State<SwapFlowScreen> {
         ? SwapOperation.buy
         : SwapOperation.sell;
 
-    return AnnotatedRegion(
-      value: SystemUiOverlayStyle.light.copyWith(
-        statusBarBrightness: Brightness.dark,
-      ),
-      child: CpTheme.dark(
-        child: Scaffold(
-          backgroundColor: CpColors.darkBackground,
-          appBar: CpAppBar(
-            leading: const CloseButton(),
-          ),
-          body: CreateSwapScreen(
-            onRouteReady: _onRouteReady,
-            operation: operation,
-            inputToken: widget.inputToken,
-            outputToken: widget.outputToken,
-          ),
+    return CpTheme.dark(
+      child: Scaffold(
+        backgroundColor: CpColors.darkBackground,
+        appBar: CpAppBar(
+          leading: const CloseButton(),
+        ),
+        body: CreateSwapScreen(
+          onRouteReady: _onRouteReady,
+          operation: operation,
+          inputToken: widget.inputToken,
+          outputToken: widget.outputToken,
         ),
       ),
     );

@@ -110,62 +110,57 @@ class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext _) => BlocListener<QrScannerBloc, QrScannerState>(
         listener: _onBlocChange,
-        child: AnnotatedRegion(
-          value: SystemUiOverlayStyle.light.copyWith(
-            statusBarBrightness: Brightness.dark,
-          ),
-          child: CpTheme.dark(
-            child: Scaffold(
-              body: Stack(
-                children: [
-                  if (_cameraEnabled)
-                    QrScannerBackground(
-                      child: MobileScanner(
-                        key: _qrKey,
-                        controller: _qrViewController,
-                        onDetect: _onDetected,
-                      ),
-                    ),
-                  if (_cameraEnabled)
-                    Align(
-                      alignment: const Alignment(0, -0.7),
-                      child: GestureDetector(
-                        onTap: _onQRToggleFlash,
-                        child: _flashEnabled
-                            ? Assets.images.flashOn.svg()
-                            : Assets.images.flashOff.svg(),
-                      ),
-                    ),
-                  if (!_cameraEnabled)
-                    const Align(
-                      alignment: Alignment(0, -0.3),
-                      child: _PermissionText(),
-                    ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32.0),
-                      child: CpButton(
-                        text: context.l10n.qrInputAddressTitle,
-                        size: CpButtonSize.big,
-                        minWidth: 250,
-                        onPressed: _onManualInputRequested,
-                      ),
+        child: CpTheme.dark(
+          child: Scaffold(
+            body: Stack(
+              children: [
+                if (_cameraEnabled)
+                  QrScannerBackground(
+                    child: MobileScanner(
+                      key: _qrKey,
+                      controller: _qrViewController,
+                      onDetect: _onDetected,
                     ),
                   ),
+                if (_cameraEnabled)
                   Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).padding.top + 16,
-                        right: 24,
-                      ),
-                      icon: const Icon(Icons.close, size: 28),
-                      onPressed: _onCloseButtonPressed,
+                    alignment: const Alignment(0, -0.7),
+                    child: GestureDetector(
+                      onTap: _onQRToggleFlash,
+                      child: _flashEnabled
+                          ? Assets.images.flashOn.svg()
+                          : Assets.images.flashOff.svg(),
                     ),
                   ),
-                ],
-              ),
+                if (!_cameraEnabled)
+                  const Align(
+                    alignment: Alignment(0, -0.3),
+                    child: _PermissionText(),
+                  ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 32.0),
+                    child: CpButton(
+                      text: context.l10n.qrInputAddressTitle,
+                      size: CpButtonSize.big,
+                      minWidth: 250,
+                      onPressed: _onManualInputRequested,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.top + 16,
+                      right: 24,
+                    ),
+                    icon: const Icon(Icons.close, size: 28),
+                    onPressed: _onCloseButtonPressed,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

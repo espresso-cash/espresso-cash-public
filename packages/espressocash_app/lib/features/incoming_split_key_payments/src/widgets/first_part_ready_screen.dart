@@ -77,64 +77,61 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: WillPopScope(
-          onWillPop: () async => false,
-          child: Scaffold(
-            extendBodyBehindAppBar: true,
-            body: CpTheme.dark(
-              child: Builder(
-                builder: (context) => DecoratedBox(
-                  decoration: const BoxDecoration(color: CpColors.primaryColor),
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Assets.icons.logoBg
-                            .svg(alignment: Alignment.bottomCenter),
-                      ),
-                      SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 22),
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 62),
-                              Text(
-                                context.l10n.splitKeySecondLinkTitle,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium
-                                    ?.copyWith(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+  Widget build(BuildContext context) => WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          body: CpTheme.dark(
+            child: Builder(
+              builder: (context) => DecoratedBox(
+                decoration: const BoxDecoration(color: CpColors.primaryColor),
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Assets.icons.logoBg
+                          .svg(alignment: Alignment.bottomCenter),
+                    ),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 22),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 62),
+                            Text(
+                              context.l10n.splitKeySecondLinkTitle,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium
+                                  ?.copyWith(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                            const _ContentView(),
+                            const SizedBox(height: 40),
+                            Expanded(
+                              child: Assets.images.secondLinkArtwork.image(),
+                            ),
+                            const SizedBox(height: 30),
+                            CpButton(
+                              onPressed: () => showCancelDialog(
+                                context,
+                                () {
+                                  context.router.popForced();
+                                  widget.onCancel();
+                                },
                               ),
-                              const _ContentView(),
-                              const SizedBox(height: 40),
-                              Expanded(
-                                child: Assets.images.secondLinkArtwork.image(),
-                              ),
-                              const SizedBox(height: 30),
-                              CpButton(
-                                onPressed: () => showCancelDialog(
-                                  context,
-                                  () {
-                                    context.router.popForced();
-                                    widget.onCancel();
-                                  },
-                                ),
-                                text: context.l10n.cancel,
-                                size: CpButtonSize.micro,
-                                variant: CpButtonVariant.inverted,
-                              ),
-                            ],
-                          ),
+                              text: context.l10n.cancel,
+                              size: CpButtonSize.micro,
+                              variant: CpButtonVariant.inverted,
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

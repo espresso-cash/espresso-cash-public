@@ -18,23 +18,20 @@ class HomeScreen extends StatelessWidget {
           final tabsRouter = AutoTabsRouter.of(context);
           final page = _pages[tabsRouter.activeIndex];
 
-          return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: page.overlayStyle,
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              extendBody: true,
-              body: child,
-              bottomNavigationBar: CPNavigationBar(
-                items: _pages
-                    .mapIndexed(
-                      (i, p) => CpNavigationButton(
-                        icon: p.icon,
-                        active: tabsRouter.activeIndex == i,
-                        onPressed: () => tabsRouter.setActiveIndex(i),
-                      ),
-                    )
-                    .toList(),
-              ),
+          return Scaffold(
+            backgroundColor: Colors.white,
+            extendBody: true,
+            body: child,
+            bottomNavigationBar: CPNavigationBar(
+              items: _pages
+                  .mapIndexed(
+                    (i, p) => CpNavigationButton(
+                      icon: p.icon,
+                      active: tabsRouter.activeIndex == i,
+                      onPressed: () => tabsRouter.setActiveIndex(i),
+                    ),
+                  )
+                  .toList(),
             ),
           );
         },
