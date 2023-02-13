@@ -275,6 +275,7 @@ class OSKPBloc extends Bloc<_Event, _State> {
       link2: secondLink,
       qrLink: qrLink,
       escrow: escrow,
+      timestamp: DateTime.now(),
     );
   }
 

@@ -63,6 +63,8 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
   TextColumn get cancelTx => text().nullable()();
   TextColumn get cancelTxId => text().nullable()();
+  DateTimeColumn get generatedLinksAt => dateTime().nullable()();
+  DateTimeColumn get resolvedAt => dateTime().nullable()();
 }
 
 enum OSKPStatusDto {
@@ -110,6 +112,11 @@ extension on OSKPStatusDto {
     final link3 = row.link3?.let(Uri.tryParse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final cancelTxId = row.cancelTxId;
+    final generatedLinksAt = row.generatedLinksAt;
+    final resolvedAt = row.resolvedAt;
+
+    // print('toOSKPStatus: generatedLinksAt $generatedLinksAt');
+    // print('toOSKPStatus: resolvedAt $resolvedAt');
 
     switch (this) {
       case OSKPStatusDto.txCreated:
@@ -124,18 +131,22 @@ extension on OSKPStatusDto {
           link2: link2!,
           qrLink: link3,
           escrow: escrow!,
+          timestamp: generatedLinksAt,
         );
       case OSKPStatusDto.success:
         // For compatibility with old versions
-        return OSKPStatus.withdrawn(txId: txId!);
+        return OSKPStatus.withdrawn(txId: txId!, timestamp: resolvedAt);
       case OSKPStatusDto.withdrawn:
-        return OSKPStatus.withdrawn(txId: withdrawTxId!);
+        return OSKPStatus.withdrawn(txId: withdrawTxId!, timestamp: resolvedAt);
       case OSKPStatusDto.canceled:
         if (cancelTxId == null) {
           // For compatibility with old versions
-          return OSKPStatus.canceled(txId: withdrawTxId!);
+          return OSKPStatus.canceled(
+            txId: withdrawTxId!,
+            timestamp: resolvedAt,
+          );
         } else {
-          return OSKPStatus.canceled(txId: cancelTxId);
+          return OSKPStatus.canceled(txId: cancelTxId, timestamp: resolvedAt);
         }
       case OSKPStatusDto.txFailure:
         return OSKPStatus.txFailure(reason: row.txFailureReason);
@@ -163,23 +174,32 @@ extension on OSKPStatusDto {
 }
 
 extension on OutgoingSplitKeyPayment {
-  Future<OSKPRow> toDto() async => OSKPRow(
-        amount: amount.value,
-        token: amount.cryptoCurrency.token.address,
-        id: id,
-        created: created,
-        status: status.toDto(),
-        tx: status.toTx(),
-        txId: status.toTxId(),
-        withdrawTxId: status.toWithdrawTxId(),
-        privateKey: await status.toPrivateKey(),
-        link1: status.toLink1(),
-        link2: status.toLink2(),
-        link3: status.toLink3(),
-        txFailureReason: status.toTxFailureReason(),
-        cancelTx: status.toCancelTx(),
-        cancelTxId: status.toCancelTxId(),
-      );
+  Future<OSKPRow> toDto() async {
+    // asdf
+
+    // print('toDto: generatedLinksAt ${status.toGeneratedAt()}');
+    // print('toDto: resolvedAt ${status.toResolvedAt()}');
+
+    return OSKPRow(
+      amount: amount.value,
+      token: amount.cryptoCurrency.token.address,
+      id: id,
+      created: created,
+      status: status.toDto(),
+      tx: status.toTx(),
+      txId: status.toTxId(),
+      withdrawTxId: status.toWithdrawTxId(),
+      privateKey: await status.toPrivateKey(),
+      link1: status.toLink1(),
+      link2: status.toLink2(),
+      link3: status.toLink3(),
+      txFailureReason: status.toTxFailureReason(),
+      cancelTx: status.toCancelTx(),
+      cancelTxId: status.toCancelTxId(),
+      generatedLinksAt: status.toGeneratedAt(),
+      resolvedAt: status.toResolvedAt(),
+    );
+  }
 }
 
 extension on OSKPStatus {
@@ -277,5 +297,14 @@ extension on OSKPStatus {
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
         txFailure: (it) => it.reason,
         cancelTxFailure: (it) => it.reason,
+      );
+
+  DateTime? toGeneratedAt() => mapOrNull(
+        linksReady: (it) => it.timestamp,
+      );
+
+  DateTime? toResolvedAt() => mapOrNull(
+        withdrawn: (it) => it.timestamp,
+        canceled: (it) => it.timestamp,
       );
 }

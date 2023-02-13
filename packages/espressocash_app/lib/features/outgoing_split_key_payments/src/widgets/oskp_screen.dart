@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/balances/context_ext.dart';
 import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/presentation/format_date.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
@@ -88,6 +89,18 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   )
                   .ifNull(F);
 
+              final created = payment?.created;
+              final generatedLinksAt = payment?.status.mapOrNull(
+                linksReady: (it) => it.timestamp,
+              );
+              final resolvedAt = payment?.status.mapOrNull(
+                withdrawn: (it) => it.timestamp,
+                canceled: (it) => it.timestamp,
+              );
+
+              print('generatedLinksAt: $generatedLinksAt');
+              print('resolvedAt: $resolvedAt');
+
               final CpStatusType statusType = isProcessing
                   ? CpStatusType.info
                   : payment?.status.mapOrNull(
@@ -167,25 +180,22 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   ) ??
                   0;
 
-              final creatingLinks = CpTimelineItem(
-                title: 'Creating links',
+              final paymentInitiated = CpTimelineItem(
+                title: 'Payment initiated',
                 trailing: payment?.amount.format(locale),
+                subtitle: created?.let((t) => context.formatDate(t)),
               );
               final linksCreated = CpTimelineItem(
                 title: context.l10n.splitKeyProgressCreated,
-                trailing: payment?.amount.format(locale),
-              );
-              final waitingForReceiver = CpTimelineItem(
-                title: context.l10n.splitKeyProgressWaiting,
-              );
-              final fundsWithdrawn = CpTimelineItem(
-                title: context.l10n.splitKeyProgressWithdrawn,
+                subtitle: generatedLinksAt?.let((t) => context.formatDate(t)),
               );
               final paymentSuccess = CpTimelineItem(
                 title: context.l10n.splitKeyProgressSuccess,
+                subtitle: resolvedAt?.let((t) => context.formatDate(t)),
               );
               final paymentCanceled = CpTimelineItem(
                 title: context.l10n.splitKeyProgressCanceled,
+                subtitle: resolvedAt?.let((t) => context.formatDate(t)),
               );
 
               final cancelingItems = [
@@ -195,13 +205,13 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
               final items = payment?.status.mapOrNull(
                     withdrawn: always([
+                      paymentInitiated,
                       linksCreated,
-                      fundsWithdrawn,
                       paymentSuccess,
                     ]),
                     linksReady: always([
+                      paymentInitiated,
                       linksCreated,
-                      waitingForReceiver,
                       paymentSuccess,
                     ]),
                     canceled: always(cancelingItems),
@@ -212,8 +222,8 @@ class _OSKPScreenState extends State<OSKPScreen> {
                     cancelTxWaitFailure: always(cancelingItems),
                   ) ??
                   [
-                    creatingLinks,
-                    waitingForReceiver,
+                    paymentInitiated,
+                    linksCreated,
                     paymentSuccess,
                   ];
 

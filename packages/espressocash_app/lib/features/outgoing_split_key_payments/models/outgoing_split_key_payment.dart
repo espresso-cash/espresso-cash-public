@@ -40,14 +40,17 @@ class OSKPStatus with _$OSKPStatus {
     required Uri link2,
     Uri? qrLink,
     required Ed25519HDKeyPair escrow,
+    DateTime? timestamp,
   }) = OSKPStatusLinksReady;
 
   const factory OSKPStatus.withdrawn({
     required String txId,
+    DateTime? timestamp,
   }) = OSKPStatusWithdrawn;
 
   const factory OSKPStatus.canceled({
     required String txId,
+    DateTime? timestamp,
   }) = OSKPStatusCanceled;
 
   const factory OSKPStatus.txFailure({TxFailureReason? reason}) =
