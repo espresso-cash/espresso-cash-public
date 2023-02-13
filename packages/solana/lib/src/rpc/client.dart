@@ -88,7 +88,7 @@ abstract class RpcClient {
     TransactionDetailLevel? transactionDetails,
     bool? rewards = false,
     Commitment? commitment = Commitment.finalized,
-    num? maxSupportedTransactionVersion,
+    num? maxSupportedTransactionVersion = 0,
   });
 
   /// Returns the current block height of the node
@@ -615,7 +615,7 @@ abstract class RpcClient {
     String signature, {
     Encoding? encoding,
     Commitment? commitment = Commitment.finalized,
-    num? maxSupportedTransactionVersion,
+    num? maxSupportedTransactionVersion = 0,
   });
 
   /// Returns the current Transaction count from the ledger
