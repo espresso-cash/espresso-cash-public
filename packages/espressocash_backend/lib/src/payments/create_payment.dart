@@ -22,8 +22,11 @@ Future<SignedTx> createPaymentTx({
   required SolanaClient client,
   required Commitment commitment,
 }) async {
-  final isNewEscrowAccount =
-      await client.rpcClient.getAccountInfo(aEscrow.toBase58()) == null;
+  final isNewEscrowAccount = await client.rpcClient.getAccountInfo(
+        aEscrow.toBase58(),
+        commitment: commitment,
+      ) ==
+      null;
   if (!isNewEscrowAccount) {
     throw Exception('Escrow account already exists');
   }

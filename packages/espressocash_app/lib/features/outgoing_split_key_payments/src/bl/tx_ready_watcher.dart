@@ -7,13 +7,13 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import '../../core/transactions/tx_destinations.dart';
-import 'models/outgoing_split_key_payment.dart';
-import 'src/bl/repository.dart';
+import '../../../../core/transactions/tx_destinations.dart';
+import '../../models/outgoing_split_key_payment.dart';
+import 'repository.dart';
 
 @injectable
-class OSKPVerifier {
-  OSKPVerifier(
+class TxReadyWatcher {
+  TxReadyWatcher(
     this._client,
     this._repository, {
     @factoryParam required Ed25519HDPublicKey userPublicKey,
@@ -27,7 +27,8 @@ class OSKPVerifier {
   StreamSubscription<void>? _repoSubscription;
 
   void init({required VoidCallback onBalanceAffected}) {
-    _repoSubscription = _repository.watchWithReadyLinks().listen((payments) {
+    _repoSubscription =
+        _repository.watchReady().distinct().listen((payments) async {
       for (final payment in payments) {
         Future<void> onSuccess(ParsedTransaction tx) async {
           final txId = tx.id;
@@ -52,9 +53,11 @@ class OSKPVerifier {
         final status = payment.status;
         if (status is! OSKPStatusLinksReady) continue;
 
+        final escrowAccount = await status.escrow.keyPair;
+
         if (!_subscriptions.containsKey(payment.id)) {
           _subscriptions[payment.id] =
-              _createStream(account: status.escrow.publicKey).listen(onSuccess);
+              _createStream(account: escrowAccount.publicKey).listen(onSuccess);
         }
       }
     });
